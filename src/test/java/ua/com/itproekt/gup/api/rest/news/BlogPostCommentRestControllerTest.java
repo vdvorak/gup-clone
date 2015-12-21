@@ -34,7 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         {"classpath*:test-applicationContext.xml"})
 @WebAppConfiguration
 @Ignore
-
 public class BlogPostCommentRestControllerTest {
 
     private static final String BASIC_URL = "/api/rest/blogService";

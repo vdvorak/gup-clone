@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.api.rest.news;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -10,6 +11,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @ContextConfiguration(locations =
         {"classpath*:test-applicationContext.xml"})
 @WebAppConfiguration
+@Ignore
 public class BlogNewsFeedRestControllerTest {
 
     @Test
