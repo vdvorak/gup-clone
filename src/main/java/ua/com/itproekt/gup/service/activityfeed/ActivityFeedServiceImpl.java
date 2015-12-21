@@ -1,0 +1,46 @@
+package ua.com.itproekt.gup.service.activityfeed;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ua.com.itproekt.gup.dao.activityfeed.ActivityFeedRepository;
+import ua.com.itproekt.gup.model.activityfeed.Event;
+import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
+import ua.com.itproekt.gup.util.EntityPage;
+
+@Service
+public class ActivityFeedServiceImpl implements ActivityFeedService {
+
+    @Autowired
+    ActivityFeedRepository activityFeedRepository;
+
+    @Override
+    public void createEvent(Event event) {
+        activityFeedRepository.createEvent(event);
+    }
+
+    @Override
+    public EntityPage<Event> findEventsWithOptions(EventFilterOptions eventFO) {
+        return activityFeedRepository.findEventsWihOptions(eventFO);
+    }
+
+    @Override
+    public EntityPage<Event> findEventsWithOptionsAndSetViewed(EventFilterOptions eventFO) {
+        activityFeedRepository.setFeedsViewed(eventFO);
+        return activityFeedRepository.findEventsWihOptions(eventFO);
+    }
+
+    @Override
+    public void deleteEvent(String eventId) {
+        activityFeedRepository.deleteEvent(eventId);
+    }
+
+    @Override
+    public void deleteEventsWihOptions(EventFilterOptions eventFO) {
+        activityFeedRepository.deleteEventsWihOptions(eventFO);
+    }
+
+    @Override
+    public boolean eventExists(String eventId) {
+        return activityFeedRepository.eventExists(eventId);
+    }
+}

@@ -1,0 +1,21 @@
+/api/rest/profilesService
+[POST]/profile/create (about us не более 3х тысяч символов)
+[POST]/profile/read/id/{id}
+[POST]/profile/read/all
+[POST]/profile/update/ Id передать в теле запроса. Так же в теле передать поля, которые необходимо изменить.
+[POST]/profile/delete/id/{id}
+
+USER PROFILE - AHKETA
+/api/rest/usersProfilesService
+[POST]/userProfile/create
+[POST]/userProfile/read/id/{id}
+[POST]/userProfile/read/all
+[POST]/userProfile/update Id передать в теле запроса. Так же в теле передать поля, которые необходимо изменить.
+[POST]/userProfile/delete/id/{id}
+
+PROFILE RATING
+/api/rest/profilesService
+[POST]/profile/read/id/{profileId}/profileRating/{profileRatingId}
+[POST]/profile/read/id/{profileId}/profileRating/create
+[POST]/profile/read/id/{profileId}/profileRating/{profileRatingId}/delete
+[POST]/profile/read/all

@@ -1,0 +1,76 @@
+/api/rest/tenderService
+//------ Read -----------
+[POST] /tender/read/id/{id} - do not require body. Return tender with passed ID if exist. For now have no check. Increment field "visited"
+[POST]/tender/read/all/ assume TenderFilterOptions
+[POST]/tender/read/allmynace/ assume TenderFilterOptions
+//------ Create ----------
+[POST]/tender/create/ assume Tender
+[POST]/tender/id/{id}/propose/create/ assume Propose and add it to tender with passed ID.
+[POST]/tender/id/{id}/member/create/ assume Member and add it to tender with passed ID.
+//------ Update -----------
+[POST]/tender/id/{id}/update/ assume Tender and update just filled fields. Use it for add uploadFiles ids, all id you transmit in field "uploadFiles" will be add.
+//------ Delete ------------
+[POST]/tender/{id}/delete - do not require body. Delete tender with passed ID
+[POST]/tender/{id}/file/{fileId}/delete - do not require body. Delete one file tender with passed fileId
+
+TenderFilterOptions
+{
+    "authorId":"5613d146fa12fded9736f671",
+    "body":"body", /*строгое совпадение body*/
+    "title":"title", /*строгое совпадение title*/
+    "type":"OPEN", /* OPEN/CLOSE */
+    "begin":1446721099842, /* ищет тендеры у которых начало не раньше заданого */
+    "end":1448449099843, /*ищет тендеры у которых конец не позднее заданого */
+    "skip": 0 /* число, показывает сколько строк результата пропустить. По умолчанию - 0 */,
+    "limit": 10 /* число, показывает сколько результатов отобразить. По умолчанию - 10*/,
+    "searchField":"super cool tender" /*строка поиска, ищет совпадения в title и body тендера*/,
+    "sortDirection":"DESC" /*DESC - обратная; ASC - прямая*/,
+    "sortField":"TenderType", /*название поля по которому будет происходить сортировка*/
+    "memberId":"5613d146fa12fded9736f671", /* id участника тендера*/
+    "naceIdIn":["3", "2", "1"],/*список id КВЕДов*/
+    "justUsersNace":true /*or false*/
+}
+
+Tender
+{
+    "id" : "563b1a2c20790ee0d724e83c", /*не нужно при создании, само нагенерится*/
+    "authorId" : "12", /*не нужно при создании, автоматически заполнится id-шником залогиненого пользователя*/
+    "title" : "this is title", /*обязательное поле*/
+    "naceId" : "1", /*обязательное поле*/
+    "body" : "This is tender body", /*обязателдьное поле*/
+    "type" : "OPEN", /*или CLOSE. Обязательное поле*/
+    "comments" : [ /*при создании не нужно*/
+        {
+            "_id" : "2",
+            "fatherId":"1", /* это id коммента на который этот коммент являестя ответом */
+            "childId":["3"], /*это список id комментариев-ответов на данный коммент */
+            "globalFather":"1" /* это id тендера. на случай если мы вынесем комменты в отдельную коллекцию*/
+            "time" : 1446721099849, /*время, когда был создан этот комментарий*/
+            "body" : "this is message body" /*текст коммента*/
+        }
+    ],
+    "members" : [ /* не нужно при создании */
+        {
+            "id" : "5613d146fa12fded9736f671", /*id участника тендера*/
+            "name" : "roro" /*имя, совпадает с тем. что в профайле*/
+        }
+    ],
+    "proposes" : [ /*не нужно при создании*/
+        {
+            "authorId" : "15", /* id автора */
+            "body" : "this is propose body", /* текст предложения*/
+            "time" : "1446721099845", /* время создания*/
+            "hidden" : true /*по умолчанию тру, и означает. что создатель предложения не хочет, чтоб предложение видел кто-то кроме создателя тендера*/
+        }
+    ],
+    "begin" : "1446721099842", /*время начала тендера, по умолчанию - время создания тендера */
+    "end" : "1448449099843", /*время окончания тендера, по умолчанию - время создания тендера + 20 дней*/
+    "visited" : "123", /*количество просмотрров */
+    "uploadFilesIds" : ["id1", "id2"], /*Set<String> */
+    "address" : {
+        "googleMapKey":"u90780891yoiudshfjkldshfio3uy", /*какой-то ключ, я не знаю как он выглядит*/
+        "area":"Kyevskaya", /*область*/
+        "city":"Kiev" /*город*/
+        },
+    "hidePropose" : true /*по умолчанию тру и значит, что никто короме создателя тендера не сможет видеть предложения*/
+}

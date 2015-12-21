@@ -1,0 +1,31 @@
+api/rest/dialogueService
+
+[POST] dialogue/create  // this method provide adding new dialogue, or adding new massage for existing dialogue.
+In this case dialogue will be spots by list of members and subject.
+
+[POST] dialogue/id/{id}/message/create // this method provide adding new message to existing dialogue.
+Id in path is a dialogue id.
+
+[POST] dialogue/read/id/{id}  // this method provide getting all message from existing dialogue.
+[POST] dialogue/read/all  // this method provide getting all dialogs for logged user.
+[POST] dialogue/update/id/{id}  // this method provide update dialog.
+
+JSON example
+
+ {
+     "id" : "5616c91e06f4830486a5092c",
+     "subject" : "sabj!",
+     "members" : [
+         {
+             "id" : "5613d146fa12fded9736f671",
+             "name":"roro" // Do not sand, autocomplete in read time.
+         }
+     ],
+     "messages" : [
+         {
+             "authorId" : "5613d146fa12fded9736f671", //create automatically, do not send. Take id of current logged user.
+             "date" : ISODate("2015-10-08T19:50:54.367Z"), //create automatically, do not send. Take time of creation.
+             "message" : "Hello Andrei"
+         }
+     ]
+ }

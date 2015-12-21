@@ -1,0 +1,5 @@
+/src/main/webapp/WEB-INF/views/123.html
+/src/main/java/ua/com/itproekt/novaera/api/rest/TestRest.java
+**/.idea/*
+*.iml
+**/target/**

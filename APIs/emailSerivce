@@ -1,0 +1,11 @@
+/api/rest/emailService
+
+//------ Create -----
+/email/create/, Method.POST, consumes JSON of EmailMessage
+
+example of JSON EmailMessage
+{
+    "receiverEmail":"ololo@gmail.com",
+    "subject":"privet",
+    "text":"privet, Vazya, eto Petya."
+}

@@ -1,0 +1,24 @@
+package ua.com.itproekt.gup.model.activityfeed;
+
+
+public enum EventType {
+    BLOG_SUBSCRIPTION,
+
+    BLOG_POST_LIKE,
+    BLOG_POST_DISLIKE,
+
+    BLOG_POST_COMMENT,
+    BLOG_POST_COMMENT_REPLY,
+    BLOG_POST_COMMENT_LIKE,
+
+    PROJECT_COMMENT,
+    PROJECT_COMMENT_REPLY,
+
+    MONEY_TRANSFER_TO_USER,
+    MONEY_TRANSFER_TO_PROJECT,
+
+    //for doerService
+    NEW_CLIENT_WANT_CONFIRM,
+    PROJECT_BRING_BACK_MONEY,
+    USER_ADD_TO_DOER_CLIENT_LIST
+}

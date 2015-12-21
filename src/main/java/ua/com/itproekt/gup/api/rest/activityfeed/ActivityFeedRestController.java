@@ -1,0 +1,48 @@
+package ua.com.itproekt.gup.api.rest.activityfeed;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import ua.com.itproekt.gup.model.activityfeed.Event;
+import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
+import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
+import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.util.SecurityOperations;
+
+@RestController
+@RequestMapping("/api/rest/activityFeed")
+public class ActivityFeedRestController {
+
+    @Autowired
+    ActivityFeedService activityFeedService;
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/event/read/all", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EntityPage<Event>> getUserEvents(@RequestBody EventFilterOptions eventFO) {
+
+        String userId = SecurityOperations.getLoggedUserId();
+        eventFO.setuId(userId);
+
+        EntityPage<Event> events = activityFeedService.findEventsWithOptionsAndSetViewed(eventFO);
+        if(events.getEntities().isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(events, HttpStatus.OK);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/event/id/{eventId}/delete", method = RequestMethod.POST)
+    public ResponseEntity<Void> deleteEvent(@PathVariable String eventId) {
+
+        if (!activityFeedService.eventExists(eventId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        activityFeedService.deleteEvent(eventId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+}
