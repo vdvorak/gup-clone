@@ -75,7 +75,7 @@
                 <div class="form-group">
                   Прочитал и согласен с правилами
                   <input id="accept" type="checkbox" placeholder="Подтвердите пароль" required>
-                  <div class="g-recaptcha" data-sitekey="6Lc6KxETAAAAAKK9s-YUlVdfAUZx-G3KpohgGqfJ" ></div>
+                  <div class="g-recaptcha" data-sitekey="6LcLPhMTAAAAAIdXwZumYIuBf17mhY7pVt596lIs" ></div>
                   <div class="row">
                     <div class="col-sm-6 col-sm-offset-3">
                       <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Зарегистрироваться" disabled>
