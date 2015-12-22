@@ -21,8 +21,6 @@
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
 
-
-
     <import resource="root-context.xml"/>
     <import resource="db/mongo.xml"/>
     <import resource="db/mongo-tasks.xml"/>

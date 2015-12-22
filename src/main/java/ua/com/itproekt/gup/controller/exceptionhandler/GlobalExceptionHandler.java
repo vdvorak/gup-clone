@@ -86,35 +86,25 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(map, HttpStatus.FORBIDDEN);
     }
 
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    public ResponseEntity<Map<String, Object>>
-    handleAuthenticationCredentialsNotFoundException(HttpServletRequest request,
-                                                     Principal principal,
-                                                     Exception ex) {
+    public String handleAuthCredentialsNotFoundEx(HttpServletRequest request,
+                                                  Principal principal,
+                                                  Exception ex) {
         String userEmail = (principal == null ? "NULL" : principal.getName());
         StringWriter stack = new StringWriter();
-
         ex.printStackTrace(new PrintWriter(stack)); // **********
 
         logger.error("AuthenticationCredentialsNotFoundException Occured:: URL=" + request.getRequestURL() + ";" +
                 "   User email: " + userEmail + ";" +
                 "   Exception: " + stack.toString());
 
-        Map<String, Object>  map = new HashMap();
-        map.put("ex", "AuthenticationCredentialsNotFoundException");
-        if (ex.getCause() != null) {
-            map.put("cause", ex.getCause().getMessage());
-        } else {
-            map.put("cause", ex.getMessage());
-        }
-
-        return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
+        return "401";
     }
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
     public @ResponseBody Map<String, Object> handleUncaughtException(HttpServletRequest request,
                                                                      Principal principal,
                                                                      Exception ex) {

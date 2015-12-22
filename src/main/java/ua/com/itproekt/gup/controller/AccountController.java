@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,12 +37,13 @@ public class AccountController {
 
     private static Map<String,Integer> storedSMScodes = new HashMap<>();
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/account", method = RequestMethod.GET)
     public String accountFound(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Profile profile = profilesService.findProfileByEmail(auth.getName());
+        String loggedUserEmail = SecurityOperations.getLoggedUserEmail();
+        Profile profile = profilesService.findProfileByEmail(loggedUserEmail);
         model.addAttribute("profile", profile);
-        model.addAttribute("balance", session.getUserBalance(auth.getName()));
+        model.addAttribute("balance", session.getUserBalance(loggedUserEmail));
         return "account";
     }
 
