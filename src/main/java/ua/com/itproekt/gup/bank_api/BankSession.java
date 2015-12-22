@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class BankSession {
 
-    private final String URL = "bank-tkani.rhcloud.com";
+    private final String URL = "e-otg-gup-bank.herokuapp.com";
     private BalanceRepository balanceRepository = new BalanceRepository(this);
     private ExternalTransactionRepository externalTransactionRepository = new ExternalTransactionRepository(this);
     private InternalTransactionRepository internalTransactionRepository = new InternalTransactionRepository(this);
