@@ -16,7 +16,7 @@
     <!-- Have Spring servlet handle all static content -->
     <context:component-scan base-package="ua.com.itproekt.gup"/>
     <context:annotation-config/>
-    <context:property-placeholder location="file:src/resources/properties/application.properties" />
+    <context:property-placeholder location="file:../../main/resources/properties/application.properties" />
 
 
     <mvc:annotation-driven />
