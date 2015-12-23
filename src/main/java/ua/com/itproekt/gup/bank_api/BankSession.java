@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class BankSession {
 
-    private final String URL = "bank-tkani.rhcloud.com";
+    private final String URL = "e-otg-gup-bank.herokuapp.com";
     private BalanceRepository balanceRepository = new BalanceRepository(this);
     private ExternalTransactionRepository externalTransactionRepository = new ExternalTransactionRepository(this);
     private InternalTransactionRepository internalTransactionRepository = new InternalTransactionRepository(this);
@@ -128,7 +128,7 @@ public class BankSession {
         params.put("currency", "UAH");
         params.put("description", new String("Пополнение баланса".getBytes("UTF-8"),"cp1251") );
         params.put("order_id",BankService.getRandomPassword()+id);
-        params.put("server_url", "http://bank-tkani.rhcloud.com/callback");
+        params.put("server_url", "http://e-otg-gup-bank.herokuapp.com/callback");
         params.put("sandbox", "1");
         params.put("public_key", "i74044182839");
         LiqPay liqpay = new LiqPay("i74044182839", "psMQcCR32o4TZRZTKI0Yoe4UDNyFHNFHf76Pyedr");
@@ -147,7 +147,7 @@ public class BankSession {
             e.printStackTrace();
         }
         params.put("order_id", BankService.getRandomPassword()+id);
-        params.put("server_url", "http://bank-tkani.rhcloud.com/callback");
+        params.put("server_url", "http://e-otg-gup-bank.herokuapp.com/callback");
         params.put("sandbox", "1");
         params.put("public_key", "i74044182839");
         return new LiqPay("i74044182839", "psMQcCR32o4TZRZTKI0Yoe4UDNyFHNFHf76Pyedr").generateData(params);
@@ -179,6 +179,10 @@ public class BankSession {
 
     public void accountantCancelRequest(Long internalTransactionId){
         internalTransactionRepository.accountantCancelRequest(internalTransactionId);
+    }
+
+    public String projectPayback(String projectId){
+        return internalTransactionRepository.projectPayback(projectId);
     }
 
 }
