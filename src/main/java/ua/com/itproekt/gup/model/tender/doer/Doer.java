@@ -21,6 +21,7 @@ public class Doer {
 
     private int countVisit;
     private long dateOfCreate;
+    private long dateOfUpdate;
 
     private List<Recall> recalls;
     private long recallCount;
@@ -113,6 +114,14 @@ public class Doer {
 
     public void setRecallCount(long recallCount) {
         this.recallCount = recallCount;
+    }
+
+    public long getDateOfUpdate() {
+        return dateOfUpdate;
+    }
+
+    public void setDateOfUpdate(long dateOfUpdate) {
+        this.dateOfUpdate = dateOfUpdate;
     }
 
     @Override
