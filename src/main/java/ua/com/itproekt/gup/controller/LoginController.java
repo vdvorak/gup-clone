@@ -1,7 +1,6 @@
 package ua.com.itproekt.gup.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -136,12 +135,6 @@ public class LoginController {
 		model.addAttribute("message", message);
 
 		return "login";
-	}
-
-	@RequestMapping("/admin*")
-	@PreAuthorize ("hasRole('ROLE_ADMIN')")
-	public String getAdminProfile() {
-		return "adminPage";
 	}
 
 	@RequestMapping("/error403")
