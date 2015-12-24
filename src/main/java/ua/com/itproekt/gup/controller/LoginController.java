@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,6 +37,7 @@ public class LoginController {
 	NaceService naceService;
 
 	/**
+	 *
 	 * Add simple user.
 	 */
 	@RequestMapping("/addProfile")
@@ -122,7 +124,7 @@ public class LoginController {
 	}
 
 	@RequestMapping("/login")
-	public String getLoginForm(
+	 public String getLoginForm(
 			@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, Model model) {
 
@@ -135,6 +137,32 @@ public class LoginController {
 		model.addAttribute("message", message);
 
 		return "login";
+	}
+
+
+//	@RequestMapping("/doLogin")
+//	public String doFirstLogin(
+//			@RequestParam(value = "email") String email,
+//			@RequestParam(value = "passwords") String passwords, Model model) {
+//
+//
+//		String message = "";
+//		model.addAttribute("message", "test");
+//
+//		return "login";
+//	}
+//
+
+
+
+
+
+
+
+	@RequestMapping("/admin*")
+	@PreAuthorize ("hasRole('ROLE_ADMIN')")
+	public String getAdminProfile() {
+		return "adminPage";
 	}
 
 	@RequestMapping("/error403")
