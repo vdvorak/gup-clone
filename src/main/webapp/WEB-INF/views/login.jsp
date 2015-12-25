@@ -239,14 +239,13 @@
 //    if (oauth2.user.is_logged_in())
 //        window.location = 'dashboard.html';
     $('#login_button').on('click', function () {
-        alert("Ololo");
 
         oauth2.user.login($('#login').val(), $('#loginPassword').val(), function (error) {
             if (!error){
-                alert("Счастливчик!!!");
-               alert("Емейл из куков" + oauth2.cookie.get('email'));
-               alert("Токен из куков" + oauth2.cookie.get('authToken'));
-                window.location = '/account';
+                alert("Емейл из куков: " + oauth2.cookie.get('email') + "\n" +
+                      "Токен из куков: " + oauth2.cookie.get('authToken'));
+//                window.location.href = 'http://requestb.in/w57h4nw5';
+                window.location.href = '/account';
             }
             else {
                 console.log(error);

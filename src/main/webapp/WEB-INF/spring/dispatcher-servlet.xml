@@ -22,12 +22,4 @@
         <beans:property name="prefix" value="/WEB-INF/views/"/>
         <beans:property name="suffix" value=".jsp"/>
     </beans:bean>
-
-    <interceptors>
-        <interceptor>
-            <mapping path="/login" />
-            <beans:bean class="ua.com.itproekt.gup.controller.RequestProcessingTimeInterceptor"/>
-        </interceptor>
-    </interceptors>
-    <context:component-scan base-package="ua.com.itproekt.gup.controller" />
 </beans:beans>
