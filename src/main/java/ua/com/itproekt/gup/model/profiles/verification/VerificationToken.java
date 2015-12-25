@@ -1,6 +1,9 @@
 package ua.com.itproekt.gup.model.profiles.verification;
 
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -11,6 +14,10 @@ import java.util.UUID;
  */
 @Document
 public class VerificationToken {
+    @Transient
+    @Value("${verificationToken.default_expiry_time_in_mins}")
+    private int DEFAULT_EXPIRY_TIME_IN_MINS;
+
     @Id
     private String id;
     private String userId;
@@ -29,6 +36,32 @@ public class VerificationToken {
         this.userId = userId;
         this.tokenType = tokenType;
         this.expiryDate = calculateExpiryDate(expirationTimeInMinutes);
+    }
+
+    private Date calculateExpiryDate(int expiryTimeInMinutes) {
+        DateTime now = new DateTime();
+        return now.plusMinutes(expiryTimeInMinutes).toDate();
+    }
+
+    public boolean hasExpired() {
+        DateTime tokenDate = new DateTime(getExpiryDate());
+        return tokenDate.isBeforeNow();
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public void setTokenType(VerificationTokenType tokenType) {
+        this.tokenType = tokenType;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public VerificationTokenType getTokenType() {
@@ -57,15 +90,5 @@ public class VerificationToken {
 
     public String getToken() {
         return token;
-    }
-
-    private Date calculateExpiryDate(int expiryTimeInMinutes) {
-        DateTime now = new DateTime();
-        return now.plusMinutes(expiryTimeInMinutes).toDate();
-    }
-
-    public boolean hasExpired() {
-        DateTime tokenDate = new DateTime(getExpiryDate());
-        return tokenDate.isBeforeNow();
     }
 }
