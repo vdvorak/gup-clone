@@ -2,6 +2,7 @@ package ua.com.itproekt.gup.service.projectsAndInvestments.project;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.projectsAndInvestments.project.ProjectRepository;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.*;
@@ -142,5 +143,16 @@ public class ProjectServiceImpl implements ProjectService {
         System.err.println(" ******** ******** ******** ");
         System.err.println("Возврат денег вкладчикам этих проектов:" + expiredProjectsIds);
         System.err.println("Изменения статуса проекта!");
+    }
+
+
+
+    //    *******************************
+    BankSession bankSession = new BankSession();
+
+    @Override
+    public void bringBackMoneyToInvestorsTest() {
+        String response = bankSession.projectPayback("Egor");
+        System.err.println("**** response" + response);
     }
 }

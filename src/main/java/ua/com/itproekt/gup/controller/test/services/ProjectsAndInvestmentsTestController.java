@@ -10,6 +10,7 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Comment;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.TypeOfProject;
+import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -20,6 +21,9 @@ import java.util.HashSet;
 public class ProjectsAndInvestmentsTestController {
     @Autowired
     ProjectRepository projectRepository;
+
+    @Autowired
+    ProjectService projectService;
 
     @RequestMapping("/addProjects/{numberOfProjects}")
     public String addUser(@PathVariable("numberOfProjects") int numberOfProjects, Model model) {
@@ -44,5 +48,12 @@ public class ProjectsAndInvestmentsTestController {
         model.addAttribute("message", numberOfProjects + " test projects is created.");
         return "index";
     }
+
+    @RequestMapping("/project/payback")
+    public String payback() {
+        projectService.bringBackMoneyToInvestorsTest();
+        return "index";
+    }
+
 
 }
