@@ -18,7 +18,6 @@ public class Tender {
     private String naceId;
     private String body;
     private TenderType type;
-    private List<Comment> comments;
     private List<Member> members;
     private List<Propose> proposes;
     private Long begin;
@@ -27,12 +26,25 @@ public class Tender {
     private Set<String> uploadFilesIds;
     private Address address;
     private Boolean hidePropose;
+    private String tenderNumber;
+    private Integer expectedPrice;
+    private Integer proposeNumber;
+    private Boolean hideContact;
 
     public Tender(){
         begin = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         LocalDateTime l = LocalDateTime.now().plusDays(20L);
         end = l.toInstant(ZoneOffset.UTC).toEpochMilli();
         hidePropose = true;
+        hideContact = true;
+    }
+
+    public String getTenderNumber() {
+        return tenderNumber;
+    }
+
+    public void setTenderNumber(String tenderNumber) {
+        this.tenderNumber = tenderNumber;
     }
 
     public String getId() {
@@ -81,14 +93,6 @@ public class Tender {
 
     public void setType(TenderType type) {
         this.type = type;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
     }
 
     public Long getBegin() {
@@ -155,7 +159,7 @@ public class Tender {
         this.address = address;
     }
 
-    public Boolean getHidePropose() {
+    public Boolean isHidePropose() {
         return hidePropose;
     }
 
@@ -163,16 +167,50 @@ public class Tender {
         this.hidePropose = hidePropose;
     }
 
+    public Integer getExpectedPrice() {
+        return expectedPrice;
+    }
+
+    public void setExpectedPrice(Integer expectedPrice) {
+        this.expectedPrice = expectedPrice;
+    }
+
+    public Integer getProposeNumber() {
+        if(proposes == null) return 0;
+        return proposes.size();
+    }
+
+    public void setProposeNumber() {
+        if (proposes == null){
+            proposeNumber = 0;
+        }else {
+            proposeNumber = proposes.size();
+        }
+    }
+
+    public void setProposeNumber(Integer num) {
+        setProposeNumber();
+    }
+
+    public Boolean isHideContact() {
+        return hideContact;
+    }
+
+    public void setHideContact(Boolean hideContact) {
+        this.hideContact = hideContact;
+    }
+
     @Override
     public String toString() {
         return "Tender{" +
                 "id='" + id + '\'' +
                 ", authorId='" + authorId + '\'' +
+                ", tender number='" + tenderNumber + '\'' +
                 ", title='" + title + '\'' +
+                ", expected price='" + expectedPrice + '\'' +
                 ", naceId='" + naceId + '\'' +
                 ", body='" + body + '\'' +
                 ", type=" + type +
-                ", comments=" + comments +
                 ", members=" + members +
                 ", proposes=" + proposes +
                 ", begin=" + begin +
@@ -181,6 +219,7 @@ public class Tender {
                 ", uploadFilesIds=" + uploadFilesIds +
                 ", address=" + address +
                 ", hidePropose=" + hidePropose +
+                ", hideContact=" + hideContact +
                 '}';
     }
 }

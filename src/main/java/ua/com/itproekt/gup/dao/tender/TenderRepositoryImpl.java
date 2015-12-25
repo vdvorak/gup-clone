@@ -7,8 +7,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.tender.Tender;
 import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
+import ua.com.itproekt.gup.model.tender.TenderType;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
@@ -60,7 +62,16 @@ public class TenderRepositoryImpl implements TenderRepository{
     }
 
     @Override
-    public EntityPage<Tender> findWihOptions(TenderFilterOptions tenderFilterOptions) {
+    public EntityPage<Tender> findWihOptions(TenderFilterOptions tenderFilterOptions, Profile currUser) {
+
+//        Фильтр тендеров
+//        По КВЭД !  совпадение со списком (хотябы один елемент совпадает) и по ИД елем матч
+//        По автору !
+//        По участнику !
+//        По адресу !
+//        По заголовку !
+//        По дате начала и конца !
+//        По типу (при выборе закрытых, показывает пользователю все закрытые тендеры в которых он участвует)
 
         Query query = new Query();
         if (tenderFilterOptions.getAuthorId() != null) {
@@ -101,8 +112,10 @@ public class TenderRepositoryImpl implements TenderRepository{
                     Criteria.where("body").regex("(?i:.*" + tenderFilterOptions.getSearchField() + ".*)")));
         }
 
-        if (tenderFilterOptions.getNaceIdIn() != null) {
-            query.addCriteria(Criteria.where("naceId").in(tenderFilterOptions.getNaceIdIn()));
+
+
+        if (tenderFilterOptions.getNaceId() != null) {
+            query.addCriteria(Criteria.where("naceId").elemMatch(Criteria.where("id").is(tenderFilterOptions.getNaceId())));
         }
 
         if (tenderFilterOptions.getBegin() != -1) {
@@ -115,6 +128,14 @@ public class TenderRepositoryImpl implements TenderRepository{
 
         if (tenderFilterOptions.getSortDirection() != null && tenderFilterOptions.getSortField() != null) {
             query.with(new Sort(Sort.Direction.fromString(tenderFilterOptions.getSortDirection()), tenderFilterOptions.getSortField()));
+        }
+
+        if(tenderFilterOptions.getType() == TenderType.CLOSE){
+            query.addCriteria(Criteria.where("type").is("CLOSE"));
+            query.addCriteria(Criteria.where("members").elemMatch(Criteria.where("id").is(currUser.getId())));
+        }else {
+            query.addCriteria(Criteria.where("type").is("OPEN"));
+            query.addCriteria(Criteria.where("naceId").in(currUser.getContact().getNaceId()));
         }
 
         query.skip(tenderFilterOptions.getSkip());
