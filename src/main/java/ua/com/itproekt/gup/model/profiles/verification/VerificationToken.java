@@ -15,7 +15,7 @@ import java.util.UUID;
 @Document
 public class VerificationToken {
     @Transient
-    @Value("${verificationToken.default_expiry_time_in_mins}")
+    @Value("${verification.token.defaultTimeToLive.inMinutes}")
     private int DEFAULT_EXPIRY_TIME_IN_MINS;
 
     @Id

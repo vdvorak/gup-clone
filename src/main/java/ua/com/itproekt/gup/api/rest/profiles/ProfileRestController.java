@@ -15,6 +15,7 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CreatedObjResponse;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
@@ -35,19 +36,21 @@ public class ProfileRestController {
     ProfilesService profilesService;
 
     @Autowired
+    VerificationTokenService verificationTokenService;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     /**
      * Create profile.
      *
      * @param profile   JSON object in request body
-     * @param ucBuilder the uc builder
      * @return the response status
      */
     @RequestMapping(value = "/profile/create",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResponse> createProfile(@RequestBody Profile profile, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<CreatedObjResponse> createProfile(@RequestBody Profile profile) {
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
         profile.setPassword(hashedPassword);
 
@@ -56,6 +59,8 @@ public class ProfileRestController {
         profile.setUserRoles(userRoles);
 
         profilesService.createProfile(profile);
+
+        verificationTokenService.sendEmailVerificationToken(profile.getId());
 
         CreatedObjResponse createdObjResponse = new CreatedObjResponse(profile.getId());
         return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
