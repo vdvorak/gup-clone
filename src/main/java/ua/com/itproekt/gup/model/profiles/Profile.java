@@ -20,6 +20,7 @@ public class Profile implements Serializable {
     private String mainPhoneNumber;
     private String username;
     private String email;
+    private boolean emailConfirmed;
     private String password;
     private Set<UserRole> userRoles;
     private UserProfile userProfile;
@@ -157,6 +158,14 @@ public class Profile implements Serializable {
 
     public Long getCreatedDate() {
         return createdDate;
+    }
+
+    public boolean isEmailConfirmed() {
+        return emailConfirmed;
+    }
+
+    public void setEmailConfirmed(boolean emailConfirmed) {
+        this.emailConfirmed = emailConfirmed;
     }
 
     @Override

@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.dao.profile.VerificationTokenRepository;
+import ua.com.itproekt.gup.exception.TokenHasExpiredException;
+import ua.com.itproekt.gup.exception.TokenNotFoundException;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.verification.VerificationToken;
 import ua.com.itproekt.gup.model.profiles.verification.VerificationTokenType;
@@ -53,21 +55,22 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 //    @Value("${token.lostPassword.timeToLive.inMinutes}")
 //    private int lostPasswordTokenExpiryTimeInMinutes;
 
-//    @Value("${hostName.url}")
-//    private String hostNameUrl;
+    @Value("${hostName.url}")
+    private String hostNameUrl;
 
 
     @Override
     public VerificationToken sendEmailVerificationToken(String userId) {
         VerificationToken token = new VerificationToken(userId,
-                VerificationTokenType.EMAIL_VERIFICATION,
+                VerificationTokenType.EMAIL_REGISTRATION,
                 emailVerificationTokenExpiryTimeInMinutes);
         verificationTokenRepository.save(token);
 //        mailSenderService.sendVerificationEmail(new EmailServiceTokenModel(user, token, hostNameUrl));
         Profile profile = ensureUserIsLoaded(userId);
+        String message = hostNameUrl + "/registrationConfirm?token=" + token.getToken();
         mailSenderService.sendEmail(profile.getEmail(),
-                                    "EMAIL_VERIFICATION",
-                                    "http://localhost:8080/regitrationConfirm");
+                                    "Подтверждение регистрации",
+                                    message);
 
         System.err.println("****** sendEmailVerificationToken");
         return token;
@@ -185,6 +188,20 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 //        }
 //        return token;
 //    }
+
+    @Override
+    public VerificationToken getVerificationToken(String token) {
+        Assert.notNull(token);
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        if (verificationToken == null) {
+            throw new TokenNotFoundException();
+        }
+        if (verificationToken.hasExpired()) {
+            throw new TokenHasExpiredException();
+        }
+        return verificationToken;
+    }
+
 
     private Profile ensureUserIsLoaded(String userId) {
         Profile profile = profileRepository.findProfileById(userId);

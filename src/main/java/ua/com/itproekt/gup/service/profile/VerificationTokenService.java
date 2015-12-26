@@ -11,6 +11,8 @@ public interface VerificationTokenService {
 
     VerificationToken sendEmailVerificationToken(String userId);
 
+    VerificationToken getVerificationToken(String token);
+
 //    VerificationToken sendEmailRegistrationToken(String userId);
 
 //    VerificationToken sendLostPasswordToken(LostPasswordRequest lostPasswordRequest);

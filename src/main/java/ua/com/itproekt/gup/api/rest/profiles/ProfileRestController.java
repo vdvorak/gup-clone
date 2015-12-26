@@ -47,12 +47,12 @@ public class ProfileRestController {
      * @param profile   JSON object in request body
      * @return the response status
      */
-    @RequestMapping(value = "/profile/create",
-            method = RequestMethod.POST,
+    @RequestMapping(value = "/profile/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResponse> createProfile(@RequestBody Profile profile) {
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
         profile.setPassword(hashedPassword);
+        profile.setEmailConfirmed(false);
 
         HashSet<UserRole> userRoles = new HashSet<>();
         userRoles.add(UserRole.ROLE_USER);
@@ -76,7 +76,7 @@ public class ProfileRestController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Profile> getProfileById(@PathVariable("id") String id) {
-        Profile profile = profilesService.readById(id);
+        Profile profile = profilesService.findById(id);
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
