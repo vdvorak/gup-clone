@@ -71,8 +71,6 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         mailSenderService.sendEmail(profile.getEmail(),
                                     "Подтверждение регистрации",
                                     message);
-
-        System.err.println("****** sendEmailVerificationToken");
         return token;
     }
 

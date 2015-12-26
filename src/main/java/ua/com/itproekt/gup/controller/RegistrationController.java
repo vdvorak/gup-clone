@@ -51,7 +51,6 @@ public class RegistrationController {
     public String confirmRegistration(@RequestParam String token, Model model) {
 
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
-
         String uid = verificationToken.getUserId();
 
         profileRepository.addUserRole(uid, UserRole.EMAIL_CONFIRMED);

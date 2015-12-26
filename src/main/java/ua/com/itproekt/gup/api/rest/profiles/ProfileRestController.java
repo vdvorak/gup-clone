@@ -48,6 +48,10 @@ public class ProfileRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResponse> createProfile(@RequestBody Profile profile) {
 
+        if (profilesService.profileExistsWithEmail(profile.getEmail())) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
         profilesService.createProfile(profile);
         verificationTokenService.sendEmailVerificationToken(profile.getId());
 

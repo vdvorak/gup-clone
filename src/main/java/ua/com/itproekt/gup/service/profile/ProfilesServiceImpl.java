@@ -25,7 +25,7 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    BankSession session = new BankSession();
+    BankSession bankSession = new BankSession();
 
     @Override
     public void createProfile(Profile profile) {
@@ -36,7 +36,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         profile.setUserRoles(userRoles);
         profileRepository.createProfile(profile);
 
-        session.createBalanceRecord(profile.getEmail(), 0);
+        bankSession.createBalanceRecord(profile.getEmail(), 0);
 
     }
 
