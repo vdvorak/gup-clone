@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.itproekt.gup.bank_api.BankSession;
+import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.model.profiles.verification.VerificationToken;
@@ -30,32 +31,20 @@ public class RegistrationController {
     ProfilesService profilesService;
 
     @Autowired
+    ProfileRepository profileRepository;
+
+    @Autowired
     ActivityFeedService activityFeedService;
 
     @Autowired
     VerificationTokenService verificationTokenService;
 
-    BankSession session = new BankSession();
-
-
-
     @RequestMapping(value = "/registration", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-        public void register(@RequestBody Profile profile){
-        System.err.println("registration");
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String hashedPassword = passwordEncoder.encode(profile.getPassword());
-        profile.setPassword(hashedPassword);
-        HashSet<UserRole> userRoles = new HashSet<>();
-        userRoles.add(UserRole.ROLE_ANONYMOUS);
-        profile.setUserRoles(userRoles);
+     public void register(@RequestBody Profile profile){
+
         profilesService.createProfile(profile);
-        System.err.println(profile.getEmail());
-        try {
-            session.createBalanceRecord(profile.getEmail(), 0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        verificationTokenService.sendEmailVerificationToken(profile.getId());
     }
 
     @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
@@ -64,11 +53,8 @@ public class RegistrationController {
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
 
         String uid = verificationToken.getUserId();
-        Profile profile = new Profile();
-        profile.setId(uid);
-        profile.setEmailConfirmed(true);
 
-        profilesService.updateProfile(profile);
+        profileRepository.addUserRole(uid, UserRole.EMAIL_CONFIRMED);
 
 //        "redirect:/login.html?lang=" + request.getLocale().getLanguage();
         return "redirect:/login";

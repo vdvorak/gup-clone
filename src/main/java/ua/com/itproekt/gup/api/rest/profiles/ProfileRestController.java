@@ -38,9 +38,6 @@ public class ProfileRestController {
     @Autowired
     VerificationTokenService verificationTokenService;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
     /**
      * Create profile.
      *
@@ -50,16 +47,8 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResponse> createProfile(@RequestBody Profile profile) {
-        String hashedPassword = passwordEncoder.encode(profile.getPassword());
-        profile.setPassword(hashedPassword);
-        profile.setEmailConfirmed(false);
-
-        HashSet<UserRole> userRoles = new HashSet<>();
-        userRoles.add(UserRole.ROLE_USER);
-        profile.setUserRoles(userRoles);
 
         profilesService.createProfile(profile);
-
         verificationTokenService.sendEmailVerificationToken(profile.getId());
 
         CreatedObjResponse createdObjResponse = new CreatedObjResponse(profile.getId());
@@ -72,8 +61,7 @@ public class ProfileRestController {
      * @param id the id
      * @return the profile by id
      */
-    @RequestMapping(value = "/profile/read/id/{id}",
-            method = RequestMethod.POST,
+    @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Profile> getProfileById(@PathVariable("id") String id) {
         Profile profile = profilesService.findById(id);
@@ -89,8 +77,7 @@ public class ProfileRestController {
      * @param username the username
      * @return the profile by username
      */
-    @RequestMapping(value = "/profile/read/username/{username}",
-            method = RequestMethod.POST,
+    @RequestMapping(value = "/profile/read/username/{username}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Profile> getProfileByUsername(@PathVariable("username") String username) {
         Profile profile = profilesService.findProfileByUsername(username);
@@ -107,10 +94,8 @@ public class ProfileRestController {
      *                             Use "skip" and "limit" in JSON object request body
      * @return the response entity
      */
-    @RequestMapping(value = "/profile/read/all",
-            method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/profile/read/all", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityPage<Profile>> listAllProfiles(@RequestBody ProfileFilterOptions profileFilterOptions) {
         EntityPage<Profile> profiles = profilesService.findAllProfiles(profileFilterOptions);
         if (profiles.getEntities().isEmpty()) {
@@ -123,25 +108,20 @@ public class ProfileRestController {
      * Update profile response entity.
      *
      * @param newProfile the new profile with id of entity in request body
-     * @param ucBuilder  the uc builder
      * @return the response status
      */
-    @RequestMapping(value = "/profile/update",
-            method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Profile> updateProfile(@RequestBody Profile newProfile, UriComponentsBuilder ucBuilder) {
-        HttpHeaders headers = new HttpHeaders();
+    @RequestMapping(value = "/profile/update", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Profile> updateProfile(@RequestBody Profile newProfile) {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             Profile profile = profilesService.findProfileByEmail(auth.getName());
             newProfile.setId(profile.getId());
-            headers.setLocation(ucBuilder.path("/profile/read/id/{id}").buildAndExpand(newProfile.getId()).toUri());
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(profilesService.updateProfile(newProfile), headers, HttpStatus.OK);
+        return new ResponseEntity<>(profilesService.updateProfile(newProfile), HttpStatus.OK);
     }
 
     /**
@@ -150,8 +130,7 @@ public class ProfileRestController {
      * @param id the profile id
      * @return the response status
      */
-    @RequestMapping(value = "/profile/delete/id/{id}",
-            method = RequestMethod.POST)
+    @RequestMapping(value = "/profile/delete/id/{id}", method = RequestMethod.POST)
     public ResponseEntity<Profile> deleteProfile(@PathVariable("id") String id) {
         if (!profilesService.profileExists(id)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -167,8 +146,7 @@ public class ProfileRestController {
      * @return the response status
      */
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/friends/addFriend/{friendID}/",
-            method = RequestMethod.POST)
+    @RequestMapping(value = "/friends/addFriend/{friendID}/", method = RequestMethod.POST)
     public ResponseEntity<Void> addFriend(@PathVariable String friendID) {
         if (!profilesService.profileExists(friendID)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -178,8 +156,7 @@ public class ProfileRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/profile/read/id/{profileId}/userProfile/read",
-            method = RequestMethod.POST)
+    @RequestMapping(value = "/profile/read/id/{profileId}/userProfile/read", method = RequestMethod.POST)
     public ResponseEntity<Profile> readUserProfile(@PathVariable String profileId) {
         Profile profile = profilesService.findUserProfile(profileId);
         if (profile == null) {

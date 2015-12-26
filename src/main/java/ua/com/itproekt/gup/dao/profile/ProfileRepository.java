@@ -3,6 +3,7 @@ package ua.com.itproekt.gup.dao.profile;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;
+import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.util.EntityPage;
 
 /**
@@ -131,5 +132,10 @@ public interface ProfileRepository {
     void addFriend(String profileId, String friendProfileId);
 
     Profile findUserProfile(String profileId);
+
+    void addUserRole(String profileId, UserRole userRole);
+
+    void deleteUserRole(String profileId, UserRole userRole);
+
 }
 
