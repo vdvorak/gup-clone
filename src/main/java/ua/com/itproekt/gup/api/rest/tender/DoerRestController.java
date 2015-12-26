@@ -100,7 +100,7 @@ public class DoerRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Doer> createDoer(@RequestBody Doer doer, UriComponentsBuilder ucBuilder) {
         // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an doer;
-        UserType userType = profileService.readById(doer.getAuthorId()).getContact().getType();
+        UserType userType = profileService.findById(doer.getAuthorId()).getContact().getType();
         if(userType == null || userType == UserType.INDIVIDUAL){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -138,7 +138,7 @@ public class DoerRestController {
     public ResponseEntity<Doer> addClient(@PathVariable("id") Doer doer, @RequestParam String clientId) {
         // handling situation when doer add client
         if (getCurrentUserId().equals(doer.getAuthorId())) {
-            if (profileService.readById(clientId) == null) {
+            if (profileService.findById(clientId) == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             // check current client isn't already in list

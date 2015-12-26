@@ -24,7 +24,7 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public Profile readById(String id) {
+    public Profile findById(String id) {
         return profileRepository.findProfileById(id);
     }
 
