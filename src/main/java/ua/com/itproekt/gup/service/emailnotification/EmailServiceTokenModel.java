@@ -7,28 +7,23 @@ import ua.com.itproekt.gup.model.profiles.verification.VerificationTokenType;
 
 import java.io.Serializable;
 
-/**
- * @version 1.0
- * @author: Iain Porter
- * @since 13/05/2013
- */
+
 public class EmailServiceTokenModel implements Serializable {
 
-    private final String emailAddress;
+    private final String email;
     private final String token;
     private final VerificationTokenType tokenType;
     private final String hostNameUrl;
 
-
-    public EmailServiceTokenModel(String emailAddress, VerificationToken token, String hostNameUrl)  {
-        this.emailAddress = emailAddress;
+    public EmailServiceTokenModel(String email, VerificationToken token, String hostNameUrl)  {
+        this.email = email;
         this.token = token.getToken();
         this.tokenType = token.getTokenType();
         this.hostNameUrl = hostNameUrl;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getEmail() {
+        return email;
     }
 
     public String getEncodedToken() {

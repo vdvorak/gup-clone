@@ -18,11 +18,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @version 1.0
- * @author: Iain Porter
- * @since 13/05/2013
- */
+
 @Service
 public class MailSenderServiceImpl implements MailSenderService {
 
@@ -49,13 +45,6 @@ public class MailSenderServiceImpl implements MailSenderService {
     @Value("${email.services.replyToAddress}")
     private String emailReplyToAddress;
 
-//    @Autowired
-//    public MailSenderServiceImpl(JavaMailSender mailSender, VelocityEngine velocityEngine) {
-//        this.mailSender = mailSender;
-//        this.velocityEngine = velocityEngine;
-//    }
-
-
     public EmailServiceTokenModel sendVerificationEmail(final EmailServiceTokenModel emailVerificationModel) {
         Map<String, String> resources = new HashMap<>();
           return sendVerificationEmail(emailVerificationModel, emailVerificationSubjectText,
@@ -75,30 +64,33 @@ public class MailSenderServiceImpl implements MailSenderService {
     }
 
 
-    private void addInlineResource(MimeMessageHelper messageHelper, String resourcePath, String resourceIdentifier) throws MessagingException {
+    private void addInlineResource(MimeMessageHelper messageHelper, String resourcePath,
+                                   String resourceIdentifier) throws MessagingException {
         Resource resource = new ClassPathResource(resourcePath);
         messageHelper.addInline(resourceIdentifier, resource);
     }
 
-    private EmailServiceTokenModel sendVerificationEmail(final EmailServiceTokenModel emailVerificationModel, final String emailSubject,
-                                                         final String velocityModel, final Map<String, String> resources) {
+    private EmailServiceTokenModel sendVerificationEmail(final EmailServiceTokenModel emailVerificationModel,
+                                                         final String emailSubject,
+                                                         final String velocityModel,
+                                                         final Map<String, String> resources) {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_RELATED, "UTF-8");
-                messageHelper.setTo(emailVerificationModel.getEmailAddress());
+                messageHelper.setTo(emailVerificationModel.getEmail());
                 messageHelper.setFrom(emailFromAddress);
                 messageHelper.setReplyTo(emailReplyToAddress);
                 messageHelper.setSubject(emailSubject);
                 Map model = new HashMap();
                 model.put("model", emailVerificationModel);
-                String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityModel, model);
+                String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityModel, "UTF-8", model);
                 messageHelper.setText(new String(text.getBytes(), "UTF-8"), true);
                       for(String resourceIdentifier: resources.keySet()) {
                    addInlineResource(messageHelper, resources.get(resourceIdentifier), resourceIdentifier);
                 }
             }
         };
-        LOG.debug("Sending {} token to : {}",emailVerificationModel.getTokenType().toString(), emailVerificationModel.getEmailAddress());
+        LOG.debug("Sending {} token to : {}",emailVerificationModel.getTokenType().toString(), emailVerificationModel.getEmail());
         this.mailSender.send(preparator);
         return emailVerificationModel;
     }
@@ -122,4 +114,6 @@ public class MailSenderServiceImpl implements MailSenderService {
     public void setEmailReplyToAddress(String emailReplyToAddress) {
         this.emailReplyToAddress = emailReplyToAddress;
     }
+
+
 }

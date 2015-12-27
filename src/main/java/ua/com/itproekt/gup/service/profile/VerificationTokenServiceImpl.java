@@ -3,7 +3,6 @@ package ua.com.itproekt.gup.service.profile;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +23,7 @@ import javax.validation.Validator;
 import java.util.List;
 import java.util.regex.Pattern;
 
-/**
- * @version 1.0
- * @author: Iain Porter
- * @since 13/05/2013
- */
+
 @Service("verificationTokenService")
 public class VerificationTokenServiceImpl implements VerificationTokenService {
 
@@ -38,12 +33,10 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     private VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
-//    private EmailService mailSenderService;
     private MailSenderService mailSenderService;
 
     @Autowired
     private ProfileRepository profileRepository;
-//    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -63,17 +56,11 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Override
     public VerificationToken sendEmailVerificationToken(String userId) {
-        VerificationToken token = new VerificationToken(userId,
-                VerificationTokenType.EMAIL_REGISTRATION,
+        VerificationToken token = new VerificationToken(userId, VerificationTokenType.EMAIL_REGISTRATION,
                 emailVerificationTokenExpiryTimeInMinutes);
         verificationTokenRepository.save(token);
-//        mailSenderService.sendVerificationEmail(new EmailServiceTokenModel(user, token, hostNameUrl));
         Profile profile = ensureUserIsLoaded(userId);
-        String message = hostNameUrl + "/registrationConfirm?token=" + token.getToken();
-//        mailSenderService.sendEmail(profile.getEmail(),
-//                                    "Подтверждение регистрации",
-//                                    message);
-        mailSenderService.sendVerificationEmail(new EmailServiceTokenModel(profile.getEmail(), token, hostNameUrl));
+        mailSenderService.sendRegistrationEmail(new EmailServiceTokenModel(profile.getEmail(), token, hostNameUrl));
         return token;
     }
 
@@ -100,7 +87,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 //    public VerificationToken sendLostPasswordToken(LostPasswordRequest lostPasswordRequest) {
 //        validate(lostPasswordRequest);
 //        VerificationToken token = null;
-//        User user = userRepository.findByEmailAddress(lostPasswordRequest.getEmailAddress());
+//        User user = userRepository.findByEmailAddress(lostPasswordRequest.getEmail());
 //        if (user != null) {
 //            List<VerificationToken> tokens = tokenRepository.findByUserIdAndTokenType(user.getId(), VerificationTokenType.lostPassword);
 //            token = getActiveToken(tokens);
@@ -191,9 +178,10 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 //    }
 
     @Override
-    public VerificationToken getVerificationToken(String token) {
-        Assert.notNull(token);
-        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+    public VerificationToken getVerificationToken(String base64EncodedToken) {
+        Assert.notNull(base64EncodedToken);
+        String rawToken = new String(Base64.decodeBase64(base64EncodedToken.getBytes()));
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(rawToken);
         if (verificationToken == null) {
             throw new TokenNotFoundException();
         }
@@ -227,9 +215,9 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         return activeToken;
     }
 
-    private boolean isValidUuid(String uuid) {
-        return UUID_PATTERN.matcher(uuid).matches();
-    }
+//    private boolean isValidUuid(String uuid) {
+//        return UUID_PATTERN.matcher(uuid).matches();
+//    }
 
     public void setEmailVerificationTokenExpiryTimeInMinutes(int emailVerificationTokenExpiryTimeInMinutes) {
         this.emailVerificationTokenExpiryTimeInMinutes = emailVerificationTokenExpiryTimeInMinutes;
