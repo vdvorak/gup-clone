@@ -16,6 +16,8 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.verification.VerificationToken;
 import ua.com.itproekt.gup.model.profiles.verification.VerificationTokenType;
 import ua.com.itproekt.gup.service.emailnotification.EmailService;
+import ua.com.itproekt.gup.service.emailnotification.EmailServiceTokenModel;
+import ua.com.itproekt.gup.service.emailnotification.MailSenderService;
 
 import javax.swing.*;
 import javax.validation.Validator;
@@ -36,8 +38,8 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     private VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
-    private EmailService mailSenderService;
-//    private MailSenderService mailSenderService;
+//    private EmailService mailSenderService;
+    private MailSenderService mailSenderService;
 
     @Autowired
     private ProfileRepository profileRepository;
@@ -68,9 +70,10 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 //        mailSenderService.sendVerificationEmail(new EmailServiceTokenModel(user, token, hostNameUrl));
         Profile profile = ensureUserIsLoaded(userId);
         String message = hostNameUrl + "/registrationConfirm?token=" + token.getToken();
-        mailSenderService.sendEmail(profile.getEmail(),
-                                    "Подтверждение регистрации",
-                                    message);
+//        mailSenderService.sendEmail(profile.getEmail(),
+//                                    "Подтверждение регистрации",
+//                                    message);
+        mailSenderService.sendVerificationEmail(new EmailServiceTokenModel(profile.getEmail(), token, hostNameUrl));
         return token;
     }
 
