@@ -22,6 +22,7 @@
     <mvc:default-servlet-handler/>
 
     <import resource="root-context.xml"/>
+    <import resource="mail.xml"/>
     <import resource="db/mongo.xml"/>
     <import resource="db/mongo-tasks.xml"/>
     <import resource="security/client-details.xml"/>
