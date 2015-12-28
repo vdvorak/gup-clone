@@ -1,26 +1,20 @@
 package ua.com.itproekt.gup.api.rest.profiles;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
-import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CreatedObjResponse;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
-
-import java.util.HashSet;
 
 
 /**
@@ -53,7 +47,7 @@ public class ProfileRestController {
         }
 
         profilesService.createProfile(profile);
-        verificationTokenService.sendEmailVerificationToken(profile.getId());
+        verificationTokenService.sendEmailRegistrationToken(profile.getId());
 
         CreatedObjResponse createdObjResponse = new CreatedObjResponse(profile.getId());
         return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);

@@ -29,6 +29,8 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public void createProfile(Profile profile) {
+        profile.setCreatedDateEqualsToCurrentDate();
+
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
         profile.setPassword(hashedPassword);
         HashSet<UserRole> userRoles = new HashSet<>();
