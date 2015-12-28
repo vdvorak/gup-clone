@@ -36,8 +36,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         profile.setUserRoles(userRoles);
         profileRepository.createProfile(profile);
 
-        bankSession.createBalanceRecord(profile.getEmail(), 0);
-
+        bankSession.createBalanceRecord(profile.getId(), 0);
     }
 
     @Override
