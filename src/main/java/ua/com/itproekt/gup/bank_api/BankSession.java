@@ -161,8 +161,8 @@ public class BankSession {
         internalTransactionRepository.adminConfirm(internalTransactionId, adminLogin);
     }
 
-    public void createBalanceRecord(String user, Integer typeEntity) {
-        balanceRepository.createBalanceRecord(user, typeEntity);
+    public void createBalanceRecord(String userId, Integer typeEntity) {
+        balanceRepository.createBalanceRecord(userId, typeEntity);
     }
 
     public String getAllPendingTransactionsJson(){
