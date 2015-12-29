@@ -10,33 +10,4 @@
 
     <bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy"/>
 
-    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
-        <property name="velocityProperties">
-            <props>
-                <prop key="resource.loader">class</prop>
-                <prop key="class.resource.loader.class">
-                    org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-                </prop>
-            </props>
-        </property>
-    </bean>
-
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="${email.services.smtp.host}" />
-        <property name="port" value="${email.services.smtp.port}" />
-        <property name="username" value="${email.services.smtp.username}" />
-        <property name="password" value="${email.services.smtp.password}" />
-
-        <property name="javaMailProperties">
-            <props>
-                <prop key="mail.smtp.auth">${email.services.smtp.auth}</prop>
-                <prop key="mail.smtp.starttls.enable">${email.services.smtp.starttls.enable}</prop>
-            </props>
-        </property>
-    </bean>
-
-    <!--<bean id="mailMail" class="com.mkyong.common.MailMail">-->
-        <!--<property name="mailSender" ref="mailSender" />-->
-    <!--</bean>-->
-
 </beans>

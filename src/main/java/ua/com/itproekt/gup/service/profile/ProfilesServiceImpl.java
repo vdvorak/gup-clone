@@ -29,6 +29,8 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public void createProfile(Profile profile) {
+        profile.setCreatedDateEqualsToCurrentDate();
+
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
         profile.setPassword(hashedPassword);
         HashSet<UserRole> userRoles = new HashSet<>();
@@ -36,8 +38,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         profile.setUserRoles(userRoles);
         profileRepository.createProfile(profile);
 
-        bankSession.createBalanceRecord(profile.getEmail(), 0);
-
+        bankSession.createBalanceRecord(profile.getId(), 0);
     }
 
     @Override
