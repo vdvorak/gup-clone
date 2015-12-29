@@ -40,12 +40,6 @@ public class TenderTestController {
 
         tender.setBody("This is tender body");
 
-        Comment comment = new Comment();
-        comment.setBody("this is message body");
-        comment.setId("1");
-        tender.setComments(new ArrayList<>());
-        tender.getComments().add(comment);
-
         tender.setAuthorId("12");
         tender.setNaceId("1");
         tender.setVisited(123L);
