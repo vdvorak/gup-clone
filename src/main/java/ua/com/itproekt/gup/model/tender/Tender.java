@@ -30,6 +30,7 @@ public class Tender {
     private Integer expectedPrice;
     private Integer proposeNumber;
     private Boolean hideContact;
+    private String winnerId;
 
     public Tender(){
         begin = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -200,6 +201,18 @@ public class Tender {
         this.hideContact = hideContact;
     }
 
+    public String getWinnerId() {
+        return winnerId;
+    }
+
+    public void setWinnerId(String winnerId) {
+        long now = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        if (now < end){
+            end = now;
+        }
+        this.winnerId = winnerId;
+    }
+
     @Override
     public String toString() {
         return "Tender{" +
@@ -220,6 +233,7 @@ public class Tender {
                 ", address=" + address +
                 ", hidePropose=" + hidePropose +
                 ", hideContact=" + hideContact +
+                ", winner id=" + winnerId +
                 '}';
     }
 }
