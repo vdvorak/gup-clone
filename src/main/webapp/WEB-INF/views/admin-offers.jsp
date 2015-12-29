@@ -111,20 +111,20 @@
           </li>
 
           <li>
-            <a href="<c:url value="/admin" />"><i class="fa fa-dashboard fa-fw"></i>Пользователи</a>
+            <a href="<c:url value="/admin-user" />"><i class="fa fa-dashboard fa-fw"></i>Пользователи</a>
           </li>
           <li>
-            <a href="<c:url value="/admin/users" />"><i class="fa fa-share fa-fw"></i>Тендеры</a>
+            <a href="<c:url value="/admin-tenders" />"><i class="fa fa-share fa-fw"></i>Тендеры</a>
           </li>
 
           <li>
-            <a href="<c:url value="/accountant" />"><i class="fa fa-edit fa-fw"></i>Проекты</a>
+            <a href="<c:url value="/admin-projects" />"><i class="fa fa-edit fa-fw"></i>Проекты</a>
           </li>
           <li>
-            <a href="<c:url value="/accountant/balance" />"><i class="fa fa-table fa-fw"></i>Админы</a>
+            <a href="<c:url value="/admin-admins" />"><i class="fa fa-table fa-fw"></i>Админы</a>
           </li>
           <li>
-            <a href="<c:url value="/accountant/external" />"><i class="fa fa-credit-card fa-fw"></i>Объявления</a>
+            <a href="<c:url value="/admin-offers" />"><i class="fa fa-credit-card fa-fw"></i>Объявления</a>
           </li>
           <%--<li>--%>
           <%--<a href="<c:url value="/accountant/internal" />"><i class="fa fa-share fa-fw"></i> Внутренние транзакции</a>--%>
@@ -136,62 +136,66 @@
   </nav>
   <!-- Navigation -->
 
+
+
+  <!-- #page-wrapper -->
   <div id="page-wrapper">
     <div class="row">
       <div class="col-lg-12">
-        <h1 class="page-header">Пользователи портала</h1>
+        <h1 class="page-header">Транзакции на рассмотрении</h1>
       </div>
       <!-- /.col-lg-12 -->
     </div>
-
-
+    <!-- /.row -->
     <div class="row">
       <div class="col-lg-12">
+        <div class="panel panel-default">
+          <!-- /.panel-heading -->
+          <div class="panel-body">
 
-        <div class="col-lg-8">
-          <div class="span9">
+            <div class="dataTable_wrapper">
+              <table id="accountant" class="table table-striped table-bordered table-hover"
+                     cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                  <th>Фото</th>
+                  <th>ID</th>
+                  <th>тип</th>
+                  <th>отправитель</th>
+                  <th>получатель</th>
+                  <th>время</th>
+                  <th>сумма</th>
+                  <th>статус</th>
+                </tr>
+                </thead>
+              </table>
 
-            <div id="content">
-              <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-                <li><a href="#offers" data-toggle="tab">Пользователи</a></li>
+              <form method="POST" action="/accountant/accountantCancelRequest">
+                <table class="table table-user-information">
+                  <tbody>
+                  <h3 class="panel-title">Отменить заявку на корректировку</h3>
+                  <tr>
+                    <td>ID внутренней транзакции:</td>
+                    <td><input id="inp" class="form-control" name="transactionId" readonly required></td>
+                  </tr>
+                  </tbody>
+                </table>
+                <button id="cancelBtn" type="submit" class="btn btn-primary disabled">Редактировать</button>
+              </form>
 
-              </ul>
-
-              <div id="my-tab-content" class="tab-content">
-                <div class="tab-pane active" id="offers">
-
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <div class="panel panel-default">
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                          <div class="dataTable_wrapper">
-
-                            <table id="AllOffers"
-                                   class="table table-striped table-bordered table-hover"
-                                   cellspacing="0" width="100%">
-                              <thead>
-                              <tr>
-                                <th>Фото</th>
-                                <th>ID</th>
-                                <th>ФИО/название</th>
-                                <th>E-mail</th>
-                              </tr>
-                              </thead>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
+            <!-- /.table -->
           </div>
         </div>
       </div>
     </div>
   </div>
+  <!-- /#page-wrapper -->
+
+
+
+
+
 </div>
 <!-- /.panel -->
 
@@ -228,97 +232,56 @@
 <script src="/resources/js/moment-with-locales.js"></script>
 
 <script>
-  var idCorrect = [];
-
   $(document).ready(function () {
-    var deleteIndex;
     var data;
 
 
-
-
-
-
-
-
-    $(document).ready(function () {
-      var data;
-      var filterOptions = new Object();
-      filterOptions.skip = 0;
-      filterOptions.limit = 10;
-      $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: {"skip" : 0, "limit" : 10},
-        url: "/users/getall",
-        success: function (response) {
-          alert(JSON.stringify(response));
-
-//          data = response;
-//          for (var i = 0; i < data.length; i++) {
-//            data[i].dateTime = new Date(parseInt(data[i].dateTime));
-//            data[i].dateTime = moment(data[i].dateTime).locale("ru").format('LLL');
-//          }
-//          var table = $('#accountant').DataTable({
-//            select: {
-//              style: 'single'
-//            },
-//            data: data,
-//            "columns": [
-//              {"data": "id"},
-//              {"data": "code"},
-//              {"data": "type"},
-//              {"data": "sender"},
-//              {"data": "recipient"},
-//              {"data": "dateTime"},
-//              {"data": "amount"},
-//              {"data": "status"}
-//            ],
-//            "language": {
-//              "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
-//            }
-//          });
-//
-//          table
-//                  .on('select', function (e, dt, type, indexes) {
-//                    var rowData = table.rows(indexes).data().toArray();
-//                    $("input[name='transactionId']").attr("value", rowData[0].id);
-//                    $('#inp').removeAttr("readonly");
-//                    $('#cancelBtn').attr("class", "btn btn-danger");
-//                  })
-//                  .on('deselect', function (e, dt, type, indexes) {
-//                    $("input[name='transactionId']").attr("value", "");
-//                    $('#inp').attr("readonly", "readonly");
-//                    $('#cancelBtn').attr("class", "btn btn-danger disabled");
-//                  });
-        }
-      });
-    });
-
-
-
-
-
-
-
-
-
-
-
-  });
-
-  function submitChanges() {
     $.ajax({
       type: "POST",
-      url: "/admin/ajaxAdminConfirm",
-      data: {"idCorrect": JSON.stringify(idCorrect)},
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      url: "/accountant/ajaxAllAccountantCorrection",
       success: function (response) {
-        window.location.href = '/admin';
+        data = response;
+        for (var i = 0; i < data.length; i++) {
+          data[i].dateTime = new Date(parseInt(data[i].dateTime));
+          data[i].dateTime = moment(data[i].dateTime).locale("ru").format('LLL');
+        }
+        var table = $('#accountant').DataTable({
+          select: {
+            style: 'single'
+          },
+          data: data,
+          "columns": [
+            {"data": "id"},
+            {"data": "code"},
+            {"data": "type"},
+            {"data": "sender"},
+            {"data": "recipient"},
+            {"data": "dateTime"},
+            {"data": "amount"},
+            {"data": "status"}
+          ],
+          "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
+          }
+        });
+
+        table
+                .on('select', function (e, dt, type, indexes) {
+                  var rowData = table.rows(indexes).data().toArray();
+                  $("input[name='transactionId']").attr("value", rowData[0].id);
+                  $('#inp').removeAttr("readonly");
+                  $('#cancelBtn').attr("class", "btn btn-danger");
+                })
+                .on('deselect', function (e, dt, type, indexes) {
+                  $("input[name='transactionId']").attr("value", "");
+                  $('#inp').attr("readonly", "readonly");
+                  $('#cancelBtn').attr("class", "btn btn-danger disabled");
+                });
       }
     });
-  }
-
+  });
 </script>
 
 </body>

@@ -3,7 +3,7 @@ package ua.com.itproekt.gup.model.profiles;
 /**
  * The type Profile filter options, use for pagination.
  */
-public final class ProfileFilterOptions extends Profile{
+public final class ProfileFilterOptions extends Profile {
     private int skip;
     private int limit;
 

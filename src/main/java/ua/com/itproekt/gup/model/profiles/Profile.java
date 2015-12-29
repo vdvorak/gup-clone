@@ -10,7 +10,7 @@ import java.time.ZoneOffset;
 import java.util.Set;
 
 @Document(collection = "users")
-public class Profile implements Serializable {
+public class Profile {
 
     @Id
     private String id;

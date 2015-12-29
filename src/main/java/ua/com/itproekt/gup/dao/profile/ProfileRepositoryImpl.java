@@ -77,7 +77,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         query.skip(profileFilterOptions.getSkip());
         query.limit(profileFilterOptions.getLimit());
         return new EntityPage<>(mongoTemplate.count(query, Profile.class),
-                mongoTemplate.find(query, Profile.class));
+                                mongoTemplate.find(query, Profile.class));
     }
 
     @Override
