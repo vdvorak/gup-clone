@@ -50,7 +50,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4"
+                                            <input id="login-submit" tabindex="4"
                                                    class="form-control btn btn-login" value="Вход">
                                         </div>
                                     </div>
@@ -66,10 +66,6 @@
                                     </div>
                                 </div>
                             </form>
-
-                            <button class="small_button" type="submit" id="login_button">Login</button>
-
-
 
                             <form id="regInput" action="/registration" method="post" role="form" style="display: none;">
                                 <div class="form-group">
@@ -217,7 +213,7 @@
         });
     }
 
-    $('#login_button').on('click', function () {
+    $('#login-submit').on('click', function () {
 
         oauth2.user.login($('#login').val(), $('#loginPassword').val(), function (error) {
             if (!error){
