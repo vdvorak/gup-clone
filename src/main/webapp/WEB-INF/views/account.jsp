@@ -153,6 +153,9 @@
 <script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/bootstrap-modalmanager.js"></script>
 <script src="/resources/js/bootstrap-modal.js"></script>
+<script src="/resources/js/oauth2.js"></script>
+<script src="/resources/js/cookie.js"></script>
+<script src="/resources/js/user.js"></script>
 
 <script>
     $('#myModal').on('shown.bs.modal', function () {
@@ -215,6 +218,12 @@
                 window.location.href = '/account';
             }
         });
+    });
+
+    $('a').on('click', function (event) {
+        event.preventDefault();
+        var url = this.href;
+        oauth2.get(url);
     });
 </script>
 

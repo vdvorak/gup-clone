@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.tender.Tender;
@@ -48,6 +49,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/users/getall", method = RequestMethod.POST)
+    @ResponseBody
      public EntityPage<Profile> getAllUsers(@RequestParam(name = "skip", required = false, defaultValue = "0") Integer skip,
                                             @RequestParam(name = "limit", required = false, defaultValue = "10") Integer limit) {
         try {
