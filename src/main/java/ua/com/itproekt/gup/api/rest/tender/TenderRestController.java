@@ -190,7 +190,7 @@ public class TenderRestController {
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
         // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an member;
-        UserType userType = profileService.readById(member.getId()).getContact().getType();
+        UserType userType = profileService.findById(member.getId()).getContact().getType();
         if (userType == null || userType == UserType.INDIVIDUAL) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
