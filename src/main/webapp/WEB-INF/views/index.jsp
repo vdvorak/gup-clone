@@ -1,4 +1,5 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
@@ -18,12 +19,7 @@
 <body>
 
 
-<sec:authorize access="isAnonymous()">
-  <div>dsfdsfdsfs</div>
-<jsp:include page="/WEB-INF/templates/headerAnonym.jsp"/>
-</sec:authorize>
-
-<sec:authorize access="isAuthenticated()">
+<sec:authorize access="isAuthenticated()" var="isAuthenticated">
   <header class="main-head">
     <div class="top-menu">
       <div class="top-menu-userSection">
@@ -79,6 +75,10 @@
     </div>
   </header>
 </sec:authorize>
+
+<c:if test="${isAuthenticated}">
+  <jsp:include page="/WEB-INF/templates/headerAnonym.jsp"/>
+</c:if>
 
 <!--1st section with search-->
 <section class="first-sec">
