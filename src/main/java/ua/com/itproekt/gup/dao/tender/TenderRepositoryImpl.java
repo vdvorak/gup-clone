@@ -94,13 +94,6 @@ public class TenderRepositoryImpl implements TenderRepository {
             }
         }
 
-        if (tenderFilterOptions.getTitle() != null) {
-            query.addCriteria(Criteria.where("title").all(tenderFilterOptions.getTitle()));
-        }
-
-        if (tenderFilterOptions.getBody() != null) {
-            query.addCriteria(Criteria.where("body").all(tenderFilterOptions.getBody()));
-        }
 
         if (tenderFilterOptions.getSearchField() != null) {
             query.addCriteria(new Criteria().orOperator(
