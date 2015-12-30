@@ -396,4 +396,33 @@ public class InternalTransactionRepository {
             e.printStackTrace();
         }
     }
+
+    public String projectPayback(String projectId) {
+        DefaultHttpClient client = new DefaultHttpClient();
+        try {
+            String host;
+            if(session.getUrl().contains("http")){
+                host = session.getUrl().substring(7);
+            }else host = session.getUrl();
+            URI uri = new URIBuilder()
+                    .setScheme("http")
+                    .setHost(host)
+                    .setPath("/internalTransactionRest/projectPayback")
+                    .setParameter("password", Base64.encodeBytes(SecurityService.encrypt(String.valueOf(Math.random()))))
+                    .setParameter("projectId", Base64.encodeBytes(SecurityService.encrypt(projectId)))
+                    .build();
+            HttpPost httpPost = new HttpPost(uri);
+            HttpResponse response = client.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                String result = EntityUtils.toString(entity);
+                EntityUtils.consume(entity);
+                return result;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 }

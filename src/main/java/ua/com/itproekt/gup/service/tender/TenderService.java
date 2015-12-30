@@ -13,5 +13,5 @@ public interface TenderService {
     Tender updateTender(Tender tender);
     void deleteTenderById(String id);
     boolean isUserHaveAccess(Profile user, Tender tender);
-    EntityPage<Tender> findWihOptions(TenderFilterOptions tenderFilterOptions);
+    EntityPage<Tender> findWihOptions(TenderFilterOptions tenderFilterOptions, Profile user);
 }

@@ -64,7 +64,7 @@ public class TenderRestController {
 
         //make propose visible according to hidden settings
         if(!tender.getAuthorId().equals(getCurrentUserId())){
-            if(tender.getHidePropose()) {
+            if(tender.isHidePropose()) {
                 tender.setProposes(null);
             } else {
                 tender.getProposes().stream().filter(p -> p.getHidden()).forEach(p -> {
@@ -74,13 +74,16 @@ public class TenderRestController {
 
 
         // incrementing Visited field
-        if(req.getSession().getAttribute("tenderVisit").equals("true")) {
+        ArrayList<String> visit = (ArrayList<String>) req.getSession().getAttribute("tenderVisit");
+        if(visit == null) visit = new ArrayList<>();
+        if(!visit.contains(id)) {
             Tender tenderForCountVisited = new Tender();
             tenderForCountVisited.setId(tender.getId());
 
             tenderForCountVisited.setVisited(tender.getVisited() + 1);
             tenderService.updateTender(tenderForCountVisited);
-            req.getSession().setAttribute("tenderVisit", "true");
+            visit.add(id);
+            req.getSession().setAttribute("tenderVisit", visit);
 
             //update field visited in current tender
             tender.setVisited(tenderForCountVisited.getVisited());
@@ -97,7 +100,7 @@ public class TenderRestController {
             tenderFilterOptions.setNaceIdIn(getCurrentUserNaceId());
         }
 
-        EntityPage<Tender> tenders = tenderService.findWihOptions(tenderFilterOptions);
+        EntityPage<Tender> tenders = tenderService.findWihOptions(tenderFilterOptions, getCurrentUser());
 
         // Propose can see just users with type UserType.ENTREPRENEUR or UserType.LEGAL_ENTITY
         UserType userType = getCurrentUser().getContact().getType();
@@ -106,7 +109,7 @@ public class TenderRestController {
         }else {
             // hide all propose in tenders which create not by current logged user
             // and have settings hidePropose = true assigned by tender author
-            tenders.getEntities().stream().filter(t -> !t.getAuthorId().equals(getCurrentUserId()) && t.getHidePropose())
+            tenders.getEntities().stream().filter(t -> !t.getAuthorId().equals(getCurrentUserId()) && t.isHidePropose())
                     .forEach(t -> t.setProposes(null));
 
             // hide all propose in tenders which create not by current logged user
@@ -129,7 +132,7 @@ public class TenderRestController {
         tenderFilterOptions.setNaceIdIn(getCurrentUserNaceId());
         System.out.println("getCurrentUserNaceId() = " + getCurrentUserNaceId());
         System.out.println("tenderFilterOptions.getNaceIdIn() = " + tenderFilterOptions.getNaceIdIn());
-        EntityPage<Tender> tender = tenderService.findWihOptions(tenderFilterOptions);
+        EntityPage<Tender> tender = tenderService.findWihOptions(tenderFilterOptions, getCurrentUser());
         if(tender.getEntities().isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -175,7 +178,7 @@ public class TenderRestController {
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
         // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an member;
-        UserType userType = profileService.readById(member.getId()).getContact().getType();
+        UserType userType = profileService.findById(member.getId()).getContact().getType();
         if(userType == null || userType == UserType.INDIVIDUAL){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }

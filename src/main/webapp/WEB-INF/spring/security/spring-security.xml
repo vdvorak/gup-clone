@@ -27,16 +27,15 @@
     <!-- This is where we tells spring security what URL should be protected
      and what roles have access to them -->
     <!--<sec:http pattern="/api/rest/**" create-session="never"-->
-    <sec:http pattern="/**" create-session="never"
+    <sec:http pattern="/**" create-session="stateless"
           entry-point-ref="oauthAuthenticationEntryPoint"
           access-decision-manager-ref="accessDecisionManager">
         <sec:anonymous enabled="false" />
-
+<!--***************-->
         <!--<sec:intercept-url pattern="/api/rest/**" access="ROLE_USER" />-->
         <sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
         <sec:access-denied-handler ref="oauthAccessDeniedHandler" />
     </sec:http>
-
 
     <bean id="oauthAuthenticationEntryPoint"
           class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
@@ -128,8 +127,7 @@
     </bean>
 
 
-    <oauth:authorization-server
-            client-details-service-ref="clientDetails" token-services-ref="tokenServices"
+    <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices"
             user-approval-handler-ref="userApprovalHandler">
         <oauth:authorization-code />
         <oauth:implicit />

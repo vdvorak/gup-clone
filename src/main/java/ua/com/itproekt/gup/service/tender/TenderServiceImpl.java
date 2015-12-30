@@ -16,8 +16,8 @@ public class TenderServiceImpl implements TenderService {
     private TenderRepository tenderRepository;
 
     @Override
-    public void createTender(Tender tender) {
-        tenderRepository.createTender(tender);
+    public void createTender(Tender offer) {
+        tenderRepository.createTender(offer);
     }
 
     @Override
@@ -52,8 +52,8 @@ public class TenderServiceImpl implements TenderService {
     }
 
     @Override
-    public EntityPage<Tender> findWihOptions(TenderFilterOptions tenderFilterOptions) {
-        return tenderRepository.findWihOptions(tenderFilterOptions);
+    public EntityPage<Tender> findWihOptions(TenderFilterOptions tenderFilterOptions, Profile user) {
+        return tenderRepository.findWihOptions(tenderFilterOptions, user);
     }
 
 }

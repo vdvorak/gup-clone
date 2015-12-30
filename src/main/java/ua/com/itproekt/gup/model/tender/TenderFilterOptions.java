@@ -96,16 +96,6 @@ public class TenderFilterOptions extends Tender {
     }
 
     @Override
-    public List<Comment> getComments() {
-        return super.getComments();
-    }
-
-    @Override
-    public void setComments(List<Comment> comments) {
-        super.setComments(comments);
-    }
-
-    @Override
     public void setBeginLocalDateTime(LocalDateTime time) {
         super.setBeginLocalDateTime(time);
     }

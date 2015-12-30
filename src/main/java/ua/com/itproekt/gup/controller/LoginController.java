@@ -37,6 +37,7 @@ public class LoginController {
 	NaceService naceService;
 
 	/**
+	 *
 	 * Add simple user.
 	 */
 	@RequestMapping("/addProfile")
@@ -123,7 +124,7 @@ public class LoginController {
 	}
 
 	@RequestMapping("/login")
-	public String getLoginForm(
+	 public String getLoginForm(
 			@RequestParam(value = "error", required = false) String error,
 			@RequestParam(value = "logout", required = false) String logout, Model model) {
 
@@ -137,6 +138,26 @@ public class LoginController {
 
 		return "login";
 	}
+
+
+//	@RequestMapping("/doLogin")
+//	public String doFirstLogin(
+//			@RequestParam(value = "email") String email,
+//			@RequestParam(value = "passwords") String passwords, Model model) {
+//
+//
+//		String message = "";
+//		model.addAttribute("message", "test");
+//
+//		return "login";
+//	}
+//
+
+
+
+
+
+
 
 	@RequestMapping("/admin*")
 	@PreAuthorize ("hasRole('ROLE_ADMIN')")

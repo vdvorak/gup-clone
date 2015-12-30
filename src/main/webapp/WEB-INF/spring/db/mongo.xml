@@ -9,7 +9,7 @@
 
     <mongo:repositories base-package="ua.com.itproekt.gup.dao"/>
     <mongo:mongo host="${mongo.remote.db.server}" port="${mongo.remote.db.port}" id="mongo"/>
-    <!--<mongo:db-factory id="mongoDbFactory" mongo-ref="mongo" dbname="${mongo.remote.db.name}" />-->
+    <mongo:db-factory id="mongoDbFactory" mongo-ref="mongo" dbname="${mongo.remote.db.name}" />
 
     <!--<mongo:mapping-converter id="mongoConverter">-->
         <!--<mongo:custom-converters>-->

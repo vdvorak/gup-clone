@@ -22,7 +22,7 @@ public interface ProfilesService {
      * @param id the id
      * @return the profile
      */
-    Profile readById(String id);
+    Profile findById(String id);
 
     /**
      * Update profile profile.

@@ -27,6 +27,7 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.tender.doer.DoerService;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,21 +57,27 @@ public class DoerRestController {
     @RequestMapping(value = "/doer/read/id/{id}",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Doer> getDoerById(@PathVariable("id") String id) {
+    public ResponseEntity<Doer> getDoerById(@PathVariable("id") String id, HttpServletRequest req) {
         Doer doer = doerService.findById(id);
         if (doer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         // incrementing Visited field
-        Doer doerForCountVisited = new Doer();
-        doerForCountVisited.setId(doer.getId());
+        ArrayList<String> visit = (ArrayList<String>) req.getSession().getAttribute("doerVisit");
+        if(visit == null) visit = new ArrayList<>();
+        if(!visit.contains(id)) {
+            visit.add(id);
+            Doer doerForCountVisited = new Doer();
+            doerForCountVisited.setId(doer.getId());
 
-        doerForCountVisited.setCountVisit(doer.getCountVisit() + 1);
-        doerService.updateDoer(doerForCountVisited);
+            doerForCountVisited.setCountVisit(doer.getCountVisit() + 1);
+            doerService.updateDoer(doerForCountVisited);
+            req.getSession().setAttribute("tenderVisit", visit);
 
-        //update field visited in current doer
-        doer.setCountVisit(doerForCountVisited.getCountVisit());
+            //update field visited in current doer
+            doer.setCountVisit(doerForCountVisited.getCountVisit());
+        }
 
         return new ResponseEntity<>(doer, HttpStatus.OK);
     }
@@ -93,7 +100,7 @@ public class DoerRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Doer> createDoer(@RequestBody Doer doer, UriComponentsBuilder ucBuilder) {
         // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an doer;
-        UserType userType = profileService.readById(doer.getAuthorId()).getContact().getType();
+        UserType userType = profileService.findById(doer.getAuthorId()).getContact().getType();
         if(userType == null || userType == UserType.INDIVIDUAL){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -131,7 +138,7 @@ public class DoerRestController {
     public ResponseEntity<Doer> addClient(@PathVariable("id") Doer doer, @RequestParam String clientId) {
         // handling situation when doer add client
         if (getCurrentUserId().equals(doer.getAuthorId())) {
-            if (profileService.readById(clientId) == null) {
+            if (profileService.findById(clientId) == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             // check current client isn't already in list
@@ -227,6 +234,7 @@ public class DoerRestController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/doer/read/id/{id}").buildAndExpand(newDoer.getId()).toUri());
+        newDoer.setDateOfUpdate(System.currentTimeMillis());
         doerService.updateDoer(newDoer);
         return new ResponseEntity<>(doerService.findById(newDoer.getId()), headers, HttpStatus.OK);
     }

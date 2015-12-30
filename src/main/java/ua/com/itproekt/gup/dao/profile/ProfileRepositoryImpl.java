@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;
+import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
@@ -76,7 +77,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         query.skip(profileFilterOptions.getSkip());
         query.limit(profileFilterOptions.getLimit());
         return new EntityPage<>(mongoTemplate.count(query, Profile.class),
-                mongoTemplate.find(query, Profile.class));
+                                mongoTemplate.find(query, Profile.class));
     }
 
     @Override
@@ -135,5 +136,19 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         Query query = new Query();
         query.fields().include("contact");
         return mongoTemplate.findOne(query, Profile.class);
+    }
+
+    @Override
+    public void addUserRole(String profileId, UserRole userRole) {
+        mongoTemplate.updateFirst(
+                Query.query(Criteria.where("id").is(profileId)),
+                new Update().push("userRoles", userRole), Profile.class);
+    }
+
+    @Override
+    public void deleteUserRole(String profileId, UserRole userRole) {
+        mongoTemplate.updateFirst(
+                Query.query(Criteria.where("id").is(profileId)),
+                new Update().pull("userRoles", userRole), Profile.class);
     }
 }
