@@ -1,12 +1,17 @@
 package ua.com.itproekt.gup.service.profile;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;
+import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.util.EntityPage;
+
+import java.util.HashSet;
 
 /**
  * The type Profiles service.
@@ -17,14 +22,27 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Autowired
     private ProfileRepository profileRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    BankSession bankSession = new BankSession();
 
     @Override
     public void createProfile(Profile profile) {
+        profile.setCreatedDateEqualsToCurrentDate();
+
+        String hashedPassword = passwordEncoder.encode(profile.getPassword());
+        profile.setPassword(hashedPassword);
+        HashSet<UserRole> userRoles = new HashSet<>();
+        userRoles.add(UserRole.ROLE_USER);
+        profile.setUserRoles(userRoles);
         profileRepository.createProfile(profile);
+
+        bankSession.createBalanceRecord(profile.getId(), 0);
     }
 
     @Override
-    public Profile readById(String id) {
+    public Profile findById(String id) {
         return profileRepository.findProfileById(id);
     }
 

@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.model.profiles;
 
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,7 +11,7 @@ import java.time.ZoneOffset;
 import java.util.Set;
 
 @Document(collection = "users")
-public class Profile implements Serializable {
+public class Profile {
 
     @Id
     private String id;
@@ -29,8 +30,15 @@ public class Profile implements Serializable {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Long createdDate;
 
-    public Profile() {
+    public boolean hasUserRole(String userRole) {
+        return EnumUtils.isValidEnum(UserRole.class, userRole);
+    }
+
+    //*********************************************************************
+
+    public Profile setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        return this;
     }
 
     public Profile setCreatedDate(Long createdDate) {

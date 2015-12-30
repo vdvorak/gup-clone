@@ -8,8 +8,8 @@
        http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 
     <mongo:repositories base-package="ua.com.itproekt.gup.dao"/>
-    <mongo:mongo host="${mongo.local.db.server}" port="${mongo.local.db.port}" id="mongo"/>
-    <mongo:db-factory id="mongoDbFactory" mongo-ref="mongo" dbname="${mongo.local.db.name}" />
+    <mongo:mongo host="${mongo.remote.db.server}" port="${mongo.remote.db.port}" id="mongo"/>
+    <mongo:db-factory id="mongoDbFactory" mongo-ref="mongo" dbname="${mongo.remote.db.name}" />
 
     <!--<mongo:mapping-converter id="mongoConverter">-->
         <!--<mongo:custom-converters>-->
@@ -20,8 +20,15 @@
     <!--</mongo:mapping-converter>-->
 
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" >
-        <constructor-arg ref="mongoDbFactory"/>
+        <constructor-arg name="mongo" ref="mongo"/>
+        <constructor-arg name="databaseName" value="${mongo.remote.db.name}" />
+        <constructor-arg name="userCredentials" ref="mongoCredentials"/>
         <!--<constructor-arg ref="mongoConverter"/>-->
+    </bean>
+
+    <bean id="mongoCredentials" class="org.springframework.data.authentication.UserCredentials">
+        <constructor-arg name="username" value="${mongo.remote.db.login}" />
+        <constructor-arg name="password" value="${mongo.remote.db.password}" />
     </bean>
 
 </beans>

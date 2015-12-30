@@ -5,5 +5,6 @@ public enum UserRole {
     ROLE_SUPPORT,
     ROLE_MODERATOR,
     ROLE_ANONYMOUS,
-    ROLE_USER;
+    ROLE_USER,
+    EMAIL_CONFIRMED;
 }
