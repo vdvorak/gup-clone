@@ -15,6 +15,10 @@ public class UserProfile {
     private String vatNumber; //ІПН
     private Set<String> idAddFile;
 
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
     public UserProfile setBirthDate(String birthDateString) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         Date dateObj = null;
