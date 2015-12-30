@@ -76,7 +76,7 @@
   </header>
 </sec:authorize>
 
-<c:if test="${isAuthenticated}">
+<c:if test="${!isAuthenticated}">
   <jsp:include page="/WEB-INF/templates/headerAnonym.jsp"/>
 </c:if>
 

@@ -38,6 +38,17 @@ public class AccountController {
     private static Map<String,Integer> storedSMScodes = new HashMap<>();
 
     @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/prioffice", method = RequestMethod.GET)
+    public String privatOfice(Model model) {
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+        Profile profile = profilesService.findById(loggedUserId);
+        System.err.println("Деньги пришли: " + session.getUserBalance(loggedUserId));
+        model.addAttribute("profile", profile);
+        model.addAttribute("balance", session.getUserBalance(loggedUserId));
+        return "prioffice";
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/account", method = RequestMethod.GET)
     public String accountFound(Model model) {
         String loggedUserEmail = SecurityOperations.getLoggedUserEmail();
@@ -66,8 +77,6 @@ public class AccountController {
         return "success";
     }
 
-
-    
     @RequestMapping(value = "/account/investment", method = RequestMethod.POST)
     public String invest(@RequestParam("amountInvest") Integer amount) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
