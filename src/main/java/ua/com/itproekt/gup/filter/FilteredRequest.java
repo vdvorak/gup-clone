@@ -2,10 +2,7 @@ package ua.com.itproekt.gup.filter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class FilteredRequest extends HttpServletRequestWrapper {
     private Map<String, String[]> modifiableParameters;
@@ -27,7 +24,7 @@ public class FilteredRequest extends HttpServletRequestWrapper {
     public FilteredRequest(final HttpServletRequest request,
                                      final Map<String, String[]> additionalParams) {
         super(request);
-        modifiableParameters = new TreeMap<>();
+        modifiableParameters = new HashMap<>();
         modifiableParameters.putAll(additionalParams);
     }
 
@@ -47,7 +44,7 @@ public class FilteredRequest extends HttpServletRequestWrapper {
     @Override
     public Map<String, String[]> getParameterMap() {
         if (allParameters == null) {
-            allParameters = new TreeMap<>();
+            allParameters = new HashMap<>();
             allParameters.putAll(super.getParameterMap());
             allParameters.putAll(modifiableParameters);
         }
