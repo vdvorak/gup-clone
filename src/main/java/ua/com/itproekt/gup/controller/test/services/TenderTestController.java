@@ -40,7 +40,6 @@ public class TenderTestController {
 
         tender.setBody("This is tender body");
 
-
         tender.setAuthorId("12");
         tender.setNaceId("1");
         tender.setVisited(123L);

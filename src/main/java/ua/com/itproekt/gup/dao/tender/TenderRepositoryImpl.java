@@ -16,7 +16,7 @@ import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 
 @Repository
-public class TenderRepositoryImpl implements TenderRepository{
+public class TenderRepositoryImpl implements TenderRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -94,24 +94,12 @@ public class TenderRepositoryImpl implements TenderRepository{
             }
         }
 
-        if (tenderFilterOptions.getTitle() != null) {
-            query.addCriteria(Criteria.where("title").all(tenderFilterOptions.getTitle()));
-        }
-
-        if (tenderFilterOptions.getBody() != null) {
-            query.addCriteria(Criteria.where("body").all(tenderFilterOptions.getBody()));
-        }
-
-        if (tenderFilterOptions.getType() != null) {
-            query.addCriteria(Criteria.where("type").all(tenderFilterOptions.getType()));
-        }
 
         if (tenderFilterOptions.getSearchField() != null) {
             query.addCriteria(new Criteria().orOperator(
                     Criteria.where("title").regex("(?i:.*" + tenderFilterOptions.getSearchField() + ".*)"),
                     Criteria.where("body").regex("(?i:.*" + tenderFilterOptions.getSearchField() + ".*)")));
         }
-
 
 
         if (tenderFilterOptions.getNaceId() != null) {
@@ -122,7 +110,7 @@ public class TenderRepositoryImpl implements TenderRepository{
             query.addCriteria(Criteria.where("begin").gte(tenderFilterOptions.getBegin()));
         }
 
-        if (tenderFilterOptions.getEnd() != -1){
+        if (tenderFilterOptions.getEnd() != -1) {
             query.addCriteria(Criteria.where("end").lte(tenderFilterOptions.getEnd()));
         }
 
@@ -130,14 +118,18 @@ public class TenderRepositoryImpl implements TenderRepository{
             query.with(new Sort(Sort.Direction.fromString(tenderFilterOptions.getSortDirection()), tenderFilterOptions.getSortField()));
         }
 
-        if(tenderFilterOptions.getType() == TenderType.CLOSE){
+        if (tenderFilterOptions.getType() == TenderType.CLOSE) {
             query.addCriteria(Criteria.where("type").is("CLOSE"));
             query.addCriteria(Criteria.where("members").elemMatch(Criteria.where("id").is(currUser.getId())));
-        }else {
-            query.addCriteria(Criteria.where("type").is("OPEN"));
-            query.addCriteria(Criteria.where("naceId").in(currUser.getContact().getNaceId()));
-        }
+        } else {
+            Criteria opened = Criteria.where("type").is("OPEN");
 
+            query.addCriteria(opened);
+
+            if(currUser.getContact() != null && currUser.getContact().getNaceId() != null) {
+                query.addCriteria(Criteria.where("naceId").in(currUser.getContact().getNaceId()));
+            }
+        }
         query.skip(tenderFilterOptions.getSkip());
         query.limit(tenderFilterOptions.getLimit());
         return new EntityPage<>(mongoTemplate.count(query, Tender.class),
