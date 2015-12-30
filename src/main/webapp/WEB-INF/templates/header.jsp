@@ -137,13 +137,13 @@
 
               <ul class="dropdown-menu " aria-labelledby="dropdownMenu2">
                 <li>
-                  <a href="/edit-profile">Редактировать профиль</a>
+                  <a href="${pageContext.request.contextPath}/edit-profile">Редактировать профиль</a>
 
                 </li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#">Укр/Рус</a></li>
                 <li >
-                  <a href="/logout">Выход</a>
+                  <a href="${pageContext.request.contextPath}/logout">Выход</a>
                 </li>
 
               </ul>
