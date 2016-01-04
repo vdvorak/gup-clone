@@ -44,13 +44,10 @@
                                     <input type="password" name="password" id="loginPassword" tabindex="2"
                                            class="form-control" placeholder="Пароль">
                                 </div>
-
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input id="login-submit" tabindex="4"
-                                                   class="form-control btn btn-login" value="Вход">
-                                            <%--<button id="login-submit" tabindex="4" class="form-control btn btn-login">Вход</button>--%>
+                                            <div id="login-submit" class="form-control btn btn-login">Вход</div>
                                         </div>
                                     </div>
                                 </div>
