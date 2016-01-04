@@ -122,100 +122,65 @@
 <script>
     var idCorrect = [];
 
-        $(document).ready(function () {
-          var data;
-          var filterOptions = new Object();
-          filterOptions.skip = 0;
-          filterOptions.limit = 10;
-          $.ajax({
+    $(document).ready(function () {
+        var data;
+        var filterOptions = new Object();
+        filterOptions.skip = 0;
+        filterOptions.limit = 10;
+        $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-    //        dataType: "json",
             url: "/api/rest/profilesService/profile/read/all",
             data: JSON.stringify(filterOptions),
-    //        data: {"skip" : 0, "limit" : 10},
-    //        data: filterOptions,
-    //        url: "/users/getall",
             success: function (response) {
-//              alert(JSON.stringify(response.entities[0].id));
-//              alert(JSON.stringify(response.entities));
-              data = response.entities;
+                data = response.entities;
 
                 for (var i = 0; i < data.length; i++) {
-                    data[i].contact.pic = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].contact.pic + '" width="100" height="100">';
+                    if (data[i].contact !== null) {
+                        if (data[i].contact.pic.length > 2){
+                            data[i].contact.pic = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].contact.pic + '" width="100" height="100">';
+                        }
+                       else{
+                            data[i].contact.pic = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                        }
+                    }
+                    else {
+                        data[i].contact = new Object();
+                        data[i].contact.pic = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                    }
                 }
 
+                var table = $('#users').DataTable({
+                    select: {
+                        style: 'single'
+                    },
+                    data: data,
+                    "columns": [
+                        {"data": "contact.pic"},
+                        {"data": "username"},
+                        {"data": "email"},
+                        {"data": "confirmModerator"}
+                    ],
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
+                    }
+                });
 
-
-              var table = $('#users').DataTable({
-                select: {
-                  style: 'single'
-                },
-                data: data,
-                "columns": [
-                  {"data": "contact.pic"},
-                  {"data": "username"},
-                  {"data": "email"},
-                  {"data": "confirmModerator"}
-                ],
-                "language": {
-                  "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
-                }
-              });
-
-              table
-                      .on('select', function (e, dt, type, indexes) {
-                        var rowData = table.rows(indexes).data().toArray();
-                        $("input[name='transactionId']").attr("value", rowData[0].id);
-                        $('#inp').removeAttr("readonly");
-                        $('#cancelBtn').attr("class", "btn btn-danger");
-                      })
-                      .on('deselect', function (e, dt, type, indexes) {
-                        $("input[name='transactionId']").attr("value", "");
-                        $('#inp').attr("readonly", "readonly");
-                        $('#cancelBtn').attr("class", "btn btn-danger disabled");
-                      });
+                table
+                        .on('select', function (e, dt, type, indexes) {
+                            var rowData = table.rows(indexes).data().toArray();
+                            $("input[name='transactionId']").attr("value", rowData[0].id);
+                            $('#inp').removeAttr("readonly");
+                            $('#cancelBtn').attr("class", "btn btn-danger");
+                        })
+                        .on('deselect', function (e, dt, type, indexes) {
+                            $("input[name='transactionId']").attr("value", "");
+                            $('#inp').attr("readonly", "readonly");
+                            $('#cancelBtn').attr("class", "btn btn-danger disabled");
+                        });
             }
-          });
         });
-
-
-//    $(document).ready(function () {
-//        var filterOptions = {};
-//        filterOptions.skip = 0;
-//        filterOptions.limit = 10;
-//
-//        $('#users').DataTable({
-//            ajax: {
-//                type: 'POST',
-//                contentType: "application/json; charset=utf-8",
-//                dataType: "json",
-//                url: "/api/rest/profilesService/profile/read/all",
-//                data: JSON.stringify(filterOptions)
-//            },
-//            columns: [
-//                {data: "entities.id"}
-//            ],
-//            select: true
-//        });
-//    });
-
-//    $(document).ready(function() {
-//        var filterOptions = {};
-//        filterOptions.skip = 0;
-//        filterOptions.limit = 10;
-//
-//        $('#users').DataTable( {
-//            "processing": true,
-//            type: 'POST',
-//            "ajax": "/api/rest/profilesService/profile/read/all",
-//            data: JSON.stringify(filterOptions),
-//            "columns": [
-//                { "data": "id" }
-//            ]
-//        } );
-//    } );
-
+    });
 
     function submitChanges() {
         $.ajax({
