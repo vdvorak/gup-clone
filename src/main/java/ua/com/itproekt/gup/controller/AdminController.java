@@ -48,6 +48,11 @@ public class AdminController {
         return "admin-tenders";
     }
 
+    @RequestMapping("/admin-admins")
+    public String getAdmins() {
+        return "admin-admins";
+    }
+
     @RequestMapping(value = "/users/getall", method = RequestMethod.POST)
     @ResponseBody
      public EntityPage<Profile> getAllUsers(@RequestParam(name = "skip", required = false, defaultValue = "0") Integer skip,

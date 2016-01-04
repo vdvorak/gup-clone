@@ -91,7 +91,7 @@
         var data;
         var filterOptions = new Object();
         filterOptions.skip = 0;
-        filterOptions.limit = 10;
+        filterOptions.limit = 1000000;
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
