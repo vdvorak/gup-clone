@@ -126,7 +126,7 @@ public class ProfileController {
         try {
             profile = profilesService.findById(id);
         } catch (Exception e) {
-            System.out.println("Can't read profile by id");
+            System.out.println("Can't read profile by id: " + id);
             e.printStackTrace();
         }
 
@@ -151,7 +151,7 @@ public class ProfileController {
         try {
             profile = profilesService.findById(userId);
         } catch (Exception e) {
-            System.out.println("Can't read profile by id");
+            System.out.println("Can't read profile by id: " +userId);
             e.printStackTrace();
         }
 
