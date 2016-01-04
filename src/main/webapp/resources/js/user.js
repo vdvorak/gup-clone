@@ -122,12 +122,12 @@ oauth2.user.login = function (email, password, callback) {
       },
     function (response) {
         console.log(response)
-      oauth2.cookie.set('authToken', response.access_token, 3500)
-      //oauth2.cookie.set('refreshToken', response.refresh_token, 2591900)
+        //3550
+      oauth2.cookie.set('authToken', response.access_token, 55)
+      oauth2.cookie.set('refreshToken', response.refresh_token, 2591900)
       //oauth2.cookie.set('userId', response.apiUser.id)
       oauth2.cookie.set('email', email)
       callback()
-
     },
     function(jqXHR, textStatus) {
       callback(jqXHR)
