@@ -63,7 +63,7 @@ public class GlobalExceptionHandler {
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<Map<String, Object>>  handleAccessDeniedException(HttpServletRequest request,
+    public String  handleAccessDeniedException(HttpServletRequest request,
                                                                      Principal principal,
                                                                      Exception ex) {
         String userEmail = (principal == null ? "NULL" : principal.getName());
@@ -75,15 +75,9 @@ public class GlobalExceptionHandler {
                 "   User email: " + userEmail + ";" +
                 "   Exception: " + stack.toString());
 
-        Map<String, Object>  map = new HashMap();
-        map.put("ex", "AccessDeniedException");
-        if (ex.getCause() != null) {
-            map.put("cause", ex.getCause().getMessage());
-        } else {
-            map.put("cause", ex.getMessage());
-        }
 
-        return new ResponseEntity<>(map, HttpStatus.FORBIDDEN);
+
+        return "access-error";
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

@@ -16,11 +16,11 @@
 <script src="/resources/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
 <!-- DataTables JavaScript -->
-<script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<script src="/resources/js/jquery.dataTables.min.js"></script>
 <script src="/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
 
-<script src="https://cdn.datatables.net/select/1.0.1/js/dataTables.select.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
+<script src="/resources/js/dataTables.select.min.js"></script>
+<script src="/resources/js/dataTables.buttons.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/resources/dist/js/sb-admin-2.js"></script>
