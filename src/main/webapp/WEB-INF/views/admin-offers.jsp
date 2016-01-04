@@ -66,20 +66,18 @@
                 </tr>
                 </thead>
               </table>
-
               <form method="POST" action="/accountant/accountantCancelRequest">
                 <table class="table table-user-information">
                   <tbody>
-                  <h3 class="panel-title">Отменить заявку на корректировку</h3>
+                  <h3 class="panel-title">Редактировать объявление</h3>
                   <tr>
-                    <td>ID внутренней транзакции:</td>
+                    <td>ID объявления:</td>
                     <td><input id="inp" class="form-control" name="transactionId" readonly required></td>
                   </tr>
                   </tbody>
                 </table>
                 <button id="cancelBtn" type="submit" class="btn btn-primary disabled">Редактировать</button>
               </form>
-
             </div>
             <!-- /.table -->
           </div>
@@ -88,50 +86,16 @@
     </div>
   </div>
   <!-- /#page-wrapper -->
-
-
-
-
-
 </div>
 <!-- /.panel -->
 
-</div>
-<!-- /.col-lg-8 -->
-
-</div>
-<!-- /.row -->
-</div>
-<!-- /#page-wrapper -->
-</div>
-<!-- /#wrapper -->
-
-<!-- jQuery -->
-<script src="/resources/bower_components/jquery/dist/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-<!-- Metis Menu Plugin JavaScript -->
-<script src="/resources/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-<!-- DataTables JavaScript -->
-<script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
-<script src="/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-
-<script src="https://cdn.datatables.net/select/1.0.1/js/dataTables.select.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
-
-<!-- Custom Theme JavaScript -->
-<script src="/resources/dist/js/sb-admin-2.js"></script>
-
-<!-- Moment library for humanlike date format -->
-<script src="/resources/js/moment-with-locales.js"></script>
+<!-- Bottom Links -->
+<jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>
+<!-- Bottom Links -->
 
 <script>
   $(document).ready(function () {
     var data;
-
 
     $.ajax({
       type: "POST",
@@ -180,7 +144,5 @@
     });
   });
 </script>
-
 </body>
-
 </html>

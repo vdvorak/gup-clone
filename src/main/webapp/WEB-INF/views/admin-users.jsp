@@ -10,9 +10,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,13 +18,11 @@
     <meta name="author" content="">
 
     <title>Редактирование пользователей | Панель управления</title>
-    <!-- Links -->
+    <!-- Top Links -->
     <jsp:include page="/WEB-INF/templates/admin-top-links.jsp"/>
-    <!-- Links -->
+    <!-- Top Links -->
 </head>
-
 <body>
-
 <div id="wrapper">
 
     <!-- Navigation -->
@@ -47,7 +43,6 @@
                 <div class="panel panel-default">
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-
                         <div class="dataTable_wrapper">
                             <table id="users" class="table table-striped table-bordered table-hover"
                                    cellspacing="0" width="100%">
@@ -86,39 +81,9 @@
     <!-- /#page-wrapper -->
 </div>
 <!-- /.panel -->
-
-</div>
-<!-- /.col-lg-8 -->
-
-</div>
-<!-- /.row -->
-</div>
-<!-- /#page-wrapper -->
-</div>
-<!-- /#wrapper -->
-
-<!-- jQuery -->
-<script src="/resources/bower_components/jquery/dist/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-<!-- Metis Menu Plugin JavaScript -->
-<script src="/resources/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-<!-- DataTables JavaScript -->
-<script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
-<script src="/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-
-<script src="https://cdn.datatables.net/select/1.0.1/js/dataTables.select.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
-
-<!-- Custom Theme JavaScript -->
-<script src="/resources/dist/js/sb-admin-2.js"></script>
-
-<!-- Moment library for humanlike date format -->
-<script src="/resources/js/moment-with-locales.js"></script>
-
+<!-- Bottom Links -->
+<jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>
+<!-- Bottom Links -->
 <script>
     var idCorrect = [];
 
@@ -192,9 +157,6 @@
             }
         });
     }
-
 </script>
-
 </body>
-
 </html>

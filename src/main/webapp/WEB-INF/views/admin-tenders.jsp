@@ -20,21 +20,15 @@
   <meta name="author" content="">
 
   <title>Редактирование тендеров | Панель управления</title>
-
   <!-- Links -->
   <jsp:include page="/WEB-INF/templates/admin-top-links.jsp"/>
   <!-- Links -->
-
 </head>
-
 <body>
-
 <div id="wrapper">
-
   <!-- Navigation -->
   <jsp:include page="/WEB-INF/templates/admin-left-bar.jsp"/>
   <!-- Navigation -->
-
   <!-- #page-wrapper -->
   <div id="page-wrapper">
     <div class="row">
@@ -66,7 +60,6 @@
                 </tr>
                 </thead>
               </table>
-
               <form method="POST" action="/accountant/accountantCancelRequest">
                 <table class="table table-user-information">
                   <tbody>
@@ -79,7 +72,6 @@
                 </table>
                 <button id="cancelBtn" type="submit" class="btn btn-primary disabled">Редактировать</button>
               </form>
-
             </div>
             <!-- /.table -->
           </div>
@@ -88,46 +80,11 @@
     </div>
   </div>
   <!-- /#page-wrapper -->
-
-
-
-
-
 </div>
 <!-- /.panel -->
-
-</div>
-<!-- /.col-lg-8 -->
-
-</div>
-<!-- /.row -->
-</div>
-<!-- /#page-wrapper -->
-</div>
-<!-- /#wrapper -->
-
-<!-- jQuery -->
-<script src="/resources/bower_components/jquery/dist/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-<!-- Metis Menu Plugin JavaScript -->
-<script src="/resources/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-<!-- DataTables JavaScript -->
-<script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
-<script src="/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-
-<script src="https://cdn.datatables.net/select/1.0.1/js/dataTables.select.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
-
-<!-- Custom Theme JavaScript -->
-<script src="/resources/dist/js/sb-admin-2.js"></script>
-
-<!-- Moment library for humanlike date format -->
-<script src="/resources/js/moment-with-locales.js"></script>
-
+<!-- Bottom Links -->
+<jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>
+<!-- Bottom Links -->
 <script>
   $(document).ready(function () {
     var data;
@@ -145,52 +102,9 @@
         data = response;
         alert(data);
         alert(JSON.stringify(data));
-
-
-//        for (var i = 0; i < data.length; i++) {
-//          data[i].dateTime = new Date(parseInt(data[i].dateTime));
-//          data[i].dateTime = moment(data[i].dateTime).locale("ru").format('LLL');
-//        }
-//        var table = $('#accountant').DataTable({
-//          select: {
-//            style: 'single'
-//          },
-//          data: data,
-//          "columns": [
-//            {"data": "id"},
-//            {"data": "code"},
-//            {"data": "type"},
-//            {"data": "sender"},
-//            {"data": "recipient"},
-//            {"data": "dateTime"},
-//            {"data": "amount"},
-//            {"data": "status"}
-//          ],
-//          "language": {
-//            "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
-//          }
-//        });
-//
-//        table
-//                .on('select', function (e, dt, type, indexes) {
-//                  var rowData = table.rows(indexes).data().toArray();
-//                  $("input[name='transactionId']").attr("value", rowData[0].id);
-//                  $('#inp').removeAttr("readonly");
-//                  $('#cancelBtn').attr("class", "btn btn-danger");
-//                })
-//                .on('deselect', function (e, dt, type, indexes) {
-//                  $("input[name='transactionId']").attr("value", "");
-//                  $('#inp').attr("readonly", "readonly");
-//                  $('#cancelBtn').attr("class", "btn btn-danger disabled");
-//                });
-
-
-
       }
     });
   });
 </script>
-
 </body>
-
 </html>
