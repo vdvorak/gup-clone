@@ -123,7 +123,8 @@ oauth2.user.login = function (email, password, callback) {
     function (response) {
         console.log(response)
 
-      oauth2.cookie.set('authToken', response.access_token, 550)
+      //oauth2.cookie.set('authToken', response.access_token, 550)
+      oauth2.cookie.set('authToken', response.access_token, 20)
       oauth2.cookie.set('refreshToken', response.refresh_token, 2591950)
       //oauth2.cookie.set('userId', response.apiUser.id)
       //oauth2.cookie.set('email', email)

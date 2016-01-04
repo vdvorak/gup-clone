@@ -65,8 +65,8 @@ public class OAuthFilter implements Filter {
                         "7b5a38705d7b3562655925406a652e32",
                         scope,
                         "password");
-                OAuth2AccessToken accessToken = tokenServices.refreshAccessToken(refreshToken, tokenRequest);
 
+                OAuth2AccessToken accessToken = tokenServices.refreshAccessToken(refreshToken, tokenRequest);
 
 
                 Cookie cookie = new Cookie("authToken", accessToken.getValue());
