@@ -70,7 +70,6 @@
                                 <button id="cancelBtn" type="submit" class="btn btn-primary disabled">Редактировать
                                 </button>
                             </form>
-
                         </div>
                         <!-- /.table -->
                     </div>

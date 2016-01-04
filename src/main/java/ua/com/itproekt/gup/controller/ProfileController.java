@@ -12,6 +12,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -118,6 +119,7 @@ public class ProfileController {
 
 
     //----------------------------------- read profile for edit-profile page  ------
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/edit-profile/{id}", method = RequestMethod.GET)
     public String editProfilePageById(Model model, @PathVariable("id") String id) {
         Profile profile = new Profile();
@@ -132,7 +134,7 @@ public class ProfileController {
         return "edit-profile";
     }
 
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value = "/edit-profile", method = RequestMethod.GET)
     public String editProfilePage(Model model) {
         Profile profile = new Profile();
