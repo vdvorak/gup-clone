@@ -35,8 +35,6 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-
-
                             <form id="login-form" action="/login" method="post" role="form" style="display: block;">
                                 <div class="form-group">
                                     <input type="text" name="email" id="login" tabindex="1" class="form-control"
@@ -50,8 +48,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input id="login-submit" tabindex="4"
-                                                   class="form-control btn btn-login" value="Вход">
+                                            <button id="login-submit" tabindex="4" class="form-control btn btn-login">Вход</button>
                                         </div>
                                     </div>
                                 </div>
@@ -214,7 +211,6 @@
     }
 
     $('#login-submit').on('click', function () {
-
         oauth2.user.login($('#login').val(), $('#loginPassword').val(), function (error) {
             if (!error){
                 window.location.href = '/prioffice';
