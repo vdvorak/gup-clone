@@ -29,9 +29,6 @@
 <!-- Custom CSS -->
 <link href="/resources/dist/css/sb-admin-2.css" rel="stylesheet">
 
-<!-- Morris Charts CSS -->
-<link href="/resources/bower_components/morrisjs/morris.css" rel="stylesheet">
-
 <!-- Custom Fonts -->
 <link href="/resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 

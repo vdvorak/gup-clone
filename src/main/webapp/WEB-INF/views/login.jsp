@@ -48,7 +48,9 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <button id="login-submit" tabindex="4" class="form-control btn btn-login">Вход</button>
+                                            <input id="login-submit" tabindex="4"
+                                                   class="form-control btn btn-login" value="Вход">
+                                            <%--<button id="login-submit" tabindex="4" class="form-control btn btn-login">Вход</button>--%>
                                         </div>
                                     </div>
                                 </div>
