@@ -196,7 +196,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         Long currentDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
 
         DBObject queryObj = new BasicDBObject();
-        queryObj.put("expirationDate", new BasicDBObject("$gt", currentDate));
+        queryObj.put("expirationDate", new BasicDBObject("$lte", currentDate));
         queryObj.put( "$where", "this.investedAmount < this.amountRequested");
         List<Project> expiredProjects = mongoTemplate.find(new BasicQuery(queryObj), Project.class);
         return expiredProjects.stream().map(Project::getId).collect(Collectors.toSet());
