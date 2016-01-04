@@ -50,7 +50,7 @@ public class AdminController {
     public String getAdminTenders() {
         return "admin-tenders";
     }
-<<<<<<< HEAD
+
 
     @RequestMapping("/admin-admins")
     public String getAdmins() {
@@ -96,8 +96,5 @@ public class AdminController {
         }
         return  null;
     }
-
-
-=======
->>>>>>> 84f687109f667c8a17d296904e0ae56afbae0cfb
+    
 }
