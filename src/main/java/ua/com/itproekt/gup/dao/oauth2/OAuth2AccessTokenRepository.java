@@ -3,10 +3,10 @@
  * and open the template in the editor.
  */
 
-package ua.com.itproekt.gup.dao;
+package ua.com.itproekt.gup.dao.oauth2;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ua.com.itproekt.gup.model.OAuth2AuthenticationAccessToken;
+import ua.com.itproekt.gup.model.oauth2.OAuth2AuthenticationAccessToken;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service;
+package ua.com.itproekt.gup.mongo.converter;
 
 import com.mongodb.DBObject;
 import org.springframework.core.convert.converter.Converter;

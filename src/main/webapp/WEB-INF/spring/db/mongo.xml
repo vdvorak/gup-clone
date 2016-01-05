@@ -14,7 +14,7 @@
     <mongo:mapping-converter id="mongoConverter">
         <mongo:custom-converters>
             <mongo:converter >
-                <bean class="ua.com.itproekt.gup.service.OAuth2AuthenticationReadConverter"/>
+                <bean class="ua.com.itproekt.gup.mongo.converter.OAuth2AuthenticationReadConverter"/>
             </mongo:converter>
         </mongo:custom-converters>
     </mongo:mapping-converter>
