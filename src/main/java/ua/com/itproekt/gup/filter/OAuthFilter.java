@@ -17,13 +17,9 @@ import java.util.*;
 
 
 public class OAuthFilter implements Filter {
-
-//    @Value("${oauth.token.access.expiresInSeconds}")
-    private int accessTokenExpiresInSeconds = 24;
+    private final int ACCESS_TOKEN_EXPIRES_IN_SECONDS = 600 - 3;
 
     private DefaultTokenServices tokenServices;
-
-
 
     public void init(FilterConfig config) throws ServletException {
         ApplicationContext ctx = WebApplicationContextUtils
@@ -31,6 +27,7 @@ public class OAuthFilter implements Filter {
 
         this.tokenServices = ctx.getBean(DefaultTokenServices.class);
     }
+
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
                          FilterChain chain) throws ServletException, IOException {
@@ -55,8 +52,8 @@ public class OAuthFilter implements Filter {
                 filteredRequest.addParameter("access_token", paramValues);
             } else if (!refreshToken.isEmpty()) {
                 HashMap<String, String> parameters = new HashMap<>();
-                parameters.put("client_id", "7b5a38705d7b3562655925406a652e32");
-                parameters.put("client_secret", "655f523128212d6e70634446224c2a48");
+//                parameters.put("client_id", "7b5a38705d7b3562655925406a652e32");
+//                parameters.put("client_secret", "655f523128212d6e70634446224c2a48");
 
                 Set<String> scope = new HashSet<>();
 
@@ -71,18 +68,14 @@ public class OAuthFilter implements Filter {
                 } catch (Exception ex) {
                     httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
+// **** **** **** **** **** *** **** **** *** **** **** *** **** **** *** *** **** **** *** *** **** **** ***
                     System.err.println("***" + ex.getClass());
                     ex.printStackTrace();
+// **** **** **** **** **** *** **** **** *** **** **** *** **** **** *** *** **** **** *** *** **** **** ***
                 }
 
-
                 Cookie cookie = new Cookie("authToken", accessToken.getValue());
-                cookie.setMaxAge(accessTokenExpiresInSeconds);
-
-//                System.err.println("***** accessTokenExpiresInSeconds" +
-//                        accessTokenExpiresInSeconds + " : " + cookie.getValue() +  " : "
-//                        + cookie.getName());
-
+                cookie.setMaxAge(ACCESS_TOKEN_EXPIRES_IN_SECONDS);
                 httpServletResponse.addCookie(cookie);
 
                 String[] paramValues = new String[]{accessToken.getValue()};
