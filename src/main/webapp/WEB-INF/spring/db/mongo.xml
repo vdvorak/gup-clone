@@ -10,14 +10,15 @@
     <mongo:repositories base-package="ua.com.itproekt.gup.dao"/>
     <mongo:mongo host="${mongo.local.db.server}" port="${mongo.local.db.port}" id="mongo"/>
     <mongo:db-factory id="mongoDbFactory" mongo-ref="mongo" dbname="${mongo.local.db.name}" />
+        <!--username="${mongo.remote.db.login}" password="${mongo.remote.db.password}"-->
 
-    <!--<mongo:mapping-converter id="mongoConverter">-->
-        <!--<mongo:custom-converters>-->
-            <!--<mongo:converter >-->
-                <!--<bean class="ua.com.itproekt.gupurity.OAuth2AuthenticationReadConverter"/>-->
-            <!--</mongo:converter>-->
-        <!--</mongo:custom-converters>-->
-    <!--</mongo:mapping-converter>-->
+    <mongo:mapping-converter id="mongoConverter">
+        <mongo:custom-converters>
+            <mongo:converter >
+                <bean class="ua.com.itproekt.gup.mongo.converter.OAuth2AuthenticationReadConverter"/>
+            </mongo:converter>
+        </mongo:custom-converters>
+    </mongo:mapping-converter>
 
     <!--<bean id="mongoCredentials" class="org.springframework.data.authentication.UserCredentials">-->
     <!--<constructor-arg name="username" value="${mongo.remote.db.login}" />-->
@@ -25,9 +26,7 @@
     <!--</bean>-->
 
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" >
-        <constructor-arg name="mongo" ref="mongo"/>
-        <constructor-arg name="databaseName" value="${mongo.local.db.name}" />
-        <!--<constructor-arg name="userCredentials" ref="mongoCredentials"/>-->
-        <!--<constructor-arg ref="mongoConverter"/>-->
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+        <constructor-arg ref="mongoConverter"/>
     </bean>
 </beans>

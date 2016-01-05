@@ -30,21 +30,19 @@ oauth2.cookie.remove = function (name) {
  * Set a cookie
  * @param {string}
  * @param {string}
+ * @param {string}
  */
 
 
 oauth2.cookie.set = function (name, value, expires) {
+  var cookie = name + '=' + value + '; ';
+
   var now = new Date();
-  var time = now.getTime();
-  time += expires * 1000;
-  now.setTime(time);
-  document.cookie =
-      name + '=' + value +
-      '; expires=' + now.toUTCString() +
-      '; path=/';
-}
+  now.setTime(now.getTime() + (expires*1000));
 
-oauth2.cookie.set = function (name, value) {
-  document.cookie = name + '=' + value;
-}
+  if (!(expires === undefined || expires === null)) {
+    cookie += 'expires = ' + now.toUTCString() + '; ';
+  }
 
+  document.cookie = cookie;
+}
