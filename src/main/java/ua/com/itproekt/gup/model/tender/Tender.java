@@ -15,7 +15,7 @@ public class Tender {
     private String id;
     private String authorId;
     private String title;
-    private String naceId;
+    private Set<String> naceIds;
     private String body;
     private TenderType type;
     private List<Member> members;
@@ -72,14 +72,21 @@ public class Tender {
         this.title = title;
     }
 
-    public String getNaceId() {
-        return naceId;
+    public Set<String> getNaceIds() {
+        return naceIds;
     }
 
-    public void setNaceId(String naceId) {
-        this.naceId = naceId;
+    public void setNaceIds(Set<String> naceIds) {
+        this.naceIds = naceIds;
     }
 
+    public void addNeceId(String naceId) {
+        naceIds.add(naceId);
+    }
+
+    public void addNeceId(Set<String> naceIds) {
+        this.naceIds.addAll(naceIds);
+    }
     public String getBody() {
         return body;
     }
@@ -221,7 +228,7 @@ public class Tender {
                 ", tender number='" + tenderNumber + '\'' +
                 ", title='" + title + '\'' +
                 ", expected price='" + expectedPrice + '\'' +
-                ", naceId='" + naceId + '\'' +
+                ", naceIds='" + naceIds + '\'' +
                 ", body='" + body + '\'' +
                 ", type=" + type +
                 ", members=" + members +

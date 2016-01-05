@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.tender.Tender;
 import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
 import ua.com.itproekt.gup.model.tender.TenderType;
@@ -20,10 +19,7 @@ import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Repository
@@ -115,8 +111,8 @@ public class TenderRepositoryImpl implements TenderRepository {
         }
 
 
-        if (tenderFilterOptions.getNaceId() != null) {
-            query.addCriteria(Criteria.where("naceId").elemMatch(Criteria.where("id").is(tenderFilterOptions.getNaceId())));
+        if (tenderFilterOptions.getNaceIds() != null) {
+            query.addCriteria(Criteria.where("naceId").elemMatch(Criteria.where("id").in(tenderFilterOptions.getNaceIds())));
         }
 
         if (tenderFilterOptions.getBegin() != -1) {
