@@ -19,7 +19,7 @@ import java.util.*;
 public class OAuthFilter implements Filter {
 
 //    @Value("${oauth.token.access.expiresInSeconds}")
-    private int accessTokenExpiresInSeconds = 550;
+    private int accessTokenExpiresInSeconds = 24;
 
     private DefaultTokenServices tokenServices;
 
@@ -70,7 +70,7 @@ public class OAuthFilter implements Filter {
                 OAuth2AccessToken accessToken = null;
                 try {
                     accessToken = tokenServices.refreshAccessToken(refreshToken, tokenRequest);
-                } catch (OAuth2Exception ex) {
+                } catch (Exception ex) {
                     httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
                     System.err.println("***" + ex.getClass());
