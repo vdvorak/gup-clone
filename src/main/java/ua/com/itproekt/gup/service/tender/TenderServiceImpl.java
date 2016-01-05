@@ -54,7 +54,7 @@ public class TenderServiceImpl implements TenderService {
         if(user.getUserRoles().contains(UserRole.ROLE_ADMIN)){
             return true;
         }
-        if(tender.getNaceId().equals(user.getContact().getNace())){
+        if(tender.getNaceIds().equals(user.getContact().getNace())){
             return true;
         }
         return false;

@@ -66,16 +66,6 @@ public class TenderFilterOptions extends Tender {
     }
 
     @Override
-    public String getNaceId() {
-        return super.getNaceId();
-    }
-
-    @Override
-    public void setNaceId(String naceId) {
-        super.setNaceId(naceId);
-    }
-
-    @Override
     public String getBody() {
         return super.getBody();
     }
