@@ -1,22 +1,35 @@
 package ua.com.itproekt.gup.dao.tender;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.tender.Tender;
 import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
 import ua.com.itproekt.gup.model.tender.TenderType;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 
 @Repository
 public class TenderRepositoryImpl implements TenderRepository {
+    private static long LUST_CHECK = 0L;
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -134,5 +147,15 @@ public class TenderRepositoryImpl implements TenderRepository {
         query.limit(tenderFilterOptions.getLimit());
         return new EntityPage<>(mongoTemplate.count(query, Tender.class),
                 mongoTemplate.find(query, Tender.class));
+    }
+
+    public List<Tender> getTodayEndTenders(){
+        long now = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+
+        DBObject queryObj = new BasicDBObject();
+        queryObj.put("end", new BasicDBObject("$gte", LUST_CHECK));
+        queryObj.put("end", new BasicDBObject("$lte", now));
+        LUST_CHECK = now;
+        return mongoTemplate.find(new BasicQuery(queryObj), Tender.class);
     }
 }
