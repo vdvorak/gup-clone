@@ -3,6 +3,7 @@ package ua.com.itproekt.gup.filter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -69,7 +70,9 @@ public class OAuthFilter implements Filter {
                 OAuth2AccessToken accessToken = null;
                 try {
                     accessToken = tokenServices.refreshAccessToken(refreshToken, tokenRequest);
-                } catch (Exception ex) {
+                } catch (OAuth2Exception ex) {
+                    httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
                     System.err.println("***" + ex.getClass());
                     ex.printStackTrace();
                 }
