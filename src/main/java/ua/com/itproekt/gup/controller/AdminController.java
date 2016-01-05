@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,32 +21,40 @@ import ua.com.itproekt.gup.util.EntityPage;
 @Controller
 public class AdminController {
 
-
     @Autowired
     ProfilesService profilesService;
 
     @Autowired
     TenderService tenderService;
 
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin")
     public String getLoginForm() {
         return "adminPage";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin-users")
     public String getAdminUsers() {
         return "admin-users";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin-offers")
     public String getAdminOffers() {
         return "admin-offers";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin-tenders")
     public String getAdminTenders() {
         return "admin-tenders";
+    }
+
+
+    @RequestMapping("/admin-admins")
+    public String getAdmins() {
+        return "admin-admins";
     }
 
     @RequestMapping(value = "/users/getall", method = RequestMethod.POST)
@@ -87,6 +96,5 @@ public class AdminController {
         }
         return  null;
     }
-
-
+    
 }
