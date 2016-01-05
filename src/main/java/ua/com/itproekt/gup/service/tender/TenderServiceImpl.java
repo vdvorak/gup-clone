@@ -13,6 +13,7 @@ import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -53,7 +54,7 @@ public class TenderServiceImpl implements TenderService {
         if(user.getUserRoles().contains(UserRole.ROLE_ADMIN)){
             return true;
         }
-        if(tender.getNaceIds().equals(user.getContact().getNace())){
+        if(tender.getNaceId().equals(user.getContact().getNace())){
             return true;
         }
         return false;
