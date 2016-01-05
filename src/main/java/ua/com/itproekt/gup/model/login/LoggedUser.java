@@ -11,9 +11,7 @@ import java.util.List;
 public class LoggedUser extends User {
     private final String profileId;
 
-
     public LoggedUser(DBObject dbObject) {
-
         super((String)dbObject.get("username"),
                 (String)dbObject.get("password"),
                 (Boolean)dbObject.get("enabled"),

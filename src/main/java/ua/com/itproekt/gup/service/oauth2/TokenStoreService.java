@@ -6,7 +6,6 @@
 package ua.com.itproekt.gup.service.oauth2;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
@@ -30,8 +29,7 @@ public class TokenStoreService implements TokenStore {
     private OAuth2AccessTokenRepository oAuth2AccessTokenRepository;
     @Autowired
     private OAuth2RefreshTokenRepository oAuth2RefreshTokenRepository;
-    @Autowired
-    private MongoTemplate mongoTemplate;
+
     private final AuthenticationKeyGenerator authenticationKeyGenerator = new DefaultAuthenticationKeyGenerator();
 
     @Override
@@ -41,15 +39,14 @@ public class TokenStoreService implements TokenStore {
 
     @Override
     public OAuth2Authentication readAuthentication(String tokenId) {
-        OAuth2AuthenticationAccessToken token = oAuth2AccessTokenRepository.findByTokenId(tokenId);
-        return null == token ? null : token.getAuthentication();
+        return oAuth2AccessTokenRepository.findByTokenId(tokenId).getAuthentication();
     }
 
     @Override
     public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
         OAuth2AuthenticationAccessToken oAuth2AuthenticationAccessToken = new OAuth2AuthenticationAccessToken(token,
                 authentication, authenticationKeyGenerator.extractKey(authentication));
-        mongoTemplate.save(oAuth2AuthenticationAccessToken);
+        oAuth2AccessTokenRepository.save(oAuth2AuthenticationAccessToken);
     }
 
     @Override
@@ -76,14 +73,12 @@ public class TokenStoreService implements TokenStore {
 
     @Override
     public OAuth2RefreshToken readRefreshToken(String accessToken) {
-        OAuth2AuthenticationRefreshToken token = oAuth2RefreshTokenRepository.findByTokenId(accessToken);
-        return token.getoAuth2RefreshToken();
+        return oAuth2RefreshTokenRepository.findByTokenId(accessToken).getoAuth2RefreshToken();
     }
 
     @Override
     public OAuth2Authentication readAuthenticationForRefreshToken(OAuth2RefreshToken token) {
-        OAuth2AuthenticationRefreshToken auth2AuthenticationRefreshToken = oAuth2RefreshTokenRepository.findByTokenId(token.getValue());
-        return auth2AuthenticationRefreshToken.getAuthentication();
+        return oAuth2RefreshTokenRepository.findByTokenId(token.getValue()).getAuthentication();
     }
 
     @Override

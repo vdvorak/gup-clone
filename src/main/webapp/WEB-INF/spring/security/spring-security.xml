@@ -48,7 +48,7 @@
 
     <bean id="clientAuthenticationEntryPoint"
           class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
-        <property name="realmName" value="test/client" />
+        <!--<property name="realmName" value="test/client" />-->
         <property name="typeName" value="Basic" />
     </bean>
 
@@ -112,36 +112,31 @@
     <bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
         <property name="tokenStore" ref="tokenStore" />
         <property name="supportRefreshToken" value="true" />
-        <!--<property name="accessTokenValiditySeconds" value="120" />-->
         <property name="clientDetailsService" ref="clientDetails" />
     </bean>
 
-    <!--<bean id="userApprovalHandler"-->
-    <!--class="org.springframework.security.oauth2.provider.approval.TokenServicesUserApprovalHandler">-->
-    <!--<property name="tokenServices" ref="tokenServices" />-->
+
+    <!--<bean id="oAuth2RequestFactory" class="org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory">-->
+        <!--<constructor-arg ref="clientDetails" />-->
     <!--</bean>-->
-    <bean id="oAuth2RequestFactory" class="org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory">
-        <constructor-arg ref="clientDetails" />
-    </bean>
 
-    <bean id="userApprovalHandler"
-          class="org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler">
-        <property name="requestFactory" ref="oAuth2RequestFactory" />
-        <property name="tokenStore" ref="tokenStore" />
-    </bean>
+    <!--<bean id="userApprovalHandler"-->
+          <!--class="org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler">-->
+        <!--<property name="requestFactory" ref="oAuth2RequestFactory" />-->
+        <!--<property name="tokenStore" ref="tokenStore" />-->
+    <!--</bean>-->
 
 
-    <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices"
-            user-approval-handler-ref="userApprovalHandler">
-        <oauth:authorization-code />
-        <oauth:implicit />
+    <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices">
+            <!--user-approval-handler-ref="userApprovalHandler">-->
+        <!--<oauth:authorization-code />-->
+        <!--<oauth:implicit />-->
         <oauth:refresh-token />
-        <oauth:client-credentials />
+        <!--<oauth:client-credentials />-->
         <oauth:password />
     </oauth:authorization-server>
 
-    <oauth:resource-server id="resourceServerFilter"
-                           resource-id="test" token-services-ref="tokenServices" />
+    <oauth:resource-server id="resourceServerFilter" token-services-ref="tokenServices" />
 
     <sec:global-method-security
             pre-post-annotations="enabled" proxy-target-class="true">
