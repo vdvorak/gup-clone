@@ -24,7 +24,7 @@
                 <img src="/resources/img/reallySmallUserpic.png">
             </div>
             <div class="top-menu-username">
-                <a href="/edit-profile">
+                <a href="#">
                     <c:choose>
                         <c:when test="${not empty profile.username}">
                             ${profile.username}
