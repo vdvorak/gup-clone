@@ -73,4 +73,18 @@ public class TenderServiceImpl implements TenderService {
         });
         System.err.println("Debag ! void checkClosedTendersAndSendActivityFeed()");
     }
+
+    @Override
+    public Tender setIndividualVision(Tender tender){
+        tender.setAuthorId(null);
+        tender.setProposes(null);
+        return tender;
+    }
+
+    @Override
+    public Tender setLegalEntityVision(Tender tender){
+        if(tender.isHideContact()) tender.setAuthorId(null);
+        if(tender.isHidePropose()) tender.setProposes(null);
+        return tender;
+    }
 }

@@ -15,4 +15,6 @@ public interface TenderService {
     boolean isUserHaveAccess(Profile user, Tender tender);
     EntityPage<Tender> findWihOptions(TenderFilterOptions tenderFilterOptions, Profile user);
     void checkClosedTendersAndSendActivityFeed();
+    Tender setIndividualVision(Tender tender);
+    Tender setLegalEntityVision(Tender tender);
 }
