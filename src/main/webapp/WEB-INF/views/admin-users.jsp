@@ -55,8 +55,6 @@
                                 </tr>
                                 </thead>
                             </table>
-
-                            <form method="POST" action="/accountant/accountantCancelRequest">
                                 <table class="table table-user-information">
                                     <tbody>
                                     <h3 class="panel-title">Редактировать профиль</h3>
@@ -67,9 +65,7 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <button id="cancelBtn" type="submit" class="btn btn-primary disabled">Редактировать
-                                </button>
-                            </form>
+                                <a id="userIdhref" href=""><button id="userIdBtn" type="submit" class="btn btn-primary disabled">Редактировать</button></a>
                         </div>
                         <!-- /.table -->
                     </div>
@@ -134,13 +130,14 @@
                         .on('select', function (e, dt, type, indexes) {
                             var rowData = table.rows(indexes).data().toArray();
                             $("input[name='transactionId']").attr("value", rowData[0].id);
+                            $('#userIdhref').attr("href", "/edit-profile/"+rowData[0].id);
                             $('#inp').removeAttr("readonly");
-                            $('#cancelBtn').attr("class", "btn btn-danger");
+                            $('#userIdBtn').attr("class", "btn btn-danger");
                         })
                         .on('deselect', function (e, dt, type, indexes) {
                             $("input[name='transactionId']").attr("value", "");
                             $('#inp').attr("readonly", "readonly");
-                            $('#cancelBtn').attr("class", "btn btn-danger disabled");
+                            $('#userIdBtn').attr("class", "btn btn-danger disabled");
                         });
             }
         });
@@ -156,6 +153,9 @@
             }
         });
     }
+
+
+
 </script>
 </body>
 </html>
