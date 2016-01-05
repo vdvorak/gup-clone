@@ -11,10 +11,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
 import java.io.Serializable;
 
-/**
- *
- * @author malike_st
- */
+
 @Document(collection = "oauth2_access_token")
 public class OAuth2AuthenticationAccessToken implements Serializable {
 

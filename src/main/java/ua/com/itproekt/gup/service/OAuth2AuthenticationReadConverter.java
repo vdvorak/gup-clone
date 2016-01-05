@@ -11,9 +11,7 @@ import org.springframework.security.oauth2.provider.OAuth2Request;
 
 import java.util.*;
 
-/**
- * Created by Zver on 05.01.2016.
- */
+
 public class OAuth2AuthenticationReadConverter implements Converter<DBObject, OAuth2Authentication> {
 
     @Override
@@ -32,19 +30,6 @@ public class OAuth2AuthenticationReadConverter implements Converter<DBObject, OA
         return authentication;
     }
 
-    private Object getPrincipalObject(Object principal) {
-//  !!! principalDBObject.password == null - exception
-//        if(principal instanceof DBObject) {
-//            DBObject principalDBObject = (DBObject)principal;
-//            LoggedUser user = new LoggedUser(principalDBObject);
-//            return user;
-//        } else {
-        System.err.println("**** getPrincipalObject.else");
-
-        return principal;
-//        }
-    }
-
     private Collection<GrantedAuthority> getAuthorities(List<Map<String, String>> authorities) {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>(authorities.size());
         for(Map<String, String> authority : authorities) {
@@ -52,5 +37,4 @@ public class OAuth2AuthenticationReadConverter implements Converter<DBObject, OA
         }
         return grantedAuthorities;
     }
-
 }

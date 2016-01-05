@@ -40,14 +40,12 @@ public class OAuthFilter implements Filter {
         FilteredRequest filteredRequest = new FilteredRequest(httpServletRequest);
 
         if (httpServletRequest.getCookies() != null) {
-            List<Cookie> cookies = Arrays.asList(httpServletRequest.getCookies());
-
-            String authToken = cookies.stream()
+            String authToken = Arrays.stream(httpServletRequest.getCookies())
                     .filter(c -> "authToken".equals(c.getName()))
                     .map(Cookie::getValue)
                     .findAny().orElse("");
 
-            String refreshToken = cookies.stream()
+            String refreshToken = Arrays.stream(httpServletRequest.getCookies())
                     .filter(c -> "refreshToken".equals(c.getName()))
                     .map(Cookie::getValue)
                     .findAny().orElse("");
