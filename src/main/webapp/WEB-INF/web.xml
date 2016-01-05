@@ -1,6 +1,7 @@
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-	      http://java.sun.com/xml/ns/javaee/web-app.xsd"
+         http://java.sun.com/xml/ns/javaee/web-app.xsd"
          version="2.5">
 
     <display-name>Sample Spring Maven Project</display-name>
@@ -69,5 +70,10 @@
         <servlet-name>dispatcherServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <error-page>
+        <!--<error-code>500</error-code>-->
+        <location>/error.jsp</location>
+    </error-page>
 
 </web-app>

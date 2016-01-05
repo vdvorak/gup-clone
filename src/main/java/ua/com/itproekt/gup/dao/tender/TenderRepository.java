@@ -4,6 +4,7 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.tender.Tender;
 import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
+import java.util.List;
 
 
 public interface TenderRepository  {
@@ -14,4 +15,5 @@ public interface TenderRepository  {
         int deleteTenderById(String id);
         boolean tenderExists(String id);
         EntityPage<Tender> findWihOptions(TenderFilterOptions tenderFilterOptions, Profile currUser);
+        List<Tender> getTodayEndTenders();
 }
