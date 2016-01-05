@@ -259,9 +259,9 @@ public class TenderRestController {
     }
 
     private String getCurrentUserId() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName(); //get logged in username
-        return profileService.findProfileByEmail(email).getId();
+        Profile user = getCurrentUser();
+        if(user == null || user.getId() == null) return null;
+        return user.getId();
     }
 
     private Profile getCurrentUser() {
