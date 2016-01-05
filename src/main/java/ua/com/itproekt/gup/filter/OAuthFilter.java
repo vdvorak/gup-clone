@@ -66,7 +66,13 @@ public class OAuthFilter implements Filter {
                         scope,
                         "password");
 
-                OAuth2AccessToken accessToken = tokenServices.refreshAccessToken(refreshToken, tokenRequest);
+                OAuth2AccessToken accessToken = null;
+                try {
+                    accessToken = tokenServices.refreshAccessToken(refreshToken, tokenRequest);
+                } catch (Exception ex) {
+                    System.err.println("***" + ex.getClass());
+                    ex.printStackTrace();
+                }
 
 
                 Cookie cookie = new Cookie("authToken", accessToken.getValue());
