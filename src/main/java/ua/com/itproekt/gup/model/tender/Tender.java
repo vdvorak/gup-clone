@@ -24,6 +24,7 @@ public class Tender {
     private Long end;
     private Long visited;
     private Set<String> uploadFilesIds;
+    private Set<String> mainPhotoId;
     private Address address;
     private Boolean hidePropose;
     private String tenderNumber;
@@ -220,6 +221,14 @@ public class Tender {
         this.winnerId = winnerId;
     }
 
+    public Set<String> getMainPhotoId() {
+        return mainPhotoId;
+    }
+
+    public void setMainPhotoId(Set<String> mainPhotoId) {
+        this.mainPhotoId = mainPhotoId;
+    }
+
     @Override
     public String toString() {
         return "Tender{" +
@@ -237,6 +246,7 @@ public class Tender {
                 ", end=" + end +
                 ", visited=" + visited +
                 ", uploadFilesIds=" + uploadFilesIds +
+                ", mainPhotoId=" + mainPhotoId +
                 ", address=" + address +
                 ", hidePropose=" + hidePropose +
                 ", hideContact=" + hideContact +
