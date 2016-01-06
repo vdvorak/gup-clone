@@ -34,12 +34,7 @@ public class LoggedUser extends User {
 
         this.profileId = profileId;
     }
-//    (List) userAuthorization.get("authorities")
-//    Collection<? extends GrantedAuthority> getAuthorities()
-//
-//    return userRoles.stream()
-//            .map(userRole -> new SimpleGrantedAuthority(userRole.toString()))
-//            .collect(Collectors.toList());
+
     public String getProfileId() {
         return profileId;
     }

@@ -18,9 +18,9 @@ import ua.com.itproekt.gup.dao.oauth2.OAuth2RefreshTokenRepository;
 import ua.com.itproekt.gup.model.oauth2.OAuth2AuthenticationAccessToken;
 import ua.com.itproekt.gup.model.oauth2.OAuth2AuthenticationRefreshToken;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class TokenStoreService implements TokenStore {
@@ -120,11 +120,9 @@ public class TokenStoreService implements TokenStore {
     }
 
     private Collection<OAuth2AccessToken> extractAccessTokens(List<OAuth2AuthenticationAccessToken> tokens) {
-        List<OAuth2AccessToken> accessTokens = new ArrayList<>();
-        tokens.stream().forEach(token -> {
-            accessTokens.add(token.getoAuth2AccessToken());
-        });
-        return accessTokens;
+        return tokens.stream()
+                .map(OAuth2AuthenticationAccessToken::getoAuth2AccessToken)
+                .collect(Collectors.toList());
     }
 
 }

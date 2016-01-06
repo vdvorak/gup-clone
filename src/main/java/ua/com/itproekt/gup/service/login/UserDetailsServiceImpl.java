@@ -25,13 +25,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		System.err.println("UserDetails loadUserByUsername email" + email);
 		Profile profile = profileService.findProfileByEmail(email);
-		List<GrantedAuthority> authorities = buildUserAuthority(profile.getUserRoles());
-		System.err.println("USImpl -> loadUserByUsername -> List authorities: " + authorities);
-		System.err.println("USImpl -> loadUserByUsername -> profile: " + profile);
 
-		return buildUserForAuthentication(profile, authorities);
+		return buildUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
 	}
 
 	private LoggedUser buildUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
