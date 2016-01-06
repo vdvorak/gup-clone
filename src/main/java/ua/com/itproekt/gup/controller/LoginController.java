@@ -1,20 +1,28 @@
 package ua.com.itproekt.gup.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Request;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.nace.DepartmentOrNace;
 import ua.com.itproekt.gup.model.profiles.*;
 import ua.com.itproekt.gup.service.nace.NaceService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
@@ -123,20 +131,57 @@ public class LoginController {
 		return "index";
 	}
 
-	@RequestMapping("/login")
-	 public String getLoginForm(
-			@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "logout", required = false) String logout, Model model) {
 
-		String message = "";
-		if (error != null) {
-			message = "Incorrect username or password!";
-		} else if (logout != null) {
-			message = "Logout successful!";
-		}
-		model.addAttribute("message", message);
+	@Qualifier("userAuthenticationManager")
+	@Autowired
+	AuthenticationManager authenticationManager;
 
-		return "login";
+	private final int ACCESS_TOKEN_EXPIRES_IN_SECONDS = 600 - 3;
+
+	@Autowired
+	private DefaultTokenServices tokenServices;
+
+	@Qualifier("userDetailsServiceImpl")
+	@Autowired
+	UserDetailsService userDetailsService;
+
+	@RequestMapping("/loginForm")
+	 public String getLoginForm(Model model) {
+		return "loginForm";
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public void login(HttpServletRequest request, HttpServletResponse response,
+						@RequestParam String email, @RequestParam String password) {
+//		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
+//		Authentication authentication = authenticationManager.authenticate(authRequest);
+//
+		Map<String, String> requestParameters = new HashMap<>();
+		String clientId = "7b5a38705d7b3562655925406a652e32";
+		Set<String> scope = new HashSet<>();
+		OAuth2Request oAuth2Request = new OAuth2Request(requestParameters,
+				clientId, null, true, scope,
+				null, null, null, null);
+
+		LoggedUser loggedUser = (LoggedUser)userDetailsService.loadUserByUsername(email);
+		Authentication userAuthentication = new UsernamePasswordAuthenticationToken(loggedUser,
+				loggedUser.getPassword(), loggedUser.getAuthorities());
+
+		OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, userAuthentication);
+//
+		System.err.println("****" + tokenServices.createAccessToken(oAuth2Authentication));
+		OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
+		oAuth2AccessToken.getRefreshToken();
+//		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
+//
+//		// Authenticate the user
+//		Authentication authentication = authenticationManager.authenticate(authRequest);
+//		SecurityContext securityContext = SecurityContextHolder.getContext();
+//		securityContext.setAuthentication(authentication);
+//
+//			// Create a new session and add the security context.
+//		HttpSession session = request.getSession(true);
+//		session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 	}
 
 
@@ -165,20 +210,6 @@ public class LoginController {
 		return "adminPage";
 	}
 
-	@RequestMapping("/error403")
-	public String getAccessDenied(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String username = "";
-		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			UserDetails userDetail = (UserDetails) auth.getPrincipal();
-			username = userDetail.getUsername();
-		} else {
-			username = "guest";
-		}
-
-		model.addAttribute("username", username);
-		return "error/403";
-	}
 
 
 /*--------------------------------------- Check -----------------------------------------------------------------*/

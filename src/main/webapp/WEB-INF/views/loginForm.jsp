@@ -213,8 +213,7 @@
         oauth2.user.login($('#login').val(), $('#loginPassword').val(), function (error) {
             if (!error){
                 window.location.href = '/prioffice';
-            }
-            else {
+            } else {
                 console.log(error);
                 alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
             }
