@@ -26,6 +26,7 @@ import ua.com.itproekt.gup.util.EntityPage;
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -64,8 +65,8 @@ public class TenderRestController {
        tender = tenderService.setProposeVision(tender, getCurrentUserId());
 
         // incrementing Visited field
-        ArrayList<String> visit = (ArrayList<String>) req.getSession().getAttribute("tenderVisit");
-        if (visit == null) visit = new ArrayList<>();
+        HashSet<String> visit = (HashSet<String>) req.getSession().getAttribute("tenderVisit");
+        if (visit == null) visit = new HashSet<>();
         if (!visit.contains(id)) {
             Tender tenderForCountVisited = new Tender();
             tenderForCountVisited.setId(tender.getId());
