@@ -87,4 +87,20 @@ public class TenderServiceImpl implements TenderService {
         if(tender.isHidePropose()) tender.setProposes(null);
         return tender;
     }
+
+    @Override
+    public Tender setProposeVision(Tender tender, String idUserWhoReed) {
+        if(idUserWhoReed == null){
+            tender.setProposes(null);
+        } else if (!tender.getAuthorId().equals(idUserWhoReed)) {
+            if (tender.isHidePropose()) {
+                tender.setProposes(null);
+            } else {
+                tender.getProposes().stream().filter(p -> p.getHidden() && p.getAuthorId() != idUserWhoReed).forEach(p -> {
+                    tender.getProposes().remove(p);
+                });
+            }
+        }
+        return tender;
+    }
 }

@@ -17,4 +17,5 @@ public interface TenderService {
     void checkClosedTendersAndSendActivityFeed();
     Tender setIndividualVision(Tender tender);
     Tender setLegalEntityVision(Tender tender);
+    Tender setProposeVision(Tender tender, String idUserWhoReed);  //make propose visible according to hidden settings
 }
