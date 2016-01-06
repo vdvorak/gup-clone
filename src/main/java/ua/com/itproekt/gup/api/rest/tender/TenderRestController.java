@@ -61,16 +61,7 @@ public class TenderRestController {
         }
 
         //make propose visible according to hidden settings
-        if (!tender.getAuthorId().equals(getCurrentUserId())) {
-            if (tender.isHidePropose()) {
-                tender.setProposes(null);
-            } else {
-                tender.getProposes().stream().filter(p -> p.getHidden()).forEach(p -> {
-                    tender.getProposes().remove(p);
-                });
-            }
-        }
-
+       tender = tenderService.setProposeVision(tender, getCurrentUserId());
 
         // incrementing Visited field
         ArrayList<String> visit = (ArrayList<String>) req.getSession().getAttribute("tenderVisit");
