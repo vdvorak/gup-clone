@@ -14,7 +14,7 @@
     <!-- @author Nagesh.Chauhan(neel4soft@gmail.com) -->
     <!-- This is default url to get a token from OAuth -->
     <sec:http pattern="/oauth/token" create-session="stateless"
-              authentication-manager-ref="authenticationManager">
+              authentication-manager-ref="clientAuthenticationManager">
         <sec:intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
         <sec:anonymous enabled="false" />
         <sec:http-basic entry-point-ref="clientAuthenticationEntryPoint" />
@@ -57,7 +57,7 @@
 
     <bean id="clientCredentialsTokenEndpointFilter"
           class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
-        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="authenticationManager" ref="clientAuthenticationManager" />
     </bean>
 
     <bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
@@ -70,13 +70,20 @@
         </constructor-arg>
     </bean>
 
-    <sec:authentication-manager id="authenticationManager">
+    <sec:authentication-manager id="clientAuthenticationManager">
         <sec:authentication-provider user-service-ref="clientDetailsUserService" />
     </sec:authentication-manager>
 
+    <!--<sec:authentication-manager alias="userAuthenticationManager" erase-credentials="false">-->
+        <!--<sec:authentication-provider ref="userAuthProviderService" />-->
+    <!--</sec:authentication-manager>-->
+
     <sec:authentication-manager alias="userAuthenticationManager" erase-credentials="false">
-        <sec:authentication-provider ref="userAuthProviderService" />
+        <sec:authentication-provider user-service-ref="userDetailsServiceImpl">
+            <sec:password-encoder ref="passwordEncoder"/>
+        </sec:authentication-provider>
     </sec:authentication-manager>
+
 
 
 
@@ -154,7 +161,7 @@
         <!--<oauth:implicit />-->
         <oauth:refresh-token />
         <!--<oauth:client-credentials />-->
-        <oauth:password authentication-manager-ref="userAuthenticationManager" />
+        <oauth:password />
     </oauth:authorization-server>
 
     <oauth:resource-server id="resourceServerFilter" token-services-ref="tokenServices" />
