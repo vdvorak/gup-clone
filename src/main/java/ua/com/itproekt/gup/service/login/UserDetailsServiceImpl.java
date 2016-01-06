@@ -12,10 +12,9 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -26,8 +25,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		System.err.println("UserDetails loadUserByUsername email" + email);
 		Profile profile = profileService.findProfileByEmail(email);
 		List<GrantedAuthority> authorities = buildUserAuthority(profile.getUserRoles());
+		System.err.println("USImpl -> loadUserByUsername -> List authorities: " + authorities);
+		System.err.println("USImpl -> loadUserByUsername -> profile: " + profile);
+
 		return buildUserForAuthentication(profile, authorities);
 	}
 
@@ -38,15 +41,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
-
-		Set<GrantedAuthority> setAuths = new HashSet<>();
-
-		// Build user's authorities
-		for (UserRole userRole : userRoles) {
-			setAuths.add(new SimpleGrantedAuthority(userRole.toString()));
-		}
-
-		return new ArrayList<>(setAuths);
+		return userRoles.stream()
+				.map(userRole -> new SimpleGrantedAuthority(userRole.toString()))
+				.collect(Collectors.toList());
 	}
 
 }

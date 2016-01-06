@@ -14,7 +14,7 @@
     <!-- @author Nagesh.Chauhan(neel4soft@gmail.com) -->
     <!-- This is default url to get a token from OAuth -->
     <sec:http pattern="/oauth/token" create-session="stateless"
-          authentication-manager-ref="clientAuthenticationManager">
+              authentication-manager-ref="authenticationManager">
         <sec:intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
         <sec:anonymous enabled="false" />
         <sec:http-basic entry-point-ref="clientAuthenticationEntryPoint" />
@@ -57,7 +57,7 @@
 
     <bean id="clientCredentialsTokenEndpointFilter"
           class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
-        <property name="authenticationManager" ref="clientAuthenticationManager" />
+        <property name="authenticationManager" ref="authenticationManager" />
     </bean>
 
     <bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
@@ -70,9 +70,14 @@
         </constructor-arg>
     </bean>
 
-    <sec:authentication-manager id="clientAuthenticationManager">
+    <sec:authentication-manager id="authenticationManager">
         <sec:authentication-provider user-service-ref="clientDetailsUserService" />
     </sec:authentication-manager>
+
+    <sec:authentication-manager alias="userAuthenticationManager" erase-credentials="false">
+        <sec:authentication-provider ref="userAuthProviderService" />
+    </sec:authentication-manager>
+
 
 
     <!-- This is simple authentication manager, with a hardcoded user/password
@@ -91,17 +96,33 @@
         <constructor-arg name="strength" value="11" />
     </bean>
 
-    <sec:authentication-manager alias="authenticationManager">
-        <sec:authentication-provider user-service-ref="userDetailsServiceImpl">
-            <sec:password-encoder ref="passwordEncoder"/>
-        </sec:authentication-provider>
-    </sec:authentication-manager>
+    <!--<sec:authentication-manager alias="authenticationManager">-->
+        <!--<sec:authentication-provider user-service-ref="userAuthProviderService">-->
+            <!--<sec:password-encoder ref="passwordEncoder"/>-->
+        <!--</sec:authentication-provider>-->
+        <!--&lt;!&ndash;<sec:authentication-provider user-service-ref="userDetailsServiceImpl">&ndash;&gt;-->
+            <!--&lt;!&ndash;<sec:password-encoder ref="passwordEncoder"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;</sec:authentication-provider>&ndash;&gt;-->
+    <!--</sec:authentication-manager>-->
+
+    <!--<sec:authentication-manager  alias="authenticationManager"  >-->
+        <!--<sec:authentication-provider ref="userAuthProviderService"/>-->
+
+        <!--<sec:authentication-provider user-service-ref="userDetailsServiceImpl">-->
+            <!--<sec:password-encoder ref="passwordEncoder" />-->
+        <!--</sec:authentication-provider>-->
+    <!--</sec:authentication-manager>-->
+
+
+    <!--<bean id="userAuthProviderService" class="ua.com.itproekt.gup.service.oauth2.UserAuthProviderService">-->
+        <!--&lt;!&ndash;<property name="passwordEncoder" ref="passwordEncoder"/>&ndash;&gt;-->
+<!--</bean>-->
+
 
     <bean id="clientDetailsUserService"
           class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
         <constructor-arg ref="clientDetails" />
     </bean>
-
 
     <!-- This defined token store, we have used inmemory tokenstore for now
     but this can be changed to a user defined one -->
@@ -133,15 +154,12 @@
         <!--<oauth:implicit />-->
         <oauth:refresh-token />
         <!--<oauth:client-credentials />-->
-        <oauth:password />
+        <oauth:password authentication-manager-ref="userAuthenticationManager" />
     </oauth:authorization-server>
 
     <oauth:resource-server id="resourceServerFilter" token-services-ref="tokenServices" />
 
-    <sec:global-method-security
-            pre-post-annotations="enabled" proxy-target-class="true">
-        <!--you could also wire in the expression handler up at the layer of the
-         http filters. See https://jira.springsource.org/browse/SEC-1452 -->
+    <sec:global-method-security pre-post-annotations="enabled" proxy-target-class="true">
         <sec:expression-handler ref="oauthExpressionHandler" />
     </sec:global-method-security>
 

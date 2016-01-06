@@ -63,7 +63,7 @@ public class OAuth2AuthenticationReadConverter implements Converter<DBObject, OA
         }
     }
 
-    private Collection<GrantedAuthority> getAuthorities(List<Map<String, String>> authorities) {
+    public static Collection<GrantedAuthority> getAuthorities(List<Map<String, String>> authorities) {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>(authorities.size());
         for(Map<String, String> authority : authorities) {
             grantedAuthorities.add(new SimpleGrantedAuthority(authority.get("role")));

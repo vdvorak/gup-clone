@@ -4,6 +4,7 @@ package ua.com.itproekt.gup.model.login;
 import com.mongodb.DBObject;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import ua.com.itproekt.gup.mongo.converter.OAuth2AuthenticationReadConverter;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +19,7 @@ public class LoggedUser extends User {
                 (Boolean)dbObject.get("accountNonExpired"),
                 (Boolean)dbObject.get("credentialsNonExpired"),
                 (Boolean)dbObject.get("accountNonLocked"),
-                (List<? extends GrantedAuthority>)dbObject.get("authorities"));
+                OAuth2AuthenticationReadConverter.getAuthorities((List)dbObject.get("authorities")));
 
         this.profileId = (String)dbObject.get("profileId");
     }
@@ -33,7 +34,12 @@ public class LoggedUser extends User {
 
         this.profileId = profileId;
     }
-
+//    (List) userAuthorization.get("authorities")
+//    Collection<? extends GrantedAuthority> getAuthorities()
+//
+//    return userRoles.stream()
+//            .map(userRole -> new SimpleGrantedAuthority(userRole.toString()))
+//            .collect(Collectors.toList());
     public String getProfileId() {
         return profileId;
     }
