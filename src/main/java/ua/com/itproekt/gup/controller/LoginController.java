@@ -29,9 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
 
-/**
- * The type Login controller.
- */
+
 @Controller
 public class LoginController {
 	private final int ACCESS_TOKEN_EXPIRES_IN_SECONDS = 600 - 3;
