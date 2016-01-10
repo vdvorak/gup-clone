@@ -210,7 +210,7 @@
     }
 
     $('#login-submit').on('click', function () {
-        oauth2.user.login($('#login').val(), $('#loginPassword').val(), function (error) {
+        oauth2.user.loginServlet($('#login').val(), $('#loginPassword').val(), function (error) {
             if (!error){
                 window.location.href = '/prioffice';
             } else {

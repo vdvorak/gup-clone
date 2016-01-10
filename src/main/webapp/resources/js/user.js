@@ -134,6 +134,31 @@ oauth2.user.login = function (email, password, callback) {
 }
 
 
+oauth2.user.loginServlet = function (email, password, callback) {
+
+    var url = "login";
+    var data = {
+        "email" : email,
+        "password" : password};
+
+    //var success = function (response) {
+    //    console.log(response);
+    //    callback()
+    //};
+    //var error = function(jqXHR, textStatus) {
+    //    callback(jqXHR)
+    //};
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        accept: "application/json",
+        data: data,
+        dataType: "json"
+        //success : success,
+        //error : error
+    });
+}
 
 /**
  * Delete the users cookies.
