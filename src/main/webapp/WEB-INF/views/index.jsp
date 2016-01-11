@@ -38,7 +38,7 @@
           <a href="#">Проекты</a>
           <a href="#">Новости</a>
           <a href="#">Настройки</a>
-          <a href="/loguot">Выход</a>
+          <a href="/logout">Выход</a>
           <div class="pageedit">
             <a href="/edit-profile">Редактировать страницу</a>
           </div>
