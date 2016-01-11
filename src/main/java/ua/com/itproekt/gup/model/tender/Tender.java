@@ -35,8 +35,6 @@ public class Tender {
 
     public Tender(){
         begin = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        LocalDateTime l = LocalDateTime.now().plusDays(20L);
-        end = l.toInstant(ZoneOffset.UTC).toEpochMilli();
         hidePropose = true;
         hideContact = true;
     }
