@@ -56,9 +56,8 @@ public class LoginController {
 		Map<String, String> requestParameters = new HashMap<>();
 		String clientId = "7b5a38705d7b3562655925406a652e32";
 		Set<String> scope = new HashSet<>();
-		OAuth2Request oAuth2Request = new OAuth2Request(requestParameters,
-				clientId, null, true, scope,
-				null, null, null, null);
+		OAuth2Request oAuth2Request = new OAuth2Request(requestParameters, clientId, null, true,
+				scope, null, null, null, null);
 
 		LoggedUser loggedUser = (LoggedUser)userDetailsService.loadUserByUsername(email);
 		if (!passwordEncoder.matches(password, loggedUser.getPassword())) {
@@ -76,9 +75,6 @@ public class LoginController {
 		cookieAuthToken.setMaxAge(ACCESS_TOKEN_EXPIRES_IN_SECONDS);
 		cookieAuthToken.setPath("/");
 		response.addCookie(cookieAuthToken);
-
-		System.err.println("getExpiresIn : "  + oAuth2AccessToken.getExpiresIn());
-		System.err.println("getExpiration : " + oAuth2AccessToken.getExpiration());
 
 		Cookie cookieRefreshToken = new Cookie("refreshToken", oAuth2AccessToken.getRefreshToken().getValue());
 		cookieRefreshToken.setMaxAge(REFRESH_TOKEN_EXPIRES_IN_SECONDS);

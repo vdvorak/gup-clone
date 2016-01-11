@@ -51,9 +51,8 @@ public class ProjectsAndInvestmentsTestController {
 
     @RequestMapping("/project/payback")
     public String payback() {
-        projectService.bringBackMoneyToInvestorsTest();
+        projectService.bringBackMoneyToInvestors();
         return "index";
     }
-
 
 }

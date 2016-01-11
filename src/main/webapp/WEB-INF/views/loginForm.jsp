@@ -234,6 +234,8 @@
             complete: function (xhr, textStatus) {
                 if (xhr.status == 200) {
                     window.location.href = '/prioffice';
+                } else {
+                    alert("Пароль и логин не совпадает!")
                 }
             }
         });
