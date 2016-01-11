@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
 import java.io.Serializable;
+import java.util.Date;
 
 
 @Document(collection = "oauth2_access_token")
@@ -24,6 +25,9 @@ public class OAuth2AuthenticationAccessToken implements Serializable {
     private String clientId;
     private OAuth2Authentication authentication;
     private String refreshToken;
+
+    @Indexed(expireAfterSeconds = 60*60)
+    private Date createdDate = new Date();
 
     public OAuth2AuthenticationAccessToken() {
     }

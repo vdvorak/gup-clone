@@ -3,11 +3,13 @@ $('.bxslider').bxSlider({
   captions: true
 });
 
-$(".ballance a").click(function(){
+$(".ballance a").click(function(e){
+    e.preventDefault();
     $(".ballanceAdd-wraper").toggle();
 });
 
-$(".top-menu-username a").click(function(){
+$(".top-menu-username a").click(function(e){
+    e.preventDefault();
     $(".header-mainMenu").toggle();
 });
 
