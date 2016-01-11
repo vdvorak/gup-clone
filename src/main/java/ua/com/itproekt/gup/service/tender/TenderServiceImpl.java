@@ -26,8 +26,8 @@ public class TenderServiceImpl implements TenderService {
     private ActivityFeedService activityFeedService;
 
     @Override
-    public void createTender(Tender offer) {
-        tenderRepository.createTender(offer);
+    public void createTender(Tender tender) {
+        tenderRepository.createTender(tender);
     }
 
     @Override
@@ -52,10 +52,10 @@ public class TenderServiceImpl implements TenderService {
 
     @Override
     public boolean isUserHaveAccess(Profile user, Tender tender) {
-        if(user.getUserRoles().contains(UserRole.ROLE_ADMIN)){
+        if (user.getUserRoles().contains(UserRole.ROLE_ADMIN)) {
             return true;
         }
-        if(tender.getNaceIds().equals(user.getContact().getNace())){
+        if (tender.getNaceIds().equals(user.getContact().getNace())) {
             return true;
         }
         return false;
@@ -70,25 +70,25 @@ public class TenderServiceImpl implements TenderService {
     public void checkClosedTendersAndSendActivityFeed() {
         List<Tender> endTenders = tenderRepository.getTodayEndTenders();
         endTenders.parallelStream().filter(t -> t.getWinnerId() == null).forEach(tender -> {
-           activityFeedService.createEvent(new Event(tender.getAuthorId(), EventType.TENDER_END_DAY_NEED_CHOOSE_WINNER, tender.getId(), tender.getId()));
+            activityFeedService.createEvent(new Event(tender.getAuthorId(), EventType.TENDER_END_DAY_NEED_CHOOSE_WINNER, tender.getId(), tender.getId()));
         });
         System.err.println("Debag ! void checkClosedTendersAndSendActivityFeed()");
     }
 
-    public Tender setIndividualVision(Tender tender){
+    public Tender setIndividualVision(Tender tender) {
         tender.setAuthorId(null);
         tender.setProposes(null);
         return tender;
     }
 
-    public Tender setLegalEntityVision(Tender tender, String userId){
-        if(!isAuthorOrWinner(tender, userId) && tender.isHideContact()) tender.setAuthorId(null);
+    public Tender setLegalEntityVision(Tender tender, String userId) {
+        if (!isAuthorOrWinner(tender, userId) && tender.isHideContact()) tender.setAuthorId(null);
         tender = setProposeVision(tender, userId);
         return tender;
     }
 
     public Tender setProposeVision(Tender tender, String idUserWhoReed) {
-        if(idUserWhoReed == null){
+        if (idUserWhoReed == null) {
             tender.setProposes(null);
         } else if (!tender.getAuthorId().equals(idUserWhoReed)) {
             if (tender.isHidePropose()) {
@@ -102,42 +102,42 @@ public class TenderServiceImpl implements TenderService {
         return tender;
     }
 
-    public boolean isMember(Tender tender, String user ){
-        if (user == null){
+    public boolean isMember(Tender tender, String user) {
+        if (user == null) {
             return false;
         }
-        if (tender.getProposes() == null){
+        if (tender.getProposes() == null) {
             tender = findById(tender.getId());
             if (tender.getProposes() == null)
-            return false;
+                return false;
         }
         return tender.getProposes().contains(user);
     }
 
-    public boolean isAuthorOrWinner(Tender tender, String user){
-        if(user == null){
+    public boolean isAuthorOrWinner(Tender tender, String user) {
+        if (user == null) {
             return false;
         }
-        if(tender.getAuthorId() == null){
+        if (tender.getAuthorId() == null) {
             tender = findById(tender.getId());
         }
         return user.equals(tender.getAuthorId()) || user.equals(tender.getWinnerId());
     }
 
     @Override
-    public Tender setVision(Tender tender, Profile userWhoReed){
-        if(tender.getType() == TenderType.CLOSE){
-            if(userWhoReed == null || userWhoReed.getContact() == null
+    public Tender setVision(Tender tender, Profile userWhoReed) {
+        if (tender.getType() == TenderType.CLOSE) {
+            if (userWhoReed == null || userWhoReed.getContact() == null
                     || (userWhoReed.getContact().getType() != UserType.LEGAL_ENTITY
-                        && userWhoReed.getContact().getType() != UserType.ENTREPRENEUR)
-                    || (!isAuthorOrWinner(tender, userWhoReed.getId()) && !isMember(tender, userWhoReed.getId()))){
+                    && userWhoReed.getContact().getType() != UserType.ENTREPRENEUR)
+                    || (!isAuthorOrWinner(tender, userWhoReed.getId()) && !isMember(tender, userWhoReed.getId()))) {
                 return null;
             }
             return setLegalEntityVision(tender, userWhoReed.getId());
         } else {
-            if (isAuthorOrWinner(tender, userWhoReed.getId())){
+            if (isAuthorOrWinner(tender, userWhoReed.getId())) {
                 return tender;
-            } else if(userWhoReed.getContact().getType() == UserType.LEGAL_ENTITY
+            } else if (userWhoReed.getContact().getType() == UserType.LEGAL_ENTITY
                     || userWhoReed.getContact().getType() == UserType.ENTREPRENEUR) {
                 return setLegalEntityVision(tender, userWhoReed.getId());
             } else {
