@@ -49,7 +49,7 @@
                                    cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Фото</th>
                                     <th>Название</th>
                                     <th>Тип</th>
                                 </tr>
@@ -66,8 +66,7 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <button id="cancelBtn" type="submit" class="btn btn-primary disabled">Редактировать
-                                </button>
+                                <a id="tenderIdhref" href=""><button id="userIdBtn" type="submit" class="btn btn-primary disabled">Редактировать</button></a>
                             </form>
                         </div>
                         <!-- /.table -->
@@ -84,52 +83,59 @@
 <!-- Bottom Links -->
 <script>
 
-        $(document).ready(function () {
-            var data;
-            var tenderFilterOptions = new Object();
-            tenderFilterOptions.skip = 0;
-            tenderFilterOptions.limit = 10;
-            $.ajax({
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                url: "/api/rest/tenderService/tender/read/all/",
-                data: JSON.stringify(tenderFilterOptions),
-                success: function (response) {
-                    alert(JSON.stringify(response));
-                    data = response.entities;
-                    alert(JSON.stringify(data));
+    $(document).ready(function () {
+        var data;
+        var tenderFilterOptions = {};
+        tenderFilterOptions.skip = 0;
+        tenderFilterOptions.limit = 10;
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/api/rest/tenderService/tender/read/all/",
+            data: JSON.stringify(tenderFilterOptions),
+            success: function (response) {
+                data = response.entities;
 
-                    var table = $('#tenders').DataTable({
-                        select: {
-                            style: 'single'
-                        },
-                        data: data,
-                        "columns": [
-                            {"data": "id"},
-                            {"data": "title"},
-                            {"data": "type"}
-                        ],
-                        "language": {
-                            "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
-                        }
-                    });
-
-                    table
-                            .on('select', function (e, dt, type, indexes) {
-                                var rowData = table.rows(indexes).data().toArray();
-                                $("input[name='transactionId']").attr("value", rowData[0].id);
-                                $('#userIdhref').attr("href", "/edit-profile/" + rowData[0].id);
-                                $('#inp').removeAttr("readonly");
-                                $('#userIdBtn').attr("class", "btn btn-danger");
-                            })
-                            .on('deselect', function (e, dt, type, indexes) {
-                                $("input[name='transactionId']").attr("value", "");
-                                $('#inp').attr("readonly", "readonly");
-                                $('#userIdBtn').attr("class", "btn btn-danger disabled");
-                            });
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].mainPhotoId !== null) {
+                        data[i].mainPhotoId = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].mainPhotoId + '" width="100" height="100">';
+                    }
+                    else {
+                        data[i].mainPhotoId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                    }
                 }
-            });
+
+                var table = $('#tenders').DataTable({
+                    select: {
+                        style: 'single'
+                    },
+                    data: data,
+                    "columns": [
+                        {"data": "mainPhotoId"},
+                        {"data": "title"},
+                        {"data": "type"}
+                    ],
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
+                    }
+                });
+
+                table
+                        .on('select', function (e, dt, type, indexes) {
+                            var rowData = table.rows(indexes).data().toArray();
+                            $("input[name='transactionId']").attr("value", rowData[0].id);
+                            $('#tenderIdhref').attr("href", "/edit-profile/" + rowData[0].id);
+                            $('#inp').removeAttr("readonly");
+                            $('#userIdBtn').attr("class", "btn btn-danger");
+                        })
+                        .on('deselect', function (e, dt, type, indexes) {
+                            $("input[name='transactionId']").attr("value", "");
+                            $('#inp').attr("readonly", "readonly");
+                            $('#userIdBtn').attr("class", "btn btn-danger disabled");
+                        });
+            }
         });
+    });
 
 
 </script>
