@@ -210,15 +210,21 @@
     }
 
     $('#login-submit').on('click', function () {
-        oauth2.user.login($('#login').val(), $('#loginPassword').val(), function (error) {
-            if (!error){
+
+        var data = {"email" : $('#login').val(),
+                    "password" : $('#loginPassword').val()};
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            data: data,
+            success: function (response) {
                 window.location.href = '/prioffice';
-            }
-            else {
-                console.log(error);
+            },
+            error: function (response) {
+                console.log(response);
                 alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
             }
-        })
+        });
     })
 </script>
 </html>

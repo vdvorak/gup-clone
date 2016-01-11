@@ -8,6 +8,7 @@ import ua.com.itproekt.gup.mongo.converter.OAuth2AuthenticationReadConverter;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class LoggedUser extends User {
     private final String profileId;
@@ -19,7 +20,7 @@ public class LoggedUser extends User {
                 (Boolean)dbObject.get("accountNonExpired"),
                 (Boolean)dbObject.get("credentialsNonExpired"),
                 (Boolean)dbObject.get("accountNonLocked"),
-                OAuth2AuthenticationReadConverter.getAuthorities((List)dbObject.get("authorities")));
+                OAuth2AuthenticationReadConverter.getAuthorities((List<Map<String, String>> )dbObject.get("authorities")));
 
         this.profileId = (String)dbObject.get("profileId");
     }

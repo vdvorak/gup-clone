@@ -6,8 +6,11 @@ a{
 	text-decoration: none;
 }
 .top-menu, section{
-	width:1200px;
+	width:900px;
 	margin:auto;
+}
+.header-entry{
+	padding-top: 10px;
 }
 .top-menu{
 	height: 40px;
@@ -36,6 +39,7 @@ a{
     margin-top: 10px
 }
 .ballanceAdd-wraper{
+
 	    width: 200px;
     text-align: center;
     position: relative;
@@ -127,59 +131,61 @@ footer{
 	color:#fff;
 }
 .logo-wrap{
-	width:50%;
+	width:65%;
 	display: inline-block;
 }
 .logo-wrap img{
 	float: left;
+	width: 100px;
 }
 .shop-wrap-right{
-	width: 50%;
+	width: 35%;
 	float: right;
 }
-
+.shop-wrap img{
+	width:100px;
+}
 .main-search-button-wrapper{
 	background-color: #1269a7;
     border-radius: 5px;
-    margin-top: 45px;
+	margin-top: 10px;
+
 }
 .main-search-button-wrapper input{
-	
-    width: 79%;
-    height: 32px;
-    margin: 15px 20px;
-    border-radius: 5px;
-    font-size: 20px;
-    padding-left: 10px;
-    font-style: italic;
+
+	width: 77%;
+	margin: 10px 20px;
+	border-radius: 5px;
+	font-size: 20px;
+	padding-left: 10px;
+	font-style: italic;
 
 }
 .main-search-button-wrapper a{
 	color: #fff;
-	font-size: 30px;
+	font-size: 20px;
 	background-color: #99cc66;
-	vertical-align: middle;
-    padding-bottom: 5px;
-    padding-right: 25px;
-    padding-left: 25px;
-    border-radius: 5px;
-     padding-top: 2px;
+	padding-bottom: 5px;
+	padding-right: 15px;
+	padding-left: 15px;
+	border-radius: 3px;
+	padding-top: 2px;
+	margin-left: 20px;
 
 }
 .main-search-button-icon img{
-	height: 26px;
+	height: 16px;
     vertical-align: middle;
-    padding-left: 15px;
+    padding-left: 10px;
 }
 .logo-title{
 	display: inline-block;
     font-size: 30px;
     text-transform: capitalize;
-    margin-top: 50px;
     padding-left: 20px;
 }
-.shop-wrap{
-	margin-top: 15px;
+.join-button img{
+	width: 250px;
 }
 .join-button-wrap{
 	margin-top:20px;
@@ -187,23 +193,23 @@ footer{
 
 .main-tender-wrap{
 	display: inline-block;
-	width:180px;
+	width:140px;
 	text-align: center;
 }
 .main-project-wrap{
 	display: inline-block;
 	vertical-align: top;
-	width:180px;
+	width:140px;
 	text-align: center;
 }
 .main-news-wrap{
 	display: inline-block;
 	vertical-align: top;
-	width:180px;
+	width:140px;
 	text-align: center;
 }
 .sec-wrap{
-	    margin-top: 30px;
+	    margin-top: 10px;
 }
 
 .main-tender-wrap p, .main-project-wrap p, .main-news-wrap p{
@@ -218,7 +224,8 @@ footer{
 
 .partials-wrap img{
 	 width: 100px;
-    margin-top: 50px;
+	margin-top: 20px;
+
 }
 /*.main-tender-wrap img, .main-project-wrap img, .main-news-wrap img{
 	width:180px;
@@ -242,9 +249,10 @@ footer{
 	text-align: left;
 }
 .main-tenderPic-wrap, .main-projectPic-wrap, .main-newsPic-wrap{
-	height:200px;
+	height: 120px;
 	border: 3px solid #1269a7;
 	border-radius: 5px;
+	padding: 5px;
 
 }
     
@@ -284,25 +292,28 @@ footer{
 .main-news-views{
 	width: 50%;
     float: left;
-    font-size: 12px;
+    font-size: 11px;
     color: #929d9e;
+	font-style: italic;
 }
 .main-news-text{
 	display: inline-block;
     width: 70%;
     vertical-align: top;
-    font-size: 20px;
+    font-size: 16px;
     color: #828a8f;
 }
 .main-news-item-wrap img{
 	margin-right: 10px;
+	width: 150px;
 }
 .main-news-date{
 	width: 50%;
     float: right;
-    font-size: 12px;
+    font-size: 11px;
     color: #929d9e;
-        text-align: right;
+	text-align: right;
+	font-style: italic;
 }
 /*login-page*/
 

@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.validation.ObjectError;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.security.Principal;
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
         return result;
     }
 
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(AccessDeniedException.class)
     public String  handleAccessDeniedException(HttpServletRequest request,
                                                                      Principal principal,
@@ -77,14 +77,13 @@ public class GlobalExceptionHandler {
 
 
 
-        return "access-error";
+        return "error/403";
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    public String handleAuthCredentialsNotFoundEx(HttpServletRequest request,
-                                                  Principal principal,
-                                                  Exception ex) {
+    public String handleAuthCredentialsNotFoundEx(HttpServletRequest request, HttpServletResponse response,
+                                                  Principal principal, Exception ex) {
         String userEmail = (principal == null ? "NULL" : principal.getName());
         StringWriter stack = new StringWriter();
         ex.printStackTrace(new PrintWriter(stack)); // **********
@@ -93,7 +92,7 @@ public class GlobalExceptionHandler {
                 "   User email: " + userEmail + ";" +
                 "   Exception: " + stack.toString());
 
-        return "401";
+        return "error/401";
     }
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
