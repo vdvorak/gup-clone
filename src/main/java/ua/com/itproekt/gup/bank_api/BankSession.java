@@ -1,6 +1,10 @@
 package ua.com.itproekt.gup.bank_api;
 
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import ua.com.itproekt.gup.bank_api.entity.BankUser;
 import ua.com.itproekt.gup.bank_api.liqpay.LiqPay;
 import ua.com.itproekt.gup.bank_api.repository.BalanceRepository;
@@ -8,9 +12,12 @@ import ua.com.itproekt.gup.bank_api.repository.ExternalTransactionRepository;
 import ua.com.itproekt.gup.bank_api.repository.InternalTransactionRepository;
 import ua.com.itproekt.gup.bank_api.repository.UserRepository;
 import ua.com.itproekt.gup.bank_api.services.BankService;
+import ua.com.itproekt.gup.bank_api.services.Pair;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -181,8 +188,21 @@ public class BankSession {
         internalTransactionRepository.accountantCancelRequest(internalTransactionId);
     }
 
-    public String projectPayback(String projectId){
-        return internalTransactionRepository.projectPayback(projectId);
+    public List<Pair<String, Long>> projectPayback(String projectId) throws ParseException {
+        String jsonResponse = internalTransactionRepository.projectPayback(projectId);
+        System.out.println(jsonResponse);
+        JSONParser parser = new JSONParser();
+        Object obj = parser.parse(jsonResponse);
+        JSONArray response = (JSONArray) obj;
+        ArrayList<Pair<String, Long>> result = new ArrayList<>();
+        for (Object pairBeforeParse : response) {
+            JSONObject jsonObj = (JSONObject) pairBeforeParse;
+            String key = (String) jsonObj.get("key");
+            Long value = (Long) jsonObj.get("value");
+            Pair<String, Long> pair  = new Pair<>(key,value);
+            result.add(pair);
+        }
+        return result;
     }
 
 }

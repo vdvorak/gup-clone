@@ -41,7 +41,6 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResponse> createProfile(@RequestBody Profile profile) {
-
         if (profilesService.profileExistsWithEmail(profile.getEmail())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
