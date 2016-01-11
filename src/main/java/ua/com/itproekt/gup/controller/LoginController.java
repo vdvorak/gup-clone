@@ -3,31 +3,27 @@ package ua.com.itproekt.gup.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.login.LoggedUser;
-import ua.com.itproekt.gup.model.nace.DepartmentOrNace;
-import ua.com.itproekt.gup.model.profiles.*;
-import ua.com.itproekt.gup.service.nace.NaceService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 
 @Controller
@@ -77,22 +73,34 @@ public class LoginController {
 			cookieAuthToken.setPath("/");
 			response.addCookie(cookieAuthToken);
 
+			System.err.println("getExpiresIn : "  + oAuth2AccessToken.getExpiresIn());
+			System.err.println("getExpiration : " + oAuth2AccessToken.getExpiration());
+
 			Cookie cookieRefreshToken = new Cookie("refreshToken", oAuth2AccessToken.getRefreshToken().getValue());
 			cookieRefreshToken.setMaxAge(REFRESH_TOKEN_EXPIRES_IN_SECONDS);
 			cookieRefreshToken.setPath("/");
 			response.addCookie(cookieRefreshToken);
 		}
+//		else {
+////			try {
+////				response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+////			} catch (IOException ex) {
+//////****** ****** ****** ****** ****** ******
+////				ex.printStackTrace();
+//////****** ****** ****** ****** ****** ******
+////			}
+//		}
 
 	}
 
 //		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
 //
-//		// Authenticate the user
+//			Authenticate the user
 //		Authentication authentication = authenticationManager.authenticate(authRequest);
 //		SecurityContext securityContext = SecurityContextHolder.getContext();
 //		securityContext.setAuthentication(authentication);
 //
-//			// Create a new session and add the security context.
+//			Create a new session and add the security context.
 //		HttpSession session = request.getSession(true);
 //		session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
