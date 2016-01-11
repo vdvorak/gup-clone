@@ -152,7 +152,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         } catch (Exception e) {
             throw new AuthenticationException();
         }
-        //set user to verified if not already and authenticated role
+
         profilesService.updateProfile(profile);
         verificationTokenRepository.save(token);
         return token;
