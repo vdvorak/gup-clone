@@ -1,9 +1,12 @@
 package ua.com.itproekt.gup.dao.tender;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
@@ -14,9 +17,15 @@ import ua.com.itproekt.gup.model.tender.TenderType;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
+
 
 @Repository
 public class TenderRepositoryImpl implements TenderRepository {
+    private static long LUST_CHECK = 0L;
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -102,8 +111,8 @@ public class TenderRepositoryImpl implements TenderRepository {
         }
 
 
-        if (tenderFilterOptions.getNaceId() != null) {
-            query.addCriteria(Criteria.where("naceId").elemMatch(Criteria.where("id").is(tenderFilterOptions.getNaceId())));
+        if (tenderFilterOptions.getNaceIds() != null) {
+            query.addCriteria(Criteria.where("naceId").elemMatch(Criteria.where("id").in(tenderFilterOptions.getNaceIds())));
         }
 
         if (tenderFilterOptions.getBegin() != -1) {
@@ -134,5 +143,15 @@ public class TenderRepositoryImpl implements TenderRepository {
         query.limit(tenderFilterOptions.getLimit());
         return new EntityPage<>(mongoTemplate.count(query, Tender.class),
                 mongoTemplate.find(query, Tender.class));
+    }
+
+    public List<Tender> getTodayEndTenders(){
+        long now = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+
+        DBObject queryObj = new BasicDBObject();
+        queryObj.put("end", new BasicDBObject("$gte", LUST_CHECK));
+        queryObj.put("end", new BasicDBObject("$lte", now));
+        LUST_CHECK = now;
+        return mongoTemplate.find(new BasicQuery(queryObj), Tender.class);
     }
 }

@@ -221,7 +221,7 @@
             }
             else {
                 console.log(error);
-                $('#error_message').html('Email and/or password did not match a user account.').show()
+                alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
             }
         })
     })

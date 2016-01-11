@@ -11,10 +11,8 @@
 					  http://www.springframework.org/schema/security/spring-security.xsd">
 
 
-    <!-- @author Nagesh.Chauhan(neel4soft@gmail.com) -->
-    <!-- This is default url to get a token from OAuth -->
     <sec:http pattern="/oauth/token" create-session="stateless"
-          authentication-manager-ref="clientAuthenticationManager">
+              authentication-manager-ref="clientAuthenticationManager">
         <sec:intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
         <sec:anonymous enabled="false" />
         <sec:http-basic entry-point-ref="clientAuthenticationEntryPoint" />
@@ -24,14 +22,15 @@
         <sec:access-denied-handler ref="oauthAccessDeniedHandler" />
     </sec:http>
 
+
+    <!--<sec:http pattern="/resources/**" security="none" />-->
+
     <!-- This is where we tells spring security what URL should be protected
      and what roles have access to them -->
-    <!--<sec:http pattern="/api/rest/**" create-session="never"-->
     <sec:http pattern="/**" create-session="stateless"
           entry-point-ref="oauthAuthenticationEntryPoint"
           access-decision-manager-ref="accessDecisionManager">
         <sec:anonymous enabled="false" />
-<!--***************-->
         <!--<sec:intercept-url pattern="/api/rest/**" access="ROLE_USER" />-->
         <sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
         <sec:access-denied-handler ref="oauthAccessDeniedHandler" />
@@ -44,7 +43,6 @@
 
     <bean id="clientAuthenticationEntryPoint"
           class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
-        <property name="realmName" value="test/client" />
         <property name="typeName" value="Basic" />
     </bean>
 
@@ -70,79 +68,42 @@
         <sec:authentication-provider user-service-ref="clientDetailsUserService" />
     </sec:authentication-manager>
 
-
-    <!-- This is simple authentication manager, with a hardcoded user/password
-     combination. We can replace this with a user defined service to get few users
-     credentials from DB -->
-    <!--<authentication-manager alias="authenticationManager"-->
-    <!--xmlns="http://www.springframework.org/schema/security">-->
-    <!--<authentication-provider>-->
-    <!--<user-service>-->
-    <!--<user name="beingjavaguys" password="spring@java" authorities="ROLE_APP" />-->
-    <!--</user-service>-->
-    <!--</authentication-provider>-->
-    <!--</authentication-manager>-->
-
-    <bean id="passwordEncoder"  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
-        <constructor-arg name="strength" value="11" />
-    </bean>
-
-    <sec:authentication-manager alias="authenticationManager">
+    <sec:authentication-manager alias="userAuthenticationManager" erase-credentials="false">
         <sec:authentication-provider user-service-ref="userDetailsServiceImpl">
             <sec:password-encoder ref="passwordEncoder"/>
         </sec:authentication-provider>
     </sec:authentication-manager>
+
+    <bean id="passwordEncoder"  class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        <constructor-arg name="strength" value="11" />
+    </bean>
 
     <bean id="clientDetailsUserService"
           class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
         <constructor-arg ref="clientDetails" />
     </bean>
 
+    <bean id="tokenStore" class="ua.com.itproekt.gup.service.oauth2.TokenStoreService" />
 
-    <!-- This defined token store, we have used inmemory tokenstore for now
-     but this can be changed to a user defined one -->
-    <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore" />
-
-    <!-- This is where we defined token based configurations, token validity
-     and other things -->
+    <!-- This is where we defined token based configurations, token validity and other things -->
     <bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
         <property name="tokenStore" ref="tokenStore" />
         <property name="supportRefreshToken" value="true" />
-        <!--<property name="accessTokenValiditySeconds" value="120" />-->
         <property name="clientDetailsService" ref="clientDetails" />
     </bean>
 
-    <!--<bean id="userApprovalHandler"-->
-    <!--class="org.springframework.security.oauth2.provider.approval.TokenServicesUserApprovalHandler">-->
-    <!--<property name="tokenServices" ref="tokenServices" />-->
-    <!--</bean>-->
-    <bean id="oAuth2RequestFactory" class="org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory">
-        <constructor-arg ref="clientDetails" />
-    </bean>
-
-    <bean id="userApprovalHandler"
-          class="org.springframework.security.oauth2.provider.approval.TokenStoreUserApprovalHandler">
-        <property name="requestFactory" ref="oAuth2RequestFactory" />
-        <property name="tokenStore" ref="tokenStore" />
-    </bean>
-
-
-    <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices"
-            user-approval-handler-ref="userApprovalHandler">
-        <oauth:authorization-code />
-        <oauth:implicit />
+    <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices">
+            <!--user-approval-handler-ref="userApprovalHandler">-->
+        <!--<oauth:authorization-code />-->
+        <!--<oauth:implicit />-->
         <oauth:refresh-token />
-        <oauth:client-credentials />
+        <!--<oauth:client-credentials />-->
         <oauth:password />
     </oauth:authorization-server>
 
-    <oauth:resource-server id="resourceServerFilter"
-                           resource-id="test" token-services-ref="tokenServices" />
+    <oauth:resource-server id="resourceServerFilter" token-services-ref="tokenServices" />
 
-    <sec:global-method-security
-            pre-post-annotations="enabled" proxy-target-class="true">
-        <!--you could also wire in the expression handler up at the layer of the
-         http filters. See https://jira.springsource.org/browse/SEC-1452 -->
+    <sec:global-method-security pre-post-annotations="enabled" proxy-target-class="true">
         <sec:expression-handler ref="oauthExpressionHandler" />
     </sec:global-method-security>
 

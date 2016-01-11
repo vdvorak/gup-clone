@@ -123,7 +123,7 @@ oauth2.postClientAuth = function (url, data, success, error) {
  */
 oauth2.login = function (url, data, success, error) {
 
-  var authorization =  CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse('353b302c44574f565045687e534e7d6a' + ':' + '286924697e615a672a646a493545646c'));
+  var authorization =  CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse('7b5a38705d7b3562655925406a652e32' + ':' + '655f523128212d6e70634446224c2a48'));
   $.ajax({
     url: url,
     type: "POST",

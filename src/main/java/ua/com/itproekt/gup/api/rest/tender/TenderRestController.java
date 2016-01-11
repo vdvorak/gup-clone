@@ -259,9 +259,9 @@ public class TenderRestController {
     }
 
     private String getCurrentUserId() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName(); //get logged in username
-        return profileService.findProfileByEmail(email).getId();
+        Profile user = getCurrentUser();
+        if(user == null || user.getId() == null) return null;
+        return user.getId();
     }
 
     private Profile getCurrentUser() {
@@ -294,16 +294,21 @@ public class TenderRestController {
 
     private List<DepartmentOrNace> getCurrentUserNace() {
         Profile user = getCurrentUser();
+        if(user == null || user.getContact() == null || user.getContact().getNaceId() == null) return null;
         List<String> nacesId = user.getContact().getNaceId();
         List<DepartmentOrNace> naces = new ArrayList<>();
         for (String id : nacesId) {
-            naces.add(naceService.findById(id));
+            DepartmentOrNace nace = naceService.findById(id);
+            if(nace != null) {
+                naces.add(naceService.findById(id));
+            }
         }
         return naces;
     }
 
     private List<String> getCurrentUserNaceId() {
         Profile user = getCurrentUser();
+        if (user == null | user.getContact() == null) return null;
         return user.getContact().getNaceId();
     }
 }

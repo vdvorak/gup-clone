@@ -9,6 +9,8 @@ import ua.com.itproekt.gup.service.tender.TenderService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Комп2 on 02.11.2015.
@@ -41,7 +43,9 @@ public class TenderTestController {
         tender.setBody("This is tender body");
 
         tender.setAuthorId("12");
-        tender.setNaceId("1");
+        Set<String> naces = new HashSet<>();
+        naces.add("01.11");
+        tender.setNaceIds(naces);
         tender.setVisited(123L);
         tender.setTitle("this is title");
         tender.setType(TenderType.OPEN);

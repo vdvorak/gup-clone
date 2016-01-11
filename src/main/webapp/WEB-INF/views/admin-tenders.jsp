@@ -13,98 +13,125 @@
 
 <head>
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <title>Редактирование тендеров | Панель управления</title>
-  <!-- Links -->
-  <jsp:include page="/WEB-INF/templates/admin-top-links.jsp"/>
-  <!-- Links -->
+    <title>Редактирование тендеров | Панель управления</title>
+    <!-- Links -->
+    <jsp:include page="/WEB-INF/templates/admin-top-links.jsp"/>
+    <!-- Links -->
 </head>
 <body>
 <div id="wrapper">
-  <!-- Navigation -->
-  <jsp:include page="/WEB-INF/templates/admin-left-bar.jsp"/>
-  <!-- Navigation -->
-  <!-- #page-wrapper -->
-  <div id="page-wrapper">
-    <div class="row">
-      <div class="col-lg-12">
-        <h1 class="page-header">Тендеры</h1>
-      </div>
-      <!-- /.col-lg-12 -->
-    </div>
-    <!-- /.row -->
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="panel panel-default">
-          <!-- /.panel-heading -->
-          <div class="panel-body">
-
-            <div class="dataTable_wrapper">
-              <table id="accountant" class="table table-striped table-bordered table-hover"
-                     cellspacing="0" width="100%">
-                <thead>
-                <tr>
-                  <th>Фото</th>
-                  <th>ID</th>
-                  <th>тип</th>
-                  <th>отправитель</th>
-                  <th>получатель</th>
-                  <th>время</th>
-                  <th>сумма</th>
-                  <th>статус</th>
-                </tr>
-                </thead>
-              </table>
-              <form method="POST" action="/accountant/accountantCancelRequest">
-                <table class="table table-user-information">
-                  <tbody>
-                  <h3 class="panel-title">Редактировать тендер</h3>
-                  <tr>
-                    <td>ID тендера:</td>
-                    <td><input id="inp" class="form-control" name="transactionId" readonly required></td>
-                  </tr>
-                  </tbody>
-                </table>
-                <button id="cancelBtn" type="submit" class="btn btn-primary disabled">Редактировать</button>
-              </form>
+    <!-- Navigation -->
+    <jsp:include page="/WEB-INF/templates/admin-left-bar.jsp"/>
+    <!-- Navigation -->
+    <!-- #page-wrapper -->
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Тендеры</h1>
             </div>
-            <!-- /.table -->
-          </div>
+            <!-- /.col-lg-12 -->
         </div>
-      </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+
+                        <div class="dataTable_wrapper">
+                            <table id="tenders" class="table table-striped table-bordered table-hover"
+                                   cellspacing="0" width="100%">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Название</th>
+                                    <th>Тип</th>
+                                </tr>
+                                </thead>
+                            </table>
+                            <form method="POST" action="/accountant/accountantCancelRequest">
+                                <table class="table table-user-information">
+                                    <tbody>
+                                    <h3 class="panel-title">Редактировать тендер</h3>
+                                    <tr>
+                                        <td>ID тендера:</td>
+                                        <td><input id="inp" class="form-control" name="transactionId" readonly required>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <button id="cancelBtn" type="submit" class="btn btn-primary disabled">Редактировать
+                                </button>
+                            </form>
+                        </div>
+                        <!-- /.table -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <!-- /#page-wrapper -->
+    <!-- /#page-wrapper -->
 </div>
 <!-- /.panel -->
 <!-- Bottom Links -->
 <jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>
 <!-- Bottom Links -->
 <script>
-  $(document).ready(function () {
-    var data;
-    var tenderFilterOptions = new Object();
-    tenderFilterOptions.skip = 0;
-    tenderFilterOptions.limit = 10;
 
-    $.ajax({
-      type: "POST",
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      data: {"skip" : 0, "limit" : 10},
-      url: "/users/getallTender",
-      success: function (response) {
-        data = response;
-        alert(data);
-        alert(JSON.stringify(data));
-      }
-    });
-  });
+        $(document).ready(function () {
+            var data;
+            var tenderFilterOptions = new Object();
+            tenderFilterOptions.skip = 0;
+            tenderFilterOptions.limit = 10;
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "/api/rest/tenderService/tender/read/all/",
+                data: JSON.stringify(tenderFilterOptions),
+                success: function (response) {
+                    alert(JSON.stringify(response));
+                    data = response.entities;
+                    alert(JSON.stringify(data));
+
+                    var table = $('#tenders').DataTable({
+                        select: {
+                            style: 'single'
+                        },
+                        data: data,
+                        "columns": [
+                            {"data": "id"},
+                            {"data": "title"},
+                            {"data": "type"}
+                        ],
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
+                        }
+                    });
+
+                    table
+                            .on('select', function (e, dt, type, indexes) {
+                                var rowData = table.rows(indexes).data().toArray();
+                                $("input[name='transactionId']").attr("value", rowData[0].id);
+                                $('#userIdhref').attr("href", "/edit-profile/" + rowData[0].id);
+                                $('#inp').removeAttr("readonly");
+                                $('#userIdBtn').attr("class", "btn btn-danger");
+                            })
+                            .on('deselect', function (e, dt, type, indexes) {
+                                $("input[name='transactionId']").attr("value", "");
+                                $('#inp').attr("readonly", "readonly");
+                                $('#userIdBtn').attr("class", "btn btn-danger disabled");
+                            });
+                }
+            });
+        });
+
+
 </script>
 </body>
 </html>
