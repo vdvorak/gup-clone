@@ -24,7 +24,7 @@ public class Tender {
     private Long end;
     private Long visited;
     private Set<String> uploadFilesIds;
-    private Set<String> mainPhotoId;
+    private String mainPhotoId;
     private Address address;
     private Boolean hidePropose;
     private String tenderNumber;
@@ -221,11 +221,11 @@ public class Tender {
         this.winnerId = winnerId;
     }
 
-    public Set<String> getMainPhotoId() {
+    public String getMainPhotoId() {
         return mainPhotoId;
     }
 
-    public void setMainPhotoId(Set<String> mainPhotoId) {
+    public void setMainPhotoId(String mainPhotoId) {
         this.mainPhotoId = mainPhotoId;
     }
 
