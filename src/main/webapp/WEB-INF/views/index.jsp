@@ -385,6 +385,7 @@
 
   $('#login-submit').on('click', function () {
 
+<<<<<<< HEAD
     loginServlet($('#loginEmail').val(), $('#loginPassword').val(), function (error) {
       if (!error) {
         window.location.href = '/prioffice';
@@ -402,24 +403,66 @@
       "email": email,
       "password": password
     };
+=======
+    var data = {"email" : $('#login').val(),
+      "password" : $('#loginPassword').val()};
+>>>>>>> f01939e59d903ed756a4c238e84fe5ce1febd572
 
     $.ajax({
-      url: url,
       type: "POST",
-      accept: "application/json",
+      url: "/login",
       data: data,
-      dataType: "json",
-      success: function (data, textStatus, xhr) {
+      success: function () {
+        window.location.href = '/prioffice';
       },
-      complete: function (xhr, textStatus) {
-        if (xhr.status == 200) {
-          window.location.href = '/prioffice';
-        } else {
-          alert("Пароль и логин не совпадает!")
-        }
+      error: function (response) {
+        console.log(response);
+        alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
       }
     });
+<<<<<<< HEAD
   };
+=======
+  });
+
+//  $('#login-submit').on('click', function () {
+//
+//    loginServlet($('#loginEmail').val(), $('#loginPassword').val(), function (error) {
+//      if (!error) {
+//        window.location.href = '/prioffice';
+//      } else {
+//        console.log(error);
+//        alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
+//      }
+//    })
+//  });
+//
+//  var loginServlet = function (email, password, callback) {
+//
+//    var url = "login";
+//    var data = {
+//      "email": email,
+//      "password": password
+//    };
+//
+//    $.ajax({
+//      url: url,
+//      type: "POST",
+//      accept: "application/json",
+//      data: data,
+//      dataType: "json",
+//      success: function (data, textStatus, xhr) {
+//      },
+//      complete: function (xhr, textStatus) {
+//        if (xhr.status == 200) {
+//          window.location.href = '/prioffice';
+//        } else {
+//          alert("Пароль и логин не совпадает!")
+//        }
+//      }
+//    });
+//  }
+>>>>>>> f01939e59d903ed756a4c238e84fe5ce1febd572
 </script>
 </body>
 </html>
