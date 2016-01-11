@@ -216,7 +216,7 @@
               <form id="login-form" action="/login" method="post" role="form" style="display: block;">
                 <div class="form-group">
                   <input type="text" name="email" id="login" tabindex="1" class="form-control"
-                         placeholder="Email адрес" value="">
+                         placeholder="Email адресс" value="">
                 </div>
                 <div class="form-group">
                   <input type="password" name="password" id="loginPassword" tabindex="2"
@@ -224,7 +224,7 @@
                 </div>
                 <div class="form-group">
                   <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3">
+                    <div style="margin: 20px;" class="col-sm-6 col-sm-offset-3">
                       <div id="login-submit" class="form-control btn btn-login">Вход</div>
                     </div>
                   </div>
@@ -233,7 +233,7 @@
                   <div class="row">
                     <div class="col-lg-12">
                       <div class="text-center">
-                        <a href="/recover" tabindex="5" class="forgot-password">Забыл
+                        <a href="/recover" tabindex="5" class="forgot-password">Забыли
                           пароль?</a>
                       </div>
                     </div>
@@ -243,31 +243,33 @@
 
               <form id="regInput" action="/registration" method="post" role="form" style="display: none;">
                 <div class="form-group">
-                  <input type="email" name="email" id="email" tabindex="1" class="form-control"
+                  <input  style="width: 50%;" type="email" name="email" id="email" tabindex="1" class="form-control"
                          placeholder="Email адрес" value="" onchange="checkEmail()"
                          pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$">
-                  <span id="responseEmail" style="margin-left: 10px;"></span>
+                  <span id="responseEmail"></span>
                 </div>
                 <div class="form-group">
-                  <input type="password" name="password" id="password" tabindex="2"
+                  <input style="width: 50%;" type="password" name="password" id="password" tabindex="2"
                          class="form-control" placeholder="Пароль">
                 </div>
                 <div class="form-group">
-                  <input type="password" name="confirm-password" id="confirm-password"
+                  <input  style="width: 50%;" type="password" name="confirm-password" id="confirm-password"
                          onkeyup="checkPass()" tabindex="2" class="form-control"
                          placeholder="Подтвердите пароль">
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="color: #42abe0;font-style: italic;" >
                   Прочитал и согласен с правилами
-                  <input id="accept" type="checkbox" placeholder="Подтвердите пароль" required>
+                  <input id="accept" type="checkbox"  required>
 
                   <div class="g-recaptcha"
                        data-sitekey="6Lc6KxETAAAAAKK9s-YUlVdfAUZx-G3KpohgGqfJ"></div>
                   <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3">
-                      <input type="submit" name="register-submit" id="register-submit"
+                    <div class="col-sm-6 col-sm-offset-3" style="margin: 20px;">
+                      <div type="submit" name="register-submit" id="register-submit"
                              tabindex="4" class="form-control btn btn-register"
-                             value="Зарегистрироваться" disabled>
+                             disabled>
+                        Зарегистрироваться
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -382,16 +384,42 @@
   }
 
   $('#login-submit').on('click', function () {
-    oauth2.user.login($('#login').val(), $('#loginPassword').val(), function (error) {
-      if (!error){
+
+    loginServlet($('#loginEmail').val(), $('#loginPassword').val(), function (error) {
+      if (!error) {
         window.location.href = '/prioffice';
-      }
-      else {
+      } else {
         console.log(error);
         alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
       }
     })
-  })
+  });
+
+  var loginServlet = function (email, password, callback) {
+
+    var url = "login";
+    var data = {
+      "email": email,
+      "password": password
+    };
+
+    $.ajax({
+      url: url,
+      type: "POST",
+      accept: "application/json",
+      data: data,
+      dataType: "json",
+      success: function (data, textStatus, xhr) {
+      },
+      complete: function (xhr, textStatus) {
+        if (xhr.status == 200) {
+          window.location.href = '/prioffice';
+        } else {
+          alert("Пароль и логин не совпадает!")
+        }
+      }
+    });
+  }
 </script>
 </body>
 </html>

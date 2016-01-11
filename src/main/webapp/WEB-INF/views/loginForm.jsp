@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-6 col-sm-offset-3">
+                                        <div style="margin: 20px;" class="col-sm-6 col-sm-offset-3">
                                             <div id="login-submit" class="form-control btn btn-login">Вход</div>
                                         </div>
                                     </div>
