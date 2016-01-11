@@ -51,17 +51,6 @@ public class TenderServiceImpl implements TenderService {
     }
 
     @Override
-    public boolean isUserHaveAccess(Profile user, Tender tender) {
-        if (user.getUserRoles().contains(UserRole.ROLE_ADMIN)) {
-            return true;
-        }
-        if (tender.getNaceIds().equals(user.getContact().getNace())) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public EntityPage<Tender> findWihOptions(TenderFilterOptions tenderFilterOptions, Profile user) {
         return tenderRepository.findWihOptions(tenderFilterOptions, user);
     }
