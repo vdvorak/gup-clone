@@ -385,7 +385,6 @@
 
   $('#login-submit').on('click', function () {
 
-<<<<<<< HEAD
     loginServlet($('#loginEmail').val(), $('#loginPassword').val(), function (error) {
       if (!error) {
         window.location.href = '/prioffice';
@@ -403,10 +402,10 @@
       "email": email,
       "password": password
     };
-=======
+
     var data = {"email" : $('#login').val(),
       "password" : $('#loginPassword').val()};
->>>>>>> f01939e59d903ed756a4c238e84fe5ce1febd572
+
 
     $.ajax({
       type: "POST",
@@ -420,10 +419,9 @@
         alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
       }
     });
-<<<<<<< HEAD
+
   };
-=======
-  });
+
 
 //  $('#login-submit').on('click', function () {
 //
@@ -462,7 +460,7 @@
 //      }
 //    });
 //  }
->>>>>>> f01939e59d903ed756a4c238e84fe5ce1febd572
+
 </script>
 </body>
 </html>
