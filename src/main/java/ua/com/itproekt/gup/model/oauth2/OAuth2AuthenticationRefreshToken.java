@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
 import java.io.Serializable;
+import java.util.Date;
 
 
 @Document(collection = "oauth2_refresh_token")
@@ -20,6 +21,9 @@ public class OAuth2AuthenticationRefreshToken implements Serializable {
     private final String tokenId;
     private final OAuth2RefreshToken oAuth2RefreshToken;
     private final OAuth2Authentication authentication;
+
+    @Indexed(expireAfterSeconds = 60*60*24*30)
+    private Date createdDate = new Date();
 
     public OAuth2AuthenticationRefreshToken(OAuth2RefreshToken oAuth2RefreshToken, OAuth2Authentication authentication) {
         this.oAuth2RefreshToken = oAuth2RefreshToken;

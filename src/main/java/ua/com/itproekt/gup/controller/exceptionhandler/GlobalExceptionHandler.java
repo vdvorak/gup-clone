@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.security.Principal;
@@ -76,14 +77,13 @@ public class GlobalExceptionHandler {
 
 
 
-        return "403";
+        return "error/403";
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    public String handleAuthCredentialsNotFoundEx(HttpServletRequest request,
-                                                  Principal principal,
-                                                  Exception ex) {
+    public String handleAuthCredentialsNotFoundEx(HttpServletRequest request, HttpServletResponse response,
+                                                  Principal principal, Exception ex) {
         String userEmail = (principal == null ? "NULL" : principal.getName());
         StringWriter stack = new StringWriter();
         ex.printStackTrace(new PrintWriter(stack)); // **********
@@ -92,7 +92,7 @@ public class GlobalExceptionHandler {
                 "   User email: " + userEmail + ";" +
                 "   Exception: " + stack.toString());
 
-        return "401";
+        return "error/401";
     }
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
