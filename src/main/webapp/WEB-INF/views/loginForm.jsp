@@ -11,9 +11,7 @@
     <meta charset="utf-8">
     <title>Вход</title>
     <link type="text/css" rel="stylesheet" href="/resources/css/login.css"/>
-    <link type="text/css" rel="stylesheet" href="/resources/css/main.css"/>
     <link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css">
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <link rel="stylesheet" href="http://bootsnipp.com/dist/bootsnipp.min.css?ver=7d23ff901039aef6293954d33d23c066">
@@ -118,9 +116,6 @@
 <script src="/resources/js/enc-base64-min.js"></script>
 <script src="/resources/js/cookie.js"></script>
 <script src="/resources/js/user.js"></script>
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-<script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
-<script src="/resources/js/common.js"></script>
 
 <script>
 

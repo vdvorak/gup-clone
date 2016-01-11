@@ -2,9 +2,9 @@
 <header class="main-head">
   <div class="top-menu">
     <div class="header-entry">
-      <a href="/login">Вход</a>
+      <a href="/loginForm">Вход</a>
       <span>/</span>
-      <a href="/login">Регистрация</a>
+      <a href="/loginForm">Регистрация</a>
     </div>
 
     <div>

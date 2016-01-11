@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.validation.ObjectError;
@@ -61,7 +60,7 @@ public class GlobalExceptionHandler {
         return result;
     }
 
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(AccessDeniedException.class)
     public String  handleAccessDeniedException(HttpServletRequest request,
                                                                      Principal principal,
@@ -77,7 +76,7 @@ public class GlobalExceptionHandler {
 
 
 
-        return "access-error";
+        return "403";
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

@@ -3,12 +3,14 @@ package ua.com.itproekt.gup.controller;
 /**
  * Created by Optical Illusion on 23.12.2015.
  */
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@Deprecated
 public class Interceptor implements HandlerInterceptor  {
     @Override
     public boolean preHandle(HttpServletRequest request,
