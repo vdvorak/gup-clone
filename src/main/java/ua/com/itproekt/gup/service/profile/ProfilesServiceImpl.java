@@ -34,10 +34,11 @@ public class ProfilesServiceImpl implements ProfilesService {
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
         profile.setPassword(hashedPassword);
         HashSet<UserRole> userRoles = new HashSet<>();
-        userRoles.add(UserRole.ROLE_USER);
-        profile.setUserRoles(userRoles);
+        if (profile.getUserRoles() == null || profile.getUserRoles().size() == 0) {
+            userRoles.add(UserRole.ROLE_USER);
+            profile.setUserRoles(userRoles);
+        }
         profileRepository.createProfile(profile);
-
         bankSession.createBalanceRecord(profile.getId(), 0);
     }
 

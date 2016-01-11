@@ -221,10 +221,6 @@
                                                     <label><input id="userCheck" type="checkbox"
                                                                   value="ROLE_USER">USER</label>
                                                 </div>
-                                                <div class="checkbox">
-                                                    <label><input id="confirmedCheck" type="checkbox"
-                                                                  value="ROLE_CONFIRMED">CONFIRMED</label>
-                                                </div>
                                             </div>
 
                                         <div class="modal-footer">
@@ -256,7 +252,7 @@
                                             <h4 class="modal-title">Перевод</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="col-xs-4">
+                                            <div class="col-xs-8">
                                                 <input id="searchLogin" type="text"
                                                        class="form-control"
                                                        placeholder="Начните вводить логин">
@@ -389,12 +385,13 @@
 
 <script>
     var idCorrect = [];
+    var users = [];
     $(document).ready(function () {
         var data;
         var filterOptions = new Object();
         filterOptions.skip = 0;
         filterOptions.limit = 1000000;
-        filterOptions.userRoles = ['ROLE_ADMIN', 'ROLE_MODERATOR'];
+//        filterOptions.userRoles = ['ROLE_ADMIN', 'ROLE_MODERATOR'];
 
         $('#myModal').on('shown.bs.modal', function () {
             $('#myInput').focus()
@@ -411,7 +408,7 @@
             data: JSON.stringify(filterOptions),
             success: function (response) {
                 data = response.entities;
-
+                users = data;
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].contact !== null) {
                         if (data[i].contact.pic.length > 2) {
@@ -512,31 +509,26 @@
         var roles = [];
         login =$('#newLogin').val();
         password =$('#newPassword').val();
-        if($('#adminCheck').checked){
+        if($('#adminCheck').prop("checked")){
             roles.push('ROLE_ADMIN');
         }
-        if($('#supportCheck').checked){
+        if($('#supportCheck').prop("checked")){
             roles.push('ROLE_SUPPORT');
         }
-        if($('#moderatorCheck').checked){
+        if($('#moderatorCheck').prop("checked")){
             roles.push('ROLE_MODERATOR');
         }
-        if($('#userCheck').checked){
+        if($('#userCheck').prop("checked")){
             roles.push('ROLE_USER');
         }
-        if($('#confirmedCheck').checked){
-            roles.push('ROLE_CONFIRMED');
-        }
-        if($('#amonymousCheck').checked){
+        if($('#anonymousCheck').prop("checked")){
             roles.push('ROLE_ANONYMOUS');
         }
 
         user.login = login;
+        user.email = login;
         user.password = password;
         user.userRoles = roles;
-        alert(login);
-        alert(password);
-        alert(JSON.stringify(user));
 
         $.ajax({
             type: "POST",
@@ -545,7 +537,7 @@
             dataType: "json",
             data: JSON.stringify(user),
             success: function (response) {
-                alert(JSON.stringify(user));
+                window.location.href = '/admin-admins';
             }
         });
     });

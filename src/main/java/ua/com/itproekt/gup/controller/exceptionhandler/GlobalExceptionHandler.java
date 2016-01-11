@@ -42,16 +42,16 @@ public class GlobalExceptionHandler {
                 "   User email: " + userEmail + ";" +
                 "   Exception: " + stack.toString());
 
-        Map<String, Object>  map = new HashMap();
+        Map<String, Object>  map = new HashMap<>();
         map.put("error", "Validation Failure");
         map.put("violations", convertConstraintViolation(ex));
         return map;
     }
 
     private Map<String, Map<String, Object> > convertConstraintViolation(MethodArgumentNotValidException ex) {
-        Map<String, Map<String, Object> > result = new HashMap();
+        Map<String, Map<String, Object> > result = new HashMap<>();
         for (ObjectError error : ex.getBindingResult().getAllErrors()) {
-            Map<String, Object>  violationMap = new HashMap();
+            Map<String, Object>  violationMap = new HashMap<>();
             violationMap.put("target", ex.getBindingResult().getTarget());
             violationMap.put("type", ex.getBindingResult().getTarget().getClass());
             violationMap.put("message", error.getDefaultMessage());
@@ -76,14 +76,12 @@ public class GlobalExceptionHandler {
 
 
 
-        return "403";
+        return "error/403";
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    public String handleAuthCredentialsNotFoundEx(HttpServletRequest request,
-                                                  Principal principal,
-                                                  Exception ex) {
+    public String handleAuthCredentialsNotFoundEx(HttpServletRequest request, Principal principal, Exception ex) {
         String userEmail = (principal == null ? "NULL" : principal.getName());
         StringWriter stack = new StringWriter();
         ex.printStackTrace(new PrintWriter(stack)); // **********
@@ -92,18 +90,14 @@ public class GlobalExceptionHandler {
                 "   User email: " + userEmail + ";" +
                 "   Exception: " + stack.toString());
 
-        return "401";
+        return "error/401";
     }
 
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public @ResponseBody Map<String, Object> handleUncaughtException(HttpServletRequest request,
-                                                                     Principal principal,
-                                                                     Exception ex) {
+    public String handleUncaughtException(HttpServletRequest request, Principal principal, Exception ex) {
         String userEmail = (principal == null ? "NULL" : principal.getName());
         StringWriter stack = new StringWriter();
-
         ex.printStackTrace(new PrintWriter(stack)); // **********
 
         logger.error("UncaughtException Occured:: URL=" + request.getRequestURL() + ";" +
@@ -111,14 +105,16 @@ public class GlobalExceptionHandler {
                 "   Exception: " + stack.toString());
 
         ////////////////////////////////////////////////////////////////
-        Map<String, Object>  map = new HashMap();
-        map.put("error", "Unknown Error");
+        System.err.println("error : Unknown Error");
+        System.err.println("class : " + ex.getClass());
+        System.err.println(" : " + ex.getClass());
         if (ex.getCause() != null) {
-            map.put("cause", ex.getCause().getMessage());
+            System.err.println("cause : " + ex.getCause().getMessage());
         } else {
-            map.put("cause", ex.getMessage());
+            System.err.println("cause :" + ex.getMessage());
         }
-        return map;
+
+        return "error/error";
     }
 
 }

@@ -29,7 +29,6 @@ public class OAuthFilter implements Filter {
         this.tokenServices = ctx.getBean(DefaultTokenServices.class);
     }
 
-
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
                          FilterChain chain) throws ServletException, IOException {
 
@@ -66,7 +65,7 @@ public class OAuthFilter implements Filter {
                     OAuth2AccessToken accessToken = null;
                     try {
                         accessToken = tokenServices.refreshAccessToken(refreshToken, tokenRequest);
-                    } catch (Exception ex) {
+                    } catch (RuntimeException ex) {
 // **** **** **** **** **** *** **** **** *** **** **** *** **** **** *** *** **** **** *** *** **** **** ***
 
                         Cookie cookie = new Cookie("refreshToken", null);
@@ -74,18 +73,22 @@ public class OAuthFilter implements Filter {
                         cookie.setPath("/");
                         httpServletResp.addCookie(cookie);
 
-                        httpServletResp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        httpServletResp.setStatus(HttpServletResponse.SC_OK);
+
                         ex.printStackTrace();
     //логировать
 // **** **** **** **** **** *** **** **** *** **** **** *** **** **** *** *** **** **** *** *** **** **** ***
                     }
 
-                    Cookie cookie = new Cookie("authToken", accessToken.getValue());
-                    cookie.setMaxAge(ACCESS_TOKEN_EXPIRES_IN_SECONDS);
-                    cookie.setPath("/");
-                    httpServletResp.addCookie(cookie);
+                    if (accessToken != null) {
+                        Cookie cookie = new Cookie("authToken", accessToken.getValue());
+                        cookie.setMaxAge(ACCESS_TOKEN_EXPIRES_IN_SECONDS);
+                        cookie.setPath("/");
+                        httpServletResp.addCookie(cookie);
 
-                    filteredReq.addParameter("access_token", new String[]{accessToken.getValue()});
+                        filteredReq.addParameter("access_token", new String[]{accessToken.getValue()});
+                    }
+
                 }
             }
         }

@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.com.itproekt.gup.model.profiles.verification.VerificationToken;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 
@@ -46,7 +45,7 @@ public class LostPasswordController {
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
     public String resetPassword(@RequestParam String token, @RequestParam String newPassword, Model model) {
 
-        VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
+//        VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
 
         verificationTokenService.resetPassword(token, newPassword);
 

@@ -37,7 +37,7 @@
                         <div class="col-lg-12">
                             <form id="login-form" action="/login" method="post" role="form" style="display: block;">
                                 <div class="form-group">
-                                    <input type="text" name="email" id="login" tabindex="1" class="form-control"
+                                    <input type="text" name="email" id="loginEmail" tabindex="1" class="form-control"
                                            placeholder="Email адрес" value="">
                                 </div>
                                 <div class="form-group">
@@ -110,12 +110,6 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
 
-
-<script src="/resources/js/oauth2.js"></script>
-<script src="/resources/js/sha256.js"></script>
-<script src="/resources/js/enc-base64-min.js"></script>
-<script src="/resources/js/cookie.js"></script>
-<script src="/resources/js/user.js"></script>
 
 <script>
 
@@ -210,15 +204,41 @@
     }
 
     $('#login-submit').on('click', function () {
-        oauth2.user.login($('#login').val(), $('#loginPassword').val(), function (error) {
-            if (!error){
+
+        loginServlet($('#loginEmail').val(), $('#loginPassword').val(), function (error) {
+            if (!error) {
                 window.location.href = '/prioffice';
-            }
-            else {
+            } else {
                 console.log(error);
                 alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
             }
         })
-    })
+    });
+
+    var loginServlet = function (email, password, callback) {
+
+        var url = "login";
+        var data = {
+            "email": email,
+            "password": password
+        };
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            accept: "application/json",
+            data: data,
+            dataType: "json",
+            success: function (data, textStatus, xhr) {
+            },
+            complete: function (xhr, textStatus) {
+                if (xhr.status == 200) {
+                    window.location.href = '/prioffice';
+                } else {
+                    alert("Пароль и логин не совпадает!")
+                }
+            }
+        });
+    }
 </script>
 </html>

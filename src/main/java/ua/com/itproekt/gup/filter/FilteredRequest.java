@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.*;
 
-@Deprecated
 public class FilteredRequest extends HttpServletRequestWrapper {
     private Map<String, String[]> modifiableParameters;
     private Map<String, String[]> allParameters = null;
