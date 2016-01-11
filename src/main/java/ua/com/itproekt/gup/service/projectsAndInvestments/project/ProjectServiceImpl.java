@@ -30,6 +30,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ActivityFeedService activityFeedService;
 
+    BankSession bankSession = new BankSession();
+
     @Override
     public void create(Project project) {
         Project newProject = new Project()
@@ -134,8 +136,6 @@ public class ProjectServiceImpl implements ProjectService {
     public boolean userHasVoted(String projectId, String userId) {
         return projectRepository.userHasVoted(projectId, userId);
     }
-
-    BankSession bankSession = new BankSession();
 
     @Override
     public void bringBackMoneyToInvestors() {
