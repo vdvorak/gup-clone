@@ -46,7 +46,7 @@
                 <a href="#">Выход</a>
 
                 <div class="pageedit">
-                    <a href="#">Редактировать страницу</a>
+                    <a href="/edit-profile">Редактировать страницу</a>
                 </div>
             </div>
         </div>
