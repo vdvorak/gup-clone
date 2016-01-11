@@ -38,7 +38,7 @@
           <a href="#">Проекты</a>
           <a href="#">Новости</a>
           <a href="#">Настройки</a>
-          <a href="#">Выход</a>
+          <a href="/loguot">Выход</a>
           <div class="pageedit">
             <a href="/edit-profile">Редактировать страницу</a>
           </div>
@@ -397,7 +397,7 @@
 
   var loginServlet = function (email, password, callback) {
 
-    var url = "login";
+    var url = "loginForm";
     var data = {
       "email": email,
       "password": password
@@ -419,7 +419,7 @@
         }
       }
     });
-  }
+  };
 </script>
 </body>
 </html>
