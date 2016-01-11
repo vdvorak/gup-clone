@@ -74,7 +74,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     @Override
     public EntityPage<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions) {
         Query query = new Query();
-
         if (profileFilterOptions.getUserRoles() != null) {
             query.addCriteria(Criteria.where("userRoles").all(profileFilterOptions.getUserRoles()));
         }
