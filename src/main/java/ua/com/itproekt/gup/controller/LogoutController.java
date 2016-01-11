@@ -20,10 +20,9 @@ public class LogoutController {
     @RequestMapping(value = "/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
 
-        String accessToken = null;
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals("authToken")) {
-                accessToken = cookie.getValue();
+                tokenServices.revokeToken(cookie.getValue());
             }
         }
 
@@ -36,8 +35,6 @@ public class LogoutController {
         cookieRefreshToken.setMaxAge(0);
         cookieRefreshToken.setPath("/");
         response.addCookie(cookieRefreshToken);
-
-        tokenServices.revokeToken(accessToken);
 
         return "redirect:/index";
     }
