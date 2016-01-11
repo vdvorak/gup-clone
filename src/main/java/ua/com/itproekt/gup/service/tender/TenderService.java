@@ -15,7 +15,5 @@ public interface TenderService {
     boolean isUserHaveAccess(Profile user, Tender tender);
     EntityPage<Tender> findWihOptions(TenderFilterOptions tenderFilterOptions, Profile user);
     void checkClosedTendersAndSendActivityFeed();
-    Tender setIndividualVision(Tender tender);
-    Tender setLegalEntityVision(Tender tender);
-    Tender setProposeVision(Tender tender, String idUserWhoReed);  //make propose visible according to hidden settings
+    Tender setVision(Tender tender, Profile UserWhoReed);
 }
