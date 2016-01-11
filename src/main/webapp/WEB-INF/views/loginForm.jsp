@@ -228,7 +228,14 @@
             type: "POST",
             accept: "application/json",
             data: data,
-            dataType: "json"
+            dataType: "json",
+            success: function (data, textStatus, xhr) {
+            },
+            complete: function (xhr, textStatus) {
+                if (xhr.status == 200) {
+                    window.location.href = '/prioffice';
+                }
+            }
         });
     }
 </script>
