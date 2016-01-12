@@ -35,3 +35,7 @@ $(function () {
 		collapsible: true
 	});
 });
+$(document).on('click', '.prioffice-close-tenders-ico', function(e){
+	e.preventDefault();
+	$('.myitems-tenders ').css('display', 'none');
+});

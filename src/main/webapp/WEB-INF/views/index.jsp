@@ -274,11 +274,10 @@
                        data-sitekey="6Lc6KxETAAAAAKK9s-YUlVdfAUZx-G3KpohgGqfJ"></div>
                   <div class="row">
                     <div class="col-sm-6 col-sm-offset-3" style="margin: 20px;">
-                      <div type="submit" name="register-submit" id="register-submit"
-                             tabindex="4" class="form-control btn btn-register"
-                             disabled>
+                      <button  type="submit" id="register-submit" tabindex="4" class="form-control btn btn-register">
+
                         Зарегистрироваться
-                        </div>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -328,12 +327,9 @@
     var pass2 = document.getElementById('confirm-password');
     if (pass1.value == pass2.value) {
       pass2.style.backgroundColor = goodColor;
-      message.style.color = goodColor;
-      message.innerHTML = "Passwords Match!"
     } else {
       pass2.style.backgroundColor = badColor;
-      message.style.color = badColor;
-      message.innerHTML = "Passwords Do Not Match!"
+
     }
   }
 
@@ -388,6 +384,7 @@
         } else {
           $("#responseEmail").text("email свободен").css("color", "green");
           $('#register-submit').removeAttr("disabled");
+          $("#email").removeAttr("value", "no");
         }
       }
     });
