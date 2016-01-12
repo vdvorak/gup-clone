@@ -30,3 +30,24 @@
 $(document).ready(function(){
 	$(".tabs").lightTabs();
 });
+$(function () {
+	$("#accordion").accordion({
+		collapsible: true
+	});
+});
+$(document).on('click', '.prioffice-close-tenders-ico', function(e){
+	e.preventDefault();
+	$('.myitems-tenders ').css('display', 'none');
+});
+$(document).on('click', '.prioffice-close-projects-ico', function(e){
+	e.preventDefault();
+	$('.myitems-projects ').css('display', 'none');
+});
+$(document).on('click', '.prioffice-close-news-ico', function(e){
+	e.preventDefault();
+	$('.myitems-news ').css('display', 'none');
+});
+$(document).on('click', '.prioffice-close-founds1-ico', function(e){
+	e.preventDefault();
+	$('.myitems-founds ').css('display', 'none');
+});

@@ -28,17 +28,26 @@
           <img src="/resources/img/reallySmallUserpic.png">
         </div>
         <div class="top-menu-username">
-          <a href="#">петров василий</a>
+          <a href="#">
+          <c:choose>
+            <c:when test="${not empty profile.username}">
+              ${profile.username}
+            </c:when>
+            <c:otherwise>
+                 Вася Пупкин
+            </c:otherwise>
+          </c:choose>
+          </a>
         </div>
         <div class="header-mainMenu">
-          <a href="#">Моя страница</a>
+          <a href="/prioffice">Моя страница</a>
           <a href="#">Сообщения</a>
           <a href="#">Уведомления</a>
           <a href="#">Тендеры</a>
           <a href="#">Проекты</a>
           <a href="#">Новости</a>
           <a href="#">Настройки</a>
-          <a href="/loguot">Выход</a>
+          <a href="/logout">Выход</a>
           <div class="pageedit">
             <a href="/edit-profile">Редактировать страницу</a>
           </div>
@@ -233,8 +242,7 @@
                   <div class="row">
                     <div class="col-lg-12">
                       <div class="text-center">
-                        <a href="/recover" tabindex="5" class="forgot-password">Забыли
-                          пароль?</a>
+                        <a href="/restore" tabindex="5" class="forgot-password">Забыли пароль?</a>
                       </div>
                     </div>
                   </div>
@@ -265,11 +273,10 @@
                        data-sitekey="6Lc6KxETAAAAAKK9s-YUlVdfAUZx-G3KpohgGqfJ"></div>
                   <div class="row">
                     <div class="col-sm-6 col-sm-offset-3" style="margin: 20px;">
-                      <div type="submit" name="register-submit" id="register-submit"
-                             tabindex="4" class="form-control btn btn-register"
-                             disabled>
+                      <button  type="submit" id="register-submit" tabindex="4" class="form-control btn btn-register">
+
                         Зарегистрироваться
-                        </div>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -288,6 +295,7 @@
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
 <script src="/resources/libs/jquery.magnific-popup.min.js"></script>
 <script src="/resources/js/common.js"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 
 <!--END of libs-->
@@ -318,12 +326,9 @@
     var pass2 = document.getElementById('confirm-password');
     if (pass1.value == pass2.value) {
       pass2.style.backgroundColor = goodColor;
-      message.style.color = goodColor;
-      message.innerHTML = "Passwords Match!"
     } else {
       pass2.style.backgroundColor = badColor;
-      message.style.color = badColor;
-      message.innerHTML = "Passwords Do Not Match!"
+
     }
   }
 
@@ -353,10 +358,10 @@
         dataType: "json",
         data: JSON.stringify(c),
         success: function (response) {
-          window.location.href = "/login"
+          window.location.href = "/index"
         },
         error: function (response) {
-          window.location.href = "/login"
+          window.location.href = "/index"
         }
       });
     } else {
@@ -378,6 +383,7 @@
         } else {
           $("#responseEmail").text("email свободен").css("color", "green");
           $('#register-submit').removeAttr("disabled");
+          $("#email").removeAttr("value", "no");
         }
       }
     });
@@ -397,14 +403,14 @@
 
   var loginServlet = function (email, password, callback) {
 
-    var url = "loginForm";
+//    var url = "loginForm";
     var data = {
       "email": email,
       "password": password
     };
 
     var data = {"email" : $('#login').val(),
-      "password" : $('#loginPassword').val()};
+                "password" : $('#loginPassword').val()};
 
 
     $.ajax({

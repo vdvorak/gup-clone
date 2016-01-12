@@ -36,14 +36,14 @@
                 </a>
             </div>
             <div class="header-mainMenu">
-                <a href="#">Моя страница</a>
+                <a href="/prioffice">Моя страница</a>
                 <a href="#">Сообщения</a>
                 <a href="#">Уведомления</a>
                 <a href="#">Тендеры</a>
                 <a href="#">Проекты</a>
                 <a href="#">Новости</a>
                 <a href="#">Настройки</a>
-                <a href="#">Выход</a>
+                <a href="/logout">Выход</a>
 
                 <div class="pageedit">
                     <a href="/edit-profile">Редактировать страницу</a>
@@ -274,7 +274,7 @@
                                 <div class="myitems-item-wrap-title">
                                     <p class="myitems-item-wrap-titletext">Мои тендеры</p>
                                 </div>
-                                <img class="prioffice-close-founds-ico" src="/resources/img/closesmall-icon.png">
+                                <img class="prioffice-close-tenders-ico" src="/resources/img/closesmall-icon.png">
                             </div>
                             <div class="myitems-tenders-items">
                                 <p>Заголовок тендера 1</p>
@@ -297,7 +297,7 @@
                                 <div class="myitems-item-wrap-title">
                                     <p class="myitems-item-wrap-titletext">Мои проекты</p>
                                 </div>
-                                <img class="prioffice-close-founds-ico" src="/resources/img/closesmall-icon.png">
+                                <img class="prioffice-close-projects-ico" src="/resources/img/closesmall-icon.png">
                             </div>
                             <div class="myitems-projects-items">
                                 <p>Заголовок проекта 1</p>
@@ -321,7 +321,7 @@
                                 <div class="myitems-item-wrap-title">
                                     <p class="myitems-item-wrap-titletext">Мои новости</p>
                                 </div>
-                                <img class="prioffice-close-founds-ico" src="/resources/img/closesmall-icon.png">
+                                <img class="prioffice-close-news-ico" src="/resources/img/closesmall-icon.png">
                             </div>
                             <div class="myitems-news-items">
                                 <p>Новость 1</p>
@@ -371,16 +371,11 @@
 <!-- libs starts here-->
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script src="/resources/js/prioffice.js"></script>
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
 <script src="/resources/js/common.js"></script>
-<script src="/resources/js/prioffice.js"></script>
-<script>
-    $(function () {
-        $("#accordion").accordion({
-            collapsible: true
-        });
-    });
-</script>
+
+
 <!--END of libs-->
 
 </body>
