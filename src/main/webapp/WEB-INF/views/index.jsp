@@ -242,8 +242,7 @@
                   <div class="row">
                     <div class="col-lg-12">
                       <div class="text-center">
-                        <a href="/recover" tabindex="5" class="forgot-password">Забыли
-                          пароль?</a>
+                        <a href="/restore" tabindex="5" class="forgot-password">Забыли пароль?</a>
                       </div>
                     </div>
                   </div>
@@ -404,14 +403,14 @@
 
   var loginServlet = function (email, password, callback) {
 
-    var url = "loginForm";
+//    var url = "loginForm";
     var data = {
       "email": email,
       "password": password
     };
 
     var data = {"email" : $('#login').val(),
-      "password" : $('#loginPassword').val()};
+                "password" : $('#loginPassword').val()};
 
 
     $.ajax({
