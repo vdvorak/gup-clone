@@ -105,9 +105,9 @@
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].imagesIds !== null) {
                         alert("Ololo");
-                        for (var j in data[i].imagesIds) {
-                            if (data[i].imagesIds[j] === "pic1") {
-                                data[i].imagesIds = '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + j + '" width="100" height="100">';
+                        for (var key in data[i].imagesIds) {
+                            if (data[i].imagesIds[key] === "pic1") {
+                                data[i].imagesIds = '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key + '" width="100" height="100">';
                             }
                         }
                     }
