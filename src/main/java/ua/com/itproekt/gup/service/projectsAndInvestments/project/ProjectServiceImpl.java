@@ -1,15 +1,21 @@
 package ua.com.itproekt.gup.service.projectsAndInvestments.project;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.BankSession;
+import ua.com.itproekt.gup.bank_api.services.Pair;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.projectsAndInvestments.project.ProjectRepository;
+import ua.com.itproekt.gup.model.activityfeed.Event;
+import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.*;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.ServiceNames;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,6 +29,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private ActivityFeedService activityFeedService;
+
+    BankSession bankSession = new BankSession();
 
     @Override
     public void create(Project project) {
@@ -132,27 +140,27 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void bringBackMoneyToInvestors() {
         Set<String> expiredProjectsIds = projectRepository.getExpiredProjectsIds();
-        expiredProjectsIds.parallelStream().forEach(projectId -> {
-//            projectRepository.setStatus(projectId, ProjectStatus.)
-//            System.err.println("Вызов метода из банка!");
-//            for (Object o : investorIds) {
-//                  activityFeedService.createEvent(new Event(uId, EventType.PROJECT_BRING_BACK_MONEY, moneyAmount, projectId))
-//            }
+        expiredProjectsIds.parallelStream().unordered().forEach(projectId -> {
+            List<Pair<String, Long>> projectInvestments = null;
+            try {
+                projectInvestments = bankSession.projectPayback(projectId);
+            } catch (ParseException e) {
+                throw new RuntimeException(Arrays.toString(e.getStackTrace()));
+            }
+
+            sendNotificationsToInvestors(projectInvestments, projectId);
+            projectRepository.updateProjectStatus(projectId, ProjectStatus.EXPIRED_AND_RETURNED_MONEY);
+        });
+    }
+
+    public void sendNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {
+        projectInvestments.parallelStream().unordered().forEach(pair -> {
+            String uId = pair.getKey();
+            Long moneyAmount = pair.getValue();
+            activityFeedService.createEvent(new Event(uId, EventType.PROJECT_BRING_BACK_MONEY,
+                    moneyAmount.toString(), projectId));
         });
 
-        System.err.println(" ******** ******** ******** ");
-        System.err.println("Возврат денег вкладчикам этих проектов:" + expiredProjectsIds);
-        System.err.println("Изменения статуса проекта!");
     }
 
-
-
-    //    *******************************
-    BankSession bankSession = new BankSession();
-
-    @Override
-    public void bringBackMoneyToInvestorsTest() {
-//        String response = bankSession.projectPayback("Egor");
-//        System.err.println("**** response" + response);
-    }
 }

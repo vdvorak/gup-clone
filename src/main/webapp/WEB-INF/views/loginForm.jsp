@@ -37,7 +37,7 @@
                         <div class="col-lg-12">
                             <form id="login-form" action="/login" method="post" role="form" style="display: block;">
                                 <div class="form-group">
-                                    <input type="text" name="email" id="login" tabindex="1" class="form-control"
+                                    <input type="text" name="email" id="loginEmail" tabindex="1" class="form-control"
                                            placeholder="Email адрес" value="">
                                 </div>
                                 <div class="form-group">
@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-6 col-sm-offset-3">
+                                        <div style="margin: 20px;" class="col-sm-6 col-sm-offset-3">
                                             <div id="login-submit" class="form-control btn btn-login">Вход</div>
                                         </div>
                                     </div>
@@ -110,12 +110,6 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
 
-
-<script src="/resources/js/oauth2.js"></script>
-<script src="/resources/js/sha256.js"></script>
-<script src="/resources/js/enc-base64-min.js"></script>
-<script src="/resources/js/cookie.js"></script>
-<script src="/resources/js/user.js"></script>
 
 <script>
 
@@ -213,11 +207,12 @@
 
         var data = {"email" : $('#login').val(),
                     "password" : $('#loginPassword').val()};
+
         $.ajax({
             type: "POST",
             url: "/login",
             data: data,
-            success: function (response) {
+            success: function () {
                 window.location.href = '/prioffice';
             },
             error: function (response) {
@@ -226,5 +221,7 @@
             }
         });
     })
+
+
 </script>
 </html>

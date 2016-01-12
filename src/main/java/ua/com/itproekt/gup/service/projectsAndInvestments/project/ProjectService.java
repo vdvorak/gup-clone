@@ -36,7 +36,4 @@ public interface ProjectService {
     boolean userHasVoted(String projectId, String userId);
 
     void bringBackMoneyToInvestors();
-
-//    *******************************
-    void bringBackMoneyToInvestorsTest();
 }

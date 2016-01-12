@@ -628,3 +628,77 @@ footer{
 .myitems-row{
 	margin-bottom: 20px;
 }
+
+.mfp-content{
+	width: 600px !important;
+	background-color: #fff;
+	border: 5px solid #99cc66;
+	border-radius: 10px;
+}
+.login-form-heder-part{
+	display: inline-block;
+	padding: 20px;
+}
+.bx-controls-direction{
+	display: none !important;
+}
+.panel-heading{
+	text-align: center;
+}
+.login-form-heder-part a{
+	color: #42abe0;
+	font-size: 24px;
+}
+.login-form-heder-part .active{
+	color: #1269a7;
+	font-size: 24px;
+	border: 3px solid #1269a7;
+	padding: 5px;
+	border-radius: 10px;
+}
+#login-form, #regInput{
+	text-align: center;
+}
+#login-form input {
+	border: 3px solid #99cc66;
+	border-radius: 5px;
+	width: 50%;
+	font-size: 14px;
+	padding: 5px;
+	margin: 5px;
+}
+#login-submit{
+	background-color: #99cc66;
+	width: 50px;
+	margin: auto;
+	padding: 5px 10px;
+	border-radius: 5px;
+	color: #fff;
+	cursor: pointer;
+	font-size: 20px;
+}
+.text-center{
+	margin: 10px;
+}
+.text-center a{
+	color: #42abe0;
+	font-style: italic;
+}
+#regInput input{
+	border: 3px solid #99cc66;
+	border-radius: 5px;
+	font-size: 14px;
+	padding: 5px;
+	margin: 5px;
+}
+#register-submit{
+	width: 180px;
+	margin: auto;
+	background-color: #99cc66;
+	color: #fff;
+	padding: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 20px;
+	font-style: normal !important;
+}

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
-  Date: 28.12.2015
-  Time: 15:59
+  Date: 11.01.2016
+  Time: 13:54
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
@@ -19,7 +19,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Редактирование тендеров | Панель управления</title>
+    <title>Редактирование проектов | Панель управления</title>
     <!-- Links -->
     <jsp:include page="/WEB-INF/templates/admin-top-links.jsp"/>
     <!-- Links -->
@@ -33,7 +33,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Тендеры</h1>
+                <h1 class="page-header">Проекты</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -58,15 +58,19 @@
                             <form method="POST" action="/accountant/accountantCancelRequest">
                                 <table class="table table-user-information">
                                     <tbody>
-                                    <h3 class="panel-title">Редактировать тендер</h3>
+                                    <h3 class="panel-title">Редактировать проект</h3>
                                     <tr>
-                                        <td>ID тендера:</td>
+                                        <td>ID проекта:</td>
                                         <td><input id="inp" class="form-control" name="transactionId" readonly required>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
-                                <a id="tenderIdhref" href=""><button id="userIdBtn" type="submit" class="btn btn-primary disabled">Редактировать</button></a>
+                                <a id="tenderIdhref" href="">
+                                    <button id="userIdBtn" type="submit" class="btn btn-primary disabled">
+                                        Редактировать
+                                    </button>
+                                </a>
                             </form>
                         </div>
                         <!-- /.table -->
@@ -91,7 +95,7 @@
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: "/api/rest/tenderService/tender/read/all/",
+            url: "/api/rest/projectsAndInvestmentsService/project/read/all",
             data: JSON.stringify(tenderFilterOptions),
             success: function (response) {
                 data = response.entities;
@@ -136,8 +140,6 @@
             }
         });
     });
-
-
 </script>
 </body>
 </html>

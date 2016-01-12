@@ -3,6 +3,7 @@ package ua.com.itproekt.gup.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -55,42 +56,30 @@ public class LoginController {
 		Map<String, String> requestParameters = new HashMap<>();
 		String clientId = "7b5a38705d7b3562655925406a652e32";
 		Set<String> scope = new HashSet<>();
-		OAuth2Request oAuth2Request = new OAuth2Request(requestParameters,
-				clientId, null, true, scope,
-				null, null, null, null);
+		OAuth2Request oAuth2Request = new OAuth2Request(requestParameters, clientId, null, true,
+				scope, null, null, null, null);
 
 		LoggedUser loggedUser = (LoggedUser)userDetailsService.loadUserByUsername(email);
-		if (passwordEncoder.matches(password, loggedUser.getPassword())) {
-			Authentication userAuthentication = new UsernamePasswordAuthenticationToken(loggedUser,
-					loggedUser.getPassword(), loggedUser.getAuthorities());
-
-			OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, userAuthentication);
-
-			OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
-
-			Cookie cookieAuthToken = new Cookie("authToken", oAuth2AccessToken.getValue());
-			cookieAuthToken.setMaxAge(ACCESS_TOKEN_EXPIRES_IN_SECONDS);
-			cookieAuthToken.setPath("/");
-			response.addCookie(cookieAuthToken);
-
-			System.err.println("getExpiresIn : "  + oAuth2AccessToken.getExpiresIn());
-			System.err.println("getExpiration : " + oAuth2AccessToken.getExpiration());
-
-			Cookie cookieRefreshToken = new Cookie("refreshToken", oAuth2AccessToken.getRefreshToken().getValue());
-			cookieRefreshToken.setMaxAge(REFRESH_TOKEN_EXPIRES_IN_SECONDS);
-			cookieRefreshToken.setPath("/");
-			response.addCookie(cookieRefreshToken);
+		if (!passwordEncoder.matches(password, loggedUser.getPassword())) {
+			throw new BadCredentialsException("The input password doesn't match");
 		}
-//		else {
-////			try {
-////				response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-////			} catch (IOException ex) {
-//////****** ****** ****** ****** ****** ******
-////				ex.printStackTrace();
-//////****** ****** ****** ****** ****** ******
-////			}
-//		}
 
+		Authentication userAuthentication = new UsernamePasswordAuthenticationToken(loggedUser,
+				loggedUser.getPassword(), loggedUser.getAuthorities());
+
+		OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, userAuthentication);
+
+		OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
+
+		Cookie cookieAuthToken = new Cookie("authToken", oAuth2AccessToken.getValue());
+		cookieAuthToken.setMaxAge(ACCESS_TOKEN_EXPIRES_IN_SECONDS);
+		cookieAuthToken.setPath("/");
+		response.addCookie(cookieAuthToken);
+
+		Cookie cookieRefreshToken = new Cookie("refreshToken", oAuth2AccessToken.getRefreshToken().getValue());
+		cookieRefreshToken.setMaxAge(REFRESH_TOKEN_EXPIRES_IN_SECONDS);
+		cookieRefreshToken.setPath("/");
+		response.addCookie(cookieRefreshToken);
 	}
 
 //		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
