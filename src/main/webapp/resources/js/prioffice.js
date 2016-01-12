@@ -30,3 +30,8 @@
 $(document).ready(function(){
 	$(".tabs").lightTabs();
 });
+$(function () {
+	$("#accordion").accordion({
+		collapsible: true
+	});
+});

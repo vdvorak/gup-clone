@@ -371,16 +371,11 @@
 <!-- libs starts here-->
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script src="/resources/js/prioffice.js"></script>
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
 <script src="/resources/js/common.js"></script>
-<script src="/resources/js/prioffice.js"></script>
-<script>
-    $(function () {
-        $("#accordion").accordion({
-            collapsible: true
-        });
-    });
-</script>
+
+
 <!--END of libs-->
 
 </body>
