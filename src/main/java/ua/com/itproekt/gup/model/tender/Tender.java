@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -23,8 +24,7 @@ public class Tender {
     private Long begin;
     private Long end;
     private Long visited;
-    private Set<String> uploadFilesIds;
-    private Set<String> mainPhotoId;
+    private Map<String, String> uploadFilesIds;
     private Address address;
     private Boolean hidePropose;
     private String tenderNumber;
@@ -35,8 +35,6 @@ public class Tender {
 
     public Tender(){
         begin = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        LocalDateTime l = LocalDateTime.now().plusDays(20L);
-        end = l.toInstant(ZoneOffset.UTC).toEpochMilli();
         hidePropose = true;
         hideContact = true;
     }
@@ -152,11 +150,11 @@ public class Tender {
         this.visited = visited;
     }
 
-    public Set<String> getUploadFilesIds() {
+    public Map<String, String> getUploadFilesIds() {
         return uploadFilesIds;
     }
 
-    public void setUploadFilesIds(Set<String> uploadFilesIds) {
+    public void setUploadFilesIds(Map<String, String> uploadFilesIds) {
         this.uploadFilesIds = uploadFilesIds;
     }
 
@@ -221,14 +219,6 @@ public class Tender {
         this.winnerId = winnerId;
     }
 
-    public Set<String> getMainPhotoId() {
-        return mainPhotoId;
-    }
-
-    public void setMainPhotoId(Set<String> mainPhotoId) {
-        this.mainPhotoId = mainPhotoId;
-    }
-
     @Override
     public String toString() {
         return "Tender{" +
@@ -246,7 +236,6 @@ public class Tender {
                 ", end=" + end +
                 ", visited=" + visited +
                 ", uploadFilesIds=" + uploadFilesIds +
-                ", mainPhotoId=" + mainPhotoId +
                 ", address=" + address +
                 ", hidePropose=" + hidePropose +
                 ", hideContact=" + hideContact +
