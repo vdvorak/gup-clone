@@ -121,6 +121,16 @@ public class ProfileRestController {
         return new ResponseEntity<>(profilesService.updateProfile(newProfile), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/profile/updateByAdmin", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Profile> updateProfileByAdmin(@RequestBody Profile newProfile) {
+        return new ResponseEntity<>(profilesService.updateProfile(newProfile), HttpStatus.OK);
+    }
+
+
+
+
+
     /**
      * Delete profile by profile id.
      *
