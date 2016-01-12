@@ -68,8 +68,8 @@
                                 </table>
                             <!-- /.table -->
 
-                                <a id="tenderIdhref" href="">
-                                    <button id="userIdBtn" type="submit" class="btn btn-primary disabled">
+                                <a id="projectIdhref" href="">
+                                    <button id="projectIdBtn" type="submit" class="btn btn-primary disabled">
                                         Редактировать
                                     </button>
                                 </a>
@@ -135,14 +135,14 @@
                         .on('select', function (e, dt, type, indexes) {
                             var rowData = table.rows(indexes).data().toArray();
                             $("input[name='transactionId']").attr("value", rowData[0].id);
-                            $('#tenderIdhref').attr("href", "/edit-profile/" + rowData[0].id);
+                            $('#projectIdhref').attr("href", "/edit-profile/" + rowData[0].id);
                             $('#inp').removeAttr("readonly");
-                            $('#userIdBtn').attr("class", "btn btn-danger");
+                            $('#projectIdBtn').attr("class", "btn btn-danger");
                         })
                         .on('deselect', function (e, dt, type, indexes) {
                             $("input[name='transactionId']").attr("value", "");
                             $('#inp').attr("readonly", "readonly");
-                            $('#userIdBtn').attr("class", "btn btn-danger disabled");
+                            $('#projectIdBtn').attr("class", "btn btn-danger disabled");
                         });
             }
         });
