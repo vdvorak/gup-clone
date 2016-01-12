@@ -49,7 +49,7 @@ public class ProfileController {
         return "edit-profile";
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @RequestMapping(value = "/edit-profile", method = RequestMethod.GET)
     public String editProfilePage(Model model) {
         Profile profile = new Profile();
