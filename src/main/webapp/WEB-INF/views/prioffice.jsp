@@ -274,7 +274,7 @@
                                 <div class="myitems-item-wrap-title">
                                     <p class="myitems-item-wrap-titletext">Мои тендеры</p>
                                 </div>
-                                <img class="prioffice-close-founds-ico" src="/resources/img/closesmall-icon.png">
+                                <img class="prioffice-close-tenders-ico" src="/resources/img/closesmall-icon.png">
                             </div>
                             <div class="myitems-tenders-items">
                                 <p>Заголовок тендера 1</p>
@@ -297,7 +297,7 @@
                                 <div class="myitems-item-wrap-title">
                                     <p class="myitems-item-wrap-titletext">Мои проекты</p>
                                 </div>
-                                <img class="prioffice-close-founds-ico" src="/resources/img/closesmall-icon.png">
+                                <img class="prioffice-close-projects-ico" src="/resources/img/closesmall-icon.png">
                             </div>
                             <div class="myitems-projects-items">
                                 <p>Заголовок проекта 1</p>
@@ -321,7 +321,7 @@
                                 <div class="myitems-item-wrap-title">
                                     <p class="myitems-item-wrap-titletext">Мои новости</p>
                                 </div>
-                                <img class="prioffice-close-founds-ico" src="/resources/img/closesmall-icon.png">
+                                <img class="prioffice-close-news-ico" src="/resources/img/closesmall-icon.png">
                             </div>
                             <div class="myitems-news-items">
                                 <p>Новость 1</p>

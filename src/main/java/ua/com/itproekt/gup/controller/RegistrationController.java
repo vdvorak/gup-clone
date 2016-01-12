@@ -35,8 +35,7 @@ public class RegistrationController {
     @Autowired
     VerificationTokenService verificationTokenService;
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/registration", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
      public void register(@RequestBody Profile profile){
 
         profilesService.createProfile(profile);

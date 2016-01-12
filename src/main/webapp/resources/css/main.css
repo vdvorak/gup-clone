@@ -592,7 +592,7 @@ footer{
     display: inline-block;
     float: left;
 }
-.prioffice-close-founds-ico{
+.prioffice-close-tenders-ico, .prioffice-close-projects-ico,.prioffice-close-news-ico{
 	position: relative;
     top: -3px;
     left: 65px;
@@ -694,7 +694,7 @@ footer{
 	margin: 5px;
 }
 #register-submit{
-	width: 180px;
+	width: 200px;
 	margin: auto;
 	background-color: #99cc66;
 	color: #fff;
