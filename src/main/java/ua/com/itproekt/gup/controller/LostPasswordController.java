@@ -22,11 +22,16 @@ public class LostPasswordController {
     @Autowired
     ProfilesService profilesService;
 
-    @RequestMapping(value = "/resetPasswordForm", method = RequestMethod.GET)
+    @RequestMapping(value = "/restore")
+    public String resetPasswordForm() {
+        return "restorePassword";
+    }
+
+    @RequestMapping(value = "/newPasswordForm", method = RequestMethod.GET)
     public String resetPasswordForm(@RequestParam String token, Model model) {
 
         model.addAttribute("token", token);
-        return "lostPasswordForm";
+        return "newPasswordForm";
     }
 
     @RequestMapping(value = "/sendLostPasswordEmail", method = RequestMethod.POST)
