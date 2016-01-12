@@ -15,5 +15,5 @@ public interface BlogRepository {
 
     boolean blogExists(String id);
 
-    EntityPage<Blog> findBlogWihOptions(BlogFilterOptions blogPostFilterOptions);
+    EntityPage<Blog> findBlogWihOptions(BlogFilterOptions blogFO);
 }
