@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import ua.com.itproekt.gup.model.news.Blog;
+import ua.com.itproekt.gup.model.news.BlogFilterOptions;
+import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
@@ -37,6 +39,30 @@ public class BlogRepositoryImpl implements BlogRepository {
     @Override
     public Blog findBlogAndUpdate(Blog blog) {
         return MongoTemplateOperations.updateFieldsAndReturnUpdatedObj(blog);
+    }
+
+    @Override
+    public EntityPage<Blog> findBlogWihOptions(BlogFilterOptions blogFO) {
+        Query query = new Query();
+
+        if (blogFO.getAuthorId() != null) {
+            query.addCriteria(Criteria.where("authorId").is(blogFO.getAuthorId()));
+        }
+
+        if (blogFO.getSearchField() != null) {
+            String searchFieldRegex = "(?i:.*" + blogFO.getSearchField() + ".*)";
+            query.addCriteria(Criteria.where("title").regex(searchFieldRegex));
+        }
+
+        if (blogFO.getCategories() != null) {
+            query.addCriteria(Criteria.where("categories").all(blogFO.getCategories()));
+        }
+
+        query.skip(blogFO.getSkip());
+        query.limit(blogFO.getLimit());
+
+        return new EntityPage<>(mongoTemplate.count(query, Blog.class),
+                                mongoTemplate.find(query, Blog.class));
     }
 
     @Override
