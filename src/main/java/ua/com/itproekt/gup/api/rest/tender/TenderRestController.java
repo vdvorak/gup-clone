@@ -25,9 +25,7 @@ import ua.com.itproekt.gup.util.EntityPage;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @RestController
@@ -61,31 +59,24 @@ public class TenderRestController {
         }
 
         //make propose visible according to hidden settings
-        if (!tender.getAuthorId().equals(getCurrentUserId())) {
-            if (tender.isHidePropose()) {
-                tender.setProposes(null);
-            } else {
-                tender.getProposes().stream().filter(p -> p.getHidden()).forEach(p -> {
-                    tender.getProposes().remove(p);
-                });
+       tender = tenderService.setVision(tender, getCurrentUser());
+
+        if(tender != null){
+            // incrementing Visited field
+            HashSet<String> visit = (HashSet<String>) req.getSession().getAttribute("tenderVisit");
+            if (visit == null) visit = new HashSet<>();
+            if (!visit.contains(id)) {
+                Tender tenderForCountVisited = new Tender();
+                tenderForCountVisited.setId(tender.getId());
+
+                tenderForCountVisited.setVisited(tender.getVisited() + 1);
+                tenderService.updateTender(tenderForCountVisited);
+                visit.add(id);
+                req.getSession().setAttribute("tenderVisit", visit);
+
+                //update field visited in current tender
+                tender.setVisited(tenderForCountVisited.getVisited());
             }
-        }
-
-
-        // incrementing Visited field
-        ArrayList<String> visit = (ArrayList<String>) req.getSession().getAttribute("tenderVisit");
-        if (visit == null) visit = new ArrayList<>();
-        if (!visit.contains(id)) {
-            Tender tenderForCountVisited = new Tender();
-            tenderForCountVisited.setId(tender.getId());
-
-            tenderForCountVisited.setVisited(tender.getVisited() + 1);
-            tenderService.updateTender(tenderForCountVisited);
-            visit.add(id);
-            req.getSession().setAttribute("tenderVisit", visit);
-
-            //update field visited in current tender
-            tender.setVisited(tenderForCountVisited.getVisited());
         }
 
         return new ResponseEntity<>(tender, HttpStatus.OK);
@@ -109,28 +100,9 @@ public class TenderRestController {
 
         EntityPage<Tender> tenders = tenderService.findWihOptions(tenderFilterOptions, profile);
 
-        // Propose can see just users with type UserType.ENTREPRENEUR or UserType.LEGAL_ENTITY
-        if (getCurrentUser() != null && getCurrentUser().getContact() != null && getCurrentUser().getContact().getType() != null) {
-            System.out.println("in IF");
-            UserType userType = getCurrentUser().getContact().getType();
-            if (userType != UserType.ENTREPRENEUR || userType != UserType.LEGAL_ENTITY) {
-                tenders.getEntities().stream().forEach(t -> t.setProposes(null));
-            } else {
-                // hide all propose in tenders which create not by current logged user
-                // and have settings hidePropose = true assigned by tender author
-                tenders.getEntities().stream().filter(t -> !t.getAuthorId().equals(getCurrentUserId()) && t.isHidePropose())
-                        .forEach(t -> t.setProposes(null));
-
-                // hide all propose in tenders which create not by current logged user
-                // and have settings hidePropose = true assigned by propose creator
-                tenders.getEntities().stream().forEach(t -> t.getProposes().stream().filter(p -> p.getHidden()).forEach(p -> {
-                    t.getProposes().remove(p);
-                }));
-            }
-        }
-
-        if (tenders.getEntities().isEmpty()) {
-            System.out.println("isEmpty");
+        if (!tenders.getEntities().isEmpty()) {
+            tenders.getEntities().stream().forEach(t -> t = tenderService.setVision(t, getCurrentUser()));
+        } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
@@ -216,9 +188,9 @@ public class TenderRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Tender tender = tenderService.findById(id);
-        Set files = tender.getUploadFilesIds();
+        Map<String, String> files = tender.getUploadFilesIds();
         if (!newTender.getUploadFilesIds().isEmpty()) {
-            newTender.getUploadFilesIds().addAll(files);
+            newTender.getUploadFilesIds().putAll(files);
         }
         tenderService.updateTender(newTender);
 
@@ -245,7 +217,7 @@ public class TenderRestController {
             method = RequestMethod.POST)
     public ResponseEntity<Tender> deleteFile(@PathVariable("id") Tender tender, @PathVariable("fileId") String fileId) {
 
-        if (tender.getUploadFilesIds().contains(fileId)) {
+        if (tender.getUploadFilesIds().containsKey(fileId)) {
             tender.getUploadFilesIds().remove(fileId);
             storageService.delete(SERVICE_NAME, fileId);
             Tender newTender = new Tender();
