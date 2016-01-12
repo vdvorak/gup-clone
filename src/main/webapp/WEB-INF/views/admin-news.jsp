@@ -44,13 +44,12 @@
           <!-- /.panel-heading -->
           <div class="panel-body">
             <div class="dataTable_wrapper">
-              <table id="tenders" class="table table-striped table-bordered table-hover"
+              <table id="news" class="table table-striped table-bordered table-hover"
                      cellspacing="0" width="100%">
                 <thead>
                 <tr>
                   <th>Фото</th>
-                  <th>Название</th>
-                  <th>Тип</th>
+                  <th>Заголовок</th>
                 </tr>
                 </thead>
               </table>
@@ -68,8 +67,8 @@
               </table>
               <!-- /.table -->
 
-              <a id="tenderIdhref" href="">
-                <button id="userIdBtn" type="submit" class="btn btn-primary disabled">
+              <a id="newsIdhref" href="">
+                <button id="newsIdBtn" type="submit" class="btn btn-primary disabled">
                   Редактировать
                 </button>
               </a>
@@ -97,7 +96,7 @@
     $.ajax({
       type: "POST",
       contentType: "application/json; charset=utf-8",
-      url: "/api/rest/projectsAndInvestmentsService/project/read/all",
+      url: "/api/rest/newsService/blogPost/read/all",
       data: JSON.stringify(projectFilterOptions),
       success: function (response) {
         data = response.entities;
@@ -106,7 +105,7 @@
           if (data[i].imagesIds !== null) {
             for (var key in data[i].imagesIds) {
               if (data[i].imagesIds[key] === "pic1") {
-                data[i].imagesIds = '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key + '" width="100" height="100">';
+                data[i].imagesIds = '<img src="/api/rest/fileStorage/NEWS/file/read/id/' + key + '" width="100" height="100">';
               }
             }
           }
@@ -116,15 +115,14 @@
           }
         }
 
-        var table = $('#tenders').DataTable({
+        var table = $('#news').DataTable({
           select: {
             style: 'single'
           },
           data: data,
           "columns": [
             {"data": "imagesIds"},
-            {"data": "projectName"},
-            {"data": "typeOfProject"}
+            {"data": "title"}
           ],
           "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
@@ -135,14 +133,14 @@
                 .on('select', function (e, dt, type, indexes) {
                   var rowData = table.rows(indexes).data().toArray();
                   $("input[name='transactionId']").attr("value", rowData[0].id);
-                  $('#tenderIdhref').attr("href", "/edit-profile/" + rowData[0].id);
+                  $('#newsIdhref').attr("href", "/edit-profile/" + rowData[0].id);
                   $('#inp').removeAttr("readonly");
-                  $('#userIdBtn').attr("class", "btn btn-danger");
+                  $('#newsIdBtn').attr("class", "btn btn-danger");
                 })
                 .on('deselect', function (e, dt, type, indexes) {
                   $("input[name='transactionId']").attr("value", "");
                   $('#inp').attr("readonly", "readonly");
-                  $('#userIdBtn').attr("class", "btn btn-danger disabled");
+                  $('#newsIdBtn').attr("class", "btn btn-danger disabled");
                 });
       }
     });
