@@ -105,7 +105,7 @@ public class BlogTestController {
             BlogPost blogPost = new BlogPost()
                 .setBlogId(blogId)
                 .setAuthorId(i + "TEST")
-                .setText("post text " + i)
+                .setText("post text very important part of news, possible it the most important part" + i)
                 .setTitle("post title " + i)
                 .setViews(i);
                 HashSet<String> blogPostSet = new HashSet<>();

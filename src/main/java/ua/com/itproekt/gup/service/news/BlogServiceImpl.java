@@ -2,9 +2,11 @@ package ua.com.itproekt.gup.service.news;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.itproekt.gup.dao.news.BlogRepository;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
+import ua.com.itproekt.gup.dao.news.BlogRepository;
 import ua.com.itproekt.gup.model.news.Blog;
+import ua.com.itproekt.gup.model.news.BlogFilterOptions;
+import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.ServiceNames;
 
 @Service
@@ -40,5 +42,10 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public boolean blogExists(String id) {
         return blogRepository.blogExists(id);
+    }
+
+    @Override
+    public EntityPage<Blog> findBlogWihOptions(BlogFilterOptions blogFO) {
+        return blogRepository.findBlogWihOptions(blogFO);
     }
 }

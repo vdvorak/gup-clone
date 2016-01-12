@@ -259,33 +259,33 @@
                                             <div class="col-xs-4">
                                                 <br>
                                                 <div class="checkbox">
-                                                    <label><input id="adminCheck2" type="checkbox"
+                                                    <label><input id="adminCheck2" class="ch2" type="checkbox"
                                                                   value="ROLE_ADMIN">ADMIN</label>
                                                 </div>
                                                 <div class="checkbox">
-                                                    <label><input id="supportCheck2" type="checkbox"
+                                                    <label><input id="supportCheck2" class="ch2" type="checkbox"
                                                                   value="ROLE_SUPPORT">SUPPORT</label>
                                                 </div>
                                                 <div class="checkbox">
-                                                    <label><input id="moderatorCheck2" type="checkbox"
+                                                    <label><input id="moderatorCheck2" class="ch2" type="checkbox"
                                                                   value="ROLE_MODERATOR">MODERATOR</label>
                                                 </div>
                                             </div>
                                             <div class="col-xs-4">
                                                 <br>
                                                 <div class="checkbox">
-                                                    <label><input id="anonymousCheck2" type="checkbox"
+                                                    <label><input id="anonymousCheck2" class="ch2" type="checkbox"
                                                                   value="ROLE_ANONYMOUS">ANONYMOUS</label>
                                                 </div>
                                                 <div class="checkbox">
-                                                    <label><input id="userCheck2" type="checkbox"
+                                                    <label><input id="userCheck2" class="ch2" type="checkbox"
                                                                   value="ROLE_USER">USER</label>
                                                 </div>
                                             </div>
 
                                         <div class="modal-footer">
-                                            <button type="submit"
-                                                    class="btn btn-primary">Создать
+                                            <button id="update" type="submit"
+                                                    class="btn btn-primary">Сохранить
                                             </button>
                                             <button type="button"
                                                     class="btn btn-default"
@@ -313,7 +313,6 @@
                                                                cellspacing="0" width="100%">
                                                             <thead>
                                                             <tr>
-                                                                <th>Id</th>
                                                                 <th>Фото</th>
                                                                 <th>Логин</th>
                                                                 <th>Дата регистрации</th>
@@ -341,7 +340,6 @@
                                                                cellspacing="0" width="100%">
                                                             <thead>
                                                             <tr>
-                                                                <th>Id</th>
                                                                 <th>Фото</th>
                                                                 <th>Логин</th>
                                                                 <th>Дата регистрации</th>
@@ -398,6 +396,7 @@
 <script>
     var idCorrect = [];
     var usernames = [];
+    var users;
 
     $(document).ready(function () {
         var data;
@@ -420,13 +419,14 @@
             url: "/api/rest/profilesService/profile/read/all",
             data: JSON.stringify(filterOptions),
             success: function (response) {
+                users = jQuery.extend(true, {}, response.entities);
                 data = response.entities;
                 for (var k = 0; k < data.length; k++){
                     usernames.push(data[k].email);
                 }
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].contact !== null) {
-                        if (data[i].contact.pic.length > 2) {
+                        if (data[i].contact.pic !== null &&   data[i].contact.pic.length > 2) {
                             data[i].contact.pic = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].contact.pic + '" width="100" height="100">';
                         }
                         else {
@@ -459,7 +459,6 @@
                     data: admins,
                     "columns": [
                         {"data": "contact.pic"},
-                        {"data": "username"},
                         {"data": "email"},
                         {"data": "createdDate"}
                     ],
@@ -488,7 +487,6 @@
                     data: moderators,
                     "columns": [
                         {"data": "contact.pic"},
-                        {"data": "username"},
                         {"data": "email"},
                         {"data": "createdDate"}
                     ],
@@ -523,14 +521,74 @@
                     source: logins
                 });
 
-                $('#typeahead').change(function(){
-                    alert("chenge");
-                })
-
             }
 
         });
 
+
+    });
+
+    $('#typeahead').blur(function(){
+        var user = {};
+        for(var i in users){
+           if (users[i].email === this.value){
+               user = users[i];
+               break;
+           }
+        }
+
+        $('.ch2').prop("checked",false);
+
+        for(var j in user.userRoles){
+            switch (user.userRoles[j]) {
+                case 'ROLE_ADMIN':
+                    $('#adminCheck2').prop("checked",true);
+                    break;
+                case 'ROLE_SUPPORT':
+                    $('#supportCheck2').prop("checked",true);
+                    break;
+                case 'ROLE_MODERATOR':
+                    $('#moderatorCheck2').prop("checked",true);
+                    break;
+                case 'ROLE_USER':
+                    $('#userCheck2').prop("checked",true);
+                    break;
+                case 'ROLE_ANONYMOUS':
+                    $('#anonymousCheck2').prop("checked",true);
+                    break;
+            }
+        }
+
+        $('#update').click(function(){
+            user.userRoles = [];
+
+            if($('#adminCheck2').prop("checked")){
+                user.userRoles.push('ROLE_ADMIN');
+            }
+            if($('#supportCheck2').prop("checked")){
+                user.userRoles.push('ROLE_SUPPORT');
+            }
+            if($('#moderatorCheck2').prop("checked")){
+                user.userRoles.push('ROLE_MODERATOR');
+            }
+            if($('#userCheck2').prop("checked")){
+                user.userRoles.push('ROLE_USER');
+            }
+            if($('#anonymousCheck2').prop("checked")){
+                user.userRoles.push('ROLE_ANONYMOUS');
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/profilesService/profile/updateByAdmin",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(user),
+                success: function (response) {
+                    window.location.href = '/admin-admins';
+                }
+            });
+        });
 
     });
 

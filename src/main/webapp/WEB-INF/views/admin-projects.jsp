@@ -43,7 +43,6 @@
                 <div class="panel panel-default">
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-
                         <div class="dataTable_wrapper">
                             <table id="tenders" class="table table-striped table-bordered table-hover"
                                    cellspacing="0" width="100%">
@@ -55,7 +54,8 @@
                                 </tr>
                                 </thead>
                             </table>
-                            <form method="POST" action="/accountant/accountantCancelRequest">
+
+                            <!-- /.table -->
                                 <table class="table table-user-information">
                                     <tbody>
                                     <h3 class="panel-title">Редактировать проект</h3>
@@ -66,12 +66,13 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <a id="tenderIdhref" href="">
-                                    <button id="userIdBtn" type="submit" class="btn btn-primary disabled">
+                            <!-- /.table -->
+
+                                <a id="projectIdhref" href="">
+                                    <button id="projectIdBtn" type="submit" class="btn btn-primary disabled">
                                         Редактировать
                                     </button>
                                 </a>
-                            </form>
                         </div>
                         <!-- /.table -->
                     </div>
@@ -89,23 +90,29 @@
 
     $(document).ready(function () {
         var data;
-        var tenderFilterOptions = {};
-        tenderFilterOptions.skip = 0;
-        tenderFilterOptions.limit = 10;
+        var projectFilterOptions = {};
+        projectFilterOptions.skip = 0;
+        projectFilterOptions.limit = 10;
+
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "/api/rest/projectsAndInvestmentsService/project/read/all",
-            data: JSON.stringify(tenderFilterOptions),
+            data: JSON.stringify(projectFilterOptions),
             success: function (response) {
                 data = response.entities;
 
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i].mainPhotoId !== null) {
-                        data[i].mainPhotoId = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].mainPhotoId + '" width="100" height="100">';
+                    if (data[i].imagesIds !== null) {
+                        for (var key in data[i].imagesIds) {
+                            if (data[i].imagesIds[key] === "pic1") {
+                                data[i].imagesIds = '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key + '" width="100" height="100">';
+                            }
+                        }
                     }
                     else {
-                        data[i].mainPhotoId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                        data[i].imagesIds = {};
+                        data[i].imagesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
                     }
                 }
 
@@ -115,9 +122,9 @@
                     },
                     data: data,
                     "columns": [
-                        {"data": "mainPhotoId"},
-                        {"data": "title"},
-                        {"data": "type"}
+                        {"data": "imagesIds"},
+                        {"data": "projectName"},
+                        {"data": "typeOfProject"}
                     ],
                     "language": {
                         "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
@@ -128,14 +135,14 @@
                         .on('select', function (e, dt, type, indexes) {
                             var rowData = table.rows(indexes).data().toArray();
                             $("input[name='transactionId']").attr("value", rowData[0].id);
-                            $('#tenderIdhref').attr("href", "/edit-profile/" + rowData[0].id);
+                            $('#projectIdhref').attr("href", "/edit-profile/" + rowData[0].id);
                             $('#inp').removeAttr("readonly");
-                            $('#userIdBtn').attr("class", "btn btn-danger");
+                            $('#projectIdBtn').attr("class", "btn btn-danger");
                         })
                         .on('deselect', function (e, dt, type, indexes) {
                             $("input[name='transactionId']").attr("value", "");
                             $('#inp').attr("readonly", "readonly");
-                            $('#userIdBtn').attr("class", "btn btn-danger disabled");
+                            $('#projectIdBtn').attr("class", "btn btn-danger disabled");
                         });
             }
         });

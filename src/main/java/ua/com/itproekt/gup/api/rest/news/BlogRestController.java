@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.news.Blog;
+import ua.com.itproekt.gup.model.news.BlogFilterOptions;
 import ua.com.itproekt.gup.service.news.BlogService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.validation.Valid;
@@ -34,6 +36,18 @@ public class BlogRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(oldBlog, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/blog/read/all", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EntityPage<Blog>> listOfAllBlogs(@RequestBody BlogFilterOptions blogFO) {
+        EntityPage<Blog> blogs = blogService.findBlogWihOptions(blogFO);
+
+        if(blogs.getEntities().isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(blogs, HttpStatus.OK);
     }
 
     //------------------------------------------ Create -----------------------------------------------------------------

@@ -43,7 +43,6 @@
                 <div class="panel panel-default">
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-
                         <div class="dataTable_wrapper">
                             <table id="tenders" class="table table-striped table-bordered table-hover"
                                    cellspacing="0" width="100%">
@@ -55,19 +54,20 @@
                                 </tr>
                                 </thead>
                             </table>
-                            <form method="POST" action="/accountant/accountantCancelRequest">
-                                <table class="table table-user-information">
-                                    <tbody>
-                                    <h3 class="panel-title">Редактировать тендер</h3>
-                                    <tr>
-                                        <td>ID тендера:</td>
-                                        <td><input id="inp" class="form-control" name="transactionId" readonly required>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <a id="tenderIdhref" href=""><button id="userIdBtn" type="submit" class="btn btn-primary disabled">Редактировать</button></a>
-                            </form>
+                            <table class="table table-user-information">
+                                <tbody>
+                                <h3 class="panel-title">Редактировать тендер</h3>
+                                <tr>
+                                    <td>ID тендера:</td>
+                                    <td><input id="inp" class="form-control" name="transactionId" readonly required>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <a id="tenderIdhref" href="">
+                                <button id="userIdBtn" type="submit" class="btn btn-primary disabled">Редактировать
+                                </button>
+                            </a>
                         </div>
                         <!-- /.table -->
                     </div>
@@ -136,8 +136,6 @@
             }
         });
     });
-
-
 </script>
 </body>
 </html>
