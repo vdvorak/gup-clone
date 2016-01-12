@@ -9,7 +9,7 @@ import java.time.ZoneOffset;
 import java.util.Map;
 import java.util.Set;
 
-@Document(collection = "blogPosts")
+@Document
 public class BlogPost {
     @Id
     private String id;
@@ -38,8 +38,6 @@ public class BlogPost {
 
     public BlogPost() {
     }
-
-
 
     public BlogPost setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
