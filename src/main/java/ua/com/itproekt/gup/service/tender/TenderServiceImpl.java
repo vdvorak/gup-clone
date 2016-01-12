@@ -7,6 +7,7 @@ import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserType;
+import ua.com.itproekt.gup.model.tender.Propose;
 import ua.com.itproekt.gup.model.tender.Tender;
 import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
 import ua.com.itproekt.gup.model.tender.TenderType;
@@ -14,6 +15,7 @@ import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -82,7 +84,7 @@ public class TenderServiceImpl implements TenderService {
             if (tender.isHidePropose()) {
                 tender.setProposes(null);
             } else {
-                tender.getProposes().stream().filter(p -> p.getHidden() && p.getAuthorId() != idUserWhoReed).forEach(p -> {
+                tender.getProposes().stream().filter(p -> p.getHidden() && p.getAuthorId().equals(idUserWhoReed)).forEach(p -> {
                     tender.getProposes().remove(p);
                 });
             }
@@ -99,7 +101,7 @@ public class TenderServiceImpl implements TenderService {
             if (tender.getProposes() == null)
                 return false;
         }
-        return tender.getProposes().contains(user);
+        return tender.getProposes().stream().map(Propose::getAuthorId).collect(Collectors.toList()).contains(user) ;
     }
 
     public boolean isAuthorOrWinner(Tender tender, String user) {
