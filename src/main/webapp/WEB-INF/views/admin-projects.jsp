@@ -92,7 +92,7 @@
         var projectFilterOptions = {};
         projectFilterOptions.skip = 0;
         projectFilterOptions.limit = 10;
-        alert("Сейчас будет Ажакс");
+
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
@@ -102,16 +102,13 @@
                 data = response.entities;
                 alert(JSON.stringify(response));
 
-
-
-
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].imagesIds !== null) {
-                        if (data[i].imagesIds > 2){
-                            data[i].imagesIds = '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + data[i].contact.pic + '" width="100" height="100">';
-                        }
-                        else{
-                            data[i].imagesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                        alert("Ololo");
+                        for (var j in data[i].imagesIds) {
+                            if (data[i].imagesIds[j] === "pic1") {
+                                data[i].imagesIds = '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + j + '" width="100" height="100">';
+                            }
                         }
                     }
                     else {
@@ -119,9 +116,6 @@
                         data[i].imagesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
                     }
                 }
-
-
-
 
                 var table = $('#tenders').DataTable({
                     select: {
