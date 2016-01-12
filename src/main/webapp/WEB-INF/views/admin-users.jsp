@@ -84,7 +84,7 @@
 
     $(document).ready(function () {
         var data;
-        var filterOptions = new Object();
+        var filterOptions = {};
         filterOptions.skip = 0;
         filterOptions.limit = 1000000;
         $.ajax({
@@ -105,7 +105,7 @@
                         }
                     }
                     else {
-                        data[i].contact = new Object();
+                        data[i].contact = {};
                         data[i].contact.pic = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
                     }
                 }

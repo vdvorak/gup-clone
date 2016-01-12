@@ -63,49 +63,15 @@ public class AdminController {
         return "admin-news";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping("/admin-blogs")
+    public String getAdminBlogs() {
+        return "admin-blogs";
+    }
+
     @RequestMapping("/admin-admins")
     public String getAdmins() {
         return "admin-admins";
     }
 
-    @RequestMapping(value = "/users/getall", method = RequestMethod.POST)
-    @ResponseBody
-     public EntityPage<Profile> getAllUsers(@RequestParam(name = "skip", required = false, defaultValue = "0") Integer skip,
-                                            @RequestParam(name = "limit", required = false, defaultValue = "10") Integer limit) {
-        try {
-            System.err.println("Voshli в профили");
-            ProfileFilterOptions profileFilterOptions = new ProfileFilterOptions();
-            profileFilterOptions.setSkip(skip);
-            profileFilterOptions.setLimit(limit);
-            EntityPage<Profile> profiles = profilesService.findAllProfiles(profileFilterOptions);
-            System.err.println("Profiles: " + profiles);
-            return profiles;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return  null;
-    }
-
-
-    @RequestMapping(value = "/users/getallTender", method = RequestMethod.POST)
-    public EntityPage<Tender> getAllTender(@RequestParam(name = "skip", required = false, defaultValue = "0") Integer skip,
-                                           @RequestParam(name = "limit", required = false, defaultValue = "10") Integer limit) {
-
-        System.err.println("Filter options skip: " + skip + "Filter options limit: " + limit);
-
-        try {
-            System.err.println("Voshli в тендеры");
-            TenderFilterOptions tenderFilterOptions = new TenderFilterOptions();
-            tenderFilterOptions.setSkip(skip);
-            tenderFilterOptions.setLimit(limit);
-            Profile profile = profilesService.findById("565c64e3e7b876fde83b7489");
-            EntityPage<Tender> tenders = tenderService.findWihOptions(tenderFilterOptions, profile);
-            System.err.println("Tenders: " + tenders);
-            return tenders;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return  null;
-    }
-    
 }
