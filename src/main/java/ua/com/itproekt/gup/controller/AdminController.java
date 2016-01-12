@@ -51,6 +51,17 @@ public class AdminController {
         return "admin-tenders";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping("/admin-projects")
+    public String getAdminProjects() {
+        return "admin-projects";
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping("/admin-news")
+    public String getAdminNews() {
+        return "admin-news";
+    }
 
     @RequestMapping("/admin-admins")
     public String getAdmins() {
