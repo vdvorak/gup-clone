@@ -9,7 +9,7 @@ import java.time.ZoneOffset;
 import java.util.Map;
 import java.util.Set;
 
-@Document(collection = "blogs")
+@Document
 public class Blog {
     @Id
     private String id;
@@ -24,92 +24,86 @@ public class Blog {
     private Map<String, String> editorsIds;
     private Set<String> categories;
 
-    public Blog() {
+    public void addEditor(String name, String uId) {
+        editorsIds.put(name, uId);
+    }
+
+    public Blog setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        return this;
     }
 
-    public Blog(String name, String authorId) {
-        this();
-        this.title = name;
-        this.authorId = authorId;
-        editorsIds.put( "TEST", authorId);
-    }
-
-    @Override
-    public String toString() {
-        return "Blog{" +
-                "id='" + id + '\'' +
-                ", name='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", imageId='" + imageId + '\'' +
-                ", authorId='" + authorId + '\'' +
-                ", editorsIds=" + editorsIds +
-                ", tags=" + categories +
-                ", createdDate=" + createdDate +
-                '}';
-    }
+    //===============================================================================
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public Blog setId(String id) {
         this.id = id;
+        return this;
     }
 
     public Set<String> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<String> categories) {
+    public Blog setCategories(Set<String> categories) {
         this.categories = categories;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public Blog setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Blog setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public String getImageId() {
         return imageId;
     }
 
-    public void setImageId(String imageId) {
+    public Blog setImageId(String imageId) {
         this.imageId = imageId;
+        return this;
     }
 
     public String getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(String authorId) {
+    public Blog setAuthorId(String authorId) {
         this.authorId = authorId;
+        return this;
     }
 
     public Map<String, String> getEditorsIds() {
         return editorsIds;
     }
 
-    public void setEditorsIds(Map<String, String> editorsIds) {
+    public Blog setEditorsIds(Map<String, String> editorsIds) {
         this.editorsIds = editorsIds;
+        return this;
     }
 
     public Long getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Long createdDate) {
+    public Blog setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
+        return this;
     }
 }
