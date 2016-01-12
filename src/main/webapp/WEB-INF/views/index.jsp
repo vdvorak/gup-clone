@@ -358,10 +358,10 @@
         dataType: "json",
         data: JSON.stringify(c),
         success: function (response) {
-          window.location.href = "/login"
+          window.location.href = "/index"
         },
         error: function (response) {
-          window.location.href = "/login"
+          window.location.href = "/index"
         }
       });
     } else {
