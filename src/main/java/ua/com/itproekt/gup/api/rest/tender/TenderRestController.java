@@ -25,10 +25,7 @@ import ua.com.itproekt.gup.util.EntityPage;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @RestController
@@ -191,9 +188,9 @@ public class TenderRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Tender tender = tenderService.findById(id);
-        Set files = tender.getUploadFilesIds();
+        Map<String, String> files = tender.getUploadFilesIds();
         if (!newTender.getUploadFilesIds().isEmpty()) {
-            newTender.getUploadFilesIds().addAll(files);
+            newTender.getUploadFilesIds().putAll(files);
         }
         tenderService.updateTender(newTender);
 
@@ -220,7 +217,7 @@ public class TenderRestController {
             method = RequestMethod.POST)
     public ResponseEntity<Tender> deleteFile(@PathVariable("id") Tender tender, @PathVariable("fileId") String fileId) {
 
-        if (tender.getUploadFilesIds().contains(fileId)) {
+        if (tender.getUploadFilesIds().containsKey(fileId)) {
             tender.getUploadFilesIds().remove(fileId);
             storageService.delete(SERVICE_NAME, fileId);
             Tender newTender = new Tender();
