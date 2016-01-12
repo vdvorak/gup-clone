@@ -152,7 +152,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void bringBackMoneyToInvestorsTest() {
-        String response = bankSession.projectPayback("Egor");
-        System.err.println("**** response" + response);
+//        String response = bankSession.projectPayback("Egor");
+//        System.err.println("**** response" + response);
     }
 }
