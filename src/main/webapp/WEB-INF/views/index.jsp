@@ -28,10 +28,19 @@
           <img src="/resources/img/reallySmallUserpic.png">
         </div>
         <div class="top-menu-username">
-          <a href="#">петров василий</a>
+          <a href="#">
+          <c:choose>
+            <c:when test="${not empty profile.username}">
+              ${profile.username}
+            </c:when>
+            <c:otherwise>
+                 Вася Пупкин
+            </c:otherwise>
+          </c:choose>
+          </a>
         </div>
         <div class="header-mainMenu">
-          <a href="#">Моя страница</a>
+          <a href="/prioffice">Моя страница</a>
           <a href="#">Сообщения</a>
           <a href="#">Уведомления</a>
           <a href="#">Тендеры</a>
@@ -288,6 +297,7 @@
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
 <script src="/resources/libs/jquery.magnific-popup.min.js"></script>
 <script src="/resources/js/common.js"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 
 <!--END of libs-->

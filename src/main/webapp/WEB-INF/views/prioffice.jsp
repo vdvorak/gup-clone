@@ -36,14 +36,14 @@
                 </a>
             </div>
             <div class="header-mainMenu">
-                <a href="#">Моя страница</a>
+                <a href="/prioffice">Моя страница</a>
                 <a href="#">Сообщения</a>
                 <a href="#">Уведомления</a>
                 <a href="#">Тендеры</a>
                 <a href="#">Проекты</a>
                 <a href="#">Новости</a>
                 <a href="#">Настройки</a>
-                <a href="#">Выход</a>
+                <a href="/logout">Выход</a>
 
                 <div class="pageedit">
                     <a href="/edit-profile">Редактировать страницу</a>
