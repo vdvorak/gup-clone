@@ -55,17 +55,20 @@
                                 </tr>
                                 </thead>
                             </table>
-                                <table class="table table-user-information">
-                                    <tbody>
-                                    <h3 class="panel-title">Редактировать профиль</h3>
-                                    <tr>
-                                        <td>ID пользователя:</td>
-                                        <td><input id="inp" class="form-control" name="transactionId" readonly required>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <a id="userIdhref" href=""><button id="userIdBtn" type="submit" class="btn btn-primary disabled">Редактировать</button></a>
+                            <table class="table table-user-information">
+                                <tbody>
+                                <h3 class="panel-title">Редактировать профиль</h3>
+                                <tr>
+                                    <td>ID пользователя:</td>
+                                    <td><input id="inp" class="form-control" name="transactionId" readonly required>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <a id="userIdhref" href="">
+                                <button id="userIdBtn" type="submit" class="btn btn-primary disabled">Редактировать
+                                </button>
+                            </a>
                         </div>
                         <!-- /.table -->
                     </div>
@@ -97,10 +100,10 @@
 
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].contact !== null) {
-                        if (data[i].contact.pic.length > 2){
+                        if (data[i].contact.pic.length > 2) {
                             data[i].contact.pic = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].contact.pic + '" width="100" height="100">';
                         }
-                       else{
+                        else {
                             data[i].contact.pic = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
                         }
                     }
@@ -130,7 +133,7 @@
                         .on('select', function (e, dt, type, indexes) {
                             var rowData = table.rows(indexes).data().toArray();
                             $("input[name='transactionId']").attr("value", rowData[0].id);
-                            $('#userIdhref').attr("href", "/edit-profile/"+rowData[0].id);
+                            $('#userIdhref').attr("href", "/edit-profile/" + rowData[0].id);
                             $('#inp').removeAttr("readonly");
                             $('#userIdBtn').attr("class", "btn btn-danger");
                         })

@@ -43,7 +43,6 @@
                 <div class="panel panel-default">
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-
                         <div class="dataTable_wrapper">
                             <table id="tenders" class="table table-striped table-bordered table-hover"
                                    cellspacing="0" width="100%">
@@ -55,7 +54,8 @@
                                 </tr>
                                 </thead>
                             </table>
-                            <form method="POST" action="/accountant/accountantCancelRequest">
+
+                            <!-- /.table -->
                                 <table class="table table-user-information">
                                     <tbody>
                                     <h3 class="panel-title">Редактировать проект</h3>
@@ -66,12 +66,13 @@
                                     </tr>
                                     </tbody>
                                 </table>
+                            <!-- /.table -->
+
                                 <a id="tenderIdhref" href="">
                                     <button id="userIdBtn" type="submit" class="btn btn-primary disabled">
                                         Редактировать
                                     </button>
                                 </a>
-                            </form>
                         </div>
                         <!-- /.table -->
                     </div>
@@ -100,11 +101,9 @@
             data: JSON.stringify(projectFilterOptions),
             success: function (response) {
                 data = response.entities;
-                alert(JSON.stringify(response));
 
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].imagesIds !== null) {
-                        alert("Ololo");
                         for (var key in data[i].imagesIds) {
                             if (data[i].imagesIds[key] === "pic1") {
                                 data[i].imagesIds = '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key + '" width="100" height="100">';
