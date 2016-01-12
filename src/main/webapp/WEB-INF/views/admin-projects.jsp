@@ -89,25 +89,39 @@
 
     $(document).ready(function () {
         var data;
-        var tenderFilterOptions = {};
-        tenderFilterOptions.skip = 0;
-        tenderFilterOptions.limit = 10;
+        var projectFilterOptions = {};
+        projectFilterOptions.skip = 0;
+        projectFilterOptions.limit = 10;
+        alert("Сейчас будет Ажакс");
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "/api/rest/projectsAndInvestmentsService/project/read/all",
-            data: JSON.stringify(tenderFilterOptions),
+            data: JSON.stringify(projectFilterOptions),
             success: function (response) {
                 data = response.entities;
+                alert(JSON.stringify(response));
+
+
+
 
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i].mainPhotoId !== null) {
-                        data[i].mainPhotoId = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].mainPhotoId + '" width="100" height="100">';
+                    if (data[i].imagesIds !== null) {
+                        if (data[i].imagesIds > 2){
+                            data[i].imagesIds = '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + data[i].contact.pic + '" width="100" height="100">';
+                        }
+                        else{
+                            data[i].imagesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                        }
                     }
                     else {
-                        data[i].mainPhotoId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                        data[i].imagesIds = {};
+                        data[i].imagesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
                     }
                 }
+
+
+
 
                 var table = $('#tenders').DataTable({
                     select: {
@@ -115,9 +129,9 @@
                     },
                     data: data,
                     "columns": [
-                        {"data": "mainPhotoId"},
-                        {"data": "title"},
-                        {"data": "type"}
+                        {"data": "imagesIds"},
+                        {"data": "projectName"},
+                        {"data": "typeOfProject"}
                     ],
                     "language": {
                         "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
