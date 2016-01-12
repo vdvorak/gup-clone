@@ -45,9 +45,7 @@
     <!-- Custom CSS -->
     <link href="/resources/dist/css/sb-admin-2.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="/resources/bower_components/morrisjs/morris.css" rel="stylesheet">
-
+    <link href="/resources/css/typeaheadjs.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="/resources/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -249,25 +247,42 @@
                                                     aria-label="Close"><span
                                                     aria-hidden="true">&times;</span>
                                             </button>
-                                            <h4 class="modal-title">Перевод</h4>
+                                            <h4 class="modal-title">Редактировать</h4>
                                         </div>
-                                        <div class="modal-body">
-                                            <div class="col-xs-8">
-                                                <input id="searchLogin" type="text"
-                                                       class="form-control"
-                                                       placeholder="Начните вводить логин">
+
+                                            <div class="col-xs-4">
+                                                <br>
+                                                <div id="scrollable-dropdown-menu">
+                                                    <input id="typeahead" class="typeahead tt-input form-control" type="text" placeholder="users" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;">
+                                                </div>
                                             </div>
                                             <div class="col-xs-4">
-                                                <select id="searchRole"
-                                                        class="form-control-static">
-                                                    <option>Admin</option>
-                                                    <option>Moderator</option>
-                                                    <option>None</option>
-                                                </select>
+                                                <br>
+                                                <div class="checkbox">
+                                                    <label><input id="adminCheck2" type="checkbox"
+                                                                  value="ROLE_ADMIN">ADMIN</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label><input id="supportCheck2" type="checkbox"
+                                                                  value="ROLE_SUPPORT">SUPPORT</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label><input id="moderatorCheck2" type="checkbox"
+                                                                  value="ROLE_MODERATOR">MODERATOR</label>
+                                                </div>
                                             </div>
-                                            <br>
-                                            <br>
-                                        </div>
+                                            <div class="col-xs-4">
+                                                <br>
+                                                <div class="checkbox">
+                                                    <label><input id="anonymousCheck2" type="checkbox"
+                                                                  value="ROLE_ANONYMOUS">ANONYMOUS</label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label><input id="userCheck2" type="checkbox"
+                                                                  value="ROLE_USER">USER</label>
+                                                </div>
+                                            </div>
+
                                         <div class="modal-footer">
                                             <button type="submit"
                                                     class="btn btn-primary">Создать
@@ -362,9 +377,6 @@
 <!-- script references -->
 <script src="/resources/js/bootstrap-modalmanager.js"></script>
 <script src="/resources/js/bootstrap-modal.js"></script>
-<script src="/resources/js/oauth2.js"></script>
-<script src="/resources/js/cookie.js"></script>
-<script src="/resources/js/user.js"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
 <script src="/resources/bower_components/metisMenu/dist/metisMenu.min.js"></script>
@@ -381,11 +393,12 @@
 
 <!-- Moment library for humanlike date format -->
 <script src="/resources/js/moment-with-locales.js"></script>
-
+<script src="/resources/js/typeahead.js"></script>
 
 <script>
     var idCorrect = [];
-    var users = [];
+    var usernames = [];
+
     $(document).ready(function () {
         var data;
         var filterOptions = new Object();
@@ -408,7 +421,9 @@
             data: JSON.stringify(filterOptions),
             success: function (response) {
                 data = response.entities;
-                users = data;
+                for (var k = 0; k < data.length; k++){
+                    usernames.push(data[k].email);
+                }
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].contact !== null) {
                         if (data[i].contact.pic.length > 2) {
@@ -495,6 +510,23 @@
                             $('#cancelBtn').attr("class", "btn btn-danger disabled");
                         });
 
+                var logins = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.whitespace,
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    // `states` is an array of state names defined in "The Basics"
+                    local: usernames
+                });
+
+                $('#scrollable-dropdown-menu .typeahead').typeahead(null, {
+                    name: 'logins',
+                    limit: 10,
+                    source: logins
+                });
+
+                $('#typeahead').change(function(){
+                    alert("chenge");
+                })
+
             }
 
         });
@@ -525,7 +557,7 @@
             roles.push('ROLE_ANONYMOUS');
         }
 
-        user.login = login;
+        user.username = login;
         user.email = login;
         user.password = password;
         user.userRoles = roles;
@@ -545,10 +577,6 @@
 
 
 </script>
-<!-- Morris Charts JavaScript -->
-<script src="/resources/bower_components/raphael/raphael-min.js"></script>
-<script src="/resources/bower_components/morrisjs/morris.min.js"></script>
-<script src="/resources/js/morris-data.js"></script>
 
 </body>
 
