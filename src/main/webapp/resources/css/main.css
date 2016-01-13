@@ -783,6 +783,7 @@ footer{
 }
 .tender-name p{
 	margin-top: 0px;
+	margin-bottom: 0px;
 }
 .tender-item-info{
 	display: inline-block;
@@ -793,10 +794,54 @@ footer{
 	font-size: 11px;
 	color: #555555;
 	font-style: italic;
+	margin-bottom: 0px;
 }
 .tender-number{
 	margin-top: 0px;
 	margin-bottom: 0px;
 	color: #1269a7;
 	font-weight: bold;
+}
+.tender-item-text{
+	text-indent: 20px;
+}
+.tender-item-text p{
+	margin-top: 0px;
+}
+.tender-time-remain{
+	text-align: right;
+}
+.tender-time{
+	display: inline-block;
+	vertical-align: top;
+	margin: 0px;
+	background-color: #99cc66;
+	color: #1269a7;
+	padding: 2px 10px;
+	border-radius: 5px;
+}
+.tender-time-remain img{
+	width: 30px;
+	display: inline-block;
+}
+.tender-cost-wrap{
+	text-align: right;
+	z-index: 3;
+	position: relative;
+	bottom: 15px;
+}
+.tender-cost-wrap p{
+	display: inline-block;
+	background-color: #faff65;
+	margin: 0px;
+	padding: 7px 10px;
+	border-radius: 5px;
+}
+.tender-apply-for{
+	background-color: #36aae0;
+	border: 3px solid #36aae0;
+	border-radius: 5px;
+	color: #fff;
+	cursor: pointer;
+	padding: 5px 10px;
 }

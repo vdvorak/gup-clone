@@ -167,9 +167,9 @@
     <div class="tender-wrap">
             <div class="tender-tabs-wrap">
                 <div class="tabs">
-                    <ul>
-                        <li class="tender-tabs-title">Сообщения</li>
-                        <li class="tender-tabs-title">Уведомления</li>
+                    <ul style="margin-bottom: 50px;">
+                        <li class="tender-tabs-title">ТЕНДЕРЫ</li>
+                        <li class="tender-tabs-title">ИСПОЛНИТЕЛИ</li>
                     </ul>
                     <div class="tender-tabs-items-wrap">
                             <div class="tender-item-wrapper">
@@ -198,10 +198,10 @@
                                     <div class="tender-item-subtext-stuff">
                                         <div class="tender-time-remain">
                                             <img src="/resources/img/alarm.png">
-                                            <div class="tender-time"></div>
+                                            <p class="tender-time">15</p>
                                         </div>
                                         <div class="tender-cost-wrap">
-                                            <p><span class="tender-cost"></span>$</p>
+                                            <p><span class="tender-cost">00 000 000</span>$</p>
                                             <button class="tender-apply-for">Участвовать</button>
                                         </div>
                                     </div>
