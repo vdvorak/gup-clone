@@ -24,15 +24,15 @@ public class BlogController {
         return "blog-create";
     }
 
-    @RequestMapping(value = "/blog/{id}/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/blog/{id}/edit", method = RequestMethod.GET)
     public String getBlogEditPage(Model model, @PathVariable String id) {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-        Blog oldBlog = blogService.findBlog(id);
+        Blog blog = blogService.findBlog(id);
 
-        if (oldBlog.getAuthorId().equals(userId)) {
-            model.addAttribute("profile", oldBlog);
+        if (blog.getAuthorId().equals(userId)) {
+            model.addAttribute("blog", blog);
             return "blog-edit";
         } else {
             return "index";

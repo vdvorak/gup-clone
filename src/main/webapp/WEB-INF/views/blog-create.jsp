@@ -23,11 +23,13 @@
 </div>
 
 <div>
-    <input id="blogTitle" type="text" name="blogTitle" minlength="2" maxlength="70" required placeholder="Название блога">
+    <input id="blogTitle" type="text" name="blogTitle" minlength="2" maxlength="70" required
+           placeholder="Название блога">
 </div>
 
 <div>
-    <input id="blogDescription" type="text" name="blogDescription" minlength="50" maxlength="5000" required placeholder="Описание блога">
+    <textarea id="blogDescription"  minlength="50" maxlength="5000" required
+              placeholder="Описание блога"></textarea>
 </div>
 
 <div>
@@ -45,13 +47,14 @@
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 <script>
-    //----------------------------------------------------- Image form -----------------------------------------------
+
     var imgId = '';
     var categories = [];
     var blog = {};
 
+    //----------------------------------------------------- Image form -----------------------------------------------
+
     $(document).on('change', '#photofile', function (e) {
-        alert("Азазаз");
 
         var formImg = new FormData($('#photoInput')[0]);
 
@@ -68,7 +71,6 @@
             contentType: false,
             processData: false,
             success: function (data, textStatus, request) {
-                alert("Азаза опять");
                 imgId = data.id;
                 $('#imgPreview').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
             }
@@ -79,23 +81,18 @@
 
     ///----------------------Delete photo from  DB-----------------------------------------
     function deleteImgFromDB(picId) {
-        alert("Сейчас удалим фотку");
         $.ajax({
             url: '/api/rest/fileStorage/NEWS/file/delete/id/' + picId,
             method: 'POST',
             success: function (response) {
-                alert("Фото успешно удалено");
             },
             error: function (response) {
-                alert("Удаление фотки зафейлилось");
             }
         });
     }
     ///----------------------Delete photo from  DB-----------------------------------------
 
-
-
-///------------------------- Upload Blog -----------------------------------------------
+    ///------------------------- Upload Blog -----------------------------------------------
     $(document).on('click', '#createBlog', function (event) {
 
         blog.categories = $('#categories').value;
@@ -112,18 +109,15 @@
             dataType: "json",
             data: JSON.stringify(blog),
             success: function (response) {
-                alert("Всё ок");
-//                window.location.href = '/account';
+                window.location.href = '/index';
+//               в перспективе должно перекидывать на страницу этого блога - его просмотр
             },
             error: function (response) {
                 alert("Внутренняя ошибка сервера");
             }
         });
     });
-
     ///------------------------- Upload Blog -----------------------------------------------
-
 </script>
-
 </body>
 </html>
