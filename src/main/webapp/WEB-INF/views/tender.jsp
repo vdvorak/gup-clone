@@ -171,44 +171,88 @@
                         <li class="tender-tabs-title">ТЕНДЕРЫ</li>
                         <li class="tender-tabs-title">ИСПОЛНИТЕЛИ</li>
                     </ul>
-                    <div class="tender-tabs-items-wrap">
-                            <div class="tender-item-wrapper">
-                                <div class="tender-item-leftside">
-                                    <div class="tender-pic-wrap">
-                                        <img src="/resources/img/tender-example-pic.png">
+                    <div>
+                        <div class="tender-tabs-items-wrap">
+                                <div class="tender-item-wrapper">
+                                    <div class="tender-item-leftside">
+                                        <div class="tender-pic-wrap">
+                                            <img src="/resources/img/tender-example-pic.png">
+                                        </div>
+                                        <div class="tender-subpic-stuff">
+                                            <p style="margin-top: 0px; display: inline-block;">Предложений:<span class="tender-proposal-count"></span></p>
+                                            <p style="margin-top: 0px; display: inline-block; float: right;">Просмотров:<span class="tender-veiws"></span></p>
+                                        </div>
                                     </div>
-                                    <div class="tender-subpic-stuff">
-                                        <p style="margin-top: 0px; display: inline-block;">Предложений:<span class="tender-proposal-count"></span></p>
-                                        <p style="margin-top: 0px; display: inline-block; float: right;">Просмотров:<span class="tender-veiws"></span></p>
+                                    <div class="tender-item-rightside">
+                                        <div class="tender-item-header-wrap">
+                                            <div class="tender-name">
+                                                <p>Название тендера</p>
+                                            </div>
+                                            <div class="tender-item-info">
+                                                <p class="tender-publish-date">Опубликовано:<span>22.10.16</span></p>
+                                                <p class="tender-number">№<span>1234567893</span></p>
+                                            </div>
+                                        </div>
+                                        <div class="tender-item-text">
+                                            <p>Беспилотный летательный аппарат (БПЛА, также иногда сокращается как БЛА; в просторечии иногда используется название «беспилотник» или «дрон» (от англ. drone — трутень)) — летательный аппарат без экипажа на борту.[1]Создан для воздушной съёмки и наблюдения в реальном времени за наземными объектами.</p>
+                                        </div>
+                                        <div class="tender-item-subtext-stuff">
+                                            <div class="tender-time-remain">
+                                                <img src="/resources/img/alarm.png">
+                                                <p class="tender-time">15</p>
+                                            </div>
+                                            <div class="tender-cost-wrap">
+                                                <p><span class="tender-cost">00 000 000</span>$</p>
+                                                <button class="tender-apply-for">Участвовать</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="tender-item-rightside">
-                                    <div class="tender-item-header-wrap">
-                                        <div class="tender-name">
-                                            <p>Название тендера</p>
-                                        </div>
-                                        <div class="tender-item-info">
-                                            <p class="tender-publish-date">Опубликовано:<span>22.10.16</span></p>
-                                            <p class="tender-number">№<span>1234567893</span></p>
-                                        </div>
+                        </div>
+                    </div>
+                   <!-- 2-nd tab-->
+                    <div>
+                        <div class="doer-items-wrap">
+                            <div class="doer-wrapper">
+                                <div class="doer-item-left">
+                                    <div class="doer-userpic-wrap">
+                                        <img src="/resources/img/doer-userpic.png">
                                     </div>
-                                    <div class="tender-item-text">
-                                        <p>Беспилотный летательный аппарат (БПЛА, также иногда сокращается как БЛА; в просторечии иногда используется название «беспилотник» или «дрон» (от англ. drone — трутень)) — летательный аппарат без экипажа на борту.[1]Создан для воздушной съёмки и наблюдения в реальном времени за наземными объектами.</p>
+                                    <div class="doer-rating">
+                                        <p>523</p>
                                     </div>
-                                    <div class="tender-item-subtext-stuff">
-                                        <div class="tender-time-remain">
-                                            <img src="/resources/img/alarm.png">
-                                            <p class="tender-time">15</p>
-                                        </div>
-                                        <div class="tender-cost-wrap">
-                                            <p><span class="tender-cost">00 000 000</span>$</p>
-                                            <button class="tender-apply-for">Участвовать</button>
-                                        </div>
+                                </div>
+
+
+                                <div class="doer-item-mid">
+                                    <div class="doer-name">
+                                        <p>ФИО исполнителя</p>
+                                    </div>
+                                    <div class="doer-description">
+                                        <p class="doer-description-title">Описание</p>
+                                        <p class="doer-description-main">Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимодействия с ним. 	Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимодействия с ним.
+                                            Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимо</p>
+                                    </div>
+                                </div>
+
+
+                                <div class="doer-item-right">
+                                    <div class="doer-info">
+                                        <p class="doer-creation-date"><span></span></p>
+                                        <p class="doer-update-date"><span></span></p>
+                                        <p class="doer-views-count"><span></span></p>
+                                    </div>
+                                    <div class="doer-likes-buttons-wrap">
+                                        <img class="doer-like" src="/resources/img/doer-like-icon.png">
+                                        <img class="doer-dislike" src="/resources/img/doer-dislike-icon.png">
+                                    </div>
+                                    <div class="doer-addToClient-button-wrap">
+                                        <button class="doer-addToClient-button">Добавить в клиенты</button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </div>
-                    <div>Второе содержимое</div>
                 </div>
             </div>
     </div>
