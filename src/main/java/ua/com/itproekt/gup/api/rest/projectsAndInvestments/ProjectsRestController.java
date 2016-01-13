@@ -24,7 +24,7 @@ public class ProjectsRestController {
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
-    @RequestMapping(value = "/project/id/{projectId}/read", method = RequestMethod.POST,
+    @RequestMapping(value = "/project/id/{projectId}/read", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Project> getProjectById(@PathVariable String projectId) {
         Project project = projectService.findProjectAndIncViews(projectId);

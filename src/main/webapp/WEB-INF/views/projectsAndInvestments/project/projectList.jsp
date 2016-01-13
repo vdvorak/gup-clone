@@ -47,6 +47,7 @@
                 var data;
                 var projectFO = {};
                 projectFO.createdDateSortDirection = "DESC";
+                projectFO.includeComments = false;
                 projectFO.skip = 0;
                 projectFO.limit = 10;
 
@@ -60,7 +61,8 @@
 
                         for (var i = 0; i < data.length; i++) {
                             data[i].projectName = '<a href="/project/id/' + data[i].id + '">' + data[i].projectName + '</a>';
-                            data[i].createdDate = new Date(data[i].createdDate);
+                            var createdDate = new Date(data[i].createdDate);
+                            data[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
 
                             if (data[i].imagesIds !== null) {
                                 for (var key in data[i].imagesIds) {
