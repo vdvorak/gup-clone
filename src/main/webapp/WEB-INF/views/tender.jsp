@@ -238,9 +238,9 @@
 
                                 <div class="doer-item-right">
                                     <div class="doer-info">
-                                        <p class="doer-creation-date"><span></span></p>
-                                        <p class="doer-update-date"><span></span></p>
-                                        <p class="doer-views-count"><span></span></p>
+                                        <p class="doer-creation-date">Дата создания:<span>12.09.15</span></p>
+                                        <p class="doer-update-date">Дата обновления:<span>12.09.15</span></p>
+                                        <p class="doer-views-count">Просмотры:<span>129</span></p>
                                     </div>
                                     <div class="doer-likes-buttons-wrap">
                                         <img class="doer-like" src="/resources/img/doer-like-icon.png">

@@ -844,3 +844,101 @@ footer{
 	cursor: pointer;
 	padding: 5px 10px;
 }
+.doer-item-left{
+	display: inline-block;
+	width: 20%;
+	vertical-align: top;
+}
+.doer-userpic-wrap img{
+	width: 130px;
+}
+.doer-wrapper{
+	border: 2px solid #36aae0;
+	border-radius: 10px;
+	padding: 10px;
+}
+.doer-userpic-wrap{
+	border: 3px solid #1269a7;
+	border-radius: 10px;
+	padding: 10px;
+	display: inline-block;
+}
+.doer-rating p{
+	background-color: #fff;
+	color: #36aae0;
+	font-weight: bold;
+	border: 3px solid #1269a7;
+	border-radius: 100%;
+	display: inline-block;
+	padding: 10px 8px;
+
+	font-size: 20px;
+	margin: 0px;
+}
+.doer-rating{
+	display: inline-block;
+	position: relative;
+	bottom: 56px;
+	right: -95px;
+}
+.doer-item-mid{
+	display: inline-block;
+	width:60%;
+}
+.doer-item-right{
+	display: inline-block;
+	width: 19%;
+	vertical-align: top;
+}
+.doer-name{
+	color: #1269a7;
+	font-size: 30px;
+}
+.doer-name p{
+	margin: 0px;
+}
+.doer-description-title{
+	margin: 0px;
+	font-size: 14px;
+	color: #a5acb0;
+}
+.doer-description-main{
+	margin: 0;
+	color: #828a8f;
+	text-indent: 20px;
+	font-size: 15px;
+}
+.doer-info{
+	font-size: 14px;
+	color: #828a8f;
+	margin-bottom: 30px;
+}
+.doer-info p{
+	margin:0px;
+}
+.doer-likes-buttons-wrap{
+
+}
+.doer-likes-buttons-wrap{
+	margin-bottom: 30px;
+}
+.doer-dislike{
+	width: 40px;
+	float: right;
+	margin-right: 20px;
+}
+.doer-like{
+	width: 40px;
+	margin-left: 20px;
+}
+.doer-addToClient-button-wrap{
+	text-align: center;
+}
+.doer-addToClient-button{
+	background-color: #36aae0;
+	border-color: #36aae0;
+	color: #fff;
+	border-radius: 5px;
+	padding: 5px;
+	cursor: pointer;
+}
