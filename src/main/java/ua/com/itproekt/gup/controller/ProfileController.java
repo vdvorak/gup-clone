@@ -26,13 +26,6 @@ public class ProfileController {
     ActivityFeedService activityFeedService;
 
 
-    //----------------------------------- show registration page  ------
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String showPage(Model model) {
-        return "registration";
-    }
-
-
     //----------------------------------- read profile for edit-profile page  ------
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/edit-profile/{id}", method = RequestMethod.GET)
