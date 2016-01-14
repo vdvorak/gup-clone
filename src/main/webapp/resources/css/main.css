@@ -942,3 +942,17 @@ footer{
 	padding: 5px;
 	cursor: pointer;
 }
+.dop-inf{
+	color: #1269a7;
+	text-align: center;
+	font-size: 24px;
+}
+#selectCategory, #selectNace, #inputTitle, #inputPosition, #inputPosition, #skype, #profileDescription{
+	border: 3px solid #9acc66;
+	border-radius: 5px;
+}
+.add_email_field_button, .add_field_button, .add_link_button, .selectPhoto{
+	width: 30px;
+	cursor: pointer;
+}
+}

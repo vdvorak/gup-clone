@@ -167,7 +167,6 @@
     </div>
 </section>
 
-<div class="container-fluid">
 
     <!--category-->
     <!--<div class="row">
@@ -204,8 +203,7 @@
     </div>-->
     <!--category-->
 
-    <div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">
-
+    <section>
         <form id="mainInput" action="" method="post">
             <div class="row" style="background-color: #ffffff; padding: 15px; margin-top: 25px;border: 5px solid #9acc66;">
                 <h2 class="dop-inf">Дополнительная информация</h2>
@@ -240,7 +238,7 @@
                             <br>
 
                             <div id="emailGroup" class="input_email_fields_wrap">E-mail
-                                <img src="/resources/images/green_add_button.png" title="Добавить e-mail" class="add_email_field_button">
+                                <img src="/resources/img/add-icon.png" title="Добавить e-mail" class="add_email_field_button">
                                 <c:forEach items="${profile.contact.contactEmails}" var="id" varStatus="loopCounter">
                                     <div><input type="email" value="${id}"><a href="#" class="remove_field"
                                                                               required>Удалить</a></div>
@@ -251,7 +249,7 @@
                             <div><input type="text" name="mainPhoneNumber" placeholder="Введите номер телефона" value="${profile.mainPhoneNumber}"></div>
 
                             <div id="phoneGroup" class="input_fields_wrap">
-                                <img src="/resources/images/green_add_button.png" title="Добавить телефон" class="add_field_button">
+                                <img src="/resources/img/add-icon.png" title="Добавить телефон" class="add_field_button">
                                 <c:forEach items="${profile.contact.contactPhones}" var="id">
                                     <div><input type="text" value="${id}"><a href="#" class="remove_field"
                                                                              required>Удалить</a></div>
@@ -278,7 +276,7 @@
                             </div>
 
                             <div id = "webLinkGroup" class="input-link-wrap">Web ссылки
-                                <img src="/resources/images/green_add_button.png" title="Добавить ссылку" class="add_link_button">
+                                <img src="/resources/img/add-icon.png" title="Добавить ссылку" class="add_link_button">
                                 <c:forEach items="${profile.contact.linkToWebSite}" var="id">
                                     <div><input type="text" value="${id}"><a href="#"
                                                                              class="remove_field"
@@ -302,7 +300,7 @@
                              height="200">
                     </c:when>
                     <c:otherwise>
-                        <img id="avatar" src="/resources/images/pic_logo.png" width="200" height="200">
+                        <img id="avatar" src="/resources/img/pic_logo.png" width="200" height="200">
                     </c:otherwise>
                 </c:choose>
 
@@ -312,7 +310,7 @@
 
                     <p>
                         <label for="photofile">
-                            <img class="selectPhoto" src="/resources/images/green_add_button.png"/>
+                            <img class="selectPhoto" src="/resources/img/add-icon.png"/>
                         </label>
                         <input id="photofile" type="file" name="file" multiple accept="image/*,image/jpeg">
                     </p>
@@ -345,8 +343,7 @@
         <div class="imgBlock">
             <!--uploaded images-->
         </div>
-    </div>
-</div>
+    </section>
 
 <!-- script references -->
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
