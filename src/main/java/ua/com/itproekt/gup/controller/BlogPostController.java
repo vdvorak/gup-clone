@@ -46,16 +46,15 @@ public class BlogPostController {
         return "blog-post-create";
     }
 
-    @RequestMapping("/edit/{blogId}/{blogPostId}")
-    public String blogPostEdite(Model model, @PathVariable("blogId") String blogId, @PathVariable("blogPostId") String blogPostId) {
+    @RequestMapping("/edit/{blogPostId}")
+    public String blogPostEdit(Model model, @PathVariable("blogPostId") String blogPostId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         Profile profile = profilesService.findProfileByEmail(email);
         BlogPost blogPost = blogPostService.findById(blogPostId);
-        model.addAttribute("blogId", blogId);
         model.addAttribute("blogPost", blogPost);
         model.addAttribute("profileId", profile.getId());
-        return "blog-post-edite";
+        return "blog-post-edit";
     }
 
 
