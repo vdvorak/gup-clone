@@ -13,7 +13,7 @@
 </head>
 <body>
 <div>
-    <select name="categories" required>
+    <select id="categories" required>
         <option value="ukr">Новости Украины</option>
         <option value="world">Мировые новости</option>
         <option value="economic">Экономика</option>
@@ -37,10 +37,7 @@
     <form id="photoInput" enctype="multipart/form-data" method="post">
         <input id="photofile" type="file" name="file" multiple accept="image/*,image/jpeg">
     </form>
-
-
     <div class="imgBlock">
-
         <c:choose>
             <c:when test="${not empty blog.imageId}">
                 <img id="imgPreview" src="/api/rest/fileStorage/NEWS/file/read/id/${blog.imageId}" width="200"
@@ -50,9 +47,7 @@
                 <img id="imgPreview" src="/resources/images/no_photo.jpg" width="200" height="200">
             </c:otherwise>
         </c:choose>
-
     </div>
-
 </div>
 <button id="createBlog">Сохранить</button>
 
@@ -117,10 +112,14 @@
     ///------------------------- Upload Blog -----------------------------------------------
     $(document).on('click', '#createBlog', function (event) {
 
-        blog.categories = $('#categories').value;
+        categories.push($('#categories').val());
+
+
+
         blog.title = $('#blogTitle').val();
         blog.description = $('#blogDescription').val();
         blog.id = blogId;
+        blog.categories = categories;
 
         if (imgId !== oldImgId) {
             blog.imageId = imgId;

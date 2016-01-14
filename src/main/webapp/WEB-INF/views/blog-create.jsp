@@ -12,7 +12,7 @@
 </head>
 <body>
 <div>
-    <select name="categories" required>
+    <select id="categories" required>
         <option value="ukr">Новости Украины</option>
         <option value="world">Мировые новости</option>
         <option value="economic">Экономика</option>
@@ -95,10 +95,12 @@
     ///------------------------- Upload Blog -----------------------------------------------
     $(document).on('click', '#createBlog', function (event) {
 
-        blog.categories = $('#categories').value;
+        categories.push($('#categories').val());
+
         blog.title = $('#blogTitle').val();
         blog.description = $('#blogDescription').val();
         blog.imageId = imgId;
+        blog.categories = categories;
 
         alert(JSON.stringify(blog));
 
