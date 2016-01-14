@@ -34,6 +34,8 @@ public class BlogPostController {
         return "blog-post-view";
     }
 
+
+    //ToDo Проверять "А ты ли владелец этого блога, чтобы в неём создовать новость?"
     @RequestMapping("/create/{blogId}")
     public String blogPostCreate(Model model, @PathVariable("blogId") String blogId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
