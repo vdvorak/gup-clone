@@ -98,7 +98,7 @@ public class BlogPostRestController {
 
         // editor = authorId
         String userId = SecurityOperations.getLoggedUserId();
-        if (userId.equals(blogPostService.findById(blogPost.getId()).getAuthorId())) {
+        if (!userId.equals(blogPostService.findById(blogPost.getId()).getAuthorId())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 

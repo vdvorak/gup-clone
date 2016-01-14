@@ -11,7 +11,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Создание объявления</title>
+  <title>Редактирование</title>
   <meta name="generator" content="Bootply"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link href="/resources/css/bootstrap.css" rel="stylesheet">
@@ -21,12 +21,12 @@
 <body class="center-block" style="padding-top: 70px; max-width: 1200px;">
 
 <div>Заголовок
-  <input id="title" type="text" name="title">
+  <input id="title" type="text" name="title" value="${blogPost.title}">
 </div>
 <br>
 
 <div>Описание
-  <textarea id="text" required></textarea>
+  <textarea id="text" required>${blogPost.text}</textarea>
 </div>
 <br>
 
@@ -176,7 +176,8 @@
   $('#submit').click(function () {
 
     var blogPost = {};
-    blogPost.blogId = '${blogId}';
+    blogPost.id = '${blogPost.id}';
+    blogPost.blogId = '${blogPost.blogId}';
     blogPost.title = $('#title').val();
     blogPost.text = $('#text').val();
     blogPost.address = {};
@@ -190,7 +191,7 @@
     alert(JSON.stringify(blogPost));
     $.ajax({
       type: "POST",
-      url: "/api/rest/newsService/blogPost/create",
+      url: "/api/rest/newsService/blogPost/edit",
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       data: JSON.stringify(blogPost),
@@ -204,6 +205,21 @@
   });
 
   // --------------------- END MAIN FORM CONSTRUCTION ----------------------//
+
+
+  var imgEnterArr = '${blogPost.imagesIds.keySet()}'.substring(1,'${blogPost.imagesIds.keySet()}'.length-1).split(', ');
+  if(imgEnterArr[0]!=''){
+    for (var id in imgEnterArr) {
+      imgsArr[imgEnterArr[id]]='someText';
+      $('.imgBlock').append('<ul id="' + imgEnterArr[id] + '" style="display: inline-table; list-style-type: none">' +
+      ' <li style="background-color: white"><a rel="example_group"> ' +
+      '<img id="img1" alt="" src="/api/rest/fileStorage/NEWS/file/read/id/' + imgEnterArr[id] + '"' + 'width="150" height="150"> ' +
+      '</a> <div onclick=\"deleteImgFromPage(' + '\'' + imgEnterArr[id] + '\'' + ')">Удалить</div> </li> </ul>');
+    }
+  }
+
+
+
 
 
   // -------------------------- PHOTO SUBMIT AND DELETE ------------------------------//
@@ -238,10 +254,14 @@
       type: "POST",
       url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
       success: function (data, textStatus, request) {
-        alert('успех');
         $('#' + idImg).remove();
       }
     });
+  }
+
+  function deleteImgFromPage(idImg) {
+    delete imgsArr[idImg];
+    $('#' + idImg).remove();
   }
 
   // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//
