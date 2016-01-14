@@ -126,10 +126,14 @@ public class Doer {
 
     @Override
     public String toString() {
+        String authorContactsStr = "null";
+        if(authorContacts != null){
+            authorContactsStr = authorContacts.toString();
+        }
         return "Doer{" +
                 "id='" + id + '\'' +
                 ", authorId='" + authorId + '\'' +
-                ", authorContacts=" + authorContacts.toString() +
+                ", authorContacts=" + authorContactsStr +
                 ", naceIds=" + naceIds +
                 ", title='" + title + '\'' +
                 ", body='" + body + '\'' +
