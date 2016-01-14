@@ -17,6 +17,11 @@ public class ProjectController {
         return "projectsAndInvestments/project/projectList";
     }
 
+    @RequestMapping("/createProject")
+    public String createProject() {
+        return "projectsAndInvestments/project/createProject";
+    }
+
     @RequestMapping("/project/id/{projectId}")
     public String getProjectById(@PathVariable String projectId, Model model) {
         model.addAttribute("projectId", projectId);
