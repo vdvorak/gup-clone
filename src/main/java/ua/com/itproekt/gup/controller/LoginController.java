@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.controller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +30,8 @@ import java.util.Set;
 
 @Controller
 public class LoginController {
+	private Logger logger = Logger.getLogger(LoginController.class);
+
 	private final int ACCESS_TOKEN_EXPIRES_IN_SECONDS = 600 - 3;
 	private final int REFRESH_TOKEN_EXPIRES_IN_SECONDS = 2592000 - 3;
 
@@ -53,6 +56,7 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public void login(@RequestParam String email, @RequestParam String password,
 					  HttpServletResponse response) {
+
 		Map<String, String> requestParameters = new HashMap<>();
 		String clientId = "7b5a38705d7b3562655925406a652e32";
 		Set<String> scope = new HashSet<>();
@@ -80,6 +84,9 @@ public class LoginController {
 		cookieRefreshToken.setMaxAge(REFRESH_TOKEN_EXPIRES_IN_SECONDS);
 		cookieRefreshToken.setPath("/");
 		response.addCookie(cookieRefreshToken);
+
+		logger.debug("Login: profile {email : " + email + "}");
+
 	}
 
 //		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
