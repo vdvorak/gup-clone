@@ -22,6 +22,7 @@
 <div>
     <div>
         <h2 align="center">Просмотр проекта</h2>
+        <h2 align="center"><a href="/projectList">Сиписок проектов</a></h2>
     </div>
     <div>
         <div>

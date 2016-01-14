@@ -67,6 +67,7 @@
             var imgId = '';
             var projectType = [];
             var project = {};
+            var imagesIds = {};
 
             $(document).on('change', '#photoFile', function (e) {
 
@@ -109,7 +110,9 @@
                 project.projectDescription = $('#projectDescription').val();
                 project.amountRequested = $('#amountRequested').val();
                 project.categoriesOfIndustry = $('#categoriesOfIndustry').val();
-                project.imageId = imgId;
+
+                imagesIds[imgId] = 1;
+                project.imagesIds = imagesIds;
 
                 alert(JSON.stringify(project));
 
