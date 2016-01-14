@@ -25,34 +25,54 @@
     </div>
     <div>
         <div>
-            <label for="projectName"><b>    Название: </b></label>
+            <label for="projectName"><b>Название: </b></label>
             <label id="projectName"></label>
         </div>
+
         <div>
-            <label for="projectType"><b>    Тип: </b></label>
+            <label for="projectType"><b>Тип: </b></label>
             <label id="projectType"></label>
         </div>
+
         <div>
-            <label for="projectDescription"><b>     Описание: </b></label>
+            <label for="projectDescription"><b>Описание: </b></label>
             <label id="projectDescription"></label>
         </div>
+
         <div>
-            <label for="projectCreatedDate"><b>     Дата создания: </b></label>
+            <label for="amountRequested"><b>Нужная сумма: </b></label>
+            <label id="amountRequested"></label>
+        </div>
+
+        <div>
+            <label for="investedAmount"><b>Собраная сумма: </b></label>
+            <label id="investedAmount"></label>
+        </div>
+
+        <div>
+            <label for="totalScore"><b>Оценка: </b></label>
+            <label id="totalScore"></label>
+        </div>
+
+        <div>
+            <label for="projectCreatedDate"><b>Дата создания: </b></label>
             <label id="projectCreatedDate"></label>
         </div>
-        <br>
-        <form id="voteForm"  method="post"
-              action="/api/rest/projectsAndInvestmentsService/project/id/${projectId}/vote/10">
-            <input type="number" name="score" id="score" path="score" value="10" />
-            <input type="submit" name="button" value="Проголосовать" />
-        </form>
 
-        <form id="commentForm"  method="post"
-              action="/api/rest/projectsAndInvestmentsService/project/id/${projectId}/comment/create">
-            <textarea name="comment" id="textarea" cols="45" rows="5"></textarea>
-            <input type="submit" name="button" id="button" value="Отправить" />
-        </form>
+        <div>
+            <select name="projectScore" id="projectScore" required>
+                <option value="1">1</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+            </select>
+            <button type="button" id="voteButton">Проголосовать</button>
+        </div>
 
+        <div>
+            <textarea name="comment" id="comment" cols="40" rows="5"
+                      placeholder="Минимум 5 символов"></textarea>
+            <button type="button" id="commentButton">Комментировать</button>
+        </div>
     </div>
 </div>
 
@@ -60,23 +80,65 @@
 
 <script>
 
+    var projectId = '';
+    var comment = {};
+
     $(document).ready(function () {
-
-
         $.ajax({
             type: "GET",
             url: "/api/rest/projectsAndInvestmentsService/project/id/${projectId}/read",
             success: function (projectData) {
-                document.getElementById("projectName").innerHTML = projectData.projectName;
-                document.getElementById("projectType").innerHTML = projectData.typeOfProject;
-                document.getElementById("projectDescription").innerHTML = projectData.projectDescription;
+                projectId = projectData.id;
+                $('projectName').innerHTML = projectData.projectName;
+                $('projectType').innerHTML = projectData.typeOfProject;
+                $('projectDescription').innerHTML = projectData.projectDescription;
+                $('amountRequested').innerHTML = projectData.amountRequested;
+                $('investedAmount').innerHTML = projectData.investedAmount;
+                $('totalScore').innerHTML = projectData.totalScore;
 
                 var createdDate = new Date(projectData.createdDate);
-                data[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
-                document.getElementById("projectCreatedDate").innerHTML = createdDate;
+                document.getElementById("projectCreatedDate").innerHTML
+                        = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
+
             }
         });
     });
+
+    $(document).on('click', '#voteButton', function (event) {
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/vote/" + $('#projectScore').val(),
+            success: function () {
+                alert('Вы проголосовали за проект');
+                window.location.reload();
+            },
+            error: function (response) {
+                alert("Внутренняя ошибка сервера");
+            }
+        });
+    });
+
+    $(document).on('click', '#commentButton', function (event) {
+
+        comment.toId = projectId;
+        comment.comment = $('#comment').val();
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/comment/create",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(comment),
+            success: function () {
+                alert('Вы прокомментировали проект');
+                window.location.reload();
+            },
+            error: function (response) {
+                alert("Внутренняя ошибка сервера");
+            }
+        });
+    });
+
 </script>
 </body>
 </html>

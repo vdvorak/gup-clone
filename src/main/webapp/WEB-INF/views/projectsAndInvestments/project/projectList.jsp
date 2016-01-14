@@ -22,6 +22,7 @@
         <div>
             <div>
                 <h2 align="center">Проекты</h2>
+                <h3 align="center"><a href="/createProject">Создать свой проект</a></h3>
             </div>
             <div>
                 <table id="projects" border="1" width="100%">

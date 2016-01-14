@@ -104,7 +104,7 @@
 
             $(document).on('click', '#createProject', function (event) {
 
-                project.typeOfProject = $('#projectType').value;
+                project.typeOfProject = $('#projectType').val();
                 project.projectName = $('#projectName').val();
                 project.projectDescription = $('#projectDescription').val();
                 project.amountRequested = $('#amountRequested').val();
