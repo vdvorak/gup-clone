@@ -16,7 +16,6 @@
     ${blog.title}
 </div>
 Рубрика <span id="rubrics"></span>
-
 <div>
 
 </div>
@@ -41,6 +40,7 @@
 </div>
 
 <c:if test="${check}">
+    <a href="/blog-post/create/${blog.id}"></a>
     <button>Создать новость</button>
 </c:if>
 
@@ -49,7 +49,6 @@
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
 <script>
-
     var categories = '${blog.categories}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
 
     for (var i = 0; i < categories.length; i++) {
@@ -78,7 +77,6 @@
                 rubric.append('Нет категории');
         }
     }
-
 </script>
 
 </body>

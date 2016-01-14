@@ -51,7 +51,6 @@ public class BlogController {
 
         Blog blog = blogService.findBlog(id);
 
-
         if (SecurityOperations.isUserLoggedIn()) {
             String userId = SecurityOperations.getLoggedUserId();
             check = userId.equals(blog.getAuthorId());
@@ -66,5 +65,4 @@ public class BlogController {
         model.addAttribute("blog", blog);
         return "blog";
     }
-
 }
