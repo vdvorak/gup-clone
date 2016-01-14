@@ -92,13 +92,8 @@
                 success: function (projectData) {
                     projectId = projectData.id;
                 if (projectData.imagesIds !== null) {
-                    alert('imagesIds' + projectData.imagesIds);
-
                     for (var key in projectData.imagesIds) {
-                        alert('key' + key);
-
                         if (projectData.imagesIds[key] === "1") {
-                            alert(' if (projectData.imagesIds[key] === "1")');
                             document.getElementById("projectImg").src = "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + key;
                             break;
                         }
