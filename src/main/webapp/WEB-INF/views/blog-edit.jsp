@@ -14,12 +14,12 @@
 <body>
 <div>
     <select id="categories" required>
-        <option value="ukr">Новости Украины</option>
-        <option value="world">Мировые новости</option>
-        <option value="economic">Экономика</option>
-        <option value="sport">Спорт</option>
-        <option value="crime">Криминал</option>
-        <option value="science">Наука</option>
+        <option id ="urk" value="ukr">Новости Украины</option>
+        <option id ="world" value="world">Мировые новости</option>
+        <option id ="economic" value="economic">Экономика</option>
+        <option id ="sport" value="sport">Спорт</option>
+        <option id ="crime" value="crime">Криминал</option>
+        <option id ="science" value="science">Наука</option>
     </select>
 </div>
 
@@ -64,6 +64,12 @@
     if ('${blog.imageId}'.length > 2) {
         oldImgId = '${blog.imageId}';
     }
+
+    //----------------------------------------- I N F O -------------------------------------------------------------
+    <%--Тут нужно сделать, чтобы после загрузки страницы категория (рубкрика) проставлялась в Seletc с категориями--%>
+    <%--Макет расходиться с логикой бекенда, возможно логично будет сделать выбор рубрик (категори) через чекбоксы--%>
+    //----------------------------------------- I N F O -------------------------------------------------------------
+
 
     //----------------------------------------------------- Image form -----------------------------------------------
     $(document).on('change', '#photofile', function (e) {
@@ -113,8 +119,6 @@
     $(document).on('click', '#createBlog', function (event) {
 
         categories.push($('#categories').val());
-
-
 
         blog.title = $('#blogTitle').val();
         blog.description = $('#blogDescription').val();
