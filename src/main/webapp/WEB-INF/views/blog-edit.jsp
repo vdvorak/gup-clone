@@ -57,7 +57,7 @@
 
     var imgId = '';
     var oldImgId = '';
-    var categories = '';
+    var categories = [];
     var blog = {};
     var blogId = '${blog.id}';
 

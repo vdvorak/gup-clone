@@ -47,10 +47,17 @@ public class BlogController {
 
     @RequestMapping(value = "/blog/{id}", method = RequestMethod.GET)
     public String getBlogRead(Model model, @PathVariable String id) {
+        boolean check = false;
 
-        String userId = SecurityOperations.getLoggedUserId();
         Blog blog = blogService.findBlog(id);
-        boolean check = userId.equals(blog.getAuthorId());
+
+
+        if (SecurityOperations.isUserLoggedIn()) {
+            String userId = SecurityOperations.getLoggedUserId();
+            check = userId.equals(blog.getAuthorId());
+            model.addAttribute("check", check);
+        }
+
         Profile profile = profilesService.findById(blog.getAuthorId());
         String userName = profile.getUsername();
 
