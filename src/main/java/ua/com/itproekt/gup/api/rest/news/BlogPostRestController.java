@@ -19,6 +19,7 @@ import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api/rest/newsService")
@@ -67,12 +68,18 @@ public class BlogPostRestController {
         // Проверка на права создавать посты от блога{userId, blogId} !!!!!!!!
         // .........
 
-        String userId = SecurityOperations.getLoggedUserId();
-        blogPost.setAuthorId(userId);
+        CreatedObjResponse createdObjResponse = null;
+        try {
+            String userId = SecurityOperations.getLoggedUserId();
+            blogPost.setAuthorId(userId);
+            blogPost.setCreatedDate(new Date().getTime());
 
-        blogPostService.create(blogPost);
+            blogPostService.create(blogPost);
 
-        CreatedObjResponse createdObjResponse = new CreatedObjResponse(blogPost.getId());
+            createdObjResponse = new CreatedObjResponse(blogPost.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
     }
 
