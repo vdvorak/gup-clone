@@ -13,43 +13,28 @@
 </head>
 <body>
 
-
-<div style="border-color: #00415d">
-sdfsdfsdfds
-
-
-  <%--<c:forEach var="blogPost" items="${blogPostPages.entities}" >--%>
-    <%--<div>--%>
-      <%--<h2>--%>
-        <%--<a href="/blog-post/view/${blogPost.id}"> ${blogPost.title}</a>--%>
-      <%--</h2>--%>
-  <%--<span>--%>
-  <%--<c:forEach var="id" items="${blogPost.imagesIds.keySet()}" >--%>
-    <%--<img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">--%>
-  <%--</c:forEach>--%>
-  <%--</span>--%>
-    <%--</div>--%>
-    <%--<br>--%>
-  <%--</c:forEach>--%>
-  <%----%>
-  <%----%>
-  <%----%>
-  <%----%>
-  <%--<c:choose>--%>
-    <%--<c:when test="${not empty blog.imageId}">--%>
-      <%--<img id="imgPreview" src="/api/rest/fileStorage/NEWS/file/read/id/${blog.imageId}" width="200"--%>
-           <%--height="200">--%>
-    <%--</c:when>--%>
-    <%--<c:otherwise>--%>
-      <%--<img id="imgPreview" src="/resources/images/no_photo.jpg" width="200" height="200">--%>
-    <%--</c:otherwise>--%>
-  <%--</c:choose>--%>
-
-
-
+<div>
+    <c:forEach var="blog" items="${blogPages.entities}">
+        <h3>
+            <a href="/blog/${blog.id}">${blog.title}</a>
+        </h3>
+        <div>
+            <a href="/blog/${blog.id}">
+                <c:choose>
+                    <c:when test="${not empty blog.imageId}">
+                        <img id="imgPreview" src="/api/rest/fileStorage/NEWS/file/read/id/${blog.imageId}" width="200"
+                             height="200">
+                    </c:when>
+                    <c:otherwise>
+                        <img id="imgPreview" src="/resources/images/no_photo.jpg" width="200" height="200">
+                    </c:otherwise>
+                </c:choose>
+            </a>
+        </div>
+        <br>
+        <div>Описание<br>${blog.description}</div>
+        <div>Дата создания${blog.createdDate}</div>
+    </c:forEach>
 </div>
-
-
-
 </body>
 </html>
