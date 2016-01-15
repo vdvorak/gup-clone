@@ -581,9 +581,8 @@
             contentType: false,
             processData: false,
             success: function (data, textStatus, request) {
-
-                imgId = data.value;
-                $('#avatar').attr("src", "/api/rest/fileStorage/PROFILE/file/read/id/" + imgId);
+                imgId = data.id;
+                $('#avatar').attr("src", "/api/rest/fileStorage/PROFILE/file/read/id/" + imgId).attr("style", "width:200px; height:200px;");
             }
         });
     });
@@ -637,7 +636,7 @@
             }
         });
 
-        profile.contact = new Object();
+        profile.contact = {};
         profile.contact.contactPhones = phoneArr;
         profile.contact.contactEmails = emailArr;
         profile.contact.linkToWebSite = webLinks;
@@ -648,9 +647,6 @@
         profile.contact.aboutUs = $('#profileDescription').val();
         profile.contact.pic = imgId;
 
-        alert(JSON.stringify(profile));
-
-
         $.ajax({
             type: "POST",
             url: "/api/rest/profilesService/profile/update",
@@ -658,7 +654,7 @@
             dataType: "json",
             data: JSON.stringify(profile),
             success: function (response) {
-                window.location.href = '/account';
+                window.location.href = '/prioffice';
             },
             error: function (response) {
                 alert("Внутренняя ошибка сервера");

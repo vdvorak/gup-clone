@@ -351,7 +351,6 @@
 
     var b = decodeURIComponent(mainForm);
     var c = JSON.parse('{"' + decodeURI(b).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
-    alert(JSON.stringify(c));
     if (c['g-recaptcha-response'] !== '') {
       $.ajax({
         type: "POST",
