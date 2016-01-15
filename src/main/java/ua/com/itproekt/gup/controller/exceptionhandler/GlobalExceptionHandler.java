@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.validation.ObjectError;
@@ -25,107 +24,54 @@ public class GlobalExceptionHandler {
     @Autowired
     ProfilesService profilesService;
 
-    private static final Logger logger = Logger.getLogger("globalExceptionHandler");
+    private static final Logger LOG = Logger.getLogger(GlobalExceptionHandler.class);
 
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public void logException(HttpServletRequest request, Principal principal, Exception ex) {
+        String userEmail = (principal == null ? "NULL" : principal.getName());
+
+        StringWriter stack = new StringWriter();
+        ex.printStackTrace(new PrintWriter(stack));
+
+        LOG.error(" URL [" + request.getRequestURL() + "];"
+                + "   User email: " + userEmail + ";"
+                + "   Exception: " + stack.toString());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public @ResponseBody Map<String, Object> handleValidationException(HttpServletRequest request,
-                                                                       Principal principal,
-                                                                       MethodArgumentNotValidException ex) {
+    public String handleValidationException(HttpServletRequest request, Principal principal,
+                                            MethodArgumentNotValidException ex) {
 
-        String userEmail = (principal == null ? "NULL" : principal.getName());
-        StringWriter stack = new StringWriter();
+        logException(request, principal, ex);
 
-        ex.printStackTrace(new PrintWriter(stack)); // **********
-
-        logger.error("UncaughtException Occured:: URL=" + request.getRequestURL() + ";" +
-                "   User email: " + userEmail + ";" +
-                "   Exception: " + stack.toString());
-
-        Map<String, Object>  map = new HashMap();
-        map.put("error", "Validation Failure");
-        map.put("violations", convertConstraintViolation(ex));
-        return map;
+        return "error/error";
     }
 
-    private Map<String, Map<String, Object> > convertConstraintViolation(MethodArgumentNotValidException ex) {
-        Map<String, Map<String, Object> > result = new HashMap();
-        for (ObjectError error : ex.getBindingResult().getAllErrors()) {
-            Map<String, Object>  violationMap = new HashMap();
-            violationMap.put("target", ex.getBindingResult().getTarget());
-            violationMap.put("type", ex.getBindingResult().getTarget().getClass());
-            violationMap.put("message", error.getDefaultMessage());
-            result.put(error.getObjectName(), violationMap);
-        }
-        return result;
-    }
-
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<Map<String, Object>>  handleAccessDeniedException(HttpServletRequest request,
-                                                                     Principal principal,
-                                                                     Exception ex) {
-        String userEmail = (principal == null ? "NULL" : principal.getName());
-        StringWriter stack = new StringWriter();
+    public String  handleAccessDeniedException(HttpServletRequest request, Principal principal,
+                                               AccessDeniedException ex) {
+        logException(request, principal, ex);
 
-        ex.printStackTrace(new PrintWriter(stack)); // **********
-
-        logger.error("AccessDeniedException Occured:: URL=" + request.getRequestURL() + ";" +
-                "   User email: " + userEmail + ";" +
-                "   Exception: " + stack.toString());
-
-        Map<String, Object>  map = new HashMap();
-        map.put("ex", "AccessDeniedException");
-        if (ex.getCause() != null) {
-            map.put("cause", ex.getCause().getMessage());
-        } else {
-            map.put("cause", ex.getMessage());
-        }
-
-        return new ResponseEntity<>(map, HttpStatus.FORBIDDEN);
+        return "error/403";
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    public String handleAuthCredentialsNotFoundEx(HttpServletRequest request,
-                                                  Principal principal,
-                                                  Exception ex) {
-        String userEmail = (principal == null ? "NULL" : principal.getName());
-        StringWriter stack = new StringWriter();
-        ex.printStackTrace(new PrintWriter(stack)); // **********
+    public String handleAuthCredentialsNotFoundEx(HttpServletRequest request, Principal principal,
+                                                  AuthenticationCredentialsNotFoundException ex) {
+        logException(request, principal, ex);
 
-        logger.error("AuthenticationCredentialsNotFoundException Occured:: URL=" + request.getRequestURL() + ";" +
-                "   User email: " + userEmail + ";" +
-                "   Exception: " + stack.toString());
-
-        return "401";
+        return "error/401";
     }
 
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public @ResponseBody Map<String, Object> handleUncaughtException(HttpServletRequest request,
-                                                                     Principal principal,
-                                                                     Exception ex) {
-        String userEmail = (principal == null ? "NULL" : principal.getName());
-        StringWriter stack = new StringWriter();
+    public String handleUncaughtException(HttpServletRequest request, Principal principal,
+                                          Exception ex) {
+        logException(request, principal, ex);
 
-        ex.printStackTrace(new PrintWriter(stack)); // **********
-
-        logger.error("UncaughtException Occured:: URL=" + request.getRequestURL() + ";" +
-                "   User email: " + userEmail + ";" +
-                "   Exception: " + stack.toString());
-
-        ////////////////////////////////////////////////////////////////
-        Map<String, Object>  map = new HashMap();
-        map.put("error", "Unknown Error");
-        if (ex.getCause() != null) {
-            map.put("cause", ex.getCause().getMessage());
-        } else {
-            map.put("cause", ex.getMessage());
-        }
-        return map;
+        return "error/error";
     }
 
 }

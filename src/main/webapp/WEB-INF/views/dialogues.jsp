@@ -220,7 +220,7 @@
     if (storedHash.substring(6) === "") {
       window.location.href = "/offers/1?" + $.param(getParams);
     } else {
-      alert($.param(getParams));
+//      alert($.param(getParams));
       window.location.href = "/offers/" + storedHash.substring(6) + "?" + $.param(getParams);
     }
   };

@@ -12,6 +12,7 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * The type Profiles service.
@@ -34,10 +35,11 @@ public class ProfilesServiceImpl implements ProfilesService {
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
         profile.setPassword(hashedPassword);
         HashSet<UserRole> userRoles = new HashSet<>();
-        userRoles.add(UserRole.ROLE_USER);
-        profile.setUserRoles(userRoles);
+        if (profile.getUserRoles() == null || profile.getUserRoles().size() == 0) {
+            userRoles.add(UserRole.ROLE_USER);
+            profile.setUserRoles(userRoles);
+        }
         profileRepository.createProfile(profile);
-
         bankSession.createBalanceRecord(profile.getId(), 0);
     }
 
@@ -116,5 +118,10 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public Profile findUserProfile(String profileId) {
         return profileRepository.findUserProfile(profileId);
+    }
+
+    @Override
+    public List<Profile> findAllWithoutOptions() {
+        return profileRepository.findAll();
     }
 }

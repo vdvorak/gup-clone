@@ -127,7 +127,7 @@
 
         var b = decodeURIComponent(mainForm);
         var c = JSON.parse('{"' + decodeURI(b).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
-        alert(JSON.stringify(c));
+//        alert(JSON.stringify(c));
         if (c['g-recaptcha-response']!=='' ){
             $.ajax({
                 type: "POST",
@@ -136,7 +136,7 @@
                 dataType: "json",
                 data: JSON.stringify(c),
                 success: function (response) {
-                    alert("Это успех!")
+//                    alert("Это успех!")
                 }
             });
         }else{

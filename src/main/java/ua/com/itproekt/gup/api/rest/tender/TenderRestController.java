@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.itproekt.gup.model.nace.DepartmentOrNace;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserType;
-import ua.com.itproekt.gup.model.tender.Member;
-import ua.com.itproekt.gup.model.tender.Propose;
-import ua.com.itproekt.gup.model.tender.Tender;
-import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
+import ua.com.itproekt.gup.model.tender.*;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.nace.NaceService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -27,9 +25,7 @@ import ua.com.itproekt.gup.util.EntityPage;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @RestController
@@ -63,30 +59,24 @@ public class TenderRestController {
         }
 
         //make propose visible according to hidden settings
-        if(!tender.getAuthorId().equals(getCurrentUserId())){
-            if(tender.isHidePropose()) {
-                tender.setProposes(null);
-            } else {
-                tender.getProposes().stream().filter(p -> p.getHidden()).forEach(p -> {
-                    tender.getProposes().remove(p);  });
+       tender = tenderService.setVision(tender, getCurrentUser());
+
+        if(tender != null){
+            // incrementing Visited field
+            HashSet<String> visit = (HashSet<String>) req.getSession().getAttribute("tenderVisit");
+            if (visit == null) visit = new HashSet<>();
+            if (!visit.contains(id)) {
+                Tender tenderForCountVisited = new Tender();
+                tenderForCountVisited.setId(tender.getId());
+
+                tenderForCountVisited.setVisited(tender.getVisited() + 1);
+                tenderService.updateTender(tenderForCountVisited);
+                visit.add(id);
+                req.getSession().setAttribute("tenderVisit", visit);
+
+                //update field visited in current tender
+                tender.setVisited(tenderForCountVisited.getVisited());
             }
-        }
-
-
-        // incrementing Visited field
-        ArrayList<String> visit = (ArrayList<String>) req.getSession().getAttribute("tenderVisit");
-        if(visit == null) visit = new ArrayList<>();
-        if(!visit.contains(id)) {
-            Tender tenderForCountVisited = new Tender();
-            tenderForCountVisited.setId(tender.getId());
-
-            tenderForCountVisited.setVisited(tender.getVisited() + 1);
-            tenderService.updateTender(tenderForCountVisited);
-            visit.add(id);
-            req.getSession().setAttribute("tenderVisit", visit);
-
-            //update field visited in current tender
-            tender.setVisited(tenderForCountVisited.getVisited());
         }
 
         return new ResponseEntity<>(tender, HttpStatus.OK);
@@ -100,25 +90,19 @@ public class TenderRestController {
             tenderFilterOptions.setNaceIdIn(getCurrentUserNaceId());
         }
 
-        EntityPage<Tender> tenders = tenderService.findWihOptions(tenderFilterOptions, getCurrentUser());
+        Profile profile;
+        profile = getCurrentUser();
 
-        // Propose can see just users with type UserType.ENTREPRENEUR or UserType.LEGAL_ENTITY
-        UserType userType = getCurrentUser().getContact().getType();
-        if(userType != UserType.ENTREPRENEUR || userType != UserType.LEGAL_ENTITY){
-            tenders.getEntities().stream().forEach(t -> t.setProposes(null));
-        }else {
-            // hide all propose in tenders which create not by current logged user
-            // and have settings hidePropose = true assigned by tender author
-            tenders.getEntities().stream().filter(t -> !t.getAuthorId().equals(getCurrentUserId()) && t.isHidePropose())
-                    .forEach(t -> t.setProposes(null));
-
-            // hide all propose in tenders which create not by current logged user
-            // and have settings hidePropose = true assigned by propose creator
-            tenders.getEntities().stream().forEach(t -> t.getProposes().stream().filter(p -> p.getHidden()).forEach(p -> {
-                t.getProposes().remove(p);
-            }));
+        if(profile == null){
+            tenderFilterOptions.setType(TenderType.OPEN);
+            profile = new Profile();
         }
-        if(tenders.getEntities().isEmpty()){
+
+        EntityPage<Tender> tenders = tenderService.findWihOptions(tenderFilterOptions, profile);
+
+        if (!tenders.getEntities().isEmpty()) {
+            tenders.getEntities().stream().forEach(t -> t = tenderService.setVision(t, getCurrentUser()));
+        } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
@@ -133,7 +117,7 @@ public class TenderRestController {
         System.out.println("getCurrentUserNaceId() = " + getCurrentUserNaceId());
         System.out.println("tenderFilterOptions.getNaceIdIn() = " + tenderFilterOptions.getNaceIdIn());
         EntityPage<Tender> tender = tenderService.findWihOptions(tenderFilterOptions, getCurrentUser());
-        if(tender.getEntities().isEmpty()){
+        if (tender.getEntities().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(tender, HttpStatus.OK);
@@ -174,15 +158,15 @@ public class TenderRestController {
 
         Tender newTender = new Tender();
         newTender.setId(tender.getId());
-        if(member.getId() == null){
+        if (member.getId() == null) {
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
         // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an member;
         UserType userType = profileService.findById(member.getId()).getContact().getType();
-        if(userType == null || userType == UserType.INDIVIDUAL){
+        if (userType == null || userType == UserType.INDIVIDUAL) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if(!tender.getMembers().contains(member)) {
+        if (!tender.getMembers().contains(member)) {
             tender.getMembers().add(member);
         }
         newTender.setMembers(tender.getMembers());
@@ -204,9 +188,9 @@ public class TenderRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Tender tender = tenderService.findById(id);
-        Set files = tender.getUploadFilesIds();
-        if(!newTender.getUploadFilesIds().isEmpty()){
-            newTender.getUploadFilesIds().addAll(files);
+        Map<String, String> files = tender.getUploadFilesIds();
+        if (!newTender.getUploadFilesIds().isEmpty()) {
+            newTender.getUploadFilesIds().putAll(files);
         }
         tenderService.updateTender(newTender);
 
@@ -233,7 +217,7 @@ public class TenderRestController {
             method = RequestMethod.POST)
     public ResponseEntity<Tender> deleteFile(@PathVariable("id") Tender tender, @PathVariable("fileId") String fileId) {
 
-        if(tender.getUploadFilesIds().contains(fileId)) {
+        if (tender.getUploadFilesIds().containsKey(fileId)) {
             tender.getUploadFilesIds().remove(fileId);
             storageService.delete(SERVICE_NAME, fileId);
             Tender newTender = new Tender();
@@ -246,15 +230,19 @@ public class TenderRestController {
         }
     }
 
-    private String getCurrentUserId(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName(); //get logged in username
-        return profileService.findProfileByEmail(email).getId();
+    private String getCurrentUserId() {
+        Profile user = getCurrentUser();
+        if(user == null || user.getId() == null) return null;
+        return user.getId();
     }
 
-    private Profile getCurrentUser(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName(); //get logged in username
+    private Profile getCurrentUser() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        if(context == null) return null;
+        Authentication authentication = context.getAuthentication();
+        if(authentication == null) return null;
+        String email = authentication.getName(); //get logged in username
+        if(email == null) return null;
         return profileService.findProfileByEmail(email);
     }
 
@@ -267,7 +255,7 @@ public class TenderRestController {
                         Tender tender = null;
                         if (id != null && !id.trim().isEmpty()) {
                             tender = tenderService.findById(id);
-                        }else {
+                        } else {
                             log.log(Level.ERROR, "CAN'T FOUND TENDER WITH id = " + id);
                         }
                         setValue(tender);
@@ -276,18 +264,23 @@ public class TenderRestController {
         );
     }
 
-    private List<DepartmentOrNace> getCurrentUserNace(){
+    private List<DepartmentOrNace> getCurrentUserNace() {
         Profile user = getCurrentUser();
+        if(user == null || user.getContact() == null || user.getContact().getNaceId() == null) return null;
         List<String> nacesId = user.getContact().getNaceId();
         List<DepartmentOrNace> naces = new ArrayList<>();
-        for(String id:nacesId){
-            naces.add(naceService.findById(id));
+        for (String id : nacesId) {
+            DepartmentOrNace nace = naceService.findById(id);
+            if(nace != null) {
+                naces.add(naceService.findById(id));
+            }
         }
         return naces;
     }
 
     private List<String> getCurrentUserNaceId() {
         Profile user = getCurrentUser();
-        return  user.getContact().getNaceId();
+        if (user == null | user.getContact() == null) return null;
+        return user.getContact().getNaceId();
     }
 }

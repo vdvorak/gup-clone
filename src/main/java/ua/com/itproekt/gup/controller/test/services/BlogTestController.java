@@ -81,7 +81,7 @@ public class BlogTestController {
         for (int i = 0; i < numberOfBlogs; i++) {
             Blog blog = new Blog();
             blog.setAuthorId("24438TEST");
-            blog.setDescription("BLOG DESCRIPTION" + numberOfBlogs);
+            blog.setDescription("BLOG DESCRIPTION BLOG DESCRIPTION BLOG DESCRIPTION BLOG DESCRIPTION BLOG DESCRIPTION" + numberOfBlogs);
             blog.setTitle("BLOG NAME" + numberOfBlogs);
 
             HashSet<String> blogTagSet = new HashSet<>();
@@ -105,7 +105,7 @@ public class BlogTestController {
             BlogPost blogPost = new BlogPost()
                 .setBlogId(blogId)
                 .setAuthorId(i + "TEST")
-                .setText("post text " + i)
+                .setText("post text very important part of news, possible it the most important part" + i)
                 .setTitle("post title " + i)
                 .setViews(i);
                 HashSet<String> blogPostSet = new HashSet<>();

@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("api/rest/naceService")
 public class NaceRestController {
 
-    private Logger log = Logger.getLogger("profileService");
+    private Logger log = Logger.getLogger(NaceRestController.class);
     private static final String LOGGED_TITLE = "- NaceRestController - api/rest/naceService/";
 
     @Autowired

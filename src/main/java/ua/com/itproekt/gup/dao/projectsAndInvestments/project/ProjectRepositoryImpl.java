@@ -184,21 +184,21 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
+    public Set<String> getExpiredProjectsIds() {
+        Long currentDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+
+        DBObject queryObj = new BasicDBObject();
+        queryObj.put("expirationDate", new BasicDBObject("$lte", currentDate));
+        queryObj.put( "$where", "this.investedAmount < this.amountRequested");
+        List<Project> expiredProjects = mongoTemplate.find(new BasicQuery(queryObj), Project.class);
+        return expiredProjects.stream().map(Project::getId).collect(Collectors.toSet());
+    }
+
+    @Override
     public void updateProjectStatus(String projectId, ProjectStatus status) {
         mongoTemplate.updateFirst(
                 Query.query(Criteria.where("id").is(projectId)),
                 new Update().set("status", status),
                 Project.class);
-    }
-
-    @Override
-    public Set<String> getExpiredProjectsIds() {
-        Long currentDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-
-        DBObject queryObj = new BasicDBObject();
-        queryObj.put("expirationDate", new BasicDBObject("$gt", currentDate));
-        queryObj.put( "$where", "this.investedAmount < this.amountRequested");
-        List<Project> expiredProjects = mongoTemplate.find(new BasicQuery(queryObj), Project.class);
-        return expiredProjects.stream().map(Project::getId).collect(Collectors.toSet());
     }
 }

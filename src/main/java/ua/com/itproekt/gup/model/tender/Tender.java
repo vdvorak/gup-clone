@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -15,7 +16,7 @@ public class Tender {
     private String id;
     private String authorId;
     private String title;
-    private String naceId;
+    private Set<String> naceIds;
     private String body;
     private TenderType type;
     private List<Member> members;
@@ -23,18 +24,17 @@ public class Tender {
     private Long begin;
     private Long end;
     private Long visited;
-    private Set<String> uploadFilesIds;
+    private Map<String, String> uploadFilesIds;
     private Address address;
     private Boolean hidePropose;
     private String tenderNumber;
     private Integer expectedPrice;
     private Integer proposeNumber;
     private Boolean hideContact;
+    private String winnerId;
 
     public Tender(){
         begin = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        LocalDateTime l = LocalDateTime.now().plusDays(20L);
-        end = l.toInstant(ZoneOffset.UTC).toEpochMilli();
         hidePropose = true;
         hideContact = true;
     }
@@ -71,14 +71,21 @@ public class Tender {
         this.title = title;
     }
 
-    public String getNaceId() {
-        return naceId;
+    public Set<String> getNaceIds() {
+        return naceIds;
     }
 
-    public void setNaceId(String naceId) {
-        this.naceId = naceId;
+    public void setNaceIds(Set<String> naceIds) {
+        this.naceIds = naceIds;
     }
 
+    public void addNeceId(String naceId) {
+        naceIds.add(naceId);
+    }
+
+    public void addNeceId(Set<String> naceIds) {
+        this.naceIds.addAll(naceIds);
+    }
     public String getBody() {
         return body;
     }
@@ -133,6 +140,7 @@ public class Tender {
 
     public void setProposes(List<Propose> proposes) {
         this.proposes = proposes;
+        this.setProposeNumber();
     }
 
     public Long getVisited() {
@@ -143,11 +151,11 @@ public class Tender {
         this.visited = visited;
     }
 
-    public Set<String> getUploadFilesIds() {
+    public Map<String, String> getUploadFilesIds() {
         return uploadFilesIds;
     }
 
-    public void setUploadFilesIds(Set<String> uploadFilesIds) {
+    public void setUploadFilesIds(Map<String, String> uploadFilesIds) {
         this.uploadFilesIds = uploadFilesIds;
     }
 
@@ -200,6 +208,18 @@ public class Tender {
         this.hideContact = hideContact;
     }
 
+    public String getWinnerId() {
+        return winnerId;
+    }
+
+    public void setWinnerId(String winnerId) {
+        long now = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        if (now < end){
+            end = now;
+        }
+        this.winnerId = winnerId;
+    }
+
     @Override
     public String toString() {
         return "Tender{" +
@@ -208,7 +228,7 @@ public class Tender {
                 ", tender number='" + tenderNumber + '\'' +
                 ", title='" + title + '\'' +
                 ", expected price='" + expectedPrice + '\'' +
-                ", naceId='" + naceId + '\'' +
+                ", naceIds='" + naceIds + '\'' +
                 ", body='" + body + '\'' +
                 ", type=" + type +
                 ", members=" + members +
@@ -220,6 +240,7 @@ public class Tender {
                 ", address=" + address +
                 ", hidePropose=" + hidePropose +
                 ", hideContact=" + hideContact +
+                ", winner id=" + winnerId +
                 '}';
     }
 }

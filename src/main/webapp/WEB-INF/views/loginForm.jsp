@@ -35,23 +35,19 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-
-
                             <form id="login-form" action="/login" method="post" role="form" style="display: block;">
                                 <div class="form-group">
-                                    <input type="text" name="email" id="login" tabindex="1" class="form-control"
+                                    <input type="text" name="email" id="loginEmail" tabindex="1" class="form-control"
                                            placeholder="Email адрес" value="">
                                 </div>
                                 <div class="form-group">
                                     <input type="password" name="password" id="loginPassword" tabindex="2"
                                            class="form-control" placeholder="Пароль">
                                 </div>
-
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-sm-6 col-sm-offset-3">
-                                            <input id="login-submit" tabindex="4"
-                                                   class="form-control btn btn-login" value="Вход">
+                                        <div style="margin: 20px;" class="col-sm-6 col-sm-offset-3">
+                                            <div id="login-submit" class="form-control btn btn-login">Вход</div>
                                         </div>
                                     </div>
                                 </div>
@@ -114,12 +110,6 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
 
-
-<script src="/resources/js/oauth2.js"></script>
-<script src="/resources/js/sha256.js"></script>
-<script src="/resources/js/enc-base64-min.js"></script>
-<script src="/resources/js/cookie.js"></script>
-<script src="/resources/js/user.js"></script>
 
 <script>
 
@@ -215,15 +205,23 @@
 
     $('#login-submit').on('click', function () {
 
-        oauth2.user.login($('#login').val(), $('#loginPassword').val(), function (error) {
-            if (!error){
+        var data = {"email" : $('#login').val(),
+                    "password" : $('#loginPassword').val()};
+
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            data: data,
+            success: function () {
                 window.location.href = '/prioffice';
+            },
+            error: function (response) {
+                console.log(response);
+                alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
             }
-            else {
-                console.log(error);
-                $('#error_message').html('Email and/or password did not match a user account.').show()
-            }
-        })
+        });
     })
+
+
 </script>
 </html>

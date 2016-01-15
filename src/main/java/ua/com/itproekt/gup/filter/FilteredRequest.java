@@ -28,6 +28,11 @@ public class FilteredRequest extends HttpServletRequestWrapper {
         modifiableParameters.putAll(additionalParams);
     }
 
+
+    public void addParameter(String key, String[] paramValues) {
+        modifiableParameters.put(key, paramValues);
+    }
+
     public void addParameters(Map<String, String[]> additionalParams) {
         modifiableParameters.putAll(additionalParams);
     }
