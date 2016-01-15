@@ -110,8 +110,6 @@
         blog.imageId = imgId;
         blog.categories = categories;
 
-        alert(JSON.stringify(blog));
-
         $.ajax({
             type: "POST",
             url: "/api/rest/newsService/blog/create",

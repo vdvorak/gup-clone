@@ -51,7 +51,7 @@
                                 <tr>
                                     <th>Фото</th>
                                     <th>Название</th>
-                                    <th>Тип</th>
+                                    <th>Автор</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -92,17 +92,17 @@
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: "/api/rest/tenderService/tender/read/all/",
+            url: "/api/rest/newsService/blog/read/all",
             data: JSON.stringify(tenderFilterOptions),
             success: function (response) {
                 data = response.entities;
 
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i].mainPhotoId !== null) {
-                        data[i].mainPhotoId = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].mainPhotoId + '" width="100" height="100">';
+                    if (data[i].imageId !== null) {
+                        data[i].imageId = '<img src="/api/rest/fileStorage/NEWS/file/read/id/' + data[i].imageId + '" width="100" height="100">';
                     }
                     else {
-                        data[i].mainPhotoId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                        data[i].imageId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
                     }
                 }
 
@@ -112,9 +112,9 @@
                     },
                     data: data,
                     "columns": [
-                        {"data": "mainPhotoId"},
+                        {"data": "imageId"},
                         {"data": "title"},
-                        {"data": "type"}
+                        {"data": "authorId"}
                     ],
                     "language": {
                         "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
@@ -125,7 +125,7 @@
                         .on('select', function (e, dt, type, indexes) {
                             var rowData = table.rows(indexes).data().toArray();
                             $("input[name='transactionId']").attr("value", rowData[0].id);
-                            $('#tenderIdhref').attr("href", "/edit-profile/" + rowData[0].id);
+                            $('#tenderIdhref').attr("href", "/blog/" + rowData[0].id +"/edit");
                             $('#inp').removeAttr("readonly");
                             $('#userIdBtn').attr("class", "btn btn-danger");
                         })

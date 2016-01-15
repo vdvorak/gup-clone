@@ -145,7 +145,7 @@
 
 
 <script>
-    var imgsArr = new Object();
+    var imgsArr = {};
     var mainForm;
     var placeKey = '';
     var phones = [];
