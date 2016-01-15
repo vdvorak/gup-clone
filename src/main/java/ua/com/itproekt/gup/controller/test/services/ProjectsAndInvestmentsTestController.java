@@ -5,23 +5,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ua.com.itproekt.gup.dao.projectsAndInvestments.project.ProjectRepository;
-import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Comment;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.TypeOfProject;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.HashSet;
 
 
 @Controller
 public class ProjectsAndInvestmentsTestController {
-    @Autowired
-    ProjectRepository projectRepository;
-
     @Autowired
     ProjectService projectService;
 
@@ -29,20 +22,27 @@ public class ProjectsAndInvestmentsTestController {
     public String addUser(@PathVariable("numberOfProjects") int numberOfProjects, Model model) {
         for (int i = 0; i < numberOfProjects; i++) {
 
-            Project project = new Project();
-                Profile profile = new Profile();
-                profile.setId("560e99243c422930019f3381");
-//            project.setAuthor(profile);   ///////
-            project.setInvestedAmount(1000);
-            project.setProjectName("project name");
+            Project project = new Project()
+                    .setAuthorId("5681546ed139e28bcda3f845")
+                    .setTypeOfProject(TypeOfProject.KNOW_HOW)
+                    .setProjectName("Проект " + i)
+                    .setProjectDescription("Описание описание описание описание описание описание описание описание" +
+                            " описание описание описание описание описание описание описание описание описание описание" +
+                            " описание описание описание описание описание описание описание описание описание описание" +
+                            " описание описание описание описание описание описание описание описание описание описание")
+                    .setAmountRequested(i * 1000 + 1)
+                    .setInvestedAmount(0)
+                    .setTotalComments(0)
+                    .setViews(0);
+
+
                 HashSet<Comment> set = new HashSet<>();
-                Comment comment = new Comment();
-                comment.setComment("comment");
-                comment.setCreatedDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+                    Comment comment = new Comment()
+                    .setComment("comment " + i)
+                    .setCreatedDateEqualsToCurrentDate();
                 set.add(comment);
             project.setComments(set);
-            project.setTypeOfProject(TypeOfProject.KNOW_HOW);
-            projectRepository.create(project);
+            projectService.create(project);
         }
 
         model.addAttribute("message", numberOfProjects + " test projects is created.");

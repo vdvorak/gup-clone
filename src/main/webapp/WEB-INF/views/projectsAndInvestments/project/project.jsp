@@ -94,23 +94,23 @@
                 if (projectData.imagesIds !== null) {
                     for (var key in projectData.imagesIds) {
                         if (projectData.imagesIds[key] === "1") {
-                            document.getElementById("projectImg").src = "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + key;
+                            $('#projectImg').attr('src','/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key);
                             break;
                         }
                     }
                 } else {
-                    document.getElementById("projectImg").src = "/resources/images/no_photo.jpg";
+                    $('#projectImg').attr('src','/resources/images/no_photo.jpg');
                 }
-                    document.getElementById("projectName").innerHTML = projectData.projectName;
-                    document.getElementById("projectType").innerHTML = projectData.typeOfProject;
-                    document.getElementById("projectDescription").innerHTML = projectData.projectDescription;
-                    document.getElementById("amountRequested").innerHTML = projectData.amountRequested;
-                    document.getElementById("investedAmount").innerHTML = projectData.investedAmount;
-                    document.getElementById("totalScore").innerHTML = projectData.totalScore;
+                    $('#projectName').text(projectData.projectName);
+                    $('#projectType').text(projectData.typeOfProject);
+                    $('#projectDescription').text(projectData.projectDescription);
+                    $('#amountRequested').text(projectData.amountRequested);
+                    $('#investedAmount').text(projectData.investedAmount);
+                    $('#totalScore').text(projectData.totalScore);
 
                     var createdDate = new Date(projectData.createdDate);
-                    document.getElementById("projectCreatedDate").innerHTML
-                            = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
+                    $('#projectCreatedDate').text(createdDate.getDate() + '/'
+                            + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear());
 
                 }
             });
