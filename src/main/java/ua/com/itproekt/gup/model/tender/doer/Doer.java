@@ -144,6 +144,20 @@ public class Doer {
         if(authorContacts != null){
             authorContactsStr = authorContacts.toString();
         }
+        final StringBuilder sb = new StringBuilder();
+        if(clients != null){
+            clients.stream().filter((s) -> s.isClientConfirm() && s.isDoerConfirm()).map(DoerClient::getId).forEach( id -> sb.append(id + ", "));
+        } else {
+            sb.append("has no confirm client");
+        }
+
+        final StringBuilder sbNotConf = new StringBuilder();
+        if(clients != null){
+            clients.stream().filter((s) -> !s.isClientConfirm() || !s.isDoerConfirm()).map(DoerClient::getId).forEach(id -> sbNotConf.append(id));
+        } else {
+            sb.append("has no not confirm client");
+        }
+
         return "Doer{" +
                 "id='" + id + '\'' +
                 ", authorId='" + authorId + '\'' +
@@ -151,8 +165,8 @@ public class Doer {
                 ", naceIds=" + naceIds +
                 ", title='" + title + '\'' +
                 ", body='" + body + '\'' +
-                ", confirmed clients=" + clients.stream().filter((s) -> s.isClientConfirm() && s.isDoerConfirm()).map(DoerClient::getId).toString() +
-                ", NOT confirmed clients=" + clients.stream().filter((s) -> !s.isClientConfirm() || !s.isDoerConfirm()).map(DoerClient::getId).toString() +
+                ", confirmed clients=" + sb.toString() +
+                ", NOT confirmed clients=" + sbNotConf.toString() +
                 ", countVisit=" + countVisit +
                 ", dateOfCreate=" + dateOfCreate +
                 ", imageId=" + imageId +
