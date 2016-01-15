@@ -5,6 +5,8 @@ import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.List;
+
 /**
  * The interface Profiles service.
  */
@@ -125,4 +127,5 @@ public interface ProfilesService {
 
     Profile findUserProfile(String profileId);
 
+    List<Profile> findAllWithoutOptions();
 }

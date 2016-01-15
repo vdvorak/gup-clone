@@ -167,7 +167,6 @@
     </div>
 </section>
 
-<div class="container-fluid">
 
     <!--category-->
     <!--<div class="row">
@@ -204,8 +203,7 @@
     </div>-->
     <!--category-->
 
-    <div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">
-
+    <section>
         <form id="mainInput" action="" method="post">
             <div class="row" style="background-color: #ffffff; padding: 15px; margin-top: 25px;border: 5px solid #9acc66;">
                 <h2 class="dop-inf">Дополнительная информация</h2>
@@ -213,83 +211,126 @@
                 <form id="mainInput" action="" method="post">
                     <div class="col-xs-8" style="padding-left: 5px; padding-right: 5px;">
 
-                        <div class="input-group">Тип аккаунта
-                            <select id="selectCategory">
-                                <option value="INDIVIDUAL">физическое лицо</option>
-                                <option value="ENTREPRENEUR">СПД</option>
-                                <option value="LEGAL_ENTITY">юридическое лицо</option>
-                            </select>
-                        </div>
-
-                        <div class="input-group">Сфера деятетльности/ + КВЄДы
-                            <select id="selectNace">
-                                <option value="household">торговля (00.02.03)</option>
-                                <option value="electronics">услуги (00.05.01)</option>
-                                <option value="apartments">банковаская деятельность (00.28.09)</option>
-                            </select>
+                        <div class="input-group">
+                            <div class="left-tag">
+                                <p>Тип аккаунта</p>
+                            </div>
+                            <div class="right-tag">
+                                <select id="selectCategory">
+                                    <option value="INDIVIDUAL">физическое лицо</option>
+                                    <option value="ENTREPRENEUR">СПД</option>
+                                    <option value="LEGAL_ENTITY">юридическое лицо</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="input-group">
-                            <p>ФИО / название компании</p>
-                            <input id="inputTitle" name="username" type="text" class="form-control input-sm"
-                                   value="${profile.username}" required>
-                            <br>
-                            <p>Должность</p>
-                            <input id="inputPosition" type="text" class="form-control input-sm"
-                                   value="${profile.contact.companyDirector}" required>
-                            <br>
-
-                            <div id="emailGroup" class="input_email_fields_wrap">E-mail
-                                <img src="/resources/images/green_add_button.png" title="Добавить e-mail" class="add_email_field_button">
-                                <c:forEach items="${profile.contact.contactEmails}" var="id" varStatus="loopCounter">
-                                    <div><input type="email" value="${id}"><a href="#" class="remove_field"
-                                                                              required>Удалить</a></div>
-                                </c:forEach>
+                            <div class="left-tag">
+                                <p>Сфера деятетльности/ + КВЄДы</p>
                             </div>
-                            <br>
-                            Основной номер телефона
-                            <div><input type="text" name="mainPhoneNumber" placeholder="Введите номер телефона" value="${profile.mainPhoneNumber}"></div>
-
-                            <div id="phoneGroup" class="input_fields_wrap">
-                                <img src="/resources/images/green_add_button.png" title="Добавить телефон" class="add_field_button">
-                                <c:forEach items="${profile.contact.contactPhones}" var="id">
-                                    <div><input type="text" value="${id}"><a href="#" class="remove_field"
-                                                                             required>Удалить</a></div>
-                                </c:forEach>
+                            <div class="right-tag">
+                                <select id="selectNace">
+                                    <option value="household">торговля (00.02.03)</option>
+                                    <option value="electronics">услуги (00.05.01)</option>
+                                    <option value="apartments">банковаская деятельность (00.28.09)</option>
+                                </select>
                             </div>
+                        </div>
 
-                            <div class="input-group">Skype
-                                <div><input id="skype" type="text" value="${profile.contact.skypeUserName}"></div>
+                        <div class="input-group">
+                            <div class="left-tag">
+                                <p>ФИО/название компании</p>
+                             </div>
+                            <div class="right-tag">
+                                <input id="inputTitle" name="username" type="text" class="form-control input-sm" value="${profile.username}" required>
                             </div>
-
-                            <div id = "socLinkGroup" class="input_soc_wrap">Социальные сети
-
-                                <a  class="twit_soc_button"></a>
-                                <a class="faceb_soc_button"></a>
-                                <a class="vk_soc_button"></a>
-                                <a class="goo_soc_button"></a>
-                                <a class="lin_soc_button"></a>
-                                <c:forEach items="${profile.contact.socNetLink.values()}" var="id">
-                                    <div><input type="text" value="${id}"><a href="#"
-                                                                             class="remove_field"
-                                                                             required>Удалить</a>
-                                    </div>
-                                </c:forEach>
+                        </div>
+                        <div class="input-group">
+                            <div class="left-tag">
+                                <p>Должность</p>
                             </div>
-
-                            <div id = "webLinkGroup" class="input-link-wrap">Web ссылки
-                                <img src="/resources/images/green_add_button.png" title="Добавить ссылку" class="add_link_button">
-                                <c:forEach items="${profile.contact.linkToWebSite}" var="id">
-                                    <div><input type="text" value="${id}"><a href="#"
-                                                                             class="remove_field"
-                                                                             required>Удалить</a>
-                                    </div>
-                                </c:forEach>
+                            <div class="right-tag">
+                                <input id="inputPosition" type="text" class="form-control input-sm" value="${profile.contact.companyDirector}" required>
                             </div>
+                        </div>
+                        <div class="input-group">
+                            <div id="emailGroup" class="input_email_fields_wrap">
+                                <div class="left-tag">
+                                    <p>E-mail</p>
+                                </div>
+                                <div class="right-tag">
+                                    <img src="/resources/img/add-icon.png" title="Добавить e-mail" class="add_email_field_button">
+                                    <c:forEach items="${profile.contact.contactEmails}" var="id" varStatus="loopCounter">
+                                        <div><input type="email" value="${id}"><a href="#" class="remove_field" required>Удалить</a></div>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="left-tag">
+                                <p>Основной номер телефона</p>
+                            </div>
+                            <div class="right-tag">
+                                <div style="display: inline-block;">
+                                    <input class="ep-mainPhone"type="text" name="mainPhoneNumber" placeholder="Введите номер телефона" value="${profile.mainPhoneNumber}">
+                                </div>
 
-                            <br>
-                            О себе
-                            <textarea id="profileDescription" placeholder="3000 символов" required>${profile.contact.aboutUs}</textarea>
+                                <div id="phoneGroup" class="input_fields_wrap">
+                                    <img src="/resources/img/add-icon.png" title="Добавить телефон" class="add_field_button">
+                                    <c:forEach items="${profile.contact.contactPhones}" var="id">
+                                        <div><input type="text" value="${id}"><a href="#" class="remove_field" required>Удалить</a></div>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group">
+                                <div class="left-tag">
+                                    <p>Skype</p>
+                                </div>
+                                <div class="right-tag">
+                                    <div><input id="skype" type="text" value="${profile.contact.skypeUserName}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div id = "socLinkGroup" class="input_soc_wrap">
+                                <div class="left-tag">
+                                    <p>Социальные сети</p>
+                                </div>
+                                <div class="right-tag">
+                                    <a  class="twit_soc_button"><img src="/resources/img/twit-icon.png"> </a>
+                                    <a class="faceb_soc_button"><img src="/resources/img/faceb-icon.png"></a>
+                                    <a class="vk_soc_button"><img src="/resources/img/vk-icon.png"></a>
+                                    <a class="goo_soc_button"><img src="/resources/img/goo-icon.png"></a>
+                                    <a class="lin_soc_button"><img src="/resources/img/link-icon.png"></a>
+                                    <c:forEach items="${profile.contact.socNetLink.values()}" var="id">
+                                        <div><input type="text" value="${id}"><a href="#" class="remove_field" required>Удалить</a>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div id = "webLinkGroup" class="input-link-wrap">
+                                <div class="left-tag">
+                                    <p>Web ссылки</p>
+                                </div>
+                                <div class="right-tag">
+                                    <img src="/resources/img/add-icon.png" title="Добавить ссылку" class="add_link_button">
+                                    <c:forEach items="${profile.contact.linkToWebSite}" var="id">
+                                        <div><input type="text" value="${id}"><a href="#" class="remove_field" required>Удалить</a></div>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="left-tag">
+                                <p>О себе</p>
+                            </div>
+                            <div class="right-tag">
+                                <textarea id="profileDescription" rows="10" cols="45" placeholder="3000 символов" required>${profile.contact.aboutUs}</textarea>
+                            </div>
                         </div>
 
                         <input type="submit" value="Сохранить">
@@ -302,7 +343,7 @@
                              height="200">
                     </c:when>
                     <c:otherwise>
-                        <img id="avatar" src="/resources/images/pic_logo.png" width="200" height="200">
+                        <img id="avatar" src="/resources/img/defaultlogo.png" >
                     </c:otherwise>
                 </c:choose>
 
@@ -312,7 +353,7 @@
 
                     <p>
                         <label for="photofile">
-                            <img class="selectPhoto" src="/resources/images/green_add_button.png"/>
+                            <img class="selectPhoto" src="/resources/img/add-icon.png"/>
                         </label>
                         <input id="photofile" type="file" name="file" multiple accept="image/*,image/jpeg">
                     </p>
@@ -324,36 +365,15 @@
             </div>
         </form>
 
-        <c:choose>
-            <c:when test="${not empty profile.contact.pic}">
-                <img id="avatar" src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.contact.pic}" width="200"
-                     height="200">
-            </c:when>
-            <c:otherwise>
-                <img id="avatar" src="/resources/images/no_photo.jpg" width="200" height="200">
-            </c:otherwise>
-        </c:choose>
 
-        <form id="photoInput" enctype="multipart/form-data" action="/api/rest/imagesStorage/image/upload/"
-              method="post">
-            <p>Загрузите ваши фотографии на сервер</p>
-
-            <p><input type="file" name="file" multiple accept="image/*,image/jpeg">
-                <input type="submit" value="Отправить"></p>
-        </form>
-
-        <div class="imgBlock">
-            <!--uploaded images-->
-        </div>
-    </div>
-</div>
+    </section>
 
 <!-- script references -->
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/jquery.maskedinput.min.js"></script>
-
+<script src="/resources/libs/jquery.magnific-popup.min.js"></script>
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
 <script src="/resources/js/common.js"></script>
 

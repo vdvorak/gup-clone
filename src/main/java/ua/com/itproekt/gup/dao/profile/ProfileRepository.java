@@ -6,6 +6,8 @@ import ua.com.itproekt.gup.model.profiles.ProfileRating;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.List;
+
 /**
  * The interface Profile repository.
  */
@@ -137,5 +139,6 @@ public interface ProfileRepository {
 
     void deleteUserRole(String profileId, UserRole userRole);
 
+    List<Profile> findAll();
 }
 

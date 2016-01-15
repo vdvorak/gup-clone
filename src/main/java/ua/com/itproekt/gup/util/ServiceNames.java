@@ -5,5 +5,6 @@ public enum ServiceNames {
     NEWS,
     TENDER,
     PROJECTS_AND_INVESTMENTS,
-    PROFILE;
+    PROFILE,
+    DOER;
 }
