@@ -19,6 +19,7 @@ public class InvestorServiceImpl implements InvestorService {
         InvestorPost newInvestorPost = new InvestorPost()
                 .setuId(investorPost.getuId())
                 .setDescription(investorPost.getDescription())
+                .setAmountOfMoney(investorPost.getAmountOfMoney())
                 .setCategoriesOfIndustry(investorPost.getCategoriesOfIndustry())
                 .setCreatedDateEqualsToCurrentDate();
         investmentRepository.create(newInvestorPost);
@@ -35,10 +36,11 @@ public class InvestorServiceImpl implements InvestorService {
     public InvestorPost edit(InvestorPost investorPost) {
         InvestorPost newInvestorPost = new InvestorPost()
                 .setId(investorPost.getId())
+                .setAmountOfMoney(investorPost.getAmountOfMoney())
                 .setCategoriesOfIndustry(investorPost.getCategoriesOfIndustry())
                 .setDescription(investorPost.getDescription());
 
-        return investmentRepository.findInvestorAndUpdate(investorPost);
+        return investmentRepository.findInvestorAndUpdate(newInvestorPost);
     }
 
     @Override

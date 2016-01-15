@@ -24,7 +24,7 @@ public class InvestorPostRestController {
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
-    @RequestMapping(value = "/investorPost/id/{investorPostId}/read", method = RequestMethod.POST,
+    @RequestMapping(value = "/investorPost/id/{investorPostId}/read", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<InvestorPost> getInvestorById(@PathVariable String investorPostId) {
         InvestorPost investorPost = investorService.findById(investorPostId);
