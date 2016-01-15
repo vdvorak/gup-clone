@@ -1,9 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <title>Создание блога</title>
+  <title>Создание исполнителя</title>
 </head>
 <body>
+<div>
+  <select id="naceIds" required>
+    <option value="nace1">01.11 Вирощування зернових культур (крім рису), бобових культур і насіння олійних культур</option>
+    <option value="nace2">01.12 Вирощування рису</option>
+    <option value="nace3">01.13 Вирощування овочів та баштанних культур, коренеплодів та бульбоплодів</option>
+    <option value="nace4">01.15 Вирощування тютюну</option>
+    <option value="nace5">01.16 Вирощування прядивних культур</option>
+  </select>
+</div>
 <div>
   <input id="doerTitle" type="text" name="doerTitle" minlength="2" maxlength="70" required
          placeholder="Название исполнителя">
@@ -32,6 +41,7 @@
 
   var imgId = '';
   var doer = {};
+  var naceIds = [];
 
 
   //----------------------------------------------------- Image form -----------------------------------------------
@@ -44,7 +54,6 @@
       deleteImgFromDB(imgId);
     }
 
-    alert("azaza");
     $.ajax({
       type: "POST",
       url: "/api/rest/fileStorage/DOER/file/upload/",
@@ -54,7 +63,6 @@
       contentType: false,
       processData: false,
       success: function (data, textStatus, request) {
-        alert("ololo");
         imgId = data.id;
         $('#imgPreview').attr("src", "/api/rest/fileStorage/DOER/file/read/id/" + imgId);
       }
@@ -76,13 +84,15 @@
   }
   ///----------------------Delete photo from  DB-----------------------------------------
 
-  ///------------------------- Upload Blog -----------------------------------------------
+  ///------------------------- Upload Doer -----------------------------------------------
   $(document).on('click', '#createDoer', function (event) {
 
+    naceIds.push($('#naceIds').val());
 
     doer.title = $('#doerTitle').val();
     doer.body = $('#doerDescription').val();
     doer.imageId = imgId;
+    doer.naceIds = naceIds;
 
     alert(JSON.stringify(doer));
 
@@ -102,7 +112,7 @@
       }
     });
   });
-  ///------------------------- Upload Blog -----------------------------------------------
+  ///------------------------- Upload Doer -----------------------------------------------
 </script>
 </body>
 </html>
