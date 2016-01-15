@@ -27,7 +27,7 @@ public class Doer {
 
     private List<Recall> recalls;
     private long recallCount;
-
+    private String imageId;
     //answer (otklik)/raiting
 
     public Doer() {
@@ -130,6 +130,14 @@ public class Doer {
         this.dateOfUpdate = dateOfUpdate;
     }
 
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
+    }
+
     @Override
     public String toString() {
         String authorContactsStr = "null";
@@ -147,6 +155,7 @@ public class Doer {
                 ", NOT confirmed clients=" + clients.stream().filter((s) -> !s.isClientConfirm() || !s.isDoerConfirm()).map(DoerClient::getId).toString() +
                 ", countVisit=" + countVisit +
                 ", dateOfCreate=" + dateOfCreate +
+                ", imageId=" + imageId +
                 ", recalls=" + recalls +
                 ", recallCount=" + recallCount +
                 '}';
