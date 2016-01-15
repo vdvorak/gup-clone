@@ -99,11 +99,12 @@ public class DoerRestController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Doer> createDoer(@RequestBody Doer doer, UriComponentsBuilder ucBuilder) {
+        System.err.println("Hi from createDoer in REST controller");
         // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an doer;
-        UserType userType = profileService.findById(doer.getAuthorId()).getContact().getType();
-        if(userType == null || userType == UserType.INDIVIDUAL){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+//        UserType userType = profileService.findById(doer.getAuthorId()).getContact().getType();
+//        if(userType == null || userType == UserType.INDIVIDUAL){
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
         doerService.createDoer(doer);
 
         HttpHeaders headers = new HttpHeaders();

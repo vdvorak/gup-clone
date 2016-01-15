@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.itproekt.gup.model.profiles.Contact;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Document(collection = "doer")
@@ -25,8 +27,12 @@ public class Doer {
 
     private List<Recall> recalls;
     private long recallCount;
-
+    private String imageId;
     //answer (otklik)/raiting
+
+    public Doer() {
+        dateOfCreate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+    }
 
     public String getId() {
         return id;
@@ -124,12 +130,34 @@ public class Doer {
         this.dateOfUpdate = dateOfUpdate;
     }
 
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
+    }
+
     @Override
     public String toString() {
         String authorContactsStr = "null";
         if(authorContacts != null){
             authorContactsStr = authorContacts.toString();
         }
+        final StringBuilder sb = new StringBuilder();
+        if(clients != null){
+            clients.stream().filter((s) -> s.isClientConfirm() && s.isDoerConfirm()).map(DoerClient::getId).forEach( id -> sb.append(id + ", "));
+        } else {
+            sb.append("has no confirm client");
+        }
+
+        final StringBuilder sbNotConf = new StringBuilder();
+        if(clients != null){
+            clients.stream().filter((s) -> !s.isClientConfirm() || !s.isDoerConfirm()).map(DoerClient::getId).forEach(id -> sbNotConf.append(id));
+        } else {
+            sb.append("has no not confirm client");
+        }
+
         return "Doer{" +
                 "id='" + id + '\'' +
                 ", authorId='" + authorId + '\'' +
@@ -137,10 +165,11 @@ public class Doer {
                 ", naceIds=" + naceIds +
                 ", title='" + title + '\'' +
                 ", body='" + body + '\'' +
-                ", confirmed clients=" + clients.stream().filter((s) -> s.isClientConfirm() && s.isDoerConfirm()).map(DoerClient::getId).toString() +
-                ", NOT confirmed clients=" + clients.stream().filter((s) -> !s.isClientConfirm() || !s.isDoerConfirm()).map(DoerClient::getId).toString() +
+                ", confirmed clients=" + sb.toString() +
+                ", NOT confirmed clients=" + sbNotConf.toString() +
                 ", countVisit=" + countVisit +
                 ", dateOfCreate=" + dateOfCreate +
+                ", imageId=" + imageId +
                 ", recalls=" + recalls +
                 ", recallCount=" + recallCount +
                 '}';

@@ -12,6 +12,7 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * The type Profiles service.
@@ -117,5 +118,10 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public Profile findUserProfile(String profileId) {
         return profileRepository.findUserProfile(profileId);
+    }
+
+    @Override
+    public List<Profile> findAllWithoutOptions() {
+        return profileRepository.findAll();
     }
 }
