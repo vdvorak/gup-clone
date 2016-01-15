@@ -20,7 +20,7 @@
     <div>
         <div>
             <h2 align="center">Просмотр проекта</h2>
-            <h2 align="center"><a href="/projectList">Посмотреть другие проекты</a></h2>
+            <h2 align="center"><a href="/projectList?pageNumber=0">Посмотреть другие проекты</a></h2>
         </div>
         <div>
 

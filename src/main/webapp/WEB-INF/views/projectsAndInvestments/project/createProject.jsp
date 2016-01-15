@@ -114,8 +114,6 @@
                 imagesIds[imgId] = 1;
                 project.imagesIds = imagesIds;
 
-                alert(JSON.stringify(project));
-
                 $.ajax({
                     type: "POST",
                     url: "/api/rest/projectsAndInvestmentsService/project/create",
