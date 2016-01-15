@@ -140,6 +140,7 @@ public class Tender {
 
     public void setProposes(List<Propose> proposes) {
         this.proposes = proposes;
+        this.setProposeNumber();
     }
 
     public Long getVisited() {
