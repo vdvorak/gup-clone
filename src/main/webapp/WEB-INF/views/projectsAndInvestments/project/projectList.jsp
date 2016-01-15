@@ -25,7 +25,7 @@
                 <h3 align="center"><a href="/createProject">Создать свой проект</a></h3>
             </div>
             <div>
-                <table id="projects" border="1" width="100%">
+                <table id="projectsTable" border="1" width="100%">
                     <thead>
                         <tr>
                             <th>Фото</th>
@@ -75,26 +75,17 @@
                                 data[i].imagesIds = {};
                                 data[i].imagesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
                             }
+
+                            var row = $('<tr>');
+                            row.append($('<td>').html(data[i].imagesIds));
+                            row.append($('<td>').html(data[i].projectName));
+                            row.append($('<td>').html(data[i].typeOfProject));
+                            row.append($('<td>').html(data[i].views));
+                            row.append($('<td>').html(data[i].totalComments));
+                            row.append($('<td>').html(data[i].createdDate));
+
+                            $('#projectsTable').append(row);
                         }
-
-                        var table = $('#projects').DataTable({
-                            select: {
-                                style: 'single'
-                            },
-                            data: data,
-                                "columns": [
-                                    {"data": "imagesIds"},
-                                    {"data": "projectName"},
-                                    {"data": "typeOfProject"},
-                                    {"data": "views"},
-                                    {"data": "totalComments"},
-                                    {"data": "createdDate"}
-                                ],
-                            "language": {
-                                "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
-                            }
-                        });
-
                     }
                 });
             });
