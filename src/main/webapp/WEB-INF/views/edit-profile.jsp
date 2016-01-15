@@ -205,7 +205,7 @@
 
     <section>
         <form id="mainInput" action="" method="post">
-            <div class="row" style="background-color: #ffffff; padding: 15px; margin-top: 25px;border: 5px solid #9acc66;">
+            <div class="row" style="background-color: #ffffff; padding: 15px; margin-top: 25px;border: 5px solid #9acc66; border-radius: 10px;">
                 <h2 class="dop-inf">Дополнительная информация</h2>
 
                 <form id="mainInput" action="" method="post">
@@ -254,12 +254,12 @@
                             </div>
                         </div>
                         <div class="input-group">
-                            <div id="emailGroup" class="input_email_fields_wrap">
+                            <div id="emailGroup" class="add_email_field_button">
                                 <div class="left-tag">
                                     <p>E-mail</p>
                                 </div>
                                 <div class="right-tag">
-                                    <img src="/resources/img/add-icon.png" title="Добавить e-mail" class="add_email_field_button">
+                                    <img src="/resources/img/add-icon.png" title="Добавить e-mail" class="input_email_fields_wrap ">
                                     <c:forEach items="${profile.contact.contactEmails}" var="id" varStatus="loopCounter">
                                         <div><input type="email" value="${id}"><a href="#" class="remove_field" required>Удалить</a></div>
                                     </c:forEach>
@@ -273,10 +273,11 @@
                             <div class="right-tag">
                                 <div style="display: inline-block;">
                                     <input class="ep-mainPhone"type="text" name="mainPhoneNumber" placeholder="Введите номер телефона" value="${profile.mainPhoneNumber}">
+                                    <img src="/resources/img/add-icon.png" title="Добавить телефон" class="add_field_button">
                                 </div>
 
                                 <div id="phoneGroup" class="input_fields_wrap">
-                                    <img src="/resources/img/add-icon.png" title="Добавить телефон" class="add_field_button">
+
                                     <c:forEach items="${profile.contact.contactPhones}" var="id">
                                         <div><input type="text" value="${id}"><a href="#" class="remove_field" required>Удалить</a></div>
                                     </c:forEach>
@@ -325,7 +326,7 @@
                             </div>
                         </div>
                         <div class="input-group">
-                            <div class="left-tag">
+                            <div style="vertical-align: top;" class="left-tag">
                                 <p>О себе</p>
                             </div>
                             <div class="right-tag">
@@ -333,7 +334,7 @@
                             </div>
                         </div>
 
-                        <input type="submit" value="Сохранить">
+                        <input class="ep-submitButton" type="submit" value="Сохранить">
                     </div>
                 </form>
 
@@ -423,7 +424,7 @@
             e.preventDefault();
             if (x < max_fields) { //max input box allowed
                 x++; //text box increment
-                $(wrapper).append('<div><input id="phone' + x + '" type="text"/><a href="#" class="remove_field" required>Удалить</a></div>'); //add input box
+                $(wrapper).append('<div><input id="phone' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png"></a></div>'); //add input box
 
                 //Add mask for some input fields after add new input
                 jQuery(function ($) {
@@ -466,7 +467,7 @@
             e.preventDefault();
             if (x < max_fields) { //max input box allowed
                 x++; //text box increment
-                $(wrapper).append('<div><input id="email' + x + '" type="text"/><a href="#" class="remove_field" required>Удалить</a></div>'); //add input box
+                $(wrapper).append('<div><input id="email' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png"></a></div>'); //add input box
 
             }
         });
@@ -497,7 +498,7 @@
 
             if (x < max_fields ) { //max input box allowed
                 x++; //text box increment
-                $(wrapper).append('<div><input id="soc' + x + '" type="text"/><a href="#" class="remove_field" required>Удалить</a></div>');
+                $(wrapper).append('<div><input id="soc' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png"></a></div>');
             }
         });
 
@@ -535,7 +536,7 @@
             e.preventDefault();
             if (x < max_fields) { //max input box allowed
                 x++; //text box increment
-                $(wrapper).append('<div><input id="soc' + x + '" type="text"/><a href="#" class="remove_field" required>Удалить</a></div>'); //add input box
+                $(wrapper).append('<div><input id="soc' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png"></a></div>'); //add input box
 
                 //Add mask for some input fields after add new input
                 jQuery(function ($) {

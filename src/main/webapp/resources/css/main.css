@@ -974,6 +974,8 @@ footer{
 .left-tag{
 	display: inline-block;
 	width: 40%;
+	vertical-align: top;
+	margin-top: 10px;
 }
 .right-tag{
 	display: inline-block;
@@ -991,4 +993,19 @@ footer{
 }
 #socLinkGroup img{
 	cursor: pointer;
+}
+.input-group, .right-tag input{
+	color:#959595;
+}
+.remove_field img{
+	width: 30px;
+}
+.ep-submitButton{
+	background-color: #36aae0;
+	border-color: #36aae0;
+	border-radius: 5px;
+	color: #fff;
+	padding: 5px 10px;
+	float: right;
+	margin-top: 10px;
 }
