@@ -22,7 +22,7 @@
         </div>
 
         <div>
-            <label for="amountOfMoney"><b>Нужная сумма: </b></label>
+            <label for="amountOfMoney"><b>Сумма инвестирования: </b></label>
             <input id="amountOfMoney" type="number" min="1"
                    placeholder="Минимум 1" required>
         </div>
@@ -47,7 +47,7 @@
 
             $(document).on('click', '#createInvestorPost', function (event) {
 
-                investorPost.investorPostDescription = $('#investorPostDescription').val();
+                investorPost.description = $('#investorPostDescription').val();
                 investorPost.amountOfMoney = $('#amountOfMoney').val();
                 investorPost.categoriesOfIndustry = $('#categoriesOfIndustry').val();
 
