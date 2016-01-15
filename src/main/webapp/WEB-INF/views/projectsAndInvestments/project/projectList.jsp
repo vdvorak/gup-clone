@@ -23,9 +23,10 @@
             <div>
                 <h2 align="center">Проекты</h2>
                 <h3 align="center"><a href="/createProject">Создать свой проект</a></h3>
+                <h3 align="center"><a href="/investorPost/list?pageNumber=0">Публикации инвесторов</a></h3>
             </div>
             <div>
-                <label align="left" id="pageLabel"><b>Страница:</b> </label>
+                <label id="pageLabel"><b>Страница:</b> </label>
                 <p align="left" id="goToPage"></p>
             </div>
             <div>
@@ -72,7 +73,7 @@
                             goToPageLinks += '<a href="/projectList?pageNumber=' + (projectFO.skip - 1)  + '"> Назад </a>';
                         }
 
-                        if (projectFO.skip < response.totalEntities) {
+                        if (projectFO.skip < response.totalEntities && response.totalEntities/limit > 1) {
                             goToPageLinks += '<a href="/projectList?pageNumber=' + (projectFO.skip + 1) + '"> Следующая </a>';
                         }
                         $('#goToPage').append(goToPageLinks);

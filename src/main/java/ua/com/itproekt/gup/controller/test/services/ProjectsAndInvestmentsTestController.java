@@ -5,9 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ua.com.itproekt.gup.model.projectsAndInvestments.investment.InvestorPost;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Comment;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.TypeOfProject;
+import ua.com.itproekt.gup.service.projectsAndInvestments.investment.InvestorService;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
 
 import java.util.HashSet;
@@ -18,8 +20,11 @@ public class ProjectsAndInvestmentsTestController {
     @Autowired
     ProjectService projectService;
 
+    @Autowired
+    InvestorService investorService;
+
     @RequestMapping("/addProjects/{numberOfProjects}")
-    public String addUser(@PathVariable("numberOfProjects") int numberOfProjects, Model model) {
+    public String addProjects(@PathVariable("numberOfProjects") int numberOfProjects, Model model) {
         for (int i = 0; i < numberOfProjects; i++) {
 
             Project project = new Project()
@@ -46,6 +51,22 @@ public class ProjectsAndInvestmentsTestController {
         }
 
         model.addAttribute("message", numberOfProjects + " test projects is created.");
+        return "index";
+    }
+
+    @RequestMapping("/addInvestorPosts/{numberOfPosts}")
+    public String addInvestorPosts(@PathVariable("numberOfPosts") int numberOfPosts, Model model) {
+        for (int i = 0; i < numberOfPosts; i++) {
+
+            InvestorPost investorPost = new InvestorPost()
+                    .setCreatedDateEqualsToCurrentDate()
+                    .setAmountOfMoney(i * 1000 + 1)
+                    .setDescription("Описание описание описание описание описание описание");
+
+            investorService.create(investorPost);
+        }
+
+        model.addAttribute("message", numberOfPosts + " test projects is created.");
         return "index";
     }
 
