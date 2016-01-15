@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ua.com.itproekt.gup.model.news.Blog;
+import ua.com.itproekt.gup.model.news.BlogFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.news.BlogService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 /**
@@ -29,6 +31,18 @@ public class BlogController {
     public String getBlogCreatePage() {
         return "blog-create";
     }
+
+
+    @RequestMapping("/blogs")
+    public String getBlogsRead(Model model) {
+
+        BlogFilterOptions blogFilterOptions = new BlogFilterOptions();
+
+        EntityPage<Blog> blogEntityPage = blogService.findBlogWihOptions(blogFilterOptions);
+        model.addAttribute("blogPages", blogEntityPage);
+        return "blogs";
+    }
+
 
     @RequestMapping(value = "/blog/{id}/edit", method = RequestMethod.GET)
     public String getBlogEditPage(Model model, @PathVariable String id) {
