@@ -44,7 +44,7 @@
           <a href="#">Сообщения</a>
           <a href="#">Уведомления</a>
           <a href="#">Тендеры</a>
-          <a href="/projectList">Проекты</a>
+          <a href="/projectList?pageNumber=0">Проекты</a>
           <a href="#">Новости</a>
           <a href="#">Настройки</a>
           <a href="/logout">Выход</a>

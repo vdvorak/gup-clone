@@ -25,6 +25,10 @@
                 <h3 align="center"><a href="/createProject">Создать свой проект</a></h3>
             </div>
             <div>
+                <label align="left" id="pageLabel"><b>Страница:</b> </label>
+                <p align="left" id="goToPage"></p>
+            </div>
+            <div>
                 <table id="projectsTable" border="1" width="100%">
                     <thead>
                         <tr>
@@ -44,12 +48,14 @@
 
         <script>
 
+
+
             $(document).ready(function () {
                 var data;
                 var projectFO = {};
                 projectFO.createdDateSortDirection = "DESC";
                 projectFO.includeComments = false;
-                projectFO.skip = 0;
+                projectFO.skip = ${pageNumber};
                 projectFO.limit = 10;
 
                 $.ajax({
@@ -59,6 +65,17 @@
                     data: JSON.stringify(projectFO),
                     success: function (response) {
                         data = response.entities;
+                        var goToPageLinks = '';
+
+                        $('#pageLabel').append((projectFO.skip + 1) + ' из ' + response.totalEntities);
+                        if (projectFO.skip > 0) {
+                            goToPageLinks += '<a href="/projectList?pageNumber=' + (projectFO.skip - 1)  + '"> Назад </a>';
+                        }
+
+                        if (projectFO.skip < response.totalEntities) {
+                            goToPageLinks += '<a href="/projectList?pageNumber=' + (projectFO.skip + 1) + '"> Следующая </a>';
+                        }
+                        $('#goToPage').append(goToPageLinks);
 
                         for (var i = 0; i < data.length; i++) {
                             data[i].projectName = '<a href="/project/id/' + data[i].id + '">' + data[i].projectName + '</a>';

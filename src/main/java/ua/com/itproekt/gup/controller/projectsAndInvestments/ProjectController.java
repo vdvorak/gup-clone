@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by Sasha on 13.01.2016.
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ProjectController {
 
     @RequestMapping("/projectList")
-    public String getProjects() {
+    public String getProjects(@RequestParam int pageNumber, Model model) {
+        model.addAttribute("pageNumber", pageNumber);
         return "projectsAndInvestments/project/projectList";
     }
 
