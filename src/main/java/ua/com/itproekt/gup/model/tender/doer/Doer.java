@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.itproekt.gup.model.profiles.Contact;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Document(collection = "doer")
@@ -27,6 +29,10 @@ public class Doer {
     private long recallCount;
 
     //answer (otklik)/raiting
+
+    public Doer() {
+        dateOfCreate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+    }
 
     public String getId() {
         return id;
