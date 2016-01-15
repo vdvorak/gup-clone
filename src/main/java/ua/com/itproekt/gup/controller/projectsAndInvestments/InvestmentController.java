@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by Sasha on 14.01.2016.
@@ -11,25 +12,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class InvestmentController {
 
-    @RequestMapping("/investorPostList")
-    public String investorPostList() {
-        return "projectsAndInvestments/project/projectList";
+    @RequestMapping("/investorPost/list")
+    public String investorPostList(@RequestParam int pageNumber, Model model) {
+        model.addAttribute("pageNumber", pageNumber);
+        return "projectsAndInvestments/investment/investorPostList";
     }
 
-    @RequestMapping("/createInvestorPost")
+    @RequestMapping("/investorPost/create")
     public String createInvestorPost() {
-        return "projectsAndInvestments/project/createProject";
+        return "projectsAndInvestments/investment/createInvestorPost";
     }
 
-    @RequestMapping("/editInvestorPost/id/{investorPostId}")
+    @RequestMapping("/investorPost/id/{investorPostId}/edit")
     public String editInvestorPost(@PathVariable String investorPostId, Model model) {
         model.addAttribute("investorPostId", investorPostId);
-        return "projectsAndInvestments/project/editProject";
+        return "projectsAndInvestments/investment/editInvestorPost";
     }
 
     @RequestMapping("/investorPost/id/{investorPostId}")
     public String getInvestorPostById(@PathVariable String investorPostId, Model model) {
         model.addAttribute("investorPostId", investorPostId);
-        return "projectsAndInvestments/project/project";
+        return "projectsAndInvestments/investment/investorPost";
     }
 }

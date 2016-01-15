@@ -26,20 +26,20 @@
 
         <div>
             <label for="projectName"><b>Название: </b></label>
-            <input id="projectName" type="text" name="projectName" minlength="4" maxlength="140"
-                   placeholder="Минимум 4 символа"required>
+            <input id="projectName" type="text" name="projectName" min="4" maxlength="140"
+                   placeholder="Минимум 4 символа" required>
         </div>
 
         <div>
             <label for="projectDescription"><b>Описание: </b></label>
-            <textarea id="projectDescription" minlength="50" maxlength="5000"
-                      placeholder="Минимум 50 символов" required></textarea>
+            <textarea id="projectDescription"
+                      placeholder="Минимум 50 символов, максимум 5000ю" required></textarea>
         </div>
 
         <div>
             <label for="amountRequested"><b>Нужная сумма: </b></label>
             <input id="amountRequested" type="number" min="1"
-                   placeholder="Минимум 1"required>
+                   placeholder="Минимум 1" required>
         </div>
 
         <div>

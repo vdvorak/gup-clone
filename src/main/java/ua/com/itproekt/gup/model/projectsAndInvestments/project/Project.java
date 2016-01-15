@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-@Document(collection = "projects")
+@Document
 public class Project {
     @Id
     private String id;
