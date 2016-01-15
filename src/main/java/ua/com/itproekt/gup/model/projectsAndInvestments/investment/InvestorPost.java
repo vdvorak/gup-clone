@@ -3,23 +3,42 @@ package ua.com.itproekt.gup.model.projectsAndInvestments.investment;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Set;
 
-@Document(collection = "investorPosts")
+@Document
 public class InvestorPost {
     @Id
     private String id;
     private String uId;
     @Size(min = 50, max = 5000)
     private String description;
+    @Min(1)
+    private Integer amountOfMoney;
     @Size(min = 1)
     private Set<String> categoriesOfIndustry;
     private Integer totalThoseInNeed;
     private Set<ApplicationForInvestment> thoseInNeed;
     private Long createdDate;
+
+    public InvestorPost setCreatedDateEqualsToCurrentDate() {
+        this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        return this;
+    }
+
+    //=======================================================================================================
+
+    public Integer getAmountOfMoney() {
+        return amountOfMoney;
+    }
+
+    public InvestorPost setAmountOfMoney(Integer amountOfMoney) {
+        this.amountOfMoney = amountOfMoney;
+        return this;
+    }
 
     public Integer getTotalThoseInNeed() {
         return totalThoseInNeed;
@@ -54,11 +73,6 @@ public class InvestorPost {
 
     public InvestorPost setuId(String uId) {
         this.uId = uId;
-        return this;
-    }
-
-    public InvestorPost setCreatedDateEqualsToCurrentDate() {
-        this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
     }
 
