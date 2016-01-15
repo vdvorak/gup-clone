@@ -73,7 +73,7 @@
                             goToPageLinks += '<a href="/projectList?pageNumber=' + (projectFO.skip - 1)  + '"> Назад </a>';
                         }
 
-                        if (projectFO.skip < response.totalEntities && response.totalEntities/limit > 1) {
+                        if (projectFO.skip < response.totalEntities && response.totalEntities/projectFO.limit > 1) {
                             goToPageLinks += '<a href="/projectList?pageNumber=' + (projectFO.skip + 1) + '"> Следующая </a>';
                         }
                         $('#goToPage').append(goToPageLinks);
