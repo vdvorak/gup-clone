@@ -106,9 +106,6 @@
       success: function (response) {
         window.location.href = '/index';
 //               в перспективе должно перекидывать на страницу этого исполнителя - его просмотр
-      },
-      error: function (response) {
-        alert("Внутренняя ошибка сервера");
       }
     });
   });
