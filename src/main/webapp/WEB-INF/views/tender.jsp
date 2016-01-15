@@ -85,8 +85,9 @@
 
 <section class="first-sec">
     <div class="logo-wrap">
-        <img src="/resources/img/logo-site.png">
-
+        <a href="/index">
+            <img src="/resources/img/logo-site.png">
+        </a>
         <p class="logo-title">global ukrainian portal</p>
     </div>
     <div class="shop-wrap-right">

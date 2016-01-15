@@ -188,7 +188,7 @@
     blogPost.categories = [];
     blogPost.categories.push($('#category').val());
 
-    alert(JSON.stringify(blogPost));
+
     $.ajax({
       type: "POST",
       url: "/api/rest/newsService/blogPost/edit",

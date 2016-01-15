@@ -187,7 +187,6 @@
         blogPost.categories = [];
         blogPost.categories.push($('#category').val());
 
-        alert(JSON.stringify(blogPost));
         $.ajax({
             type: "POST",
             url: "/api/rest/newsService/blogPost/create",
@@ -238,7 +237,6 @@
             type: "POST",
             url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
             success: function (data, textStatus, request) {
-                alert('успех');
                 $('#' + idImg).remove();
             }
         });

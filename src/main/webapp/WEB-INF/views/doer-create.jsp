@@ -94,7 +94,7 @@
     doer.imageId = imgId;
     doer.naceIds = naceIds;
 
-    alert(JSON.stringify(doer));
+//    alert(JSON.stringify(doer));
 
     $.ajax({
       type: "POST",

@@ -94,7 +94,6 @@
             processData: false,
             success: function (data, textStatus, request) {
                 imgId = data.id;
-                alert("id новой загруженной фотки: " + data.id);
                 $('#imgPreview').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
             }
         });
