@@ -947,7 +947,7 @@ footer{
 	text-align: center;
 	font-size: 24px;
 }
-#selectCategory, #selectNace, #inputTitle, #inputPosition, #inputPosition, #skype, #profileDescription{
+#selectCategory, #selectNace, #inputTitle, #inputPosition, #inputPosition, #skype, #profileDescription, .ep-mainPhone{
 	border: 3px solid #9acc66;
 	border-radius: 5px;
 }
@@ -955,4 +955,40 @@ footer{
 	width: 30px;
 	cursor: pointer;
 }
+#avatar{
+	border: 3px solid #1269a7;
+	border-radius: 5px;
+	padding: 30px 20px;
+}
+#photofile{
+	display: none;
+}
+#photoInput label{
+	position: relative;
+	bottom: 160px;
+	left: 110px;
+}
+.input-group{
+	width: 100%;
+}
+.left-tag{
+	display: inline-block;
+	width: 40%;
+}
+.right-tag{
+	display: inline-block;
+	width: 58%;
+}
+#phoneGroup{
+	display: inline-block;
+}
+#selectCategory{
+	width:100%;
+
+}
+#selectNace{
+	width:100%;
+}
+#socLinkGroup img{
+	cursor: pointer;
 }
