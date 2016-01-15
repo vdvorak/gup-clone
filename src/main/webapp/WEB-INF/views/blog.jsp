@@ -40,9 +40,10 @@
 </div>
 
 <c:if test="${check}">
-    <a href="/blog-post/create/${blog.id}"></a>
-    <button>Создать новость</button>
+    <a href="/blog-post/create/${blog.id}"><button>Создать новость</button></a>
+
 </c:if>
+<a href="/blog-post/view-all/${blog.id}"><button>Все новости блога</button></a>
 
 
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
@@ -78,6 +79,5 @@
         }
     }
 </script>
-
 </body>
 </html>
