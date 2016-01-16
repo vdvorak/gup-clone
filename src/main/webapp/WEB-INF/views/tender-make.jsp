@@ -41,11 +41,11 @@
         </div>
         <div class="header-mainMenu">
           <a href="/prioffice">Моя страница</a>
-          <a href="/dialogues">Сообщения</a>
-          <a href="/dialogues">Уведомления</a>
-          <a href="/tender">Тендеры</a>
+          <a href="#">Сообщения</a>
+          <a href="#">Уведомления</a>
+          <a href="#">Тендеры</a>
           <a href="/projectList?pageNumber=0">Проекты</a>
-          <a href="/blog/56994ac6e4b0121bb0506b4a">Новости</a>
+          <a href="#">Новости</a>
           <a href="#">Настройки</a>
           <a href="/logout">Выход</a>
           <div class="pageedit">
@@ -128,7 +128,7 @@
         </div>
         <nav class="main-tender-bottom-menu">
           <a href="#" class="active-main-menu-link">Участвовать</a>
-          <a href="/doer-create">Исполнители</a>
+          <a href="#">Исполнители</a>
         </nav>
       </div>
       <div class="main-project-wrap">
@@ -169,36 +169,7 @@
 
 <!--3rd section news timeline-->
 <section>
-  <div class="main-newsTimeline-wrap">
-    <div class="main-news-item-wrap">
-      <a href="/index">
-        <img src="/resources/img/vegan-pic1.png">
-      </a>
-      <div class="main-news-text"><span class="main-news-title">веган фест</span>Дать возможность людям сделать осознанный выбор, который улучшит качество жизни каждого, уделяя внимание простым основам нравственного, экологического и гармоничного образа жизни, основанного на заботе о здоровье, окружающей среде и наших хвостатых соседях по планете.</div>
-      <div class="main-news-subtitles">
-        <div class="main-news-views">Просмотров:<span></span></div>
-        <div class="main-news-date">Дата публикации: <span></span></div>
-      </div>
-    </div>
-    <div class="main-news-item-wrap">
-      <img src="/resources/img/vegan-pic1.png">
 
-      <div class="main-news-text"><span class="main-news-title">веган фест</span>Дать возможность людям сделать осознанный выбор, который улучшит качество жизни каждого, уделяя внимание простым основам нравственного, экологического и гармоничного образа жизни, основанного на заботе о здоровье, окружающей среде и наших хвостатых соседях по планете.</div>
-      <div class="main-news-subtitles">
-        <div class="main-news-views">Просмотров:<span></span></div>
-        <div class="main-news-date">Дата публикации: <span></span></div>
-      </div>
-    </div>
-    <div class="main-news-item-wrap">
-      <img src="/resources/img/vegan-pic1.png">
-
-      <div class="main-news-text"><span class="main-news-title">веган фест</span>Дать возможность людям сделать осознанный выбор, который улучшит качество жизни каждого, уделяя внимание простым основам нравственного, экологического и гармоничного образа жизни, основанного на заботе о здоровье, окружающей среде и наших хвостатых соседях по планете.</div>
-      <div class="main-news-subtitles">
-        <div class="main-news-views">Просмотров:<span></span></div>
-        <div class="main-news-date">Дата публикации: <span></span></div>
-      </div>
-    </div>
-  </div>
 </section>
 <!--END 3rd section-->
 <footer>
@@ -273,10 +244,11 @@
                   <input id="accept" type="checkbox"  required>
 
                   <div class="g-recaptcha"
-                       data-sitekey="6LcLPhMTAAAAAIdXwZumYIuBf17mhY7pVt596lIs"></div>
+                       data-sitekey="6Lc6KxETAAAAAKK9s-YUlVdfAUZx-G3KpohgGqfJ"></div>
                   <div class="row">
                     <div class="col-sm-6 col-sm-offset-3" style="margin: 20px;">
                       <button  type="submit" id="register-submit" tabindex="4" class="form-control btn btn-register">
+
                         Зарегистрироваться
                       </button>
                     </div>
@@ -351,6 +323,7 @@
 
     var b = decodeURIComponent(mainForm);
     var c = JSON.parse('{"' + decodeURI(b).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
+    alert(JSON.stringify(c));
     if (c['g-recaptcha-response'] !== '') {
       $.ajax({
         type: "POST",
@@ -428,45 +401,6 @@
     });
 
   };
-
-
-//  $('#login-submit').on('click', function () {
-//
-//    loginServlet($('#loginEmail').val(), $('#loginPassword').val(), function (error) {
-//      if (!error) {
-//        window.location.href = '/prioffice';
-//      } else {
-//        console.log(error);
-//        alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
-//      }
-//    })
-//  });
-//
-//  var loginServlet = function (email, password, callback) {
-//
-//    var url = "login";
-//    var data = {
-//      "email": email,
-//      "password": password
-//    };
-//
-//    $.ajax({
-//      url: url,
-//      type: "POST",
-//      accept: "application/json",
-//      data: data,
-//      dataType: "json",
-//      success: function (data, textStatus, xhr) {
-//      },
-//      complete: function (xhr, textStatus) {
-//        if (xhr.status == 200) {
-//          window.location.href = '/prioffice';
-//        } else {
-//          alert("Пароль и логин не совпадает!")
-//        }
-//      }
-//    });
-//  }
 
 </script>
 </body>
