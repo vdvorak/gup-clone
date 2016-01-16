@@ -12,6 +12,7 @@ import ua.com.itproekt.gup.dao.dialogue.DialogueRepository;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.DialogueFilterOption;
 import ua.com.itproekt.gup.model.privatemessages.Member;
+import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
@@ -46,23 +47,26 @@ public class DialogueController {
         dialogueFilterOption.setSkip((page - 1) * 5);
         String search = "";
 
-        try {
-            if (request != null && request.getQueryString() != null && request.getQueryString().contains("&")) {
-                search = URLDecoder.decode(request.getQueryString().split("&")[2].substring(7), "UTF-8");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (!search.equals("")) dialogueFilterOption.setSearchField(search);
+//        try {
+//            if (request != null && request.getQueryString() != null && request.getQueryString().contains("&")) {
+//                search = URLDecoder.decode(request.getQueryString().split("&")[2].substring(7), "UTF-8");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        if (!search.equals("")) dialogueFilterOption.setSearchField(search);
 
         Member member = new Member();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName(); //get logged in username
-
-        member.setId(profileService.findProfileByEmail(email).getId());
+        Profile user = profileService.findProfileByEmail(email);
+        member.setId(user.getId());
+        member.setName(user.getUsername());
         List<Dialogue> responseDialogues = dialogueRepository.findByMembersIn(member);
         model.addAttribute("dialogues", responseDialogues);
+        System.err.println("dialogues: " + responseDialogues);
+
         model.addAttribute("pageNumber", page);
 
         if (!search.equals("")) model.addAttribute("search", search);
@@ -77,7 +81,7 @@ public class DialogueController {
     @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.GET)
     public String getOneDialogue(Model model, HttpServletRequest request,
                                  @PathVariable("id") String id) {
-        // test /dialogue/id/5616c91e06f4830486a5092c
+        // test /dialogue/id/56999921901bc136290bfb25
         model.addAttribute("dialogue", dialogueService.findById(id));
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!" + dialogueService.findById(id));
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!" + id);
