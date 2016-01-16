@@ -122,12 +122,12 @@
     ///------------------------- Add msg -----------------------------------------------
     $(document).on('click', '#addMsg', function (event) {
 
-        msg.massage = $('#newMsg').val();
+        msg.message = $('#newMsg').val();
 
         $.ajax({
             type: "POST",
 //      url: "/api/rest/doerService/doer/create",
-            url: "/dialogue/id/${dialogue.id}/message/create",
+            url: "/api/rest/dialogueService/dialogue/id/${dialogue.id}/message/create",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(msg),
