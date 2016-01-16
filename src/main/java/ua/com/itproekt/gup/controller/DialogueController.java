@@ -62,7 +62,7 @@ public class DialogueController {
         String email = auth.getName(); //get logged in username
         Profile user = profileService.findProfileByEmail(email);
         member.setId(user.getId());
-        member.setName(user.getUsername());
+//        member.setName(user.getUsername());
         List<Dialogue> responseDialogues = dialogueRepository.findByMembersIn(member);
         model.addAttribute("dialogues", responseDialogues);
         System.err.println("dialogues: " + responseDialogues);
