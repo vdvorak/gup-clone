@@ -272,11 +272,10 @@
                   <input id="accept" type="checkbox"  required>
 
                   <div class="g-recaptcha"
-                       data-sitekey="6Lc6KxETAAAAAKK9s-YUlVdfAUZx-G3KpohgGqfJ"></div>
+                       data-sitekey="6LcLPhMTAAAAAIdXwZumYIuBf17mhY7pVt596lIs"></div>
                   <div class="row">
                     <div class="col-sm-6 col-sm-offset-3" style="margin: 20px;">
                       <button  type="submit" id="register-submit" tabindex="4" class="form-control btn btn-register">
-
                         Зарегистрироваться
                       </button>
                     </div>
@@ -351,7 +350,6 @@
 
     var b = decodeURIComponent(mainForm);
     var c = JSON.parse('{"' + decodeURI(b).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
-    alert(JSON.stringify(c));
     if (c['g-recaptcha-response'] !== '') {
       $.ajax({
         type: "POST",

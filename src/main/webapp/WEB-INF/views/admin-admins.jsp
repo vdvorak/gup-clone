@@ -263,6 +263,7 @@
 
 <!-- Bottom Links -->
 <jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>
+<script src="/resources/js/typeahead.js"></script>
 <!-- Bottom Links -->
 
 <script>
