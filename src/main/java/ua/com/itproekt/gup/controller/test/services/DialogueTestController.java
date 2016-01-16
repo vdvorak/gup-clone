@@ -47,31 +47,19 @@ public class DialogueTestController {
                 Dialogue dialog = new Dialogue();
                 if (!ids.isEmpty()) {
                     Member author = new Member();
-                    Profile authorP = profilesService.findProfileByEmail(SecurityOperations.getCurrentUserEmail());
-                    if(authorP != null){
-                        author.setId(authorP.getId());
-                        if(authorP.getUsername() != null) author.setName(authorP.getUsername());
-                        else author.setName("Пупкин");
-                        if(authorP.getContact() != null) author.setUserPicId(authorP.getContact().getPic());
-                    }
                     Member member = new Member();
 
+                    Profile authorP = profilesService.findProfileByEmail(SecurityOperations.getCurrentUserEmail());
+                    if(authorP != null) author.setId(authorP.getId());
+                    else author.setId(randId(ids));
                     member.setId(randId(ids));
 
                     ArrayList<Member> members = new ArrayList<>();
                     members.add(author);
                     members.add(member);
                     dialog.setMembers(members);
-                } else {
-                    Member member1 = new Member();
-                    member1.setName("Пупкин");
-                    Member member2 = new Member();
-                    member2.setName("Васичкин");
-                    ArrayList<Member> members = new ArrayList<>();
-                    members.add(member1);
-                    members.add(member2);
-                    dialog.setMembers(members);
                 }
+
                 PrivateMessage msg1 = new PrivateMessage();
                 PrivateMessage msg2 = new PrivateMessage();
                 PrivateMessage msg3 = new PrivateMessage();
