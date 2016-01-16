@@ -31,7 +31,7 @@
                 </a>
               </div>
               <div class="form-group">
-                <a href="/loginForm">
+                <a href="/index">
                   <div class="form-control btn btn-login">Войти или зарегистрироваться</div>
                 </a>
               </div>
