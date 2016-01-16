@@ -68,7 +68,7 @@
     <div class="col-xs-9" style="padding-left: 5px; padding-right: 5px;">
 
       <c:choose>
-        <c:when test="${dialogues.entities.size()==0}">
+        <c:when test="${empty dialogues || empty dialogues.entities || dialogues.entities.size()==0}">
           <h2>У вас ещё нет диалогов</h2>
         </c:when>
         <c:otherwise>
@@ -88,9 +88,6 @@
                       ${dialogue.subject}
                 </a>
 
-                <div>${offer.title}</div>
-                <div>${offer.price}</div>
-                <div>${offer.views}</div>
               </li>
             </ul>
           </c:forEach>
