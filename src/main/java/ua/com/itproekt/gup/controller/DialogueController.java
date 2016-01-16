@@ -74,7 +74,7 @@ public class DialogueController {
         System.err.println("search: " + search);
 
         System.err.println("URL: " + request.getQueryString());
-        return "dialogues";
+        return "dialogues1";
     }
 
     //----------------------------------- one dialogue  ------
