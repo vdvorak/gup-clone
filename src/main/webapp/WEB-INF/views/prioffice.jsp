@@ -37,14 +37,13 @@
             </div>
             <div class="header-mainMenu">
                 <a href="/prioffice">Моя страница</a>
-                <a href="#">Сообщения</a>
-                <a href="#">Уведомления</a>
-                <a href="#">Тендеры</a>
+                <a href="/dialogues">Сообщения</a>
+                <a href="/dialogues">Уведомления</a>
+                <a href="/tender">Тендеры</a>
                 <a href="/projectList?pageNumber=0">Проекты</a>
-                <a href="#">Новости</a>
+                <a href="/blog/56994ac6e4b0121bb0506b4a">Новости</a>
                 <a href="#">Настройки</a>
                 <a href="/logout">Выход</a>
-
                 <div class="pageedit">
                     <a href="/edit-profile">Редактировать страницу</a>
                 </div>
@@ -85,8 +84,9 @@
 
 <section class="first-sec">
     <div class="logo-wrap">
-        <img src="/resources/img/logo-site.png">
-
+        <a href="/index"
+            <img src="/resources/img/logo-site.png">
+        </div>
         <p class="logo-title">global ukrainian portal</p>
     </div>
     <div class="shop-wrap-right">
