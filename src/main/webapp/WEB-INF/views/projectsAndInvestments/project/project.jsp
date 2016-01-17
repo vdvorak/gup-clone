@@ -77,6 +77,19 @@
                           placeholder="Минимум 5 символов"></textarea>
                 <button type="button" id="commentButton">Комментировать</button>
             </div>
+
+            <div>
+                <label for="commentsTable"><b>Комментарии к проекту: </b></label>
+                <table id="commentsTable" border="1" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Комментарий</th>
+                        <th>От кого</th>
+                        <th>Дата создания</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -112,6 +125,18 @@
                     $('#projectCreatedDate').text(createdDate.getDate() + '/'
                             + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear());
 
+                    for (var i = 0; i < projectData.comments.length; i++) {
+                        var createdDate = new Date(projectData.comments[i].createdDate);
+                        projectData.comments[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
+
+                        var row = $('<tr>');
+                        row.append($('<td>').html(projectData.comments[i].comment));
+                        row.append($('<td>').html(projectData.comments[i].fromId));
+                        row.append($('<td>').html(projectData.comments[i].createdDate));
+
+                        $('#commentsTable').append(row);
+                    }
+
                 }
             });
         });
@@ -145,8 +170,10 @@
                     alert('Вы прокомментировали проект');
                     window.location.reload();
                 },
-                error: function (response) {
-                    alert("Внутренняя ошибка сервера");
+                statusCode: {
+                    409: function() {
+                        alert('Сначала нужно проголосовать');
+                    }
                 }
             });
         });
