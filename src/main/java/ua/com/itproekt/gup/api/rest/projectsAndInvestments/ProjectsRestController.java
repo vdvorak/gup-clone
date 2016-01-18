@@ -63,8 +63,8 @@ public class ProjectsRestController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/project/edit", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Project> updateProject(@Valid @RequestBody Project project) {
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> editProject(@Valid @RequestBody Project project) {
 
         if (project.getId() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -77,9 +77,9 @@ public class ProjectsRestController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        Project newProject = projectService.edit(project);
+        projectService.edit(project);
 
-        return new ResponseEntity<>(newProject, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //------------------------------------------ Delete -----------------------------------------------------------------

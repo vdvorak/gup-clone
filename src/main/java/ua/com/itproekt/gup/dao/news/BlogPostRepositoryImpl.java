@@ -38,6 +38,10 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
     public EntityPage<BlogPost> findBlogPostsWihOptions(BlogPostFilterOptions blogPostFO) {
         Query query = new Query();
 
+        if (blogPostFO.getBlogId() != null) {
+            query.addCriteria(Criteria.where("blogId").is(blogPostFO.getBlogId()));
+        }
+
         if (blogPostFO.getAuthorId() != null) {
             query.addCriteria(Criteria.where("authorId").is(blogPostFO.getAuthorId()));
         }
