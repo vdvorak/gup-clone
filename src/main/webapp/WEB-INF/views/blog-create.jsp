@@ -28,8 +28,10 @@
 </div>
 
 <div>
-    <textarea id="blogDescription"  minlength="50" maxlength="5000" required
+    <textarea id="blogDescription" minlength="50" maxlength="5000" required
               placeholder="Описание блога"></textarea>
+
+    <div id="textLength"></div>
 </div>
 
 <div>
@@ -42,7 +44,7 @@
     </div>
 
 </div>
-<button id="createBlog">Создать</button>
+<button id="createBlog" disabled>Создать</button>
 
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
@@ -52,13 +54,30 @@
     var categories = [];
     var blog = {};
 
+    $("#blogDescription").on('keyup', function (event) {
+        var textArea = $('#createBlog');
+        var counter = $("#textLength");
 
+        var currentString = $("#blogDescription").val();
+        counter.html(currentString.length);
+        if (currentString.length <= 50) {  /*or whatever your number is*/
+            textArea.attr("disabled", true);
+            counter.css("color", "red");
+        } else {
+            if (currentString.length > 500) {
+                textArea.attr("disabled", true);
+                counter.css("color", "red");
+            } else {
+                textArea.attr("disabled", false);
+                counter.css("color", "green");
+            }
+            //do some different stuff with your div
+        }
+    });
 
     //----------------------------------------- I N F O -------------------------------------------------------------
     <%--Макет расходиться с логикой бекенда, возможно логично будет сделать выбор рубрик (категори) через чекбоксы--%>
     //----------------------------------------- I N F O -------------------------------------------------------------
-
-
 
     //----------------------------------------------------- Image form -----------------------------------------------
 
