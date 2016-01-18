@@ -8,10 +8,11 @@
   <input id="dialogueSubject" type="text" name="dialogueSubject" minlength="2" maxlength="70" required
          placeholder="Тема диалога">
 </div>
-<div>
+<div id="emails">
   <input id="memberEmail" type="text" name="memberId" minlength="2" maxlength="70" required
          placeholder="email кому">
 </div>
+<button id="add">добавить собеседника</button>
 
 <div>
     <textarea id="msg"  minlength="1" maxlength="5000" required
@@ -30,6 +31,40 @@
 
   //----------------------------------------------------- Image form -----------------------------------------------
 
+  $('#add').click(function(){
+    $.ajax({
+      type: "POST",
+      url: "/api/rest/profilesService/profile/email-check",
+      data: {"email": $('input[name="memberId"]').val()},
+      success: function (data) {
+        if (data === 'NOT FOUND'){
+          alert("Нет пользователя с таким e-mail");
+        }else{
+          var member = {};
+          member.id = data;
+          var flag = true;
+          for(var i = 0; i< members.length; i++){
+            if (members[i].id === data) {
+              flag = false;
+              break;
+            }
+          }
+          if(flag) {
+            members.push(member);
+            $('input[name="memberId"]').attr('readonly', true).css({'background-color': '#808080'}).attr('name', 'test');
+            $('#emails').append('<input type="text" name="memberId" minlength="2" maxlength="70" required placeholder="email кому">');
+          } else{
+            alert("Собеседник уже добавлен!");
+          }
+        }
+      }
+    });
+  });
+
+
+
+
+
   $(document).on('click', '#createDialogue', function (e) {
     dialogue.subject = $('#dialogueSubject').val();
     msg.message = $('#msg').val();
@@ -39,12 +74,10 @@
 
 
     alert("Отправляем почту:" + $('#memberEmail').val());
-
-
     $.ajax({
       type: "POST",
       url: "/api/rest/profilesService/profile/email-check",
-      data: {"email": $('#memberEmail').val()},
+      data: {"email": $('input[name="memberId"]').val()},
       success: function (data) {
         if (data === 'NOT FOUND'){
           alert("Нет пользователя с таким e-mail");
