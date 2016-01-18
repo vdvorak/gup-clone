@@ -73,13 +73,14 @@
             </div>
 
             <div>
+                <label for="comment"><b>Написать комментарий: </b></label>
                 <textarea name="comment" id="comment" cols="40" rows="5"
                           placeholder="Минимум 5 символов"></textarea>
                 <button type="button" id="commentButton">Комментировать</button>
             </div>
 
             <div>
-                <label for="commentsTable"><b>Комментарии к проекту: </b></label>
+                <label for="commentsTable" id="commentsLabel"><b>Комментарии к проекту: </b></label>
                 <table id="commentsTable" border="1" width="100%">
                     <thead>
                     <tr>
@@ -125,24 +126,27 @@
                     $('#projectCreatedDate').text(createdDate.getDate() + '/'
                             + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear());
 
-                    for (var i = 0; i < projectData.comments.length; i++) {
-                        var createdDate = new Date(projectData.comments[i].createdDate);
-                        projectData.comments[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
+                    if (projectData.comments == null || projectData.comments.length == 0) {
+                        $('#commentsLabel').append('Еще нет комментариев');
+                        $('#commentsTable').hide();
+                    } else {
+                        for (var i = 0; i < projectData.comments.length; i++) {
+                            var createdDate = new Date(projectData.comments[i].createdDate);
+                            projectData.comments[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
 
-                        var row = $('<tr>');
-                        row.append($('<td>').html(projectData.comments[i].comment));
-                        row.append($('<td>').html(projectData.comments[i].fromId));
-                        row.append($('<td>').html(projectData.comments[i].createdDate));
+                            var row = $('<tr>');
+                            row.append($('<td>').html(projectData.comments[i].comment));
+                            row.append($('<td>').html(projectData.comments[i].fromId));
+                            row.append($('<td>').html(projectData.comments[i].createdDate));
 
-                        $('#commentsTable').append(row);
+                            $('#commentsTable').append(row);
+                        }
                     }
-
                 }
             });
         });
 
         $(document).on('click', '#voteButton', function (event) {
-
             $.ajax({
                 type: "POST",
                 url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/vote/" + $('#projectScore').val(),
