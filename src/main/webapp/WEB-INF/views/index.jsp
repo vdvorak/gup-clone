@@ -21,69 +21,7 @@
 
 
 <sec:authorize access="isAuthenticated()" var="isAuthenticated">
-  <header class="main-head">
-    <div class="top-menu">
-      <div class="top-menu-userSection">
-        <div class="top-menu-userpic">
-          <img src="/resources/img/reallySmallUserpic.png">
-        </div>
-        <div class="top-menu-username">
-          <a href="#">
-          <c:choose>
-            <c:when test="${not empty profile.username}">
-              ${profile.username}
-            </c:when>
-            <c:otherwise>
-                 Вася Пупкин
-            </c:otherwise>
-          </c:choose>
-          </a>
-        </div>
-        <div class="header-mainMenu">
-          <a href="/prioffice">Моя страница</a>
-          <a href="/dialogues">Сообщения</a>
-          <a href="/dialogues">Уведомления</a>
-          <a href="/tender">Тендеры</a>
-          <a href="/projectList?pageNumber=0">Проекты</a>
-          <a href="/blog/56994ac6e4b0121bb0506b4a">Новости</a>
-          <a href="#">Настройки</a>
-          <a href="/logout">Выход</a>
-          <div class="pageedit">
-            <a href="/edit-profile">Редактировать страницу</a>
-          </div>
-        </div>
-      </div>
-      <div class="top-menu-notifications">
-        <div class="top-menu-messages">
-          <img src="/resources/img/envelopeSmall.png">
-        </div>
-        <!--<div class="top-menu-actualMessageWrap">
-            <img class="message-sender-userpic"src="">
-            <div class="top-menu-incomingMessage">
-                <p>
-                    <span class="top-menu-incomingMessage_date"></span>
-                    Сообщение СообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщение
-                </p>
-                <a  class="top-menu-incomingMessage_answer" href="#">Ответить</a>
-            </div>
-        </div>
-        ТВОРЧЕСКИЙ ПИЗДЕЦ, ДОДЕЛАТЬ! -->
-        <div class="top-menu-notification">
-          <img src="/resources/img/bellSmall.png">
-        </div>
-
-      </div>
-
-      <div class="top-menu-userBallance">
-        <div class="ballance">
-          <a href="#">00.00<span>грн</span></a>
-        </div>
-        <div class="ballanceAdd-wraper">
-          <a href="#">Пополнить баланс</a>
-        </div>
-      </div>
-    </div>
-  </header>
+  <jsp:include page="/WEB-INF/templates/authorizedHeader.jsp"/>
 </sec:authorize>
 
 <c:if test="${!isAuthenticated}">
@@ -124,7 +62,7 @@
       <div class="main-tender-wrap">
         <p>Тендеры</p>
         <div class="main-tenderPic-wrap">
-          <a href="#"><img src="/resources/img/hammertime.png"></a>
+          <a href="/tender"><img src="/resources/img/hammertime.png"></a>
         </div>
         <nav class="main-tender-bottom-menu">
           <a href="#" class="active-main-menu-link">Участвовать</a>
@@ -134,7 +72,7 @@
       <div class="main-project-wrap">
         <p>Проекты</p>
         <div class="main-projectPic-wrap">
-          <a href="#"><img src="/resources/img/circul.png"></a>
+          <a href="/projectList?pageNumber=0"><img src="/resources/img/circul.png"></a>
         </div>
         <nav class="main-project-bottom-menu">
           <a href="#" class="active-main-menu-link">Реструктуризация</a>
@@ -146,7 +84,7 @@
       <div class="main-news-wrap">
         <p>Новости</p>
         <div class="main-newsPic-wrap">
-          <a href="#"><img src="/resources/img/yagazetko.png"></a>
+          <a href="/blog"><img src="/resources/img/yagazetko.png"></a>
         </div>
         <nav class="main-news-bottom-menu">
           <a href="#" class="active-main-menu-link">Киев</a>
@@ -207,89 +145,7 @@
 <!-- hiden stuff-->
 
 <!-- form itself -->
-<div id="test-form" class="mfp-hide white-popup-block">
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-      <div class="panel panel-login">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="login-form-heder-part">
-              <a href="#" class="active" id="login-form-link">Логин</a>
-            </div>
-            <div class="login-form-heder-part">
-              <a href="#" id="register-form-link">Регистрация</a>
-            </div>
-          </div>
-          <hr>
-        </div>
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-lg-12">
-              <form id="login-form" action="/login" method="post" role="form" style="display: block;">
-                <div class="form-group">
-                  <input type="text" name="email" id="login" tabindex="1" class="form-control"
-                         placeholder="Email адресс" value="">
-                </div>
-                <div class="form-group">
-                  <input type="password" name="password" id="loginPassword" tabindex="2"
-                         class="form-control" placeholder="Пароль">
-                </div>
-                <div class="form-group">
-                  <div class="row">
-                    <div style="margin: 20px;" class="col-sm-6 col-sm-offset-3">
-                      <div id="login-submit" class="form-control btn btn-login">Вход</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <div class="text-center">
-                        <a href="/restore" tabindex="5" class="forgot-password">Забыли пароль?</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-
-              <form id="regInput" action="/registration" method="post" role="form" style="display: none;">
-                <div class="form-group">
-                  <input  style="width: 50%;" type="email" name="email" id="email" tabindex="1" class="form-control"
-                         placeholder="Email адрес" value="" onchange="checkEmail()"
-                         pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$">
-                  <span id="responseEmail"></span>
-                </div>
-                <div class="form-group">
-                  <input style="width: 50%;" type="password" name="password" id="password" tabindex="2"
-                         class="form-control" placeholder="Пароль">
-                </div>
-                <div class="form-group">
-                  <input  style="width: 50%;" type="password" name="confirm-password" id="confirm-password"
-                         onkeyup="checkPass()" tabindex="2" class="form-control"
-                         placeholder="Подтвердите пароль">
-                </div>
-                <div class="form-group" style="color: #42abe0;font-style: italic;" >
-                  Прочитал и согласен с правилами
-                  <input id="accept" type="checkbox"  required>
-
-                  <div class="g-recaptcha"
-                       data-sitekey="6LcLPhMTAAAAAIdXwZumYIuBf17mhY7pVt596lIs"></div>
-                  <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3" style="margin: 20px;">
-                      <button  type="submit" id="register-submit" tabindex="4" class="form-control btn btn-register">
-                        Зарегистрироваться
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<jsp:include page="/WEB-INF/templates/authentification.jsp"/>
 <!--END hiden stuff-->
 <!-- libs starts here-->
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
