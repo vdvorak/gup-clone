@@ -15,7 +15,7 @@
 <h1>Новости</h1>
 <br>
 
-<c:forEach var="blogPost" items="${blogPostPages.entities}" >
+<c:forEach var="blogPost" items="${blogPostPages}" >
   <div>
     <h2>
       <a href="/blog-post/view/${blogPost.id}"> ${blogPost.title}</a>
