@@ -46,6 +46,10 @@ public class BlogPostCommentRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResponse> createComment(@PathVariable String blogPostId,
                                                             @RequestBody Comment comment) {
+        if (comment.getComment().trim().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         String userId = SecurityOperations.getLoggedUserId();
         comment.setFromId(userId);
         blogPostService.createComment(blogPostId, comment);
