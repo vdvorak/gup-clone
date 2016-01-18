@@ -42,37 +42,42 @@ public class DialogueRestController {
                                                 UriComponentsBuilder builder) {
         log.log(Level.INFO, LOGGED_TITLE + "dialogue/create Hello =)");
         // To create new it must content one message and at least one member.
-        if(dialogue.getMembers() == null || dialogue.getMembers().isEmpty()
-                || dialogue.getMessages() == null || dialogue.getMessages().isEmpty()){
-            log.log(Level.ERROR, LOGGED_TITLE + "dialogue/create - bad json was sent");
-            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        HttpHeaders headers = null;
+        try {
+            if(dialogue.getMembers() == null || dialogue.getMembers().isEmpty()
+                    || dialogue.getMessages() == null || dialogue.getMessages().isEmpty()){
+                log.log(Level.ERROR, LOGGED_TITLE + "dialogue/create - bad json was sent");
+                return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+            }
+            // hear we always expect exactly one massage.
+            // If we work with new dialogue it will be first message,
+            // if we work with existing dialogue, message will be added to message list of this dialogue.
+            PrivateMessage msg = dialogueService.completeMessage(dialogue.getMessages().get(0), getCurrentUserId());
+
+            addLoggedUserToMembers(dialogue);
+
+            //asking if current dialog already exist
+            Dialogue d = dialogueService.findByMembersAndSubject(dialogue);
+
+            if(d != null) {
+                d.getMessages().add(msg);
+                dialogue = dialogueService.addDialogue(d);
+                log.log(Level.INFO, LOGGED_TITLE + "dialogue/create - dialogue was find and update with new massage ");
+            } else {
+                List<PrivateMessage> messages = new ArrayList<>();
+                messages.add(msg);
+                dialogue.setMessages(messages);
+                dialogue = dialogueService.addDialogue(dialogue);
+                log.log(Level.INFO, LOGGED_TITLE + "dialogue/create - dialogue was created successfully");
+            }
+
+            headers = new HttpHeaders();
+            headers.setLocation(
+                    builder.path("api/rest/dialogueService/dialogue/read/id/{id}")
+                            .buildAndExpand(dialogue.getId()).toUri());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        // hear we always expect exactly one massage.
-        // If we work with new dialogue it will be first message,
-        // if we work with existing dialogue, message will be added to message list of this dialogue.
-        PrivateMessage msg = dialogueService.completeMessage(dialogue.getMessages().get(0), getCurrentUserId());
-
-        addLoggedUserToMembers(dialogue);
-
-        //asking if current dialog already exist
-        Dialogue d = dialogueService.findByMembersAndSubject(dialogue);
-
-        if(d != null) {
-            d.getMessages().add(msg);
-            dialogue = dialogueService.addDialogue(d);
-            log.log(Level.INFO, LOGGED_TITLE + "dialogue/create - dialogue was find and update with new massage ");
-        } else {
-            List<PrivateMessage> messages = new ArrayList<>();
-            messages.add(msg);
-            dialogue.setMessages(messages);
-            dialogue = dialogueService.addDialogue(dialogue);
-            log.log(Level.INFO, LOGGED_TITLE + "dialogue/create - dialogue was created successfully");
-        }
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(
-                builder.path("api/rest/dialogueService/dialogue/read/id/{id}")
-                        .buildAndExpand(dialogue.getId()).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 

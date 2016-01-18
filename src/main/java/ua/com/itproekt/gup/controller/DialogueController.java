@@ -16,6 +16,7 @@ import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -62,7 +63,7 @@ public class DialogueController {
         String email = auth.getName(); //get logged in username
         Profile user = profileService.findProfileByEmail(email);
         member.setId(user.getId());
-        member.setName(user.getUsername());
+//        member.setName(user.getUsername());
         List<Dialogue> responseDialogues = dialogueRepository.findByMembersIn(member);
         model.addAttribute("dialogues", responseDialogues);
         System.err.println("dialogues: " + responseDialogues);
@@ -88,12 +89,25 @@ public class DialogueController {
         return "dialogue";
     }
 
+    //----------------------------------- one dialogue  ------
+    @RequestMapping(value = "/dialogue/create", method = RequestMethod.GET)
+    public String createDialogue(Model model) {
+        return "dialogue-create";
+    }
+
 
 
     @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Dialogue getOneDialogue(@PathVariable("id") String id){
-        return dialogueService.findById(id);
+
+        Dialogue dialogue = dialogueService.findById(id);
+        for (Member member : dialogue.getMembers()) {
+            Profile profile = profileService.findUserProfile(member.getId());
+            if(profile != null && profile.getContact() != null) member.setUserPicId(profile.getContact().getPic());
+        }
+
+        return dialogue;
     }
 
 }
