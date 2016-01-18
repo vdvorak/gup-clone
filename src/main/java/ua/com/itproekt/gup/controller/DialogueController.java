@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import ua.com.itproekt.gup.dao.dialogue.DialogueRepository;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.DialogueFilterOption;
@@ -17,7 +18,6 @@ import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URLDecoder;
 import java.util.List;
 
 /*
@@ -87,5 +87,14 @@ public class DialogueController {
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!" + id);
         return "dialogue";
     }
+
+
+
+    @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Dialogue getOneDialogue(@PathVariable("id") String id){
+        return dialogueService.findById(id);
+    }
+
 }
 
