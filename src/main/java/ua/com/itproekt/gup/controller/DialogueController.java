@@ -93,7 +93,14 @@ public class DialogueController {
     @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Dialogue getOneDialogue(@PathVariable("id") String id){
-        return dialogueService.findById(id);
+
+        Dialogue dialogue = dialogueService.findById(id);
+        for (Member member : dialogue.getMembers()) {
+            Profile profile = profileService.findUserProfile(member.getId());
+            if(profile != null && profile.getContact() != null) member.setUserPicId(profile.getContact().getPic());
+        }
+
+        return dialogue;
     }
 
 }
