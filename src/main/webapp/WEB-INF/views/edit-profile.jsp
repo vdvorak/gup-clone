@@ -586,12 +586,12 @@
 
         $.ajax({
             type: "POST",
-            url: "/api/rest/profilesService/profile/update",
+            url: "/api/rest/tenderService/tender/create/",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(profile),
             success: function (response) {
-                window.location.href = '/prioffice';
+                window.location.href = '/tender';
             },
             error: function (response) {
                 alert("Внутренняя ошибка сервера");

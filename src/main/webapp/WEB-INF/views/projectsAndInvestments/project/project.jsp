@@ -105,42 +105,48 @@
                 url: "/api/rest/projectsAndInvestmentsService/project/id/${projectId}/read",
                 success: function (projectData) {
                     projectId = projectData.id;
-                if (projectData.imagesIds !== null) {
-                    for (var key in projectData.imagesIds) {
-                        if (projectData.imagesIds[key] === "1") {
-                            $('#projectImg').attr('src','/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key);
-                            break;
+                    if (projectData.imagesIds !== null) {
+                        for (var key in projectData.imagesIds) {
+                            if (projectData.imagesIds[key] === "1") {
+                                $('#projectImg').attr('src','/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key);
+                                break;
+                            }
                         }
-                    }
-                } else {
-                    $('#projectImg').attr('src','/resources/images/no_photo.jpg');
-                }
-                    $('#projectName').text(projectData.projectName);
-                    $('#projectType').text(projectData.typeOfProject);
-                    $('#projectDescription').text(projectData.projectDescription);
-                    $('#amountRequested').text(projectData.amountRequested);
-                    $('#investedAmount').text(projectData.investedAmount);
-                    $('#totalScore').text(projectData.totalScore);
-
-                    var createdDate = new Date(projectData.createdDate);
-                    $('#projectCreatedDate').text(createdDate.getDate() + '/'
-                            + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear());
-
-                    if (projectData.comments == null || projectData.comments.length == 0) {
-                        $('#commentsLabel').append('Еще нет комментариев');
-                        $('#commentsTable').hide();
                     } else {
-                        for (var i = 0; i < projectData.comments.length; i++) {
-                            var createdDate = new Date(projectData.comments[i].createdDate);
-                            projectData.comments[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
+                        $('#projectImg').attr('src','/resources/images/no_photo.jpg');
+                    }
+                        $('#projectName').text(projectData.projectName);
+                        $('#projectType').text(projectData.typeOfProject);
+                        $('#projectDescription').text(projectData.projectDescription);
+                        $('#amountRequested').text(projectData.amountRequested);
+                        $('#investedAmount').text(projectData.investedAmount);
+                        $('#totalScore').text(projectData.totalScore);
 
-                            var row = $('<tr>');
-                            row.append($('<td>').html(projectData.comments[i].comment));
-                            row.append($('<td>').html(projectData.comments[i].fromId));
-                            row.append($('<td>').html(projectData.comments[i].createdDate));
+                        var createdDate = new Date(projectData.createdDate);
+                        $('#projectCreatedDate').text(createdDate.getDate() + '/'
+                                + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear());
 
-                            $('#commentsTable').append(row);
+                        if (projectData.comments == null || projectData.comments.length == 0) {
+                            $('#commentsLabel').append('Еще нет комментариев');
+                            $('#commentsTable').hide();
+                        } else {
+                            for (var i = 0; i < projectData.comments.length; i++) {
+                                var createdDate = new Date(projectData.comments[i].createdDate);
+                                projectData.comments[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
+
+                                var row = $('<tr>');
+                                row.append($('<td>').html(projectData.comments[i].comment));
+                                row.append($('<td>').html(projectData.comments[i].fromId));
+                                row.append($('<td>').html(projectData.comments[i].createdDate));
+
+                                $('#commentsTable').append(row);
+                            }
                         }
+                },
+                statusCode: {
+                    404: function() {
+                        alert('Такого проекта нет');
+                        window.location.href = "/projectList?pageNumber=0";
                     }
                 }
             });

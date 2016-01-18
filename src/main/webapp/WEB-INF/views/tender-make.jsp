@@ -33,9 +33,7 @@
 <!--1st section with search-->
 <section class="first-sec">
   <div class="logo-wrap">
-    <a href="/index">
-      <img src="/resources/img/logo-site.png">
-    </a>
+    <a href="/index"><img src="/resources/img/logo-site.png"></a>
     <p class="logo-title">global ukrainian portal</p>
   </div>
   <div class="shop-wrap-right">
@@ -121,14 +119,14 @@
           <input type="text">
         </div>
 
-        <div>
+       <!-- <div>
           <p class="tm-tender-nace">Выберите отрасль</p>
           <select>
             <option value="household">торговля (00.02.03)</option>
             <option value="electronics">услуги (00.05.01)</option>
             <option value="apartments">банковаская деятельность (00.28.09)</option>
           </select>
-        </div>
+        </div>-->
 
         <div>
           <p class="tm-tender-term"></p>
