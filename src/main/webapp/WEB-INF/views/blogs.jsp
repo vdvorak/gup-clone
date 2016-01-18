@@ -14,6 +14,7 @@
 <body>
 
 <div>
+    <a href="/blog-create"><button>Создать блог</button></a>
     <c:forEach var="blog" items="${blogPages.entities}">
         <h3>
             <a href="/blog/${blog.id}">${blog.title}</a>
