@@ -65,9 +65,9 @@
         <script>
 
             var imgId = '';
+            var imagesIds = {};
             var projectType = [];
             var project = {};
-            var imagesIds = {};
 
             $(document).on('change', '#photoFile', function (e) {
 

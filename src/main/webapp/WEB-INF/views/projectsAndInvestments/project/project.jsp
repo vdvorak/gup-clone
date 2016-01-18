@@ -20,6 +20,7 @@
     <div>
         <div>
             <h2 align="center">Просмотр проекта</h2>
+            <h2 align="center"><a href="/editProject/id/${projectId}">Редактировать проект</a></h2>
             <h2 align="center"><a href="/projectList?pageNumber=0">Посмотреть другие проекты</a></h2>
         </div>
         <div>
@@ -73,7 +74,9 @@
             </div>
 
             <div>
-                <label for="comment"><b>Написать комментарий: </b></label>
+                <div>
+                    <label><b>Написать комментарий: </b></label>
+                </div>
                 <textarea name="comment" id="comment" cols="40" rows="5"
                           placeholder="Минимум 5 символов"></textarea>
                 <button type="button" id="commentButton">Комментировать</button>
