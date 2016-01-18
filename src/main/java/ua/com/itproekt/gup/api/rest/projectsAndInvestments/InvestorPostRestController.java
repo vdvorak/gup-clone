@@ -9,6 +9,7 @@ import ua.com.itproekt.gup.model.projectsAndInvestments.investment.ApplicationFo
 import ua.com.itproekt.gup.model.projectsAndInvestments.investment.InvestorPost;
 import ua.com.itproekt.gup.model.projectsAndInvestments.investment.InvestorPostFilterOptions;
 import ua.com.itproekt.gup.service.projectsAndInvestments.investment.InvestorService;
+import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
 import ua.com.itproekt.gup.util.CreatedObjResponse;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
@@ -21,6 +22,9 @@ public class InvestorPostRestController {
 
     @Autowired
     InvestorService investorService;
+
+    @Autowired
+    ProjectService projectService;
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
@@ -77,12 +81,13 @@ public class InvestorPostRestController {
     }
 
     @RequestMapping(value = "/investorPost/id/{investorPostId}/apply", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<InvestorPost> investById(@PathVariable String investorPostId,
-                                                   @RequestBody ApplicationForInvestment applicationForInvestment) {
-        if (!investorService.investorPostExist(investorPostId)) {
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> investById(@PathVariable String investorPostId,
+                                           @RequestBody ApplicationForInvestment applicationForInvestment) {
+        if (!investorService.investorPostExist(investorPostId) || !projectService.projectExists(applicationForInvestment.getProjectId())) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
         String userId = SecurityOperations.getLoggedUserId();
         applicationForInvestment.setuId(userId);
 

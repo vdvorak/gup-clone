@@ -23,92 +23,23 @@
 <jsp:include page="/WEB-INF/templates/header.jsp"/>
 <!--Header-->
 
-<div class="container-fluid">
-
-    <!--left-->
-    <div class="col-sm-6">
-
-
-        <div class="row">
-            <div class="col-xs-4">
-                <div class="row">
-                    <h2 style="color: #ff8e35;">Тема диалога: ${dialogue.subject}</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-8">
-                <div class="row" style="color: #495d9a;">
-                    <p class="pull-left">Последнее
-                        сообщение: ${dialogue.messages.get(dialogue.messages.size()-1).date}</p>
-
-                </div>
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-4">
-                <div class="row">
-                    <p> количество участников: ${dialogue.members.size()}</p>
-
-                    <p> количество сообщений: ${dialogue.messages.size()}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="panel panel-default" style="background-color: transparent; border-color: transparent;">
-            <div class="panel-body">
-                <c:if test="${dialogue.members.size() < 1}">
-                    нет участников
-                    <%--<li><img src="/resources/images/user_no_photo.jpg"></li>--%>
-                    <li><img src="/resources/images/no_photo.jpg"></li>
-                </c:if>
-                <c:if test="${dialogue.members.size() > 0}">
-                    <ul class="pgwSlideshow">
-                        <c:forEach items="${dialogue.members}" var="member">
-                            <a href="/profile/id/${member.id}">
-                                <p>${member.name}</p>
-                                <li><img alt="user photo"
-                                         src="/api/rest/fileStorage/PROFILE/file/read/id/${member.userPicId}"></li>
-                            </a>
-                        </c:forEach>
-                    </ul>
-                </c:if>
-                <c:if test="${dialogue.messages.size() > 0}">
-                    <table border="5">
-                        <ul>
-                            <tr>
-                                <td>Текст:</td>
-                                <td>Дата:</td>
-                                <td>От кого:</td>
-                            </tr>
-                            <c:forEach items="${dialogue.messages}" var="mes">
-                                <tr>
-                                    <td>
-                                        <li>${mes.message}</li>
-                                    </td>
-                                    <td>
-                                        <li>${mes.date}</li>
-                                    </td>
-                                    <td>
-                                        <li>${mes.authorId}</li>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </ul>
-                    </table>
-                </c:if>
-            </div>
+    <h2 id="title"  style="color: #ff8e35;"></h2>
+    <div id="last"></div>
+    <br>
+    <div id="members"></div>
+    <div id="size"></div>
+    <div class="panel panel-default" style="background-color: transparent; border-color: transparent;">
+        <div class="panel-body">
+            <table id="dialogues" border="5"></table>
         </div>
     </div>
-    <!--/right-->
-</div>
-<div>
+    <div id="photo">
+
+    </div>
+    <div>
         <textarea id="newMsg" minlength="5" maxlength="5000" required
                   placeholder="Введите текст сообщения"></textarea>
-</div>
+    </div>
 <!--/container-fluid-->
 <button id="addMsg">Отправить сообщение</button>
 
@@ -117,8 +48,12 @@
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
 <script>
+
     var msg = {};
 
+    $(document).ready(function(){
+        getNewPosts();
+    });
     ///------------------------- Add msg -----------------------------------------------
     $(document).on('click', '#addMsg', function (event) {
 
@@ -132,12 +67,61 @@
             dataType: "json",
             data: JSON.stringify(msg),
             success: function (response) {
-                window.location.href = '/dialogue/id/${dialogue.id}';
-//              перекидывает на страницу этого диалога - его просмотр
+                $('#newMsg').val("");
+                getNewPosts();
             }
         });
     });
     ///------------------------- Add msg -----------------------------------------------
+
+    var getNewPosts = function(){
+        $.ajax({
+            type: "POST",
+            url: "/dialogue/id/${dialogue.id}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                var dialog = $('#dialogues');
+                dialog.html("");
+                dialog.append("<tr><td>Текст:</td><td>Дата:</td><td>От кого:</td></tr>");
+                $("#title").html("").append("Тема диалога: "+response.subject);
+                $('#members').html("").append("количество участников:"+response.members.length);
+                $('#size').html("").append("количество сообщений:"+response.messages.length);
+                var lastMsg = response.messages[response.messages.length-1];
+                if(lastMsg.date.minute<10){
+                    lastMsg.date.minute = '0'+lastMsg.date.minute;
+                }
+                $('#last').html("").append("последнее сообщение: "
+                +lastMsg.date.month+' '
+                +lastMsg.date.dayOfMonth+' '
+                +lastMsg.date.hour+':'
+                +lastMsg.date.minute);
+
+                for (var i in response.messages){
+                    var minute = response.messages[i].date.minute;
+                    if(minute < 10){
+                        minute = '0'+minute;
+                    }
+                    var tr = '<tr>';
+                    var tdMsg = '<td>'+response.messages[i].message+'</td>';
+                    var tdDate = '<td>'+response.messages[i].date.month+' '
+                            +response.messages[i].date.dayOfMonth+' '
+                            +response.messages[i].date.hour+':'
+                            +minute+ '</td>';
+                    var tdId = '<td>'+response.messages[i].authorId+'</td>';
+                    var trClose = '</tr>';
+                    dialog.append(tr+tdMsg+tdDate+tdId+trClose);
+                }
+            }
+        });
+    };
+
+    var getNewPostsAfter2sec = setInterval(function() {
+        getNewPosts();
+    }, 2000);
+
+
+
 </script>
 
 </body>

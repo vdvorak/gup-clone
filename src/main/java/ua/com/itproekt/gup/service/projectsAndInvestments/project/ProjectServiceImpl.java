@@ -14,10 +14,7 @@ import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.ServiceNames;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -46,7 +43,10 @@ public class ProjectServiceImpl implements ProjectService {
                 .setProjectDescription(project.getProjectDescription())
                 .setTypeOfProject(project.getTypeOfProject())
                 .setCategoriesOfIndustry(project.getCategoriesOfIndustry())
-                .setImagesIds(project.getImagesIds());
+                .setImagesIds(project.getImagesIds())
+                .setComments(new HashSet<>())
+                .setVotes(new HashSet<>());
+
         projectRepository.create(newProject);
 
         project.setId(newProject.getId()); // ***

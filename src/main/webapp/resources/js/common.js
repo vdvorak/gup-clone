@@ -15,43 +15,36 @@ $(".top-menu-username a").click(function(e){
 
 
 
-/* ТЕСТОВЫЙ РАК УДАЛИТЬ НАХРЕН*/
-$(document).on('click', '.main-tenderPic-wrap a', function(e){
-	e.preventDefault();
-	$('.main-tender-bottom-menu ').css('display', 'block');
-	$('.main-project-bottom-menu ').css('display', 'none');
-	$('.main-news-bottom-menu ').css('display', 'none');
-	
-});
-$(document).on('click', '.main-projectPic-wrap a', function(e){
-	e.preventDefault();
-	$('.main-project-bottom-menu ').css('display', 'block');
-	$('.main-tender-bottom-menu ').css('display', 'none');
-	$('.main-news-bottom-menu ').css('display', 'none');
-});
-$(document).on('click', '.main-newsPic-wrap a', function(e){
-	e.preventDefault();
-	$('.main-news-bottom-menu ').css('display', 'block');
-	$('.main-tender-bottom-menu ').css('display', 'none');
-	$('.main-project-bottom-menu ').css('display', 'none');
-});
+
+$(document).ready(function () {
+    $(".main-tender-wrap").hover(
+        function () {
+            $('.main-tender-bottom-menu').slideDown('medium');
+        },
+        function () {
+            $('.main-tender-bottom-menu').slideUp('medium');
+        }
+    );
+    $(".main-project-wrap").hover(
+        function () {
+            $('.main-project-bottom-menu').slideDown('medium');
+        },
+        function () {
+            $('.main-project-bottom-menu').slideUp('medium');
+        }
+    );
+    $(".main-news-wrap").hover(
+        function () {
+            $('.main-news-bottom-menu').slideDown('medium');
+        },
+        function () {
+            $('.main-news-bottom-menu').slideUp('medium');
+        }
+    );
 
 
-/*$(document).on('click', '.selectedItem', function(){
-            $('.selectedItem').removeClass('active');
-            $(this).addClass('active');
-            $('#myColor').css('display','block');
-            $('#line').css('display','block');
-            if($(this).attr("id")!="move"){
-                fabric.Object.prototype.selectable = false;
+});
 
-            }
-            if($(this).attr("id")!="paint"){
-                fabric.Object.prototype.selectable = false;
-                $('#myColor').css('display','none');
-                $('#line').css('display','none');
-            }
-    });*/
 $(document).ready(function() {
     $('.popup-with-form').magnificPopup({
         type: 'inline',

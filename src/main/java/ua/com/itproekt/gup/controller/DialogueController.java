@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import ua.com.itproekt.gup.dao.dialogue.DialogueRepository;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.DialogueFilterOption;
@@ -18,7 +19,6 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URLDecoder;
 import java.util.List;
 
 /*
@@ -94,5 +94,21 @@ public class DialogueController {
     public String createDialogue(Model model) {
         return "dialogue-create";
     }
+
+
+
+    @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Dialogue getOneDialogue(@PathVariable("id") String id){
+
+        Dialogue dialogue = dialogueService.findById(id);
+        for (Member member : dialogue.getMembers()) {
+            Profile profile = profileService.findUserProfile(member.getId());
+            if(profile != null && profile.getContact() != null) member.setUserPicId(profile.getContact().getPic());
+        }
+
+        return dialogue;
+    }
+
 }
 
