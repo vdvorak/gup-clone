@@ -70,34 +70,37 @@
                         <c:forEach items="${dialogue.members}" var="member">
                             <a href="/profile/id/${member.id}">
                                 <p>${member.name}</p>
-                                <li><img alt="user photo"
+                                <li id="member_${member.id}"><img alt="user photo"
                                          src="/api/rest/fileStorage/PROFILE/file/read/id/${member.userPicId}"></li>
                             </a>
                         </c:forEach>
                     </ul>
                 </c:if>
                 <c:if test="${dialogue.messages.size() > 0}">
-                    <table border="5">
-                        <ul>
-                            <tr>
-                                <td>Текст:</td>
-                                <td>Дата:</td>
-                                <td>От кого:</td>
-                            </tr>
-                            <c:forEach items="${dialogue.messages}" var="mes">
-                                <tr>
-                                    <td>
-                                        <li>${mes.message}</li>
-                                    </td>
-                                    <td>
-                                        <li>${mes.date}</li>
-                                    </td>
-                                    <td>
-                                        <li>${mes.authorId}</li>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </ul>
+                    <table id="dialogues" border="5">
+                        <%--<tbody>--%>
+                        <%--<tr>--%>
+                            <%--<td>Текст:</td>--%>
+                            <%--<td>Дата:</td>--%>
+                            <%--<td>От кого:</td>--%>
+                        <%--</tr>--%>
+                        <%--<c:forEach items="${dialogue.messages}" var="mes">--%>
+                            <%--<tr>--%>
+                                <%--<td>--%>
+                                        <%--${mes.message}--%>
+                                <%--</td>--%>
+                                <%--<td>--%>
+                                        <%--${mes.date}--%>
+                                <%--</td>--%>
+                                <%--<td>--%>
+                                        <%--${mes.authorId}--%>
+                                <%--</td>--%>
+
+                            <%--</tr>--%>
+                        <%--</c:forEach>--%>
+
+                        </tbody>
+
                     </table>
                 </c:if>
             </div>
@@ -117,8 +120,12 @@
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
 <script>
+
     var msg = {};
 
+    $(document).ready(function(){
+        getNewPosts();
+    });
     ///------------------------- Add msg -----------------------------------------------
     $(document).on('click', '#addMsg', function (event) {
 
@@ -132,12 +139,47 @@
             dataType: "json",
             data: JSON.stringify(msg),
             success: function (response) {
-                window.location.href = '/dialogue/id/${dialogue.id}';
-//              перекидывает на страницу этого диалога - его просмотр
+                getNewPosts();
             }
         });
     });
     ///------------------------- Add msg -----------------------------------------------
+
+    var getNewPosts = function(){
+        $.ajax({
+            type: "POST",
+            url: "/dialogue/id/${dialogue.id}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+             var dialog = $('#dialogues');
+                dialog.html("");
+                dialog.append("<tr><td>Текст:</td><td>Дата:</td><td>От кого:</td></tr>");
+                for (var i in response.messages){
+                    var minute = response.messages[i].date.minute;
+                    if(minute < 10){
+                        minute = '0'+minute;
+                    }
+                    var tr = '<tr>';
+                    var tdMsg = '<td>'+response.messages[i].message+'</td>';
+                    var tdDate = '<td>'+response.messages[i].date.month+' '
+                            +response.messages[i].date.dayOfMonth+' '
+                            +response.messages[i].date.hour+':'
+                            +minute+ '</td>';
+                    var tdId = '<td>'+response.messages[i].authorId+'</td>';
+                    var trClose = '</tr>';
+                    dialog.append(tr+tdMsg+tdDate+tdId+trClose);
+                }
+            }
+        });
+    };
+
+    var getNewPostsAfter2sec = setInterval(function() {
+        getNewPosts();
+    }, 2000);
+
+
+
 </script>
 
 </body>

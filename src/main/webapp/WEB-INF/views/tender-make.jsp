@@ -16,74 +16,14 @@
   <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
   <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
   <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
+  <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+  <script>tinymce.init({ selector:'textarea' });</script>
 </head>
 <body>
 
 
 <sec:authorize access="isAuthenticated()" var="isAuthenticated">
-  <header class="main-head">
-    <div class="top-menu">
-      <div class="top-menu-userSection">
-        <div class="top-menu-userpic">
-          <img src="/resources/img/reallySmallUserpic.png">
-        </div>
-        <div class="top-menu-username">
-          <a href="#">
-          <c:choose>
-            <c:when test="${not empty profile.username}">
-              ${profile.username}
-            </c:when>
-            <c:otherwise>
-                 Вася Пупкин
-            </c:otherwise>
-          </c:choose>
-          </a>
-        </div>
-        <div class="header-mainMenu">
-          <a href="/prioffice">Моя страница</a>
-          <a href="#">Сообщения</a>
-          <a href="#">Уведомления</a>
-          <a href="#">Тендеры</a>
-          <a href="/projectList?pageNumber=0">Проекты</a>
-          <a href="#">Новости</a>
-          <a href="#">Настройки</a>
-          <a href="/logout">Выход</a>
-          <div class="pageedit">
-            <a href="/edit-profile">Редактировать страницу</a>
-          </div>
-        </div>
-      </div>
-      <div class="top-menu-notifications">
-        <div class="top-menu-messages">
-          <img src="/resources/img/envelopeSmall.png">
-        </div>
-        <!--<div class="top-menu-actualMessageWrap">
-            <img class="message-sender-userpic"src="">
-            <div class="top-menu-incomingMessage">
-                <p>
-                    <span class="top-menu-incomingMessage_date"></span>
-                    Сообщение СообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщение
-                </p>
-                <a  class="top-menu-incomingMessage_answer" href="#">Ответить</a>
-            </div>
-        </div>
-        ТВОРЧЕСКИЙ ПИЗДЕЦ, ДОДЕЛАТЬ! -->
-        <div class="top-menu-notification">
-          <img src="/resources/img/bellSmall.png">
-        </div>
-
-      </div>
-
-      <div class="top-menu-userBallance">
-        <div class="ballance">
-          <a href="#">00.00<span>грн</span></a>
-        </div>
-        <div class="ballanceAdd-wraper">
-          <a href="#">Пополнить баланс</a>
-        </div>
-      </div>
-    </div>
-  </header>
+  <jsp:include page="/WEB-INF/templates/authorizedHeader.jsp"/>
 </sec:authorize>
 
 <c:if test="${!isAuthenticated}">
@@ -169,14 +109,98 @@
 
 <!--3rd section news timeline-->
 <section>
+  <div class="tm-main-wrap">
+    <div class="">
+      <h2>СОЗДАНИЕ ТЕНДЕРА</h2>
+    </div>
+    <div class="tm-mainForm-wrap">
+      <form>
 
+        <div>
+          <p class="tm-tender-name">Введите название</p>
+          <input type="text">
+        </div>
+
+        <div>
+          <p class="tm-tender-nace">Выберите отрасль</p>
+          <select>
+            <option value="household">торговля (00.02.03)</option>
+            <option value="electronics">услуги (00.05.01)</option>
+            <option value="apartments">банковаская деятельность (00.28.09)</option>
+          </select>
+        </div>
+
+        <div>
+          <p class="tm-tender-term"></p>
+          <input type="date">
+          <input type="date">
+        </div>
+
+        <div>
+          <p>Укажите адресс</p>
+        </div>
+
+        <div>
+          <p>Выберите область</p>
+          <input type="text">
+        </div>
+
+        <div>
+          <p>Выберите город</p>
+          <input type="text">
+        </div>
+
+        <div>
+          <img class="tm-tender-map" src="">
+        </div>
+
+        <div>
+          <p>Тип</p>
+          <input type="radio">
+          <p>Открытый</p>
+          <input type="radio">
+          <p>Закрытый</p>
+        </div>
+
+        <div>
+          <p>Скрывать учасников тендера</p>
+          <input type="checkbox">
+        </div>
+
+        <div>
+          <p>Пригласить учасников тендера</p>
+          <input type="text" placeholder="Название">
+        </div>
+
+        <div>
+          <p>Ожидаемая стоимость</p>
+          <input type="number">
+          <img class="tm-tender-currency" src="">
+        </div>
+
+        <div>
+          <p>Номер тендера</p>
+          <input type="text" inactive>
+        </div>
+
+        <div>
+          <p>Описание</p>
+          <textarea placeholder="3000 символов"></textarea>
+        </div>
+        <div>
+          <input type="file"  multiple accept="image/*,image/jpeg">
+        </div>
+        <input type="submit" value="Сохранить">
+      </form>
+    </div>
+  </div>
 </section>
 <!--END 3rd section-->
 <footer>
 
 </footer>
 <!-- hiden stuff-->
-
+<jsp:include page="/WEB-INF/templates/authentification.jsp"/>
 <!-- form itself -->
 <div id="test-form" class="mfp-hide white-popup-block">
   <div class="row">

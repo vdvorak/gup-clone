@@ -14,6 +14,9 @@ import ua.com.itproekt.gup.service.news.BlogPostService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by RAYANT on 13.01.2016.
  */
@@ -40,8 +43,17 @@ public class BlogPostController {
     public String blogPostViewAll(Model model, @PathVariable("blogId") String blogId) {
         BlogPostFilterOptions blogPostFO = new BlogPostFilterOptions();
         blogPostFO.setBlogId(blogId);
+
         EntityPage<BlogPost> blogPostPages = blogPostService.findBlogPostsWihOptions(blogPostFO);
-        model.addAttribute("blogPostPages", blogPostPages);
+        //TODO убрать когда заработает фильтр по ид блога
+        List<BlogPost> filteredPosts = new ArrayList<>();
+        for (BlogPost blogPost : blogPostPages.getEntities()) {
+            if(blogPost.getBlogId().equals(blogId)){
+                filteredPosts.add(blogPost);
+            }
+        }
+
+        model.addAttribute("blogPostPages", filteredPosts);
         return "blog-post-view-all";
     }
 

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
@@ -13,80 +14,25 @@
     <title>GUP</title>
     <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
+    <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
 
 </head>
 <body>
 
-<header class="main-head">
-    <div class="top-menu">
-        <div class="top-menu-userSection">
-            <div class="top-menu-userpic">
-                <img src="/resources/img/reallySmallUserpic.png">
-            </div>
-            <div class="top-menu-username">
-                <a href="#">
-                    <c:choose>
-                        <c:when test="${not empty profile.username}">
-                            ${profile.username}
-                        </c:when>
-                        <c:otherwise>
-                            Вася Пупкин
-                        </c:otherwise>
-                    </c:choose>
-                </a>
-            </div>
-            <div class="header-mainMenu">
-                <a href="/prioffice">Моя страница</a>
-                <a href="/dialogues">Сообщения</a>
-                <a href="/dialogues">Уведомления</a>
-                <a href="/tender">Тендеры</a>
-                <a href="/projectList?pageNumber=0">Проекты</a>
-                <a href="/blog/56994ac6e4b0121bb0506b4a">Новости</a>
-                <a href="#">Настройки</a>
-                <a href="/logout">Выход</a>
-                <div class="pageedit">
-                    <a href="/edit-profile">Редактировать страницу</a>
-                </div>
-            </div>
-        </div>
-        <div class="top-menu-notifications">
-            <div class="top-menu-messages">
-                <img src="/resources/img/envelopeSmall.png">
-            </div>
-            <!--<div class="top-menu-actualMessageWrap">
-                <img class="message-sender-userpic"src="">
-                <div class="top-menu-incomingMessage">
-                    <p>
-                        <span class="top-menu-incomingMessage_date"></span>
-                        Сообщение СообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщение
-                    </p>
-                    <a  class="top-menu-incomingMessage_answer" href="#">Ответить</a>
-                </div>
-            </div>
-            ТВОРЧЕСКИЙ ПИЗДЕЦ, ДОДЕЛАТЬ! -->
-            <div class="top-menu-notification">
-                <img src="/resources/img/bellSmall.png">
-            </div>
+<sec:authorize access="isAuthenticated()" var="isAuthenticated">
+    <jsp:include page="/WEB-INF/templates/authorizedHeader.jsp"/>
+</sec:authorize>
 
-        </div>
-
-        <div class="top-menu-userBallance">
-            <div class="ballance">
-                <a href="#">${balance/100}<span> грн</span></a>
-            </div>
-            <div class="ballanceAdd-wraper">
-                <a href="#">Пополнить баланс</a>
-            </div>
-        </div>
-    </div>
-</header>
+<c:if test="${!isAuthenticated}">
+    <jsp:include page="/WEB-INF/templates/headerAnonym.jsp"/>
+</c:if>
 
 
 <section class="first-sec">
     <div class="logo-wrap">
-        <a href="/index"
+        <a href="/index">
             <img src="/resources/img/logo-site.png">
-        </div>
+        </a>
         <p class="logo-title">global ukrainian portal</p>
     </div>
     <div class="shop-wrap-right">
@@ -373,6 +319,7 @@
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 <script src="/resources/js/prioffice.js"></script>
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
+<script src="/resources/libs/jquery.magnific-popup.min.js"></script>
 <script src="/resources/js/common.js"></script>
 
 
