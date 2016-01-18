@@ -171,4 +171,14 @@ public class ProfileRestController {
         }
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/profile/email-check", method = RequestMethod.POST)
+    public String idByEmail (@RequestParam String email) {
+        Profile profile = profilesService.findProfileByEmail(email);
+        if (profile == null) {
+            return "NOT FOUND";
+        }
+        return profile.getId();
+    }
 }
