@@ -136,9 +136,7 @@
             dataType: "json",
             data: JSON.stringify(blog),
             success: function (response) {
-                alert(JSON.stringify(response));
-                window.location.href = '/index';
-//               в перспективе должно перекидывать на страницу этого блога - его просмотр
+                window.location.href = '/blog/'+ response.id;
             },
             error: function (response) {
                 alert("Внутренняя ошибка сервера");

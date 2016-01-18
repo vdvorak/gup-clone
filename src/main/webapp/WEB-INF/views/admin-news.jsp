@@ -100,16 +100,31 @@
       data: JSON.stringify(projectFilterOptions),
       success: function (response) {
         data = response.entities;
+        alert(JSON.stringify(response.entities));
 
         for (var i = 0; i < data.length; i++) {
-          if (data[i].imagesIds !== null) {
+
+          if (data[i].imagesIds !== null && JSON.stringify(data[i].imagesIds).length > 3) {
+alert(JSON.stringify(data[i].imagesIds));
             for (var key in data[i].imagesIds) {
-              if (data[i].imagesIds[key] === "pic1") {
-                data[i].imagesIds = '<img src="/api/rest/fileStorage/NEWS/file/read/id/' + key + '" width="100" height="100">';
+              alert("Key: " + key);
+              alert("Перед Ифом: " + data[i].imagesIds[key]);
+
+              if (data[i].imagesIds[key] === "someText") {
+
+                alert("После ифа: " + data[i].imagesIds[key]);
+//        ПРИСВОИЛИ СТРИНГУ        data[i].imagesIds = '<img src="/api/rest/fileStorage/NEWS/file/read/id/' + key + '" width="100" height="100">';
+              }else{
+
+                alert("4 ЕЛС");
+                data[i].imagesIds = {};
+                data[i].imagesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+
               }
             }
           }
           else {
+            alert("Зашли в ЕЛС");
             data[i].imagesIds = {};
             data[i].imagesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
           }
