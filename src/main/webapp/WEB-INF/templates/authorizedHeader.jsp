@@ -31,7 +31,7 @@
         <a href="/dialogues">Уведомления</a>
         <a href="/tender">Тендеры</a>
         <a href="/projectList?pageNumber=0">Проекты</a>
-        <a href="/blog/56994ac6e4b0121bb0506b4a">Новости</a>
+        <a href="/blogs">Новости</a>
         <a href="#">Настройки</a>
         <a href="/logout">Выход</a>
         <div class="pageedit">

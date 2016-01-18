@@ -166,7 +166,7 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
     public int deleteComment(String blogPostId, String commentId) {
         WriteResult result = mongoTemplate.updateFirst(
                 Query.query(Criteria.where("id").is(blogPostId)),
-                new Update().pull("comments", Query.query(Criteria.where("id").is(commentId))).inc("totalComments", -1),
+                new Update().pull("comments", Query.query(Criteria.where("cId").is(commentId))).inc("totalComments", -1),
                 BlogPost.class);
 
         return result.getN();
