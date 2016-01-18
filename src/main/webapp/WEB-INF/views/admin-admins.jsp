@@ -315,14 +315,17 @@
                 var admins = [];
                 var moderators = [];
                 for (var m = 0; m < data.length; m++) {
-                    for (var n = 0; n < data[m].userRoles.length; n++) {
-                        if (data[m].userRoles[n] === 'ROLE_ADMIN') {
-                            admins.push(data[m]);
-                        }
-                        if (data[m].userRoles[n] === 'ROLE_MODERATOR') {
-                            moderators.push(data[m]);
+                    if(data[m].userRoles!==undefined && data[m].userRoles!==null){
+                        for (var n = 0; n < data[m].userRoles.length; n++) {
+                            if (data[m].userRoles[n] === 'ROLE_ADMIN') {
+                                admins.push(data[m]);
+                            }
+                            if (data[m].userRoles[n] === 'ROLE_MODERATOR') {
+                                moderators.push(data[m]);
+                            }
                         }
                     }
+
                 }
 
                 var tableAdmins = $('#admins').DataTable({
