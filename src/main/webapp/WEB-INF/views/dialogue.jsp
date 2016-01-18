@@ -23,95 +23,20 @@
 <jsp:include page="/WEB-INF/templates/header.jsp"/>
 <!--Header-->
 
-<div class="container-fluid">
-
-    <!--left-->
-    <div class="col-sm-6">
-
-
-        <div class="row">
-            <div class="col-xs-4">
-                <div class="row">
-                    <h2 style="color: #ff8e35;">Тема диалога: ${dialogue.subject}</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-8">
-                <div class="row" style="color: #495d9a;">
-                    <p class="pull-left">Последнее
-                        сообщение: ${dialogue.messages.get(dialogue.messages.size()-1).date}</p>
-
-                </div>
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-4">
-                <div class="row">
-                    <p> количество участников: ${dialogue.members.size()}</p>
-
-                    <p> количество сообщений: ${dialogue.messages.size()}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="panel panel-default" style="background-color: transparent; border-color: transparent;">
-            <div class="panel-body">
-                <c:if test="${dialogue.members.size() < 1}">
-                    нет участников
-                    <%--<li><img src="/resources/images/user_no_photo.jpg"></li>--%>
-                    <li><img src="/resources/images/no_photo.jpg"></li>
-                </c:if>
-                <c:if test="${dialogue.members.size() > 0}">
-                    <ul class="pgwSlideshow">
-                        <c:forEach items="${dialogue.members}" var="member">
-                            <a href="/profile/id/${member.id}">
-                                <p>${member.name}</p>
-                                <li id="member_${member.id}"><img alt="user photo"
-                                         src="/api/rest/fileStorage/PROFILE/file/read/id/${member.userPicId}"></li>
-                            </a>
-                        </c:forEach>
-                    </ul>
-                </c:if>
-                <c:if test="${dialogue.messages.size() > 0}">
-                    <table id="dialogues" border="5">
-                        <%--<tbody>--%>
-                        <%--<tr>--%>
-                            <%--<td>Текст:</td>--%>
-                            <%--<td>Дата:</td>--%>
-                            <%--<td>От кого:</td>--%>
-                        <%--</tr>--%>
-                        <%--<c:forEach items="${dialogue.messages}" var="mes">--%>
-                            <%--<tr>--%>
-                                <%--<td>--%>
-                                        <%--${mes.message}--%>
-                                <%--</td>--%>
-                                <%--<td>--%>
-                                        <%--${mes.date}--%>
-                                <%--</td>--%>
-                                <%--<td>--%>
-                                        <%--${mes.authorId}--%>
-                                <%--</td>--%>
-
-                            <%--</tr>--%>
-                        <%--</c:forEach>--%>
-
-                        </tbody>
-
-                    </table>
-                </c:if>
-            </div>
+    <h2 id="title"  style="color: #ff8e35;"></h2>
+    <div id="last"></div>
+    <br>
+    <div id="members"></div>
+    <div id="size"></div>
+    <div class="panel panel-default" style="background-color: transparent; border-color: transparent;">
+        <div class="panel-body">
+            <table id="dialogues" border="5"></table>
         </div>
     </div>
-    <!--/right-->
-</div>
-<div>
+    <div>
         <textarea id="newMsg" minlength="5" maxlength="5000" required
                   placeholder="Введите текст сообщения"></textarea>
-</div>
+    </div>
 <!--/container-fluid-->
 <button id="addMsg">Отправить сообщение</button>
 
@@ -139,6 +64,7 @@
             dataType: "json",
             data: JSON.stringify(msg),
             success: function (response) {
+                $('#newMsg').val("");
                 getNewPosts();
             }
         });
@@ -152,9 +78,22 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-             var dialog = $('#dialogues');
+                var dialog = $('#dialogues');
                 dialog.html("");
                 dialog.append("<tr><td>Текст:</td><td>Дата:</td><td>От кого:</td></tr>");
+                $("#title").html("").append("Тема диалога: "+response.subject);
+                $('#members').html("").append("количество участников:"+response.members.length);
+                $('#size').html("").append("количество сообщений:"+response.messages.length);
+                var lastMsg = response.messages[response.messages.length-1];
+                if(lastMsg.date.minute<10){
+                    lastMsg.date.minute = '0'+lastMsg.date.minute;
+                }
+                $('#last').html("").append("последнее сообщение: "
+                +lastMsg.date.month+' '
+                +lastMsg.date.dayOfMonth+' '
+                +lastMsg.date.hour+':'
+                +lastMsg.date.minute);
+
                 for (var i in response.messages){
                     var minute = response.messages[i].date.minute;
                     if(minute < 10){
