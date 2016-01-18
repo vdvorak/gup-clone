@@ -33,6 +33,9 @@
             <table id="dialogues" border="5"></table>
         </div>
     </div>
+    <div id="photo">
+
+    </div>
     <div>
         <textarea id="newMsg" minlength="5" maxlength="5000" required
                   placeholder="Введите текст сообщения"></textarea>
