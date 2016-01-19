@@ -50,7 +50,7 @@
     <div class="tender-search-button-wrapper">
         <input type="text" placeholder="Поиск">
         <a href="">Найти<span class="main-search-button-icon"><img src="/resources/img/magnifire.png"></span></a>
-        <img class="makeTenderPic" src="/resources/img/makeTenderPic.png">
+        <a href="/tender-make" ><img class="makeTenderPic" src="/resources/img/makeTenderPic.png"></a>
         <img class="becomeAdoer" src="/resources/img/becomeAdoer.png">
 
         <div class="tender-search-filter-button"><img src="/resources/img/pointerTriangle.png"></div>
@@ -170,7 +170,7 @@
                                 <a href="/blog-post/view/${tender.id}"> ${tender.title}</a>
                             </h2>
                           <span>
-                          <c:forEach var="id" items="${tender.imagesIds.keySet()}">
+                          <c:forEach var="id" items="${tender.uploadFilesIds.keySet()}">
                               <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">
                           </c:forEach>
                           </span>

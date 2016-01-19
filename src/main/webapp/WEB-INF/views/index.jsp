@@ -169,6 +169,7 @@
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
 <script src="/resources/libs/jquery.magnific-popup.min.js"></script>
 <script src="/resources/js/common.js"></script>
+<script src="/resources/js/index.js"></script>
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 
