@@ -3,9 +3,7 @@ package ua.com.itproekt.gup.model.profiles;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Set;
@@ -27,7 +25,7 @@ public class Profile {
     private Contact contact;
     private Set<ProfileRating> profileRating;
     private Set<String> friendList;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Long createdDate;
 
     public boolean hasUserRole(String userRole) {
