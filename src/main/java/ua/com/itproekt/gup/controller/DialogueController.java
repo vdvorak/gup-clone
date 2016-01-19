@@ -79,32 +79,24 @@ public class DialogueController {
     @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.GET)
     public String getOneDialogue(Model model, HttpServletRequest request,
                                  @PathVariable("id") String id) {
-        // test /dialogue/id/56999921901bc136290bfb25
-        model.addAttribute("dialogue", dialogueService.findById(id));
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!" + dialogueService.findById(id));
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!" + id);
+        Dialogue dialogue = dialogueService.findById(id);
+        completeMembers(dialogue);
+        model.addAttribute("dialogue", dialogue);
         return "dialogue";
+    }
+
+    @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Dialogue getOneDialogue(@PathVariable("id") String id){
+        Dialogue dialogue = dialogueService.findById(id);
+        completeMembers(dialogue);
+        return dialogue;
     }
 
     //----------------------------------- one dialogue  ------
     @RequestMapping(value = "/dialogue/create", method = RequestMethod.GET)
     public String createDialogue(Model model) {
         return "dialogue-create";
-    }
-
-
-
-    @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.POST)
-       @ResponseBody
-       public Dialogue getOneDialogue(@PathVariable("id") String id){
-
-        Dialogue dialogue = dialogueService.findById(id);
-        for (Member member : dialogue.getMembers()) {
-            Profile profile = profileService.findUserProfile(member.getId());
-            if(profile != null && profile.getContact() != null) member.setUserPicId(profile.getContact().getPic());
-        }
-
-        return dialogue;
     }
 
     @RequestMapping(value = "/dialogue/update", method = RequestMethod.POST)
@@ -125,6 +117,15 @@ public class DialogueController {
         }
 
         dialogueService.updateDialogue(dialogue);
+    }
+
+    private void completeMembers(Dialogue dialogue){
+        for (Member member : dialogue.getMembers()) {
+            Profile profile = profileService.findUserProfile(member.getId());
+            if(profile != null && profile.getContact() != null) member.setUserPicId(profile.getContact().getPic());
+            if(profile != null && profile.getUsername() != null && profile.getUsername().length() > 1) member.setName(profile.getUsername());
+            else member.setName("Anonymous" );
+        }
     }
 
 }
