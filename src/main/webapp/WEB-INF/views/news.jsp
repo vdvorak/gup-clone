@@ -12,8 +12,6 @@
     <title></title>
 </head>
 <body>
-
-
 <c:forEach var="newsPost" items="${news.entities}">
     <div>
         Дата создания: ${newsPost.createdDate}
@@ -22,12 +20,14 @@
         Просмотры: ${newsPost.views}
     </div>
     <div>
-            ${newsPost.title}
+        <a href="/blog-post/view/${newsPost.id}">${newsPost.title}</a>
     </div>
     <div>
-        <c:forEach var="id" items="${newsPost.imagesIds.keySet()}">
-            <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">
-        </c:forEach>
+        <a href="/blog-post/view/${newsPost.id}">
+            <c:forEach var="id" items="${newsPost.imagesIds.keySet()}" end="0">
+                <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">
+            </c:forEach>
+        </a>
     </div>
     <div>
             ${newsPost.text}
@@ -42,5 +42,8 @@
             ${newsPost.totalLikes}
     </div>
 
+    <br>
+    <hr>
+</c:forEach>
 </body>
 </html>
