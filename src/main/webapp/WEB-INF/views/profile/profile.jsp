@@ -59,7 +59,12 @@
                 } else {
                     $('#profileImg').attr('src','/resources/images/no_photo.jpg');
                 }
-                $('#profileName').text(profile.username);
+
+                if (profile.username == null) {
+                    $('#profileName').text("Безымянный");
+                } else {
+                    $('#profileName').text(profile.username);
+                }
 
                 if (profile.contact == null || profile.contact.contactEmails == null || profile.contact.contactEmails.length == 0) {
                     $('#contactLabel').append('Пользователь еще не добавил контактных email-ов');
