@@ -20,7 +20,7 @@
               ${profile.username}
             </c:when>
             <c:otherwise>
-              Вася Пупкин
+              Пользователь
             </c:otherwise>
           </c:choose>
         </a>
