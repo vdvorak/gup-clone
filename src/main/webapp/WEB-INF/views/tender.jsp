@@ -167,7 +167,7 @@
                     <c:forEach var="tender" items="${tenders.entities}">
                         <div>
                             <h2>
-                                <a href="/blog-post/view/${tender.id}"> ${blogPost.title}</a>
+                                <a href="/blog-post/view/${tender.id}"> ${tender.title}</a>
                             </h2>
                           <span>
                           <c:forEach var="id" items="${tender.imagesIds.keySet()}">
