@@ -170,7 +170,7 @@
                                 <a href="/blog-post/view/${tender.id}"> ${blogPost.title}</a>
                             </h2>
                           <span>
-                          <c:forEach var="id" items="${blogPost.imagesIds.keySet()}">
+                          <c:forEach var="id" items="${tender.imagesIds.keySet()}">
                               <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">
                           </c:forEach>
                           </span>
