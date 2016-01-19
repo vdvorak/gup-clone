@@ -74,6 +74,9 @@
 
 
     alert("Отправляем почту:" + $('#memberEmail').val());
+//    alert("Отправляем почту:" + $('#memberEmail').val());
+
+
     $.ajax({
       type: "POST",
       url: "/api/rest/profilesService/profile/email-check",
@@ -85,7 +88,7 @@
           member2.id = data;
           members.push(member2);
           dialogue.members = members;
-            alert(JSON.stringify(dialogue));
+//            alert(JSON.stringify(dialogue));
 
           $.ajax({
             type: "POST",

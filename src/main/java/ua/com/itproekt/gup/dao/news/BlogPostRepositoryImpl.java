@@ -141,8 +141,9 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
 
         Query existsQuery = new Query()
             .addCriteria(Criteria.where("id").is(blogPostId))
-            .addCriteria(Criteria.where("comments.cId").is(commentId))
-            .addCriteria(Criteria.where("comments.likedIds").in(userId));
+            .addCriteria( Criteria.where("comments").elemMatch(new Criteria().andOperator(
+                    Criteria.where("cId").is(commentId),
+                    Criteria.where("likedIds").in(userId))));
 
         Update update = new Update();
         if (mongoTemplate.exists(existsQuery, BlogPost.class)) {

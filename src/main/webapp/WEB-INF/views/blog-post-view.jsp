@@ -16,13 +16,8 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
 </head>
 <body>
-<sec:authorize access="isAuthenticated()" var="isAuthenticated">
-    <jsp:include page="/WEB-INF/templates/authorizedHeader.jsp"/>
-</sec:authorize>
-
-<c:if test="${!isAuthenticated}">
-    <jsp:include page="/WEB-INF/templates/headerAnonym.jsp"/>
-</c:if>
+<br>
+<a href="/blog-post/view-all/${blogPost.blogId}"><button>Назад в блог</button></a>
 
 <h1>${blogPost.title}</h1>
 
@@ -51,17 +46,14 @@
     <c:choose>
         <c:when test="${blogPost.comments.size() > 0}">
             <c:forEach var="comment" items="${blogPost.comments}">
-                <div class="comment" data-id="${comment.cId}">
-                    <p class="author">Автор: ${comment.fromId}</p>
-
+                <div class="comment" data-id="${comment.cId}" data-replyId="${comment.toId}">
+                    <div class="author" data-id="${comment.fromId}"></div>
                     <div>${comment.comment}</div>
-                    <div class="rating">Лайки: ${comment.totalLikes}</div>
-                    <div class="date">Дата написания: ${comment.createdDate}</div>
+                    <div class="rating">Рейтинг: ${comment.totalLikes}</div>
                     <input type="button" class="reply" value="Ответить" onclick="Reply('${comment.cId}')">
                     <input type="button" class="like" value="Лайк" onclick="Like('${comment.cId}')">
                     <input type="button" class="delete" value="Удалить" onclick="CommentDelete('${comment.cId}')">
                 </div>
-                <br>
             </c:forEach>
         </c:when>
         <c:otherwise>
@@ -69,25 +61,47 @@
         </c:otherwise>
     </c:choose>
 </div>
-
+<br>
 Написать комментарий:
 <div id="commentCreate">
     <textarea id="text" required></textarea>
-    <input type="button" id="submit" value="Сохранить">
+    <input type="button" id="submit" value="Ок">
 </div>
 
 <style>
     .comment {
-        border: 2px solid gray;;
+        color: #7c7c7c;
+        margin: 10px 20px 0px 20px;
+    }
+    .comment:hover {
+        color: #000000;
+        background-color: #fafafa;
+    }
+    .comment .author {
+        font-weight: bold;
+    }
+    .comment > .comment{
+        margin-left: 30px;
     }
 </style>
 
 <script>
+    $(document).ready(function(){
+        $('.comment').each(function(){
+            if ($(this).attr('data-replyId')){
+                $(this).detach().appendTo('.comment[data-id='+$(this).attr('data-replyId')+']');
+            }
+            var userHandle = $(this).find('.author');
+            GetUser(userHandle.attr('data-id'), function(res){
+                userHandle.html(res.username);
+            })
+        });
+    });
     function RefreshPage(){
         window.location.href = '/blog-post/view/${blogPost.id}';
     }
     function OnError(msg){
-        alert(JSON.stringify(msg));
+        alert('error: ' + JSON.stringify(msg));
         //alert("Внутренняя ошибка сервера");
 
     }
@@ -132,7 +146,7 @@
         comment.comment = handle.find('#text').val();
         comment.toId = handle.attr(replyIdAttr);
 
-        alert(JSON.stringify(comment));
+        //alert(JSON.stringify(comment));
 
         $.ajax({
             type: "POST",
@@ -148,6 +162,20 @@
             }
         });
     });
+    function GetUser(id, callback){
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/profilesService/profile/read/id/"+id,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                callback(response);
+            },
+            error: function (response) {
+                OnError(response);
+            }
+        });
+    }
 </script>
 
 </body>

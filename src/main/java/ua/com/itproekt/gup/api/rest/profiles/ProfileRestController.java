@@ -41,14 +41,19 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResponse> createProfile(@RequestBody Profile profile) {
-        if (profilesService.profileExistsWithEmail(profile.getEmail())) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        CreatedObjResponse createdObjResponse = null;
+        try {
+            if (profilesService.profileExistsWithEmail(profile.getEmail())) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+
+            profilesService.createProfile(profile);
+            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+
+            createdObjResponse = new CreatedObjResponse(profile.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        profilesService.createProfile(profile);
-        verificationTokenService.sendEmailRegistrationToken(profile.getId());
-
-        CreatedObjResponse createdObjResponse = new CreatedObjResponse(profile.getId());
         return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
     }
 

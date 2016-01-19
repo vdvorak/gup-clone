@@ -16,6 +16,8 @@
         <h2> Диалоги </h2>
         <div class="col-xs-9" style="padding-left: 5px; padding-right: 5px;">
 
+            <a href="/dialogue/create">Создать новый диалог</a>
+            <br>
             <c:choose>
                 <c:when test="${empty dialogues || dialogues.size()==0}">
                     <h3>У вас ещё нет диалогов</h3>

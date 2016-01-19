@@ -97,11 +97,11 @@
                 data = response.entities;
 
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i].mainPhotoId !== null) {
-                        data[i].mainPhotoId = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].mainPhotoId + '" width="100" height="100">';
+                    if (data[i].uploadFilesIds !== null) {
+                        data[i].uploadFilesIds = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].uploadFilesIds + '" width="100" height="100">';
                     }
                     else {
-                        data[i].mainPhotoId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                        data[i].uploadFilesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
                     }
                 }
 
@@ -111,7 +111,7 @@
                     },
                     data: data,
                     "columns": [
-                        {"data": "mainPhotoId"},
+                        {"data": "uploadFilesIds"},
                         {"data": "title"},
                         {"data": "type"}
                     ],
