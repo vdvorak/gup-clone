@@ -25,25 +25,22 @@
             ${newsPost.title}
     </div>
     <div>
+        <c:forEach var="id" items="${newsPost.imagesIds.keySet()}">
+            <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">
+        </c:forEach>
+    </div>
+    <div>
             ${newsPost.text}
     </div>
-
-
-
-    <%--<div>--%>
-    <%--<h2>--%>
-    <%--<a href="/blog-post/view/${tender.id}"> ${tender.title}</a>--%>
-    <%--</h2>--%>
-    <%--<span>--%>
-    <%--<c:forEach var="id" items="${tender.uploadFilesIds.keySet()}">--%>
-    <%--<img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">--%>
-    <%--</c:forEach>--%>
-    <%--</span>--%>
-    <%--</div>--%>
-    <br>
-    <hr>
-</c:forEach>
-
+    <div>
+            ${newsPost.totalComments}
+    </div>
+    <div>
+            ${newsPost.totalDislikes}
+    </div>
+    <div>
+            ${newsPost.totalLikes}
+    </div>
 
 </body>
 </html>
