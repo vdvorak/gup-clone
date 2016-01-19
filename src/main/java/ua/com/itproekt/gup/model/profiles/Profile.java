@@ -148,7 +148,7 @@ public class Profile {
     }
 
     public Contact getContact() {
-        return contact;
+         return contact;
     }
 
     public Set<ProfileRating> getProfileRating() {
