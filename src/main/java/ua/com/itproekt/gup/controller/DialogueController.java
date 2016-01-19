@@ -5,10 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.dao.dialogue.DialogueRepository;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.DialogueFilterOption;
@@ -98,8 +95,8 @@ public class DialogueController {
 
 
     @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public Dialogue getOneDialogue(@PathVariable("id") String id){
+       @ResponseBody
+       public Dialogue getOneDialogue(@PathVariable("id") String id){
 
         Dialogue dialogue = dialogueService.findById(id);
         for (Member member : dialogue.getMembers()) {
@@ -108,6 +105,26 @@ public class DialogueController {
         }
 
         return dialogue;
+    }
+
+    @RequestMapping(value = "/dialogue/update", method = RequestMethod.POST)
+    @ResponseBody
+    public void update( @RequestBody Dialogue dialogue){
+
+        Member member;
+        for (int i = 0; i < dialogue.getMembers().size(); i++) {
+            member =  dialogue.getMembers().get(i);
+            if(!profileService.profileExists(member.getId())){
+                Profile profile = profileService.findProfileByEmail(member.getId());
+                if(profile!=null){
+                    member.setId(profile.getId());
+                }else{
+                    dialogue.getMembers().remove(member);
+                }
+            }
+        }
+
+        dialogueService.updateDialogue(dialogue);
     }
 
 }
