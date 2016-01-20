@@ -84,7 +84,7 @@
                 <p>Новости</p>
 
                 <div class="main-newsPic-wrap">
-                    <a href="#"><img src="/resources/img/yagazetko.png"></a>
+                    <a href="/blog-post/news"><img src="/resources/img/yagazetko.png"></a>
                 </div>
                 <nav class="main-news-bottom-menu">
                     <a href="#" class="active-main-menu-link">Киев</a>

@@ -86,7 +86,7 @@
             <div class="main-news-wrap">
                 <p>Новости</p>
                 <div class="main-newsPic-wrap">
-                    <a href="#"><img src="/resources/img/yagazetko.png"></a>
+                    <a href="/blog-post/news"><img src="/resources/img/yagazetko.png"></a>
                 </div>
                 <nav class="main-news-bottom-menu">
                     <a href="#" class="active-main-menu-link">Киев</a>
@@ -163,6 +163,7 @@
                             </div>
                         </div>
 
+<<<<<<< HEAD
                        <!-- <div class="input-group">
                             <div class="left-tag">
                                 <p>Сфера деятетльности/ + КВЄДы</p>
@@ -176,6 +177,20 @@
                             </div>
                         </div>-->
 
+=======
+                        <%--<div class="input-group">--%>
+                            <%--<div class="left-tag">--%>
+                                <%--<p>Сфера деятетльности/ + КВЄДы</p>--%>
+                            <%--</div>--%>
+                            <%--<div class="right-tag">--%>
+                                <%--<select id="selectNace">--%>
+                                    <%--<option value="household">торговля (00.02.03)</option>--%>
+                                    <%--<option value="electronics">услуги (00.05.01)</option>--%>
+                                    <%--<option value="apartments">банковаская деятельность (00.28.09)</option>--%>
+                                <%--</select>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+>>>>>>> 7f3697f575cd1fff477fe0d49e157611da183c64
 
                         <div class="input-group">
                             <div class="left-tag">
@@ -587,12 +602,12 @@
 
         $.ajax({
             type: "POST",
-            url: "/api/rest/tenderService/tender/create/",
+            url: "/api/rest/profilesService/profile/update/",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(profile),
             success: function (response) {
-                window.location.href = '/tender';
+                window.location.href = '/prioffice';
             },
             error: function (response) {
                 alert("Внутренняя ошибка сервера");

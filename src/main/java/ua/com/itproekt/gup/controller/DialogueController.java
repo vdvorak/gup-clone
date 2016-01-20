@@ -5,10 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.dao.dialogue.DialogueRepository;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.DialogueFilterOption;
@@ -82,11 +79,18 @@ public class DialogueController {
     @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.GET)
     public String getOneDialogue(Model model, HttpServletRequest request,
                                  @PathVariable("id") String id) {
-        // test /dialogue/id/56999921901bc136290bfb25
-        model.addAttribute("dialogue", dialogueService.findById(id));
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!" + dialogueService.findById(id));
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!" + id);
+        Dialogue dialogue = dialogueService.findById(id);
+        completeMembers(dialogue);
+        model.addAttribute("dialogue", dialogue);
         return "dialogue";
+    }
+
+    @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Dialogue getOneDialogue(@PathVariable("id") String id){
+        Dialogue dialogue = dialogueService.findById(id);
+        completeMembers(dialogue);
+        return dialogue;
     }
 
     //----------------------------------- one dialogue  ------
@@ -95,19 +99,33 @@ public class DialogueController {
         return "dialogue-create";
     }
 
-
-
-    @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/dialogue/update", method = RequestMethod.POST)
     @ResponseBody
-    public Dialogue getOneDialogue(@PathVariable("id") String id){
+    public void update( @RequestBody Dialogue dialogue){
 
-        Dialogue dialogue = dialogueService.findById(id);
+        Member member;
+        for (int i = 0; i < dialogue.getMembers().size(); i++) {
+            member =  dialogue.getMembers().get(i);
+            if(!profileService.profileExists(member.getId())){
+                Profile profile = profileService.findProfileByEmail(member.getId());
+                if(profile!=null){
+                    member.setId(profile.getId());
+                }else{
+                    dialogue.getMembers().remove(member);
+                }
+            }
+        }
+
+        dialogueService.updateDialogue(dialogue);
+    }
+
+    private void completeMembers(Dialogue dialogue){
         for (Member member : dialogue.getMembers()) {
             Profile profile = profileService.findUserProfile(member.getId());
             if(profile != null && profile.getContact() != null) member.setUserPicId(profile.getContact().getPic());
+            if(profile != null && profile.getUsername() != null && profile.getUsername().length() > 1) member.setName(profile.getUsername());
+            else member.setName("Anonymous" );
         }
-
-        return dialogue;
     }
 
 }
