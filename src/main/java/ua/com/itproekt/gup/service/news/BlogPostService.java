@@ -8,11 +8,15 @@ import ua.com.itproekt.gup.util.EntityPage;
 public interface BlogPostService {
     //Posts
     EntityPage<BlogPost> findBlogPostsWihOptions(BlogPostFilterOptions blogPostFilterOptions);
+
     BlogPost findById(String id);
 
     void create(BlogPost post);
+
     BlogPost update(BlogPost post);
+
     int delete(String id);
+
     boolean blogPostExists(String id);
 
     //PostComments
@@ -20,6 +24,7 @@ public interface BlogPostService {
     void likeComment(String blogPostId, String commentId, String userId);
 
     void createComment(String blogPostId, Comment comment);
+
     int deleteComment(String blogPostId, String commentId);
 
     BlogPost findComment(String blogPostId, String commentId);

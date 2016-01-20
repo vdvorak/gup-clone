@@ -98,7 +98,7 @@
 
                 var dialog = $('#dialogues');
                 dialog.html("");
-                dialog.append("<tr><td>Текст:</td><td>Дата:</td><td>От кого:</td></tr>");
+                dialog.append("<tr><td>От кого:</td><td>Текст:</td><td>Дата:</td></tr>");
                 $("#title").html("").append("Тема диалога: "+response.subject);
                 $('#size').html("").append("количество сообщений:"+response.messages.length);
                 var lastMsg = response.messages[response.messages.length-1];
@@ -122,9 +122,18 @@
                             +response.messages[i].date.dayOfMonth+' '
                             +response.messages[i].date.hour+':'
                             +minute+ '</td>';
-                    var tdId = '<td>'+response.messages[i].authorId+'</td>';
+
+                    var name = 'Anonymous';
+                    for(var m = 0; m < response.members.length; m ++){
+                        if(response.members[m].id.toString() === response.messages[i].authorId.toString()){
+                            name = response.members[m].name.toString();
+                            break;
+                        }
+                    }
+
+                    var tdId = '<td>'+ name +'</td>';
                     var trClose = '</tr>';
-                    dialog.append(tr+tdMsg+tdDate+tdId+trClose);
+                    dialog.append(tr+tdId+tdMsg+tdDate+trClose);
                 }
             }
         });

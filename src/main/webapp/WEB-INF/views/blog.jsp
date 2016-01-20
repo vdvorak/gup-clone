@@ -14,9 +14,9 @@
 <body>
 <div>
     ${blog.title}
-</div>
-Рубрика <span id="rubrics"></span>
-<div>
+<%--</div>--%>
+<%--Рубрика <span id="rubrics"></span>--%>
+<%--<div>--%>
 
 </div>
 <div>
@@ -50,34 +50,34 @@
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
 <script>
-    var categories = '${blog.categories}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
+    <%--var categories = '${blog.categories}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string--%>
 
-    for (var i = 0; i < categories.length; i++) {
+    <%--for (var i = 0; i < categories.length; i++) {--%>
 
-        var rubric = $('#rubrics');
-        switch (categories[i]) {
-            case 'world':
-                rubric.append('Новости мира');
-                break;
-            case 'ukr':
-                rubric.append('Новости Украины');
-                break;
-            case 'economic':
-                rubric.append('Экономика');
-                break;
-            case 'sport':
-                rubric.append('Спорт');
-                break;
-            case 'crime':
-                rubric.append('Криминал');
-                break;
-            case 'science':
-                rubric.append('Наука');
-                break;
-            default:
-                rubric.append('Нет категории');
-        }
-    }
+        <%--var rubric = $('#rubrics');--%>
+        <%--switch (categories[i]) {--%>
+            <%--case 'world':--%>
+                <%--rubric.append('Новости мира');--%>
+                <%--break;--%>
+            <%--case 'ukr':--%>
+                <%--rubric.append('Новости Украины');--%>
+                <%--break;--%>
+            <%--case 'economic':--%>
+                <%--rubric.append('Экономика');--%>
+                <%--break;--%>
+            <%--case 'sport':--%>
+                <%--rubric.append('Спорт');--%>
+                <%--break;--%>
+            <%--case 'crime':--%>
+                <%--rubric.append('Криминал');--%>
+                <%--break;--%>
+            <%--case 'science':--%>
+                <%--rubric.append('Наука');--%>
+                <%--break;--%>
+            <%--default:--%>
+                <%--rubric.append('Нет категории');--%>
+        <%--}--%>
+    <%--}--%>
 </script>
 </body>
 </html>
