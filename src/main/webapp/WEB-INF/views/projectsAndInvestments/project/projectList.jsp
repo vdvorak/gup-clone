@@ -116,7 +116,7 @@
             $(function() {
                 $("#tagsName").autocomplete({
                     source: function (request, response) {
-                        $.getJSON("${pageContext.request.contextPath}/getMachedNames.web", {
+                        $.getJSON("${pageContext.request.contextPath}/search/project", {
                             term: request.term
                         }, response);
                     }
