@@ -25,6 +25,7 @@ public class BlogServiceImpl implements BlogService {
     public void createBlog(Blog blog) {
         Map<String, String> editorIds = new HashMap<>();
         editorIds.put("author", blog.getAuthorId());
+        editorIds.putAll(blog.getEditorsIds());
 
         Blog newBlog = new Blog()
                 .setCreatedDateEqualsToCurrentDate()
@@ -33,7 +34,8 @@ public class BlogServiceImpl implements BlogService {
                 .setDescription(blog.getDescription())
                 .setImageId(blog.getImageId())
                 .setCategories(blog.getCategories())
-                .setEditorsIds(editorIds);
+                .setEditorsIds(editorIds)
+                .setSocLinks(blog.getSocLinks());
 
         blogRepository.createBlog(newBlog);
 
@@ -52,7 +54,8 @@ public class BlogServiceImpl implements BlogService {
                 .setDescription(blog.getDescription())
                 .setImageId(blog.getImageId())
                 .setCategories(blog.getCategories())
-                .setEditorsIds(blog.getEditorsIds()); // ?? add list
+                .setEditorsIds(blog.getEditorsIds()) // ?? add list
+                .setSocLinks(blog.getSocLinks());
 
         return blogRepository.findBlogAndUpdate(newBlog);
     }
