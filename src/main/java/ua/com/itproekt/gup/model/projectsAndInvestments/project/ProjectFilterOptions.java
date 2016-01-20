@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 public final class ProjectFilterOptions extends Project {
     private int skip;
     private int limit;
+    private String searchField;
     private boolean includeComments;
     private Sort.Direction createdDateSortDirection;
     private Sort.Direction viewsSortDirection;
@@ -12,6 +13,14 @@ public final class ProjectFilterOptions extends Project {
     public ProjectFilterOptions() {
         this.skip = 0;
         this.limit = 20;
+    }
+
+    public String getSearchField() {
+        return searchField;
+    }
+
+    public void setSearchField(String searchField) {
+        this.searchField = searchField;
     }
 
     public int getSkip() {
