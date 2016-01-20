@@ -33,9 +33,8 @@
             <table id="dialogues" border="5"></table>
         </div>
     </div>
-    <div id="photo">
+    <div id="photo"></div>
 
-    </div>
     <div>
         <textarea id="newMsg" minlength="5" maxlength="5000" required
                   placeholder="Введите текст сообщения"></textarea>
@@ -50,7 +49,7 @@
 <script>
 
     var msg = {};
-
+    var dialogue = {};
     $(document).ready(function(){
         getNewPosts();
     });
@@ -81,11 +80,26 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
+                dialogue = response;
+                var members = $('#members');
+                var newMembers = "";
+                for(var j in dialogue.members){
+                    var span = '<span style="display: inline-block;">';
+                    var memberId = '<div>'+dialogue.members[j].id +'</div>';
+                    var button = '<button id =' + dialogue.members[j].id + 'onclick="deleteMember(id)">Убрать из диалога</button>';
+                    var img = '<img src="/api/rest/fileStorage/NEWS/file/read/id/'+dialogue.members[j].userPicId+'" width="200px" height="200px">';
+                    var spanClose = '</span>';
+                    newMembers += (span+memberId+button+img+spanClose);
+                }
+                if(members.html() !== newMembers){
+                    members.html("");
+                    members.append(newMembers);
+                }
+
                 var dialog = $('#dialogues');
                 dialog.html("");
                 dialog.append("<tr><td>Текст:</td><td>Дата:</td><td>От кого:</td></tr>");
                 $("#title").html("").append("Тема диалога: "+response.subject);
-                $('#members').html("").append("количество участников:"+response.members.length);
                 $('#size').html("").append("количество сообщений:"+response.messages.length);
                 var lastMsg = response.messages[response.messages.length-1];
                 if(lastMsg.date.minute<10){
