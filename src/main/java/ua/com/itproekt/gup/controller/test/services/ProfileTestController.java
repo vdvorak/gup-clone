@@ -9,6 +9,7 @@ import ua.com.itproekt.gup.model.nace.DepartmentOrNace;
 import ua.com.itproekt.gup.model.profiles.*;
 import ua.com.itproekt.gup.service.nace.NaceService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.util.SocialNetwork;
 
 import java.util.*;
 
@@ -64,9 +65,9 @@ public class ProfileTestController {
         contact.setNace(Nace.E);
         contact.setPic("EnterPictureIdHere");
         contact.setBalance(988);
-        HashMap<SocialNetworkList, String> socNetLink = new HashMap<>();
-        socNetLink.put(SocialNetworkList.SKYPE, "SkypeAdm");
-        socNetLink.put(SocialNetworkList.FACEBOOK, "https://www.facebook.com/zuck");
+        HashMap<SocialNetwork, String> socNetLink = new HashMap<>();
+        socNetLink.put(SocialNetwork.SKYPE, "SkypeAdm");
+        socNetLink.put(SocialNetwork.FACEBOOK, "https://www.facebook.com/zuck");
         contact.setSocNetLink(socNetLink);
 
         ProfileRating profileRating = new ProfileRating();
