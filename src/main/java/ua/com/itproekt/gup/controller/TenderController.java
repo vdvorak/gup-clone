@@ -48,4 +48,9 @@ public class TenderController {
         return "tender";
     }
 
+    @RequestMapping("/tender-make")
+    public String thenderMake(){
+        return "tender-make";
+    }
+
 }

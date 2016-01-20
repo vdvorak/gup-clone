@@ -143,8 +143,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
     @Override
     public Profile findUserProfile(String profileId) {
-        Query query = new Query();
-        query.fields().include("contact");
+        Query query = new Query(Criteria.where("id").is(profileId));
         return mongoTemplate.findOne(query, Profile.class);
     }
 
