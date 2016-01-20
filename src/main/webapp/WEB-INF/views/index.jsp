@@ -23,11 +23,11 @@
 <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
 <!-- END common general header-->
 
-<!--1nd section with logo, apps button and organization button-->
+<!--BEGIN 1nd section with logo, apps button and organization button-->
 <jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
 <!-- END 1st section -->
 
-<!--Section with search bar-->
+<!--BEGIN section with search bar-->
 <jsp:include page="/WEB-INF/templates/main-search-bar.jsp"/>
 <!-- END search bar -->
 
