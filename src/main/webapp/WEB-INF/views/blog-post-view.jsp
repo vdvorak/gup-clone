@@ -37,6 +37,9 @@
 </c:forEach>
 
 <br>
+<button id="dislikeBtn">Дизлайк</button> ${blogPost.totalDislikes}
+<button id="likeBtn">Лайк</button> ${blogPost.totalLikes}
+<br>
 <a href="/blog-post/edit/${blogPost.id}">редактировать</a>
 
 <div></div>
@@ -57,7 +60,7 @@
             </c:forEach>
         </c:when>
         <c:otherwise>
-            нету
+            Комментариев нет. Будьте первым!
         </c:otherwise>
     </c:choose>
 </div>
@@ -86,6 +89,33 @@
 </style>
 
 <script>
+    var blogPostId = '${blogPost.id}';
+
+    //----------------------------------------------------- Like and dislike --------------------------------------
+    $(document).on('click', '#dislikeBtn', function (e) {
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/newsService/blogPost/id/" + blogPostId +"/dislike",
+            success: function (data, textStatus, request) {
+                // Верстальщик - сделай тут красоту по возвращению "success"
+            }
+        });
+    });
+
+    $(document).on('click', '#likeBtn' +
+    '', function (e) {
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/newsService/blogPost/id/" + blogPostId +"/like",
+            success: function (data, textStatus, request) {
+                // Верстальщик - сделай тут красоту по возвращению "success"
+            }
+        });
+    });
+
+    //----------------------------------------------------- Like and dislike --------------------------------------
+
     $(document).ready(function(){
         $('.comment').each(function(){
             if ($(this).attr('data-replyId')){
