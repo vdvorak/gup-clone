@@ -163,7 +163,7 @@
                             </div>
                         </div>
 
-                        <div class="input-group">
+                       <!-- <div class="input-group">
                             <div class="left-tag">
                                 <p>Сфера деятетльности/ + КВЄДы</p>
                             </div>
@@ -174,7 +174,8 @@
                                     <option value="apartments">банковаская деятельность (00.28.09)</option>
                                 </select>
                             </div>
-                        </div>
+                        </div>-->
+
 
                         <div class="input-group">
                             <div class="left-tag">
