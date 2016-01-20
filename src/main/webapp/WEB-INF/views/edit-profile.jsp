@@ -23,88 +23,23 @@
     <link href="/resources/css/pgwslideshow.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
 </head>
-<body class="center-block" >
-<sec:authorize access="isAuthenticated()" var="isAuthenticated">
-    <jsp:include page="/WEB-INF/templates/authorizedHeader.jsp"/>
-</sec:authorize>
+<body class="center-block">
 
-<c:if test="${!isAuthenticated}">
-    <jsp:include page="/WEB-INF/templates/headerAnonym.jsp"/>
-</c:if>
-<section class="first-sec">
-    <div class="logo-wrap">
-        <a href="/index">
-            <img src="/resources/img/logo-site.png">
-        </a>
-        <p class="logo-title">global ukrainian portal</p>
-    </div>
-    <div class="shop-wrap-right">
-        <div class="shop-wrap">
-            <a class="main-winStore" href="#"><img src="/resources/img/wins-icon.png"></a>
-            <a class="main-googlePlay" href="#"><img src="/resources/img/goop-icon.png"></a>
-            <a class="main-appStore" href="#"><img src="/resources/img/apps-icon.png"></a>
-        </div>
-        <div class="join-button-wrap">
-            <div class="join-button">
-                <a href="#" title="Вступить в организацию"><img src="/resources/img/join-button.png"></a>
-            </div>
-        </div>
-    </div>
-    <div class="main-search-button-wrapper">
-        <input type="text" placeholder="Поиск">
-        <a href="">Найти<span class="main-search-button-icon"><img src="/resources/img/magnifire.png"></span></a>
-    </div>
-</section>
-<!-- END1st section -->
+<!-- BEGIN Common general header-->
+<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+<!-- END common general header-->
+
+<!--BEGIN 1nd section with logo, apps button and organization button-->
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+<!-- END 1st section -->
+
+<!--BEGIN section with search bar-->
+<jsp:include page="/WEB-INF/templates/main-search-bar.jsp"/>
+<!-- END search bar -->
 
 <!--2nd section menu+slider -->
-<section>
-    <div class="sec-wrap">
-        <div class="partials-wrap">
-            <div class="main-tender-wrap">
-                <p>Тендеры</p>
-                <div class="main-tenderPic-wrap">
-                    <a href="#"><img src="/resources/img/hammertime.png"></a>
-                </div>
-                <nav class="main-tender-bottom-menu">
-                    <a href="#" class="active-main-menu-link">Участвовать</a>
-                    <a href="#">Исполнители</a>
-                </nav>
-            </div>
-            <div class="main-project-wrap">
-                <p>Проекты</p>
-                <div class="main-projectPic-wrap">
-                    <a href="#"><img src="/resources/img/circul.png"></a>
-                </div>
-                <nav class="main-project-bottom-menu">
-                    <a href="#" class="active-main-menu-link">Реструктуризация</a>
-                    <a href="#">Готовый прототип</a>
-                    <a href="#">Проект на бумаге</a>
-                    <a href="#">Ноу-Хау</a>
-                </nav>
-            </div>
-            <div class="main-news-wrap">
-                <p>Новости</p>
-                <div class="main-newsPic-wrap">
-                    <a href="/blog-post/news"><img src="/resources/img/yagazetko.png"></a>
-                </div>
-                <nav class="main-news-bottom-menu">
-                    <a href="#" class="active-main-menu-link">Киев</a>
-                    <a href="#">Львов</a>
-                    <a href="#">Харьков</a>
-                    <a href="#">Запорожье</a>
-                </nav>
-            </div>
-        </div>
-        <div class="main-slider-wrap">
-            <ul class="bxslider">
-                <li><img src="/resources/img/slider-item.png" /></li>
-                <li><img src="/resources/img/slider-item1.png" /></li>
-                <li><img src="/resources/img/slider-item2.png" /></li>
-            </ul>
-        </div>
-    </div>
-</section>
+<jsp:include page="/WEB-INF/templates/main-menu-slider-bar.jsp"/>
+<!--END 2nd section -->
 
 
     <!--category-->
