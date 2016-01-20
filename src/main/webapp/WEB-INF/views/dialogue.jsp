@@ -33,9 +33,8 @@
             <table id="dialogues" border="5"></table>
         </div>
     </div>
-    <div id="photo">
+    <div id="photo"></div>
 
-    </div>
     <div>
         <textarea id="newMsg" minlength="5" maxlength="5000" required
                   placeholder="Введите текст сообщения"></textarea>
@@ -50,7 +49,7 @@
 <script>
 
     var msg = {};
-
+    var dialogue = {};
     $(document).ready(function(){
         getNewPosts();
     });
@@ -81,11 +80,27 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
+                dialogue = response;
+                var members = $('#members');
+                var newMembers = "";
+                for(var j in dialogue.members){
+                    var span = '<span style="display: inline-block;">';
+                    var memberId = '<div>'+dialogue.members[j].id +'</div>';
+                    var button = '<div onclick="deleteMember("'+dialogue.members[j].id+'")">Удалить из диалога</div>';
+                    var img = '<img src="/api/rest/fileStorage/NEWS/file/read/id/'+dialogue.members[j].userPicId+'" width="200px" height="200px">';
+                    var spanClose = '</span>';
+                    newMembers += (span+memberId+button+img+spanClose);
+//                    newMembers += (span+memberId+img+spanClose);
+                }
+                if(members.html() !== newMembers){
+                    members.html("");
+                    members.append(newMembers);
+                }
+
                 var dialog = $('#dialogues');
                 dialog.html("");
                 dialog.append("<tr><td>От кого:</td><td>Текст:</td><td>Дата:</td></tr>");
                 $("#title").html("").append("Тема диалога: "+response.subject);
-                $('#members').html("").append("количество участников:"+response.members.length);
                 $('#size').html("").append("количество сообщений:"+response.messages.length);
                 var lastMsg = response.messages[response.messages.length-1];
                 if(lastMsg.date.minute<10){
@@ -112,6 +127,7 @@
                     var name = 'Anonymous';
                     for(var m = 0; m < response.members.length; m ++){
                         if(response.members[m].id.toString() === response.messages[i].authorId.toString()){
+                            alert(response.members[m].name.toString());
                             name = response.members[m].name.toString();
                             break;
                         }
@@ -125,11 +141,36 @@
         });
     };
 
+    var updateDialog = function(updateDialog){
+        $.ajax({
+            type: "POST",
+            url: "/dialogue/update/id/${dialogue.id}",
+            contentType: "application/json; charset=utf-8",
+            data: updateDialog,
+            dataType: "json",
+            success: function (response) {
+                alert(4);
+            }
+        });
+    };
+
     var getNewPostsAfter2sec = setInterval(function() {
         getNewPosts();
-    }, 2000);
+    }, 20000000);
 
-
+    var deleteMember = function(id){
+        alert(0);
+        for (var i in dialogue.members){
+            alert(1);
+            if (dialogue.members[i].id === id){
+                alert(2);
+                dialogue.members.splice(i,1);
+            }
+        }
+        alert(3);
+        updateDialog(dialogue);
+        getNewPosts();
+    }
 
 </script>
 

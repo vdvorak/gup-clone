@@ -153,6 +153,11 @@ public class ProjectServiceImpl implements ProjectService {
         });
     }
 
+    @Override
+    public List<String> getMatchedNames(String name) {
+        return projectRepository.getMatchedNames(name);
+    }
+
     public void sendNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {
         projectInvestments.parallelStream().unordered().forEach(pair -> {
             String uId = pair.getKey();

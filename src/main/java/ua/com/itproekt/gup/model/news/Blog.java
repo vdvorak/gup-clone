@@ -15,10 +15,9 @@ public class Blog {
     private String id;
     private Long createdDate;
     private String authorId;
-
     @Size(min = 2, max = 70)
     private String title;
-//    @Size(min = 50, max = 5000)
+    @Size(min = 50, max = 5000)
     private String description;
     private String imageId;
     private Map<String, String> editorsIds;

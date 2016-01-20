@@ -18,6 +18,16 @@ public class ProjectController {
         return "projectsAndInvestments/project/projectList";
     }
 
+//    @RequestMapping("/project/search")
+//    public String getProjects(@RequestBody ProjectFilterOptions projectFO,
+//                              @RequestParam int pageNumber, Model model) {
+//        projectFO.setSkip(pageNumber);
+//
+//        model.addAttribute("pageNumber", pageNumber);
+//        model.addAttribute("projectFO", projectFO);
+//        return "projectsAndInvestments/project/projectSearchList";
+//    }
+
     @RequestMapping("/createProject")
     public String createProject() {
         return "projectsAndInvestments/project/createProject";
@@ -34,4 +44,5 @@ public class ProjectController {
         model.addAttribute("projectId", projectId);
         return "projectsAndInvestments/project/project";
     }
+
 }
