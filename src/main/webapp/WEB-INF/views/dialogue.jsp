@@ -86,7 +86,7 @@
                 for(var j in dialogue.members){
                     var span = '<span style="display: inline-block;">';
                     var memberId = '<div>'+dialogue.members[j].id +'</div>';
-                    var button = '<div onclick="deleteMember("'+dialogue.members[j].id+'")">Удалить из диалога</div>';
+                    var button = '<div onclick=\"deleteMember(' + '\'' + dialogue.members[j].id+ '\'' + ')">Удалить из диалога</div>'.replace(" ","");
                     var img = '<img src="/api/rest/fileStorage/NEWS/file/read/id/'+dialogue.members[j].userPicId+'" width="200px" height="200px">';
                     var spanClose = '</span>';
                     newMembers += (span+memberId+button+img+spanClose);
@@ -127,7 +127,6 @@
                     var name = 'Anonymous';
                     for(var m = 0; m < response.members.length; m ++){
                         if(response.members[m].id.toString() === response.messages[i].authorId.toString()){
-                            alert(response.members[m].name.toString());
                             name = response.members[m].name.toString();
                             break;
                         }
@@ -142,33 +141,35 @@
     };
 
     var updateDialog = function(updateDialog){
+
+        alert(JSON.stringify(updateDialog));
         $.ajax({
             type: "POST",
-            url: "/dialogue/update/id/${dialogue.id}",
+            url: "/api/rest/dialogueService/dialogue/update/id/${dialogue.id}",
             contentType: "application/json; charset=utf-8",
-            data: updateDialog,
+            data: JSON.stringify(updateDialog),
             dataType: "json",
             success: function (response) {
-                alert(4);
             }
         });
     };
 
     var getNewPostsAfter2sec = setInterval(function() {
         getNewPosts();
-    }, 20000000);
+    }, 20000);
 
     var deleteMember = function(id){
-        alert(0);
+        var newMembers = [];
         for (var i in dialogue.members){
-            alert(1);
             if (dialogue.members[i].id === id){
-                alert(2);
-                dialogue.members.splice(i,1);
+                newMembers = dialogue.members.splice(i,1);
             }
         }
-        alert(3);
-        updateDialog(dialogue);
+        var newDialog = {};
+        newDialog.id = '${dialogue.id}';
+        newDialog.members = newMembers;
+        newDialog
+        updateDialog(newDialog);
         getNewPosts();
     }
 

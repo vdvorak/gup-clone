@@ -51,8 +51,8 @@ public class Dialogue {
         return "Dialogue{" +
                 "id='" + id + '\'' +
                 ", subject='" + subject + '\'' +
-                ", members=" + members.toString() +
-                ", messages=" + messages.toString() +
+                ", members=" + members +
+                ", messages=" + messages +
                 '}';
     }
 }
