@@ -9,6 +9,9 @@ import ua.com.itproekt.gup.model.news.BlogFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.ServiceNames;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class BlogServiceImpl implements BlogService {
 
@@ -20,7 +23,23 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public void createBlog(Blog blog) {
-        blogRepository.createBlog(blog);
+        Map<String, String> editorIds = new HashMap<>();
+        editorIds.put("author", blog.getAuthorId());
+        editorIds.putAll(blog.getEditorsIds());
+
+        Blog newBlog = new Blog()
+                .setCreatedDateEqualsToCurrentDate()
+                .setAuthorId(blog.getAuthorId())
+                .setTitle(blog.getTitle())
+                .setDescription(blog.getDescription())
+                .setImageId(blog.getImageId())
+                .setCategories(blog.getCategories())
+                .setEditorsIds(editorIds)
+                .setSocLinks(blog.getSocLinks());
+
+        blogRepository.createBlog(newBlog);
+
+        blog.setId(newBlog.getId());
     }
 
     @Override
@@ -30,12 +49,20 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Blog findBlogAndUpdate(Blog blog) {
-        storageRepository.delete(ServiceNames.NEWS.toString(), blog.getId());
-        return blogRepository.findBlogAndUpdate(blog);
+        Blog newBlog = new Blog()
+                .setTitle(blog.getTitle())
+                .setDescription(blog.getDescription())
+                .setImageId(blog.getImageId())
+                .setCategories(blog.getCategories())
+                .setEditorsIds(blog.getEditorsIds()) // ?? add list
+                .setSocLinks(blog.getSocLinks());
+
+        return blogRepository.findBlogAndUpdate(newBlog);
     }
 
     @Override
     public int deleteBlog(String id) {
+        storageRepository.delete(ServiceNames.NEWS.toString(), blogRepository.findBlog(id).getImageId());
         return blogRepository.deleteBlog(id);
     }
 
