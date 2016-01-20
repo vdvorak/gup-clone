@@ -86,7 +86,7 @@
                 for(var j in dialogue.members){
                     var span = '<span style="display: inline-block;">';
                     var memberId = '<div>'+dialogue.members[j].id +'</div>';
-                    var button = '<div onclick="deleteMember('+dialogue.members[j].id+')">Удалить из диалога</div>';
+                    var button = '<div onclick="deleteMember("'+dialogue.members[j].id+'")">Удалить из диалога</div>';
                     var img = '<img src="/api/rest/fileStorage/NEWS/file/read/id/'+dialogue.members[j].userPicId+'" width="200px" height="200px">';
                     var spanClose = '</span>';
                     newMembers += (span+memberId+button+img+spanClose);
@@ -127,6 +127,7 @@
                     var name = 'Anonymous';
                     for(var m = 0; m < response.members.length; m ++){
                         if(response.members[m].id.toString() === response.messages[i].authorId.toString()){
+                            alert(response.members[m].name.toString());
                             name = response.members[m].name.toString();
                             break;
                         }
@@ -155,7 +156,7 @@
 
     var getNewPostsAfter2sec = setInterval(function() {
         getNewPosts();
-    }, 2000);
+    }, 20000000);
 
     var deleteMember = function(id){
         alert(0);
