@@ -32,8 +32,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void create(Project project) {
         Project newProject = new Project()
-                .setId(null)
                 .setAuthorId(project.getAuthorId())
+                .setViews(0)
+                .setTotalScore(0L)
+                .setTotalVoters(0)
+                .setTotalComments(0)
                 .setCreatedDateEqualsToCurrentDate()
                 .setStatus(ProjectStatus.ACTIVE)
                 .setLastInvestmentDateEqualsToCurrentDate()
