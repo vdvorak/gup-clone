@@ -11,16 +11,18 @@
     <title>Создание блога</title>
 </head>
 <body>
-<div>
-    <select id="categories" required>
-        <option value="ukr">Новости Украины</option>
-        <option value="world">Мировые новости</option>
-        <option value="economic">Экономика</option>
-        <option value="sport">Спорт</option>
-        <option value="crime">Криминал</option>
-        <option value="science">Наука</option>
-    </select>
-</div>
+
+<%--<div>--%>
+    <%--<select id="categories" required>--%>
+        <%--<option value="ukr">Новости Украины</option>--%>
+        <%--<option value="world">Мировые новости</option>--%>
+        <%--<option value="economic">Экономика</option>--%>
+        <%--<option value="sport">Спорт</option>--%>
+        <%--<option value="crime">Криминал</option>--%>
+        <%--<option value="science">Наука</option>--%>
+    <%--</select>--%>
+<%--</div>--%>
+
 
 <div>
     <input id="blogTitle" type="text" name="blogTitle" minlength="2" maxlength="70" required
@@ -51,7 +53,7 @@
 <script>
 
     var imgId = '';
-    var categories = [];
+//    var categories = [];
     var blog = {};
 
     $("#blogDescription").on('keyup', function (event) {
@@ -71,13 +73,9 @@
                 textArea.attr("disabled", false);
                 counter.css("color", "green");
             }
-            //do some different stuff with your div
         }
     });
 
-    //----------------------------------------- I N F O -------------------------------------------------------------
-    <%--Макет расходиться с логикой бекенда, возможно логично будет сделать выбор рубрик (категори) через чекбоксы--%>
-    //----------------------------------------- I N F O -------------------------------------------------------------
 
     //----------------------------------------------------- Image form -----------------------------------------------
 
@@ -122,12 +120,12 @@
     ///------------------------- Upload Blog -----------------------------------------------
     $(document).on('click', '#createBlog', function (event) {
 
-        categories.push($('#categories').val());
+//        categories.push($('#categories').val());
 
         blog.title = $('#blogTitle').val();
         blog.description = $('#blogDescription').val();
         blog.imageId = imgId;
-        blog.categories = categories;
+//        blog.categories = categories;
 
         $.ajax({
             type: "POST",

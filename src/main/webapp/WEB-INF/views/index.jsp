@@ -87,7 +87,7 @@
                 <p>Новости</p>
 
                 <div class="main-newsPic-wrap">
-                    <a href="/blog"><img src="/resources/img/yagazetko.png"></a>
+                    <a href="/blog-post/news"><img src="/resources/img/yagazetko.png"></a>
                 </div>
                 <nav class="main-news-bottom-menu">
                     <a href="#" class="active-main-menu-link">Киев</a>
@@ -169,6 +169,7 @@
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
 <script src="/resources/libs/jquery.magnific-popup.min.js"></script>
 <script src="/resources/js/common.js"></script>
+<script src="/resources/js/index.js"></script>
 <script src='https://www.google.com/recaptcha/api.js'></script>
 
 

@@ -26,6 +26,12 @@ public class ProfileController {
     ActivityFeedService activityFeedService;
 
 
+    @RequestMapping("/profile/id/{profileId}")
+    public String getProjectById(@PathVariable String profileId, Model model) {
+        model.addAttribute("profileId", profileId);
+        return "profile/profile";
+    }
+
     //----------------------------------- read profile for edit-profile page  ------
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/edit-profile/{id}", method = RequestMethod.GET)

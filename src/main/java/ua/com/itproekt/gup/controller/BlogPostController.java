@@ -39,6 +39,14 @@ public class BlogPostController {
         return "blog-post-view";
     }
 
+    @RequestMapping("/news")
+    public String newsView(Model model) {
+        BlogPostFilterOptions blogPostFO = new BlogPostFilterOptions();
+        EntityPage<BlogPost> blogPostPages = blogPostService.findBlogPostsWihOptions(blogPostFO);
+        model.addAttribute("news", blogPostPages);
+        return "news";
+    }
+
     @RequestMapping("/view-all/{blogId}")
     public String blogPostViewAll(Model model, @PathVariable("blogId") String blogId) {
         BlogPostFilterOptions blogPostFO = new BlogPostFilterOptions();
