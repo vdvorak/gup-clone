@@ -15,6 +15,8 @@ import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class BlogPostRepositoryImpl implements BlogPostRepository {
@@ -32,6 +34,20 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
     public BlogPost findById(String id) {
         Query query = new Query(Criteria.where("id").is(id));
         return mongoTemplate.findOne(query, BlogPost.class);
+    }
+
+    @Override
+    public List<String> getMatchedNames(String name) {
+        String searchFieldRegex = "(?i:.*" + name + ".*)";
+        Query query = new Query();
+        query.addCriteria(new Criteria().orOperator(
+                Criteria.where("title").regex(searchFieldRegex),
+                Criteria.where("text").regex(searchFieldRegex)));
+
+        query.fields().include("title");
+        query.skip(0);
+        query.limit(6);
+        return mongoTemplate.find(query, BlogPost.class).stream().map(BlogPost::getTitle).collect(Collectors.toList());
     }
 
     @Override
