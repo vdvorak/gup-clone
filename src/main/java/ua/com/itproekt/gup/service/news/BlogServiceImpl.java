@@ -25,7 +25,9 @@ public class BlogServiceImpl implements BlogService {
     public void createBlog(Blog blog) {
         Map<String, String> editorIds = new HashMap<>();
         editorIds.put("author", blog.getAuthorId());
-        editorIds.putAll(blog.getEditorsIds());
+        if (blog.getEditorsIds() != null) {
+            editorIds.putAll(blog.getEditorsIds());
+        }
 
         Blog newBlog = new Blog()
                 .setCreatedDateEqualsToCurrentDate()
