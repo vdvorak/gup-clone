@@ -1,9 +1,8 @@
 package ua.com.itproekt.gup.model.privatemessages;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 
 public class PrivateMessage {
@@ -12,6 +11,7 @@ public class PrivateMessage {
     private String authorId;
     private Long date;
     private String message;
+    private ConcurrentSkipListSet<String> whoRead;
 
 
     public PrivateMessage() {
@@ -48,12 +48,21 @@ public class PrivateMessage {
         this.authorId = authorId;
     }
 
+    public ConcurrentSkipListSet<String> getWhoRead() {
+        return whoRead;
+    }
+
+    public void setWhoRead(ConcurrentSkipListSet<String> whoRead) {
+        this.whoRead = whoRead;
+    }
+
     @Override
     public String toString() {
         return "PrivateMessage{" +
-                ", authorId='" + authorId + '\'' +
+                "authorId='" + authorId + '\'' +
                 ", date=" + date +
                 ", message='" + message + '\'' +
+                ", whoRead=" + whoRead +
                 '}';
     }
 }
