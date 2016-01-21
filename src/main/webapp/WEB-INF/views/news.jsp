@@ -14,7 +14,7 @@
 <body>
 <c:forEach var="newsPost" items="${news.entities}">
     <div>
-        Дата создания: ${newsPost.createdDate}
+        Дата создания: <span class="date-create">${newsPost.createdDate}</span>
     </div>
     <div>
         Просмотры: ${newsPost.views}
@@ -33,17 +33,26 @@
             ${newsPost.text}
     </div>
     <div>
-            ${newsPost.totalComments}
+        Колличество комментариев: ${newsPost.totalComments}
     </div>
     <div>
-            ${newsPost.totalDislikes}
+        Дизлайки: ${newsPost.totalDislikes}
     </div>
     <div>
-            ${newsPost.totalLikes}
+        Лайки: ${newsPost.totalLikes}
     </div>
 
     <br>
     <hr>
 </c:forEach>
+
+<script src="/resources/libs/jquery-1.11.3.min.js"></script>
+<script src="/resources/js/moment-with-locales.js"></script>
+<script src="/resources/js/service.js"></script>
+
+<script>
+
+</script>
+
 </body>
 </html>
