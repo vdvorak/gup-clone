@@ -4,6 +4,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Document(collection = "dialogue")
@@ -13,6 +14,7 @@ public class Dialogue {
     private String subject;
     private List<Member> members;
     private List<PrivateMessage> messages;
+    private ConcurrentHashMap<String, Integer> unreadMsgCounter;
 
     public String getId() {
         return id;
@@ -46,6 +48,14 @@ public class Dialogue {
         this.members = members;
     }
 
+    public ConcurrentHashMap<String, Integer> getUnreadMsgCounter() {
+        return unreadMsgCounter;
+    }
+
+    public void setUnreadMsgCounter(ConcurrentHashMap<String, Integer> unreadMsgCounter) {
+        this.unreadMsgCounter = unreadMsgCounter;
+    }
+
     @Override
     public String toString() {
         return "Dialogue{" +
@@ -53,6 +63,7 @@ public class Dialogue {
                 ", subject='" + subject + '\'' +
                 ", members=" + members +
                 ", messages=" + messages +
+                ", unreadMsgCounter=" + unreadMsgCounter +
                 '}';
     }
 }
