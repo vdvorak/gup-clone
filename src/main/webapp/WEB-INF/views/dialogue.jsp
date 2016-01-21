@@ -137,8 +137,7 @@
     };
 
     var updateDialog = function(updateDialog){
-
-        alert(JSON.stringify(updateDialog));
+        deleteNamesAndPics(updateDialog);
         $.ajax({
             type: "POST",
             url: "/api/rest/dialogueService/dialogue/update/id/${dialogue.id}",
@@ -196,7 +195,12 @@
         });
     });
 
-
+    var deleteNamesAndPics = function(dialogue){
+        for (var i in dialogue.members){
+            delete dialogue.members[i].name;
+            delete dialogue.members[i].userPicId;
+        }
+    }
 
 </script>
 
