@@ -208,7 +208,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
         query.fields().include("projectName");
         query.skip(0);
-        query.limit(6);
+        query.limit(8);
         return mongoTemplate.find(query, Project.class).stream().map(Project::getProjectName).collect(Collectors.toList());
     }
 

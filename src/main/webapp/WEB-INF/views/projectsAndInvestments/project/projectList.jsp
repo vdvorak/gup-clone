@@ -108,16 +108,6 @@
                 });
             }
 
-            $(document).ready(function () {
-                var projectFO = {};
-                projectFO.createdDateSortDirection = "DESC";
-                projectFO.includeComments = false;
-                projectFO.skip = ${pageNumber};
-                projectFO.limit = 20;
-
-                updateProjectsTable(projectFO);
-            });
-
             $(function() {
                 $("#tagsName").autocomplete({
                     source: function (request, response) {
@@ -126,6 +116,16 @@
                         }, response);
                     }
                 });
+            });
+
+            $(document).ready(function () {
+                var projectFO = {};
+                projectFO.createdDateSortDirection = "DESC";
+                projectFO.includeComments = false;
+                projectFO.skip = ${pageNumber};
+                projectFO.limit = 20;
+
+                updateProjectsTable(projectFO);
             });
 
             $(document).on('click', '#findPojectsButton', function (event) {
@@ -137,7 +137,7 @@
                 projectFO.createdDateSortDirection = "DESC";
                 projectFO.includeComments = false;
                 projectFO.skip = ${pageNumber};
-                projectFO.limit = 20;
+                projectFO.limit = 50;
 
                 updateProjectsTable(projectFO);
             });

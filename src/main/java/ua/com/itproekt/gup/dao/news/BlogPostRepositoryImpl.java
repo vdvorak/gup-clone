@@ -46,7 +46,7 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
 
         query.fields().include("title");
         query.skip(0);
-        query.limit(6);
+        query.limit(8);
         return mongoTemplate.find(query, BlogPost.class).stream().map(BlogPost::getTitle).collect(Collectors.toList());
     }
 
