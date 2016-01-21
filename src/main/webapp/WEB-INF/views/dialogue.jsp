@@ -28,6 +28,12 @@
     <br>
     <div id="members"></div>
     <div id="size"></div>
+    <div id="emails">
+    <input id="memberEmail" type="text" name="memberId" minlength="2" maxlength="70" required
+           placeholder="email кому">
+    </div>
+    <button id="add">добавить собеседника</button>
+    <br>
     <div class="panel panel-default" style="background-color: transparent; border-color: transparent;">
         <div class="panel-body">
             <table id="dialogues" border="5"></table>
@@ -150,6 +156,7 @@
             data: JSON.stringify(updateDialog),
             dataType: "json",
             success: function (response) {
+                getNewPosts();
             }
         });
     };
@@ -168,10 +175,44 @@
         var newDialog = {};
         newDialog.id = '${dialogue.id}';
         newDialog.members = newMembers;
-        newDialog
         updateDialog(newDialog);
-        getNewPosts();
-    }
+    };
+
+    $('#add').click(function(){
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/profilesService/profile/email-check",
+            data: {"email": $('input[name="memberId"]').val()},
+            success: function (data) {
+
+                if (data === 'NOT FOUND'){
+                    alert("Нет пользователя с таким e-mail");
+                }else{
+                    var member = {};
+                    member.id = data;
+                    var flag = true;
+                    for(var i = 0; i< dialogue.members.length; i++){
+                        if (dialogue.members[i].id === data) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if(flag) {
+                        dialogue.members.push(member);
+                        var newMembers = dialogue.members;
+                        var newDialog = {};
+                        newDialog.id = '${dialogue.id}';
+                        newDialog.members = newMembers;
+                        updateDialog(newDialog);
+                    } else{
+                        alert("Собеседник уже добавлен!");
+                    }
+                }
+            }
+        });
+    });
+
+
 
 </script>
 
