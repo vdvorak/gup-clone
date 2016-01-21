@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.model.profiles;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import ua.com.itproekt.gup.util.SocialNetwork;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -16,7 +17,7 @@ public class Contact {
     private String companyDirector;
     private Set<String> contactEmails;
     private Set<String> contactPhones;
-    private Map<SocialNetworkList, String> socNetLink;
+    private Map<SocialNetwork, String> socNetLink;
     private String skypeUserName;
     private Set<String> linkToWebSite;
     private String aboutUs;
@@ -113,7 +114,7 @@ public class Contact {
      *
      * @return the soc net link
      */
-    public Map<SocialNetworkList, String> getSocNetLink() {
+    public Map<SocialNetwork, String> getSocNetLink() {
         return socNetLink;
     }
 
@@ -122,7 +123,7 @@ public class Contact {
      *
      * @param socNetLink the soc net link
      */
-    public void setSocNetLink(Map<SocialNetworkList, String> socNetLink) {
+    public void setSocNetLink(Map<SocialNetwork, String> socNetLink) {
         this.socNetLink = socNetLink;
     }
 

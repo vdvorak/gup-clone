@@ -2,8 +2,8 @@ package ua.com.itproekt.gup.service.news;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.itproekt.gup.dao.news.BlogPostRepository;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
+import ua.com.itproekt.gup.dao.news.BlogPostRepository;
 import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.news.Comment;
@@ -38,6 +38,10 @@ public class BlogPostServiceImpl implements BlogPostService {
                 .setId(null)
                 .setAuthorId(blogPost.getAuthorId())
                 .setBlogId(blogPost.getBlogId())
+                .setViews(0)
+                .setTotalComments(0)
+                .setTotalLikes(0)
+                .setTotalDislikes(0)
                 .setModifiedDateEqualsToCurrentDate()
                 .setCreatedDateEqualsToCurrentDate()
                 .setTitle(blogPost.getTitle())
