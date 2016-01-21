@@ -67,6 +67,11 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     public EntityPage<Project> findProjectsWihOptions(ProjectFilterOptions projectFO) {
         Query query = new Query();
 
+        if (projectFO.getSearchField() != null) {
+            String searchFieldRegex = "(?i:.*" + projectFO.getSearchField() + ".*)";
+            query.addCriteria(Criteria.where("projectName").regex(searchFieldRegex));
+        }
+
         if (projectFO.getAuthorId() != null) {
             query.addCriteria(Criteria.where("authorId").is(projectFO.getAuthorId()));
         }
@@ -192,6 +197,19 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         queryObj.put( "$where", "this.investedAmount < this.amountRequested");
         List<Project> expiredProjects = mongoTemplate.find(new BasicQuery(queryObj), Project.class);
         return expiredProjects.stream().map(Project::getId).collect(Collectors.toSet());
+    }
+
+    @Override
+    public List<String> getMatchedNames(String name) {
+        String searchFieldRegex = "(?i:.*" + name + ".*)";
+
+        Query query = new Query()
+                .addCriteria(Criteria.where("projectName").regex(searchFieldRegex));
+
+        query.fields().include("projectName");
+        query.skip(0);
+        query.limit(6);
+        return mongoTemplate.find(query, Project.class).stream().map(Project::getProjectName).collect(Collectors.toList());
     }
 
     @Override

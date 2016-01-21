@@ -32,8 +32,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void create(Project project) {
         Project newProject = new Project()
-                .setId(null)
                 .setAuthorId(project.getAuthorId())
+                .setViews(0)
+                .setTotalScore(0L)
+                .setTotalVoters(0)
+                .setTotalComments(0)
                 .setCreatedDateEqualsToCurrentDate()
                 .setStatus(ProjectStatus.ACTIVE)
                 .setLastInvestmentDateEqualsToCurrentDate()
@@ -151,6 +154,11 @@ public class ProjectServiceImpl implements ProjectService {
             sendNotificationsToInvestors(projectInvestments, projectId);
             projectRepository.updateProjectStatus(projectId, ProjectStatus.EXPIRED_AND_RETURNED_MONEY);
         });
+    }
+
+    @Override
+    public List<String> getMatchedNames(String name) {
+        return projectRepository.getMatchedNames(name);
     }
 
     public void sendNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {

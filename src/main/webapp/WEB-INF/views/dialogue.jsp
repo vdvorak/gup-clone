@@ -28,14 +28,19 @@
     <br>
     <div id="members"></div>
     <div id="size"></div>
+    <div id="emails">
+    <input id="memberEmail" type="text" name="memberId" minlength="2" maxlength="70" required
+           placeholder="email кому">
+    </div>
+    <button id="add">добавить собеседника</button>
+    <br>
     <div class="panel panel-default" style="background-color: transparent; border-color: transparent;">
         <div class="panel-body">
             <table id="dialogues" border="5"></table>
         </div>
     </div>
-    <div id="photo">
+    <div id="photo"></div>
 
-    </div>
     <div>
         <textarea id="newMsg" minlength="5" maxlength="5000" required
                   placeholder="Введите текст сообщения"></textarea>
@@ -50,7 +55,7 @@
 <script>
 
     var msg = {};
-
+    var dialogue = {};
     $(document).ready(function(){
         getNewPosts();
     });
@@ -81,34 +86,40 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
+                dialogue = response;
+                var members = $('#members');
+                var newMembers = "";
+
+                for(var j in dialogue.members){
+                    var span = '<span style="display: inline-block;">';
+                    var memberId = '<div>'+dialogue.members[j].name +'</div>';
+                    var button = '<div onclick=\"deleteMember(' + '\'' + dialogue.members[j].id+ '\'' + ')">Удалить из диалога</div>'.replace(" ","");
+                    var img = '<img src="/api/rest/fileStorage/NEWS/file/read/id/'+dialogue.members[j].userPicId+'" width="200px" height="200px">';
+                    var spanClose = '</span>';
+                    newMembers += (span+memberId+button+img+spanClose);
+//                    newMembers += (span+memberId+img+spanClose);
+                }
+                if(members.html() !== newMembers){
+                    members.html("");
+                    members.append(newMembers);
+                }
                 var dialog = $('#dialogues');
                 dialog.html("");
                 dialog.append("<tr><td>От кого:</td><td>Текст:</td><td>Дата:</td></tr>");
                 $("#title").html("").append("Тема диалога: "+response.subject);
-                $('#members').html("").append("количество участников:"+response.members.length);
+                if (response.messages === null) response.messages = [];
                 $('#size').html("").append("количество сообщений:"+response.messages.length);
                 var lastMsg = response.messages[response.messages.length-1];
-                if(lastMsg.date.minute<10){
-                    lastMsg.date.minute = '0'+lastMsg.date.minute;
+                if (lastMsg !== undefined){
+                    $('#last').html("").append("последнее сообщение: "+lastMsg.date);
+                }else{
+                    $('#last').html("").append("нет сообщений");
                 }
-                $('#last').html("").append("последнее сообщение: "
-                +lastMsg.date.month+' '
-                +lastMsg.date.dayOfMonth+' '
-                +lastMsg.date.hour+':'
-                +lastMsg.date.minute);
 
                 for (var i in response.messages){
-                    var minute = response.messages[i].date.minute;
-                    if(minute < 10){
-                        minute = '0'+minute;
-                    }
                     var tr = '<tr>';
                     var tdMsg = '<td>'+response.messages[i].message+'</td>';
-                    var tdDate = '<td>'+response.messages[i].date.month+' '
-                            +response.messages[i].date.dayOfMonth+' '
-                            +response.messages[i].date.hour+':'
-                            +minute+ '</td>';
-
+                    var tdDate = '<td>'+response.messages[i].date+'</td>';
                     var name = 'Anonymous';
                     for(var m = 0; m < response.members.length; m ++){
                         if(response.members[m].id.toString() === response.messages[i].authorId.toString()){
@@ -125,11 +136,71 @@
         });
     };
 
+    var updateDialog = function(updateDialog){
+        deleteNamesAndPics(updateDialog);
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/dialogueService/dialogue/update/id/${dialogue.id}",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(updateDialog),
+            dataType: "json",
+            success: function (response) {
+                getNewPosts();
+            }
+        });
+    };
+
     var getNewPostsAfter2sec = setInterval(function() {
         getNewPosts();
-    }, 2000);
+    }, 20000);
 
+    var deleteMember = function(id){
+        var newMembers = dialogue.members;
+        for (var i in dialogue.members){
+            if (dialogue.members[i].id === id){
+                dialogue.members.splice(i,1);
+            }
+        }
+        dialogue.members = newMembers;
+        updateDialog(dialogue);
+    };
 
+    $('#add').click(function(){
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/profilesService/profile/email-check",
+            data: {"email": $('input[name="memberId"]').val()},
+            success: function (data) {
+
+                if (data === 'NOT FOUND'){
+                    alert("Нет пользователя с таким e-mail");
+                }else{
+                    var member = {};
+                    member.id = data;
+                    var flag = true;
+                    for(var i = 0; i< dialogue.members.length; i++){
+                        if (dialogue.members[i].id === data) {
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if(flag) {
+                        dialogue.members.push(member);
+                        updateDialog(dialogue);
+                    } else{
+                        alert("Собеседник уже добавлен!");
+                    }
+                }
+            }
+        });
+    });
+
+    var deleteNamesAndPics = function(dialogue){
+        for (var i in dialogue.members){
+            delete dialogue.members[i].name;
+            delete dialogue.members[i].userPicId;
+        }
+    }
 
 </script>
 

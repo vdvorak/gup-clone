@@ -3,32 +3,32 @@ package ua.com.itproekt.gup.model.privatemessages;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 
 public class PrivateMessage {
 
 //    new MongoId(String id) will return ObjectID;
     private String authorId;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime date;
+    private Long date;
     private String message;
 
 
     public PrivateMessage() {
-        this.setDate(LocalDateTime.now());
+        this.date = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
     }
 
     public PrivateMessage(String msg, String authorId) {
-        this.date = LocalDateTime.now();
+        this.date = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         this.message = msg;
         this.authorId = authorId;
     }
 
-    public LocalDateTime getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 

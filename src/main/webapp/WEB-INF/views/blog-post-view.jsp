@@ -21,7 +21,11 @@
 
 <h1>${blogPost.title}</h1>
 
-<h2> Категория: ${blogPost.text}</h2>
+<h2> Категория:
+    <c:forEach var="cat" items="${blogPost.categories}">
+        ${cat},
+    </c:forEach>
+</h2>
 
 <h2> Страна: ${blogPost.address.country}</h2>
 
@@ -36,6 +40,9 @@
     <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">
 </c:forEach>
 
+<br>
+<button id="dislikeBtn">Дизлайк</button> ${blogPost.totalDislikes}
+<button id="likeBtn">Лайк</button> ${blogPost.totalLikes}
 <br>
 <a href="/blog-post/edit/${blogPost.id}">редактировать</a>
 
@@ -57,7 +64,7 @@
             </c:forEach>
         </c:when>
         <c:otherwise>
-            нету
+            Комментариев нет. Будьте первым!
         </c:otherwise>
     </c:choose>
 </div>
@@ -86,6 +93,33 @@
 </style>
 
 <script>
+    var blogPostId = '${blogPost.id}';
+
+    //----------------------------------------------------- Like and dislike --------------------------------------
+    $(document).on('click', '#dislikeBtn', function (e) {
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/newsService/blogPost/id/" + blogPostId +"/dislike",
+            success: function (data, textStatus, request) {
+                // Верстальщик - сделай тут красоту по возвращению "success"
+            }
+        });
+    });
+
+    $(document).on('click', '#likeBtn' +
+    '', function (e) {
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/newsService/blogPost/id/" + blogPostId +"/like",
+            success: function (data, textStatus, request) {
+                // Верстальщик - сделай тут красоту по возвращению "success"
+            }
+        });
+    });
+
+    //----------------------------------------------------- Like and dislike --------------------------------------
+
     $(document).ready(function(){
         $('.comment').each(function(){
             if ($(this).attr('data-replyId')){

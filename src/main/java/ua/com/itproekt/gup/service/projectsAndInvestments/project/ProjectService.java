@@ -5,6 +5,8 @@ import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.List;
+
 
 public interface ProjectService {
     //Projects
@@ -36,4 +38,6 @@ public interface ProjectService {
     boolean userHasVoted(String projectId, String userId);
 
     void bringBackMoneyToInvestors();
+
+    List<String> getMatchedNames(String name);
 }

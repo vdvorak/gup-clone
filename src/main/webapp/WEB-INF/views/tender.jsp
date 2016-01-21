@@ -119,6 +119,7 @@
                     <li class="tender-tabs-title">ИСПОЛНИТЕЛИ</li>
                 </ul>
                 <div>
+                    <c:forEach var="tenderAll" items="${tenders.entities}">
                     <div class="tender-tabs-items-wrap">
                         <div class="tender-item-wrapper">
                             <div class="tender-item-leftside">
@@ -127,19 +128,19 @@
                                 </div>
                                 <div class="tender-subpic-stuff">
                                     <p style="margin-top: 0px; display: inline-block;">Предложений:<span
-                                            class="tender-proposal-count"></span></p>
+                                            class="tender-proposal-count">${tenderAll.proposeNumber}</span></p>
 
                                     <p style="margin-top: 0px; display: inline-block; float: right;">Просмотров:<span
-                                            class="tender-veiws"></span></p>
+                                            class="tender-veiws">${tenderAll.visited}</span></p>
                                 </div>
                             </div>
                             <div class="tender-item-rightside">
                                 <div class="tender-item-header-wrap">
                                     <div class="tender-name">
-                                        <p>Название тендера</p>
+                                        <p>${tenderAll.title}</p>
                                     </div>
                                     <div class="tender-item-info">
-                                        <p class="tender-publish-date">Опубликовано:<span>22.10.16</span></p>
+                                        <p class="tender-publish-date">Опубликовано:<span>${tender.}</span></p>
 
                                         <p class="tender-number">№<span>1234567893</span></p>
                                     </div>
@@ -164,19 +165,8 @@
                             </div>
                         </div>
                     </div>
-                    <c:forEach var="tender" items="${tenders.entities}">
-                        <div>
-                            <h2>
-                                <a href="/blog-post/view/${tender.id}"> ${tender.title}</a>
-                            </h2>
-                          <span>
-                          <c:forEach var="id" items="${tender.uploadFilesIds.keySet()}">
-                              <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">
-                          </c:forEach>
-                          </span>
-                        </div>
-                        <br>
-                    </c:forEach>
+
+                </c:forEach>
                 </div>
                 <!-- 2-nd tab-->
                 <div>

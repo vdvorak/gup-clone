@@ -34,8 +34,12 @@
         </div>
         <br>
         <div>Описание<br>${blog.description}</div>
-        <div>Дата создания${blog.createdDate}</div>
+        <div>Дата создания<span class="date-create"></span> ${blog.createdDate}</div>
     </c:forEach>
 </div>
+
+<script src="/resources/libs/jquery-1.11.3.min.js"></script>
+<script src="/resources/js/moment-with-locales.js"></script>
+<script src="/resources/js/service.js"></script>
 </body>
 </html>

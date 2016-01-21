@@ -2,14 +2,15 @@ package ua.com.itproekt.gup.service.news;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.itproekt.gup.dao.news.BlogPostRepository;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
+import ua.com.itproekt.gup.dao.news.BlogPostRepository;
 import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.news.Comment;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.ServiceNames;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,6 +39,10 @@ public class BlogPostServiceImpl implements BlogPostService {
                 .setId(null)
                 .setAuthorId(blogPost.getAuthorId())
                 .setBlogId(blogPost.getBlogId())
+                .setViews(0)
+                .setTotalComments(0)
+                .setTotalLikes(0)
+                .setTotalDislikes(0)
                 .setModifiedDateEqualsToCurrentDate()
                 .setCreatedDateEqualsToCurrentDate()
                 .setTitle(blogPost.getTitle())
@@ -132,5 +137,10 @@ public class BlogPostServiceImpl implements BlogPostService {
                 .setCategories(blogPost.getCategories())
                 .setModifiedDateEqualsToCurrentDate();
         return blogPostRepository.findBlogPostAndUpdate(newBlogPost);
+    }
+
+    @Override
+    public List<String> getMatchedNames(String name) {
+        return blogPostRepository.getMatchedNames(name);
     }
 }

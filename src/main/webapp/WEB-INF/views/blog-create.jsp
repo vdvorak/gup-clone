@@ -12,18 +12,6 @@
 </head>
 <body>
 
-<%--<div>--%>
-    <%--<select id="categories" required>--%>
-        <%--<option value="ukr">Новости Украины</option>--%>
-        <%--<option value="world">Мировые новости</option>--%>
-        <%--<option value="economic">Экономика</option>--%>
-        <%--<option value="sport">Спорт</option>--%>
-        <%--<option value="crime">Криминал</option>--%>
-        <%--<option value="science">Наука</option>--%>
-    <%--</select>--%>
-<%--</div>--%>
-
-
 <div>
     <input id="blogTitle" type="text" name="blogTitle" minlength="2" maxlength="70" required
            placeholder="Название блога">
@@ -46,14 +34,64 @@
     </div>
 
 </div>
+
+<div class="input-group">
+    <div id="socLinkGroup" class="input_soc_wrap">
+        <div class="left-tag">
+            <p>Социальные сети</p>
+        </div>
+        <div class="right-tag">
+            <a class="FACEBOOK"><img src="/resources/img/faceb-icon.png"></a>
+            <a class="TWITTER"><img src="/resources/img/twit-icon.png"> </a>
+            <a class="VKONTAKTE"><img src="/resources/img/vk-icon.png"></a>
+            <a class="GOOGLEPLUS"><img src="/resources/img/goo-icon.png"></a>
+            <a class="LINKEDIN"><img src="/resources/img/link-icon.png"></a>
+
+            <div><input type="text" name="FACEBOOK" placeholder="Страница FACEBOOK"><span class="remove_field"><img
+                    src="/resources/img/minus.png" width="15" height="15"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <button id="createBlog" disabled>Создать</button>
+<button id="test">Тест соц. сетей</button>
 
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 <script>
 
+
+    // -------------------------------------------------------BEGIN soc network links --------------------------------------------
+    // Add/Remove social Input Fields Dynamically with jQuery
+    $(document).ready(function () {
+        var max_fields = 5; //maximum input boxes allowed
+        var wrapper = $(".input_soc_wrap"); //Fields wrapper
+
+        <%--var socArr = '${profile.contact.socNetLink.values()}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string--%>
+        <%--var x = socArr.length; //initial text box count--%>
+
+        var x = 1;
+
+        $(".input_soc_wrap a").click(function (e) {
+            e.preventDefault();
+            var socName = $(this).attr("class");
+
+            if (x < max_fields) { //max input box allowed
+                x++; //text box increment
+                $(wrapper).append('<div><input name="' + socName + '" type="text" placeholder = "Страница ' + socName + '"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="15" height="15"></a></div>');
+            }
+        });
+
+        $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+            e.preventDefault();
+            $(this).parent('div').remove();
+            x--;
+        })
+    });
+
+    // ---------------------------------------------------- END Soc network links --------------------------------------
     var imgId = '';
-//    var categories = [];
     var blog = {};
 
     $("#blogDescription").on('keyup', function (event) {
@@ -75,8 +113,6 @@
             }
         }
     });
-
-
     //----------------------------------------------------- Image form -----------------------------------------------
 
     $(document).on('change', '#photofile', function (e) {
@@ -103,7 +139,6 @@
     });
     //----------------------------------------------------- Image form -----------------------------------------------
 
-
     ///----------------------Delete photo from  DB-----------------------------------------
     function deleteImgFromDB(picId) {
         $.ajax({
@@ -119,13 +154,25 @@
 
     ///------------------------- Upload Blog -----------------------------------------------
     $(document).on('click', '#createBlog', function (event) {
-
-//        categories.push($('#categories').val());
+        var socArr = {};
 
         blog.title = $('#blogTitle').val();
         blog.description = $('#blogDescription').val();
         blog.imageId = imgId;
-//        blog.categories = categories;
+
+        $(".input_soc_wrap input").each(function (index) {
+            var socName = $(this).attr("name");
+            var url = $(this).val();
+
+            var entity = {};
+            if (url.length > 0) {
+                socArr[url] = socName;
+            }
+        });
+
+        blog.socLinks = socArr;
+
+        alert(JSON.stringify(blog));
 
         $.ajax({
             type: "POST",
@@ -134,7 +181,7 @@
             dataType: "json",
             data: JSON.stringify(blog),
             success: function (response) {
-                window.location.href = '/blog/'+ response.id;
+                window.location.href = '/blog/' + response.id;
             },
             error: function (response) {
                 alert("Внутренняя ошибка сервера");
