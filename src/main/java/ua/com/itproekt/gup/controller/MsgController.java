@@ -14,6 +14,7 @@ import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +75,7 @@ public class MsgController {
         PrivateMessage msg = new PrivateMessage();
         msg.setAuthorId(author.getId());
 
-        LocalDateTime date = LocalDateTime.now();
+        Long date = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         msg.setDate(date);
 
         String message = req.getParameter("message");

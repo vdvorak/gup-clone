@@ -21,7 +21,11 @@
 
 <h1>${blogPost.title}</h1>
 
-<h2> Категория: ${blogPost.text}</h2>
+<h2> Категория:
+    <c:forEach var="cat" items="${blogPost.categories}">
+        ${cat},
+    </c:forEach>
+</h2>
 
 <h2> Страна: ${blogPost.address.country}</h2>
 
