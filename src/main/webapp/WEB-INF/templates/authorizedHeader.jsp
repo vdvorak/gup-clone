@@ -43,23 +43,10 @@
       <div class="top-menu-messages">
         <img src="/resources/img/envelopeSmall.png">
       </div>
-      <!--<div class="top-menu-actualMessageWrap">
-          <img class="message-sender-userpic"src="">
-          <div class="top-menu-incomingMessage">
-              <p>
-                  <span class="top-menu-incomingMessage_date"></span>
-                  Сообщение СообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщениеСообщение
-              </p>
-              <a  class="top-menu-incomingMessage_answer" href="#">Ответить</a>
-          </div>
-      </div>
-      ТВОРЧЕСКИЙ ПИЗДЕЦ, ДОДЕЛАТЬ! -->
       <div class="top-menu-notification">
         <img src="/resources/img/bellSmall.png">
       </div>
-
     </div>
-
     <div class="top-menu-userBallance">
       <div class="ballance">
         <a href="#">00.00<span>грн</span></a>

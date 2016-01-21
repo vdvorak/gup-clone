@@ -1,5 +1,5 @@
-package ua.com.itproekt.gup.model.profiles;
+package ua.com.itproekt.gup.util;
 
-public enum SocialNetworkList {
+public enum SocialNetwork {
     FACEBOOK, VKONTAKTE, ODNOKLASSNIKI, LINKEDIN, GOOGLEPLUS, YOUTUBE, SKYPE;
 }

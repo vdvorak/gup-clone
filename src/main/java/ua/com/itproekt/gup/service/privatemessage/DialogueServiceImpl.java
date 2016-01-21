@@ -10,7 +10,9 @@ import ua.com.itproekt.gup.model.privatemessages.PrivateMessage;
 import ua.com.itproekt.gup.model.profiles.Profile;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -73,7 +75,7 @@ public class DialogueServiceImpl implements DialogueService {
 
     @Override
     public PrivateMessage completeMessage(PrivateMessage message, String authorId) {
-        message.setDate(LocalDateTime.now());
+        message.setDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
         message.setAuthorId(authorId);
         return message;
     }

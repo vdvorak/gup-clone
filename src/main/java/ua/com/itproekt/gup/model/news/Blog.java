@@ -2,6 +2,7 @@ package ua.com.itproekt.gup.model.news;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.itproekt.gup.util.SocialNetwork;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -15,12 +16,12 @@ public class Blog {
     private String id;
     private Long createdDate;
     private String authorId;
-
     @Size(min = 2, max = 70)
     private String title;
-//    @Size(min = 50, max = 5000)
+    @Size(min = 50, max = 5000)
     private String description;
     private String imageId;
+    private Map<SocialNetwork, String> socLinks;
     private Map<String, String> editorsIds;
     private Set<String> categories;
 
@@ -34,6 +35,16 @@ public class Blog {
     }
 
     //===============================================================================
+
+
+    public Map<SocialNetwork, String> getSocLinks() {
+        return socLinks;
+    }
+
+    public Blog setSocLinks(Map<SocialNetwork, String> socLinks) {
+        this.socLinks = socLinks;
+        return this;
+    }
 
     public String getId() {
         return id;

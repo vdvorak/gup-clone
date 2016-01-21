@@ -86,10 +86,11 @@
                 for(var j in dialogue.members){
                     var span = '<span style="display: inline-block;">';
                     var memberId = '<div>'+dialogue.members[j].id +'</div>';
-                    var button = '<button id =' + dialogue.members[j].id + 'onclick="deleteMember(id)">Убрать из диалога</button>';
+                    var button = '<div onclick=\"deleteMember(' + '\'' + dialogue.members[j].id+ '\'' + ')">Удалить из диалога</div>'.replace(" ","");
                     var img = '<img src="/api/rest/fileStorage/NEWS/file/read/id/'+dialogue.members[j].userPicId+'" width="200px" height="200px">';
                     var spanClose = '</span>';
                     newMembers += (span+memberId+button+img+spanClose);
+//                    newMembers += (span+memberId+img+spanClose);
                 }
                 if(members.html() !== newMembers){
                     members.html("");
@@ -139,11 +140,38 @@
         });
     };
 
+    var updateDialog = function(updateDialog){
+
+        alert(JSON.stringify(updateDialog));
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/dialogueService/dialogue/update/id/${dialogue.id}",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(updateDialog),
+            dataType: "json",
+            success: function (response) {
+            }
+        });
+    };
+
     var getNewPostsAfter2sec = setInterval(function() {
         getNewPosts();
-    }, 2000);
+    }, 20000);
 
-
+    var deleteMember = function(id){
+        var newMembers = [];
+        for (var i in dialogue.members){
+            if (dialogue.members[i].id === id){
+                newMembers = dialogue.members.splice(i,1);
+            }
+        }
+        var newDialog = {};
+        newDialog.id = '${dialogue.id}';
+        newDialog.members = newMembers;
+        newDialog
+        updateDialog(newDialog);
+        getNewPosts();
+    }
 
 </script>
 
