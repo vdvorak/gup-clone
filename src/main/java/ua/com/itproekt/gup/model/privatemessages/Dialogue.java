@@ -3,6 +3,7 @@ package ua.com.itproekt.gup.model.privatemessages;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -12,8 +13,8 @@ public class Dialogue {
     @Id
     private String id;
     private String subject;
-    private List<Member> members;
-    private List<PrivateMessage> messages;
+    private List<Member> members = new ArrayList<>();
+    private List<PrivateMessage> messages = new ArrayList<>();
     private ConcurrentHashMap<String, Integer> unreadMsgCounter;
 
     public String getId() {
