@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Document(collection = "users")
 public class Profile {
@@ -25,9 +26,8 @@ public class Profile {
     private Contact contact;
     private Set<ProfileRating> profileRating;
     private Set<String> friendList;
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Long createdDate;
-
+    private AtomicInteger unreadMessages;
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
     }
@@ -165,6 +165,14 @@ public class Profile {
         return createdDate;
     }
 
+    public AtomicInteger getUnreadMessages() {
+        return unreadMessages;
+    }
+
+    public void setUnreadMessages(AtomicInteger unreadMessages) {
+        this.unreadMessages = unreadMessages;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
@@ -182,6 +190,7 @@ public class Profile {
                 ", profileRating=" + profileRating +
                 ", friendList=" + friendList +
                 ", createdDate=" + createdDate +
+                ", unreadMessages=" + unreadMessages +
                 '}';
     }
 }
