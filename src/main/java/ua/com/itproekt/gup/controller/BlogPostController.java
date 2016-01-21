@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
@@ -40,10 +41,11 @@ public class BlogPostController {
     }
 
     @RequestMapping("/news")
-    public String newsView(Model model) {
-        BlogPostFilterOptions blogPostFO = new BlogPostFilterOptions();
-        EntityPage<BlogPost> blogPostPages = blogPostService.findBlogPostsWihOptions(blogPostFO);
-        model.addAttribute("news", blogPostPages);
+    public String newsView(@RequestParam int pageNumber, Model model) {
+//        BlogPostFilterOptions blogPostFO = new BlogPostFilterOptions();
+//        EntityPage<BlogPost> blogPostPages = blogPostService.findBlogPostsWihOptions(blogPostFO);
+//        model.addAttribute("news", blogPostPages);
+        model.addAttribute("pageNumber", pageNumber);
         return "news";
     }
 
