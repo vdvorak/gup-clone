@@ -28,7 +28,7 @@
 </div>
 
 <div class="right-tag">
-    <c:forEach var="socLink" items="${blog.socLinks.entrySet()}" >
+    <c:forEach var="socLink" items="${blog.socLinks.entrySet()}">
         <c:choose>
             <c:when test="${socLink.getKey() == 'FACEBOOK'}">
                 <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/img/faceb-icon.png"></a>
@@ -67,9 +67,13 @@
 </div>
 
 <c:if test="${check}">
-    <a href="/blog-post/create/${blog.id}"><button>Создать новость</button></a>
+    <a href="/blog-post/create/${blog.id}">
+        <button>Создать новость</button>
+    </a>
 </c:if>
-<a href="/blog-post/view-all/${blog.id}"><button>Все новости блога</button></a>
+<a href="/blog-post/view-all/${blog.id}">
+    <button>Все новости блога</button>
+</a>
 
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
