@@ -1,5 +1,7 @@
 package ua.com.itproekt.gup.model.privatemessages;
 
+import ua.com.itproekt.gup.util.SecurityOperations;
+
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -16,6 +18,7 @@ public class PrivateMessage {
 
     public PrivateMessage() {
         this.date = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        whoRead = new ConcurrentSkipListSet<>();
     }
 
     public PrivateMessage(String msg, String authorId) {
@@ -45,6 +48,7 @@ public class PrivateMessage {
     }
 
     public void setAuthorId(String authorId) {
+        whoRead.add(authorId);
         this.authorId = authorId;
     }
 
