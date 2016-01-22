@@ -61,6 +61,11 @@
                     <div class="rating">Рейтинг: ${comment.totalLikes}</div>
                     <input type="button" class="reply" value="Ответить" onclick="Reply('${comment.cId}')">
                     <input type="button" class="like" value="Лайк" onclick="Like('${comment.cId}')">
+                    <span class="likeUsers">
+                        <c:forEach var="u" items="${comment.likedIds}">
+                            <span>${u}</span>
+                        </c:forEach>
+                    </span>
                     <c:choose>
                         <c:when test="${blogPost.authorId} == ${comment.fromId}">
                             <input type="button" class="delete" value="Удалить" onclick="CommentDelete('${comment.cId}')">
@@ -92,6 +97,9 @@
     }
     .comment .author {
         font-weight: bold;
+    }
+    .comment .likeUsers {
+        display: none;
     }
     .comment > .comment{
         margin-left: 30px;
@@ -139,7 +147,6 @@
                 roots.push($(this));
             }
         });
-        var sortFunc;
         if (direction === 'rating'){
             comroot.attr('direction', 'date');
             commentsQueueByDate.forEach(function(q){
@@ -168,9 +175,9 @@
                 $(this).detach().appendTo('.comment#'+$(this).attr('data-replyId'));
             }
             var userHandle = $(this).find('.author');
-//            GetUser(userHandle.attr('data-id'), function(res){
-//                userHandle.html(res.username);
-//            })
+            GetUser(userHandle.attr('data-id'), function(res){
+                userHandle.html(res.username);
+            })
         });
     });
     function RefreshPage(){
