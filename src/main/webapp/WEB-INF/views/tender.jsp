@@ -140,25 +140,22 @@
                                         <p>${tenderAll.title}</p>
                                     </div>
                                     <div class="tender-item-info">
-                                        <p class="tender-publish-date">Опубликовано:<span>${tender.}</span></p>
+                                        <p class="tender-publish-date">Опубликовано:<span>${tenderAll.begin}</span></p>
 
-                                        <p class="tender-number">№<span>1234567893</span></p>
+                                        <p class="tender-number">№<span>${tenderAll.tenderNumber}</span></p>
                                     </div>
                                 </div>
                                 <div class="tender-item-text">
-                                    <p>Беспилотный летательный аппарат (БПЛА, также иногда сокращается как БЛА; в
-                                        просторечии иногда используется название «беспилотник» или «дрон» (от
-                                        англ. drone — трутень)) — летательный аппарат без экипажа на борту.[1]Создан для
-                                        воздушной съёмки и наблюдения в реальном времени за наземными объектами.</p>
+                                    <p>${tenderAll.body}</p>
                                 </div>
                                 <div class="tender-item-subtext-stuff">
                                     <div class="tender-time-remain">
                                         <img src="/resources/img/alarm.png">
 
-                                        <p class="tender-time">15</p>
+                                        <p class="tender-time">${tenderAll.end}</p>
                                     </div>
                                     <div class="tender-cost-wrap">
-                                        <p><span class="tender-cost">00 000 000</span>$</p>
+                                        <p><span class="tender-cost">${tenderAll.expectedPrice}</span>$</p>
                                         <button class="tender-apply-for">Участвовать</button>
                                     </div>
                                 </div>
