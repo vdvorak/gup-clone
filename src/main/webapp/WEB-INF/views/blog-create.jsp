@@ -166,7 +166,7 @@
 
             var entity = {};
             if (url.length > 0) {
-                socArr[url] = socName;
+                socArr[socName] = url;
             }
         });
 
