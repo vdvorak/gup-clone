@@ -7,35 +7,6 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
         <title>Новости</title>
-    </head>
-    <body>
-        <div>
-            <h2 align="center">Новости</h2>
-        </div>
-        <div align="center">
-            <input id="tagsName" size="100" placeholder="Название новости">
-            <button id="findBlogPostsButton">Найти новость</button>
-        </div>
-        <div id="paginationDiv">
-            <label id="pageLabel"><b>Страница:</b> </label>
-            <p align="left" id="goToPage"></p>
-        </div>
-        <div>
-            <table id="blogPostsTable" border="1" width="100%">
-                <thead>
-                <tr>
-                    <th>Фото</th>
-                    <th>Название</th>
-                    <th>Просмотры</th>
-                    <th>Дата создания</th>
-                    <th>Колличество комментариев</th>
-                    <th>Лайки</th>
-                    <th>Дизлайки</th>
-                </tr>
-                </thead>
-            </table>
-        </div>
-
         <script>
             function updateBlogPostsTable(blogPostFO) {
                 var data;
@@ -123,6 +94,34 @@
             });
 
         </script>
+    </head>
 
+    <body>
+        <div>
+            <h2 align="center">Новости</h2>
+        </div>
+        <div align="center">
+            <input id="tagsName" size="100" placeholder="Название новости">
+            <button id="findBlogPostsButton">Найти новость</button>
+        </div>
+        <div id="paginationDiv">
+            <label id="pageLabel"><b>Страница:</b> </label>
+            <p align="left" id="goToPage"></p>
+        </div>
+        <div>
+            <table id="blogPostsTable" border="1" width="100%">
+                <thead>
+                <tr>
+                    <th>Фото</th>
+                    <th>Название</th>
+                    <th>Просмотры</th>
+                    <th>Дата создания</th>
+                    <th>Колличество комментариев</th>
+                    <th>Лайки</th>
+                    <th>Дизлайки</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
     </body>
 </html>
