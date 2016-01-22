@@ -5,6 +5,7 @@ var Request = (function () {
     function Request(baseHref) {
         this.baseHref = baseHref
     }
+
     return Request
 })()
 Request.prototype.post = function (url, data, success, error) {
@@ -20,7 +21,7 @@ Request.prototype.post = function (url, data, success, error) {
         dataType: "json",
         data: data,
         complete: function (e, xhr, settings) {
-            function throwError(errorMessage){
+            function throwError(errorMessage) {
                 if (error == null) {
                     error = function (msg) {
                         alert('Request error: ' + JSON.stringify(msg));
@@ -31,15 +32,16 @@ Request.prototype.post = function (url, data, success, error) {
                 e.errorMessage = errorMessage;
                 error(e);
             }
+
             var res = '';
             if (e.status === 200) {
-                try{
+                try {
                     res = JSON.parse(e.responseText);
                 }
-                catch(err){
+                catch (err) {
                     //throwError("can't parse response");
                 }
-                console.log('Request result: ' + JSON.stringify(res));
+                //console.log('Request result: ' + JSON.stringify(res));//DEBUG
                 success(res);
             }
             else {
@@ -69,17 +71,20 @@ Request.generator = {
             else {
                 ret = 'return ' + Request.generator.genIter(obj[prop], nn) + ';';
             }
-            if (prop[0] === '_') {
+            var propSplitted = prop.split('_');
+            if (propSplitted.length > 1) {
+                prop = propSplitted[0];
+                propSplitted.splice(0, 1);
                 //args = prop.slice(1) + ', ' + args;
-                if (args.length > 0){
-                    args  = ', ' + args;
+                if (args.length > 0) {
+                    args = ', ' + args;
                 }
-                args = prop.slice(1) + args;
+                args = propSplitted.join(', ') + args;
                 arr.push(String.format('[0]: function([4]){' +
-                    'var [2] = join([1], "[0]", [0]);' +
+                    'var [2] = join([1], "[0]", [5]);' +
                     '[3]' +
                     '}',
-                    prop.slice(1), n, nn, ret, args));
+                    prop, n, nn, ret, args, propSplitted.join(', ')));
             }
             else {
                 arr.push(String.format('[0]: function([4]){' +
@@ -140,10 +145,24 @@ var R = new Request("/api/rest/");
 /* Source */
 R._libra = {
     newsService: {
+        search: {
+            blogPost: '>'
+        },
+        blog: {
+            id_id: {
+                read: '>',
+                delete: '>'
+            },
+            read: {
+                all: '>'
+            },
+            create: '>',
+            edit: '>'
+        },
         blogPost: {
-            _id: {
+            id_id: {
                 comment: {
-                    _id: {
+                    id_id: {
                         delete: '>',
                         like: '>'
                     },
@@ -156,23 +175,81 @@ R._libra = {
             read: {
                 all: '>'
             }
+        },
+        blogNewsFeed: {
+            read_skip_limit: '>',
+            create: '>',
+            update: '>'
+        },
+        blogSubscription: {
+            read: '>',
+            blogId_id: {
+                update: {
+                    subscription: {
+                        add: '>',
+                        delete: '>'
+                    }
+                }
+            }
         }
     },
     profilesService: {
         profile: {
             read: {
-                _id: '>',
-                _username: '>',
+                id_id: '>',
+                username_username: '>',
                 all: '>'
             },
             update: '>',
             updateByAdmin: '>',
             delete: {
-                _id: '>'
+                id_id: '>'
             }
         },
         friends: {
-            _addFriend: '>'
+            addFriend_id: '>'
+        }
+    }, 
+    activityFeed: {
+        event: {
+            read: {
+                all: '>'
+            }, 
+            id_eventId: {
+                delete: '>'
+            }
+        }
+    }, 
+    dialogueService: {
+        dialogue: {
+            create: '>', 
+            id_id: {
+                message: {
+                    create: '>'
+                }
+            }, 
+            read: {
+                id_id: '>', 
+                all: '>'
+            }, 
+            update: {
+                id_id: '>'
+            }
+        }
+    }, 
+    emailService: {
+        email: {
+            create: '>'
+        }
+    }, 
+    nace: {
+        create: '>', 
+        read: {
+            id_id: '>', 
+            all: '>'
+        }, 
+        update: {
+            id_id: '>'
         }
     }
 };
@@ -184,7 +261,7 @@ R._libra = {
 
 /// PLACE HERE GENOUT ///
 
-R.Libra = function(){ var a = ""; var self = this; return {newsService: function(){var aa = join(a, "newsService");return {blogPost: function(){var aaa = join(aa, "blogPost");return {id: function(id){var aaaa = join(aaa, "id", id);return {comment: function(){var aaaaa = join(aaaa, "comment");return {id: function(id){var aaaaaa = join(aaaaa, "id", id);return {delete: function(data, success, error){var aaaaaaa = join(aaaaaa, "delete");self.post(aaaaaaa, data, success, error);},like: function(data, success, error){var aaaaaaa = join(aaaaaa, "like");self.post(aaaaaaa, data, success, error);}};},create: function(data, success, error){var aaaaaa = join(aaaaa, "create");self.post(aaaaaa, data, success, error);}};},read: function(data, success, error){var aaaaa = join(aaaa, "read");self.post(aaaaa, data, success, error);},dislike: function(data, success, error){var aaaaa = join(aaaa, "dislike");self.post(aaaaa, data, success, error);},like: function(data, success, error){var aaaaa = join(aaaa, "like");self.post(aaaaa, data, success, error);}};},read: function(){var aaaa = join(aaa, "read");return {all: function(data, success, error){var aaaaa = join(aaaa, "all");self.post(aaaaa, data, success, error);}};}};}};},profilesService: function(){var aa = join(a, "profilesService");return {profile: function(){var aaa = join(aa, "profile");return {read: function(){var aaaa = join(aaa, "read");return {id: function(id, data, success, error){var aaaaa = join(aaaa, "id", id);self.post(aaaaa, data, success, error);},username: function(username, data, success, error){var aaaaa = join(aaaa, "username", username);self.post(aaaaa, data, success, error);},all: function(data, success, error){var aaaaa = join(aaaa, "all");self.post(aaaaa, data, success, error);}};},update: function(data, success, error){var aaaa = join(aaa, "update");self.post(aaaa, data, success, error);},updateByAdmin: function(data, success, error){var aaaa = join(aaa, "updateByAdmin");self.post(aaaa, data, success, error);},delete: function(){var aaaa = join(aaa, "delete");return {id: function(id, data, success, error){var aaaaa = join(aaaa, "id", id);self.post(aaaaa, data, success, error);}};}};},friends: function(){var aaa = join(aa, "friends");return {addFriend: function(addFriend, data, success, error){var aaaa = join(aaa, "addFriend", addFriend);self.post(aaaa, data, success, error);}};}};}}};
+R.Libra = function(){ var a = ""; var self = this; return {newsService: function(){var aa = join(a, "newsService");return {search: function(){var aaa = join(aa, "search");return {blogPost: function(data, success, error){var aaaa = join(aaa, "blogPost");self.post(aaaa, data, success, error);}};},blog: function(){var aaa = join(aa, "blog");return {id: function(id){var aaaa = join(aaa, "id", id);return {read: function(data, success, error){var aaaaa = join(aaaa, "read");self.post(aaaaa, data, success, error);},delete: function(data, success, error){var aaaaa = join(aaaa, "delete");self.post(aaaaa, data, success, error);}};},read: function(){var aaaa = join(aaa, "read");return {all: function(data, success, error){var aaaaa = join(aaaa, "all");self.post(aaaaa, data, success, error);}};},create: function(data, success, error){var aaaa = join(aaa, "create");self.post(aaaa, data, success, error);},edit: function(data, success, error){var aaaa = join(aaa, "edit");self.post(aaaa, data, success, error);}};},blogPost: function(){var aaa = join(aa, "blogPost");return {id: function(id){var aaaa = join(aaa, "id", id);return {comment: function(){var aaaaa = join(aaaa, "comment");return {id: function(id){var aaaaaa = join(aaaaa, "id", id);return {delete: function(data, success, error){var aaaaaaa = join(aaaaaa, "delete");self.post(aaaaaaa, data, success, error);},like: function(data, success, error){var aaaaaaa = join(aaaaaa, "like");self.post(aaaaaaa, data, success, error);}};},create: function(data, success, error){var aaaaaa = join(aaaaa, "create");self.post(aaaaaa, data, success, error);}};},read: function(data, success, error){var aaaaa = join(aaaa, "read");self.post(aaaaa, data, success, error);},dislike: function(data, success, error){var aaaaa = join(aaaa, "dislike");self.post(aaaaa, data, success, error);},like: function(data, success, error){var aaaaa = join(aaaa, "like");self.post(aaaaa, data, success, error);}};},read: function(){var aaaa = join(aaa, "read");return {all: function(data, success, error){var aaaaa = join(aaaa, "all");self.post(aaaaa, data, success, error);}};}};},blogNewsFeed: function(){var aaa = join(aa, "blogNewsFeed");return {read: function(skip, limit, data, success, error){var aaaa = join(aaa, "read", skip, limit);self.post(aaaa, data, success, error);},create: function(data, success, error){var aaaa = join(aaa, "create");self.post(aaaa, data, success, error);},update: function(data, success, error){var aaaa = join(aaa, "update");self.post(aaaa, data, success, error);}};},blogSubscription: function(){var aaa = join(aa, "blogSubscription");return {read: function(data, success, error){var aaaa = join(aaa, "read");self.post(aaaa, data, success, error);},blogId: function(id){var aaaa = join(aaa, "blogId", id);return {update: function(){var aaaaa = join(aaaa, "update");return {subscription: function(){var aaaaaa = join(aaaaa, "subscription");return {add: function(data, success, error){var aaaaaaa = join(aaaaaa, "add");self.post(aaaaaaa, data, success, error);},delete: function(data, success, error){var aaaaaaa = join(aaaaaa, "delete");self.post(aaaaaaa, data, success, error);}};}};}};}};}};},profilesService: function(){var aa = join(a, "profilesService");return {profile: function(){var aaa = join(aa, "profile");return {read: function(){var aaaa = join(aaa, "read");return {id: function(id, data, success, error){var aaaaa = join(aaaa, "id", id);self.post(aaaaa, data, success, error);},username: function(username, data, success, error){var aaaaa = join(aaaa, "username", username);self.post(aaaaa, data, success, error);},all: function(data, success, error){var aaaaa = join(aaaa, "all");self.post(aaaaa, data, success, error);}};},update: function(data, success, error){var aaaa = join(aaa, "update");self.post(aaaa, data, success, error);},updateByAdmin: function(data, success, error){var aaaa = join(aaa, "updateByAdmin");self.post(aaaa, data, success, error);},delete: function(){var aaaa = join(aaa, "delete");return {id: function(id, data, success, error){var aaaaa = join(aaaa, "id", id);self.post(aaaaa, data, success, error);}};}};},friends: function(){var aaa = join(aa, "friends");return {addFriend: function(id, data, success, error){var aaaa = join(aaa, "addFriend", id);self.post(aaaa, data, success, error);}};}};},activityFeed: function(){var aa = join(a, "activityFeed");return {event: function(){var aaa = join(aa, "event");return {read: function(){var aaaa = join(aaa, "read");return {all: function(data, success, error){var aaaaa = join(aaaa, "all");self.post(aaaaa, data, success, error);}};},id: function(eventId){var aaaa = join(aaa, "id", eventId);return {delete: function(data, success, error){var aaaaa = join(aaaa, "delete");self.post(aaaaa, data, success, error);}};}};}};},dialogueService: function(){var aa = join(a, "dialogueService");return {dialogue: function(){var aaa = join(aa, "dialogue");return {create: function(data, success, error){var aaaa = join(aaa, "create");self.post(aaaa, data, success, error);},id: function(id){var aaaa = join(aaa, "id", id);return {message: function(){var aaaaa = join(aaaa, "message");return {create: function(data, success, error){var aaaaaa = join(aaaaa, "create");self.post(aaaaaa, data, success, error);}};}};},read: function(){var aaaa = join(aaa, "read");return {id: function(id, data, success, error){var aaaaa = join(aaaa, "id", id);self.post(aaaaa, data, success, error);},all: function(data, success, error){var aaaaa = join(aaaa, "all");self.post(aaaaa, data, success, error);}};},update: function(){var aaaa = join(aaa, "update");return {id: function(id, data, success, error){var aaaaa = join(aaaa, "id", id);self.post(aaaaa, data, success, error);}};}};}};},emailService: function(){var aa = join(a, "emailService");return {email: function(){var aaa = join(aa, "email");return {create: function(data, success, error){var aaaa = join(aaa, "create");self.post(aaaa, data, success, error);}};}};},nace: function(){var aa = join(a, "nace");return {create: function(data, success, error){var aaa = join(aa, "create");self.post(aaa, data, success, error);},read: function(){var aaa = join(aa, "read");return {id: function(id, data, success, error){var aaaa = join(aaa, "id", id);self.post(aaaa, data, success, error);},all: function(data, success, error){var aaaa = join(aaa, "all");self.post(aaaa, data, success, error);}};},update: function(){var aaa = join(aa, "update");return {id: function(id, data, success, error){var aaaa = join(aaa, "id", id);self.post(aaaa, data, success, error);}};}};}}};
 
 /* Tests */
 //function m(msg){
