@@ -18,96 +18,21 @@
 </head>
 <body>
 
-<sec:authorize access="isAuthenticated()" var="isAuthenticated">
-    <jsp:include page="/WEB-INF/templates/authorizedHeader.jsp"/>
-</sec:authorize>
+<!-- BEGIN Common general header-->
+<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+<!-- END common general header-->
 
-<c:if test="${!isAuthenticated}">
-    <jsp:include page="/WEB-INF/templates/headerAnonym.jsp"/>
-</c:if>
+<!--BEGIN 1nd section with logo, apps button and organization button-->
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+<!-- END 1st section -->
 
+<!--BEGIN section with search bar-->
+<jsp:include page="/WEB-INF/templates/main-search-bar.jsp"/>
+<!-- END search bar -->
 
-<section class="first-sec">
-    <div class="logo-wrap">
-        <a href="/index">
-            <img src="/resources/img/logo-site.png">
-        </a>
-
-        <p class="logo-title">global ukrainian portal</p>
-    </div>
-    <div class="shop-wrap-right">
-        <div class="shop-wrap">
-            <a class="main-winStore" href="#"><img src="/resources/img/wins-icon.png"></a>
-            <a class="main-googlePlay" href="#"><img src="/resources/img/goop-icon.png"></a>
-            <a class="main-appStore" href="#"><img src="/resources/img/apps-icon.png"></a>
-        </div>
-        <div class="join-button-wrap">
-            <div class="join-button">
-                <a href="#" title="Вступить в организацию"><img src="/resources/img/join-button.png"></a>
-            </div>
-        </div>
-    </div>
-    <div class="tender-search-button-wrapper">
-        <input type="text" placeholder="Поиск">
-        <a href="">Найти<span class="main-search-button-icon"><img src="/resources/img/magnifire.png"></span></a>
-        <a href="/tender-make" ><img class="makeTenderPic" src="/resources/img/makeTenderPic.png"></a>
-        <img class="becomeAdoer" src="/resources/img/becomeAdoer.png">
-
-        <div class="tender-search-filter-button"><img src="/resources/img/pointerTriangle.png"></div>
-
-    </div>
-</section>
-
-<section>
-    <div class="sec-wrap">
-        <div class="partials-wrap">
-            <div class="main-tender-wrap">
-                <p>Тендеры</p>
-
-                <div class="main-tenderPic-wrap">
-                    <a href="#"><img src="/resources/img/hammertime.png"></a>
-                </div>
-                <nav class="main-tender-bottom-menu">
-                    <a href="#" class="active-main-menu-link">Участвовать</a>
-                    <a href="#">Исполнители</a>
-                </nav>
-            </div>
-            <div class="main-project-wrap">
-                <p>Проекты</p>
-
-                <div class="main-projectPic-wrap">
-                    <a href="#"><img src="/resources/img/circul.png"></a>
-                </div>
-                <nav class="main-project-bottom-menu">
-                    <a href="#" class="active-main-menu-link">Реструктуризация</a>
-                    <a href="#">Готовый прототип</a>
-                    <a href="#">Проект на бумаге</a>
-                    <a href="#">Ноу-Хау</a>
-                </nav>
-            </div>
-            <div class="main-news-wrap">
-                <p>Новости</p>
-
-                <div class="main-newsPic-wrap">
-                    <a href="#"><img src="/resources/img/yagazetko.png"></a>
-                </div>
-                <nav class="main-news-bottom-menu">
-                    <a href="#" class="active-main-menu-link">Киев</a>
-                    <a href="#">Львов</a>
-                    <a href="#">Харьков</a>
-                    <a href="#">Запорожье</a>
-                </nav>
-            </div>
-        </div>
-        <div class="main-slider-wrap">
-            <ul class="bxslider">
-                <li><img src="/resources/img/slider-item.png"/></li>
-                <li><img src="/resources/img/slider-item1.png"/></li>
-                <li><img src="/resources/img/slider-item2.png"/></li>
-            </ul>
-        </div>
-    </div>
-</section>
+<!--2nd section menu+slider -->
+<jsp:include page="/WEB-INF/templates/main-menu-slider-bar.jsp"/>
+<!--END 2nd section -->
 
 
 <section>
@@ -140,7 +65,7 @@
                                         <p>${tenderAll.title}</p>
                                     </div>
                                     <div class="tender-item-info">
-                                        <p class="tender-publish-date">Опубликовано:<span>${tenderAll.begin}</span></p>
+                                        <p class="tender-publish-date">Опубликовано:<span class="date-create">${tenderAll.begin}</span></p>
 
                                         <p class="tender-number">№<span>${tenderAll.tenderNumber}</span></p>
                                     </div>
@@ -152,7 +77,7 @@
                                     <div class="tender-time-remain">
                                         <img src="/resources/img/alarm.png">
 
-                                        <p class="tender-time">${tenderAll.end}</p>
+                                        <p class="tender-time date-create">${tenderAll.end}</p>
                                     </div>
                                     <div class="tender-cost-wrap">
                                         <p><span class="tender-cost">${tenderAll.expectedPrice}</span>$</p>
@@ -165,59 +90,63 @@
 
                 </c:forEach>
                 </div>
+
+
                 <!-- 2-nd tab-->
-                <div>
-                    <div class="doer-items-wrap">
-                        <div class="doer-wrapper">
-                            <div class="doer-item-left">
-                                <div class="doer-userpic-wrap">
-                                    <img src="/resources/img/doer-userpic.png">
-                                </div>
-                                <div class="doer-rating">
-                                    <p>523</p>
-                                </div>
-                            </div>
+                <%--<div>--%>
+                    <%--<div class="doer-items-wrap">--%>
+                        <%--<div class="doer-wrapper">--%>
+                            <%--<div class="doer-item-left">--%>
+                                <%--<div class="doer-userpic-wrap">--%>
+                                    <%--<img src="/resources/img/doer-userpic.png">--%>
+                                <%--</div>--%>
+                                <%--<div class="doer-rating">--%>
+                                    <%--<p>523</p>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
 
 
-                            <div class="doer-item-mid">
-                                <div class="doer-name">
-                                    <p>ФИО исполнителя</p>
-                                </div>
-                                <div class="doer-description">
-                                    <p class="doer-description-title">Описание</p>
+                            <%--<div class="doer-item-mid">--%>
+                                <%--<div class="doer-name">--%>
+                                    <%--<p>ФИО исполнителя</p>--%>
+                                <%--</div>--%>
+                                <%--<div class="doer-description">--%>
+                                    <%--<p class="doer-description-title">Описание</p>--%>
 
-                                    <p class="doer-description-main">Как появляется инвестор, о проблемах и
-                                        противоречиях на пути его появления. Каждого инвестора окружают посредники,
-                                        которые существенно влияют на процессы взаимодействия с ним. Как появляется
-                                        инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора
-                                        окружают посредники, которые существенно влияют на процессы взаимодействия с
-                                        ним.
-                                        Как появляется инвестор, о проблемах и противоречиях на пути его появления.
-                                        Каждого инвестора окружают посредники, которые существенно влияют на процессы
-                                        взаимо</p>
-                                </div>
-                            </div>
+                                    <%--<p class="doer-description-main">Как появляется инвестор, о проблемах и--%>
+                                        <%--противоречиях на пути его появления. Каждого инвестора окружают посредники,--%>
+                                        <%--которые существенно влияют на процессы взаимодействия с ним. Как появляется--%>
+                                        <%--инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора--%>
+                                        <%--окружают посредники, которые существенно влияют на процессы взаимодействия с--%>
+                                        <%--ним.--%>
+                                        <%--Как появляется инвестор, о проблемах и противоречиях на пути его появления.--%>
+                                        <%--Каждого инвестора окружают посредники, которые существенно влияют на процессы--%>
+                                        <%--взаимо</p>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
 
 
-                            <div class="doer-item-right">
-                                <div class="doer-info">
-                                    <p class="doer-creation-date">Дата создания:<span>12.09.15</span></p>
+                            <%--<div class="doer-item-right">--%>
+                                <%--<div class="doer-info">--%>
+                                    <%--<p class="doer-creation-date">Дата создания:<span>12.09.15</span></p>--%>
 
-                                    <p class="doer-update-date">Дата обновления:<span>12.09.15</span></p>
+                                    <%--<p class="doer-update-date">Дата обновления:<span>12.09.15</span></p>--%>
 
-                                    <p class="doer-views-count">Просмотры:<span>129</span></p>
-                                </div>
-                                <div class="doer-likes-buttons-wrap">
-                                    <img class="doer-like" src="/resources/img/doer-like-icon.png">
-                                    <img class="doer-dislike" src="/resources/img/doer-dislike-icon.png">
-                                </div>
-                                <div class="doer-addToClient-button-wrap">
-                                    <button class="doer-addToClient-button">Добавить в клиенты</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                    <%--<p class="doer-views-count">Просмотры:<span>129</span></p>--%>
+                                <%--</div>--%>
+                                <%--<div class="doer-likes-buttons-wrap">--%>
+                                    <%--<img class="doer-like" src="/resources/img/doer-like-icon.png">--%>
+                                    <%--<img class="doer-dislike" src="/resources/img/doer-dislike-icon.png">--%>
+                                <%--</div>--%>
+                                <%--<div class="doer-addToClient-button-wrap">--%>
+                                    <%--<button class="doer-addToClient-button">Добавить в клиенты</button>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <!-- 2-nd tab-->
+
             </div>
         </div>
     </div>
@@ -231,6 +160,8 @@
 <script src="/resources/js/prioffice.js"></script>
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
 <script src="/resources/js/common.js"></script>
+<script src="/resources/js/moment-with-locales.js"></script>
+<script src="/resources/js/service.js"></script>
 
 
 <!--END of libs-->

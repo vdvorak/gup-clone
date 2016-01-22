@@ -34,7 +34,7 @@
         </div>
         <br>
         <div>Описание<br>${blog.description}</div>
-        <div>Дата создания<span class="date-create"></span> ${blog.createdDate}</div>
+        <div>Дата создания<span class="date-create">${blog.createdDate}</span></div>
     </c:forEach>
 </div>
 
