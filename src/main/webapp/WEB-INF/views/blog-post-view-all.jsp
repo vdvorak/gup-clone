@@ -11,23 +11,22 @@
 <head>
     <title>Новости</title>
 </head>
-<body>
-<h1>Новости</h1>
-<br>
+  <body>
+    <h1>Новости</h1>
+    <br>
 
-<c:forEach var="blogPost" items="${blogPostPages}" >
-  <div>
-    <h2>
-      <a href="/blog-post/view/${blogPost.id}"> ${blogPost.title}</a>
-    </h2>
-  <span>
-  <c:forEach var="id" items="${blogPost.imagesIds.keySet()}" >
-    <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">
-  </c:forEach>
-  </span>
-  </div>
-  <br>
-</c:forEach>
-
-</body>
+    <c:forEach var="blogPost" items="${blogPostPages}" >
+      <div>
+        <h2>
+          <a href="/blog-post/view/${blogPost.id}"> ${blogPost.title}</a>
+        </h2>
+      <span>
+      <c:forEach var="id" items="${blogPost.imagesIds.keySet()}" >
+        <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">
+      </c:forEach>
+      </span>
+      </div>
+      <br>
+    </c:forEach>
+  </body>
 </html>
