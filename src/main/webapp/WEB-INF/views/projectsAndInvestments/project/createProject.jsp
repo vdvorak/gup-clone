@@ -9,6 +9,74 @@
 <!DOCTYPE html>
 <head>
     <title>Создание Проекта</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script>
+        var imgId = '';
+        var imagesIds = {};
+        var projectType = [];
+        var project = {};
+
+        $(document).on('change', '#photoFile', function (e) {
+
+            var formImg = new FormData($('#photoInput')[0]);
+
+            if (imgId !== '') {
+                deleteImgFromDB(imgId);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
+                data: formImg,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data, textStatus, request) {
+                    imgId = data.id;
+                    $('#imgPreview').attr("src", "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + imgId);
+                }
+            });
+        });
+
+        function deleteImgFromDB(picId) {
+            $.ajax({
+                url: '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/delete/id/' + picId,
+                method: 'POST',
+                success: function (response) {
+                },
+                error: function (response) {
+                }
+            });
+        }
+
+        $(document).on('click', '#createProject', function (event) {
+
+            project.typeOfProject = $('#projectType').val();
+            project.projectName = $('#projectName').val();
+            project.projectDescription = $('#projectDescription').val();
+            project.amountRequested = $('#amountRequested').val();
+            project.categoriesOfIndustry = $('#categoriesOfIndustry').val();
+
+            imagesIds[imgId] = 1;
+            project.imagesIds = imagesIds;
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/projectsAndInvestmentsService/project/create",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(project),
+                success: function (createdProjectId) {
+                    window.location.href = '/project/id/' + createdProjectId.id;
+                },
+                error: function (response) {
+                    alert("Внутренняя ошибка сервера");
+                }
+            });
+        });
+    </script>
 </head>
     <body>
         <div>
@@ -59,75 +127,5 @@
             </form>
         </div>
         <button id="createProject">Создать</button>
-
-        <script src="/resources/libs/jquery-1.11.3.min.js"></script>
-        <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-        <script>
-
-            var imgId = '';
-            var imagesIds = {};
-            var projectType = [];
-            var project = {};
-
-            $(document).on('change', '#photoFile', function (e) {
-
-                var formImg = new FormData($('#photoInput')[0]);
-
-                if (imgId !== '') {
-                    deleteImgFromDB(imgId);
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
-                    data: formImg,
-                    async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (data, textStatus, request) {
-                        imgId = data.id;
-                        $('#imgPreview').attr("src", "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + imgId);
-                    }
-                });
-            });
-
-            function deleteImgFromDB(picId) {
-                $.ajax({
-                    url: '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/delete/id/' + picId,
-                    method: 'POST',
-                    success: function (response) {
-                    },
-                    error: function (response) {
-                    }
-                });
-            }
-
-            $(document).on('click', '#createProject', function (event) {
-
-                project.typeOfProject = $('#projectType').val();
-                project.projectName = $('#projectName').val();
-                project.projectDescription = $('#projectDescription').val();
-                project.amountRequested = $('#amountRequested').val();
-                project.categoriesOfIndustry = $('#categoriesOfIndustry').val();
-
-                imagesIds[imgId] = 1;
-                project.imagesIds = imagesIds;
-
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/projectsAndInvestmentsService/project/create",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify(project),
-                    success: function (createdProjectId) {
-                        window.location.href = '/project/id/' + createdProjectId.id;
-                    },
-                    error: function (response) {
-                        alert("Внутренняя ошибка сервера");
-                    }
-                });
-            });
-        </script>
     </body>
 </html>

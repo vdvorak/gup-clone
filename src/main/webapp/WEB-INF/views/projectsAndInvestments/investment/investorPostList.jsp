@@ -13,82 +13,77 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>GUP - Проекты</title>
-    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
-</head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 
-<body>
-<div>
-    <div>
-        <h2 align="center">Публикации инвесторов</h2>
-        <h3 align="center"><a href="/investorPost/create">Создать свою публикацию</a></h3>
-    </div>
-    <div>
-        <label id="pageLabel"><b>Страница:</b> </label>
-        <p align="left" id="goToPage"></p>
-    </div>
-    <div>
-        <table id="investorPostTable" border="1" width="100%">
-            <thead>
-            <tr>
-                <th>Описание</th>
-                <th>Сумма инвестирования</th>
-                <th>Колличество заявок</th>
-                <th>Дата создания</th>
-            </tr>
-            </thead>
-        </table>
-    </div>
-</div>
+    <script>
 
-<jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>
+        $(document).ready(function () {
+            var data;
+            var investorPostFO = {};
+            investorPostFO.skip = ${pageNumber};
+            investorPostFO.limit = 10;
 
-<script>
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "/api/rest/projectsAndInvestmentsService/investorPost/read/all",
+                data: JSON.stringify(investorPostFO),
+                success: function (response) {
+                    data = response.entities;
+                    var goToPageLinks = '';
 
-    $(document).ready(function () {
-        var data;
-        var investorPostFO = {};
-        investorPostFO.skip = ${pageNumber};
-        investorPostFO.limit = 10;
+                    $('#pageLabel').append((investorPostFO.skip + 1) + ' из ' + response.totalEntities);
+                    if (investorPostFO.skip > 0) {
+                        goToPageLinks += '<a href="/investorPost/list?pageNumber=' + (investorPostFO.skip - 1)  + '"> Назад </a>';
+                    }
 
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            url: "/api/rest/projectsAndInvestmentsService/investorPost/read/all",
-            data: JSON.stringify(investorPostFO),
-            success: function (response) {
-                data = response.entities;
-                var goToPageLinks = '';
+                    if (investorPostFO.skip < response.totalEntities && response.totalEntities/investorPostFO.limit > 1) {
+                        goToPageLinks += '<a href="/investorPost/list?pageNumber=' + (investorPostFO.skip + 1) + '"> Следующая </a>';
+                    }
+                    $('#goToPage').append(goToPageLinks);
 
-                $('#pageLabel').append((investorPostFO.skip + 1) + ' из ' + response.totalEntities);
-                if (investorPostFO.skip > 0) {
-                    goToPageLinks += '<a href="/investorPost/list?pageNumber=' + (investorPostFO.skip - 1)  + '"> Назад </a>';
+                    for (var i = 0; i < data.length; i++) {
+                        var createdDate = new Date(data[i].createdDate);
+                        data[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
+
+                        data[i].createdDate = '<a href="/investorPost/id/' + data[i].id + '">' + data[i].createdDate + '</a>';
+
+
+                        var row = $('<tr>');
+                        row.append($('<td>').html(data[i].description));
+                        row.append($('<td>').html(data[i].amountOfMoney));
+                        row.append($('<td>').html(data[i].totalThoseInNeed));
+                        row.append($('<td>').html(data[i].createdDate));
+
+                        $('#investorPostTable').append(row);
+                    }
                 }
-
-                if (investorPostFO.skip < response.totalEntities && response.totalEntities/investorPostFO.limit > 1) {
-                    goToPageLinks += '<a href="/investorPost/list?pageNumber=' + (investorPostFO.skip + 1) + '"> Следующая </a>';
-                }
-                $('#goToPage').append(goToPageLinks);
-
-                for (var i = 0; i < data.length; i++) {
-                    var createdDate = new Date(data[i].createdDate);
-                    data[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
-
-                    data[i].createdDate = '<a href="/investorPost/id/' + data[i].id + '">' + data[i].createdDate + '</a>';
-
-
-                    var row = $('<tr>');
-                    row.append($('<td>').html(data[i].description));
-                    row.append($('<td>').html(data[i].amountOfMoney));
-                    row.append($('<td>').html(data[i].totalThoseInNeed));
-                    row.append($('<td>').html(data[i].createdDate));
-
-                    $('#investorPostTable').append(row);
-                }
-            }
+            });
         });
-    });
-</script>
-</body>
+    </script>
+</head>
+    <body>
+    <div>
+        <div>
+            <h2 align="center">Публикации инвесторов</h2>
+            <h3 align="center"><a href="/investorPost/create">Создать свою публикацию</a></h3>
+        </div>
+        <div>
+            <label id="pageLabel"><b>Страница:</b> </label>
+            <p align="left" id="goToPage"></p>
+        </div>
+        <div>
+            <table id="investorPostTable" border="1" width="100%">
+                <thead>
+                <tr>
+                    <th>Описание</th>
+                    <th>Сумма инвестирования</th>
+                    <th>Колличество заявок</th>
+                    <th>Дата создания</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    </body>
 </html>

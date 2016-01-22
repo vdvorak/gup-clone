@@ -13,56 +13,8 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>GUP - Проекты</title>
-</head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 
-    <body>
-
-    <div>
-        <div>
-            <h2 align="center">Просмотр публикации инвестора</h2>
-            <h2 align="center"><a href="/investorPost/list?pageNumber=0">Посмотреть другие публикации</a></h2>
-        </div>
-        <div>
-
-            <div>
-                <label for="investorPostDescription"><b>Описание: </b></label>
-                <label id="investorPostDescription"></label>
-            </div>
-
-            <div>
-                <label for="amountOfMoney"><b>Сумма инвестирования: </b></label>
-                <label id="amountOfMoney"></label>
-            </div>
-
-            <div>
-                <label for="investorPostCreatedDate"><b>Дата создания: </b></label>
-                <label id="investorPostCreatedDate"></label>
-            </div>
-
-            <div>
-                <label for="projectIdInput"><b>Создать заявку на инвестирование: </b></label>
-                <input id="projectIdInput" placeholder="Id проекта"/>
-                <button type="button" id="sendAppButton">Отправить</button>
-            </div>
-
-            <div>
-                <label for="applicationsTable" id="applicationsLabel"><b>Заявки на инвестирование: </b></label>
-                <table id="applicationsTable" border="1" width="100%">
-                    <thead>
-                    <tr>
-                        <th>Автор заявки</th>
-                        <th>Проект</th>
-                        <th>Дата создания</th>
-                    </tr>
-                    </thead>
-                </table>
-            </div>
-
-
-        </div>
-    </div>
-
-    <jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>
     <script>
         var investorPostId = '';
         var applicationForInvestment = {};
@@ -126,6 +78,54 @@
         });
 
     </script>
+</head>
+
+    <body>
+
+    <div>
+        <div>
+            <h2 align="center">Просмотр публикации инвестора</h2>
+            <h2 align="center"><a href="/investorPost/list?pageNumber=0">Посмотреть другие публикации</a></h2>
+        </div>
+        <div>
+
+            <div>
+                <label for="investorPostDescription"><b>Описание: </b></label>
+                <label id="investorPostDescription"></label>
+            </div>
+
+            <div>
+                <label for="amountOfMoney"><b>Сумма инвестирования: </b></label>
+                <label id="amountOfMoney"></label>
+            </div>
+
+            <div>
+                <label for="investorPostCreatedDate"><b>Дата создания: </b></label>
+                <label id="investorPostCreatedDate"></label>
+            </div>
+
+            <div>
+                <label for="projectIdInput"><b>Создать заявку на инвестирование: </b></label>
+                <input id="projectIdInput" placeholder="Id проекта"/>
+                <button type="button" id="sendAppButton">Отправить</button>
+            </div>
+
+            <div>
+                <label for="applicationsTable" id="applicationsLabel"><b>Заявки на инвестирование: </b></label>
+                <table id="applicationsTable" border="1" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Автор заявки</th>
+                        <th>Проект</th>
+                        <th>Дата создания</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
     </body>
 </html>
 
