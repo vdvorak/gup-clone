@@ -14,7 +14,7 @@ $(document).on('click', '#submit', function () {
     tender.price =$('.tm-price').val();
     tender.tenderNumber =$('.tm-number').val();
 
-
+    alert(tender);
     $.ajax({
         type: "POST",
         url: "/api/rest/newsService/tender/create/",
