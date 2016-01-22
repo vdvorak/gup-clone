@@ -13,6 +13,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>${blogPost.title}</title>
     <script src="/resources/libs/jquery-1.11.3.min.js"></script>
+    <script src="/resources/js/common/request.js"></script>
     <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
 </head>
 <body>
@@ -26,11 +27,8 @@
         ${cat},
     </c:forEach>
 </h2>
-
 <h2> Страна: ${blogPost.address.country}</h2>
-
 <h2> Область: ${blogPost.address.area}</h2>
-
 <h2> Город: ${blogPost.address.city}</h2>
 <br>
 
@@ -40,26 +38,48 @@
     <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">
 </c:forEach>
 
+<div class="postRating">
+    <button id="dislikeBtn" class="dislike">
+        💔 ${blogPost.totalDislikes}
+        <span class="users hidden">
+            <c:forEach var="u" items="${blogPost.dislikedIds}">
+                <span>${u}</span>
+            </c:forEach>
+        </span>
+    </button>
+    <button id="likeBtn" class="like">
+        ❤ ${blogPost.totalLikes}
+        <span class="users hidden">
+            <c:forEach var="u" items="${blogPost.likedIds}">
+                <span>${u}</span>
+            </c:forEach>
+        </span>
+    </button>
+</div>
+<a href="/blog-post/edit/${blogPost.id}"><button>Редактировать</button></a> новость
 <br>
-<button id="dislikeBtn">Дизлайк</button> ${blogPost.totalDislikes}
-<button id="likeBtn">Лайк</button> ${blogPost.totalLikes}
 <br>
-<a href="/blog-post/edit/${blogPost.id}">редактировать</a>
-
-<div></div>
-
-Комментарии:
+Комментарии
+<input type="button" value="Сортировать" onclick="sort()">
 <div class="comments">
     <c:choose>
         <c:when test="${blogPost.comments.size() > 0}">
             <c:forEach var="comment" items="${blogPost.comments}">
-                <div class="comment" data-id="${comment.cId}" data-replyId="${comment.toId}">
+                <div class="comment" id="${comment.cId}" data-replyId="${comment.toId}" data-rating="${comment.totalLikes}">
                     <div class="author" data-id="${comment.fromId}"></div>
                     <div>${comment.comment}</div>
-                    <div class="rating">Рейтинг: ${comment.totalLikes}</div>
                     <input type="button" class="reply" value="Ответить" onclick="Reply('${comment.cId}')">
-                    <input type="button" class="like" value="Лайк" onclick="Like('${comment.cId}')">
-                    <input type="button" class="delete" value="Удалить" onclick="CommentDelete('${comment.cId}')">
+                    <input type="button" class="like" value="" onclick="Like('${comment.cId}')" data-total="${comment.totalLikes}">
+                    <span class="users hidden">
+                        <c:forEach var="u" items="${comment.likedIds}">
+                            <span>${u}</span>
+                        </c:forEach>
+                    </span>
+                    <c:choose>
+                        <c:when test="${blogPost.authorId} == ${comment.fromId}">
+                            <input type="button" class="delete" value="Удалить" onclick="CommentDelete('${comment.cId}')">
+                        </c:when>
+                    </c:choose>
                 </div>
             </c:forEach>
         </c:when>
@@ -87,128 +107,134 @@
     .comment .author {
         font-weight: bold;
     }
+    .hidden {
+        display: none;
+    }
     .comment > .comment{
         margin-left: 30px;
     }
 </style>
 
 <script>
-    var blogPostId = '${blogPost.id}';
+    window.GUP = {};
+    GUP.Profile = {
+        id: "<sec:authentication property="principal.profileId" />"
+    };
+
+    var RBlogPost = R.Libra().newsService().blogPost().id("${blogPost.id}");
 
     //----------------------------------------------------- Like and dislike --------------------------------------
+    function checkAlreadyVoted(element){
+        var already = false;
+        element.find('.users > span').each(function (e) {
+            if ($(this).text() === GUP.Profile.id){
+                already = true;
+            }
+        })
+        return already;
+    }
     $(document).on('click', '#dislikeBtn', function (e) {
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/newsService/blogPost/id/" + blogPostId +"/dislike",
-            success: function (data, textStatus, request) {
-                // Верстальщик - сделай тут красоту по возвращению "success"
-            }
+        if (checkAlreadyVoted($(this))){
+            return;
+        }
+        RBlogPost.dislike(null, function(res){
+            // Верстальщик - сделай тут красоту по возвращению "success"
+            RefreshPage();
         });
     });
 
-    $(document).on('click', '#likeBtn' +
-    '', function (e) {
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/newsService/blogPost/id/" + blogPostId +"/like",
-            success: function (data, textStatus, request) {
-                // Верстальщик - сделай тут красоту по возвращению "success"
-            }
+    $(document).on('click', '#likeBtn', function (e) {
+        if (checkAlreadyVoted($(this))){
+            return;
+        }
+        RBlogPost.like(null, function(res){
+            // Верстальщик - сделай тут красоту по возвращению "success"
+            RefreshPage();
         });
     });
 
     //----------------------------------------------------- Like and dislike --------------------------------------
 
+    function sort(){
+        var comroot = $('.comments');
+        var direction = comroot.attr('direction');
+        if (!direction){
+            direction = 'date';
+        }
+        var roots = [];
+        $('.comment').each(function(){
+            if (!$(this).attr('data-replyId')){
+                $(this).detach();
+                roots.push($(this));
+            }
+        });
+        if (direction === 'rating'){
+            comroot.attr('direction', 'date');
+            commentsQueueByDate.forEach(function(q){
+                roots.forEach(function(e){
+                    if (e.attr('id') === q){
+                        comroot.append(e);
+                    }
+                });
+            });
+        }
+        else {
+            comroot.attr('direction', 'rating');
+            roots.sort(function(a, b){
+                return parseInt(a.attr('data-rating')) < parseInt(b.attr('data-rating'));
+            });
+            roots.forEach(function(e){
+                comroot.append(e);
+            });
+        }
+    }
+    var commentsQueueByDate = [];
     $(document).ready(function(){
         $('.comment').each(function(){
+            commentsQueueByDate.push($(this).attr('id'));
             if ($(this).attr('data-replyId')){
-                $(this).detach().appendTo('.comment[data-id='+$(this).attr('data-replyId')+']');
+                $(this).detach().appendTo('.comment#'+$(this).attr('data-replyId'));
             }
             var userHandle = $(this).find('.author');
             GetUser(userHandle.attr('data-id'), function(res){
                 userHandle.html(res.username);
             })
+            var likeHandle = $(this).find('.like');
+            if (checkAlreadyVoted($(this))){
+                likeHandle.attr('value', '♥ ' + likeHandle.attr('data-total'));
+            }
+            else {
+                likeHandle.attr('value', '♡ ' + likeHandle.attr('data-total'));
+            }
         });
     });
     function RefreshPage(){
-        window.location.href = '/blog-post/view/${blogPost.id}';
+        location.reload();
     }
     function OnError(msg){
         alert('error: ' + JSON.stringify(msg));
         //alert("Внутренняя ошибка сервера");
-
     }
     var replyIdAttr = 'replyId';
     function Reply(id){
         $('#commentCreate').attr(replyIdAttr, id);
     }
+    var RComment = RBlogPost.comment();
     function Like(id){
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/newsService/blogPost/id/${blogPost.id}/comment/id/" + id + "/like",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            complete: function(e, xhr, settings){
-                if (e.status === 200) {
-                    RefreshPage();
-                }
-                else{
-                    OnError(response);
-                }
-            }
-        });
+        RComment.id(id).like(null, RefreshPage);
     }
     function CommentDelete(id){
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/newsService/blogPost/id/${blogPost.id}/comment/id/" + id + "/delete",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                RefreshPage();
-            },
-            error: function (response) {
-                OnError(response);
-            }
-        });
+        RComment.id(id).delete(null, RefreshPage);
     }
     $('#submit').click(function () {
-
         var comment = {};
         var handle = $('#commentCreate');
         comment.comment = handle.find('#text').val();
         comment.toId = handle.attr(replyIdAttr);
-
-        //alert(JSON.stringify(comment));
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/newsService/blogPost/id/${blogPost.id}/comment/create",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(comment),
-            success: function (response) {
-                RefreshPage();
-            },
-            error: function (response) {
-                OnError(response);
-            }
-        });
+        RComment.create(JSON.stringify(comment), RefreshPage);
     });
     function GetUser(id, callback){
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/profilesService/profile/read/id/"+id,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                callback(response);
-            },
-            error: function (response) {
-                OnError(response);
-            }
-        });
+        R.Libra().profilesService().profile().read().id(id, null, callback);
     }
 </script>
 

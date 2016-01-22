@@ -63,7 +63,7 @@ public class ProfileRestController {
      * @param id the id
      * @return the profile by id
      */
-    @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.GET,
+    @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Profile> getProfileById(@PathVariable String id) {
         Profile profile = profilesService.findById(id);
