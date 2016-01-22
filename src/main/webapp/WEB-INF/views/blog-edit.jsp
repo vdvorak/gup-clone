@@ -12,16 +12,6 @@
     <title>Редактирование блога</title>
 </head>
 <body>
-<div>
-    <select id="categories" required>
-        <option id ="urk" value="ukr">Новости Украины</option>
-        <option id ="world" value="world">Мировые новости</option>
-        <option id ="economic" value="economic">Экономика</option>
-        <option id ="sport" value="sport">Спорт</option>
-        <option id ="crime" value="crime">Криминал</option>
-        <option id ="science" value="science">Наука</option>
-    </select>
-</div>
 
 <div>
     <input id="blogTitle" type="text" name="blogTitle" minlength="2" maxlength="70" required
@@ -49,6 +39,56 @@
         </c:choose>
     </div>
 </div>
+
+
+<div class="input-group">
+    <div id="socLinkGroup" class="input_soc_wrap">
+        <div class="left-tag">
+            <p>Социальные сети</p>
+        </div>
+        <div class="right-tag">
+            <a class="FACEBOOK"><img src="/resources/img/faceb-icon.png"></a>
+            <a class="TWITTER"><img src="/resources/img/twit-icon.png"> </a>
+            <a class="VKONTAKTE"><img src="/resources/img/vk-icon.png"></a>
+            <a class="GOOGLEPLUS"><img src="/resources/img/goo-icon.png"></a>
+            <a class="LINKEDIN"><img src="/resources/img/link-icon.png"></a>
+            <c:forEach var="socLink" items="${blog.socLinks.entrySet()}">
+                <c:choose>
+                    <c:when test="${socLink.getKey() == 'FACEBOOK'}">
+                        <div><input type="text" name="FACEBOOK" value="${socLink.getValue()}"><span
+                                class="remove_field"><img
+                                src="/resources/img/minus.png" width="15" height="15"></span>
+                        </div>
+                    </c:when>
+                    <c:when test="${socLink.getKey() == 'VKONTAKTE'}">
+                        <div><input type="text" name="VKONTAKTE" value="${socLink.getValue()}"><span
+                                class="remove_field"><img
+                                src="/resources/img/minus.png" width="15" height="15"></span>
+                        </div>
+                    </c:when>
+                    <c:when test="${socLink.getKey() == 'LINKEDIN'}">
+                        <div><input type="text" name="LINKEDIN" value="${socLink.getValue()}"><span
+                                class="remove_field"><img
+                                src="/resources/img/minus.png" width="15" height="15"></span>
+                        </div>
+                    </c:when>
+                    <c:when test="${socLink.getKey() == 'GOOGLEPLUS'}">
+                        <div><input type="text" name="GOOGLEPLUS" value="${socLink.getValue()}"><span
+                                class="remove_field"><img
+                                src="/resources/img/minus.png" width="15" height="15"></span>
+                        </div>
+                    </c:when>
+                    <c:when test="${socLink.getKey() == 'TWITTER'}">
+                        <div><input type="text" name="TWITTER" value="${socLink.getValue()}"><span class="remove_field"><img
+                                src="/resources/img/minus.png" width="15" height="15"></span>
+                        </div>
+                    </c:when>
+                </c:choose>
+            </c:forEach>
+        </div>
+    </div>
+</div>
+
 <button id="createBlog">Сохранить</button>
 
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
@@ -60,15 +100,40 @@
     var categories = [];
     var blog = {};
     var blogId = '${blog.id}';
+    var socialSizeOld = ${blog.socLinks.size()} +0;
 
     if ('${blog.imageId}'.length > 2) {
         oldImgId = '${blog.imageId}';
     }
 
-    //----------------------------------------- I N F O -------------------------------------------------------------
-    <%--Тут нужно сделать, чтобы после загрузки страницы категория (рубкрика) проставлялась в Seletc с категориями--%>
-    <%--Макет расходиться с логикой бекенда, возможно логично будет сделать выбор рубрик (категори) через чекбоксы--%>
-    //----------------------------------------- I N F O -------------------------------------------------------------
+    // -------------------------------------------------------BEGIN soc network links --------------------------------------------
+    // Add/Remove social Input Fields Dynamically with jQuery
+    $(document).ready(function () {
+        var max_fields = 5; //maximum input boxes allowed
+        var wrapper = $(".input_soc_wrap"); //Fields wrapper
+        var x = 1;
+
+        if (socialSizeOld < 1) {
+            x = socialSizeOld;
+        }
+
+        $(".input_soc_wrap a").click(function (e) {
+            e.preventDefault();
+            var socName = $(this).attr("class");
+
+            if (x < max_fields) { //max input box allowed
+                x++; //text box increment
+                $(wrapper).append('<div><input name="' + socName + '" type="text" placeholder = "Страница ' + socName + '"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="15" height="15"></a></div>');
+            }
+        });
+
+        $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+            e.preventDefault();
+            $(this).parent('div').remove();
+            x--;
+        })
+    });
+    // ---------------------------------------------------- END Soc network links --------------------------------------
 
 
     //----------------------------------------------------- Image form -----------------------------------------------
@@ -132,7 +197,18 @@
             blog.imageId = oldImgId;
         }
 
-        alert(JSON.stringify(blog));
+        var socArr = {};
+        $(".input_soc_wrap input").each(function (index) {
+            var socName = $(this).attr("name");
+            var url = $(this).val();
+
+            var entity = {};
+            if (url.length > 0) {
+                socArr[socName] = url;
+            }
+        });
+
+        blog.socLinks = socArr;
 
         $.ajax({
             type: "POST",

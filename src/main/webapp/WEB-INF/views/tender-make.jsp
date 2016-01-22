@@ -112,7 +112,7 @@
       <h2>СОЗДАНИЕ ТЕНДЕРА</h2>
     </div>
     <div class="tm-mainForm-wrap">
-      <form id="tm-input" action="" method="post">
+
 
         <div>
           <p class="tm-tender-name">Введите название</p>
@@ -140,12 +140,12 @@
 
         <div>
           <p>Выберите область</p>
-          <input type="text">
+          <input class="tm-area" type="text">
         </div>
 
         <div>
           <p>Выберите город</p>
-          <input type="text">
+          <input class="tm-city" type="text">
         </div>
 
         <div>
@@ -154,8 +154,9 @@
 
         <div>
           <p>Тип</p>
-          <input type="radio">
           <p>Открытый</p>
+          <input type="radio">
+
           <input type="radio">
           <p>Закрытый</p>
         </div>
@@ -167,18 +168,18 @@
 
         <div>
           <p>Пригласить учасников тендера</p>
-          <input type="text" placeholder="Название">
+          <input class="tm-tender-members" type="text" placeholder="Название">
         </div>
 
         <div>
           <p>Ожидаемая стоимость</p>
-          <input type="number">
+          <input class="tm-price" type="number">
           <img class="tm-tender-currency" src="">
         </div>
 
         <div>
           <p>Номер тендера</p>
-          <input type="text" inactive>
+          <input class="tm-number" type="text" inactive>
         </div>
 
         <div>
@@ -188,8 +189,8 @@
         <div>
           <input type="file"  multiple accept="image/*,image/jpeg">
         </div>
-        <input id="#submit" type="submit" value="Сохранить">
-      </form>
+        <button id="#submit" >Save</button>
+
     </div>
   </div>
 </section>
@@ -292,7 +293,7 @@
 <script src="/resources/libs/jquery.magnific-popup.min.js"></script>
 <script src="/resources/js/common.js"></script>
 <script src='https://www.google.com/recaptcha/api.js'></script>
-<script src="/resources/js/common.js"></script>
+<script src="/resources/js/tender.js"></script>
 
 
 <!--END of libs-->

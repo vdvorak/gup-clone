@@ -190,7 +190,7 @@
                                     <p>Социальные сети</p>
                                 </div>
                                 <div class="right-tag">
-                                    <a  class="twit_soc_button"><img src="/resources/img/twit-icon.png"> </a>
+                                    <a class="twit_soc_button"><img src="/resources/img/twit-icon.png"> </a>
                                     <a class="faceb_soc_button"><img src="/resources/img/faceb-icon.png"></a>
                                     <a class="vk_soc_button"><img src="/resources/img/vk-icon.png"></a>
                                     <a class="goo_soc_button"><img src="/resources/img/goo-icon.png"></a>

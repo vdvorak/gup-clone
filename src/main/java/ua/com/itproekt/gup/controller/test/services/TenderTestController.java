@@ -32,6 +32,7 @@ public class TenderTestController {
         member.setName("roro");
         tender.setMembers(new ArrayList<>());
         tender.getMembers().add(member);
+        tender.setTenderNumber("947528");
 
         Propose propose = new Propose();
         propose.setAuthorId("15");
@@ -40,7 +41,8 @@ public class TenderTestController {
         tender.setProposes(new ArrayList<>());
         tender.getProposes().add(propose);
 
-        tender.setBody("This is tender body");
+        tender.setBody("This is tender body. This is tender body. This is tender body. This is tender body. This is tender body. This is tender body");
+        tender.setExpectedPrice(328000);
 
         tender.setAuthorId("12");
         Set<String> naces = new HashSet<>();

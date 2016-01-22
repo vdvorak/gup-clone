@@ -55,21 +55,15 @@
 </div>
 
 <button id="createBlog" disabled>Создать</button>
-<button id="test">Тест соц. сетей</button>
 
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 <script>
-
-
     // -------------------------------------------------------BEGIN soc network links --------------------------------------------
     // Add/Remove social Input Fields Dynamically with jQuery
     $(document).ready(function () {
         var max_fields = 5; //maximum input boxes allowed
         var wrapper = $(".input_soc_wrap"); //Fields wrapper
-
-        <%--var socArr = '${profile.contact.socNetLink.values()}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string--%>
-        <%--var x = socArr.length; //initial text box count--%>
 
         var x = 1;
 
@@ -89,8 +83,8 @@
             x--;
         })
     });
-
     // ---------------------------------------------------- END Soc network links --------------------------------------
+
     var imgId = '';
     var blog = {};
 
@@ -154,25 +148,24 @@
 
     ///------------------------- Upload Blog -----------------------------------------------
     $(document).on('click', '#createBlog', function (event) {
-        var socArr = {};
+
 
         blog.title = $('#blogTitle').val();
         blog.description = $('#blogDescription').val();
         blog.imageId = imgId;
 
+        var socArr = {};
         $(".input_soc_wrap input").each(function (index) {
             var socName = $(this).attr("name");
             var url = $(this).val();
 
             var entity = {};
             if (url.length > 0) {
-                socArr[url] = socName;
+                socArr[socName] = url;
             }
         });
 
         blog.socLinks = socArr;
-
-        alert(JSON.stringify(blog));
 
         $.ajax({
             type: "POST",

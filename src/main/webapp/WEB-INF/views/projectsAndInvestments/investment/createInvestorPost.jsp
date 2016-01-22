@@ -8,7 +8,34 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Создание публикации инвестора</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script>
+
+        var investorPost = {};
+
+        $(document).on('click', '#createInvestorPost', function (event) {
+
+            investorPost.description = $('#investorPostDescription').val();
+            investorPost.amountOfMoney = $('#amountOfMoney').val();
+            investorPost.categoriesOfIndustry = $('#categoriesOfIndustry').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/projectsAndInvestmentsService/investorPost/create",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(investorPost),
+                success: function (createdInvestorPostId) {
+                    window.location.href = '/investorPost/id/' + createdInvestorPostId.id;
+                },
+                error: function (response) {
+                    alert("Внутренняя ошибка сервера");
+                }
+            });
+        });
+    </script>
 </head>
     <body>
         <div>
@@ -38,34 +65,6 @@
         </div>
 
         <button id="createInvestorPost">Создать</button>
-
-        <script src="/resources/libs/jquery-1.11.3.min.js"></script>
-        <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-        <script>
-
-            var investorPost = {};
-
-            $(document).on('click', '#createInvestorPost', function (event) {
-
-                investorPost.description = $('#investorPostDescription').val();
-                investorPost.amountOfMoney = $('#amountOfMoney').val();
-                investorPost.categoriesOfIndustry = $('#categoriesOfIndustry').val();
-
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/projectsAndInvestmentsService/investorPost/create",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify(investorPost),
-                    success: function (createdInvestorPostId) {
-                        window.location.href = '/investorPost/id/' + createdInvestorPostId.id;
-                    },
-                    error: function (response) {
-                        alert("Внутренняя ошибка сервера");
-                    }
-                });
-            });
-        </script>
     </body>
 </html>
 

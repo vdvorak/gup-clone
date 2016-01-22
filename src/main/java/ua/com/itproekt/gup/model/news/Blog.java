@@ -21,7 +21,7 @@ public class Blog {
     @Size(min = 50, max = 5000)
     private String description;
     private String imageId;
-    private Map<String, SocialNetwork> socLinks;
+    private Map<SocialNetwork, String> socLinks;
     private Map<String, String> editorsIds;
     private Set<String> categories;
 
@@ -36,12 +36,11 @@ public class Blog {
 
     //===============================================================================
 
-
-    public Map<String, SocialNetwork> getSocLinks() {
+    public Map<SocialNetwork, String> getSocLinks() {
         return socLinks;
     }
 
-    public Blog setSocLinks(Map<String, SocialNetwork> socLinks) {
+    public Blog setSocLinks(Map<SocialNetwork, String> socLinks) {
         this.socLinks = socLinks;
         return this;
     }

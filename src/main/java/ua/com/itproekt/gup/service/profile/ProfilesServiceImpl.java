@@ -13,6 +13,7 @@ import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The type Profiles service.
@@ -123,5 +124,10 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public List<Profile> findAllWithoutOptions() {
         return profileRepository.findAll();
+    }
+
+    @Override
+    public Set<String> getMatchedNames(String term) {
+        return profileRepository.getMatchedNames(term);
     }
 }

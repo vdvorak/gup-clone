@@ -10,7 +10,7 @@ public class Recall {
 
     public enum Mark{LIKE,DISLIKE}
     private String id;
-    private String AuthorId;
+    private String authorId;
     private String body;
     private long createTime;
     private Mark mark;
@@ -24,11 +24,11 @@ public class Recall {
     }
 
     public String getAuthorId() {
-        return AuthorId;
+        return authorId;
     }
 
     public void setAuthorId(String authorId) {
-        AuthorId = authorId;
+        this.authorId = authorId;
     }
 
     public String getBody() {
@@ -59,7 +59,7 @@ public class Recall {
     public String toString() {
         return "Recall{" +
                 "id='" + id + '\'' +
-                ", AuthorId='" + AuthorId + '\'' +
+                ", authorId='" + authorId + '\'' +
                 ", body='" + body + '\'' +
                 ", createTime=" + createTime +
                 ", mark=" + mark +
