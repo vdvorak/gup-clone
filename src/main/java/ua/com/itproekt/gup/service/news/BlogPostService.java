@@ -5,6 +5,8 @@ import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.news.Comment;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.List;
+
 public interface BlogPostService {
     //Posts
     EntityPage<BlogPost> findBlogPostsWihOptions(BlogPostFilterOptions blogPostFilterOptions);
@@ -20,7 +22,6 @@ public interface BlogPostService {
     boolean blogPostExists(String id);
 
     //PostComments
-
     void likeComment(String blogPostId, String commentId, String userId);
 
     void createComment(String blogPostId, Comment comment);
@@ -38,4 +39,6 @@ public interface BlogPostService {
     BlogPost findBlogPostAndIncViews(String blogPostId);
 
     BlogPost edit(BlogPost blogPost);
+
+    List<String> getMatchedNames(String name);
 }

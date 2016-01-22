@@ -98,7 +98,7 @@
                             </div>
                         </div>
 
-<<<<<<< HEAD
+
                        <!-- <div class="input-group">
                             <div class="left-tag">
                                 <p>Сфера деятетльности/ + КВЄДы</p>
@@ -112,7 +112,7 @@
                             </div>
                         </div>-->
 
-=======
+
                         <%--<div class="input-group">--%>
                             <%--<div class="left-tag">--%>
                                 <%--<p>Сфера деятетльности/ + КВЄДы</p>--%>
@@ -125,7 +125,7 @@
                                 <%--</select>--%>
                             <%--</div>--%>
                         <%--</div>--%>
->>>>>>> 7f3697f575cd1fff477fe0d49e157611da183c64
+
 
                         <div class="input-group">
                             <div class="left-tag">

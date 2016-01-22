@@ -40,5 +40,4 @@ public interface ProjectService {
     void bringBackMoneyToInvestors();
 
     List<String> getMatchedNames(String name);
-
 }

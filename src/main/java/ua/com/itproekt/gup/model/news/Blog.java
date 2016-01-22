@@ -36,7 +36,6 @@ public class Blog {
 
     //===============================================================================
 
-
     public Map<SocialNetwork, String> getSocLinks() {
         return socLinks;
     }
