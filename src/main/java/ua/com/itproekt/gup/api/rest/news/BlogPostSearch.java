@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.itproekt.gup.service.news.BlogPostService;
 
-import java.util.List;
+import java.util.Set;
 
 @RestController
 public class BlogPostSearch {
@@ -15,7 +15,7 @@ public class BlogPostSearch {
     BlogPostService blogPostService;
 
     @RequestMapping("/search/blogPost")
-    public List<String> getMachedNames(@RequestParam String term){
+    public Set<String> getMachedNames(@RequestParam String term){
         return blogPostService.getMatchedNames(term);
     }
 }
