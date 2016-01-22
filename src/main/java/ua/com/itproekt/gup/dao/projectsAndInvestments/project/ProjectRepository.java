@@ -3,7 +3,6 @@ package ua.com.itproekt.gup.dao.projectsAndInvestments.project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.*;
 import ua.com.itproekt.gup.util.EntityPage;
 
-import java.util.List;
 import java.util.Set;
 
 public interface ProjectRepository {
@@ -39,5 +38,5 @@ public interface ProjectRepository {
 
     Set<String> getExpiredProjectsIds();
 
-    List<String> getMatchedNames(String name);
+    Set<String> getMatchedNames(String name);
 }

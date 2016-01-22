@@ -5,7 +5,7 @@ import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.news.Comment;
 import ua.com.itproekt.gup.util.EntityPage;
 
-import java.util.List;
+import java.util.Set;
 
 public interface BlogPostService {
     //Posts
@@ -40,5 +40,5 @@ public interface BlogPostService {
 
     BlogPost edit(BlogPost blogPost);
 
-    List<String> getMatchedNames(String name);
+    Set<String> getMatchedNames(String name);
 }

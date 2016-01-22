@@ -14,10 +14,6 @@
 <body>
 <div>
     ${blog.title}
-<%--</div>--%>
-<%--Рубрика <span id="rubrics"></span>--%>
-<%--<div>--%>
-
 </div>
 <div>
     <c:choose>
@@ -30,6 +26,37 @@
         </c:otherwise>
     </c:choose>
 </div>
+
+<div class="right-tag">
+    <c:forEach var="socLink" items="${blog.socLinks.entrySet()}" >
+        <c:choose>
+            <c:when test="${socLink.getKey() == 'FACEBOOK'}">
+                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/img/faceb-icon.png"></a>
+            </c:when>
+            <c:when test="${socLink.getKey() == 'VKONTAKTE'}">
+                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/img/vk-icon.png"></a>
+            </c:when>
+            <c:when test="${socLink.getKey() == 'ODNOKLASSNIKI'}">
+                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="#"></a>
+            </c:when>
+            <c:when test="${socLink.getKey() == 'LINKEDIN'}">
+                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/img/link-icon.png"></a>
+            </c:when>
+            <c:when test="${socLink.getKey() == 'GOOGLEPLUS'}">
+                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/img/goo-icon.png"></a>
+            </c:when>
+            <c:when test="${socLink.getKey() == 'YOUTUBE'}">
+                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="#"></a>
+            </c:when>
+            <c:when test="${socLink.getKey() == 'TWITTER'}">
+                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/img/twit-icon.png"></a>
+            </c:when>
+            <c:when test="${socLink.getKey() == 'SKYPE'}">
+                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="#"></a>
+            </c:when>
+        </c:choose>
+    </c:forEach>
+</div>
 <div>
     Автор: ${username}
 </div>
@@ -41,43 +68,14 @@
 
 <c:if test="${check}">
     <a href="/blog-post/create/${blog.id}"><button>Создать новость</button></a>
-
 </c:if>
 <a href="/blog-post/view-all/${blog.id}"><button>Все новости блога</button></a>
-
 
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
 <script>
-    <%--var categories = '${blog.categories}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string--%>
 
-    <%--for (var i = 0; i < categories.length; i++) {--%>
-
-        <%--var rubric = $('#rubrics');--%>
-        <%--switch (categories[i]) {--%>
-            <%--case 'world':--%>
-                <%--rubric.append('Новости мира');--%>
-                <%--break;--%>
-            <%--case 'ukr':--%>
-                <%--rubric.append('Новости Украины');--%>
-                <%--break;--%>
-            <%--case 'economic':--%>
-                <%--rubric.append('Экономика');--%>
-                <%--break;--%>
-            <%--case 'sport':--%>
-                <%--rubric.append('Спорт');--%>
-                <%--break;--%>
-            <%--case 'crime':--%>
-                <%--rubric.append('Криминал');--%>
-                <%--break;--%>
-            <%--case 'science':--%>
-                <%--rubric.append('Наука');--%>
-                <%--break;--%>
-            <%--default:--%>
-                <%--rubric.append('Нет категории');--%>
-        <%--}--%>
-    <%--}--%>
 </script>
 </body>
 </html>

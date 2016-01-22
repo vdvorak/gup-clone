@@ -5,7 +5,7 @@ import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
 
-import java.util.List;
+import java.util.Set;
 
 
 public interface ProjectService {
@@ -39,5 +39,5 @@ public interface ProjectService {
 
     void bringBackMoneyToInvestors();
 
-    List<String> getMatchedNames(String name);
+    Set<String> getMatchedNames(String name);
 }

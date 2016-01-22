@@ -10,7 +10,6 @@ import ua.com.itproekt.gup.model.news.Comment;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.ServiceNames;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -140,7 +139,7 @@ public class BlogPostServiceImpl implements BlogPostService {
     }
 
     @Override
-    public List<String> getMatchedNames(String name) {
+    public Set<String> getMatchedNames(String name) {
         return blogPostRepository.getMatchedNames(name);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
 
-import java.util.List;
+import java.util.Set;
 
 @RestController
 public class ProjectSearch {
@@ -15,7 +15,7 @@ public class ProjectSearch {
     ProjectService projectService;
 
     @RequestMapping("/search/project")
-    public List<String> getMachedNames(@RequestParam String term){
+    public Set<String> getMachedNames(@RequestParam String term){
         return projectService.getMatchedNames(term);
     }
 }
