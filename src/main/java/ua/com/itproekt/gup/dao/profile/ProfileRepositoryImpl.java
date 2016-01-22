@@ -16,6 +16,8 @@ import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of ProfileRepository.
@@ -88,6 +90,20 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     @Override
     public List<Profile> findAll(){
         return mongoTemplate.findAll(Profile.class);
+    }
+
+    @Override
+    public Set<String> getMatchedNames(String term) {
+        String searchFieldRegex = "(?i:.*" + term + ".*)";
+
+        Query query = new Query()
+                .addCriteria(Criteria.where("username").regex(searchFieldRegex));
+
+        query.fields().include("username");
+        query.skip(0);
+        query.limit(10);
+        return mongoTemplate.find(query, Profile.class).stream().map(Profile::getUsername).collect(Collectors.toSet());
+
     }
 
     @Override

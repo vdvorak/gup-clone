@@ -52,6 +52,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public Blog findBlogAndUpdate(Blog blog) {
         Blog newBlog = new Blog()
+                .setId(blog.getId())
                 .setTitle(blog.getTitle())
                 .setDescription(blog.getDescription())
                 .setImageId(blog.getImageId())
