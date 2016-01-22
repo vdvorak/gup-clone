@@ -11,8 +11,103 @@
 <!DOCTYPE html>
 <html lang="ru-RU">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>GUP - Проекты</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script>
+        var projectId = '';
+        var comment = {};
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/rest/projectsAndInvestmentsService/project/id/${projectId}/read",
+                success: function (projectData) {
+                    projectId = projectData.id;
+                    if (projectData.imagesIds !== null && projectData.imagesIds != '') {
+                        for (var key in projectData.imagesIds) {
+                            if (projectData.imagesIds[key] === "1") {
+                                $('#projectImg').attr('src','/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key);
+                                break;
+                            }
+                        }
+                    } else {
+                        $('#projectImg').attr('src','/resources/images/no_photo.jpg');
+                    }
+                    $('#projectName').text(projectData.projectName);
+                    $('#projectType').text(projectData.typeOfProject);
+                    $('#projectDescription').text(projectData.projectDescription);
+                    $('#amountRequested').text(projectData.amountRequested);
+                    $('#investedAmount').text(projectData.investedAmount);
+                    $('#totalScore').text(projectData.totalScore);
+
+                    var createdDate = new Date(projectData.createdDate);
+                    $('#projectCreatedDate').text(createdDate.getDate() + '/'
+                            + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear());
+
+                    if (projectData.comments == null || projectData.comments.length == 0) {
+                        $('#commentsLabel').append('Еще нет комментариев');
+                        $('#commentsTable').hide();
+                    } else {
+                        for (var i = 0; i < projectData.comments.length; i++) {
+                            var createdDate = new Date(projectData.comments[i].createdDate);
+                            projectData.comments[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
+
+                            var row = $('<tr>');
+                            row.append($('<td>').html(projectData.comments[i].comment));
+                            row.append($('<td>').html(projectData.comments[i].fromId));
+                            row.append($('<td>').html(projectData.comments[i].createdDate));
+
+                            $('#commentsTable').append(row);
+                        }
+                    }
+                },
+                statusCode: {
+                    404: function() {
+                        alert('Такого проекта нет');
+                        window.location.href = "/projectList?pageNumber=0";
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '#voteButton', function (event) {
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/vote/" + $('#projectScore').val(),
+                success: function () {
+                    alert('Вы проголосовали за проект');
+                    window.location.reload();
+                },
+                error: function (response) {
+                    alert("Внутренняя ошибка сервера");
+                }
+            });
+        });
+
+        $(document).on('click', '#commentButton', function (event) {
+
+            comment.toId = projectId;
+            comment.comment = $('#comment').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/comment/create",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(comment),
+                success: function () {
+                    alert('Вы прокомментировали проект');
+                    window.location.reload();
+                },
+                statusCode: {
+                    409: function() {
+                        alert('Сначала нужно проголосовать');
+                    }
+                }
+            });
+        });
+
+    </script>
 </head>
 
 <body>
@@ -96,102 +191,6 @@
             </div>
         </div>
     </div>
-
-    <jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>
-    <script>
-        var projectId = '';
-        var comment = {};
-
-        $(document).ready(function () {
-            $.ajax({
-                type: "GET",
-                url: "/api/rest/projectsAndInvestmentsService/project/id/${projectId}/read",
-                success: function (projectData) {
-                    projectId = projectData.id;
-                    if (projectData.imagesIds !== null && projectData.imagesIds != '') {
-                        for (var key in projectData.imagesIds) {
-                            if (projectData.imagesIds[key] === "1") {
-                                $('#projectImg').attr('src','/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key);
-                                break;
-                            }
-                        }
-                    } else {
-                        $('#projectImg').attr('src','/resources/images/no_photo.jpg');
-                    }
-                        $('#projectName').text(projectData.projectName);
-                        $('#projectType').text(projectData.typeOfProject);
-                        $('#projectDescription').text(projectData.projectDescription);
-                        $('#amountRequested').text(projectData.amountRequested);
-                        $('#investedAmount').text(projectData.investedAmount);
-                        $('#totalScore').text(projectData.totalScore);
-
-                        var createdDate = new Date(projectData.createdDate);
-                        $('#projectCreatedDate').text(createdDate.getDate() + '/'
-                                + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear());
-
-                        if (projectData.comments == null || projectData.comments.length == 0) {
-                            $('#commentsLabel').append('Еще нет комментариев');
-                            $('#commentsTable').hide();
-                        } else {
-                            for (var i = 0; i < projectData.comments.length; i++) {
-                                var createdDate = new Date(projectData.comments[i].createdDate);
-                                projectData.comments[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
-
-                                var row = $('<tr>');
-                                row.append($('<td>').html(projectData.comments[i].comment));
-                                row.append($('<td>').html(projectData.comments[i].fromId));
-                                row.append($('<td>').html(projectData.comments[i].createdDate));
-
-                                $('#commentsTable').append(row);
-                            }
-                        }
-                },
-                statusCode: {
-                    404: function() {
-                        alert('Такого проекта нет');
-                        window.location.href = "/projectList?pageNumber=0";
-                    }
-                }
-            });
-        });
-
-        $(document).on('click', '#voteButton', function (event) {
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/vote/" + $('#projectScore').val(),
-                success: function () {
-                    alert('Вы проголосовали за проект');
-                    window.location.reload();
-                },
-                error: function (response) {
-                    alert("Внутренняя ошибка сервера");
-                }
-            });
-        });
-
-        $(document).on('click', '#commentButton', function (event) {
-
-            comment.toId = projectId;
-            comment.comment = $('#comment').val();
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/comment/create",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify(comment),
-                success: function () {
-                    alert('Вы прокомментировали проект');
-                    window.location.reload();
-                },
-                statusCode: {
-                    409: function() {
-                        alert('Сначала нужно проголосовать');
-                    }
-                }
-            });
-        });
-
-    </script>
 </body>
 </html>
 
