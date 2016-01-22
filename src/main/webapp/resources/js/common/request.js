@@ -20,10 +20,7 @@ Request.prototype.post = function (url, data, success, error) {
         dataType: "json",
         data: data,
         complete: function (e, xhr, settings) {
-            if (e.status === 200) {
-                success(e);
-            }
-            else {
+            function throwError(errorMessage){
                 if (error == null) {
                     error = function (msg) {
                         alert('Request error: ' + JSON.stringify(msg));
@@ -31,7 +28,22 @@ Request.prototype.post = function (url, data, success, error) {
                     };
                 }
                 e.url = url;
+                e.errorMessage = errorMessage;
                 error(e);
+            }
+            var res = '';
+            if (e.status === 200) {
+                try{
+                    res = JSON.parse(e.responseText);
+                }
+                catch(err){
+                    //throwError("can't parse response");
+                }
+                console.log('Request result: ' + JSON.stringify(res));
+                success(res);
+            }
+            else {
+                throwError();
             }
         }
         /*success: success,
@@ -137,7 +149,9 @@ R._libra = {
                     },
                     create: '>'
                 },
-                read: '>'
+                read: '>',
+                dislike: '>',
+                like: '>'
             },
             read: {
                 all: '>'
@@ -170,7 +184,7 @@ R._libra = {
 
 /// PLACE HERE GENOUT ///
 
-R.Libra = function(){ var a = ""; var self = this; return {newsService: function(){var aa = join(a, "newsService");return {blogPost: function(){var aaa = join(aa, "blogPost");return {id: function(id){var aaaa = join(aaa, "id", id);return {comment: function(){var aaaaa = join(aaaa, "comment");return {id: function(id){var aaaaaa = join(aaaaa, "id", id);return {delete: function(data, success, error){var aaaaaaa = join(aaaaaa, "delete");self.post(aaaaaaa, data, success, error);},like: function(data, success, error){var aaaaaaa = join(aaaaaa, "like");self.post(aaaaaaa, data, success, error);}};},create: function(data, success, error){var aaaaaa = join(aaaaa, "create");self.post(aaaaaa, data, success, error);}};},read: function(data, success, error){var aaaaa = join(aaaa, "read");self.post(aaaaa, data, success, error);}};},read: function(){var aaaa = join(aaa, "read");return {all: function(data, success, error){var aaaaa = join(aaaa, "all");self.post(aaaaa, data, success, error);}};}};}};},profilesService: function(){var aa = join(a, "profilesService");return {profile: function(){var aaa = join(aa, "profile");return {read: function(){var aaaa = join(aaa, "read");return {id: function(id, data, success, error){var aaaaa = join(aaaa, "id", id);self.post(aaaaa, data, success, error);},username: function(username, data, success, error){var aaaaa = join(aaaa, "username", username);self.post(aaaaa, data, success, error);},all: function(data, success, error){var aaaaa = join(aaaa, "all");self.post(aaaaa, data, success, error);}};},update: function(data, success, error){var aaaa = join(aaa, "update");self.post(aaaa, data, success, error);},updateByAdmin: function(data, success, error){var aaaa = join(aaa, "updateByAdmin");self.post(aaaa, data, success, error);},delete: function(){var aaaa = join(aaa, "delete");return {id: function(id, data, success, error){var aaaaa = join(aaaa, "id", id);self.post(aaaaa, data, success, error);}};}};},friends: function(){var aaa = join(aa, "friends");return {addFriend: function(addFriend, data, success, error){var aaaa = join(aaa, "addFriend", addFriend);self.post(aaaa, data, success, error);}};}};}}};
+R.Libra = function(){ var a = ""; var self = this; return {newsService: function(){var aa = join(a, "newsService");return {blogPost: function(){var aaa = join(aa, "blogPost");return {id: function(id){var aaaa = join(aaa, "id", id);return {comment: function(){var aaaaa = join(aaaa, "comment");return {id: function(id){var aaaaaa = join(aaaaa, "id", id);return {delete: function(data, success, error){var aaaaaaa = join(aaaaaa, "delete");self.post(aaaaaaa, data, success, error);},like: function(data, success, error){var aaaaaaa = join(aaaaaa, "like");self.post(aaaaaaa, data, success, error);}};},create: function(data, success, error){var aaaaaa = join(aaaaa, "create");self.post(aaaaaa, data, success, error);}};},read: function(data, success, error){var aaaaa = join(aaaa, "read");self.post(aaaaa, data, success, error);},dislike: function(data, success, error){var aaaaa = join(aaaa, "dislike");self.post(aaaaa, data, success, error);},like: function(data, success, error){var aaaaa = join(aaaa, "like");self.post(aaaaa, data, success, error);}};},read: function(){var aaaa = join(aaa, "read");return {all: function(data, success, error){var aaaaa = join(aaaa, "all");self.post(aaaaa, data, success, error);}};}};}};},profilesService: function(){var aa = join(a, "profilesService");return {profile: function(){var aaa = join(aa, "profile");return {read: function(){var aaaa = join(aaa, "read");return {id: function(id, data, success, error){var aaaaa = join(aaaa, "id", id);self.post(aaaaa, data, success, error);},username: function(username, data, success, error){var aaaaa = join(aaaa, "username", username);self.post(aaaaa, data, success, error);},all: function(data, success, error){var aaaaa = join(aaaa, "all");self.post(aaaaa, data, success, error);}};},update: function(data, success, error){var aaaa = join(aaa, "update");self.post(aaaa, data, success, error);},updateByAdmin: function(data, success, error){var aaaa = join(aaa, "updateByAdmin");self.post(aaaa, data, success, error);},delete: function(){var aaaa = join(aaa, "delete");return {id: function(id, data, success, error){var aaaaa = join(aaaa, "id", id);self.post(aaaaa, data, success, error);}};}};},friends: function(){var aaa = join(aa, "friends");return {addFriend: function(addFriend, data, success, error){var aaaa = join(aaa, "addFriend", addFriend);self.post(aaaa, data, success, error);}};}};}}};
 
 /* Tests */
 //function m(msg){

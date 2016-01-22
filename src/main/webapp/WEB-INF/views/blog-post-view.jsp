@@ -27,11 +27,8 @@
         ${cat},
     </c:forEach>
 </h2>
-
 <h2> Страна: ${blogPost.address.country}</h2>
-
 <h2> Область: ${blogPost.address.area}</h2>
-
 <h2> Город: ${blogPost.address.city}</h2>
 <br>
 
@@ -41,15 +38,28 @@
     <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">
 </c:forEach>
 
+<div class="postRating">
+    <button id="dislikeBtn" class="dislike">
+        💔 ${blogPost.totalDislikes}
+        <span class="users hidden">
+            <c:forEach var="u" items="${blogPost.dislikedIds}">
+                <span>${u}</span>
+            </c:forEach>
+        </span>
+    </button>
+    <button id="likeBtn" class="like">
+        ❤ ${blogPost.totalLikes}
+        <span class="users hidden">
+            <c:forEach var="u" items="${blogPost.likedIds}">
+                <span>${u}</span>
+            </c:forEach>
+        </span>
+    </button>
+</div>
+<a href="/blog-post/edit/${blogPost.id}"><button>Редактировать</button></a> новость
 <br>
-<button id="dislikeBtn">Дизлайк</button> ${blogPost.totalDislikes}
-<button id="likeBtn">Лайк</button> ${blogPost.totalLikes}
 <br>
-<a href="/blog-post/edit/${blogPost.id}">редактировать</a>
-
-<div></div>
-
-Комментарии:
+Комментарии
 <input type="button" value="Сортировать" onclick="sort()">
 <div class="comments">
     <c:choose>
@@ -58,10 +68,9 @@
                 <div class="comment" id="${comment.cId}" data-replyId="${comment.toId}" data-rating="${comment.totalLikes}">
                     <div class="author" data-id="${comment.fromId}"></div>
                     <div>${comment.comment}</div>
-                    <div class="rating">Рейтинг: ${comment.totalLikes}</div>
                     <input type="button" class="reply" value="Ответить" onclick="Reply('${comment.cId}')">
-                    <input type="button" class="like" value="Лайк" onclick="Like('${comment.cId}')">
-                    <span class="likeUsers">
+                    <input type="button" class="like" value="" onclick="Like('${comment.cId}')" data-total="${comment.totalLikes}">
+                    <span class="users hidden">
                         <c:forEach var="u" items="${comment.likedIds}">
                             <span>${u}</span>
                         </c:forEach>
@@ -98,7 +107,7 @@
     .comment .author {
         font-weight: bold;
     }
-    .comment .likeUsers {
+    .hidden {
         display: none;
     }
     .comment > .comment{
@@ -107,28 +116,40 @@
 </style>
 
 <script>
-    var blogPostId = '${blogPost.id}';
+    window.GUP = {};
+    GUP.Profile = {
+        id: "<sec:authentication property="principal.profileId" />"
+    };
+
+    var RBlogPost = R.Libra().newsService().blogPost().id("${blogPost.id}");
 
     //----------------------------------------------------- Like and dislike --------------------------------------
-    $(document).on('click', '#dislikeBtn', function (e) {
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/newsService/blogPost/id/" + blogPostId +"/dislike",
-            success: function (data, textStatus, request) {
-                // Верстальщик - сделай тут красоту по возвращению "success"
+    function checkAlreadyVoted(element){
+        var already = false;
+        element.find('.users > span').each(function (e) {
+            if ($(this).text() === GUP.Profile.id){
+                already = true;
             }
+        })
+        return already;
+    }
+    $(document).on('click', '#dislikeBtn', function (e) {
+        if (checkAlreadyVoted($(this))){
+            return;
+        }
+        RBlogPost.dislike(null, function(res){
+            // Верстальщик - сделай тут красоту по возвращению "success"
+            RefreshPage();
         });
     });
 
-    $(document).on('click', '#likeBtn' +
-    '', function (e) {
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/newsService/blogPost/id/" + blogPostId +"/like",
-            success: function (data, textStatus, request) {
-                // Верстальщик - сделай тут красоту по возвращению "success"
-            }
+    $(document).on('click', '#likeBtn', function (e) {
+        if (checkAlreadyVoted($(this))){
+            return;
+        }
+        RBlogPost.like(null, function(res){
+            // Верстальщик - сделай тут красоту по возвращению "success"
+            RefreshPage();
         });
     });
 
@@ -178,6 +199,13 @@
             GetUser(userHandle.attr('data-id'), function(res){
                 userHandle.html(res.username);
             })
+            var likeHandle = $(this).find('.like');
+            if (checkAlreadyVoted($(this))){
+                likeHandle.attr('value', '♥ ' + likeHandle.attr('data-total'));
+            }
+            else {
+                likeHandle.attr('value', '♡ ' + likeHandle.attr('data-total'));
+            }
         });
     });
     function RefreshPage(){
@@ -191,7 +219,7 @@
     function Reply(id){
         $('#commentCreate').attr(replyIdAttr, id);
     }
-    var RComment = R.Libra().newsService().blogPost().id("${blogPost.id}").comment();
+    var RComment = RBlogPost.comment();
     function Like(id){
         RComment.id(id).like(null, RefreshPage);
     }
