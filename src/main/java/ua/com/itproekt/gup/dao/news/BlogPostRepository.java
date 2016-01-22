@@ -5,7 +5,7 @@ import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.news.Comment;
 import ua.com.itproekt.gup.util.EntityPage;
 
-import java.util.List;
+import java.util.Set;
 
 
 public interface BlogPostRepository {
@@ -25,7 +25,7 @@ public interface BlogPostRepository {
 
     boolean commentExists(String blogPostId, String commentId);
 
-    List<String> getMatchedNames(String name);
+    Set<String> getMatchedNames(String name);
 
         //PostComments
     void createComment(String blogPostId, Comment comment);
@@ -41,5 +41,4 @@ public interface BlogPostRepository {
     void dislikeBlogPost(String blogPostId, String userId);
 
     void incViewsAtOne(String blogPostId);
-
 }
