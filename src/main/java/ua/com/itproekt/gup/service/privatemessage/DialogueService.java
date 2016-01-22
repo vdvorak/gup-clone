@@ -24,4 +24,6 @@ public interface DialogueService {
     boolean isUserInDialogue(Dialogue dialogue, String userId);
 
     Dialogue findByMembersAndSubject(Dialogue dialogue);
-}
+
+    Dialogue updateDialogueWhenAddMsg(Dialogue dialogue);
+ }

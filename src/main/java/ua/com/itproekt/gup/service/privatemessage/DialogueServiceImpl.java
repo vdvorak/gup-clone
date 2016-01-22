@@ -8,10 +8,14 @@ import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.privatemessages.PrivateMessage;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 
@@ -25,7 +29,7 @@ public class DialogueServiceImpl implements DialogueService {
     ProfileRepository pr;
 
     @Override
-    public List<Dialogue> findAll(){
+    public List<Dialogue> findAll() {
         return dr.findAll();
     }
 
@@ -40,13 +44,21 @@ public class DialogueServiceImpl implements DialogueService {
     }
 
     @Override
+    public Dialogue updateDialogueWhenAddMsg(Dialogue dialogue) {
+        updateCountersWhenAddOneMsg(dialogue);
+        return dr.save(dialogue);
+    }
+
+    @Override
     public List<Dialogue> findDialogues(Member member) {
         return dr.findByMembersIn(member);
     }
 
     @Override
     public Dialogue findById(String id) {
-        return dr.findOne(id);
+        Dialogue d = dr.findOne(id);
+        updateCountersWhenRead(d);
+        return d;
     }
 
     @Override
@@ -55,8 +67,9 @@ public class DialogueServiceImpl implements DialogueService {
         member.setId(currentUserId);
         List<Dialogue> d1 = dr.findByMembersIn(member);
         System.out.println("!!!!!!!! findByMembersIn !!!!!!!! d1.isEmpty() = " + d1.isEmpty());
-        for(Dialogue d: d1){
-            System.out.println(d);
+        for (Dialogue d : d1) {
+            System.out.println("DialogueServiceImpl.findDialogsForUser() d = " + d);
+            updateCountersWhenRead(d);
         }
         return d1;
     }
@@ -64,8 +77,8 @@ public class DialogueServiceImpl implements DialogueService {
     @Override
     public void completeMembers(Dialogue dialogue) {
         List<Member> members = dialogue.getMembers();
-        for(Member m:members){
-            if (m.getId() != null ) {
+        for (Member m : members) {
+            if (m.getId() != null) {
                 Profile profile = pr.findProfileById(m.getId());
                 m.setName(profile.getUsername());
                 m.setUserPicId(profile.getContact().getPic());
@@ -75,14 +88,13 @@ public class DialogueServiceImpl implements DialogueService {
 
     @Override
     public PrivateMessage completeMessage(PrivateMessage message, String authorId) {
-        message.setDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
         message.setAuthorId(authorId);
         return message;
     }
 
     @Override
-    public boolean isUserInDialogue(Dialogue dialogue, String userId){
-        if(dialogue.getMembers() != null) {
+    public boolean isUserInDialogue(Dialogue dialogue, String userId) {
+        if (dialogue.getMembers() != null) {
             for (Member m : dialogue.getMembers()) {
                 if (userId.equals(m.getId())) {
                     return true;
@@ -93,7 +105,39 @@ public class DialogueServiceImpl implements DialogueService {
     }
 
     @Override
-    public Dialogue findByMembersAndSubject(Dialogue dialogue){
+    public Dialogue findByMembersAndSubject(Dialogue dialogue) {
         return dr.findByMembersAndSubject(dialogue.getMembers(), dialogue.getSubject());
+    }
+
+
+    private void updateCountersWhenRead(Dialogue dialogue) {
+        Profile user = pr.findByEmail(SecurityOperations.getCurrentUserEmail());
+        dialogue.getMessages().parallelStream().forEach(m -> m.getWhoRead().add(user.getId()));
+        Integer wasUnread = dialogue.getUnreadMsgCounter().replace(user.getId(), 0);
+        if (wasUnread != null) {
+            Integer p = user.getUnreadMessages().get() - wasUnread;
+            user.setUnreadMessages(new AtomicInteger(p));
+            pr.updateProfile(user);
+        }
+        updateDialogue(dialogue);
+    }
+
+    private void updateCountersWhenAddOneMsg(Dialogue dialogue) {
+        Profile user = pr.findByEmail(SecurityOperations.getCurrentUserEmail());
+        List<Profile> profiles = new ArrayList<>();
+        List<String> ids = dialogue.getMembers().parallelStream().map(Member::getId)
+                .filter(id -> !id.equals(user.getId()))
+                .collect(Collectors.toList());
+
+                ids.parallelStream().forEach(id -> profiles.add(pr.findProfileById(id)));
+        profiles.parallelStream().forEach(p -> {
+            p.getUnreadMessages().incrementAndGet();
+            pr.updateProfile(p);
+        });
+
+        ids.parallelStream().forEach(id -> {
+            dialogue.getUnreadMsgCounter().replace(id, dialogue.getUnreadMsgCounter().get(id) + 1);
+        });
+        updateDialogue(dialogue);
     }
 }
