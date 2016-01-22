@@ -20,41 +20,6 @@
         <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
         <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
         <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
-    </head>
-
-    <body>
-        <div>
-            <div>
-                <h2 align="center">Проекты</h2>
-                <h3 align="center"><a href="/createProject">Создать свой проект</a></h3>
-                <h3 align="center"><a href="/investorPost/list?pageNumber=0">Публикации инвесторов</a></h3>
-            </div>
-            <div align="center">
-                    <input id="tagsName" size="100" placeholder="Название проекта">
-                    <button id="findPojectsButton">Найти проект</button>
-            </div>
-            <div id="paginationDiv">
-                <label id="pageLabel"><b>Страница:</b> </label>
-                <p align="left" id="goToPage"></p>
-            </div>
-            <div>
-                <table id="projectsTable" border="1" width="100%">
-                    <thead>
-                        <tr>
-                            <th>Фото</th>
-                            <th>Название</th>
-                            <th>Тип</th>
-                            <th>Просмотры</th>
-                            <th>Колл. комментариев</th>
-                            <th>Дата создания</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-
-        <%--<jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>--%>
-
         <script>
             function updateProjectsTable(projectFO) {
                 var data;
@@ -83,7 +48,7 @@
                             var createdDate = new Date(data[i].createdDate);
                             data[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
 
-                            if (data[i].imagesIds !== null) {
+                            if (data[i].imagesIds !== null && data[i].imagesIds != '') {
                                 for (var key in data[i].imagesIds) {
                                     if (data[i].imagesIds[key] === "1") {
                                         data[i].imagesIds = '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key + '" width="100" height="100">';
@@ -142,5 +107,41 @@
                 updateProjectsTable(projectFO);
             });
         </script>
+    </head>
+
+    <body>
+        <div>
+            <div>
+                <h2 align="center">Проекты</h2>
+                <h3 align="center"><a href="/createProject">Создать свой проект</a></h3>
+                <h3 align="center"><a href="/investorPost/list?pageNumber=0">Публикации инвесторов</a></h3>
+            </div>
+            <div align="center">
+                    <input id="tagsName" size="100" placeholder="Название проекта">
+                    <button id="findPojectsButton">Найти проект</button>
+            </div>
+            <div id="paginationDiv">
+                <label id="pageLabel"><b>Страница:</b> </label>
+                <p align="left" id="goToPage"></p>
+            </div>
+            <div>
+                <table id="projectsTable" border="1" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Фото</th>
+                            <th>Название</th>
+                            <th>Тип</th>
+                            <th>Просмотры</th>
+                            <th>Колл. комментариев</th>
+                            <th>Дата создания</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+        <%--<jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>--%>
+
+
     </body>
 </html>

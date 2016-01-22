@@ -108,7 +108,7 @@
                 url: "/api/rest/projectsAndInvestmentsService/project/id/${projectId}/read",
                 success: function (projectData) {
                     projectId = projectData.id;
-                    if (projectData.imagesIds !== null) {
+                    if (projectData.imagesIds !== null && projectData.imagesIds != '') {
                         for (var key in projectData.imagesIds) {
                             if (projectData.imagesIds[key] === "1") {
                                 $('#projectImg').attr('src','/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key);

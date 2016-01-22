@@ -54,7 +54,7 @@
             type: "GET",
             url: "/api/rest/profilesService/profile/read/id/${profileId}",
             success: function (profile) {
-                if (profile.contact != null && profile.contact.pic != null ) {
+                if (profile.contact != null && profile.contact.pic != null && profile.contact.pic != '') {
                     $('#profileImg').attr('src','/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
                 } else {
                     $('#profileImg').attr('src','/resources/images/no_photo.jpg');

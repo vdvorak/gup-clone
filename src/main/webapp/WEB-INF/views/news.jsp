@@ -64,7 +64,7 @@
                             var createdDate = new Date(data[i].createdDate);
                             data[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
 
-                            if (data[i].imagesIds !== null) {
+                            if (data[i].imagesIds !== null && data[i].imagesIds != '') {
                                 for (var key in data[i].imagesIds) {
                                     if (data[i].imagesIds[key] === "1") {
                                         data[i].imagesIds = '<img src="/api/rest/fileStorage/NEWS/file/read/id/' + key + '" width="100" height="100">';
