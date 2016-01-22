@@ -180,6 +180,7 @@
         }
         else {
             comroot.attr('direction', 'rating');
+            roots.reverse();
             roots.sort(function(a, b){
                 return parseInt(a.attr('data-rating')) < parseInt(b.attr('data-rating'));
             });
@@ -194,6 +195,9 @@
             commentsQueueByDate.push($(this).attr('id'));
             if ($(this).attr('data-replyId')){
                 $(this).detach().appendTo('.comment#'+$(this).attr('data-replyId'));
+            }
+            if (!$(this).attr('data-rating')){
+                $(this).attr('data-rating', '0');//BUGGY
             }
             var userHandle = $(this).find('.author');
             GetUser(userHandle.attr('data-id'), function(res){

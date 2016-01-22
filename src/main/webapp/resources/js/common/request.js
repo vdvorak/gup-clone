@@ -34,9 +34,9 @@ Request.prototype.post = function (url, data, success, error) {
             }
 
             var res = '';
-            if (e.status === 200) {
+            if (e.status === 200 || e.status === 201) {
                 try {
-                    res = JSON.parse(e.responseText);
+                    res = JSON.parse(e.responseJSON);
                 }
                 catch (err) {
                     //throwError("can't parse response");
@@ -209,45 +209,45 @@ R._libra = {
         friends: {
             addFriend_id: '>'
         }
-    }, 
+    },
     activityFeed: {
         event: {
             read: {
                 all: '>'
-            }, 
+            },
             id_eventId: {
                 delete: '>'
             }
         }
-    }, 
+    },
     dialogueService: {
         dialogue: {
-            create: '>', 
+            create: '>',
             id_id: {
                 message: {
                     create: '>'
                 }
-            }, 
+            },
             read: {
-                id_id: '>', 
+                id_id: '>',
                 all: '>'
-            }, 
+            },
             update: {
                 id_id: '>'
             }
         }
-    }, 
+    },
     emailService: {
         email: {
             create: '>'
         }
-    }, 
+    },
     nace: {
-        create: '>', 
+        create: '>',
         read: {
-            id_id: '>', 
+            id_id: '>',
             all: '>'
-        }, 
+        },
         update: {
             id_id: '>'
         }
