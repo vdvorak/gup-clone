@@ -24,5 +24,8 @@ public enum EventType {
     USER_ADD_TO_DOER_CLIENT_LIST,
 
     //for tenderServise
-    TENDER_END_DAY_NEED_CHOOSE_WINNER
+    TENDER_END_DAY_NEED_CHOOSE_WINNER,
+
+    OFFER_RESERVATION,
+    OFFER_RENT
 }
