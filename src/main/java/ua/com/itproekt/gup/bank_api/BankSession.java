@@ -136,7 +136,6 @@ public class BankSession {
         params.put("description", new String("Пополнение баланса".getBytes("UTF-8"),"cp1251") );
         params.put("order_id",BankService.getRandomPassword()+id);
         params.put("server_url", "http://e-otg-gup-bank.herokuapp.com/callback");
-        params.put("sandbox", "1");
         params.put("public_key", "i74044182839");
         LiqPay liqpay = new LiqPay("i74044182839", "psMQcCR32o4TZRZTKI0Yoe4UDNyFHNFHf76Pyedr");
         String html = liqpay.cnb_form(params);
@@ -155,7 +154,6 @@ public class BankSession {
         }
         params.put("order_id", BankService.getRandomPassword()+id);
         params.put("server_url", "http://e-otg-gup-bank.herokuapp.com/callback");
-        params.put("sandbox", "1");
         params.put("public_key", "i74044182839");
         return new LiqPay("i74044182839", "psMQcCR32o4TZRZTKI0Yoe4UDNyFHNFHf76Pyedr").generateData(params);
     }

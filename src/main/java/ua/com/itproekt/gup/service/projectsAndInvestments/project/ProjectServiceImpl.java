@@ -157,7 +157,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<String> getMatchedNames(String name) {
+    public Set<String> getMatchedNames(String name) {
         return projectRepository.getMatchedNames(name);
     }
 

@@ -13,6 +13,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>GUP</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
@@ -37,48 +38,8 @@
 
 <!--3rd section news timeline-->
 <section>
-    <div class="main-newsTimeline-wrap">
-        <div class="main-news-item-wrap">
-            <a href="/index">
-                <img src="/resources/img/vegan-pic1.png">
-            </a>
-
-            <div class="main-news-text"><span class="main-news-title">веган фест</span>Дать возможность людям сделать
-                осознанный выбор, который улучшит качество жизни каждого, уделяя внимание простым основам нравственного,
-                экологического и гармоничного образа жизни, основанного на заботе о здоровье, окружающей среде и наших
-                хвостатых соседях по планете.
-            </div>
-            <div class="main-news-subtitles">
-                <div class="main-news-views">Просмотров:<span></span></div>
-                <div class="main-news-date">Дата публикации: <span></span></div>
-            </div>
-        </div>
-        <div class="main-news-item-wrap">
-            <img src="/resources/img/vegan-pic1.png">
-
-            <div class="main-news-text"><span class="main-news-title">веган фест</span>Дать возможность людям сделать
-                осознанный выбор, который улучшит качество жизни каждого, уделяя внимание простым основам нравственного,
-                экологического и гармоничного образа жизни, основанного на заботе о здоровье, окружающей среде и наших
-                хвостатых соседях по планете.
-            </div>
-            <div class="main-news-subtitles">
-                <div class="main-news-views">Просмотров:<span></span></div>
-                <div class="main-news-date">Дата публикации: <span></span></div>
-            </div>
-        </div>
-        <div class="main-news-item-wrap">
-            <img src="/resources/img/vegan-pic1.png">
-
-            <div class="main-news-text"><span class="main-news-title">веган фест</span>Дать возможность людям сделать
-                осознанный выбор, который улучшит качество жизни каждого, уделяя внимание простым основам нравственного,
-                экологического и гармоничного образа жизни, основанного на заботе о здоровье, окружающей среде и наших
-                хвостатых соседях по планете.
-            </div>
-            <div class="main-news-subtitles">
-                <div class="main-news-views">Просмотров:<span></span></div>
-                <div class="main-news-date">Дата публикации: <span></span></div>
-            </div>
-        </div>
+    <div class="main-newsTimeline-wrap" id="newsContainer">
+        <%--Dynamic news--%>
     </div>
 </section>
 <!--END 3rd section-->
@@ -104,6 +65,52 @@
 <!--END of libs-->
 
 <script>
+
+    $(document).ready(function () {
+        var data;
+        var blogPostFO = {};
+        blogPostFO.createdDateSortDirection = "DESC";
+        blogPostFO.skip = 0;
+        blogPostFO.limit = 10;
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/api/rest/newsService/blogPost/read/all",
+            data: JSON.stringify(blogPostFO),
+            success: function (response) {
+                data = response.entities;
+                for (var i = 0; i < data.length; i++) {
+                    var createdDate = new Date(data[i].createdDate);
+                    data[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
+
+                    var  imagePreviewTag = '';
+                    if (data[i].imagesIds !== null) {
+                        for (var key in data[i].imagesIds) {
+                            if (data[i].imagesIds[key] === "1") {
+                                imagePreviewTag = '<img src="/api/rest/fileStorage/NEWS/file/read/id/' + key + '" width="200" height="200">';
+                            }
+                        }
+                    } else {
+                        imagePreviewTag = '<img src="/resources/images/no_photo.jpg" width="200" height="200">';
+                    }
+
+                    $('#newsContainer').append(
+                            '<div class="main-news-item-wrap">' +
+                                imagePreviewTag +
+                                '<div class="main-news-text">' +
+                                    '<span class="main-news-title">' + data[i].title + '</span>' +
+                                     data[i].text +
+                                '</div>' +
+                                '<div class="main-news-subtitles">' +
+                                    '<div class="main-news-view">' + 'Просмотров: ' + data[i].views + '<span></span></div>' +
+                                    '<div class="main-news-date">' + 'Дата публикации:' + data[i].createdDate + '<span></span></div>' +
+                                '</div>' +
+                            '</div>');
+                }
+            }
+        });
+    });
 
     $(function () {
         $('#login-form-link').click(function (e) {

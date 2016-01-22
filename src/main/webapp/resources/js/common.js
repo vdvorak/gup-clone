@@ -12,7 +12,14 @@ $(".top-menu-username a").click(function(e){
     e.preventDefault();
     $(".header-mainMenu").toggle();
 });
-
+$(".top-menu-userSection").hover(
+    function () {
+        $('.header-mainMenu').slideDown('medium');
+    },
+    function () {
+        $('.header-mainMenu').slideUp('medium');
+    }
+);
 
 
 

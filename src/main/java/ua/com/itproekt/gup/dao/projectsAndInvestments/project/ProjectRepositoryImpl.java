@@ -200,7 +200,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public List<String> getMatchedNames(String name) {
+    public Set<String> getMatchedNames(String name) {
         String searchFieldRegex = "(?i:.*" + name + ".*)";
 
         Query query = new Query()
@@ -208,8 +208,8 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
         query.fields().include("projectName");
         query.skip(0);
-        query.limit(15);
-        return mongoTemplate.find(query, Project.class).stream().map(Project::getProjectName).collect(Collectors.toList());
+        query.limit(10);
+        return mongoTemplate.find(query, Project.class).stream().map(Project::getProjectName).collect(Collectors.toSet());
     }
 
     @Override

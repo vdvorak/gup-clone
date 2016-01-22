@@ -56,13 +56,8 @@
         <%--<jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>--%>
 
         <script>
-            $(document).ready(function () {
+            function updateProjectsTable(projectFO) {
                 var data;
-                var projectFO = {};
-                projectFO.createdDateSortDirection = "DESC";
-                projectFO.includeComments = false;
-                projectFO.skip = ${pageNumber};
-                projectFO.limit = 10;
 
                 $.ajax({
                     type: "POST",
@@ -111,7 +106,7 @@
                         }
                     }
                 });
-            });
+            }
 
             $(function() {
                 $("#tagsName").autocomplete({
@@ -123,11 +118,20 @@
                 });
             });
 
+            $(document).ready(function () {
+                var projectFO = {};
+                projectFO.createdDateSortDirection = "DESC";
+                projectFO.includeComments = false;
+                projectFO.skip = ${pageNumber};
+                projectFO.limit = 20;
+
+                updateProjectsTable(projectFO);
+            });
+
             $(document).on('click', '#findPojectsButton', function (event) {
                 $("#projectsTable").find("tr:not(:first)").remove();
                 $("#paginationDiv").remove();
 
-                var data;
                 var projectFO = {};
                 projectFO.searchField = $("#tagsName").val();
                 projectFO.createdDateSortDirection = "DESC";
@@ -135,53 +139,7 @@
                 projectFO.skip = ${pageNumber};
                 projectFO.limit = 50;
 
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    url: "/api/rest/projectsAndInvestmentsService/project/read/all",
-                    data: JSON.stringify(projectFO),
-                    success: function (response) {
-                        data = response.entities;
-                        var goToPageLinks = '';
-
-                        $('#pageLabel').append((projectFO.skip + 1) + ' из ' + response.totalEntities);
-                        if (projectFO.skip > 0) {
-                            goToPageLinks += '<a href="/projectList?pageNumber=' + (projectFO.skip - 1)  + '"> Назад </a>';
-                        }
-
-                        if (projectFO.skip < response.totalEntities && response.totalEntities/projectFO.limit > 1) {
-                            goToPageLinks += '<a href="/projectList?pageNumber=' + (projectFO.skip + 1) + '"> Следующая </a>';
-                        }
-                        $('#goToPage').append(goToPageLinks);
-
-                        for (var i = 0; i < data.length; i++) {
-                            data[i].projectName = '<a href="/project/id/' + data[i].id + '">' + data[i].projectName + '</a>';
-                            var createdDate = new Date(data[i].createdDate);
-                            data[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
-
-                            if (data[i].imagesIds !== null) {
-                                for (var key in data[i].imagesIds) {
-                                    if (data[i].imagesIds[key] === "1") {
-                                        data[i].imagesIds = '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key + '" width="100" height="100">';
-                                    }
-                                }
-                            } else {
-                                data[i].imagesIds = {};
-                                data[i].imagesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
-                            }
-
-                            var row = $('<tr>');
-                            row.append($('<td>').html(data[i].imagesIds));
-                            row.append($('<td>').html(data[i].projectName));
-                            row.append($('<td>').html(data[i].typeOfProject));
-                            row.append($('<td>').html(data[i].views));
-                            row.append($('<td>').html(data[i].totalComments));
-                            row.append($('<td>').html(data[i].createdDate));
-
-                            $('#projectsTable').append(row);
-                        }
-                    }
-                });
+                updateProjectsTable(projectFO);
             });
         </script>
     </body>

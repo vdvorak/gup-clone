@@ -1,29 +1,30 @@
 /**
  * Created by qz on 1/18/2016.
  */
-                                                        /*Create tender*/
-$('#submit').click(function () {
 
-    var tenderCreate = {};
-    tenderCreate .tenderId = '${tenderId}';
-    tenderCreate .title = $('#tc-tenderTitle').val();
-    tenderCreate .text = $('#text').val();
-    tenderCreate .address = {};
-    tenderCreate .address.country = 'Украина';
-    tenderCreate .address.area = $('#areaInp').val();
-    tenderCreate .address.city = $('#cityInp').val();
-    tenderCreate .imagesIds = imgsArr;
-    tenderCreate .categories = [];
-    tenderCreate .categories.push($('#category').val());
+var tender = {};
 
+
+$(document).on('click', '#submit', function () {
+
+    tender.title = $('.tm-tender-name').val();
+    tender.body = $('#text').val();
+    tender.address[1] =$('.tm-area').val();
+    tender.address[2] =$('.tm-city').val();
+    tender.price =$('.tm-price').val();
+    tender.tenderNumber =$('.tm-number').val();
+
+    alert(tender);
     $.ajax({
         type: "POST",
-        url: "/api/rest/tenderService/tender/create/",
+        url: "/api/rest/newsService/tender/create/",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: JSON.stringify(blogPost),
+        data: JSON.stringify(tender),
         success: function (response) {
-            window.location.href = '/blog-post/view/' + response.id;
+            window.location.href = '/tender/'+ response.id;
+
+
         },
         error: function (response) {
             alert("Внутренняя ошибка сервера");

@@ -137,4 +137,9 @@ public class BlogPostServiceImpl implements BlogPostService {
                 .setModifiedDateEqualsToCurrentDate();
         return blogPostRepository.findBlogPostAndUpdate(newBlogPost);
     }
+
+    @Override
+    public Set<String> getMatchedNames(String name) {
+        return blogPostRepository.getMatchedNames(name);
+    }
 }

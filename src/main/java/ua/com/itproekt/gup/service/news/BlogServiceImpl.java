@@ -25,7 +25,9 @@ public class BlogServiceImpl implements BlogService {
     public void createBlog(Blog blog) {
         Map<String, String> editorIds = new HashMap<>();
         editorIds.put("author", blog.getAuthorId());
-        editorIds.putAll(blog.getEditorsIds());
+        if (blog.getEditorsIds() != null) {
+            editorIds.putAll(blog.getEditorsIds());
+        }
 
         Blog newBlog = new Blog()
                 .setCreatedDateEqualsToCurrentDate()
@@ -50,6 +52,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public Blog findBlogAndUpdate(Blog blog) {
         Blog newBlog = new Blog()
+                .setId(blog.getId())
                 .setTitle(blog.getTitle())
                 .setDescription(blog.getDescription())
                 .setImageId(blog.getImageId())

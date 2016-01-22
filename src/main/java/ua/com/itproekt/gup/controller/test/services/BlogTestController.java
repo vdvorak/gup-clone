@@ -100,7 +100,7 @@ public class BlogTestController {
     }
 
     @RequestMapping("/addPostsToBlog/{blogId}/{numberOfPosts}")
-    public String addPostsToBlog(@PathVariable("blogId") String blogId, @PathVariable("numberOfPosts") int numberOfPosts, Model model) {
+    public String addPostsToBlog(@PathVariable String blogId, @PathVariable int numberOfPosts, Model model) {
         for (int i = 0; i < numberOfPosts; i++) {
             BlogPost blogPost = new BlogPost()
                 .setBlogId(blogId)
