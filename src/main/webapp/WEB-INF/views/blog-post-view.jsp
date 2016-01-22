@@ -13,6 +13,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>${blogPost.title}</title>
     <script src="/resources/libs/jquery-1.11.3.min.js"></script>
+    <script src="/resources/js/common/request.js"></script>
     <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
 </head>
 <body>
@@ -49,17 +50,22 @@
 <div></div>
 
 Комментарии:
+<input type="button" value="Сортировать" onclick="sort()">
 <div class="comments">
     <c:choose>
         <c:when test="${blogPost.comments.size() > 0}">
             <c:forEach var="comment" items="${blogPost.comments}">
-                <div class="comment" data-id="${comment.cId}" data-replyId="${comment.toId}">
+                <div class="comment" id="${comment.cId}" data-replyId="${comment.toId}" data-rating="${comment.totalLikes}">
                     <div class="author" data-id="${comment.fromId}"></div>
                     <div>${comment.comment}</div>
                     <div class="rating">Рейтинг: ${comment.totalLikes}</div>
                     <input type="button" class="reply" value="Ответить" onclick="Reply('${comment.cId}')">
                     <input type="button" class="like" value="Лайк" onclick="Like('${comment.cId}')">
-                    <input type="button" class="delete" value="Удалить" onclick="CommentDelete('${comment.cId}')">
+                    <c:choose>
+                        <c:when test="${blogPost.authorId} == ${comment.fromId}">
+                            <input type="button" class="delete" value="Удалить" onclick="CommentDelete('${comment.cId}')">
+                        </c:when>
+                    </c:choose>
                 </div>
             </c:forEach>
         </c:when>
@@ -120,95 +126,80 @@
 
     //----------------------------------------------------- Like and dislike --------------------------------------
 
+    function sort(){
+        var comroot = $('.comments');
+        var direction = comroot.attr('direction');
+        if (!direction){
+            direction = 'date';
+        }
+        var roots = [];
+        $('.comment').each(function(){
+            if (!$(this).attr('data-replyId')){
+                $(this).detach();
+                roots.push($(this));
+            }
+        });
+        var sortFunc;
+        if (direction === 'rating'){
+            comroot.attr('direction', 'date');
+            commentsQueueByDate.forEach(function(q){
+                roots.forEach(function(e){
+                    if (e.attr('id') === q){
+                        comroot.append(e);
+                    }
+                });
+            });
+        }
+        else {
+            comroot.attr('direction', 'rating');
+            roots.sort(function(a, b){
+                return parseInt(a.attr('data-rating')) < parseInt(b.attr('data-rating'));
+            });
+            roots.forEach(function(e){
+                comroot.append(e);
+            });
+        }
+    }
+    var commentsQueueByDate = [];
     $(document).ready(function(){
         $('.comment').each(function(){
+            commentsQueueByDate.push($(this).attr('id'));
             if ($(this).attr('data-replyId')){
-                $(this).detach().appendTo('.comment[data-id='+$(this).attr('data-replyId')+']');
+                $(this).detach().appendTo('.comment#'+$(this).attr('data-replyId'));
             }
             var userHandle = $(this).find('.author');
-            GetUser(userHandle.attr('data-id'), function(res){
-                userHandle.html(res.username);
-            })
+//            GetUser(userHandle.attr('data-id'), function(res){
+//                userHandle.html(res.username);
+//            })
         });
     });
     function RefreshPage(){
-        window.location.href = '/blog-post/view/${blogPost.id}';
+        location.reload();
     }
     function OnError(msg){
         alert('error: ' + JSON.stringify(msg));
         //alert("Внутренняя ошибка сервера");
-
     }
     var replyIdAttr = 'replyId';
     function Reply(id){
         $('#commentCreate').attr(replyIdAttr, id);
     }
+    var RComment = R.Libra().newsService().blogPost().id("${blogPost.id}").comment();
     function Like(id){
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/newsService/blogPost/id/${blogPost.id}/comment/id/" + id + "/like",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            complete: function(e, xhr, settings){
-                if (e.status === 200) {
-                    RefreshPage();
-                }
-                else{
-                    OnError(response);
-                }
-            }
-        });
+        RComment.id(id).like(null, RefreshPage);
     }
     function CommentDelete(id){
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/newsService/blogPost/id/${blogPost.id}/comment/id/" + id + "/delete",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                RefreshPage();
-            },
-            error: function (response) {
-                OnError(response);
-            }
-        });
+        RComment.id(id).delete(null, RefreshPage);
     }
     $('#submit').click(function () {
-
         var comment = {};
         var handle = $('#commentCreate');
         comment.comment = handle.find('#text').val();
         comment.toId = handle.attr(replyIdAttr);
-
-        //alert(JSON.stringify(comment));
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/newsService/blogPost/id/${blogPost.id}/comment/create",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(comment),
-            success: function (response) {
-                RefreshPage();
-            },
-            error: function (response) {
-                OnError(response);
-            }
-        });
+        RComment.create(JSON.stringify(comment), RefreshPage);
     });
     function GetUser(id, callback){
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/profilesService/profile/read/id/"+id,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                callback(response);
-            },
-            error: function (response) {
-                OnError(response);
-            }
-        });
+        R.Libra().profilesService().profile().read().id(id, null, callback);
     }
 </script>
 

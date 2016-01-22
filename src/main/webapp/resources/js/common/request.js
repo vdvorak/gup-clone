@@ -49,31 +49,38 @@ Request.generator = {
             if (!obj.hasOwnProperty(prop) || prop === "0") continue;
 
             var ret = '';
+            var args = '';
             if (obj[prop] === '>') {
-                ret = nn;
+                args = 'data, success, error';
+                ret = 'self.post(' + nn + ', ' + args + ');';
             }
             else {
-                ret = Request.generator.genIter(obj[prop], nn);
+                ret = 'return ' + Request.generator.genIter(obj[prop], nn) + ';';
             }
             if (prop[0] === '_') {
-                arr.push(String.format('[0]: function([0]){' +
+                //args = prop.slice(1) + ', ' + args;
+                if (args.length > 0){
+                    args  = ', ' + args;
+                }
+                args = prop.slice(1) + args;
+                arr.push(String.format('[0]: function([4]){' +
                     'var [2] = join([1], "[0]", [0]);' +
-                    'return [3];' +
+                    '[3]' +
                     '}',
-                    prop.slice(1), n, nn, ret));
+                    prop.slice(1), n, nn, ret, args));
             }
             else {
-                arr.push(String.format('[0]: function(){' +
+                arr.push(String.format('[0]: function([4]){' +
                     'var [2] = join([1], "[0]");' +
-                    'return [3];' +
+                    '[3]' +
                     '}',
-                    prop, n, nn, ret));
+                    prop, n, nn, ret, args));
             }
         }
         return '{' + arr.join(',') + '}';
     },
     gen: function (obj) {
-        return 'var a = ""; R.Libra = ' + Request.generator.genIter(obj, 'a') + ';';
+        return 'R.Libra = function(){ var a = ""; var self = this; return ' + Request.generator.genIter(obj, 'a') + '};';
     }
 };
 
@@ -162,7 +169,8 @@ R._libra = {
 //eval(genout);
 
 /// PLACE HERE GENOUT ///
-var a = ""; R.Libra = {newsService: function(){var aa = join(a, "newsService");return {blogPost: function(){var aaa = join(aa, "blogPost");return {id: function(id){var aaaa = join(aaa, "id", id);return {comment: function(){var aaaaa = join(aaaa, "comment");return {id: function(id){var aaaaaa = join(aaaaa, "id", id);return {delete: function(){var aaaaaaa = join(aaaaaa, "delete");return aaaaaaa;},like: function(){var aaaaaaa = join(aaaaaa, "like");return aaaaaaa;}};},create: function(){var aaaaaa = join(aaaaa, "create");return aaaaaa;}};},read: function(){var aaaaa = join(aaaa, "read");return aaaaa;}};},read: function(){var aaaa = join(aaa, "read");return {all: function(){var aaaaa = join(aaaa, "all");return aaaaa;}};}};}};},profilesService: function(){var aa = join(a, "profilesService");return {profile: function(){var aaa = join(aa, "profile");return {read: function(){var aaaa = join(aaa, "read");return {id: function(id){var aaaaa = join(aaaa, "id", id);return aaaaa;},username: function(username){var aaaaa = join(aaaa, "username", username);return aaaaa;},all: function(){var aaaaa = join(aaaa, "all");return aaaaa;}};},update: function(){var aaaa = join(aaa, "update");return aaaa;},updateByAdmin: function(){var aaaa = join(aaa, "updateByAdmin");return aaaa;},delete: function(){var aaaa = join(aaa, "delete");return {id: function(id){var aaaaa = join(aaaa, "id", id);return aaaaa;}};}};},friends: function(){var aaa = join(aa, "friends");return {addFriend: function(addFriend){var aaaa = join(aaa, "addFriend", addFriend);return aaaa;}};}};}};
+
+R.Libra = function(){ var a = ""; var self = this; return {newsService: function(){var aa = join(a, "newsService");return {blogPost: function(){var aaa = join(aa, "blogPost");return {id: function(id){var aaaa = join(aaa, "id", id);return {comment: function(){var aaaaa = join(aaaa, "comment");return {id: function(id){var aaaaaa = join(aaaaa, "id", id);return {delete: function(data, success, error){var aaaaaaa = join(aaaaaa, "delete");self.post(aaaaaaa, data, success, error);},like: function(data, success, error){var aaaaaaa = join(aaaaaa, "like");self.post(aaaaaaa, data, success, error);}};},create: function(data, success, error){var aaaaaa = join(aaaaa, "create");self.post(aaaaaa, data, success, error);}};},read: function(data, success, error){var aaaaa = join(aaaa, "read");self.post(aaaaa, data, success, error);}};},read: function(){var aaaa = join(aaa, "read");return {all: function(data, success, error){var aaaaa = join(aaaa, "all");self.post(aaaaa, data, success, error);}};}};}};},profilesService: function(){var aa = join(a, "profilesService");return {profile: function(){var aaa = join(aa, "profile");return {read: function(){var aaaa = join(aaa, "read");return {id: function(id, data, success, error){var aaaaa = join(aaaa, "id", id);self.post(aaaaa, data, success, error);},username: function(username, data, success, error){var aaaaa = join(aaaa, "username", username);self.post(aaaaa, data, success, error);},all: function(data, success, error){var aaaaa = join(aaaa, "all");self.post(aaaaa, data, success, error);}};},update: function(data, success, error){var aaaa = join(aaa, "update");self.post(aaaa, data, success, error);},updateByAdmin: function(data, success, error){var aaaa = join(aaa, "updateByAdmin");self.post(aaaa, data, success, error);},delete: function(){var aaaa = join(aaa, "delete");return {id: function(id, data, success, error){var aaaaa = join(aaaa, "id", id);self.post(aaaaa, data, success, error);}};}};},friends: function(){var aaa = join(aa, "friends");return {addFriend: function(addFriend, data, success, error){var aaaa = join(aaa, "addFriend", addFriend);self.post(aaaa, data, success, error);}};}};}}};
 
 /* Tests */
 //function m(msg){
