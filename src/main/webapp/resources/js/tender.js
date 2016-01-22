@@ -23,6 +23,8 @@ $(document).on('click', '#submit', function () {
         data: JSON.stringify(tender),
         success: function (response) {
             window.location.href = '/tender/'+ response.id;
+
+
         },
         error: function (response) {
             alert("Внутренняя ошибка сервера");

@@ -112,7 +112,7 @@
       <h2>СОЗДАНИЕ ТЕНДЕРА</h2>
     </div>
     <div class="tm-mainForm-wrap">
-      <form id="tm-input" action="" method="post">
+
 
         <div>
           <p class="tm-tender-name">Введите название</p>
@@ -189,8 +189,8 @@
         <div>
           <input type="file"  multiple accept="image/*,image/jpeg">
         </div>
-        <input id="#submit" type="submit" value="Сохранить">
-      </form>
+        <button id="#submit" >Save</button>
+
     </div>
   </div>
 </section>
@@ -293,7 +293,7 @@
 <script src="/resources/libs/jquery.magnific-popup.min.js"></script>
 <script src="/resources/js/common.js"></script>
 <script src='https://www.google.com/recaptcha/api.js'></script>
-<script src="/resources/js/common.js"></script>
+<script src="/resources/js/tender.js"></script>
 
 
 <!--END of libs-->
