@@ -77,11 +77,11 @@ public class ProfileController {
 
 
     @RequestMapping("/profile/list")
-    public String getProfileList(@RequestParam(required = false) String term,
+    public String getProfileList(@RequestParam(required = false, defaultValue = "") String term,
                                  @RequestParam(required = false, defaultValue = "0") int pageNumber,
                                  Model model){
-        model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("term", term);
+        model.addAttribute("pageNumber", pageNumber);
 
         return "profile/profileList";
     }

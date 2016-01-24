@@ -22,10 +22,11 @@
     <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
     <script>
         var profileFO = {};
-        var term = ${term};
 
         $(document).ready(function () {
-            if (term != null) {
+            var term = '${term}';
+
+            if (term != "") {
                 profileFO.searchField = term;
             }
 
@@ -69,7 +70,7 @@
 //                    $('#goToPage').append(goToPageLinks);
 
                     for (var profile in data) {
-                        if (profile.contact != null && profile.contact.pic != null && profile.contact.pic != '') {
+                        if (profile.contact != null && profile.contact.pic != null && profile.contact.pic != undefined) {
                             profile.contact.pic = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '" width="100" height="100">';
                         } else {
                             profile.contact.pic = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
