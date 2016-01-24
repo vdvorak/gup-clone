@@ -4,8 +4,18 @@ package ua.com.itproekt.gup.model.profiles;
  * The type Profile filter options, use for pagination.
  */
 public final class ProfileFilterOptions extends Profile {
+    private String searchField;
     private int skip;
     private int limit;
+
+
+    public String getSearchField() {
+        return searchField;
+    }
+
+    public void setSearchField(String searchField) {
+        this.searchField = searchField;
+    }
 
     /**
      * Gets skip.
