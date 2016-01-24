@@ -10,11 +10,8 @@ import ua.com.itproekt.gup.model.privatemessages.PrivateMessage;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -135,9 +132,10 @@ public class DialogueServiceImpl implements DialogueService {
             pr.updateProfile(p);
         });
 
-        ids.parallelStream().forEach(id -> {
-            dialogue.getUnreadMsgCounter().replace(id, dialogue.getUnreadMsgCounter().get(id) + 1);
-        });
+        //TODO Пофиксить null pointer
+//        ids.parallelStream().forEach(id -> {
+//            dialogue.getUnreadMsgCounter().replace(id, dialogue.getUnreadMsgCounter().get(id) + 1);
+//        });
         updateDialogue(dialogue);
     }
 }
