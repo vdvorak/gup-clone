@@ -15,7 +15,7 @@ public class Dialogue {
     private String subject;
     private List<Member> members = new ArrayList<>();
     private List<PrivateMessage> messages = new ArrayList<>();
-    private ConcurrentHashMap<String, Integer> unreadMsgCounter;
+    private ConcurrentHashMap<String, Integer> unreadMsgCounter = new ConcurrentHashMap<>();
 
     public String getId() {
         return id;
