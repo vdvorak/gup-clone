@@ -21,79 +21,9 @@
     <link href="/resources/css/pgwslideshow.css" rel="stylesheet" type="text/css">
 </head>
 <body class="center-block" style="padding-top: 70px; max-width: 1200px;">
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-            <li><a href="#">Моя страница</a></li>
-            <li><a href="#">Друзья</a></li>
-            <li><a href="#">Сообщения</a></li>
-        </ul>
-        <div class="col-sm-4 col-md-4 pull-right">
-            <ul class="nav navbar-nav">
-                <li><a href="#">Вступить в организацию</a></li>
-                <li><a href="#">Баланс</a></li>
-                <li><a href="#">Укр/Рус</a></li>
-                <li><a href="/logout">Выход</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+
 
 <div class="container-fluid">
-
-    <!--category-->
-    <div class="row" style="padding: 10px;">
-        <div class="col-xs-3" style="padding-left: 5px; padding-right: 5px;">
-            <a><img src="/resources/images/logo.png"></a>
-        </div>
-        <div class="col-xs-3"
-             style="padding-left: 5px; padding-right: 5px; color: white; font-size: 25px;  margin-top: 30px; ">
-            ПОРТАЛ<br>РОЗВИТКУ<br>УКРАЇНИ
-        </div>
-        <div class="col-xs-2 pull-right" style="padding-left: 5px; padding-right: 5px; margin-top: 60px;">
-
-        </div>
-        <div class="col-xs-2 pull-right" style="padding-left: 5px; padding-right: 5px; margin-top: 60px;">
-
-        </div>
-        <div class="col-xs-2 pull-right" style="padding-left: 5px; padding-right: 5px; margin-top: 60px;">
-
-        </div>
-    </div>
-    <!--category-->
-
-    <!--category-->
-    <div class="row">
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <a href="/offers"><div class="btn btn-info btn-block">Объявления</div></a>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Работа
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Блог
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Новости
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Тендеры
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Проекты
-            </div>
-        </div>
-    </div>
-    <!--category-->
 
     <!--search-->
     <div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">
@@ -115,7 +45,8 @@
                 <div class="col-xs-6" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
-                            <a id="chosenRegion" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите область<b class="caret"></b></a>
+                            <a id="chosenRegion" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите
+                                область<b class="caret"></b></a>
                             <ul class="dropdown-menu multi-column columns-2">
                                 <div id="regions" class="row">
                                     <div class="col-sm-6">
@@ -126,9 +57,11 @@
                                             <li><a role="menuitem" tabindex="-1" href="#">Донецкая область</a></li>
                                             <li><a role="menuitem" tabindex="-1" href="#">Житомирская область</a></li>
                                             <li><a role="menuitem" tabindex="-1" href="#">Закарпатская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Ивано‑Франковская область</a></li>
+                                            <li><a role="menuitem" tabindex="-1" href="#">Ивано‑Франковская область</a>
+                                            </li>
                                             <li><a role="menuitem" tabindex="-1" href="#">Киевская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Кировоградская область</a></li>
+                                            <li><a role="menuitem" tabindex="-1" href="#">Кировоградская область</a>
+                                            </li>
                                             <li><a role="menuitem" tabindex="-1" href="#">Крым</a></li>
                                             <li><a role="menuitem" tabindex="-1" href="#">Луганская область</a></li>
                                             <li><a role="menuitem" tabindex="-1" href="#">Львовская область</a></li>
@@ -156,10 +89,11 @@
                     </ul>
                 </div>
 
-                <div class="col-xs-6" id="bs-example-navbar-collapse-2" >
+                <div class="col-xs-6" id="bs-example-navbar-collapse-2">
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
-                            <a id="chosenCity" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите город<b class="caret"></b></a>
+                            <a id="chosenCity" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите город<b
+                                    class="caret"></b></a>
                             <ul class="dropdown-menu multi-column columns-2">
                                 <div id="cities" class="row">
 
@@ -187,7 +121,9 @@
             </div>
         </div>
         <div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">
-            <a href="/create-offer"> <div class="btn btn-info">ПОДАТЬ ОБЪЯВЛЕНИЕ +</div></a>
+            <a href="/create-offer">
+                <div class="btn btn-info">ПОДАТЬ ОБЪЯВЛЕНИЕ +</div>
+            </a>
         </div>
     </div>
     <!--search-->
@@ -251,14 +187,14 @@
                     </div>
                     <div id="authorUserName" class="col-xs-4" style="color: #495d9a;">
 
-                            <c:choose>
-                                <c:when test="${not empty profile.username}">
-                                    ${profile.username}
-                                </c:when>
-                                <c:otherwise>
-                                    Имя автора не указано
-                                </c:otherwise>
-                            </c:choose>
+                        <c:choose>
+                            <c:when test="${not empty profile.username}">
+                                ${profile.username}
+                            </c:when>
+                            <c:otherwise>
+                                Имя автора не указано
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
 
@@ -266,7 +202,8 @@
                     <div class="col-xs-8">
                         <div class="row panel" style="color: #ffffff; background-color: #68a8de;">
                     <span style="display: inline-block;">
-                        <p id="contactPhones" style="margin: 0 10px 5px;" onclick="showContact()">XXX XXX XX XX &nbsp;&nbsp;&nbsp; <u>Показать телефон</u></p>
+                        <p id="contactPhones" style="margin: 0 10px 5px;" onclick="showContact()">XXX XXX XX XX &nbsp;&nbsp;&nbsp;
+                            <u>Показать телефон</u></p>
 
                     </span>
                             <span class="fa fa-phone fa-3x pull-right"
@@ -295,7 +232,9 @@
 
         <div class="row">
             <c:if test='${offer.address.coordinates != ""}'>
-                <iframe width="300" height="225" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:${offer.address.coordinates}&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>
+                <iframe width="300" height="225" frameborder="0" style="border:0"
+                        src="https://www.google.com/maps/embed/v1/place?q=place_id:${offer.address.coordinates}&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww"
+                        allowfullscreen></iframe>
             </c:if>
         </div>
     </div>
@@ -331,7 +270,8 @@
     <div class="row">
         <div class="col-xs-8">
             <div class="row panel" style="color: #495d9a; background-color: #68a8de; padding: 5px;">
-                <textarea id="offerDescription" style="resize: none; width: 700px; height: 350px;" readonly>${offer.description}</textarea>
+                <textarea id="offerDescription" style="resize: none; width: 700px; height: 350px;"
+                          readonly>${offer.description}</textarea>
             </div>
         </div>
     </div>
@@ -350,12 +290,25 @@
 
 
 <script>
+
+    jsonCategory = ''
+
+
+    $.ajax({
+        type: "GET",
+        url: "/resources/json/searchCategories.json",
+        async: false,
+        success: function (response) {
+            jsonCategory = response;
+        }
+    });
+
     var cities;
     $.ajax({
         url: '/resources/json/cities.json',
         dataType: 'json',
         async: false,
-        success: function(response) {
+        success: function (response) {
             cities = response;
         }
     });
@@ -363,7 +316,7 @@
 
     $(function () {
         var region = $('#chosenRegion').text();
-        if (region === 'Выберите область' || region === 'Вся Украина'){
+        if (region === 'Выберите область' || region === 'Вся Украина') {
             $('#bs-example-navbar-collapse-2').attr("style", "visibility: hidden");
         }
 
@@ -416,12 +369,12 @@
         getParams.maxPrice = $('#maxPrice').val();
         getParams.search = $('#search').val();
         var chosenRegion = $('#chosenRegion').text();
-        if (chosenRegion === 'Выберите область' || chosenRegion === 'Вся Украина'){
+        if (chosenRegion === 'Выберите область' || chosenRegion === 'Вся Украина') {
             chosenRegion = "";
         }
         getParams.chosenRegion = chosenRegion;
         var chosenCity = $('#chosenCity').text();
-        if (chosenCity === 'Выберите город'){
+        if (chosenCity === 'Выберите город') {
             chosenCity = "";
         }
         getParams.chosenCity = chosenCity;
@@ -431,7 +384,7 @@
 </script>
 
 <script>
-    var phonesSet = '${offer.userInfo.phoneNumbers}'.substring(1,'${offer.userInfo.phoneNumbers}'.length-1).split(',');
+    var phonesSet = '${offer.userInfo.phoneNumbers}'.substring(1, '${offer.userInfo.phoneNumbers}'.length - 1).split(',');
 
     $(document).ready(function () {
 
@@ -443,9 +396,9 @@
         var now = moment(time).locale("ru"); //using of moment.js library
         $('#createDate').text("Опубликовано: " + now.format('LLL'));
 
-        if (videoUrl !== ''){
+        if (videoUrl !== '') {
             var videoKey = videoUrl.split('=')[1];
-            $('#video').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/' + videoKey +'" frameborder="0" allowfullscreen></iframe>');
+            $('#video').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/' + videoKey + '" frameborder="0" allowfullscreen></iframe>');
         }
 
         $('.pgwSlideshow').pgwSlideshow();
@@ -455,14 +408,31 @@
     function showContact() {
         var phoneList = ' ';
         for (var i = 0; i < phonesSet.length; i++) {
-            phoneList =  phoneList += phonesSet[i] + "\n";
+            phoneList = phoneList += phonesSet[i] + "\n";
         }
         $('#contactPhones').text(phoneList);
     }
 
+
     var breadcrumbs = JSON.parse('${offer.categories}');
-    for (var j = 0; j <breadcrumbs.length; j++){
-        $('#breadcrumbs').append('<span><a href="#">' + breadcrumbs[j] + '</a>' +"/" + '</span>');
+
+
+
+    //    alert(JSON.stringify(jsonCategory[2].id));
+
+
+    for (var j = 0; j < breadcrumbs.length; j++) {
+
+
+        for (var i = 0; i < jsonCategory.length; i++) {
+            if (jsonCategory[i].id === breadcrumbs[j]) {
+                $('#breadcrumbs').append('<span><a href="#">' + jsonCategory[i].name + '</a>' + "/" + '</span>');
+            }
+        }
+
+
+
+
     }
 
 </script>
