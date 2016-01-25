@@ -17,7 +17,7 @@
     <script>
         $(document).ready(function () {
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "/api/rest/profilesService/profile/read/id/${profileId}",
                 success: function (profile) {
                     if (profile.contact != null && profile.contact.pic != null && profile.contact.pic != '') {
@@ -32,6 +32,12 @@
                         $('#profileName').text(profile.username);
                     }
 
+                    if (profile.contact != null && profile.contact.aboutUs != null) {
+                        $('#aboutProfile').text(profile.contact.aboutUs);
+                    } else {
+                        $('#aboutProfile').text("Пользователь еще ничего на рассказал о себе");
+                    }
+
                     if (profile.contact == null || profile.contact.contactEmails == null || profile.contact.contactEmails.length == 0) {
                         $('#contactLabel').append('Пользователь еще не добавил контактных email-ов');
                         $('#contactTable').hide();
@@ -43,6 +49,8 @@
                             $('#contactTable').append(row);
                         }
                     }
+
+
                 },
                 statusCode: {
                     404: function() {
@@ -71,6 +79,11 @@
             <div>
                 <label for="profileName"><b>Имя пользователя: </b></label>
                 <label id="profileName"></label>
+            </div>
+
+            <div>
+                <label for="aboutProfile"><b>О себе: </b></label>
+                <label id="aboutProfile"></label>
             </div>
 
             <div>

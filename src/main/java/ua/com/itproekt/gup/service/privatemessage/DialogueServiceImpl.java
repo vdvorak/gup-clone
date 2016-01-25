@@ -12,6 +12,8 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -108,13 +110,32 @@ public class DialogueServiceImpl implements DialogueService {
 
 
     private void updateCountersWhenRead(Dialogue dialogue) {
+        if(dialogue == null) return;
         Profile user = pr.findByEmail(SecurityOperations.getCurrentUserEmail());
-        dialogue.getMessages().parallelStream().forEach(m -> m.getWhoRead().add(user.getId()));
-        Integer wasUnread = dialogue.getUnreadMsgCounter().replace(user.getId(), 0);
+        if(dialogue.getMessages() != null && dialogue.getMessages().size() > 0) {
+            dialogue.getMessages().parallelStream().forEach(m -> {
+                if(m.getWhoRead() == null) m.setWhoRead(new ConcurrentSkipListSet<>());
+                m.getWhoRead().add(user.getId());
+            });
+        }
+        Integer wasUnread;
+        if(dialogue.getUnreadMsgCounter() == null){
+            dialogue.setUnreadMsgCounter(new ConcurrentHashMap<>());
+            dialogue.getMembers().stream().filter(m -> m.getId() != user.getId()).forEach(m -> {
+                int size = 0;
+                if (dialogue.getMessages() != null) size = dialogue.getMessages().size();
+                dialogue.getUnreadMsgCounter().put(m.getId(), size);
+            });
+        }
+        wasUnread = dialogue.getUnreadMsgCounter().replace(user.getId(), 0);
         if (wasUnread != null) {
+            // todo move it to default constructor of Profile.
+            if(user.getUnreadMessages() == null) user.setUnreadMessages(new AtomicInteger(0));
             Integer p = user.getUnreadMessages().get() - wasUnread;
             user.setUnreadMessages(new AtomicInteger(p));
             pr.updateProfile(user);
+        } else {
+            dialogue.getUnreadMsgCounter().put(user.getId(), 0);
         }
         updateDialogue(dialogue);
     }
@@ -128,14 +149,18 @@ public class DialogueServiceImpl implements DialogueService {
 
                 ids.parallelStream().forEach(id -> profiles.add(pr.findProfileById(id)));
         profiles.parallelStream().forEach(p -> {
-            p.getUnreadMessages().incrementAndGet();
+            if (p.getUnreadMessages() == null) p.setUnreadMessages(new AtomicInteger(1));
+            else p.getUnreadMessages().incrementAndGet();
             pr.updateProfile(p);
         });
 
-        //TODO Пофиксить null pointer
-//        ids.parallelStream().forEach(id -> {
-//            dialogue.getUnreadMsgCounter().replace(id, dialogue.getUnreadMsgCounter().get(id) + 1);
-//        });
+        ids.parallelStream().forEach(id -> {
+            if(dialogue.getUnreadMsgCounter().containsKey(id)) {
+                dialogue.getUnreadMsgCounter().replace(id, dialogue.getUnreadMsgCounter().get(id) + 1);
+            } else {
+                dialogue.getUnreadMsgCounter().put(id, dialogue.getMessages().size());
+            }
+        });
         updateDialogue(dialogue);
     }
 }
