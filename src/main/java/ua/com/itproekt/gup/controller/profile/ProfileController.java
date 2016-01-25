@@ -7,13 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
-
-import java.util.Set;
 
 /**
  * Created by Optical Illusion on 17.11.2015.
@@ -75,14 +72,12 @@ public class ProfileController {
         return "edit-profile";
     }
 
+//    @RequestParam(required = false, defaultValue = "") String term,
+//    @RequestParam(required = false, defaultValue = "0") int pageNumber,
+//    Model model
 
     @RequestMapping("/profile/list")
-    public String getProfileList(@RequestParam(required = false, defaultValue = "") String term,
-                                 @RequestParam(required = false, defaultValue = "0") int pageNumber,
-                                 Model model){
-        model.addAttribute("term", term);
-        model.addAttribute("pageNumber", pageNumber);
-
+    public String getProfileList(Model model) {
         return "profile/profileList";
     }
 }

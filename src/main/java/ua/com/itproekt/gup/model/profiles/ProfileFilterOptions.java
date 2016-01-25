@@ -8,6 +8,15 @@ public final class ProfileFilterOptions extends Profile {
     private int skip;
     private int limit;
 
+    public ProfileFilterOptions () {
+        this.skip = 0;
+        this.limit = 20;
+    }
+
+    public ProfileFilterOptions (int skip, int limit) {
+        this.skip = skip;
+        this.limit = limit;
+    }
 
     public String getSearchField() {
         return searchField;
