@@ -22,9 +22,34 @@
 
 <h1>${blogPost.title}</h1>
 
-<h2> Категория:
+<h2> Категории:
     <c:forEach var="cat" items="${blogPost.categories}">
-        ${cat},
+        <c:choose>
+            <c:when test="${cat == 'sci'}">
+                <a href="#">Наука и техника</a>
+            </c:when>
+            <c:when test="${cat == 'art'}">
+                <a href="#">Искусство</a>
+            </c:when>
+            <c:when test="${cat == 'savor'}">
+                <a href="#">Светская жизнь</a>
+            </c:when>
+            <c:when test="${cat == 'policy'}">
+                <a href="#">Политика</a>
+            </c:when>
+            <c:when test="${cat == 'world'}">
+                <a href="#">Мир и общество</a>
+            </c:when>
+            <c:when test="${cat == 'economy'}">
+                <a href="#">Экономика</a>
+            </c:when>
+            <c:when test="${cat == 'sport'}">
+                <a href="#">Спорт, хобби</a>
+            </c:when>
+            <c:when test="${cat == 'social'}">
+                <a href="#">Соц. сети</a>
+            </c:when>
+        </c:choose>
     </c:forEach>
 </h2>
 <h2> Страна: ${blogPost.address.country}</h2>
@@ -38,9 +63,7 @@
     <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">
 </c:forEach>
 
-
 <sec:authorize access="isAuthenticated()" var="isAuthenticated">
-
 <div class="postRating">
     <button id="dislikeBtn" class="dislike">
         💔 ${blogPost.totalDislikes}
@@ -59,17 +82,12 @@
         </span>
     </button>
 </div>
-
     Написать комментарий:
     <div id="commentCreate">
         <textarea id="text" required></textarea>
         <input type="button" id="submit" value="Ок">
     </div>
 </sec:authorize>
-
-
-
-
 
 
 <c:if test="${check}">
