@@ -21,18 +21,13 @@
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
     <script>
-        var profileFO = {};
+        var profileFO = {skip:0, limit:20};
+
+        <c:if test="${profileFO != null}">
+            profileFO = ${profileFO};
+        </c:if>
 
         $(document).ready(function () {
-            var term = '${term}';
-
-            if (term != "") {
-                profileFO.searchField = term;
-            }
-
-            profileFO.skip = ${pageNumber};
-            profileFO.limit = 20;
-
             updateProfilesTable(profileFO);
         });
 
@@ -47,66 +42,81 @@
         });
 
         function updateProfilesTable(profileFO) {
-            var data;
-
             $.ajax({
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 url: "/api/rest/profilesService/profile/read/all",
                 data: JSON.stringify(profileFO),
                 success: function (response) {
-                    data = response.entities;
-                    var goToPageLinks = '';
 
-                    $('#pageLabel').append((profileFO.skip + 1) + ' из ' + response.totalEntities);
-//                    if (profileFO.skip > 0) {
-//                        goToPageLinks += '<a href="/profile/list?pageNumber=' + (projectFO.skip - 1)  + '"> Назад </a>';
-//                    }
-//
-//                    if (profileFO.skip < response.totalEntities && response.totalEntities/profileFO.limit > 1) {
-//                        goToPageLinks += '<a href="/profile/list?pageNumber=' + (profileFO.skip + 1) + '"> Следующая </a>';
-//                    }
-//
-//                    $('#goToPage').append(goToPageLinks);
+                    updatePaginationBlock(response);
 
-                    for (var profile in data) {
+                    $("#profilesTable").find("tr:not(:first)").remove();
+
+                    response.entities.forEach(function(profile) {
+                        var row = $('<tr>');
+
                         if (profile.contact != null && profile.contact.pic != null && profile.contact.pic != undefined) {
-                            profile.contact.pic = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '" width="100" height="100">';
+                            row.append($('<td>').html('<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '" width="100" height="100">'));
                         } else {
-                            profile.contact.pic = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                            row.append($('<td>').html('<img src="/resources/images/no_photo.jpg" width="100" height="100">'));
                         }
 
                         if (profile.username == null) {
-                            profile.username = '<a href="/profile/id/' + profile.id + '">' + 'Безымянный' + '</a>';
+                            row.append($('<td>').html('<a href="/profile/id/' + profile.id + '">' + 'Безымянный' + '</a>'));
                         } else {
-                            profile.username = '<a href="/profile/id/' + profile.id + '">' + profile.username + '</a>';
+                            row.append($('<td>').html('<a href="/profile/id/' + profile.id + '">' + profile.username + '</a>'));
                         }
 
-                        var row = $('<tr>');
-                        row.append($('<td>').html(profile.contact.pic));
-                        row.append($('<td>').html(profile.username));
+                        if (profile.contact != null && profile.contact.aboutUs != null) {
+                            row.append($('<td>').html(profile.contact.aboutUs));
+                        } else {
+                            row.append($('<td>').html("Пользователь еще ничего на рассказал о себе"));
+                        }
 
                         $('#profilesTable').append(row);
-                    }
+                    });
+
                 }
             });
         }
 
-        function setProfileFO() {
+        function updatePaginationBlock(responseEntities) {
+            $('#pageNumLine').html((profileFO.skip + 1) + ' из ' + (Math.round(responseEntities.totalEntities/profileFO.limit) + 1));
 
+            if (profileFO.skip <= 0) {
+                $('#prevPageButton').hide();
+            }
+
+            if ((profileFO.skip + 1) * profileFO.limit >= responseEntities.totalEntities) {
+                $('#nextPageButton').hide();
+            }
         }
 
-        <%--$(document).on('click', '#findProfilesButton', function (event) {--%>
-            <%--$("#projectsTable").find("tr:not(:first)").remove();--%>
-            <%--$("#paginationDiv").remove();--%>
+        $(document).on('click', '#prevPageButton', function (event) {
+            profileFO.skip = profileFO.skip - 1;
+            updateProfilesTable(profileFO);
+        });
 
-            <%--var projectFO = {};--%>
-            <%--projectFO.searchField = $("#tagsName").val();--%>
-            <%--projectFO.skip = ${pageNumber};--%>
-            <%--projectFO.limit = 20;--%>
+        $(document).on('click', '#nextPageButton', function (event) {
+            profileFO.skip = profileFO.skip + 1;
+            updateProfilesTable(profileFO);
+        });
 
-            <%--updateProfilesTable(projectFO);--%>
-        <%--});--%>
+        $(document).on('click', '#findProfilesButton', function (event) {
+
+            // заполнять projectFO с фильтров
+            var searchProfileFO = {};
+            searchProfileFO.skip = profileFO.skip;
+            searchProfileFO.limit = profileFO.limit;
+            searchProfileFO.searchField = profileFO.searchField;
+
+            if ($("#tagsName").val()) {
+                searchProfileFO.searchField = $("#tagsName").val();
+            }
+
+            updateProfilesTable(searchProfileFO);
+        });
     </script>
 </head>
 
@@ -119,16 +129,19 @@
         <input id="tagsName" size="100" placeholder="Имя профиля">
         <button id="findProfilesButton">Найти профиль</button>
     </div>
-    <%--<div id="paginationDiv">--%>
-        <%--<label id="pageLabel"><b>Страница:</b> </label>--%>
-        <%--<p align="left" id="goToPage"></p>--%>
-    <%--</div>--%>
+    <div id="paginationDiv">
+        <label id="pageLabel" for="pageNumLine"><b>Страница:</b> <label id="pageNumLine"></label></label>
+
+        <button id="prevPageButton">Назад</button>
+        <button id="nextPageButton">Вперед</button>
+    </div>
     <div>
         <table id="profilesTable" border="1" width="100%">
             <thead>
             <tr>
                 <th>Фото</th>
                 <th>Имя</th>
+                <th>О себе</th>
             </tr>
             </thead>
         </table>
