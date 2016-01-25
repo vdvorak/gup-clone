@@ -16,8 +16,7 @@
   <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
   <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
   <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
-  <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-  <script>tinymce.init({ selector:'textarea' });</script>
+  <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 </head>
 <body>
 
@@ -55,55 +54,7 @@
 </section>
 <!-- END1st section -->
 
-<!--2nd section menu+slider -->
-<section>
-  <div class="sec-wrap">
-    <div class="partials-wrap">
-      <div class="main-tender-wrap">
-        <p>Тендеры</p>
-        <div class="main-tenderPic-wrap">
-          <a href="#"><img src="/resources/img/hammertime.png"></a>
-        </div>
-        <nav class="main-tender-bottom-menu">
-          <a href="#" class="active-main-menu-link">Участвовать</a>
-          <a href="#">Исполнители</a>
-        </nav>
-      </div>
-      <div class="main-project-wrap">
-        <p>Проекты</p>
-        <div class="main-projectPic-wrap">
-          <a href="#"><img src="/resources/img/circul.png"></a>
-        </div>
-        <nav class="main-project-bottom-menu">
-          <a href="#" class="active-main-menu-link">Реструктуризация</a>
-          <a href="#">Готовый прототип</a>
-          <a href="#">Проект на бумаге</a>
-          <a href="#">Ноу-Хау</a>
-        </nav>
-      </div>
-      <div class="main-news-wrap">
-        <p>Новости</p>
-        <div class="main-newsPic-wrap">
-          <a href="#"><img src="/resources/img/yagazetko.png"></a>
-        </div>
-        <nav class="main-news-bottom-menu">
-          <a href="#" class="active-main-menu-link">Киев</a>
-          <a href="#">Львов</a>
-          <a href="#">Харьков</a>
-          <a href="#">Запорожье</a>
-        </nav>
-      </div>
-    </div>
-    <div class="main-slider-wrap">
-      <ul class="bxslider">
-        <li><img src="/resources/img/slider-item.png" /></li>
-        <li><img src="/resources/img/slider-item1.png" /></li>
-        <li><img src="/resources/img/slider-item2.png" /></li>
-      </ul>
-    </div>
-  </div>
-</section>
-<!--END 2nd section -->
+
 
 <!--3rd section news timeline-->
 <section>
@@ -129,8 +80,7 @@
         </div>-->
 
         <div>
-          <p class="tm-tender-term"></p>
-          <input type="date">
+          <p class="tm-tender-term">Дата окончания тендера</p>
           <input type="date">
         </div>
 
@@ -153,12 +103,8 @@
         </div>
 
         <div>
-          <p>Тип</p>
-          <p>Открытый</p>
-          <input type="radio">
-
-          <input type="radio">
-          <p>Закрытый</p>
+          <input type="radio" name="browser" value="open">Открытый<Br>
+          <input type="radio" name="browser" value="close">Закрытый<Br>
         </div>
 
         <div>
@@ -179,12 +125,13 @@
 
         <div>
           <p>Номер тендера</p>
-          <input class="tm-number" type="text" inactive>
+          <input id="text"  class="tm-number" type="text" inactive>
+          <button id="txt">Нажми меня</button>
         </div>
 
         <div>
           <p>Описание</p>
-          <textarea id="text" placeholder="3000 символов"></textarea>
+          <textarea id="textarea"></textarea>
         </div>
         <div>
           <input type="file"  multiple accept="image/*,image/jpeg">
@@ -201,91 +148,7 @@
 <!-- hiden stuff-->
 <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
 <!-- form itself -->
-<div id="test-form" class="mfp-hide white-popup-block">
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-      <div class="panel panel-login">
-        <div class="panel-heading">
-          <div class="row">
-            <div class="login-form-heder-part">
-              <a href="#" class="active" id="login-form-link">Логин</a>
-            </div>
-            <div class="login-form-heder-part">
-              <a href="#" id="register-form-link">Регистрация</a>
-            </div>
-          </div>
-          <hr>
-        </div>
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-lg-12">
-              <form id="login-form" action="/login" method="post" role="form" style="display: block;">
-                <div class="form-group">
-                  <input type="text" name="email" id="login" tabindex="1" class="form-control"
-                         placeholder="Email адресс" value="">
-                </div>
-                <div class="form-group">
-                  <input type="password" name="password" id="loginPassword" tabindex="2"
-                         class="form-control" placeholder="Пароль">
-                </div>
-                <div class="form-group">
-                  <div class="row">
-                    <div style="margin: 20px;" class="col-sm-6 col-sm-offset-3">
-                      <div id="login-submit" class="form-control btn btn-login">Вход</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-lg-12">
-                      <div class="text-center">
-                        <a href="/restore" tabindex="5" class="forgot-password">Забыли пароль?</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
 
-              <form id="regInput" action="/registration" method="post" role="form" style="display: none;">
-                <div class="form-group">
-                  <input  style="width: 50%;" type="email" name="email" id="email" tabindex="1" class="form-control"
-                         placeholder="Email адрес" value="" onchange="checkEmail()"
-                         pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$">
-                  <span id="responseEmail"></span>
-                </div>
-                <div class="form-group">
-                  <input style="width: 50%;" type="password" name="password" id="password" tabindex="2"
-                         class="form-control" placeholder="Пароль">
-                </div>
-                <div class="form-group">
-                  <input  style="width: 50%;" type="password" name="confirm-password" id="confirm-password"
-                         onkeyup="checkPass()" tabindex="2" class="form-control"
-                         placeholder="Подтвердите пароль">
-                </div>
-                <div class="form-group" style="color: #42abe0;font-style: italic;" >
-                  Прочитал и согласен с правилами
-                  <input id="accept" type="checkbox"  required>
-
-                  <div class="g-recaptcha"
-                       data-sitekey="6Lc6KxETAAAAAKK9s-YUlVdfAUZx-G3KpohgGqfJ"></div>
-                  <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3" style="margin: 20px;">
-                      <button  type="submit" id="register-submit" tabindex="4" class="form-control btn btn-register">
-
-                        Зарегистрироваться
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!--END hiden stuff-->
 <!-- libs starts here-->
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
@@ -297,6 +160,34 @@
 
 
 <!--END of libs-->
+<script>
 
+  $('#txt').click(function(){
+    alert( tinymce.activeEditor.getContent());
+  });
+
+  tinymce.init({
+    selector: 'textarea',
+    height: 500,
+    theme: 'modern',
+    plugins: [
+      'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+      'searchreplace wordcount visualblocks visualchars code fullscreen',
+      'insertdatetime media nonbreaking save table contextmenu directionality',
+      'emoticons template paste textcolor colorpicker textpattern imagetools'
+    ],
+    toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+    toolbar2: 'print preview media | forecolor backcolor emoticons',
+    image_advtab: true,
+    templates: [
+      { title: 'Test template 1', content: 'Test 1' },
+      { title: 'Test template 2', content: 'Test 2' }
+    ],
+    content_css: [
+      '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
+      '//www.tinymce.com/css/codepen.min.css'
+    ]
+  });
+</script>
 </body>
 </html>

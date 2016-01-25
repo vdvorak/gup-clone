@@ -27,7 +27,7 @@ public class Profile {
     private Set<ProfileRating> profileRating;
     private Set<String> friendList;
     private Long createdDate;
-    private AtomicInteger unreadMessages;
+    private AtomicInteger unreadMessages = new AtomicInteger(0);
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
     }

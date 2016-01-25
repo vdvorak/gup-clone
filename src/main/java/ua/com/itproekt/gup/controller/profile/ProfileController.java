@@ -1,13 +1,15 @@
-package ua.com.itproekt.gup.controller;
+package ua.com.itproekt.gup.controller.profile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
@@ -70,5 +72,20 @@ public class ProfileController {
 
         model.addAttribute("profile", profile);
         return "edit-profile";
+    }
+
+//    @RequestParam(required = false, defaultValue = "") String term,
+//    @RequestParam(required = false, defaultValue = "0") int pageNumber,
+//    Model model
+
+    @RequestMapping("/profile/list")
+    public String getProfileList() {
+        return "profile/profileList";
+    }
+
+    @RequestMapping(value = "/profile/list", method = RequestMethod.POST)
+    public String getProfileList(@RequestBody ProfileFilterOptions profileFO, Model model) {
+        model.addAttribute("profileFO", profileFO);
+        return "profile/profileList";
     }
 }
