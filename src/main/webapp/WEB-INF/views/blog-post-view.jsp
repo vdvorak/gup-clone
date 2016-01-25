@@ -38,6 +38,9 @@
     <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">
 </c:forEach>
 
+
+<sec:authorize access="isAuthenticated()" var="isAuthenticated">
+
 <div class="postRating">
     <button id="dislikeBtn" class="dislike">
         💔 ${blogPost.totalDislikes}
@@ -56,7 +59,23 @@
         </span>
     </button>
 </div>
-<a href="/blog-post/edit/${blogPost.id}"><button>Редактировать</button></a> новость
+
+    Написать комментарий:
+    <div id="commentCreate">
+        <textarea id="text" required></textarea>
+        <input type="button" id="submit" value="Ок">
+    </div>
+</sec:authorize>
+
+
+
+
+
+
+<c:if test="${check}">
+    <a href="/blog-post/edit/${blogPost.id}"><button>Редактировать</button></a> новость
+</c:if>
+
 <br>
 <br>
 Комментарии
@@ -89,11 +108,7 @@
     </c:choose>
 </div>
 <br>
-Написать комментарий:
-<div id="commentCreate">
-    <textarea id="text" required></textarea>
-    <input type="button" id="submit" value="Ок">
-</div>
+
 
 <style>
     .comment {

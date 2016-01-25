@@ -14,6 +14,7 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.news.BlogPostService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,17 @@ public class BlogPostController {
     @RequestMapping("/view/{id}")
     public String blogPostView(Model model, @PathVariable("id") String id) {
 
+        boolean check = false;
+
         BlogPost blogPost = blogPostService.findBlogPostAndIncViews(id);
+
+        if (SecurityOperations.isUserLoggedIn()) {
+            String userId = SecurityOperations.getLoggedUserId();
+            check = userId.equals(blogPost.getAuthorId());
+            model.addAttribute("check", check);
+        }
+
+        model.addAttribute("check", check);
         model.addAttribute("blogPost", blogPost);
         return "blog-post-view";
     }
