@@ -23,6 +23,10 @@
     <script>
         var profileFO = {skip:0, limit:20};
 
+        <c:if test="${profileFO != null}">
+            profileFO = ${profileFO};
+        </c:if>
+
         $(document).ready(function () {
             updateProfilesTable(profileFO);
         });
@@ -111,7 +115,6 @@
                 searchProfileFO.searchField = $("#tagsName").val();
             }
 
-//            alert('searchProfileFO: ' + JSON.stringify(searchProfileFO));
             updateProfilesTable(searchProfileFO);
         });
     </script>

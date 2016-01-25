@@ -22,9 +22,7 @@
     });
 
     $(document).on('click', '#searchButton', function () {
-      if ($('tagsName').val() != undefined || $('tagsName').val() != null) {
-        window.location.href = "/profile/list?term=" + $('tagsName').val();
-      }
+        window.location.href = "/profile/list";
     });
   </script>
 
