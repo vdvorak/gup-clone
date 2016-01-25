@@ -22,6 +22,14 @@
     });
 
     $(document).on('click', '#searchButton', function () {
+      <%--<form:form method="POST" action="/profile/list" modelAttribute="profileFO">--%>
+
+        <%--<form:label path="contactNumber">Contact Number</form:label></td>--%>
+        <%--<form:input path="contactNumber"/></td>--%>
+
+      <%--<input type="submit" value="Submit"/></td>--%>
+
+      <%--</form:form>--%>
         window.location.href = "/profile/list";
     });
   </script>
