@@ -30,15 +30,19 @@
 </div>
 <br>
 
-<div class="input-group">Категория
-    <select id="category">
-        <option>категория 1</option>
-        <option>категория 2</option>
-        <option>категория 3</option>
-    </select>
+<div class="input-group cat">Категория
+    <hr>
+    <input id="sciCategory" type="checkbox" name="sci"><label for="sciCategory">Наука и техника</label><br>
+    <input id="artCategory" type="checkbox" name="art"><label for="artCategory">Искусство</label><br>
+    <input id="savorCategory" type="checkbox" name="savor"><label for="savorCategory">Светская жизнь</label><br>
+    <input id="policyCategory" type="checkbox" name="policy"><label for="policyCategory">Политика</label><br>
+    <input id="worldCategory" type="checkbox" name="world"><label for="worldCategory">Мир и общество</label><br>
+    <input id="economyCategory" type="checkbox" name="economy"><label for="economyCategory">Экономика</label><br>
+    <input id="sportCategory" type="checkbox" name="sport"><label for="sportCategory">Спорт, хобби</label><br>
+    <input id="socialCategory" type="checkbox" name="social"><label for="socialCategory">Соц. сети</label>
+    <hr>
 </div>
 <br>
-
 
 <form id="photoInput" enctype="multipart/form-data" action="/api/rest/fileStorage/OFFERS/file/read/id/${id}"
       method="post">
@@ -131,9 +135,7 @@
                 </ul>
             </div>
         </div>
-
     </div>
-
 </div>
 <br>
 <a id="submit" class="btn btn-lg btn-danger">Сохранить</a>
@@ -149,15 +151,13 @@
     var mainForm;
     var placeKey = '';
     var phones = [];
-    var jsonCategory;
-    var jsonSubcategory;
+    var inpCategories = [];
     var options;
     var isComplete = 0; // It indicates whether the user selected the last level category
     var cities;
 
 
     // ---------------    LOAD RESOURCES    --------------------------//
-
     $.ajax({
         type: "GET",
         url: "/resources/json/cities.json",
@@ -166,8 +166,6 @@
             cities = response;
         }
     });
-
-
     // ---------------   END LOAD RESOURCES    --------------------------//
 
 
@@ -185,8 +183,16 @@
         blogPost.address.city = $('#cityInp').val();
         blogPost.imagesIds = imgsArr;
         blogPost.categories = [];
-        blogPost.categories.push($('#category').val());
 
+        $('.cat input').each(function (index) {
+            if ($(this).prop('checked')) {
+                inpCategories.push($(this).attr('name'));
+            }
+        });
+
+        blogPost.categories = inpCategories;
+
+        alert(JSON.stringify(blogPost));
         $.ajax({
             type: "POST",
             url: "/api/rest/newsService/blogPost/create",
@@ -276,9 +282,6 @@
     });
 
     //--------------------------- END REGIONS LIST --------------------------------------------//
-
-
 </script>
-
 </body>
 </html>
