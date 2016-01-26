@@ -37,23 +37,23 @@
 <jsp:include page="/WEB-INF/templates/main-menu-slider-bar.jsp"/>
 <!--END 2nd section -->
 
-<div class="contain">
-    <button class="button notificationicon on">Посмотреть уведомления</button>
+<%--<div class="contain">--%>
+    <%--<button class="button notificationicon on">Посмотреть уведомления</button>--%>
 
-    <ul id="notificationMenu" class="notifications">
-        <li class="titlebar">
-            <span class="title">Notifications</span>
-        <span class="settings"><i class="icon-cog"></i>
-        </span>
-        </li>
-        <div class="notifbox" id="notificationContainer">
+    <%--<ul id="notificationMenu" class="notifications">--%>
+        <%--<li class="titlebar">--%>
+            <%--<span class="title" align="center">Уведомления</span>--%>
+        <%--<span class="settings"><i class="icon-cog"></i>--%>
+        <%--</span>--%>
+        <%--</li>--%>
+        <%--<div class="notifbox" id="notificationContainer">--%>
 
-        </div>
-        <li class="seeall">
-            <a>Посмотреть все</a>
-        </li>
-    </ul>
-</div>
+        <%--</div>--%>
+        <%--<li class="seeall">--%>
+            <%--<a>Посмотреть все</a>--%>
+        <%--</li>--%>
+    <%--</ul>--%>
+<%--</div>--%>
 <!--3rd section news timeline-->
 <section>
     <div class="main-newsTimeline-wrap" id="newsContainer">
@@ -84,6 +84,7 @@
 <!--END of libs-->
 
 <script>
+
     var blogPostFO = {};
     blogPostFO.createdDateSortDirection = "DESC";
     blogPostFO.skip = 0;
