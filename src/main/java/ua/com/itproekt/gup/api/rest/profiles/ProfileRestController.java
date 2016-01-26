@@ -187,4 +187,22 @@ public class ProfileRestController {
         return profile.getId();
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/id/{profileId}/myContactList/add", method = RequestMethod.POST)
+    public ResponseEntity<Void> addToMyContactList(@PathVariable String profileId) {
+
+        if (!profilesService.profileExists(profileId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+//        contactId
+//        ownerContactListId
+        String userId = SecurityOperations.getLoggedUserId();
+        profilesService.addContactToContactList(userId, profileId);
+
+//        String authorId = blogPostService.findComment(blogPostId, commentId).getComments().iterator().next().getFromId();
+//        activityFeedService.createEvent(new Event(authorId, EventType.BLOG_POST_COMMENT_LIKE, blogPostId, userId));
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

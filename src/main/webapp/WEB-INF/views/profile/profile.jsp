@@ -32,6 +32,7 @@
                         $('#profileName').text(profile.username);
                     }
 
+
                     if (profile.contact != null && profile.contact.aboutUs != null) {
                         $('#aboutProfile').text(profile.contact.aboutUs);
                     } else {
@@ -61,6 +62,18 @@
             });
         });
 
+        function addProfileToContactList() {
+            $.ajax({
+                type: "POST",
+                url: '/api/rest/profilesService/profile/id/${profileId}/myContactList/add',
+                success: function () {
+                    alert('Пользователь добавлен в контакты')
+                    location.reload();
+                }
+            });
+
+        }
+
     </script>
 </head>
 <body>
@@ -77,7 +90,11 @@
             </div>
 
             <div>
-                <label for="profileName"><b>Имя пользователя: </b></label>
+                <button id="addProfileToContactList" onclick="addProfileToContactList()">Добавить к себе в контакты</button>
+            </div>
+
+            <div>
+                <label for="profileName"><b>Имя: </b></label>
                 <label id="profileName"></label>
             </div>
 

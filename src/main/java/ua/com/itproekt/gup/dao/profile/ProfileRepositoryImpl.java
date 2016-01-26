@@ -112,6 +112,24 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
+    public void addContactToContactList(String profileOwnerContactListId, String contactId) {
+        Query addContactQuery = new Query(Criteria.where("id").is(profileOwnerContactListId));
+
+        Query existsContactInListQuery = new Query()
+                .addCriteria(Criteria.where("id").is(profileOwnerContactListId))
+                .addCriteria( Criteria.where("contactList").in(contactId));
+
+        Update update = new Update();
+        if (mongoTemplate.exists(existsContactInListQuery, Profile.class)) {
+            update.pull("contactList", contactId);
+        } else {
+            update.push("contactList", contactId);
+        }
+
+        mongoTemplate.updateFirst(addContactQuery, update, Profile.class);
+    }
+
+    @Override
     public Profile findByUsername(String username) {
         Query query = new Query(Criteria.where("username").is(username));
         return mongoTemplate.findOne(query, Profile.class);

@@ -143,5 +143,7 @@ public interface ProfileRepository {
     List<Profile> findAll();
 
     Set<String> getMatchedNames(String term);
+
+    void addContactToContactList(String profileOwnerContactListId, String contactId);
 }
 

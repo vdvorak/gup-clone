@@ -131,4 +131,6 @@ public interface ProfilesService {
     List<Profile> findAllWithoutOptions();
 
     Set<String> getMatchedNames(String term);
+
+    void addContactToContactList(String profileOwnerContactListId, String contactId);
 }
