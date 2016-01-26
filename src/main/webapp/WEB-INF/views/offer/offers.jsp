@@ -21,80 +21,8 @@
     <link href="/resources/css/pgwslideshow.css" rel="stylesheet" type="text/css">
 </head>
 <body class="center-block" style="padding-top: 70px; max-width: 1200px;">
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-            <li><a href="#">Моя страница</a></li>
-            <li><a href="#">Друзья</a></li>
-            <li><a href="#">Сообщения</a></li>
-        </ul>
-        <div class="col-sm-4 col-md-4 pull-right">
-            <ul class="nav navbar-nav">
-                <li><a href="#">Вступить в организацию</a></li>
-                <li><a href="#">Баланс</a></li>
-                <li><a href="#">Укр/Рус</a></li>
-                <li><a href="/logout">Выход</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
 
 <div class="container-fluid">
-
-    <!--category-->
-    <div class="row" style="padding: 10px;">
-        <div class="col-xs-3" style="padding-left: 5px; padding-right: 5px;">
-            <a><img src="/resources/images/logo.png"></a>
-        </div>
-        <div class="col-xs-3"
-             style="padding-left: 5px; padding-right: 5px; color: white; font-size: 25px;  margin-top: 30px; ">
-            ПОРТАЛ<br>РОЗВИТКУ<br>УКРАЇНИ
-        </div>
-        <div class="col-xs-2 pull-right" style="padding-left: 5px; padding-right: 5px; margin-top: 60px;">
-
-        </div>
-        <div class="col-xs-2 pull-right" style="padding-left: 5px; padding-right: 5px; margin-top: 60px;">
-
-        </div>
-        <div class="col-xs-2 pull-right" style="padding-left: 5px; padding-right: 5px; margin-top: 60px;">
-
-        </div>
-    </div>
-    <!--category-->
-
-    <!--category-->
-    <div class="row">
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <a href="/offers"><div class="btn btn-info btn-block">Объявления</div></a>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Работа
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Блог
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Новости
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Тендеры
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Проекты
-            </div>
-        </div>
-    </div>
-    <!--category-->
-
     <!--search-->
     <div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">
         <div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">

@@ -1,5 +1,4 @@
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
@@ -7,8 +6,9 @@
   Time: 15:44
   To change this template use File | Settings | File Templates.
 --%>
-<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!DOCTYPE html>
 <html lang="ru-RU">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">

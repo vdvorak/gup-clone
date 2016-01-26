@@ -24,15 +24,17 @@
         var profileFO = {skip:0, limit:20};
 
         <c:if test="${profileFO != null}">
-            profileFO = ${profileFO};
+            profileFO.skip = ${profileFO.skip};
+            profileFO.searchField = '${profileFO.searchField}';
         </c:if>
 
         $(document).ready(function () {
+            $('#searchInput').val(profileFO.searchField);
             updateProfilesTable(profileFO);
         });
 
         $(function() {
-            $("#tagsName").autocomplete({
+            $("#searchInput").autocomplete({
                 source: function (request, response) {
                     $.getJSON("${pageContext.request.contextPath}/search/autocomplete/profile", {
                         term: request.term
@@ -42,6 +44,8 @@
         });
 
         function updateProfilesTable(profileFO) {
+            alert('updateProfilesTable: ' + JSON.stringify(profileFO));
+
             $.ajax({
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
@@ -111,8 +115,8 @@
             searchProfileFO.limit = profileFO.limit;
             searchProfileFO.searchField = profileFO.searchField;
 
-            if ($("#tagsName").val()) {
-                searchProfileFO.searchField = $("#tagsName").val();
+            if ($("#searchInput").val()) {
+                searchProfileFO.searchField = $("#searchInput").val();
             }
 
             updateProfilesTable(searchProfileFO);
@@ -126,7 +130,7 @@
         <h2 align="center">Профили</h2>
     </div>
     <div align="center">
-        <input id="tagsName" size="100" placeholder="Имя профиля">
+        <input id="searchInput" size="100" placeholder="Имя профиля">
         <button id="findProfilesButton">Найти профиль</button>
     </div>
     <div id="paginationDiv">

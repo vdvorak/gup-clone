@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
@@ -12,7 +13,7 @@
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   <script>
     $(function() {
-      $("#tagsName").autocomplete({
+      $("#searchInput").autocomplete({
         source: function (request, response) {
           $.getJSON("${pageContext.request.contextPath}/search/autocomplete/profile", {
             term: request.term
@@ -22,13 +23,18 @@
     });
 
     $(document).on('click', '#searchButton', function () {
+
         window.location.href = "/profile/list";
     });
   </script>
 
   <div class="main-search-button-wrapper">
-    <input id="tagsName" type="text" placeholder="Введите имя пользователя или компании">
-    <button id="searchButton">Найти<span class="main-search-button-icon"><img src="/resources/img/magnifire.png"></span></button>
+    <form:form method="POST" commandName="profileFO" action="/profile/list">
+      <form:input path="searchField" id="searchInput"/>
+      <input type="submit" value="Find" />
+    </form:form>
+    <%--<input id="searchInput" type="text" placeholder="Введите имя пользователя или компании">--%>
+    <%--<button id="searchButton">Найти<span class="main-search-button-icon"><img src="/resources/img/magnifire.png"></span></button>--%>
   </div>
 
 
