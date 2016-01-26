@@ -16,7 +16,11 @@
     });
 
     $(document).on('click', '#searchButton', function () {
-        window.location.href = '/profile/list?term=' + $("#searchInput").val();
+        if ( $("#searchInput").val() == "") {
+            alert('Введите имя пользователя или компании!')
+        } else {
+            window.location.href = '/profile/list?term=' + $("#searchInput").val();
+        }
     });
   </script>
 
@@ -26,7 +30,7 @@
       <%--<button type="submit" value="Find"></button>--%>
     <%--</form:form>--%>
 
-    <input id="searchInput" type="text" placeholder="Имя пользователя или компании">
+    <input id="searchInput" type="text" placeholder="Имя пользователя или компании" value="">
     <button id="searchButton">Найти<span class="main-search-button-icon"><img src="/resources/img/magnifire.png"></span></button>
   </div>
 

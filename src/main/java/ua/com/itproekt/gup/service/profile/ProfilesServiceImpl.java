@@ -130,4 +130,9 @@ public class ProfilesServiceImpl implements ProfilesService {
     public Set<String> getMatchedNames(String term) {
         return profileRepository.getMatchedNames(term);
     }
+
+    @Override
+    public void addContactToContactList(String profileOwnerContactListId, String contactId) {
+        profileRepository.addContactToContactList(profileOwnerContactListId, contactId);
+    }
 }

@@ -78,6 +78,8 @@
                             row.append($('<td>').html("Пользователь еще ничего на рассказал о себе"));
                         }
 
+                        row.append($('<td>').html('<a href="/profile/id/' + profile.id + '">Добавить</a>'));
+
                         $('#profilesTable').append(row);
                     });
 
@@ -146,6 +148,7 @@
                 <th>Фото</th>
                 <th>Имя</th>
                 <th>О себе</th>
+                <th>Добавить в контакты</th>
             </tr>
             </thead>
         </table>

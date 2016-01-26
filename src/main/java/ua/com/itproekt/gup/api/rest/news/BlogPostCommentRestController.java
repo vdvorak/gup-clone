@@ -69,7 +69,7 @@ public class BlogPostCommentRestController {
 
     @RequestMapping(value = "/blogPost/id/{blogPostId}/comment/id/{commentId}/delete", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BlogPost> deleteComment(@PathVariable String blogPostId,
+    public ResponseEntity<Void> deleteComment(@PathVariable String blogPostId,
                                                   @PathVariable String commentId) {
 
         if (!blogPostService.commentExists(blogPostId, commentId)) {
@@ -84,7 +84,7 @@ public class BlogPostCommentRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/blogPost/id/{blogPostId}/comment/id/{commentId}/like", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BlogPost> likeComment(@PathVariable String blogPostId,
+    public ResponseEntity<Void> likeComment(@PathVariable String blogPostId,
                                                 @PathVariable String commentId) {
 
         if (!blogPostService.commentExists(blogPostId, commentId)) {

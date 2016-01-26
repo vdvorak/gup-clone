@@ -25,7 +25,7 @@ public class Profile {
     private UserProfile userProfile;
     private Contact contact;
     private Set<ProfileRating> profileRating;
-    private Set<String> friendList;
+    private Set<String> contactList;
     private Long createdDate;
     private AtomicInteger unreadMessages = new AtomicInteger(0);
     public boolean hasUserRole(String userRole) {
@@ -99,8 +99,8 @@ public class Profile {
         return this;
     }
 
-    public Profile setFriendList(Set<String> friendList) {
-        this.friendList = friendList;
+    public Profile setContactList(Set<String> contactList) {
+        this.contactList = contactList;
         return this;
     }
 
@@ -153,8 +153,8 @@ public class Profile {
         return profileRating;
     }
 
-    public Set<String> getFriendList() {
-        return friendList;
+    public Set<String> getContactList() {
+        return contactList;
     }
 
     public UserProfile getUserProfile() {
@@ -188,7 +188,7 @@ public class Profile {
                 ", userProfile=" + userProfile +
                 ", contact=" + contact +
                 ", profileRating=" + profileRating +
-                ", friendList=" + friendList +
+                ", contactList=" + contactList +
                 ", createdDate=" + createdDate +
                 ", unreadMessages=" + unreadMessages +
                 '}';
