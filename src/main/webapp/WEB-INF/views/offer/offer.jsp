@@ -291,7 +291,7 @@
 
 <script>
 
-    jsonCategory = ''
+    var jsonCategory = '';
 
 
     $.ajax({
@@ -302,6 +302,16 @@
             jsonCategory = response;
         }
     });
+
+    $.ajax({
+        type: "GET",
+        url: "/resources/json/searchSubcategories.json",
+        async: false,
+        success: function (response) {
+            jsonSubcategory = response;
+        }
+    });
+
 
     var cities;
     $.ajax({
@@ -322,11 +332,14 @@
 
         $('#bs-example-navbar-collapse-2').find('#cities1, #cities2').empty();
         $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#"><b>' + 'Все города' + '</b></a></li>');
-        for (var i = 0; i < Math.floor(cities[region].length / 2); i++) {
-            $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][i] + '</a></li>');
-        }
-        for (var j = Math.floor(cities[region].length / 2); j < cities[region].length; j++) {
-            $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][j] + '</a></li>');
+
+        if (cities[region] !== undefined) {
+            for (var i = 0; i < Math.floor(cities[region].length / 2); i++) {
+                $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][i] + '</a></li>');
+            }
+            for (var j = Math.floor(cities[region].length / 2); j < cities[region].length; j++) {
+                $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][j] + '</a></li>');
+            }
         }
 
         $('#cities').find('li').click(function () {
@@ -347,11 +360,15 @@
 
                 $('#bs-example-navbar-collapse-2').find('#cities1, #cities2').empty();
                 $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#"><b>' + 'Все города' + '</b></a></li>');
-                for (var i = 0; i < Math.floor(cities[region].length / 2); i++) {
-                    $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][i] + '</a></li>');
-                }
-                for (var j = Math.floor(cities[region].length / 2); j < cities[region].length; j++) {
-                    $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][j] + '</a></li>');
+
+                if (cities[region] !== undefined) {
+                    for (var i = 0; i < Math.floor(cities[region].length / 2); i++) {
+                        $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][i] + '</a></li>');
+                    }
+
+                    for (var j = Math.floor(cities[region].length / 2); j < cities[region].length; j++) {
+                        $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][j] + '</a></li>');
+                    }
                 }
                 $('#chosenCity').text('Выберите город');
                 $('#cities').find('li').click(function () {
@@ -413,28 +430,28 @@
         $('#contactPhones').text(phoneList);
     }
 
-
     var breadcrumbs = JSON.parse('${offer.categories}');
 
-
-
-    //    alert(JSON.stringify(jsonCategory[2].id));
-
-
-    for (var j = 0; j < breadcrumbs.length; j++) {
-
-
+    if (breadcrumbs[0] !== undefined) {
         for (var i = 0; i < jsonCategory.length; i++) {
-            if (jsonCategory[i].id === breadcrumbs[j]) {
+            if (jsonCategory[i].id === breadcrumbs[0]) {
                 $('#breadcrumbs').append('<span><a href="#">' + jsonCategory[i].name + '</a>' + "/" + '</span>');
+
+                if (breadcrumbs[1] !== undefined) {
+                    for (var m in jsonCategory[i].children) {
+                        if (jsonCategory[i].children[m].id == breadcrumbs[1]) {
+                            $('#breadcrumbs').append('<span><a href="#">' + jsonCategory[i].children[m].name + '</a>' + "/" + '</span>');
+                        }
+                    }
+                }
+                if (breadcrumbs[2] !== undefined) {
+                    var obj1 = breadcrumbs[1] + "";
+                    var obj2 = breadcrumbs[2] + "";
+                    $('#breadcrumbs').append('<span><a href="#">' + jsonSubcategory[obj1].children[obj2].label + '</a>' + '</span>');
+                }
             }
         }
-
-
-
-
     }
-
 </script>
 </body>
 </html>
