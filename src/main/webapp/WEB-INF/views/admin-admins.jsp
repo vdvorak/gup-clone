@@ -307,7 +307,7 @@
                         }
                     }
                     else {
-                        data[i].contact = new Object();
+                        data[i].contact = {};
                         data[i].contact.pic = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
                     }
                 }
