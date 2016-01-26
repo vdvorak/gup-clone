@@ -230,6 +230,17 @@ public class TenderRestController {
         }
     }
 
+    @RequestMapping(value = "/tender/userislegal/{email}",
+            method = RequestMethod.POST)
+    public Boolean isLegal(@PathVariable("email")String email) {
+        // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an member;
+        UserType userType = profileService.findProfileByEmail(email).getContact().getType();
+        if (userType == null || userType == UserType.INDIVIDUAL) {
+            return false;
+        }
+        return true;
+    }
+
     private String getCurrentUserId() {
         Profile user = getCurrentUser();
         if(user == null || user.getId() == null) return null;
