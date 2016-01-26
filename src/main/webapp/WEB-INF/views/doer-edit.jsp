@@ -1,35 +1,134 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Комп2
-  Date: 26.01.2016
-  Time: 13:23
-  To change this template use File | Settings | File Templates.
---%>
-<!DOCTYPE>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta charset="utf-8">
-  <title>Редактирование исполнителя</title>
+    <title>Редактирование исполнителя</title>
 </head>
 <body>
-<p><form method="post" action="/profile">
+    <div>
+        <select id="naceIds" required>
+            <option value="nace1">01.11 Вирощування зернових культур (крім рису), бобових культур і насіння олійних
+                культур
+            </option>
+            <option value="nace2">01.12 Вирощування рису</option>
+            <option value="nace3">01.13 Вирощування овочів та баштанних культур, коренеплодів та бульбоплодів</option>
+            <option value="nace4">01.15 Вирощування тютюну</option>
+            <option value="nace5">01.16 Вирощування прядивних культур</option>
+        </select>
+    </div>
+    <div>
+        <input id="doerTitle" type="text" name="doerTitle" value="${doer.title}" minlength="2" maxlength="70" required
+               placeholder="Название исполнителя">
+    </div>
+
+    <div>
+    <textarea id="doerDescription" value="${doer.body}" minlength="50" maxlength="5000" required
+              placeholder="Описание исполнителя"></textarea>
+    </div>
 
 
-  <p><input type="hidden" name="id" value="${doer.id}" />
-  <p><input type="hidden" name="authorId" value="${doer.authorId}" />
+    <div>
+        <form id="photoInput" enctype="multipart/form-data" method="post">
+            <input id="photofile" type="file" name="file" multiple accept="image/*,image/jpeg">
+        </form>
 
-  <p> <h4>Title </h4><input type="text" name="title" value="${doer.title}" autofocus required/>
+        <div class="imgBlock">
+            <img id="imgPreview" src="/api/rest/fileStorage/DOER/file/read/id/${doer.imageId}" width="200" height="200"/>
+        </div>
 
-  <p> <h4>Body </h4><input type="text" name="body" value="${doer.body}" autofocus required/>
+    </div>
+    <p>
+    <button id="updateDoer">Редактировать профиль исполнителя</button>
+<p>
+    <!-- private List<DoerClient> clients; -->
+    <div>Ваши клиенты:
+        <table>
+            <c:forEach var="client" items="${doer.clients}">
+                <td>
+                    <tr>id: ${client.id}</tr>
+                </td>
+            </c:forEach>
+        </table>
+    </div>
+    <div>Добавить клиента</div>
 
-   <p><input type="submit" name="commit" value="Change your profile"></p>
+    <script src="/resources/libs/jquery-1.11.3.min.js"></script>
+    <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+    <script>
 
-</form>
-<!-- script references -->
-<script src="/resources/js/jquery.min.js"></script>
+        var imgId = '';
+        var newDoer = {};
+        var naceIds = [];
 
-</body>
+
+        //----------------------------------------------------- Image form -----------------------------------------------
+
+        $(document).on('change', '#photofile', function (e) {
+
+            var formImg = new FormData($('#photoInput')[0]);
+
+            if (imgId !== '') {
+                deleteImgFromDB(imgId);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/fileStorage/DOER/file/upload/",
+                data: formImg,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data, textStatus, request) {
+                    imgId = data.id;
+                    $('#imgPreview').attr("src", "/api/rest/fileStorage/DOER/file/read/id/" + imgId);
+                }
+            });
+        });
+        //----------------------------------------------------- Image form -----------------------------------------------
+
+
+        ///----------------------Delete photo from  DB-----------------------------------------
+        function deleteImgFromDB(picId) {
+            $.ajax({
+                url: '/api/rest/fileStorage/DOER/file/delete/id/' + picId,
+                method: 'POST',
+                success: function (response) {
+                },
+                error: function (response) {
+                }
+            });
+        }
+        ///----------------------Delete photo from  DB-----------------------------------------
+
+        ///------------------------- Upload Doer -----------------------------------------------
+        $(document).on('click', '#updateDoer', function (event) {
+
+            naceIds.push($('#naceIds').val());
+
+            newDoer.id = "${doer.id}";
+            newDoer.title = $('#doerTitle').val();
+            newDoer.body = $('#doerDescription').val();
+            newDoer.imageId = imgId;
+            newDoer.naceIds = naceIds;
+
+//    alert(JSON.stringify(doer));
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/doerService/doer/id/${doer.id}/update/",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(newDoer),
+                success: function (response) {
+                    window.location.href = '/doer/${doer.id}';
+                }
+            });
+        });
+        ///------------------------- Upload Doer -----------------------------------------------
+    </script>
+    </body>
 </html>
+
+
+

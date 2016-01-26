@@ -28,9 +28,9 @@ public class DoerController {
     @RequestMapping("/doers")
     public String getDoersRead(Model model) {
 
-        DoerFilterOptions blogFilterOptions = new DoerFilterOptions();
-
-        EntityPage<Doer> doerEntityPage = doerService.findWihOptions(blogFilterOptions);
+        DoerFilterOptions doerFilterOptions = new DoerFilterOptions();
+        doerFilterOptions.setLimit(10000);
+        EntityPage<Doer> doerEntityPage = doerService.findWihOptions(doerFilterOptions);
         model.addAttribute("doerPages", doerEntityPage);
         return "doers";
     }
@@ -38,6 +38,19 @@ public class DoerController {
     @RequestMapping("/doer-create")
     public String getDoerCreatePage() {
         return "doer-create";
+    }
+
+    @RequestMapping("/doer/update/{id}")
+    public String getDoerEditPage(Model model, @PathVariable String id) {
+        Doer doer = doerService.findById(id);
+        if (SecurityOperations.isUserLoggedIn()) {
+            String userId = SecurityOperations.getLoggedUserId();
+            if(!userId.equals(doer.getAuthorId())){
+                // todo FORBIDDEN
+            }
+        }
+        model.addAttribute("doer", doer);
+        return "doer-edit";
     }
 
     @RequestMapping(value = "/doer/{id}", method = RequestMethod.GET)
@@ -55,7 +68,8 @@ public class DoerController {
         Profile profile = profilesService.findById(doer.getAuthorId());
         String userName = profile.getUsername();
 
-        model.addAttribute("username", userName);
+        if(userName != null && userName.length() > 0) model.addAttribute("username", userName);
+        else model.addAttribute("username", "Anonimous");
         model.addAttribute("check", check);
         model.addAttribute("doer", doer);
         return "doer";

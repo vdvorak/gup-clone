@@ -16,7 +16,7 @@
 <div>
   <c:choose>
     <c:when test="${not empty doer.imageId}">
-      <img id="imgPreview" src="/api/rest/fileStorage/NEWS/file/read/id/${doer.imageId}" width="200"
+      <img id="imgPreview" src="/api/rest/fileStorage/DOER/file/read/id/${doer.imageId}" width="200"
            height="200">
     </c:when>
     <c:otherwise>
