@@ -1,4 +1,6 @@
 $(".headerNotificationIcon").click(function () {
+    $("#notificationContainer").empty();
+
     var eventFO = {};
     eventFO.skip = 0;
     eventFO.limit = 20;
