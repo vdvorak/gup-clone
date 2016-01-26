@@ -44,7 +44,7 @@
         });
 
         function updateProfilesTable(profileFO) {
-            alert('updateProfilesTable: ' + JSON.stringify(profileFO));
+//            alert('updateProfilesTable: ' + JSON.stringify(profileFO));
 
             $.ajax({
                 type: "POST",

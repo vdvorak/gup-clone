@@ -16,17 +16,18 @@
     });
 
     $(document).on('click', '#searchButton', function () {
-        window.location.href = "/profile/list";
+        window.location.href = '/profile/list?term=' + $("#searchInput").val();
     });
   </script>
 
   <div class="main-search-button-wrapper">
-    <form:form method="POST" commandName="profileFO" action="/profile/list">
-      <form:input path="searchField" id="searchInput"/>
-      <input type="submit" value="Find" />
-    </form:form>
-    <%--<input id="searchInput" type="text" placeholder="Введите имя пользователя или компании">--%>
-    <%--<button id="searchButton">Найти<span class="main-search-button-icon"><img src="/resources/img/magnifire.png"></span></button>--%>
+    <%--<form:form method="POST" commandName="profileFO" action="/profile/list">--%>
+      <%--<form:input path="searchField" id="searchInput"/>--%>
+      <%--<button type="submit" value="Find"></button>--%>
+    <%--</form:form>--%>
+
+    <input id="searchInput" type="text" placeholder="Имя пользователя или компании">
+    <button id="searchButton">Найти<span class="main-search-button-icon"><img src="/resources/img/magnifire.png"></span></button>
   </div>
 
 
