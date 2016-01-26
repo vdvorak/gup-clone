@@ -3,7 +3,7 @@
     "parameter": {
       "id": 1,
       "key": "price",
-      "label": "Цена",
+      "label": "Р¦РµРЅР°",
       "solr_type": "both",
       "solr_column_name": "filter_both_price",
       "type": "price",
@@ -382,7 +382,7 @@
     "parameter": {
       "id": 13,
       "key": "state",
-      "label": "Состояние",
+      "label": "РЎРѕСЃС‚РѕСЏРЅРёРµ",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_state",
       "type": "select",
@@ -590,7 +590,7 @@
     "parameter": {
       "id": 15,
       "key": "mp3_players_manufacturers",
-      "label": "Марка плеера",
+      "label": "РњР°СЂРєР° РїР»РµРµСЂР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_mp3_players_manufacturers",
       "type": "select",
@@ -605,7 +605,7 @@
     "parameter": {
       "id": 17,
       "key": "subcategory",
-      "label": "Подкатегории",
+      "label": "РџРѕРґРєР°С‚РµРіРѕСЂРёРё",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_subcategory",
       "type": "select",
@@ -636,7 +636,7 @@
     "parameter": {
       "id": 47,
       "key": "subcategory",
-      "label": "Типы мебели",
+      "label": "РўРёРїС‹ РјРµР±РµР»Рё",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_subcategory",
       "type": "select",
@@ -650,7 +650,7 @@
     "parameter": {
       "id": 49,
       "key": "subcategory",
-      "label": "Типы аксесуаров",
+      "label": "РўРёРїС‹ Р°РєСЃРµСЃСѓР°СЂРѕРІ",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_subcategory",
       "type": "select",
@@ -664,7 +664,7 @@
     "parameter": {
       "id": 51,
       "key": "subcategory",
-      "label": "Типы комплектующих",
+      "label": "РўРёРїС‹ РєРѕРјРїР»РµРєС‚СѓСЋС‰РёС…",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_subcategory",
       "type": "select",
@@ -678,7 +678,7 @@
     "parameter": {
       "id": 53,
       "key": "subcategory",
-      "label": "виды аксесуаров",
+      "label": "РІРёРґС‹ Р°РєСЃРµСЃСѓР°СЂРѕРІ",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_subcategory",
       "type": "select",
@@ -692,7 +692,7 @@
     "parameter": {
       "id": 55,
       "key": "subcategory",
-      "label": "Виды туризма",
+      "label": "Р’РёРґС‹ С‚СѓСЂРёР·РјР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_subcategory",
       "type": "select",
@@ -706,7 +706,7 @@
     "parameter": {
       "id": 57,
       "key": "subcategory",
-      "label": "типы расходников",
+      "label": "С‚РёРїС‹ СЂР°СЃС…РѕРґРЅРёРєРѕРІ",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_subcategory",
       "type": "select",
@@ -720,7 +720,7 @@
     "parameter": {
       "id": 61,
       "key": "acoustic_guitar_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_acoustic_guitar_manufacturers",
       "type": "select",
@@ -735,7 +735,7 @@
     "parameter": {
       "id": 63,
       "key": "number_of_rooms",
-      "label": "Количество комнат",
+      "label": "РљРѕР»РёС‡РµСЃС‚РІРѕ РєРѕРјРЅР°С‚",
       "solr_type": "float",
       "solr_column_name": "filter_float_number_of_rooms",
       "type": "input",
@@ -765,7 +765,7 @@
     "parameter": {
       "id": 65,
       "key": "total_living_area",
-      "label": "Жилая площадь",
+      "label": "Р–РёР»Р°СЏ РїР»РѕС‰Р°РґСЊ",
       "solr_type": "float",
       "solr_column_name": "filter_float_total_living_area",
       "type": "input",
@@ -775,7 +775,7 @@
         "max": 100000
       },
       "isNumeric": 1,
-      "suffix": "м<sup>2<\/sup>",
+      "suffix": "Рј<sup>2<\/sup>",
       "for": "offer"
     },
     "categories": {
@@ -792,7 +792,7 @@
     "parameter": {
       "id": 69,
       "key": "floor",
-      "label": "Этаж",
+      "label": "Р­С‚Р°Р¶",
       "solr_type": "float",
       "solr_column_name": "filter_float_floor",
       "type": "input",
@@ -819,7 +819,7 @@
     "parameter": {
       "id": 75,
       "key": "area",
-      "label": "Площадь",
+      "label": "РџР»РѕС‰Р°РґСЊ",
       "solr_type": "float",
       "solr_column_name": "filter_float_area",
       "type": "input",
@@ -830,7 +830,7 @@
         "max": 100000
       },
       "isNumeric": 1,
-      "suffix": "м<sup>2<\/sup>",
+      "suffix": "Рј<sup>2<\/sup>",
       "for": "offer"
     },
     "categories": {
@@ -859,7 +859,7 @@
     "parameter": {
       "id": 79,
       "key": "size",
-      "label": "Размер",
+      "label": "Р Р°Р·РјРµСЂ",
       "solr_type": "float",
       "solr_column_name": "filter_float_size",
       "type": "input",
@@ -894,7 +894,7 @@
     "parameter": {
       "id": 83,
       "key": "house_area",
-      "label": "Площадь дома",
+      "label": "РџР»РѕС‰Р°РґСЊ РґРѕРјР°",
       "solr_type": "float",
       "solr_column_name": "filter_float_house_area",
       "type": "input",
@@ -904,7 +904,7 @@
         "max": 100000
       },
       "isNumeric": 1,
-      "suffix": "м<sup>2<\/sup>",
+      "suffix": "Рј<sup>2<\/sup>",
       "for": "offer"
     },
     "categories": {
@@ -921,7 +921,7 @@
     "parameter": {
       "id": 81,
       "key": "distance_from_city",
-      "label": "Удалённость от города",
+      "label": "РЈРґР°Р»С‘РЅРЅРѕСЃС‚СЊ РѕС‚ РіРѕСЂРѕРґР°",
       "solr_type": "float",
       "solr_column_name": "filter_float_distance_from_city",
       "type": "input",
@@ -930,7 +930,7 @@
         "max": 1000
       },
       "isNumeric": 1,
-      "suffix": "км",
+      "suffix": "РєРј",
       "for": "offer"
     },
     "categories": {
@@ -942,7 +942,7 @@
     "parameter": {
       "id": 127,
       "key": "land_area",
-      "label": "Площадь",
+      "label": "РџР»РѕС‰Р°РґСЊ",
       "solr_type": "float",
       "solr_column_name": "filter_float_land_area",
       "type": "input",
@@ -953,7 +953,7 @@
         "max": 100000
       },
       "isNumeric": 1,
-      "suffix": "соток",
+      "suffix": "СЃРѕС‚РѕРє",
       "for": "offer"
     },
     "categories": {
@@ -968,7 +968,7 @@
     "parameter": {
       "id": 85,
       "key": "console_manufacturers",
-      "label": "Тип приставки",
+      "label": "РўРёРї РїСЂРёСЃС‚Р°РІРєРё",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_console_manufacturers",
       "type": "select",
@@ -986,7 +986,7 @@
     "parameter": {
       "id": 87,
       "key": "total_rooms_in_flat",
-      "label": "Всего комнат в квартире",
+      "label": "Р’СЃРµРіРѕ РєРѕРјРЅР°С‚ РІ РєРІР°СЂС‚РёСЂРµ",
       "solr_type": "float",
       "solr_column_name": "filter_float_total_rooms_in_flat",
       "type": "input",
@@ -1011,7 +1011,7 @@
     "parameter": {
       "id": 89,
       "key": "car_body",
-      "label": "Тип кузова",
+      "label": "РўРёРї РєСѓР·РѕРІР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_car_body",
       "type": "select",
@@ -1089,7 +1089,7 @@
     "parameter": {
       "id": 91,
       "key": "motor_year",
-      "label": "Год выпуска",
+      "label": "Р“РѕРґ РІС‹РїСѓСЃРєР°",
       "solr_type": "float",
       "solr_column_name": "filter_float_motor_year",
       "type": "input",
@@ -1173,7 +1173,7 @@
     "parameter": {
       "id": 93,
       "key": "motor_mileage",
-      "label": "Пробег",
+      "label": "РџСЂРѕР±РµРі",
       "solr_type": "float",
       "solr_column_name": "filter_float_motor_mileage",
       "type": "input",
@@ -1182,7 +1182,7 @@
         "max": 10000000
       },
       "isNumeric": 1,
-      "suffix": "км",
+      "suffix": "РєРј",
       "for": "offer"
     },
     "categories": {
@@ -1255,7 +1255,7 @@
     "parameter": {
       "id": 95,
       "key": "transmission_type",
-      "label": "Коробка передач",
+      "label": "РљРѕСЂРѕР±РєР° РїРµСЂРµРґР°С‡",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_transmission_type",
       "type": "select",
@@ -1334,7 +1334,7 @@
     "parameter": {
       "id": 99,
       "key": "motor_engine_size",
-      "label": "Объем двигателя",
+      "label": "РћР±СЉРµРј РґРІРёРіР°С‚РµР»СЏ",
       "solr_type": "float",
       "solr_column_name": "filter_float_motor_engine_size",
       "type": "input",
@@ -1345,7 +1345,7 @@
         "max": 10000
       },
       "isNumeric": 1,
-      "suffix": "см<sup>3<\/sup>",
+      "suffix": "СЃРј<sup>3<\/sup>",
       "for": "offer"
     },
     "categories": {
@@ -1418,7 +1418,7 @@
     "parameter": {
       "id": 97,
       "key": "color",
-      "label": "Цвет",
+      "label": "Р¦РІРµС‚",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_color",
       "type": "select",
@@ -1497,7 +1497,7 @@
     "parameter": {
       "id": 101,
       "key": "fuel_type",
-      "label": "Вид топлива",
+      "label": "Р’РёРґ С‚РѕРїР»РёРІР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_fuel_type",
       "type": "select",
@@ -1576,7 +1576,7 @@
     "parameter": {
       "id": 109,
       "key": "dvd_players_manufacturers",
-      "label": "Марка плеера",
+      "label": "РњР°СЂРєР° РїР»РµРµСЂР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_dvd_players_manufacturers",
       "type": "select",
@@ -1591,7 +1591,7 @@
     "parameter": {
       "id": 111,
       "key": "microwaves_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_microwaves_manufacturers",
       "type": "select",
@@ -1606,7 +1606,7 @@
     "parameter": {
       "id": 113,
       "key": "mobile_phone_manufacturer",
-      "label": "Марка телефона",
+      "label": "РњР°СЂРєР° С‚РµР»РµС„РѕРЅР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_mobile_phone_manufacturer",
       "type": "select",
@@ -1621,7 +1621,7 @@
     "parameter": {
       "id": 115,
       "key": "scooter_manufacturer",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_scooter_manufacturer",
       "type": "select",
@@ -1636,7 +1636,7 @@
     "parameter": {
       "id": 117,
       "key": "mileage",
-      "label": "Пробег",
+      "label": "РџСЂРѕР±РµРі",
       "solr_type": "float",
       "solr_column_name": "filter_float_mileage",
       "type": "input",
@@ -1645,7 +1645,7 @@
         "max": 10000000
       },
       "isNumeric": 1,
-      "suffix": "км",
+      "suffix": "РєРј",
       "for": "offer"
     },
     "categories": {
@@ -1658,7 +1658,7 @@
     "parameter": {
       "id": 119,
       "key": "year_of_manufacture",
-      "label": "Год выпуска",
+      "label": "Р“РѕРґ РІС‹РїСѓСЃРєР°",
       "solr_type": "float",
       "solr_column_name": "filter_float_year_of_manufacture",
       "type": "input",
@@ -1681,7 +1681,7 @@
     "parameter": {
       "id": 121,
       "key": "engine_volume",
-      "label": "Объем двигателя",
+      "label": "РћР±СЉРµРј РґРІРёРіР°С‚РµР»СЏ",
       "solr_type": "float",
       "solr_column_name": "filter_float_engine_volume",
       "type": "input",
@@ -1692,7 +1692,7 @@
         "max": 10000
       },
       "isNumeric": 1,
-      "suffix": "см<sup>3<\/sup>",
+      "suffix": "СЃРј<sup>3<\/sup>",
       "for": "offer"
     },
     "categories": {
@@ -1705,7 +1705,7 @@
     "parameter": {
       "id": 125,
       "key": "laptop_manufacturer",
-      "label": "Марка ноутбука",
+      "label": "РњР°СЂРєР° РЅРѕСѓС‚Р±СѓРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_laptop_manufacturer",
       "type": "select",
@@ -1720,7 +1720,7 @@
     "parameter": {
       "id": 123,
       "key": "display_size",
-      "label": "Диагональ экрана",
+      "label": "Р”РёР°РіРѕРЅР°Р»СЊ СЌРєСЂР°РЅР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_display_size",
       "type": "select",
@@ -1735,7 +1735,7 @@
     "parameter": {
       "id": 129,
       "key": "hoover_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_hoover_manufacturers",
       "type": "select",
@@ -1750,7 +1750,7 @@
     "parameter": {
       "id": 131,
       "key": "job_type",
-      "label": "Тип работы",
+      "label": "РўРёРї СЂР°Р±РѕС‚С‹",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_job_type",
       "type": "select",
@@ -1787,7 +1787,7 @@
     "parameter": {
       "id": 135,
       "key": "job_timing",
-      "label": "Тип занятости",
+      "label": "РўРёРї Р·Р°РЅСЏС‚РѕСЃС‚Рё",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_job_timing",
       "type": "select",
@@ -1824,7 +1824,7 @@
     "parameter": {
       "id": 133,
       "key": "salary",
-      "label": "Зарплата",
+      "label": "Р—Р°СЂРїР»Р°С‚Р°",
       "solr_type": "float",
       "solr_column_name": "filter_float_salary",
       "type": "salary",
@@ -1862,7 +1862,7 @@
     "parameter": {
       "id": 137,
       "key": "dog_breed",
-      "label": "Порода собаки",
+      "label": "РџРѕСЂРѕРґР° СЃРѕР±Р°РєРё",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_dog_breed",
       "type": "select",
@@ -1877,7 +1877,7 @@
     "parameter": {
       "id": 139,
       "key": "iron_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_iron_manufacturers",
       "type": "select",
@@ -1892,7 +1892,7 @@
     "parameter": {
       "id": 141,
       "key": "fridge_manufacturers",
-      "label": "Марка холодильника",
+      "label": "РњР°СЂРєР° С…РѕР»РѕРґРёР»СЊРЅРёРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_fridge_manufacturers",
       "type": "select",
@@ -1907,7 +1907,7 @@
     "parameter": {
       "id": 143,
       "key": "digital_camera_manufacturers",
-      "label": "Марка фотоаппарата",
+      "label": "РњР°СЂРєР° С„РѕС‚РѕР°РїРїР°СЂР°С‚Р°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_digital_camera_manufacturers",
       "type": "select",
@@ -1922,7 +1922,7 @@
     "parameter": {
       "id": 145,
       "key": "videocameras_manufacturers",
-      "label": "Марка видеокамеры",
+      "label": "РњР°СЂРєР° РІРёРґРµРѕРєР°РјРµСЂС‹",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_videocameras_manufacturers",
       "type": "select",
@@ -1937,7 +1937,7 @@
     "parameter": {
       "id": 147,
       "key": "atv_manufacturer",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_atv_manufacturer",
       "type": "select",
@@ -1952,7 +1952,7 @@
     "parameter": {
       "id": 73,
       "key": "house_type",
-      "label": "Тип",
+      "label": "РўРёРї",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_house_type",
       "type": "select",
@@ -1970,7 +1970,7 @@
     "parameter": {
       "id": 151,
       "key": "skate_manufacturer",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_skate_manufacturer",
       "type": "select",
@@ -1985,7 +1985,7 @@
     "parameter": {
       "id": 153,
       "key": "cat_breed",
-      "label": "Порода",
+      "label": "РџРѕСЂРѕРґР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_cat_breed",
       "type": "select",
@@ -2000,7 +2000,7 @@
     "parameter": {
       "id": 155,
       "key": "bike_manufacturer",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_bike_manufacturer",
       "type": "select",
@@ -2018,7 +2018,7 @@
     "parameter": {
       "id": 157,
       "key": "body_type",
-      "label": "Тип",
+      "label": "РўРёРї",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_body_type",
       "type": "select",
@@ -2033,7 +2033,7 @@
     "parameter": {
       "id": 159,
       "key": "body_type",
-      "label": "Тип кузова",
+      "label": "РўРёРї РєСѓР·РѕРІР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_body_type",
       "type": "select",
@@ -2048,7 +2048,7 @@
     "parameter": {
       "id": 161,
       "key": "audio_systems_manufacturers",
-      "label": "Марка музыкального центра",
+      "label": "РњР°СЂРєР° РјСѓР·С‹РєР°Р»СЊРЅРѕРіРѕ С†РµРЅС‚СЂР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_audio_systems_manufacturers",
       "type": "select",
@@ -2063,7 +2063,7 @@
     "parameter": {
       "id": 163,
       "key": "cooker_manufacturers",
-      "label": "Марка плиты\/печи",
+      "label": "РњР°СЂРєР° РїР»РёС‚С‹\/РїРµС‡Рё",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_cooker_manufacturers",
       "type": "select",
@@ -2078,7 +2078,7 @@
     "parameter": {
       "id": 165,
       "key": "washing_machine_manufacturers",
-      "label": "Марка стиральной машины",
+      "label": "РњР°СЂРєР° СЃС‚РёСЂР°Р»СЊРЅРѕР№ РјР°С€РёРЅС‹",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_washing_machine_manufacturers",
       "type": "select",
@@ -2093,7 +2093,7 @@
     "parameter": {
       "id": 169,
       "key": "tv_manufacturers",
-      "label": "Марка телевизора",
+      "label": "РњР°СЂРєР° С‚РµР»РµРІРёР·РѕСЂР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_tv_manufacturers",
       "type": "select",
@@ -2108,7 +2108,7 @@
     "parameter": {
       "id": 167,
       "key": "tv_type",
-      "label": "Тип",
+      "label": "РўРёРї",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_tv_type",
       "type": "select",
@@ -2123,7 +2123,7 @@
     "parameter": {
       "id": 171,
       "key": "motor_manufacturer",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_motor_manufacturer",
       "type": "select",
@@ -2138,7 +2138,7 @@
     "parameter": {
       "id": 173,
       "key": "watches_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_watches_manufacturers",
       "type": "select",
@@ -2153,7 +2153,7 @@
     "parameter": {
       "id": 175,
       "key": "lens_manufacturers",
-      "label": "Марка объектива",
+      "label": "РњР°СЂРєР° РѕР±СЉРµРєС‚РёРІР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_lens_manufacturers",
       "type": "select",
@@ -2168,7 +2168,7 @@
     "parameter": {
       "id": 177,
       "key": "sewing_machines_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_sewing_machines_manufacturers",
       "type": "select",
@@ -2183,7 +2183,7 @@
     "parameter": {
       "id": 179,
       "key": "electric_guitats_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_electric_guitats_manufacturers",
       "type": "select",
@@ -2198,7 +2198,7 @@
     "parameter": {
       "id": 181,
       "key": "truck_manufacturer",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_truck_manufacturer",
       "type": "select",
@@ -2213,7 +2213,7 @@
     "parameter": {
       "id": 183,
       "key": "coffeemaker_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_coffeemaker_manufacturers",
       "type": "select",
@@ -2228,7 +2228,7 @@
     "parameter": {
       "id": 185,
       "key": "food_processor_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_food_processor_manufacturers",
       "type": "select",
@@ -2243,7 +2243,7 @@
     "parameter": {
       "id": 187,
       "key": "steam_cooker_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_steam_cooker_manufacturers",
       "type": "select",
@@ -2258,7 +2258,7 @@
     "parameter": {
       "id": 189,
       "key": "monitor_manufacturers",
-      "label": "Марка монитора",
+      "label": "РњР°СЂРєР° РјРѕРЅРёС‚РѕСЂР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_monitor_manufacturers",
       "type": "select",
@@ -2273,7 +2273,7 @@
     "parameter": {
       "id": 191,
       "key": "syntheser_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_syntheser_manufacturers",
       "type": "select",
@@ -2288,7 +2288,7 @@
     "parameter": {
       "id": 193,
       "key": "amplifiers_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_amplifiers_manufacturers",
       "type": "select",
@@ -2303,7 +2303,7 @@
     "parameter": {
       "id": 195,
       "key": "audio_players_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_audio_players_manufacturers",
       "type": "select",
@@ -2318,7 +2318,7 @@
     "parameter": {
       "id": 197,
       "key": "capacity",
-      "label": "Объём",
+      "label": "РћР±СЉС‘Рј",
       "solr_type": "float",
       "solr_column_name": "filter_float_capacity",
       "type": "input",
@@ -2329,7 +2329,7 @@
         "max": 100000
       },
       "isNumeric": 1,
-      "suffix": "Гб",
+      "suffix": "Р“Р±",
       "for": "offer"
     },
     "categories": { "476": 3 }
@@ -2338,7 +2338,7 @@
     "parameter": {
       "id": 199,
       "key": "breadmaker_manufacturer",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_breadmaker_manufacturer",
       "type": "select",
@@ -2353,7 +2353,7 @@
     "parameter": {
       "id": 201,
       "key": "dishwasher_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_dishwasher_manufacturers",
       "type": "select",
@@ -2368,7 +2368,7 @@
     "parameter": {
       "id": 203,
       "key": "gps_manufacturers",
-      "label": "Марка",
+      "label": "РњР°СЂРєР°",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_gps_manufacturers",
       "type": "select",
@@ -2383,7 +2383,7 @@
     "parameter": {
       "id": 205,
       "key": "help_filter",
-      "label": "Тип помощи",
+      "label": "РўРёРї РїРѕРјРѕС‰Рё",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_help_filter",
       "type": "select",
@@ -2397,7 +2397,7 @@
     "parameter": {
       "id": 207,
       "key": "model",
-      "label": "Модель",
+      "label": "РњРѕРґРµР»СЊ",
       "solr_type": "enum",
       "solr_column_name": "filter_enum_model",
       "type": "select",
@@ -2472,7 +2472,7 @@
     "parameter": {
       "id": 71,
       "key": "total_floors",
-      "label": "Этажность дома",
+      "label": "Р­С‚Р°Р¶РЅРѕСЃС‚СЊ РґРѕРјР°",
       "solr_type": "float",
       "solr_column_name": "filter_float_total_floors",
       "type": "input",
@@ -2491,7 +2491,7 @@
     "parameter": {
       "id": 77,
       "key": "kitchen_area",
-      "label": "Площадь кухни",
+      "label": "РџР»РѕС‰Р°РґСЊ РєСѓС…РЅРё",
       "solr_type": "float",
       "solr_column_name": "filter_float_kitchen_area",
       "type": "input",
@@ -2501,7 +2501,7 @@
         "max": 100000
       },
       "isNumeric": 1,
-      "suffix": "м<sup>2<\/sup>",
+      "suffix": "Рј<sup>2<\/sup>",
       "for": "offer"
     },
     "categories": { "1155": 5 }
@@ -2510,7 +2510,7 @@
     "parameter": {
       "id": 67,
       "key": "total_area",
-      "label": "Общая площадь",
+      "label": "РћР±С‰Р°СЏ РїР»РѕС‰Р°РґСЊ",
       "solr_type": "float",
       "solr_column_name": "filter_float_total_area",
       "type": "input",
@@ -2520,7 +2520,7 @@
         "max": 100000
       },
       "isNumeric": 1,
-      "suffix": "м<sup>2<\/sup>",
+      "suffix": "Рј<sup>2<\/sup>",
       "for": "offer"
     },
     "categories": { "1155": 3 }
