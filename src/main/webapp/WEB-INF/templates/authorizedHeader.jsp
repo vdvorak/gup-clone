@@ -44,7 +44,7 @@
         <img src="/resources/img/envelopeSmall.png">
       </div>
       <div class="top-menu-notification">
-        <img src="/resources/img/bellSmall.png">
+          <img src="/resources/img/bellSmall.png" class="headerNotificationicon">
       </div>
     </div>
     <div class="top-menu-userBallance">
