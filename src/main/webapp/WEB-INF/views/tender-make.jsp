@@ -22,9 +22,22 @@
 <input id="cityInp" type="text" name="city" style="display: none">
 <div class="row">
   <div class="col-xs-4">
-    <input name="tenderNumber" type="text" class="form-control" placeholder="Введите номер тендера если он есть">
+    <input id="title" type="text" class="form-control" placeholder="Название тендера">
   </div>
+
+</div>
+<br>
+<div class="row">
+  <div class="col-xs-4">
+    <input id="tenderNumber" type="text" class="form-control" placeholder="Введите номер тендера если он есть">
   </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-xs-4">
+    <input id="price" type="number" class="form-control" placeholder="Ожидаемая стоимость">
+  </div>
+</div>
 <div class="row">
   <div class="col-xs-2">
     <div class="radio">
@@ -52,11 +65,6 @@
     </center>
   </div>
 </div>
-
-
-
-
-
 
 <div class="row">
   <div class="col-xs-4">
@@ -143,23 +151,36 @@
        </div>
      </div>
 
-
-
-  <form id="photoInput" enctype="multipart/form-data" action="/api/rest/fileStorage/OFFERS/file/read/id/${id}"
-        method="post">
-    <p>Загрузите ваши фотографии на сервер</p>
-
-    <p><input type="file" name="file" accept="image/*,image/jpeg">
-      <input type="submit" value="Добавить"></p>
-  </form>
-
-
-
 <br>
 <br>
 <div class="imgBlock">
   <!--uploaded images-->
 </div>
+
+
+<div class="row">
+  <div class="col-xs-4">
+<div class = "panel panel-info">
+  <div class = "panel-body" id="drop_zone"> Перетяните файлы сюда
+  </div>
+</div>
+  </div>
+</div>
+
+<div class="row">
+
+<div class="col-xs-4"><center><button class="btn btn-success" id="save">Сохранить</button></center></div>
+</div>
+
+<br>
+
+<div class="row">
+  <div class="col-xs-12">
+    <textarea id="textarea"></textarea>
+    </div>
+</div>
+
+
 
 <div id="floating-panel">
   <input id="address" type="textbox" value="">
@@ -174,22 +195,111 @@
 <script src="/resources/js/bootstrap-datepicker.js" ></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
         async defer></script>
-
+<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
 <script>
   var imgsArr = new Object();
   var cities;
-  var tender = {};
   var members = [];
   var type = 'OPEN';
 
 
+  $(document).ready(function(){
+    // Setup the dnd listeners.
+    var dropZone = document.getElementById('drop_zone');
+    dropZone.addEventListener('dragover', handleDragOver, false);
+    dropZone.addEventListener('drop', handleFileSelect, false);
+
+    function handleFileSelect(evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+
+      var files = evt.dataTransfer.files; // FileList object.
+
+      // files is a FileList of File objects. List some properties.
+      var output = [];
+      for (var i = 0, f; f = files[i]; i++) {
+        var formImg = new FormData($(this)[0]);
+        var fd = new FormData();
+        fd.append('file', f);
+        $.ajax({
+          type: "POST",
+          url: "/api/rest/fileStorage/TENDER/file/upload/",
+          data: fd,
+          async: false,
+          cache: false,
+          contentType: false,
+          processData: false,
+
+          success: function (data, textStatus, request) {
+            var id = data.id;
+           if(f.type.substring(0,5) === 'image'){
+             imgsArr[id] = "image";
+             $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
+             '<li><strong>' +f.name+ '</strong></li>' +
+             ' <li style="background-color: white">' +
+             '<a rel="example_group"> ' +
+             '<img id="img1" alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
+             '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+           }else{
+             imgsArr[id] = "doc";
+             $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
+             '<li><strong>' +f.name+ '</strong></li>' +
+             ' <li style="background-color: white">' +
+             '<a rel="example_group"> ' +
+             '<img id="img1" alt="" src="http://www.uzscience.uz/upload/userfiles/images/doc.png"' + 'width="150" height="150"> ' +
+             '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+           }
+
+          }
+        });
+
+
+      }
+      document.getElementById('list').innerHTML += '<ul>' + output.join('') + '</ul>';
+    }
+
+    function handleDragOver(evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+      evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+    }
+
+
+});
 
  //--------------------   DATEPICKER ---------------------------------//
   $(function () {
     $('#datetimepicker4').datetimepicker({format: 'yyyy-mm-dd hh:ii'});
   });
 //--------------------   END  DATEPICKER ---------------------------------//
+
+
+//----------------------  HTML EDITOR-------------------------------------//
+  tinymce.init({
+    selector: 'textarea',
+    height: 500,
+    theme: 'modern',
+    plugins: [
+      'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+      'searchreplace wordcount visualblocks visualchars code fullscreen',
+      'insertdatetime media nonbreaking save table contextmenu directionality',
+      'emoticons template paste textcolor colorpicker textpattern imagetools'
+    ],
+    toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+    toolbar2: 'print preview media | forecolor backcolor emoticons',
+    image_advtab: true,
+    templates: [
+      { title: 'Test template 1', content: 'Test 1' },
+      { title: 'Test template 2', content: 'Test 2' }
+    ],
+    content_css: [
+      '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
+      '//www.tinymce.com/css/codepen.min.css'
+    ]
+  });
+
+  //---------------------- END  HTML EDITOR-------------------------------------//
 
 
 //--------------------  RADIO CHECK ------------------------------------//
@@ -400,6 +510,45 @@ $('#open, #close').change(function(){
   });
 
   //--------------------------- END REGIONS LIST --------------------------------------------//
+
+  $('#save').click(function(){
+    var tender = {};
+    tender.uploadFilesIds = imgsArr;
+    tender.title = $('#title').val();
+    tender.body = tinymce.activeEditor.getContent();
+    tender.tenderNumber = $('#tenderNumber').val();
+    tender.end = new Date($('#datetimepicker4').val()).getTime();
+    tender.TenderType = type;
+    tender.expectedPrice = $('#price').val();
+    if (type === 'CLOSE'){
+      tender.members = members;
+    }
+    tender.address = {};
+    tender.address.googleMapKey = $('#address').val();
+    tender.address.area = $('#areaInp').val();
+    tender.address.city = $('#cityInp').val();
+
+    $.ajax({
+      type: "POST",
+      url: "/api/rest/tenderService/tender/create/",
+      contentType: "application/json; charset=utf-8",
+      data: JSON.stringify(tender),
+      dataType: "json",
+      success: function () {
+        alert('Сохранили');
+      }
+    });
+  });
+
+  //---------------------------- SUBMIT -----------------------------------------------------//
+
+
+
+
+
+  //---------------------------- END SUBMIT -------------------------------------------------//
+
+
 
 </script>
 
