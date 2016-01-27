@@ -1,4 +1,4 @@
-$(".headerNotificationIcon").click(function () {
+$("#notificationBellImg").click(function () {
     $("#notificationContainer").empty();
 
     var eventFO = {};
