@@ -4,6 +4,22 @@ package ua.com.itproekt.gup.model.tender;
 public class Member {
     String id;
     String name;
+    String userPic;
+
+    public Member() {
+    }
+
+    public Member(String id) {
+        this.id = id;
+    }
+
+    public String getUserPic() {
+        return userPic;
+    }
+
+    public void setUserPic(String userPic) {
+        this.userPic = userPic;
+    }
 
     public String getId() {
         return id;
