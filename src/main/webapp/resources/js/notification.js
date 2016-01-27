@@ -12,34 +12,30 @@ $(".headerNotificationIcon").click(function () {
         data: JSON.stringify(eventFO),
         success: function (response) {
             $(document).ready(function () {
-                //alert("(document).ready(function (): " + JSON.stringify(response));
+                alert("(document).ready(function (): " + JSON.stringify(response.entities));
 
-                var data = response.entities;
-
-                for (var i = 0; i < data.length; i++) {
-                    //var createdDate = new Date(data[i].createdDate);
-                    //data[i].createdDate = createdDate.getHours() + ':' + createdDate.getMinutes() + '  ' + createdDate.getDate() + '/' + (createdDate.getMonth() + 1);
-
+                response.entities.forEach(function(event) {
                     $('#notificationContainer').append(
                         '<li class=" notif unread">' +
                             '<a href="#">' +
                                 '<div class="imageblock">' +
-                                    '<img src="https://si0.twimg.com/sticky/default_profile_images/default_profile_2_bigger.png" class="notifimage"  />' +
+                                '<img src="https://si0.twimg.com/sticky/default_profile_images/default_profile_2_bigger.png" class="notifimage"  />' +
+                            '</div>' +
+                            '<div class="messageblock">' +
+                                '<div class="message">' +
+                                    '<strong>creatorId:' + event.creatorEventId + '</strong> Type: ' + event.type +
                                 '</div>' +
-                                '<div class="messageblock">' +
-                                    '<div class="message">' +
-                                    '<strong>creatorId:' + data[i].creatorEventId + '</strong> Type: ' + data[i].type +
-                                    '</div>' +
-                                    //'<div class="messageaction">' +
-                                    //    '<a class="button tiny success">Type: ' + data[i].type + '</a>' +
-                                    //'</div>' +
-                                    '<div class="messageinfo">' +
-                                        '<i class="icon-flag"></i>' + data[i].createdDate +
-                                    '</div>' +
+                                        //'<div class="messageaction">' +
+                                        //    '<a class="button tiny success">Type: ' + data[i].type + '</a>' +
+                                        //'</div>' +
+                                '<div class="messageinfo">' +
+                                    '<i class="icon-flag"></i>' + event.createdDate +
                                 '</div>' +
+                            '</div>' +
                             '</a>' +
                         '</li>');
-                }
+                });
+
             });
         }
     });
