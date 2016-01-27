@@ -59,6 +59,7 @@ public class DialogueController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName(); //get logged in username
         Profile user = profileService.findProfileByEmail(email);
+        model.addAttribute("userid", user.getId());
         member.setId(user.getId());
 //        member.setName(user.getUsername());
         List<Dialogue> responseDialogues = dialogueRepository.findByMembersIn(member);

@@ -24,62 +24,7 @@
         type="text/css"/>
 </head>
 <body class="center-block" style="padding-top: 70px; max-width: 1200px;">
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="collapse navbar-collapse">
-    <ul class="nav navbar-nav">
-      <li><a href="#">Моя страница</a></li>
-      <li><a href="#">Друзья</a></li>
-      <li><a href="#">Сообщения</a></li>
-    </ul>
-    <div class="col-sm-4 col-md-4 pull-right">
-      <ul class="nav navbar-nav">
-        <li><a href="#">Вступить в организацию</a></li>
-        <li><a href="#">Баланс</a></li>
-        <li><a href="#">Укр/Рус</a></li>
-        <li><a href="/logout">Выход</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
 <div class="container-fluid">
-
-  <!--category-->
-  <div class="row">
-    <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-      <div class="btn btn-info btn-block">
-        Объявления
-      </div>
-    </div>
-    <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-      <div class="btn btn-info btn-block">
-        Работа
-      </div>
-    </div>
-    <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-      <div class="btn btn-info btn-block">
-        Блог
-      </div>
-    </div>
-    <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-      <div class="btn btn-info btn-block">
-        Новости
-      </div>
-    </div>
-    <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-      <div class="btn btn-info btn-block">
-        Тендеры
-      </div>
-    </div>
-    <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-      <div class="btn btn-info btn-block">
-        Проекты
-      </div>
-    </div>
-  </div>
-  <!--category-->
-
-
 
   <div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">
 
@@ -261,13 +206,13 @@
 
 <script>
 
-  var imgsArrResult = new Object();
+  var imgsArrResult = {};
   var phoneArrResult = [];
 
   var picArrDel = [];
   var picArrNew = [];
   var picArrIn = [];
-  var picMapObj = new Object();
+  var picMapObj = {};
 
   var placeKey = '';
 
@@ -361,13 +306,13 @@
 
       var mainForm = $('#mainInput').serialize().replace(/\+/g, '%20').replace(/%0D%0A/g, "%5C%6E");
       mainForm.imagesIds = imgsArrResult;
-      mainForm.address = new Object();
-      mainForm.userInfo = new Object();
-      alert(JSON.stringify(mainForm));
+      mainForm.address = {};
+      mainForm.userInfo = {};
+//      alert(JSON.stringify(mainForm));
       var b = decodeURIComponent(mainForm);
-      alert('{"' + decodeURI(b).replace(/"/g, '\\"').replace(/:/g, '\\:').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
+//      alert('{"' + decodeURI(b).replace(/"/g, '\\"').replace(/:/g, '\\:').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
       var c = JSON.parse('{"' + decodeURI(b).replace(/"/g, '\\"').replace(/:/g, '\\:').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
-      alert("Цэ" + JSON.stringify(c));
+//      alert("Цэ" + JSON.stringify(c));
 
 // subtract deleted imgId from sum of oldImgId and upploaded img---------Begin-----------
       var i = 0;
@@ -379,13 +324,13 @@
       for (var j = 0; j < picArrNew.length; j++) {
         imgsArrResult[picArrNew[j]] = "someText";
       }
-      alert(JSON.stringify(imgsArrResult));
+//      alert(JSON.stringify(imgsArrResult));
 // subtract deleted imgId from sum of oldImgId and upploaded img---------End-----------
 
       c.id = '${offer.id}';
       c.imagesIds = imgsArrResult;
       c.canBeReserved = $("#inputReserved").is(":checked");
-      c.address = new Object();
+      c.address = {};
       c.address.coordinates = placeKey;
       c.address.country = 'Украина';
       c.videoUrl = $('#inputVideo').val();
@@ -405,7 +350,7 @@
       }
 
       c.description = $('#inputDescript').val();
-      c.userInfo = new Object();
+      c.userInfo = {};
       c.userInfo.skypeLogin = $('#inputSkype').val();
       c.userInfo.contactName = $('#inptContactName').val();
       c.userInfo.email = $('#inptEmail').val();
@@ -423,8 +368,6 @@
       if (picArrDel.length !== 0){
         deleteImgFromDB(picArrDel);
       }
-
-
 
       $.ajax({
         type: "POST",
@@ -447,7 +390,6 @@
   function deleteImgFromPage(idImg) {
     $('#' + idImg).remove();
     picArrDel.push(idImg);
-    alert(picArrDel);
   }
 
   // upload photo to the server and place it into the page-----------------------BEGIN------------------------
@@ -466,11 +408,11 @@
       processData: false,
 
       success: function (data, textStatus, request) {
-        picArrIn.push(data.value);
-        $('.imgBlock').append('<ul id="' + data.value + '" style="display: inline-table; list-style-type: none">' +
+        picArrIn.push(data.id);
+        $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
         ' <li style="background-color: white"><a rel="example_group"> ' +
-        '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.value + '"' + 'width="150" height="150"> ' +
-        '</a> <div onclick=\"deleteImgFromPage(' + '\'' + data.value + '\'' + ')">Удалить</div> </li> </ul>');
+        '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+        '</a> <div onclick=\"deleteImgFromPage(' + '\'' + data.id + '\'' + ')">Удалить</div> </li> </ul>');
       }
     });
   });

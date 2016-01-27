@@ -13,15 +13,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import ua.com.itproekt.gup.model.activityfeed.Event;
+import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.nace.DepartmentOrNace;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserType;
 import ua.com.itproekt.gup.model.tender.*;
+import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.nace.NaceService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.tender.TenderService;
 import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
@@ -47,6 +51,8 @@ public class TenderRestController {
     @Autowired
     StorageService storageService;
 
+    @Autowired
+    ActivityFeedService activityFeedService;
     //------------------------------------------ Read -----------------------------------------------------------------
 
     @RequestMapping(value = "/tender/read/id/{id}",
@@ -129,6 +135,10 @@ public class TenderRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tender> createTender(@RequestBody Tender tender, UriComponentsBuilder ucBuilder) {
 
+        tender.setAuthorId(SecurityOperations.getLoggedUserId());
+        if(tender.getType() == TenderType.CLOSE){
+            sendActivityFeedToMembers(tender);
+        }
         tenderService.createTender(tender);
 
         HttpHeaders headers = new HttpHeaders();
@@ -230,6 +240,17 @@ public class TenderRestController {
         }
     }
 
+    @RequestMapping(value = "/tender/userislegal/{email}",
+            method = RequestMethod.POST)
+    public Boolean isLegal(@PathVariable("email")String email) {
+        // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an member;
+        UserType userType = profileService.findProfileByEmail(email).getContact().getType();
+        if (userType == null || userType == UserType.INDIVIDUAL) {
+            return false;
+        }
+        return true;
+    }
+
     private String getCurrentUserId() {
         Profile user = getCurrentUser();
         if(user == null || user.getId() == null) return null;
@@ -282,5 +303,11 @@ public class TenderRestController {
         Profile user = getCurrentUser();
         if (user == null | user.getContact() == null) return null;
         return user.getContact().getNaceId();
+    }
+
+    private void sendActivityFeedToMembers(Tender tender) {
+        for(Member m: tender.getMembers()){
+            activityFeedService.createEvent(new Event(m.getId(), EventType.YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER, tender.getId(), tender.getAuthorId()));
+        }
     }
 }

@@ -1,28 +1,38 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Optical Illusion
-  Date: 20.01.2016
-  Time: 18:23
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <section class="first-sec">
-  <div class="main-search-button-wrapper">
-    <input id="tagsName" type="text" placeholder="Введите имя пользователя или компании">
-    <a href="">Найти<span class="main-search-button-icon"><img src="/resources/img/magnifire.png"></span></a>
-  </div>
   <%--<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">--%>
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   <script>
     $(function() {
-      $("#tagsName").autocomplete({
+      $("#searchInput").autocomplete({
         source: function (request, response) {
-          $.getJSON("${pageContext.request.contextPath}/search/profile", {
+          $.getJSON("${pageContext.request.contextPath}/search/autocomplete/profile", {
             term: request.term
           }, response);
         }
       });
     });
+
+    $(document).on('click', '#searchButton', function () {
+        if ( $("#searchInput").val() == "") {
+            alert('Введите имя пользователя или компании!')
+        } else {
+            window.location.href = '/profile/list?term=' + $("#searchInput").val();
+        }
+    });
   </script>
+
+  <div class="main-search-button-wrapper">
+    <%--<form:form method="POST" commandName="profileFO" action="/profile/list">--%>
+      <%--<form:input path="searchField" id="searchInput"/>--%>
+      <%--<button type="submit" value="Find"></button>--%>
+    <%--</form:form>--%>
+
+    <input id="searchInput" type="text" placeholder="Имя пользователя или компании" value="">
+    <button id="searchButton">Найти<span class="main-search-button-icon"><img src="/resources/img/magnifire.png"></span></button>
+  </div>
+
+
 </section>

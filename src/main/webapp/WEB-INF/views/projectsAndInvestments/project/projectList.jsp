@@ -139,9 +139,5 @@
                 </table>
             </div>
         </div>
-
-        <%--<jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>--%>
-
-
     </body>
 </html>

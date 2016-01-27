@@ -77,6 +77,11 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     @Override
     public EntityPage<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions) {
         Query query = new Query();
+        if (profileFilterOptions.getSearchField() != null) {
+            String searchFieldRegex = "(?i:.*" + profileFilterOptions.getSearchField() + ".*)";
+            query.addCriteria(Criteria.where("username").regex(searchFieldRegex));
+        }
+
         if (profileFilterOptions.getUserRoles() != null) {
             query.addCriteria(Criteria.where("userRoles").all(profileFilterOptions.getUserRoles()));
         }
@@ -104,6 +109,24 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         query.limit(10);
         return mongoTemplate.find(query, Profile.class).stream().map(Profile::getUsername).collect(Collectors.toSet());
 
+    }
+
+    @Override
+    public void addContactToContactList(String profileOwnerContactListId, String contactId) {
+        Query addContactQuery = new Query(Criteria.where("id").is(profileOwnerContactListId));
+
+        Query existsContactInListQuery = new Query()
+                .addCriteria(Criteria.where("id").is(profileOwnerContactListId))
+                .addCriteria( Criteria.where("contactList").in(contactId));
+
+        Update update = new Update();
+        if (mongoTemplate.exists(existsContactInListQuery, Profile.class)) {
+            update.pull("contactList", contactId);
+        } else {
+            update.push("contactList", contactId);
+        }
+
+        mongoTemplate.updateFirst(addContactQuery, update, Profile.class);
     }
 
     @Override

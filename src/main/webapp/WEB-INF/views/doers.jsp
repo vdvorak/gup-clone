@@ -6,7 +6,7 @@
 <body>
 
 <div>
-  <a href="/doer/create"><button>Создать исполнителя</button></a>
+  <a href="/doer-create"><button>Создать исполнителя</button></a>
   <c:forEach var="doer" items="${doerPages.entities}">
     <h3>
       <a href="/doer/${doer.id}">${doer.title}</a>
@@ -26,8 +26,8 @@
     </div>
     <br>
     <div>Описание<br>${doer.body}</div>
-    <div><br>Дата создания: <span class="date-create"></span> ${doer.dateOfCreate}</div>
-    <div><br>Дата последнего обновления: <span class="date-create"></span> ${doer.dateOfUpdate}</div>
+    <div><br>Дата создания: <span class="date-create"> ${doer.dateOfCreate}</span></div>
+    <div><br>Дата последнего обновления: <span class="date-create"> ${doer.dateOfUpdate} </span></div>
     <div><br>Оценка по отзывам: ${doer.recallCount}</div>
     <c:forEach var="recall" items="${doer.recalls}">
       <div><br>Пользователь ${recall.authorId} пославил ${recall.mark} в <div> <span class="date-create"></span> ${doer.createTime}</div></div>

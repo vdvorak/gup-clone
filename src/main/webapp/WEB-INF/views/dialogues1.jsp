@@ -24,8 +24,8 @@
                 </c:when>
                 <c:otherwise>
                     <c:forEach items="${dialogues}" var="dialogue">
-                        <p>
-                        <a href="/dialogue/id/${dialogue.id}"> dialogue subject: ${dialogue.subject} </a>
+                        <p><a href="/dialogue/id/${dialogue.id}"> dialogue subject: ${dialogue.subject} </a>
+                        <p> unread messages: ${dialogue.unreadMsgCounter.get(userid)} </p>
                         <ul style="display: inline-table; list-style-type: none">
                             <li style="background-color: white">
                                 <a rel="example_group" href="/dialogue/id/${dialogue.id}">

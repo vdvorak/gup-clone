@@ -1,5 +1,4 @@
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
@@ -7,14 +6,16 @@
   Time: 15:44
   To change this template use File | Settings | File Templates.
 --%>
-<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!DOCTYPE html>
 <html lang="ru-RU">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>GUP</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
 </head>
@@ -36,6 +37,23 @@
 <jsp:include page="/WEB-INF/templates/main-menu-slider-bar.jsp"/>
 <!--END 2nd section -->
 
+<%--<div class="contain">--%>
+    <%--<button class="button notificationicon on">Посмотреть уведомления</button>--%>
+
+    <%--<ul id="notificationMenu" class="notifications">--%>
+        <%--<li class="titlebar">--%>
+            <%--<span class="title" align="center">Уведомления</span>--%>
+        <%--<span class="settings"><i class="icon-cog"></i>--%>
+        <%--</span>--%>
+        <%--</li>--%>
+        <%--<div class="notifbox" id="notificationContainer">--%>
+
+        <%--</div>--%>
+        <%--<li class="seeall">--%>
+            <%--<a>Посмотреть все</a>--%>
+        <%--</li>--%>
+    <%--</ul>--%>
+<%--</div>--%>
 <!--3rd section news timeline-->
 <section>
     <div class="main-newsTimeline-wrap" id="newsContainer">
@@ -61,10 +79,12 @@
 <!-- special libs starts here-->
 <script src="/resources/js/common.js"></script>
 <script src="/resources/js/index.js"></script>
+<script src="/resources/js/notification.js"></script>
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <!--END of libs-->
 
 <script>
+
     var blogPostFO = {};
     blogPostFO.createdDateSortDirection = "DESC";
     blogPostFO.skip = 0;
@@ -108,7 +128,7 @@
                     }
                 });
             }
-        });
+    });
 
 
     $(function () {

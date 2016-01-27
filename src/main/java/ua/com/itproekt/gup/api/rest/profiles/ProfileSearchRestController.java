@@ -8,18 +8,15 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import java.util.Set;
 
-/**
- * Created by Zver on 22.01.2016.
- */
-
 @RestController
 public class ProfileSearchRestController {
 
     @Autowired
     ProfilesService profilesService;
 
-    @RequestMapping("/search/profile")
+    @RequestMapping("/search/autocomplete/profile")
     public Set<String> getMachedNames(@RequestParam String term){
         return profilesService.getMatchedNames(term);
     }
+
 }

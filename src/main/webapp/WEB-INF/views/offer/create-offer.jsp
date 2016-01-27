@@ -63,38 +63,7 @@
     </div>
     <!--category-->
 
-    <!--category-->
-    <div class="row">
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <a href="/offers"><div class="btn btn-info btn-block">Объявления</div></a>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Работа
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Блог
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Новости
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Тендеры
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Проекты
-            </div>
-        </div>
-    </div>
-    <!--category-->
+
 
     <!--search begin-->
 
@@ -338,7 +307,7 @@
 
 
 <script>
-    var imgsArr = new Object();
+    var imgsArr = {};
     var mainForm;
     var placeKey = '';
     var phones = [];
@@ -428,8 +397,8 @@
 
         var mainForm = $('#mainInput').serialize().replace(/\+/g, '%20').replace(/%0D%0A/g, "%5C%6E");
         mainForm.imagesIds = imgsArr;
-        mainForm.address = new Object();
-        mainForm.userInfo = new Object();
+        mainForm.address = {};
+        mainForm.userInfo = {};
         alert(JSON.stringify(mainForm));
         var uriOfferString = decodeURIComponent(mainForm);
         alert(uriOfferString);
@@ -438,7 +407,7 @@
 
         offer.imagesIds = imgsArr;
         offer.canBeReserved = $("#inpReserved").is(":checked");
-        offer.address = new Object();
+        offer.address = {};
         offer.address.coordinates = placeKey;
         offer.address.country = 'Украина';
 
@@ -477,7 +446,7 @@
         offer.categories = categoryResult;
         offer.active = true;
         offer.description = $('#offerDescription').val();
-        offer.userInfo = new Object();
+        offer.userInfo = {};
         offer.userInfo.skypeLogin = $('#inptSkype').val();
         offer.userInfo.contactName = $('#inptAuthor').val();
         offer.userInfo.email = $('#inptMail').val();
@@ -485,14 +454,14 @@
         offer.userInfo.phoneNumbers = phones;
 
         $('#options').find('select').each(function(){
-            var prop = new Object();
+            var prop = {};
             prop.key = this.name;
             prop.value = this.value;
             properties.push(prop);
         });
 
         $('#inputs').find('input').each(function(){
-            var prop = new Object();
+            var prop = {};
             prop.key = this.name;
             prop.value = this.value;
             properties.push(prop);
@@ -536,12 +505,12 @@
             processData: false,
 
             success: function (data, textStatus, request) {
-                var id = data.value;
+                var id = data.id;
                 imgsArr[id] = "someText";
-                $('.imgBlock').append('<ul id="' + data.value + '" style="display: inline-table; list-style-type: none">' +
+                $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
                 ' <li style="background-color: white"><a rel="example_group"> ' +
-                '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.value + '"' + 'width="150" height="150"> ' +
-                '</a> <div onclick=\"deleteImg(' + '\'' + data.value + '\'' + ')">Удалить</div> </li> </ul>');
+                '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                '</a> <div onclick=\"deleteImg(' + '\'' + data.id + '\'' + ')">Удалить</div> </li> </ul>');
             }
         });
     });
@@ -555,8 +524,7 @@
                 $('#' + idImg).remove();
             }
         });
-    }
-
+    };
 // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//
 
 
@@ -823,7 +791,7 @@
 
         for ( j in parameters){
             if (parameters[j]['parameter']['type'] === "input" && parameters[j]['categories'][id]  !== undefined ){
-                $('#inputs').append('<input id="'+ parameters[j]['parameter']['key'] +'" type="number" name="'+ parameters[j]['parameter']['key'] +'"/>');
+                $('#inputs').append('<input id="'+ parameters[j]['parameter']['key'] +'" type="number" name="'+ parameters[j]['parameter']['key'] +'" placeholder="'+parameters[j]['parameter']['key']+'"/>');
             }
         }
     };

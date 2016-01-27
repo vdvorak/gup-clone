@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -106,6 +107,7 @@ public class DoerRestController {
 //        if(userType == null || userType == UserType.INDIVIDUAL){
 //            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 //        }
+        doer.setAuthorId(getCurrentUserId());
         doerService.createDoer(doer);
 
         HttpHeaders headers = new HttpHeaders();
@@ -257,16 +259,19 @@ public class DoerRestController {
         return new ResponseEntity<Doer>(HttpStatus.NO_CONTENT);
     }
 
-
-    private String getCurrentUserId(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName(); //get logged in username
-        return profileService.findProfileByEmail(email).getId();
+    private String getCurrentUserId() {
+        Profile user = getCurrentUser();
+        if(user == null || user.getId() == null) return null;
+        return user.getId();
     }
 
-    private Profile getCurrentUser(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName(); //get logged in username
+    private Profile getCurrentUser() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        if(context == null) return null;
+        Authentication authentication = context.getAuthentication();
+        if(authentication == null) return null;
+        String email = authentication.getName(); //get logged in username
+        if(email == null) return null;
         return profileService.findProfileByEmail(email);
     }
 
