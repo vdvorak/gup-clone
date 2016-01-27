@@ -7,5 +7,6 @@ public enum ServiceNames {
     TENDER,
     PROJECTS_AND_INVESTMENTS,
     PROFILE,
-    DOER;
+    DOER,
+    SUPPORT_DIALOGUE_SERVICE;
 }
