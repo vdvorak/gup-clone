@@ -46,21 +46,23 @@
       <div class="top-menu-notification">
           <img src="/resources/img/bellSmall.png" id="notificationBellImg" class="headerNotificationIcon">
       </div>
+      <div class="top-menu-contactList">
+        <button id="contactListButton">Контакты</button>
+      </div>
       <div>
         <ul id="notificationMenu" class="notifications">
           <li class="titlebar">
-            <span class="title" align="center">Уведомления</span>
+            <span class="title">Уведомления</span>
         <span class="settings"><i class="icon-cog"></i>
         </span>
           </li>
           <div class="notifbox" id="notificationContainer">
-
           </div>
           <li class="seeall">
-            <a>Посмотреть все</a>
           </li>
         </ul>
       </div>
+
     </div>
     <div class="top-menu-userBallance">
       <div class="ballance">
