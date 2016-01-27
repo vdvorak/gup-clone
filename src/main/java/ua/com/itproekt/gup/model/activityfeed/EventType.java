@@ -23,7 +23,7 @@ public enum EventType {
     NEW_CLIENT_WANT_CONFIRM,
     USER_ADD_TO_DOER_CLIENT_LIST,
 
-    //for tenderServise
+    //for tenderService
     TENDER_END_DAY_NEED_CHOOSE_WINNER,
     YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER,
     NEW_PROPOSE_IN_YOUR_TENDER,
