@@ -25,6 +25,7 @@ import ua.com.itproekt.gup.service.nace.NaceService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.tender.TenderService;
 import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
@@ -133,7 +134,8 @@ public class TenderRestController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tender> createTender(@RequestBody Tender tender, UriComponentsBuilder ucBuilder) {
-        tender.setAuthorId(getCurrentUserId());
+
+        tender.setAuthorId(SecurityOperations.getLoggedUserId());
         if(tender.getType() == TenderType.CLOSE){
             sendActivityFeedToMembers(tender);
         }

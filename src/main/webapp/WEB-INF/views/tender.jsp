@@ -46,7 +46,6 @@
                 <div>
                     <c:forEach var="tender" items="${tenders.entities}">
                     <div class="tender-tabs-items-wrap">
-                            ${tenders.entities}
                         <div class="tender-item-wrapper">
                             <div class="tender-item-leftside">
                                 <div class="tender-pic-wrap">
