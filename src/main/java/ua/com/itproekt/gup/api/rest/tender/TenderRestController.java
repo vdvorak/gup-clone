@@ -207,6 +207,9 @@ public class TenderRestController {
         if (!newTender.getUploadFilesIds().isEmpty()) {
             newTender.getUploadFilesIds().putAll(files);
         }
+        if(newTender.getWinnerId() != null && newTender.getWinnerId().length() > 0){
+            activityFeedService.createEvent(new Event(newTender.getWinnerId(), EventType.YOU_WON_IN_TENDER, tender.getId(), tender.getAuthorId()));
+        }
         tenderService.updateTender(newTender);
 
         HttpHeaders headers = new HttpHeaders();
