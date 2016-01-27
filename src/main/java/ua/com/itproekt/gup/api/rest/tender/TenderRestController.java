@@ -151,10 +151,15 @@ public class TenderRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tender> addPropose(@PathVariable("id") Tender tender, @RequestBody Propose propose) {
 
+        propose.setAuthorId(SecurityOperations.getLoggedUserId());
         Tender newTender = new Tender();
         newTender.setId(tender.getId());
         tender.getProposes().add(propose);
+        tender.getMembers().add(new Member(propose.getAuthorId()));
+        newTender.setMembers(tender.getMembers());
         newTender.setProposes(tender.getProposes());
+
+        activityFeedService.createEvent(new Event(tender.getId(), EventType.NEW_PROPOSE_IN_YOUR_TENDER, propose.getAuthorId(), propose.getAuthorId()));
 
         tenderService.updateTender(newTender);
         HttpHeaders headers = new HttpHeaders();
@@ -176,8 +181,8 @@ public class TenderRestController {
         if (userType == null || userType == UserType.INDIVIDUAL) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if (!tender.getMembers().contains(member)) {
-            tender.getMembers().add(member);
+        if (tender.getMembers().add(member) && tender.getType() == TenderType.CLOSE){
+            activityFeedService.createEvent(new Event(member.getId(), EventType.YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER, tender.getId(), tender.getAuthorId()));
         }
         newTender.setMembers(tender.getMembers());
 
