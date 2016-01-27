@@ -34,12 +34,17 @@ public class OfferController {
 
 
     //----------------------------------- all offers  ------
-    @RequestMapping(value = "/offers", method = RequestMethod.GET)
-    public String getAllOffers() {
-        return "redirect:offers/1";
+    @RequestMapping(value = "/offers-old", method = RequestMethod.GET)
+    public String getOffers() {
+        return "redirect:offers-old/1";
     }
 
-    @RequestMapping(value = "/offers/{page}", method = RequestMethod.GET)
+    @RequestMapping(value = "/offers", method = RequestMethod.GET)
+    public String getAllOffers() {
+        return "offers";
+    }
+
+    @RequestMapping(value = "/offers-old/{page}", method = RequestMethod.GET)
     public String getOffersPerPage(Model model, HttpServletRequest request,
                                    @PathVariable("page") Integer page,
                                    @RequestParam(name="minPrice",required = false,defaultValue = "0") Integer minPrice,
@@ -91,7 +96,7 @@ public class OfferController {
         System.err.println("chosenRegion: " + chosenRegion);
         System.err.println("chosenCity: " + chosenCity);
         System.err.println("URL: " + request.getQueryString());
-        return "offer/offers";
+        return "offer/offers-old";
     }
 
     //----------------------------------- one certain offer  ------
