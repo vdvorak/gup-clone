@@ -33,7 +33,6 @@
 
       <div class="top-menu-contactList">
         <img id="contactListImg" src="/resources/img/contact-book-128.png" width="26" height="26">
-        <%--<button id="showContactListBtn">Контакты</button>--%>
       </div>
 
       <div>

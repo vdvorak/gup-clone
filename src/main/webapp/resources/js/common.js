@@ -21,8 +21,6 @@ $(".top-menu-userSection").hover(
     }
 );
 
-
-
 $(document).ready(function () {
     $(".main-tender-wrap").hover(
         function () {
