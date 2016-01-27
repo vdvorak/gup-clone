@@ -38,6 +38,7 @@ public class Tender {
         hidePropose = true;
         hideContact = true;
         visited = 0l;
+        hidePropose = true;
     }
 
     public String getTenderNumber() {
