@@ -117,6 +117,12 @@ a{
     margin-top: 5px;
 }
 
+.top-menu-contactList{
+	display: inline-block;
+	margin-left: 30px;
+	margin-top: 10px;
+}
+
 .header-entry {
 	display: inline-block;
 }
