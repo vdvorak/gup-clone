@@ -44,8 +44,13 @@
                     <li class="tender-tabs-title">ИСПОЛНИТЕЛИ</li>
                 </ul>
                 <div>
-                    <c:forEach var="tender" items="${tenders.entities}">
+
+
+
+
                     <div class="tender-tabs-items-wrap">
+
+                    <c:forEach var="tender" items="${tenders.entities}">
                         <div class="tender-item-wrapper">
                             <div class="tender-item-leftside">
                                 <div class="tender-pic-wrap">
@@ -86,9 +91,15 @@
                                 </div>
                             </div>
                         </div>
+                </c:forEach>
                     </div>
 
-                </c:forEach>
+
+
+
+
+
+
                 </div>
 
 
