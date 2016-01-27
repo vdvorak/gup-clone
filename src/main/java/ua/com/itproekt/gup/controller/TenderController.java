@@ -14,6 +14,7 @@ import ua.com.itproekt.gup.service.nace.NaceService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.tender.TenderService;
 import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 /**
  * Created by qz on 1/12/2016.
@@ -36,15 +37,6 @@ public class TenderController {
 
     @RequestMapping("/tender")
     public String getTender(Model model) {
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Profile profile = profileService.findProfileByEmail(auth.getName());
-        if (profile == null) profile = new Profile();
-
-        TenderFilterOptions tenderFilterOptions = new TenderFilterOptions();
-
-        EntityPage<Tender> tenders = tenderService.findWihOptions(tenderFilterOptions, profile);
-        model.addAttribute("tenders", tenders);
         return "tender";
     }
 
