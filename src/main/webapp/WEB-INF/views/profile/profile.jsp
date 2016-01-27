@@ -32,7 +32,6 @@
                         $('#profileName').text(profile.username);
                     }
 
-
                     if (profile.contact != null && profile.contact.aboutUs != null) {
                         $('#aboutProfile').text(profile.contact.aboutUs);
                     } else {
