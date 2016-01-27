@@ -141,6 +141,12 @@
   </div>
 </div>
 <h1 align="center">Результаты поиска</h1>
+  <div class="row">
+      <div id="result1" class="col-xs-3"></div>
+      <div id="result2" class="col-xs-3"></div>
+      <div id="result3" class="col-xs-3"></div>
+      <div id="result4" class="col-xs-3"></div>
+</div>
 </div>
 
   <div class="col-xs-3">
@@ -149,8 +155,8 @@
       <div id="inputs" class="input-group"></div>
 
       <div id="inptPrice" class="input-group" style="display: none">
-        <div>Цена от<input  name="priceMin" type="number" class="form-control" ></div>
-        <div>Цена до<input  name="priceMax" type="number" class="form-control" ></div>
+        <div>Цена от<input id="priceMin" type="number" class="form-control"></div>
+        <div>Цена до<input id="priceMax" type="number" class="form-control"></div>
       </div>
   </div>
 
@@ -404,7 +410,14 @@
 
 
   $('#submit').click(function () {
-
+    filter = {};
+    filter.skip = 0;
+    filter.limit = 1000;
+    categoryResult = [];
+    properties = [];
+    var keyWords = $('#keyWords').val();
+    if (keyWords !== "")  filter.searchField = keyWords;
+    
     if (category1Id !==''){
       categoryResult.push(category1Id)
     }
@@ -417,13 +430,25 @@
     filter.address = {};
     filter.address.country = 'Украина';
 
-    if ($('#cityInp').val() !== 'Выберите город' && $('#cityInp').val() !== '' && $('#cityInp').val() !== 'Все города') {
-      filter.address.city = $('#cityInp').val();
+    var city = $('#cityInp').val();
+    var area = $('#areaInp').val();
+
+    if (city !== 'Выберите город' && city !== '' && city !== 'Все города') {
+      filter.address.city = city;
     }
 
-    if ($('#areaInp').val() !== 'Выберите область' && $('#areaInp').val() !== '') {
-      filter.address.area = $('#areaInp').val();
+    if (area !== 'Вся Украина' && area !== 'Выберите область' && area !== '') {
+      filter.address.area = area;
     }
+
+    if ($('#inptPrice').attr('style') !== "display: none") {
+      filter.fromPrice = $('#priceMin').val();
+      filter.toPrice = $('#priceMax').val();
+    } else {
+      delete filter.fromPrice;
+      delete filter.toPrice;
+    }
+
 
     $('#options').find('select').each(function(){
       var prop = {};
@@ -439,9 +464,64 @@
       properties.push(prop);
     });
 
-    filter.categoryResult = categoryResult;
-    filter.properties = properties;
-    alert(JSON.stringify(filter));
+
+    if (categoryResult.length > 0) filter.categories = categoryResult;
+    if (properties.length > 0) filter.properties = properties;
+//    alert(JSON.stringify(filter));
+    $.ajax({
+      type: "POST",
+      url: "/api/rest/offersService/offer/read/all",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify(filter),
+      success: function (response) {
+//        alert(JSON.stringify(response));
+        var count = 0;
+        var col1 = $('#result1').html("");
+        var col2 = $('#result2').html("");
+        var col3 = $('#result3').html("");
+        var col4 = $('#result4').html("");
+        for (var i in response.entities){
+          var picId = '/resources/images/no_photo.jpg';
+          for (j in response.entities[i].imagesIds){
+            picId = j;
+            break;
+          }
+          var content = '<div>'+'<a rel="example_group" href="/offer/'+response.entities[i].id+'">' +response.entities[i].title+'</a></div>';
+          if (picId !== '/resources/images/no_photo.jpg'){
+            content +=  '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + picId + '"' + 'width="150" height="150">';
+          }else{
+            content +=  '<img id="img1" alt="" src="/resources/images/no_photo.jpg" width="150" height="150">';
+          }
+          picId = '/resources/images/no_photo.jpg';
+          switch (count%4){
+            case 0:
+              col1.append('<div>'+content+'</div><br>');
+              count++;
+              break;
+            case 1:
+              col2.append('<div>'+content+'</div><br>');
+              count++;
+              break;
+            case 2:
+              col3.append('<div>'+content+'</div><br>');
+              count++;
+              break;
+            case 3:
+              col4.append('<div>'+content+'</div><br>');
+              count++;
+              break;
+          }
+        }
+
+      },
+      error: function (response) {
+        alert("Внутренняя ошибка сервера");
+      }
+    });
+
+
+
   })
 
 
