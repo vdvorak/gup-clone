@@ -15,7 +15,11 @@ public final class SecurityOperations {
     }
 
     public static String getLoggedUserId() {
-        return getLoggedUser().getProfileId();
+        if (getLoggedUser() != null){
+            return getLoggedUser().getProfileId();
+        } else{
+            return null;
+        }
     }
 
     public static String getLoggedUserEmail() {

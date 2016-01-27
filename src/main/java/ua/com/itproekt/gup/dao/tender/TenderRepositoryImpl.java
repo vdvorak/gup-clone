@@ -135,7 +135,7 @@ public class TenderRepositoryImpl implements TenderRepository {
 
             query.addCriteria(opened);
 
-            if(currUser.getContact() != null && currUser.getContact().getNaceId() != null) {
+            if(currUser != null && currUser.getContact() != null && currUser.getContact().getNaceId() != null) {
                 query.addCriteria(Criteria.where("naceId").in(currUser.getContact().getNaceId()));
             }
         }

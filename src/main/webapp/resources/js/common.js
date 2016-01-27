@@ -42,10 +42,10 @@ $(document).ready(function () {
     );
     $(".main-news-wrap").hover(
         function () {
-            $('.main-news-bottom-menu').slideDown('medium');
+            $('.main-news-bottom-menu').show();
         },
         function () {
-            $('.main-news-bottom-menu').slideUp('medium');
+            $('.main-news-bottom-menu').hide();
         }
     );
 
