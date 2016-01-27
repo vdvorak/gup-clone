@@ -202,6 +202,7 @@
   var cities;
   var members = [];
   var type = 'OPEN';
+  var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
 
 
   $(document).ready(function(){
@@ -264,8 +265,6 @@
       evt.preventDefault();
       evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
     }
-
-
 });
 
  //--------------------   DATEPICKER ---------------------------------//
@@ -524,7 +523,7 @@ $('#open, #close').change(function(){
       tender.members = members;
     }
     tender.address = {};
-    tender.address.googleMapKey = $('#address').val();
+    tender.address.googleMapKey = placeKey;
     tender.address.area = $('#areaInp').val();
     tender.address.city = $('#cityInp').val();
 
