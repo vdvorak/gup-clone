@@ -13,10 +13,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import ua.com.itproekt.gup.model.activityfeed.Event;
+import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.nace.DepartmentOrNace;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserType;
 import ua.com.itproekt.gup.model.tender.*;
+import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.nace.NaceService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -47,6 +50,8 @@ public class TenderRestController {
     @Autowired
     StorageService storageService;
 
+    @Autowired
+    ActivityFeedService activityFeedService;
     //------------------------------------------ Read -----------------------------------------------------------------
 
     @RequestMapping(value = "/tender/read/id/{id}",
@@ -128,7 +133,10 @@ public class TenderRestController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tender> createTender(@RequestBody Tender tender, UriComponentsBuilder ucBuilder) {
-
+        tender.setAuthorId(getCurrentUserId());
+        if(tender.getType() == TenderType.CLOSE){
+            sendActivityFeedToMembers(tender);
+        }
         tenderService.createTender(tender);
 
         HttpHeaders headers = new HttpHeaders();
@@ -293,5 +301,11 @@ public class TenderRestController {
         Profile user = getCurrentUser();
         if (user == null | user.getContact() == null) return null;
         return user.getContact().getNaceId();
+    }
+
+    private void sendActivityFeedToMembers(Tender tender) {
+        for(Member m: tender.getMembers()){
+            activityFeedService.createEvent(new Event(m.getId(), EventType.YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER, tender.getId(), tender.getAuthorId()));
+        }
     }
 }
