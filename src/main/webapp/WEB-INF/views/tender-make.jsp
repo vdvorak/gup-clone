@@ -518,7 +518,7 @@
         tender.body = tinymce.activeEditor.getContent();
         tender.tenderNumber = $('#tenderNumber').val();
         tender.end = new Date($('#datetimepicker4').val()).getTime();
-        tender.TenderType = type;
+        tender.type = type;
         tender.expectedPrice = $('#price').val();
         if (type === 'CLOSE') {
             tender.members = members;
