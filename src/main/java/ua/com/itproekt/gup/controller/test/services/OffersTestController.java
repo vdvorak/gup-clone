@@ -83,13 +83,10 @@ public class OffersTestController {
             Offer offer = new Offer();
             offer.setAuthorId("564214c9b2d9c33c4d3bb31p");
             Address address = new Address();
-                address.setCountry("Ukraine");
-                address.setCity("Kiev" + i %  7);
-                address.setArea("" + i % 7 + 1);
-                address.setDistrict("" + i % 7);
+                address.setCountry("Украина");
             offer.setAddress(address);
                 OfferUserContactInfo userContactInfo = new OfferUserContactInfo();
-                userContactInfo.setEmail("test@mail" + i % 7);
+                userContactInfo.setEmail("test@mail." + i % 7);
             offer.setUserInfo(userContactInfo);
             offer.setCanBeReserved(true);
             offer.setCanBeRented(true);
@@ -103,11 +100,11 @@ public class OffersTestController {
                 LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>();
                 linkedHashSet.add("" + i % 14);
             offer.setCategories(linkedHashSet);
-            offer.setPrice(i % 14);
+            offer.setPrice(100+i % 14);
             offer.setUrgent(i % 10 == 1);
             offer.setActive(true);
-            offer.setTitle("title" + i % 7);
-            offer.setDescription("description" + i % 7);
+            offer.setTitle("title title" + i % 7);
+            offer.setDescription(" description  description  description  description  description  description  description  description " + i % 7);
             offer.setCurrency(Currency.UAH);
 
             offersService.create(offer);

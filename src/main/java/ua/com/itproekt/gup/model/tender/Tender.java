@@ -37,6 +37,8 @@ public class Tender {
         begin = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         hidePropose = true;
         hideContact = true;
+        visited = 0l;
+        hidePropose = true;
     }
 
     public String getTenderNumber() {
