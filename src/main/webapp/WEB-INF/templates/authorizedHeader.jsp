@@ -1,29 +1,12 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: qz
-  Date: 1/18/2016
-  Time: 9:22 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <header class="main-head">
   <div class="top-menu">
     <div class="top-menu-userSection">
       <div class="top-menu-userpic">
-        <img src="/resources/img/reallySmallUserpic.png">
+        <img id="profileImg"  src="" width="32" height="33">
       </div>
       <div class="top-menu-username">
-        <a href="#">
-          <c:choose>
-            <c:when test="${not empty profile.username}">
-              ${profile.username}
-            </c:when>
-            <c:otherwise>
-              Пользователь
-            </c:otherwise>
-          </c:choose>
-        </a>
+        <a href="#" id="profileName"></a>
       </div>
       <div class="header-mainMenu">
         <a href="/prioffice">Моя страница</a>
@@ -43,12 +26,15 @@
       <div class="top-menu-messages">
         <img src="/resources/img/envelopeSmall.png">
       </div>
+
       <div class="top-menu-notification">
-          <img src="/resources/img/bellSmall.png" id="notificationBellImg" class="headerNotificationIcon">
+          <img src="/resources/img/bellSmall.png" id="notificationBellImg">  <%--class="headerNotificationIcon"--%>
       </div>
+
       <div class="top-menu-contactList">
-        <button id="contactListButton">Контакты</button>
+        <img id="contactListImg" src="/resources/img/contact-book-128.png" width="26" height="26">
       </div>
+
       <div>
         <ul id="notificationMenu" class="notifications">
           <li class="titlebar">

@@ -1,4 +1,4 @@
-$(".headerNotificationIcon").click(function () {
+$("#notificationBellImg").click(function () {
     $("#notificationContainer").empty();
 
     var eventFO = {};
@@ -15,25 +15,48 @@ $(".headerNotificationIcon").click(function () {
                 alert("(document).ready(function (): " + JSON.stringify(response.entities));
 
                 response.entities.forEach(function(event) {
-                    $('#notificationContainer').append(
-                        '<li class=" notif unread">' +
-                            '<a href="#">' +
-                                '<div class="imageblock">' +
-                                '<img src="https://si0.twimg.com/sticky/default_profile_images/default_profile_2_bigger.png" class="notifimage"  />' +
-                            '</div>' +
-                            '<div class="messageblock">' +
-                                '<div class="message">' +
-                                    '<strong>creatorId:' + event.creatorEventId + '</strong> Type: ' + event.type +
-                                '</div>' +
-                                        //'<div class="messageaction">' +
-                                        //    '<a class="button tiny success">Type: ' + data[i].type + '</a>' +
-                                        //'</div>' +
-                                '<div class="messageinfo">' +
-                                    '<i class="icon-flag"></i>' + event.createdDate +
-                                '</div>' +
-                            '</div>' +
-                            '</a>' +
-                        '</li>');
+                    alert('JSON.stringify(event): ' + JSON.stringify(event));
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/rest/profilesService/profile/read/id/" + event.creatorEventId,
+                        success: function (profile) {
+                            alert('profile: ' + JSON.stringify(profile));
+
+
+                            var imgLinkTag = '<a href="/profile/id/'+ profile.id +'">';
+                            if (profile.contact != null && profile.contact.pic != null && profile.contact.pic != '') {
+                                imgLinkTag +=  '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '" class="notifimage"/>';
+                            } else {
+                                imgLinkTag +=  '<img src="/resources/images/no_photo.jpg" class="notifimage"/>';
+                            }
+                            imgLinkTag += '</a>';
+
+                            $('#notificationContainer').append(
+                                '<li class=" notif unread">' +
+                                    '<a href="#">' +
+                                        '<div class="imageblock">' +
+                                            imgLinkTag +
+                                        '</div>' +
+                                        '<div class="messageblock">' +
+                                            '<div class="messageinfo">' +
+                                                '<i class="icon-flag"></i>' + event.createdDate.hour + ':' + event.createdDate.minute + '    ' +
+                                                event.createdDate.dayOfMonth + '/' + event.createdDate.monthValue + '/' + event.createdDate.year +
+                                            '</div>' +
+                                            '<div class="message">' +
+                                                '<a href="/profile/id/'+ profile.id +'">' + profile.username + '</a>' +
+                                                '<p>' + event.type + '</p>' +
+                                            '</div>' +
+                                                //'<div class="messageaction">' +
+                                                //    '<a class="button tiny success">Type: ' + data[i].type + '</a>' +
+                                                //'</div>' +
+
+                                        '</div>' +
+                                    '</a>' +
+                                '</li>');
+                        }});
+
+
                 });
 
             });

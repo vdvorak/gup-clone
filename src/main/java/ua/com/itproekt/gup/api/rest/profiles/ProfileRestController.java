@@ -73,6 +73,15 @@ public class ProfileRestController {
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Profile> getLoggedUser() {
+        Profile profile = profilesService.findById(SecurityOperations.getLoggedUserId());
+
+        return new ResponseEntity<>(profile, HttpStatus.OK);
+    }
+
     /**
      * Gets profile by username.
      *
