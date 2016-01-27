@@ -417,7 +417,7 @@
     properties = [];
     var keyWords = $('#keyWords').val();
     if (keyWords !== "")  filter.searchField = keyWords;
-    
+
     if (category1Id !==''){
       categoryResult.push(category1Id)
     }

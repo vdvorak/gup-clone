@@ -110,7 +110,7 @@ public class OfferController {
             e.printStackTrace();
         }
         model.addAttribute("offer", offer);
-        return "offer/offer-old";
+        return "offer/offer";
     }
 
 
