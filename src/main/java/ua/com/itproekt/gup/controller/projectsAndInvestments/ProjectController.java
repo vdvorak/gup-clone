@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ProjectController {
 
     @RequestMapping("/projectList")
-    public String getProjects(@RequestParam int pageNumber, Model model) {
+    public String getProjects(@RequestParam(required = false, defaultValue = "0") int pageNumber,
+                              Model model) {
         model.addAttribute("pageNumber", pageNumber);
         return "projectsAndInvestments/project/projectList";
     }

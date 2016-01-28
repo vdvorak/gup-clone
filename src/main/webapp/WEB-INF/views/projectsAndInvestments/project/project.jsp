@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Sasha
-  Date: 13.01.2016
-  Time: 15:48
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -13,7 +6,17 @@
 <head>
     <title>GUP - Проекты</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
+    <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
+    <script src="/resources/js/common.js"></script>
+    <sec:authorize access="isAuthenticated()">
+        <script src="/resources/js/autorizedHeader.js"></script>
+    </sec:authorize>
     <script>
         var projectId = '';
         var comment = {};
@@ -111,6 +114,8 @@
 </head>
 
 <body>
+    <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+    <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
 
     <div>
         <div>

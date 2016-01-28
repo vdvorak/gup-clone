@@ -25,12 +25,10 @@
         <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
 
         <script src="/resources/libs/jquery-1.11.3.min.js"></script>
-        <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
         <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
         <script src="/resources/libs/jquery.magnific-popup.min.js"></script>
 
         <script src="/resources/js/common.js"></script>
-
         <sec:authorize access="isAuthenticated()">
             <script src="/resources/js/autorizedHeader.js"></script>
         </sec:authorize>

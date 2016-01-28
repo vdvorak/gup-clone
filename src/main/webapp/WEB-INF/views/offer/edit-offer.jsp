@@ -51,6 +51,10 @@
             <option value="EUR">EUR</option>
           </select>
 
+          <div id="options" class="row panel"></div>
+          <div id="inputs" class="row panel"></div>
+
+
           Номера телефонов
           <c:forEach items="${offer.userInfo.phoneNumbers}" var="id">
             <li><input class="phoneInputGroup" type="text" name="mytext[]" value="${id}"></li>
@@ -213,8 +217,112 @@
   var picArrNew = [];
   var picArrIn = [];
   var picMapObj = {};
-
+  var parameters = '';
+  var options = '';
   var placeKey = '';
+  var offerProperties = ${properties};
+  var categories = ${categories};
+
+
+
+  $.ajax({
+    type: "GET",
+    url: "/resources/json/searchValues.json",
+    async: false,
+    success: function (response) {
+      options = response;
+    }
+  });
+
+
+  $.ajax({
+    type: "GET",
+    url: "/resources/json/parameters.json",
+    async: false,
+    success: function (response) {
+      parameters = response;
+    }
+  });
+
+
+
+
+  //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
+
+  var drawOptions = function(id){
+    alert(id);
+    for(var i in options){
+      if(options[i]['c'][id]!==undefined){
+        var name;
+        for (j in options[i]['k']){
+          name = j;
+        }
+
+        for (j in parameters){
+
+          if (parameters[j]['parameter']['key'] === name && parameters[j]['parameter']['validators']['required'] === 1){
+            $('#options').append('<div><select class="form-control" required name="'+name+'"  id="00'+i+'">'+ '</select></div>');
+            break;
+          }else{
+            $('#options').append('<div><select class="form-control" name="'+name+'"  id="00'+i+'">'+ '</select></div>');
+            break;
+          }
+        }
+
+        $('#00'+i).on('change',function(){
+          if(this.value === 'price'){
+            $('#inptPrice').attr("style", "display: ");
+          }else if (this.value === 'exchange' || this.value === 'arranged' || this.value === 'free') {
+            $('#inptPrice').attr("style", "display: none");
+          }
+        });
+
+        for ( var j in options[i]['v']){
+          $('#00'+i).append('<option value = "'+j+'"  id ="'+ j +'">'+ options[i]['v'][j]+'</option>');
+        }
+
+      }
+    }
+
+    for ( j in parameters){
+      if (parameters[j]['parameter']['type'] === "input" && parameters[j]['categories'][id]  !== undefined ){
+        $('#inputs').append('<input class="form-control" id="'+ parameters[j]['parameter']['key'] +'" type="number" name="'+ parameters[j]['parameter']['key'] +'" placeholder="'+parameters[j]['parameter']['key']+'"/>');
+      }
+    }
+  };
+  drawOptions(categories[categories.length -1]);
+  //---------------------------- END DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
+  var offerProperties = ${properties};
+  for (var i in offerProperties){
+    var key = offerProperties[i].key;
+    var value = offerProperties[i].value;
+    var key_ru = '';
+    var value_ru = '';
+    for (var j in parameters){
+      if (parameters[j]["parameter"]["key"] === key){
+        key_ru = parameters[j]["parameter"]["label"];
+        if(parameters[j]["parameter"]["type"] === 'input'){
+          value_ru = value;
+        }
+        break;
+      }
+    }
+    if (value_ru ===''){
+      for (var m in options){
+        if(options[m]["k"][key] !== undefined && options[m]["v"][value] !== undefined){
+          value_ru =  options[m]["v"][value];
+        }
+      }
+    }
+    if (value_ru!=='Цена' && value_ru!==''){
+      $('input[name="'+key+'"]').val(value_ru);
+    }
+
+  }
+
+
+
+
 
   // google map api-----------------------------BEGIN---------------------------------------------
   function initMap() {
