@@ -91,6 +91,11 @@
                                         </div>
                                     </div>
                                     <div class="imgGal"></div>
+
+
+                                    <div class="map">
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -146,8 +151,6 @@
         url: "/api/rest/tenderService/tender/read/id/" + tenderId,
         success: function (response) {
             var data = response;
-//            alert(data.body);
-
 
             sliderImg(data.uploadFilesIds);
             $(".tender-item-text p").last().html(data.body);
@@ -157,6 +160,9 @@
             $(".tender-proposal-count").last().text(data.proposeNumber);
             $(".tender-name p").last().text(data.title);
             $(".date-create").last().text(localDateTime(data.end));
+
+            var map =    '<iframe width="500" height="400" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' +data.address.googleMapKey + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>';
+            $('.map').append(map)
         }
     });
 
