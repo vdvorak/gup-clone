@@ -12,14 +12,14 @@ $(".top-menu-username a").click(function(e){
     e.preventDefault();
     $(".header-mainMenu").toggle();
 });
-$(".top-menu-userSection").hover(
-    function () {
-        $('.header-mainMenu').slideDown('medium');
-    },
-    function () {
-        $('.header-mainMenu').slideUp('medium');
-    }
-);
+//$(".top-menu-userSection").hover(
+//    function () {
+//        $('.header-mainMenu').slideDown('medium');
+//    },
+//    function () {
+//        $('.header-mainMenu').slideUp('medium');
+//    }
+//);
 
 $(document).ready(function () {
     $(".main-tender-wrap").hover(
