@@ -13,7 +13,7 @@
         <p>Тендеры</p>
 
         <div class="main-tenderPic-wrap">
-          <a href="/tender"><img src="/resources/img/hammertime.png"></a>
+          <a href="/tenders"><img src="/resources/img/hammertime.png"></a>
         </div>
         <nav class="main-tender-bottom-menu">
           <a href="#" class="active-main-menu-link">Участвовать</a>
