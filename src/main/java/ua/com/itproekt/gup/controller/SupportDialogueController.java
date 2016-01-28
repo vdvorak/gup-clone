@@ -1,6 +1,8 @@
 package ua.com.itproekt.gup.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,16 +15,16 @@ import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.itproekt.gup.util.StaticData;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /*
- * Created by Fairy on 30.11.2015.
+ * Created by Fairy on 28.01.2016.
  */
 @Controller
-public class DialogueController {
+public class SupportDialogueController {
 
     @Autowired
     DialogueService dialogueService;
@@ -32,52 +34,27 @@ public class DialogueController {
     private ProfilesService profileService;
 
     //----------------------------------- all dialogue  ------
-    @RequestMapping(value = "/dialogues", method = RequestMethod.GET)
+    @RequestMapping(value = "/support/dialogues/unassigned", method = RequestMethod.GET)
     public String getAllDialogues() {
-        return "redirect:/dialogues/1";
+        return "redirect:/support/dialogues/unassigned/1";
     }
 
-    @RequestMapping(value = "/dialogues/{page}", method = RequestMethod.GET)
-    public String getDialoguesPerPage(Model model, HttpServletRequest request,
-                                   @PathVariable("page") Integer page) {
-        DialogueFilterOption dialogueFilterOption = new DialogueFilterOption();
-        dialogueFilterOption.setLimit(5);
-        dialogueFilterOption.setSkip((page - 1) * 5);
-        String search = "";
-
-//        try {
-//            if (request != null && request.getQueryString() != null && request.getQueryString().contains("&")) {
-//                search = URLDecoder.decode(request.getQueryString().split("&")[2].substring(7), "UTF-8");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        if (!search.equals("")) dialogueFilterOption.setSearchField(search);
-
-        Member member = new Member();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName(); //get logged in username
-        Profile user = profileService.findProfileByEmail(email);
-        model.addAttribute("userid", user.getId());
-        member.setId(user.getId());
-//        member.setName(user.getUsername());
-        List<Dialogue> responseDialogues = dialogueRepository.findByMembersIn(member);
+    @RequestMapping(value = "/support/dialogues/unassigned/{page}", method = RequestMethod.GET)
+    public String getDialoguesPerPage(Model model, @PathVariable("page") Integer page) {
+        int limit = 5;
+        int skip = (page - 1) * 5;
+        Member supportAdmin = new Member(StaticData.SUPPORT_DIALOGUES_ADMIN_ID);
+        PageRequest pageRequest = new PageRequest(skip, limit, new Sort(Sort.Direction.ASC, "lustMsgTime"));
+        List<Dialogue> responseDialogues = dialogueRepository.findByMembersIn(supportAdmin, pageRequest);
         model.addAttribute("dialogues", responseDialogues);
         System.err.println("dialogues: " + responseDialogues);
 
         model.addAttribute("pageNumber", page);
-
-        if (!search.equals("")) model.addAttribute("search", search);
-
-        System.err.println("search: " + search);
-
-        System.err.println("URL: " + request.getQueryString());
-        return "dialogues1";
+        return "supportDialogues";
     }
 
     //----------------------------------- one dialogue  ------
-    @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/support/dialogue/id/{id}", method = RequestMethod.GET)
     public String getOneDialogue(Model model, HttpServletRequest request,
                                  @PathVariable("id") String id) {
         Dialogue dialogue = dialogueService.findById(id);
@@ -86,7 +63,7 @@ public class DialogueController {
         return "dialogue";
     }
 
-    @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/support/dialogue/id/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Dialogue getOneDialogue(@PathVariable("id") String id){
         Dialogue dialogue = dialogueService.findById(id);
@@ -95,20 +72,12 @@ public class DialogueController {
     }
 
     //----------------------------------- one dialogue  ------
-    @RequestMapping(value = "/dialogue/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/support/dialogue/create", method = RequestMethod.GET)
     public String createDialogue(Model model) {
         return "dialogue-create";
     }
 
-    //----------------------------------- one dialogue  ------
-    @RequestMapping(value = "/dialogue/create/with/{userId}", method = RequestMethod.GET)
-    public String createDialogue(@PathVariable String userId, Model model) {
-        Profile profile = profileService.findById(userId);
-        model.addAttribute("withwho", profile);
-        return "dialogue-create";
-    }
-
-    @RequestMapping(value = "/dialogue/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/support/dialogue/update", method = RequestMethod.POST)
     @ResponseBody
     public void update( @RequestBody Dialogue dialogue){
 

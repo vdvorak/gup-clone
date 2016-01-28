@@ -105,7 +105,8 @@
                             <div class="tender-item-wrapper">
                                 <div class="tender-item-leftside">
                                     <div class="tender-pic-wrap">
-                                        <img src="#">
+                                        <a href=""><img src="#" alt=""></a>
+
                                     </div>
                                     <div class="tender-subpic-stuff">
                                         <p style="margin-top: 0px; display: inline-block;">Предложений:<span
@@ -256,8 +257,8 @@
         function draw(data) {
             for (var i in data) {
                 $('.tender-tabs-items-wrap').last().attr('style', 'display:;');
-
                 $(".tender-pic-wrap img").last().attr('src', findFirstImg(data[i].uploadFilesIds));
+                $(".tender-pic-wrap a").last().attr('href', '/tender/' + data[i].id);
                 $(".tender-item-text p").last().html(data[i].body);
                 $(".tender-number").last().text(data[i].tenderNumber);
                 $(".tender-publish-date span").last().text(localDateTime(data[i].begin));
@@ -281,7 +282,7 @@
             }
         });
 
-        $('#nextPage').on('click', function(){
+        $('#nextPage').on('click', function () {
             projectFO.skip += 3;
 
             $.ajax({

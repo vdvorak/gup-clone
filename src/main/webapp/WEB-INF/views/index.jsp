@@ -1,11 +1,3 @@
-
-<%--
-  Created by IntelliJ IDEA.
-  User: Optical Illusion
-  Date: 30.12.2015
-  Time: 15:44
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
@@ -15,10 +7,12 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>GUP</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
+
+    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+
 </head>
 <body>
 
@@ -82,7 +76,6 @@
 
 <sec:authorize access="isAuthenticated()">
     <script src="/resources/js/autorizedHeader.js"></script>
-    <script src="/resources/js/notification.js"></script>
 </sec:authorize>
 
 <script src="/resources/js/index.js"></script>

@@ -13,9 +13,17 @@ public class Dialogue {
     @Id
     private String id;
     private String subject;
-    private List<Member> members = new ArrayList<>();
-    private List<PrivateMessage> messages = new ArrayList<>();
-    private ConcurrentHashMap<String, Integer> unreadMsgCounter = new ConcurrentHashMap<>();
+    private List<Member> members ;
+    private List<PrivateMessage> messages;
+    private ConcurrentHashMap<String, Integer> unreadMsgCounter;
+    private Long lustMsgTime;
+
+    public Dialogue() {
+        members = new ArrayList<>();
+        messages = new ArrayList<>();
+        unreadMsgCounter = new ConcurrentHashMap<>();
+        lustMsgTime = 0l;
+    }
 
     public String getId() {
         return id;
@@ -39,6 +47,7 @@ public class Dialogue {
 
     public void setMessages(List<PrivateMessage> messages) {
         this.messages = messages;
+        setLustMsgTime();
     }
 
     public List<Member> getMembers() {
@@ -57,6 +66,20 @@ public class Dialogue {
         this.unreadMsgCounter = unreadMsgCounter;
     }
 
+    public Long getLustMsgTime() {
+        return lustMsgTime;
+    }
+
+    public void setLustMsgTime(Long lustMsgTime) {
+        this.lustMsgTime = lustMsgTime;
+        setLustMsgTime();
+    }
+
+    public void setLustMsgTime(){
+        Long time = messages.stream().mapToLong(PrivateMessage::getDate).max().getAsLong();
+        if(time > lustMsgTime) lustMsgTime = time;
+    }
+
     @Override
     public String toString() {
         return "Dialogue{" +
@@ -65,6 +88,7 @@ public class Dialogue {
                 ", members=" + members +
                 ", messages=" + messages +
                 ", unreadMsgCounter=" + unreadMsgCounter +
+                ", lustMsgTime=" + lustMsgTime +
                 '}';
     }
 }

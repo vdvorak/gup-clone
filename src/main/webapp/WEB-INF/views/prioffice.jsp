@@ -15,6 +15,8 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+
 
 </head>
 <body>
@@ -243,18 +245,23 @@
     </div>
 </section>
 <!-- hiden stuff-->
-
 <!--END hiden stuff-->
 <!-- libs starts here-->
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-<script src="/resources/js/prioffice.js"></script>
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
 <script src="/resources/libs/jquery.magnific-popup.min.js"></script>
+
 <script src="/resources/js/common.js"></script>
 
+<sec:authorize access="isAuthenticated()">
+    <script src="/resources/js/autorizedHeader.js"></script>
+</sec:authorize>
+
+<script src="/resources/js/prioffice.js"></script>
 
 <!--END of libs-->
+
 
 </body>
 </html>

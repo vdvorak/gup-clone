@@ -22,6 +22,9 @@
     <link type="text/css" rel="stylesheet" href="/resources/css/simplePagination.css"/>
     <link href="/resources/css/pgwslideshow.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+
+
 </head>
 <body class="center-block">
 
@@ -266,7 +269,13 @@
 <script src="/resources/js/jquery.maskedinput.min.js"></script>
 <script src="/resources/libs/jquery.magnific-popup.min.js"></script>
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
+
 <script src="/resources/js/common.js"></script>
+
+<sec:authorize access="isAuthenticated()">
+    <script src="/resources/js/autorizedHeader.js"></script>
+</sec:authorize>
+
 
 <script>
 

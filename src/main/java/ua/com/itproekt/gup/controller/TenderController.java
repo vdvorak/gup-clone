@@ -3,6 +3,7 @@ package ua.com.itproekt.gup.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.nace.NaceService;
@@ -33,13 +34,19 @@ public class TenderController {
         return "tenders";
     }
 
-    @RequestMapping("/tender")
-    public String getTender(Model model) {
-        return "tenders";
+    @RequestMapping("/test")
+    public String getTest(Model model) {
+        return "test";
+    }
+
+    @RequestMapping("/tender/{id}")
+    public String getTender(@PathVariable String id, Model model) {
+        model.addAttribute("id", id);
+        return "tender";
     }
 
     @RequestMapping("/tender-make")
-    public String thenderMake(){
+    public String thenderMake() {
         return "tender-make";
     }
 
