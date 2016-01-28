@@ -281,7 +281,7 @@
             }
         });
 
-        $('#nextPage').on('click', function(){
+        $('#nextPage').on('click', function () {
             projectFO.skip += 3;
 
             $.ajax({

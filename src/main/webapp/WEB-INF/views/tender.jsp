@@ -9,9 +9,9 @@
 <!DOCTYPE html>
 <html lang="ru-RU">
 <head>
-  <title>Тендер | GUP</title>
-  <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
-  <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
+    <title>Тендер | GUP</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
 
 </head>
 <body>
@@ -34,73 +34,69 @@
 
 
 <section>
-  <div class="tender-wrap">
-    <div class="tender-tabs-wrap">
-      <div class="tabs">
-        <ul style="margin-bottom: 50px;">
-          <li class="tender-tabs-title">ТЕНДЕРЫ</li>
-          <li class="tender-tabs-title">ИСПОЛНИТЕЛИ</li>
-        </ul>
-        <div>
+    <div class="tender-wrap">
+        <div class="tender-tabs-wrap">
+            <div class="tabs">
 
-          <!-- Repeated section with tender -->
-          <div id="startBlock">
-            <div class="tender-tabs-items-wrap">
+                <div>
 
-              <div class="tender-item-wrapper">
-                <div class="tender-item-leftside">
-                  <div class="tender-pic-wrap">
-                    <img src="#">
-                  </div>
-                  <div class="tender-subpic-stuff">
-                    <p style="margin-top: 0px; display: inline-block;">Предложений:<span
-                            class="tender-proposal-count"></span></p>
+                    <!-- Repeated section with tender -->
+                    <div id="startBlock">
+                        <div class="tender-tabs-items-wrap">
 
-                    <p style="margin-top: 0px; display: inline-block; float: right;">
-                      Просмотров:<span
-                            class="tender-veiws"></span></p>
-                  </div>
+                            <div class="tender-item-wrapper">
+                                <div class="tender-item-leftside">
+                                    <%--<div class="tender-pic-wrap">--%>
+                                    <%--<img src="#">--%>
+                                    <%--</div>--%>
+                                    <div class="tender-subpic-stuff">
+                                        <p style="margin-top: 0px; display: inline-block;">Предложений:<span
+                                                class="tender-proposal-count"></span></p>
+
+                                        <p style="margin-top: 0px; display: inline-block; float: right;">
+                                            Просмотров:<span
+                                                class="tender-veiws"></span></p>
+                                    </div>
+                                </div>
+                                <div class="tender-item-rightside">
+                                    <div class="tender-item-header-wrap">
+                                        <div class="tender-name">
+                                            <p></p>
+                                        </div>
+                                        <div class="tender-item-info">
+                                            <p class="tender-publish-date">Опубликовано:<span
+                                                    class="date-create"></span></p>
+
+                                            <p class="tender-number">№<span></span></p>
+                                        </div>
+                                    </div>
+                                    <div class="tender-item-text">
+                                        <p></p>
+                                    </div>
+                                    <div class="tender-item-subtext-stuff">
+                                        <div class="tender-time-remain">
+                                            <img src="/resources/img/alarm.png">
+
+                                            <p class="tender-time date-create"></p>
+
+
+                                            <div class="tender-cost-wrap">
+                                                <p><span class="tender-cost"></span>$</p>
+                                                <button class="tender-apply-for">Участвовать</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+<div class="imgGal"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <%--<!-- End of repeated section with tender -->--%>
+                    </div>
                 </div>
-                <div class="tender-item-rightside">
-                  <div class="tender-item-header-wrap">
-                    <div class="tender-name">
-                      <p></p>
-                    </div>
-                    <div class="tender-item-info">
-                      <p class="tender-publish-date">Опубликовано:<span
-                              class="date-create"></span></p>
-
-                      <p class="tender-number">№<span></span></p>
-                    </div>
-                  </div>
-                  <div class="tender-item-text">
-                    <p></p>
-                  </div>
-                  <div class="tender-item-subtext-stuff">
-                    <div class="tender-time-remain">
-                      <img src="/resources/img/alarm.png">
-
-                      <p class="tender-time date-create"></p>
-                    </div>
-                    <div class="tender-cost-wrap">
-                      <p><span class="tender-cost"></span>$</p>
-                      <button class="tender-apply-for">Участвовать</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-          <%--<!-- End of repeated section with tender -->--%>
-
-
         </div>
-
-
-      </div>
     </div>
-  </div>
-  <button id="nextPage">Загрузить ещё тендеров</button>
 </section>
 <!-- libs starts here-->
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
@@ -113,6 +109,59 @@
 
 <!--END of libs-->
 <script>
+
+    var tenderId = '${id}';
+
+    function sliderImg(arr) {
+        var url = '';
+        var imgId = '';
+        for (var i in arr) {
+            if (arr[i] === 'image') {
+                imgId = i;
+                url = '/api/rest/fileStorage/TENDER/file/read/id/' + imgId;
+
+                var element = '<img src="' + url + '" width="200" height="200"/>';
+                $('.imgGal').append(element)
+            }
+        }
+    }
+
+    function localDateTime(long) {
+        long = new Date(parseInt(long));
+        long = moment(long).locale("ru").format('LLL');
+        return long;
+    }
+
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "/api/rest/tenderService/tender/read/id/" + tenderId,
+        success: function (response) {
+            var data = response;
+//            alert(data.body);
+
+
+            sliderImg(data.uploadFilesIds);
+            $(".tender-item-text p").last().html(data.body);
+            $(".tender-number").last().text(data.tenderNumber);
+            $(".tender-publish-date span").last().text(localDateTime(data.begin));
+            $(".tender-veiws").last().text(data.visited);
+            $(".tender-proposal-count").last().text(data.proposeNumber);
+            $(".tender-name p").last().text(data.title);
+            $(".date-create").last().text(localDateTime(data.end));
+        }
+    });
+
+
+    $(document).ready(function () {
+        $('.slider1').bxSlider({
+            slideWidth: 200,
+            minSlides: 2,
+            maxSlides: 3,
+            slideMargin: 5
+        });
+    });
 
 </script>
 </body>
