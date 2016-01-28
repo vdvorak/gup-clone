@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.controller;
 
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.net.URLDecoder;
 
 /**
@@ -34,12 +36,17 @@ public class OfferController {
 
 
     //----------------------------------- all offers  ------
-    @RequestMapping(value = "/offers", method = RequestMethod.GET)
-    public String getAllOffers() {
-        return "redirect:offers/1";
+    @RequestMapping(value = "/offers-old", method = RequestMethod.GET)
+    public String getOffers() {
+        return "redirect:offers-old/1";
     }
 
-    @RequestMapping(value = "/offers/{page}", method = RequestMethod.GET)
+    @RequestMapping(value = "/offers", method = RequestMethod.GET)
+    public String getAllOffers() {
+        return "offers";
+    }
+
+    @RequestMapping(value = "/offers-old/{page}", method = RequestMethod.GET)
     public String getOffersPerPage(Model model, HttpServletRequest request,
                                    @PathVariable("page") Integer page,
                                    @RequestParam(name="minPrice",required = false,defaultValue = "0") Integer minPrice,
@@ -91,7 +98,7 @@ public class OfferController {
         System.err.println("chosenRegion: " + chosenRegion);
         System.err.println("chosenCity: " + chosenCity);
         System.err.println("URL: " + request.getQueryString());
-        return "offer/offers";
+        return "offer/offers-old";
     }
 
     //----------------------------------- one certain offer  ------
@@ -104,7 +111,15 @@ public class OfferController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        String properties = "";
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            properties = mapper.writeValueAsString(offer.getProperties());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         model.addAttribute("offer", offer);
+        model.addAttribute("properties", properties);
         return "offer/offer";
     }
 

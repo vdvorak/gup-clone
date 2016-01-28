@@ -125,10 +125,10 @@ public class TenderServiceImpl implements TenderService {
             }
             return setLegalEntityVision(tender, userWhoReed.getId());
         } else {
-            if (isAuthorOrWinner(tender, userWhoReed.getId())) {
+            if (userWhoReed != null && isAuthorOrWinner(tender, userWhoReed.getId())) {
                 return tender;
-            } else if (userWhoReed.getContact().getType() == UserType.LEGAL_ENTITY
-                    || userWhoReed.getContact().getType() == UserType.ENTREPRENEUR) {
+            } else if (userWhoReed != null && (userWhoReed.getContact().getType() == UserType.LEGAL_ENTITY
+                    || userWhoReed.getContact().getType() == UserType.ENTREPRENEUR)) {
                 return setLegalEntityVision(tender, userWhoReed.getId());
             } else {
                 return setIndividualVision(tender);
