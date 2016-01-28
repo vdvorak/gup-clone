@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.controller;
 
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.net.URLDecoder;
 
 /**
@@ -109,7 +111,15 @@ public class OfferController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        String properties = "";
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            properties = mapper.writeValueAsString(offer.getProperties());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         model.addAttribute("offer", offer);
+        model.addAttribute("properties", properties);
         return "offer/offer";
     }
 
