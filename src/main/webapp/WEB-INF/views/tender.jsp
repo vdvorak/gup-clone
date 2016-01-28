@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
 
+    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
 </head>
 <body>
 
@@ -162,7 +163,6 @@
         </div>
     </div>
 </section>
-<!-- hiden stuff-->
 
 <!--END hiden stuff-->
 <!-- libs starts here-->
@@ -174,8 +174,10 @@
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/js/service.js"></script>
 
-
-<!--END of libs-->
+<sec:authorize access="isAuthenticated()">
+    <script src="/resources/js/autorizedHeader.js"></script>
+    <script src="/resources/js/notification.js"></script>
+</sec:authorize>
 
 </body>
 </html>
