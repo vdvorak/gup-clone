@@ -90,7 +90,7 @@
 
                                         </div>
                                     </div>
-<div class="imgGal"></div>
+                                    <div class="imgGal"></div>
                                 </div>
                             </div>
                         </div>
@@ -169,6 +169,6 @@
             slideMargin: 5
         });
     });
-
+</script>
 </body>
 </html>
