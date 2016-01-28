@@ -11,14 +11,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ua.com.itproekt.gup.bank_api.BankSession;
+import ua.com.itproekt.gup.model.privatemessages.Dialogue;
+import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.tender.Tender;
+import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
+import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.service.tender.TenderService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by RAYANT on 20.11.2015.
@@ -31,6 +35,11 @@ public class AccountController {
     ProfilesService profilesService;
 
     @Autowired
+    DialogueService dialogueService;
+
+    @Autowired
+    TenderService tenderService;
+    @Autowired
     ActivityFeedService activityFeedService;
 
     BankSession session = new BankSession();
@@ -41,10 +50,19 @@ public class AccountController {
     @RequestMapping(value = "/prioffice", method = RequestMethod.GET)
     public String privatOfice(Model model) {
         String loggedUserId = SecurityOperations.getLoggedUserId();
-        Profile profile = profilesService.findById(loggedUserId);
+        Profile profile = profilesService.findById(SecurityOperations.getLoggedUserId());
         System.err.println("Деньги пришли: " + session.getUserBalance(loggedUserId));
         model.addAttribute("profile", profile);
         model.addAttribute("balance", session.getUserBalance(loggedUserId));
+
+        List<Dialogue> dialogues = dialogueService.findFirstThreeDialogues(new Member(profile.getId()));
+        model.addAttribute("dialogues", dialogues);
+
+        TenderFilterOptions tf = new TenderFilterOptions();
+        tf.setAuthorId(profile.getId());
+        tf.setLimit(3);
+        List<Tender> tenders = tenderService.findWihOptions(tf, profile).getEntities();
+        model.addAttribute("tenders", tenders);
         return "prioffice";
     }
 
