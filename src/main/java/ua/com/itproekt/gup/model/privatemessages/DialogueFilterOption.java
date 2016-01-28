@@ -1,5 +1,7 @@
 package ua.com.itproekt.gup.model.privatemessages;
 
+import java.util.ArrayList;
+
 /*
  * Created by Fairy on 30.11.2015.
  */
@@ -30,5 +32,12 @@ public class DialogueFilterOption extends Dialogue {
 
     public void setSearchField(String searchField) {
         this.searchField = searchField;
+    }
+
+    public boolean addMember(Member member) {
+        if(this.getMembers() == null){
+            this.setMembers(new ArrayList<>());
+        }
+        return this.getMembers().add(member);
     }
 }
