@@ -15,6 +15,8 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+
 
 </head>
 <body>
@@ -154,11 +156,16 @@
                                 <img class="prioffice-close-tenders-ico" src="/resources/img/closesmall-icon.png">
                             </div>
                             <div class="myitems-tenders-items">
-                                <p>Заголовок тендера 1</p>
+                                <c:if test="${not empty tenders}">
+                                    <c:forEach items="${tenders}" var="tender">
+                                        <p><a href="/tender/${tender.id}">${tender.title}</a></p>
+                                    </c:forEach>
+                                </c:if>
+                            <%--<p>Заголовок тендера 1</p>--%>
 
-                                <p>Заголовок тендера 1</p>
+                                <%--<p>Заголовок тендера 1</p>--%>
 
-                                <p>Заголовок тендера 1</p>
+                                <%--<p>Заголовок тендера 1</p>--%>
                             </div>
 
                             <div class="myitems-tenders-footer">
@@ -243,18 +250,99 @@
     </div>
 </section>
 <!-- hiden stuff-->
-
 <!--END hiden stuff-->
 <!-- libs starts here-->
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-<script src="/resources/js/prioffice.js"></script>
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
 <script src="/resources/libs/jquery.magnific-popup.min.js"></script>
+
 <script src="/resources/js/common.js"></script>
 
+<sec:authorize access="isAuthenticated()">
+    <script src="/resources/js/autorizedHeader.js"></script>
+</sec:authorize>
+
+<script src="/resources/js/prioffice.js"></script>
 
 <!--END of libs-->
+<script>
+
+    var firstBlock = $('#startBlock').html();
+    // ------------------- Create default block of tenders -------------------------------------------------------
+
+    $(document).ready(function () {
+
+        var projectFO = {};
+        projectFO.skip = 0;
+        projectFO.limit = 3;
+
+        function findFirstImg(arr) {
+            var url = '';
+            var imgId = '';
+            for (var i in arr) {
+                if (arr[i] === 'image') {
+                    imgId = i;
+                    break;
+                }
+            }
+            url = '/api/rest/fileStorage/TENDER/file/read/id/' + imgId;
+            return url;
+        }
+
+        function localDateTime(long) {
+            long = new Date(parseInt(long));
+            long = moment(long).locale("ru").format('LLL');
+            return long;
+        }
+
+        function draw(data) {
+            for (var i in data) {
+                $('.tender-tabs-items-wrap').last().attr('style', 'display:;');
+                $(".tender-pic-wrap img").last().attr('src', findFirstImg(data[i].uploadFilesIds));
+                $(".tender-pic-wrap a").last().attr('href', '/tender/' + data[i].id);
+                $(".tender-item-text p").last().html(data[i].body);
+                $(".tender-number").last().text(data[i].tenderNumber);
+                $(".tender-publish-date span").last().text(localDateTime(data[i].begin));
+                $(".tender-veiws").last().text(data[i].visited);
+                $(".tender-proposal-count").last().text(data[i].proposeNumber);
+                $(".tender-name p").last().text(data[i].title);
+                $(".date-create").last().text(localDateTime(data[i].end));
+                $('#startBlock').append(firstBlock);
+            }
+
+            $('.tender-tabs-items-wrap').last().attr('style', 'display: none;');
+        }
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/api/rest/tenderService/tender/read/all/",
+            data: JSON.stringify(projectFO),
+            success: function (response) {
+                draw(response.entities);
+            }
+        });
+
+        $('#nextPage').on('click', function () {
+            projectFO.skip += 3;
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "/api/rest/tenderService/tender/read/all/",
+                data: JSON.stringify(projectFO),
+                success: function (response) {
+                    draw(response.entities);
+                }
+            });
+
+        })
+
+    });
+    // ------------------- End create default block of tenders -------------------------------------------------------
+</script>
+
 
 </body>
 </html>

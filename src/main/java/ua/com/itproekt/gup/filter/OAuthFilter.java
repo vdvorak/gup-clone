@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.filter;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.TokenRequest;
@@ -11,6 +12,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,6 +21,8 @@ import java.util.Set;
 
 
 public class OAuthFilter implements Filter {
+    private static final Logger LOG = Logger.getLogger(OAuthFilter.class);
+
     private final int ACCESS_TOKEN_EXPIRES_IN_SECONDS = 600 - 3;
 
     private DefaultTokenServices tokenServices;
@@ -66,7 +71,12 @@ public class OAuthFilter implements Filter {
                     try {
                         accessToken = tokenServices.refreshAccessToken(refreshToken, tokenRequest);
                     } catch (RuntimeException ex) {
-// **** **** **** **** **** *** **** **** *** **** **** *** **** **** *** *** **** **** *** *** **** **** ***
+                        StringWriter stack = new StringWriter();
+                        ex.printStackTrace(new PrintWriter(stack));
+
+                        LOG.error("   tokenRequest: " + tokenRequest + ";"
+                                + "   Exception: " + stack.toString());
+
 
                         Cookie cookie = new Cookie("refreshToken", null);
                         cookie.setMaxAge(0);
@@ -74,10 +84,6 @@ public class OAuthFilter implements Filter {
                         httpServletResp.addCookie(cookie);
 
                         httpServletResp.setStatus(HttpServletResponse.SC_OK);
-
-                        ex.printStackTrace();
-    //логировать
-// **** **** **** **** **** *** **** **** *** **** **** *** **** **** *** *** **** **** *** *** **** **** ***
                     }
 
                     if (accessToken != null) {
