@@ -256,7 +256,6 @@
 
 <sec:authorize access="isAuthenticated()">
     <script src="/resources/js/autorizedHeader.js"></script>
-    <script src="/resources/js/notification.js"></script>
 </sec:authorize>
 
 <script src="/resources/js/prioffice.js"></script>
