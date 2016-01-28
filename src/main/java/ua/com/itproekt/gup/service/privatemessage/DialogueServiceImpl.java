@@ -1,6 +1,8 @@
 package ua.com.itproekt.gup.service.privatemessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.dialogue.DialogueRepository;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
@@ -9,6 +11,7 @@ import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.privatemessages.PrivateMessage;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.itproekt.gup.util.StaticData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +53,7 @@ public class DialogueServiceImpl implements DialogueService {
 
     @Override
     public List<Dialogue> findDialogues(Member member) {
-        return dr.findByMembersIn(member);
+        return dr.findByMembersIn(member, new Sort(Sort.Direction.ASC, "lustMsgTime"));
     }
 
     @Override
@@ -121,7 +124,7 @@ public class DialogueServiceImpl implements DialogueService {
         Integer wasUnread;
         if(dialogue.getUnreadMsgCounter() == null){
             dialogue.setUnreadMsgCounter(new ConcurrentHashMap<>());
-            dialogue.getMembers().stream().filter(m -> m.getId() != user.getId()).forEach(m -> {
+            dialogue.getMembers().stream().filter(m -> !m.getId().equals(user.getId())).forEach(m -> {
                 int size = 0;
                 if (dialogue.getMessages() != null) size = dialogue.getMessages().size();
                 dialogue.getUnreadMsgCounter().put(m.getId(), size);
