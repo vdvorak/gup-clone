@@ -21,7 +21,7 @@
     </div>
     <div class="join-button-wrap">
       <div class="join-button">
-        <a href="#" title="Вступить в организацию"><img src="/resources/img/join-button.png"></a>
+        <a href="/joinToGUP" title="Вступить в организацию"><img src="/resources/img/join-button.png"></a>
       </div>
     </div>
   </div>
