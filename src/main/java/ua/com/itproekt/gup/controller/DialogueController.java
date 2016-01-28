@@ -100,6 +100,14 @@ public class DialogueController {
         return "dialogue-create";
     }
 
+    //----------------------------------- one dialogue  ------
+    @RequestMapping(value = "/dialogue/create/with/{userId}", method = RequestMethod.GET)
+    public String createDialogue(@PathVariable String userId, Model model) {
+        Profile profile = profileService.findById(userId);
+        model.addAttribute("withwho", profile);
+        return "dialogue-create";
+    }
+
     @RequestMapping(value = "/dialogue/update", method = RequestMethod.POST)
     @ResponseBody
     public void update( @RequestBody Dialogue dialogue){
