@@ -34,6 +34,11 @@ public class TenderController {
         return "tenders";
     }
 
+    @RequestMapping("/test")
+    public String getTest(Model model) {
+        return "test";
+    }
+
     @RequestMapping("/tender/{id}")
     public String getTender(@PathVariable String id, Model model) {
         model.addAttribute("id", id);
