@@ -12,18 +12,11 @@ $("#notificationBellImg").click(function () {
         data: JSON.stringify(eventFO),
         success: function (response) {
             $(document).ready(function () {
-                alert("(document).ready(function (): " + JSON.stringify(response.entities));
-
                 response.entities.forEach(function(event) {
-                    alert('JSON.stringify(event): ' + JSON.stringify(event));
-
                     $.ajax({
                         type: "POST",
                         url: "/api/rest/profilesService/profile/read/id/" + event.creatorEventId,
                         success: function (profile) {
-                            alert('profile: ' + JSON.stringify(profile));
-
-
                             var imgLinkTag = '<a href="/profile/id/'+ profile.id +'">';
                             if (profile.contact != null && profile.contact.pic != null && profile.contact.pic != '') {
                                 imgLinkTag +=  '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '" class="notifimage"/>';

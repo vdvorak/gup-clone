@@ -25,110 +25,6 @@
 
 <div class="container-fluid">
 
-    <!--search-->
-    <div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">
-        <div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">
-            <input id="search" type="text" class="form-control" placeholder="   Строка поиска" value="${search}"
-                   style="background-image: url(http://3.bp.blogspot.com/-aJoIaNi5n0w/T4iXxkJvIiI/AAAAAAAAAHc/Umn8urN9rq4/s1600/spyglass.png); background-repeat: no-repeat;">
-        </div>
-        <div class="form-group">
-            <div class="col-xs-2">
-                <input class="form-control" id="minPrice" type="text" placeholder="Цена от">
-            </div>
-            <div class="col-xs-2">
-                <input class="form-control" id="maxPrice" type="text" placeholder="Цена до">
-            </div>
-        </div>
-        <div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">
-            <div class="input-group">
-
-                <div class="col-xs-6" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a id="chosenRegion" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите
-                                область<b class="caret"></b></a>
-                            <ul class="dropdown-menu multi-column columns-2">
-                                <div id="regions" class="row">
-                                    <div class="col-sm-6">
-                                        <ul class="multi-column-dropdown">
-                                            <li><a role="menuitem" tabindex="-1" href="#"><b>Вся Украина</b></a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Винницкая область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Волынская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Донецкая область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Житомирская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Закарпатская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Ивано‑Франковская область</a>
-                                            </li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Киевская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Кировоградская область</a>
-                                            </li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Крым</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Луганская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Львовская область</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <ul class="multi-column-dropdown">
-                                            <li><a role="menuitem" tabindex="-1" href="#">Николаевская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Одесская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Полтавская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Ровенская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Сумская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Тернопольская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Харьковская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Херсонская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Хмельницкая область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Черкасская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Черниговская область</a></li>
-                                            <li><a role="menuitem" tabindex="-1" href="#">Черновицкая область</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="col-xs-6" id="bs-example-navbar-collapse-2">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a id="chosenCity" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите город<b
-                                    class="caret"></b></a>
-                            <ul class="dropdown-menu multi-column columns-2">
-                                <div id="cities" class="row">
-
-                                    <div class="col-sm-6">
-                                        <ul id="cities1" class="multi-column-dropdown">
-                                        </ul>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <ul id="cities2" class="multi-column-dropdown">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-
-
-                <span class="input-group-btn">
-                    <button class="btn btn-warning btn-sm" onclick="goSearch()">
-                        Найти
-                    </button>
-                </span>
-            </div>
-        </div>
-        <div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">
-            <a href="/create-offer">
-                <div class="btn btn-info">ПОДАТЬ ОБЪЯВЛЕНИЕ +</div>
-            </a>
-        </div>
-    </div>
-    <!--search-->
-
-
     <!--left-->
     <div class="col-sm-6">
 
@@ -173,6 +69,8 @@
                         </c:choose>
                     </span><a class="pull-right">ЗАБРОНИРОВАТЬ</a>
                 </div>
+
+                <div id="options" class="row panel"></div>
             </div>
         </div>
 
@@ -292,7 +190,9 @@
 <script>
 
     var jsonCategory = '';
-
+    var jsonSubcategory = '';
+    var parameters = '';
+    var options = '';
 
     $.ajax({
         type: "GET",
@@ -300,6 +200,25 @@
         async: false,
         success: function (response) {
             jsonCategory = response;
+        }
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "/resources/json/searchValues.json",
+        async: false,
+        success: function (response) {
+            options = response;
+        }
+    });
+
+
+    $.ajax({
+        type: "GET",
+        url: "/resources/json/parameters.json",
+        async: false,
+        success: function (response) {
+            parameters = response;
         }
     });
 
@@ -323,6 +242,33 @@
         }
     });
 
+    var offerProperties = ${properties};
+    for (var i in offerProperties){
+        var key = offerProperties[i].key;
+        var value = offerProperties[i].value;
+        var key_ru = '';
+        var value_ru = '';
+        for (var j in parameters){
+            if (parameters[j]["parameter"]["key"] === key){
+                key_ru = parameters[j]["parameter"]["label"];
+                if(parameters[j]["parameter"]["type"] === 'input'){
+                value_ru = value;
+                }
+            break;
+            }
+        }
+        if (value_ru ===''){
+            for (var m in options){
+               if(options[m]["k"][key] !== undefined && options[m]["v"][value] !== undefined){
+                   value_ru =  options[m]["v"][value];
+               }
+            }
+        }
+        if (value_ru!=='Цена' && value_ru!==''){
+            $('#options').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6">'+value_ru+'</div>')
+        }
+
+    }
 
     $(function () {
         var region = $('#chosenRegion').text();

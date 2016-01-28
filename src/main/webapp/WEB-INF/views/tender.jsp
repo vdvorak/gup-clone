@@ -1,3 +1,5 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
@@ -13,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
 
+    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
 </head>
 <body>
 
@@ -107,6 +110,10 @@
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/js/service.js"></script>
 
+<sec:authorize access="isAuthenticated()">
+    <script src="/resources/js/autorizedHeader.js"></script>
+    <script src="/resources/js/notification.js"></script>
+</sec:authorize>
 <!--END of libs-->
 <script>
 
@@ -163,6 +170,5 @@
         });
     });
 
-</script>
 </body>
 </html>
