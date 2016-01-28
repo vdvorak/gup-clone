@@ -49,6 +49,20 @@
         </ul>
       </div>
 
+      <div>
+        <ul id="contactListMenu" class="notifications">
+          <li class="titlebar">
+            <span class="title">Ваши контакты</span>
+        <span class="settings"><i class="icon-cog"></i>
+        </span>
+          </li>
+          <div class="notifbox" id="contactListContainer">
+          </div>
+          <li class="seeall">
+          </li>
+        </ul>
+      </div>
+
     </div>
     <div class="top-menu-userBallance">
       <div class="ballance">
