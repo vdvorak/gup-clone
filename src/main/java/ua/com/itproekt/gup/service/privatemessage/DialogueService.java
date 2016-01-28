@@ -12,6 +12,7 @@ public interface DialogueService {
     Dialogue updateDialogue(Dialogue dialogue);
 
     List<Dialogue> findDialogues(Member member);
+    List<Dialogue> findFirstThreeDialogues(Member member);
 
     Dialogue findById(String Id);
 

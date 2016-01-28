@@ -53,9 +53,14 @@ public class DialogueServiceImpl implements DialogueService {
 
     @Override
     public List<Dialogue> findDialogues(Member member) {
-        return dr.findByMembersIn(member, new Sort(Sort.Direction.ASC, "lustMsgTime"));
+        return dr.findByMembersIn(member, new Sort(Sort.Direction.DESC, "lustMsgTime"));
     }
 
+    @Override
+    public List<Dialogue> findFirstThreeDialogues(Member member) {
+        PageRequest pageRequest = new PageRequest(0, 3, new Sort(Sort.Direction.DESC, "lustMsgTime"));
+        return dr.findByMembersIn(member, pageRequest);
+    }
     @Override
     public Dialogue findById(String id) {
         Dialogue d = dr.findOne(id);
