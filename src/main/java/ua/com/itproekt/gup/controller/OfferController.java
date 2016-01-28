@@ -150,9 +150,26 @@ public class OfferController {
             e.printStackTrace();
             System.out.println("Exception in getOffer method trying receive offer");
         }
+        String properties = "";
+        String categories = "";
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            properties = mapper.writeValueAsString(offer.getProperties());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            categories = mapper.writeValueAsString(offer.getCategories());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+
+        model.addAttribute("properties", properties);
+        model.addAttribute("categories", categories);
         model.addAttribute("profile", profile);
         model.addAttribute("offer", offer);
+
         return "offer/edit-offer";
     }
 
