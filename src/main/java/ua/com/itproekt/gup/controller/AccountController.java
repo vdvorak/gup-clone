@@ -1,6 +1,8 @@
 package ua.com.itproekt.gup.controller;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,17 +13,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ua.com.itproekt.gup.bank_api.BankSession;
+import ua.com.itproekt.gup.bank_api.entity.ExternalTransaction;
+import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
+import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOptions;
 import ua.com.itproekt.gup.model.tender.Tender;
 import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
 import ua.com.itproekt.gup.service.tender.TenderService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -39,6 +48,10 @@ public class AccountController {
 
     @Autowired
     TenderService tenderService;
+
+    @Autowired
+    ProjectService projectService;
+
     @Autowired
     ActivityFeedService activityFeedService;
 
@@ -63,6 +76,33 @@ public class AccountController {
         tf.setLimit(3);
         List<Tender> tenders = tenderService.findWihOptions(tf, profile).getEntities();
         model.addAttribute("tenders", tenders);
+
+        ProjectFilterOptions pf = new ProjectFilterOptions();
+        pf.setAuthorId(profile.getId());
+        pf.setLimit(3);
+        List<Project> projects = projectService.findProjectsWihOptions(pf).getEntities();
+        model.addAttribute("projects", projects);
+
+        BlogPostFilterOptions bpf = new BlogPostFilterOptions();
+        pf.setAuthorId(profile.getId());
+        bpf.setLimit(3);
+        bpf.setCreatedDateSortDirection(Sort.Direction.DESC);
+        List<Project> blogposts = projectService.findProjectsWihOptions(pf).getEntities();
+        model.addAttribute("blogposts", blogposts);
+
+        BankSession bs = new BankSession();
+        String balanceStr = bs.getExternalTransactionsByUserId(profile.getId());
+        ObjectMapper mapper = new ObjectMapper();
+        List<ExternalTransaction> balance = null;
+        //JSON from URL to Object
+        try {
+            balance = mapper.readValue(balanceStr, List.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        model.addAttribute("balance", balance);
+
         return "prioffice";
     }
 
