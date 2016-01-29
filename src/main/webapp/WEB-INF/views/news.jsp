@@ -103,6 +103,7 @@
         <div align="center">
             <input id="tagsName" size="100" placeholder="Название новости">
             <button id="findBlogPostsButton">Найти новость</button>
+            <a href="/blog-create"><button>Создать блог</button></a>
         </div>
         <div id="paginationDiv">
             <label id="pageLabel"><b>Страница:</b> </label>

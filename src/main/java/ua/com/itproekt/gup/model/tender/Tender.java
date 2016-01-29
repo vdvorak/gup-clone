@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,6 +40,8 @@ public class Tender {
         hideContact = true;
         visited = 0l;
         hidePropose = true;
+        proposes = new ArrayList<Propose>();
+        members = new ArrayList<Member>();
     }
 
     public String getTenderNumber() {

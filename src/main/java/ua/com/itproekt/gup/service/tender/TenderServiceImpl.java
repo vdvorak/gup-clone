@@ -7,11 +7,9 @@ import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserType;
-import ua.com.itproekt.gup.model.tender.Propose;
-import ua.com.itproekt.gup.model.tender.Tender;
-import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
-import ua.com.itproekt.gup.model.tender.TenderType;
+import ua.com.itproekt.gup.model.tender.*;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
+import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.List;
@@ -25,6 +23,9 @@ public class TenderServiceImpl implements TenderService {
 
     @Autowired
     private ActivityFeedService activityFeedService;
+
+    @Autowired
+    private ProfilesService profilesService;
 
     @Override
     public void createTender(Tender tender) {
@@ -43,6 +44,12 @@ public class TenderServiceImpl implements TenderService {
 
     @Override
     public Tender updateTender(Tender tender) {
+        if (tender.getMembers().size() < 1){
+            tender.setMembers(null);
+        }
+        if (tender.getProposes().size() < 1){
+            tender.setProposes(null);
+        }
         return tenderRepository.findTenderAndUpdate(tender);
     }
 
@@ -127,12 +134,25 @@ public class TenderServiceImpl implements TenderService {
         } else {
             if (userWhoReed != null && isAuthorOrWinner(tender, userWhoReed.getId())) {
                 return tender;
-            } else if (userWhoReed != null && (userWhoReed.getContact().getType() == UserType.LEGAL_ENTITY
+            } else if (userWhoReed != null && userWhoReed.getContact() != null &&
+                    (userWhoReed.getContact().getType() == UserType.LEGAL_ENTITY
                     || userWhoReed.getContact().getType() == UserType.ENTREPRENEUR)) {
                 return setLegalEntityVision(tender, userWhoReed.getId());
             } else {
                 return setIndividualVision(tender);
             }
         }
+    }
+
+    @Override
+    public Tender completeMembers(Tender t) {
+        for(Member m: t.getMembers()){
+            Profile p = profilesService.findById(m.getId());
+            m.setName(p.getUsername());
+            if(p.getContact() != null) {
+                m.setUserPic(p.getContact().getPic());
+            }
+        }
+        return t;
     }
 }

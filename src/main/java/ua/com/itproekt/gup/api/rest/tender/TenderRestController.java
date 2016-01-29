@@ -24,6 +24,7 @@ import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.nace.NaceService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.tender.TenderService;
+import ua.com.itproekt.gup.util.CreatedObjResponse;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
@@ -64,8 +65,9 @@ public class TenderRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        //make propose visible according to hidden settings
-       tender = tenderService.setVision(tender, getCurrentUser());
+        if(getCurrentUser() == null){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
         if(tender != null){
             // incrementing Visited field
@@ -84,6 +86,12 @@ public class TenderRestController {
                 tender.setVisited(tenderForCountVisited.getVisited());
             }
         }
+
+        //make propose visible according to hidden settings
+        tender = tenderService.setVision(tender, getCurrentUser());
+
+        //complete Member name and picId
+        tenderService.completeMembers(tender);
 
         return new ResponseEntity<>(tender, HttpStatus.OK);
     }
@@ -107,7 +115,10 @@ public class TenderRestController {
         EntityPage<Tender> tenders = tenderService.findWihOptions(tenderFilterOptions, profile);
 
         if (!tenders.getEntities().isEmpty()) {
-            tenders.getEntities().stream().forEach(t -> t = tenderService.setVision(t, getCurrentUser()));
+            tenders.getEntities().stream().forEach(t -> {
+                t = tenderService.setVision(t, getCurrentUser());
+                tenderService.completeMembers(t);
+            });
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -133,7 +144,7 @@ public class TenderRestController {
     @RequestMapping(value = "/tender/create/",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Tender> createTender(@RequestBody Tender tender, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<CreatedObjResponse> createTender(@RequestBody Tender tender) {
 
         tender.setAuthorId(SecurityOperations.getLoggedUserId());
         if(tender.getType() == TenderType.CLOSE){
@@ -141,9 +152,8 @@ public class TenderRestController {
         }
         tenderService.createTender(tender);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/tender/read/id/{id}").buildAndExpand(tender.getId()).toUri());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        CreatedObjResponse createdObjResponse = new CreatedObjResponse(tender.getId());
+        return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/tender/id/{id}/propose/create/",

@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.controller.profile;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class ProfileController {
 
 
     @RequestMapping("/profile/id/{profileId}")
-    public String getProjectById(@PathVariable String profileId, Model model) {
+    public String getProfileById(@PathVariable String profileId, Model model) {
         model.addAttribute("profileId", profileId);
         return "profile/profile";
     }
@@ -62,7 +63,6 @@ public class ProfileController {
             return "loginForm";
         }
 
-
         try {
             profile = profilesService.findById(userId);
         } catch (Exception e) {
@@ -75,13 +75,16 @@ public class ProfileController {
     }
 
     @RequestMapping("/profile/list")
-    public String getProfileList(@RequestParam(required = false, defaultValue = "") String term,
+    public String getProfileList(@RequestParam(required = false, defaultValue = "0") int pageNumber,
+                                 @RequestParam(required = false, defaultValue = "") String name,
                                  Model model) {
-        if (!term.isEmpty()) {
-            ProfileFilterOptions profileFO = new ProfileFilterOptions();
-            profileFO.setSearchField(term);
-            model.addAttribute("profileFO", profileFO);
+        ProfileFilterOptions profileFO = new ProfileFilterOptions();
+        if (!name.isEmpty()) {
+            profileFO.setSearchField(name);
         }
+        profileFO.setSkip(pageNumber);
+
+        model.addAttribute("profileFO", new Gson().toJson(profileFO) );
         return "profile/profileList";
     }
 
