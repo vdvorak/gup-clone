@@ -82,7 +82,6 @@
 
                                             <p class="tender-time date-create"></p>
 
-
                                             <div class="tender-cost-wrap">
                                                 <p><span class="tender-cost"></span>$</p>
                                                 <button class="tender-apply-for">Участвовать</button>
@@ -92,10 +91,24 @@
                                     </div>
                                     <div class="imgGal"></div>
 
-
                                     <div class="map">
-
                                     </div>
+
+                                    <sec:authorize access="isAuthenticated()">
+                                        <div class="offer-wraper" style="height: 200px; background-color: #006dcc">
+                                            <div class="offer-input-group">
+                                                <textarea id="tenderPropose"></textarea>
+
+                                                <div id="textLength"></div>
+                                            </div>
+
+                                            <input id="visionSelect" type="checkbox"><label for="visionSelect">Скрыть
+                                            предложение от других участников</label>
+
+                                            <button id="makePropose" disabled>Отправить</button>
+                                        </div>
+                                    </sec:authorize>
+
                                 </div>
                             </div>
                         </div>
@@ -120,6 +133,29 @@
 </sec:authorize>
 <!--END of libs-->
 <script>
+
+    // ----------------------- Begin Tender propose text length counter ------------------------------
+    $("#tenderPropose").on('keyup', function (event) {
+        var button = $('#makePropose');
+        var counter = $("#textLength");
+
+        var currentString = $("#tenderPropose").val();
+        counter.html(currentString.length);
+        if (currentString.length <= 50) {  /*or whatever your number is*/
+            button.attr("disabled", true);
+            counter.css("color", "red");
+        } else {
+            if (currentString.length > 500) {
+                button.attr("disabled", true);
+                counter.css("color", "red");
+            } else {
+                button.attr("disabled", false);
+                counter.css("color", "green");
+            }
+        }
+    });
+    // ----------------------- End Tender propose text length counter ------------------------------
+
 
     var tenderId = '${id}';
 
@@ -160,7 +196,7 @@
             $(".tender-name p").last().text(data.title);
             $(".date-create").last().text(localDateTime(data.end));
 
-            var map =    '<iframe width="500" height="400" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' +data.address.googleMapKey + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>';
+            var map = '<iframe width="500" height="400" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + data.address.googleMapKey + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>';
             $('.map').append(map)
         }
     });
@@ -174,6 +210,32 @@
             slideMargin: 5
         });
     });
+
+
+    // ----------------- BEGIN Propose sent -------------------------------------------------
+    $('#makePropose').on('click', function () {
+        var Propose = {};
+        Propose.body = $('#tenderPropose').val();
+        Propose.hidden = $('#visionSelect').prop('checked');
+
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/tenderService/tender/id/" + tenderId + "/propose/create/",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(Propose),
+            statusCode: {
+                201: function() {
+                    alert("Ok 2");
+                }
+            }
+        });
+    });
+
+    // ----------------- END Propose sent -------------------------------------------------
 </script>
 </body>
 </html>
