@@ -103,6 +103,7 @@
 
 
                                             <div class="propose-author">Вася</div>
+                                            <img class="member-pic" src="#">
                                             <div class="propose-date"> 1 февраля</div>
                                             <div class="poropse-text">Азазаз</div>
 
@@ -206,7 +207,7 @@
         success: function (response) {
             var data = response;
 
-            alert(JSON.stringify(data.members));
+//            alert(JSON.stringify(data.members));
 
             sliderImg(data.uploadFilesIds);
             $(".tender-item-text p").last().html(data.body);
@@ -225,9 +226,8 @@
 
             }
 
-
             for (var i in data.proposes) {
-                alert(JSON.stringify(data.proposes[i]));
+//                alert(JSON.stringify(data.proposes[i]));
                 $(".propose-author").last().text(data.proposes[i].authorId);
                 $(".propose-date").last().text(data.proposes[i].time);
                 $(".poropse-text").last().text(data.proposes[i].body);
@@ -236,6 +236,19 @@
             }
 
             $('.proposes-wraper').last().attr('style', 'display: none;');
+
+
+            for (var j in data.members) {
+                $('.propose-author').each(function (index) {
+//                    alert(data.members[j].id);
+                    if ($(this).text() === data.members[j].id) {
+                        $(this).text(data.members[j].name);
+                        $(this).next('.')
+
+                    }
+                });
+            }
+
 
         }
     });
