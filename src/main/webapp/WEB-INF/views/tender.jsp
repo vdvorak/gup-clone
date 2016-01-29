@@ -102,6 +102,7 @@
                                         <div class="proposes-wraper" style="outline: 2px solid #000;">
                                             <div class="propose-author">Вася</div>
                                             <img class="member-pic" src="#" width="50" height="50">
+
                                             <div class="propose-date"> 1 февраля</div>
                                             <button class="chooseWinner">Выбрать победителем</button>
                                             <div class="poropse-text">Азазаз</div>
@@ -150,6 +151,9 @@
     var proposes;
 
     var firstBlock = $('#start').html();
+
+
+
 
 
     // ----------------------- Begin Tender propose text length counter ------------------------------
@@ -234,6 +238,29 @@
                 $('#start').append(firstBlock);
             }
 
+            $(".chooseWinner").on('click', function () {
+                alert("Азазаз");
+
+                var Tender = {};
+                Tender.winnerId = $(this).attr('id');
+                Tender.id = tenderId;
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/tenderService/tender/chooseWinner",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(Tender),
+                    statusCode: {
+                        200: function () {
+                            alert("Победитель выбран!")
+                        }
+                    }
+                });
+
+            });
+
+
             $('.proposes-wraper').last().attr('style', 'display: none;');
 
             for (var j in data.members) {
@@ -253,28 +280,9 @@
         }
     });
 
-    $(".chooseWinner").on('click', function(){
 
 
 
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/tenderService/tender/id/" + tenderId + "/propose/create/",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(Propose),
-            statusCode: {
-                201: function () {
-                    window.location.href = '/tender/' + tenderId;
-                }
-            }
-        });
-
-        /tender/chooseWinner
-    })
-
-    $(".chooseWinner").last().attr('id', data.proposes[i].authorId);
 
     $(document).ready(function () {
         $('.slider1').bxSlider({
