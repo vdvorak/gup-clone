@@ -92,10 +92,14 @@
 
             if (profileFO.skip <= 0) {
                 $('#prevPageButton').hide();
+            } else {
+                $('#prevPageButton').show();
             }
 
             if ((profileFO.skip + 1) * profileFO.limit >= responseEntities.totalEntities) {
                 $('#nextPageButton').hide();
+            } else {
+                $('#nextPageButton').show();
             }
         }
 
@@ -115,10 +119,11 @@
             var searchProfileFO = {};
             searchProfileFO.skip = profileFO.skip;
             searchProfileFO.limit = profileFO.limit;
-            searchProfileFO.searchField = profileFO.searchField;
 
             if ($("#searchInput").val()) {
                 searchProfileFO.searchField = $("#searchInput").val();
+            } else {
+                searchProfileFO.searchField = profileFO.searchField;
             }
 
             updateProfilesTable(searchProfileFO);

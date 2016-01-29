@@ -68,7 +68,7 @@
                 statusCode: {
                     404: function() {
                         alert('Такого проекта нет');
-                        window.location.href = "/projectList?pageNumber=0";
+                        window.location.href = "/project/list";
                     }
                 }
             });
