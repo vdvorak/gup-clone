@@ -40,19 +40,20 @@
           <textarea calss="inputDescript">${offer.description}</textarea>
           <br>
 
-          Цена
-          <input id="inputPrice" name="price" type="number" class="form-control input-sm" value="${offer.price}" required>
+          <div id="inputPrice">
+            Цена
+            <input name="cost" type="number" class="form-control input-sm" style="display: none;" value="${offer.price}" required>
+            <br>
+            Валюта
+            <select id="inputCurrency" name="currency">
+              <option vlaue="UAH">UAH</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+            </select>
+          </div>
 
-          <br>
-          Валюта
-          <select id="inputCurrency" name="currency">
-            <option vlaue="UAH">UAH</option>
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-          </select>
 
-          <div id="options" class="row panel"></div>
-          <div id="inputs" class="row panel"></div>
+
 
 
           Номера телефонов
@@ -180,6 +181,8 @@
       <input type="submit" value="Сохранить изменения">
 
     </form>
+    <div id="options" class="row panel"></div>
+    <div id="inputs" class="row panel"></div>
     <form id="photoInput" enctype="multipart/form-data" action="/api/rest/imagesStorage/image/upload/"
           method="post">
       <p>Загрузите ваши фотографии на сервер</p>
@@ -252,6 +255,7 @@
   var drawOptions = function(id){
     alert(id);
     for(var i in options){
+      var key_ru;
       if(options[i]['c'][id]!==undefined){
         var name;
         for (j in options[i]['k']){
@@ -261,19 +265,21 @@
         for (j in parameters){
 
           if (parameters[j]['parameter']['key'] === name && parameters[j]['parameter']['validators']['required'] === 1){
-            $('#options').append('<div><select class="form-control" required name="'+name+'"  id="00'+i+'">'+ '</select></div>');
+            key_ru = parameters[j]["parameter"]["label"];
+            $('#options').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><select class="form-control" required name="'+name+'"  id="00'+i+'">'+ '</select></div>');
             break;
-          }else{
-            $('#options').append('<div><select class="form-control" name="'+name+'"  id="00'+i+'">'+ '</select></div>');
+          }else if(parameters[j]['parameter']['key'] === name){
+            key_ru = parameters[j]["parameter"]["label"];
+            $('#options').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><select class="form-control" name="'+name+'"  id="00'+i+'">'+ '</select></div>');
             break;
           }
         }
 
         $('#00'+i).on('change',function(){
           if(this.value === 'price'){
-            $('#inptPrice').attr("style", "display: ");
+            $('#inputPrice').attr("style", "display: ");
           }else if (this.value === 'exchange' || this.value === 'arranged' || this.value === 'free') {
-            $('#inptPrice').attr("style", "display: none");
+            $('#inputPrice').attr("style", "display: none");
           }
         });
 
@@ -285,8 +291,10 @@
     }
 
     for ( j in parameters){
+      key_ru = parameters[j]["parameter"]["label"];
       if (parameters[j]['parameter']['type'] === "input" && parameters[j]['categories'][id]  !== undefined ){
-        $('#inputs').append('<input class="form-control" id="'+ parameters[j]['parameter']['key'] +'" type="number" name="'+ parameters[j]['parameter']['key'] +'" placeholder="'+parameters[j]['parameter']['key']+'"/>');
+        $('#inputs').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><input class="form-control" id="'+ parameters[j]['parameter']['key'] +'" type="number" name="'+ parameters[j]['parameter']['key'] +'" placeholder="'+parameters[j]['parameter']['key']+'"/></div>');
+
       }
     }
   };
@@ -314,15 +322,17 @@
         }
       }
     }
-    if (value_ru!=='Цена' && value_ru!==''){
       $('input[name="'+key+'"]').val(value_ru);
-    }
-
+      $('select[name="'+key+'"]').val(value);
   }
 
-
-
-
+  <%--$('select[name="price"]').change(function(){--%>
+    <%--if (this.value === 'price'){--%>
+      <%--$('#input_price').html('Цена <input id="inputPrice" name="price" type="number" class="form-control input-sm" value="${offer.price}" required><br>Валюта<select id="inputCurrency" name="currency"><option vlaue="UAH">UAH</option><option value="USD">USD</option><option value="EUR">EUR</option></select>');--%>
+    <%--}else{--%>
+      <%--$('#input_price').html("");--%>
+    <%--}--%>
+//  });
 
   // google map api-----------------------------BEGIN---------------------------------------------
   function initMap() {
@@ -475,6 +485,31 @@
 
       if (picArrDel.length !== 0){
         deleteImgFromDB(picArrDel);
+      }
+
+      var properties = [];
+
+      $('#options').find('select').each(function(){
+        var prop = {};
+        prop.key = this.name;
+        prop.value = this.value;
+        properties.push(prop);
+      });
+
+      $('#inputs').find('input').each(function(){
+        var prop = {};
+        prop.key = this.name;
+        prop.value = this.value;
+        properties.push(prop);
+      });
+
+      c.properties = properties;
+
+      for (var j in properties){
+        if (properties[j].price !== 'price'){
+          delete c.price;
+          break;
+        }
       }
 
       $.ajax({
