@@ -534,14 +534,8 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(tender),
             dataType: "json",
-            success: function (data, status, xhr) {
-                alert(xhr);
-                alert(JSON.stringify(xhr));
-            },
-            statusCode: {
-                201: function () {
-                    alert('Its Ok!');
-                }
+            success: function (response) {
+                window.location.href = '/tender/' + response.id;
             }
         });
     });
