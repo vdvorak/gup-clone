@@ -137,7 +137,23 @@
                                 <a href=""><img src="/resources/img/strippeddownbuttonsmall.png"></a>
                             </div>
                         </div>
-                        <div>Второе содержимое</div>
+                        <div class="prioffice-tabs-items-wrap">
+                            <div>
+                                <div class="prioffice-tabs-items">
+                                    <c:if test="${not empty events}">
+                                        <c:forEach items="${events}" var="event">
+                                            <p>${event.toString()} </p>
+                                        </c:forEach>
+                                    </c:if>
+                                    <c:if test="${empty events}">
+                                        <p>у вас нет новых уведомлений</p>
+                                    </c:if>
+                                </div>
+                                <div class="prioffice-tabs-items-return">
+                                    <a href=""><img src="/resources/img/strippeddownbuttonsmall.png"></a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
