@@ -81,7 +81,7 @@
           alert('403 status code! user error');
         },
         200: function() {
-          window.location.href = "/api/rest/dialogueService/dialogue/id/"+id
+          window.location.href = "/dialogue/id/"+id
         }
       }
     });
@@ -89,5 +89,3 @@
 </script>
 </body>
 </html>
-
-<p><a href="api/rest/supportDialogueService/dialogue/id/${dialogue.id}/assign">Взять диалог</a>

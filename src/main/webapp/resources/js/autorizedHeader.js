@@ -130,9 +130,6 @@ $(document).ready(function() {
     });
 });
 
-
-
-
 function createDialog(uId) {
     window.location.href = "/dialogue/create/with/" + uId;
 }

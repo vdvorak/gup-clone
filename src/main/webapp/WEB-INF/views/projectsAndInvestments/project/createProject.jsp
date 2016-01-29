@@ -1,84 +1,92 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Sasha
-  Date: 13.01.2016
-  Time: 15:49
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<head>
-    <title>Создание Проекта</title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-    <script>
-        var imgId = '';
-        var imagesIds = {};
-        var projectType = [];
-        var project = {};
+    <head>
+        <title>Создание Проекта</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
+        <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
+        <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
+        <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
 
-        $(document).on('change', '#photoFile', function (e) {
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+        <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
+        <script src="/resources/js/common.js"></script>
+        <sec:authorize access="isAuthenticated()">
+            <script src="/resources/js/autorizedHeader.js"></script>
+        </sec:authorize>
+        <script>
+            var imgId = '';
+            var imagesIds = {};
+            var projectType = [];
+            var project = {};
 
-            var formImg = new FormData($('#photoInput')[0]);
+            $(document).on('change', '#photoFile', function (e) {
 
-            if (imgId !== '') {
-                deleteImgFromDB(imgId);
+                var formImg = new FormData($('#photoInput')[0]);
+
+                if (imgId !== '') {
+                    deleteImgFromDB(imgId);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
+                    data: formImg,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data, textStatus, request) {
+                        imgId = data.id;
+                        $('#imgPreview').attr("src", "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + imgId);
+                    }
+                });
+            });
+
+            function deleteImgFromDB(picId) {
+                $.ajax({
+                    url: '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/delete/id/' + picId,
+                    method: 'POST',
+                    success: function (response) {
+                    },
+                    error: function (response) {
+                    }
+                });
             }
 
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
-                data: formImg,
-                async: false,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (data, textStatus, request) {
-                    imgId = data.id;
-                    $('#imgPreview').attr("src", "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + imgId);
-                }
+            $(document).on('click', '#createProject', function (event) {
+
+                project.typeOfProject = $('#projectType').val();
+                project.projectName = $('#projectName').val();
+                project.projectDescription = $('#projectDescription').val();
+                project.amountRequested = $('#amountRequested').val();
+                project.categoriesOfIndustry = $('#categoriesOfIndustry').val();
+
+                imagesIds[imgId] = 1;
+                project.imagesIds = imagesIds;
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/projectsAndInvestmentsService/project/create",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(project),
+                    success: function (createdProjectId) {
+                        window.location.href = '/project/id/' + createdProjectId.id;
+                    },
+                    error: function (response) {
+                        alert("Внутренняя ошибка сервера");
+                    }
+                });
             });
-        });
-
-        function deleteImgFromDB(picId) {
-            $.ajax({
-                url: '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/delete/id/' + picId,
-                method: 'POST',
-                success: function (response) {
-                },
-                error: function (response) {
-                }
-            });
-        }
-
-        $(document).on('click', '#createProject', function (event) {
-
-            project.typeOfProject = $('#projectType').val();
-            project.projectName = $('#projectName').val();
-            project.projectDescription = $('#projectDescription').val();
-            project.amountRequested = $('#amountRequested').val();
-            project.categoriesOfIndustry = $('#categoriesOfIndustry').val();
-
-            imagesIds[imgId] = 1;
-            project.imagesIds = imagesIds;
-
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/projectsAndInvestmentsService/project/create",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify(project),
-                success: function (createdProjectId) {
-                    window.location.href = '/project/id/' + createdProjectId.id;
-                },
-                error: function (response) {
-                    alert("Внутренняя ошибка сервера");
-                }
-            });
-        });
-    </script>
-</head>
+        </script>
+    </head>
     <body>
+        <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+        <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
+
         <div>
             <h2 align="center">Создание Проекта</h2>
         </div>
@@ -121,7 +129,7 @@
         </div>
 
         <div>
-            <form id="photoInput" enctype="multipart/form-data" method="post">
+            <form id="projectPhotoInput" enctype="multipart/form-data" method="post">
                 <label for="photoFile"><b>Фотография: </b></label>
                 <input id="photoFile" type="file" name="file" multiple accept="image/*,image/jpeg">
             </form>

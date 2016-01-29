@@ -31,12 +31,16 @@
                                 <a rel="example_group" href="/dialogue/id/${dialogue.id}">
                                     <c:forEach items="${dialogue.members}" var="member" varStatus="status">
                                         <a rel="example_group"
-                                           href="/dialogue/id/${member.id}">
-                                            <!-- api/rest/fileStorage/PROFILE/file/read/id/${member.userPicId} -->
-                                            <img alt="/resources/images/no_photo.jpg"
-                                                 src="/resources/img/reallySmallUserpic.png"
-                                                 width="150"
-                                                 height="150" ${status.first ? '' : 'style = "display:none"'}>
+                                           href="/profile/id/${member.id}">
+                                            <c:choose>
+                                                <c:when test="${not empty member.userPicId}">
+                                                    <img id="imgPreview" src="/api/rest/fileStorage/PROFILE/file/read/id/${member.userPicId}" width="100"
+                                                         height="100">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img id="imgPreview" src="/resources/images/no_photo.jpg" width="200" height="200">
+                                                </c:otherwise>
+                                            </c:choose>
                                         </a>
                                     </c:forEach>
                                 </a>

@@ -80,6 +80,7 @@ public class SupportDialogueRestController {
             dialogue.getMembers().add(new Member(support.getId()));
             log.log(Level.INFO, LOGGED_TITLE + "/dialogue/id/{dialogueId}/assign - dialogue was assign by support id = "
                     + SecurityOperations.getLoggedUserId()  + " successfully");
+            dialogueService.updateDialogue(dialogue);
         }
         return new ResponseEntity<>(dialogue, HttpStatus.OK);
     }
