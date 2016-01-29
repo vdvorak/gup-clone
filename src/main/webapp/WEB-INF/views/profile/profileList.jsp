@@ -14,12 +14,20 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>GUP - Профили</title>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
+    <script src="/resources/js/common.js"></script>
+    <sec:authorize access="isAuthenticated()">
+        <script src="/resources/js/autorizedHeader.js"></script>
+    </sec:authorize>
+
     <script>
         var profileFO = {skip:0, limit:20};
 
@@ -129,8 +137,12 @@
 
 <body>
 <div>
+    <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+    <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
+
     <div>
         <h2 align="center">Профили</h2>
+        <a href="/profile/list"><h3 align="center">Посмотреть все провили</h3></a>
     </div>
     <div align="center">
         <input id="searchInput" size="100" placeholder="Имя профиля">

@@ -13,7 +13,18 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>GUP</title>
+    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
+    <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
+    <script src="/resources/js/common.js"></script>
+    <sec:authorize access="isAuthenticated()">
+        <script src="/resources/js/autorizedHeader.js"></script>
+    </sec:authorize>
+
     <script>
         $(document).ready(function () {
             $.ajax({
@@ -21,9 +32,9 @@
                 url: "/api/rest/profilesService/profile/read/id/${profileId}",
                 success: function (profile) {
                     if (profile.contact != null && profile.contact.pic != null && profile.contact.pic != '') {
-                        $('#profileImg').attr('src','/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
+                        $('#mainProfileImg').attr('src','/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
                     } else {
-                        $('#profileImg').attr('src','/resources/images/no_photo.jpg');
+                        $('#mainProfileImg').attr('src','/resources/images/no_photo.jpg');
                     }
 
                     if (profile.username == null) {
@@ -76,16 +87,18 @@
     </script>
 </head>
 <body>
+    <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+    <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
+
     <div>
         <div>
             <h2 align="center">Просмотр профиля</h2>
-            <%--<h2 align="center"><a href="/editProject/id/${projectId}">Редактировать проект</a></h2>--%>
             <h2 align="center"><a href="/">Перейти на главную</a></h2>
         </div>
         <div>
 
             <div>
-                <img id="profileImg" src="" width="200" height="200">
+                <img id="mainProfileImg" src="" width="200" height="200">
             </div>
 
             <div>
