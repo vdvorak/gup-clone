@@ -100,13 +100,11 @@
 
                                     <div id="start">
                                         <div class="proposes-wraper" style="outline: 2px solid #000;">
-
                                             <div class="propose-author">Вася</div>
                                             <img class="member-pic" src="#" width="50" height="50">
-
                                             <div class="propose-date"> 1 февраля</div>
+                                            <button class="chooseWinner">Выбрать победителем</button>
                                             <div class="poropse-text">Азазаз</div>
-
                                         </div>
                                     </div>
 
@@ -215,6 +213,7 @@
             $(".tender-name p").last().text(data.title);
             $(".date-create").last().text(localDateTime(data.end));
 
+
             var map = '<iframe width="500" height="400" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + data.address.googleMapKey + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>';
             $('.map').append(map);
 
@@ -231,6 +230,7 @@
                 $(".propose-author").last().text(data.proposes[i].authorId);
                 $(".propose-date").last().text(localDateTime(data.proposes[i].time));
                 $(".poropse-text").last().text(data.proposes[i].body);
+                $(".chooseWinner").last().attr('id', data.proposes[i].authorId);
                 $('#start').append(firstBlock);
             }
 
@@ -253,6 +253,28 @@
         }
     });
 
+    $(".chooseWinner").on('click', function(){
+
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/tenderService/tender/id/" + tenderId + "/propose/create/",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(Propose),
+            statusCode: {
+                201: function () {
+                    window.location.href = '/tender/' + tenderId;
+                }
+            }
+        });
+
+        /tender/chooseWinner
+    })
+
+    $(".chooseWinner").last().attr('id', data.proposes[i].authorId);
 
     $(document).ready(function () {
         $('.slider1').bxSlider({
@@ -262,7 +284,6 @@
             slideMargin: 5
         });
     });
-
 
     // ----------------- BEGIN Propose sent -------------------------------------------------
     $('#makePropose').on('click', function () {
