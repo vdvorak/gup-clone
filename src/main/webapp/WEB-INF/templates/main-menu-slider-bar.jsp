@@ -27,10 +27,10 @@
           <a href="/project/list"><img src="/resources/img/circul.png"></a>
         </div>
         <nav class="main-project-bottom-menu">
-          <a href="#" class="active-main-menu-link">Реструктуризация</a>
-          <a href="#">Готовый прототип</a>
-          <a href="#">Проект на бумаге</a>
-          <a href="#">Ноу-Хау</a>
+          <a href="/project/list?typeOfProject=renovation">Реструктуризация</a>
+          <a href="/project/list?typeOfProject=prototype">Готовый прототип</a>
+          <a href="/project/list?typeOfProject=project_on_paper">Проект на бумаге</a>
+          <a href="/project/list?typeOfProject=know_how">Ноу-Хау</a>
         </nav>
       </div>
       <div class="main-news-wrap">
