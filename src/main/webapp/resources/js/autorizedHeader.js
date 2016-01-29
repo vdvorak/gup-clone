@@ -7,15 +7,15 @@ $(document).ready(function() {
         success: function (profile) {
             loggedInProfile = profile;
             if (profile.contact != null && profile.contact.pic != null && profile.contact.pic != '') {
-                $('#profileImg').attr('src','/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
+                $('#headerProfileImg').attr('src','/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
             } else {
-                $('#profileImg').attr('src','/resources/images/no_photo.jpg');
+                $('#headerProfileImg').attr('src','/resources/images/no_photo.jpg');
             }
 
             if (profile.username == null) {
-                $('#profileName').text("Безымянный");
+                $('#headerProfileName').text("Безымянный");
             } else {
-                $('#profileName').text(profile.username);
+                $('#headerProfileName').text(profile.username);
             }
         }
     });
