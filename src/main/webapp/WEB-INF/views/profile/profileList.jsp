@@ -24,8 +24,7 @@
         var profileFO = {skip:0, limit:20};
 
         <c:if test="${profileFO != null}">
-            profileFO.skip = ${profileFO.skip};
-            profileFO.searchField = '${profileFO.searchField}';
+            profileFO = ${profileFO};
         </c:if>
 
         $(document).ready(function () {
@@ -88,45 +87,42 @@
         }
 
         function updatePaginationBlock(responseEntities) {
-            $('#pageNumLine').html((profileFO.skip + 1) + ' из ' + (Math.round(responseEntities.totalEntities/profileFO.limit) + 1));
+            $('#pageNumLine').html((profileFO.skip/profileFO.limit + 1) + ' из ' + Math.ceil(responseEntities.totalEntities/profileFO.limit));
 
-            if (profileFO.skip <= 0) {
+            if (profileFO.skip < profileFO.limit) {
                 $('#prevPageButton').hide();
             } else {
                 $('#prevPageButton').show();
             }
 
-            if ((profileFO.skip + 1) * profileFO.limit >= responseEntities.totalEntities) {
+            if ((profileFO.skip +  profileFO.limit) >= responseEntities.totalEntities) {
                 $('#nextPageButton').hide();
             } else {
                 $('#nextPageButton').show();
             }
         }
 
-        $(document).on('click', '#prevPageButton', function (event) {
-            profileFO.skip = profileFO.skip - 1;
+        $(document).on('click', '#prevPageButton', function () {
+            profileFO.skip -= profileFO.limit;
             updateProfilesTable(profileFO);
         });
 
-        $(document).on('click', '#nextPageButton', function (event) {
-            profileFO.skip = profileFO.skip + 1;
+        $(document).on('click', '#nextPageButton', function () {
+            profileFO.skip += profileFO.limit;
             updateProfilesTable(profileFO);
         });
 
         $(document).on('click', '#findProfilesButton', function (event) {
+            // заполнять profileFO с фильтров
+            profileFO.skip = 0;
 
-            // заполнять projectFO с фильтров
-            var searchProfileFO = {};
-            searchProfileFO.skip = profileFO.skip;
-            searchProfileFO.limit = profileFO.limit;
-
-            if ($("#searchInput").val()) {
-                searchProfileFO.searchField = $("#searchInput").val();
+            if ($("#searchInput").val() == "") {
+                $("#searchInput").focus();
             } else {
-                searchProfileFO.searchField = profileFO.searchField;
+                profileFO.searchField = $("#searchInput").val();
             }
 
-            updateProfilesTable(searchProfileFO);
+            updateProfilesTable(profileFO);
         });
     </script>
 </head>

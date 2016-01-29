@@ -17,9 +17,9 @@
 
     $(document).on('click', '#searchButton', function () {
         if ( $("#searchInput").val() == "") {
-            alert('Введите имя пользователя или компании!')
+            $("#searchInput").focus();
         } else {
-            window.location.href = '/profile/list?term=' + $("#searchInput").val();
+            window.location.href = '/profile/list?name=' + $("#searchInput").val();
         }
     });
   </script>
