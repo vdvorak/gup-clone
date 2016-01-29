@@ -1,20 +1,16 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Optical Illusion
-  Date: 30.12.2015
-  Time: 17:27
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ru-RU">
 <head>
     <title>Тендеры | GUP</title>
-    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
+    <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
 
+    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
 </head>
 <body>
 
@@ -219,7 +215,15 @@
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 <script src="/resources/js/prioffice.js"></script>
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
+<script src="/resources/libs/jquery.magnific-popup.min.js"></script>
+
 <script src="/resources/js/common.js"></script>
+
+<sec:authorize access="isAuthenticated()">
+    <script src="/resources/js/autorizedHeader.js"></script>
+</sec:authorize>
+
+<script src="/resources/js/index.js"></script>
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/js/service.js"></script>
 
