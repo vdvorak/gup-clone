@@ -142,7 +142,7 @@
 
     <div>
         <h2 align="center">Профили</h2>
-        <a href="/profile/list"><h3 align="center">Посмотреть все провили</h3></a>
+        <a href="/profile/list"><h3 align="center">Посмотреть все профили</h3></a>
     </div>
     <div align="center">
         <input id="searchInput" size="100" placeholder="Имя профиля">
