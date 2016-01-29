@@ -30,6 +30,8 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 
 
@@ -267,6 +269,21 @@ public class TenderRestController {
             return false;
         }
         return true;
+    }
+
+    @RequestMapping(value = "/tender/chooseWinner",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Tender> winnerChoose (@RequestBody Tender tender) {
+        String id = tenderService.findById(tender.getId()).getAuthorId();
+        if(SecurityOperations.getLoggedUserId().equals(id)){
+            return new ResponseEntity<Tender>(HttpStatus.FORBIDDEN);
+        }
+        tender.setEnd(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+        tender.setProposes(null);
+        tender.setMembers(null);
+        //todo ActivityFeed!!!!!!!!!!!!!!!!!!!!!
+        return new ResponseEntity<Tender>(tenderService.updateTender(tender), HttpStatus.OK);
     }
 
     private String getCurrentUserId() {

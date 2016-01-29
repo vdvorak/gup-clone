@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.bank_api.entity.ExternalTransaction;
+import ua.com.itproekt.gup.model.activityfeed.Event;
+import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.Member;
@@ -27,6 +29,7 @@ import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
 import ua.com.itproekt.gup.service.tender.TenderService;
+import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.io.IOException;
@@ -89,6 +92,13 @@ public class AccountController {
         bpf.setCreatedDateSortDirection(Sort.Direction.DESC);
         List<Project> blogposts = projectService.findProjectsWihOptions(pf).getEntities();
         model.addAttribute("blogposts", blogposts);
+
+        EventFilterOptions ef = new EventFilterOptions();
+        ef.setLimit(3);
+        ef.setSkip(0);
+        ef.setuId(profile.getId());
+        EntityPage<Event> events = activityFeedService.findEventsWithOptionsAndSetViewed(ef);
+        model.addAttribute("events", events.getEntities());
 
         BankSession bs = new BankSession();
         String balanceStr = bs.getExternalTransactionsByUserId(profile.getId());

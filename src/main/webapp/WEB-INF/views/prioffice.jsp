@@ -109,11 +109,22 @@
                     <div class="prioffice-tabs-items-wrap">
                         <div>
                             <div class="prioffice-tabs-items">
-                                <div class="prioffice-tabs-items-pic">
-                                    <img src="/resources/img/unknownuser-pic.png">
-                                </div>
                                 <c:if test="${not empty dialogues}">
                                     <c:forEach items="${dialogues}" var="dialogue">
+                                        <c:forEach items="${dialogue.members}" var="member">
+                                            <c:choose>
+                                                <c:when test="${not empty profile.contact.pic}">
+                                                    <div class="prioffice-tabs-items-pic">
+                                                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${member.userPicId}" width="80", hight="80">
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <div class="prioffice-tabs-items-pic">
+                                                        <img src="/resources/images/no_photo.jpg" width="80", hight="80">
+                                                    </div>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
                                         <p class="prioffice-tabs-items-text"><a href="/dialogue/id/${dialogue.id}">${dialogue.messages.get(dialogue.messages.size()-1).message}</a></p>
                                         <p class="prioffice-tabs-items-status">непрочитанных: ${dialogue.unreadMsgCounter.get(profile.id)}</p>
                                     </c:forEach>
@@ -126,7 +137,23 @@
                                 <a href=""><img src="/resources/img/strippeddownbuttonsmall.png"></a>
                             </div>
                         </div>
-                        <div>Второе содержимое</div>
+                        <div class="prioffice-tabs-items-wrap">
+                            <div>
+                                <div class="prioffice-tabs-items">
+                                    <c:if test="${not empty events}">
+                                        <c:forEach items="${events}" var="event">
+                                            <p>${event.toString()} </p>
+                                        </c:forEach>
+                                    </c:if>
+                                    <c:if test="${empty events}">
+                                        <p>у вас нет новых уведомлений</p>
+                                    </c:if>
+                                </div>
+                                <div class="prioffice-tabs-items-return">
+                                    <a href=""><img src="/resources/img/strippeddownbuttonsmall.png"></a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
