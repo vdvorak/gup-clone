@@ -101,9 +101,9 @@
                                     <div id="start">
                                         <div class="proposes-wraper" style="outline: 2px solid #000;">
 
-
                                             <div class="propose-author">Вася</div>
-                                            <img class="member-pic" src="#">
+                                            <img class="member-pic" src="#" width="50" height="50">
+
                                             <div class="propose-date"> 1 февраля</div>
                                             <div class="poropse-text">Азазаз</div>
 
@@ -199,15 +199,12 @@
         return long;
     }
 
-
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "/api/rest/tenderService/tender/read/id/" + tenderId,
         success: function (response) {
             var data = response;
-
-//            alert(JSON.stringify(data.members));
 
             sliderImg(data.uploadFilesIds);
             $(".tender-item-text p").last().html(data.body);
@@ -221,35 +218,38 @@
             var map = '<iframe width="500" height="400" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + data.address.googleMapKey + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>';
             $('.map').append(map);
 
-            if (data.proposes.length < 1) {
-                $('#no-propose').attr('style', 'display: ')
 
+            if (data.proposes === undefined) {
+                if (data.proposes.length < 1) {
+                    $('#no-propose').attr('style', 'display: ');
+                    $('#start').attr('style', 'display: none')
+                }
             }
 
-            for (var i in data.proposes) {
-//                alert(JSON.stringify(data.proposes[i]));
-                $(".propose-author").last().text(data.proposes[i].authorId);
-                $(".propose-date").last().text(data.proposes[i].time);
-                $(".poropse-text").last().text(data.proposes[i].body);
 
+            for (var i in data.proposes) {
+                $(".propose-author").last().text(data.proposes[i].authorId);
+                $(".propose-date").last().text(localDateTime(data.proposes[i].time));
+                $(".poropse-text").last().text(data.proposes[i].body);
                 $('#start').append(firstBlock);
             }
 
             $('.proposes-wraper').last().attr('style', 'display: none;');
 
-
             for (var j in data.members) {
                 $('.propose-author').each(function (index) {
-//                    alert(data.members[j].id);
                     if ($(this).text() === data.members[j].id) {
                         $(this).text(data.members[j].name);
-                        $(this).next('.')
-
+                        $(this).next('.member-pic').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + data.members[j].userPic)
                     }
                 });
             }
-
-
+        },
+        statusCode: {
+            403: function () {
+                $('.tender-tabs-items-wrap').detach();
+                $('.tender-wrap').text("Войдите в систему, чтобы просмотреть информацию о тендере.");
+            }
         }
     });
 
