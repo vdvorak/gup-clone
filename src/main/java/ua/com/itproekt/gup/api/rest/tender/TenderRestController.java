@@ -65,8 +65,9 @@ public class TenderRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        //make propose visible according to hidden settings
-       tender = tenderService.setVision(tender, getCurrentUser());
+        if(getCurrentUser() == null){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
         if(tender != null){
             // incrementing Visited field
@@ -85,6 +86,9 @@ public class TenderRestController {
                 tender.setVisited(tenderForCountVisited.getVisited());
             }
         }
+
+        //make propose visible according to hidden settings
+        tender = tenderService.setVision(tender, getCurrentUser());
 
         return new ResponseEntity<>(tender, HttpStatus.OK);
     }

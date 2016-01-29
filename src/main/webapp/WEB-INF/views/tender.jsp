@@ -107,6 +107,16 @@
 
                                             <button id="makePropose" disabled>Отправить</button>
                                         </div>
+
+
+
+                                    <div class="proposes-wraper" style="outline: 2px solid #000;">
+                                        <div id="no-propose" style="display: none">Нет предложений. Будье первыми!</div>
+                                        <div class="propose-author">Вася</div>
+                                        <div class="propose-date"> 1 февраля</div>
+                                        <div class="poropse-text">Азазаз</div>
+                                    </div>
+
                                     </sec:authorize>
 
                                 </div>
@@ -133,6 +143,9 @@
 </sec:authorize>
 <!--END of libs-->
 <script>
+
+    var proposes;
+
 
     // ----------------------- Begin Tender propose text length counter ------------------------------
     $("#tenderPropose").on('keyup', function (event) {
@@ -187,6 +200,8 @@
         success: function (response) {
             var data = response;
 
+            alert(data.proposes);
+
             sliderImg(data.uploadFilesIds);
             $(".tender-item-text p").last().html(data.body);
             $(".tender-number").last().text(data.tenderNumber);
@@ -197,7 +212,11 @@
             $(".date-create").last().text(localDateTime(data.end));
 
             var map = '<iframe width="500" height="400" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + data.address.googleMapKey + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>';
-            $('.map').append(map)
+            $('.map').append(map);
+
+            if (data.proposes.length < 1){
+                $('#no-propose').attr('style', 'display: ')
+            }
         }
     });
 
