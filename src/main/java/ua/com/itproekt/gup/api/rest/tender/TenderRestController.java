@@ -90,6 +90,9 @@ public class TenderRestController {
         //make propose visible according to hidden settings
         tender = tenderService.setVision(tender, getCurrentUser());
 
+        //complete Member name and picId
+        tenderService.completeMembers(tender);
+
         return new ResponseEntity<>(tender, HttpStatus.OK);
     }
 
@@ -112,7 +115,10 @@ public class TenderRestController {
         EntityPage<Tender> tenders = tenderService.findWihOptions(tenderFilterOptions, profile);
 
         if (!tenders.getEntities().isEmpty()) {
-            tenders.getEntities().stream().forEach(t -> t = tenderService.setVision(t, getCurrentUser()));
+            tenders.getEntities().stream().forEach(t -> {
+                t = tenderService.setVision(t, getCurrentUser());
+                tenderService.completeMembers(t);
+            });
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

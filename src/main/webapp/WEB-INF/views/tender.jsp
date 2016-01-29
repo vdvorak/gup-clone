@@ -44,86 +44,90 @@
                 <div>
 
                     <!-- Repeated section with tender -->
-                    <div id="startBlock">
-                        <div class="tender-tabs-items-wrap">
 
-                            <div class="tender-item-wrapper">
-                                <div class="tender-item-leftside">
-                                    <%--<div class="tender-pic-wrap">--%>
-                                    <%--<img src="#">--%>
-                                    <%--</div>--%>
-                                    <div class="tender-subpic-stuff">
-                                        <p style="margin-top: 0px; display: inline-block;">Предложений:<span
-                                                class="tender-proposal-count"></span></p>
+                    <div class="tender-tabs-items-wrap">
 
-                                        <p style="margin-top: 0px; display: inline-block; float: right;">
-                                            Просмотров:<span
-                                                class="tender-veiws"></span></p>
-                                    </div>
-                                </div>
-                                <div class="tender-item-rightside">
-                                    <div class="tender-item-header-wrap">
-                                        <div class="tender-name">
-                                            <p></p>
-                                        </div>
-                                        <div class="tender-item-info">
-                                            <p class="tender-publish-date">Опубликовано:<span
-                                                    class="date-create"></span></p>
+                        <div class="tender-item-wrapper">
+                            <div class="tender-item-leftside">
+                                <%--<div class="tender-pic-wrap">--%>
+                                <%--<img src="#">--%>
+                                <%--</div>--%>
+                                <div class="tender-subpic-stuff">
+                                    <p style="margin-top: 0px; display: inline-block;">Предложений:<span
+                                            class="tender-proposal-count"></span></p>
 
-                                            <p class="tender-number">№<span></span></p>
-                                        </div>
-                                    </div>
-                                    <div class="tender-item-text">
-                                        <p></p>
-                                    </div>
-                                    <div class="tender-item-subtext-stuff">
-                                        <div class="tender-time-remain">
-                                            <img src="/resources/img/alarm.png">
-
-                                            <p class="tender-time date-create"></p>
-
-                                            <div class="tender-cost-wrap">
-                                                <p><span class="tender-cost"></span>$</p>
-                                                <button class="tender-apply-for">Участвовать</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="imgGal"></div>
-
-                                    <div class="map">
-                                    </div>
-
-                                    <sec:authorize access="isAuthenticated()">
-                                        <div class="offer-wraper" style="height: 200px; background-color: #006dcc">
-                                            <div class="offer-input-group">
-                                                <textarea id="tenderPropose"></textarea>
-
-                                                <div id="textLength"></div>
-                                            </div>
-
-                                            <input id="visionSelect" type="checkbox"><label for="visionSelect">Скрыть
-                                            предложение от других участников</label>
-
-                                            <button id="makePropose" disabled>Отправить</button>
-                                        </div>
-
-
-
-                                    <div class="proposes-wraper" style="outline: 2px solid #000;">
-                                        <div id="no-propose" style="display: none">Нет предложений. Будье первыми!</div>
-                                        <div class="propose-author">Вася</div>
-                                        <div class="propose-date"> 1 февраля</div>
-                                        <div class="poropse-text">Азазаз</div>
-                                    </div>
-
-                                    </sec:authorize>
-
+                                    <p style="margin-top: 0px; display: inline-block; float: right;">
+                                        Просмотров:<span
+                                            class="tender-veiws"></span></p>
                                 </div>
                             </div>
+                            <div class="tender-item-rightside">
+                                <div class="tender-item-header-wrap">
+                                    <div class="tender-name">
+                                        <p></p>
+                                    </div>
+                                    <div class="tender-item-info">
+                                        <p class="tender-publish-date">Опубликовано:<span
+                                                class="date-create"></span></p>
+
+                                        <p class="tender-number">№<span></span></p>
+                                    </div>
+                                </div>
+                                <div class="tender-item-text">
+                                    <p></p>
+                                </div>
+                                <div class="tender-item-subtext-stuff">
+                                    <div class="tender-time-remain">
+                                        <img src="/resources/img/alarm.png">
+
+                                        <p class="tender-time date-create"></p>
+
+                                        <div class="tender-cost-wrap">
+                                            <p><span class="tender-cost"></span>$</p>
+                                            <button class="tender-apply-for">Участвовать</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="imgGal"></div>
+
+                                <div class="map">
+                                </div>
+
+                                <sec:authorize access="isAuthenticated()">
+                                    <div id="no-propose" style="display: none">Нет предложений. Будье первыми!
+                                    </div>
+
+                                    <div id="start">
+                                        <div class="proposes-wraper" style="outline: 2px solid #000;">
+
+
+                                            <div class="propose-author">Вася</div>
+                                            <div class="propose-date"> 1 февраля</div>
+                                            <div class="poropse-text">Азазаз</div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="offer-wraper" style="height: 200px; background-color: #006dcc">
+                                        <div class="offer-input-group">
+                                            <textarea id="tenderPropose"></textarea>
+
+                                            <div id="textLength"></div>
+                                        </div>
+
+                                        <input id="visionSelect" type="checkbox"><label for="visionSelect">Скрыть
+                                        предложение от других участников</label>
+
+                                        <button id="makePropose" disabled>Отправить</button>
+                                    </div>
+                                </sec:authorize>
+
+                            </div>
                         </div>
-                        <%--<!-- End of repeated section with tender -->--%>
                     </div>
+                    <%--<!-- End of repeated section with tender -->--%>
+
                 </div>
             </div>
         </div>
@@ -145,6 +149,8 @@
 <script>
 
     var proposes;
+
+    var firstBlock = $('#start').html();
 
 
     // ----------------------- Begin Tender propose text length counter ------------------------------
@@ -200,7 +206,7 @@
         success: function (response) {
             var data = response;
 
-            alert(data.proposes);
+            alert(JSON.stringify(data.members));
 
             sliderImg(data.uploadFilesIds);
             $(".tender-item-text p").last().html(data.body);
@@ -214,9 +220,23 @@
             var map = '<iframe width="500" height="400" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + data.address.googleMapKey + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>';
             $('.map').append(map);
 
-            if (data.proposes.length < 1){
+            if (data.proposes.length < 1) {
                 $('#no-propose').attr('style', 'display: ')
+
             }
+
+
+            for (var i in data.proposes) {
+                alert(JSON.stringify(data.proposes[i]));
+                $(".propose-author").last().text(data.proposes[i].authorId);
+                $(".propose-date").last().text(data.proposes[i].time);
+                $(".poropse-text").last().text(data.proposes[i].body);
+
+                $('#start').append(firstBlock);
+            }
+
+            $('.proposes-wraper').last().attr('style', 'display: none;');
+
         }
     });
 
@@ -238,8 +258,6 @@
         Propose.hidden = $('#visionSelect').prop('checked');
 
 
-
-
         $.ajax({
             type: "POST",
             url: "/api/rest/tenderService/tender/id/" + tenderId + "/propose/create/",
@@ -247,8 +265,8 @@
             dataType: "json",
             data: JSON.stringify(Propose),
             statusCode: {
-                201: function() {
-                    alert("Ok 2");
+                201: function () {
+                    window.location.href = '/tender/' + tenderId;
                 }
             }
         });
