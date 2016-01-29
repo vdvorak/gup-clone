@@ -24,7 +24,7 @@
         <p>Проекты</p>
 
         <div class="main-projectPic-wrap">
-          <a href="/projectList?pageNumber=0"><img src="/resources/img/circul.png"></a>
+          <a href="/project/list"><img src="/resources/img/circul.png"></a>
         </div>
         <nav class="main-project-bottom-menu">
           <a href="#" class="active-main-menu-link">Реструктуризация</a>
