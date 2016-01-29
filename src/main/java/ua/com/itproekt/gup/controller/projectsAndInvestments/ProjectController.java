@@ -21,8 +21,8 @@ public class ProjectController {
                               @RequestParam(required = false, defaultValue = "") String typeOfProject,
                               Model model) {
         ProjectFilterOptions projectFO = new ProjectFilterOptions();
-        if (EnumUtils.isValidEnum(TypeOfProject.class, typeOfProject) ) {
-            projectFO.setTypeOfProject(TypeOfProject.valueOf(typeOfProject));
+        if (EnumUtils.isValidEnum(TypeOfProject.class, typeOfProject.toUpperCase()) ) {
+            projectFO.setTypeOfProject(TypeOfProject.valueOf(typeOfProject.toUpperCase()));
         }
         projectFO.setSkip(pageNumber);
 

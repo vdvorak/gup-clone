@@ -7,7 +7,10 @@ import java.util.Set;
 
 public interface StorageRepository {
     String save(String serviceName, InputStream inputStream, String contentType, String filename);
+
     GridFSDBFile get(String serviceName, String fileId);
+
     void delete(String serviceName, String fileId);
+
     void delete(String serviceName, Set<String> fileIds);
 }
