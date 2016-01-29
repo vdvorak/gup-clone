@@ -269,6 +269,17 @@ public class TenderRestController {
         return true;
     }
 
+    @RequestMapping(value = "/tender/chooseWinner",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Tender> winnerChoose (@RequestBody Tender tender) {
+        String id = tenderService.findById(tender.getId()).getAuthorId();
+        if(SecurityOperations.getLoggedUserId().equals(id)){
+            return new ResponseEntity<Tender>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<Tender>(tenderService.updateTender(tender), HttpStatus.OK);
+    }
+
     private String getCurrentUserId() {
         Profile user = getCurrentUser();
         if(user == null || user.getId() == null) return null;
