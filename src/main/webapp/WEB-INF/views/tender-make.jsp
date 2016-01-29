@@ -479,7 +479,7 @@
 
     //--------------------------- REGIONS LIST --------------------------------------------//
 
-    $('#regions').find('li').click(function () {
+    $('#regions').find('li').click(function (){
         var region = $(this).text();
         $('#chosenRegion').text(region);
         $('#areaInp').val(region);

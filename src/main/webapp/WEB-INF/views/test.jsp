@@ -21,24 +21,28 @@
     }
 
     function addTelephone() {
-      var e = $('<p><input type="text"><button>Del</button></p>');
+      var e = $('<p><input type="text" onclick=""><button>Del</button></p>');
       $("div").append(e);
       var c = e.children("button");
       c.click(deleteTel);
     }
+
     function showObj() {
       var result = {};
       var t = [];
-      p = $("body").find("input");
-      for (var i = 0; i < p.length; i++) {
-        if (i = 0) {
-          result.name = p[i].attr("value");
-        } else if (i = 1) {
-          result.email = p[i].attr("value");
-        } else {
-          t.push(p[i].attr("value"));
-        }
-      }
+      $("input").each(function () {
+        alert(this.value);
+      });
+
+//      for (var i = 0; i < p.length; i++) {
+//        if (i = 0) {
+//          result.name = p[i].val();
+//        } else if (i = 1) {
+//          result.email = p[i].val();
+//        } else {
+//          t.push(p[i].val());
+//        }
+//      }
       result.tel = t;
       alert(JSON.stringify(p));
     }
