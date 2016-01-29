@@ -127,7 +127,8 @@ public class TenderServiceImpl implements TenderService {
         } else {
             if (userWhoReed != null && isAuthorOrWinner(tender, userWhoReed.getId())) {
                 return tender;
-            } else if (userWhoReed != null && (userWhoReed.getContact().getType() == UserType.LEGAL_ENTITY
+            } else if (userWhoReed != null && userWhoReed.getContact() != null &&
+                    (userWhoReed.getContact().getType() == UserType.LEGAL_ENTITY
                     || userWhoReed.getContact().getType() == UserType.ENTREPRENEUR)) {
                 return setLegalEntityVision(tender, userWhoReed.getId());
             } else {
