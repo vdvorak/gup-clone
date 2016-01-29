@@ -3,17 +3,17 @@
   <div class="top-menu">
     <div class="top-menu-userSection">
       <div class="top-menu-userpic">
-        <img id="profileImg"  src="" width="32" height="33">
+        <img id="headerProfileImg"  src="" width="32" height="33">
       </div>
       <div class="top-menu-username">
-        <a href="#" id="profileName"></a>
+        <a href="#" id="headerProfileName"></a>
       </div>
       <div class="header-mainMenu">
         <a href="/prioffice">Моя страница</a>
         <a href="/dialogues">Сообщения</a>
         <a href="/dialogues">Уведомления</a>
         <a href="/tender">Тендеры</a>
-        <a href="/projectList?pageNumber=0">Проекты</a>
+        <a href="/project/list">Проекты</a>
         <a href="/blogs">Новости</a>
         <a href="#">Настройки</a>
         <a href="/logout">Выход</a>

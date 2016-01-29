@@ -89,20 +89,20 @@
     var blog = {};
 
     $("#blogDescription").on('keyup', function (event) {
-        var textArea = $('#createBlog');
+        var button = $('#createBlog');
         var counter = $("#textLength");
 
         var currentString = $("#blogDescription").val();
         counter.html(currentString.length);
         if (currentString.length <= 50) {  /*or whatever your number is*/
-            textArea.attr("disabled", true);
+            button.attr("disabled", true);
             counter.css("color", "red");
         } else {
             if (currentString.length > 500) {
-                textArea.attr("disabled", true);
+                button.attr("disabled", true);
                 counter.css("color", "red");
             } else {
-                textArea.attr("disabled", false);
+                button.attr("disabled", false);
                 counter.css("color", "green");
             }
         }

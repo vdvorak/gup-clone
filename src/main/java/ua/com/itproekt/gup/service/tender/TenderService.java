@@ -15,4 +15,6 @@ public interface TenderService {
     EntityPage<Tender> findWihOptions(TenderFilterOptions tenderFilterOptions, Profile user);
     void checkClosedTendersAndSendActivityFeed();
     Tender setVision(Tender tender, Profile UserWhoReed);
+
+    Tender completeMembers(Tender t);
 }

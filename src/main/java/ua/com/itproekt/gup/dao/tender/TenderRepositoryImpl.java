@@ -87,7 +87,7 @@ public class TenderRepositoryImpl implements TenderRepository {
             query.addCriteria(Criteria.where("authorId").all(tenderFilterOptions.getAuthorId()));
         }
 
-        if (tenderFilterOptions.getMembers() != null) {
+        if (tenderFilterOptions.getMembers() != null && tenderFilterOptions.getMembers().size() > 0) {
             query.addCriteria(Criteria.where("members").elemMatch(Criteria.where("id").is(tenderFilterOptions.getMemberId())));
         }
 

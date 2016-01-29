@@ -27,11 +27,11 @@ public class FileStorageRestController {
     public ResponseEntity<InputStreamResource> getById(@PathVariable String serviceName,
                                                        @PathVariable String fileId) throws IOException {
 
-        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName)) {
+        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        GridFSDBFile gridFSDBFile = storageService.get(serviceName, fileId);
+        GridFSDBFile gridFSDBFile = storageService.get(serviceName.toUpperCase(), fileId);
 
         if (gridFSDBFile != null) {
             return ResponseEntity.ok()
@@ -47,13 +47,13 @@ public class FileStorageRestController {
     public ResponseEntity<CreatedObjResponse> fileUpload(@PathVariable String serviceName,
                                                          @RequestParam MultipartFile file){
 
-        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName)) {
+        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         if (!file.isEmpty()) {
             try {
-                String uploadedFileId = storageService.save(serviceName,
+                String uploadedFileId = storageService.save(serviceName.toUpperCase(),
                         file.getInputStream(),
                         file.getContentType(),
                         file.getOriginalFilename());
@@ -72,11 +72,11 @@ public class FileStorageRestController {
     public ResponseEntity<Void> deleteFile(@PathVariable String serviceName,
                                            @PathVariable String fileId) {
 
-        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName)) {
+        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        storageService.delete(serviceName, fileId);
+        storageService.delete(serviceName.toUpperCase(), fileId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -84,11 +84,11 @@ public class FileStorageRestController {
     public ResponseEntity<Void> deleteFiles(@PathVariable String serviceName,
                                             @RequestParam(value = "fileId") Set<String> fileIds) {
 
-        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName)) {
+        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        storageService.delete(serviceName, fileIds);
+        storageService.delete(serviceName.toUpperCase(), fileIds);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

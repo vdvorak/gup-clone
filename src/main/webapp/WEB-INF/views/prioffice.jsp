@@ -45,7 +45,14 @@
         <div class="prioffice-left">
             <div class="prioffice-user">петров василий</div>
             <div class="prioffice-userpic">
-                <img src="/resources/img/defaultlogo.png">
+                <c:choose>
+                    <c:when test="${not empty profile.contact.pic}">
+                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.contact.pic}" width="100", hight="100">
+                    </c:when>
+                    <c:otherwise>
+                        <img src="/resources/images/no_photo.jpg" width="100", hight="100">
+                    </c:otherwise>
+                </c:choose>
             </div>
             <div class="prioffice-mysettings">
                 <div class="prioffice-mysettings-title">Мои настройки</div>
@@ -102,43 +109,51 @@
                     <div class="prioffice-tabs-items-wrap">
                         <div>
                             <div class="prioffice-tabs-items">
-                                <div class="prioffice-tabs-items-pic">
-                                    <img src="/resources/img/unknownuser-pic.png">
-                                </div>
-                                <p class="prioffice-tabs-items-text">Сообщение Сообщение Сообщение Сообщение Сообщение
-                                    Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение
-                                    Сообщение Сообщение Сообщение Сообщение Сообщение
-                                    Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение</p>
-
-                                <p class="prioffice-tabs-items-status">Непрочитано</p>
-                            </div>
-                            <div class="prioffice-tabs-items">
-                                <div class="prioffice-tabs-items-pic">
-                                    <img src="/resources/img/unknownuser-pic.png">
-                                </div>
-                                <p class="prioffice-tabs-items-text">Сообщение Сообщение Сообщение Сообщение Сообщение
-                                    Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение
-                                    Сообщение Сообщение Сообщение Сообщение Сообщение
-                                    Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение</p>
-
-                                <p class="prioffice-tabs-items-status">Непрочитано</p>
-                            </div>
-                            <div class="prioffice-tabs-items">
-                                <div class="prioffice-tabs-items-pic">
-                                    <img src="/resources/img/tendersmall-icon.png">
-                                </div>
-                                <p class="prioffice-tabs-items-text">Сообщение Сообщение Сообщение Сообщение Сообщение
-                                    Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение
-                                    Сообщение Сообщение Сообщение Сообщение Сообщение
-                                    Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение</p>
-
-                                <p class="prioffice-tabs-items-status">Непрочитано</p>
+                                <c:if test="${not empty dialogues}">
+                                    <c:forEach items="${dialogues}" var="dialogue">
+                                        <c:forEach items="${dialogue.members}" var="member">
+                                            <c:choose>
+                                                <c:when test="${not empty profile.contact.pic}">
+                                                    <div class="prioffice-tabs-items-pic">
+                                                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${member.userPicId}" width="80", hight="80">
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <div class="prioffice-tabs-items-pic">
+                                                        <img src="/resources/images/no_photo.jpg" width="80", hight="80">
+                                                    </div>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+                                        <p class="prioffice-tabs-items-text"><a href="/dialogue/id/${dialogue.id}">${dialogue.messages.get(dialogue.messages.size()-1).message}</a></p>
+                                        <p class="prioffice-tabs-items-status">непрочитанных: ${dialogue.unreadMsgCounter.get(profile.id)}</p>
+                                    </c:forEach>
+                                </c:if>
+                                <c:if test="${empty dialogues}">
+                                    <p><a href="/dialogue-create">создать диалог</a></p>
+                                </c:if>
                             </div>
                             <div class="prioffice-tabs-items-return">
                                 <a href=""><img src="/resources/img/strippeddownbuttonsmall.png"></a>
                             </div>
                         </div>
-                        <div>Второе содержимое</div>
+                        <div class="prioffice-tabs-items-wrap">
+                            <div>
+                                <div class="prioffice-tabs-items">
+                                    <c:if test="${not empty events}">
+                                        <c:forEach items="${events}" var="event">
+                                            <p>${event.toString()} </p>
+                                        </c:forEach>
+                                    </c:if>
+                                    <c:if test="${empty events}">
+                                        <p>у вас нет новых уведомлений</p>
+                                    </c:if>
+                                </div>
+                                <div class="prioffice-tabs-items-return">
+                                    <a href=""><img src="/resources/img/strippeddownbuttonsmall.png"></a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -161,11 +176,9 @@
                                         <p><a href="/tender/${tender.id}">${tender.title}</a></p>
                                     </c:forEach>
                                 </c:if>
-                            <%--<p>Заголовок тендера 1</p>--%>
-
-                                <%--<p>Заголовок тендера 1</p>--%>
-
-                                <%--<p>Заголовок тендера 1</p>--%>
+                                <c:if test="${empty tenders}">
+                                    <p><a href="/tender-make">создать тендер</a></p>
+                                </c:if>
                             </div>
 
                             <div class="myitems-tenders-footer">
@@ -184,11 +197,14 @@
                                 <img class="prioffice-close-projects-ico" src="/resources/img/closesmall-icon.png">
                             </div>
                             <div class="myitems-projects-items">
-                                <p>Заголовок проекта 1</p>
-
-                                <p>Заголовок проекта 1</p>
-
-                                <p>Заголовок проекта 1</p>
+                                    <c:if test="${not empty projects}">
+                                        <c:forEach items="${projects}" var="project">
+                                            <p><a href="/project/id/${project.id}">${project.projectName}</a></p>
+                                        </c:forEach>
+                                    </c:if>
+                                    <c:if test="${empty projects}">
+                                        <p><a href="/createProject">создать проект</a></p>
+                                    </c:if>
                             </div>
                             <div class="myitems-projects-footer">
                                 <a href=""><img src="/resources/img/strippeddownbuttonsmall.png"></a>
@@ -208,11 +224,14 @@
                                 <img class="prioffice-close-news-ico" src="/resources/img/closesmall-icon.png">
                             </div>
                             <div class="myitems-news-items">
-                                <p>Новость 1</p>
-
-                                <p>Новость 2</p>
-
-                                <p>Новость 3</p>
+                                <c:if test="${not empty blogposts}">
+                                    <c:forEach items="${blogposts}" var="n">
+                                        <p><a href="/blog/${n.id}">${n.title}</a></p>
+                                    </c:forEach>
+                                </c:if>
+                                <c:if test="${empty blogposts}">
+                                    <p><a href="/blog-create">создать новостной блог</a></p>
+                                </c:if>
                             </div>
                             <div class="myitems-news-footer">
                                 <a href=""><img src="/resources/img/strippeddownbuttonsmall.png"></a>
@@ -230,11 +249,16 @@
                                 <img class="prioffice-close-founds1-ico" src="/resources/img/closesmall-icon.png">
                             </div>
                             <div class="myitems-founds-items">
-                                <p>Новость 1</p>
-
-                                <p>Новость 2</p>
-
-                                <p>Новость 3</p>
+                                <c:forEach items="${balance}" var="b">
+                                    <p>${b.dateTime} пополнено на:${b.amount}</p>
+                                </c:forEach>
+                                <p>
+                                <form method="post" action="https://www.liqpay.com/api/checkout" accept-charset="utf-8">
+                                    <input id="liq-pay-data" type="hidden" name="data" value="eyJhbW91bnQiOjEwMCwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6ItCf0L7Qv9C+0LvQvdC10L3QuNC1INCx0LDQu9Cw0L3RgdCwIiwib3JkZXJfaWQiOiJsM2Q2d1VvR3Rlc3QiLCJwdWJsaWNfa2V5IjoiaTc0MDQ0MTgyODM5Iiwic2FuZGJveCI6IjEiLCJzZXJ2ZXJfdXJsIjoiaHR0cDpcL1wvYmFuay10a2FuaS5yaGNsb3VkLmNvbVwvY2FsbGJhY2siLCJ2ZXJzaW9uIjoiMyJ9" />
+                                    <input id="liq-pay-signature" type="hidden" name="signature" value="DxXg8vXCVuw39G1Qvk8hmLyad6o=" />
+                                    <button type="submit" class="btn btn-primary">Пополнить</button>
+                                </form>
+                                </p>
                             </div>
                             <div class="myitems-founds-footer">
                                 <a href="#"><img src="/resources/img/strippeddownbuttonsmall.png"></a>
@@ -265,6 +289,9 @@
 
 <script src="/resources/js/prioffice.js"></script>
 
+<script>
+    var bal = JSON.parse(${balance});
+</script>
 <!--END of libs-->
 <script>
 
