@@ -14,18 +14,25 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>GUP - Профили</title>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
+    <script src="/resources/js/common.js"></script>
+    <sec:authorize access="isAuthenticated()">
+        <script src="/resources/js/autorizedHeader.js"></script>
+    </sec:authorize>
+
     <script>
         var profileFO = {skip:0, limit:20};
 
         <c:if test="${profileFO != null}">
-            profileFO.skip = ${profileFO.skip};
-            profileFO.searchField = '${profileFO.searchField}';
+            profileFO = ${profileFO};
         </c:if>
 
         $(document).ready(function () {
@@ -88,53 +95,54 @@
         }
 
         function updatePaginationBlock(responseEntities) {
-            $('#pageNumLine').html((profileFO.skip + 1) + ' из ' + (Math.round(responseEntities.totalEntities/profileFO.limit) + 1));
+            $('#pageNumLine').html((profileFO.skip/profileFO.limit + 1) + ' из ' + Math.ceil(responseEntities.totalEntities/profileFO.limit));
 
-            if (profileFO.skip <= 0) {
+            if (profileFO.skip < profileFO.limit) {
                 $('#prevPageButton').hide();
             } else {
                 $('#prevPageButton').show();
             }
 
-            if ((profileFO.skip + 1) * profileFO.limit >= responseEntities.totalEntities) {
+            if ((profileFO.skip +  profileFO.limit) >= responseEntities.totalEntities) {
                 $('#nextPageButton').hide();
             } else {
                 $('#nextPageButton').show();
             }
         }
 
-        $(document).on('click', '#prevPageButton', function (event) {
-            profileFO.skip = profileFO.skip - 1;
+        $(document).on('click', '#prevPageButton', function () {
+            profileFO.skip -= profileFO.limit;
             updateProfilesTable(profileFO);
         });
 
-        $(document).on('click', '#nextPageButton', function (event) {
-            profileFO.skip = profileFO.skip + 1;
+        $(document).on('click', '#nextPageButton', function () {
+            profileFO.skip += profileFO.limit;
             updateProfilesTable(profileFO);
         });
 
         $(document).on('click', '#findProfilesButton', function (event) {
+            // заполнять profileFO с фильтров
+            profileFO.skip = 0;
 
-            // заполнять projectFO с фильтров
-            var searchProfileFO = {};
-            searchProfileFO.skip = profileFO.skip;
-            searchProfileFO.limit = profileFO.limit;
-
-            if ($("#searchInput").val()) {
-                searchProfileFO.searchField = $("#searchInput").val();
+            if ($("#searchInput").val() == "") {
+                $("#searchInput").focus();
             } else {
-                searchProfileFO.searchField = profileFO.searchField;
+                profileFO.searchField = $("#searchInput").val();
             }
 
-            updateProfilesTable(searchProfileFO);
+            updateProfilesTable(profileFO);
         });
     </script>
 </head>
 
 <body>
 <div>
+    <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+    <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
+
     <div>
         <h2 align="center">Профили</h2>
+        <a href="/profile/list"><h3 align="center">Посмотреть все профили</h3></a>
     </div>
     <div align="center">
         <input id="searchInput" size="100" placeholder="Имя профиля">

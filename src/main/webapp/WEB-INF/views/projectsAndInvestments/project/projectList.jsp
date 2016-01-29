@@ -113,10 +113,10 @@
             $(document).on('click', '#findPojectsButton', function () {
                 projectFO.skip = 0;
 
-                if ($("#searchInput").val()) {
-                    projectFO.searchField = $("#searchInput").val();
+                if ($("#searchInput").val() == "") {
+                    $("#searchInput").focus();
                 } else {
-                    projectFO.searchField = null;
+                    projectFO.searchField = $("#searchInput").val();
                 }
 
                 updateProjectsTable(projectFO);
