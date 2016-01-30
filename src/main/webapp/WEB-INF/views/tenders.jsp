@@ -23,7 +23,20 @@
 <!-- END 1st section -->
 
 <!--BEGIN section with search bar-->
-<jsp:include page="/WEB-INF/templates/main-search-bar.jsp"/>
+
+<section class="first-sec">
+    <div class="main-search-button-wrapper">
+        <input id="searchInput" type="text" placeholder="Имя пользователя или компании" value="">
+        <button id="searchButton">Найти<span class="main-search-button-icon"><img
+                src="/resources/img/magnifire.png"></span></button>
+        <sec:authorize access="isAuthenticated()">
+            <a href="/tender-make">
+                <button>Создать тендер</button>
+            </a>
+        </sec:authorize>
+    </div>
+</section>
+
 <!-- END search bar -->
 
 <!--2nd section menu+slider -->

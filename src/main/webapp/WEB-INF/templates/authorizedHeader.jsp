@@ -14,6 +14,7 @@
         <a href="/dialogues">Уведомления</a>
         <a href="/tender">Тендеры</a>
         <a href="/project/list">Проекты</a>
+        <a href="/offers">Объявления</a>
         <a href="/blogs">Новости</a>
         <a href="#">Настройки</a>
         <a href="/logout">Выход</a>
