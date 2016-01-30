@@ -182,7 +182,7 @@
                             </div>
 
                             <div class="myitems-tenders-footer">
-                                <a href=""><img src="/resources/img/strippeddownbuttonsmall.png"></a>
+                                <a href="/tenders"><img src="/resources/img/strippeddownbuttonsmall.png"></a>
                             </div>
                         </div>
                     </div>
@@ -207,7 +207,7 @@
                                     </c:if>
                             </div>
                             <div class="myitems-projects-footer">
-                                <a href=""><img src="/resources/img/strippeddownbuttonsmall.png"></a>
+                                <a href="/project/list"><img src="/resources/img/strippeddownbuttonsmall.png"></a>
                             </div>
                         </div>
                     </div>
@@ -234,7 +234,7 @@
                                 </c:if>
                             </div>
                             <div class="myitems-news-footer">
-                                <a href=""><img src="/resources/img/strippeddownbuttonsmall.png"></a>
+                                <a href="/blogs"><img src="/resources/img/strippeddownbuttonsmall.png"></a>
                             </div>
                         </div>
                     </div>
@@ -261,10 +261,8 @@
                                 </p>
                             </div>
                             <div class="myitems-founds-footer">
-                                <a href="#"><img src="/resources/img/strippeddownbuttonsmall.png"></a>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
