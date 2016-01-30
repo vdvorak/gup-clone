@@ -21,6 +21,7 @@
 
   <%--</div>--%>
   <div class="col-md-4">
+    <a href="/create-offer"><button>Создать объявление</button>  </a>
     <div class="input-group">
 
       <div class="col-xs-6" id="bs-example-navbar-collapse-1">
