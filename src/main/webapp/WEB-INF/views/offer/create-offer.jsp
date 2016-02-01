@@ -329,7 +329,6 @@
     $.ajax({
         type: "GET",
         url: "/resources/json/cities.json",
-        contentType: "application/json; charset=utf-8",
         async: false,
         success: function (response) {
             cities = response;
@@ -339,7 +338,6 @@
     $.ajax({
         type: "GET",
         url: "/resources/json/searchCategories.json",
-        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         async: false,
         success: function (response) {
             jsonCategory = response;
