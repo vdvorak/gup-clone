@@ -16,6 +16,8 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -102,10 +104,24 @@ public class DialogueController {
 
     //----------------------------------- one dialogue  ------
     @RequestMapping(value = "/dialogue/create/with/{userId}", method = RequestMethod.GET)
-    public String createDialogue(@PathVariable String userId, Model model) {
+    public String createDialogueWith(@PathVariable String userId, Model model) {
         Profile profile = profileService.findById(userId);
-        model.addAttribute("withwho", profile);
-        return "dialogue-create";
+        if(profile == null || SecurityOperations.getLoggedUserId() == null){
+            return "";
+        }
+        List<Member> members = new ArrayList<>();
+        members.add(new Member(userId));
+        members.add(new Member(SecurityOperations.getLoggedUserId()));
+        List<Dialogue> result = dialogueRepository.findByMembers(members);
+        if(result.isEmpty()){
+            Dialogue dialogue = new Dialogue();
+            dialogue.setMembers(members);
+            dialogue = dialogueService.addDialogue(dialogue);
+            return "redirect:/dialogue/id/" + dialogue.getId();
+        }
+        Dialogue dialogue = result.stream().filter(m -> m.getSubject() == null).findFirst().get();
+        model.addAttribute("dialogue", dialogue);
+        return "redirect:/dialogue/id/" + dialogue.getId();
     }
 
     @RequestMapping(value = "/dialogue/update", method = RequestMethod.POST)
