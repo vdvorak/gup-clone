@@ -7,7 +7,7 @@
   <link href="/resources/css/com.css" rel="stylesheet">
   <link href="/resources/css/bootstrap-datetimepicker.css" rel="stylesheet">
   <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" rel="stylesheet"
+  <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" rel="stylesheet"
         type="text/css"/>
 </head>
 <body>
@@ -181,6 +181,7 @@
   $.ajax({
     type: "GET",
     url: "/resources/json/cities.json",
+    dataType: "json",
     async: false,
     success: function (response) {
       cities = response;
@@ -190,6 +191,7 @@
   $.ajax({
     type: "GET",
     url: "/resources/json/searchCategories.json",
+    dataType: "json",
     async: false,
     success: function (response) {
       jsonCategory = response;
@@ -199,6 +201,7 @@
   $.ajax({
     type: "GET",
     url: "/resources/json/searchSubcategories.json",
+    dataType: "json",
     async: false,
     success: function (response) {
       jsonSubcategory = response;
@@ -208,6 +211,7 @@
   $.ajax({
     type: "GET",
     url: "/resources/json/searchValues.json",
+    dataType: "json",
     async: false,
     success: function (response) {
       options = response;
@@ -217,6 +221,7 @@
   $.ajax({
     type: "GET",
     url: "/resources/json/parameters.json",
+    dataType: "json",
     async: false,
     success: function (response) {
       parameters = response;
