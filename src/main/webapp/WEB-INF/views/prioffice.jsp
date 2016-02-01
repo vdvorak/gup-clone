@@ -43,7 +43,7 @@
         <!--LEFT_SIDE-->
         <!-- ЧЕРТИ ЧТО ДОПИСАТЬ И ДОПОЛНИТЬ ИНФОРМАЦИЕЙ-->
         <div class="prioffice-left">
-            <div class="prioffice-user">петров василий</div>
+            <div class="prioffice-user">${profile.username}</div>
             <div class="prioffice-userpic">
                 <c:choose>
                     <c:when test="${not empty profile.contact.pic}">
