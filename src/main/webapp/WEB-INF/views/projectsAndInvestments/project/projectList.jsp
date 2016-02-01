@@ -12,6 +12,45 @@
         <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
         <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
         <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+    </head>
+
+    <body>
+
+        <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+        <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
+
+        <div>
+            <div>
+                <h2 align="center">Проекты</h2>
+                <h3 align="center"><a href="/createProject">Создать свой проект</a></h3>
+                <h3 align="center"><a href="/investorPost/list?pageNumber=0">Публикации инвесторов</a></h3>
+            </div>
+            <div align="center">
+                    <input id="searchInput" size="100" placeholder="Название проекта">
+                    <button id="findPojectsButton">Найти проект</button>
+            </div>
+            <div id="paginationDiv">
+                <label id="pageLabel" for="pageNumLine"><b>Страница:</b> <label id="pageNumLine"></label></label>
+
+                <button id="prevPageButton">Назад</button>
+                <button id="nextPageButton">Вперед</button>
+            </div>
+            <div>
+                <table id="projectsTable" border="1" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Фото</th>
+                            <th>Название</th>
+                            <th>Тип</th>
+                            <th>Просмотры</th>
+                            <th>Колл. комментариев</th>
+                            <th>Дата создания</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -38,7 +77,7 @@
                         $("#projectsTable").find("tr:not(:first)").remove();
 
                         updatePaginationBlock(response);
-                        
+
                         response.entities.forEach(function(project) {
                             project.projectName = '<a href="/project/id/' + project.id + '">' + project.projectName + '</a>';
                             var createdDate = new Date(project.createdDate);
@@ -109,7 +148,7 @@
                 projectFO.skip += projectFO.limit;
                 updateProjectsTable(projectFO);
             });
-            
+
             $(document).on('click', '#findPojectsButton', function () {
                 projectFO.skip = 0;
 
@@ -122,43 +161,5 @@
                 updateProjectsTable(projectFO);
             });
         </script>
-    </head>
-
-    <body>
-
-        <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
-        <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
-
-        <div>
-            <div>
-                <h2 align="center">Проекты</h2>
-                <h3 align="center"><a href="/createProject">Создать свой проект</a></h3>
-                <h3 align="center"><a href="/investorPost/list?pageNumber=0">Публикации инвесторов</a></h3>
-            </div>
-            <div align="center">
-                    <input id="searchInput" size="100" placeholder="Название проекта">
-                    <button id="findPojectsButton">Найти проект</button>
-            </div>
-            <div id="paginationDiv">
-                <label id="pageLabel" for="pageNumLine"><b>Страница:</b> <label id="pageNumLine"></label></label>
-
-                <button id="prevPageButton">Назад</button>
-                <button id="nextPageButton">Вперед</button>
-            </div>
-            <div>
-                <table id="projectsTable" border="1" width="100%">
-                    <thead>
-                        <tr>
-                            <th>Фото</th>
-                            <th>Название</th>
-                            <th>Тип</th>
-                            <th>Просмотры</th>
-                            <th>Колл. комментариев</th>
-                            <th>Дата создания</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
     </body>
 </html>
