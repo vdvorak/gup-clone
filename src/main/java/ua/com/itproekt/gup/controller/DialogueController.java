@@ -83,7 +83,7 @@ public class DialogueController {
     public String getOneDialogue(Model model, HttpServletRequest request,
                                  @PathVariable("id") String id) {
         Dialogue dialogue = dialogueService.findById(id);
-        if(dialogueService.isUserInDialogue(dialogue, SecurityOperations.getLoggedUserId())){
+        if(!dialogueService.isUserInDialogue(dialogue, SecurityOperations.getLoggedUserId())){
             return "redirect:/dialogues/1";
         }
         completeMembers(dialogue);
@@ -95,7 +95,7 @@ public class DialogueController {
     @ResponseBody
     public Dialogue getOneDialogue(@PathVariable("id") String id){
         Dialogue dialogue = dialogueService.findById(id);
-        if(dialogueService.isUserInDialogue(dialogue, SecurityOperations.getLoggedUserId())){
+        if(!dialogueService.isUserInDialogue(dialogue, SecurityOperations.getLoggedUserId())){
             return null;
         }
         completeMembers(dialogue);

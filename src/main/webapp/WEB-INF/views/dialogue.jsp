@@ -94,7 +94,11 @@
                     var span = '<span style="display: inline-block;">';
                     var memberId = '<div>'+dialogue.members[j].name +'</div>';
                     var button = '<div onclick=\"deleteMember(' + '\'' + dialogue.members[j].id+ '\'' + ')">Удалить из диалога</div>'.replace(" ","");
-                    var img = '<img src="/api/rest/fileStorage/NEWS/file/read/id/'+dialogue.members[j].userPicId+'" width="200px" height="200px">';
+                    if(dialogue.members[j].userPicId != null) {
+                        var img = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + dialogue.members[j].userPicId + '" width="200px" height="200px">';
+                    }else{
+                        var img = '<img src="/resources/images/no_photo.jpg" width="200px" height="200px">';
+                    }
                     var spanClose = '</span>';
                     newMembers += (span+memberId+button+img+spanClose);
 //                    newMembers += (span+memberId+img+spanClose);
