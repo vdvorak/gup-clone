@@ -52,12 +52,12 @@
         </c:choose>
     </c:forEach>
 </h2>
-<h2> Страна: ${blogPost.address.country}</h2>
-<h2> Область: ${blogPost.address.area}</h2>
-<h2> Город: ${blogPost.address.city}</h2>
+<p> Страна: ${blogPost.address.country}</p>
+<p> Область: ${blogPost.address.area}</p>
+<p> Город: ${blogPost.address.city}</p>
 <br>
 
-<h3>${blogPost.text}</h3>
+<div>${blogPost.text}</div>
 
 <c:forEach var="id" items="${blogPost.imagesIds.keySet()}">
     <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">

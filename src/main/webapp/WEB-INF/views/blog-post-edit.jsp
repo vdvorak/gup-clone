@@ -17,7 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="/resources/css/bootstrap.css" rel="stylesheet">
     <link href="/resources/css/com.css" rel="stylesheet">
-
+    <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body class="center-block" style="padding-top: 70px; max-width: 1200px;">
 
@@ -26,10 +26,17 @@
 </div>
 <br>
 
-<div>Описание
-    <textarea id="text" required>${blogPost.text}</textarea>
+<%--<div>Описание--%>
+    <%--<textarea id="text" required>${blogPost.text}</textarea>--%>
+<%--</div>--%>
+<%--<br>--%>
+
+<div class="row">
+    <div class="col-xs-12">
+        <textarea id="textarea"></textarea>
+    </div>
 </div>
-<br>
+
 
 <div class="input-group cat">Категория
     <hr>
@@ -146,6 +153,7 @@
 <script src="/resources/js/jquery.min.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/jquery.maskedinput.min.js"></script>
+<script src="//tinymce.cachefly.net/4.3/tinymce.min.js"></script>
 
 
 <script>
@@ -159,6 +167,10 @@
     var inpCategories = [];
     var oldCategories = '${blogPost.categories}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
 
+    <%--var text = '${blogPost.text}';--%>
+
+    <%--alert(text);--%>
+
     // ---------------    LOAD RESOURCES    --------------------------//
     $.ajax({
         type: "GET",
@@ -171,11 +183,51 @@
     });
     // ---------------   END LOAD RESOURCES    --------------------------//
 
+
+
+    //----------------------  HTML EDITOR-------------------------------------//
+    tinymce.init({
+        selector: 'textarea',
+        height: 300,
+        theme: 'modern',
+        plugins: [
+            'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            'searchreplace wordcount visualblocks visualchars code fullscreen',
+            'insertdatetime media nonbreaking save table contextmenu directionality',
+            'emoticons template paste textcolor colorpicker textpattern imagetools'
+        ],
+        toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+        toolbar2: 'print preview media | forecolor backcolor emoticons',
+        image_advtab: true,
+        templates: [
+            {title: 'Test template 1', content: 'Test 1'},
+            {title: 'Test template 2', content: 'Test 2'}
+        ],
+        content_css: [
+            '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
+            '//www.tinymce.com/css/codepen.min.css'
+        ],
+        init_instance_callback : function(editor) {
+            editor.setContent('${blogPost.text}');
+        }
+    });
+
+
+
+
+
+//    tinymce.activeEditor.setContent("<span>some</span> html");
+//    tinymce.activeEditor.setContent('<span>some</span> html');
+    //---------------------- END  HTML EDITOR-------------------------------------//
+
+
     // ---------------    SET CATEGORIES    --------------------------//
        for (var i = 0; i< oldCategories.length; i++){
            $('input[name='+oldCategories[i]+']').prop('checked',true);
        }
     // ---------------    END SET CATEGORIES  --------------------------//
+
+
 
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
     $('#submit').click(function () {
