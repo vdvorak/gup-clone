@@ -23,7 +23,7 @@ import java.util.Set;
 public class OAuthFilter implements Filter {
     private static final Logger LOG = Logger.getLogger(OAuthFilter.class);
 
-    private final int ACCESS_TOKEN_EXPIRES_IN_SECONDS = 600 - 3;
+    private final int ACCESS_TOKEN_EXPIRES_IN_SECONDS = 60*10 - 10;
 
     private DefaultTokenServices tokenServices;
 
