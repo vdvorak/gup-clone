@@ -26,7 +26,7 @@ public class OAuth2AuthenticationAccessToken implements Serializable {
     private OAuth2Authentication authentication;
     private String refreshToken;
 
-    @Indexed(expireAfterSeconds = 60*60)
+    @Indexed(expireAfterSeconds = 60*10)
     private Date createdDate = new Date();
 
     public OAuth2AuthenticationAccessToken() {
@@ -41,6 +41,7 @@ public class OAuth2AuthenticationAccessToken implements Serializable {
         this.authentication = authentication;
         this.refreshToken = oAuth2AccessToken.getRefreshToken().getValue();
     }
+
 
     public String getId() {
         return id;

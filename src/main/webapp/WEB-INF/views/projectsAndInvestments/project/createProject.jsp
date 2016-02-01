@@ -9,6 +9,59 @@
         <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
         <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
         <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+    </head>
+    <body>
+        <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+        <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
+
+        <div>
+            <h2 align="center">Создание Проекта</h2>
+        </div>
+        <div>
+            <label for="projectType"><b>Тип: </b></label>
+            <select name="projectType" id="projectType" required>
+                <option value="RENOVATION">Реструктуризация</option>
+                <option value="PROTOTYPE">Прототип</option>
+                <option value="PROJECT_ON_PAPER">Проект на бумаге</option>
+                <option value="KNOW_HOW">Ноу хау</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="projectName"><b>Название: </b></label>
+            <input id="projectName" type="text" name="projectName" min="4" maxlength="140"
+                   placeholder="Минимум 4 символа" required>
+        </div>
+
+        <div>
+            <label for="projectDescription"><b>Описание: </b></label>
+            <textarea id="projectDescription"
+                      placeholder="Минимум 50 символов, максимум 5000ю" required></textarea>
+        </div>
+
+        <div>
+            <label for="amountRequested"><b>Нужная сумма: </b></label>
+            <input id="amountRequested" type="number" min="1"
+                   placeholder="Минимум 1" required>
+        </div>
+
+        <div>
+            <label for="categoriesOfIndustry"><b>Категории индустрии: </b></label>
+            <select multiple="multiple" size="4" name="categoriesOfIndustry" id="categoriesOfIndustry" required>
+                <option value="cat1">Категория 1</option>
+                <option value="cat2">Категория 2</option>
+                <option value="cat3">Категория 3</option>
+                <option value="cat4">Категория 4</option>
+            </select>
+        </div>
+
+        <div>
+            <form id="projectPhotoInput" enctype="multipart/form-data" method="post">
+                <label for="photoFile"><b>Фотография: </b></label>
+                <input id="photoFile" type="file" name="file" multiple accept="image/*,image/jpeg">
+            </form>
+        </div>
+        <button id="createProject">Создать</button>
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
         <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
@@ -82,58 +135,5 @@
                 });
             });
         </script>
-    </head>
-    <body>
-        <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
-        <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
-
-        <div>
-            <h2 align="center">Создание Проекта</h2>
-        </div>
-        <div>
-            <label for="projectType"><b>Тип: </b></label>
-            <select name="projectType" id="projectType" required>
-                <option value="RENOVATION">Реструктуризация</option>
-                <option value="PROTOTYPE">Прототип</option>
-                <option value="PROJECT_ON_PAPER">Проект на бумаге</option>
-                <option value="KNOW_HOW">Ноу хау</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="projectName"><b>Название: </b></label>
-            <input id="projectName" type="text" name="projectName" min="4" maxlength="140"
-                   placeholder="Минимум 4 символа" required>
-        </div>
-
-        <div>
-            <label for="projectDescription"><b>Описание: </b></label>
-            <textarea id="projectDescription"
-                      placeholder="Минимум 50 символов, максимум 5000ю" required></textarea>
-        </div>
-
-        <div>
-            <label for="amountRequested"><b>Нужная сумма: </b></label>
-            <input id="amountRequested" type="number" min="1"
-                   placeholder="Минимум 1" required>
-        </div>
-
-        <div>
-            <label for="categoriesOfIndustry"><b>Категории индустрии: </b></label>
-            <select multiple="multiple" size="4" name="categoriesOfIndustry" id="categoriesOfIndustry" required>
-                <option value="cat1">Категория 1</option>
-                <option value="cat2">Категория 2</option>
-                <option value="cat3">Категория 3</option>
-                <option value="cat4">Категория 4</option>
-            </select>
-        </div>
-
-        <div>
-            <form id="projectPhotoInput" enctype="multipart/form-data" method="post">
-                <label for="photoFile"><b>Фотография: </b></label>
-                <input id="photoFile" type="file" name="file" multiple accept="image/*,image/jpeg">
-            </form>
-        </div>
-        <button id="createProject">Создать</button>
     </body>
 </html>

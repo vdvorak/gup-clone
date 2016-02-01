@@ -28,6 +28,7 @@ public class Profile {
     private Set<String> contactList;
     private Long createdDate;
     private AtomicInteger unreadMessages = new AtomicInteger(0);
+
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
     }
