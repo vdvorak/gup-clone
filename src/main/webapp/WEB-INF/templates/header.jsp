@@ -3,7 +3,7 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
-      <li><a href="#">Ваш логин: ${profile.email}</a></li>
+      <li><a href="#">Ваш логин:</a></li>
       <li><a href="#">Моя страница</a></li>
       <li><a href="#">Друзья</a></li>
       <li><a href="#">Сообщения</a></li>
@@ -14,7 +14,7 @@
           <li>
             <div class="dropdown">
               <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin-top: 8px">
-                Баланс ${balance/100}
+                Баланс
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
@@ -137,13 +137,13 @@
 
               <ul class="dropdown-menu " aria-labelledby="dropdownMenu2">
                 <li>
-                  <a href="${pageContext.request.contextPath}/edit-profile">Редактировать профиль</a>
+                  <a href="/edit-profile">Редактировать профиль</a>
 
                 </li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#">Укр/Рус</a></li>
                 <li >
-                  <a href="${pageContext.request.contextPath}/logout">Выход</a>
+                  <a href="/logout">Выход</a>
                 </li>
 
               </ul>
