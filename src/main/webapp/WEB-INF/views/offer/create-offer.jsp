@@ -17,8 +17,7 @@
 
     <link href="/resources/css/bootstrap.css" rel="stylesheet">
     <link href="/resources/css/com.css" rel="stylesheet">
-    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" rel="stylesheet"
-          type="text/css"/>
+    <link href="/resources/css/jquery-ui.css" rel="stylesheet">
 
 </head>
 <body class="center-block" style="padding-top: 70px; max-width: 1200px;">
