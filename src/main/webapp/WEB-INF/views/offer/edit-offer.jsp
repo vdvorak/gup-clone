@@ -231,6 +231,7 @@
   $.ajax({
     type: "GET",
     url: "/resources/json/searchValues.json",
+    dataType: 'json',
     async: false,
     success: function (response) {
       options = response;
@@ -241,6 +242,7 @@
   $.ajax({
     type: "GET",
     url: "/resources/json/parameters.json",
+    dataType: 'json',
     async: false,
     success: function (response) {
       parameters = response;
