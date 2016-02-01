@@ -378,6 +378,7 @@
     $.ajax({
         type: "GET",
         url: "/resources/json/cities.json",
+        dataType: 'json',
         async: false,
         success: function (response) {
             cities = response;

@@ -10,6 +10,92 @@
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+</head>
+
+<body>
+    <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+    <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
+
+    <div>
+        <div>
+            <h2 align="center">Просмотр проекта</h2>
+            <h2 align="center"><a href="/editProject/id/${projectId}">Редактировать проект</a></h2>
+            <h2 align="center"><a href="/projectList?pageNumber=0">Посмотреть другие проекты</a></h2>
+        </div>
+        <div>
+
+            <div>
+                <img id="projectImg" src="#" width="200" height="200">
+            </div>
+
+            <div>
+                <label for="projectName"><b>Название: </b></label>
+                <label id="projectName"></label>
+            </div>
+
+            <div>
+                <label for="projectType"><b>Тип: </b></label>
+                <label id="projectType"></label>
+            </div>
+
+            <div>
+                <label for="projectDescription"><b>Описание: </b></label>
+                <label id="projectDescription"></label>
+            </div>
+
+            <div>
+                <label for="amountRequested"><b>Нужная сумма: </b></label>
+                <label id="amountRequested"></label>
+            </div>
+
+            <div>
+                <label for="investedAmount"><b>Собраная сумма: </b></label>
+                <label id="investedAmount"></label>
+            </div>
+
+            <div>
+                <label for="totalScore"><b>Оценка: </b></label>
+                <label id="totalScore"></label>
+            </div>
+
+            <div>
+                <label for="projectCreatedDate"><b>Дата создания: </b></label>
+                <label id="projectCreatedDate"></label>
+            </div>
+
+            <div>
+                <select name="projectScore" id="projectScore" required>
+                    <option value="1">1</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                </select>
+                <button type="button" id="voteButton">Проголосовать</button>
+            </div>
+
+            <div>
+                <div>
+                    <label><b>Написать комментарий: </b></label>
+                </div>
+                <textarea name="comment" id="comment" cols="40" rows="5"
+                          placeholder="Минимум 5 символов"></textarea>
+                <button type="button" id="commentButton">Комментировать</button>
+            </div>
+
+            <div>
+                <label for="commentsTable" id="commentsLabel"><b>Комментарии к проекту: </b></label>
+                <table id="commentsTable" border="1" width="100%">
+                    <thead>
+                    <tr>
+                        <th>Комментарий</th>
+                        <th>От кого</th>
+                        <th>Дата создания</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
@@ -111,91 +197,6 @@
         });
 
     </script>
-</head>
-
-<body>
-    <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
-    <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
-
-    <div>
-        <div>
-            <h2 align="center">Просмотр проекта</h2>
-            <h2 align="center"><a href="/editProject/id/${projectId}">Редактировать проект</a></h2>
-            <h2 align="center"><a href="/projectList?pageNumber=0">Посмотреть другие проекты</a></h2>
-        </div>
-        <div>
-
-            <div>
-                <img id="projectImg" src="#" width="200" height="200">
-            </div>
-
-            <div>
-                <label for="projectName"><b>Название: </b></label>
-                <label id="projectName"></label>
-            </div>
-
-            <div>
-                <label for="projectType"><b>Тип: </b></label>
-                <label id="projectType"></label>
-            </div>
-
-            <div>
-                <label for="projectDescription"><b>Описание: </b></label>
-                <label id="projectDescription"></label>
-            </div>
-
-            <div>
-                <label for="amountRequested"><b>Нужная сумма: </b></label>
-                <label id="amountRequested"></label>
-            </div>
-
-            <div>
-                <label for="investedAmount"><b>Собраная сумма: </b></label>
-                <label id="investedAmount"></label>
-            </div>
-
-            <div>
-                <label for="totalScore"><b>Оценка: </b></label>
-                <label id="totalScore"></label>
-            </div>
-
-            <div>
-                <label for="projectCreatedDate"><b>Дата создания: </b></label>
-                <label id="projectCreatedDate"></label>
-            </div>
-
-            <div>
-                <select name="projectScore" id="projectScore" required>
-                    <option value="1">1</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                </select>
-                <button type="button" id="voteButton">Проголосовать</button>
-            </div>
-
-            <div>
-                <div>
-                    <label><b>Написать комментарий: </b></label>
-                </div>
-                <textarea name="comment" id="comment" cols="40" rows="5"
-                          placeholder="Минимум 5 символов"></textarea>
-                <button type="button" id="commentButton">Комментировать</button>
-            </div>
-
-            <div>
-                <label for="commentsTable" id="commentsLabel"><b>Комментарии к проекту: </b></label>
-                <table id="commentsTable" border="1" width="100%">
-                    <thead>
-                    <tr>
-                        <th>Комментарий</th>
-                        <th>От кого</th>
-                        <th>Дата создания</th>
-                    </tr>
-                    </thead>
-                </table>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
 

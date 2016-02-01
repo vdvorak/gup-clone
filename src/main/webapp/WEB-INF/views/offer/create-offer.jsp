@@ -17,8 +17,7 @@
 
     <link href="/resources/css/bootstrap.css" rel="stylesheet">
     <link href="/resources/css/com.css" rel="stylesheet">
-    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" rel="stylesheet"
-          type="text/css"/>
+    <link href="/resources/css/jquery-ui.css" rel="stylesheet">
 
 </head>
 <body class="center-block" style="padding-top: 70px; max-width: 1200px;">
@@ -139,7 +138,7 @@
                 </div>
                 <!--multilevel category-->
                 <div id="options">
-                    <h3>Тут будут опции</h3>
+
                 </div>
 
                 <div id="description" class="input-group">Описание
@@ -330,6 +329,7 @@
         type: "GET",
         url: "/resources/json/cities.json",
         async: false,
+        dataType: 'json',
         success: function (response) {
             cities = response;
         }
@@ -338,6 +338,7 @@
     $.ajax({
         type: "GET",
         url: "/resources/json/searchCategories.json",
+        dataType: 'json',
         async: false,
         success: function (response) {
             jsonCategory = response;
@@ -347,6 +348,7 @@
     $.ajax({
         type: "GET",
         url: "/resources/json/searchSubcategories.json",
+        dataType: 'json',
         async: false,
         success: function (response) {
             jsonSubcategory = response;
@@ -356,6 +358,7 @@
     $.ajax({
         type: "GET",
         url: "/resources/json/searchValues.json",
+        dataType: 'json',
         async: false,
         success: function (response) {
             options = response;
@@ -365,6 +368,7 @@
     $.ajax({
         type: "GET",
         url: "/resources/json/parameters.json",
+        dataType: 'json',
         async: false,
         success: function (response) {
             parameters = response;
@@ -399,11 +403,11 @@
         mainForm.imagesIds = imgsArr;
         mainForm.address = {};
         mainForm.userInfo = {};
-        alert(JSON.stringify(mainForm));
+//        alert(JSON.stringify(mainForm));
         var uriOfferString = decodeURIComponent(mainForm);
-        alert(uriOfferString);
+//        alert(uriOfferString);
         var offer = JSON.parse('{"' + decodeURI(uriOfferString).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
-        alert("Цэ" + JSON.stringify(offer));
+//        alert("Цэ" + JSON.stringify(offer));
 
         offer.imagesIds = imgsArr;
         offer.canBeReserved = $("#inpReserved").is(":checked");

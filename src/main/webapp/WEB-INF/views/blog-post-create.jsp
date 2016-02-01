@@ -161,6 +161,7 @@
     $.ajax({
         type: "GET",
         url: "/resources/json/cities.json",
+        dataType: 'json',
         async: false,
         success: function (response) {
             cities = response;
@@ -192,7 +193,7 @@
 
         blogPost.categories = inpCategories;
 
-        alert(JSON.stringify(blogPost));
+//        alert(JSON.stringify(blogPost));
         $.ajax({
             type: "POST",
             url: "/api/rest/newsService/blogPost/create",

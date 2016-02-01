@@ -41,7 +41,10 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
     @Override
     public Profile findProfileById(String id) {
-        Query query = new Query(Criteria.where("_id").is(id));
+        Query query = new Query(Criteria.where("id").is(id));
+        query.fields().exclude("email");
+        query.fields().exclude("password");
+        query.fields().exclude("mainPhoneNumber");
         return mongoTemplate.findOne(query, Profile.class);
     }
 
@@ -88,10 +91,15 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
         query.skip(profileFilterOptions.getSkip());
         query.limit(profileFilterOptions.getLimit());
+
+        query.fields().exclude("email");
+        query.fields().exclude("password");
+        query.fields().exclude("mainPhoneNumber");
         return new EntityPage<>(mongoTemplate.count(query, Profile.class),
                                 mongoTemplate.find(query, Profile.class));
     }
 
+    @Deprecated
     @Override
     public List<Profile> findAll(){
         return mongoTemplate.findAll(Profile.class);
@@ -180,6 +188,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
                 new Update().push("friendList", friendProfileId), Profile.class);
     }
 
+    @Deprecated
     @Override
     public Profile findUserProfile(String profileId) {
         Query query = new Query(Criteria.where("id").is(profileId));

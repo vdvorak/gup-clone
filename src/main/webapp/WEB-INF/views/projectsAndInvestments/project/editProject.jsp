@@ -10,6 +10,53 @@
         <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
         <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
         <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+    </head>
+
+    <body>
+        <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+        <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
+
+        <div>
+            <div>
+                <h2 align="center">Редактирование проекта</h2>
+            </div>
+            <div>
+
+                <div>
+                    <img id="projectImg" src="#" width="200" height="200">
+                </div>
+
+                <div>
+                    <form id="projectPhotoInput" enctype="multipart/form-data" method="post">
+                        <label for="photoFile"><b>Новая фотография: </b></label>
+                        <input id="photoFile" type="file" name="file" multiple accept="image/*,image/jpeg">
+                    </form>
+                </div>
+
+                <div>
+                    <label for="projectName"><b>Название: </b></label>
+                    <input id="projectName"/>
+                </div>
+
+                <div>
+                    <label for="projectType"><b>Тип: </b></label>
+                    <select name="projectType" id="projectType">
+                        <option value="" selected></option>
+                        <option value="RENOVATION">Реструктуризация</option>
+                        <option value="PROTOTYPE">Прототип</option>
+                        <option value="PROJECT_ON_PAPER">Проект на бумаге</option>
+                        <option value="KNOW_HOW">Ноу хау</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="projectDescription"><b>Описание: </b></label>
+                    <input id="projectDescription"/>
+                </div>
+
+                <button id="editProject">Сохранить изменения</button>
+            </div>
+        </div>
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
         <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
@@ -112,53 +159,6 @@
             });
 
         </script>
-    </head>
-
-    <body>
-        <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
-        <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
-
-        <div>
-            <div>
-                <h2 align="center">Редактирование проекта</h2>
-            </div>
-            <div>
-
-                <div>
-                    <img id="projectImg" src="#" width="200" height="200">
-                </div>
-
-                <div>
-                    <form id="projectPhotoInput" enctype="multipart/form-data" method="post">
-                        <label for="photoFile"><b>Новая фотография: </b></label>
-                        <input id="photoFile" type="file" name="file" multiple accept="image/*,image/jpeg">
-                    </form>
-                </div>
-
-                <div>
-                    <label for="projectName"><b>Название: </b></label>
-                    <input id="projectName"/>
-                </div>
-
-                <div>
-                    <label for="projectType"><b>Тип: </b></label>
-                    <select name="projectType" id="projectType">
-                        <option value="" selected></option>
-                        <option value="RENOVATION">Реструктуризация</option>
-                        <option value="PROTOTYPE">Прототип</option>
-                        <option value="PROJECT_ON_PAPER">Проект на бумаге</option>
-                        <option value="KNOW_HOW">Ноу хау</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="projectDescription"><b>Описание: </b></label>
-                    <input id="projectDescription"/>
-                </div>
-
-                <button id="editProject">Сохранить изменения</button>
-            </div>
-        </div>
     </body>
 </html>
 
