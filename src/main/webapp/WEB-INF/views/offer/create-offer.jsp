@@ -138,7 +138,7 @@
                 </div>
                 <!--multilevel category-->
                 <div id="options">
-                    <h3>Тут будут опции</h3>
+
                 </div>
 
                 <div id="description" class="input-group">Описание
@@ -403,11 +403,11 @@
         mainForm.imagesIds = imgsArr;
         mainForm.address = {};
         mainForm.userInfo = {};
-        alert(JSON.stringify(mainForm));
+//        alert(JSON.stringify(mainForm));
         var uriOfferString = decodeURIComponent(mainForm);
-        alert(uriOfferString);
+//        alert(uriOfferString);
         var offer = JSON.parse('{"' + decodeURI(uriOfferString).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
-        alert("Цэ" + JSON.stringify(offer));
+//        alert("Цэ" + JSON.stringify(offer));
 
         offer.imagesIds = imgsArr;
         offer.canBeReserved = $("#inpReserved").is(":checked");
