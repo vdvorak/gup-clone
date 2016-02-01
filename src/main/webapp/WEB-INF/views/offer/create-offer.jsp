@@ -329,6 +329,7 @@
         type: "GET",
         url: "/resources/json/cities.json",
         async: false,
+        dataType: 'json',
         success: function (response) {
             cities = response;
         }
@@ -337,6 +338,7 @@
     $.ajax({
         type: "GET",
         url: "/resources/json/searchCategories.json",
+        dataType: 'json',
         async: false,
         success: function (response) {
             jsonCategory = response;
@@ -346,6 +348,7 @@
     $.ajax({
         type: "GET",
         url: "/resources/json/searchSubcategories.json",
+        dataType: 'json',
         async: false,
         success: function (response) {
             jsonSubcategory = response;
@@ -355,6 +358,7 @@
     $.ajax({
         type: "GET",
         url: "/resources/json/searchValues.json",
+        dataType: 'json',
         async: false,
         success: function (response) {
             options = response;
@@ -364,6 +368,7 @@
     $.ajax({
         type: "GET",
         url: "/resources/json/parameters.json",
+        dataType: 'json',
         async: false,
         success: function (response) {
             parameters = response;
