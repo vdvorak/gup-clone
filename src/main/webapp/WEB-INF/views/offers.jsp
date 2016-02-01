@@ -176,6 +176,9 @@
   var parameters = [];
   var properties = [];
   var options;
+  var jsonCategory;
+  var jsonSubcategory;
+
   // ---------------    LOAD RESOURCES    --------------------------//
 
   $.ajax({
