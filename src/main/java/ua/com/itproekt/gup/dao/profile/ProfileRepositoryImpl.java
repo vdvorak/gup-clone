@@ -41,7 +41,10 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
     @Override
     public Profile findProfileById(String id) {
-        Query query = new Query(Criteria.where("_id").is(id));
+        Query query = new Query(Criteria.where("id").is(id));
+        query.fields().exclude("email");
+        query.fields().exclude("password");
+        query.fields().exclude("mainPhoneNumber");
         return mongoTemplate.findOne(query, Profile.class);
     }
 
