@@ -67,6 +67,8 @@
     <!--search begin-->
 
     <!--search end-->
+
+
     <!--offers category-->
     <div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">
         <div class="col-xs-9" style="padding-left: 5px; padding-right: 5px; display: flex;">
