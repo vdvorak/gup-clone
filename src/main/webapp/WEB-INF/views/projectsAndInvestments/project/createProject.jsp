@@ -77,7 +77,7 @@
 
             $(document).on('change', '#photoFile', function (e) {
 
-                var formImg = new FormData($('#photoInput')[0]);
+                var formImg = new FormData($('#projectPhotoInput')[0]);
 
                 if (imgId !== '') {
                     deleteImgFromDB(imgId);
@@ -91,7 +91,7 @@
                     cache: false,
                     contentType: false,
                     processData: false,
-                    success: function (data, textStatus, request) {
+                    success: function (data) {
                         imgId = data.id;
                         $('#imgPreview').attr("src", "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + imgId);
                     }
@@ -130,7 +130,7 @@
                         window.location.href = '/project/id/' + createdProjectId.id;
                     },
                     error: function (response) {
-                        alert("Внутренняя ошибка сервера");
+                        alert("Проверьте введенные значения");
                     }
                 });
             });
