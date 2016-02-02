@@ -1069,7 +1069,7 @@ table {
 }
 
 .notLogged {
-    display: none;
+    display: block;
 }
 
 .contact_form {
