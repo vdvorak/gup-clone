@@ -101,14 +101,9 @@ public class DialogueServiceImpl implements DialogueService {
 
     @Override
     public boolean isUserInDialogue(Dialogue dialogue, String userId) {
-        if (dialogue.getMembers() != null) {
-            for (Member m : dialogue.getMembers()) {
-                if (userId.equals(m.getId())) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return  dialogue.getMembers()
+                .stream()
+                .anyMatch(m -> m.getId().equals(userId));
     }
 
     @Override
