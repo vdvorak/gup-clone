@@ -66,8 +66,9 @@
     ${blog.description}
 </div>
 
-
-<div class="pluso" data-background="#ebebeb" data-options="big,square,line,horizontal,counter,theme=01" data-services="vkontakte,odnoklassniki,facebook,twitter,google,email,print,linkedin"></div>
+<!-- Begin Social buttons html-->
+<jsp:include page="/WEB-INF/templates/social-button-html.jsp"/>
+<!-- End Social buttons html -->
 
 <c:if test="${check}">
     <a href="/blog-post/create/${blog.id}">
@@ -81,14 +82,9 @@
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
-<script type="text/javascript">(function() {
-    if (window.pluso)if (typeof window.pluso.start == "function") return;
-    if (window.ifpluso==undefined) { window.ifpluso = 1;
-        var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
-        s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
-        s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
-        var h=d[g]('body')[0];
-        h.appendChild(s);
-    }})();</script>
+<!-- Begin Social buttons js -->
+<jsp:include page="/WEB-INF/templates/social-buttons-js.jsp"/>
+<!-- End Social buttons js -->
+
 </body>
 </html>

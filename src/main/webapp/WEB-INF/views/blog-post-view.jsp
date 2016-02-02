@@ -63,6 +63,11 @@
     <img src="/api/rest/fileStorage/NEWS/file/read/id/${id}" width="200px" height="200px">
 </c:forEach>
 
+
+<!-- Begin Social buttons html-->
+<jsp:include page="/WEB-INF/templates/social-button-html.jsp"/>
+<!-- End Social buttons html -->
+
 <sec:authorize access="isAuthenticated()" var="isAuthenticated">
 <div class="postRating">
     <button id="dislikeBtn" class="dislike">
@@ -147,6 +152,10 @@
         margin-left: 30px;
     }
 </style>
+
+<!-- Begin Social buttons js -->
+<jsp:include page="/WEB-INF/templates/social-buttons-js.jsp"/>
+<!-- End Social buttons js -->
 
 <script>
     window.GUP = {};
