@@ -165,6 +165,11 @@
         </div>
     </div>
 
+    <!-- Begin Social buttons html-->
+    <jsp:include page="/WEB-INF/templates/social-button-html.jsp"/>
+    <!-- End Social buttons html -->
+
+
     <div class="row">
         <div class="col-xs-8">
             <div class="row panel" style="color: #495d9a; background-color: #68a8de; padding: 5px;">
@@ -179,6 +184,7 @@
     </div>
     <!--/right-->
 </div>
+
 <!--/container-fluid-->
 <!-- script references -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
@@ -186,6 +192,9 @@
 <script src="/resources/js/pgwslideshow.js"></script>
 <script src="/resources/js/moment-with-locales.js"></script>
 
+<!-- Begin Social buttons js -->
+<jsp:include page="/WEB-INF/templates/social-buttons-js.jsp"/>
+<!-- End Social buttons js -->
 
 <script>
 

@@ -62,6 +62,9 @@
                 <label for="projectCreatedDate"><b>Дата создания: </b></label>
                 <label id="projectCreatedDate"></label>
             </div>
+            <!-- Begin Social buttons html-->
+            <jsp:include page="/WEB-INF/templates/social-button-html.jsp"/>
+            <!-- End Social buttons html -->
 
             <div>
                 <select name="projectScore" id="projectScore" required>
@@ -90,7 +93,6 @@
                         <th>От кого</th>
                         <th>Дата создания</th>
                     </tr>
-                    </thead>
                 </table>
             </div>
         </div>
@@ -103,6 +105,12 @@
     <sec:authorize access="isAuthenticated()">
         <script src="/resources/js/autorizedHeader.js"></script>
     </sec:authorize>
+
+    <!-- Begin Social buttons js -->
+    <jsp:include page="/WEB-INF/templates/social-buttons-js.jsp"/>
+    <!-- End Social buttons js -->
+
+
     <script>
         var projectId = '';
         var comment = {};
