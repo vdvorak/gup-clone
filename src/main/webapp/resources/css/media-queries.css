@@ -1,0 +1,127 @@
+@media only screen and (max-width:1199px) {
+	.logo {
+		float: none;
+		margin: 0 auto;
+	}
+	
+	.social {
+		float: none;
+		margin-top: 0;
+	}
+	
+	.socialBtn {
+		float: right;
+		margin-top: 0;
+	}
+	
+	.store {
+		display: inline-block;
+	}
+	
+	.sear {
+		width: 310px;
+	}
+	
+	.users {
+		width: 200px;
+	}
+	
+	.mid li {
+		width: 146px;
+	}
+	
+	.ads-drop {
+		width: 146px;
+		font-size: 15px;
+	}
+    
+    .ads-img a {
+        width: 135px;
+        height: 190px;
+    }
+    
+    .ads-img a img {
+        margin: 40px auto;
+    }
+	
+
+	
+	.ads-a1 {
+		font-size: 15px;
+	}
+	
+	.slider {
+		margin-top: 18px;
+	}
+	
+	.tidings {
+		width: 47.4%;
+        margin-top: 103px;
+	}
+	
+	.tidi1 {
+		margin: 5px;
+	}
+	
+	.tidi2 {
+		margin: 5px 0 5px 5px;
+	}
+	
+	.tidi3 {
+		margin: 13px 0 5px 5px;
+	}
+	
+	.tidiDown {
+		padding: 10px 170px;
+		margin-top: 10px;
+	}
+	
+	.ad {
+		width: 52.5%;
+        margin-top: 103px;
+	}
+	
+	.add-top1 {
+		margin: 15px 3.5px;
+		width: 154px;
+		height: auto;
+	}
+	
+	.caretDown {
+		padding: 10px 195px;
+	}
+	
+	.tidi4 {
+		margin-top: 10px;
+	}
+	
+	.tend-p {
+		left: 250px;
+	}
+	
+	.bx-wrapper .bx-controls-direction a {
+		right: -19px;
+		width: 22px;
+	}
+}
+
+@media only screen and (max-width:991px) {
+    .store {
+        margin: 0 auto;
+        display: table;
+    }
+    
+    .social {
+        position: relative;
+    }
+    
+    .search {
+        min-width: 750px;
+    }
+    
+    .socialBtn {
+        position: absolute;
+        top: 1px;
+        left: 1px;
+    }
+}
