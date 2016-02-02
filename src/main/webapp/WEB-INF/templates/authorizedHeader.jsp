@@ -1,77 +1,82 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<header class="main-head">
-  <div class="top-menu">
-    <div class="top-menu-userSection">
-      <div class="top-menu-userpic">
-        <img id="headerProfileImg"  src="" width="32" height="33">
-      </div>
-      <div class="top-menu-username">
-        <a href="#" id="headerProfileName"></a>
-      </div>
-      <div class="header-mainMenu">
-        <a href="/prioffice">Моя страница</a>
-        <a href="/dialogues">Сообщения</a>
-        <a href="/dialogues">Уведомления</a>
-        <a href="/tender">Тендеры</a>
-        <a href="/project/list">Проекты</a>
-        <a href="/offers">Объявления</a>
-        <a href="/blogs">Блоги</a>
-        <a href="#">Настройки</a>
-        <a href="/logout">Выход</a>
-        <div class="pageedit">
-          <a href="/edit-profile">Редактировать страницу</a>
-        </div>
-      </div>
-    </div>
-    <div class="top-menu-notifications">
-      <div class="top-menu-messages">
-        <img src="/resources/img/envelopeSmall.png">
-      </div>
 
-      <div class="top-menu-notification">
-          <img src="/resources/img/bellSmall.png" id="notificationBellImg">  <%--class="headerNotificationIcon"--%>
+<!-- залогиненный -->
+<div class="Logged">
+  <ul class="groupLi">
+    <li class="btnFace">
+      <img src="resources/images/face.png" alt="face">
+      <a class="menuName" href="#">Петров Василий</a>
+      <div class="dropFace">
+        <ul>
+          <li><a href="#">Анкета</a></li>
+          <li><a href="#">Сообщения</a></li>
+          <li><a href="#">Уведомления</a></li>
+          <li><a href="#">Контакты</a></li>
+          <li><a href="#">Выход</a></li>
+        </ul>
+        <a class="edit" href="#">Редактировать страницу</a>
       </div>
-
-      <div class="top-menu-contactList">
-        <img id="contactListImg" src="/resources/img/contact-book-128.png" width="26" height="26">
+    </li>
+    <il class='btnMail'>
+      <a class="btnMenu" href="#"><img src="resources/images/mail.png" alt="mail"></a>
+      <div class="mailDrop">
+        <a href="#"><img src="resources/images/LOGO.png" alt="LOGO"></a>
+        <form role="form" action="#">
+          <textarea class="form-control" rows="7" id="comment"></textarea>
+          <button type="submit" class="btnSubmit">Ответить</button>
+        </form>
       </div>
-
-      <div>
-        <ul id="notificationMenu" class="notifications">
-          <li class="titlebar">
-            <span class="title">Уведомления</span>
-        <span class="settings"><i class="icon-cog"></i>
-        </span>
-          </li>
-          <div class="notifbox" id="notificationContainer">
-          </div>
-          <li class="seeall">
-          </li>
+    </il>
+    <il><a class="btnMenu" href="#"><img src="resources/images/bell.png" alt="bell"></a></il>
+    <il class='btnbook'>
+      <a class="btnMenu" href="#"><img src="resources/images/book.png" alt="book"></a>
+      <div class="bookDrop">
+        <ul>
+          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
         </ul>
       </div>
-
-      <div>
-        <ul id="contactListMenu" class="notifications">
-          <li class="titlebar">
-            <span class="title">Ваши контакты</span>
-        <span class="settings"><i class="icon-cog"></i>
-        </span>
-          </li>
-          <div class="notifbox" id="contactListContainer">
+    </il>
+  </ul>
+  <ul class="money">
+    <li>
+      <a class="score" href="#">00.00. грн.</a>
+      <ul>
+        <li>
+          <div class="balance">
+            <button type="button" class="btnBalance" data-toggle="modal" data-target="#myModal">Пополнить баланс</button>
+            <div class="modal fade" id="myModal" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <form action="#" id="formModal" role="form">
+                    <div class="selectBox mod">
+                      <select class="form-control">
+                        <option>Liq Pay</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                      </select>
+                    </div>
+                    <input type="text" class="form-control sear mod1" placeholder="Введите сумму">
+                    <button type="submit" class="submit">Пополнить</button>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
-          <li class="seeall">
-          </li>
-        </ul>
-      </div>
-
-    </div>
-    <div class="top-menu-userBallance">
-      <div class="ballance">
-        <a href="#">00.00<span>грн</span></a>
-      </div>
-      <div class="ballanceAdd-wraper">
-        <a href="#">Пополнить баланс</a>
-      </div>
-    </div>
-  </div>
-</header>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
