@@ -149,24 +149,17 @@
 </div>
 <br>
 <a id="submit" class="btn btn-lg btn-danger">Сохранить</a>
-</body>
 <!-- script references -->
 <script src="/resources/js/jquery.min.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/jquery.maskedinput.min.js"></script>
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
-
 <script>
-    var imgsArr = {};
-    var mainForm;
-    var placeKey = '';
-    var phones = [];
-    var inpCategories = [];
-    var options;
-    var isComplete = 0; // It indicates whether the user selected the last level category
-    var cities;
 
+    var imgsArr = {};
+    var inpCategories = [];
+    var cities;
 
     // ---------------    LOAD RESOURCES    --------------------------//
     $.ajax({
@@ -215,8 +208,7 @@
         var blogPost = {};
         blogPost.blogId = '${blogId}';
         blogPost.title = $('#title').val();
-//      blogPost.text = $('#text').val();
-        blogPost.text = tinymce.activeEditor.getContent({format : 'raw'})
+        blogPost.text = tinymce.activeEditor.getContent({format : 'raw'});
         blogPost.address = {};
         blogPost.address.country = 'Украина';
         blogPost.address.area = $('#areaInp').val();
@@ -231,12 +223,7 @@
         });
 
         blogPost.categories = inpCategories;
-//
-//        alert(blogPost.text = tinymce.activeEditor.getContent().replace('\n','\\n'));
-//        alert(blogPost.text = tinymce.activeEditor.getContent({format : 'raw'}));
 
-
-//        alert(JSON.stringify(blogPost));
         $.ajax({
             type: "POST",
             url: "/api/rest/newsService/blogPost/create",
