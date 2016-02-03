@@ -18,7 +18,7 @@
     <link href="/resources/css/bootstrap.css" rel="stylesheet">
     <link href="/resources/css/com.css" rel="stylesheet">
     <link href="/resources/css/jquery-ui.css" rel="stylesheet">
-
+    <link href="/resources/css/mini.css" rel="stylesheet">
 </head>
 <body class="center-block" style="padding-top: 70px; max-width: 1200px;">
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -94,11 +94,11 @@
     </div>
     <!--offers category-->
 
-
+<!-- begin -->
     <div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">
 
 
-        <form id="mainInput" action="" method="post">
+
             <div class="col-xs-8" style="padding-left: 5px; padding-right: 5px;">
                 <div class="input-group">Заголовок
                     <input id="inptTitle" name="title" type="text" class="form-control input-sm"
@@ -149,10 +149,10 @@
 
                 <div id="inputs" class="input-group"></div>
 
-                <div id="inptPrice" class="input-group">Цена
+                <div id="inptPrice" class="input-group element-hidden">Цена
                     <input  name="price" type="number" class="form-control input-sm" required>
                 </div>
-                <div id="selectCurrency" class="input-group">Валюта
+                <div id="selectCurrency" class="input-group element-hidden">Валюта
                     <select  name="currency">
                         <option>UAH</option>
                         <option>USD</option>
@@ -194,8 +194,8 @@
 
                 <%--<a id="test" tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">Dismissible popover</a>--%>
             </div>
-        </form>
 
+        <!--
         <form id="photoInput" enctype="multipart/form-data" action="/api/rest/fileStorage/OFFERS/file/read/id/${id}"
               method="post">
             <p>Загрузите ваши фотографии на сервер</p>
@@ -203,11 +203,14 @@
             <p><input type="file" name="file" accept="image/*,image/jpeg">
                 <input type="submit" value="Добавить"></p>
         </form>
+        -->
 
         <div class="imgBlock">
             <!--uploaded images-->
         </div>
 
+        <div id="drop_zone"> Перетяните файлы сюда
+        </div>
         <!-- city chosen -->
         <input id="countryInp" type="text" name="country" style="visibility: hidden;">
         <input id="areaInp" type="text" name="area" style="visibility: hidden;">
@@ -326,6 +329,66 @@
 
 
 // ---------------    LOAD RESOURCES    --------------------------//
+    $(document).ready(function () {
+        // Setup the dnd listeners.
+        var dropZone = document.getElementById('drop_zone');
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
+
+        function handleFileSelect(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            var files = evt.dataTransfer.files; // FileList object.
+
+            // files is a FileList of File objects. List some properties.
+            var output = [];
+            for (var i = 0, f; f = files[i]; i++) {
+                var formImg = new FormData($(this)[0]);
+                var fd = new FormData();
+                fd.append('file', f);
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/fileStorage/OFFERS/file/upload/",
+                    data: fd,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+
+                    success: function (data, textStatus, request) {
+                        var id = data.id;
+                        if (f.type.substring(0, 5) === 'image') {
+                            imgsArr[id] = "image";
+                            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                                    '<li><strong>' + f.name + '</strong></li>' +
+                                    ' <li style="background-color: white">' +
+                                    '<a rel="example_group"> ' +
+                                    '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                                    '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                        } else if(f.type.substring(0, 4) === 'pic1') {
+                            imgsArr[id] = "pic1";
+                            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                                    '<li><strong>' + f.name + '</strong></li>' +
+                                    ' <li style="background-color: white">' +
+                                    '<a rel="example_group"> ' +
+                                    '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                                    '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                        }
+                        $('div.imgBlock > li').click(onClickSetMainImg);
+                    }
+                });
+
+
+            }
+        }
+
+        function handleDragOver(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        }
+    });
 
     $.ajax({
         type: "GET",
@@ -382,16 +445,13 @@
 
 // ---------------  HIDE PRICE AND CURRENCY ON PAGE ----------------//
 
-    $('#inptPrice').hide();
-    $('#selectCurrency').hide();
 
 // --------------- END HIDE PRICE AND CURRENCY ON PAGE ----------------//
 
 
 // --------------------- MAIN FORM CONSTRUCTION ----------------------//
 
-    $('#mainInput').submit(function (event) {
-        event.preventDefault();
+    $('#test').click(function() {
 
         if (isComplete === 0){
             $('#test').popover('show');
@@ -401,21 +461,21 @@
             return;
         }
 
-        var mainForm = $('#mainInput').serialize().replace(/\+/g, '%20').replace(/%0D%0A/g, "%5C%6E");
-        mainForm.imagesIds = imgsArr;
-        mainForm.address = {};
-        mainForm.userInfo = {};
-//        alert(JSON.stringify(mainForm));
-        var uriOfferString = decodeURIComponent(mainForm);
-//        alert(uriOfferString);
-        var offer = JSON.parse('{"' + decodeURI(uriOfferString).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
-//        alert("Цэ" + JSON.stringify(offer));
-
+        var offer = {};
+        offer.title = $("#inptTitle").val();
         offer.imagesIds = imgsArr;
         offer.canBeReserved = $("#inpReserved").is(":checked");
         offer.address = {};
         offer.address.coordinates = placeKey;
         offer.address.country = 'Украина';
+
+        if(!$('#inptPrice').hasClass("element-hidden")) {
+            offer.price = $('input[name="price"]').val();
+        }
+
+        if(!$('#selectCurrency').hasClass("element-hidden")) {
+            offer.currency = $('select[name="currency"]').val();
+        }
 
         if ($('#cityInp').val() !== 'Выберите город' && $('#cityInp').val() !== '' && $('#cityInp').val() !== 'Все города') {
             offer.address.city = $('#cityInp').val();
@@ -475,7 +535,7 @@
 
         offer.properties = properties;
 
-        console.log(JSON.stringify(offer));
+        alert(JSON.stringify(offer));
 
         $.ajax({
             type: "POST",
@@ -531,6 +591,28 @@
             }
         });
     };
+
+    function onClickSetMainImg(id) {
+        var allImgs = $(".imgBlock").find("img");
+        for (var i =0; i < allImgs.length; i++) {
+            var curImg = $(allImgs[i]);
+            if (curImg.hasClass("mainImg")) {
+                curImg.removeClass("mainImg");
+            }
+        }
+        var el = $('#' + id).find("img");
+        if(!el.hasClass("mainImg")) {
+            el.addClass("mainImg");
+        }
+        for(var key in imgsArr) {
+            if(imgsArr[key] === "pic1") {
+                imgsArr[key] = "image";
+            }
+        }
+        if(el.hasClass("mainImg")) {
+            imgsArr[id] = "pic1";
+        }
+    }
 // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//
 
 
@@ -780,11 +862,11 @@
 
                 $('#00'+i).on('change',function(){
                     if(this.value === 'price'){
-                        $('#inptPrice').show(500);
-                        $('#selectCurrency').show(500);
+                        $('#inptPrice').removeClass("element-hidden");
+                        $('#selectCurrency').removeClass("element-hidden");
                     }else if (this.value === 'exchange' || this.value === 'arranged' || this.value === 'free') {
-                        $('#inptPrice').hide(500);
-                        $('#selectCurrency').hide(500);
+                        $('#inptPrice').addClass("element-hidden");
+                        $('#selectCurrency').addClass("element-hidden");
                     }
                 });
 

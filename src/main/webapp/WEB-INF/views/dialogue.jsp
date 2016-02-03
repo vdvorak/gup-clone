@@ -156,7 +156,7 @@
 
     var getNewPostsAfter2sec = setInterval(function() {
         getNewPosts();
-    }, 20000);
+    }, 2000);
 
     var deleteMember = function(id){
         var newMembers = dialogue.members;
