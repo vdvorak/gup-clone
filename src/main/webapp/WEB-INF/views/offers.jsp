@@ -180,6 +180,12 @@
   var jsonSubcategory;
 
   // ---------------    LOAD RESOURCES    --------------------------//
+  $(document).ready(function(){
+    filter = {};
+    filter.skip = 0;
+    filter.limit = 1000;
+    readAllByFilter(filter);
+  });
 
   $.ajax({
     type: "GET",
@@ -477,6 +483,13 @@
     if (categoryResult.length > 0) filter.categories = categoryResult;
     if (properties.length > 0) filter.properties = properties;
 //    alert(JSON.stringify(filter));
+    readAllByFilter(filter);
+
+
+
+  })
+
+  function readAllByFilter(filter) {
     $.ajax({
       type: "POST",
       url: "/api/rest/offersService/offer/read/all",
@@ -494,13 +507,16 @@
           var picId = '/resources/images/no_photo.jpg';
           for (j in response.entities[i].imagesIds){
             picId = j;
-            break;
+            if(response.entities[i].imagesIds[j]==="pic1") {
+              picId = j;
+              break;
+            }
           }
           var content = '<div>'+'<a rel="example_group" href="/offer/'+response.entities[i].id+'">' +response.entities[i].title+'</a></div>';
           if (picId !== '/resources/images/no_photo.jpg'){
-            content +=  '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + picId + '"' + 'width="150" height="150">';
+            content +=  '<a rel="example_group" href="/offer/'+response.entities[i].id+'">' + '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + picId + '"' + 'width="150" height="150"></a>';
           }else{
-            content +=  '<img id="img1" alt="" src="/resources/images/no_photo.jpg" width="150" height="150">';
+            content +=  '<a rel="example_group" href="/offer/'+response.entities[i].id+'">' + '<img id="img1" alt="" src="/resources/images/no_photo.jpg" width="150" height="150"></a>';
           }
           picId = '/resources/images/no_photo.jpg';
           switch (count%4){
@@ -528,11 +544,7 @@
         alert("Внутренняя ошибка сервера");
       }
     });
-
-
-
-  })
-
+  }
 
 
 </script>
