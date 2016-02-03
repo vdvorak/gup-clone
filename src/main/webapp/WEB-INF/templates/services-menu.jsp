@@ -3,9 +3,9 @@
 <div class="container">
     <ul class="mid">
         <li>
-            <a href="#" class="ads-p">Обьявления</a>
+            <a href="/offers" class="ads-p">Обьявления</a>
             <div class="ads-img">
-                <a href="#"><img class="img-responsive" src="/resources/images/rupor.png" alt="rupor"></a>
+                <a href="/offers"><img class="img-responsive" src="/resources/images/rupor.png" alt="rupor"></a>
             </div>
             <ul class="dropUl">
                 <li><a class="ads-a1" href="#">Топ обьявлений</a></li>
