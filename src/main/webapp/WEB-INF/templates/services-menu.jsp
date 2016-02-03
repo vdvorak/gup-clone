@@ -15,9 +15,9 @@
             </ul>
         </li>
         <li>
-            <a href="#" class="ads-p">Тендеры</a>
+            <a href="/tenders" class="ads-p">Тендеры</a>
             <div class="ads-img">
-                <a href="#"><img class="img-responsive" src="/resources/images/hammer.png" alt="hammer"></a>
+                <a href="/tenders"><img class="img-responsive" src="/resources/images/hammer.png" alt="hammer"></a>
             </div>
             <ul class="dropUl">
                 <li><a class="ads-a1" href="#">Участвовать</a></li>
@@ -27,21 +27,21 @@
             </ul>
         </li>
         <li>
-            <a href="#" class="ads-p">Проекты</a>
+            <a href="/project/list" class="ads-p">Проекты</a>
             <div class="ads-img">
-                <a href="#"><img class="img-responsive" src="/resources/images/compass.png" alt="compass"></a>
+                <a href="/project/list"><img class="img-responsive" src="/resources/images/compass.png" alt="compass"></a>
             </div>
             <ul class="dropUl">
-                <li><a class="ads-a1" href="#">Реструкторизация</a></li>
-                <li><a class="ads-a1" href="#">Готовый прототип</a></li>
-                <li><a class="ads-a1" href="#">Проект на бумаге</a></li>
-                <li><a class="ads-drop" href="#">Ноу-Хау</a></li>
+                <li><a class="ads-a1" href="/project/list?typeOfProject=renovation">Реструкторизация</a></li>
+                <li><a class="ads-a1" href="project/list?typeOfProject=prototype">Готовый прототип</a></li>
+                <li><a class="ads-a1" href="/project/list?typeOfProject=project_on_paper">Проект на бумаге</a></li>
+                <li><a class="ads-drop" href="/project/list?typeOfProject=know_how">Ноу-Хау</a></li>
             </ul>
         </li>
         <li>
-            <a href="#" class="ads-p">Новости</a>
+            <a href="/blog-post/news?pageNumber=0" class="ads-p">Новости</a>
             <div class="ads-img">
-                <a href="#"><img class="img-responsive" src="/resources/images/newspaper.png" alt="newspaper"></a>
+                <a href="/blog-post/news?pageNumber=0"><img class="img-responsive" src="/resources/images/newspaper.png" alt="newspaper"></a>
             </div>
             <ul class="dropUl">
                 <li><a class="ads-a1" href="#">Киев</a></li>
