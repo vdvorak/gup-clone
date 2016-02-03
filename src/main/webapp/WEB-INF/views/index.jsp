@@ -22,7 +22,8 @@
         <link rel="stylesheet" href="/resources/css/font-awesome.css">
         <link rel="stylesheet" href="/resources/css/media-queries.css">
 
-    </head>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+	</head>
     <body>
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -38,7 +39,7 @@
         <div class="head">
             <div class="container">
                 <div class="logo">
-                    <a class="brand" href="#"><img src="/resources/images/brand.png" alt="brand"></a>
+                    <a class="brand" href="/index"><img src="/resources/images/brand.png" alt="brand"></a>
                     <p class="logo-p">Global Ukranian Portal</p>
                 </div>
                 <div class="social">
@@ -54,20 +55,19 @@
         
         <div class="container">
             <div class="search">
-                <form action="#" id="form" role="form">
-                    <input type="text" class="form-control sear" name="search" placeholder="Поиск">
+                <%--<form action="#" id="form" role="form">--%>
+                    <input type="text" id="searchInput" class="form-control sear" name="search" placeholder="Поиск">
                     <div class="selectBox">
-                        <select class="form-control">
-                            <option>Обьявления</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                        <select class="form-control" id="selectedService">
+                            <option value="profile">Пользователи</option>
+							<option value="project">Проекты</option>
+							<option value="tender">Тендеры</option>
+							<option value="offer">Обьявления</option>
                         </select>
                     </div>
-                    <button type="submit" class="submit-search">Найти <i class="fa fa-search fa-flip-horizontal"></i></button>
-                </form>
-                <button class="users">Пользователи</button>
+                    <button id="searchButton" class="submit-search">Найти <i class="fa fa-search fa-flip-horizontal"></i></button>
+                <%--</form> type="submit"  --%>
+                <button class="users" id="userListBtn">Пользователи</button>
                 <img src="/resources/images/caretka.png" alt="caret">
             </div>
         </div>
@@ -336,28 +336,25 @@
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
         <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
-
         <script src="/resources/js/vendor/bootstrap.js"></script>
-        
         <script src="/resources/js/jquery.bxslider.js"></script>
-        <script>
-			$(document).ready(function(){
-				$('.bxslider').bxSlider();
-			});
-		</script>
-
-        <script src="/resources/js/main.js"></script>
-
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
-        <script>
-            $('#tab-container').easytabs();
-        </script>
 
 		<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+
+		<script src="/resources/js/main.js"></script>
 		<sec:authorize access="isAuthenticated()">
 			<script src="/resources/js/autorizedHeader.js"></script>
 		</sec:authorize>
 		<script src="/resources/js/logo-section.js"></script>
+		<script src="/resources/js/search-bar.js"></script>
 
+		<script>
+			$(document).ready(function(){
+				$('.bxslider').bxSlider();
+				$('#tab-container').easytabs();
+
+			});
+		</script>
     </body>
 </html>
