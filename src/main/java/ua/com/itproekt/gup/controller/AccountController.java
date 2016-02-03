@@ -16,6 +16,7 @@ import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.bank_api.entity.ExternalTransaction;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
+import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.Member;
@@ -25,6 +26,7 @@ import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOpt
 import ua.com.itproekt.gup.model.tender.Tender;
 import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
+import ua.com.itproekt.gup.service.news.BlogPostService;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
@@ -58,6 +60,9 @@ public class AccountController {
     @Autowired
     ActivityFeedService activityFeedService;
 
+    @Autowired
+    BlogPostService blogPostService;
+
     BankSession session = new BankSession();
 
     private static Map<String,Integer> storedSMScodes = new HashMap<>();
@@ -87,10 +92,10 @@ public class AccountController {
         model.addAttribute("projects", projects);
 
         BlogPostFilterOptions bpf = new BlogPostFilterOptions();
-        pf.setAuthorId(profile.getId());
+        bpf.setAuthorId(profile.getId());
         bpf.setLimit(3);
         bpf.setCreatedDateSortDirection(Sort.Direction.DESC);
-        List<Project> blogposts = projectService.findProjectsWihOptions(pf).getEntities();
+        List<BlogPost> blogposts = blogPostService.findBlogPostsWihOptions(bpf).getEntities();
         model.addAttribute("blogposts", blogposts);
 
         EventFilterOptions ef = new EventFilterOptions();
