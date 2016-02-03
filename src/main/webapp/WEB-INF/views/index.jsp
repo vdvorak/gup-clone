@@ -334,7 +334,7 @@
         </div>
         
         <div class="footer"></div>
-        
+
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
         <script>window.jQuery || document.write('<script src="resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
 

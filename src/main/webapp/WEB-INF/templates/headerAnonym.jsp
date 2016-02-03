@@ -12,7 +12,7 @@
     <div id="tab-container" class="tab-container">
       <ul class='etabs'>
         <li class='tab1'><a href="#registration">Регистрация</a></li>
-        <li class='tab2'><a href="#entry">Вход</a></li>
+        <li class='tab2'><a href="#entry" id>Вход</a></li>
       </ul>
 
       <div id="registration">
@@ -21,7 +21,7 @@
       </div>
 
       <div id="entry">
-        <form class="contact_form" method="post" action="#" role="form">
+        <div class="contact_form">
           <ul class="contactUl">
             <li class="contactLi">
               <label for="email">Введите логин/ E-mail</label>
@@ -36,13 +36,34 @@
               <input type="checkbox" id="checkbox">
             </li>
             <li class="contactLi">
-              <button class="submit" type="submit">Войти</button>
+              <button id="loginBtn" class="submit">Войти</button>
             </li>
           </ul>
-        </form>
+        </div>
         <a class="contactA" href="#">Забыли пароль?</a>
       </div>
     </div>
   </div>
   <div id="overlay"></div><!-- Пoдлoжкa -->
 </div>
+
+<script src="/resources/libs/jquery-1.11.3.min.js"></script>
+
+<script>
+
+  $(document).ready(function() {
+    $("#loginBtn").click(function(event){
+      $.ajax({
+        type: 'POST',
+        url: '/login?email=' + $('#email').val() + '&password=' + $('#password').val(),
+        success: function(){
+          window.location.href = '/prioffice';
+        },
+        error: function () {
+          alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
+        }
+      });
+    });
+  });
+
+</script>
