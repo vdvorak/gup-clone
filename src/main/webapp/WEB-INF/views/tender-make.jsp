@@ -15,6 +15,7 @@
     <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" rel="stylesheet"
           type="text/css"/>
+    <link href="/resources/css/mini.css" rel="stylesheet">
 </head>
 <body>
 <h1>Создание тендера</h1>
@@ -161,6 +162,9 @@
 <div class="imgBlock">
     <!--uploaded images-->
 </div>
+<div class="docBlock">
+    <!--uploaded images-->
+</div>
 
 
 <div class="row">
@@ -244,22 +248,30 @@
                         var id = data.id;
                         if (f.type.substring(0, 5) === 'image') {
                             imgsArr[id] = "image";
-                            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
-                            '<li><strong>' + f.name + '</strong></li>' +
-                            ' <li style="background-color: white">' +
-                            '<a rel="example_group"> ' +
-                            '<img id="img1" alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
-                            '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                                    '<li><strong>' + f.name + '</strong></li>' +
+                                    ' <li style="background-color: white">' +
+                                    '<a rel="example_group"> ' +
+                                    '<img id="img1" alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
+                                    '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                        } else if(f.type.substring(0, 4) === 'pic1') {
+                            imgsArr[id] = "pic1";
+                            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                                    '<li><strong>' + f.name + '</strong></li>' +
+                                    ' <li style="background-color: white">' +
+                                    '<a rel="example_group"> ' +
+                                    '<img id="img1" alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
+                                    '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
                         } else {
                             imgsArr[id] = "doc";
-                            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
+                            $('.docBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
                             '<li><strong>' + f.name + '</strong></li>' +
                             ' <li style="background-color: white">' +
                             '<a rel="example_group"> ' +
                             '<img id="img1" alt="" src="http://www.uzscience.uz/upload/userfiles/images/doc.png"' + 'width="150" height="150"> ' +
                             '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
                         }
-
+                        $('div.imgBlock > li').click(onClickSetMainImg);
                     }
                 });
 
@@ -388,81 +400,9 @@
     // ---------------   END LOAD RESOURCES    --------------------------//
 
 
-    //--------------------------- GOOGLE MAP API ---------------------------------------//
-
-    function initMap() {
-
-        var input = document.getElementById('address');
-
-        var options = {
-            types: []
-        };
-
-        var autocomplete = new google.maps.places.Autocomplete(input, options);
-
-        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-            var place = autocomplete.getPlace(); //получаем место
-            console.log(place);
-            console.log(place.name);  //название места
-            console.log(place.id);  //уникальный идентификатор места
-        });
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 17,
-            center: {lat: 50.4501, lng: 30.523400000000038}
-        });
-
-        var geocoder = new google.maps.Geocoder();
-
-        document.getElementById('submit').addEventListener('click', function () {
-            geocodeAddress(geocoder, map);
-        });
-    }
-
-    function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
-        geocoder.geocode({'address': address}, function (results, status) {
-            placeKey = results[0].place_id;
-            if (status === google.maps.GeocoderStatus.OK) {
-                resultsMap.setCenter(results[0].geometry.location);
-                var marker = new google.maps.Marker({
-                    map: resultsMap,
-                    position: results[0].geometry.location
-                });
-            } else {
-                alert('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-    }
-
-    //--------------------------- END GOOGLE MAP API ---------------------------------------//
 
 
-    // -------------------------- PHOTO SUBMIT AND DELETE ------------------------------//
 
-    $('#photoInput').submit(function (event) {
-        event.preventDefault();
-        var formImg = new FormData($(this)[0]);
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/fileStorage/NEWS/file/upload/",
-            data: formImg,
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
-
-            success: function (data, textStatus, request) {
-                var id = data.id;
-                imgsArr[id] = "someText";
-                $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
-                ' <li style="background-color: white"><a rel="example_group"> ' +
-                '<img id="img1" alt="" src="/api/rest/fileStorage/NEWS/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
-                '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
-            }
-        });
-    });
 
     function deleteImg(idImg) {
         delete imgsArr[idImg];
@@ -473,6 +413,28 @@
                 $('#' + idImg).remove();
             }
         });
+    }
+
+    function onClickSetMainImg(id) {
+        var allImgs = $(".imgBlock").find("img");
+        for (var i =0; i < allImgs.length; i++) {
+            var curImg = $(allImgs[i]);
+            if (curImg.hasClass("mainImg")) {
+                curImg.removeClass("mainImg");
+            }
+        }
+        var el = $('#' + id).find("img");
+        if(!el.hasClass("mainImg")) {
+            el.addClass("mainImg");
+        }
+        for(var key in imgsArr) {
+            if(imgsArr[key] === "pic1") {
+                imgsArr[key] = "image";
+            }
+        }
+        if(el.hasClass("mainImg")) {
+            imgsArr[id] = "pic1";
+        }
     }
 
     // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//
@@ -541,6 +503,56 @@
         });
     });
     //---------------------------- END SUBMIT -------------------------------------------------//
+
+
+    //--------------------------- GOOGLE MAP API ---------------------------------------//
+
+    function initMap() {
+
+        var input = document.getElementById('address');
+
+        var options = {
+            types: []
+        };
+
+        var autocomplete = new google.maps.places.Autocomplete(input, options);
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace(); //получаем место
+            console.log(place);
+            console.log(place.name);  //название места
+            console.log(place.id);  //уникальный идентификатор места
+        });
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 17,
+            center: {lat: 50.4501, lng: 30.523400000000038}
+        });
+
+        var geocoder = new google.maps.Geocoder();
+
+        document.getElementById('submit').addEventListener('click', function () {
+            geocodeAddress(geocoder, map);
+        });
+    }
+
+    function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function (results, status) {
+            placeKey = results[0].place_id;
+            if (status === google.maps.GeocoderStatus.OK) {
+                resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+
+    //--------------------------- END GOOGLE MAP API ---------------------------------------//
 </script>
 
 </body>
