@@ -40,7 +40,7 @@
 <!-- END search bar -->
 
 <!--2nd section menu+slider -->
-<jsp:include page="/WEB-INF/templates/main-menu-slider-bar.jsp"/>
+<%--<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>--%>
 <!--END 2nd section -->
 
 
