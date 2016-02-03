@@ -5,16 +5,16 @@
   <ul class="groupLi">
     <li class="btnFace">
       <img src="resources/images/face.png" alt="face">
-      <a class="menuName" href="#">Петров Василий</a>
+      <a class="menuName" href="/prioffice">Петров Василий</a>
       <div class="dropFace">
         <ul>
-          <li><a href="#">Анкета</a></li>
-          <li><a href="#">Сообщения</a></li>
+          <li><a href="/prioffice">Анкета</a></li>
+          <li><a href="/dialogues">Сообщения</a></li>
           <li><a href="#">Уведомления</a></li>
           <li><a href="#">Контакты</a></li>
-          <li><a href="#">Выход</a></li>
+          <li><a href="/logout">Выход</a></li>
         </ul>
-        <a class="edit" href="#">Редактировать страницу</a>
+        <a class="edit" href="/edit-profile">Редактировать страницу</a>
       </div>
     </li>
     <il class='btnMail'>

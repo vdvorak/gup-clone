@@ -22,7 +22,6 @@
         <link rel="stylesheet" href="resources/css/font-awesome.css">
         <link rel="stylesheet" href="resources/css/media-queries.css">
 
-        
     </head>
     <body>
         <!--[if lt IE 8]>

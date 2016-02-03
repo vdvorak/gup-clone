@@ -40,7 +40,7 @@
             </li>
           </ul>
         </div>
-        <a class="contactA" href="#">Забыли пароль?</a>
+        <a class="contactA" href="/restore">Забыли пароль?</a>
       </div>
     </div>
   </div>
