@@ -52,7 +52,11 @@ public class TenderController {
     @RequestMapping("/tender/id/{id}/update")
     public String updateTender(@PathVariable String id, Model model) {
         Tender tender = tenderService.findById(id);
-        if(tender == null || !tender.getId().equals(SecurityOperations.getLoggedUserId())){
+        if(SecurityOperations.getLoggedUserId() == null){
+            return "redirect:/";
+        }
+        if(tender == null || !tender.getAuthorId().equals(SecurityOperations.getLoggedUserId())){
+            System.out.println("!!!!!!!!!!!!!!!! tender.getAuthorId=" + tender.getAuthorId() + "SecurityOperations.getLoggedUserId() = " + SecurityOperations.getLoggedUserId());
             return "redirect:/tenders";
         }
         model.addAttribute("tender", tender);
