@@ -4,8 +4,8 @@
 <div class="Logged">
   <ul class="groupLi">
     <li class="btnFace">
-      <img src="resources/images/face.png" alt="face">
-      <a class="menuName" href="/prioffice">Петров Василий</a>
+      <img src="" width="32" height="33" alt="face" id="headerProfileImg">
+      <a class="menuName" href="/prioffice" id="headerProfileName"></a>
       <div class="dropFace">
         <ul>
           <li><a href="/prioffice">Анкета</a></li>
@@ -18,32 +18,32 @@
       </div>
     </li>
     <il class='btnMail'>
-      <a class="btnMenu" href="#"><img src="resources/images/mail.png" alt="mail"></a>
+      <a class="btnMenu" href="#"><img src="/resources/images/mail.png" alt="mail"></a>
       <div class="mailDrop">
-        <a href="#"><img src="resources/images/LOGO.png" alt="LOGO"></a>
+        <a href="#"><img src="/resources/images/LOGO.png" alt="LOGO"></a>
         <form role="form" action="#">
           <textarea class="form-control" rows="7" id="comment"></textarea>
           <button type="submit" class="btnSubmit">Ответить</button>
         </form>
       </div>
     </il>
-    <il><a class="btnMenu" href="#"><img src="resources/images/bell.png" alt="bell"></a></il>
+    <il><a class="btnMenu" href="#"><img src="/resources/images/bell.png" alt="bell"></a></il>
     <il class='btnbook'>
-      <a class="btnMenu" href="#"><img src="resources/images/book.png" alt="book"></a>
+      <a class="btnMenu" href="#"><img src="/resources/images/book.png" alt="book"></a>
       <div class="bookDrop">
         <ul>
-          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
-          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
-          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
-          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
-          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
-          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
-          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
-          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
-          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
-          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
-          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
-          <li><a href="#"><img src="resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
+          <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
         </ul>
       </div>
     </il>

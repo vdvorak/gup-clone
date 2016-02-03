@@ -15,12 +15,12 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="resources/css/bootstrap.css">
-        <link rel="stylesheet" href="resources/css/bootstrap-theme.css">
-        <link rel="stylesheet" href="resources/css/jquery.bxslider.css">
-        <link rel="stylesheet" href="resources/css/main.css">
-        <link rel="stylesheet" href="resources/css/font-awesome.css">
-        <link rel="stylesheet" href="resources/css/media-queries.css">
+        <link rel="stylesheet" href="/resources/css/bootstrap.css">
+        <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+        <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+        <link rel="stylesheet" href="/resources/css/main.css">
+        <link rel="stylesheet" href="/resources/css/font-awesome.css">
+        <link rel="stylesheet" href="/resources/css/media-queries.css">
 
     </head>
     <body>
@@ -38,16 +38,16 @@
         <div class="head">
             <div class="container">
                 <div class="logo">
-                    <a class="brand" href="#"><img src="resources/images/brand.png" alt="brand"></a>
+                    <a class="brand" href="#"><img src="/resources/images/brand.png" alt="brand"></a>
                     <p class="logo-p">Global Ukranian Portal</p>
                 </div>
                 <div class="social">
                     <ul class="store">
-                        <li><a href="#"><img src="resources/images/windowsStore.png" alt="Windows Store"></a></li>
-                        <li><a href="#"><img src="resources/images/googlePlay.png" alt="Google Play"></a></li>
-                        <li><a href="#"><img src="resources/images/appStore.png" alt="App Store"></a></li>
+                        <li><a href="#"><img src="/resources/images/windowsStore.png" alt="Windows Store"></a></li>
+                        <li><a href="#"><img src="/resources/images/googlePlay.png" alt="Google Play"></a></li>
+                        <li><a href="#"><img src="/resources/images/appStore.png" alt="App Store"></a></li>
                     </ul>
-                    <button class="socialBtn">ВСТУПИТЬ В ОРГАНИЗАЦИЮ <i class="fa fa-plus"></i></button>
+                    <button class="socialBtn" id="joinToGupBtn">ВСТУПИТЬ В ОРГАНИЗАЦИЮ <i class="fa fa-plus"></i></button>
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
                     <button type="submit" class="submit-search">Найти <i class="fa fa-search fa-flip-horizontal"></i></button>
                 </form>
                 <button class="users">Пользователи</button>
-                <img src="resources/images/caretka.png" alt="caret">
+                <img src="/resources/images/caretka.png" alt="caret">
             </div>
         </div>
         
@@ -77,7 +77,7 @@
         		<li>
         			<a href="#" class="ads-p">Обьявления</a>
 					<div class="ads-img">
-						<a href="#"><img class="img-responsive" src="resources/images/rupor.png" alt="rupor"></a>
+						<a href="#"><img class="img-responsive" src="/resources/images/rupor.png" alt="rupor"></a>
 					</div>
 					<ul class="dropUl">
 					    <li><a class="ads-a1" href="#">Топ обьявлений</a></li>
@@ -89,7 +89,7 @@
         		<li>
         			<a href="#" class="ads-p">Тендеры</a>
 					<div class="ads-img">
-						<a href="#"><img class="img-responsive" src="resources/images/hammer.png" alt="hammer"></a>
+						<a href="#"><img class="img-responsive" src="/resources/images/hammer.png" alt="hammer"></a>
 					</div>
 					<ul class="dropUl">
 					    <li><a class="ads-a1" href="#">Участвовать</a></li>
@@ -101,7 +101,7 @@
         		<li>
         			<a href="#" class="ads-p">Проекты</a>
 					<div class="ads-img">
-						<a href="#"><img class="img-responsive" src="resources/images/compass.png" alt="compass"></a>
+						<a href="#"><img class="img-responsive" src="/resources/images/compass.png" alt="compass"></a>
 					</div>
 					<ul class="dropUl">
 					    <li><a class="ads-a1" href="#">Реструкторизация</a></li>
@@ -113,7 +113,7 @@
         		<li>
         			<a href="#" class="ads-p">Новости</a>
 					<div class="ads-img">
-						<a href="#"><img class="img-responsive" src="resources/images/newspaper.png" alt="newspaper"></a>
+						<a href="#"><img class="img-responsive" src="/resources/images/newspaper.png" alt="newspaper"></a>
 					</div>
 					<ul class="dropUl">
 					    <li><a class="ads-a1" href="#">Киев</a></li>
@@ -125,9 +125,9 @@
         		<li>
         			<div class="slider">
 						<ul class="bxslider">
-							<li><img src="resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>
-							<li><img src="resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>
-							<li><img src="resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>
+							<li><img src="/resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>
+							<li><img src="/resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>
+							<li><img src="/resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>
 						</ul>
 					</div>
         		</li>
@@ -137,39 +137,39 @@
         <div class="container">
         	<div class="tidings">
         	    <div class="tidi1">
-        			<a href="#"><img src="resources/images/tidi3.png" alt="tidi"></a>
+        			<a href="#"><img src="/resources/images/tidi3.png" alt="tidi"></a>
         			<a href="#" class="tidi3-a">В колокольне Лавры открыли концертный зал</a>
         		</div>
         		<div class="tidi2">
-        			<a href="#"><img src="resources/images/tidi1.png" alt="tidi"></a>
+        			<a href="#"><img src="/resources/images/tidi1.png" alt="tidi"></a>
         			<a href="#" class="tidi1-a">История книгаря</a>
         		</div>
         		<div class="tidi3">
-        			<a href="#"><img src="resources/images/tidi2.png" alt="tidi"></a>
+        			<a href="#"><img src="/resources/images/tidi2.png" alt="tidi"></a>
         			<a href="#" class="tidi1-a">Легенда Хью Гласса</a>
         		</div>
         		<div class="tidi4">
         			<p class="data">Опубликовано: 22.10.16</p>
-        			<a href="#"><img src="resources/images/tidi4.png" alt="tidi"></a>
+        			<a href="#"><img src="/resources/images/tidi4.png" alt="tidi"></a>
         			<a class="tidi4-a" href="#">MONARCHY</a>
         			<p class="tidi4-p">Monarchy — английский музыкальный электронный дуэт из Лондона, состоящий из Эндрю Армстронга и Ра Блэка. Ранее были известны как Milke.. <a class="tidi4-a2" href="#">Продолжение -></a></p>
         		</div>
         		<div class="tidi4">
         			<p class="data-tidi5">Опубликовано: 22.10.16</p>
         			<a class="tidi4-ar" href="#">MONARCHY</a>
-        			<a class="tidi5-img" href="#"><img src="resources/images/tidi5.png" alt="tidi"></a>
+        			<a class="tidi5-img" href="#"><img src="/resources/images/tidi5.png" alt="tidi"></a>
         			<p class="tidi4-pr">Monarchy — английский музыкальный электронный дуэт из Лондона, состоящий из Эндрю Армстронга и Ра Блэка. Ранее были известны как Milke.. <a class="tidi4-a2" href="#">Продолжение -></a></p>
         		</div>
         		<div class="tidi4">
         			<p class="data">Опубликовано: 22.10.16</p>
-        			<a href="#"><img src="resources/images/tidi6.png" alt="tidi"></a>
+        			<a href="#"><img src="/resources/images/tidi6.png" alt="tidi"></a>
         			<a class="tidi4-a" href="#">MONARCHY</a>
         			<p class="tidi4-p">Monarchy — английский музыкальный электронный дуэт из Лондона, состоящий из Эндрю Армстронга и Ра Блэка. Ранее были известны как Milke.. <a class="tidi4-a2" href="#">Продолжение -></a></p>
         		</div>
         		<div class="tidi4">
         			<p class="data-tidi5">Опубликовано: 22.10.16</p>
         			<a class="tidi4-ar" href="#">MONARCHY</a>
-        			<a class="tidi5-img" href="#"><img src="resources/images/tidi7.png" alt="tidi"></a>
+        			<a class="tidi5-img" href="#"><img src="/resources/images/tidi7.png" alt="tidi"></a>
         			<p class="tidi4-pr">Monarchy — английский музыкальный электронный дуэт из Лондона, состоящий из Эндрю Армстронга и Ра Блэка. Ранее были известны как Milke.. <a class="tidi4-a2" href="#">Продолжение -></a></p>
         		</div>
         		
@@ -178,26 +178,26 @@
         		<div class="tidi-drop">
 					<div class="tidi4">
 						<p class="data">Опубликовано: 22.10.16</p>
-						<a href="#"><img src="resources/images/tidi4.png" alt="tidi"></a>
+						<a href="#"><img src="/resources/images/tidi4.png" alt="tidi"></a>
 						<a class="tidi4-a" href="#">MONARCHY</a>
 						<p class="tidi4-p">Monarchy — английский музыкальный электронный дуэт из Лондона, состоящий из Эндрю Армстронга и Ра Блэка. Ранее были известны как Milke.. <a class="tidi4-a2" href="#">Продолжение -></a></p>
 					</div>
         		</div>
-        		<img class="tidiDown" src="resources/images/caret.png" alt="caret">
+        		<img class="tidiDown" src="/resources/images/caret.png" alt="caret">
         	</div>
         	
         	<div class="ad">
         		<p class="ad-p">ТОП ОБЪЯВЛЕНИЙ</p>
         		<div class="add-top1">
-        			<a href="#"><img class="img-responsive" src="resources/images/motherboard.png" alt="motherboard"></a>
+        			<a href="#"><img class="img-responsive" src="/resources/images/motherboard.png" alt="motherboard"></a>
         			<a href="#" class="ad-a1">Плата 56g</a>
         		</div>
         		<div class="add-top1">
-        			<a href="#"><img class="img-responsive" src="resources/images/iphone.png" alt="iphone"></a>
+        			<a href="#"><img class="img-responsive" src="/resources/images/iphone.png" alt="iphone"></a>
         			<a href="#" class="ad-a1">Iphone 6s</a>
         		</div>
         		<div class="add-top1">
-        			<a href="#"><img class="img-responsive" src="resources/images/factory.png" alt="tv"></a>
+        			<a href="#"><img class="img-responsive" src="/resources/images/factory.png" alt="tv"></a>
         			<a href="#" class="ad-p2">ЖК-телевизор BBK LM4027F</a>
         		</div>
         		
@@ -205,33 +205,33 @@
         		
         		<div class="drop">
 					<div class="add-top1">
-						<a href="#"><img class="img-responsive" src="resources/images/motherboard.png" alt="motherboard"></a>
+						<a href="#"><img class="img-responsive" src="/resources/images/motherboard.png" alt="motherboard"></a>
 						<a href="#" class="ad-a1">Плата 56g</a>
 					</div>
 					<div class="add-top1">
-						<a href="#"><img class="img-responsive" src="resources/images/iphone.png" alt="iphone"></a>
+						<a href="#"><img class="img-responsive" src="/resources/images/iphone.png" alt="iphone"></a>
 						<a href="#" class="ad-a1">Iphone 6s</a>
 					</div>
 					<div class="add-top1">
-						<a href="#"><img class="img-responsive" src="resources/images/factory.png" alt="tv"></a>
+						<a href="#"><img class="img-responsive" src="/resources/images/factory.png" alt="tv"></a>
 						<a href="#" class="ad-p2">ЖК-телевизор BBK LM4027F</a>
 					</div>
         		</div>
-        		<img class="caretDown" id="ad-caret" src="resources/images/caret.png" alt="caret">
+        		<img class="caretDown" id="ad-caret" src="/resources/images/caret.png" alt="caret">
         	</div>
         	
         	<div class="ad">
         		<p class="tend-p">ТОП ТЕНДЕРОВ</p>
         		<div class="add-top1">
-        			<a href="#"><img class="img-responsive" src="resources/images/name.png" alt="name"></a>
+        			<a href="#"><img class="img-responsive" src="/resources/images/name.png" alt="name"></a>
         			<a href="#" class="ad-a1">Название</a>
         		</div>
         		<div class="add-top1">
-        			<a href="#"><img class="img-responsive" src="resources/images/arm.png" alt="arm"></a>
+        			<a href="#"><img class="img-responsive" src="/resources/images/arm.png" alt="arm"></a>
         			<a href="#" class="ad-a1">Название</a>
         		</div>
         		<div class="add-top1">
-        			<a href="#"><img class="img-responsive" src="resources/images/holography.png" alt="holography"></a>
+        			<a href="#"><img class="img-responsive" src="/resources/images/holography.png" alt="holography"></a>
         			<a href="#" class="ad-a1">Название</a>
         		</div>
         		
@@ -239,33 +239,33 @@
         		
         		<div class="tend-drop">
 					<div class="add-top1">
-						<a href="#"><img class="img-responsive" src="resources/images/name.png" alt="name"></a>
+						<a href="#"><img class="img-responsive" src="/resources/images/name.png" alt="name"></a>
 						<a href="#" class="ad-a1">Название</a>
 					</div>
 					<div class="add-top1">
-						<a href="#"><img class="img-responsive" src="resources/images/arm.png" alt="arm"></a>
+						<a href="#"><img class="img-responsive" src="/resources/images/arm.png" alt="arm"></a>
 						<a href="#" class="ad-a1">Название</a>
 					</div>
 					<div class="add-top1">
-						<a href="#"><img class="img-responsive" src="resources/images/holography.png" alt="holography"></a>
+						<a href="#"><img class="img-responsive" src="/resources/images/holography.png" alt="holography"></a>
 						<a href="#" class="ad-a1">Название</a>
 					</div>
         		</div>
-        		<img class="caretDown" id="tend-caret" src="resources/images/caret.png" alt="caret">
+        		<img class="caretDown" id="tend-caret" src="/resources/images/caret.png" alt="caret">
         	</div>
         	
         	<div class="ad">
         		<p class="proj-p">ТОП ПРОЕКТОВ</p>
         		<div class="add-top1">
-        			<a href="#"><img class="img-responsive" src="resources/images/tractor.png" alt="tractor"></a>
+        			<a href="#"><img class="img-responsive" src="/resources/images/tractor.png" alt="tractor"></a>
         			<a href="#" class="ad-a1">Название</a>
         		</div>
         		<div class="add-top1">
-        			<a href="#"><img class="img-responsive" src="resources/images/wheat.png" alt="wheat"></a>
+        			<a href="#"><img class="img-responsive" src="/resources/images/wheat.png" alt="wheat"></a>
         			<a href="#" class="ad-a1">Название</a>
         		</div>
         		<div class="add-top1">
-        			<a href="#"><img class="img-responsive" src="resources/images/factory.png" alt="factory"></a>
+        			<a href="#"><img class="img-responsive" src="/resources/images/factory.png" alt="factory"></a>
         			<a href="#" class="ad-a1">Название</a>
         		</div>
         		
@@ -273,24 +273,24 @@
         		
         		<div class="proj-drop">
 					<div class="add-top1">
-						<a href="#"><img class="img-responsive" src="resources/images/tractor.png" alt="tractor"></a>
+						<a href="#"><img class="img-responsive" src="/resources/images/tractor.png" alt="tractor"></a>
 						<a href="#" class="ad-a1">Название</a>
 					</div>
 					<div class="add-top1">
-						<a href="#"><img class="img-responsive" src="resources/images/wheat.png" alt="wheat"></a>
+						<a href="#"><img class="img-responsive" src="/resources/images/wheat.png" alt="wheat"></a>
 						<a href="#" class="ad-a1">Название</a>
 					</div>
 					<div class="add-top1">
-						<a href="#"><img class="img-responsive" src="resources/images/factory.png" alt="factory"></a>
+						<a href="#"><img class="img-responsive" src="/resources/images/factory.png" alt="factory"></a>
 						<a href="#" class="ad-a1">Название</a>
 					</div>
         		</div>
-        		<img class="caretDown" id="proj-caret" src="resources/images/caret.png" alt="caret">
+        		<img class="caretDown" id="proj-caret" src="/resources/images/caret.png" alt="caret">
         	</div>
         </div>
         
         <div class="question">
-            <img class="question-img" src="resources/images/question.png" alt="question">
+            <img class="question-img" src="/resources/images/question.png" alt="question">
             <div class="questionForm">
                 <p class="quest-p">Оставьте свой вопрос</p>
                 <form id="form-quest" action="#" role="form">
@@ -300,31 +300,31 @@
                 </form>
                 
                 <div class="message">
-                    <img src="resources/images/operator.png" alt="operator">
+                    <img src="/resources/images/operator.png" alt="operator">
                     <p class="data-mess">26. 10. 15</p>
                     <a href="#">Оператор: Григорий</a>
                     <p class="mess-p">Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение</p>
                 </div>
                 <div class="message">
-                    <img src="resources/images/user.png" alt="user">
+                    <img src="/resources/images/user.png" alt="user">
                     <p class="data-mess">26. 10. 15</p>
                     <a href="#">Лидия Ивановна</a>
                     <p class="mess-p">Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение</p>
                 </div>
                 <div class="message">
-                    <img src="resources/images/operator.png" alt="operator">
+                    <img src="/resources/images/operator.png" alt="operator">
                     <p class="data-mess">26. 10. 15</p>
                     <a href="#">Оператор: Григорий</a>
                     <p class="mess-p">Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение</p>
                 </div>
                 <div class="message">
-                    <img src="resources/images/user.png" alt="user">
+                    <img src="/resources/images/user.png" alt="user">
                     <p class="data-mess">26. 10. 15</p>
                     <a href="#">Лидия Ивановна</a>
                     <p class="mess-p">Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение</p>
                 </div>
                 <div class="message">
-                    <img src="resources/images/operator.png" alt="operator">
+                    <img src="/resources/images/operator.png" alt="operator">
                     <p class="data-mess">26. 10. 15</p>
                     <a href="#">Оператор: Григорий</a>
                     <p class="mess-p">Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение Сообщение</p>
@@ -335,22 +335,29 @@
         <div class="footer"></div>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
-        <script>window.jQuery || document.write('<script src="resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+        <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
 
-        <script src="resources/js/vendor/bootstrap.js"></script>
+        <script src="/resources/js/vendor/bootstrap.js"></script>
         
-        <script src="resources/js/jquery.bxslider.js"></script>
+        <script src="/resources/js/jquery.bxslider.js"></script>
         <script>
 			$(document).ready(function(){
 				$('.bxslider').bxSlider();
 			});
 		</script>
 
-        <script src="resources/js/main.js"></script>
-        
+        <script src="/resources/js/main.js"></script>
+
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
         <script>
             $('#tab-container').easytabs();
         </script>
+
+		<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+		<sec:authorize access="isAuthenticated()">
+			<script src="/resources/js/autorizedHeader.js"></script>
+		</sec:authorize>
+		<script src="/resources/js/logo-section.js"></script>
+
     </body>
 </html>
