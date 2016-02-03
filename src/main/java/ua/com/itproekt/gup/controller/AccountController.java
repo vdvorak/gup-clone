@@ -33,8 +33,10 @@ import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by RAYANT on 20.11.2015.
@@ -130,7 +132,7 @@ public class AccountController {
     @ResponseBody
     public String[] getLiqPayParam(@RequestParam("amount") Long amount) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Map<String, String> result = session.liqPayGenerateParamForHtmlForm(auth.getName(), amount);
+        Map<String, String> result = session.liqPayGenerateParamForHtmlForm(profilesService.findProfileByEmail(auth.getName()).getId(), amount);
         return new String[]{result.get("data"), result.get("signature")};
     }
 
