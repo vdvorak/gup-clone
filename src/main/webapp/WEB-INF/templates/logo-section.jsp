@@ -1,28 +1,17 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Optical Illusion
-  Date: 20.01.2016
-  Time: 18:14
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<section class="first-sec">
-  <div class="logo-wrap">
-    <a href="/index">
-      <img src="/resources/img/logo-site.png">
-    </a>
-    <p class="logo-title">global ukrainian portal</p>
-  </div>
-  <div class="shop-wrap-right">
-    <div class="shop-wrap">
-      <a class="main-winStore" href="#"><img src="/resources/img/wins-icon.png"></a>
-      <a class="main-googlePlay" href="#"><img src="/resources/img/goop-icon.png"></a>
-      <a class="main-appStore" href="#"><img src="/resources/img/apps-icon.png"></a>
+<div class="head">
+  <div class="container">
+    <div class="logo">
+      <a class="brand" href="/index"><img src="/resources/images/brand.png" alt="brand"></a>
+      <p class="logo-p">Global Ukranian Portal</p>
     </div>
-    <div class="join-button-wrap">
-      <div class="join-button">
-        <a href="/joinToGUP" title="Вступить в организацию"><img src="/resources/img/join-button.png"></a>
-      </div>
+    <div class="social">
+      <ul class="store">
+        <li><a href="#"><img src="/resources/images/windowsStore.png" alt="Windows Store"></a></li>
+        <li><a href="#"><img src="/resources/images/googlePlay.png" alt="Google Play"></a></li>
+        <li><a href="#"><img src="/resources/images/appStore.png" alt="App Store"></a></li>
+      </ul>
+      <button class="socialBtn" id="joinToGupBtn">ВСТУПИТЬ В ОРГАНИЗАЦИЮ <i class="fa fa-plus"></i></button>
     </div>
   </div>
-</section>
+</div>

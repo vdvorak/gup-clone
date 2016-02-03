@@ -28,111 +28,15 @@
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        
-        <div class="menu">
-            <div class="container">
-                <!-- не залогиненный / залогиненный -->
-                <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
-            </div>
-        </div>
-        
-        <div class="head">
-            <div class="container">
-                <div class="logo">
-                    <a class="brand" href="/index"><img src="/resources/images/brand.png" alt="brand"></a>
-                    <p class="logo-p">Global Ukranian Portal</p>
-                </div>
-                <div class="social">
-                    <ul class="store">
-                        <li><a href="#"><img src="/resources/images/windowsStore.png" alt="Windows Store"></a></li>
-                        <li><a href="#"><img src="/resources/images/googlePlay.png" alt="Google Play"></a></li>
-                        <li><a href="#"><img src="/resources/images/appStore.png" alt="App Store"></a></li>
-                    </ul>
-                    <button class="socialBtn" id="joinToGupBtn">ВСТУПИТЬ В ОРГАНИЗАЦИЮ <i class="fa fa-plus"></i></button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="container">
-            <div class="search">
-                <%--<form action="#" id="form" role="form">--%>
-                    <input type="text" id="searchInput" class="form-control sear" name="search" placeholder="Поиск">
-                    <div class="selectBox">
-                        <select class="form-control" id="selectedService">
-                            <option value="profile">Пользователи</option>
-							<option value="project">Проекты</option>
-							<option value="tender">Тендеры</option>
-							<option value="offer">Обьявления</option>
-                        </select>
-                    </div>
-                    <button id="searchButton" class="submit-search">Найти <i class="fa fa-search fa-flip-horizontal"></i></button>
-                <%--</form> type="submit"  --%>
-                <button class="users" id="userListBtn">Пользователи</button>
-                <img src="/resources/images/caretka.png" alt="caret">
-            </div>
-        </div>
-        
-        <div class="container">
-        	<ul class="mid">
-        		<li>
-        			<a href="#" class="ads-p">Обьявления</a>
-					<div class="ads-img">
-						<a href="#"><img class="img-responsive" src="/resources/images/rupor.png" alt="rupor"></a>
-					</div>
-					<ul class="dropUl">
-					    <li><a class="ads-a1" href="#">Топ обьявлений</a></li>
-						<li><a class="ads-a1" href="#">Новые</a></li>
-						<li><a class="ads-a1" href="#">Новые2</a></li>
-						<li><a class="ads-drop" href="#">Новые3</a></li>
-					</ul>
-        		</li>
-        		<li>
-        			<a href="#" class="ads-p">Тендеры</a>
-					<div class="ads-img">
-						<a href="#"><img class="img-responsive" src="/resources/images/hammer.png" alt="hammer"></a>
-					</div>
-					<ul class="dropUl">
-					    <li><a class="ads-a1" href="#">Участвовать</a></li>
-						<li><a class="ads-a1" href="#">Исполнители</a></li>
-						<li><a class="ads-a1" href="#">Исполнители2</a></li>
-						<li><a class="ads-drop" href="#">Исполнители3</a></li>
-					</ul>
-        		</li>
-        		<li>
-        			<a href="#" class="ads-p">Проекты</a>
-					<div class="ads-img">
-						<a href="#"><img class="img-responsive" src="/resources/images/compass.png" alt="compass"></a>
-					</div>
-					<ul class="dropUl">
-					    <li><a class="ads-a1" href="#">Реструкторизация</a></li>
-						<li><a class="ads-a1" href="#">Готовый прототип</a></li>
-						<li><a class="ads-a1" href="#">Проект на бумаге</a></li>
-						<li><a class="ads-drop" href="#">Ноу-Хау</a></li>
-					</ul>
-        		</li>
-        		<li>
-        			<a href="#" class="ads-p">Новости</a>
-					<div class="ads-img">
-						<a href="#"><img class="img-responsive" src="/resources/images/newspaper.png" alt="newspaper"></a>
-					</div>
-					<ul class="dropUl">
-					    <li><a class="ads-a1" href="#">Киев</a></li>
-						<li><a class="ads-a1" href="#">Львов</a></li>
-						<li><a class="ads-a1" href="#">Харьков</a></li>
-						<li><a class="ads-drop" href="#">Запорожье</a></li>
-					</ul>
-        		</li>
-        		<li>
-        			<div class="slider">
-						<ul class="bxslider">
-							<li><img src="/resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>
-							<li><img src="/resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>
-							<li><img src="/resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>
-						</ul>
-					</div>
-        		</li>
-        	</ul>
-        </div>
+
+        <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+
+        <jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+
+        <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+        <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+
         
         <div class="container">
         	<div class="tidings">
