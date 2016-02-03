@@ -19,9 +19,8 @@
   <link href="/resources/css/com.css" rel="stylesheet">
   <link type="text/css" rel="stylesheet" href="/resources/css/simplePagination.css"/>
   <link href="/resources/css/pgwslideshow.css" rel="stylesheet" type="text/css">
+  <link href="/resources/css/jquery-ui.css" rel="stylesheet">
 
-  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" rel="stylesheet"
-        type="text/css"/>
 </head>
 <body class="center-block" style="padding-top: 70px; max-width: 1200px;">
 <div class="container-fluid">

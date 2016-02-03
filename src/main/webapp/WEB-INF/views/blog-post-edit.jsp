@@ -148,28 +148,19 @@
 </div>
 <br>
 <a id="submit" class="btn btn-lg btn-danger">Сохранить</a>
-</body>
+
 <!-- script references -->
 <script src="/resources/js/jquery.min.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/jquery.maskedinput.min.js"></script>
 <script src="//tinymce.cachefly.net/4.3/tinymce.min.js"></script>
 
-
 <script>
+
     var imgsArr = {};
-    var mainForm;
-    var placeKey = '';
-    var phones = [];
-    var options;
-    var isComplete = 0; // It indicates whether the user selected the last level category
     var cities;
     var inpCategories = [];
     var oldCategories = '${blogPost.categories}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
-
-    <%--var text = '${blogPost.text}';--%>
-
-    <%--alert(text);--%>
 
     // ---------------    LOAD RESOURCES    --------------------------//
     $.ajax({
@@ -182,7 +173,6 @@
         }
     });
     // ---------------   END LOAD RESOURCES    --------------------------//
-
 
 
     //----------------------  HTML EDITOR-------------------------------------//
@@ -212,12 +202,6 @@
         }
     });
 
-
-
-
-
-//    tinymce.activeEditor.setContent("<span>some</span> html");
-//    tinymce.activeEditor.setContent('<span>some</span> html');
     //---------------------- END  HTML EDITOR-------------------------------------//
 
 
@@ -228,7 +212,6 @@
     // ---------------    END SET CATEGORIES  --------------------------//
 
 
-
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
     $('#submit').click(function () {
 
@@ -236,7 +219,7 @@
         blogPost.id = '${blogPost.id}';
         blogPost.blogId = '${blogPost.blogId}';
         blogPost.title = $('#title').val();
-        blogPost.text = $('#text').val();
+        blogPost.text = tinymce.activeEditor.getContent({format : 'raw'});
         blogPost.address = {};
         blogPost.address.country = 'Украина';
         blogPost.address.area = $('#areaInp').val();

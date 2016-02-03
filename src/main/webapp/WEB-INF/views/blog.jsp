@@ -66,6 +66,10 @@
     ${blog.description}
 </div>
 
+<!-- Begin Social buttons html-->
+<jsp:include page="/WEB-INF/templates/social-button-html.jsp"/>
+<!-- End Social buttons html -->
+
 <c:if test="${check}">
     <a href="/blog-post/create/${blog.id}">
         <button>Создать новость</button>
@@ -78,8 +82,9 @@
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
-<script>
+<!-- Begin Social buttons js -->
+<jsp:include page="/WEB-INF/templates/social-buttons-js.jsp"/>
+<!-- End Social buttons js -->
 
-</script>
 </body>
 </html>

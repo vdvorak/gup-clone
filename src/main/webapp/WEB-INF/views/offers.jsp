@@ -7,8 +7,8 @@
   <link href="/resources/css/com.css" rel="stylesheet">
   <link href="/resources/css/bootstrap-datetimepicker.css" rel="stylesheet">
   <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" rel="stylesheet"
-        type="text/css"/>
+  <link href="/resources/css/jquery-ui.css" rel="stylesheet">
+
 </head>
 <body>
 <input id="areaInp" type="text" name="area" style="display: none">
