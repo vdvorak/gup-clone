@@ -282,7 +282,7 @@ public class TenderRestController {
         tender.setEnd(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
         tender.setProposes(null);
         tender.setMembers(null);
-        //todo ActivityFeed!!!!!!!!!!!!!!!!!!!!!
+        activityFeedService.createEvent(new Event(tender.getWinnerId(), EventType.YOU_WON_IN_TENDER, tender.getId(), tender.getAuthorId()));
         return new ResponseEntity<Tender>(tenderService.updateTender(tender), HttpStatus.OK);
     }
 
