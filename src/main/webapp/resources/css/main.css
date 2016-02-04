@@ -30,7 +30,6 @@ a{
 }
 .top-menu-username a{
 	color: #fff;
-    vertical-align: -webkit-baseline-middle;
 }
 .ballance{
 	text-align: center;
@@ -398,7 +397,6 @@ footer{
 	margin-left: 50px;
 }
 #registration{
-	margin-top:;
 	display: none;
 }
 .agree{

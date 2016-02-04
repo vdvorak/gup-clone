@@ -112,6 +112,11 @@
                                         Удалить
                                     </button>
 
+
+
+
+
+
                                     <!-- Modal window for delete offer -->
                                     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document">
@@ -132,6 +137,13 @@
                                         </div>
                                     </div>
                                     <!-- Modal window for delete offer -->
+
+
+
+
+
+
+
                                 </a>
                             </li>
                         </ul>

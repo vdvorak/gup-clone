@@ -16,7 +16,10 @@ import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.bank_api.entity.ExternalTransaction;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
+import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
+import ua.com.itproekt.gup.model.offer.Offer;
+import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.profiles.Profile;
@@ -25,6 +28,8 @@ import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOpt
 import ua.com.itproekt.gup.model.tender.Tender;
 import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
+import ua.com.itproekt.gup.service.news.BlogPostService;
+import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
@@ -33,8 +38,10 @@ import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by RAYANT on 20.11.2015.
@@ -58,6 +65,12 @@ public class AccountController {
     @Autowired
     ActivityFeedService activityFeedService;
 
+    @Autowired
+    BlogPostService blogPostService;
+
+    @Autowired
+    OffersService offersService;
+
     BankSession session = new BankSession();
 
     private static Map<String,Integer> storedSMScodes = new HashMap<>();
@@ -67,31 +80,43 @@ public class AccountController {
     public String privatOfice(Model model) {
         String loggedUserId = SecurityOperations.getLoggedUserId();
         Profile profile = profilesService.findById(SecurityOperations.getLoggedUserId());
+
+        String authId = profile.getId();
+
         System.err.println("Деньги пришли: " + session.getUserBalance(loggedUserId));
         model.addAttribute("profile", profile);
-        model.addAttribute("balance", session.getUserBalance(loggedUserId));
+        model.addAttribute("curentBalance", session.getUserBalance(authId));
+
+        System.err.println("balance: " + session.getUserBalance(authId));
+        System.err.println("id: " + authId);
 
         List<Dialogue> dialogues = dialogueService.findFirstThreeDialogues(new Member(profile.getId()));
         model.addAttribute("dialogues", dialogues);
 
         TenderFilterOptions tf = new TenderFilterOptions();
-        tf.setAuthorId(profile.getId());
+        tf.setAuthorId(authId);
         tf.setLimit(3);
         List<Tender> tenders = tenderService.findWihOptions(tf, profile).getEntities();
         model.addAttribute("tenders", tenders);
 
         ProjectFilterOptions pf = new ProjectFilterOptions();
-        pf.setAuthorId(profile.getId());
+        pf.setAuthorId(authId);
         pf.setLimit(3);
         List<Project> projects = projectService.findProjectsWihOptions(pf).getEntities();
         model.addAttribute("projects", projects);
 
         BlogPostFilterOptions bpf = new BlogPostFilterOptions();
-        pf.setAuthorId(profile.getId());
+        bpf.setAuthorId(authId);
         bpf.setLimit(3);
         bpf.setCreatedDateSortDirection(Sort.Direction.DESC);
-        List<Project> blogposts = projectService.findProjectsWihOptions(pf).getEntities();
+        List<BlogPost> blogposts = blogPostService.findBlogPostsWihOptions(bpf).getEntities();
         model.addAttribute("blogposts", blogposts);
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setAuthorId(authId);
+        offerFilterOptions.setLimit(3);
+        List<Offer> offers = offersService.findOffersWihOptions(offerFilterOptions).getEntities();
+        model.addAttribute("offers", offers);
 
         EventFilterOptions ef = new EventFilterOptions();
         ef.setLimit(3);
@@ -100,8 +125,8 @@ public class AccountController {
         EntityPage<Event> events = activityFeedService.findEventsWithOptionsAndSetViewed(ef);
         model.addAttribute("events", events.getEntities());
 
-        BankSession bs = new BankSession();
-        String balanceStr = bs.getExternalTransactionsByUserId(profile.getId());
+
+        String balanceStr = session.getExternalTransactionsByUserId(authId);
         ObjectMapper mapper = new ObjectMapper();
         List<ExternalTransaction> balance = null;
         //JSON from URL to Object
@@ -111,6 +136,7 @@ public class AccountController {
             e.printStackTrace();
         }
 
+        System.err.println("json: " + balanceStr);
         model.addAttribute("balance", balance);
 
         return "prioffice";
@@ -130,7 +156,7 @@ public class AccountController {
     @ResponseBody
     public String[] getLiqPayParam(@RequestParam("amount") Long amount) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Map<String, String> result = session.liqPayGenerateParamForHtmlForm(auth.getName(), amount);
+        Map<String, String> result = session.liqPayGenerateParamForHtmlForm(profilesService.findProfileByEmail(auth.getName()).getId(), amount);
         return new String[]{result.get("data"), result.get("signature")};
     }
 
