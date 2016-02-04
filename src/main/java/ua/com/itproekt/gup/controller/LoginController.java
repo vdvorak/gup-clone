@@ -86,7 +86,6 @@ public class LoginController {
 		response.addCookie(cookieRefreshToken);
 
 		logger.debug("Login: profile {email : " + email + "}");
-
 	}
 
 //		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
