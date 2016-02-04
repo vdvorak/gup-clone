@@ -37,11 +37,11 @@
 <!-- END 1st section -->
 
 <!--BEGIN section with search bar-->
-<jsp:include page="/WEB-INF/templates/main-search-bar.jsp"/>
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
 <!-- END search bar -->
 
 <!--2nd section menu+slider -->
-<jsp:include page="/WEB-INF/templates/main-menu-slider-bar.jsp"/>
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 <!--END 2nd section -->
 
 
