@@ -30,4 +30,22 @@ public class MainController {
 
         return "index";
     }
+
+
+    @RequestMapping(value = {"/indexOld"})
+    public String indexOLD(Model model) {
+
+        if (SecurityOperations.isUserLoggedIn()) {
+            String userId = SecurityOperations.getLoggedUserId();
+            Profile profile = profilesService.findById(userId);
+
+            model.addAttribute("profile", profile);
+        }
+
+        model.addAttribute("profileFO", new ProfileFilterOptions());
+
+        return "indexOLD";
+    }
+
+
 }
