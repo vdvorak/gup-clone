@@ -43,6 +43,12 @@
     </div>
 </div>
 <div class="row">
+    <div class="col-xs-4">
+        <input id="hidePropose" type="checkbox" class="form-control" ><br>Скрывать предложения участников
+    </div>
+</div>
+<br>
+<div class="row">
     <div class="col-xs-2">
         <div class="radio">
             <label><input type="radio" id="open" name="optradio" checked>Открыйтый</label>
@@ -159,6 +165,7 @@
 <br>
 <br>
 
+
 <div class="imgBlock">
     <!--uploaded images-->
 </div>
@@ -215,6 +222,7 @@
     var members = [];
     var type = 'OPEN';
     var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
+    var hidePropose = true;
 
 
     $(document).ready(function () {
@@ -399,11 +407,6 @@
 
     // ---------------   END LOAD RESOURCES    --------------------------//
 
-
-
-
-
-
     function deleteImg(idImg) {
         delete imgsArr[idImg];
         $.ajax({
@@ -483,6 +486,10 @@
         tender.end = new Date($('#datetimepicker4').val()).getTime();
         tender.type = type;
         tender.expectedPrice = $('#price').val();
+        tender.hidePropose = false;
+        if($('#hidePropose').val() == 'on'){
+            tender.hidePropose = true;
+        }
         if (type === 'CLOSE') {
             tender.members = members;
         }
