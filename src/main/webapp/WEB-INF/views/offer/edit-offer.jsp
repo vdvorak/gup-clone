@@ -20,6 +20,7 @@
   <link type="text/css" rel="stylesheet" href="/resources/css/simplePagination.css"/>
   <link href="/resources/css/pgwslideshow.css" rel="stylesheet" type="text/css">
   <link href="/resources/css/jquery-ui.css" rel="stylesheet">
+  <link href="/resources/css/mini.css" rel="stylesheet">
 
 </head>
 <body class="center-block" style="padding-top: 70px; max-width: 1200px;">
@@ -41,7 +42,7 @@
 
           <div id="inputPrice">
             Цена
-            <input name="cost" type="number" class="form-control input-sm" style="display: none;" value="${offer.price}" required>
+            <input name="cost" type="number" class="form-control input-sm" value="${offer.price}" required>
             <br>
             Валюта
             <select id="inputCurrency" name="currency">
@@ -51,9 +52,9 @@
             </select>
           </div>
 
-
-
-
+          <div id="categories-container" class="row">
+            <div id="category-element" class="element-hidden col-xs-2"></div>
+          </div>
 
           Номера телефонов
           <c:forEach items="${offer.userInfo.phoneNumbers}" var="id">
@@ -86,7 +87,6 @@
           <input id="inputVideo" type="text" class="form-control input-sm"
                  value="${offer.videoUrl}">
           <br>
-
 
           <!-- city chosen -->
           <input id="countryInp" type="text" name="country" style="visibility: hidden;">
@@ -182,22 +182,26 @@
     </form>
     <div id="options" class="row panel"></div>
     <div id="inputs" class="row panel"></div>
-    <form id="photoInput" enctype="multipart/form-data" action="/api/rest/imagesStorage/image/upload/"
-          method="post">
-      <p>Загрузите ваши фотографии на сервер</p>
+    <!--
+   <form id="photoInput" enctype="multipart/form-data" action="/api/rest/imagesStorage/image/upload/"
+         method="post">
+     <p>Загрузите ваши фотографии на сервер</p>
 
-      <p><input type="file" name="file" multiple accept="image/*,image/jpeg">
-        <input type="submit" value="Отправить"></p>
-    </form>
+     <p><input type="file" name="file" multiple accept="image/*,image/jpeg">
+       <input type="submit" value="Отправить"></p>
+   </form>
+   -->
 
-    <div id="floating-panel">
-      <input id="address" type="textbox" value="">
-      <input id="submit" type="button" value="Сохранить">
+   <div id="floating-panel">
+     <input id="address" type="textbox" value="">
+     <input id="submit" type="button" value="Сохранить">
+   </div>
+   <div id="map" style="height: 50%"></div>
+
+   <div class="imgBlock">
+     <!--uploaded images-->
     </div>
-    <div id="map" style="height: 50%"></div>
-
-    <div class="imgBlock">
-      <!--uploaded images-->
+    <div id="drop_zone"> Перетяните файлы сюда
     </div>
   </div>
 
@@ -224,14 +228,17 @@
   var placeKey = '';
   var offerProperties = ${properties};
   var categories = ${categories};
-
+  var categoryObj1 = {};
+  var categoryObj2 = {};
+  var categoryObj3 = {};
+  var jsonCategory;
+  var jsonSubcategory;
 
 
   $.ajax({
     type: "GET",
     url: "/resources/json/searchValues.json",
     dataType: 'json',
-    async: false,
     success: function (response) {
       options = response;
     }
@@ -242,19 +249,84 @@
     type: "GET",
     url: "/resources/json/parameters.json",
     dataType: 'json',
-    async: false,
     success: function (response) {
       parameters = response;
     }
   });
 
+  function ajaxCategories1() {
+  return  $.ajax({
+      type: "GET",
+      url: "/resources/json/searchCategories.json",
+      dataType: "json",
+      success: function (response) {
+        jsonCategory = response;
+      }
+    });
+  }
+
+  function ajaxCategories2() {
+   return $.ajax({
+      type: "GET",
+      url: "/resources/json/searchSubcategories.json",
+      dataType: "json",
+      success: function (response) {
+        jsonSubcategory = response;
+      }
+
+    });
+  }
 
 
+  $.when(ajaxCategories1(), ajaxCategories2()).done(function (resp1, resp2) {
+    if(categories.length > 0) {
+      var a1 = jsonCategory.filter(function(obj) {
+        return parseInt(obj.id) === parseInt(categories[0]);
+      });
+      if(a1.length) {
+        categoryObj1 = a1[0];
+        appendCategory(categoryObj1.name);
+      }
+
+    }
+
+    if(categories.length > 1) {
+      var a2 = categoryObj1.children.filter(function(obj) {
+        return parseInt(obj.id) === parseInt(categories[1]);
+      });
+      if(a2.length) {
+        categoryObj2 = a2[0];
+        appendCategory(categoryObj2.name);
+      }
+
+    }
+
+    if(categories.length > 2) {
+      var obj3 = jsonSubcategory[categories[1].toString()];
+      if(obj3){
+        var child3 = obj3.children;
+        if(child3){
+          categoryObj3 = child3[categories[2].toString()];
+          appendCategory(categoryObj3.label);
+        }
+      }
+    }
+
+
+  });
+
+  function appendCategory(txt) {
+  var el = $('#category-element').clone()
+          .removeClass("element-hidden")
+          .removeAttr("id")
+          .text(txt);
+
+  $("#categories-container").append(el);
+}
 
   //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
 
   var drawOptions = function(id){
-    alert(id);
     for(var i in options){
       var key_ru;
       if(options[i]['c'][id]!==undefined){
@@ -397,8 +469,59 @@
       picArrIn.push(id);
       $('.imgBlock').append('<ul id="' + id + '" style="display: inline-table; list-style-type: none">' +
       ' <li style="background-color: white"><a rel="example_group"> ' +
-      '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
+      '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + id + '"' + 'width="150" height="150" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')"> ' +
       '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+    }
+    // Setup the dnd listeners.
+    var dropZone = document.getElementById('drop_zone');
+    dropZone.addEventListener('dragover', handleDragOver, false);
+    dropZone.addEventListener('drop', handleFileSelect, false);
+
+    function handleFileSelect(evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+
+      var files = evt.dataTransfer.files; // FileList object.
+
+      // files is a FileList of File objects. List some properties.
+      var output = [];
+      for (var i = 0, f; f = files[i]; i++) {
+        var formImg = new FormData($(this)[0]);
+        var fd = new FormData();
+        fd.append('file', f);
+        $.ajax({
+          type: "POST",
+          url: "/api/rest/fileStorage/OFFERS/file/upload/",
+          data: fd,
+          async: false,
+          cache: false,
+          contentType: false,
+          processData: false,
+
+          success: function (data, textStatus, request) {
+            var id = data.id;
+            var isImage = f.type.substring(0, 5) === 'image';
+            var isPic1 = f.type.substring(0, 4) === 'pic1';
+            if (isImage || isPic1) {
+              imgsArrResult[id] = (isImage) ? "image" : 'pic1';
+              $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                      ' <li style="background-color: white">' +
+                      '<a rel="example_group"> ' +
+                      '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                      '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+            }
+            $('div.imgBlock > li').click(onClickSetMainImg);
+          }
+        });
+
+
+      }
+    }
+
+    function handleDragOver(evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+      evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
     }
 
 // delete images before save changes in offer (must be called before update offer)
@@ -533,9 +656,30 @@
   // delete pictures only from page
   function deleteImgFromPage(idImg) {
     $('#' + idImg).remove();
-    picArrDel.push(idImg);
+    imgsArrResult.push(idImg);
   }
 
+  function onClickSetMainImg(id) {
+    var allImgs = $(".imgBlock").find("img");
+    for (var i =0; i < allImgs.length; i++) {
+      var curImg = $(allImgs[i]);
+      if (curImg.hasClass("mainImg")) {
+        curImg.removeClass("mainImg");
+      }
+    }
+    var el = $('#' + id).find("img");
+    if(!el.hasClass("mainImg")) {
+      el.addClass("mainImg");
+    }
+    for(var key in picArrDel) {
+      if( imgsArrResult[key] === "pic1") {
+        imgsArrResult[key] = "image";
+      }
+    }
+    if(el.hasClass("mainImg")) {
+      imgsArrResult[id] = "pic1";
+    }
+  }
   // upload photo to the server and place it into the page-----------------------BEGIN------------------------
   $('#photoInput').submit(function (event) {
     event.preventDefault();

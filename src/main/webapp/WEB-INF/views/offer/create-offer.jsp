@@ -358,16 +358,10 @@
 
                     success: function (data, textStatus, request) {
                         var id = data.id;
-                        if (f.type.substring(0, 5) === 'image') {
-                            imgsArr[id] = "image";
-                            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-                                    '<li><strong>' + f.name + '</strong></li>' +
-                                    ' <li style="background-color: white">' +
-                                    '<a rel="example_group"> ' +
-                                    '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
-                                    '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
-                        } else if(f.type.substring(0, 4) === 'pic1') {
-                            imgsArr[id] = "pic1";
+                        var isImage = f.type.substring(0, 5) === 'image';
+                        var isPic1 = f.type.substring(0, 4) === 'pic1';
+                        if (isImage || isPic1) {
+                            imgsArr[id] = (isImage) ? "image" : 'pic1';
                             $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
                                     '<li><strong>' + f.name + '</strong></li>' +
                                     ' <li style="background-color: white">' +
