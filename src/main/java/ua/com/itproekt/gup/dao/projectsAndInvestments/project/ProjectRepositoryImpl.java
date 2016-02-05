@@ -2,7 +2,6 @@ package ua.com.itproekt.gup.dao.projectsAndInvestments.project;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -51,10 +50,9 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public int delete(String id) {
+    public void delete(String id) {
         Query query = new Query(Criteria.where("id").is(id));
-        WriteResult result = mongoTemplate.remove(query, Project.class);
-        return result.getN();
+        mongoTemplate.remove(query, Project.class);
     }
 
     @Override
@@ -119,13 +117,11 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public int deleteComment(String projectId, String commentId) {
-        WriteResult result = mongoTemplate.updateFirst(
+    public void deleteComment(String projectId, String commentId) {
+        mongoTemplate.updateFirst(
                 Query.query(Criteria.where("id").is(projectId)),
                 new Update().pull("comments", Query.query(Criteria.where("cId").is(commentId))).inc("totalComments", -1),
                 Project.class);
-
-        return result.getN();
     }
 
     @Override
@@ -211,7 +207,8 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         String searchFieldRegex = "(?i:.*" + name + ".*)";
 
         Query query = new Query()
-                .addCriteria(Criteria.where("projectName").regex(searchFieldRegex));
+                .addCriteria(Criteria.where("projectName").regex(searchFieldRegex))
+                .addCriteria(Criteria.where("moderationStatus").is(ModerationStatus.COMPLETE));
 
         query.fields().include("projectName");
         query.skip(0);

@@ -9,7 +9,6 @@ import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.projectsAndInvestments.project.ProjectRepository;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
-import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.*;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.util.EntityPage;
@@ -63,12 +62,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public int delete(String id) {
+    public void delete(String id) {
         Map<String, String> imagesIds = findById(id).getImagesIds();
         if (imagesIds != null) {
             storageRepository.delete(ServiceNames.PROJECTS_AND_INVESTMENTS.toString(), (Set<String>)imagesIds.values());
         }
-        return projectRepository.delete(id);
     }
 
     @Override
@@ -95,8 +93,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public int deleteComment(String projectId, String commentId) {
-        return projectRepository.deleteComment(projectId, commentId);
+    public void deleteComment(String projectId, String commentId) {
+        projectRepository.deleteComment(projectId, commentId);
     }
 
     @Override

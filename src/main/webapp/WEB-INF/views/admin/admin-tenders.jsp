@@ -65,7 +65,7 @@
                                 </tbody>
                             </table>
                             <a id="tenderIdhref" href="">
-                                <button id="userIdBtn" type="submit" class="btn btn-primary disabled">Редактировать
+                                <button id="tenderIdBtn" type="submit" class="btn btn-primary disabled">Редактировать
                                 </button>
                             </a>
                         </div>
@@ -138,14 +138,14 @@
                         .on('select', function (e, dt, type, indexes) {
                             var rowData = table.rows(indexes).data().toArray();
                             $("input[name='transactionId']").attr("value", rowData[0].id);
-                            $('#tenderIdhref').attr("href", "/edit-profile/" + rowData[0].id);
+                            $('#tenderIdhref').attr("href", "/tender/id/" + rowData[0].id + "/update");
                             $('#inp').removeAttr("readonly");
-                            $('#userIdBtn').attr("class", "btn btn-danger");
+                            $('#tenderIdBtn').attr("class", "btn btn-danger");
                         })
                         .on('deselect', function (e, dt, type, indexes) {
                             $("input[name='transactionId']").attr("value", "");
                             $('#inp').attr("readonly", "readonly");
-                            $('#userIdBtn').attr("class", "btn btn-danger disabled");
+                            $('#tenderIdBtn').attr("class", "btn btn-danger disabled");
                         });
             }
         });

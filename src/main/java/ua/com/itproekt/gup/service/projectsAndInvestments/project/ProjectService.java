@@ -14,7 +14,7 @@ public interface ProjectService {
 
     Project findById(String id);
 
-    int delete(String id);
+    void delete(String id);
 
     boolean projectExists(String id);
 
@@ -27,7 +27,7 @@ public interface ProjectService {
     // Comments
     void addComment(String projectId, Comment comment);
 
-    int deleteComment(String projectId, String commentId);
+    void deleteComment(String projectId, String commentId);
 
     Project findComment(String projectId, String commentId);
 
