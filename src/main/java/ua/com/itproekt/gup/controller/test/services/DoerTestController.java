@@ -12,7 +12,6 @@ import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.tender.doer.Doer;
 import ua.com.itproekt.gup.model.tender.doer.DoerClient;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +45,7 @@ public class DoerTestController {
                 Doer doer = new Doer();
                 if (!ids.isEmpty()) {
                     doer.setAuthorId(randId(ids));
-                    doer.setAuthorContacts(profilesService.findById(doer.getAuthorId()).getContact());
+                    doer.setAuthorContacts(profilesService.findByIdWholeProfile(doer.getAuthorId()).getContact());
                     DoerClient doerClient1 = new DoerClient();
                     doerClient1.setId(randId(ids));
                     doerClient1.setClientConfirm(true);

@@ -41,7 +41,7 @@ public class ProfileController {
     public String editProfilePageById(Model model, @PathVariable("id") String id) {
         Profile profile = new Profile();
         try {
-            profile = profilesService.findById(id);
+            profile = profilesService.findByIdWholeProfile(id);
         } catch (Exception e) {
             System.out.println("Can't read profile by id: " + id);
             e.printStackTrace();
@@ -64,7 +64,7 @@ public class ProfileController {
         }
 
         try {
-            profile = profilesService.findById(userId);
+            profile = profilesService.findByIdWholeProfile(userId);
         } catch (Exception e) {
             System.out.println("Can't read profile by id: " +userId);
             e.printStackTrace();

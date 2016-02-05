@@ -38,7 +38,7 @@ public class SupportDialogueRestController {
             method = RequestMethod.POST,
             headers = "Content-Type=application/json")
     public ResponseEntity<Dialogue> addDialogue(@RequestBody Dialogue dialogue, HttpServletRequest req) {
-        Profile support = profileService.findById(StaticData.SUPPORT_DIALOGUES_ADMIN_ID);
+        Profile support = profileService.findByIdWholeProfile(StaticData.SUPPORT_DIALOGUES_ADMIN_ID);
         if (support == null) {
             profileService.createProfile(StaticData.SUPPORT_DIALOGUE_ADMIN);
             support = StaticData.SUPPORT_DIALOGUE_ADMIN;
@@ -64,7 +64,7 @@ public class SupportDialogueRestController {
             method = RequestMethod.POST)
     public ResponseEntity<Dialogue> getMessagesForDialogue(@PathVariable("dialogueId") String dialogueId) {
         Dialogue dialogue = dialogueService.findById(dialogueId);
-        Profile support = profileService.findById(SecurityOperations.getLoggedUserId());
+        Profile support = profileService.findByIdWholeProfile(SecurityOperations.getLoggedUserId());
         if(support == null){
             log.log(Level.ERROR, LOGGED_TITLE + "/dialogue/id/{dialogueId}/assign - not logged user try to assign dialogue");
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
