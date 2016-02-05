@@ -2,6 +2,7 @@ package ua.com.itproekt.gup.model.projectsAndInvestments.project;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.itproekt.gup.model.offer.ModerationStatus;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
