@@ -35,9 +35,17 @@
         <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
 
         <div class="container">
-            <div class="profile">
+            <div class="profile"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border -->
                 <p class="online">online</p>
-                <img class="profile-img" src="resources/images/girl.png" alt="girl">
+                <div class="profile-img"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border -->
+                    <img class="img-responsive" src="resources/images/girl.png" alt="girl">
+                    <div class="vip-profile-img"> <!-- этот блок надо включить когда профиль випа, у обычного он выключен -->
+                        <div class="rating">
+                            <p>000</p>
+                        </div>
+                        <img class="backgroundSun" src="images/backgroundSun.png" alt="backgroundSun">
+                    </div>
+                </div>
                 <p class="firstName">ФИО / Название компании</p>
                 <ul class="DateOfBirth">
                     <li>
@@ -75,7 +83,7 @@
                 </div>
                 <div class="contact-btn-group">
                     <button class="writeMessage">Написать сообщение</button>
-                    <button class="addToContact">Добавить в контакты</button>
+                    <button class="addToContact">Добавить в контакты</button> <!-- если профиль вип то сюда надо добавлять класс vip-color--background -->
                 </div>
                 <div class="social-icon">
                     <a href="#"><img src="resources/images/in.png" alt="in"></a>

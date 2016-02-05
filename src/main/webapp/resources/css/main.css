@@ -347,10 +347,6 @@ table {
 	background-color: rgba(0, 0, 0, 0.75);
 }
 
-.drop {
-	display: none;
-}
-
 .caretDown {
 	cursor: pointer;
 	border-top: 5px solid #70ab35;
@@ -371,10 +367,6 @@ table {
 	text-align: center;
 }
 
-.tend-drop {
-	display: none;
-}
-
 .proj-p {
 	color: #ffffff;
 	font: 400 16px ArianAMU;
@@ -387,10 +379,6 @@ table {
 	top: -28px;
 	left: 70px;
 	text-align: center;
-}
-
-.proj-drop {
-	display: none;
 }
 
 .tidings {
@@ -500,7 +488,7 @@ table {
 
 .tidi4-p {
 	color: #868787;
-	font: 400 14px DroidSans;
+	font: 400 13px DroidSans;
 	display: inline-block;
 	width: 170px;
 }
@@ -535,7 +523,7 @@ table {
 
 .tidi4-pr {
 	color: #868787;
-	font: 400 14px DroidSans;
+	font: 400 13px DroidSans;
 	display: inline-block;
 	width: 170px;
 	margin-left: 20px;
@@ -544,10 +532,6 @@ table {
 .tidi4-ar:hover {
 	text-decoration: none;
 	color: #1269a7;
-}
-
-.tidi-drop {
-	display: none;
 }
 
 .footer {
@@ -824,6 +808,7 @@ table {
 	top: 36px;
 	padding: 21px 0 0 16px;
 	display: none;
+	z-index: 4;
 }
 
 .dropFace ul {
@@ -870,10 +855,12 @@ table {
 .tidi5-img {
 	float: right;
 }
+
 .question {
 	position: fixed;
 	top: 50%;
-	margin-top: -307px;
+	margin-top: -250px;
+	z-index: 3;
 }
 
 .question-img {
@@ -944,7 +931,7 @@ table {
 }
 
 .message {
-	margin: 8px auto;
+	margin-top: 8px;
 	background-color: #ffffff;
 	border-radius: 5px;
 	width: 280px;
@@ -981,6 +968,7 @@ table {
 	display: inline-block;
 	margin-bottom: 8px;
 }
+
 .modal-content {
 	background-color: #1269a7;
 }
@@ -1008,12 +996,11 @@ table {
 .notLogged ul li a:hover {
 	text-decoration: none;
 }
+
 .Logged {
 	display: block;
 }
 
-
-/* Style modal */
 #modal_form {
 	width: 960px;
 	height: 496px; /* Рaзмеры дoлжны быть фиксирoвaны */
@@ -1030,7 +1017,6 @@ table {
 	z-index: 5; /* oкнo дoлжнo быть нaибoлее бoльшем слoе */
 }
 
-/* Пoдлoжкa */
 #overlay {
 	z-index:3; /* пoдлoжкa дoлжнa быть выше слoев элементoв сaйтa, нo ниже слoя мoдaльнoгo oкнa */
 	position:fixed; /* всегдa перекрывaет весь сaйт */
@@ -1138,7 +1124,8 @@ table {
 input[type="checkbox"] {
 	height: 29px;
 	width: 29px;
-} /*--здесь подключаем спрайт и выбираем нужный элемент--*/
+}
+
 .submit {
 	color: #ffffff;
 	font: 400 30px ArianAMU;
@@ -1178,10 +1165,14 @@ input[type="checkbox"] {
 }
 
 .profile-img {
-	border: 2px solid #99cc66;
+	border: 1px solid #99cc66;
 	margin: 30px 0 0 28px;
 	border-radius: 21px;
 	float: left;
+	position: relative;
+	height: 415px;
+	width: 344px;
+	overflow: hidden;
 }
 
 .firstName {
@@ -1435,6 +1426,7 @@ input[type="checkbox"] {
 li.active {
 	background-color: #99cc66;
 }
+
 #aboutMe {
 	border: 3px solid #99cc66;
 	border-radius: 7px;
@@ -1459,4 +1451,70 @@ li.active {
 #moreInformation h2 {
 	color: #898989;
 	font: 400 26px Arial;
+}
+
+.vip-color-border {
+	border-color: #FDB205;
+}
+
+.vip-color-background {
+	background-color: #FDB205;
+}
+
+.rating {
+	background: url(images/rating.png) no-repeat;
+	height: 70px;
+	width: 139px;
+	position: absolute;
+	left: -1px;
+	bottom: 50px;
+	z-index: 2;
+}
+
+.rating p {
+	color: #1269a7;
+	font: 400 36px DroidSans;
+	text-align: left;
+	line-height: 70px;
+	padding-left: 23px;
+}
+
+.backgroundSun {
+	position: absolute;
+	bottom: -3px;
+	right: -3px;
+	z-index: 10px;
+}
+
+.vip-profile-img {
+	display: none;
+}
+
+.tend-top1 {
+	position: relative;
+	width: 190px;
+	height: 224px;
+	border: 5px solid #70ab35;
+	border-radius: 5px;
+	float: left;
+	margin: 9.1px;
+}
+
+.proj-top1 {
+	position: relative;
+	width: 190px;
+	height: 224px;
+	border: 5px solid #70ab35;
+	border-radius: 5px;
+	float: left;
+	margin: 9.1px;
+}
+
+.massage-box {
+	margin: 0 auto;
+	margin-left: 30px;
+	margin-bottom: 8px;
+	height: 210px;
+	width: 297px;
+	overflow: scroll;
 }
