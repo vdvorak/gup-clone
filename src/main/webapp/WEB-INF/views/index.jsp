@@ -65,6 +65,7 @@
 		</sec:authorize>
 		<script src="/resources/js/logo-section.js"></script>
 		<script src="/resources/js/search-bar.js"></script>
+		<script src="/resources/js/top-news-block.js"></script>
 
 		<script>
 			$(document).ready(function(){
