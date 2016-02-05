@@ -253,15 +253,15 @@
         projectFO.limit = 3;
 
         function findFirstImg(arr) {
-            var url = '';
+            var url = '/resources/images/no_photo.jpg';
             var imgId = '';
             for (var i in arr) {
-                if (arr[i] === 'image') {
+                if (arr[i] === 'pic1') {
                     imgId = i;
+                    url = '/api/rest/fileStorage/TENDER/file/read/id/' + imgId;
                     break;
                 }
             }
-            url = '/api/rest/fileStorage/TENDER/file/read/id/' + imgId;
             return url;
         }
 

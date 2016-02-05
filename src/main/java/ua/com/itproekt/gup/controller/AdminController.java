@@ -4,16 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
-import ua.com.itproekt.gup.model.tender.Tender;
-import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.tender.TenderService;
-import ua.com.itproekt.gup.util.EntityPage;
 
 /**
  * Created by RAYANT on 24.12.2015.
@@ -30,48 +22,48 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin")
     public String getLoginForm() {
-        return "adminPage";
+        return "admin/admin-main";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin-users")
     public String getAdminUsers() {
-        return "admin-users";
+        return "admin/admin-users";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin-offers")
     public String getAdminOffers() {
-        return "admin-offers";
+        return "admin/admin-offers";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin-tenders")
     public String getAdminTenders() {
-        return "admin-tenders";
+        return "admin/admin-tenders";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin-projects")
     public String getAdminProjects() {
-        return "admin-projects";
+        return "admin/admin-projects";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin-news")
     public String getAdminNews() {
-        return "admin-news";
+        return "admin/admin-news";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin-blogs")
     public String getAdminBlogs() {
-        return "admin-blogs";
+        return "admin/admin-blogs";
     }
 
     @RequestMapping("/admin-admins")
     public String getAdmins() {
-        return "admin-admins";
+        return "admin/admin-admins";
     }
 
 }
