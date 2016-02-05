@@ -1305,11 +1305,16 @@ input[type="checkbox"] {
 }
 
 .caretContact {
-	display: table;
+	height: 42px;
+	width: 87px;
 	margin: 0 auto;
 	margin-top: 13px;
 	margin-bottom: 13px;
 	cursor: pointer;
+	background: url(images/caretDown.png) no-repeat center center;
+}
+.caretContact.lol {
+	background: url(images/caretUp.png) no-repeat center center;
 }
 
 .writeMessage {
@@ -1457,11 +1462,15 @@ li.active {
 	border-color: #FDB205;
 }
 
+.organization-color-border {
+	border-color: #1168A5;
+}
+
 .vip-color-background {
 	background-color: #FDB205;
 }
 
-.rating {
+.rating-vip {
 	background: url(images/rating.png) no-repeat;
 	height: 70px;
 	width: 139px;
@@ -1517,4 +1526,25 @@ li.active {
 	height: 210px;
 	width: 297px;
 	overflow: scroll;
+}
+.rating-organization {
+	background: url(images/rating-organization.png) no-repeat;
+	height: 70px;
+	width: 139px;
+	position: absolute;
+	left: -1px;
+	bottom: 50px;
+	z-index: 2;
+}
+
+.rating-organization p {
+	color: #1269a7;
+	font: 400 36px DroidSans;
+	text-align: left;
+	line-height: 70px;
+	padding-left: 23px;
+}
+
+.organization-profile-img {
+	display: none;
 }

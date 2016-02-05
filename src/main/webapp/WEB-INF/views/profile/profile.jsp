@@ -37,13 +37,19 @@
         <div class="container">
             <div class="profile"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border -->
                 <p class="online">online</p>
-                <div class="profile-img"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border -->
+                <div class="profile-img"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border, а если организации то organization-color-border -->
                     <img class="img-responsive" src="resources/images/girl.png" alt="girl">
                     <div class="vip-profile-img"> <!-- этот блок надо включить когда профиль випа, у обычного он выключен -->
-                        <div class="rating">
+                        <div class="rating-vip">
                             <p>000</p>
                         </div>
-                        <img class="backgroundSun" src="images/backgroundSun.png" alt="backgroundSun">
+                        <img class="backgroundSun" src="resources/images/backgroundSun.png" alt="backgroundSun">
+                    </div>
+                    <div class="organization-profile-img"> <!-- этот блок надо включить когда профиль организации, у обычного он выключен -->
+                        <div class="rating-organization">
+                            <p>000</p>
+                        </div>
+                        <img class="backgroundSun" src="resources/images/backgroundOrganization.png" alt="backgroundOrganization">
                     </div>
                 </div>
                 <p class="firstName">ФИО / Название компании</p>
@@ -61,9 +67,7 @@
                         <div class="mapContact">
                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2538.5440185405746!2d30.327353815253502!3d50.48683199262453!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x472b332fd9405241%3A0x82781e1e788c6455!2z0LLRg9C7LiDQkNGA0YLQtdC80LAsIDEx0JAsIDExNSwgMTFBLCDQmtC-0YbRjtCx0LjQvdGB0YzQutC1LCDQmtC40ZfQstGB0YzQutCwINC-0LHQu9Cw0YHRgtGM!5e0!3m2!1sru!2sua!4v1454520039972" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
                         </div>
-                        <div class="caretContact">
-                            <img src="resources/images/caretContact.png" alt="caretContact">
-                        </div>
+                        <div class="caretContact"></div>
                     </div>
                     <div class="phone">
                         <img class="phone-img" src="resources/images/phone.png" alt="phone">
@@ -83,7 +87,7 @@
                 </div>
                 <div class="contact-btn-group">
                     <button class="writeMessage">Написать сообщение</button>
-                    <button class="addToContact">Добавить в контакты</button> <!-- если профиль вип то сюда надо добавлять класс vip-color--background -->
+                    <button class="addToContact">Добавить в контакты</button> <!-- если профиль вип то сюда надо добавлять класс vip-color-background -->
                 </div>
                 <div class="social-icon">
                     <a href="#"><img src="resources/images/in.png" alt="in"></a>

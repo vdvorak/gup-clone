@@ -47,6 +47,7 @@ $(document).ready(function(){
     });
 
     $(".caretContact").click(function(){
+        $(".caretContact").toggleClass('lol');
         $(".mapContact").slideToggle();
     });
 
