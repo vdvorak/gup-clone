@@ -160,14 +160,20 @@
         <div>Цена до<input id="priceMax" type="number" class="form-control"></div>
       </div>
   </div>
-
+  <div class="row">
+    <div class="col-xs-4"></div>
+    <div class="col-xs-4">
+      <button  id="more" class="btn btn-info btn-block">Еще</button>
+    </div>
+    <div class="col-xs-4"></div>
+  </div>
 </div>
 </body>
 <script src="/resources/js/jquery.min.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
 <script>
 
-  var filter = {};
+  var filter = {skip: 0, limit: 12};
   var cities;
   var category1Id = '';
   var category2Id = '';
@@ -178,20 +184,20 @@
   var options;
   var jsonCategory;
   var jsonSubcategory;
+  var skip = 12;
 
   // ---------------    LOAD RESOURCES    --------------------------//
   $(document).ready(function(){
-    filter = {};
-    filter.skip = 0;
-    filter.limit = 1000;
-    readAllByFilter(filter);
+    setFilterProperties();
+    readAllByFilter();
+
+
   });
 
   $.ajax({
     type: "GET",
     url: "/resources/json/cities.json",
     dataType: "json",
-    async: false,
     success: function (response) {
       cities = response;
     }
@@ -201,7 +207,6 @@
     type: "GET",
     url: "/resources/json/searchCategories.json",
     dataType: "json",
-    async: false,
     success: function (response) {
       jsonCategory = response;
     }
@@ -211,7 +216,6 @@
     type: "GET",
     url: "/resources/json/searchSubcategories.json",
     dataType: "json",
-    async: false,
     success: function (response) {
       jsonSubcategory = response;
     }
@@ -221,7 +225,6 @@
     type: "GET",
     url: "/resources/json/searchValues.json",
     dataType: "json",
-    async: false,
     success: function (response) {
       options = response;
     }
@@ -231,7 +234,6 @@
     type: "GET",
     url: "/resources/json/parameters.json",
     dataType: "json",
-    async: false,
     success: function (response) {
       parameters = response;
     }
@@ -273,101 +275,103 @@
   //--------------------------- END REGIONS LIST --------------------------------------------//
 
   //--------------------------------1-LVL CATEGORY-------------------------------------------------//
-  for (var i in jsonCategory) {
-    $('#category1lvl').append('<li><a id="'+jsonCategory[i].id +'" role="menuitem" tabindex="-1" href="#">' + jsonCategory[i].name + '</a></li>');
-  }
-  //-------------------------------- END 1-LVL CATEGORY-------------------------------------------------//
+  $('#category1lvlText').click( function(){
 
-
-  //--------------------------------- 1-LVL CATEGORY ON CLICK -----------------------------------------//
-
-  $('#category1lvl').find('li').click(function () {
-
-    $('#container2lvl').attr("style", "display: none");
-    $('#container3lvl').attr("style", "display: none");
-    isComplete = 0;
-    category2Id = '';
-    category3Id = '';
-    category1Id = $(this).find('a').attr("id");
-    var category1 = $(this).text();
-    $('#category1lvlText').text(category1);
-    $('#category1inp').val(category1);
-
-    if (category1 !== 'Выберите категорию') {
-      $('#container2lvl').attr("style", "display: ");
-    } else {
-      $('#container2lvl').attr("style", "display: none");
+    for (var i in jsonCategory) {
+      $('#category1lvl').append('<li><a id="'+jsonCategory[i].id +'" role="menuitem" tabindex="-1" href="#">' + jsonCategory[i].name + '</a></li>');
     }
+    //--------------------------------1-LVL CATEGORY CLICK-------------------------------------------------//
+    $('#category1lvl').find('li').click(function () {
 
-    $('#category2lvl').empty();
+      $('#container2lvl').attr("style", "display: none");
+      $('#container3lvl').attr("style", "display: none");
+      isComplete = 0;
+      category2Id = '';
+      category3Id = '';
+      category1Id = $(this).find('a').attr("id");
+      var category1 = $(this).text();
+      $('#category1lvlText').text(category1);
+      $('#category1inp').val(category1);
 
-    $('#category2lvlText').text("Выберите подкатегорию");
+      if (category1 !== 'Выберите категорию') {
+        $('#container2lvl').attr("style", "display: ");
+      } else {
+        $('#container2lvl').attr("style", "display: none");
+      }
 
-    for (var j in jsonCategory) {
+      $('#category2lvl').empty();
 
-      if (jsonCategory[j].name === category1) {
-        for (var i in jsonCategory[j].children) {
-          $('#category2lvl').append('<li><a id="' + jsonCategory[j].children[i].id + '" role="menuitem" tabindex="-1" href="#">' + jsonCategory[j].children[i].name + '</a></li>');
-        }
-        if (jsonCategory[j].children.length === 0){
-          $('#container2lvl').attr("style", "display: none");
-          isComplete = 1;
-          drawOptions(category1Id);
-        }else{
-          erase(category1Id);
-        }
-      }}
+      $('#category2lvlText').text("Выберите подкатегорию");
 
-//--------------------------------- END 1-LVL CATEGORY ON CLICK -----------------------------------------//
+      for (var j in jsonCategory) {
+
+        if (jsonCategory[j].name === category1) {
+          for (var i in jsonCategory[j].children) {
+            $('#category2lvl').append('<li><a id="' + jsonCategory[j].children[i].id + '" role="menuitem" tabindex="-1" href="#">' + jsonCategory[j].children[i].name + '</a></li>');
+          }
+          if (jsonCategory[j].children.length === 0){
+            $('#container2lvl').attr("style", "display: none");
+            isComplete = 1;
+            drawOptions(category1Id);
+          }else{
+            erase(category1Id);
+          }
+        }}
+
+
 
 //--------------------------------- 2-LVL CATEGORY ON CLICK ---------------------------------------------//
 
-    $('#category2lvl').find('li').click(function () {
-      $('#container3lvl').attr("style", "display: none");
-      isComplete = 0;
-      category3Id = '';
-      category2Id = $(this).find('a').attr("id");
-      var category2 = $(this).text();
-      $('#category2lvlText').text(category2);
-      $('#category2inp').val(category2);
+          $('#category2lvl').find('li').click(function () {
+            $('#container3lvl').attr("style", "display: none");
+            isComplete = 0;
+            category3Id = '';
+            category2Id = $(this).find('a').attr("id");
+            var category2 = $(this).text();
+            $('#category2lvlText').text(category2);
+            $('#category2inp').val(category2);
 
-      if (category2 !== 'Выберите подкатегорию' && jsonSubcategory[category2Id]!==undefined && jsonSubcategory[category2Id].children!==undefined) {
-        $('#container3lvl').attr("style", "display: ");
-      } else {
-        $('#container3lvl').attr("style", "display: none");
-      }
+            if (category2 !== 'Выберите подкатегорию' && jsonSubcategory[category2Id]!==undefined && jsonSubcategory[category2Id].children!==undefined) {
+              $('#container3lvl').attr("style", "display: ");
+            } else {
+              $('#container3lvl').attr("style", "display: none");
+            }
 
-      $('#category3lvl').empty();
+            $('#category3lvl').empty();
 
-      $('#category3lvlText').text("Выберите подкатегорию");
+            $('#category3lvlText').text("Выберите подкатегорию");
 
-      if(jsonSubcategory[category2Id]!==undefined && jsonSubcategory[category2Id].children!==undefined){
-        for (var i in jsonSubcategory[category2Id].children){
-          $('#category3lvl').append('<li><a id="'+i +'" role="menuitem" tabindex="-1" href="#">' + jsonSubcategory[category2Id].children[i].label + '</a></li>');
+            if(jsonSubcategory[category2Id]!==undefined && jsonSubcategory[category2Id].children!==undefined){
+              for (var i in jsonSubcategory[category2Id].children){
+                $('#category3lvl').append('<li><a id="'+i +'" role="menuitem" tabindex="-1" href="#">' + jsonSubcategory[category2Id].children[i].label + '</a></li>');
+              }
+              erase(category2Id);
+            }else{
+              isComplete = 1;
+          drawOptions(category2Id);
         }
-        erase(category2Id);
-      }else{
-        isComplete = 1;
-        drawOptions(category2Id);
-      }
 
 
 
 //------------------------------------------------3-LVL CATEGORY ON CLICK-----------------------------------//
-      $('#category3lvl').find('li').click(function () {
-        erase(category2Id);
-        category3Id = $(this).find('a').attr("id");
-        var category3 = $(this).text();
-        $('#category3lvlText').text(category3);
-        $('#category2inp').val(category3);
-        isComplete = 1;
-        drawOptions(category3Id);
+        $('#category3lvl').find('li').click(function () {
+          erase(category2Id);
+          category3Id = $(this).find('a').attr("id");
+          var category3 = $(this).text();
+          $('#category3lvlText').text(category3);
+          $('#category2inp').val(category3);
+          isComplete = 1;
+          drawOptions(category3Id);
+        });
       });
     });
   });
-  //------------------------------------END 3-LVL CATEGORY ON CLICK-----------------------------------------//
+
+  //-------------------------------- END 1-LVL CATEGORY-------------------------------------------------//
 
   //--------------------------------- END 2-LVL CATEGORY ON CLICK ------------------------------------------//
+
+  //------------------------------------END 3-LVL CATEGORY ON CLICK-----------------------------------------//
 
   //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
 
@@ -427,7 +431,21 @@
   $('#submit').click(function () {
     filter = {};
     filter.skip = 0;
-    filter.limit = 1000;
+    filter.limit = 12;
+
+    cleanResult();
+
+    setFilterProperties();
+    readAllByFilter();
+
+  })
+
+  $('#more').click(function () {
+    filter.skip += skip;
+    readAllByFilter();
+  })
+
+  function setFilterProperties() {
     categoryResult = [];
     properties = [];
     var keyWords = $('#keyWords').val();
@@ -482,14 +500,9 @@
 
     if (categoryResult.length > 0) filter.categories = categoryResult;
     if (properties.length > 0) filter.properties = properties;
-//    alert(JSON.stringify(filter));
-    readAllByFilter(filter);
+  }
 
-
-
-  })
-
-  function readAllByFilter(filter) {
+  function readAllByFilter() {
     $.ajax({
       type: "POST",
       url: "/api/rest/offersService/offer/read/all",
@@ -499,10 +512,11 @@
       success: function (response) {
 //        alert(JSON.stringify(response));
         var count = 0;
-        var col1 = $('#result1').html("");
-        var col2 = $('#result2').html("");
-        var col3 = $('#result3').html("");
-        var col4 = $('#result4').html("");
+
+        var col1 = $('#result1');
+        var col2 = $('#result2');
+        var col3 = $('#result3');
+        var col4 = $('#result4');
         for (var i in response.entities){
           var picId = '/resources/images/no_photo.jpg';
           for (j in response.entities[i].imagesIds){
@@ -544,6 +558,13 @@
         alert("Внутренняя ошибка сервера");
       }
     });
+  }
+
+  function cleanResult() {
+    $('#result1').html("");
+    $('#result2').html("");
+    $('#result3').html("");
+    $('#result4').html("");
   }
 
 
