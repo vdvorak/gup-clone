@@ -6,9 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-
+import ua.com.itproekt.gup.model.projectsAndInvestments.project.ModerationStatus;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOptions;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
@@ -30,12 +29,20 @@ public class ProjectsRestController {
 
     @RequestMapping(value = "/project/id/{projectId}/read", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Project> getProjectById(@PathVariable String projectId) {
+    public ResponseEntity<Project> getProjectById(@PathVariable String projectId, HttpServletRequest request) {
         Project project = projectService.findProjectAndIncViews(projectId);
         if (project == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(project, HttpStatus.OK);
+
+        if (project.getModerationStatus().equals(ModerationStatus.COMPLETE) ||
+            project.getAuthorId().equals(SecurityOperations.getLoggedUserId()) ||
+            request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+
+            return new ResponseEntity<>(project, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 
     @RequestMapping(value = "/project/read/all", method = RequestMethod.POST,
@@ -82,24 +89,32 @@ public class ProjectsRestController {
         }
 
         String userId = SecurityOperations.getLoggedUserId();
-        if (!userId.equals(projectService.findById(project.getId()).getAuthorId())) {
+        if (projectService.findById(project.getId()).getAuthorId().equals(userId)) {
+            projectService.edit(project);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
-        projectService.edit(project);
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //------------------------------------------ Delete -----------------------------------------------------------------
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/project/id/{projectId}/delete", method = RequestMethod.POST)
-         public ResponseEntity<Project> deleteProject(@PathVariable String projectId) {
+    public ResponseEntity<Void> deleteProject(@PathVariable String projectId, HttpServletRequest request) {
+
         if (!projectService.projectExists(projectId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        projectService.delete(projectId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        Project project = projectService.findById(projectId);
+        if(project.getAuthorId().equals(SecurityOperations.getLoggedUserId()) ||
+                request.isUserInRole(UserRole.ROLE_ADMIN.toString())){
+
+            projectService.delete(projectId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 }
