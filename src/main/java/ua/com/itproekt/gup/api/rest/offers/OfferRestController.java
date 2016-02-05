@@ -111,7 +111,7 @@ public class OfferRestController {
         }
 
         String userId = SecurityOperations.getLoggedUserId();
-        if (!userId.equals(offersService.findById(offer.getId()).getAuthorId())) {
+        if (!offersService.findById(offer.getId()).getAuthorId().equals(userId)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
