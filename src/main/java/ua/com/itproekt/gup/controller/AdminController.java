@@ -22,7 +22,7 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin")
     public String getLoginForm() {
-        return "admin/adminPage";
+        return "admin/admin-main";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
