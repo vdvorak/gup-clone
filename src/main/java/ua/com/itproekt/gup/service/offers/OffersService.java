@@ -8,11 +8,15 @@ import ua.com.itproekt.gup.util.EntityPage;
 
 public interface OffersService {
     void create(Offer offer);
+
     Offer findById(String offerId);
+
     Offer findOfferAndIncViews(String offerId);
+
     void delete(String id);
 
     boolean offerExists(String id);
+
     EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFilterOptions);
 
     Offer edit(Offer oldOffer);

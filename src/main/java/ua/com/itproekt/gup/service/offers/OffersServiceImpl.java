@@ -29,7 +29,7 @@ public class OffersServiceImpl implements OffersService {
                 .setAuthorId(offer.getAuthorId())
                 .setUserInfo(offer.getUserInfo())
                 .setCreatedDateEqualsToCurrentDate()
-                .setModerationStatus(ModerationStatus.NOT_PASSED)
+                .setModerationStatus(ModerationStatus.NO)
                 .setCategories(offer.getCategories())
                 .setProperties(offer.getProperties())
                 .setImagesIds(offer.getImagesIds())
@@ -48,7 +48,7 @@ public class OffersServiceImpl implements OffersService {
 
         offerRepository.create(newOffer);
 
-        offer.setId(newOffer.getId()); // ***
+        offer.setId(newOffer.getId());
     }
 
     @Override
