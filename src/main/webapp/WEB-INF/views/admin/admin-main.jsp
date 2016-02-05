@@ -38,7 +38,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Информация</h1>
+                <h1 class="page-header">Главная страница административной панели</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -222,8 +222,6 @@
 <script src="/resources/bower_components/raphael/raphael-min.js"></script>
 <script src="/resources/bower_components/morrisjs/morris.min.js"></script>
 <script src="/resources/js/morris-data.js"></script>
-
 </body>
-
 </html>
 

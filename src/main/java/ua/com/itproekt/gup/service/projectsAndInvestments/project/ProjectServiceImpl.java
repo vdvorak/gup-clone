@@ -9,6 +9,7 @@ import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.projectsAndInvestments.project.ProjectRepository;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
+import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.*;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.util.EntityPage;
@@ -38,6 +39,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .setTotalVoters(0)
                 .setTotalComments(0)
                 .setCreatedDateEqualsToCurrentDate()
+                .setModerationStatus(ModerationStatus.NO)
                 .setStatus(ProjectStatus.ACTIVE)
                 .setLastInvestmentDateEqualsToCurrentDate()
                 .updateExpirationDateAt20Days()

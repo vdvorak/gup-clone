@@ -104,7 +104,7 @@ public class LoginController {
 	@RequestMapping("/admin*")
 	@PreAuthorize ("hasRole('ROLE_ADMIN')")
 	public String getAdminProfile() {
-		return "admin/adminPage";
+		return "admin/admin-main";
 	}
 
 /*--------------------------------------- Check -----------------------------------------------------------------*/

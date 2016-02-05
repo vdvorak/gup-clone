@@ -70,6 +70,13 @@ public class OfferRepositoryImpl implements OfferRepository {
             query.addCriteria(Criteria.where("authorId").is(offerFO.getAuthorId()));
         }
 
+        if (offerFO.getModerationStatus() != null) {
+            query.addCriteria(Criteria.where("moderationStatus").is(offerFO.getModerationStatus()));
+        }
+
+        if (offerFO.getActive() != null) {
+            query.addCriteria(Criteria.where("active").is(offerFO.getActive()));
+        }
         // if "true" show only new offer,
         // if "else" show only used offer,
         // otherwise show both of them

@@ -72,6 +72,14 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             query.addCriteria(Criteria.where("projectName").regex(searchFieldRegex));
         }
 
+        if (projectFO.getStatus() != null) {
+            query.addCriteria(Criteria.where("status").is(projectFO.getStatus()));
+        }
+
+        if (projectFO.getModerationStatus() != null) {
+            query.addCriteria(Criteria.where("moderationStatus").is(projectFO.getModerationStatus()));
+        }
+
         if (projectFO.getAuthorId() != null) {
             query.addCriteria(Criteria.where("authorId").is(projectFO.getAuthorId()));
         }
@@ -95,7 +103,6 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         if (projectFO.getViewsSortDirection() != null) {
             query.with(new Sort(projectFO.getViewsSortDirection(), "views"));
         }
-
 
         query.skip(projectFO.getSkip());
         query.limit(projectFO.getLimit());

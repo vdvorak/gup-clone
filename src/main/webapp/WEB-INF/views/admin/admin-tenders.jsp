@@ -83,6 +83,20 @@
 <!-- Bottom Links -->
 <script>
 
+    function findFirstImg(arr) {
+        var url = '/resources/images/no_photo.jpg';
+        var imgId = '';
+        for (var i in arr) {
+            if (arr[i] === 'pic1') {
+                imgId = i;
+                url = '/api/rest/fileStorage/TENDER/file/read/id/' + imgId;
+                break;
+            }
+        }
+        return url;
+    }
+
+
     $(document).ready(function () {
         var data;
         var tenderFilterOptions = {};
@@ -98,7 +112,7 @@
 
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].uploadFilesIds !== null) {
-                        data[i].uploadFilesIds = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].uploadFilesIds + '" width="100" height="100">';
+                        data[i].uploadFilesIds = '<img src="'+ findFirstImg(data[i].uploadFilesIds) + '" width="100" height="100">';
                     }
                     else {
                         data[i].uploadFilesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';

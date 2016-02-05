@@ -2,6 +2,7 @@ package ua.com.itproekt.gup.model.projectsAndInvestments.project;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.itproekt.gup.model.offer.ModerationStatus;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -18,6 +19,7 @@ public class Project {
     private String authorId;
     private Integer views;
     private ProjectStatus status;
+    private ModerationStatus moderationStatus;
     private Long totalScore;
     private Integer totalVoters;
     private Set<ProjectVote> votes;
@@ -83,6 +85,15 @@ public class Project {
 
     //--------------------------------------------------------------------------------------------
 
+
+    public ModerationStatus getModerationStatus() {
+        return moderationStatus;
+    }
+
+    public Project setModerationStatus(ModerationStatus moderationStatus) {
+        this.moderationStatus = moderationStatus;
+        return this;
+    }
 
     public ProjectStatus getStatus() {
         return status;

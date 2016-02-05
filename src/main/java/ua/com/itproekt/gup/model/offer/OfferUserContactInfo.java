@@ -7,7 +7,6 @@ import java.util.Set;
 public class OfferUserContactInfo {
     @Size(min = 2, max = 50)
     private String contactName;
-//    @Email
     private String email;
     private Set<String> phoneNumbers;
     @Size(min = 5, max = 32)
