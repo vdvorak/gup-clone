@@ -6,6 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.model.projectsAndInvestments.project.ModerationStatus;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOptions;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
@@ -13,6 +15,7 @@ import ua.com.itproekt.gup.util.CreatedObjResponse;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -36,8 +39,13 @@ public class ProjectsRestController {
 
     @RequestMapping(value = "/project/read/all", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EntityPage<Project>> listOfAllInvestors(@RequestBody ProjectFilterOptions projectFilterOptions) {
-        EntityPage<Project> projectPages = projectService.findProjectsWihOptions(projectFilterOptions);
+    public ResponseEntity<EntityPage<Project>> listOfAllInvestors(@RequestBody ProjectFilterOptions projectFO,
+                                                                  HttpServletRequest request) {
+        if(!request.isUserInRole(UserRole.ROLE_ADMIN.toString())){
+            projectFO.setModerationStatus(ModerationStatus.COMPLETE);
+        }
+
+        EntityPage<Project> projectPages = projectService.findProjectsWihOptions(projectFO);
         if(projectPages.getEntities().isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

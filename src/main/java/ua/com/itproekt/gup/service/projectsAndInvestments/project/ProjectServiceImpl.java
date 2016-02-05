@@ -38,6 +38,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .setTotalVoters(0)
                 .setTotalComments(0)
                 .setCreatedDateEqualsToCurrentDate()
+                .setModerationStatus(ModerationStatus.NO)
                 .setStatus(ProjectStatus.ACTIVE)
                 .setLastInvestmentDateEqualsToCurrentDate()
                 .updateExpirationDateAt20Days()

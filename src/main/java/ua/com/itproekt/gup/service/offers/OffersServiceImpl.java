@@ -40,7 +40,7 @@ public class OffersServiceImpl implements OffersService {
                 .setPriceCanBeNegotiated(offer.getPriceCanBeNegotiated())
                 .setUrgent(offer.getUrgent())
                 .setUsed(offer.getUsed())
-                .setActive(offer.getActive())
+                .setActive(Boolean.TRUE)
                 .setAddress(offer.getAddress())
                 .setCurrency(offer.getCurrency())
                 .setCanBeReserved(offer.getCanBeReserved())

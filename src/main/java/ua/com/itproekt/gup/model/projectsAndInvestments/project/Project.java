@@ -18,6 +18,7 @@ public class Project {
     private String authorId;
     private Integer views;
     private ProjectStatus status;
+    private ModerationStatus moderationStatus;
     private Long totalScore;
     private Integer totalVoters;
     private Set<ProjectVote> votes;
@@ -83,6 +84,15 @@ public class Project {
 
     //--------------------------------------------------------------------------------------------
 
+
+    public ModerationStatus getModerationStatus() {
+        return moderationStatus;
+    }
+
+    public Project setModerationStatus(ModerationStatus moderationStatus) {
+        this.moderationStatus = moderationStatus;
+        return this;
+    }
 
     public ProjectStatus getStatus() {
         return status;
