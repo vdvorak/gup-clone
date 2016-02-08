@@ -14,7 +14,7 @@ public class ProjectSearchRestController {
     @Autowired
     ProjectService projectService;
 
-    @RequestMapping("/search/project")
+    @RequestMapping("/search/autocomplete/project")
     public Set<String> getMachedNames(@RequestParam String term){
         return projectService.getMatchedNames(term);
     }

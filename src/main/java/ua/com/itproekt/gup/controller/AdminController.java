@@ -19,6 +19,13 @@ public class AdminController {
     @Autowired
     TenderService tenderService;
 
+
+    @RequestMapping("/admin*")
+    @PreAuthorize ("hasRole('ROLE_ADMIN')")
+    public String getAdminProfile() {
+        return "adminPage";
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin")
     public String getLoginForm() {
