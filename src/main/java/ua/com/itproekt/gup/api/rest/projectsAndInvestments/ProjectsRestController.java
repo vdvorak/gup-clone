@@ -50,7 +50,7 @@ public class ProjectsRestController {
     public ResponseEntity<EntityPage<Project>> listOfAllInvestors(@RequestBody ProjectFilterOptions projectFO,
                                                                   HttpServletRequest request) {
         if(!request.isUserInRole(UserRole.ROLE_ADMIN.toString())){
-            projectFO.setModerationStatus(ModerationStatus.COMPLETE);
+            projectFO.setSimpleUserRestrictions(SecurityOperations.getLoggedUserId());
         }
 
         EntityPage<Project> projectPages = projectService.findProjectsWihOptions(projectFO);
