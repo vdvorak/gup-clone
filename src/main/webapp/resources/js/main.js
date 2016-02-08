@@ -1,10 +1,10 @@
 $(document).ready(function(){
 
-    $("#ad-caret").click(function(){
-        $('.add-top1:first').clone().insertAfter('.add-top1:last');
-        $('.add-top1:first').clone().insertAfter('.add-top1:last');
-        $('.add-top1:first').clone().insertAfter('.add-top1:last');
-    });
+    //$("#ad-caret").click(function(){
+    //    $('.add-top1:first').clone().insertAfter('.add-top1:last');
+    //    $('.add-top1:first').clone().insertAfter('.add-top1:last');
+    //    $('.add-top1:first').clone().insertAfter('.add-top1:last');
+    //});
 
     $("#tend-caret").click(function(){
         $('.tend-top1:first').clone().insertAfter('.tend-top1:last');

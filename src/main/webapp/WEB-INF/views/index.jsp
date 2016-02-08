@@ -67,6 +67,7 @@
 		<script src="/resources/js/search-bar.js"></script>
 		<script src="/resources/js/top-news-block.js"></script>
 		<script src="/resources/js/top-projects-block.js"></script>
+		<script src="/resources/js/top-offers-block.js"></script>
 
 		<script>
 			$(document).ready(function(){
