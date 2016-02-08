@@ -16,32 +16,15 @@ import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 
-/**
- * Created by RAYANT on 20.11.2015.
- */
 
 @Controller
 public class RegistrationController {
 
     @Autowired
-    ProfilesService profilesService;
-
-    @Autowired
     ProfileRepository profileRepository;
 
     @Autowired
-    ActivityFeedService activityFeedService;
-
-    @Autowired
     VerificationTokenService verificationTokenService;
-
-    @RequestMapping(value = "/registration", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-     public void register(@RequestBody Profile profile){
-
-        profilesService.createProfile(profile);
-        verificationTokenService.sendEmailRegistrationToken(profile.getId());
-    }
 
     @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
     public String confirmRegistration(@RequestParam String token, Model model) {

@@ -75,11 +75,16 @@
       $.ajax({
         type: 'POST',
         url: '/login?email=' + $('#email').val() + '&password=' + $('#password').val(),
-        success: function(){
-          window.location.href = '/prioffice';
-        },
-        error: function () {
-          alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
+        statusCode: {
+          200: function () {
+            window.location.href = '/prioffice';
+          },
+          401: function () {
+            alert("Неправильный пароль! Проверьте введенные данные!")
+          },
+          404: function () {
+            alert("Неправильный email! Проверьте введенные данные!")
+          }
         }
       });
     });
@@ -90,16 +95,20 @@
         'password' : $('#registration-password').val()
       };
 
-      alert('JSON.stringify(profile): ' + JSON.stringify(profile));
       $.ajax({
         type: 'POST',
-        url: '/registration',
+        url: '/register',
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(profile),
-        success: function () {
-          alert('Вы зарегистрировались! Вам выслано подтверждение на почту.')
-          window.location.href = '/index';
+        statusCode: {
+          201: function() {
+            alert('Вы зарегистрировались! Вам выслано подтверждение на почту.')
+            window.location.href = '/index';
+          },
+          409: function() {
+            alert('Пользователь с таким email уже существует!')
+          }
         }
       });
     });
