@@ -2,17 +2,9 @@
 
 <div class="ad">
     <p class="proj-p">ТОП ПРОЕКТОВ</p>
-    <div class="proj-top1">
-        <a href="#"><img class="img-responsive" src="resources/images/tractor.png" alt="tractor"></a>
-        <a href="#" class="ad-a1">Название</a>
-    </div>
-    <div class="proj-top1">
-        <a href="#"><img class="img-responsive" src="resources/images/wheat.png" alt="wheat"></a>
-        <a href="#" class="ad-a1">Название</a>
-    </div>
-    <div class="proj-top1">
-        <a href="#"><img class="img-responsive" src="resources/images/factory.png" alt="factory"></a>
-        <a href="#" class="ad-a1">Название</a>
+
+    <div id="topProjectsBlock">
+        <%--заполняется из бызы--%>
     </div>
 
     <img class="caretDown" id="proj-caret" src="resources/images/caret.png" alt="caret">

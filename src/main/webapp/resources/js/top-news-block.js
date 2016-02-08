@@ -27,7 +27,7 @@ function getBlogPostUrl(blogPost) {
     return '/blog-post/view/' + blogPost.id;
 }
 
-function getImagePreviewTag(blogPost) {
+function getBlogPostImagePreviewTag(blogPost) {
     if (blogPost.imagesIds !== null) {
         for (var key in blogPost.imagesIds) {
             if (blogPost.imagesIds[key] === "1") {
@@ -95,7 +95,7 @@ function loadAndAppendTopUserNews() {
         for (var i = 0; i < blogPosts.length; i++) {
             var blogPostURL = getBlogPostUrl(blogPosts[i]);
             var createdDate = getReadableDate(blogPosts[i]);
-            var imagePreviewTag = getImagePreviewTag(blogPosts[i]);
+            var imagePreviewTag = getBlogPostImagePreviewTag(blogPosts[i]);
 
             if (isLeftImgLocation) {
                 appendNewsWithLeftImg('topUserNews', blogPostURL, createdDate, imagePreviewTag, blogPosts[i].title, blogPosts[i].text);
@@ -117,25 +117,7 @@ function loadAndAppendNextUserNews() {
         blogPostFO.skip += 1;
     }
 
-    var promise = getNewsResponse(blogPostFO);
-
-    promise.success(function (data) {
-        var blogPosts = data.entities;
-
-        for (var i = 0; i < blogPosts.length; i++) {
-            var blogPostURL = getBlogPostUrl(blogPosts[i]);
-            var createdDate = getReadableDate(blogPosts[i]);
-            var imagePreviewTag = getImagePreviewTag(blogPosts[i]);
-
-            if (isLeftImgLocation) {
-                appendNewsWithLeftImg('topUserNews', blogPostURL, createdDate, imagePreviewTag, blogPosts[i].title, blogPosts[i].text);
-                isLeftImgLocation = false;
-            } else {
-                appendNewsWithRightImg('topUserNews', blogPostURL, createdDate, imagePreviewTag, blogPosts[i].title, blogPosts[i].text);
-                isLeftImgLocation = true;
-            }
-        }
-    });
+    loadAndAppendTopUserNews();
 }
 
 function loadAndAppendAdNews() {

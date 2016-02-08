@@ -12,11 +12,11 @@ $(document).ready(function(){
         $('.tend-top1:first').clone().insertAfter('.tend-top1:last');
     });
 
-    $("#proj-caret").click(function(){
-        $('.proj-top1:first').clone().insertAfter('.proj-top1:last');
-        $('.proj-top1:first').clone().insertAfter('.proj-top1:last');
-        $('.proj-top1:first').clone().insertAfter('.proj-top1:last');
-    });
+    //$("#proj-caret").click(function(){
+    //    $('.proj-top1:first').clone().insertAfter('.proj-top1:last');
+    //    $('.proj-top1:first').clone().insertAfter('.proj-top1:last');
+    //    $('.proj-top1:first').clone().insertAfter('.proj-top1:last');
+    //});
 
     //$(".tidiDown").click(function(){
     //    $('.tidi4:first').clone().insertAfter('.tidi4:last');
