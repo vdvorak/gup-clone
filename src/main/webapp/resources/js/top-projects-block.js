@@ -9,15 +9,6 @@ $("#proj-caret").click(function(){
     loadAndAppendNextProjects(projectFO);
 });
 
-function getProjectsResponse(projectFO) {
-    return $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        url: "/api/rest/projectsAndInvestmentsService/project/read/all",
-        data: JSON.stringify(projectFO)
-    })
-}
-
 function getProjectUrl(project) {
     return '/project/id/' + project.id;
 }
@@ -47,16 +38,25 @@ function appendProject(elementId, projectURL, imagePreviewTag, title) {
 }
 
 function loadAndAppendTopProjects() {
-    var promise = getProjectsResponse(projectFO);
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "/api/rest/projectsAndInvestmentsService/project/read/all",
+        data: JSON.stringify(projectFO),
+        statusCode: {
+            200: function(data) {
+                var projects = data.entities;
 
-    promise.success(function (data) {
-        var projects = data.entities;
+                for (var i = 0; i < projects.length; i++) {
+                    var projectURl = getProjectUrl(projects[i]);
+                    var imagePreviewTag = getProjectImagePreviewTag(projects[i]);
 
-        for (var i = 0; i < projects.length; i++) {
-            var projectURl = getProjectUrl(projects[i]);
-            var imagePreviewTag = getProjectImagePreviewTag(projects[i]);
-
-            appendProject('topProjectsBlock', projectURl, imagePreviewTag, projects[i].projectName);
+                    appendProject('topProjectsBlock', projectURl, imagePreviewTag, projects[i].projectName);
+                }
+            }
+            //,
+            //204 : function() {
+            //}
         }
     });
 }
