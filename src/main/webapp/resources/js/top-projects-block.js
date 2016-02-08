@@ -14,16 +14,14 @@ function getProjectUrl(project) {
 }
 
 function getProjectImagePreviewTag(project) {
-    JSON.stringify(project);
     if (project.imagesIds !== null) {
         for (var key in project.imagesIds) {
             if (project.imagesIds[key] === "1") {
                 return '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key + '" class="img-responsive" >';
             }
         }
-    } else {
-        return '<img src="/resources/images/no_photo.jpg" class="img-responsive" >';
     }
+    return '<img src="/resources/images/no_photo.jpg" class="img-responsive" >';
 }
 
 

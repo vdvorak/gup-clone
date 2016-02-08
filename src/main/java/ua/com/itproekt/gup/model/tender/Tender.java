@@ -44,6 +44,14 @@ public class Tender {
         members = new ArrayList<Member>();
     }
 
+    public Boolean getHidePropose() {
+        return hidePropose;
+    }
+
+    public Boolean getHideContact() {
+        return hideContact;
+    }
+
     public String getTenderNumber() {
         return tenderNumber;
     }

@@ -14,16 +14,14 @@ function getOfferUrl(offer) {
 }
 
 function getOfferImagePreviewTag(offer) {
-    JSON.stringify(offer);
     if (offer.imagesIds !== null) {
         for (var key in offer.imagesIds) {
             if (offer.imagesIds[key] === "1") {
                 return '<img src="/api/rest/fileStorage/OFFERS/file/read/id/' + key + '" class="img-responsive" >';
             }
         }
-    } else {
-        return '<img src="/resources/images/no_photo.jpg" class="img-responsive" >';
     }
+    return '<img src="/resources/images/no_photo.jpg" class="img-responsive" >';
 }
 
 function appendOffer(elementId, offerURL, imagePreviewTag, title) {
@@ -50,7 +48,7 @@ function loadAndAppendTopOffers() {
                     var offerURl = getOfferUrl(offers[i]);
                     var imagePreviewTag = getOfferImagePreviewTag(offers[i]);
 
-                    appendOffer('topOffersBlock', offerURl, imagePreviewTag, offers[i].projectName);
+                    appendOffer('topOffersBlock', offerURl, imagePreviewTag, offers[i].title);
                 }
             }
             //,
