@@ -74,7 +74,6 @@
 			$(document).ready(function(){
 				$('.bxslider').bxSlider();
 				$('#tab-container').easytabs();
-
 			});
 		</script>
     </body>

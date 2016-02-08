@@ -90,7 +90,7 @@ public class MailSenderServiceImpl implements MailSenderService {
                 }
             }
         };
-        LOG.debug("Sending {} token to : {}",emailVerificationModel.getTokenType().toString(), emailVerificationModel.getEmail());
+        LOG.debug("Sending {} token to : {}", emailVerificationModel.getTokenType().toString(), emailVerificationModel.getEmail());
         this.mailSender.send(preparator);
         return emailVerificationModel;
     }

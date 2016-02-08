@@ -19,7 +19,7 @@
           </ul>
 
           <div id="registration">
-            <form class="registration-form" method="post" action="#" role="form">
+            <%--<form class="registration-form" method="post" action="#" role="form">--%>
               <label for="registration-email">Введите логин/ E-mail</label>
               <input type="email" name="registration-email" id='registration-email' required>
 
@@ -39,8 +39,8 @@
                 <label class="label-checkbox"><input type="checkbox" id="checkbox-modal" value="1" name="k"/><span></span></label>
                 <label for="checkbox-modal"><a href="#">Мною были прочитаны все условия</a></label>
               </div>
-              <button class="registration-submit" type="submit">Зарегистрироваться</button>
-            </form>
+              <button class="registration-submit" id="registrationBtn">Зарегистрироваться</button>
+            <%--</form>--%>
           </div>
 
           <div id="entry-form">
@@ -71,7 +71,7 @@
 <script>
 
   $(document).ready(function() {
-    $("#loginBtn").click(function(event){
+    $("#loginBtn").click(function(){
       $.ajax({
         type: 'POST',
         url: '/login?email=' + $('#email').val() + '&password=' + $('#password').val(),
@@ -80,6 +80,26 @@
         },
         error: function () {
           alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
+        }
+      });
+    });
+
+    $("#registrationBtn").click(function(){
+      var profile = {
+        'email' : $('#registration-email').val(),
+        'password' : $('#registration-password').val()
+      };
+
+      alert('JSON.stringify(profile): ' + JSON.stringify(profile));
+      $.ajax({
+        type: 'POST',
+        url: '/registration',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(profile),
+        success: function () {
+          alert('Вы зарегистрировались! Вам выслано подтверждение на почту.')
+          window.location.href = '/index';
         }
       });
     });
