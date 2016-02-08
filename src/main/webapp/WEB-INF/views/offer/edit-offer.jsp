@@ -28,7 +28,6 @@
 
   <div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">
 
-    <form id="mainInput" action="" method="post">
       <div class="col-xs-8" style="padding-left: 5px; padding-right: 5px;">
 
         <div class="input-group">Заголовок
@@ -177,9 +176,8 @@
         </div>
       </div>
 
-      <input type="submit" value="Сохранить изменения">
+      <input id="btn-submit" type="submit" value="Сохранить изменения">
 
-    </form>
     <div id="options" class="row panel"></div>
     <div id="inputs" class="row panel"></div>
     <!--
@@ -221,8 +219,8 @@
 
   var picArrDel = [];
   var picArrNew = [];
-  var picArrIn = [];
-  var picMapObj = {};
+  var picArrIn = {};
+  var picMapObj = ${imagesIds};
   var parameters = '';
   var options = '';
   var placeKey = '';
@@ -454,10 +452,6 @@
   }
   // google map api------------------------------END----------------------------------------------
 
-  if ('${offer.imagesIds}'.length > 5 ){
-    picMapObj = JSON.parse('${offer.imagesIds}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
-  }
-
   $(document).ready(function () {
 
     // selecte currency from options
@@ -466,7 +460,7 @@
 
     // place photo from received model on the page
     for (var id in picMapObj) {
-      picArrIn.push(id);
+      picArrIn[id] = picMapObj[id];
       $('.imgBlock').append('<ul id="' + id + '" style="display: inline-table; list-style-type: none">' +
       ' <li style="background-color: white"><a rel="example_group"> ' +
       '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + id + '"' + 'width="150" height="150" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')"> ' +
@@ -503,7 +497,7 @@
             var isImage = f.type.substring(0, 5) === 'image';
             var isPic1 = f.type.substring(0, 4) === 'pic1';
             if (isImage || isPic1) {
-              imgsArrResult[id] = (isImage) ? "image" : 'pic1';
+              picArrIn[id] = (isImage) ? "image" : 'pic1';
               $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
                       ' <li style="background-color: white">' +
                       '<a rel="example_group"> ' +
@@ -543,33 +537,33 @@
     }
 
 // serialize form and sent it via POST method in JSON --------------------------BEGIN---------------------
-    $('#mainInput').submit(function (event) {
+    $('#btn-submit').click(function (event) {
       event.preventDefault();
 
-      var mainForm = $('#mainInput').serialize().replace(/\+/g, '%20').replace(/%0D%0A/g, "%5C%6E");
-      mainForm.imagesIds = imgsArrResult;
-      mainForm.address = {};
-      mainForm.userInfo = {};
-//      alert(JSON.stringify(mainForm));
-      var b = decodeURIComponent(mainForm);
-//      alert('{"' + decodeURI(b).replace(/"/g, '\\"').replace(/:/g, '\\:').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
-      var c = JSON.parse('{"' + decodeURI(b).replace(/"/g, '\\"').replace(/:/g, '\\:').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
-//      alert("Цэ" + JSON.stringify(c));
+      var c = {};
 
 // subtract deleted imgId from sum of oldImgId and upploaded img---------Begin-----------
-      var i = 0;
-      jQuery.grep(picArrIn, function (el) {
-        if (jQuery.inArray(el, picArrDel) == -1) picArrNew.push(el);
-        i++;
-      });
 
-      for (var j = 0; j < picArrNew.length; j++) {
-        imgsArrResult[picArrNew[j]] = "someText";
+      for(var key in picArrIn) {
+        if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
       }
+
+      for (var i = 0; i < picArrNew.length; i++) {
+        imgsArrResult[picArrNew[i]] = picArrIn[picArrNew[i]];
+      }
+
+      var defaultMainImg = "";
+      for(var key in imgsArrResult) {
+        if(imgsArrResult[key] === "pic1") {
+          defaultMainImg = key;
+        }
+      }
+      if(defaultMainImg) imgsArrResult[defaultMainImg] = "pic1";
 //      alert(JSON.stringify(imgsArrResult));
 // subtract deleted imgId from sum of oldImgId and upploaded img---------End-----------
 
       c.id = '${offer.id}';
+      c.title = $("#inputTitle").val();
       c.imagesIds = imgsArrResult;
       c.canBeReserved = $("#inputReserved").is(":checked");
       c.address = {};
@@ -656,10 +650,12 @@
   // delete pictures only from page
   function deleteImgFromPage(idImg) {
     $('#' + idImg).remove();
-    imgsArrResult.push(idImg);
+    picArrDel.push(idImg);
   }
 
   function onClickSetMainImg(id) {
+    var isMain = $('#' + id).find("img").hasClass("mainImg");
+
     var allImgs = $(".imgBlock").find("img");
     for (var i =0; i < allImgs.length; i++) {
       var curImg = $(allImgs[i]);
@@ -668,16 +664,15 @@
       }
     }
     var el = $('#' + id).find("img");
-    if(!el.hasClass("mainImg")) {
-      el.addClass("mainImg");
-    }
-    for(var key in picArrDel) {
-      if( imgsArrResult[key] === "pic1") {
-        imgsArrResult[key] = "image";
+    if(!isMain) el.addClass("mainImg");
+
+    for(var key in picArrIn) {
+      if( picArrIn[key] === "pic1") {
+        picArrIn[key] = "image";
       }
     }
     if(el.hasClass("mainImg")) {
-      imgsArrResult[id] = "pic1";
+      picArrIn[id] = "pic1";
     }
   }
   // upload photo to the server and place it into the page-----------------------BEGIN------------------------

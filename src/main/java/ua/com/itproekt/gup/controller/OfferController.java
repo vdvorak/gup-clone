@@ -49,8 +49,8 @@ public class OfferController {
     @RequestMapping(value = "/offers-old/{page}", method = RequestMethod.GET)
     public String getOffersPerPage(Model model, HttpServletRequest request,
                                    @PathVariable("page") Integer page,
-                                   @RequestParam(name="minPrice",required = false,defaultValue = "0") Integer minPrice,
-                                   @RequestParam(name="maxPrice",required = false,defaultValue = "0") Integer maxPrice) {
+                                   @RequestParam(name = "minPrice", required = false, defaultValue = "0") Integer minPrice,
+                                   @RequestParam(name = "maxPrice", required = false, defaultValue = "0") Integer maxPrice) {
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
         offerFilterOptions.setLimit(5);
         offerFilterOptions.setSkip((page - 1) * 5);
@@ -58,7 +58,7 @@ public class OfferController {
         String chosenRegion = "";
         String chosenCity = "";
         try {
-            if(request!=null && request.getQueryString()!=null && request.getQueryString().contains("&")) {
+            if (request != null && request.getQueryString() != null && request.getQueryString().contains("&")) {
                 search = URLDecoder.decode(request.getQueryString().split("&")[2].substring(7), "UTF-8");
                 chosenRegion = URLDecoder.decode(request.getQueryString().split("&")[3].substring(13), "UTF-8");
                 chosenCity = URLDecoder.decode(request.getQueryString().split("&")[4].substring(11), "UTF-8");
@@ -66,12 +66,12 @@ public class OfferController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (minPrice != 0)  offerFilterOptions.setFromPrice(minPrice);
+        if (minPrice != 0) offerFilterOptions.setFromPrice(minPrice);
         if (maxPrice != 0) offerFilterOptions.setToPrice(maxPrice);
         if (!search.equals("")) offerFilterOptions.setSearchField(search);
         Address address = new Address();
         if (!chosenRegion.equals("")) address.setArea(chosenRegion);
-        if (!chosenCity.equals(""))  address.setCity(chosenCity);
+        if (!chosenCity.equals("")) address.setCity(chosenCity);
         offerFilterOptions.setAddress(address);
         EntityPage<Offer> responseOffers = offerRepository.findOffersWihOptions(offerFilterOptions);
         model.addAttribute("offers", responseOffers);
@@ -81,12 +81,12 @@ public class OfferController {
         if (!search.equals("")) model.addAttribute("search", search);
         if (chosenRegion.equals("")) {
             model.addAttribute("chosenRegion", "Выберите область");
-        }else{
+        } else {
             model.addAttribute("chosenRegion", chosenRegion);
         }
         if (chosenCity.equals("")) {
             model.addAttribute("chosenCity", "Выберите город");
-        }else{
+        } else {
             model.addAttribute("chosenCity", chosenCity);
         }
         model.addAttribute("pages", Math.round(responseOffers.getTotalEntities() % 5 == 0 ? responseOffers.getTotalEntities() / 5 : responseOffers.getTotalEntities() / 5 + 1));
@@ -150,14 +150,21 @@ public class OfferController {
             e.printStackTrace();
             System.out.println("Exception in getOffer method trying receive offer");
         }
+
+
         String properties = "";
         String categories = "";
+        String imagesIds = "";
         ObjectMapper mapper = new ObjectMapper();
+
+
         try {
             properties = mapper.writeValueAsString(offer.getProperties());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
         try {
             categories = mapper.writeValueAsString(offer.getCategories());
         } catch (IOException e) {
@@ -165,6 +172,14 @@ public class OfferController {
         }
 
 
+        try {
+            imagesIds = mapper.writeValueAsString(offer.getImagesIds());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        model.addAttribute("imagesIds", imagesIds);
         model.addAttribute("properties", properties);
         model.addAttribute("categories", categories);
         model.addAttribute("profile", profile);
@@ -178,9 +193,6 @@ public class OfferController {
     public String test(Model model) {
         return "test";
     }
-
-
-
 
 
 }

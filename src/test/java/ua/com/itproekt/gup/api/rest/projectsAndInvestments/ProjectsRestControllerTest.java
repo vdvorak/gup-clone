@@ -26,9 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations =
-        {"classpath*:test-applicationContext.xml"})
+        {"classpath*:applicationContext.xml"})
 @WebAppConfiguration
-@Ignore
+
 public class ProjectsRestControllerTest {
     private static final String BASIC_URL = "/api/rest/projectsAndInvestmentsService";
 

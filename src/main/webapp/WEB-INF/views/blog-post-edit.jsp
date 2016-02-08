@@ -199,6 +199,7 @@
         ],
         init_instance_callback : function(editor) {
             editor.setContent('${blogPost.text}');
+            alert('${blogPost.text}');
         }
     });
 

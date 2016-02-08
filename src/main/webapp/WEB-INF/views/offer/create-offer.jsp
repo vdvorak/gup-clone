@@ -587,6 +587,7 @@
     };
 
     function onClickSetMainImg(id) {
+        var isMain = $('#' + id).find("img").hasClass("mainImg");
         var allImgs = $(".imgBlock").find("img");
         for (var i =0; i < allImgs.length; i++) {
             var curImg = $(allImgs[i]);
@@ -595,9 +596,8 @@
             }
         }
         var el = $('#' + id).find("img");
-        if(!el.hasClass("mainImg")) {
-            el.addClass("mainImg");
-        }
+        if(!isMain) el.addClass("mainImg");
+
         for(var key in imgsArr) {
             if(imgsArr[key] === "pic1") {
                 imgsArr[key] = "image";

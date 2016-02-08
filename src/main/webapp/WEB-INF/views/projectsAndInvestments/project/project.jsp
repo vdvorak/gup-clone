@@ -39,8 +39,10 @@
             </div>
 
             <div>
+                <hr>
                 <label for="projectDescription"><b>Описание: </b></label>
                 <label id="projectDescription"></label>
+                <hr>
             </div>
 
             <div>
@@ -133,7 +135,7 @@
                     }
                     $('#projectName').text(projectData.projectName);
                     $('#projectType').text(projectData.typeOfProject);
-                    $('#projectDescription').text(projectData.projectDescription);
+                    $('#projectDescription').html(projectData.projectDescription);
                     $('#amountRequested').text(projectData.amountRequested);
                     $('#investedAmount').text(projectData.investedAmount);
                     $('#totalScore').text(projectData.totalScore);
