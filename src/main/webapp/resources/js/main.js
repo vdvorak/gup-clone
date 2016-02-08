@@ -6,11 +6,11 @@ $(document).ready(function(){
     //    $('.add-top1:first').clone().insertAfter('.add-top1:last');
     //});
 
-    $("#tend-caret").click(function(){
-        $('.tend-top1:first').clone().insertAfter('.tend-top1:last');
-        $('.tend-top1:first').clone().insertAfter('.tend-top1:last');
-        $('.tend-top1:first').clone().insertAfter('.tend-top1:last');
-    });
+    //$("#tend-caret").click(function(){
+    //    $('.tend-top1:first').clone().insertAfter('.tend-top1:last');
+    //    $('.tend-top1:first').clone().insertAfter('.tend-top1:last');
+    //    $('.tend-top1:first').clone().insertAfter('.tend-top1:last');
+    //});
 
     //$("#proj-caret").click(function(){
     //    $('.proj-top1:first').clone().insertAfter('.proj-top1:last');
