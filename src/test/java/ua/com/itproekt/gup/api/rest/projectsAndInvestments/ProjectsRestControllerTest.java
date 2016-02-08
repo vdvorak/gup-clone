@@ -12,15 +12,23 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.com.itproekt.gup.api.rest.util.Util;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.dao.projectsAndInvestments.project.ProjectRepository;
+import ua.com.itproekt.gup.model.projectsAndInvestments.project.ModerationStatus;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOptions;
+import ua.com.itproekt.gup.service.profile.ProfilesService;
 
+import javax.servlet.http.Cookie;
+import java.util.Arrays;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.securityContext;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,8 +43,11 @@ public class ProjectsRestControllerTest {
     @Autowired
     ProjectRepository projectRepository;
 
+//    @Autowired
+//    ProfileRepository profileRepository;
+
     @Autowired
-    ProfileRepository profileRepository;
+    ProfilesService profilesService;
 
     @Autowired
     private FilterChainProxy springSecurityFilterChain;
@@ -49,7 +60,7 @@ public class ProjectsRestControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        Util.createTestProfile(Util.USER_EMAIL, profileRepository);
+        Util.createTestProfile(Util.USER_EMAIL, profilesService);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
                 .addFilter(springSecurityFilterChain)
                 .build();
@@ -60,22 +71,66 @@ public class ProjectsRestControllerTest {
         SecurityContextHolder.clearContext();
     }
 
+
     @Test
-    public void testGetProjectById() throws Exception {
+    public void testGetProjectById_shouldReturn200_WithProjectModerationStatusComplete_forRoleAdmin() throws Exception {
         String url = BASIC_URL + "/project/id/";
 
         Project project = new Project();
+        project.setModerationStatus(ModerationStatus.COMPLETE);
         projectRepository.create(project);
 
-        this.mockMvc.perform(post(url + project.getId() + "/read")
+        this.mockMvc.perform(get(url + project.getId() + "/read")
                 .contentType(Util.contentType))
                 .andExpect(status().isOk());
 
-        this.mockMvc.perform(post(url + "---" + "/read")
+        this.mockMvc.perform(get(url + "---" + "/read")
                 .contentType(Util.contentType))
                 .andExpect(status().isNotFound());
+    }
+
+
+
+
+    @Test
+    public void testGetProjectById_shouldReturn200_WithProjectModerationStatusFail_forRoleAdmin() throws Exception {
+        String url = BASIC_URL + "/project/id/";
+
+        Project project = new Project();
+        project.setModerationStatus(ModerationStatus.FAIL);
+        project.setAuthorId("123140dv382dfkjn");
+        projectRepository.create(project);
+
+
+
+        System.err.println("Roles: " + Util.loggedUser.getAuthorities());
+
+
+
+        MvcResult result = this.mockMvc.perform(post("/login").param("email", "admin@abc.com").param("password", "admin")).andReturn();
+
+        System.err.println("Cookie: " + (result.getResponse().getCookie("authToken").getValue()));
+//        Cookie c = result.getResponse().getCookie("authToken");
+
+        Cookie[] cookies = result.getResponse().getCookies();
+
+
+
+        this.mockMvc.perform(get(url + project.getId() + "/read")
+                .cookie(cookies)
+                .with(user(Util.loggedUser))
+                .contentType(Util.contentType))
+                .andExpect(status().isOk());
+
+//        this.mockMvc.perform(get(url + "---" + "/read")
+//                .contentType(Util.contentType))
+//                .andExpect(status().isNotFound());
 
     }
+
+
+
+
 
     @Test
     public void testListOfAllInvestors() throws Exception {
@@ -117,7 +172,7 @@ public class ProjectsRestControllerTest {
 
         Project project = new Project();
         project.setId(null);
-        project.setAuthorId(profileRepository.findByEmail(Util.USER_EMAIL).getId());
+        project.setAuthorId(profilesService.findProfileByEmail(Util.USER_EMAIL).getId());
         project.setProjectName("****");
         String projectJson = Util.ow.writeValueAsString(project);
 

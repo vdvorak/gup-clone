@@ -10,6 +10,7 @@ import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import java.nio.charset.Charset;
 import java.security.Principal;
@@ -47,8 +48,8 @@ public final class Util {
         ow = new ObjectMapper().writer();
     }
 
-    public static void createTestProfile(String email, ProfileRepository profileRepository) {
-        if (profileRepository.findByEmail(email) == null) {
+    public static void createTestProfile(String email, ProfilesService profilesService) {
+        if (profilesService.findProfileByEmail(email) == null) {
                 Profile profile = new Profile();
                 profile.setId(USER_ID);
                 profile.setEmail(email);
@@ -57,7 +58,7 @@ public final class Util {
                 Set<UserRole> userRoles = new HashSet<>();
                 userRoles.add(UserRole.ROLE_ADMIN);
                 profile.setUserRoles(userRoles);
-            profileRepository.createProfile(profile);
+            profilesService.createProfile(profile);
         }
     }
 
