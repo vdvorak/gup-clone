@@ -48,7 +48,6 @@ public class OfferRestController {
     public ResponseEntity<EntityPage<Offer>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO) {
         EntityPage<Offer> offers = offersService.findOffersWihOptions(offerFO);
         if(offers.getEntities().isEmpty()){
-            System.err.println("if(offers.getEntities().isEmpty()){");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(offers, HttpStatus.OK);

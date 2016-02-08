@@ -259,6 +259,7 @@ table {
 
 .submit-search:hover {
 	background: -webkit-linear-gradient(top, #9c6, #70ab35);
+	background: -webkit-linear-gradient(top, #6cb52b, #538a1c);
 	background: linear-gradient(top, #6cb52b, #538a1c);
 }
 
@@ -284,6 +285,7 @@ table {
 .users:hover {
 	border-color: #1269a7;
 	background: -webkit-linear-gradient(top, #9c6, #70ab35);
+	background: -webkit-linear-gradient(top, #6cb52b, #538a1c);
 	background: linear-gradient(top, #6cb52b, #538a1c);
 	color: white;
 }
@@ -749,13 +751,13 @@ table {
 .mailDrop {
 	position: absolute;
 	background-color: #99cc66;
-	height: 141px;
 	width: 284px;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 	top: 17px;
 	left: 1px;
 	display: none;
+	padding-top: 8px;
 }
 
 .mailDrop a {
@@ -785,16 +787,18 @@ table {
 	-webkit-transition: all .25s;
 	transition: all .25s;
 	float: right;
-	margin: 1px 15px 0 0;
+	margin: 5px 15px 5px 0;
 }
 
 .btnSubmit:hover {
 	background-color: transparent;
 }
 
+/*
 .btnMail:hover .mailDrop {
 	display: block;
 }
+*/
 
 .btnMail {
 	position: relative;
@@ -969,32 +973,23 @@ table {
 	margin-bottom: 8px;
 }
 
-.modal-content {
-	background-color: #1269a7;
-}
 
-.mod {
-	margin-left: 10px;
-	float: left;
-}
+
+
 
 .mod1 {
 	max-width: 216px;
 	float: left;
 }
 
-.notLogged ul li {
+.notLogged-li {
 	float: left;
 	line-height: 42px;
-	color: white;
+	color: #ffffff;
 }
 
-.notLogged ul li a {
+.notLogged-li a {
 	color: white;
-}
-
-.notLogged ul li a:hover {
-	text-decoration: none;
 }
 
 .Logged {
@@ -1032,101 +1027,28 @@ table {
 	display:none; /* в oбычнoм сoстoянии её нет) */
 }
 
-.etabs .tab1 a {
-	color: #42abe0;
-	font: 400 36px ArianAMU;
-	float: right;
-	margin-right: 43px;
-	padding: 7px 9px;
-	border: 3px solid transparent;
-	border-radius: 5px;
-	margin-top: 14px
-}
-
-.etabs .tab1 .active {
-	border: 3px solid #1269a7;
-	color: #1269a7;
-}
-
-.etabs .tab2 a {
-	margin-top: 14px;
-	color: #42abe0;
-	font: 400 36px ArianAMU;
-	float: left;
-	margin-left: 43px;
-	padding: 7px 9px;
-	border: 3px solid transparent;
-	border-radius: 5px;
-}
-
-.etabs .tab2 .active {
-	border: 3px solid #1269a7;
-	color: #1269a7;
-}
-
-.etabs .tab1 {
-	width: 50%;
-}
-
-.etabs .tab2 {
-	width: 50%;
-}
-
-.contact_form label {
-	color: #959595;
-	font: 400 24px ArianAMU;
-	margin-top: 3px;
-	display:inline-block;
-	float:left;
-	padding:3px;
-	width: 234px;
-	margin-right: 26px;
-}
-
-.contactUl {
-	width: 750px;
-	margin: 0 auto;
-	margin-top: 50px;
-	display: table;
-}
-
-.notLogged .contactUl .contactLi {
-	padding-bottom: 18px;
-	position:relative;
-	display: table;
-	float: none;
-	line-height: normal;
-}
-
-.contact_form input {
-	height: 32px;
-	width: 488px;
-	padding: 0 8px;
-	border:3px solid #99cc66;
-	border-radius:5px;
-	color: black;
-	line-height: 32px;
-}
-
-.contact_form input:focus {
-	box-shadow: 0 0 5px #99cc66;
-}
-
 .notLogged {
-	display: none;
+	display: block;
 }
 
-.contact_form {
-	display: table;
-	margin: 0 auto;
+.label-checkbox {
+	width: 35px; /* Ширина рисунка */
+	height: 35px; /* Высота рисунка */
+	position: relative; /* Относительное позиционирование */
+	float: left;
 }
 
-input[type="checkbox"] {
-	height: 29px;
-	width: 29px;
+input[type="checkbox"] + span {
+	position: absolute; /* Абсолютное позиционирование */
+	left: 0; top: 0;
+	width: 100%; height: 100%;
+	background: url(images/backgroundCheck.png) no-repeat; /* Фоновый рисунок */
+	cursor: pointer; /* Курсор в виде руки */
 }
 
-
+input[type="checkbox"]:checked + span  	{
+	background: url(images/check.png) no-repeat; /* Фоновый рисунок */
+}
 
 .submit {
 	color: #ffffff;
@@ -1135,18 +1057,25 @@ input[type="checkbox"] {
 	height: 49px;
 	width: 112px;
 	margin: 0 auto;
-	margin-left: 260px;
+	margin-left: 375px;
+	margin-top: 35px;
 	border: 0;
 	border-radius: 5px;
 	display: block;
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
+}
+
+.submit:hover {
+	background-color: #1269a7;
 }
 
 .contactA {
 	color: #36aae0;
 	font: 400 24px DroidSans;
 	margin-top: 50px;
-	margin-left: 360px;
-	display: inline-block;
+	margin-left: 350px;
+	display: block;
 }
 
 .profile {
@@ -1430,7 +1359,7 @@ input[type="checkbox"] {
 	margin: 0 auto;
 }
 
-li.active {
+.tab-profile.active {
 	background-color: #99cc66;
 }
 
@@ -1529,6 +1458,7 @@ li.active {
 	width: 297px;
 	overflow: scroll;
 }
+
 .rating-organization {
 	background: url(images/rating-organization.png) no-repeat;
 	height: 70px;
@@ -1549,4 +1479,347 @@ li.active {
 
 .organization-profile-img {
 	display: none;
+}
+
+.tab-news {
+	float: left;
+	width: 50%;
+	height: 57px;
+}
+
+.tab-news a {
+	color: #b7b7b7;
+	font: 400 28px DroidSans;
+	border-radius: 12px;
+	border: 1px solid transparent;
+	padding: 15px 30px;
+	line-height: 57px;
+}
+
+.tab-news a.active {
+	border-color: #1269a7;
+	color: #1269a7;
+}
+
+.tab-news:nth-child(1) {
+	text-align: right;
+}
+
+.tab-container-news {
+	margin-top: 57px;
+}
+
+.blogs {
+	height: 179px;
+	width: 1050px;
+	border: 5px solid #97CA65;
+	border-radius: 7px;
+	margin: 0 auto;
+	margin-bottom: 23px;
+	position: relative;
+}
+
+.blogs-img {
+	float: left;
+	margin: 17px 0 0 18px;
+	height: 135px;
+	width: 180px;
+}
+
+.etabs-news {
+	display: block;
+	height: 57px;
+	margin-bottom: 51px;
+}
+
+.nameBlogs {
+	color: #3e5da2;
+	font: 400 31px ArianAMU;
+	margin: 15px 0 0 17px;
+	float: left;
+}
+
+.text-blogs {
+	color: #828a8f;
+	font: 400 25px Calibri;
+	width: 813px;
+	display: inline-block;
+	margin-left: 17px;
+	margin-top: 10px;
+}
+
+.description {
+	color: #828a8f;
+	font: 400 24px Calibri;
+	position: absolute;
+	top: 40px;
+	left: 240px;
+}
+
+.views-blogs {
+	color: #929d9e;
+	font: italic 700 18px Calibri;
+	position: absolute;
+	bottom: -2px;
+	left: 17px;
+}
+
+.views-blogs-num {
+	color: #929d9e;
+	font: italic 700 18px Calibri;
+	position: absolute;
+	bottom: -2px;
+	left: 130px;
+}
+
+.DateOfCreation-blogs {
+	color: #929d9e;
+	font: 400 18px Calibri;
+	position: absolute;
+	bottom: -1px;
+	right: 90px;
+}
+
+.DateOfCreation-blogs-num {
+	color: #929d9e;
+	font: 400 18px Calibri;
+	position: absolute;
+	bottom: -1px;
+	right: 21px;
+}
+
+.tab {
+	width: 50%;
+	float: left;
+	margin-top: 14px;
+	padding: 0 20px;
+}
+
+.tab:nth-child(1) {
+	text-align: right;
+}
+
+.tab a {
+	color: #42abe0;
+	font: 400 36px ArianAMU;
+	padding: 7px 9px;
+	border: 3px solid transparent;
+	border-radius: 7px;
+	display: inline-block;
+}
+
+.tab a.active {
+	color: #1269a7;
+	border-color: #1269a7;
+}
+
+#entry-form {
+	width: 960px;
+	margin: 0 auto;
+	display: block;
+	margin-top: 50px;
+}
+
+.etabs {
+	width: 960px;
+	display: inline-block;
+}
+
+label[for="email"] {
+	color: #959595;
+	font: 400 24px ArianAMU;
+	float: left;
+	margin-left: 100px;
+}
+
+#email {
+	border: 3px solid #99cc66;
+	border-radius: 7px;
+	height: 32px;
+	width: 488px;
+	float: right;
+	margin-right: 100px;
+	padding: 0 7px;
+	color: #898989;
+	font: 400 18px DroidSans;
+	margin-bottom: 18px;
+}
+
+label[for="password"] {
+	color: #959595;
+	font: 400 24px ArianAMU;
+	float: left;
+	margin-left: 100px;
+}
+
+#password {
+	border: 3px solid #99cc66;
+	border-radius: 7px;
+	height: 32px;
+	width: 488px;
+	float: right;
+	margin-right: 100px;
+	padding: 0 7px;
+	color: #898989;
+	font: 400 18px DroidSans;
+}
+
+.rememberMe {
+	display: block;
+	margin: 0 auto;
+	height: 35px;
+	width: 210px;
+	margin-top: 40px;
+}
+
+label[for="checkbox-modal"] {
+	color: #898989;
+	font: 400 24px ArianAMU;
+	line-height: 35px;
+	float: right;
+}
+
+label[for="registration-email"] {
+	color: #959595;
+	font: 400 24px ArianAMU;
+	float: left;
+	margin-left: 100px;
+}
+
+#registration-email {
+	border: 3px solid #99cc66;
+	border-radius: 7px;
+	height: 32px;
+	width: 488px;
+	float: right;
+	margin-right: 100px;
+	padding: 0 7px;
+	color: #898989;
+	font: 400 18px DroidSans;
+	margin-bottom: 18px;
+}
+
+label[for="registration-password"] {
+	color: #959595;
+	font: 400 24px ArianAMU;
+	float: left;
+	margin-left: 100px;
+}
+
+#registration-password {
+	border: 3px solid #99cc66;
+	border-radius: 7px;
+	height: 32px;
+	width: 488px;
+	float: right;
+	margin-right: 100px;
+	padding: 0 7px;
+	color: #898989;
+	font: 400 18px DroidSans;
+	margin-bottom: 18px;
+}
+
+label[for="repeat-registration-password"] {
+	color: #959595;
+	font: 400 24px ArianAMU;
+	float: left;
+	margin-left: 100px;
+}
+
+#repeat-registration-password {
+	border: 3px solid #99cc66;
+	border-radius: 7px;
+	height: 32px;
+	width: 488px;
+	float: right;
+	margin-right: 100px;
+	padding: 0 7px;
+	color: #898989;
+	font: 400 18px DroidSans;
+	margin-bottom: 18px;
+}
+
+#registration {
+	width: 960px;
+	margin: 0 auto;
+	display: block;
+	margin-top: 50px;
+}
+
+.conditions {
+	display: table;
+	margin-left: 300px;
+	height: 35px;
+	width: 410px;
+	margin-top: 40px;
+}
+
+.conditions a {
+	color: #42abe0;
+	font: 400 24px ArianAMU;
+	text-decoration: underline;
+}
+
+.registration-submit {
+	color: #ffffff;
+	font: 400 30px ArianAMU;
+	background-color: #99cc66;
+	height: 41px;
+	width: auto;
+	margin: 0 auto;
+	margin-left: 375px;
+	margin-top: 35px;
+	border: 0;
+	border-radius: 5px;
+	display: block;
+	padding: 0 20px;
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
+}
+
+.registration-submit:hover {
+	background-color: #1269a7;
+}
+
+.mailDrop-message {
+	width: 100%;
+	border-top: 1px solid white;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.mailDrop-message-p {
+	float: right;
+	width: 204px;
+	text-align: justify;
+	margin: 10px;
+	color: white;
+	font: 400 13px DroidSans;
+}
+
+.answer {
+	position: relative;
+	display: none;
+	width: 284px;
+	height: 148px;
+}
+
+.answer p {
+	position: absolute;
+	bottom: 8px;
+	left: 8px;
+	color: white;
+}
+
+.answer-a {
+	position: absolute;
+	bottom: 8px;
+	left: 68px;
+	color: white;
+	text-decoration: underline;
+}
+
+.answer form {
+	float: right;
+	margin-right: 10px;
 }
