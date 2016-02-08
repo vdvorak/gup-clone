@@ -3,11 +3,16 @@ blogPostFO.createdDateSortDirection = "DESC";
 blogPostFO.skip = 0;
 blogPostFO.limit = 5;
 
-loadAndAppendTopUserNews(blogPostFO);
-loadAndAppendNextUserNews(blogPostFO);
-loadAndAppendNextUserNews(blogPostFO);
-loadAndAppendNextUserNews(blogPostFO);
+var isLeftImgLocation = true;
 
+
+loadAndAppendAdNews();
+loadAndAppendTopUserNews(blogPostFO);
+
+
+$("#tidiDown").click(function(){
+    loadAndAppendNextUserNews(blogPostFO);
+});
 
 function getNewsResponse(blogPostFO) {
     return $.ajax({
@@ -92,9 +97,11 @@ function loadAndAppendTopUserNews() {
             var createdDate = getReadableDate(blogPosts[i]);
             var imagePreviewTag = getImagePreviewTag(blogPosts[i]);
 
-            if (i % 2 === 0) {
+            if (isLeftImgLocation) {
                 appendNewsWithLeftImg('topUserNews', blogPostURL, createdDate, imagePreviewTag, blogPosts[i].title, blogPosts[i].text);
+                isLeftImgLocation = false;
             } else {
+                isLeftImgLocation = true;
                 appendNewsWithRightImg('topUserNews', blogPostURL, createdDate, imagePreviewTag, blogPosts[i].title, blogPosts[i].text);
             }
         }
@@ -120,10 +127,12 @@ function loadAndAppendNextUserNews() {
             var createdDate = getReadableDate(blogPosts[i]);
             var imagePreviewTag = getImagePreviewTag(blogPosts[i]);
 
-            if (i % 2 === 0) {
-                appendNewsWithLeftImg('nextUserNews', blogPostURL, createdDate, imagePreviewTag, blogPosts[i].title, blogPosts[i].text);
+            if (isLeftImgLocation) {
+                appendNewsWithLeftImg('topUserNews', blogPostURL, createdDate, imagePreviewTag, blogPosts[i].title, blogPosts[i].text);
+                isLeftImgLocation = false;
             } else {
-                appendNewsWithRightImg('nextUserNews', blogPostURL, createdDate, imagePreviewTag, blogPosts[i].title, blogPosts[i].text);
+                appendNewsWithRightImg('topUserNews', blogPostURL, createdDate, imagePreviewTag, blogPosts[i].title, blogPosts[i].text);
+                isLeftImgLocation = true;
             }
         }
     });

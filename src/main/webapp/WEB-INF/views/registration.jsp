@@ -47,7 +47,7 @@
     <!--category-->
     <div class="row" style="padding: 10px;">
         <div class="col-xs-3" style="padding-left: 5px; padding-right: 5px;">
-            <a><img src="/resources/images/logo.png"></a>
+            <a><img src="/resources/images/LOGO.png"></a>
         </div>
         <div class="col-xs-3"
              style="padding-left: 5px; padding-right: 5px; color: white; font-size: 25px;  margin-top: 30px; ">

@@ -18,9 +18,9 @@ $(document).ready(function(){
         $('.proj-top1:first').clone().insertAfter('.proj-top1:last');
     });
 
-    $(".tidiDown").click(function(){
-        $('.tidi4:first').clone().insertAfter('.tidi4:last');
-    });
+    //$(".tidiDown").click(function(){
+    //    $('.tidi4:first').clone().insertAfter('.tidi4:last');
+    //});
 
     $(".question-img").click(function(){
         $(".questionForm").slideToggle(1);
