@@ -15,12 +15,12 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="resources/css/bootstrap.css">
-        <link rel="stylesheet" href="resources/css/bootstrap-theme.css">
-        <link rel="stylesheet" href="resources/css/jquery.bxslider.css">
-        <link rel="stylesheet" href="resources/css/main.css">
-        <link rel="stylesheet" href="resources/css/font-awesome.css">
-        <link rel="stylesheet" href="resources/css/media-queries.css">
+        <link rel="stylesheet" href="/resources/css/bootstrap.css">
+        <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+        <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+        <link rel="stylesheet" href="/resources/css/main.css">
+        <link rel="stylesheet" href="/resources/css/font-awesome.css">
+        <link rel="stylesheet" href="/resources/css/media-queries.css">
 
     </head>
     <body>
@@ -38,18 +38,18 @@
             <div class="profile"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border -->
                 <p class="online">online</p>
                 <div class="profile-img"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border, а если организации то organization-color-border -->
-                    <img class="img-responsive" src="resources/images/girl.png" alt="girl">
+                    <img class="img-responsive" src="/resources/images/girl.png" alt="girl">
                     <div class="vip-profile-img"> <!-- этот блок надо включить когда профиль випа, у обычного он выключен -->
                         <div class="rating-vip">
                             <p>000</p>
                         </div>
-                        <img class="backgroundSun" src="resources/images/backgroundSun.png" alt="backgroundSun">
+                        <img class="backgroundSun" src="/resources/images/backgroundSun.png" alt="backgroundSun">
                     </div>
                     <div class="organization-profile-img"> <!-- этот блок надо включить когда профиль организации, у обычного он выключен -->
                         <div class="rating-organization">
                             <p>000</p>
                         </div>
-                        <img class="backgroundSun" src="resources/images/backgroundOrganization.png" alt="backgroundOrganization">
+                        <img class="backgroundSun" src="/resources/images/backgroundOrganization.png" alt="backgroundOrganization">
                     </div>
                 </div>
                 <p class="firstName">ФИО / Название компании</p>
@@ -70,17 +70,17 @@
                         <div class="caretContact"></div>
                     </div>
                     <div class="phone">
-                        <img class="phone-img" src="resources/images/phone.png" alt="phone">
+                        <img class="phone-img" src="/resources/images/phone.png" alt="phone">
                         <p class="phoneNumber">094 786 66 78</p>
                         <p class="phoneNumber">094 786 66 78</p>
                     </div>
                     <div class="skypeContact">
-                        <img class="skypeContact-img" src="resources/images/skype.png" alt="skype">
+                        <img class="skypeContact-img" src="/resources/images/skype.png" alt="skype">
                         <p class="skype">Skype:</p>
                         <p class="skypeName">&nbsp;Deptors</p>
                     </div>
                     <div class="emailContact">
-                        <img class="emailcontact-img" src="resources/images/email.png" alt="email">
+                        <img class="emailcontact-img" src="/resources/images/email.png" alt="email">
                         <p class="email">E-mail:</p>
                         <p class="emailName">&nbsp;Deptors@ukr.net</p>
                     </div>
@@ -90,12 +90,12 @@
                     <button class="addToContact">Добавить в контакты</button> <!-- если профиль вип то сюда надо добавлять класс vip-color-background -->
                 </div>
                 <div class="social-icon">
-                    <a href="#"><img src="resources/images/in.png" alt="in"></a>
-                    <a href="#"><img src="resources/images/g+.png" alt="g+"></a>
-                    <a href="#"><img src="resources/images/B.png" alt="B"></a>
-                    <a href="#"><img src="resources/images/skype-icon.png" alt="skype-icon"></a>
-                    <a href="#"><img src="resources/images/facebook.png" alt="facebook"></a>
-                    <a href="#"><img src="resources/images/twitter.png" alt="twitter"></a>
+                    <a href="#"><img src="/resources/images/in.png" alt="in"></a>
+                    <a href="#"><img src="/resources/images/g+.png" alt="g+"></a>
+                    <a href="#"><img src="/resources/images/B.png" alt="B"></a>
+                    <a href="#"><img src="/resources/images/skype-icon.png" alt="skype-icon"></a>
+                    <a href="#"><img src="/resources/images/facebook.png" alt="facebook"></a>
+                    <a href="#"><img src="/resources/images/twitter.png" alt="twitter"></a>
                 </div>
                 <div id="tab-container-profile" class="tab-container-profile">
                     <ul class='etabs-profile'>

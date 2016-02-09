@@ -15,9 +15,6 @@ import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
-/**
- * Created by Optical Illusion on 17.11.2015.
- */
 
 @Controller
 public class ProfileController {
