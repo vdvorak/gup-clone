@@ -1,209 +1,80 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html>
-<html lang="ru-RU">
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>GUP</title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
 
-    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang=""> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-</head>
-<body>
+        <link rel="stylesheet" href="/resources/css/bootstrap.css">
+        <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+        <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+        <link rel="stylesheet" href="/resources/css/main.css">
+        <link rel="stylesheet" href="/resources/css/font-awesome.css">
+        <link rel="stylesheet" href="/resources/css/media-queries.css">
 
-<!-- BEGIN Common general header-->
-<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
-<!-- END common general header-->
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+	</head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
 
-<!--BEGIN 1nd section with logo, apps button and organization button-->
-<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
-<!-- END 1st section -->
+        <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
 
-<!--BEGIN section with search bar-->
-<jsp:include page="/WEB-INF/templates/main-search-bar.jsp"/>
-<!-- END search bar -->
+        <jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
 
-<!--2nd section menu+slider -->
-<jsp:include page="/WEB-INF/templates/main-menu-slider-bar.jsp"/>
-<!--END 2nd section -->
+        <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
 
-<%--<div class="contain">--%>
-    <%--<button class="button notificationicon on">Посмотреть уведомления</button>--%>
+        <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+        
+        <div class="container">
+			<jsp:include page="/WEB-INF/templates/top-news-block.jsp"/>
 
-    <%--<ul id="notificationMenu" class="notifications">--%>
-        <%--<li class="titlebar">--%>
-            <%--<span class="title" align="center">Уведомления</span>--%>
-        <%--<span class="settings"><i class="icon-cog"></i>--%>
-        <%--</span>--%>
-        <%--</li>--%>
-        <%--<div class="notifbox" id="notificationContainer">--%>
+			<jsp:include page="/WEB-INF/templates/top-offers-block.jsp"/>
 
-        <%--</div>--%>
-        <%--<li class="seeall">--%>
-            <%--<a>Посмотреть все</a>--%>
-        <%--</li>--%>
-    <%--</ul>--%>
-<%--</div>--%>
-<!--3rd section news timeline-->
-<section>
-    <div class="main-newsTimeline-wrap" id="newsContainer">
-        <%--Dynamic news--%>
-    </div>
-</section>
-<!--END 3rd section-->
+			<jsp:include page="/WEB-INF/templates/top-tenders-block.jsp"/>
 
-<!-- BEGIN footer-->
-<jsp:include page="/WEB-INF/templates/footer.jsp"/>
-<!-- END footer-->
+			<jsp:include page="/WEB-INF/templates/top-projects-block.jsp"/>
+        </div>
 
-<!-- START authentication modal form -->
-<jsp:include page="/WEB-INF/templates/authentification.jsp"/>
-<!--END authentication modal form -->
+		<jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
 
-<!-- common libs starts here-->
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-<script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
-<script src="/resources/libs/jquery.magnific-popup.min.js"></script>
+		<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
-<!-- special libs starts here-->
-<script src="/resources/js/common.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+        <!--<script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>-->
+        <script src="/resources/js/vendor/bootstrap.js"></script>
+        <script src="/resources/js/jquery.bxslider.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
 
-<sec:authorize access="isAuthenticated()">
-    <script src="/resources/js/autorizedHeader.js"></script>
-</sec:authorize>
+		<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
-<script src="/resources/js/index.js"></script>
-<script src="/resources/js/showTopBlogPosts.js"></script>
-<script src='https://www.google.com/recaptcha/api.js'></script>
-<!--END of libs-->
+		<script src="/resources/js/main.js"></script>
+		<sec:authorize access="isAuthenticated()">
+			<script src="/resources/js/autorizedHeader.js"></script>
+		</sec:authorize>
+		<script src="/resources/js/logo-section.js"></script>
+		<script src="/resources/js/search-bar.js"></script>
+		<script src="/resources/js/top-news-block.js"></script>
+		<script src="/resources/js/top-projects-block.js"></script>
+		<script src="/resources/js/top-offers-block.js"></script>
+		<script src="/resources/js/top-tenders-block.js"></script>
 
-<script>
-    $(function () {
-        $('#login-form-link').click(function (e) {
-            $("#login-form").delay(100).fadeIn(100);
-            $("#regInput").fadeOut(100);
-            $('#register-form-link').removeClass('active');
-            $(this).addClass('active');
-            e.preventDefault();
-        });
-        $('#register-form-link').click(function (e) {
-            $("#regInput").delay(100).fadeIn(100);
-            $("#login-form").fadeOut(100);
-            $('#login-form-link').removeClass('active');
-            $(this).addClass('active');
-            e.preventDefault();
-        });
-    });
-
-    function checkPass() {
-        var message = document.getElementById('confirmMessage');
-        var goodColor = "#66cc66";
-        var badColor = "#ff6666";
-        var pass1 = document.getElementById('password');
-        var pass2 = document.getElementById('confirm-password');
-        if (pass1.value == pass2.value) {
-            pass2.style.backgroundColor = goodColor;
-        } else {
-            pass2.style.backgroundColor = badColor;
-
-        }
-    }
-
-    $('#regInput').submit(function (event) {
-        var mainForm = $(this).serialize();
-        console.log($(this).serialize());
-        event.preventDefault();
-
-        if (document.getElementById('password').value !== document.getElementById('confirm-password').value) {
-            alert("Пароли не совпадают");
-            return;
-        }
-
-        if ($("#email").attr("value") == "no") {
-            alert("Введите другой email");
-            return;
-        }
-
-        var b = decodeURIComponent(mainForm);
-        var c = JSON.parse('{"' + decodeURI(b).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
-        if (c['g-recaptcha-response'] !== '') {
-            $.ajax({
-                type: "POST",
-                url: "/registration",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify(c),
-                success: function (response) {
-                    window.location.href = "/index"
-                },
-                error: function (response) {
-                    window.location.href = "/index"
-                }
-            });
-        } else {
-            alert("Введите капчу")
-        }
-    });
-
-    function checkEmail() {
-        $.ajax({
-            type: "POST",
-            url: "/login/checkEmail",
-            data: $('#email').val(),
-            cache: false,
-            success: function (response) {
-                if (response == 'true') {
-                    $("#responseEmail").text("Такой email уже существует в системе").css("color", "red");
-                    $("#email").attr("value", "no");
-                    $('#register-submit').attr("disabled", true);
-                } else {
-                    $("#responseEmail").text("email свободен").css("color", "green");
-                    $('#register-submit').removeAttr("disabled");
-                    $("#email").removeAttr("value", "no");
-                }
-            }
-        });
-    }
-
-    $('#login-submit').on('click', function () {
-
-        loginServlet($('#loginEmail').val(), $('#loginPassword').val(), function (error) {
-            if (!error) {
-                window.location.href = '/prioffice';
-            } else {
-                console.log(error);
-                alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
-            }
-        })
-    });
-
-    var loginServlet = function (email, password, callback) {
-
-        var data = {
-            "email": $('#login').val(),
-            "password": $('#loginPassword').val()
-        };
-
-        $.ajax({
-            type: "POST",
-            url: "/login",
-            data: data,
-            success: function () {
-                window.location.href = '/prioffice';
-            },
-            error: function (response) {
-                console.log(response);
-                alert("Пользователь с таким логином и паролем не найден. Проверьте введённые данные.")
-            }
-        });
-
-    };
-</script>
-</body>
+		<script>
+			$(document).ready(function(){
+				$('.bxslider').bxSlider();
+				$('#tab-container').easytabs();
+			});
+		</script>
+    </body>
 </html>
