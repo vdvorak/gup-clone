@@ -187,7 +187,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
 
     private Profile ensureUserIsLoaded(String userId) {
-        Profile profile = profilesService.findByIdWholeProfile(userId);
+        Profile profile = profilesService.findUserProfile(userId);
         if (profile == null) {
             throw new RuntimeException("Profile not found");
         }

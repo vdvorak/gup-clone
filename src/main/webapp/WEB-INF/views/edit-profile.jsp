@@ -16,9 +16,14 @@
     <meta name="generator" content="Bootply"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <%--<link href="../pages/css/bootstrap.css" rel="stylesheet">--%>
+
     <link href="/resources/css/main.css" rel="stylesheet" type="text/css">
+
+
     <link href="/resources/css/bootstrap.css" rel="stylesheet">
+
     <link href="/resources/css/com.css" rel="stylesheet">
+
     <link type="text/css" rel="stylesheet" href="/resources/css/simplePagination.css"/>
     <link href="/resources/css/pgwslideshow.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
@@ -37,11 +42,11 @@
 <!-- END 1st section -->
 
 <!--BEGIN section with search bar-->
-<jsp:include page="/WEB-INF/templates/main-search-bar.jsp"/>
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
 <!-- END search bar -->
 
 <!--2nd section menu+slider -->
-<jsp:include page="/WEB-INF/templates/main-menu-slider-bar.jsp"/>
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 <!--END 2nd section -->
 
 
@@ -80,6 +85,130 @@
     </div>-->
     <!--category-->
 
+<div class="container">
+    <div class="moreInformation">
+        <p class="info-p">Дополнительная информация</p>
+        <div class="moreInformation-img"></div>
+        <form id="moreInformation-form" action="#" role="form">
+            <label class="label-form-info" for="select-type">Тип аккаунта</label>
+            <div id="selectBox-info-type">
+                <select id="select-type" class="form-control">
+                    <option>Выберете тип</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <label class="label-form-info" for="select-sphere">Cфера деятельности/+квэды</label>
+            <div id="selectBox-info-sphere">
+                <select id="select-sphere" class="form-control">
+                    <option>Выберете сферу</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <label class="label-form-info" for="nameCompany">ФИО/Название компании</label>
+            <input id="nameCompany" class="form-info-input" name='name' type="text" value="${profile.username}" required>
+
+            <div class="clearfix"></div>
+
+            <label for="position" class="label-form-info">Должность</label>
+            <input id="position" type="text" name='position' class="form-info-input" value="${profile.contact.companyDirector}" required>
+
+            <div class="clearfix"></div>
+
+            <label for="main-email-info" class="label-form-info">Основной E-mail</label>
+            <input id="main-email-info" type="email" name='email' class="form-info-input">
+
+            <div class="clearfix"></div>
+
+            <label for="email-info" class="label-form-info">E-mail</label>
+            <input id="email-info" type="email" name='email' class="form-info-input">
+
+            <div class="clearfix"></div>
+
+            <label for="main-tel-info" class="label-form-info">Основной Телефон</label>
+            <input type="tel" name="tel" id="main-tel-info" class="input-info-min">
+
+            <div class="clearfix"></div>
+
+            <label for="tel-info" class="label-form-info">Телефон</label>
+            <input type="tel" name="tel" id="tel-info" class="input-info-min">
+
+            <div class="clearfix"></div>
+
+            <label for="skype-info" class="label-form-info">Skype</label>
+            <input type="text" name="skype" id="skype-info" class="input-info-min">
+
+            <div class="clearfix"></div>
+
+            <label for="social-icon" class="label-form-info">Социальные сети</label>
+            <input type="text" name="social-icon" id="social-icon" class="input-info-normal" placeholder="Добавить ссылку">
+
+            <div class="clearfix"></div>
+
+            <label for="web-addresses" class="label-form-info">Ссылка на сайт</label>
+            <input type="url" name="web-addresses" id="web-addresses" class="input-info-normal" placeholder="Добавить ссылку">
+
+            <div class="clearfix"></div>
+
+            <label for="address" class="label-form-info">Адрес</label>
+            <input type="text" name="address" id="address" class="input-info-normal" placeholder="Добавить ссылку">
+
+            <div class="clearfix"></div>
+
+            <label for="info-about-me" class="label-form-info">Описание о себе</label>
+            <textarea name="info-about-me" id="info-about-me" class="textarea-about-me" maxlength="3000"></textarea>
+
+            <div class="clearfix"></div>
+
+            <button type="submit" class="info-submit">Сохранить</button>
+        </form>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
     <section>
         <form id="mainInput" action="" method="post">
             <div class="row" style="background-color: #ffffff; padding: 15px; margin-top: 25px;border: 5px solid #9acc66; border-radius: 10px;">
