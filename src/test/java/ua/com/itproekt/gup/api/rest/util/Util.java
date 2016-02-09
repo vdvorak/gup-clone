@@ -63,9 +63,9 @@ public final class Util {
             }
         };
 
-//        List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_ADMIN");
-//        loggedUser = new LoggedUser(ADMIN_USER_EMAIL, USER_PASSWORD, true, true, true, true, authorities, USER_ID);
-//        ow = new ObjectMapper().writer();
+        List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_ADMIN");
+        loggedUser = new LoggedUser(ADMIN_USER_EMAIL, GENERAL_USER_PASSWORD, true, true, true, true, authorities, USER_ID);
+        ow = new ObjectMapper().writer();
     }
 
 

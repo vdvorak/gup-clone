@@ -6,6 +6,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ContextConfiguration;
@@ -13,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.com.itproekt.gup.api.rest.util.Util;
@@ -23,9 +25,13 @@ import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOptions;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations =
@@ -54,8 +60,12 @@ public class ProjectsRestControllerTest {
     private MockMvc mockMvc;
 
 
+
+    // Constructors methods
+
     private Project projectConstructor(ModerationStatus moderationStatus) {
         Project project = new Project();
+        project.setId("sdfkjhk3258y8yd");
         project.setModerationStatus(moderationStatus);
         project.setAuthorId("123140dv382dfkjn");
         projectRepository.create(project);
@@ -85,6 +95,9 @@ public class ProjectsRestControllerTest {
         }
         return this.mockMvc.perform(post("/login").param("email", Util.USER_EMAIL).param("password", Util.GENERAL_USER_PASSWORD)).andReturn();
     }
+    // Constructors methods
+
+
 
 
     @Before
@@ -102,6 +115,7 @@ public class ProjectsRestControllerTest {
         SecurityContextHolder.clearContext();
     }
 
+    // Tests for user with role ADMIN --------------------------------------------------------------------------
     @Test
     public void testGetProjectById_shouldReturn200_WithProjectModerationStatusComplete_forRoleAdmin() throws Exception {
         String url = BASIC_URL + "/" + "project/id/";
@@ -110,6 +124,7 @@ public class ProjectsRestControllerTest {
         this.mockMvc.perform(get(url + project.getId() + "/read")
                 .header("Authorization", "Bearer " + result.getResponse().getCookie("authToken").getValue())
                 .contentType(Util.contentType))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -121,6 +136,7 @@ public class ProjectsRestControllerTest {
         this.mockMvc.perform(get(url + project.getId() + "/read")
                 .header("Authorization", "Bearer " + result.getResponse().getCookie("authToken").getValue())
                 .contentType(Util.contentType))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -132,6 +148,7 @@ public class ProjectsRestControllerTest {
         this.mockMvc.perform(get(url + project.getId() + "/read")
                 .header("Authorization", "Bearer " + result.getResponse().getCookie("authToken").getValue())
                 .contentType(Util.contentType))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
@@ -144,89 +161,144 @@ public class ProjectsRestControllerTest {
                 .contentType(Util.contentType))
                 .andExpect(status().isNotFound());
     }
-//--------------------------------------------------------------------------------------------------------------
 
     @Test
-    public void testListOfAllInvestors() throws Exception {
+    public void testListOfAllProjects_shouldReturn200_forRoleAdmin() throws Exception {
         String url = BASIC_URL + "/project/read/all";
         String projectFOJson = projectFilterOptionsConstructor();
+        MvcResult result = mvcResultConstructor(UserRole.ROLE_ADMIN);
         this.mockMvc.perform(post(url)
+                .header("Authorization", "Bearer " + result.getResponse().getCookie("authToken").getValue())
                 .content(projectFOJson)
                 .contentType(Util.contentType))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testCreateProject() throws Exception {
-        String url = BASIC_URL + "/project/create";
-
-        Project project = new Project();
-        String projectJson = Util.ow.writeValueAsString(project);
-
+    public void testCreateProject_shouldReturn201_forRoleAdmin() throws Exception {
+        String url = BASIC_URL + "/project/read/all";
+        String projectFOJson = projectFilterOptionsConstructor();
+        MvcResult result = mvcResultConstructor(UserRole.ROLE_ADMIN);
         this.mockMvc.perform(post(url)
-                .contentType(Util.contentType)
-                .content(projectJson))
-                .andExpect(status().isUnauthorized());
-
-        this.mockMvc.perform(post(url)
-//                .with(user(Util.loggedUser))
-                .contentType(Util.contentType)
-                .content(projectJson))
-                .andExpect(status().isCreated());
+                .header("Authorization", "Bearer " + result.getResponse().getCookie("authToken").getValue())
+                .content(projectFOJson)
+                .contentType(Util.contentType))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void testEditProject() throws Exception {
+    public void testEditProject_forRoleAdminNotAuthor() throws Exception {
         String url = BASIC_URL + "/project/edit";
-
-        Project project = new Project();
-        project.setId(null);
-        project.setAuthorId(profilesService.findProfileByEmail(Util.USER_EMAIL).getId());
-        project.setProjectName("****");
+        Project project = projectConstructor(ModerationStatus.COMPLETE);
         String projectJson = Util.ow.writeValueAsString(project);
+        MvcResult result = mvcResultConstructor(UserRole.ROLE_ADMIN);
 
+
+        System.err.println("Before calling: " + projectJson);
         this.mockMvc.perform(post(url)
-                .contentType(Util.contentType)
-                .content(projectJson))
-                .andExpect(status().isUnauthorized());
-
-        this.mockMvc.perform(post(url)
-//                .with(user(Util.loggedUser))
-                .contentType(Util.contentType)
-                .content(projectJson))
-                .andExpect(status().isBadRequest());
-
-        projectRepository.create(project);
-        project.setProjectName("ddddd");
-        projectJson = Util.ow.writeValueAsString(project);
-
-        this.mockMvc.perform(post(url)
-//                .with(user(Util.loggedUser))
-                .contentType(Util.contentType)
-                .content(projectJson))
+                .header("Authorization", "Bearer " + result.getResponse().getCookie("authToken").getValue())
+                .content(projectJson)
+                .contentType(Util.contentType))
                 .andExpect(status().isOk());
 
-        project.setId("---");
-        projectJson = Util.ow.writeValueAsString(project);
-        this.mockMvc.perform(post(url)
-//                .with(user(Util.loggedUser))
-                .contentType(Util.contentType)
-                .content(projectJson))
-                .andExpect(status().isNotFound());
+
+
     }
 
-    @Test
-    public void testDeleteProject() throws Exception {
-        String url = BASIC_URL + "/project/id/";
 
-        this.mockMvc.perform(post(url + "---" + "/delete")
-                .contentType(Util.contentType))
-                .andExpect(status().isNotFound());
 
-        Project project = new Project();
-        projectRepository.create(project);
-        this.mockMvc.perform(post(url + project.getId() + "/delete")
-                .contentType(Util.contentType))
-                .andExpect(status().isNoContent());
-    }
+
+
+
+    // END tests for user with role ADMIN --------------------------------------------------------------------------
+
+
+
+//--------------------------------------------------------------------------------------------------------------
+
+//    @Test
+//    public void testListOfAllInvestors() throws Exception {
+//        String url = BASIC_URL + "/project/read/all";
+//        String projectFOJson = projectFilterOptionsConstructor();
+//        this.mockMvc.perform(post(url)
+//                .content(projectFOJson)
+//                .contentType(Util.contentType))
+//                .andExpect(status().isOk());
+//    }
+//
+//    @Test
+//    public void testCreateProject() throws Exception {
+//        String url = BASIC_URL + "/project/create";
+//
+//        Project project = new Project();
+//        String projectJson = Util.ow.writeValueAsString(project);
+//
+//        this.mockMvc.perform(post(url)
+//                .contentType(Util.contentType)
+//                .content(projectJson))
+//                .andExpect(status().isUnauthorized());
+//
+//        this.mockMvc.perform(post(url)
+////                .with(user(Util.loggedUser))
+//                .contentType(Util.contentType)
+//                .content(projectJson))
+//                .andExpect(status().isCreated());
+//    }
+//
+//    @Test
+//    public void testEditProject() throws Exception {
+//        String url = BASIC_URL + "/project/edit";
+//
+//        Project project = new Project();
+//        project.setId(null);
+//        project.setAuthorId(profilesService.findProfileByEmail(Util.USER_EMAIL).getId());
+//        project.setProjectName("****");
+//        String projectJson = Util.ow.writeValueAsString(project);
+//
+//        this.mockMvc.perform(post(url)
+//                .contentType(Util.contentType)
+//                .content(projectJson))
+//                .andExpect(status().isUnauthorized());
+//
+//        this.mockMvc.perform(post(url)
+////                .with(user(Util.loggedUser))
+//                .contentType(Util.contentType)
+//                .content(projectJson))
+//                .andExpect(status().isBadRequest());
+//
+//        projectRepository.create(project);
+//        project.setProjectName("ddddd");
+//        projectJson = Util.ow.writeValueAsString(project);
+//
+//        this.mockMvc.perform(post(url)
+////                .with(user(Util.loggedUser))
+//                .contentType(Util.contentType)
+//                .content(projectJson))
+//                .andExpect(status().isOk());
+//
+//        project.setId("---");
+//        projectJson = Util.ow.writeValueAsString(project);
+//        this.mockMvc.perform(post(url)
+////                .with(user(Util.loggedUser))
+//                .contentType(Util.contentType)
+//                .content(projectJson))
+//                .andExpect(status().isNotFound());
+//    }
+//
+//    @Test
+//    public void testDeleteProject() throws Exception {
+//        String url = BASIC_URL + "/project/id/";
+//
+//        this.mockMvc.perform(post(url + "---" + "/delete")
+//                .contentType(Util.contentType))
+//                .andExpect(status().isNotFound());
+//
+//        Project project = new Project();
+//        projectRepository.create(project);
+//        this.mockMvc.perform(post(url + project.getId() + "/delete")
+//                .contentType(Util.contentType))
+//                .andExpect(status().isNoContent());
+//    }
 }
