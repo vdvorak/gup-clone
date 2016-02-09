@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="/resources/css/font-awesome.css">
         <link rel="stylesheet" href="/resources/css/media-queries.css">
 
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -38,7 +39,7 @@
             <div class="profile"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border -->
                 <p class="online">online</p>
                 <div class="profile-img"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border, а если организации то organization-color-border -->
-                    <img class="img-responsive" src="/resources/images/girl.png" alt="girl">
+                    <img class="img-responsive" id="profileImg" src="" width="342" height="428">
                     <div class="vip-profile-img"> <!-- этот блок надо включить когда профиль випа, у обычного он выключен -->
                         <div class="rating-vip">
                             <p>000</p>
@@ -52,15 +53,10 @@
                         <img class="backgroundSun" src="/resources/images/backgroundOrganization.png" alt="backgroundOrganization">
                     </div>
                 </div>
-                <p class="firstName">ФИО / Название компании</p>
-                <ul class="DateOfBirth">
-                    <li>
-                        <p>Дата рождение:</p>
-                    </li>
-                    <li>
-                        <p>&nbsp;22. 10. 90</p>
-                    </li>
-                </ul>
+                <p class="firstName" id="profileName"></p>
+                <div id="birthDate">
+                    <%-- подставляется в js --%>
+                </div>
                 <div class="contacts">
                     <div class="map">
                         <p class="map-p">Адрес: г. Киев, ул. Артема 11 а, офис 115, этаж 4</p>
@@ -79,16 +75,19 @@
                         <p class="skype">Skype:</p>
                         <p class="skypeName">&nbsp;Deptors</p>
                     </div>
-                    <div class="emailContact">
+                    <div class="emailContact" id="emailContact">
                         <img class="emailcontact-img" src="/resources/images/email.png" alt="email">
                         <p class="email">E-mail:</p>
-                        <p class="emailName">&nbsp;Deptors@ukr.net</p>
                     </div>
                 </div>
-                <div class="contact-btn-group">
-                    <button class="writeMessage">Написать сообщение</button>
-                    <button class="addToContact">Добавить в контакты</button> <!-- если профиль вип то сюда надо добавлять класс vip-color-background -->
-                </div>
+
+                <sec:authorize access="isAuthenticated()">
+                    <div class="contact-btn-group">
+                        <button class="writeMessage">Написать сообщение</button>
+                        <button class="addToContact" id="addProfileToContact">Добавить в контакты</button> <!-- если профиль вип то сюда надо добавлять класс vip-color-background -->
+                    </div>
+                </sec:authorize>
+
                 <div class="social-icon">
                     <a href="#"><img src="/resources/images/in.png" alt="in"></a>
                     <a href="#"><img src="/resources/images/g+.png" alt="g+"></a>
@@ -103,14 +102,118 @@
                         <li class='tab-profile'><a href="#moreInformation">Дополнительная информация</a></li>
                     </ul>
                     <div id="aboutMe">
-                        <h2>text Markup for these tabs</h2>
+                        <%--<h2>text Markup for these tabs</h2>--%>
                     </div>
                     <div id="moreInformation">
-                        <h2>and more text for these tabs</h2>
+                        <%--<h2>and more text for these tabs</h2>--%>
                     </div>
                 </div>
             </div>
         </div>
+
+        <jsp:include page="/WEB-INF/templates/footer.jsp"/>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+        <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+        <script src="/resources/js/vendor/bootstrap.js"></script>
+        <script src="/resources/js/jquery.bxslider.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
+
+        <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+
+        <sec:authorize var="loggedIn" access="isAuthenticated()" />
+        <c:choose>
+            <c:when test="${loggedIn}">
+                <script src="/resources/js/autorizedHeader.js"></script>
+            </c:when>
+            <c:otherwise>
+                <script src="/resources/js/anonymHeader.js"></script>
+            </c:otherwise>
+        </c:choose>
+
+        <script src="/resources/js/main.js"></script>
+        <script src="/resources/js/logo-section.js"></script>
+        <script src="/resources/js/search-bar.js"></script>
+
+        <script src="/resources/js/profile.js"></script>
+        <script>
+            var profileId = "${profileId}";
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/profilesService/profile/read/id/" + profileId,
+                statusCode: {
+                    200: function (profile) {
+                        alert('profile: ' + JSON.stringify(profile));
+
+                        if (profile.contact.pic != null && profile.contact.pic != '') {
+                            $('#profileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
+                        } else {
+                            $('#profileImg').attr('src', '/resources/images/no_photo.jpg');
+                        }
+
+                        if (profile.username != null) {
+                            $('#profileName').text(profile.username);
+                        } else {
+                            $('#profileName').text("Безымянный");
+                        }
+
+                        if (profile.userProfile.birthDate != null) {
+                            var birthDate = new Date(profile.userProfile.birthDate);
+                            var readableBirthDate = birthDate.getDate() + '.' + (birthDate.getMonth() + 1) + '.' + birthDate.getFullYear();
+                            $('#birthDate').append(
+                                    '<ul class="DateOfBirth">' +
+                                        '<li>' +
+                                            '<p>Дата рождения:</p>' +
+                                        '</li>' +
+                                        '<li>' +
+                                            '<p>&nbsp;' + readableBirthDate + '</p>' +
+                                        '</li>' +
+                                    '</ul>'
+                            );
+                        }
+//                        else {
+//                            $('#birthDate').hide();
+//                        }
+
+                        if (profile.contact.aboutUs != null) {
+                            $('#aboutMe').append('<h2>' + profile.contact.aboutUs + '</h2>');
+                        } else {
+                            $('#aboutMe').append("<h2>" + "Пользователь еще ничего на рассказал о себе" + "</h2>");
+                        }
+//
+                        $('#moreInformation').append("<h2>" + "!!!!!  У профиля НЕТ такого поля !!!!!" + "</h2>");
+
+
+                        if (profile.contact.contactEmails != null && profile.contact.contactEmails.length != 0) {
+                            profile.contact.contactEmails.forEach(function(email) {
+                                $('#emailContact').append('<p class="emailName">&nbsp;' + email + '</p>');
+                            });
+                        } else {
+                            $('#emailContact').hide();
+                        }
+                    },
+                    404: function () {
+//                        alert('Такого пользователя нет');
+                        window.location.href = "/profileList";
+                    }
+                }
+            });
+
+            $(document).on('click', '#addProfileToContact', function () {
+                $.ajax({
+                    type: "POST",
+                    url: '/api/rest/profilesService/profile/id/' + profileId + '/myContactList/add',
+                    statusCode: {
+                        200: function () {
+                            $('#addProfileToContact').hide();
+                            alert('Профиль добавлен в контакты.')
+//                          window.location.reload();
+                        }
+                    }
+                });
+            });
+        </script>
     </body>
 
 </html>

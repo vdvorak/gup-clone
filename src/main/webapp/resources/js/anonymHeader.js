@@ -20,7 +20,10 @@ $(document).ready(function() {
     $("#registrationBtn").click(function(){
         var profile = {
             'email' : $('#registration-email').val(),
-            'password' : $('#registration-password').val()
+            'password' : $('#registration-password').val(),
+            'userProfile' : {},
+            'contact' : {},
+            'contactList' : {}
         };
 
         $.ajax({
