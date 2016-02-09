@@ -39,9 +39,7 @@ $(document).ready(function(){
         animate: false
     });
 
-    $(document).ready(function(){
-        $('.bxslider').bxSlider();
-    });
+    $('.bxslider').bxSlider();
 
     $('#tab-container-news').easytabs({
         animate: false
