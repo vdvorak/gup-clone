@@ -12,7 +12,7 @@ public interface ProjectRepository {
 
     Project findProjectAndUpdate (Project project);
 
-    int delete(String projectId);
+    void delete(String projectId);
 
     boolean projectExists(String projectId);
 
@@ -20,7 +20,7 @@ public interface ProjectRepository {
 
     void createComment(String projectId, Comment comment);
 
-    int deleteComment(String projectId, String commentId);
+    void deleteComment(String projectId, String commentId);
 
     Project findComment(String projectId, String commentId);
 

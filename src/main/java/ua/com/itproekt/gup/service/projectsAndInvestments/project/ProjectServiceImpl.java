@@ -38,6 +38,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .setTotalVoters(0)
                 .setTotalComments(0)
                 .setCreatedDateEqualsToCurrentDate()
+                .setModerationStatus(ModerationStatus.NO)
                 .setStatus(ProjectStatus.ACTIVE)
                 .setLastInvestmentDateEqualsToCurrentDate()
                 .updateExpirationDateAt20Days()
@@ -61,12 +62,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public int delete(String id) {
+    public void delete(String id) {
         Map<String, String> imagesIds = findById(id).getImagesIds();
         if (imagesIds != null) {
             storageRepository.delete(ServiceNames.PROJECTS_AND_INVESTMENTS.toString(), (Set<String>)imagesIds.values());
         }
-        return projectRepository.delete(id);
     }
 
     @Override
@@ -93,8 +93,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public int deleteComment(String projectId, String commentId) {
-        return projectRepository.deleteComment(projectId, commentId);
+    public void deleteComment(String projectId, String commentId) {
+        projectRepository.deleteComment(projectId, commentId);
     }
 
     @Override

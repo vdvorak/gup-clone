@@ -65,7 +65,7 @@
                                 </tbody>
                             </table>
                             <a id="tenderIdhref" href="">
-                                <button id="userIdBtn" type="submit" class="btn btn-primary disabled">Редактировать
+                                <button id="tenderIdBtn" type="submit" class="btn btn-primary disabled">Редактировать
                                 </button>
                             </a>
                         </div>
@@ -83,6 +83,20 @@
 <!-- Bottom Links -->
 <script>
 
+    function findFirstImg(arr) {
+        var url = '/resources/images/no_photo.jpg';
+        var imgId = '';
+        for (var i in arr) {
+            if (arr[i] === 'pic1') {
+                imgId = i;
+                url = '/api/rest/fileStorage/TENDER/file/read/id/' + imgId;
+                break;
+            }
+        }
+        return url;
+    }
+
+
     $(document).ready(function () {
         var data;
         var tenderFilterOptions = {};
@@ -98,7 +112,7 @@
 
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].uploadFilesIds !== null) {
-                        data[i].uploadFilesIds = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].uploadFilesIds + '" width="100" height="100">';
+                        data[i].uploadFilesIds = '<img src="'+ findFirstImg(data[i].uploadFilesIds) + '" width="100" height="100">';
                     }
                     else {
                         data[i].uploadFilesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
@@ -124,14 +138,14 @@
                         .on('select', function (e, dt, type, indexes) {
                             var rowData = table.rows(indexes).data().toArray();
                             $("input[name='transactionId']").attr("value", rowData[0].id);
-                            $('#tenderIdhref').attr("href", "/edit-profile/" + rowData[0].id);
+                            $('#tenderIdhref').attr("href", "/tender/id/" + rowData[0].id + "/update");
                             $('#inp').removeAttr("readonly");
-                            $('#userIdBtn').attr("class", "btn btn-danger");
+                            $('#tenderIdBtn').attr("class", "btn btn-danger");
                         })
                         .on('deselect', function (e, dt, type, indexes) {
                             $("input[name='transactionId']").attr("value", "");
                             $('#inp').attr("readonly", "readonly");
-                            $('#userIdBtn').attr("class", "btn btn-danger disabled");
+                            $('#tenderIdBtn').attr("class", "btn btn-danger disabled");
                         });
             }
         });

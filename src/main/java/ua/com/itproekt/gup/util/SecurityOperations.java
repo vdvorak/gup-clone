@@ -22,6 +22,7 @@ public final class SecurityOperations {
         }
     }
 
+    @Deprecated
     public static String getLoggedUserEmail() {
         return getLoggedUser().getUsername();
     }

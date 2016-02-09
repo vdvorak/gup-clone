@@ -20,6 +20,7 @@
   <link type="text/css" rel="stylesheet" href="/resources/css/simplePagination.css"/>
   <link href="/resources/css/pgwslideshow.css" rel="stylesheet" type="text/css">
   <link href="/resources/css/jquery-ui.css" rel="stylesheet">
+  <link href="/resources/css/mini.css" rel="stylesheet">
 
 </head>
 <body class="center-block" style="padding-top: 70px; max-width: 1200px;">
@@ -27,7 +28,6 @@
 
   <div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">
 
-    <form id="mainInput" action="" method="post">
       <div class="col-xs-8" style="padding-left: 5px; padding-right: 5px;">
 
         <div class="input-group">Заголовок
@@ -41,7 +41,7 @@
 
           <div id="inputPrice">
             Цена
-            <input name="cost" type="number" class="form-control input-sm" style="display: none;" value="${offer.price}" required>
+            <input name="cost" type="number" class="form-control input-sm" value="${offer.price}" required>
             <br>
             Валюта
             <select id="inputCurrency" name="currency">
@@ -51,9 +51,9 @@
             </select>
           </div>
 
-
-
-
+          <div id="categories-container" class="row">
+            <div id="category-element" class="element-hidden col-xs-2"></div>
+          </div>
 
           Номера телефонов
           <c:forEach items="${offer.userInfo.phoneNumbers}" var="id">
@@ -86,7 +86,6 @@
           <input id="inputVideo" type="text" class="form-control input-sm"
                  value="${offer.videoUrl}">
           <br>
-
 
           <!-- city chosen -->
           <input id="countryInp" type="text" name="country" style="visibility: hidden;">
@@ -177,27 +176,30 @@
         </div>
       </div>
 
-      <input type="submit" value="Сохранить изменения">
+      <input id="btn-submit" type="submit" value="Сохранить изменения">
 
-    </form>
     <div id="options" class="row panel"></div>
     <div id="inputs" class="row panel"></div>
-    <form id="photoInput" enctype="multipart/form-data" action="/api/rest/imagesStorage/image/upload/"
-          method="post">
-      <p>Загрузите ваши фотографии на сервер</p>
+    <!--
+   <form id="photoInput" enctype="multipart/form-data" action="/api/rest/imagesStorage/image/upload/"
+         method="post">
+     <p>Загрузите ваши фотографии на сервер</p>
 
-      <p><input type="file" name="file" multiple accept="image/*,image/jpeg">
-        <input type="submit" value="Отправить"></p>
-    </form>
+     <p><input type="file" name="file" multiple accept="image/*,image/jpeg">
+       <input type="submit" value="Отправить"></p>
+   </form>
+   -->
 
-    <div id="floating-panel">
-      <input id="address" type="textbox" value="">
-      <input id="submit" type="button" value="Сохранить">
+   <div id="floating-panel">
+     <input id="address" type="textbox" value="">
+     <input id="submit" type="button" value="Сохранить">
+   </div>
+   <div id="map" style="height: 50%"></div>
+
+   <div class="imgBlock">
+     <!--uploaded images-->
     </div>
-    <div id="map" style="height: 50%"></div>
-
-    <div class="imgBlock">
-      <!--uploaded images-->
+    <div id="drop_zone"> Перетяните файлы сюда
     </div>
   </div>
 
@@ -217,21 +219,24 @@
 
   var picArrDel = [];
   var picArrNew = [];
-  var picArrIn = [];
-  var picMapObj = {};
+  var picArrIn = {};
+  var picMapObj = ${imagesIds};
   var parameters = '';
   var options = '';
   var placeKey = '';
   var offerProperties = ${properties};
   var categories = ${categories};
-
+  var categoryObj1 = {};
+  var categoryObj2 = {};
+  var categoryObj3 = {};
+  var jsonCategory;
+  var jsonSubcategory;
 
 
   $.ajax({
     type: "GET",
     url: "/resources/json/searchValues.json",
     dataType: 'json',
-    async: false,
     success: function (response) {
       options = response;
     }
@@ -242,19 +247,84 @@
     type: "GET",
     url: "/resources/json/parameters.json",
     dataType: 'json',
-    async: false,
     success: function (response) {
       parameters = response;
     }
   });
 
+  function ajaxCategories1() {
+  return  $.ajax({
+      type: "GET",
+      url: "/resources/json/searchCategories.json",
+      dataType: "json",
+      success: function (response) {
+        jsonCategory = response;
+      }
+    });
+  }
+
+  function ajaxCategories2() {
+   return $.ajax({
+      type: "GET",
+      url: "/resources/json/searchSubcategories.json",
+      dataType: "json",
+      success: function (response) {
+        jsonSubcategory = response;
+      }
+
+    });
+  }
 
 
+  $.when(ajaxCategories1(), ajaxCategories2()).done(function (resp1, resp2) {
+    if(categories.length > 0) {
+      var a1 = jsonCategory.filter(function(obj) {
+        return parseInt(obj.id) === parseInt(categories[0]);
+      });
+      if(a1.length) {
+        categoryObj1 = a1[0];
+        appendCategory(categoryObj1.name);
+      }
+
+    }
+
+    if(categories.length > 1) {
+      var a2 = categoryObj1.children.filter(function(obj) {
+        return parseInt(obj.id) === parseInt(categories[1]);
+      });
+      if(a2.length) {
+        categoryObj2 = a2[0];
+        appendCategory(categoryObj2.name);
+      }
+
+    }
+
+    if(categories.length > 2) {
+      var obj3 = jsonSubcategory[categories[1].toString()];
+      if(obj3){
+        var child3 = obj3.children;
+        if(child3){
+          categoryObj3 = child3[categories[2].toString()];
+          appendCategory(categoryObj3.label);
+        }
+      }
+    }
+
+
+  });
+
+  function appendCategory(txt) {
+  var el = $('#category-element').clone()
+          .removeClass("element-hidden")
+          .removeAttr("id")
+          .text(txt);
+
+  $("#categories-container").append(el);
+}
 
   //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
 
   var drawOptions = function(id){
-    alert(id);
     for(var i in options){
       var key_ru;
       if(options[i]['c'][id]!==undefined){
@@ -382,10 +452,6 @@
   }
   // google map api------------------------------END----------------------------------------------
 
-  if ('${offer.imagesIds}'.length > 5 ){
-    picMapObj = JSON.parse('${offer.imagesIds}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
-  }
-
   $(document).ready(function () {
 
     // selecte currency from options
@@ -394,11 +460,62 @@
 
     // place photo from received model on the page
     for (var id in picMapObj) {
-      picArrIn.push(id);
+      picArrIn[id] = picMapObj[id];
       $('.imgBlock').append('<ul id="' + id + '" style="display: inline-table; list-style-type: none">' +
       ' <li style="background-color: white"><a rel="example_group"> ' +
-      '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
+      '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + id + '"' + 'width="150" height="150" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')"> ' +
       '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+    }
+    // Setup the dnd listeners.
+    var dropZone = document.getElementById('drop_zone');
+    dropZone.addEventListener('dragover', handleDragOver, false);
+    dropZone.addEventListener('drop', handleFileSelect, false);
+
+    function handleFileSelect(evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+
+      var files = evt.dataTransfer.files; // FileList object.
+
+      // files is a FileList of File objects. List some properties.
+      var output = [];
+      for (var i = 0, f; f = files[i]; i++) {
+        var formImg = new FormData($(this)[0]);
+        var fd = new FormData();
+        fd.append('file', f);
+        $.ajax({
+          type: "POST",
+          url: "/api/rest/fileStorage/OFFERS/file/upload/",
+          data: fd,
+          async: false,
+          cache: false,
+          contentType: false,
+          processData: false,
+
+          success: function (data, textStatus, request) {
+            var id = data.id;
+            var isImage = f.type.substring(0, 5) === 'image';
+            var isPic1 = f.type.substring(0, 4) === 'pic1';
+            if (isImage || isPic1) {
+              picArrIn[id] = (isImage) ? "image" : 'pic1';
+              $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                      ' <li style="background-color: white">' +
+                      '<a rel="example_group"> ' +
+                      '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                      '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+            }
+            $('div.imgBlock > li').click(onClickSetMainImg);
+          }
+        });
+
+
+      }
+    }
+
+    function handleDragOver(evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+      evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
     }
 
 // delete images before save changes in offer (must be called before update offer)
@@ -420,33 +537,33 @@
     }
 
 // serialize form and sent it via POST method in JSON --------------------------BEGIN---------------------
-    $('#mainInput').submit(function (event) {
+    $('#btn-submit').click(function (event) {
       event.preventDefault();
 
-      var mainForm = $('#mainInput').serialize().replace(/\+/g, '%20').replace(/%0D%0A/g, "%5C%6E");
-      mainForm.imagesIds = imgsArrResult;
-      mainForm.address = {};
-      mainForm.userInfo = {};
-//      alert(JSON.stringify(mainForm));
-      var b = decodeURIComponent(mainForm);
-//      alert('{"' + decodeURI(b).replace(/"/g, '\\"').replace(/:/g, '\\:').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
-      var c = JSON.parse('{"' + decodeURI(b).replace(/"/g, '\\"').replace(/:/g, '\\:').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
-//      alert("Цэ" + JSON.stringify(c));
+      var c = {};
 
 // subtract deleted imgId from sum of oldImgId and upploaded img---------Begin-----------
-      var i = 0;
-      jQuery.grep(picArrIn, function (el) {
-        if (jQuery.inArray(el, picArrDel) == -1) picArrNew.push(el);
-        i++;
-      });
 
-      for (var j = 0; j < picArrNew.length; j++) {
-        imgsArrResult[picArrNew[j]] = "someText";
+      for(var key in picArrIn) {
+        if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
       }
+
+      for (var i = 0; i < picArrNew.length; i++) {
+        imgsArrResult[picArrNew[i]] = picArrIn[picArrNew[i]];
+      }
+
+      var defaultMainImg = "";
+      for(var key in imgsArrResult) {
+        if(imgsArrResult[key] === "pic1") {
+          defaultMainImg = key;
+        }
+      }
+      if(defaultMainImg) imgsArrResult[defaultMainImg] = "pic1";
 //      alert(JSON.stringify(imgsArrResult));
 // subtract deleted imgId from sum of oldImgId and upploaded img---------End-----------
 
       c.id = '${offer.id}';
+      c.title = $("#inputTitle").val();
       c.imagesIds = imgsArrResult;
       c.canBeReserved = $("#inputReserved").is(":checked");
       c.address = {};
@@ -536,6 +653,28 @@
     picArrDel.push(idImg);
   }
 
+  function onClickSetMainImg(id) {
+    var isMain = $('#' + id).find("img").hasClass("mainImg");
+
+    var allImgs = $(".imgBlock").find("img");
+    for (var i =0; i < allImgs.length; i++) {
+      var curImg = $(allImgs[i]);
+      if (curImg.hasClass("mainImg")) {
+        curImg.removeClass("mainImg");
+      }
+    }
+    var el = $('#' + id).find("img");
+    if(!isMain) el.addClass("mainImg");
+
+    for(var key in picArrIn) {
+      if( picArrIn[key] === "pic1") {
+        picArrIn[key] = "image";
+      }
+    }
+    if(el.hasClass("mainImg")) {
+      picArrIn[id] = "pic1";
+    }
+  }
   // upload photo to the server and place it into the page-----------------------BEGIN------------------------
   $('#photoInput').submit(function (event) {
     event.preventDefault();
