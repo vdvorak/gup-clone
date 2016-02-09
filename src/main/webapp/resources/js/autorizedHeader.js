@@ -24,6 +24,30 @@ $(document).ready(function() {
         }
     });
 
+    $(".btnMail").mouseenter(function(){
+        if ($('.answer').is(':visible') ) {
+            return null;
+        } else {
+            $(".mailDrop").show('fast');
+            $(".mailDrop-message").show('slow');
+            $("#overlay").show();
+        }
+    });
+
+    $(".mailDrop-message").click(function(){
+        $(".mailDrop-message").hide('slow');
+        $(".answer").show('slow');
+        $("#overlay").show();
+    });
+
+    $("#overlay").click(function(){
+        $(".mailDrop-message").show('slow');
+        $(".answer").hide('slow');
+        $("#overlay").hide();
+        $(".mailDrop").hide();
+    });
+
+
     //$("#notificationBellImg").click(function () {
     //    $("#notificationContainer").empty();
     //

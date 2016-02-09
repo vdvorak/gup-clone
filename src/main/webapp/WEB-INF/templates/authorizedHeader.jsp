@@ -21,17 +21,25 @@
           </div>
         </li>
         <il class='btnMail'>
-          <a class="btnMenu" href="#"><img src="/resources/images/mail.png" alt="mail"></a>
+          <a class="btnMenu" href="#"><img src="resources/images/mail.png" alt="mail"></a>
           <p class="num">1</p>
           <div class="mailDrop">
             <div class="mailDrop-message">
-
+              <a href="#"><img src="resources/images/logo.png" alt="LOGO"></a>
+              <p class="mailDrop-message-p">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex, est, officiis dolorem natus asperiores, quam qui id blanditiis sit illum dolor accusamus autem? Totam rem voluptatem, laborum provident quasi deserunt.</p>
             </div>
-            <%--<a href="#"><img src="/resources/images/logo.png" alt="LOGO"></a>--%>
-            <%--<form role="form" action="#">--%>
-              <%--<textarea class="form-control" rows="7" id="comment"></textarea>--%>
-              <%--<button type="submit" class="btnSubmit">Ответить</button>--%>
-            <%--</form>--%>
+            <div class="mailDrop-message">
+              <a href="#"><img src="resources/images/logo.png" alt="LOGO"></a>
+              <p class="mailDrop-message-p">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex, est, officiis</p>
+            </div>
+            <div class="answer">
+              <a href="#"><img src="resources/images/logo.png" alt="LOGO"></a>
+              <form role="form" action="#">
+                <textarea class="form-control" rows="7" id="comment"></textarea>
+                <button type="submit" class="btnSubmit">Ответить</button>
+              </form>
+              <p>перейти в</p><a class="answer-a" href="#">диалоги</a>
+            </div>
           </div>
         </il>
         <il><a class="btnMenu" href="#"><img src="/resources/images/bell.png" alt="bell"></a></il>
@@ -87,5 +95,6 @@
         </li>
       </ul>
     </div>
+    <div id="overlay"></div>
   </div>
 </div>
