@@ -31,25 +31,25 @@
     <c:forEach var="socLink" items="${blog.socLinks.entrySet()}">
         <c:choose>
             <c:when test="${socLink.getKey() == 'FACEBOOK'}">
-                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/img/faceb-icon.png"></a>
+                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/images/faceb-icon.png"></a>
             </c:when>
             <c:when test="${socLink.getKey() == 'VKONTAKTE'}">
-                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/img/vk-icon.png"></a>
+                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/images/vk-icon.png"></a>
             </c:when>
             <c:when test="${socLink.getKey() == 'ODNOKLASSNIKI'}">
                 <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="#"></a>
             </c:when>
             <c:when test="${socLink.getKey() == 'LINKEDIN'}">
-                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/img/link-icon.png"></a>
+                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/images/link-icon.png"></a>
             </c:when>
             <c:when test="${socLink.getKey() == 'GOOGLEPLUS'}">
-                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/img/goo-icon.png"></a>
+                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/images/goo-icon.png"></a>
             </c:when>
             <c:when test="${socLink.getKey() == 'YOUTUBE'}">
                 <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="#"></a>
             </c:when>
             <c:when test="${socLink.getKey() == 'TWITTER'}">
-                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/img/twit-icon.png"></a>
+                <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="/resources/images/twit-icon.png"></a>
             </c:when>
             <c:when test="${socLink.getKey() == 'SKYPE'}">
                 <a class="faceb_soc_button" href="${socLink.getValue()}"><img src="#"></a>

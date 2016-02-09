@@ -193,11 +193,11 @@
                                     <p>Социальные сети</p>
                                 </div>
                                 <div class="right-tag">
-                                    <a class="twit_soc_button"><img src="/resources/img/twit-icon.png"> </a>
-                                    <a class="faceb_soc_button"><img src="/resources/img/faceb-icon.png"></a>
-                                    <a class="vk_soc_button"><img src="/resources/img/vk-icon.png"></a>
-                                    <a class="goo_soc_button"><img src="/resources/img/goo-icon.png"></a>
-                                    <a class="lin_soc_button"><img src="/resources/img/link-icon.png"></a>
+                                    <a class="twit_soc_button"><img src="/resources/images/twit-icon.png"> </a>
+                                    <a class="faceb_soc_button"><img src="/resources/images/faceb-icon.png"></a>
+                                    <a class="vk_soc_button"><img src="/resources/images/vk-icon.png"></a>
+                                    <a class="goo_soc_button"><img src="/resources/images/goo-icon.png"></a>
+                                    <a class="lin_soc_button"><img src="/resources/images/link-icon.png"></a>
                                     <c:forEach items="${profile.contact.socNetLink.values()}" var="id">
                                         <div><input type="text" value="${id}"><a href="#" class="remove_field" required>Удалить</a>
                                         </div>

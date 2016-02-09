@@ -47,11 +47,11 @@
             <p>Социальные сети</p>
         </div>
         <div class="right-tag">
-            <a class="FACEBOOK"><img src="/resources/img/faceb-icon.png"></a>
-            <a class="TWITTER"><img src="/resources/img/twit-icon.png"> </a>
-            <a class="VKONTAKTE"><img src="/resources/img/vk-icon.png"></a>
-            <a class="GOOGLEPLUS"><img src="/resources/img/goo-icon.png"></a>
-            <a class="LINKEDIN"><img src="/resources/img/link-icon.png"></a>
+            <a class="FACEBOOK"><img src="/resources/images/faceb-icon.png"></a>
+            <a class="TWITTER"><img src="/resources/images/twit-icon.png"> </a>
+            <a class="VKONTAKTE"><img src="/resources/images/vk-icon.png"></a>
+            <a class="GOOGLEPLUS"><img src="/resources/images/goo-icon.png"></a>
+            <a class="LINKEDIN"><img src="/resources/images/link-icon.png"></a>
             <c:forEach var="socLink" items="${blog.socLinks.entrySet()}">
                 <c:choose>
                     <c:when test="${socLink.getKey() == 'FACEBOOK'}">
