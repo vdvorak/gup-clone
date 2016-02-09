@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.com.itproekt.gup.api.rest.util.Util;
-import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.dao.projectsAndInvestments.project.ProjectRepository;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.ModerationStatus;
@@ -24,12 +23,6 @@ import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOptions;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
-import javax.servlet.http.Cookie;
-import java.io.IOException;
-import java.util.Arrays;
-
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.securityContext;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -69,36 +62,36 @@ public class ProjectsRestControllerTest {
         return project;
     }
 
-    private String projectFilterOptionsConstructor() {
+    private String projectFilterOptionsConstructor() throws Exception {
         ProjectFilterOptions projectFO = new ProjectFilterOptions();
         projectFO.setSkip(0);
         projectFO.setLimit(1);
         String projectFOJson = null;
-        try {
-            projectFOJson = Util.ow.writeValueAsString(projectFO);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        projectFOJson = Util.ow.writeValueAsString(projectFO);
+
         return projectFOJson;
     }
 
-//    private MvcResult mvcResultConstructor(UserRole userRole) throws Exception {
-//
-//        switch (userRole) {
-//            case ROLE_ADMIN:
-//                return this.mockMvc.perform(post("/login").param("email", "admin@abc.com").param("password", "admin")).andReturn();
-//            case ROLE_ANONYMOUS:
-//
-//
-//        }
-//
-//
-//    }
+    private MvcResult mvcResultConstructor(UserRole userRole) throws Exception {
+        switch (userRole) {
+            case ROLE_ADMIN:
+                return this.mockMvc.perform(post("/login").param("email", Util.ADMIN_USER_EMAIL).param("password", Util.GENERAL_USER_PASSWORD)).andReturn();
+            case ROLE_MODERATOR:
+                return this.mockMvc.perform(post("/login").param("email", Util.MODERATOR_USER_EMAIL).param("password", Util.GENERAL_USER_PASSWORD)).andReturn();
+            case ROLE_SUPPORT:
+                return this.mockMvc.perform(post("/login").param("email", Util.SUPPORT_USER_EMAIL).param("password", Util.GENERAL_USER_PASSWORD)).andReturn();
+            case ROLE_USER:
+                return this.mockMvc.perform(post("/login").param("email", Util.USER_EMAIL).param("password", Util.GENERAL_USER_PASSWORD)).andReturn();
+        }
+        return this.mockMvc.perform(post("/login").param("email", Util.USER_EMAIL).param("password", Util.GENERAL_USER_PASSWORD)).andReturn();
+    }
 
 
     @Before
     public void setUp() throws Exception {
-        Util.createTestProfile(Util.USER_EMAIL, profilesService);
+        Util.createTestUsers(profilesService);
+
+
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
                 .addFilter(springSecurityFilterChain)
                 .build();
@@ -111,9 +104,9 @@ public class ProjectsRestControllerTest {
 
     @Test
     public void testGetProjectById_shouldReturn200_WithProjectModerationStatusComplete_forRoleAdmin() throws Exception {
-        String url = BASIC_URL + "/project/id/";
+        String url = BASIC_URL + "/" + "project/id/";
         Project project = projectConstructor(ModerationStatus.COMPLETE);
-        MvcResult result = this.mockMvc.perform(post("/login").param("email", "admin@abc.com").param("password", "admin")).andReturn();
+        MvcResult result = mvcResultConstructor(UserRole.ROLE_ADMIN);
         this.mockMvc.perform(get(url + project.getId() + "/read")
                 .header("Authorization", "Bearer " + result.getResponse().getCookie("authToken").getValue())
                 .contentType(Util.contentType))
@@ -124,7 +117,7 @@ public class ProjectsRestControllerTest {
     public void testGetProjectById_shouldReturn200_WithProjectModerationStatusFail_forRoleAdmin() throws Exception {
         String url = BASIC_URL + "/project/id/";
         Project project = projectConstructor(ModerationStatus.FAIL);
-        MvcResult result = this.mockMvc.perform(post("/login").param("email", "admin@abc.com").param("password", "admin")).andReturn();
+        MvcResult result = mvcResultConstructor(UserRole.ROLE_ADMIN);
         this.mockMvc.perform(get(url + project.getId() + "/read")
                 .header("Authorization", "Bearer " + result.getResponse().getCookie("authToken").getValue())
                 .contentType(Util.contentType))
@@ -135,7 +128,7 @@ public class ProjectsRestControllerTest {
     public void testGetProjectById_shouldReturn200_WithProjectModerationStatusNo_forRoleAdmin() throws Exception {
         String url = BASIC_URL + "/project/id/";
         Project project = projectConstructor(ModerationStatus.NO);
-        MvcResult result = this.mockMvc.perform(post("/login").param("email", "admin@abc.com").param("password", "admin")).andReturn();
+        MvcResult result = mvcResultConstructor(UserRole.ROLE_ADMIN);
         this.mockMvc.perform(get(url + project.getId() + "/read")
                 .header("Authorization", "Bearer " + result.getResponse().getCookie("authToken").getValue())
                 .contentType(Util.contentType))
@@ -145,7 +138,7 @@ public class ProjectsRestControllerTest {
     @Test
     public void testGetProjectById_shouldReturn404_forNonExistProject_forRoleAdmin() throws Exception {
         String url = BASIC_URL + "/project/id/";
-        MvcResult result = this.mockMvc.perform(post("/login").param("email", "admin@abc.com").param("password", "admin")).andReturn();
+        MvcResult result = mvcResultConstructor(UserRole.ROLE_ADMIN);
         this.mockMvc.perform(get(url + "----" + "/read")
                 .header("Authorization", "Bearer " + result.getResponse().getCookie("authToken").getValue())
                 .contentType(Util.contentType))
