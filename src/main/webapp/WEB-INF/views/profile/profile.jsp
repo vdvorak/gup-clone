@@ -90,12 +90,12 @@
                     <button class="addToContact">Добавить в контакты</button> <!-- если профиль вип то сюда надо добавлять класс vip-color-background -->
                 </div>
                 <div class="social-icon">
-                    <a href="#"><img src="/resources/images/link-icon.png" alt="in"></a>
-                    <a href="#"><img src="/resources/images/goo-icon.png" alt="g+"></a>
-                    <a href="#"><img src="/resources/images/vk-icon.png" alt="B"></a>
-                    <a href="#"><img src="/resources/images/skype.png" alt="skype-icon"></a>
-                    <a href="#"><img src="/resources/images/faceb-icon.png" alt="facebook"></a>
-                    <a href="#"><img src="/resources/images/twit-icon.png" alt="twitter"></a>
+                    <a href="#"><img src="/resources/images/in.png" alt="in"></a>
+                    <a href="#"><img src="/resources/images/g+.png" alt="g+"></a>
+                    <a href="#"><img src="/resources/images/B.png" alt="B"></a>
+                    <a href="#"><img src="/resources/images/skype-icon.png" alt="skype-icon"></a>
+                    <a href="#"><img src="/resources/images/facebook.png" alt="facebook"></a>
+                    <a href="#"><img src="/resources/images/twitter.png" alt="twitter"></a>
                 </div>
                 <div id="tab-container-profile" class="tab-container-profile">
                     <ul class='etabs-profile'>
