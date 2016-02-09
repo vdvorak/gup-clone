@@ -758,6 +758,7 @@ table {
 	left: 1px;
 	display: none;
 	padding-top: 8px;
+	z-index: 4;
 }
 
 .mailDrop a {
@@ -1015,10 +1016,7 @@ table {
 #overlay {
 	z-index:3; /* пoдлoжкa дoлжнa быть выше слoев элементoв сaйтa, нo ниже слoя мoдaльнoгo oкнa */
 	position:fixed; /* всегдa перекрывaет весь сaйт */
-	background-color:#000; /* чернaя */
-	opacity:0.8; /* нo немнoгo прoзрaчнa */
-	-moz-opacity:0.8; /* фикс прозрачности для старых браузеров */
-	filter:alpha(opacity=80);
+	background-color: transparent;
 	width:100%;
 	height:100%; /* рaзмерoм вo весь экрaн */
 	top:0; /* сверху и слевa 0, oбязaтельные свoйствa! */
@@ -1423,7 +1421,7 @@ input[type="checkbox"]:checked + span  	{
 	position: absolute;
 	bottom: -3px;
 	right: -3px;
-	z-index: 10px;
+	z-index: 10;
 }
 
 .vip-profile-img {
@@ -1822,4 +1820,157 @@ label[for="repeat-registration-password"] {
 .answer form {
 	float: right;
 	margin-right: 10px;
+}
+
+.moreInformation {
+	border: 7px solid rgb(153, 204, 102);
+	border-radius: 7px;
+	width: 1140px;
+	position: relative;
+	margin-top: 10px;
+}
+
+.info-p {
+	color: #1269a7;
+	font: 400 36px ArianAMU;
+	text-align: center;
+	margin-top: 19px;
+}
+
+#selectBox-info-type select {
+	border-radius: 0;
+	width: 500px;
+	color: #898989;
+	font: 400 18px DroidSans;
+	background: transparent;
+	padding: 0 35px 0 24px;
+	border: 0;
+	height: 28px;
+	line-height: 28px;
+}
+
+#selectBox-info-type {
+	width: 491px;
+	display: inline-block;
+	overflow: hidden;
+	background: url(images/caret.png) no-repeat 98%;
+	border-radius: 3px;
+	border: 3px solid rgb(153, 204, 102);
+	border-radius: 6px;
+	height: 33px;
+	float: right;
+	margin-right: 190px;
+	margin-bottom: 15px;
+}
+
+.label-form-info {
+	float: left;
+	color: #959595;
+	font: 400 24px ArianAMU;
+	line-height: 33px;
+}
+
+#selectBox-info-sphere select {
+	border-radius: 0;
+	width: 500px;
+	color: #898989;
+	font: 400 18px DroidSans;
+	background: transparent;
+	padding: 0 35px 0 24px;
+	border: 0;
+	height: 28px;
+	line-height: 28px;
+}
+
+#selectBox-info-sphere {
+	width: 491px;
+	display: inline-block;
+	overflow: hidden;
+	background: url(images/caret.png) no-repeat 98%;
+	border-radius: 3px;
+	border: 3px solid rgb(153, 204, 102);
+	border-radius: 6px;
+	height: 33px;
+	float: right;
+	margin-right: 190px;
+	margin-bottom: 15px;
+}
+
+
+.form-info-input {
+	border: 3px solid rgb(153, 204, 102);
+	border-radius: 6px;
+	width: 491px;
+	height: 37px;
+	font: 400 18px DroidSans;
+	padding-left: 7px;
+	float: right;
+	margin-right: 190px;
+	margin-bottom: 15px;
+}
+
+.input-info-min {
+	border: 3px solid rgb(153, 204, 102);
+	border-radius: 6px;
+	width: 236px;
+	height: 38px;
+	font: 400 18px DroidSans;
+	padding-left: 7px;
+	float: right;
+	margin-right: 445px;
+	margin-bottom: 15px;
+}
+
+.input-info-normal {
+	width: 314px;
+	height: 38px;
+	border: 3px solid rgb(153, 204, 102);
+	border-radius: 6px;
+	font: 400 18px DroidSans;
+	padding-left: 7px;
+	float: right;
+	margin-right: 367px;
+	margin-bottom: 15px;
+}
+
+.textarea-about-me {
+	border: 3px solid rgb(153, 204, 102);
+	border-radius: 6px;
+	width: 680px;
+	height: 273px;
+	resize: none;
+	padding: 7px;
+	float: right;
+	margin-bottom: 15px;
+}
+
+.info-submit {
+	background-color: #35A8DE;
+	width: 175px;
+	height: 41px;
+	border-radius: 5px;
+	color: #ffffff;
+	font: 400 30px ArianAMU;
+	border: 0;
+	text-align: center;
+	float: right;
+	margin-bottom: 22px;
+}
+
+#moreInformation-form {
+	display: inline-block;
+	width: 990px;
+	margin-left: 70px;
+	margin-right: 70px;
+	margin-top: 50px;
+}
+.moreInformation-img {
+	position: absolute;
+	border-radius: 7px;
+	border: 5px solid rgb(18, 105, 167);
+	width: 161px;
+	height: 188px;
+	top: 110px;
+	right: 72px;
+	background: url(images/logo-img-2.png) no-repeat center center;
 }
