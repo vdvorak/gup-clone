@@ -65,21 +65,18 @@
                         </div>
                         <div class="caretContact"></div>
                     </div>
-                    <div class="phone">
-                        <p class="phoneNumber">094 786 66 78</p>
-                        <p class="phoneNumber">094 786 66 78</p>
+                    <div class="phone" style="display:none">
                     </div>
-                    <div class="skypeContact">
-                        <p class="skype">Skype: Deptors</p>
+                    <div class="skypeContact" style="display:none">
                     </div>
-                    <div class="emailContact">
+                    <div class="emailContact" style="display:none">
                         <p class="email">E-mail: Deptors@ukr.net</p>
                     </div>
                 </div>
 
                 <sec:authorize access="isAuthenticated()">
                     <div class="contact-btn-group">
-                        <button class="writeMessage">Написать сообщение</button>
+                        <button class="writeMessage" id="writeMessageToProfile">Написать сообщение</button>
                         <button class="addToContact" id="addProfileToContact">Добавить в контакты</button> <!-- если профиль вип то сюда надо добавлять класс vip-color-background -->
                     </div>
                 </sec:authorize>
@@ -93,8 +90,8 @@
                     <a href="#"><img src="/resources/images/twitter.png" alt="twitter"></a>
                 </div>
                 <div class="AboutMe">
-                    <p class="AboutMe-p">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, dolor quisquam aliquid illum consequatur voluptatibus placeat perferendis hic vitae ipsum officiis, maiores, quasi quo cupiditate eius nam doloremque deserunt. Provident!</p>
                     <p class="AboutMe-p2">О себе</p>
+                    <p class="AboutMe-p"></p>
                 </div>
             </div>
         </div>
@@ -132,8 +129,6 @@
                 url: "/api/rest/profilesService/profile/read/id/" + profileId,
                 statusCode: {
                     200: function (profile) {
-                        alert('profile: ' + JSON.stringify(profile));
-
                         if (profile.contact.pic != null && profile.contact.pic != '') {
                             $('#profileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
                         } else {
@@ -165,20 +160,27 @@
 //                        }
 
                         if (profile.contact.aboutUs != null) {
-                            $('#aboutMe').append('<h2>' + profile.contact.aboutUs + '</h2>');
+                            $('.AboutMe-p').append(profile.contact.aboutUs);
                         } else {
-                            $('#aboutMe').append("<h2>" + "Пользователь еще ничего на рассказал о себе" + "</h2>");
+                            $('.AboutMe-p').append("Пользователь еще ничего на рассказал о себе.");
                         }
-//
-                        $('#moreInformation').append("<h2>" + "!!!!!  У профиля НЕТ такого поля !!!!!" + "</h2>");
 
+                        if (profile.contact.contactPhones != null) {
+                            profile.contact.contactPhones.forEach(function(phoneNumber) {
+                                $('.phone').append('<p class="phoneNumber">' + phoneNumber + '</p>');});
+                                $('.phone').show();
+                        }
 
-                        if (profile.contact.contactEmails != null && profile.contact.contactEmails.length != 0) {
+                        if (profile.contact.skypeUserName != null) {
+                            $('.skypeContact').append('<p class="skype">Skype: ' + profile.contact.skypeUserName + '</p>');
+                            $('.skypeContact').show();
+                        }
+
+                        if (profile.contact.contactEmails != null) {
                             profile.contact.contactEmails.forEach(function(email) {
-                                $('#emailContact').append('<p class="emailName">&nbsp;' + email + '</p>');
+                                $('.emailContact').append('<p class="email">E-mail: ' + email + '</p>');
                             });
-                        } else {
-                            $('#emailContact').hide();
+                            $('.emailContact').show();
                         }
                     },
                     404: function () {
@@ -186,6 +188,10 @@
                         window.location.href = "/profileList";
                     }
                 }
+            });
+
+            $(document).on('click', '#writeMessageToProfile', function () {
+                window.location.href = "/dialogue/create/with/" + profileId;
             });
 
             $(document).on('click', '#addProfileToContact', function () {
