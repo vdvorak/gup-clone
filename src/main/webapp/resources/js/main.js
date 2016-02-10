@@ -22,6 +22,26 @@ $(document).ready(function(){
 //        $('.tidi4:first').clone().insertAfter('.tidi4:last');
 //    });
 
+    $('#socialBtn').click( function(event){
+        event.preventDefault();
+        $('#overlay').fadeIn(400,
+            function(){
+                $('#refill')
+                    .css('display', 'block')
+                    .animate({opacity: 1, top: '50%'}, 200);
+            });
+    });
+
+    $('#noMoneyClose, #overlay, #noMoneyCloseRich').click( function(){
+        $('#refill')
+            .animate({opacity: 0, top: '45%'}, 200,
+            function(){
+                $(this).css('display', 'none');
+                $('#overlay').fadeOut(400);
+            }
+        );
+    });
+
     $(".question-img").click(function(){
         $(".questionForm").slideToggle(1);
     });
@@ -32,10 +52,6 @@ $(document).ready(function(){
     });
 
     $('#tab-container').easytabs({
-        animate: false
-    });
-
-    $('#tab-container-profile').easytabs({
         animate: false
     });
 

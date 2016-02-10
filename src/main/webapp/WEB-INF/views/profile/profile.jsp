@@ -66,18 +66,14 @@
                         <div class="caretContact"></div>
                     </div>
                     <div class="phone">
-                        <img class="phone-img" src="/resources/images/phone.png" alt="phone">
                         <p class="phoneNumber">094 786 66 78</p>
                         <p class="phoneNumber">094 786 66 78</p>
                     </div>
                     <div class="skypeContact">
-                        <img class="skypeContact-img" src="/resources/images/skype.png" alt="skype">
-                        <p class="skype">Skype:</p>
-                        <p class="skypeName">&nbsp;Deptors</p>
+                        <p class="skype">Skype: Deptors</p>
                     </div>
-                    <div class="emailContact" id="emailContact">
-                        <img class="emailcontact-img" src="/resources/images/email.png" alt="email">
-                        <p class="email">E-mail:</p>
+                    <div class="emailContact">
+                        <p class="email">E-mail: Deptors@ukr.net</p>
                     </div>
                 </div>
 
@@ -96,17 +92,9 @@
                     <a href="#"><img src="/resources/images/facebook.png" alt="facebook"></a>
                     <a href="#"><img src="/resources/images/twitter.png" alt="twitter"></a>
                 </div>
-                <div id="tab-container-profile" class="tab-container-profile">
-                    <ul class='etabs-profile'>
-                        <li class='tab-profile'><a href="#aboutMe">О себе</a></li>
-                        <li class='tab-profile'><a href="#moreInformation">Дополнительная информация</a></li>
-                    </ul>
-                    <div id="aboutMe">
-                        <%--<h2>text Markup for these tabs</h2>--%>
-                    </div>
-                    <div id="moreInformation">
-                        <%--<h2>and more text for these tabs</h2>--%>
-                    </div>
+                <div class="AboutMe">
+                    <p class="AboutMe-p">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, dolor quisquam aliquid illum consequatur voluptatibus placeat perferendis hic vitae ipsum officiis, maiores, quasi quo cupiditate eius nam doloremque deserunt. Provident!</p>
+                    <p class="AboutMe-p2">О себе</p>
                 </div>
             </div>
         </div>
