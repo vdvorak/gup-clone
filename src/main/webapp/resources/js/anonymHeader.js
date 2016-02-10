@@ -21,6 +21,7 @@ $(document).ready(function() {
         var profile = {
             'email' : $('#registration-email').val(),
             'password' : $('#registration-password').val(),
+            'point' : 0,
             'userProfile' : {},
             'contact' : {},
             'contactList' : []
