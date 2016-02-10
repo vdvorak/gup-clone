@@ -15,16 +15,16 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.com.itproekt.gup.api.rest.util.Util;
-import ua.com.itproekt.gup.dao.projectsAndInvestments.project.ProjectRepository;
 import ua.com.itproekt.gup.dao.tender.TenderRepository;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.model.projectsAndInvestments.project.ModerationStatus;
-import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
-import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOptions;
 import ua.com.itproekt.gup.model.tender.Tender;
 import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
 import ua.com.itproekt.gup.model.tender.TenderType;
+import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
+import ua.com.itproekt.gup.service.filestorage.StorageService;
+import ua.com.itproekt.gup.service.nace.NaceService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.service.tender.TenderService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -42,6 +42,21 @@ public class TenderRestControllerTest {
 
 //    @Autowired
 //    ProfileRepository profileRepository;
+
+    @Autowired
+    TenderService tenderService;
+
+    @Autowired
+    ProfilesService profileService;
+
+    @Autowired
+    NaceService naceService;
+
+    @Autowired
+    StorageService storageService;
+
+    @Autowired
+    ActivityFeedService activityFeedService;
 
     @Autowired
     ProfilesService profilesService;
@@ -129,14 +144,15 @@ public class TenderRestControllerTest {
     public void testGetTenderById_shouldReturn403_AllTenderType_forUnloggedUser() throws Exception {
         String url = BASIC_URL + "/tender/id/";
         Tender tenderC = tenderConstructor(TenderType.CLOSE);
-        this.mockMvc.perform(get(url + tenderC.getId() + "/read")
+        System.out.println("pew-pew");
+        this.mockMvc.perform(post(url + tenderC.getId() + "/read")
                 .contentType(Util.contentType))
                 .andExpect(status().isForbidden());
 
         Tender tenderO = tenderConstructor(TenderType.OPEN);
         this.mockMvc.perform(get(url + tenderO.getId() + "/read")
                 .contentType(Util.contentType))
-                .andExpect(status().isOk());
+                .andExpect(status().isForbidden());
     }
 //
 //    @Test
