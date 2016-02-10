@@ -62,6 +62,7 @@ public class TenderRestController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tender> getTenderById(@PathVariable("id") String id, HttpServletRequest req) {
+        System.err.println("------------------------------in----------------------------");
         Tender tender = tenderService.findById(id);
         if (tender == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -69,6 +70,8 @@ public class TenderRestController {
 
         if(getCurrentUser() == null){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else {
+            System.err.println("OLOLOLO!!!!!!!!!!!!!!!!!!!!");
         }
 
         if(tender != null){
@@ -189,7 +192,7 @@ public class TenderRestController {
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
         // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an member;
-        UserType userType = profileService.findById(member.getId()).getContact().getType();
+        UserType userType = profileService.findByIdWholeProfile(member.getId()).getContact().getType();
         if (userType == null || userType == UserType.INDIVIDUAL) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -282,7 +285,7 @@ public class TenderRestController {
         tender.setEnd(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
         tender.setProposes(null);
         tender.setMembers(null);
-        //todo ActivityFeed!!!!!!!!!!!!!!!!!!!!!
+        activityFeedService.createEvent(new Event(tender.getWinnerId(), EventType.YOU_WON_IN_TENDER, tender.getId(), tender.getAuthorId()));
         return new ResponseEntity<Tender>(tenderService.updateTender(tender), HttpStatus.OK);
     }
 

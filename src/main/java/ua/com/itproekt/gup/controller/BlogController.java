@@ -72,7 +72,7 @@ public class BlogController {
             model.addAttribute("check", check);
         }
 
-        Profile profile = profilesService.findById(blog.getAuthorId());
+        Profile profile = profilesService.findByIdWholeProfile(blog.getAuthorId());
         String userName = profile.getUsername();
 
         model.addAttribute("username", userName);
