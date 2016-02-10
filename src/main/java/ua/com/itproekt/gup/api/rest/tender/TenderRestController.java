@@ -62,6 +62,7 @@ public class TenderRestController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tender> getTenderById(@PathVariable("id") String id, HttpServletRequest req) {
+        System.err.println("------------------------------in----------------------------");
         Tender tender = tenderService.findById(id);
         if (tender == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -69,6 +70,8 @@ public class TenderRestController {
 
         if(getCurrentUser() == null){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else {
+            System.err.println("OLOLOLO!!!!!!!!!!!!!!!!!!!!");
         }
 
         if(tender != null){
