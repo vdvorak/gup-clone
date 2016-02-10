@@ -795,12 +795,6 @@ table {
 	background-color: transparent;
 }
 
-/*
-.btnMail:hover .mailDrop {
-	display: block;
-}
-*/
-
 .btnMail {
 	position: relative;
 }
@@ -974,10 +968,6 @@ table {
 	margin-bottom: 8px;
 }
 
-
-
-
-
 .mod1 {
 	max-width: 216px;
 	float: left;
@@ -1130,8 +1120,6 @@ input[class="greenCheckbox"]:checked + span  	{
 	padding-bottom: 20px;
 }
 
-
-
 .contacts {
 	width: 699px;
 	display: inline-block;
@@ -1170,8 +1158,6 @@ input[class="greenCheckbox"]:checked + span  	{
 	padding-bottom: 20px;
 }
 
-
-
 .skype {
 	color: #ffffff;
 	font: 400 30px DroidSans;
@@ -1179,18 +1165,12 @@ input[class="greenCheckbox"]:checked + span  	{
 	margin: 20px 0 0 20px;
 }
 
-
-
 .email {
 	color: #ffffff;
 	font: 400 21.14px DroidSans;
 	display: inline-block;
 	margin: 23px 0 0 15px;
 }
-
-
-
-
 
 .map {
 	width: 359px;
@@ -1226,6 +1206,7 @@ input[class="greenCheckbox"]:checked + span  	{
 	cursor: pointer;
 	background: url(images/caretDown.png) no-repeat center center;
 }
+
 .caretContact.lol {
 	background: url(images/caretUp.png) no-repeat center center;
 }
@@ -1249,6 +1230,7 @@ input[class="greenCheckbox"]:checked + span  	{
 
 .contact-btn-group {
 	margin-top: 8px;
+	display: block;
 }
 
 .addToContact {
@@ -1806,7 +1788,6 @@ label[for="repeat-registration-password"] {
 	margin-bottom: 15px;
 }
 
-
 .form-info-input {
 	border: 3px solid rgb(153, 204, 102);
 	border-radius: 6px;
@@ -1865,6 +1846,7 @@ label[for="repeat-registration-password"] {
 	text-align: center;
 	float: right;
 	margin-bottom: 22px;
+	-webkit-transition: all 0.25s;
 	transition: all 0.25s;
 }
 
@@ -1879,6 +1861,7 @@ label[for="repeat-registration-password"] {
 	margin-top: 50px;
 	position: relative;
 }
+
 .moreInformation-img {
 	position: absolute;
 	border-radius: 7px;
@@ -2060,6 +2043,7 @@ label[for="repeat-registration-password"] {
 	margin-right: 9px;
 	margin-bottom: 8px;
 	border: 0;
+	-webkit-transition: all 0.25s;
 	transition: all 0.25s;
 }
 
@@ -2077,6 +2061,7 @@ label[for="repeat-registration-password"] {
 	margin-left: 9px;
 	margin-bottom: 8px;
 	border: 0;
+	-webkit-transition: all 0.25s;
 	transition: all 0.25s;
 }
 
@@ -2122,6 +2107,7 @@ input[id="checkbox-rich"] + span {
 input[id="checkbox-rich"]:checked + span  	{
 	background: url(images/checkRich.png) no-repeat;
 }
+
 .richAssCheck {
 	display: inline-block;
 	margin: 0 auto;
@@ -2152,6 +2138,7 @@ input[id="checkbox-rich"]:checked + span  	{
 	margin-left: 9px;
 	margin-bottom: 8px;
 	border: 0;
+	-webkit-transition: all 0.25s;
 	transition: all 0.25s;
 	float: left;
 }
@@ -2172,6 +2159,7 @@ input[id="checkbox-rich"]:checked + span  	{
 	margin-right: 9px;
 	margin-bottom: 8px;
 	border: 0;
+	-webkit-transition: all 0.25s;
 	transition: all 0.25s;
 }
 
@@ -2209,4 +2197,213 @@ input[id="checkbox-rich"]:checked + span  	{
 	border-top-right-radius: 8px;
 	text-align: center;
 	line-height: 66px;
+}
+
+.NewsTabsFilter {
+	border: 3px solid rgb(187, 187, 187);
+	border-radius: 5px;
+	width: 1140px;
+	height: 54px;
+	margin-bottom: 25px;
+}
+
+.NewsTabsFilterItem {
+	color: #b7b7b7;
+	font: 400 28px DroidSans;
+	display: inline-block;
+	padding: 4px 8px;
+	border: 3px solid transparent;
+	border-radius: 7px;
+	margin-top: 1px;
+	float: left;
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+.intro {
+	border-color: rgb(54, 170, 224);
+	color: #1269a7;
+}
+
+.VIPNewsLarge {
+	border: 3px solid #F8AD39;
+	border-radius: 7px;
+	height: 423px;
+	width: 350px;
+	float: left;
+	background: url(/resources/css/images/abra.png) no-repeat center center;
+	background-size: cover;
+	position: relative;
+	float: left;
+	cursor: pointer;
+}
+
+.descriptionLarge {
+	position: absolute;
+	bottom: 18px;
+	width: 100%;
+	padding: 10px;
+	color: #1269a7;
+	font: 400 28px HelveticaNeue;
+	background-color: rgba(255, 255, 255, 0.5);
+	height: 99px;
+}
+
+.descriptionLarge:hover {
+	background-color: rgba(255, 255, 255, 0.75);
+}
+
+.VIPNewsSmall {
+	border: 3px solid #F8AD39;
+	border-radius: 7px;
+	width: 561px;
+	height: 188px;
+	position: relative;
+	background: url(/resources/css/images/quotes.png) no-repeat center center;
+	background-size: cover;
+	display: inline-block;
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+.descriptionSmall {
+	position: absolute;
+	top: 34px;
+	width: 100%;
+	padding: 5px;
+	color: #1269a7;
+	font: 400 28px HelveticaNeue;
+	background-color: rgba(255, 255, 255, 0.5);
+	height: 49px;
+	text-align: center;
+}
+
+.descriptionSmall:hover {
+	background-color: rgba(255, 255, 255, 0.75);
+}
+
+.VIPNewsExtraSmall {
+	border: 3px solid #F8AD39;
+	border-radius: 7px;
+	position: relative;
+	width: 209px;
+	height: 187px;
+	display: inline-block;
+	float: right;
+	margin-left: 10px;
+	background: url(/resources/css/images/transactions.png) no-repeat center center;
+	background-size: cover;
+	cursor: pointer;
+}
+
+.VIPNewsExtraSmall-dislike {
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+	border-radius: 50%;
+	background-color: white;
+	padding: 3px;
+	cursor: pointer;
+	-webkit-transition: all 0.25s;
+	transition: all 0.25s;
+}
+
+.VIPNewsExtraSmall-dislike:hover {
+	background-color: transparent;
+}
+
+.descriptionExtraSmall {
+	background-color: rgba(255, 255, 255, 0.5);
+	height: 81px;
+	width: 100%;
+	color: #1269a7;
+	font: 400 28px HelveticaNeue;
+	position: absolute;
+	bottom: 25px;
+	text-align: center;
+}
+
+.descriptionExtraSmall:hover {
+	background-color: rgba(255, 255, 255, 0.75);
+}
+
+.VIPNewsMedium {
+	border: 3px solid #F8AD39;
+	border-radius: 7px;
+	position: relative;
+	width: 780px;
+	height: 222px;
+	display: inline-block;
+	margin-left: 10px;
+	margin-top: 10px;
+	background: url(/resources/css/images/quotes.png) no-repeat center center;
+	background-size: cover;
+	cursor: pointer;
+}
+
+.descriptionMedium {
+	position: absolute;
+	top: 34px;
+	width: 100%;
+	padding: 5px;
+	color: #1269a7;
+	font: 400 28px HelveticaNeue;
+	background-color: rgba(255, 255, 255, 0.5);
+	height: 49px;
+	text-align: center;
+}
+
+.descriptionMedium:hover {
+	background-color: rgba(255, 255, 255, 0.75);
+}
+
+.normalNews {
+	border: 3px solid rgb(18, 105, 167);
+	border-radius: 7px;
+	width: 1140;
+	height: 192px;
+	margin-top: 20px;
+	position: relative;
+}
+
+.normalNews img {
+	float: left;
+	margin: 15px 25px;
+}
+
+.descriptionNormalNews {
+	color: #1269a7;
+	font: 400 27px HelveticaNeue;
+	margin: 10px 15px 0 0;
+	display: inline-block;
+	width: 820px;
+}
+
+.descriptionNormalNews2 {
+	color: #828a8f;
+	font: 400 22px HelveticaNeue;
+}
+
+.normalNews-p {
+	color: #464646;
+	font: 400 13px Calibri;
+	position: absolute;
+	top: 1px;
+	left: 1px;
+}
+
+.normalNews-p2 {
+	color: #464646;
+	font: 400 13px Calibri;
+	position: absolute;
+	top: 1px;
+	right: 1px;
+}
+
+.normalNews-p3 {
+	color: #464646;
+	font: 400 13px Calibri;
+	position: absolute;
+	bottom: 1px;
+	right: 1px;
 }
