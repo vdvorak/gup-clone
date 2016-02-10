@@ -1,50 +1,64 @@
 var loggedInProfile = {};
 
-$(document).ready(function() {
     $.ajax({
         type: "POST",
         url: "/api/rest/profilesService/profile/read/loggedInProfile",
         success: function (profile) {
             loggedInProfile = profile;
-            if (profile.contact != null && profile.contact.member == true) {
-                $('#joinToGupBtn').hide();
-            }
 
-            if (profile.contact != null && profile.contact.pic != null && profile.contact.pic != '') {
+
+            if (profile.contact.pic != null && profile.contact.pic != '') {
                 $('#headerProfileImg').attr('src','/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
             } else {
                 $('#headerProfileImg').attr('src','/resources/images/no_avatar.jpg');
             }
 
-            if (profile.username == null) {
-                $('#headerProfileName').text("Безымянный");
-            } else {
+            if (profile.username != null) {
                 $('#headerProfileName').text(profile.username);
+            } else {
+                $('#headerProfileName').text("Безымянный");
+            }
+
+            if (profile.contactList != null) {
+                profile.contactList.forEach(function(contactId) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/rest/profilesService/profile/read/id/" + contactId,
+                        success: function (profile) {
+                            alert(JSON.stringify(profile));
+                            var imgTag = '';
+                            if (profile.contact.pic == null) {
+                                imgTag = '<img src="/resources/images/no_photo.jpg" width="58"/>';
+                            } else {
+                                imgTag =  '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1"  width="58">';
+                            }
+
+                            $('#headerProfileContactListUl').append(
+                                '<li>' +
+                                    '<a href="/profile/id/' + contactId + '">' +
+                                        imgTag +
+                                    '</a>' +
+                                '</li>');
+                        }
+                    });
+                });
+            } else {
+                $('#headerProfileContactListUl').append(
+                    '<li>' +
+                        '<p>Вы еще никого не добавили к себе в контакты.</p>' +
+                        '<a href="/profile/list">Найти знакомых</a>' +
+                    '</li>');
+            }
+
+            if (profile.contact.member == true) {
+                $('#joinToGupBtn').hide();
             }
 
             if (profile.unreadMessages > 0 ){
                 $('.num').show().text(profile.unreadMessages);
             }
-
-
-
-            alert("Перед ажаксом")
-            $.ajax({
-                type: "POST",
-                url: "api/rest/dialogueService/unread-msg/for-user-id/" + profile.id,
-                success: function (data) {
-                    alert(data);
-                }
-            });
-
-
         }
     });
-
-
-
-
-
 
 
 
@@ -180,7 +194,6 @@ $(document).ready(function() {
     //    $(this).toggleClass("open");
     //    $("#contactListMenu").toggleClass("open");
     //});
-});
 
 //function createDialog(uId) {
 //    window.location.href = "/dialogue/create/with/" + uId;
