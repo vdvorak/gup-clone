@@ -25,15 +25,15 @@
           <p class="num" style="display: none"></p>
           <div class="mailDrop">
             <div class="mailDrop-message">
-              <a href="#"><img src="resources/images/logo.png" alt="LOGO"></a>
+              <a href="#"><img src="/resources/images/logo.png" alt="LOGO"></a>
               <p class="mailDrop-message-p">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex, est, officiis dolorem natus asperiores, quam qui id blanditiis sit illum dolor accusamus autem? Totam rem voluptatem, laborum provident quasi deserunt.</p>
             </div>
             <div class="mailDrop-message">
-              <a href="#"><img src="resources/images/logo.png" alt="LOGO"></a>
+              <a href="#"><img src="/resources/images/logo.png" alt="LOGO"></a>
               <p class="mailDrop-message-p">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex, est, officiis</p>
             </div>
             <div class="answer">
-              <a href="#"><img src="resources/images/logo.png" alt="LOGO"></a>
+              <a href="#"><img src="/resources/images/logo.png" alt="LOGO"></a>
               <form role="form" action="#">
                 <textarea class="form-control" rows="7" id="comment"></textarea>
                 <button type="submit" class="btnSubmit">Ответить</button>
@@ -46,19 +46,8 @@
         <il class='btnbook'>
           <a class="btnMenu" href="#"><img src="/resources/images/book.png" alt="book"></a>
           <div class="bookDrop">
-            <ul>
-              <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
-              <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
-              <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
-              <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
-              <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
-              <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
-              <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
-              <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
-              <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
-              <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
-              <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
-              <li><a href="#"><img src="/resources/images/MergedLayers.png" alt="logo"></a></li>
+            <ul id="headerProfileContactListUl">
+
             </ul>
           </div>
         </il>
