@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: Комп1
@@ -45,28 +46,24 @@
         <div id="tabs1-blogs">
 
 
-            <div id="startBlock">
-                <div class="blogs">
-                    <a href="#"><img class="blogs-img" src="resources/images/1+1.png" alt="1+1"></a>
-                    <a href="#" class="nameBlogs">Название блога (блоггера)</a>
+            <div>
+                <div id="startBlock">
+                    <div class="blogs">
+                        <a href="#"><img class="blogs-img" src="resources/images/1+1.png" alt="1+1"></a>
+                        <a href="#" class="nameBlogs">Название блога (блоггера)</a>
 
-                    <p class="description">Описание</p>
+                        <p class="text-blogs">Блог (англ. blog, от web log — интернет-журнал событий, интернет-дневник,
+                            онлайн-дневник) — веб-сайт, основное содержимое которого — регулярно добавляемые записи,
+                            содержащие
+                            текст, изображения или мультимедиа.</p>
 
-                    <p class="text-blogs">Блог (англ. blog, от web log — интернет-журнал событий, интернет-дневник,
-                        онлайн-дневник) — веб-сайт, основное содержимое которого — регулярно добавляемые записи,
-                        содержащие
-                        текст, изображения или мультимедиа.</p>
+                        <%--<p class="DateOfCreation-blogs">Дата создания: </p>--%>
 
-                    <p class="views-blogs">Просмотров:</p>
-
-                    <p class="views-blogs-num">2233</p>
-
-                    <p class="DateOfCreation-blogs">Дата создания :</p>
-
-                    <p class="DateOfCreation-blogs-num">22.11.15</p>
+                        <p class="DateOfCreation-blogs-num">Дата создания: </p>
+                    </div>
                 </div>
+                <button id="nextPage">Загрузить ещё блоги</button>
             </div>
-
 
         </div>
         <div id="tabs1-news">
@@ -133,49 +130,37 @@
             return long;
         }
 
-        function draw(data) {
-            for (var i in data) {
-                $('.blogs').last().attr('style', 'display:;');
-                $(".blogs-img").last().attr('src', findFirstImg(data[i].imageId));
-                $(".blogs-img").last().attr('alt', data[i].title);
-                $(".tender-pic-wrap a").last().attr('href', '/tender/' + data[i].id);
-                $(".tender-item-text p").last().html(data[i].body);
-                $(".tender-number").last().text(data[i].tenderNumber);
-                $(".tender-publish-date span").last().text(localDateTime(data[i].begin));
-                $(".tender-veiws").last().text(data[i].visited);
-                $(".tender-proposal-count").last().text(data[i].proposeNumber);
-                $(".tender-name p").last().text(data[i].title);
-                $(".date-create").last().text(localDateTime(data[i].end));
-                $('#startBlock').append(firstBlock);
-            }
-
-            $('.blogs').last().attr('style', 'display: none;');
-        }
-
-
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            url: "/api/rest/newsService/blog/read/all",
-            data: JSON.stringify(projectFO),
-            success: function (response) {
-                alert(JSON.stringify(response.entities));
-                draw(response.entities);
-            }
-        });
-
-        $('#nextPage').on('click', function () {
-            blogsFO.skip += 5;
-
+        function doAjax(blogsFO) {
             $.ajax({
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
-                url: "/api/rest/tenderService/tender/read/all/",
+                url: "/api/rest/newsService/blog/read/all",
                 data: JSON.stringify(blogsFO),
                 success: function (response) {
                     draw(response.entities);
                 }
             });
+        }
+
+        function draw(data) {
+            for (var i in data) {
+                $('.blogs').last().attr('style', 'display:;');
+                $(".blogs-img").last().attr('src', findFirstImg(data[i].imageId));
+                $(".blogs-img").last().attr('alt', data[i].title);
+                $(".blogs a").attr('href', '/blog/' + data[i].id);
+                $(".text-blogs").last().text(data[i].description);
+                $(".DateOfCreation-blogs-num").last().append(localDateTime(data[i].createdDate));
+                $(".nameBlogs").last().text(data[i].title);
+                $('#startBlock').append(firstBlock);
+            }
+            $('.blogs').last().attr('style', 'display: none;');
+        }
+
+        doAjax(blogsFO);
+
+        $('#nextPage').on('click', function () {
+            blogsFO.skip += 5;
+            doAjax(blogsFO);
         })
 
     });
