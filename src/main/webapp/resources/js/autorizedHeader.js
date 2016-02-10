@@ -21,6 +21,10 @@ $(document).ready(function() {
             } else {
                 $('#headerProfileName').text(profile.username);
             }
+
+            if (profile.unreadMessages > 0 ){
+                $('.num').show().text(profile.unreadMessages);
+            }
         }
     });
 
