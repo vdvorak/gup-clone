@@ -83,7 +83,7 @@
                 projectId = projectData.id;
                 if (projectData.imagesIds !== null && projectData.imagesIds != '') {
                     for (var key in projectData.imagesIds) {
-                        if (projectData.imagesIds[key] === "1") {
+                        if (projectData.imagesIds[key] === "pic1") {
                             $('#projectImg').attr('src', '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key);
                             break;
                         }
@@ -161,7 +161,7 @@
 
         changedProject.id = projectId;
 
-        if ('#projectType'.val() != "") {
+        if ($('#projectType').val() != "") {
             changedProject.typeOfProject = $('#projectType').val();
         }
 

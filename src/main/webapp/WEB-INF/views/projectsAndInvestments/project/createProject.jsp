@@ -128,7 +128,7 @@
         project.amountRequested = $('#amountRequested').val();
         project.categoriesOfIndustry = $('#categoriesOfIndustry').val();
 
-        imagesIds[imgId] = 1;
+        imagesIds[imgId] = 'pic1';
         project.imagesIds = imagesIds;
 
         $.ajax({

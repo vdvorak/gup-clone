@@ -47,8 +47,8 @@ public class ProjectsRestController {
 
     @RequestMapping(value = "/project/read/all", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EntityPage<Project>> listOfAllInvestors(@RequestBody ProjectFilterOptions projectFO,
-                                                                  HttpServletRequest request) {
+    public ResponseEntity<EntityPage<Project>> listOfAllProjects(@RequestBody ProjectFilterOptions projectFO,
+                                                                 HttpServletRequest request) {
         if(!request.isUserInRole(UserRole.ROLE_ADMIN.toString())){
             projectFO.setSimpleUserRestrictions(SecurityOperations.getLoggedUserId());
         }
@@ -80,7 +80,7 @@ public class ProjectsRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/project/edit", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> editProject(@Valid @RequestBody Project project) {
+    public ResponseEntity<Void> editProject(@Valid @RequestBody Project project, HttpServletRequest request) {
 
         if (project.getId() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -89,7 +89,7 @@ public class ProjectsRestController {
         }
 
         String userId = SecurityOperations.getLoggedUserId();
-        if (projectService.findById(project.getId()).getAuthorId().equals(userId)) {
+        if (projectService.findById(project.getId()).getAuthorId().equals(userId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             projectService.edit(project);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
