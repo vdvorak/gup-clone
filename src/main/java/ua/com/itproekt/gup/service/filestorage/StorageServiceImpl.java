@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
 
@@ -33,4 +35,15 @@ public class StorageServiceImpl implements StorageService {
     public void delete(String serviceName, Set<String> fileIds) {
         storageRepository.delete(serviceName, fileIds);
     }
+
+    @Override
+    public void cacheImage(String serviceName, String originalImageId, BufferedImage bufferedImage, String contentType, String originalFilename) throws IOException {
+        storageRepository.cacheImage( serviceName, originalImageId, bufferedImage, contentType, originalFilename);
+    }
+
+    @Override
+    public GridFSDBFile getCachedImage(String serviceName, String fileId) {
+        return storageRepository.getCachedImage(serviceName, fileId);
+    }
+
 }
