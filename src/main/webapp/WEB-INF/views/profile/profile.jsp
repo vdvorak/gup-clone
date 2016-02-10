@@ -42,13 +42,13 @@
                     <img class="img-responsive" id="profileImg" src="" width="342" height="428">
                     <div class="vip-profile-img"> <!-- этот блок надо включить когда профиль випа, у обычного он выключен -->
                         <div class="rating-vip">
-                            <p>000</p>
+
                         </div>
                         <img class="backgroundSun" src="/resources/images/backgroundSun.png" alt="backgroundSun">
                     </div>
                     <div class="organization-profile-img"> <!-- этот блок надо включить когда профиль организации, у обычного он выключен -->
                         <div class="rating-organization">
-                            <p>000</p>
+                            <%--<p>000</p>--%>
                         </div>
                         <img class="backgroundSun" src="/resources/images/backgroundOrganization.png" alt="backgroundOrganization">
                     </div>
@@ -133,6 +133,11 @@
                             $('#profileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
                         } else {
                             $('#profileImg').attr('src', '/resources/images/no_photo.jpg');
+                        }
+
+                        if(profile.contact.member == true) {
+                            $('.rating-organization').append(profile.point);
+                            $('.organization-profile-img').show();
                         }
 
                         if (profile.username != null) {

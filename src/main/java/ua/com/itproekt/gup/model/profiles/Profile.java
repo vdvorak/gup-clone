@@ -14,9 +14,8 @@ public class Profile {
 
     @Id
     private String id;
-    private boolean confirmModerator;
+    private Boolean confirmModerator;
     private String idWord;
-    private int point;
     private String mainPhoneNumber;
     private String username;
     private String email;
@@ -24,10 +23,11 @@ public class Profile {
     private Set<UserRole> userRoles;
     private UserProfile userProfile;
     private Contact contact;
+    private Integer point;
     private Set<ProfileRating> profileRating;
     private Set<String> contactList;
     private Long createdDate;
-    private AtomicInteger unreadMessages = new AtomicInteger(0);
+    private Integer unreadMessages;
 
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
@@ -50,18 +50,13 @@ public class Profile {
         return this;
     }
 
-    public Profile setConfirmModerator(boolean confirmModerator) {
+    public Profile setConfirmModerator(Boolean confirmModerator) {
         this.confirmModerator = confirmModerator;
         return this;
     }
 
     public Profile setIdWord(String idWord) {
         this.idWord = idWord;
-        return this;
-    }
-
-    public Profile setPoint(int point) {
-        this.point = point;
         return this;
     }
 
@@ -110,20 +105,25 @@ public class Profile {
         return this;
     }
 
+    public Profile setPoint(Integer point) {
+        this.point = point;
+        return this;
+    }
+
+    public Integer getPoint() {
+        return point;
+    }
+
     public String getId() {
         return id;
     }
 
-    public boolean isConfirmModerator() {
+    public Boolean isConfirmModerator() {
         return confirmModerator;
     }
 
     public String getIdWord() {
         return idWord;
-    }
-
-    public int getPoint() {
-        return point;
     }
 
     public String getMainPhoneNumber() {
@@ -166,12 +166,13 @@ public class Profile {
         return createdDate;
     }
 
-    public AtomicInteger getUnreadMessages() {
+    public Integer getUnreadMessages() {
         return unreadMessages;
     }
 
-    public void setUnreadMessages(AtomicInteger unreadMessages) {
+    public Profile setUnreadMessages(Integer unreadMessages) {
         this.unreadMessages = unreadMessages;
+        return this;
     }
 
     @Override
@@ -180,7 +181,6 @@ public class Profile {
                 "id='" + id + '\'' +
                 ", confirmModerator=" + confirmModerator +
                 ", idWord='" + idWord + '\'' +
-                ", point=" + point +
                 ", mainPhoneNumber='" + mainPhoneNumber + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
