@@ -17,7 +17,6 @@ import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.nace.DepartmentOrNace;
 import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.UserType;
 import ua.com.itproekt.gup.model.tender.doer.Doer;
 import ua.com.itproekt.gup.model.tender.doer.DoerClient;
 import ua.com.itproekt.gup.model.tender.doer.DoerFilterOptions;
@@ -103,7 +102,7 @@ public class DoerRestController {
     public ResponseEntity<CreatedObjResponse> createDoer(@RequestBody Doer doer, UriComponentsBuilder ucBuilder) {
         System.err.println("Hi from createDoer in REST controller");
         // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an doer;
-//        UserType userType = profileService.findById(doer.getAuthorId()).getContact().getType();
+//        UserType userType = profileService.findByIdWholeProfile(doer.getAuthorId()).getContact().getType();
 //        if(userType == null || userType == UserType.INDIVIDUAL){
 //            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 //        }
@@ -144,7 +143,7 @@ public class DoerRestController {
     public ResponseEntity<Doer> addClient(@PathVariable("id") Doer doer, @RequestParam String clientId) {
         // handling situation when doer add client
         if (getCurrentUserId().equals(doer.getAuthorId())) {
-            if (profileService.findById(clientId) == null) {
+            if (profileService.findByIdWholeProfile(clientId) == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             // check current client isn't already in list

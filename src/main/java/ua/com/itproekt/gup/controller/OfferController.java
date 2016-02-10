@@ -138,7 +138,7 @@ public class OfferController {
         Profile profile = new Profile();
 
         try {
-            profile = profilesService.findById(id);
+            profile = profilesService.findByIdWholeProfile(id);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Exception in getOffer method trying receive profile");

@@ -45,7 +45,7 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public Profile findById(String id) {
+    public Profile findByIdWholeProfile(String id) {
         return profileRepository.findProfileById(id);
     }
 

@@ -16,7 +16,6 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,7 +110,7 @@ public class DialogueController {
     //----------------------------------- one dialogue  ------
     @RequestMapping(value = "/dialogue/create/with/{userId}", method = RequestMethod.GET)
     public String createDialogueWith(@PathVariable String userId, Model model) {
-        Profile profile = profileService.findById(userId);
+        Profile profile = profileService.findByIdWholeProfile(userId);
         if(profile == null || SecurityOperations.getLoggedUserId() == null){
             return "";
         }

@@ -26,7 +26,7 @@ public class DoerRepositoryImpl implements DoerRepository {
 
     @Override
     public Doer findById(String id) {
-//        return doerMongoRepository.findById(id);
+//        return doerMongoRepository.findByIdWholeProfile(id);
         Query query = new Query(Criteria.where("id").is(id));
         return mongoTemplate.findOne(query, Doer.class);
     }

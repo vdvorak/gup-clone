@@ -41,7 +41,7 @@ public class TenderRepositoryImpl implements TenderRepository {
 
     @Override
     public Tender findById(String id) {
-//        return tenderMongoRepository.findById(id);
+//        return tenderMongoRepository.findByIdWholeProfile(id);
         Query query = new Query(Criteria.where("id").is(id));
         return mongoTemplate.findOne(query, Tender.class);
     }

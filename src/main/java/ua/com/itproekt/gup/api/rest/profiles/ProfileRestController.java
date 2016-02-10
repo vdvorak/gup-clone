@@ -66,7 +66,7 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Profile> getProfileById(@PathVariable String id) {
-        Profile profile = profilesService.findById(id);
+        Profile profile = profilesService.findByIdWholeProfile(id);
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -77,7 +77,7 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Profile> getLoggedUser() {
-        Profile profile = profilesService.findById(SecurityOperations.getLoggedUserId());
+        Profile profile = profilesService.findByIdWholeProfile(SecurityOperations.getLoggedUserId());
 
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }

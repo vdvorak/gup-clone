@@ -79,7 +79,7 @@ public class AccountController {
     @RequestMapping(value = "/prioffice", method = RequestMethod.GET)
     public String privatOfice(Model model) {
         String loggedUserId = SecurityOperations.getLoggedUserId();
-        Profile profile = profilesService.findById(SecurityOperations.getLoggedUserId());
+        Profile profile = profilesService.findByIdWholeProfile(SecurityOperations.getLoggedUserId());
 
         String authId = profile.getId();
 

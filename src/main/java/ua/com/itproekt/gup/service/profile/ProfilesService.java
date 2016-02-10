@@ -25,7 +25,7 @@ public interface ProfilesService {
      * @param id the id
      * @return the profile
      */
-    Profile findById(String id);
+    Profile findByIdWholeProfile(String id);
 
     /**
      * Update profile profile.

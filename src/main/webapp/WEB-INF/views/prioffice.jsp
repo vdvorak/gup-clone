@@ -135,11 +135,11 @@
                                     </c:forEach>
                                 </c:if>
                                 <c:if test="${empty dialogues}">
-                                    <p><a href="/dialogue-create">создать диалог</a></p>
+                                    <p><a href="/dialogue/create">создать диалог</a></p>
                                 </c:if>
                             </div>
                             <div class="prioffice-tabs-items-return">
-                                <a href=""><img src="/resources/img/strippeddownbuttonsmall.png"></a>
+                                <a href="/dialogues"><img src="/resources/img/strippeddownbuttonsmall.png"></a>
                             </div>
                         </div>
                         <div class="prioffice-tabs-items-wrap">
