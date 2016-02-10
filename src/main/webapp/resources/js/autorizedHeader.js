@@ -25,8 +25,28 @@ $(document).ready(function() {
             if (profile.unreadMessages > 0 ){
                 $('.num').show().text(profile.unreadMessages);
             }
+
+
+
+            alert("Перед ажаксом")
+            $.ajax({
+                type: "POST",
+                url: "api/rest/dialogueService/unread-msg/for-user-id/" + profile.id,
+                success: function (data) {
+                    alert(data);
+                }
+            });
+
+
         }
     });
+
+
+
+
+
+
+
 
     $(".btnMail").mouseenter(function(){
         if ($('.answer').is(':visible') ) {

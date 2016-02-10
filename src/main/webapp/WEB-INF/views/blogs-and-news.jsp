@@ -176,7 +176,6 @@
                     draw(response.entities);
                 }
             });
-
         })
 
     });
