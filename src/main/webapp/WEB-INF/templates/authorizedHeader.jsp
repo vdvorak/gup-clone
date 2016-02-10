@@ -22,7 +22,7 @@
         </li>
         <il class='btnMail'>
           <a class="btnMenu" href="#"><img src="resources/images/mail.png" alt="mail"></a>
-          <p class="num">1</p>
+          <p class="num" style="display: none"></p>
           <div class="mailDrop">
             <div class="mailDrop-message">
               <a href="#"><img src="resources/images/logo.png" alt="LOGO"></a>

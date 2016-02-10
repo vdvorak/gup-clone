@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,4 +80,11 @@ public class BlogController {
         model.addAttribute("blog", blog);
         return "blog";
     }
+
+
+    @RequestMapping("/blogs-and-news")
+    public String getAdminProfileBlogsAndNews() {
+        return "blogs-and-news";
+    }
+
 }
