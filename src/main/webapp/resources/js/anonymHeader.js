@@ -23,7 +23,7 @@ $(document).ready(function() {
             'password' : $('#registration-password').val(),
             'userProfile' : {},
             'contact' : {},
-            'contactList' : {}
+            'contactList' : []
         };
 
         $.ajax({
