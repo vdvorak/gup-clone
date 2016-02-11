@@ -69,29 +69,27 @@
             </div>
 
 
+
+
             <div>
-                <div class="startBlockOfNews">
+                <div id="startBlockOfNews">
                     <div class="normalNews">
-                        <a href="#"><img class="news-img" src="/resources/css/images/grandmother.png" alt="grandmother"></a>
+                        <a href="#"><img class="news-img" src="" alt=""></a>
                         <a class="descriptionNormalNews" href="#">Студенты “топовых” бизнес—школ мира предпочитают
                             практиковаться на стартапах</a>
-
-                        <p class="descriptionNormalNews2">&nbsp;&nbsp;Департаменты ведущих бизнес-школ мира, отвечающие
-                            за
-                            помощь студентам в трудоустройстве, отмечают существенный рост интереса студентов к
-                            прохождению
-                            летней практики в стартапах. В этом году таких студентов, по некоторым оценкам, уже 2/3.</p>
-
-                        <p class="normalNews-p">Просмотров: 22.10. 2016</p>
-
-                        <p class="normalNews-p2">Опубликовано: 22.10. 2016</p>
-
-                        <p class="normalNews-p3">Комментарии: 123</p>
+                        <p class="descriptionNormalNews2">&nbsp;&nbsp;</p>
+                        <p class="normalNews-p">Просмотров: </p>
+                        <p class="normalNews-p2">Опубликовано: </p>
+                        <p class="normalNews-p3">Комментарии: </p>
                     </div>
                 </div>
-                <button id="nextPageNews">Загрузить ещё блоги</button>
+                <button id="nextPageNews">Загрузить ещё новости</button>
             </div>
         </div>
+
+
+
+
 
 
         <div id="tabs1-blogs">
@@ -109,6 +107,11 @@
                 <button id="nextPageBlog">Загрузить ещё блоги</button>
             </div>
         </div>
+
+
+
+
+
 
 
     </div>
@@ -148,7 +151,9 @@
 
 <script>
 
-    var firstBlock = $('#startBlockOfBlogs').html();
+    var firstBlockBlog = $('#startBlockOfBlogs').html();
+    var firstBlockNews = $('#startBlockOfNews').html();
+
     var urlGetBlog = '/api/rest/newsService/blog/read/all';
     var urlGetNews = '/api/rest/newsService/blogPost/read/all';
 
@@ -215,7 +220,7 @@
                 $(".text-blogs").last().text(data[i].description);
                 $(".DateOfCreation-blogs-num").last().append(localDateTime(data[i].createdDate));
                 $(".nameBlogs").last().text(data[i].title);
-                $('#startBlockOfBlogs').append(firstBlock);
+                $('#startBlockOfBlogs').append(firstBlockBlog);
             }
             $('.blogs').last().attr('style', 'display: none;');
         }
@@ -227,9 +232,11 @@
             doAjax(blogsFO, urlGetBlog, 'blogs');
         })
 
-        //-------------------
-
-
+        //---------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------
 
 
         var newsFO = {};
@@ -238,17 +245,21 @@
 
 
         function drawNews(data) {
-            for (var i in data) {
-                $('.normalNews').last().attr('style', 'display:;');
 
+            for (var i in data) {
+                data[i].text = data[i].text.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', "");
+
+                $('.normalNews').last().attr('style', 'display:;');
                 $(".news-img").last().attr('src', findFirstImgNews(data[i].imageId));
                 $(".news-img").last().attr('alt', data[i].title);
+                $(".normalNews a").attr('href', '/blog-post/view/' + data[i].id);
+                $(".descriptionNormalNews2").last().text(data[i].text);  // - описание
+                $(".normalNews-p2").last().append(localDateTime(data[i].createdDate)); // - дата создания
+                $(".descriptionNormalNews").last().text(data[i].title);  // - заголовок
+                $(".normalNews-p").last().append(data[i].views);  // - просмотры
+                $(".normalNews-p3").last().append(data[i].totalComments);  // - комментарии
+                $('#startBlockOfNews').append(firstBlockNews);
 
-//                $(".blogs a").attr('href', '/blog/' + data[i].id);
-//                $(".text-blogs").last().text(data[i].description);
-//                $(".DateOfCreation-blogs-num").last().append(localDateTime(data[i].createdDate));
-//                $(".nameBlogs").last().text(data[i].title);
-//                $('#startBlockOfBlogs').append(firstBlock);
             }
             $('.normalNews').last().attr('style', 'display: none;');
         }
@@ -256,7 +267,7 @@
 
         doAjax(newsFO, urlGetNews, 'news');
 
-        $('#nextPageBlog').on('click', function () {
+        $('#nextPageNews').on('click', function () {
             newsFO.skip += 5;
             doAjax(newsFO, urlGetNews, 'news');
         })

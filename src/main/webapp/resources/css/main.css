@@ -2359,15 +2359,18 @@ input[id="checkbox-rich"]:checked + span  	{
 .normalNews {
 	border: 3px solid rgb(18, 105, 167);
 	border-radius: 7px;
-	width: 1140;
+	width: 1140px;
 	height: 192px;
 	margin-top: 20px;
 	position: relative;
+	overflow: hidden;
 }
 
 .normalNews img {
 	float: left;
 	margin: 15px 25px;
+	height: 135px;
+	width: 180px;
 }
 
 .descriptionNormalNews {
@@ -2389,6 +2392,7 @@ input[id="checkbox-rich"]:checked + span  	{
 	position: absolute;
 	top: 1px;
 	left: 1px;
+
 }
 
 .normalNews-p2 {
