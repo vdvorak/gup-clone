@@ -177,7 +177,6 @@ table {
 
 .social {
 	float: right;
-	margin-top: 55px;
 	margin: 55px 0 23px 0;
 }
 
@@ -328,7 +327,7 @@ table {
 	border: 5px solid #70ab35;
 	border-radius: 5px;
 	float: left;
-	margin: 9.1px;
+	margin: 9px;
 }
 
 .ad-a1 {
@@ -1167,7 +1166,7 @@ input[class="greenCheckbox"]:checked + span  	{
 
 .email {
 	color: #ffffff;
-	font: 400 21.14px DroidSans;
+	font: 400 21px DroidSans;
 	display: inline-block;
 	margin: 23px 0 0 15px;
 }
@@ -1215,7 +1214,7 @@ input[class="greenCheckbox"]:checked + span  	{
 	height: 52px;
 	width: 347px;
 	color: #ffffff;
-	font: 400 26.6px DroidSans;
+	font: 400 26px DroidSans;
 	background-color: #63CAED;
 	border-radius: 7px;
 	border: 0;
@@ -1235,7 +1234,7 @@ input[class="greenCheckbox"]:checked + span  	{
 
 .addToContact {
 	color: #ffffff;
-	font: 400 26.6px DroidSans;
+	font: 400 26px DroidSans;
 	width: 320px;
 	background-color: #1168A5;
 	border-radius: 7px;
@@ -1328,7 +1327,7 @@ input[class="greenCheckbox"]:checked + span  	{
 	border: 5px solid #70ab35;
 	border-radius: 5px;
 	float: left;
-	margin: 9.1px;
+	margin: 9px;
 }
 
 .proj-top1 {
@@ -1338,7 +1337,7 @@ input[class="greenCheckbox"]:checked + span  	{
 	border: 5px solid #70ab35;
 	border-radius: 5px;
 	float: left;
-	margin: 9.1px;
+	margin: 9px;
 }
 
 .massage-box {
@@ -1747,7 +1746,6 @@ label[for="repeat-registration-password"] {
 	display: inline-block;
 	overflow: hidden;
 	background: url(images/caret.png) no-repeat 98%;
-	border-radius: 3px;
 	border: 3px solid rgb(153, 204, 102);
 	border-radius: 6px;
 	height: 33px;
@@ -1937,6 +1935,7 @@ label[for="repeat-registration-password"] {
 	right: -515px;
 	cursor: pointer;
 }
+
 .social-icon-info {
 	position: absolute;
 	top: 5px;
@@ -2407,6 +2406,7 @@ input[id="checkbox-rich"]:checked + span  	{
 	bottom: 1px;
 	right: 1px;
 }
+
 .createBlog {
 	border: 4px solid rgb(153, 204, 102);
 	border-radius: 14px;
@@ -2449,7 +2449,7 @@ input[id="checkbox-rich"]:checked + span  	{
 
 .blogName {
 	color: #1269a7;
-	font: 400 20px ArianAMU;
+	font: 400 28px ArianAMU;
 	float: left;
 	margin-left: 50px;
 	margin-top: 10px;
@@ -2461,14 +2461,12 @@ input[id="checkbox-rich"]:checked + span  	{
 	border-radius: 5px;
 	width: 301px;
 	height: 393px;
-	float: left;
-	background: url(images/createBlogLogo.png) no-repeat center center;
+	background: url(/resources/css/images/createBlogLogo.png) no-repeat center center;
 	margin-top: 30px;
 	margin-left: 20px;
 }
 
 .creatrBlogText {
-	float: right;
 	border: 2px solid rgb(153, 204, 102);
 	border-radius: 5px;
 	width: 544px;
@@ -2476,18 +2474,17 @@ input[id="checkbox-rich"]:checked + span  	{
 	padding: 23px 6px 36px 8px;
 }
 
-
-
 .createBlogDescriptionText {
 	text-align: justify;
 	color: #7d7d7d;
-	font: 400 28px Calibri;
+	font: 400 20px Calibri;
 }
 
 .createBlogSocialIcon {
 	width: 300px;
 	margin: 20px 0 10px 20px;
 	display: inline-block;
+	float: left;
 }
 
 .createBlogSocialIcon a {
@@ -2550,7 +2547,11 @@ input[id="checkbox-rich"]:checked + span  	{
 	background-color: rgb(153, 204, 102);
 }
 
-.pluso {
+.boxRight {
 	float: right;
-	margin-right: 60px;
+	text-align: center;
+}
+
+.boxLeft {
+	display: inline-block;
 }

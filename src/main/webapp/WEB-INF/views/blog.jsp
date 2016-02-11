@@ -16,29 +16,42 @@
 
 <div class="container2">
     <div class="createBlog">
+
         <div class="BlogPagination">
             <a href="#"><i class="fa fa-angle-left"></i> Назад</a>
             <a href="#">Вперед <i class="fa fa-angle-right"></i></a>
         </div>
+
         <p class="blogName">НАЗВАНИЕ НОВОСНОГО БЛОГА</p>
+
         <div class="clearfix"></div>
-        <div class="createBlogLogo"></div>
-        <div class="creatrBlogText">
-            <p class="createBlogDescriptionText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias officia enim sapiente unde explicabo. Corporis blanditiis dignissimos, repellendus incidunt officiis! Itaque sed enim perspiciatis maiores atque consectetur vel velit quia. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro rem eligendi non sint eaque explicabo ipsam hic voluptatem quia officia tempore et, voluptates labore voluptas vel, harum. Repellat, eveniet, minima! lorem</p>
+
+        <div class="boxRight">
+            <div class="creatrBlogText">
+                <p class="createBlogDescriptionText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias officia enim sapiente unde explicabo. Corporis blanditiis dignissimos, repellendus incidunt officiis! Itaque sed enim perspiciatis maiores atque consectetur vel velit quia. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro rem eligendi non sint eaque explicabo ipsam hic voluptatem quia officia tempore et, voluptates labore voluptas vel, harum. Repellat, eveniet, minima! lorem</p>
+            </div>
+
+            <div class="pluso" data-background="#ebebeb" data-options="big,square,line,horizontal,counter,theme=01" data-services="vkontakte,odnoklassniki,facebook,twitter,google,email,print,linkedin"></div>
         </div>
-        <div class="createBlogSocialIcon">
-            <a href="#"><i class="fa fa-facebook fa-border"></i></a>
-            <a href="#"><i class="fa fa-vk fa-border"></i></a>
-            <a href="#"><i class="fa fa-odnoklassniki fa-border"></i></a>
-            <a href="#"><i class="fa fa-linkedin fa-border"></i></a>
-            <a href="#"><i class="fa fa-google-plus fa-border"></i></a>
-            <a href="#"><i class="fa fa-youtube fa-border"></i></a>
-            <a href="#"><i class="fa fa-skype fa-border"></i></a>
-            <a href="#"><i class="fa fa-twitter fa-border"></i></a>
+
+        <div class="boxLeft">
+            <div class="createBlogLogo"></div>
+
+            <div class="createBlogSocialIcon">
+                <a href="#"><i class="fa fa-facebook fa-border"></i></a>
+                <a href="#"><i class="fa fa-vk fa-border"></i></a>
+                <a href="#"><i class="fa fa-odnoklassniki fa-border"></i></a>
+                <a href="#"><i class="fa fa-linkedin fa-border"></i></a>
+                <a href="#"><i class="fa fa-google-plus fa-border"></i></a>
+                <a href="#"><i class="fa fa-youtube fa-border"></i></a>
+                <a href="#"><i class="fa fa-skype fa-border"></i></a>
+                <a href="#"><i class="fa fa-twitter fa-border"></i></a>
+            </div>
+
+            <p class="authorblog">Автор: Вася Пупкин</p>
+
+            <button type="button" class="SubmitArticles">Добавить статью</button>
         </div>
-        <div class="pluso" data-background="#ebebeb" data-options="big,square,line,horizontal,counter,theme=01" data-services="vkontakte,odnoklassniki,facebook,twitter,google,email,print,linkedin"></div>
-        <p class="authorblog">Автор: Вася Пупкин</p>
-        <button type="button" class="SubmitArticles">Добавить статью</button>
     </div>
 </div>
 
