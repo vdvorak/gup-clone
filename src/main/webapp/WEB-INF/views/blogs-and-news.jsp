@@ -40,25 +40,12 @@
 <div class="container">
     <div id="tab-container-news" class="tab-container-news">
         <ul class='etabs-news'>
-            <li class='tab-news'><a href="#tabs1-blogs">Блоги</a></li>
             <li class='tab-news'><a href="#tabs1-news">Новости</a></li>
+            <li class='tab-news'><a href="#tabs1-blogs">Блоги</a></li>
         </ul>
 
-        <div id="tabs1-blogs">
-            <div>
-                <div id="startBlock">
-                    <div class="blogs">
-                        <a href="#"><img class="blogs-img" src="resources/images/1+1.png" alt="1+1"></a>
-                        <a href="#" class="nameBlogs"></a>
-                        <p class="text-blogs"></p>
-                        <p class="DateOfCreation-blogs-num">Дата создания: </p>
-                    </div>
-                </div>
-                <button id="nextPage">Загрузить ещё блоги</button>
-            </div>
-        </div>
-
         <div id="tabs1-news">
+
             <div class="NewsTabsFilter">
                 <p class="NewsTabsFilterItem">Киев</p>
                 <p class="NewsTabsFilterItem">Днепропетровск</p>
@@ -80,35 +67,53 @@
             <div class="VIPNewsMedium">
                 <a href="#" class="descriptionMedium">10 ошибок при управлении личными финансами</a>
             </div>
-            <div class="normalNews">
-                <a href="#"><img src="/resources/css/images/grandmother.png" alt="grandmother"></a>
-                <a class="descriptionNormalNews" href="#">Студенты “топовых” бизнес—школ мира предпочитают практиковаться на стартапах</a>
-                <p class="descriptionNormalNews2">&nbsp;&nbsp;Департаменты ведущих бизнес-школ мира, отвечающие за помощь студентам в трудоустройстве, отмечают существенный рост интереса студентов к прохождению летней практики в стартапах. В этом году таких студентов, по некоторым оценкам, уже 2/3.</p>
-                <p class="normalNews-p">Просмотров: 22.10. 2016</p>
-                <p class="normalNews-p2">Опубликовано: 22.10. 2016</p>
-                <p class="normalNews-p3">Комментарии: 123</p>
-            </div>
-            <div class="normalNews">
-                <a href="#"><img src="/resources/css/images/infographics.png" alt="infographics"></a>
-                <a class="descriptionNormalNews" href="#">Ламер-юзер-прогер*</a>
-                <p class="descriptionNormalNews2">&nbsp;&nbsp;В Украине намечается революция в IT—образовании</p>
-                <p class="normalNews-p">Просмотров: 22.10. 2016</p>
-                <p class="normalNews-p2">Опубликовано: 22.10. 2016</p>
-                <p class="normalNews-p3">Комментарии: 123</p>
-            </div>
-            <div class="normalNews">
-                <a href="#"><img src="/resources/css/images/grandmother.png" alt="grandmother"></a>
-                <a class="descriptionNormalNews" href="#">Студенты “топовых” бизнес—школ мира предпочитают практиковаться на стартапах</a>
-                <p class="descriptionNormalNews2">&nbsp;&nbsp;Департаменты ведущих бизнес-школ мира, отвечающие за помощь студентам в трудоустройстве, отмечают существенный рост интереса студентов к прохождению летней практики в стартапах. В этом году таких студентов, по некоторым оценкам, уже 2/3.</p>
-                <p class="normalNews-p">Просмотров: 22.10. 2016</p>
-                <p class="normalNews-p2">Опубликовано: 22.10. 2016</p>
-                <p class="normalNews-p3">Комментарии: 123</p>
+
+
+            <div>
+                <div class="startBlockOfNews">
+                    <div class="normalNews">
+                        <a href="#"><img class="news-img" src="/resources/css/images/grandmother.png" alt="grandmother"></a>
+                        <a class="descriptionNormalNews" href="#">Студенты “топовых” бизнес—школ мира предпочитают
+                            практиковаться на стартапах</a>
+
+                        <p class="descriptionNormalNews2">&nbsp;&nbsp;Департаменты ведущих бизнес-школ мира, отвечающие
+                            за
+                            помощь студентам в трудоустройстве, отмечают существенный рост интереса студентов к
+                            прохождению
+                            летней практики в стартапах. В этом году таких студентов, по некоторым оценкам, уже 2/3.</p>
+
+                        <p class="normalNews-p">Просмотров: 22.10. 2016</p>
+
+                        <p class="normalNews-p2">Опубликовано: 22.10. 2016</p>
+
+                        <p class="normalNews-p3">Комментарии: 123</p>
+                    </div>
+                </div>
+                <button id="nextPageNews">Загрузить ещё блоги</button>
             </div>
         </div>
 
+
+        <div id="tabs1-blogs">
+            <div>
+                <div id="startBlockOfBlogs">
+                    <div class="blogs">
+                        <a href="#"><img class="blogs-img" src="resources/images/1+1.png" alt="1+1"></a>
+                        <a href="#" class="nameBlogs"></a>
+
+                        <p class="text-blogs"></p>
+
+                        <p class="DateOfCreation-blogs-num">Дата создания: </p>
+                    </div>
+                </div>
+                <button id="nextPageBlog">Загрузить ещё блоги</button>
+            </div>
+        </div>
+
+
     </div>
 
-  </div>
+</div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
 <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
@@ -143,8 +148,12 @@
 
 <script>
 
-    var firstBlock = $('#startBlock').html();
-    // ------------------- Create default block of tenders -------------------------------------------------------
+    var firstBlock = $('#startBlockOfBlogs').html();
+    var urlGetBlog = '/api/rest/newsService/blog/read/all';
+    var urlGetNews = '/api/rest/newsService/blogPost/read/all';
+
+
+    // ------------------- Create default block blogs and news -------------------------------------------------------
 
     $(document).ready(function () {
 
@@ -152,12 +161,26 @@
         blogsFO.skip = 0;
         blogsFO.limit = 5;
 
-        function findFirstImg(pic) {
+        function findFirstImgBlog(pic) {
             var url = '/resources/images/no_photo.jpg';
             if (pic.length > 0) {
                 return url = '/api/rest/fileStorage/NEWS/file/read/id/' + pic;
             }
             return url
+        }
+
+        function findFirstImgNews(arr) {
+            var url = '/resources/images/no_photo.jpg';
+            var imgId = '';
+
+            for (var i in arr) {
+                if (arr[i] === 'pic1') {
+                    imgId = i;
+                    url = '/api/rest/fileStorage/NEWS/file/read/id/' + imgId;
+                    break;
+                }
+            }
+            return url;
         }
 
         function localDateTime(long) {
@@ -166,41 +189,81 @@
             return long;
         }
 
-        function doAjax(blogsFO) {
+        function doAjax(filterOptions, url, whatDraw) {
             $.ajax({
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
-                url: "/api/rest/newsService/blog/read/all",
-                data: JSON.stringify(blogsFO),
+                url: url,
+                data: JSON.stringify(filterOptions),
                 success: function (response) {
-                    draw(response.entities);
+                    if (whatDraw === 'blogs') {
+                        drawBlog(response.entities);
+                    }
+                    if (whatDraw === 'news') {
+                        drawNews(response.entities);
+                    }
                 }
             });
         }
 
-        function draw(data) {
+        function drawBlog(data) {
             for (var i in data) {
                 $('.blogs').last().attr('style', 'display:;');
-                $(".blogs-img").last().attr('src', findFirstImg(data[i].imageId));
+                $(".blogs-img").last().attr('src', findFirstImgBlog(data[i].imageId));
                 $(".blogs-img").last().attr('alt', data[i].title);
                 $(".blogs a").attr('href', '/blog/' + data[i].id);
                 $(".text-blogs").last().text(data[i].description);
                 $(".DateOfCreation-blogs-num").last().append(localDateTime(data[i].createdDate));
                 $(".nameBlogs").last().text(data[i].title);
-                $('#startBlock').append(firstBlock);
+                $('#startBlockOfBlogs').append(firstBlock);
             }
             $('.blogs').last().attr('style', 'display: none;');
         }
 
-        doAjax(blogsFO);
+        doAjax(blogsFO, urlGetBlog, 'blogs');
 
-        $('#nextPage').on('click', function () {
+        $('#nextPageBlog').on('click', function () {
             blogsFO.skip += 5;
-            doAjax(blogsFO);
+            doAjax(blogsFO, urlGetBlog, 'blogs');
         })
 
+        //-------------------
+
+
+
+
+        var newsFO = {};
+        newsFO.skip = 0;
+        newsFO.limit = 5;
+
+
+        function drawNews(data) {
+            for (var i in data) {
+                $('.normalNews').last().attr('style', 'display:;');
+
+                $(".news-img").last().attr('src', findFirstImgNews(data[i].imageId));
+                $(".news-img").last().attr('alt', data[i].title);
+
+//                $(".blogs a").attr('href', '/blog/' + data[i].id);
+//                $(".text-blogs").last().text(data[i].description);
+//                $(".DateOfCreation-blogs-num").last().append(localDateTime(data[i].createdDate));
+//                $(".nameBlogs").last().text(data[i].title);
+//                $('#startBlockOfBlogs').append(firstBlock);
+            }
+            $('.normalNews').last().attr('style', 'display: none;');
+        }
+
+
+        doAjax(newsFO, urlGetNews, 'news');
+
+        $('#nextPageBlog').on('click', function () {
+            newsFO.skip += 5;
+            doAjax(newsFO, urlGetNews, 'news');
+        })
+
+
     });
-    // ------------------- End create default block of tenders -------------------------------------------------------
+    // ------------------- End create default block of blogs and news -------------------------------------------------------
 
 </script>
 </body>

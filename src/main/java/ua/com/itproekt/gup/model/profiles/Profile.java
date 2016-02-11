@@ -29,6 +29,8 @@ public class Profile {
     private Long createdDate;
     private Integer unreadMessages;
 
+
+
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
     }
@@ -38,6 +40,10 @@ public class Profile {
     public Profile setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
+    }
+
+    public Boolean getConfirmModerator() {
+        return confirmModerator;
     }
 
     public Profile setCreatedDate(Long createdDate) {
