@@ -60,4 +60,9 @@ $(document).ready(function(){
     $('#tab-container-news').easytabs({
         animate: false
     });
+
+    $(".NewsTabsFilterItem").on('click', function(){
+        $('.intro').removeClass("intro");
+        $(this).addClass("intro");
+    });
 });

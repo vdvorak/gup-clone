@@ -139,9 +139,9 @@ public class DialogueServiceImpl implements DialogueService {
         wasUnread = dialogue.getUnreadMsgCounter().replace(user.getId(), 0);
         if (wasUnread != null) {
             // todo move it to default constructor of Profile.
-            if(user.getUnreadMessages() == null) user.setUnreadMessages(new AtomicInteger(0));
-            Integer p = user.getUnreadMessages().get() - wasUnread;
-            user.setUnreadMessages(new AtomicInteger(p));
+            if(user.getUnreadMessages() == null) user.setUnreadMessages(0);
+            Integer p = user.getUnreadMessages() - wasUnread;
+            user.setUnreadMessages(p);
             pr.updateProfile(user);
         } else {
             dialogue.getUnreadMsgCounter().put(user.getId(), 0);
@@ -158,8 +158,8 @@ public class DialogueServiceImpl implements DialogueService {
 
                 ids.parallelStream().forEach(id -> profiles.add(pr.findProfileById(id)));
         profiles.parallelStream().forEach(p -> {
-            if (p.getUnreadMessages() == null) p.setUnreadMessages(new AtomicInteger(1));
-            else p.getUnreadMessages().incrementAndGet();
+            if (p.getUnreadMessages() == null) p.setUnreadMessages(1);
+            else p.setUnreadMessages(p.getUnreadMessages() + 1);
             pr.updateProfile(p);
         });
 

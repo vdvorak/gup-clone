@@ -23,11 +23,11 @@
               <button type="submit" id="billSubmit">$</button>
             </form>
             <p class="noMoney-p2">Пополните счет, с помощью этих банк-систем:</p>
-            <a class="choose-a" href="#"><img src="resources/images/visa.png" alt="visa"></a>
-            <a class="choose-a" href="#"><img src="resources/images/mastercard.png" alt="mastercard"></a>
-            <a class="choose-a" href="#"><img src="resources/images/payPal.png" alt="payPal"></a>
-            <a class="choose-a" href="#"><img src="resources/images/box.png" alt="box"></a>
-            <a class="choose-a2" href="#"><img src="resources/images/privat24.png" alt="privat24"></a>
+            <a class="choose-a" href="#"><img src="/resources/images/visa.png" alt="visa"></a>
+            <a class="choose-a" href="#"><img src="/resources/images/mastercard.png" alt="mastercard"></a>
+            <a class="choose-a" href="#"><img src="/resources/images/payPal.png" alt="payPal"></a>
+            <a class="choose-a" href="#"><img src="/resources/images/box.png" alt="box"></a>
+            <a class="choose-a2" href="#"><img src="/resources/images/privat24.png" alt="privat24"></a>
             <button type="button" id="noMoneyClose">Отмена</button>
             <button type="button" id="noMoneyStart">Вступить</button>
           </div>

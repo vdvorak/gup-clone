@@ -25,7 +25,6 @@ var loggedInProfile = {};
                         type: "POST",
                         url: "/api/rest/profilesService/profile/read/id/" + contactId,
                         success: function (profile) {
-                            alert(JSON.stringify(profile));
                             var imgTag = '';
                             if (profile.contact.pic == null) {
                                 imgTag = '<img src="/resources/images/no_photo.jpg" width="58"/>';
@@ -59,8 +58,6 @@ var loggedInProfile = {};
             }
         }
     });
-
-
 
     $(".btnMail").mouseenter(function(){
         if ($('.answer').is(':visible') ) {

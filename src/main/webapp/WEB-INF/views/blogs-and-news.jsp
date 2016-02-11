@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: Комп1
@@ -39,44 +40,81 @@
 <div class="container">
     <div id="tab-container-news" class="tab-container-news">
         <ul class='etabs-news'>
-            <li class='tab-news'><a href="#tabs1-blogs">Блоги</a></li>
             <li class='tab-news'><a href="#tabs1-news">Новости</a></li>
+            <li class='tab-news'><a href="#tabs1-blogs">Блоги</a></li>
         </ul>
-        <div id="tabs1-blogs">
 
+        <div id="tabs1-news">
 
-            <div id="startBlock">
-                <div class="blogs">
-                    <a href="#"><img class="blogs-img" src="resources/images/1+1.png" alt="1+1"></a>
-                    <a href="#" class="nameBlogs">Название блога (блоггера)</a>
-
-                    <p class="description">Описание</p>
-
-                    <p class="text-blogs">Блог (англ. blog, от web log — интернет-журнал событий, интернет-дневник,
-                        онлайн-дневник) — веб-сайт, основное содержимое которого — регулярно добавляемые записи,
-                        содержащие
-                        текст, изображения или мультимедиа.</p>
-
-                    <p class="views-blogs">Просмотров:</p>
-
-                    <p class="views-blogs-num">2233</p>
-
-                    <p class="DateOfCreation-blogs">Дата создания :</p>
-
-                    <p class="DateOfCreation-blogs-num">22.11.15</p>
-                </div>
+            <div class="NewsTabsFilter">
+                <p class="NewsTabsFilterItem">Киев</p>
+                <p class="NewsTabsFilterItem">Днепропетровск</p>
+                <p class="NewsTabsFilterItem">Запорожье</p>
+                <p class="NewsTabsFilterItem">Львов</p>
+                <p class="NewsTabsFilterItem">Одесса</p>
+                <p class="NewsTabsFilterItem">Полтава</p>
+                <p class="NewsTabsFilterItem">Харьков</p>
+            </div>
+            <div class="VIPNewsLarge">
+                <a href="#" class="descriptionLarge">Бизнес-столица: Куда лучше вложить деньги?</a>
+            </div>
+            <div class="VIPNewsSmall">
+                <a href="#" class="descriptionSmall">5 простых советов в кризис</a>
+            </div>
+            <div class="VIPNewsExtraSmall">
+                <a href="#" class="descriptionExtraSmall">5 простых советов в кризис</a>
+            </div>
+            <div class="VIPNewsMedium">
+                <a href="#" class="descriptionMedium">10 ошибок при управлении личными финансами</a>
             </div>
 
 
+            <div>
+                <div class="startBlockOfNews">
+                    <div class="normalNews">
+                        <a href="#"><img class="news-img" src="/resources/css/images/grandmother.png" alt="grandmother"></a>
+                        <a class="descriptionNormalNews" href="#">Студенты “топовых” бизнес—школ мира предпочитают
+                            практиковаться на стартапах</a>
+
+                        <p class="descriptionNormalNews2">&nbsp;&nbsp;Департаменты ведущих бизнес-школ мира, отвечающие
+                            за
+                            помощь студентам в трудоустройстве, отмечают существенный рост интереса студентов к
+                            прохождению
+                            летней практики в стартапах. В этом году таких студентов, по некоторым оценкам, уже 2/3.</p>
+
+                        <p class="normalNews-p">Просмотров: 22.10. 2016</p>
+
+                        <p class="normalNews-p2">Опубликовано: 22.10. 2016</p>
+
+                        <p class="normalNews-p3">Комментарии: 123</p>
+                    </div>
+                </div>
+                <button id="nextPageNews">Загрузить ещё блоги</button>
+            </div>
         </div>
-        <div id="tabs1-news">
-            <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis nulla, minima placeat, sit cum
-                aliquid. Maxime reiciendis, aut officia dolorem aliquid magnam, tempore, accusantium veritatis
-                laudantium ea reprehenderit amet odit.</h2>
-            <!-- content -->
+
+
+        <div id="tabs1-blogs">
+            <div>
+                <div id="startBlockOfBlogs">
+                    <div class="blogs">
+                        <a href="#"><img class="blogs-img" src="resources/images/1+1.png" alt="1+1"></a>
+                        <a href="#" class="nameBlogs"></a>
+
+                        <p class="text-blogs"></p>
+
+                        <p class="DateOfCreation-blogs-num">Дата создания: </p>
+                    </div>
+                </div>
+                <button id="nextPageBlog">Загрузить ещё блоги</button>
+            </div>
         </div>
+
+
     </div>
+
 </div>
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
 <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
 <script src="/resources/js/vendor/bootstrap.js"></script>
@@ -110,8 +148,12 @@
 
 <script>
 
-    var firstBlock = $('#startBlock').html();
-    // ------------------- Create default block of tenders -------------------------------------------------------
+    var firstBlock = $('#startBlockOfBlogs').html();
+    var urlGetBlog = '/api/rest/newsService/blog/read/all';
+    var urlGetNews = '/api/rest/newsService/blogPost/read/all';
+
+
+    // ------------------- Create default block blogs and news -------------------------------------------------------
 
     $(document).ready(function () {
 
@@ -119,12 +161,26 @@
         blogsFO.skip = 0;
         blogsFO.limit = 5;
 
-        function findFirstImg(pic) {
+        function findFirstImgBlog(pic) {
             var url = '/resources/images/no_photo.jpg';
             if (pic.length > 0) {
                 return url = '/api/rest/fileStorage/NEWS/file/read/id/' + pic;
             }
             return url
+        }
+
+        function findFirstImgNews(arr) {
+            var url = '/resources/images/no_photo.jpg';
+            var imgId = '';
+
+            for (var i in arr) {
+                if (arr[i] === 'pic1') {
+                    imgId = i;
+                    url = '/api/rest/fileStorage/NEWS/file/read/id/' + imgId;
+                    break;
+                }
+            }
+            return url;
         }
 
         function localDateTime(long) {
@@ -133,53 +189,81 @@
             return long;
         }
 
-        function draw(data) {
-            for (var i in data) {
-                $('.blogs').last().attr('style', 'display:;');
-                $(".blogs-img").last().attr('src', findFirstImg(data[i].imageId));
-                $(".blogs-img").last().attr('alt', data[i].title);
-                $(".tender-pic-wrap a").last().attr('href', '/tender/' + data[i].id);
-                $(".tender-item-text p").last().html(data[i].body);
-                $(".tender-number").last().text(data[i].tenderNumber);
-                $(".tender-publish-date span").last().text(localDateTime(data[i].begin));
-                $(".tender-veiws").last().text(data[i].visited);
-                $(".tender-proposal-count").last().text(data[i].proposeNumber);
-                $(".tender-name p").last().text(data[i].title);
-                $(".date-create").last().text(localDateTime(data[i].end));
-                $('#startBlock').append(firstBlock);
-            }
-
-            $('.blogs').last().attr('style', 'display: none;');
-        }
-
-
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            url: "/api/rest/newsService/blog/read/all",
-            data: JSON.stringify(projectFO),
-            success: function (response) {
-                alert(JSON.stringify(response.entities));
-                draw(response.entities);
-            }
-        });
-
-        $('#nextPage').on('click', function () {
-            blogsFO.skip += 5;
-
+        function doAjax(filterOptions, url, whatDraw) {
             $.ajax({
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
-                url: "/api/rest/tenderService/tender/read/all/",
-                data: JSON.stringify(blogsFO),
+                url: url,
+                data: JSON.stringify(filterOptions),
                 success: function (response) {
-                    draw(response.entities);
+                    if (whatDraw === 'blogs') {
+                        drawBlog(response.entities);
+                    }
+                    if (whatDraw === 'news') {
+                        drawNews(response.entities);
+                    }
                 }
             });
+        }
+
+        function drawBlog(data) {
+            for (var i in data) {
+                $('.blogs').last().attr('style', 'display:;');
+                $(".blogs-img").last().attr('src', findFirstImgBlog(data[i].imageId));
+                $(".blogs-img").last().attr('alt', data[i].title);
+                $(".blogs a").attr('href', '/blog/' + data[i].id);
+                $(".text-blogs").last().text(data[i].description);
+                $(".DateOfCreation-blogs-num").last().append(localDateTime(data[i].createdDate));
+                $(".nameBlogs").last().text(data[i].title);
+                $('#startBlockOfBlogs').append(firstBlock);
+            }
+            $('.blogs').last().attr('style', 'display: none;');
+        }
+
+        doAjax(blogsFO, urlGetBlog, 'blogs');
+
+        $('#nextPageBlog').on('click', function () {
+            blogsFO.skip += 5;
+            doAjax(blogsFO, urlGetBlog, 'blogs');
         })
 
+        //-------------------
+
+
+
+
+        var newsFO = {};
+        newsFO.skip = 0;
+        newsFO.limit = 5;
+
+
+        function drawNews(data) {
+            for (var i in data) {
+                $('.normalNews').last().attr('style', 'display:;');
+
+                $(".news-img").last().attr('src', findFirstImgNews(data[i].imageId));
+                $(".news-img").last().attr('alt', data[i].title);
+
+//                $(".blogs a").attr('href', '/blog/' + data[i].id);
+//                $(".text-blogs").last().text(data[i].description);
+//                $(".DateOfCreation-blogs-num").last().append(localDateTime(data[i].createdDate));
+//                $(".nameBlogs").last().text(data[i].title);
+//                $('#startBlockOfBlogs').append(firstBlock);
+            }
+            $('.normalNews').last().attr('style', 'display: none;');
+        }
+
+
+        doAjax(newsFO, urlGetNews, 'news');
+
+        $('#nextPageBlog').on('click', function () {
+            newsFO.skip += 5;
+            doAjax(newsFO, urlGetNews, 'news');
+        })
+
+
     });
-    // ------------------- End create default block of tenders -------------------------------------------------------
+    // ------------------- End create default block of blogs and news -------------------------------------------------------
 
 </script>
 </body>
