@@ -48,7 +48,9 @@
 			<jsp:include page="/WEB-INF/templates/top-projects-block.jsp"/>
         </div>
 
-		<jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+        <sec:authorize access="isAuthenticated()">
+            <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+        </sec:authorize>
 
 		<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
@@ -57,7 +59,6 @@
         <script src="/resources/js/vendor/bootstrap.js"></script>
         <script src="/resources/js/jquery.bxslider.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
-
 		<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
         <sec:authorize var="loggedIn" access="isAuthenticated()" />
@@ -69,14 +70,14 @@
                 <script src="/resources/js/anonymHeader.js"></script>
             </c:otherwise>
         </c:choose>
-        
+
         <script src="/resources/js/main.js"></script>
         <script src="/resources/js/logo-section.js"></script>
 		<script src="/resources/js/search-bar.js"></script>
 
 		<script src="/resources/js/top-news-block.js"></script>
-		<script src="/resources/js/top-projects-block.js"></script>
-		<script src="/resources/js/top-offers-block.js"></script>
-		<script src="/resources/js/top-tenders-block.js"></script>
+        <script src="/resources/js/top-offers-block.js"></script>
+        <script src="/resources/js/top-tenders-block.js"></script>
+        <script src="/resources/js/top-projects-block.js"></script>
     </body>
 </html>
