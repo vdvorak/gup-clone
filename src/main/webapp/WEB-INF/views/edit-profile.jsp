@@ -1,706 +1,645 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Optical Illusion
-  Date: 23.11.2015
-  Time: 15:30
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang=""> <!--<![endif]-->
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Объявления</title>
-    <meta name="generator" content="Bootply"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <%--<link href="../pages/css/bootstrap.css" rel="stylesheet">--%>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Редактирование профиля</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="/resources/css/main.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="/resources/css/media-queries.css">
 
-
-    <link href="/resources/css/bootstrap.css" rel="stylesheet">
-
-    <link href="/resources/css/com.css" rel="stylesheet">
-
-    <link type="text/css" rel="stylesheet" href="/resources/css/simplePagination.css"/>
-    <link href="/resources/css/pgwslideshow.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
-
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
-<body class="center-block">
+<body>
 
-<!-- BEGIN Common general header-->
-<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
-<!-- END common general header-->
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
 
-<!--BEGIN 1nd section with logo, apps button and organization button-->
-<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
-<!-- END 1st section -->
+    <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
 
-<!--BEGIN section with search bar-->
-<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
-<!-- END search bar -->
+    <jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
 
-<!--2nd section menu+slider -->
-<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
-<!--END 2nd section -->
+    <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
 
+    <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
-    <!--category-->
-    <!--<div class="row">
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Объявления
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Работа
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Блог
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Новости
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Тендеры
-            </div>
-        </div>
-        <div class="col-xs-2" style="padding-left: 5px; padding-right: 5px;">
-            <div class="btn btn-info btn-block">
-                Проекты
-            </div>
-        </div>
-    </div>-->
-    <!--category-->
+    <sec:authorize access="isAuthenticated()">
+        <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+    </sec:authorize>
 
-<div class="container">
-    <div class="moreInformation">
-        <p class="info-p">Дополнительная информация</p>
-        <div class="moreInformation-img"><a href="#"><img src="resources/images/pluse.png" alt="plus"></a></div>
-        <form id="moreInformation-form" action="#" role="form">
-            <label class="label-form-info" for="select-type">Тип аккаунта</label>
-            <div id="selectBox-info-type">
-                <select id="select-type" class="form-control">
-                    <option>Выберете тип</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
+    <div class="container">
+        <div class="moreInformation">
+            <p class="info-p">Дополнительная информация</p>
+            <div class="moreInformation-img"><a href="#"><img src="resources/images/pluse.png" alt="plus"></a></div>
+            <form id="moreInformation-form" action="#" role="form">
+                <label class="label-form-info" for="select-type">Тип аккаунта</label>
+                <div id="selectBox-info-type">
+                    <select id="select-type" class="form-control">
+                        <option>Выберете тип</option>
+                        <option>Физическое лицо</option>
+                        <option>Юридическое лицо</option>
+                        <option>Частный предпрениматель</option>
+                    </select>
+                </div>
 
-            <div class="clearfix"></div>
+                <div class="clearfix"></div>
 
-            <label class="label-form-info" for="select-sphere">Cфера деятельности/+квэды</label>
-            <div id="selectBox-info-sphere">
-                <select id="select-sphere" class="form-control">
-                    <option>Выберете сферу</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
+                <label class="label-form-info" for="select-sphere">Cфера деятельности/+квэды</label>
+                <div id="selectBox-info-sphere">
+                    <select id="select-sphere" class="form-control">
+                        <option>Выберете сферу</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
 
-            <div class="clearfix"></div>
+                <div class="clearfix"></div>
 
-            <label class="label-form-info" for="nameCompany">ФИО/Название компании</label>
-            <input id="nameCompany" class="form-info-input" name='name' type="text">
+                <label class="label-form-info" for="nameCompany">ФИО/Название компании</label>
+                <input id="nameCompany" class="form-info-input" name='name' type="text">
 
-            <div class="clearfix"></div>
+                <div class="clearfix"></div>
 
-            <label for="position" class="label-form-info">Должность</label>
-            <input id="position" type="text" name='position' class="form-info-input">
+                <label for="position" class="label-form-info">Должность</label>
+                <input id="position" type="text" name='position' class="form-info-input">
 
-            <div class="clearfix"></div>
+                <div class="clearfix"></div>
 
-            <label for="main-email-info" class="label-form-info">Основной E-mail</label>
-            <input id="main-email-info" type="email" name='email' class="form-info-input">
+                <label for="main-email-info" class="label-form-info">Основной E-mail</label>
+                <input id="main-email-info" type="email" name='email' class="form-info-input">
 
-            <div class="clearfix"></div>
+                <div class="clearfix"></div>
 
-            <div class="title-email" data-title="Добавить e-mail"><img class="email-plus" src="resources/images/pluse.png" alt="plus"></div>
-            <label for="email-info" class="label-form-info">E-mail</label>
-            <input id="email-info" type="email" name='email' class="form-info-input">
+                <div class="title-email" data-title="Добавить e-mail"><img class="email-plus" src="resources/images/pluse.png" alt="plus"></div>
+                <label for="email-info" class="label-form-info">E-mail</label>
+                <input id="email-info" type="email" name='email' class="form-info-input">
 
-            <div class="clearfix"></div>
+                <div class="clearfix"></div>
 
-            <label for="main-tel-info" class="label-form-info">Основной Телефон</label>
-            <input type="tel" name="tel" id="main-tel-info" class="input-info-min">
+                <label for="main-tel-info" class="label-form-info">Основной Телефон</label>
+                <input type="tel" name="tel" id="main-tel-info" class="input-info-min">
 
-            <div class="clearfix"></div>
+                <div class="clearfix"></div>
 
-            <div class="title-tel" data-title="Добавить телефон"><img class="tel-plus" src="resources/images/pluse.png" alt="plus"></div>
-            <label for="tel-info" class="label-form-info">Телефон</label>
-            <input type="tel" name="tel" id="tel-info" class="input-info-min">
+                <div class="title-tel" data-title="Добавить телефон"><img class="tel-plus" src="resources/images/pluse.png" alt="plus"></div>
+                <label for="tel-info" class="label-form-info">Телефон</label>
+                <input type="tel" name="tel" id="tel-info" class="input-info-min">
 
-            <div class="clearfix"></div>
+                <div class="clearfix"></div>
 
-            <label for="skype-info" class="label-form-info">Skype</label>
-            <input type="text" name="skype" id="skype-info" class="input-info-min">
+                <label for="skype-info" class="label-form-info">Skype</label>
+                <input type="text" name="skype" id="skype-info" class="input-info-min">
 
-            <div class="group-info">
+                <div class="clearfix"></div>
+
                 <label for="social-icon" class="label-form-info">Социальные сети</label>
                 <input type="text" name="social-icon" id="social-icon" class="input-info-normal" placeholder="Добавить ссылку">
-                <div class="social-icon-info">
-                    <a href="#"><img src="resources/images/twitter-info.png" alt=""></a>
-                    <a href="#"><img src="resources/images/facebook-info.png" alt=""></a>
-                    <a href="#"><img src="resources/images/skype-info.png" alt=""></a>
-                    <a href="#"><img src="resources/images/vk-info.png" alt=""></a>
-                    <a href="#"><img src="resources/images/g+info.png" alt=""></a>
-                    <a href="#"><img src="resources/images/in-info.png" alt=""></a>
+
+                <div class="clearfix"></div>
+                <div class="group-info">
+                    <label for="social-icon" class="label-form-info">Социальные сети</label>
+                    <input type="text" name="social-icon" id="social-icon" class="input-info-normal" placeholder="Добавить ссылку">
+                    <div class="social-icon-info">
+                        <a href="#"><img src="resources/images/twitter-info.png" alt=""></a>
+                        <a href="#"><img src="resources/images/facebook-info.png" alt=""></a>
+                        <a href="#"><img src="resources/images/skype-info.png" alt=""></a>
+                        <a href="#"><img src="resources/images/vk-info.png" alt=""></a>
+                        <a href="#"><img src="resources/images/g+info.png" alt=""></a>
+                        <a href="#"><img src="resources/images/in-info.png" alt=""></a>
+                    </div>
                 </div>
-            </div>
 
-            <label for="web-addresses" class="label-form-info">Ссылка на сайт</label>
-            <input type="url" name="web-addresses" id="web-addresses" class="input-info-normal" placeholder="Добавить ссылку">
+                <label for="web-addresses" class="label-form-info">Ссылка на сайт</label>
+                <input type="url" name="web-addresses" id="web-addresses" class="input-info-normal" placeholder="Добавить ссылку">
 
-            <div class="clearfix"></div>
+                <div class="clearfix"></div>
 
-            <label for="address" class="label-form-info">Адрес</label>
-            <input type="text" name="address" id="address" class="input-info-normal" placeholder="Добавить ссылку">
+                <label for="address" class="label-form-info">Адрес</label>
+                <input type="text" name="address" id="address" class="input-info-normal" placeholder="Добавить ссылку">
 
-            <div class="clearfix"></div>
+                <div class="clearfix"></div>
 
-            <label for="info-about-me" class="label-form-info">Описание о себе</label>
-            <textarea name="info-about-me" id="info-about-me" class="textarea-about-me" maxlength="3000"></textarea>
+                <label for="info-about-me" class="label-form-info">Описание о себе</label>
+                <textarea name="info-about-me" id="info-about-me" class="textarea-about-me" maxlength="3000"></textarea>
 
-            <div class="clearfix"></div>
+                <div class="clearfix"></div>
 
-            <button type="submit" class="info-submit">Сохранить</button>
-        </form>
+                <button type="submit" class="info-submit">Сохранить</button>
+            </form>
+        </div>
     </div>
-</div>
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-    <section>
-        <form id="mainInput" action="" method="post">
-            <div class="row" style="background-color: #ffffff; padding: 15px; margin-top: 25px;border: 5px solid #9acc66; border-radius: 10px;">
-                <h2 class="dop-inf">Дополнительная информация</h2>
 
+    <jsp:include page="/WEB-INF/templates/footer.jsp"/>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+    <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+    <script src="/resources/js/vendor/bootstrap.js"></script>
+    <script src="/resources/js/jquery.bxslider.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
+    <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+
+    <sec:authorize var="loggedIn" access="isAuthenticated()" />
+    <c:choose>
+        <c:when test="${loggedIn}">
+            <script src="/resources/js/autorizedHeader.js"></script>
+            <script src="/resources/js/edit-profile.js"></script>
+        </c:when>
+        <c:otherwise>
+            <script src="/resources/js/anonymHeader.js"></script>
+        </c:otherwise>
+    </c:choose>
+
+    <script src="/resources/js/main.js"></script>
+    <script src="/resources/js/logo-section.js"></script>
+    <script src="/resources/js/search-bar.js"></script>
+
+
+    <%--
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+            <section>
                 <form id="mainInput" action="" method="post">
-                    <div class="col-xs-8" style="padding-left: 5px; padding-right: 5px;">
+                    <div class="row" style="background-color: #ffffff; padding: 15px; margin-top: 25px;border: 5px solid #9acc66; border-radius: 10px;">
+                        <h2 class="dop-inf">Дополнительная информация</h2>
 
-                        <div class="input-group">
-                            <div class="left-tag">
-                                <p>Тип аккаунта</p>
-                            </div>
-                            <div class="right-tag">
-                                <select id="selectCategory">
-                                    <option value="INDIVIDUAL">физическое лицо</option>
-                                    <option value="ENTREPRENEUR">СПД</option>
-                                    <option value="LEGAL_ENTITY">юридическое лицо</option>
-                                </select>
-                            </div>
-                        </div>
+                        <form id="mainInput" action="" method="post">
+                            <div class="col-xs-8" style="padding-left: 5px; padding-right: 5px;">
 
-
-                       <!-- <div class="input-group">
-                            <div class="left-tag">
-                                <p>Сфера деятетльности/ + КВЄДы</p>
-                            </div>
-                            <div class="right-tag">
-                                <select id="selectNace">
-                                    <option value="household">торговля (00.02.03)</option>
-                                    <option value="electronics">услуги (00.05.01)</option>
-                                    <option value="apartments">банковаская деятельность (00.28.09)</option>
-                                </select>
-                            </div>
-                        </div>-->
-
-
-                        <%--<div class="input-group">--%>
-                            <%--<div class="left-tag">--%>
-                                <%--<p>Сфера деятетльности/ + КВЄДы</p>--%>
-                            <%--</div>--%>
-                            <%--<div class="right-tag">--%>
-                                <%--<select id="selectNace">--%>
-                                    <%--<option value="household">торговля (00.02.03)</option>--%>
-                                    <%--<option value="electronics">услуги (00.05.01)</option>--%>
-                                    <%--<option value="apartments">банковаская деятельность (00.28.09)</option>--%>
-                                <%--</select>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-
-
-                        <div class="input-group">
-                            <div class="left-tag">
-                                <p>ФИО/название компании</p>
-                             </div>
-                            <div class="right-tag">
-                                <input id="inputTitle" name="username" type="text" class="form-control input-sm" value="${profile.username}" required>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <div class="left-tag">
-                                <p>Должность</p>
-                            </div>
-                            <div class="right-tag">
-                                <input id="inputPosition" type="text" class="form-control input-sm" value="${profile.contact.companyDirector}" required>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <div id="emailGroup" class="add_email_field_button">
-                                <div class="left-tag">
-                                    <p>E-mail</p>
-                                </div>
-                                <div class="right-tag">
-                                    <img src="/resources/img/add-icon.png" title="Добавить e-mail" class="input_email_fields_wrap ">
-                                    <c:forEach items="${profile.contact.contactEmails}" var="id" varStatus="loopCounter">
-                                        <div><input type="email" value="${id}"><a href="#" class="remove_field" required>Удалить</a></div>
-                                    </c:forEach>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <div class="left-tag">
-                                <p>Основной номер телефона</p>
-                            </div>
-                            <div class="right-tag">
-                                <div style="display: inline-block;">
-                                    <input class="ep-mainPhone"type="text" name="mainPhoneNumber" placeholder="Введите номер телефона" value="${profile.mainPhoneNumber}">
-                                    <img src="/resources/img/add-icon.png" title="Добавить телефон" class="add_field_button">
+                                <div class="input-group">
+                                    <div class="left-tag">
+                                        <p>Тип аккаунта</p>
+                                    </div>
+                                    <div class="right-tag">
+                                        <select id="selectCategory">
+                                            <option value="INDIVIDUAL">физическое лицо</option>
+                                            <option value="ENTREPRENEUR">СПД</option>
+                                            <option value="LEGAL_ENTITY">юридическое лицо</option>
+                                        </select>
+                                    </div>
                                 </div>
 
-                                <div id="phoneGroup" class="input_fields_wrap">
 
-                                    <c:forEach items="${profile.contact.contactPhones}" var="id">
-                                        <div><input type="text" value="${id}"><a href="#" class="remove_field" required>Удалить</a></div>
-                                    </c:forEach>
+                               <!-- <div class="input-group">
+                                    <div class="left-tag">
+                                        <p>Сфера деятетльности/ + КВЄДы</p>
+                                    </div>
+                                    <div class="right-tag">
+                                        <select id="selectNace">
+                                            <option value="household">торговля (00.02.03)</option>
+                                            <option value="electronics">услуги (00.05.01)</option>
+                                            <option value="apartments">банковаская деятельность (00.28.09)</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="input-group">
+
+
                             <div class="input-group">
                                 <div class="left-tag">
-                                    <p>Skype</p>
-                                </div>
+                                    <p>ФИО/название компании</p>
+                                 </div>
                                 <div class="right-tag">
-                                    <div><input id="skype" type="text" value="${profile.contact.skypeUserName}"></div>
+                                    <input id="inputTitle" name="username" type="text" class="form-control input-sm" value="${profile.username}" required>
                                 </div>
                             </div>
-                        </div>
-                        <div class="input-group">
-                            <div id = "socLinkGroup" class="input_soc_wrap">
+                            <div class="input-group">
                                 <div class="left-tag">
-                                    <p>Социальные сети</p>
+                                    <p>Должность</p>
                                 </div>
                                 <div class="right-tag">
-                                    <a class="twit_soc_button"><img src="/resources/images/twit-icon.png"> </a>
-                                    <a class="faceb_soc_button"><img src="/resources/images/faceb-icon.png"></a>
-                                    <a class="vk_soc_button"><img src="/resources/images/vk-icon.png"></a>
-                                    <a class="goo_soc_button"><img src="/resources/images/goo-icon.png"></a>
-                                    <a class="lin_soc_button"><img src="/resources/images/link-icon.png"></a>
-                                    <c:forEach items="${profile.contact.socNetLink.values()}" var="id">
-                                        <div><input type="text" value="${id}"><a href="#" class="remove_field" required>Удалить</a>
-                                        </div>
-                                    </c:forEach>
+                                    <input id="inputPosition" type="text" class="form-control input-sm" value="${profile.contact.companyDirector}" required>
                                 </div>
                             </div>
-                        </div>
-                        <div class="input-group">
-                            <div id = "webLinkGroup" class="input-link-wrap">
+                            <div class="input-group">
+                                <div id="emailGroup" class="add_email_field_button">
+                                    <div class="left-tag">
+                                        <p>E-mail</p>
+                                    </div>
+                                    <div class="right-tag">
+                                        <img src="/resources/img/add-icon.png" title="Добавить e-mail" class="input_email_fields_wrap ">
+                                        <c:forEach items="${profile.contact.contactEmails}" var="id" varStatus="loopCounter">
+                                            <div><input type="email" value="${id}"><a href="#" class="remove_field" required>Удалить</a></div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group">
                                 <div class="left-tag">
-                                    <p>Web ссылки</p>
+                                    <p>Основной номер телефона</p>
                                 </div>
                                 <div class="right-tag">
-                                    <img src="/resources/img/add-icon.png" title="Добавить ссылку" class="add_link_button">
-                                    <c:forEach items="${profile.contact.linkToWebSite}" var="id">
-                                        <div><input type="text" value="${id}"><a href="#" class="remove_field" required>Удалить</a></div>
-                                    </c:forEach>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <div style="vertical-align: top;" class="left-tag">
-                                <p>О себе</p>
-                            </div>
-                            <div class="right-tag">
-                                <textarea id="profileDescription" rows="10" cols="45" placeholder="3000 символов" required>${profile.contact.aboutUs}</textarea>
-                            </div>
-                        </div>
+                                    <div style="display: inline-block;">
+                                        <input class="ep-mainPhone"type="text" name="mainPhoneNumber" placeholder="Введите номер телефона" value="${profile.mainPhoneNumber}">
+                                        <img src="/resources/img/add-icon.png" title="Добавить телефон" class="add_field_button">
+                                    </div>
 
-                        <input class="ep-submitButton" type="submit" value="Сохранить">
+                                    <div id="phoneGroup" class="input_fields_wrap">
+
+                                        <c:forEach items="${profile.contact.contactPhones}" var="id">
+                                            <div><input type="text" value="${id}"><a href="#" class="remove_field" required>Удалить</a></div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group">
+                                    <div class="left-tag">
+                                        <p>Skype</p>
+                                    </div>
+                                    <div class="right-tag">
+                                        <div><input id="skype" type="text" value="${profile.contact.skypeUserName}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div id = "socLinkGroup" class="input_soc_wrap">
+                                    <div class="left-tag">
+                                        <p>Социальные сети</p>
+                                    </div>
+                                    <div class="right-tag">
+                                        <a class="twit_soc_button"><img src="/resources/images/twit-icon.png"> </a>
+                                        <a class="faceb_soc_button"><img src="/resources/images/faceb-icon.png"></a>
+                                        <a class="vk_soc_button"><img src="/resources/images/vk-icon.png"></a>
+                                        <a class="goo_soc_button"><img src="/resources/images/goo-icon.png"></a>
+                                        <a class="lin_soc_button"><img src="/resources/images/link-icon.png"></a>
+                                        <c:forEach items="${profile.contact.socNetLink.values()}" var="id">
+                                            <div><input type="text" value="${id}"><a href="#" class="remove_field" required>Удалить</a>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div id = "webLinkGroup" class="input-link-wrap">
+                                    <div class="left-tag">
+                                        <p>Web ссылки</p>
+                                    </div>
+                                    <div class="right-tag">
+                                        <img src="/resources/img/add-icon.png" title="Добавить ссылку" class="add_link_button">
+                                        <c:forEach items="${profile.contact.linkToWebSite}" var="id">
+                                            <div><input type="text" value="${id}"><a href="#" class="remove_field" required>Удалить</a></div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div style="vertical-align: top;" class="left-tag">
+                                    <p>О себе</p>
+                                </div>
+                                <div class="right-tag">
+                                    <textarea id="profileDescription" rows="10" cols="45" placeholder="3000 символов" required>${profile.contact.aboutUs}</textarea>
+                                </div>
+                            </div>
+
+                            <input class="ep-submitButton" type="submit" value="Сохранить">
+                        </div>
+                    </form>
+
+                    <c:choose>
+                        <c:when test="${not empty profile.contact.pic}">
+                            <img id="avatar" src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.contact.pic}" width="200"
+                                 height="200">
+                        </c:when>
+                        <c:otherwise>
+                            <img id="avatar" src="/resources/img/defaultlogo.png" >
+                        </c:otherwise>
+                    </c:choose>
+
+                    <form id="photoInput" enctype="multipart/form-data" action="/api/rest/imagesStorage/image/upload/"
+                          method="post">
+
+
+                        <p>
+                            <label for="photofile">
+                                <img class="selectPhoto" src="/resources/img/add-icon.png"/>
+                            </label>
+                            <input id="photofile" type="file" name="file" multiple accept="image/*,image/jpeg">
+                        </p>
+                    </form>
+
+                    <div class="imgBlock">
+                        <!--uploaded images-->
                     </div>
-                </form>
-
-                <c:choose>
-                    <c:when test="${not empty profile.contact.pic}">
-                        <img id="avatar" src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.contact.pic}" width="200"
-                             height="200">
-                    </c:when>
-                    <c:otherwise>
-                        <img id="avatar" src="/resources/img/defaultlogo.png" >
-                    </c:otherwise>
-                </c:choose>
-
-                <form id="photoInput" enctype="multipart/form-data" action="/api/rest/imagesStorage/image/upload/"
-                      method="post">
-
-
-                    <p>
-                        <label for="photofile">
-                            <img class="selectPhoto" src="/resources/img/add-icon.png"/>
-                        </label>
-                        <input id="photofile" type="file" name="file" multiple accept="image/*,image/jpeg">
-                    </p>
-                </form>
-
-                <div class="imgBlock">
-                    <!--uploaded images-->
                 </div>
-            </div>
-        </form>
+            </form>
 
 
-    </section>
-
-<!-- script references -->
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
-<script src="/resources/js/jquery.maskedinput.min.js"></script>
-<script src="/resources/libs/jquery.magnific-popup.min.js"></script>
-<script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
-
-<script src="/resources/js/common.js"></script>
-
-<sec:authorize access="isAuthenticated()">
-    <script src="/resources/js/autorizedHeader.js"></script>
-</sec:authorize>
+        </section>
+    --%>
 
 
-<script>
 
-    $(function() {
-        $('.input-group img').tooltip({
-            position: {
-                my: "center bottom-20",
-                at: "center top",
-                using: function( position, feedback ) {
-                    $( this ).css( position );
-                    $( "<div>" )
-                            .addClass( "arrow" )
-                            .addClass( feedback.vertical )
-                            .addClass( feedback.horizontal )
-                            .appendTo( this );
+    <%--
+    <script>
+
+        $(function() {
+            $('.input-group img').tooltip({
+                position: {
+                    my: "center bottom-20",
+                    at: "center top",
+                    using: function( position, feedback ) {
+                        $( this ).css( position );
+                        $( "<div>" )
+                                .addClass( "arrow" )
+                                .addClass( feedback.vertical )
+                                .addClass( feedback.horizontal )
+                                .appendTo( this );
+                    }
                 }
-            }
+            });
         });
-    });
-    var imgId = '';
-    var imgDel = [];
-    var phoneArr = [];
-    var emailArr = [];
-    var socLinks = [];
-    var webLinks = [];
+        var imgId = '';
+        var imgDel = [];
+        var phoneArr = [];
+        var emailArr = [];
+        var socLinks = [];
+        var webLinks = [];
 
 
-    if ('${profile.contact.pic}'.length > 2) {
-        imgId = '${profile.contact.pic}';
-    }
-
-    // ------------------------------------------- Phone numbers multi input --------------------------------------------
-    // Add/Remove phone Input Fields Dynamically with jQuery
-    $(document).ready(function () {
-        var max_fields = 3; //maximum input boxes allowed
-        var wrapper = $(".input_fields_wrap"); //Fields wrapper
-        var add_button = $(".add_field_button"); //Add button ID
-
-
-        var phoneArr = '${profile.contact.contactPhones}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
-
-        var x = phoneArr.length; //initial text box count
-
-        $(add_button).click(function (e) { //on add input button click
-            e.preventDefault();
-            if (x < max_fields) { //max input box allowed
-                x++; //text box increment
-                $(wrapper).append('<div><input id="phone' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png"></a></div>'); //add input box
-
-                //Add mask for some input fields after add new input
-                jQuery(function ($) {
-                    $("#phone1").mask("9999999999");
-                    $("#phone2").mask("9999999999");
-                    $("#phone3").mask("9999999999");
-                });
-            }
-        });
-
-        $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
-            e.preventDefault();
-            $(this).parent('div').remove();
-            x--;
-        })
-    });
-
-    //Add mask for some input fields on page ready
-    jQuery(function ($) {
-        $("#phone1").mask("9999999999");
-        $("#phone2").mask("9999999999");
-        $("#phone3").mask("9999999999");
-    });
-    // ------------------------------------------------------- Phone numbers multi input ----------------------------
-
-
-    // ------------------------------------------- Email multi input --------------------------------------------
-    // Add/Remove phone Input Fields Dynamically with jQuery
-    $(document).ready(function () {
-        var max_fields = 3; //maximum input boxes allowed
-        var wrapper = $(".input_email_fields_wrap"); //Fields wrapper
-        var add_button = $(".add_email_field_button"); //Add button ID
-
-
-        var mailArr = '${profile.contact.contactEmails}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
-
-        var x = mailArr.length; //initial text box count
-
-        $(add_button).click(function (e) { //on add input button click
-            e.preventDefault();
-            if (x < max_fields) { //max input box allowed
-                x++; //text box increment
-                $(wrapper).append('<div><input id="email' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png"></a></div>'); //add input box
-
-            }
-        });
-
-        $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
-            e.preventDefault();
-            $(this).parent('div').remove();
-            x--;
-        })
-    });
-
-    // ------------------------------------------------------- Email multi input ----------------------------
-
-
-    // -------------------------------------------------------Soc network links --------------------------------------------
-    // Add/Remove phone Input Fields Dynamically with jQuery
-    $(document).ready(function () {
-        var max_fields = 5; //maximum input boxes allowed
-        var wrapper = $(".input_soc_wrap"); //Fields wrapper
-
-        var socArr = '${profile.contact.socNetLink.values()}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
-
-        var x = socArr.length; //initial text box count
-
-
-        $(".input_soc_wrap a").click(function(e){
-            e.preventDefault();
-
-            if (x < max_fields ) { //max input box allowed
-                x++; //text box increment
-                $(wrapper).append('<div><input id="soc' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png"></a></div>');
-            }
-        });
-
-
-        $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
-            e.preventDefault();
-            $(this).parent('div').remove();
-            x--;
-        })
-    });
-
-    //Add mask for some input fields on page ready
-    jQuery(function ($) {
-        $("#soc1").mask("9999999999");
-        $("#soc2").mask("9999999999");
-        $("#soc3").mask("9999999999");
-    });
-    //soc buttons options
-
-    // ---------------------------------------------------- Soc network links --------------------------------------------
-
-    // ------------------------------------------------------- web links --------------------------------------------
-    // Add/Remove phone Input Fields Dynamically with jQuery
-    $(document).ready(function () {
-        var max_fields = 3; //maximum input boxes allowed
-        var wrapper = $(".input-link-wrap"); //Fields wrapper
-        var add_button = $(".add_link_button"); //Add button ID
-
-
-        var socArr = '${profile.contact.linkToWebSite}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
-
-        var x = socArr.length; //initial text box count
-
-        $(add_button).click(function (e) { //on add input button click
-            e.preventDefault();
-            if (x < max_fields) { //max input box allowed
-                x++; //text box increment
-                $(wrapper).append('<div><input id="soc' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png"></a></div>'); //add input box
-
-                //Add mask for some input fields after add new input
-                jQuery(function ($) {
-                    $("#web").mask("9999999999");
-                    $("#web").mask("9999999999");
-                    $("#web").mask("9999999999");
-                });
-            }
-        });
-
-        $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
-            e.preventDefault();
-            $(this).parent('div').remove();
-            x--;
-        })
-    });
-
-    //Add mask for some input fields on page ready
-    jQuery(function ($) {
-        $("#web1").mask("9999999999");
-        $("#web2").mask("9999999999");
-        $("#web3").mask("9999999999");
-    });
-    // ---------------------------------------------------- web links --------------------------------------------
-
-    //----------------------------------------------------- Image form -----------------------------------------------
-    $(document).on('change', '#photofile', function(e) {
-        var formImg = new FormData($('#photoInput')[0]);
-
-        if (imgId !== '') {
-            deleteImgFromDB(imgId);
+        if ('${profile.contact.pic}'.length > 2) {
+            imgId = '${profile.contact.pic}';
         }
 
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/fileStorage/PROFILE/file/upload/",
-            data: formImg,
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (data, textStatus, request) {
-                imgId = data.id;
-                $('#avatar').attr("src", "/api/rest/fileStorage/PROFILE/file/read/id/" + imgId).attr("style", "width:200px; height:200px;");
-            }
-        });
-    });
-
-    //----------------------------------------------------- Image form -----------------------------------------------
-
-    // delete images before save changes in offer (must be called before update profile)
-    function deleteImgFromDB(picId) {
-        console.log(picId);
-        $.ajax({
-            url: '/api/rest/fileStorage/PROFILE/file/delete/id/'+ picId ,
-            method: 'POST',
-            success: function (response) {
-            },
-            error: function (response) {
-            }
-        });
-    }
-
-    // serialize form and sent it via POST method in JSON --------------------------BEGIN---------------------
-    $('#mainInput').submit(function (event) {
-        event.preventDefault();
-
-        var mainForm = $('#mainInput').serialize().replace(/\+/g, '%20').replace(/%0D%0A/g, "%5C%6E");
-        mainForm.contact = new Object();
-
-        var uriProfileString = decodeURIComponent(mainForm);
-        var profile = JSON.parse('{"' + decodeURI(uriProfileString).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
+        // ------------------------------------------- Phone numbers multi input --------------------------------------------
+        // Add/Remove phone Input Fields Dynamically with jQuery
+        $(document).ready(function () {
+            var max_fields = 3; //maximum input boxes allowed
+            var wrapper = $(".input_fields_wrap"); //Fields wrapper
+            var add_button = $(".add_field_button"); //Add button ID
 
 
-        $('#emailGroup').find('input').each(function () {
-            if ($(this).val().length){
-                emailArr.push($(this).val());
-            }
+            var phoneArr = '${profile.contact.contactPhones}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
+
+            var x = phoneArr.length; //initial text box count
+
+            $(add_button).click(function (e) { //on add input button click
+                e.preventDefault();
+                if (x < max_fields) { //max input box allowed
+                    x++; //text box increment
+                    $(wrapper).append('<div><input id="phone' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png"></a></div>'); //add input box
+
+                    //Add mask for some input fields after add new input
+                    jQuery(function ($) {
+                        $("#phone1").mask("9999999999");
+                        $("#phone2").mask("9999999999");
+                        $("#phone3").mask("9999999999");
+                    });
+                }
+            });
+
+            $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+                e.preventDefault();
+                $(this).parent('div').remove();
+                x--;
+            })
         });
 
-        $('#phoneGroup').find('input').each(function () {
-            if ($(this).val().length){
-                phoneArr.push($(this).val());
-            }
+        //Add mask for some input fields on page ready
+        jQuery(function ($) {
+            $("#phone1").mask("9999999999");
+            $("#phone2").mask("9999999999");
+            $("#phone3").mask("9999999999");
+        });
+        // ------------------------------------------------------- Phone numbers multi input ----------------------------
+
+
+        // ------------------------------------------- Email multi input --------------------------------------------
+        // Add/Remove phone Input Fields Dynamically with jQuery
+        $(document).ready(function () {
+            var max_fields = 3; //maximum input boxes allowed
+            var wrapper = $(".input_email_fields_wrap"); //Fields wrapper
+            var add_button = $(".add_email_field_button"); //Add button ID
+
+
+            var mailArr = '${profile.contact.contactEmails}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
+
+            var x = mailArr.length; //initial text box count
+
+            $(add_button).click(function (e) { //on add input button click
+                e.preventDefault();
+                if (x < max_fields) { //max input box allowed
+                    x++; //text box increment
+                    $(wrapper).append('<div><input id="email' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png"></a></div>'); //add input box
+
+                }
+            });
+
+            $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+                e.preventDefault();
+                $(this).parent('div').remove();
+                x--;
+            })
         });
 
-        $('#webLinkGroup').find('input').each(function () {
-            if ($(this).val().length){
-                webLinks.push($(this).val());
-            }
+        // ------------------------------------------------------- Email multi input ----------------------------
+
+
+        // -------------------------------------------------------Soc network links --------------------------------------------
+        // Add/Remove phone Input Fields Dynamically with jQuery
+        $(document).ready(function () {
+            var max_fields = 5; //maximum input boxes allowed
+            var wrapper = $(".input_soc_wrap"); //Fields wrapper
+
+            var socArr = '${profile.contact.socNetLink.values()}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
+
+            var x = socArr.length; //initial text box count
+
+
+            $(".input_soc_wrap a").click(function(e){
+                e.preventDefault();
+
+                if (x < max_fields ) { //max input box allowed
+                    x++; //text box increment
+                    $(wrapper).append('<div><input id="soc' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png"></a></div>');
+                }
+            });
+
+
+            $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+                e.preventDefault();
+                $(this).parent('div').remove();
+                x--;
+            })
         });
-        $('.input_soc_wrap').find('input').each(function () {
-            if ($(this).val().length){
-                socLinks.push($(this).val());
-            }
+
+        //Add mask for some input fields on page ready
+        jQuery(function ($) {
+            $("#soc1").mask("9999999999");
+            $("#soc2").mask("9999999999");
+            $("#soc3").mask("9999999999");
+        });
+        //soc buttons options
+
+        // ---------------------------------------------------- Soc network links --------------------------------------------
+
+        // ------------------------------------------------------- web links --------------------------------------------
+        // Add/Remove phone Input Fields Dynamically with jQuery
+        $(document).ready(function () {
+            var max_fields = 3; //maximum input boxes allowed
+            var wrapper = $(".input-link-wrap"); //Fields wrapper
+            var add_button = $(".add_link_button"); //Add button ID
+
+
+            var socArr = '${profile.contact.linkToWebSite}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
+
+            var x = socArr.length; //initial text box count
+
+            $(add_button).click(function (e) { //on add input button click
+                e.preventDefault();
+                if (x < max_fields) { //max input box allowed
+                    x++; //text box increment
+                    $(wrapper).append('<div><input id="soc' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png"></a></div>'); //add input box
+
+                    //Add mask for some input fields after add new input
+                    jQuery(function ($) {
+                        $("#web").mask("9999999999");
+                        $("#web").mask("9999999999");
+                        $("#web").mask("9999999999");
+                    });
+                }
+            });
+
+            $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+                e.preventDefault();
+                $(this).parent('div').remove();
+                x--;
+            })
         });
 
-        profile.contact = {};
-        profile.contact.contactPhones = phoneArr;
-        profile.contact.contactEmails = emailArr;
-        profile.contact.linkToWebSite = webLinks;
-        profile.contact.linkToSocial = socLinks;
-        profile.contact.type = $('#selectCategory').value;
-        profile.contact.companyDirector = $('#inputPosition').val();
-        profile.contact.skypeUserName = $('#skype').val();
-        profile.contact.aboutUs = $('#profileDescription').val();
-        profile.contact.pic = imgId;
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/profilesService/profile/update/",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(profile),
-            success: function (response) {
-                window.location.href = '/prioffice';
-            },
-            error: function (response) {
-                alert("Внутренняя ошибка сервера");
-            }
+        //Add mask for some input fields on page ready
+        jQuery(function ($) {
+            $("#web1").mask("9999999999");
+            $("#web2").mask("9999999999");
+            $("#web3").mask("9999999999");
         });
-    });
-    // serialize form and sent it via POST method in JSON --------------------------END---------------------
-    // social links
-    // decoration
+        // ---------------------------------------------------- web links --------------------------------------------
+
+        //----------------------------------------------------- Image form -----------------------------------------------
+        $(document).on('change', '#photofile', function(e) {
+            var formImg = new FormData($('#photoInput')[0]);
+
+            if (imgId !== '') {
+                deleteImgFromDB(imgId);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/fileStorage/PROFILE/file/upload/",
+                data: formImg,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data, textStatus, request) {
+                    imgId = data.id;
+                    $('#avatar').attr("src", "/api/rest/fileStorage/PROFILE/file/read/id/" + imgId).attr("style", "width:200px; height:200px;");
+                }
+            });
+        });
+
+        //----------------------------------------------------- Image form -----------------------------------------------
+
+        // delete images before save changes in offer (must be called before update profile)
+        function deleteImgFromDB(picId) {
+            console.log(picId);
+            $.ajax({
+                url: '/api/rest/fileStorage/PROFILE/file/delete/id/'+ picId ,
+                method: 'POST',
+                success: function (response) {
+                },
+                error: function (response) {
+                }
+            });
+        }
+
+        // serialize form and sent it via POST method in JSON --------------------------BEGIN---------------------
+        $('#mainInput').submit(function (event) {
+            event.preventDefault();
+
+            var mainForm = $('#mainInput').serialize().replace(/\+/g, '%20').replace(/%0D%0A/g, "%5C%6E");
+            mainForm.contact = new Object();
+
+            var uriProfileString = decodeURIComponent(mainForm);
+            var profile = JSON.parse('{"' + decodeURI(uriProfileString).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}');
+
+
+            $('#emailGroup').find('input').each(function () {
+                if ($(this).val().length){
+                    emailArr.push($(this).val());
+                }
+            });
+
+            $('#phoneGroup').find('input').each(function () {
+                if ($(this).val().length){
+                    phoneArr.push($(this).val());
+                }
+            });
+
+            $('#webLinkGroup').find('input').each(function () {
+                if ($(this).val().length){
+                    webLinks.push($(this).val());
+                }
+            });
+            $('.input_soc_wrap').find('input').each(function () {
+                if ($(this).val().length){
+                    socLinks.push($(this).val());
+                }
+            });
+
+            profile.contact = {};
+            profile.contact.contactPhones = phoneArr;
+            profile.contact.contactEmails = emailArr;
+            profile.contact.linkToWebSite = webLinks;
+            profile.contact.linkToSocial = socLinks;
+            profile.contact.type = $('#selectCategory').value;
+            profile.contact.companyDirector = $('#inputPosition').val();
+            profile.contact.skypeUserName = $('#skype').val();
+            profile.contact.aboutUs = $('#profileDescription').val();
+            profile.contact.pic = imgId;
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/profilesService/profile/update/",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(profile),
+                success: function (response) {
+                    window.location.href = '/prioffice';
+                },
+                error: function (response) {
+                    alert("Внутренняя ошибка сервера");
+                }
+            });
+        });
+        // serialize form and sent it via POST method in JSON --------------------------END---------------------
+        // social links
+        // decoration
 
 
 
-</script>
+    </script>
+    --%>
 </body>
 </html>

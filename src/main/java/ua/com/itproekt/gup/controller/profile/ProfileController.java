@@ -50,24 +50,25 @@ public class ProfileController {
 
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @RequestMapping(value = "/edit-profile", method = RequestMethod.GET)
-    public String editProfilePage(Model model) {
-        Profile profile = new Profile();
-        String userId;
-
-        if (SecurityOperations.isUserLoggedIn()) {
-            userId = SecurityOperations.getLoggedUserId();
+    public String editProfilePage(Model model, @RequestParam(required = false) String profileId) {
+//        Profile profile = new Profile();
+//        String profileId;
+//
+        if (profileId == null) {
+            profileId = SecurityOperations.getLoggedUserId();
         } else {
+            ///
             return "loginForm";
         }
 
-        try {
-            profile = profilesService.findByIdWholeProfile(userId);
-        } catch (Exception e) {
-            System.out.println("Can't read profile by id: " +userId);
-            e.printStackTrace();
-        }
-
-        model.addAttribute("profile", profile);
+//        try {
+//            profile = profilesService.findByIdWholeProfile(userId);
+//        } catch (Exception e) {
+//            System.out.println("Can't read profile by id: " +userId);
+//            e.printStackTrace();
+//        }
+//
+        model.addAttribute("profileId", profileId);
         return "edit-profile";
     }
 
