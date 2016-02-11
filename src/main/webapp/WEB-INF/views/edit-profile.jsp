@@ -88,7 +88,7 @@
 <div class="container">
     <div class="moreInformation">
         <p class="info-p">Дополнительная информация</p>
-        <div class="moreInformation-img"></div>
+        <div class="moreInformation-img"><a href="#"><img src="resources/images/pluse.png" alt="plus"></a></div>
         <form id="moreInformation-form" action="#" role="form">
             <label class="label-form-info" for="select-type">Тип аккаунта</label>
             <div id="selectBox-info-type">
@@ -117,12 +117,12 @@
             <div class="clearfix"></div>
 
             <label class="label-form-info" for="nameCompany">ФИО/Название компании</label>
-            <input id="nameCompany" class="form-info-input" name='name' type="text" value="${profile.username}" required>
+            <input id="nameCompany" class="form-info-input" name='name' type="text">
 
             <div class="clearfix"></div>
 
             <label for="position" class="label-form-info">Должность</label>
-            <input id="position" type="text" name='position' class="form-info-input" value="${profile.contact.companyDirector}" required>
+            <input id="position" type="text" name='position' class="form-info-input">
 
             <div class="clearfix"></div>
 
@@ -131,6 +131,7 @@
 
             <div class="clearfix"></div>
 
+            <div class="title-email" data-title="Добавить e-mail"><img class="email-plus" src="resources/images/pluse.png" alt="plus"></div>
             <label for="email-info" class="label-form-info">E-mail</label>
             <input id="email-info" type="email" name='email' class="form-info-input">
 
@@ -141,6 +142,7 @@
 
             <div class="clearfix"></div>
 
+            <div class="title-tel" data-title="Добавить телефон"><img class="tel-plus" src="resources/images/pluse.png" alt="plus"></div>
             <label for="tel-info" class="label-form-info">Телефон</label>
             <input type="tel" name="tel" id="tel-info" class="input-info-min">
 
@@ -149,12 +151,18 @@
             <label for="skype-info" class="label-form-info">Skype</label>
             <input type="text" name="skype" id="skype-info" class="input-info-min">
 
-            <div class="clearfix"></div>
-
-            <label for="social-icon" class="label-form-info">Социальные сети</label>
-            <input type="text" name="social-icon" id="social-icon" class="input-info-normal" placeholder="Добавить ссылку">
-
-            <div class="clearfix"></div>
+            <div class="group-info">
+                <label for="social-icon" class="label-form-info">Социальные сети</label>
+                <input type="text" name="social-icon" id="social-icon" class="input-info-normal" placeholder="Добавить ссылку">
+                <div class="social-icon-info">
+                    <a href="#"><img src="resources/images/twitter-info.png" alt=""></a>
+                    <a href="#"><img src="resources/images/facebook-info.png" alt=""></a>
+                    <a href="#"><img src="resources/images/skype-info.png" alt=""></a>
+                    <a href="#"><img src="resources/images/vk-info.png" alt=""></a>
+                    <a href="#"><img src="resources/images/g+info.png" alt=""></a>
+                    <a href="#"><img src="resources/images/in-info.png" alt=""></a>
+                </div>
+            </div>
 
             <label for="web-addresses" class="label-form-info">Ссылка на сайт</label>
             <input type="url" name="web-addresses" id="web-addresses" class="input-info-normal" placeholder="Добавить ссылку">
