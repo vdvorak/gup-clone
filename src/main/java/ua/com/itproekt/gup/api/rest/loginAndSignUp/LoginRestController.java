@@ -29,14 +29,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 
 @RestController
 public class LoginRestController {
 	private Logger logger = Logger.getLogger(LoginRestController.class);
 
-	private final int ACCESS_TOKEN_EXPIRES_IN_SECONDS = 600 - 3;
-	private final int REFRESH_TOKEN_EXPIRES_IN_SECONDS = 2592000 - 3;
+	private final int ACCESS_TOKEN_EXPIRES_IN_SECONDS = (int)TimeUnit.MINUTES.toSeconds(10);
+	private final int REFRESH_TOKEN_EXPIRES_IN_SECONDS = (int)TimeUnit.DAYS.toSeconds(30);
 
 	@Autowired
 	ProfilesService profileService;

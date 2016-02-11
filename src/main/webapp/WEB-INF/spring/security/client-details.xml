@@ -7,18 +7,6 @@
                       http://www.springframework.org/schema/security/oauth2
 					  http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
 
-    <!--<oauth:client-details-service id="clientDetails">-->
-        <!--&lt;!&ndash; client &ndash;&gt;-->
-        <!--<oauth:client client-id="restapp"-->
-        <!--authorized-grant-types="authorization_code,client_credentials"-->
-        <!--authorities="ROLE_APP" scope="read,write,trust" secret="secret" />-->
-    <!-- -->
-        <!--<oauth:client client-id="restapp"-->
-        <!--authorized-grant-types="password,authorization_code,refresh_token,implicit"-->
-        <!--secret="restapp" authorities="ROLE_APP" />-->
-
-    <!--</oauth:client-details-service>-->
-
     <!-- File based client details access
          This can be replaced with a persistence store implementation if there are more than a handful of clients-->
     <oauth:client-details-service id="clientDetails">
