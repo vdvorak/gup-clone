@@ -43,78 +43,73 @@
             <li class='tab-news'><a href="#tabs1-blogs">Блоги</a></li>
             <li class='tab-news'><a href="#tabs1-news">Новости</a></li>
         </ul>
+
         <div id="tabs1-blogs">
-
-
             <div>
                 <div id="startBlock">
                     <div class="blogs">
                         <a href="#"><img class="blogs-img" src="resources/images/1+1.png" alt="1+1"></a>
-                        <a href="#" class="nameBlogs">Название блога (блоггера)</a>
-
-                        <p class="text-blogs">Блог (англ. blog, от web log — интернет-журнал событий, интернет-дневник,
-                            онлайн-дневник) — веб-сайт, основное содержимое которого — регулярно добавляемые записи,
-                            содержащие
-                            текст, изображения или мультимедиа.</p>
-
-                        <%--<p class="DateOfCreation-blogs">Дата создания: </p>--%>
-
+                        <a href="#" class="nameBlogs"></a>
+                        <p class="text-blogs"></p>
                         <p class="DateOfCreation-blogs-num">Дата создания: </p>
                     </div>
                 </div>
                 <button id="nextPage">Загрузить ещё блоги</button>
             </div>
         </div>
+
+        <div id="tabs1-news">
+            <div class="NewsTabsFilter">
+                <p class="NewsTabsFilterItem">Киев</p>
+                <p class="NewsTabsFilterItem">Днепропетровск</p>
+                <p class="NewsTabsFilterItem">Запорожье</p>
+                <p class="NewsTabsFilterItem">Львов</p>
+                <p class="NewsTabsFilterItem">Одесса</p>
+                <p class="NewsTabsFilterItem">Полтава</p>
+                <p class="NewsTabsFilterItem">Харьков</p>
+            </div>
+            <div class="VIPNewsLarge">
+                <a href="#" class="descriptionLarge">Бизнес-столица: Куда лучше вложить деньги?</a>
+            </div>
+            <div class="VIPNewsSmall">
+                <a href="#" class="descriptionSmall">5 простых советов в кризис</a>
+            </div>
+            <div class="VIPNewsExtraSmall">
+                <a href="#" class="descriptionExtraSmall">5 простых советов в кризис</a>
+            </div>
+            <div class="VIPNewsMedium">
+                <a href="#" class="descriptionMedium">10 ошибок при управлении личными финансами</a>
+            </div>
+            <div class="normalNews">
+                <a href="#"><img src="/resources/css/images/grandmother.png" alt="grandmother"></a>
+                <a class="descriptionNormalNews" href="#">Студенты “топовых” бизнес—школ мира предпочитают практиковаться на стартапах</a>
+                <p class="descriptionNormalNews2">&nbsp;&nbsp;Департаменты ведущих бизнес-школ мира, отвечающие за помощь студентам в трудоустройстве, отмечают существенный рост интереса студентов к прохождению летней практики в стартапах. В этом году таких студентов, по некоторым оценкам, уже 2/3.</p>
+                <p class="normalNews-p">Просмотров: 22.10. 2016</p>
+                <p class="normalNews-p2">Опубликовано: 22.10. 2016</p>
+                <p class="normalNews-p3">Комментарии: 123</p>
+            </div>
+            <div class="normalNews">
+                <a href="#"><img src="/resources/css/images/infographics.png" alt="infographics"></a>
+                <a class="descriptionNormalNews" href="#">Ламер-юзер-прогер*</a>
+                <p class="descriptionNormalNews2">&nbsp;&nbsp;В Украине намечается революция в IT—образовании</p>
+                <p class="normalNews-p">Просмотров: 22.10. 2016</p>
+                <p class="normalNews-p2">Опубликовано: 22.10. 2016</p>
+                <p class="normalNews-p3">Комментарии: 123</p>
+            </div>
+            <div class="normalNews">
+                <a href="#"><img src="/resources/css/images/grandmother.png" alt="grandmother"></a>
+                <a class="descriptionNormalNews" href="#">Студенты “топовых” бизнес—школ мира предпочитают практиковаться на стартапах</a>
+                <p class="descriptionNormalNews2">&nbsp;&nbsp;Департаменты ведущих бизнес-школ мира, отвечающие за помощь студентам в трудоустройстве, отмечают существенный рост интереса студентов к прохождению летней практики в стартапах. В этом году таких студентов, по некоторым оценкам, уже 2/3.</p>
+                <p class="normalNews-p">Просмотров: 22.10. 2016</p>
+                <p class="normalNews-p2">Опубликовано: 22.10. 2016</p>
+                <p class="normalNews-p3">Комментарии: 123</p>
+            </div>
+        </div>
+
     </div>
-    <div id="tabs1-news">
-        <div class="NewsTabsFilter">
-            <p class="NewsTabsFilterItem">Киев</p>
-            <p class="NewsTabsFilterItem">Днепропетровск</p>
-            <p class="NewsTabsFilterItem">Запорожье</p>
-            <p class="NewsTabsFilterItem">Львов</p>
-            <p class="NewsTabsFilterItem">Одесса</p>
-            <p class="NewsTabsFilterItem">Полтава</p>
-            <p class="NewsTabsFilterItem">Харьков</p>
-        </div>
-        <div class="VIPNewsLarge">
-            <a href="#" class="descriptionLarge">Бизнес-столица: Куда лучше вложить деньги?</a>
-        </div>
-        <div class="VIPNewsSmall">
-            <a href="#" class="descriptionSmall">5 простых советов в кризис</a>
-        </div>
-        <div class="VIPNewsExtraSmall">
-            <a href="#" class="descriptionExtraSmall">5 простых советов в кризис</a>
-        </div>
-        <div class="VIPNewsMedium">
-            <a href="#" class="descriptionMedium">10 ошибок при управлении личными финансами</a>
-        </div>
-        <div class="normalNews">
-            <a href="#"><img src="/resources/css/images/grandmother.png" alt="grandmother"></a>
-            <a class="descriptionNormalNews" href="#">Студенты “топовых” бизнес—школ мира предпочитают практиковаться на стартапах</a>
-            <p class="descriptionNormalNews2">&nbsp;&nbsp;Департаменты ведущих бизнес-школ мира, отвечающие за помощь студентам в трудоустройстве, отмечают существенный рост интереса студентов к прохождению летней практики в стартапах. В этом году таких студентов, по некоторым оценкам, уже 2/3.</p>
-            <p class="normalNews-p">Просмотров: 22.10. 2016</p>
-            <p class="normalNews-p2">Опубликовано: 22.10. 2016</p>
-            <p class="normalNews-p3">Комментарии: 123</p>
-        </div>
-        <div class="normalNews">
-            <a href="#"><img src="/resources/css/images/infographics.png" alt="infographics"></a>
-            <a class="descriptionNormalNews" href="#">Ламер-юзер-прогер*</a>
-            <p class="descriptionNormalNews2">&nbsp;&nbsp;В Украине намечается революция в IT—образовании</p>
-            <p class="normalNews-p">Просмотров: 22.10. 2016</p>
-            <p class="normalNews-p2">Опубликовано: 22.10. 2016</p>
-            <p class="normalNews-p3">Комментарии: 123</p>
-        </div>
-        <div class="normalNews">
-            <a href="#"><img src="/resources/css/images/grandmother.png" alt="grandmother"></a>
-            <a class="descriptionNormalNews" href="#">Студенты “топовых” бизнес—школ мира предпочитают практиковаться на стартапах</a>
-            <p class="descriptionNormalNews2">&nbsp;&nbsp;Департаменты ведущих бизнес-школ мира, отвечающие за помощь студентам в трудоустройстве, отмечают существенный рост интереса студентов к прохождению летней практики в стартапах. В этом году таких студентов, по некоторым оценкам, уже 2/3.</p>
-            <p class="normalNews-p">Просмотров: 22.10. 2016</p>
-            <p class="normalNews-p2">Опубликовано: 22.10. 2016</p>
-            <p class="normalNews-p3">Комментарии: 123</p>
-        </div>
-    </div>
+
   </div>
-</div>
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
 <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
 <script src="/resources/js/vendor/bootstrap.js"></script>
