@@ -69,15 +69,21 @@ public class DialogueServiceImpl implements DialogueService {
     }
 
     @Override
+    public List<Dialogue> findDialogsForUserAndUpdateUnread(String currentUserId) {
+        Member member = new Member();
+        member.setId(currentUserId);
+        List<Dialogue> d1 = dr.findByMembersIn(member);
+        for (Dialogue d : d1) {
+            updateCountersWhenRead(d);
+        }
+        return d1;
+    }
+
+    @Override
     public List<Dialogue> findDialogsForUser(String currentUserId) {
         Member member = new Member();
         member.setId(currentUserId);
         List<Dialogue> d1 = dr.findByMembersIn(member);
-        System.out.println("!!!!!!!! findByMembersIn !!!!!!!! d1.isEmpty() = " + d1.isEmpty());
-        for (Dialogue d : d1) {
-            System.out.println("DialogueServiceImpl.findDialogsForUser() d = " + d);
-            updateCountersWhenRead(d);
-        }
         return d1;
     }
 
