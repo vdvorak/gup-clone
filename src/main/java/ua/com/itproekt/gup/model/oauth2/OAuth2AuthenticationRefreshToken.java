@@ -22,7 +22,7 @@ public class OAuth2AuthenticationRefreshToken implements Serializable {
     private final OAuth2RefreshToken oAuth2RefreshToken;
     private final OAuth2Authentication authentication;
 
-    @Indexed(expireAfterSeconds = 60*60*24*30)
+    @Indexed(expireAfterSeconds = 60*60*24*31)
     private Date createdDate = new Date();
 
     public OAuth2AuthenticationRefreshToken(OAuth2RefreshToken oAuth2RefreshToken, OAuth2Authentication authentication) {

@@ -69,8 +69,7 @@ public class LoginRestController {
 			StringWriter stack = new StringWriter();
 			ex.printStackTrace(new PrintWriter(stack));
 			logger.debug(stack.toString());
-		}
-		if (loggedUser == null) {
+
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
@@ -81,10 +80,11 @@ public class LoginRestController {
 
 		Authentication userAuthentication = new UsernamePasswordAuthenticationToken(loggedUser,
 				loggedUser.getPassword(), loggedUser.getAuthorities());
-
 		OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, userAuthentication);
-
 		OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
+
+		System.err.println("oAuth2AccessToken.getExpiration()" + oAuth2AccessToken.getExpiration());
+
 
 		Cookie cookieAuthToken = new Cookie("authToken", oAuth2AccessToken.getValue());
 		cookieAuthToken.setMaxAge(ACCESS_TOKEN_EXPIRES_IN_SECONDS);
