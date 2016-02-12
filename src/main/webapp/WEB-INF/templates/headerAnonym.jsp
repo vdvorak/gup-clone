@@ -3,7 +3,7 @@
 <!-- не залогиненный -->
 
 <div class="menu">
-  <div class="container">
+  <div class="container2">
     <div class="notLogged">
       <ul class="notLogged-ul">
         <li class="notLogged-li"><a id='go' href="#">Регистрация</a></li>
