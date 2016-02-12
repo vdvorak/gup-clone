@@ -40,22 +40,14 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
-    public Profile findProfileById(String id) {
+    public Profile findById(String id) {
         Query query = new Query(Criteria.where("id").is(id));
-        query.fields().exclude("email");
-        query.fields().exclude("password");
-        query.fields().exclude("mainPhoneNumber");
         return mongoTemplate.findOne(query, Profile.class);
     }
 
     @Override
     public Profile findProfileAndUpdate(Profile profile) {
         return MongoTemplateOperations.updateFieldsAndReturnUpdatedObj(profile);
-    }
-
-    @Override
-    public void updateProfile(Profile profile) {
-        mongoTemplate.save(profile);
     }
 
     @Override
@@ -99,12 +91,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
                                 mongoTemplate.find(query, Profile.class));
     }
 
-    @Deprecated
-    @Override
-    public List<Profile> findAll(){
-        return mongoTemplate.findAll(Profile.class);
-    }
-
     @Override
     public Set<String> getMatchedNames(String term) {
         String searchFieldRegex = "(?i:.*" + term + ".*)";
@@ -136,6 +122,8 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
         mongoTemplate.updateFirst(addContactQuery, update, Profile.class);
     }
+
+
 
     @Override
     public Profile findByUsername(String username) {
@@ -186,13 +174,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         mongoTemplate.updateFirst(
                 Query.query(Criteria.where("id").is(profileId)),
                 new Update().push("friendList", friendProfileId), Profile.class);
-    }
-
-    @Deprecated
-    @Override
-    public Profile findUserProfile(String profileId) {
-        Query query = new Query(Criteria.where("id").is(profileId));
-        return mongoTemplate.findOne(query, Profile.class);
     }
 
     @Override

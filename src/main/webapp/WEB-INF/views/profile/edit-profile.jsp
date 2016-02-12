@@ -44,15 +44,21 @@
     <div class="container">
         <div class="moreInformation">
             <p class="info-p">Дополнительная информация</p>
-            <div class="moreInformation-img"><a href="#"><img src="resources/images/pluse.png" alt="plus"></a></div>
-            <form id="moreInformation-form" action="#" role="form">
+
+            <form id="uploadProfilePhotoForm">
+                <input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" style="display:none">
+            </form>
+            <div class="moreInformation-img" id="addProfileImg">
+                <a><img src="resources/images/pluse.png" alt="plus"></a>
+            </div>
+            <div id="moreInformation-form">
                 <label class="label-form-info" for="select-type">Тип аккаунта</label>
                 <div id="selectBox-info-type">
                     <select id="select-type" class="form-control">
-                        <option>Выберете тип</option>
-                        <option>Физическое лицо</option>
-                        <option>Юридическое лицо</option>
-                        <option>Частный предпрениматель</option>
+                        <option value="">Выберете тип</option>
+                        <option value="INDIVIDUAL">Физическое лицо</option>
+                        <option value="LEGAL_ENTITY">Юридическое лицо</option>
+                        <option value="ENTREPRENEUR">Частный предпрениматель</option>
                     </select>
                 </div>
 
@@ -140,8 +146,8 @@
 
                 <div class="clearfix"></div>
 
-                <button type="submit" class="info-submit">Сохранить</button>
-            </form>
+                <button id="updateProfileBtn" class="info-submit">Сохранить</button>
+            </div>
         </div>
     </div>
 
@@ -155,22 +161,134 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
     <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
-    <sec:authorize var="loggedIn" access="isAuthenticated()" />
-    <c:choose>
-        <c:when test="${loggedIn}">
+    <%--<sec:authorize var="loggedIn" access="isAuthenticated()" />--%>
+    <%--<c:choose>--%>
+        <%--<c:when test="${loggedIn}">--%>
             <script src="/resources/js/autorizedHeader.js"></script>
-            <script src="/resources/js/edit-profile.js"></script>
-        </c:when>
-        <c:otherwise>
-            <script src="/resources/js/anonymHeader.js"></script>
-        </c:otherwise>
-    </c:choose>
+        <%--</c:when>--%>
+        <%--<c:otherwise>--%>
+            <%--<script src="/resources/js/anonymHeader.js"></script>--%>
+        <%--</c:otherwise>--%>
+    <%--</c:choose>--%>
 
     <script src="/resources/js/main.js"></script>
     <script src="/resources/js/logo-section.js"></script>
     <script src="/resources/js/search-bar.js"></script>
 
 
+    <script>
+        var profileId = "${profileId}";
+        var loadedProfile = {};
+        var updatedProfile = {};
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/profilesService/profile/read/id/" + profileId + "/wholeProfile",
+            statusCode: {
+                200: function (profile) {
+                    loadedProfile = profile;
+
+                    updatedProfile.contact = loadedProfile.contact;
+                    updatedProfile.userProfile = loadedProfile.userProfile;
+
+//                    alert("profileId: " + profileId + ":: JSON.stringify(loadedProfile): " + JSON.stringify(loadedProfile));
+//                    alert( JSON.stringify(updatedProfile));
+
+                    if (profile.contact.pic != null) {
+                        $('.moreInformation-img').css('background',
+                                'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center');
+                    }
+
+                    $('#select-type').val(profile.contact.type);
+                    $('#nameCompany').val(profile.username);
+                    $('#main-email-info').val(profile.email);
+                    $('#main-tel-info').val(profile.mainPhoneNumber);
+                    $('#skype-info').val(profile.contact.skypeUserName);
+                    $('#info-about-me').val(profile.contact.aboutUs);
+
+//                    $('#tel-info').attr("placeholder", profile.contact.O);
+//                    $('#email-info').val(profile.contact.email);
+                }
+            }
+        });
+
+        $(document).on('click', '#updateProfileBtn', function () {
+            updatedProfile.id = loadedProfile.id;
+
+            if(loadedProfile.username !== $('#nameCompany').val()) {
+                updatedProfile.username = $('#nameCompany').val();
+            }
+
+            if(loadedProfile.contact.type !== $('#select-type').val() && $('#select-type').val() !== "") {
+                updatedProfile.contact.type = $('#select-type').val();
+            }
+
+            if(loadedProfile.contact.aboutUs !== $('#info-about-me').val()) {
+                updatedProfile.contact.aboutUs = $('#info-about-me').val();
+            }
+
+            if(loadedProfile.contact.skypeUserName !== $('#skype-info').val()) {
+                updatedProfile.contact.skypeUserName = $('#skype-info').val();
+            }
+
+//            if(loadedProfile.contact.linkToWebSite !== $('#web-addresses').val()) {
+//                updatedProfile.contact.linkToWebSite.push($('#web-addresses').val());
+//            }
+
+            if(loadedProfile.mainPhoneNumber !== $('#main-tel-info').val()) {
+                updatedProfile.mainPhoneNumber = $('#main-tel-info').val();
+            }
+
+//            alert("JSON.stringify(updatedProfile):: " + JSON.stringify(updatedProfile));
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/profilesService/profile/edit",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(updatedProfile),
+                statusCode: {
+                    200: function () {
+                        window.location.href = '/profile/id/' + updatedProfile.id;
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '#addProfileImg', function () {
+            $("#uploadProfilePhotoInput").click();
+        });
+
+        $(document).on('change', '#uploadProfilePhotoInput', function (e) {
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1", //
+                data: new FormData($("#uploadProfilePhotoForm")[0]),
+                enctype: 'multipart/form-data',
+//                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                statusCode: {
+                    201: function (data) {
+//                        alert('201');
+                        updatedProfile.contact.pic = data.id;
+                        $('.moreInformation-img').css('background',
+                                'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');
+
+                    },
+                    400: function () {
+                        alert('400');
+                    }
+                }
+            });
+        });
+
+    </script>
+    <script src="/resources/js/edit-profile.js"></script>
+
+</body>
+</html>
     <%--
         <br>
         <br>
@@ -641,5 +759,4 @@
 
     </script>
     --%>
-</body>
-</html>
+

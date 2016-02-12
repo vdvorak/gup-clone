@@ -19,6 +19,8 @@ public interface ProfilesService {
      */
     void createProfile(Profile profile);
 
+    Profile findById(String id);
+
     /**
      * Read by id profile.
      *
@@ -33,7 +35,7 @@ public interface ProfilesService {
      * @param currentProfile the current profile
      * @return the profile
      */
-    Profile updateProfile(Profile currentProfile);
+    Profile editProfile(Profile currentProfile);
 
     /**
      * Delete profile by id.
@@ -125,10 +127,6 @@ public interface ProfilesService {
      * @param friendProfileId the friend profile id
      */
     void addFriend(String profileId, String friendProfileId);
-
-    Profile findUserProfile(String profileId);
-
-    List<Profile> findAllWithoutOptions();
 
     Set<String> getMatchedNames(String term);
 

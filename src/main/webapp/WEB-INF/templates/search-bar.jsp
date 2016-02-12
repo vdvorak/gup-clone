@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<div class="container">
+<div class="container2">
     <div class="search">
         <%--<form action="#" id="form" role="form">--%>
         <input type="text" id="searchInput" class="form-control sear" name="search" placeholder="Поиск">

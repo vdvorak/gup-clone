@@ -18,8 +18,8 @@ public class Contact {
     private Set<String> contactEmails;
     private Set<String> contactPhones;
     private Map<SocialNetwork, String> socNetLink;
-    private String skypeUserName;
     private Set<String> linkToWebSite;
+    private String skypeUserName;
     private String aboutUs;
     private Nace nace;
     private String pic;
@@ -27,8 +27,15 @@ public class Contact {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Long lastUpdate;
     private boolean member;
-
     private List<String> naceId;
+
+    public Long getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Long lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
 
     /**
      * Instantiates a new created date of Contact.
@@ -178,9 +185,6 @@ public class Contact {
      * @param aboutUs the about us
      */
     public void setAboutUs(String aboutUs) {
-        if (aboutUs.length() > 3000) {
-            aboutUs = aboutUs.substring(0, 3000);
-        }
         this.aboutUs = aboutUs;
     }
 

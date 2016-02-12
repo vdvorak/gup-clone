@@ -60,6 +60,7 @@ public class FileStorageRestController {
                @RequestParam(required = false, defaultValue = "false") boolean cacheImage){
 
         if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
+            System.err.println("        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {\n");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -71,6 +72,7 @@ public class FileStorageRestController {
                         file.getOriginalFilename());
 
                 if (cacheImage){
+                    System.err.println("if cacheImage file.getContentType()::" + file.getContentType());
                     if (file.getContentType().startsWith("image/")) {
                         storageService.cacheImage(serviceName.toUpperCase(),
                                 uploadedFileId,
@@ -84,6 +86,8 @@ public class FileStorageRestController {
 
                 return new ResponseEntity<>(new CreatedObjResponse(uploadedFileId), HttpStatus.CREATED);
             } catch (IOException e) {
+                System.err.println("IOException");
+
                 StringWriter stack = new StringWriter();
                 e.printStackTrace(new PrintWriter(stack));
                 LOG.error(stack.toString());
@@ -91,6 +95,8 @@ public class FileStorageRestController {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         } else {
+            System.err.println("else BAD_REQUEST");
+
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
