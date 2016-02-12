@@ -10,11 +10,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
+import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CreatedObjResponse;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -41,19 +44,15 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResponse> createProfile(@RequestBody Profile profile) {
-        CreatedObjResponse createdObjResponse = null;
-        try {
-            if (profilesService.profileExistsWithEmail(profile.getEmail())) {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            }
-
-            profilesService.createProfile(profile);
-            verificationTokenService.sendEmailRegistrationToken(profile.getId());
-
-            createdObjResponse = new CreatedObjResponse(profile.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (profilesService.profileExistsWithEmail(profile.getEmail())) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+
+        profilesService.createProfile(profile);
+        verificationTokenService.sendEmailRegistrationToken(profile.getId());
+
+        CreatedObjResponse createdObjResponse = new CreatedObjResponse(profile.getId());
+
         return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
     }
 
@@ -66,11 +65,27 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Profile> getProfileById(@PathVariable String id) {
-        Profile profile = profilesService.findByIdWholeProfile(id);
+        Profile profile = profilesService.findById(id);
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(profile, HttpStatus.OK);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/read/id/{profileId}/wholeProfile", method = RequestMethod.POST)
+    public ResponseEntity<Profile> readUserProfile(@PathVariable String profileId, HttpServletRequest request) {
+        Profile profile = profilesService.findByIdWholeProfile(profileId);
+        if (profile == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+        if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+            return new ResponseEntity<>(profile, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -121,43 +136,45 @@ public class ProfileRestController {
      * @param newProfile the new profile with id of entity in request body
      * @return the response status
      */
-    @RequestMapping(value = "/profile/update", method = RequestMethod.POST,
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/edit", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Profile> updateProfile(@RequestBody Profile newProfile) {
-        try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            Profile profile = profilesService.findProfileByEmail(auth.getName());
-            newProfile.setId(profile.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Profile> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request) {
+        if (!profilesService.profileExists(newProfile.getId())) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(profilesService.updateProfile(newProfile), HttpStatus.OK);
+
+        Profile profile= profilesService.findById(newProfile.getId());
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+        if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+            profilesService.editProfile(newProfile);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
-
-    @RequestMapping(value = "/profile/updateByAdmin", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Profile> updateProfileByAdmin(@RequestBody Profile newProfile) {
-        return new ResponseEntity<>(profilesService.updateProfile(newProfile), HttpStatus.OK);
-    }
-
-
-
-
 
     /**
      * Delete profile by profile id.
      *
-     * @param id the profile id
+     * @param profileId the profile id
      * @return the response status
      */
-    @RequestMapping(value = "/profile/delete/id/{id}", method = RequestMethod.POST)
-    public ResponseEntity<Profile> deleteProfile(@PathVariable("id") String id) {
-        if (!profilesService.profileExists(id)) {
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/delete/id/{profileId}", method = RequestMethod.POST)
+    public ResponseEntity<Profile> deleteProfile(@PathVariable String profileId, HttpServletRequest request) {
+        if (!profilesService.profileExists(profileId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        profilesService.deleteProfileById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+        Profile profile = profilesService.findById(profileId);
+        if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+            profilesService.deleteProfileById(profileId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 
     /**
@@ -175,15 +192,6 @@ public class ProfileRestController {
         String profileId = SecurityOperations.getLoggedUserId();
         profilesService.addFriend(profileId, friendID);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/profile/read/id/{profileId}/userProfile/read", method = RequestMethod.POST)
-    public ResponseEntity<Profile> readUserProfile(@PathVariable String profileId) {
-        Profile profile = profilesService.findUserProfile(profileId);
-        if (profile == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
     @ResponseBody

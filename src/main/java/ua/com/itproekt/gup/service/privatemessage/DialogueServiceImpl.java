@@ -86,7 +86,7 @@ public class DialogueServiceImpl implements DialogueService {
         List<Member> members = dialogue.getMembers();
         for (Member m : members) {
             if (m.getId() != null) {
-                Profile profile = pr.findProfileById(m.getId());
+                Profile profile = pr.findById(m.getId());
                 m.setName(profile.getUsername());
                 m.setUserPicId(profile.getContact().getPic());
             }
@@ -136,7 +136,7 @@ public class DialogueServiceImpl implements DialogueService {
             if(user.getUnreadMessages() == null) user.setUnreadMessages(0);
             Integer p = user.getUnreadMessages() - wasUnread;
             user.setUnreadMessages(p);
-            pr.updateProfile(user);
+            pr.findProfileAndUpdate(user);
         } else {
             dialogue.getUnreadMsgCounter().put(user.getId(), 0);
         }
@@ -150,11 +150,11 @@ public class DialogueServiceImpl implements DialogueService {
                 .filter(id -> !id.equals(user.getId()))
                 .collect(Collectors.toList());
 
-                ids.parallelStream().forEach(id -> profiles.add(pr.findProfileById(id)));
+                ids.parallelStream().forEach(id -> profiles.add(pr.findById(id)));
         profiles.parallelStream().forEach(p -> {
             if (p.getUnreadMessages() == null) p.setUnreadMessages(1);
             else p.setUnreadMessages(p.getUnreadMessages() + 1);
-            pr.updateProfile(p);
+            pr.findProfileAndUpdate(p);
         });
 
         ids.parallelStream().forEach(id -> {

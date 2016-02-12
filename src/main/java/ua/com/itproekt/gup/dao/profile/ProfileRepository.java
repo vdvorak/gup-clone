@@ -21,27 +21,12 @@ public interface ProfileRepository {
     void createProfile(Profile profile);
 
     /**
-     * Find profile by id profile.
-     *
-     * @param id the id
-     * @return the profile
-     */
-    Profile findProfileById(String id);
-
-    /**
      * Find profile and update profile.
      *
      * @param profile the profile
      * @return the profile
      */
     Profile findProfileAndUpdate(Profile profile);
-
-    /**
-     * Update profile.
-     *
-     * @param profile the profile
-     */
-    void updateProfile(Profile profile);
 
     /**
      * Delete profile by id int.
@@ -134,16 +119,15 @@ public interface ProfileRepository {
      */
     void addFriend(String profileId, String friendProfileId);
 
-    Profile findUserProfile(String profileId);
-
     void addUserRole(String profileId, UserRole userRole);
 
     void deleteUserRole(String profileId, UserRole userRole);
 
-    List<Profile> findAll();
-
     Set<String> getMatchedNames(String term);
 
     void addContactToContactList(String profileOwnerContactListId, String contactId);
+
+    Profile findById(String id);
+
 }
 

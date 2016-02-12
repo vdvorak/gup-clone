@@ -39,7 +39,7 @@ public class DialogueTestController {
 //        pf.setLimit(20);
 //        pf.setSkip(0);
         try {
-            List<Profile> users = profileRepository.findAll();
+            List<Profile> users = profileRepository.findAllProfiles(new ProfileFilterOptions(0, 200)).getEntities();
             System.out.println("user OK " + users.size());
             List<String> ids = users.stream().map(Profile::getId).collect(Collectors.toList());
             System.out.println("ids Ok " + ids.size());

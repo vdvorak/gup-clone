@@ -12,6 +12,7 @@ import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.tender.doer.Doer;
 import ua.com.itproekt.gup.model.tender.doer.DoerClient;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +38,11 @@ public class DoerTestController {
         pf.setLimit(20);
         pf.setSkip(0);
         try {
-            List<Profile> users = profileRepository.findAll();
-            System.out.println("user OK " + users.size());
-            List<String> ids = users.stream().map(Profile::getId).collect(Collectors.toList());
+            ProfileFilterOptions profileFO = new ProfileFilterOptions();
+            profileFO.setLimit(200);
+            EntityPage<Profile> users = profileRepository.findAllProfiles(profileFO);
+            System.out.println("user OK " + users.getEntities().size());
+            List<String> ids = users.getEntities().stream().map(Profile::getId).collect(Collectors.toList());
             System.out.println("ids Ok " + ids.size());
             for (int i = 0; i < numberOfDoers; i++) {
                 Doer doer = new Doer();

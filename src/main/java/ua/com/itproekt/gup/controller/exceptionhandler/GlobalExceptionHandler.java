@@ -9,14 +9,13 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import ua.com.itproekt.gup.exception.ResourceNotFoundException;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -32,28 +31,9 @@ public class GlobalExceptionHandler {
         StringWriter stack = new StringWriter();
         ex.printStackTrace(new PrintWriter(stack));
 
-        LOG.error(" URL [" + request.getRequestURL() + "];"
-                + "   User email: " + userEmail + ";"
-                + "   Exception: " + stack.toString());
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public String handleValidationException(HttpServletRequest request, Principal principal,
-                                            MethodArgumentNotValidException ex) {
-
-        logException(request, principal, ex);
-
-        return "error/error";
-    }
-
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler(AccessDeniedException.class)
-    public String  handleAccessDeniedException(HttpServletRequest request, Principal principal,
-                                               AccessDeniedException ex) {
-        logException(request, principal, ex);
-
-        return "error/403";
+        LOG.error("   URL: [" + request.getRequestURL() + "]" +
+                "   User email: [" + userEmail + "]" +
+                "   Exception: [" + stack.toString() + "]");
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -65,8 +45,35 @@ public class GlobalExceptionHandler {
         return "error/401";
     }
 
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AccessDeniedException.class)
+    public String  handleAccessDeniedException(HttpServletRequest request, Principal principal,
+                                               AccessDeniedException ex) {
+        logException(request, principal, ex);
+
+        return "error/403";
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public String  handleResourceNotFoundException(HttpServletRequest request, Principal principal,
+                                                   ResourceNotFoundException ex) {
+        logException(request, principal, ex);
+
+        return "error/404";
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public String handleValidationException(HttpServletRequest request, Principal principal,
+                                            MethodArgumentNotValidException ex) {
+        logException(request, principal, ex);
+
+        return "error/error";
+    }
+
     @ExceptionHandler(Exception.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleUncaughtException(HttpServletRequest request, Principal principal,
                                           Exception ex) {
         logException(request, principal, ex);

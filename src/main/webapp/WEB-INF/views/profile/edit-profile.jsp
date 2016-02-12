@@ -45,14 +45,14 @@
         <div class="moreInformation">
             <p class="info-p">Дополнительная информация</p>
             <div class="moreInformation-img"><a href="#"><img src="resources/images/pluse.png" alt="plus"></a></div>
-            <form id="moreInformation-form" action="#" role="form">
+            <div id="moreInformation-form">
                 <label class="label-form-info" for="select-type">Тип аккаунта</label>
                 <div id="selectBox-info-type">
                     <select id="select-type" class="form-control">
-                        <option>Выберете тип</option>
-                        <option>Физическое лицо</option>
-                        <option>Юридическое лицо</option>
-                        <option>Частный предпрениматель</option>
+                        <option value="">Выберете тип</option>
+                        <option value="INDIVIDUAL">Физическое лицо</option>
+                        <option value="LEGAL_ENTITY">Юридическое лицо</option>
+                        <option value="ENTREPRENEUR">Частный предпрениматель</option>
                     </select>
                 </div>
 
@@ -140,8 +140,8 @@
 
                 <div class="clearfix"></div>
 
-                <button type="submit" class="info-submit">Сохранить</button>
-            </form>
+                <button id="updateProfileBtn" class="info-submit">Сохранить</button>
+            </div>
         </div>
     </div>
 
@@ -155,22 +155,92 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
     <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
-    <sec:authorize var="loggedIn" access="isAuthenticated()" />
-    <c:choose>
-        <c:when test="${loggedIn}">
+    <%--<sec:authorize var="loggedIn" access="isAuthenticated()" />--%>
+    <%--<c:choose>--%>
+        <%--<c:when test="${loggedIn}">--%>
             <script src="/resources/js/autorizedHeader.js"></script>
-            <script src="/resources/js/edit-profile.js"></script>
-        </c:when>
-        <c:otherwise>
-            <script src="/resources/js/anonymHeader.js"></script>
-        </c:otherwise>
-    </c:choose>
+        <%--</c:when>--%>
+        <%--<c:otherwise>--%>
+            <%--<script src="/resources/js/anonymHeader.js"></script>--%>
+        <%--</c:otherwise>--%>
+    <%--</c:choose>--%>
 
     <script src="/resources/js/main.js"></script>
     <script src="/resources/js/logo-section.js"></script>
     <script src="/resources/js/search-bar.js"></script>
 
 
+    <script>
+        var profileId = "${profileId}";
+        var loadedProfile = {};
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/profilesService/profile/read/id/" + profileId + "/wholeProfile",
+            statusCode: {
+                200: function (profile) {
+                    loadedProfile = profile;
+                    alert("profileId: " + profileId + ":: JSON.stringify(loadedProfile): " + JSON.stringify(loadedProfile));
+
+                    if (profile.contact.pic != null) {
+                        $('.moreInformation-img').css('background',
+                                'url(/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + ') no-repeat center center');
+                    }
+
+                    $('#select-type').val(profile.contact.type);
+                    $('#nameCompany').val(profile.username);
+                    $('#main-email-info').val(profile.email);
+                    $('#main-tel-info').val(profile.mainPhoneNumber);
+                    $('#skype-info').val(profile.contact.skypeUserName);
+                    $('#info-about-me').val(profile.contact.aboutUs);
+
+                    $('#email-info').val(profile.contact.email);
+
+
+
+
+                    $('#tel-info').attr("placeholder", profile.contact.O);
+
+
+
+                    $('#inputTextID').attr("placeholder","placeholder text");
+
+                }
+            }
+        });
+
+        $(document).on('click', '#updateProfileBtn', function () {
+            var updatedProfile = { "id" : loadedProfile.id};
+
+            if(loadedProfile.username !== $('#nameCompany').val()) {
+                alert('loadedProfile.username: ' + $('#nameCompany').val());
+                updatedProfile.username = $('#nameCompany').val();
+            }
+
+            if(loadedProfile.contact.type !== $('#select-type').val()) {
+                updatedProfile.contact.type = $('#select-type').val();
+            }
+
+            alert("JSON.stringify(updatedProfile):: " + JSON.stringify(updatedProfile));
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/profilesService/profile/edit",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(updatedProfile),
+                statusCode: {
+                    200: function () {
+                        window.location.href = '/profile/id/' + updatedProfile.id;
+                    }
+                }
+            });
+        });
+
+    </script>
+    <script src="/resources/js/edit-profile.js"></script>
+
+</body>
+</html>
     <%--
         <br>
         <br>
@@ -641,5 +711,4 @@
 
     </script>
     --%>
-</body>
-</html>
+
