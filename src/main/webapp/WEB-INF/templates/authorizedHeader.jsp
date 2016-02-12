@@ -3,7 +3,7 @@
 <!-- залогиненный -->
 
 <div class="menu">
-  <div class="container">
+  <div class="container2">
     <div class="Logged">
       <ul class="groupLi">
         <li class="btnFace">
