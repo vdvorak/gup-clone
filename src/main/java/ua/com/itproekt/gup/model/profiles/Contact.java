@@ -27,7 +27,6 @@ public class Contact {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Long lastUpdate;
     private boolean member;
-
     private List<String> naceId;
 
     /**
@@ -178,9 +177,6 @@ public class Contact {
      * @param aboutUs the about us
      */
     public void setAboutUs(String aboutUs) {
-        if (aboutUs.length() > 3000) {
-            aboutUs = aboutUs.substring(0, 3000);
-        }
         this.aboutUs = aboutUs;
     }
 

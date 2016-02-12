@@ -44,7 +44,13 @@
     <div class="container">
         <div class="moreInformation">
             <p class="info-p">Дополнительная информация</p>
-            <div class="moreInformation-img"><a href="#"><img src="resources/images/pluse.png" alt="plus"></a></div>
+
+            <form id="uploadProfilePhotoForm">
+                <input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" style="display:none">
+            </form>
+            <div class="moreInformation-img" id="addProfileImg">
+                <a><img src="resources/images/pluse.png" alt="plus"></a>
+            </div>
             <div id="moreInformation-form">
                 <label class="label-form-info" for="select-type">Тип аккаунта</label>
                 <div id="selectBox-info-type">
@@ -173,6 +179,7 @@
     <script>
         var profileId = "${profileId}";
         var loadedProfile = {};
+        var updatedProfile = {};
 
         $.ajax({
             type: "POST",
@@ -180,11 +187,16 @@
             statusCode: {
                 200: function (profile) {
                     loadedProfile = profile;
+
+                    updatedProfile.contact = loadedProfile.contact;
+                    updatedProfile.userProfile = loadedProfile.userProfile;
+
                     alert("profileId: " + profileId + ":: JSON.stringify(loadedProfile): " + JSON.stringify(loadedProfile));
+                    alert( JSON.stringify(updatedProfile));
 
                     if (profile.contact.pic != null) {
                         $('.moreInformation-img').css('background',
-                                'url(/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + ') no-repeat center center');
+                                'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center');
                     }
 
                     $('#select-type').val(profile.contact.type);
@@ -194,34 +206,29 @@
                     $('#skype-info').val(profile.contact.skypeUserName);
                     $('#info-about-me').val(profile.contact.aboutUs);
 
-                    $('#email-info').val(profile.contact.email);
-
-
-
-
-                    $('#tel-info').attr("placeholder", profile.contact.O);
-
-
-
-                    $('#inputTextID').attr("placeholder","placeholder text");
-
+//                    $('#tel-info').attr("placeholder", profile.contact.O);
+//                    $('#email-info').val(profile.contact.email);
                 }
             }
         });
 
         $(document).on('click', '#updateProfileBtn', function () {
-            var updatedProfile = { "id" : loadedProfile.id};
+            updatedProfile.id = loadedProfile.id;
 
             if(loadedProfile.username !== $('#nameCompany').val()) {
-                alert('loadedProfile.username: ' + $('#nameCompany').val());
                 updatedProfile.username = $('#nameCompany').val();
             }
 
-            if(loadedProfile.contact.type !== $('#select-type').val()) {
+            if(loadedProfile.contact.type !== $('#select-type').val() && $('#select-type').val() !== "") {
                 updatedProfile.contact.type = $('#select-type').val();
             }
 
+            if(loadedProfile.contact.aboutUs !== $('#info-about-me').val()) {
+                updatedProfile.contact.aboutUs = $('#info-about-me').val();
+            }
+
             alert("JSON.stringify(updatedProfile):: " + JSON.stringify(updatedProfile));
+
             $.ajax({
                 type: "POST",
                 url: "/api/rest/profilesService/profile/edit",
@@ -231,6 +238,42 @@
                 statusCode: {
                     200: function () {
                         window.location.href = '/profile/id/' + updatedProfile.id;
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '#addProfileImg', function () {
+            $("#uploadProfilePhotoInput").click();
+        });
+
+        $(document).on('change', '#uploadProfilePhotoInput', function (e) {
+            alert('change profilePhotoInput');
+
+            var formImg = new FormData();
+            formImg.append( "file", $('#profilePhotoInput')[0]);
+//            formImg.append("file", $("input[name=file]")[0]);
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/fileStorage/profile/file/upload", //?cacheImage=1
+                data: new FormData($("#uploadProfilePhotoForm")[0]),
+                enctype: 'multipart/form-data',
+//                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                statusCode: {
+                    201: function (data) {
+                        alert('201');
+
+                        updatedProfile.contact.pic = data.id;
+                        $('.moreInformation-img').css('background',
+                                'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');
+
+                    },
+                    400: function () {
+                        alert('400');
                     }
                 }
             });
