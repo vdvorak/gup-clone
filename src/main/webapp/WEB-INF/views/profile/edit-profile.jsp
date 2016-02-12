@@ -191,10 +191,12 @@
                     updatedProfile.contact = loadedProfile.contact;
                     updatedProfile.userProfile = loadedProfile.userProfile;
 
-                    alert("profileId: " + profileId + ":: JSON.stringify(loadedProfile): " + JSON.stringify(loadedProfile));
-                    alert( JSON.stringify(updatedProfile));
+//                    alert("profileId: " + profileId + ":: JSON.stringify(loadedProfile): " + JSON.stringify(loadedProfile));
+//                    alert( JSON.stringify(updatedProfile));
 
                     if (profile.contact.pic != null) {
+
+                        $('.moreInformation-img').css('background-size', '80px 60px');
                         $('.moreInformation-img').css('background',
                                 'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center');
                     }
@@ -227,7 +229,7 @@
                 updatedProfile.contact.aboutUs = $('#info-about-me').val();
             }
 
-            alert("JSON.stringify(updatedProfile):: " + JSON.stringify(updatedProfile));
+//            alert("JSON.stringify(updatedProfile):: " + JSON.stringify(updatedProfile));
 
             $.ajax({
                 type: "POST",
@@ -248,15 +250,9 @@
         });
 
         $(document).on('change', '#uploadProfilePhotoInput', function (e) {
-            alert('change profilePhotoInput');
-
-            var formImg = new FormData();
-            formImg.append( "file", $('#profilePhotoInput')[0]);
-//            formImg.append("file", $("input[name=file]")[0]);
-
             $.ajax({
                 type: "POST",
-                url: "/api/rest/fileStorage/profile/file/upload", //?cacheImage=1
+                url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1", //
                 data: new FormData($("#uploadProfilePhotoForm")[0]),
                 enctype: 'multipart/form-data',
 //                async: false,
@@ -265,8 +261,7 @@
                 processData: false,
                 statusCode: {
                     201: function (data) {
-                        alert('201');
-
+//                        alert('201');
                         updatedProfile.contact.pic = data.id;
                         $('.moreInformation-img').css('background',
                                 'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');

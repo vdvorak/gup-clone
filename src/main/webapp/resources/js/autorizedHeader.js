@@ -7,7 +7,7 @@ var loggedInProfile = {};
             loggedInProfile = profile;
 
             if (profile.contact.pic != null && profile.contact.pic != '') {
-                $('#headerProfileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
+                $('#headerProfileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1');
             } else {
                 $('#headerProfileImg').attr('src', '/resources/images/no_avatar.jpg');
             }
