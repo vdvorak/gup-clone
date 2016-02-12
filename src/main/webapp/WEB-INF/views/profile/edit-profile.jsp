@@ -195,8 +195,6 @@
 //                    alert( JSON.stringify(updatedProfile));
 
                     if (profile.contact.pic != null) {
-
-                        $('.moreInformation-img').css('background-size', '80px 60px');
                         $('.moreInformation-img').css('background',
                                 'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center');
                     }
@@ -227,6 +225,18 @@
 
             if(loadedProfile.contact.aboutUs !== $('#info-about-me').val()) {
                 updatedProfile.contact.aboutUs = $('#info-about-me').val();
+            }
+
+            if(loadedProfile.contact.skypeUserName !== $('#skype-info').val()) {
+                updatedProfile.contact.skypeUserName = $('#skype-info').val();
+            }
+
+//            if(loadedProfile.contact.linkToWebSite !== $('#web-addresses').val()) {
+//                updatedProfile.contact.linkToWebSite.push($('#web-addresses').val());
+//            }
+
+            if(loadedProfile.mainPhoneNumber !== $('#main-tel-info').val()) {
+                updatedProfile.mainPhoneNumber = $('#main-tel-info').val();
             }
 
 //            alert("JSON.stringify(updatedProfile):: " + JSON.stringify(updatedProfile));

@@ -18,8 +18,8 @@ public class Contact {
     private Set<String> contactEmails;
     private Set<String> contactPhones;
     private Map<SocialNetwork, String> socNetLink;
-    private String skypeUserName;
     private Set<String> linkToWebSite;
+    private String skypeUserName;
     private String aboutUs;
     private Nace nace;
     private String pic;
@@ -28,6 +28,14 @@ public class Contact {
     private Long lastUpdate;
     private boolean member;
     private List<String> naceId;
+
+    public Long getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Long lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
 
     /**
      * Instantiates a new created date of Contact.
