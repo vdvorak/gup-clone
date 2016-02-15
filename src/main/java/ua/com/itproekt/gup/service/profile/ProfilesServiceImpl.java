@@ -12,7 +12,6 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -52,7 +51,7 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public Profile findByIdWholeProfile(String id) {
+    public Profile findWholeProfileById(String id) {
         return profileRepository.findById(id);
     }
 
@@ -92,6 +91,12 @@ public class ProfilesServiceImpl implements ProfilesService {
     public Profile findProfileByEmail(String email) {
         Profile profile = profileRepository.findByEmail(email);
         removeAdministrativeFields(profile);
+        return profile;
+    }
+
+    @Override
+    public Profile findWholeProfileByEmail(String email) {
+        Profile profile = profileRepository.findByEmail(email);
         return profile;
     }
 
