@@ -8,7 +8,7 @@ dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
+figure, figcaption, footer, header,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
@@ -20,7 +20,7 @@ time, mark, audio, video {
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
+footer, header, menu, nav, section {
 	display: block;
 }
 a:hover {
@@ -154,8 +154,6 @@ table {
 	color: #0033cc;
 }
 
-
-
 .logo {
 	float: left;
 	width: 410px;
@@ -209,7 +207,6 @@ table {
 .search {
 	background-color: rgb(18, 105, 167);
 	border-radius: 4px;
-	height: 75px;
 	width: 100%;
 }
 
@@ -294,9 +291,15 @@ table {
 	color: white;
 }
 
-.search img {
+.search-img {
 	margin: 0 auto;
 	display: block;
+	margin-bottom: 5px;
+	cursor: pointer;
+	height: 12px;
+	width: 39px;
+	background: url(/resources/css/images/caretka.png) no-repeat center center;
+	background-size: cover;
 }
 
 .slider {
@@ -1112,67 +1115,56 @@ input[class="greenCheckbox"]:checked + span  	{
 	border: 5px solid #99cc66;
 	border-radius: 8px;
 	width: 100%;
-	display: table;
 	position: relative;
 	margin-top: 10px;
 }
 
 .online {
 	color: #ffb405;
-	font: 400 36px DroidSans;
-	top: 11px;
-	right: 76px;
+	font: 400 30px DroidSans;
+	top: 10px;
+	right: 20px;
 	position: absolute;
 }
 
 .profile-img {
 	border: 1px solid #99cc66;
-	margin: 30px 0 0 28px;
-	border-radius: 21px;
+	margin: 20px;
+	border-radius: 20px;
 	float: left;
 	position: relative;
-	height: 415px;
-	width: 344px;
+	height: 321px;
+	width: 258px;
 	overflow: hidden;
 }
 
 .firstName {
-	margin: 32px 0 0 39px;
+	margin-top: 20px;
 	display: inline-block;
 	color: #1269a7;
-	font: 400 40px DroidSans;
-}
-
-.DateOfBirth li {
-	float: left;
-	color: #898989;
-	font: 400 30px DroidSans;
-}
-
-.DateOfBirth {
-	margin: 22px 0 0 37px;
-	display: inline-block;
+	font: 400 36px DroidSans;
 }
 
 .phone {
-	background: url(images/phone.png) no-repeat 95% 50%;
+	background: url(/resources/css/images/phone.png) no-repeat 95% 50%;
 	background-color: #99cc66;
 	border-radius: 7px;
-	width: 320px;
-	padding-bottom: 20px;
+	width: 280px;
+	padding-bottom: 15px;
 }
 
 .contacts {
-	width: 699px;
+	width: 570px;
 	display: inline-block;
-	margin: 17px 28px;
+	margin: 20px 20px 0 0;
 }
 
 .phoneNumber {
 	color: #ffffff;
-	font: 400 30px DroidSans;
-	margin: 20px 0 0 20px;
+	font: 400 20px DroidSans;
+	margin: 15px 0 0 15px;
 	display: inline-block;
+	width: 200px;
 }
 
 .phoneNumber2 {
@@ -1183,39 +1175,39 @@ input[class="greenCheckbox"]:checked + span  	{
 }
 
 .skypeContact {
-	background: url(images/skype.png) no-repeat 95% 50%;
+	background: url(/resources/css/images/skype.png) no-repeat 95% 50%;
 	background-color: #99cc66;
-	width: 320px;
+	width: 280px;
 	margin-top: 20px;
 	border-radius: 7px;
-	padding-bottom: 20px;
+	padding-bottom: 15px;
 }
 
 .emailContact {
-	background: url(images/email.png) no-repeat 95% 50%;
+	background: url(/resources/css/images/email.png) no-repeat 95% 50%;
 	background-color: #99cc66;
 	border-radius: 7px;
-	width: 320px;
+	width: 280px;
 	margin-top: 20px;
-	padding-bottom: 20px;
+	padding-bottom: 15px;
 }
 
 .skype {
 	color: #ffffff;
-	font: 400 30px DroidSans;
+	font: 400 20px DroidSans;
 	display: inline-block;
-	margin: 20px 0 0 20px;
+	margin: 15px 0 0 15px;
 }
 
 .email {
 	color: #ffffff;
-	font: 400 21px DroidSans;
+	font: 400 20px DroidSans;
 	display: inline-block;
-	margin: 23px 0 0 15px;
+	margin: 15px 0 0 15px;
 }
 
 .map {
-	width: 359px;
+	width: 269px;
 	border-radius: 7px;
 	border: 2px solid #99cc66;
 	float: right;
@@ -1223,45 +1215,42 @@ input[class="greenCheckbox"]:checked + span  	{
 
 .map-p {
 	color: #99cc66;
-	font: 400 23px DroidSans;
-	height: 51px;
-	width: 337px;
-	display: block;
-	margin: 0 auto;
+	font: 400 17px DroidSans;
+	height: 40px;
+	width: 253px;
+	text-align: center;
 }
 
 .mapContact {
 	border-radius: 7px;
-	height: 174px;
-	width: 336px;
+	height: 131px;
+	width: 252px;
 	margin: 0 auto;
 	margin-top: 6px;
 	display: none;
 }
 
 .caretContact {
-	height: 42px;
-	width: 87px;
-	margin: 0 auto;
-	margin-top: 13px;
-	margin-bottom: 13px;
+	height: 32px;
+	width: 67px;
+	margin: 10px auto;
 	cursor: pointer;
 	background: url(images/caretDown.png) no-repeat center center;
 }
 
 .caretContact.lol {
-	background: url(images/caretUp.png) no-repeat center center;
+	background: url(/resources/css/images/caretUp.png) no-repeat center center;
 }
 
 .writeMessage {
-	height: 52px;
-	width: 347px;
+	height: 39px;
+	width: 255px;
 	color: #ffffff;
 	font: 400 26px DroidSans;
 	background-color: #63CAED;
 	border-radius: 7px;
 	border: 0;
-	margin: 0 25px 0 28px;
+	margin: 0 20px 0 20px;
 	-webkit-transition: all ease .25s;
 	transition: all ease .25s;
 }
@@ -1270,19 +1259,14 @@ input[class="greenCheckbox"]:checked + span  	{
 	background-color: #99cc66;
 }
 
-.contact-btn-group {
-	margin-top: 8px;
-	display: block;
-}
-
 .addToContact {
 	color: #ffffff;
 	font: 400 26px DroidSans;
-	width: 320px;
+	width: 280px;
 	background-color: #1168A5;
 	border-radius: 7px;
 	border: 0;
-	height: 52px;
+	height: 39px;
 	-webkit-transition: all ease .25s;
 	transition: all ease .25s;
 }
@@ -1305,14 +1289,16 @@ input[class="greenCheckbox"]:checked + span  	{
 }
 
 .social-icon {
-	margin: 13px 28px 104px 0;
-	height: 68px;
+	margin: 15px 20px 70px 0;
+	height: 55px;
 }
 
 .social-icon a {
 	margin-left: 30px;
 	display: inline-block;
 	float: right;
+	height: 55px;
+	width: 55px;
 }
 
 .social-icon a:hover {
@@ -1320,10 +1306,6 @@ input[class="greenCheckbox"]:checked + span  	{
 	animation: swing 0.5s ease;
 	-webkit-animation-iteration-count: 1;
 	animation-iteration-count: 1;
-}
-
-.vip-color-border {
-	border-color: #FDB205;
 }
 
 .organization-color-border {
@@ -1334,16 +1316,6 @@ input[class="greenCheckbox"]:checked + span  	{
 	background-color: #FDB205;
 }
 
-.rating-vip {
-	background: url(images/rating.png) no-repeat;
-	height: 70px;
-	width: 139px;
-	position: absolute;
-	left: -1px;
-	bottom: 50px;
-	z-index: 2;
-}
-
 .rating p {
 	color: #1269a7;
 	font: 400 36px DroidSans;
@@ -1352,15 +1324,22 @@ input[class="greenCheckbox"]:checked + span  	{
 	padding-left: 23px;
 }
 
-.backgroundSun {
-	position: absolute;
-	bottom: -3px;
-	right: -3px;
-	z-index: 10;
-}
-
 .vip-profile-img {
 	display: none;
+	background: url(/resources/css/images/backgroundVIP.png) no-repeat;
+	position: absolute;
+	bottom: -1px;
+	left: -1px;
+	height: 100px;
+	width: 258px;
+}
+
+.vip-profile-img p {
+	color: #1269a7;
+	font: 400 24px DroidSans;
+	position: absolute;
+	top: 13px;
+	left: 25px;
 }
 
 .tend-top1 {
@@ -1394,26 +1373,22 @@ input[class="greenCheckbox"]:checked + span  	{
 	overflow: scroll;
 }
 
-.rating-organization {
-	background: url(images/rating-organization.png) no-repeat;
-	height: 70px;
-	width: 139px;
-	position: absolute;
-	left: -1px;
-	bottom: 50px;
-	z-index: 2;
-}
-
-.rating-organization p {
-	color: #1269a7;
-	font: 400 36px DroidSans;
-	text-align: left;
-	line-height: 70px;
-	padding-left: 23px;
-}
-
 .organization-profile-img {
 	display: none;
+	background: url(/resources/css/images/backgroundOrganization.png) no-repeat;
+	position: absolute;
+	bottom: -1px;
+	left: -1px;
+	width: 258px;
+	height: 100px;
+}
+
+.organization-profile-img p {
+	position: absolute;
+	color: #1269a7;
+	font: 400 24px DroidSans;
+	top: 13px;
+	left: 25px;
 }
 
 .tab-news {
@@ -1445,20 +1420,20 @@ input[class="greenCheckbox"]:checked + span  	{
 }
 
 .blogs {
-	height: 179px;
-	width: 1050px;
+	height: 135px;
+	width: 100%;
 	border: 5px solid #97CA65;
 	border-radius: 7px;
 	margin: 0 auto;
-	margin-bottom: 23px;
+	margin-bottom: 17px;
 	position: relative;
 }
 
 .blogs-img {
 	float: left;
-	margin: 17px 0 0 18px;
-	height: 135px;
-	width: 180px;
+	margin: 11px;
+	height: 102px;
+	width: 136px;
 }
 
 .etabs-news {
@@ -1469,58 +1444,34 @@ input[class="greenCheckbox"]:checked + span  	{
 
 .nameBlogs {
 	color: #3e5da2;
-	font: 400 31px ArianAMU;
-	margin: 15px 0 0 17px;
+	font: 400 25px ArianAMU;
+	margin-top: 11px;
 	float: left;
 }
 
 .text-blogs {
 	color: #828a8f;
-	font: 400 25px Calibri;
-	width: 813px;
+	font: 400 20px Calibri;
+	width: 720px;
+	height: 70px;
+	overflow: hidden;
 	display: inline-block;
-	margin-left: 17px;
-	margin-top: 10px;
-}
-
-.description {
-	color: #828a8f;
-	font: 400 24px Calibri;
-	position: absolute;
-	top: 40px;
-	left: 240px;
 }
 
 .views-blogs {
 	color: #929d9e;
-	font: italic 700 18px Calibri;
+	font: italic 700 13px Calibri;
 	position: absolute;
-	bottom: -2px;
-	left: 17px;
-}
-
-.views-blogs-num {
-	color: #929d9e;
-	font: italic 700 18px Calibri;
-	position: absolute;
-	bottom: -2px;
-	left: 130px;
+	bottom: -1px;
+	left: 12px;
 }
 
 .DateOfCreation-blogs {
 	color: #929d9e;
-	font: 400 18px Calibri;
+	font: 400 13px Calibri;
 	position: absolute;
 	bottom: -1px;
-	right: 90px;
-}
-
-.DateOfCreation-blogs-num {
-	color: #929d9e;
-	font: 400 18px Calibri;
-	position: absolute;
-	bottom: -1px;
-	right: 21px;
+	right: 10px;
 }
 
 .tab {
@@ -1608,6 +1559,13 @@ label[for="password"] {
 }
 
 label[for="checkbox-modal"] {
+	color: #898989;
+	font: 400 24px ArianAMU;
+	line-height: 35px;
+	float: right;
+}
+
+label[for="checkbox-contact"] {
 	color: #898989;
 	font: 400 24px ArianAMU;
 	line-height: 35px;
@@ -1768,9 +1726,9 @@ label[for="repeat-registration-password"] {
 }
 
 .moreInformation {
-	border: 7px solid rgb(153, 204, 102);
-	border-radius: 7px;
-	width: 1140px;
+	border: 5px solid rgb(153, 204, 102);
+	border-radius: 5px;
+	width: 100%;
 	position: relative;
 	margin-top: 10px;
 }
@@ -1779,107 +1737,110 @@ label[for="repeat-registration-password"] {
 	color: #1269a7;
 	font: 400 36px ArianAMU;
 	text-align: center;
-	margin-top: 19px;
+	margin-top: 15px;
 }
 
 #selectBox-info-type select {
 	border-radius: 0;
-	width: 500px;
+	width: 372px;
 	color: #898989;
-	font: 400 18px DroidSans;
+	font: 400 16px DroidSans;
 	background: transparent;
-	padding: 0 35px 0 24px;
+	padding: 0 35px 0 12px;
 	border: 0;
-	height: 28px;
-	line-height: 28px;
+	height: 20px;
+	line-height: 20px;
 }
 
 #selectBox-info-type {
-	width: 491px;
+	width: 365px;
 	display: inline-block;
 	overflow: hidden;
-	background: url(images/caret.png) no-repeat 98%;
+	background: url(/resources/css/images/caret.png) no-repeat 98%;
 	border: 3px solid rgb(153, 204, 102);
 	border-radius: 6px;
-	height: 33px;
+	height: 25px;
 	float: right;
-	margin-right: 190px;
+	margin-right: 140px;
 	margin-bottom: 15px;
 }
 
 .label-form-info {
 	float: left;
 	color: #959595;
-	font: 400 24px ArianAMU;
-	line-height: 33px;
+	font: 400 14px ArianAMU;
+	line-height: 25px;
 }
 
 #selectBox-info-sphere select {
 	border-radius: 0;
-	width: 500px;
+	width: 372px;
 	color: #898989;
-	font: 400 18px DroidSans;
+	font: 400 16px DroidSans;
 	background: transparent;
-	padding: 0 35px 0 24px;
+	padding: 0 35px 0 12px;
 	border: 0;
-	height: 28px;
-	line-height: 28px;
+	height: 20px;
+	line-height: 20px;
 }
 
 #selectBox-info-sphere {
-	width: 491px;
+	width: 365px;
 	display: inline-block;
 	overflow: hidden;
-	background: url(images/caret.png) no-repeat 98%;
+	background: url(/resources/css/images/caret.png) no-repeat 98%;
 	border: 3px solid rgb(153, 204, 102);
 	border-radius: 6px;
-	height: 33px;
+	height: 25px;
 	float: right;
-	margin-right: 190px;
+	margin-right: 140px;
 	margin-bottom: 15px;
 }
 
 .form-info-input {
 	border: 3px solid rgb(153, 204, 102);
 	border-radius: 6px;
-	width: 491px;
-	height: 37px;
-	font: 400 18px DroidSans;
+	width: 365px;
+	height: 25px;
+	font: 400 16px DroidSans;
+	line-height: 20px;
 	padding-left: 7px;
 	float: right;
-	margin-right: 190px;
+	margin-right: 140px;
 	margin-bottom: 15px;
 }
 
 .input-info-min {
 	border: 3px solid rgb(153, 204, 102);
 	border-radius: 6px;
-	width: 236px;
-	height: 38px;
-	font: 400 18px DroidSans;
+	width: 170px;
+	height: 22px;
+	font: 400 16px DroidSans;
+	line-height: 20px;
 	padding-left: 7px;
 	float: right;
-	margin-right: 445px;
+	margin-right: 335px;
 	margin-bottom: 15px;
 }
 
 .input-info-normal {
-	width: 314px;
-	height: 38px;
+	width: 229px;
+	height: 22px;
 	border: 3px solid rgb(153, 204, 102);
 	border-radius: 6px;
-	font: 400 18px DroidSans;
+	font: 400 16px DroidSans;
+	line-height: 20px;
 	padding-left: 7px;
 	float: right;
-	margin-right: 367px;
+	margin-right: 275px;
 	margin-bottom: 15px;
 }
 
 .textarea-about-me {
 	border: 3px solid rgb(153, 204, 102);
 	border-radius: 6px;
-	width: 680px;
-	height: 273px;
+	width: 506px;
+	height: 201px;
 	resize: none;
 	padding: 7px;
 	float: right;
@@ -1888,13 +1849,12 @@ label[for="repeat-registration-password"] {
 
 .info-submit {
 	background-color: #35A8DE;
-	width: 175px;
-	height: 41px;
+	width: 132px;
+	height: 32px;
 	border-radius: 5px;
 	color: #ffffff;
-	font: 400 30px ArianAMU;
+	font: 400 26px ArianAMU;
 	border: 0;
-	text-align: center;
 	float: right;
 	margin-bottom: 22px;
 	-webkit-transition: all 0.25s;
@@ -1907,9 +1867,9 @@ label[for="repeat-registration-password"] {
 
 #moreInformation-form {
 	display: inline-block;
-	width: 990px;
+	width: 727px;
 	margin-left: 70px;
-	margin-top: 50px;
+	margin-top: 40px;
 	position: relative;
 }
 
@@ -1917,24 +1877,24 @@ label[for="repeat-registration-password"] {
 	position: absolute;
 	border-radius: 7px;
 	border: 5px solid rgb(18, 105, 167);
-	width: 161px;
-	height: 188px;
-	top: 110px;
-	right: 72px;
+	width: 118px;
+	height: 138px;
+	top: 98px;
+	right: 54px;
 	background: url(images/logo-img-2.png) no-repeat center center;
 }
 
 .moreInformation-img a {
 	position: absolute;
-	top: 9px;
-	right: 8px;
+	top: 4px;
+	right: 4px;
 	z-index: 1;
 }
 
 .email-plus {
 	position: absolute;
-	top: -15px;
-	right: -815px;
+	top: -16px;
+	right: -590px;
 	cursor: pointer;
 }
 
@@ -1946,18 +1906,15 @@ label[for="repeat-registration-password"] {
 .title-email:hover::after {
 	content: attr(data-title); /* Выводим текст */
 	position: absolute; /* Абсолютное позиционирование */
-	left: 815px; top: -75px; /* Положение подсказки */
+	left: 590px; top: -70px; /* Положение подсказки */
 	z-index: 1; /* Отображаем подсказку поверх других элементов */
-	background: url(images/title.png) no-repeat bottom left;
-	background-size: cover;
-	height: 60px;
-	width: 180px;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
+	background: url(/resources/css/images/title.png) no-repeat bottom left;
+	height: 54px;
+	width: 179px;
 	color: #ffffff;
 	font: 400 20px ArianAMU;
-	padding-left: 28px;
-	padding-top: 13px;
+	padding-left: 25px;
+	padding-top: 10px;
 }
 
 .title-tel {
@@ -1968,31 +1925,39 @@ label[for="repeat-registration-password"] {
 .title-tel:hover::after {
 	content: attr(data-title); /* Выводим текст */
 	position: absolute; /* Абсолютное позиционирование */
-	left: 515px; top: -75px; /* Положение подсказки */
+	left: 385px; top: -70px; /* Положение подсказки */
 	z-index: 1; /* Отображаем подсказку поверх других элементов */
 	background: url(images/title.png) no-repeat bottom left;
-	background-size: cover;
-	height: 60px;
-	width: 180px;
+	height: 54px;
+	width: 179px;
 	color: #ffffff;
 	font: 400 20px ArianAMU;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	padding-left: 18px;
-	padding-top: 13px;
+	padding-left: 16px;
+	padding-top: 10px;
 }
 
 .tel-plus {
 	position: absolute;
-	top: -15px;
-	right: -515px;
+	top: -18px;
+	right: -385px;
 	cursor: pointer;
 }
 
 .social-icon-info {
 	position: absolute;
-	top: 5px;
-	right: 145px;
+	top: -1px;
+	right: 85px;
+}
+
+.social-icon-info a:first-child {
+	margin: 0;
+}
+
+.social-icon-info a {
+	float: left;
+	height: 24px;
+	width: 24px;
+	margin-left: 7px;
 }
 
 .group-info {
@@ -2094,7 +2059,6 @@ label[for="repeat-registration-password"] {
 	float: right;
 	margin-right: 9px;
 	margin-bottom: 8px;
-	border: 0;
 	-webkit-transition: all 0.25s;
 	transition: all 0.25s;
 }
@@ -2126,12 +2090,12 @@ label[for="repeat-registration-password"] {
 }
 
 .richAss {
-	display: block;
+	display: none;
 	text-align: center;
 }
 
 .brokeAss {
-	display: none;
+	display: block;
 }
 
 .rich-p {
@@ -2210,7 +2174,6 @@ input[id="checkbox-rich"]:checked + span  	{
 	float: right;
 	margin-right: 9px;
 	margin-bottom: 8px;
-	border: 0;
 	-webkit-transition: all 0.25s;
 	transition: all 0.25s;
 }
@@ -2221,49 +2184,51 @@ input[id="checkbox-rich"]:checked + span  	{
 
 .AboutMe {
 	position: relative;
-	border: 7px solid rgb(153, 204, 102);
+	border: 3px solid rgb(153, 204, 102);
 	border-radius: 8px;
 	border-top-left-radius: 0;
-	width: 1065px;
-	padding: 30px;
+	width: 794px;
+	padding: 23px;
 	margin: 0 auto;
-	margin-bottom: 57px;
+	margin-bottom: 40px;
 }
 
 .AboutMe-p {
 	color: #898989;
-	font: 400 26px Arial;
+	font: 400 20px Arial;
 	text-align: justify;
+
 }
 
 .AboutMe-p2 {
 	color: #ffffff;
-	font: 400 36px DroidSans;
+	font: 400 25px DroidSans;
 	position: absolute;
-	top: -66px;
-	left: -7px;
-	width: 186px;
-	height: 66px;
+	top: -42px;
+	left: -3px;
+	width: 133px;
+	height: 42px;
 	background-color: rgb(153, 204, 102);
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
 	text-align: center;
-	line-height: 66px;
+	line-height: 42px;
 }
 
 .NewsTabsFilter {
 	border: 3px solid rgb(187, 187, 187);
 	border-radius: 5px;
-	width: 1140px;
-	height: 54px;
-	margin-bottom: 25px;
+	width: 100%;
+	height: 37px;
+	margin-bottom: 20px;
 }
 
 .NewsTabsFilterItem {
 	color: #b7b7b7;
-	font: 400 28px DroidSans;
+	font: 400 23px DroidSans;
+	line-height: 23px;
 	display: inline-block;
-	padding: 4px 8px;
+	padding: 0 4px;
 	border: 3px solid transparent;
 	border-radius: 7px;
 	margin-top: 1px;
@@ -2280,13 +2245,12 @@ input[id="checkbox-rich"]:checked + span  	{
 .VIPNewsLarge {
 	border: 3px solid #F8AD39;
 	border-radius: 7px;
-	height: 423px;
-	width: 350px;
+	height: 318px;
+	width: 279px;
 	float: left;
 	background: url(/resources/css/images/abra.png) no-repeat center center;
 	background-size: cover;
 	position: relative;
-	float: left;
 	cursor: pointer;
 }
 
@@ -2294,55 +2258,55 @@ input[id="checkbox-rich"]:checked + span  	{
 	position: absolute;
 	bottom: 18px;
 	width: 100%;
-	padding: 10px;
 	color: #1269a7;
-	font: 400 28px HelveticaNeue;
-	background-color: rgba(255, 255, 255, 0.5);
-	height: 99px;
+	font: 400 20px HelveticaNeue;
+	background-color: rgba(255, 255, 255, 0.75);
+	max-height: 74px;
+	text-align: center;
 }
 
 .descriptionLarge:hover {
-	background-color: rgba(255, 255, 255, 0.75);
+	background-color: rgba(255, 255, 255, 1);
+	color: #1269a7;
 }
 
 .VIPNewsSmall {
 	border: 3px solid #F8AD39;
 	border-radius: 7px;
-	width: 561px;
-	height: 188px;
+	width: 417px;
+	height: 137px;
 	position: relative;
 	background: url(/resources/css/images/quotes.png) no-repeat center center;
 	background-size: cover;
 	display: inline-block;
-	margin-left: 10px;
+	margin-left: 20px;
 	cursor: pointer;
 }
 
 .descriptionSmall {
 	position: absolute;
-	top: 34px;
+	top: 26px;
 	width: 100%;
-	padding: 5px;
 	color: #1269a7;
-	font: 400 28px HelveticaNeue;
-	background-color: rgba(255, 255, 255, 0.5);
-	height: 49px;
+	font: 400 20px HelveticaNeue;
+	background-color: rgba(255, 255, 255, 0.75);
+	max-height: 37px;
 	text-align: center;
 }
 
 .descriptionSmall:hover {
-	background-color: rgba(255, 255, 255, 0.75);
+	background-color: rgba(255, 255, 255, 1);
+	color: #1269a7;
 }
 
 .VIPNewsExtraSmall {
 	border: 3px solid #F8AD39;
 	border-radius: 7px;
 	position: relative;
-	width: 209px;
-	height: 187px;
+	width: 153px;
+	height: 137px;
 	display: inline-block;
-	float: right;
-	margin-left: 10px;
+	margin-left: 20px;
 	background: url(/resources/css/images/transactions.png) no-repeat center center;
 	background-size: cover;
 	cursor: pointer;
@@ -2365,29 +2329,30 @@ input[id="checkbox-rich"]:checked + span  	{
 }
 
 .descriptionExtraSmall {
-	background-color: rgba(255, 255, 255, 0.5);
-	height: 81px;
+	background-color: rgba(255, 255, 255, 0.75);
+	max-height: 61px;
 	width: 100%;
 	color: #1269a7;
-	font: 400 28px HelveticaNeue;
+	font: 400 20px HelveticaNeue;
 	position: absolute;
-	bottom: 25px;
+	bottom: 10px;
 	text-align: center;
 }
 
 .descriptionExtraSmall:hover {
-	background-color: rgba(255, 255, 255, 0.75);
+	background-color: rgba(255, 255, 255, 1);
+	color: #1269a7;
 }
 
 .VIPNewsMedium {
 	border: 3px solid #F8AD39;
 	border-radius: 7px;
 	position: relative;
-	width: 780px;
-	height: 222px;
+	width: 593px;
+	height: 160px;
 	display: inline-block;
-	margin-left: 10px;
-	margin-top: 10px;
+	margin-left: 20px;
+	margin-top: 20px;
 	background: url(/resources/css/images/quotes.png) no-repeat center center;
 	background-size: cover;
 	cursor: pointer;
@@ -2395,69 +2360,74 @@ input[id="checkbox-rich"]:checked + span  	{
 
 .descriptionMedium {
 	position: absolute;
-	top: 34px;
+	top: 26px;
 	width: 100%;
-	padding: 5px;
 	color: #1269a7;
-	font: 400 28px HelveticaNeue;
-	background-color: rgba(255, 255, 255, 0.5);
-	height: 49px;
+	font: 400 20px HelveticaNeue;
+	background-color: rgba(255, 255, 255, 0.75);
+	max-height: 49px;
 	text-align: center;
 }
 
 .descriptionMedium:hover {
-	background-color: rgba(255, 255, 255, 0.75);
+	background-color: rgba(255, 255, 255, 1);
+	color: #1269a7;
 }
 
 .normalNews {
 	border: 3px solid rgb(18, 105, 167);
 	border-radius: 7px;
-	width: 1140px;
-	height: 192px;
-	margin-top: 20px;
+	width: 100%;
+	height: 141px;
+	margin-top: 15px;
 	position: relative;
 }
 
 .normalNews img {
 	float: left;
-	margin: 15px 25px;
+	margin: 8px 20px;
+	height: 118px;
+	width: 188px;
 }
 
 .descriptionNormalNews {
 	color: #1269a7;
-	font: 400 27px HelveticaNeue;
-	margin: 10px 15px 0 0;
+	font: 400 21px HelveticaNeue;
+	margin-top: 8px;
 	display: inline-block;
-	width: 820px;
+	width: 646px;
 }
 
 .descriptionNormalNews2 {
 	color: #828a8f;
-	font: 400 22px HelveticaNeue;
+	font: 400 16px HelveticaNeue;
+	display: inline-block;
+	width: 646px;
 }
 
 .normalNews-p {
 	color: #464646;
-	font: 400 13px Calibri;
+	font: 400 10px Calibri;
 	position: absolute;
-	top: 1px;
-	left: 1px;
+	top: -3px;
+	left: 20px;
+	text-align: center;
 }
 
 .normalNews-p2 {
 	color: #464646;
-	font: 400 13px Calibri;
+	font: 400 10px Calibri;
 	position: absolute;
-	top: 1px;
-	right: 1px;
+	top: -1px;
+	right: 20px;
 }
 
 .normalNews-p3 {
 	color: #464646;
-	font: 400 13px Calibri;
+	font: 400 10px Calibri;
 	position: absolute;
-	bottom: 1px;
-	right: 1px;
+	bottom: -1px;
+	right: 20px;
 }
 
 .createBlog {
@@ -2470,6 +2440,10 @@ input[id="checkbox-rich"]:checked + span  	{
 .container2 {
 	width: 900px;
 	margin: 0 auto;
+}
+.container2:after {
+	content: '';
+	clear: both;
 	display: table;
 }
 
@@ -2593,6 +2567,7 @@ input[id="checkbox-rich"]:checked + span  	{
 	height: 43px;
 	width: 275px;
 	border: 0;
+	-webkit-transition: all 0.25s;
 	transition: all 0.25s;
 	margin: 0 0 20px 20px;
 }
@@ -2609,6 +2584,7 @@ input[id="checkbox-rich"]:checked + span  	{
 .boxLeft {
 	display: inline-block;
 }
+
 #form {
 	float: left;
 }
@@ -2626,4 +2602,99 @@ input[id="checkbox-rich"]:checked + span  	{
 	width: 125px;
 	top: -29px;
 	right: 15px;
+}
+
+.DateOfBirth {
+	color: #898989;
+	font: 400 25px DroidSans;
+}
+.profileList {
+	border: 4px solid rgb(153, 204, 102);
+	border-radius: 6px;
+	width: 791px;
+	height: 139px;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+
+.profileListLogo {
+	border: 4px solid rgb(18, 105, 167);
+	border-radius: 4px;
+	width: 115px;
+	height: 115px;
+	float: left;
+	margin: 10px;
+	cursor: pointer;
+}
+
+.profileListName {
+	margin: 10px 10px 0 0;
+	color: #3e5da2;
+	font: 400 24px ArianAMU;
+	display: block;
+}
+
+.profileListDescription {
+	color: #828a8f;
+	font: 300 24px Calibri;
+	height: 90px;
+	width: 635px;
+	display: inline-block;
+	overflow: hidden;
+}
+
+.vip-color-border {
+	border-color: #FDB205;
+}
+
+.filterContacts {
+	float: left;
+	height: 35px;
+	width: 140px;
+	margin: 20px 88px;
+}
+
+.filterContacts:nth-child(3) {
+	width: 90px;
+}
+
+input[class="greenCheckbox"] + span {
+	position: absolute; /* Абсолютное позиционирование */
+	left: 0; top: 0;
+	width: 100%; height: 100%;
+	background: url(/resources/css/images/backgroundCheck.png) no-repeat; /* Фоновый рисунок */
+	cursor: pointer; /* Курсор в виде руки */
+}
+
+input[class="greenCheckbox"]:checked + span  	{
+	background: url(/resources/css/images/check.png) no-repeat; /* Фоновый рисунок */
+}
+
+label[for="checkbox-filter1"] {
+	color: #898989;
+	font: 400 24px ArianAMU;
+	line-height: 35px;
+	float: right;
+}
+
+label[for="checkbox-filter2"] {
+	color: #898989;
+	font: 400 24px ArianAMU;
+	line-height: 35px;
+	float: right;
+}
+
+label[for="checkbox-filter3"] {
+	color: #898989;
+	font: 400 24px ArianAMU;
+	line-height: 35px;
+	float: right;
+}
+
+#filterForm {
+	display: none;
+}
+
+.trolol {
+	background: url(/resources/css/images/trololo.png) no-repeat;
 }

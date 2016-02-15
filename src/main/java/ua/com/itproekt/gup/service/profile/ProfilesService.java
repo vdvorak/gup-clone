@@ -5,7 +5,6 @@ import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;
 import ua.com.itproekt.gup.util.EntityPage;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,7 +26,7 @@ public interface ProfilesService {
      * @param id the id
      * @return the profile
      */
-    Profile findByIdWholeProfile(String id);
+    Profile findWholeProfileById(String id);
 
     /**
      * Update profile profile.
@@ -131,4 +130,6 @@ public interface ProfilesService {
     Set<String> getMatchedNames(String term);
 
     void addContactToContactList(String profileOwnerContactListId, String contactId);
+
+    Profile findWholeProfileByEmail(String email);
 }

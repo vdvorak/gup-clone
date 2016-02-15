@@ -48,7 +48,7 @@ public class DoerTestController {
                 Doer doer = new Doer();
                 if (!ids.isEmpty()) {
                     doer.setAuthorId(randId(ids));
-                    doer.setAuthorContacts(profilesService.findByIdWholeProfile(doer.getAuthorId()).getContact());
+                    doer.setAuthorContacts(profilesService.findWholeProfileById(doer.getAuthorId()).getContact());
                     DoerClient doerClient1 = new DoerClient();
                     doerClient1.setId(randId(ids));
                     doerClient1.setClientConfirm(true);

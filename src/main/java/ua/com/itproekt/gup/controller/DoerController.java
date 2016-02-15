@@ -65,7 +65,7 @@ public class DoerController {
             model.addAttribute("check", check);
         }
 
-        Profile profile = profilesService.findByIdWholeProfile(doer.getAuthorId());
+        Profile profile = profilesService.findWholeProfileById(doer.getAuthorId());
         String userName = profile.getUsername();
 
         if(userName != null && userName.length() > 0) model.addAttribute("username", userName);

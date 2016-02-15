@@ -110,7 +110,7 @@ public class DialogueController {
     //----------------------------------- one dialogue  ------
     @RequestMapping(value = "/dialogue/create/with/{userId}", method = RequestMethod.GET)
     public String createDialogueWith(@PathVariable String userId, Model model) {
-        Profile profile = profileService.findByIdWholeProfile(userId);
+        Profile profile = profileService.findWholeProfileById(userId);
         if(profile == null || SecurityOperations.getLoggedUserId() == null){
             return "";
         }
