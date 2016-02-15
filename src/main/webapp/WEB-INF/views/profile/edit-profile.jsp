@@ -265,7 +265,7 @@
                 updatedProfile.mainPhoneNumber = $('#main-tel-info').val();
             }
 
-            var contactEmails = new Array();
+            var contactEmails = [];
             $("input[name=contactEmail]").each(function() {
                 if($(this).val() !== '') {
                     contactEmails.push($(this).val());
@@ -332,7 +332,7 @@
 
         $('#addEmailImg').on('click', function () {
             $("#email-info-" + emailCloneCount).clone()
-                    .attr('id', 'email-info-' + (++emailCloneCount)).val("").placeholder("Контактный e-mail")
+                    .attr('id', 'email-info-' + (++emailCloneCount)).val("")
                     .insertAfter("#email-info-" + (emailCloneCount - 1));
         });
 
