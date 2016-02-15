@@ -3,7 +3,7 @@
 <!-- залогиненный -->
 
 <div class="menu">
-  <div class="container">
+  <div class="container2">
     <div class="Logged">
       <ul class="groupLi">
         <li class="btnFace">
@@ -17,7 +17,7 @@
               <li><a href="#">Контакты</a></li>
               <li><a href="/logout">Выход</a></li>
             </ul>
-            <a class="edit" href="/edit-profile">Редактировать страницу</a>
+            <a class="edit" id="editProfileLink" href="/edit-profile">Редактировать страницу</a>
           </div>
         </li>
         <il class='btnMail'>

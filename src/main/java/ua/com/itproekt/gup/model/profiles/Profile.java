@@ -29,8 +29,6 @@ public class Profile {
     private Long createdDate;
     private Integer unreadMessages;
 
-
-
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
     }

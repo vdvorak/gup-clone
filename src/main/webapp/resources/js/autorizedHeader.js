@@ -6,11 +6,10 @@ var loggedInProfile = {};
         success: function (profile) {
             loggedInProfile = profile;
 
-
             if (profile.contact.pic != null && profile.contact.pic != '') {
-                $('#headerProfileImg').attr('src','/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
+                $('#headerProfileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1');
             } else {
-                $('#headerProfileImg').attr('src','/resources/images/no_avatar.jpg');
+                $('#headerProfileImg').attr('src', '/resources/images/no_avatar.jpg');
             }
 
             if (profile.username != null) {
@@ -20,23 +19,23 @@ var loggedInProfile = {};
             }
 
             if (profile.contactList != null) {
-                profile.contactList.forEach(function(contactId) {
+                profile.contactList.forEach(function (contactId) {
                     $.ajax({
                         type: "POST",
                         url: "/api/rest/profilesService/profile/read/id/" + contactId,
                         success: function (profile) {
-                            var imgTag = '';
+                            var imgTag = '<img src width="58"/>';
                             if (profile.contact.pic == null) {
-                                imgTag = '<img src="/resources/images/no_photo.jpg" width="58"/>';
+                                imgTag.replace('src', 'src="/resources/images/no_photo.jpg"');
                             } else {
-                                imgTag =  '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1"  width="58">';
+                                imgTag.replace('src', 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1"');
                             }
 
                             $('#headerProfileContactListUl').append(
                                 '<li>' +
-                                    '<a href="/profile/id/' + contactId + '">' +
-                                        imgTag +
-                                    '</a>' +
+                                '<a href="/profile/id/' + contactId + '">' +
+                                imgTag +
+                                '</a>' +
                                 '</li>');
                         }
                     });
@@ -44,8 +43,8 @@ var loggedInProfile = {};
             } else {
                 $('#headerProfileContactListUl').append(
                     '<li>' +
-                        '<p>Вы еще никого не добавили к себе в контакты.</p>' +
-                        '<a href="/profile/list">Найти знакомых</a>' +
+                    '<p>Вы еще никого не добавили к себе в контакты.</p>' +
+                    '<a href="/profile/list">Найти знакомых</a>' +
                     '</li>');
             }
 
@@ -53,7 +52,7 @@ var loggedInProfile = {};
                 $('#joinToGupBtn').hide();
             }
 
-            if (profile.unreadMessages > 0 ){
+            if (profile.unreadMessages > 0) {
                 $('.num').show().text(profile.unreadMessages);
             }
         }

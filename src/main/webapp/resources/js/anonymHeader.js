@@ -22,9 +22,16 @@ $(document).ready(function() {
             'email' : $('#registration-email').val(),
             'password' : $('#registration-password').val(),
             'point' : 0,
+            'profileRating' : [],
+            'contactList' : [],
             'userProfile' : {},
-            'contact' : {},
-            'contactList' : []
+            'contact' : {
+                'contactEmails' : [],
+                'contactPhones' : [],
+                'linkToWebSite' : [],
+                'socNetLink' : {},
+                'naceId' : []
+            }
         };
 
         $.ajax({

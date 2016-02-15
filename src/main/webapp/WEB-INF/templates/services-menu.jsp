@@ -1,12 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<div class="container">
+<div class="container2">
     <ul class="mid">
         <li>
             <a href="/offers" class="ads-p">Обьявления</a>
-            <div class="ads-img">
-                <a href="/offers"><img class="img-responsive" src="/resources/images/rupor.png" alt="rupor"></a>
-            </div>
+            <div class="ads-img"></div>
             <ul class="dropUl">
                 <li><a class="ads-a1" href="#">Топ обьявлений</a></li>
                 <li><a class="ads-a1" href="#">Новые</a></li>
@@ -16,9 +14,7 @@
         </li>
         <li>
             <a href="/tenders" class="ads-p">Тендеры</a>
-            <div class="ads-img">
-                <a href="/tenders"><img class="img-responsive" src="/resources/images/hammer.png" alt="hammer"></a>
-            </div>
+            <div class="ads-img2"></div>
             <ul class="dropUl">
                 <li><a class="ads-a1" href="#">Участвовать</a></li>
                 <li><a class="ads-a1" href="#">Исполнители</a></li>
@@ -28,9 +24,7 @@
         </li>
         <li>
             <a href="/project/list" class="ads-p">Проекты</a>
-            <div class="ads-img">
-                <a href="/project/list"><img class="img-responsive" src="/resources/images/compass.png" alt="compass"></a>
-            </div>
+            <div class="ads-img3"></div>
             <ul class="dropUl">
                 <li><a class="ads-a1" href="/project/list?typeOfProject=renovation">Реструкторизация</a></li>
                 <li><a class="ads-a1" href="project/list?typeOfProject=prototype">Готовый прототип</a></li>
@@ -40,9 +34,7 @@
         </li>
         <li>
             <a href="/blog-post/news?pageNumber=0" class="ads-p">Новости</a>
-            <div class="ads-img">
-                <a href="/blog-post/news?pageNumber=0"><img class="img-responsive" src="/resources/images/newspaper.png" alt="newspaper"></a>
-            </div>
+            <div class="ads-img4"></div>
             <ul class="dropUl">
                 <li><a class="ads-a1" href="#">Киев</a></li>
                 <li><a class="ads-a1" href="#">Львов</a></li>

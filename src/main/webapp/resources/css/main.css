@@ -154,21 +154,25 @@ table {
 	color: #0033cc;
 }
 
-.brand {
-	margin: 39px 24px 50px 27px;
-	display: inline-block;
-}
+
 
 .logo {
 	float: left;
-	width: 540px;
+	width: 410px;
+	height: 100px;
+	background: url(/resources/css/images/brand.png) no-repeat 0% 50%;
+	margin-top: 30px;
 }
 
 .logo-p {
 	color: #000000;
-	font: 400 36px HelveticaNeue;
+	font: 400 31px HelveticaNeue;
 	float: right;
-	margin-top: 80px;
+	margin-top: 35px;
+}
+
+.store {
+	width: 380px;
 }
 
 .store li {
@@ -177,18 +181,19 @@ table {
 
 .social {
 	float: right;
-	margin-top: 55px;
-	margin: 55px 0 23px 0;
+	margin: 40px 0 23px 0;
+	width: 376px;
 }
 
 .socialBtn {
 	color: #ffffff;
-	font: 700 19px Arial;
-	background-color: #35A8DE;
+	font: 700 18px Arial;
 	border-radius: 5px;
 	border: 0;
-	padding: 16px 9px 16px 18px;
-	margin-top: 25px;
+	margin-top: 17px;
+	height: 43px;
+	width: 309px;
+	background-color: #35A8DE;
 	-webkit-transition: all ease 0.3s;
 	transition: all ease 0.3s;
 }
@@ -202,57 +207,54 @@ table {
 }
 
 .search {
-	background-color: #1269a7;
-	border-radius: 5px;
-	height: 99px;
-	margin: 0 auto;
+	background-color: rgb(18, 105, 167);
+	border-radius: 4px;
+	height: 75px;
+	width: 100%;
 }
 
 .sear {
 	font: 400 18px DroidSans;
-	height: 42px;
-	width: 450px;
-	margin: 19px 8px 0 19px;
+	height: 32px;
+	width: 368px;
+	margin: 14px 5px 0 25px;
 	border-radius: 3px;
 	float: left;
 }
 
-#form {
-	display: inline-block;
-}
-
 .selectBox select {
 	border-radius: 0;
-	height: 42px;
-	width: 216px;
+	height: 32px;
+	width: 166px;
 	color: #898989;
 	font: 400 18px DroidSans;
 	background: transparent;
-	padding: 0 35px 0 24px;
+	padding: 0 5px 0 4px;
 	border: 0;
 }
 
 .selectBox {
-	width: 203px;
+	width: 153px;
+	height: 32px;
 	display: inline-block;
 	overflow: hidden;
-	background: url(images/caret.png) no-repeat 98%;
-	border-radius: 3px;
+	background: url(images/caret.png) no-repeat 98% 50%;
+	border-radius: 2px;
 	background-color: #ffffff;
-	margin-top: 19px;
+	margin-top: 14px;
 	float: left;
 }
 
 .submit-search {
 	color: #ffffff;
-	font: 400 30px DroidSans;
+	font: 400 28px DroidSans;
 	background-color: #99cc66;
-	height: 46px;
-	width: 163px;
+	height: 35px;
+	width: 123px;
 	border: 0;
 	border-radius: 4px;
-	margin-top: 17px;
-	margin-left: 16px;
+	margin-top: 14px;
+	margin-left: 11px;
 	-webkit-transition: all ease 0.3s;
 	transition: all ease 0.3s;
 }
@@ -269,13 +271,15 @@ table {
 
 .users {
 	color: #1269a7;
-	font: 400 30px DroidSans;
-	width: 253px;
-	height: 58px;
+	font: 400 28px DroidSans;
+	padding: 1px;
+	width: 181px;
+	height: 39px;
 	background-color: white;
-	border: 6px solid #84cddd;
-	border-radius: 6px;
-	margin-left: 11px;
+	border: 4px solid rgb(132, 205, 221);
+	border-radius: 4px;
+	margin-left: 12px;
+	margin-top: 12px;
 }
 
 .users:focus {
@@ -301,46 +305,48 @@ table {
 
 .ad-p {
 	color: #ffffff;
-	font: 400 16px ArianAMU;
+	font: 400 13px ArianAMU;
+	line-height: 29px;
 	background-color: #70ab35;
-	border: 5px solid #70ab35;
-	border-radius: 5px;
-	height: 27px;
-	width: 156px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	height: 29px;
+	width: 125px;
 	position: absolute;
-	top: -28px;
-	left: 70px;
+	top: -29px;
+	left: 48px;
+	text-align: center;
 }
 
 .ad {
 	position: relative;
-	width: 635px;
-	border: 5px solid #70ab35;
-	border-radius: 5px;
+	width: 487px;
+	border: 4px solid #70ab35;
+	border-radius: 4px;
+	margin-top: 40px;
 	float: left;
-	margin-top: 60px;
 }
 
 .add-top1 {
 	position: relative;
-	width: 190px;
-	height: 224px;
-	border: 5px solid #70ab35;
-	border-radius: 5px;
+	width: 145px;
+	height: 167px;
+	border: 3.745px solid rgb(112, 171, 53);
+	border-radius: 4px;
 	float: left;
-	margin: 9.1px;
+	margin: 19px 7px;
+	background: url(/resources/css/images/motherboard.png) no-repeat center center;
 }
 
 .ad-a1 {
 	color: #ffffff;
 	font: 400 19px ArianAMU;
 	background-color: rgba(0, 0, 0, 0.5);
-	height: 59px;
+	max-height: 43px;
 	width: 100%;
 	position: absolute;
-	bottom: 14px;
+	bottom: 12px;
 	text-align: center;
-	padding: 10px;
 }
 
 .ad-a1:hover {
@@ -351,61 +357,64 @@ table {
 
 .caretDown {
 	cursor: pointer;
-	border-top: 5px solid #70ab35;
-	padding: 10px 265px;
+	border-top: 4px solid #70ab35;
+	padding: 10px 202px;
 }
 
 .tend-p {
 	color: #ffffff;
-	font: 400 16px ArianAMU;
+	font: 400 13px ArianAMU;
+	line-height: 29px;
 	background-color: #70ab35;
-	border: 5px solid #70ab35;
-	border-radius: 5px;
-	height: 27px;
-	width: 156px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	height: 29px;
+	width: 125px;
 	position: absolute;
-	top: -28px;
-	right: 70px;
+	top: -29px;
+	right: 15px;
 	text-align: center;
 }
 
 .proj-p {
 	color: #ffffff;
-	font: 400 16px ArianAMU;
+	font: 400 13px ArianAMU;
+	line-height: 29px;
 	background-color: #70ab35;
-	border: 5px solid #70ab35;
-	border-radius: 5px;
-	height: 27px;
-	width: 156px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	height: 29px;
+	width: 125px;
 	position: absolute;
-	top: -28px;
-	left: 70px;
+	top: -29px;
+	left: 48px;
 	text-align: center;
 }
 
 .tidings {
 	position: relative;
-	width: 493px;
-	border: 5px solid #70ab35;
-	border-radius: 5px;
+	width: 369px;
+	border: 4px solid #70ab35;
+	border-radius: 4px;
 	float: right;
-	margin-top: 60px;
-	margin-left: 10px;
+	margin-top: 40px;
 }
 
 .tidiDown {
 	cursor: pointer;
-	border-top: 5px solid #70ab35;
-	padding: 10px 195px;
+	border-top: 4px solid #70ab35;
+	padding: 10px 144px;
 	margin-top: 20px;
 }
 
 .tidi1 {
 	float: right;
 	position: relative;
-	margin: 20px;
-	height: 335px;
-	width: 221px;
+	margin: 20px 20px 16px 0;
+	height: 252px;
+	width: 167px;
+	background: url(/resources/css/images/tidi3.png) no-repeat center center;
+	cursor: pointer;
 }
 
 .tidi1-a {
@@ -423,10 +432,12 @@ table {
 
 .tidi2 {
 	position: relative;
-	margin: 20px 0 0 20px;
-	height: 93px;
-	width: 199px;
+	margin: 20px 0 9px 20px;
+	height: 71px;
+	width: 150px;
 	display: inline-block;
+	background: url(/resources/css/images/tidi1.png) no-repeat center center;
+	cursor: pointer;
 }
 
 .tidi2-p {
@@ -438,20 +449,23 @@ table {
 }
 
 .tidi3 {
-	height: 224px;
-	width: 199px;
-	margin: 17px 0 0 20px;
+	height: 169px;
+	width: 150px;
+	margin-left: 20px;
 	position: relative;
 	display: inline-block;
+	background: url(/resources/css/images/tidi2.png) no-repeat center center;
+	cursor: pointer;
 }
 
 .tidi3-a {
 	color: #ffffff;
-	font: 400 26px ArianAMU;
+	font: 400 21px ArianAMU;
 	position: absolute;
-	bottom: 10px;
+	bottom: 8px;
 	text-align: center;
 	width: 100%;
+	height: 77px;
 	background-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -462,25 +476,27 @@ table {
 }
 
 .tidi4 {
-	width: 430px;
-	height: 152px;
-	border: 5px solid #70ab35;
-	border-radius: 5px;
+	width: 323px;
+	height: 115px;
+	border: 3.745px solid rgb(112, 171, 53);
+	border-radius: 4px;
 	margin: 0 auto;
 	margin-top: 20px;
 	position: relative;
+	padding: 7px 10px;
+	overflow: hidden;
 }
 
 .tidi4 img {
-	margin: 9px 19px 9px 13px;
 	float: left;
+	height: 80px;
+	width: 107px;
 }
 
 .tidi4-a {
 	color: #1269a7;
 	font: 400 14px DroidSans;
-	display: block;
-	margin-top: 15px;
+	margin-left: 10px;
 }
 
 .tidi4-a:hover {
@@ -490,15 +506,17 @@ table {
 
 .tidi4-p {
 	color: #868787;
-	font: 400 13px DroidSans;
+	font: 400 12px DroidSans;
+	line-height: 13px;
 	display: inline-block;
-	width: 170px;
+	width: 180px;
+	margin-left: 10px;
 }
 
 .tidi4-a2 {
 	display: inline-block;
 	color: #70ab35;
-	font: 400 14px DroidSans;
+	font: 400 12px DroidSans;
 	margin: 0;
 }
 
@@ -511,24 +529,23 @@ table {
 	color: #626262;
 	font: 400 10px DroidSans;
 	position: absolute;
-	top: 10px;
-	left: 13px;
+	bottom: 5px;
+	right: 10px;
 }
 
 .tidi4-ar {
 	color: #1269a7;
 	font: 400 14px DroidSans;
 	display: inline-block;
-	margin-top: 23px;
-	margin-left: 20px;
+	margin-top: 4px;
 }
 
 .tidi4-pr {
 	color: #868787;
-	font: 400 13px DroidSans;
+	font: 400 12px DroidSans;
 	display: inline-block;
-	width: 170px;
-	margin-left: 20px;
+	width: 180px;
+	line-height: 13px;
 }
 
 .tidi4-ar:hover {
@@ -538,8 +555,8 @@ table {
 
 .footer {
 	background-color: #9c6;
-	height: 56px;
-	margin-top: 79px;
+	height: 42px;
+	margin-top: 59px;
 }
 
 .bookDrop {
@@ -660,12 +677,12 @@ table {
 
 .mid li {
 	float: left;
-	width: 191px;
+	width: 144px;
 	margin-right: 1px;
 }
 
 .mid li:last-child {
-	width: 350px;
+	width: 319px;
 }
 
 .ads-p {
@@ -683,32 +700,57 @@ table {
 }
 
 .ads-img {
-	border: 5px solid #1269a7;
+	border: 4px solid #1269a7;
 	border-top: 0;
 	width: 100%;
-	height: 193px;
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
+	height: 144px;
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	background: url(/resources/css/images/rupor.png) no-repeat center center;
+	cursor: pointer;
 }
 
-.ads-img a {
-	width: 180px;
-	height: 190px;
-	display: inline-block;
+.ads-img2 {
+	border: 4px solid #1269a7;
+	border-top: 0;
+	width: 100%;
+	height: 144px;
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	background: url(/resources/css/images/hammer.png) no-repeat center center;
+	cursor: pointer;
 }
 
-.ads-img a img {
-	margin: 35px auto;
+.ads-img3 {
+	border: 4px solid #1269a7;
+	border-top: 0;
+	width: 100%;
+	height: 144px;
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	background: url(/resources/css/images/compass.png) no-repeat center center;
+	cursor: pointer;
+}
+
+.ads-img4 {
+	border: 4px solid #1269a7;
+	border-top: 0;
+	width: 100%;
+	height: 144px;
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	background: url(/resources/css/images/newspaper.png) no-repeat center center;
+	cursor: pointer;
 }
 
 .ads-a1 {
 	color: #2f3846;
-	font: 300 18px Helvetica;
+	font: 300 15px Helvetica;
 	display: block;
 	width: 100%;
-	border: 3px solid #36aae0;
+	border: 2px solid #36aae0;
 	border-bottom: 0;
-	padding-left: 10px;
+	padding: 0 5px;
 }
 
 .ads-a1:hover {
@@ -725,13 +767,13 @@ table {
 
 .ads-drop {
 	color: #2f3846;
-	font: 300 18px Helvetica;
+	font: 300 15px Helvetica;
 	display: block;
-	width: 191px;
-	border: 3px solid #36aae0;
-	border-bottom-left-radius: 3px;
-	border-bottom-right-radius: 3px;
-	padding-left: 10px;
+	width: 144px;
+	border: 2px solid #36aae0;
+	border-bottom-left-radius: 1px;
+	border-bottom-right-radius: 1px;
+	padding: 0 5px;
 }
 
 .ads-drop:hover {
@@ -744,8 +786,8 @@ table {
 	color: #626262;
 	font: 400 10px DroidSans;
 	position: absolute;
-	top: 9px;
-	right: 11px;
+	bottom: 5px;
+	left: 10px;
 }
 
 .mailDrop {
@@ -1167,7 +1209,7 @@ input[class="greenCheckbox"]:checked + span  	{
 
 .email {
 	color: #ffffff;
-	font: 400 21.14px DroidSans;
+	font: 400 21px DroidSans;
 	display: inline-block;
 	margin: 23px 0 0 15px;
 }
@@ -1215,7 +1257,7 @@ input[class="greenCheckbox"]:checked + span  	{
 	height: 52px;
 	width: 347px;
 	color: #ffffff;
-	font: 400 26.6px DroidSans;
+	font: 400 26px DroidSans;
 	background-color: #63CAED;
 	border-radius: 7px;
 	border: 0;
@@ -1235,7 +1277,7 @@ input[class="greenCheckbox"]:checked + span  	{
 
 .addToContact {
 	color: #ffffff;
-	font: 400 26.6px DroidSans;
+	font: 400 26px DroidSans;
 	width: 320px;
 	background-color: #1168A5;
 	border-radius: 7px;
@@ -1323,22 +1365,24 @@ input[class="greenCheckbox"]:checked + span  	{
 
 .tend-top1 {
 	position: relative;
-	width: 190px;
-	height: 224px;
-	border: 5px solid #70ab35;
-	border-radius: 5px;
+	width: 145px;
+	height: 167px;
+	border: 3.745px solid rgb(112, 171, 53);
+	border-radius: 4px;
 	float: left;
-	margin: 9.1px;
+	margin: 19px 7px;
+	background: url(/resources/css/images/name.png) no-repeat center center;
 }
 
 .proj-top1 {
 	position: relative;
-	width: 190px;
-	height: 224px;
-	border: 5px solid #70ab35;
-	border-radius: 5px;
+	width: 145px;
+	height: 167px;
+	border: 3.745px solid rgb(112, 171, 53);
+	border-radius: 4px;
 	float: left;
-	margin: 9.1px;
+	margin: 19px 7px;
+	background: url(/resources/css/images/tractor.png) no-repeat center center;
 }
 
 .massage-box {
@@ -1747,7 +1791,6 @@ label[for="repeat-registration-password"] {
 	display: inline-block;
 	overflow: hidden;
 	background: url(images/caret.png) no-repeat 98%;
-	border-radius: 3px;
 	border: 3px solid rgb(153, 204, 102);
 	border-radius: 6px;
 	height: 33px;
@@ -1937,6 +1980,7 @@ label[for="repeat-registration-password"] {
 	right: -515px;
 	cursor: pointer;
 }
+
 .social-icon-info {
 	position: absolute;
 	top: 5px;
@@ -2360,7 +2404,7 @@ input[id="checkbox-rich"]:checked + span  	{
 .normalNews {
 	border: 3px solid rgb(18, 105, 167);
 	border-radius: 7px;
-	width: 1140;
+	width: 1140px;
 	height: 192px;
 	margin-top: 20px;
 	position: relative;
@@ -2407,6 +2451,7 @@ input[id="checkbox-rich"]:checked + span  	{
 	bottom: 1px;
 	right: 1px;
 }
+
 .createBlog {
 	border: 4px solid rgb(153, 204, 102);
 	border-radius: 14px;
@@ -2417,6 +2462,7 @@ input[id="checkbox-rich"]:checked + span  	{
 .container2 {
 	width: 900px;
 	margin: 0 auto;
+	display: table;
 }
 
 .BlogPagination a:nth-child(1) {
@@ -2449,7 +2495,7 @@ input[id="checkbox-rich"]:checked + span  	{
 
 .blogName {
 	color: #1269a7;
-	font: 400 20px ArianAMU;
+	font: 400 28px ArianAMU;
 	float: left;
 	margin-left: 50px;
 	margin-top: 10px;
@@ -2461,14 +2507,12 @@ input[id="checkbox-rich"]:checked + span  	{
 	border-radius: 5px;
 	width: 301px;
 	height: 393px;
-	float: left;
-	background: url(images/createBlogLogo.png) no-repeat center center;
+	background: url(/resources/css/images/createBlogLogo.png) no-repeat center center;
 	margin-top: 30px;
 	margin-left: 20px;
 }
 
 .creatrBlogText {
-	float: right;
 	border: 2px solid rgb(153, 204, 102);
 	border-radius: 5px;
 	width: 544px;
@@ -2476,18 +2520,17 @@ input[id="checkbox-rich"]:checked + span  	{
 	padding: 23px 6px 36px 8px;
 }
 
-
-
 .createBlogDescriptionText {
 	text-align: justify;
 	color: #7d7d7d;
-	font: 400 28px Calibri;
+	font: 400 20px Calibri;
 }
 
 .createBlogSocialIcon {
 	width: 300px;
 	margin: 20px 0 10px 20px;
 	display: inline-block;
+	float: left;
 }
 
 .createBlogSocialIcon a {
@@ -2550,7 +2593,29 @@ input[id="checkbox-rich"]:checked + span  	{
 	background-color: rgb(153, 204, 102);
 }
 
-.pluso {
+.boxRight {
 	float: right;
-	margin-right: 60px;
+	text-align: center;
+}
+
+.boxLeft {
+	display: inline-block;
+}
+#form {
+	float: left;
+}
+
+.tidi-p {
+	color: #ffffff;
+	text-align: center;
+	font: 400 13px ArianAMU;
+	line-height: 29px;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	background-color: rgb(112, 171, 53);
+	position: absolute;
+	height: 29px;
+	width: 125px;
+	top: -29px;
+	right: 15px;
 }

@@ -143,7 +143,7 @@ public class DoerRestController {
     public ResponseEntity<Doer> addClient(@PathVariable("id") Doer doer, @RequestParam String clientId) {
         // handling situation when doer add client
         if (getCurrentUserId().equals(doer.getAuthorId())) {
-            if (profileService.findByIdWholeProfile(clientId) == null) {
+            if (profileService.findWholeProfileById(clientId) == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             // check current client isn't already in list

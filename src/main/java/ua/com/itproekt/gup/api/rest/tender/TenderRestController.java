@@ -32,7 +32,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -192,7 +195,7 @@ public class TenderRestController {
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
         // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an member;
-        UserType userType = profileService.findByIdWholeProfile(member.getId()).getContact().getType();
+        UserType userType = profileService.findWholeProfileById(member.getId()).getContact().getType();
         if (userType == null || userType == UserType.INDIVIDUAL) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }

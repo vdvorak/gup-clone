@@ -110,7 +110,7 @@ public class DialogueController {
     //----------------------------------- one dialogue  ------
     @RequestMapping(value = "/dialogue/create/with/{userId}", method = RequestMethod.GET)
     public String createDialogueWith(@PathVariable String userId, Model model) {
-        Profile profile = profileService.findByIdWholeProfile(userId);
+        Profile profile = profileService.findWholeProfileById(userId);
         if(profile == null || SecurityOperations.getLoggedUserId() == null){
             return "";
         }
@@ -151,7 +151,7 @@ public class DialogueController {
 
     private void completeMembers(Dialogue dialogue){
         for (Member member : dialogue.getMembers()) {
-            Profile profile = profileService.findUserProfile(member.getId());
+            Profile profile = profileService.findById(member.getId());
             if(profile != null && profile.getContact() != null) member.setUserPicId(profile.getContact().getPic());
             if(profile != null && profile.getUsername() != null && profile.getUsername().length() > 1) member.setName(profile.getUsername());
             else member.setName("Anonymous" );
