@@ -18,7 +18,7 @@ public class Contact {
     private Set<String> contactEmails;
     private Set<String> contactPhones;
     private Map<SocialNetwork, String> socNetLink;
-    private Set<String> linkToWebSite;
+    private String linkToWebSite;
     private String skypeUserName;
     private String aboutUs;
     private Nace nace;
@@ -28,6 +28,14 @@ public class Contact {
     private Long lastUpdate;
     private boolean member;
     private List<String> naceId;
+
+    public String getLinkToWebSite() {
+        return linkToWebSite;
+    }
+
+    public void setLinkToWebSite(String linkToWebSite) {
+        this.linkToWebSite = linkToWebSite;
+    }
 
     public Long getLastUpdate() {
         return lastUpdate;
@@ -150,24 +158,6 @@ public class Contact {
      */
     public void setSkypeUserName(String skypeUserName) {
         this.skypeUserName = skypeUserName;
-    }
-
-    /**
-     * Gets link to web site.
-     *
-     * @return the link to web site
-     */
-    public Set<String> getLinkToWebSite() {
-        return linkToWebSite;
-    }
-
-    /**
-     * Sets link to web site.
-     *
-     * @param linkToWebSite the link to web site
-     */
-    public void setLinkToWebSite(Set<String> linkToWebSite) {
-        this.linkToWebSite = linkToWebSite;
     }
 
     /**

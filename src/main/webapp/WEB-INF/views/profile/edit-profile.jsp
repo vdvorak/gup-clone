@@ -83,6 +83,12 @@
                     <div class="clearfix"></div>
                 </div>
 
+                <div id="companyAddressBlock">
+                    <label for="address" class="label-form-info">Адрес компании</label>
+                    <input type="text" name="address" id="address" class="input-info-normal" placeholder="Добавить ссылку">
+                    <div class="clearfix"></div>
+                </div>
+
                 <div id="positionBlock">
                     <label for="position" class="label-form-info">Должность</label>
                     <input id="position" type="text" name='position' class="form-info-input">
@@ -95,29 +101,30 @@
                     <div class="clearfix"></div>
                 </div>
 
-                <div id="companyAddressBlock">
-                    <label for="address" class="label-form-info">Адрес</label>
-                    <input type="text" name="address" id="address" class="input-info-normal" placeholder="Добавить ссылку">
-                    <div class="clearfix"></div>
-                </div>
 
                 <label for="main-email-info" class="label-form-info">Основной E-mail</label>
                 <input id="main-email-info" type="email" name='email' class="form-info-input">
 
                 <div class="clearfix"></div>
 
-                <div class="title-email" data-title="Добавить e-mail"><img class="email-plus" src="resources/images/pluse.png" alt="plus"></div>
-                <label for="email-info" class="label-form-info">Контактный e-mail</label>
-                <input id="email-info" type="email" name='email' class="form-info-input">
+                <div id="contactEmailsBlock">
+                    <div id="addEmailImg" class="title-email" data-title="Добавить e-mail">
+                        <img class="email-plus" src="resources/images/pluse.png" alt="plus">
+                    </div>
+                    <label for="email-info-1" class="label-form-info">Контактный e-mail</label>
 
-                <div class="clearfix"></div>
+                    <input id="email-info-1" type="email" name='contactEmail' class="form-info-input">
+                    <div class="clearfix"></div>
+                </div>
 
                 <label for="main-tel-info" class="label-form-info">Основной Телефон</label>
                 <input type="tel" name="tel" id="main-tel-info" class="input-info-min">
 
                 <div class="clearfix"></div>
 
-                <div class="title-tel" data-title="Добавить телефон"><img class="tel-plus" src="resources/images/pluse.png" alt="plus"></div>
+                <div class="title-tel" data-title="Добавить телефон">
+                    <img class="tel-plus" src="resources/images/pluse.png" alt="plus">
+                </div>
                 <label for="tel-info" class="label-form-info">Контактный телефон</label>
                 <input type="tel" name="tel" id="tel-info" class="input-info-min">
 
@@ -175,21 +182,19 @@
         var loadedProfile = {};
         var updatedProfile = {};
 
-        $(document).ready(function() {
+        var emailCloneCount = 1;
 
+        $(document).ready(function() {
             $.ajax({
                 type: "POST",
                 url: "/api/rest/profilesService/profile/read/id/" + profileId + "/wholeProfile",
                 statusCode: {
                     200: function (profile) {
                         loadedProfile = profile;
-                        alert('loadedProfile: ' + JSON.stringify(loadedProfile));
-
                         updatedProfile.contact = loadedProfile.contact;
                         updatedProfile.userProfile = loadedProfile.userProfile;
 
-//                    alert("profileId: " + profileId + ":: JSON.stringify(loadedProfile): " + JSON.stringify(loadedProfile));
-//                    alert( JSON.stringify(updatedProfile));
+                        alert('loadedProfile: ' + JSON.stringify(loadedProfile));
 
                         if (profile.contact.pic != null) {
                             $('.moreInformation-img').css('background',
@@ -199,26 +204,44 @@
                         $('#select-type').val(profile.contact.type);
                         $('#select-type').change();
 
-                        $('#nameCompany').val(profile.username);
+                        $('#userName').val(profile.username);
                         $('#main-email-info').val(profile.email);
                         $('#main-tel-info').val(profile.mainPhoneNumber);
                         $('#skype-info').val(profile.contact.skypeUserName);
                         $('#info-about-me').val(profile.contact.aboutUs);
+                        $('#web-addresses').val(profile.contact.linkToWebSite);
+
+                        for	(var i = 0; i < profile.contact.contactEmails.length; i++) {
+                            if (i === 0) {
+                                $('#email-info-1').val(profile.contact.contactEmails[i]);
+                            } else {
+                                emailCloneCount++;
+
+                                $('<input/>', {
+                                    id: 'email-info-' + (i + 1),
+                                    type: 'email',
+                                    name: 'contactEmail',
+                                    class: 'form-info-input',
+                                    value: profile.contact.contactEmails[i]
+                                }).appendTo('#contactEmailsBlock');
+
+                                $('<div/>', {
+                                    class: 'clearfix'
+                                }).appendTo('#contactEmailsBlock');
+                            }
+                        }
 
 //                    $('#tel-info').attr("placeholder", profile.contact.O);
-//                    $('#email-info').val(profile.contact.email);
                     }
                 }
             });
         });
 
-
-
         $('#updateProfileBtn').on('click', function () {
             updatedProfile.id = loadedProfile.id;
 
-            if(loadedProfile.username !== $('#nameCompany').val()) {
-                updatedProfile.username = $('#nameCompany').val();
+            if(loadedProfile.username !== $('#userName').val()) {
+                updatedProfile.username = $('#userName').val();
             }
 
             if(loadedProfile.contact.type !== $('#select-type').val() && $('#select-type').val() !== "") {
@@ -233,13 +256,22 @@
                 updatedProfile.contact.skypeUserName = $('#skype-info').val();
             }
 
-//            if(loadedProfile.contact.linkToWebSite !== $('#web-addresses').val()) {
+            if(loadedProfile.contact.linkToWebSite !== $('#web-addresses').val()) {
+                updatedProfile.contact.linkToWebSite = $('#web-addresses').val();
 //                updatedProfile.contact.linkToWebSite.push($('#web-addresses').val());
-//            }
+            }
 
             if(loadedProfile.mainPhoneNumber !== $('#main-tel-info').val()) {
                 updatedProfile.mainPhoneNumber = $('#main-tel-info').val();
             }
+
+            var contactEmails = new Array();
+            $("input[name=contactEmail]").each(function() {
+                if($(this).val() !== '') {
+                    contactEmails.push($(this).val());
+                }
+            });
+            updatedProfile.contact.contactEmails = contactEmails;
 
             alert('updatedProfile: ' + JSON.stringify(updatedProfile));
 
@@ -296,6 +328,12 @@
 
         $('#addProfileImg').on('click', function () {
             $("#uploadProfilePhotoInput").click();
+        });
+
+        $('#addEmailImg').on('click', function () {
+            $("#email-info-" + emailCloneCount).clone()
+                    .attr('id', 'email-info-' + (++emailCloneCount)).val("").placeholder("Контактный e-mail")
+                    .insertAfter("#email-info-" + (emailCloneCount - 1));
         });
 
         $('#uploadProfilePhotoInput').on('change', function () {

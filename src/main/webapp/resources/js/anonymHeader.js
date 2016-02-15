@@ -1,4 +1,4 @@
-$(document).ready(function() {
+//$(document).ready(function() {
     $("#loginBtn").click(function(){
         $.ajax({
             type: 'POST',
@@ -26,9 +26,10 @@ $(document).ready(function() {
             'contactList' : [],
             'userProfile' : {},
             'contact' : {
+                'type' : 'INDIVIDUAL',
                 'contactEmails' : [],
                 'contactPhones' : [],
-                'linkToWebSite' : [],
+                //'linkToWebSite' : [],
                 'socNetLink' : {},
                 'naceId' : []
             }
@@ -91,4 +92,4 @@ $(document).ready(function() {
             }
         );
     });
-});
+//});
