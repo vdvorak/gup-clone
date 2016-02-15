@@ -24,37 +24,71 @@
     </head>
 
     <body>
-        <div>
-            <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
-            <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
 
-            <div>
-                <h2 align="center">Профили</h2>
-                <a href="/profile/list"><h3 align="center">Посмотреть все профили</h3></a>
-            </div>
-            <div align="center">
-                <input id="searchInput" size="100" placeholder="Имя профиля">
-                <button id="findProfilesButton">Найти профиль</button>
-            </div>
-            <div id="paginationDiv">
-                <label id="pageLabel" for="pageNumLine"><b>Страница:</b> <label id="pageNumLine"></label></label>
-
-                <button id="prevPageButton">Назад</button>
-                <button id="nextPageButton">Вперед</button>
-            </div>
-            <div>
-                <table id="profilesTable" border="1" width="100%">
-                    <thead>
-                    <tr>
-                        <th>Фото</th>
-                        <th>Имя</th>
-                        <th>О себе</th>
-                        <th>Добавить в контакты</th>
-                    </tr>
-                    </thead>
-                </table>
-            </div>
+    <div class="container2">
+        <div class="profileList">
+            <div class="profileListLogo" style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>
+            <a href="#" class="profileListName">Веган Фест</a>
+            <p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя</p>
         </div>
+        <div class="profileList vip-color-border"> <!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->
+            <div class="profileListLogo vip-color-border" style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div> <!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->
+            <a href="#" class="profileListName">Веган Фест</a>
+            <p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя</p>
+        </div>
+        <div class="profileList">
+            <div class="profileListLogo" style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>
+            <a href="#" class="profileListName">Веган Фест</a>
+            <p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя</p>
+        </div>
+        <div class="profileList vip-color-border" > <!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->
+            <div class="profileListLogo vip-color-border" style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div> <!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->
+            <a href="#" class="profileListName">Веган Фест</a>
+            <p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя</p>
+        </div>
+        <div class="profileList">
+            <div class="profileListLogo" style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>
+            <a href="#" class="profileListName">Веган Фест</a>
+            <p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя</p>
+        </div>
+        <div class="profileList">
+            <div class="profileListLogo" style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>
+            <a href="#" class="profileListName">Веган Фест</a>
+            <p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя Описание пользователя</p>
+        </div>
+    </div>
+
+        <%--<div>--%>
+            <%--<jsp:include page="/WEB-INF/templates/common-header.jsp"/>--%>
+            <%--<jsp:include page="/WEB-INF/templates/authentification.jsp"/>--%>
+
+            <%--<div>--%>
+                <%--<h2 align="center">Профили</h2>--%>
+                <%--<a href="/profile/list"><h3 align="center">Посмотреть все профили</h3></a>--%>
+            <%--</div>--%>
+            <%--<div align="center">--%>
+                <%--<input id="searchInput" size="100" placeholder="Имя профиля">--%>
+                <%--<button id="findProfilesButton">Найти профиль</button>--%>
+            <%--</div>--%>
+            <%--<div id="paginationDiv">--%>
+                <%--<label id="pageLabel" for="pageNumLine"><b>Страница:</b> <label id="pageNumLine"></label></label>--%>
+
+                <%--<button id="prevPageButton">Назад</button>--%>
+                <%--<button id="nextPageButton">Вперед</button>--%>
+            <%--</div>--%>
+            <%--<div>--%>
+                <%--<table id="profilesTable" border="1" width="100%">--%>
+                    <%--<thead>--%>
+                    <%--<tr>--%>
+                        <%--<th>Фото</th>--%>
+                        <%--<th>Имя</th>--%>
+                        <%--<th>О себе</th>--%>
+                        <%--<th>Добавить в контакты</th>--%>
+                    <%--</tr>--%>
+                    <%--</thead>--%>
+                <%--</table>--%>
+            <%--</div>--%>
+        <%--</div>--%>
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>

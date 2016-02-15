@@ -35,11 +35,11 @@
 
         <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
 
-        <div class="container">
+        <div class="container2">
             <div class="profile"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border -->
                 <p class="online">online</p>
                 <div class="profile-img"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border, а если организации то organization-color-border -->
-                    <img class="img-responsive" id="profileImg" src="" width="342" height="428">
+                    <img class="img-responsive" id="profileImg" src="">
                     <div class="vip-profile-img"> <!-- этот блок надо включить когда профиль випа, у обычного он выключен -->
                         <div class="rating-vip">
 
@@ -82,12 +82,12 @@
                 </sec:authorize>
 
                 <div class="social-icon">
-                    <a href="#"><img src="/resources/images/in.png" alt="in"></a>
-                    <a href="#"><img src="/resources/images/g+.png" alt="g+"></a>
-                    <a href="#"><img src="/resources/images/B.png" alt="B"></a>
-                    <a href="#"><img src="/resources/images/skype-icon.png" alt="skype-icon"></a>
-                    <a href="#"><img src="/resources/images/facebook.png" alt="facebook"></a>
-                    <a href="#"><img src="/resources/images/twitter.png" alt="twitter"></a>
+                    <a href="#"><img class="img-responsive" src="/resources/images/in.png" alt="in"></a>
+                    <a href="#"><img class="img-responsive" src="/resources/images/g+.png" alt="g+"></a>
+                    <a href="#"><img class="img-responsive" src="/resources/images/B.png" alt="B"></a>
+                    <a href="#"><img class="img-responsive" src="/resources/images/skype-icon.png" alt="skype-icon"></a>
+                    <a href="#"><img class="img-responsive" src="/resources/images/facebook.png" alt="facebook"></a>
+                    <a href="#"><img class="img-responsive" src="/resources/images/twitter.png" alt="twitter"></a>
                 </div>
                 <div class="AboutMe">
                     <p class="AboutMe-p2">О себе</p>

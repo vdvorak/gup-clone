@@ -41,7 +41,7 @@
         <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
     </sec:authorize>
 
-    <div class="container">
+    <div class="container2">
         <div class="moreInformation">
             <p class="info-p">Дополнительная информация</p>
 
@@ -112,22 +112,16 @@
                 <label for="skype-info" class="label-form-info">Skype</label>
                 <input type="text" name="skype" id="skype-info" class="input-info-min">
 
-                <div class="clearfix"></div>
-
-                <label for="social-icon" class="label-form-info">Социальные сети</label>
-                <input type="text" name="social-icon" id="social-icon" class="input-info-normal" placeholder="Добавить ссылку">
-
-                <div class="clearfix"></div>
                 <div class="group-info">
                     <label for="social-icon" class="label-form-info">Социальные сети</label>
                     <input type="text" name="social-icon" id="social-icon" class="input-info-normal" placeholder="Добавить ссылку">
                     <div class="social-icon-info">
-                        <a href="#"><img src="resources/images/twitter-info.png" alt=""></a>
-                        <a href="#"><img src="resources/images/facebook-info.png" alt=""></a>
-                        <a href="#"><img src="resources/images/skype-info.png" alt=""></a>
-                        <a href="#"><img src="resources/images/vk-info.png" alt=""></a>
-                        <a href="#"><img src="resources/images/g+info.png" alt=""></a>
-                        <a href="#"><img src="resources/images/in-info.png" alt=""></a>
+                        <a href="#"><img class="img-responsive" src="/resources/images/twitter-info.png" alt=""></a>
+                        <a href="#"><img class="img-responsive" src="/resources/images/facebook-info.png" alt=""></a>
+                        <a href="#"><img class="img-responsive" src="/resources/images/skype-info.png" alt=""></a>
+                        <a href="#"><img class="img-responsive" src="/resources/images/vk-info.png" alt=""></a>
+                        <a href="#"><img class="img-responsive" src="/resources/images/g+info.png" alt=""></a>
+                        <a href="#"><img class="img-responsive" src="/resources/images/in-info.png" alt=""></a>
                     </div>
                 </div>
 
