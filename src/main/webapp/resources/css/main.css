@@ -1634,6 +1634,14 @@ label[for="registration-email"] {
 	margin-bottom: 18px;
 }
 
+#responseEmail {
+	height: 32px;
+	width: 488px;
+	float: right;
+	margin-right: 100px;
+	padding: 0;
+}
+
 label[for="registration-password"] {
 	color: #959595;
 	font: 400 24px ArianAMU;

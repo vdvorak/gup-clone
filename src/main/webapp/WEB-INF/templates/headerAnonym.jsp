@@ -22,6 +22,7 @@
             <%--<form class="registration-form" method="post" action="#" role="form">--%>
               <label for="registration-email">Введите логин/ E-mail</label>
               <input type="email" name="registration-email" id='registration-email' required>
+              <div id="responseEmail"></div>
 
               <div class="clearfix"></div>
 
