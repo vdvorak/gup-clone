@@ -55,7 +55,7 @@ public class TenderController {
         if(SecurityOperations.getLoggedUserId() == null){
             return "redirect:/";
         }
-        Profile loggedUser = profileService.findByIdWholeProfile(SecurityOperations.getLoggedUserId());
+        Profile loggedUser = profileService.findWholeProfileById(SecurityOperations.getLoggedUserId());
         boolean admin = loggedUser.getUserRoles().contains(UserRole.ROLE_ADMIN);
         if(tender == null || (!tender.getAuthorId().equals(loggedUser.getId()) && !admin) ){
             System.out.println("!!!!!!!!!!!!!!!! tender.getAuthorId=" + tender.getAuthorId() + "SecurityOperations.getLoggedUserId() = " + SecurityOperations.getLoggedUserId());

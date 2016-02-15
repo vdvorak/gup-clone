@@ -37,7 +37,7 @@ public class MainController {
 
         if (SecurityOperations.isUserLoggedIn()) {
             String userId = SecurityOperations.getLoggedUserId();
-            Profile profile = profilesService.findByIdWholeProfile(userId);
+            Profile profile = profilesService.findWholeProfileById(userId);
 
             model.addAttribute("profile", profile);
         }
