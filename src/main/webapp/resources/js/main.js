@@ -65,4 +65,9 @@ $(document).ready(function(){
         $('.intro').removeClass("intro");
         $(this).addClass("intro");
     });
+
+    $(".search-img").click(function(){
+        $(".search-img").toggleClass('trolol');
+        $("#filterForm").slideToggle();
+    });
 });
