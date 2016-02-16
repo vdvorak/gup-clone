@@ -183,7 +183,7 @@
 
                         if (profile.contact.contactEmails != null) {
                             profile.contact.contactEmails.forEach(function(email) {
-                                $('.emailContact').append('<p class="email">E-mail: ' + email + '</p>');
+                                $('.emailContact').append('<p class="email">' + email + '</p>');
                             });
                             $('.emailContact').show();
                         }
