@@ -36,7 +36,8 @@
           <br>
 
           Описание
-          <textarea calss="inputDescript">${offer.description}</textarea>
+          <textarea id="offerDescription" class="inputDescript">${offer.description}</textarea>
+          <div id="textLength"></div>
           <br>
 
           <div id="inputPrice">
@@ -654,7 +655,25 @@
       });
     });
 // serialize form and sent it via POST method in JSON --------------------------END---------------------
+    countTextLength();
+    $("#offerDescription").on('keyup', countTextLength());
+
   });
+
+  function countTextLength() {
+    var counter = $("#textLength");
+    var currentString = $("#offerDescription").val();
+    counter.html(currentString.length);
+    if (currentString.length <= 50) {  /*or whatever your number is*/
+      counter.css("color", "red");
+    } else {
+      if (currentString.length > 500) {
+        counter.css("color", "red");
+      } else {
+        counter.css("color", "green");
+      }
+    }
+  }
 
   // delete pictures only from page
   function deleteImgFromPage(idImg) {
