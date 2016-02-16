@@ -70,9 +70,9 @@
                     <div class="skypeContact" style="display:none">
                     </div>
                     <div class="emailContact" style="display:none">
-                        <p class="email">E-mail: Deptors@ukr.net</p>
                     </div>
                 </div>
+
 
                 <sec:authorize access="isAuthenticated()">
                     <div class="contact-btn-group">
@@ -136,8 +136,8 @@
                         }
 
                         if(profile.contact.member == true) {
-                            $('.rating-organization').append(profile.point);
                             $('.organization-profile-img').show();
+                            $('.rating-organization').append('<p>' + profile.point + '</p>');
                         }
 
                         if (profile.username != null) {
@@ -170,7 +170,7 @@
                             $('.AboutMe-p').append("Пользователь еще ничего на рассказал о себе.");
                         }
 
-                        if (profile.contact.contactPhones != null) {
+                        if (profile.contact.contactPhones.length > 0) {
                             profile.contact.contactPhones.forEach(function(phoneNumber) {
                                 $('.phone').append('<p class="phoneNumber">' + phoneNumber + '</p>');});
                                 $('.phone').show();
@@ -181,7 +181,7 @@
                             $('.skypeContact').show();
                         }
 
-                        if (profile.contact.contactEmails != null) {
+                        if (profile.contact.contactEmails.length > 0) {
                             profile.contact.contactEmails.forEach(function(email) {
                                 $('.emailContact').append('<p class="email">' + email + '</p>');
                             });
