@@ -7,3 +7,7 @@
 .element-hidden {
     display: none;
 }
+
+.input-social:invalid {
+    color: red;
+}
