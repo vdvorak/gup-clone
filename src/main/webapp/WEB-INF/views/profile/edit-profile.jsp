@@ -122,13 +122,14 @@
 
                 <div class="clearfix"></div>
 
-                <div class="title-tel" data-title="Добавить телефон">
-                    <img class="tel-plus" src="resources/images/pluse.png" alt="plus">
+                <div id="contactPhonesBlock">
+                    <div  id="addPhoneImg" class="title-tel" data-title="Добавить телефон">
+                        <img class="tel-plus" src="resources/images/pluse.png" alt="plus">
+                    </div>
+                    <label for="tel-info-1" class="label-form-info">Контактный телефон</label>
+                    <input type="tel" name="contactTel" id="tel-info-1" class="input-info-min">
+                    <div class="clearfix"></div>
                 </div>
-                <label for="tel-info" class="label-form-info">Контактный телефон</label>
-                <input type="tel" name="tel" id="tel-info" class="input-info-min">
-
-                <div class="clearfix"></div>
 
                 <label for="skype-info" class="label-form-info">Skype</label>
                 <input type="text" name="skype" id="skype-info" class="input-info-min">
@@ -183,9 +184,10 @@
         var updatedProfile = {};
 
         var emailCloneCount = 1;
+        var contactPhoneCloneCount = 1;
 
         function setValuesForFieldsFromProfile(profile) {
-            alert('loadedProfile: ' + JSON.stringify(loadedProfile));
+//            alert('loadedProfile: ' + JSON.stringify(loadedProfile));
 
             if (profile.contact.pic != null) {
                 $('.moreInformation-img').css('background',
@@ -219,6 +221,26 @@
                     $('<div/>', {
                         class: 'clearfix'
                     }).appendTo('#contactEmailsBlock');
+                }
+            }
+
+            for	(var i = 0; i < profile.contact.contactPhones.length; i++) {
+                if (i === 0) {
+                    $('#tel-info-1').val(profile.contact.contactPhones[i]);
+                } else {
+                    contactPhoneCloneCount++;
+
+                    $('<input/>', {
+                        id: 'tel-info-' + (i + 1),
+                        type: 'tel',
+                        name: 'contactTel',
+                        class: 'input-info-min',
+                        value: profile.contact.contactPhones[i]
+                    }).appendTo('#contactPhonesBlock');
+
+                    $('<div/>', {
+                        class: 'clearfix'
+                    }).appendTo('#contactPhonesBlock');
                 }
             }
 
@@ -259,8 +281,16 @@
                     contactEmails.push($(this).val());
                 }
             });
-
             updatedProfile.contact.contactEmails = contactEmails;
+
+            var contactPhones = [];
+            $("input[name=contactTel]").each(function() {
+                if($(this).val() !== '') {
+                    contactPhones.push($(this).val());
+                }
+            });
+            updatedProfile.contact.contactPhones = contactPhones;
+
         }
 
 
@@ -274,7 +304,6 @@
                         updatedProfile.contact = loadedProfile.contact;
                         updatedProfile.userProfile = loadedProfile.userProfile;
 
-
                         setValuesForFieldsFromProfile(profile);
                     }
                 }
@@ -284,7 +313,7 @@
         $('#updateProfileBtn').on('click', function () {
             initializeProfileEntityForUpdate();
 
-            alert('updatedProfile 4: ' + JSON.stringify(updatedProfile));
+//            alert('updatedProfile : ' + JSON.stringify(updatedProfile));
 
             $.ajax({
                 type: "POST",
@@ -341,9 +370,23 @@
         });
 
         $('#addEmailImg').on('click', function () {
-            $("#email-info-" + emailCloneCount).clone()
-                    .attr('id', 'email-info-' + (++emailCloneCount)).val("")
-                    .insertAfter("#email-info-" + (emailCloneCount - 1));
+            if (emailCloneCount < 5) {
+                $("#email-info-" + emailCloneCount).clone()
+                        .attr('id', 'email-info-' + (++emailCloneCount)).val("")
+                        .insertAfter("#email-info-" + (emailCloneCount - 1));
+            } else {
+                alert('Максимум 5 контактных телефонов');
+            }
+        });
+
+        $('#addPhoneImg').on('click', function () {
+            if (contactPhoneCloneCount < 5) {
+                $("#tel-info-" + contactPhoneCloneCount).clone()
+                        .attr('id', 'tel-info-' + (++contactPhoneCloneCount)).val("")
+                        .insertAfter("#tel-info-" + (contactPhoneCloneCount - 1));
+            } else {
+                alert('Максимум 5 контактных email-ов');
+            }
         });
 
         $('#uploadProfilePhotoInput').on('change', function () {
