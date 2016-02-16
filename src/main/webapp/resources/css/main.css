@@ -1,3 +1,66 @@
+/* font-family: "ArianAMURegular"; */
+@font-face {
+	font-family: "ArianAMURegular";
+	src: url("/resources/fonts/ArianAMURegular/ArianAMURegular.eot");
+	src: url("/resources/fonts/ArianAMURegular/ArianAMURegular.eot?#iefix")format("embedded-opentype"),
+	url("/resources/fonts/ArianAMURegular/ArianAMURegular.woff") format("woff"),
+	url("/resources/fonts/ArianAMURegular/ArianAMURegular.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+/* font-family: "ArianAMUBold"; */
+@font-face {
+	font-family: "ArianAMUBold";
+	src: url("/resources/fonts/ArianAMUBold/ArianAMUBold.eot");
+	src: url("/resources/fonts/ArianAMUBold/ArianAMUBold.eot?#iefix")format("embedded-opentype"),
+	url("/resources/fonts/ArianAMUBold/ArianAMUBold.woff") format("woff"),
+	url("/resources/fonts/ArianAMUBold/ArianAMUBold.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+/* font-family: "ArianAMUItalic"; */
+@font-face {
+	font-family: "ArianAMUItalic";
+	src: url("/resources/fonts/ArianAMUItalic/ArianAMUItalic.eot");
+	src: url("/resources/fonts/ArianAMUItalic/ArianAMUItalic.eot?#iefix")format("embedded-opentype"),
+	url("/resources/fonts/ArianAMUItalic/ArianAMUItalic.woff") format("woff"),
+	url("/resources/fonts/ArianAMUItalic/ArianAMUItalic.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+/* font-family: "ArianAMUBoldItalic"; */
+@font-face {
+	font-family: "ArianAMUBoldItalic";
+	src: url("/resources/fonts/ArianAMUBoldItalic/ArianAMUBoldItalic.eot");
+	src: url("/resources/fonts/ArianAMUBoldItalic/ArianAMUBoldItalic.eot?#iefix")format("embedded-opentype"),
+	url("/resources/fonts/ArianAMUBoldItalic/ArianAMUBoldItalic.woff") format("woff"),
+	url("/resources/fonts/ArianAMUBoldItalic/ArianAMUBoldItalic.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+
+
+/* font-family: "DroidSansRegular"; */
+@font-face {
+	font-family: "DroidSansRegular";
+	src: url("/resources/fonts/DroidSansRegular/DroidSansRegular.eot");
+	src: url("/resources/fonts/DroidSansRegular/DroidSansRegular.eot?#iefix")format("embedded-opentype"),
+	url("/resources/fonts/DroidSansRegular/DroidSansRegular.woff") format("woff"),
+	url("/resources/fonts/DroidSansRegular/DroidSansRegular.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+/* font-family: "DroidSansBold"; */
+@font-face {
+	font-family: "DroidSansBold";
+	src: url("/resources/fonts/DroidSansBold/DroidSansBold.eot");
+	src: url("/resources/fonts/DroidSansBold/DroidSansBold.eot?#iefix")format("embedded-opentype"),
+	url("/resources/fonts/DroidSansBold/DroidSansBold.woff") format("woff"),
+	url("/resources/fonts/DroidSansBold/DroidSansBold.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -1592,14 +1655,6 @@ label[for="registration-email"] {
 	margin-bottom: 18px;
 }
 
-#responseEmail {
-	height: 32px;
-	width: 488px;
-	float: right;
-	margin-right: 100px;
-	padding: 0;
-}
-
 label[for="registration-password"] {
 	color: #959595;
 	font: 400 24px ArianAMU;
@@ -1939,7 +1994,7 @@ label[for="repeat-registration-password"] {
 .tel-plus {
 	position: absolute;
 	top: -18px;
-	right: -320px;
+	right: -385px;
 	cursor: pointer;
 }
 
@@ -2644,10 +2699,6 @@ input[id="checkbox-rich"]:checked + span  	{
 	overflow: hidden;
 }
 
-.vip-color-border {
-	border-color: #FDB205;
-}
-
 .filterContacts {
 	float: left;
 	height: 35px;
@@ -2701,6 +2752,10 @@ label[for="checkbox-filter3"] {
 .news {
 	position: relative;
 	margin-top: 30px;
+	border: 5px solid transparent;
+	border-radius: 7px;
+	padding: 5px;
+	margin-bottom: 5px;
 }
 
 .newsVisits {
@@ -2815,10 +2870,16 @@ label[for="checkbox-filter3"] {
 	margin: 20px auto;
 }
 
+
+
+
+
 #newsCommentsForm {
 	width: 345px;
 	margin: 0 auto;
 }
+
+
 
 #newsFormComments {
 	height: 126px;
@@ -2923,4 +2984,12 @@ label[for="checkbox-filter3"] {
 
 .backgroundColorComment {
 	background-color: #1168A5;
+}
+
+.vip-color-border {
+	border-color: #FDB205;
+}
+
+.vip-color {
+	color: #FDB205;
 }

@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Создание блога</title>
+    <link href="/resources/css/mini.css" rel="stylesheet">
 </head>
 <body>
 
@@ -47,7 +48,7 @@
             <a class="GOOGLEPLUS"><img src="/resources/images/goo-icon.png"></a>
             <a class="LINKEDIN"><img src="/resources/images/link-icon.png"></a>
 
-            <div><input type="text" name="FACEBOOK" placeholder="Страница FACEBOOK"><span class="remove_field"><img
+            <div><input class="input-social" type="url" name="FACEBOOK" pattern="http://www\.facebook\.com\/(.+)|https://www\.facebook\.com\/(.+)" placeholder="Страница FACEBOOK"><span class="remove_field"><img
                     src="/resources/img/minus.png" width="15" height="15"></span>
             </div>
         </div>
@@ -70,10 +71,10 @@
         $(".input_soc_wrap a").click(function (e) {
             e.preventDefault();
             var socName = $(this).attr("class");
-
+            var patternRegEx = getPatternSocialLinks(socName);
             if (x < max_fields) { //max input box allowed
                 x++; //text box increment
-                $(wrapper).append('<div><input name="' + socName + '" type="text" placeholder = "Страница ' + socName + '"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="15" height="15"></a></div>');
+                $(wrapper).append('<div><input class="input-social" name="' + socName + '" type="url" ' + patternRegEx + ' placeholder = "Страница ' + socName + '"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="15" height="15"></a></div>');
             }
         });
 
@@ -229,6 +230,23 @@
         });
     });
     ///------------------------- Upload Blog -----------------------------------------------
+
+    function getPatternSocialLinks(socName) {
+        if(socName === "FACEBOOK") {
+            return "pattern=http://www\.facebook\.com\/(.+)|https://www\.facebook\.com\/(.+)";
+        } else if(socName === "TWITTER") {
+            return "pattern=http://twitter\.com\/(.+)|https://\twitter\.com\/(.+)";
+        } else if(socName === "LINKEDIN") {
+            return "pattern=http://www\.linkedin\.com\/(.+)|https://www\.linkedin\.com\/(.+)";
+        } else if(socName === "GOOGLEPLUS") {
+            return "pattern=http://plus\.google\.com\/(.+)|https://\plus\.google\.com\/(.+)";
+        } else if(socName === "VKONTAKTE") {
+            return "pattern=http://vk\.com\/(.+)|https://\vk\.com\/(.+)";
+        } else {
+            return "";
+        }
+    }
+
 </script>
 </body>
 </html>

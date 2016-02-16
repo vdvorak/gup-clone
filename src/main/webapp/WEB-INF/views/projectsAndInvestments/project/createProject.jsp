@@ -64,11 +64,19 @@
     </select>
 </div>
 
-<div>
+<div id="drop_zone">
+
     <form id="projectPhotoInput" enctype="multipart/form-data" method="post">
-        <label for="photoFile"><b>Фотография: </b></label>
-        <input id="photoFile" type="file" name="file" multiple accept="image/*,image/jpeg">
+        <label for="photoFile"><b>Загрузите ваши фотографии на сервер</b></label>
+        <p><input id="photoFile" type="file" name="file" multiple accept="image/*,image/jpeg"></p>
+        <input type="submit" value="Добавить"></p>
     </form>
+
+    <div class="imgBlock">
+        <!--uploaded images-->
+    </div>
+
+    Перетяните файлы сюда
 </div>
 <button id="createProject">Создать</button>
 
@@ -81,39 +89,102 @@
 </sec:authorize>
 <script>
 
-    var imgId = '';
     var imagesIds = {};
     var projectType = [];
     var project = {};
 
-    $(document).on('change', '#photoFile', function (e) {
+    $(document).ready(function () {
+        // Setup the dnd listeners.
+        var dropZone = document.getElementById('drop_zone');
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
 
-        var formImg = new FormData($('#projectPhotoInput')[0]);
+        function handleFileSelect(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
 
-        if (imgId !== '') {
-            deleteImgFromDB(imgId);
+            var files = evt.dataTransfer.files; // FileList object.
+
+            // files is a FileList of File objects. List some properties.
+            for (var i = 0, f; f = files[i]; i++) {
+                var fd = new FormData();
+                fd.append('file', f);
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
+                    data: fd,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+
+                    success: function (data, textStatus, request) {
+                        var id = data.id;
+                        var isImage = f.type.substring(0, 5) === 'image';
+                        if (isImage) {
+                            imagesIds[id] = "image";
+                            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none"' +
+                                    '<li><strong>' + f.name + '</strong></li>' +
+                                    ' <li style="background-color: white">' +
+                                    '<a rel="example_group"> ' +
+                                    '<img alt="" src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                                    '</a> <div onclick=\"deleteImgFromDB(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                        }
+                    }
+                });
+
+
+            }
         }
 
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
-            data: formImg,
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                imgId = data.id;
-                $('#imgPreview').attr("src", "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + imgId);
-            }
-        });
+        function handleDragOver(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        }
+    });
+
+    $('#projectPhotoInput').submit(function (event) {
+        event.preventDefault();
+
+        var files = event.currentTarget[0].files;
+        for (var i = 0, f; f = files[i]; i++) {
+            var fd = new FormData();
+            fd.append('file', f);
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
+                data: fd,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                success: function (data, textStatus, request) {
+                    var id = data.id;
+                    var isImage = f.type.substring(0, 5) === 'image';
+                    if (isImage) {
+                        imagesIds[id] = "image";
+                        $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
+                                '<li><strong>' + f.name + '</strong></li>' +
+                                ' <li style="background-color: white">' +
+                                '<a rel="example_group"> ' +
+                                '<img alt="" src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                                '</a> <div onclick=\"deleteImgFromDB(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                    }
+                }
+            });
+        }
+        event.currentTarget.reset();
     });
 
     function deleteImgFromDB(picId) {
+        delete imagesIds[picId];
         $.ajax({
             url: '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/delete/id/' + picId,
             method: 'POST',
             success: function (response) {
+                $('#' + picId).remove();
             },
             error: function (response) {
             }
@@ -127,8 +198,10 @@
         project.projectDescription = tinymce.activeEditor.getContent({format : 'raw'});
         project.amountRequested = $('#amountRequested').val();
         project.categoriesOfIndustry = $('#categoriesOfIndustry').val();
-
-        imagesIds[imgId] = 'pic1';
+        for(var key in imagesIds) {
+            imagesIds[key] = 'pic1';
+            break;
+        }
         project.imagesIds = imagesIds;
 
         $.ajax({

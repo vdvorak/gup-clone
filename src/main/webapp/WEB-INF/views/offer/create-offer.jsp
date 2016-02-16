@@ -145,6 +145,7 @@
 
                 <div id="description" class="input-group">Описание
                     <textarea id="offerDescription" required></textarea>
+                    <div id="textLength"></div>
                 </div>
 
                 <div id="inputs" class="input-group"></div>
@@ -380,7 +381,26 @@
             evt.preventDefault();
             evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
         }
+
+        countTextLength();
+        $("#offerDescription").on('keyup', countTextLength);
+
     });
+
+    function countTextLength() {
+        var counter = $("#textLength");
+        var currentString = $("#offerDescription").val();
+        counter.html(currentString.length);
+        if (currentString.length <= 50) {  /*or whatever your number is*/
+            counter.css("color", "red");
+        } else {
+            if (currentString.length > 500) {
+                counter.css("color", "red");
+            } else {
+                counter.css("color", "green");
+            }
+        }
+    }
 
     $.ajax({
         type: "GET",
