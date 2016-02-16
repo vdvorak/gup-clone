@@ -198,11 +198,15 @@
             $('#select-type').change();
 
             $('#userName').val(profile.username);
+            $('#position').val(profile.contact.position);
+            $('#nameCompany').val(profile.contact.companyName);
             $('#main-email-info').val(profile.email);
             $('#main-tel-info').val(profile.mainPhoneNumber);
             $('#skype-info').val(profile.contact.skypeUserName);
             $('#info-about-me').val(profile.contact.aboutUs);
             $('#web-addresses').val(profile.contact.linkToWebSite);
+
+
 
             for	(var i = 0; i < profile.contact.contactEmails.length; i++) {
                 if (i === 0) {
@@ -250,30 +254,33 @@
         function initializeProfileEntityForUpdate() {
             updatedProfile.id = loadedProfile.id;
 
-            if(loadedProfile.username !== $('#userName').val()) {
+//            if(loadedProfile.username !== $('#userName').val()) {
                 updatedProfile.username = $('#userName').val();
-            }
+//            }
 
-            if(loadedProfile.contact.type !== $('#select-type').val() && $('#select-type').val() !== "") {
+//            if(loadedProfile.contact.type !== $('#select-type').val() && $('#select-type').val() !== "") {
                 updatedProfile.contact.type = $('#select-type').val();
-            }
+//            }
 
-            if(loadedProfile.contact.aboutUs !== $('#info-about-me').val()) {
+            updatedProfile.contact.position = $('#position').val();
+            updatedProfile.contact.companyName = $('#nameCompany').val();
+
+
+//            if(loadedProfile.contact.aboutUs !== $('#info-about-me').val()) {
                 updatedProfile.contact.aboutUs = $('#info-about-me').val();
-            }
+//            }
 
-            if(loadedProfile.contact.skypeUserName !== $('#skype-info').val()) {
+//            if(loadedProfile.contact.skypeUserName !== $('#skype-info').val()) {
                 updatedProfile.contact.skypeUserName = $('#skype-info').val();
-            }
+//            }
 
-            if(loadedProfile.contact.linkToWebSite !== $('#web-addresses').val()) {
+//            if(loadedProfile.contact.linkToWebSite !== $('#web-addresses').val()) {
                 updatedProfile.contact.linkToWebSite = $('#web-addresses').val();
-//                updatedProfile.contact.linkToWebSite.push($('#web-addresses').val());
-            }
+//            }
 
-            if(loadedProfile.mainPhoneNumber !== $('#main-tel-info').val()) {
+//            if(loadedProfile.mainPhoneNumber !== $('#main-tel-info').val()) {
                 updatedProfile.mainPhoneNumber = $('#main-tel-info').val();
-            }
+//            }
 
             var contactEmails = [];
             $("input[name=contactEmail]").each(function() {
@@ -292,7 +299,6 @@
             updatedProfile.contact.contactPhones = contactPhones;
 
         }
-
 
         $(document).ready(function() {
             $.ajax({

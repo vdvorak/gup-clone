@@ -48,7 +48,7 @@ public class ProfileTestController {
 
         Contact contact = new Contact();
         contact.setType(UserType.LEGAL_ENTITY);
-        contact.setCompanyDirector("Admin Jr. Adm");
+        contact.setPosition("Admin Jr. Adm");
         HashSet<String> contactEmails = new HashSet<>();
         contactEmails.add("info@abc");
         contactEmails.add("office@abc");
