@@ -83,7 +83,7 @@ public class BlogController {
 
     @RequestMapping("/blogs-and-news")
     public String getAdminProfileBlogsAndNews() {
-        return "blogs-and-news";
+        return "news/blogs-and-news";
     }
 
 }

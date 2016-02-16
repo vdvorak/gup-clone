@@ -130,90 +130,101 @@
         <script src="/resources/js/search-bar.js"></script>
 
         <script>
-            function updateBlogPostsTable(blogPostFO) {
-                var data;
+            var blogPostId = "${blogPostId}";
 
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    url: "/api/rest/newsService/blogPost/read/all",
-                    data: JSON.stringify(blogPostFO),
-                    success: function (response) {
-                        data = response.entities;
-                        var goToPageLinks = '';
-
-                        $('#pageLabel').append((blogPostFO.skip + 1) + ' из ' + response.totalEntities);
-                        if (blogPostFO.skip > 0) {
-                            goToPageLinks += '<a href="blog-post/news?pageNumber=' + (blogPostFO.skip - 1)  + '"> Назад </a>';
-                        }
-
-                        if (blogPostFO.skip < response.totalEntities && response.totalEntities/blogPostFO.limit > 1) {
-                            goToPageLinks += '<a href="blog-post/news?pageNumber=' + (blogPostFO.skip + 1) + '"> Следующая </a>';
-                        }
-                        $('#goToPage').append(goToPageLinks);
-
-                        for (var i = 0; i < data.length; i++) {
-                            data[i].title = '<a href="/blog-post/view/' + data[i].id + '">' + data[i].title + '</a>';
-                            var createdDate = new Date(data[i].createdDate);
-                            data[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
-
-                            if (data[i].imagesIds !== null && data[i].imagesIds != '') {
-                                for (var key in data[i].imagesIds) {
-                                    if (data[i].imagesIds[key] === "1") {
-                                        data[i].imagesIds = '<img src="/api/rest/fileStorage/NEWS/file/read/id/' + key + '" width="100" height="100">';
-                                    }
-                                }
-                            } else {
-                                data[i].imagesIds = {};
-                                data[i].imagesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
-                            }
-
-                            var row = $('<tr>');
-                            row.append($('<td>').html(data[i].imagesIds));
-                            row.append($('<td>').html(data[i].title));
-                            row.append($('<td>').html(data[i].views));
-                            row.append($('<td>').html(data[i].createdDate));
-                            row.append($('<td>').html(data[i].totalComments));
-                            row.append($('<td>').html(data[i].totalLikes));
-                            row.append($('<td>').html(data[i].totalDislikes));
-
-                            $('#blogPostsTable').append(row);
-                        }
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/newsService/blogPost/id/" + blogPostId + "/read",
+                statusCode: {
+                    200: function (blogPost) {
+                        alert(JSON.stringify(blogPost));
                     }
-                });
-            }
-
-            $(function() {
-                $("#tagsName").autocomplete({
-                    source: function (request, response) {
-                        $.getJSON("${pageContext.request.contextPath}/search/blogPost", {
-                            term: request.term
-                        }, response);
-                    }
-                });
+                }
             });
+            <%--function updateBlogPostsTable(blogPostFO) {--%>
+                <%--var data;--%>
 
-            $(document).ready(function () {
-                var blogPostFO = {};
-                blogPostFO.createdDateSortDirection = "DESC";
-                blogPostFO.skip = ${pageNumber};
-                blogPostFO.limit = 20;
+                <%--$.ajax({--%>
+                    <%--type: "POST",--%>
+                    <%--contentType: "application/json; charset=utf-8",--%>
+                    <%--url: "/api/rest/newsService/blogPost/read/all",--%>
+                    <%--data: JSON.stringify(blogPostFO),--%>
+                    <%--success: function (response) {--%>
+                        <%--data = response.entities;--%>
+                        <%--var goToPageLinks = '';--%>
 
-                updateBlogPostsTable(blogPostFO);
-            });
+                        <%--$('#pageLabel').append((blogPostFO.skip + 1) + ' из ' + response.totalEntities);--%>
+                        <%--if (blogPostFO.skip > 0) {--%>
+                            <%--goToPageLinks += '<a href="blog-post/news?pageNumber=' + (blogPostFO.skip - 1)  + '"> Назад </a>';--%>
+                        <%--}--%>
 
-            $(document).on('click', '#findBlogPostsButton', function (event) {
-                $("#blogPostsTable").find("tr:not(:first)").remove();
-                $("#paginationDiv").remove();
+                        <%--if (blogPostFO.skip < response.totalEntities && response.totalEntities/blogPostFO.limit > 1) {--%>
+                            <%--goToPageLinks += '<a href="blog-post/news?pageNumber=' + (blogPostFO.skip + 1) + '"> Следующая </a>';--%>
+                        <%--}--%>
+                        <%--$('#goToPage').append(goToPageLinks);--%>
 
-                var blogPostFO = {};
-                blogPostFO.searchField = $("#tagsName").val();
-                blogPostFO.createdDateSortDirection = "DESC";
-                blogPostFO.skip = ${pageNumber};
-                blogPostFO.limit = 50;
+                        <%--for (var i = 0; i < data.length; i++) {--%>
+                            <%--data[i].title = '<a href="/blog-post/view/' + data[i].id + '">' + data[i].title + '</a>';--%>
+                            <%--var createdDate = new Date(data[i].createdDate);--%>
+                            <%--data[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();--%>
 
-                updateBlogPostsTable(blogPostFO);
-            });
+                            <%--if (data[i].imagesIds !== null && data[i].imagesIds != '') {--%>
+                                <%--for (var key in data[i].imagesIds) {--%>
+                                    <%--if (data[i].imagesIds[key] === "1") {--%>
+                                        <%--data[i].imagesIds = '<img src="/api/rest/fileStorage/NEWS/file/read/id/' + key + '" width="100" height="100">';--%>
+                                    <%--}--%>
+                                <%--}--%>
+                            <%--} else {--%>
+                                <%--data[i].imagesIds = {};--%>
+                                <%--data[i].imagesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';--%>
+                            <%--}--%>
+
+                            <%--var row = $('<tr>');--%>
+                            <%--row.append($('<td>').html(data[i].imagesIds));--%>
+                            <%--row.append($('<td>').html(data[i].title));--%>
+                            <%--row.append($('<td>').html(data[i].views));--%>
+                            <%--row.append($('<td>').html(data[i].createdDate));--%>
+                            <%--row.append($('<td>').html(data[i].totalComments));--%>
+                            <%--row.append($('<td>').html(data[i].totalLikes));--%>
+                            <%--row.append($('<td>').html(data[i].totalDislikes));--%>
+
+                            <%--$('#blogPostsTable').append(row);--%>
+                        <%--}--%>
+                    <%--}--%>
+                <%--});--%>
+            <%--}--%>
+
+            <%--$(function() {--%>
+                <%--$("#tagsName").autocomplete({--%>
+                    <%--source: function (request, response) {--%>
+                        <%--$.getJSON("${pageContext.request.contextPath}/search/blogPost", {--%>
+                            <%--term: request.term--%>
+                        <%--}, response);--%>
+                    <%--}--%>
+                <%--});--%>
+            <%--});--%>
+
+            <%--$(document).ready(function () {--%>
+                <%--var blogPostFO = {};--%>
+                <%--blogPostFO.createdDateSortDirection = "DESC";--%>
+                <%--blogPostFO.skip = ${pageNumber};--%>
+                <%--blogPostFO.limit = 20;--%>
+
+                <%--updateBlogPostsTable(blogPostFO);--%>
+            <%--});--%>
+
+            <%--$(document).on('click', '#findBlogPostsButton', function (event) {--%>
+                <%--$("#blogPostsTable").find("tr:not(:first)").remove();--%>
+                <%--$("#paginationDiv").remove();--%>
+
+                <%--var blogPostFO = {};--%>
+                <%--blogPostFO.searchField = $("#tagsName").val();--%>
+                <%--blogPostFO.createdDateSortDirection = "DESC";--%>
+                <%--blogPostFO.skip = ${pageNumber};--%>
+                <%--blogPostFO.limit = 50;--%>
+
+                <%--updateBlogPostsTable(blogPostFO);--%>
+            <%--});--%>
 
         </script>
     </body>

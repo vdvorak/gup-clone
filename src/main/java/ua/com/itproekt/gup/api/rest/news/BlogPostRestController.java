@@ -40,10 +40,10 @@ public class BlogPostRestController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BlogPost> getBlogPostById(@PathVariable String blogPostId) {
         BlogPost blogPost = blogPostService.findBlogPostAndIncViews(blogPostId);
-
         if (blogPost == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
         return new ResponseEntity<>(blogPost, HttpStatus.OK);
     }
 
