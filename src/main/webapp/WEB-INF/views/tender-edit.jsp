@@ -219,8 +219,7 @@
 <script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/js/bootstrap-datepicker.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
-        async defer></script>
+
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
 <script>
@@ -611,6 +610,7 @@
 
 
 </script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
+        async defer></script>
 </body>
 </html>
