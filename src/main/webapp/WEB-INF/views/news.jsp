@@ -97,32 +97,100 @@
     </head>
 
     <body>
-        <div>
-            <h2 align="center">Новости</h2>
+
+    <div class="container2">
+
+        <div class="news">
+            <p class="newsVisits">Просмотров: 20 000</p>
+            <p class="newsPublished">Опубликовано: 22. 10.2015</p>
+            <p class="newsName">На Березняках между ямами во дворе уложили полицейского</p>
+            <img class="newsIMG1" src="/resources/images/newsImages.png" alt="images">
+            <p class="newsText">Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейского.
+                Уложили его аккуратно между ямами, чтоб водитель уж точно никуда не делся.
+                Жители двора новшевство комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?". Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейского.
+                Уложили его аккуратно между ямами, чтоб водитель уж точно никуда не делся.
+                Жители двора новшевство комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?".</p>
+            <img class="newsIMG2" src="/resources/images/newsIMG2.png" alt="images">
+            <p class="newsText">Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейского.
+                Уложили его аккуратно между ямами, чтоб водитель уж точно никуда не делся.
+                Жители двора новшевство
+                комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?".
+                Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейского.
+                Уложили его аккуратно между ямами, чтоб водитель уж точно никуда не делся.
+                Жители двора новшевство
+                комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?".</p>
+            <img class="newsIMG1" src="/resources/images/newsIMG3.png" alt="images">
+            <p class="newsText">Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейс
+                кого.
+
+                Жители двора новшевство
+                комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?".</p>
+
+            <div class="clearfix"></div>
+
+            <div class="newsRating">
+                <a class="newsLike" href="#"></a>
+                <p class="newsLikeNum">22 000</p>
+                <a href="#" class="newsDislike"></a>
+                <p class="newsDislikeNum">22 000</p>
+            </div>
+
+            <div class="downComments"><p>КОММЕНТАРИИ</p></div>
+
+            <div class="clearfix"></div>
+
+            <div class="colNewsComments">
+                <div class="newsComments">
+                    <div class="clearfix"></div>
+                    <p class="newsCommentsHeader">КОММЕНТАРИИ</p>
+                    <form action="#" role="form" id="newsCommentsForm">
+                        <textarea name="newsFormComments" id="newsFormComments" placeholder="Введите свой комментарий" maxlength="22000" required></textarea>
+                        <button type="submit" class="newsFormSubmit">Отправить</button>
+                    </form>
+                    <p id="chars"></p>
+                </div>
+            </div>
+            <div class="colComments">
+                <div class="comments">
+                    <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
+                    <a class="NameUser" href="#">Вася Петров</a>
+                    <p class="commentUser">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui quisquam, voluptate at magni neque. Ab illum hic asperiores voluptate voluptatem. Optio alias, numquam sint delectus quod recusandae dolores tempora. Aliquam!</p>
+                </div>
+                <div class="comments">
+                    <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
+                    <a class="NameUser" href="#">Вася Петров</a>
+                    <p class="commentUser">Интересно было узнать, история повторяется циклично!</p>
+                </div>
+            </div>
         </div>
-        <div align="center">
-            <input id="tagsName" size="100" placeholder="Название новости">
-            <button id="findBlogPostsButton">Найти новость</button>
-            <a href="/blog-create"><button>Создать блог</button></a>
-        </div>
-        <div id="paginationDiv">
-            <label id="pageLabel"><b>Страница:</b> </label>
-            <p align="left" id="goToPage"></p>
-        </div>
-        <div>
-            <table id="blogPostsTable" border="1" width="100%">
-                <thead>
-                <tr>
-                    <th>Фото</th>
-                    <th>Название</th>
-                    <th>Просмотры</th>
-                    <th>Дата создания</th>
-                    <th>Колличество комментариев</th>
-                    <th>Лайки</th>
-                    <th>Дизлайки</th>
-                </tr>
-                </thead>
-            </table>
-        </div>
+    </div>
+
+        <%--<div>--%>
+            <%--<h2 align="center">Новости</h2>--%>
+        <%--</div>--%>
+        <%--<div align="center">--%>
+            <%--<input id="tagsName" size="100" placeholder="Название новости">--%>
+            <%--<button id="findBlogPostsButton">Найти новость</button>--%>
+            <%--<a href="/blog-create"><button>Создать блог</button></a>--%>
+        <%--</div>--%>
+        <%--<div id="paginationDiv">--%>
+            <%--<label id="pageLabel"><b>Страница:</b> </label>--%>
+            <%--<p align="left" id="goToPage"></p>--%>
+        <%--</div>--%>
+        <%--<div>--%>
+            <%--<table id="blogPostsTable" border="1" width="100%">--%>
+                <%--<thead>--%>
+                <%--<tr>--%>
+                    <%--<th>Фото</th>--%>
+                    <%--<th>Название</th>--%>
+                    <%--<th>Просмотры</th>--%>
+                    <%--<th>Дата создания</th>--%>
+                    <%--<th>Колличество комментариев</th>--%>
+                    <%--<th>Лайки</th>--%>
+                    <%--<th>Дизлайки</th>--%>
+                <%--</tr>--%>
+                <%--</thead>--%>
+            <%--</table>--%>
+        <%--</div>--%>
     </body>
 </html>
