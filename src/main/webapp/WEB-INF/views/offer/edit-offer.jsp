@@ -656,7 +656,7 @@
     });
 // serialize form and sent it via POST method in JSON --------------------------END---------------------
     countTextLength();
-    $("#offerDescription").on('keyup', countTextLength());
+    $("#offerDescription").on('keyup', countTextLength);
 
   });
 

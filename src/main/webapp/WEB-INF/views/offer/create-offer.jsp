@@ -383,7 +383,7 @@
         }
 
         countTextLength();
-        $("#offerDescription").on('keyup', countTextLength());
+        $("#offerDescription").on('keyup', countTextLength);
 
     });
 
