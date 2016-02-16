@@ -235,13 +235,13 @@
         if(socName === "FACEBOOK") {
             return "pattern=http://www\.facebook\.com\/(.+)|https://www\.facebook\.com\/(.+)";
         } else if(socName === "TWITTER") {
-            return "pattern=http://\twitter\.com\/(.+)|https://\twitter\.com\/(.+)";
+            return "pattern=http://twitter\.com\/(.+)|https://\twitter\.com\/(.+)";
         } else if(socName === "LINKEDIN") {
             return "pattern=http://www\.linkedin\.com\/(.+)|https://www\.linkedin\.com\/(.+)";
         } else if(socName === "GOOGLEPLUS") {
-            return "pattern=http://\plus\.google\.com\/(.+)|https://\plus\.google\.com\/(.+)";
+            return "pattern=http://plus\.google\.com\/(.+)|https://\plus\.google\.com\/(.+)";
         } else if(socName === "VKONTAKTE") {
-            return "pattern=http://\vk\.com\/(.+)|https://\vk\.com\/(.+)";
+            return "pattern=http://vk\.com\/(.+)|https://\vk\.com\/(.+)";
         } else {
             return "";
         }
