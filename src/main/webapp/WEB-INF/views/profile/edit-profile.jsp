@@ -184,60 +184,48 @@
 
         var emailCloneCount = 1;
 
-        $(document).ready(function() {
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/profilesService/profile/read/id/" + profileId + "/wholeProfile",
-                statusCode: {
-                    200: function (profile) {
-                        loadedProfile = profile;
-                        updatedProfile.contact = loadedProfile.contact;
-                        updatedProfile.userProfile = loadedProfile.userProfile;
+        function setValuesForFieldsFromProfile(profile) {
+            alert('loadedProfile: ' + JSON.stringify(loadedProfile));
 
-                        alert('loadedProfile: ' + JSON.stringify(loadedProfile));
+            if (profile.contact.pic != null) {
+                $('.moreInformation-img').css('background',
+                        'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center');
+            }
 
-                        if (profile.contact.pic != null) {
-                            $('.moreInformation-img').css('background',
-                                    'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center');
-                        }
+            $('#select-type').val(profile.contact.type);
+            $('#select-type').change();
 
-                        $('#select-type').val(profile.contact.type);
-                        $('#select-type').change();
+            $('#userName').val(profile.username);
+            $('#main-email-info').val(profile.email);
+            $('#main-tel-info').val(profile.mainPhoneNumber);
+            $('#skype-info').val(profile.contact.skypeUserName);
+            $('#info-about-me').val(profile.contact.aboutUs);
+            $('#web-addresses').val(profile.contact.linkToWebSite);
 
-                        $('#userName').val(profile.username);
-                        $('#main-email-info').val(profile.email);
-                        $('#main-tel-info').val(profile.mainPhoneNumber);
-                        $('#skype-info').val(profile.contact.skypeUserName);
-                        $('#info-about-me').val(profile.contact.aboutUs);
-                        $('#web-addresses').val(profile.contact.linkToWebSite);
+            for	(var i = 0; i < profile.contact.contactEmails.length; i++) {
+                if (i === 0) {
+                    $('#email-info-1').val(profile.contact.contactEmails[i]);
+                } else {
+                    emailCloneCount++;
 
-                        for	(var i = 0; i < profile.contact.contactEmails.length; i++) {
-                            if (i === 0) {
-                                $('#email-info-1').val(profile.contact.contactEmails[i]);
-                            } else {
-                                emailCloneCount++;
+                    $('<input/>', {
+                        id: 'email-info-' + (i + 1),
+                        type: 'email',
+                        name: 'contactEmail',
+                        class: 'form-info-input',
+                        value: profile.contact.contactEmails[i]
+                    }).appendTo('#contactEmailsBlock');
 
-                                $('<input/>', {
-                                    id: 'email-info-' + (i + 1),
-                                    type: 'email',
-                                    name: 'contactEmail',
-                                    class: 'form-info-input',
-                                    value: profile.contact.contactEmails[i]
-                                }).appendTo('#contactEmailsBlock');
-
-                                $('<div/>', {
-                                    class: 'clearfix'
-                                }).appendTo('#contactEmailsBlock');
-                            }
-                        }
+                    $('<div/>', {
+                        class: 'clearfix'
+                    }).appendTo('#contactEmailsBlock');
+                }
+            }
 
 //                    $('#tel-info').attr("placeholder", profile.contact.O);
-                    }
-                }
-            });
-        });
+        }
 
-        $('#updateProfileBtn').on('click', function () {
+        function initializeProfileEntityForUpdate() {
             updatedProfile.id = loadedProfile.id;
 
             if(loadedProfile.username !== $('#userName').val()) {
@@ -271,9 +259,32 @@
                     contactEmails.push($(this).val());
                 }
             });
-            updatedProfile.contact.contactEmails = contactEmails;
 
-            alert('updatedProfile: ' + JSON.stringify(updatedProfile));
+            updatedProfile.contact.contactEmails = contactEmails;
+        }
+
+
+        $(document).ready(function() {
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/profilesService/profile/read/id/" + profileId + "/wholeProfile",
+                statusCode: {
+                    200: function (profile) {
+                        loadedProfile = profile;
+                        updatedProfile.contact = loadedProfile.contact;
+                        updatedProfile.userProfile = loadedProfile.userProfile;
+
+
+                        setValuesForFieldsFromProfile(profile);
+                    }
+                }
+            });
+        });
+
+        $('#updateProfileBtn').on('click', function () {
+            initializeProfileEntityForUpdate();
+
+            alert('updatedProfile 4: ' + JSON.stringify(updatedProfile));
 
             $.ajax({
                 type: "POST",
@@ -290,7 +301,6 @@
         });
 
         $('#select-type').on('change', function () {
-
             switch ($('#select-type').val()) {
                 case "INDIVIDUAL":
                     $('#userNameBlock').show();
@@ -322,7 +332,7 @@
                 default:
                     $('#userName').show();
                     $('#aboutCompany').hide();
-                    $('#aboutMe').hide();
+                    $('#aboutMe').show();
             }
         });
 
@@ -360,6 +370,7 @@
                 }
             });
         });
+
 
     </script>
     <script src="/resources/js/edit-profile.js"></script>
