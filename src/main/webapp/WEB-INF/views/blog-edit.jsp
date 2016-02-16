@@ -23,10 +23,11 @@
               placeholder="Описание блога">${blog.description}</textarea>
 </div>
 
-<div>
+<div id="drop_zone">
     <form id="photoInput" enctype="multipart/form-data" method="post">
         <input id="photofile" type="file" name="file" multiple accept="image/*,image/jpeg">
     </form>
+    Перетяните файлы сюда
     <div class="imgBlock">
         <c:choose>
             <c:when test="${not empty blog.imageId}">
@@ -132,8 +133,57 @@
             $(this).parent('div').remove();
             x--;
         })
+        // ---------------------------------------------------- END Soc network links --------------------------------
+
+        // -------------------------------------------------------BEGIN drop zone ------------------------------------------
+
+        var dropZone = document.getElementById('drop_zone');
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
+
+        function handleFileSelect(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            var files = evt.dataTransfer.files; // FileList object.
+            if (files.length) {
+                var formImg = new FormData();
+                formImg.append('file', files[0]);
+                // files is a FileList of File objects. List some properties.
+
+                if (oldImgId !== '') {
+                    deleteImgFromDB(oldImgId);
+                }
+
+                if (imgId !== '') {
+                    deleteImgFromDB(imgId);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/fileStorage/NEWS/file/upload/",
+                    data: formImg,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data, textStatus, request) {
+                        imgId = data.id;
+                        $('#imgPreview').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                    }
+                });
+            }
+        }
+
+        function handleDragOver(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        }
+
+        // ---------------------------------------------------- END Drop zone --------------------------------------
     });
-    // ---------------------------------------------------- END Soc network links --------------------------------------
+
 
 
     //----------------------------------------------------- Image form -----------------------------------------------
