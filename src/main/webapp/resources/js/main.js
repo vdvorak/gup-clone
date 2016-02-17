@@ -29,11 +29,6 @@ $(document).ready(function(){
         $(".mapContact").slideToggle();
     });
 
-    $(".search-img").click(function(){
-        $(".search-img").toggleClass('trolol');
-        $("#filterForm").slideToggle();
-    });
-
     $('#tab-container').easytabs({
         animate: false
     });

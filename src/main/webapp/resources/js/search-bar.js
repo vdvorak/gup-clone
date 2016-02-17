@@ -21,3 +21,9 @@ $(document).on('click', '#searchButton', function () {
         window.location.href = '/' + selectedService + '/list?name=' + $("#searchInput").val();
     }
 });
+
+$(".search-img").click(function(){
+    $(".search-img").toggleClass('trolol');
+    var selectedService = $('#selectedService').find(":selected").val();
+    $("#" + selectedService + "FilterBlock").slideToggle();
+});

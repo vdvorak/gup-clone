@@ -2744,9 +2744,6 @@ label[for="checkbox-filter3"] {
 	float: right;
 }
 
-#filterForm {
-	display: none;
-}
 
 .trolol {
 	background: url(images/trololo.png) no-repeat;
@@ -3145,8 +3142,4 @@ label[for="checkbox-filter3"] {
 	color: #ffffff;
 	font: 400 14px ArianAMU;
 	display: inline-block;
-}
-
-.categories {
-	display: none;
 }
