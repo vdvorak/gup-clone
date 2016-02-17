@@ -68,9 +68,9 @@
                 <div class="clearfix"></div>
 
                 <div class="newsRating">
-                    <a class="newsLike" href="#"></a>
+                    <a id="newsLike" class="newsLike"></a>
                     <p class="newsLikeNum" id="bpLikeNum"></p>
-                    <a href="#" class="newsDislike"></a>
+                    <a id="newsDislike" class="newsDislike"></a>
                     <p class="newsDislikeNum" id="bpDislikeNum"></p>
                 </div>
 
@@ -133,12 +133,14 @@
 
         <script>
             var blogPostId = "${blogPostId}";
+            var loadedBlogPost = {};
 
             $.ajax({
                 type: "POST",
                 url: "/api/rest/newsService/blogPost/id/" + blogPostId + "/read",
                 statusCode: {
                     200: function (blogPost) {
+                        loadedBlogPost = blogPost;
                         alert(JSON.stringify(blogPost));
                         $('#bpViewsNum').append(blogPost.views);
                         var createdDate = new Date(blogPost.createdDate);
@@ -149,6 +151,32 @@
                         $('#bpText').append(blogPost.text);
                     }
                 }
+            });
+
+            $('#newsLike').on('click', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/newsService/blogPost/id/" + blogPostId + "/like",
+                    statusCode: {
+                        200: function (blogPost) {
+                            $('#bpLikeNum').text(loadedBlogPost.totalLikes + 1);
+                        },
+                        409: function (blogPost) {}
+                    }
+                });
+            });
+
+            $('#newsDislike').on('click', function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/newsService/blogPost/id/" + blogPostId + "/dislike",
+                    statusCode: {
+                        200: function (blogPost) {
+                            $('#bpDislikeNum').text(loadedBlogPost.totalDislikes + 1);
+                        },
+                        409: function (blogPost) {}
+                    }
+                });
             });
             <%--function updateBlogPostsTable(blogPostFO) {--%>
                 <%--var data;--%>

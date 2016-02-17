@@ -117,11 +117,15 @@ public class BlogPostRestController {
         }
 
         String userId = SecurityOperations.getLoggedUserId();
-        String authorId = blogPostService.findById(blogPostId).getAuthorId();
+        BlogPost blogPost = blogPostService.findById(blogPostId);
+
+        if (blogPost.getLikedIds().contains(userId)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
 
         blogPostService.likeBlogPost(blogPostId, userId);
 
-        activityFeedService.createEvent(new Event(authorId, EventType.BLOG_POST_LIKE, blogPostId, userId));
+        activityFeedService.createEvent(new Event(blogPost.getAuthorId(), EventType.BLOG_POST_LIKE, blogPostId, userId));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -134,11 +138,14 @@ public class BlogPostRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        String authorId = blogPostService.findById(blogPostId).getAuthorId();
+        BlogPost blogPost = blogPostService.findById(blogPostId);
         String userId = SecurityOperations.getLoggedUserId();
+        if (blogPost.getDislikedIds().contains(userId)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
 
         blogPostService.dislikeBlogPost(blogPostId, userId);
-        activityFeedService.createEvent(new Event(authorId, EventType.BLOG_POST_DISLIKE, blogPostId, userId));
+        activityFeedService.createEvent(new Event(blogPost.getAuthorId(), EventType.BLOG_POST_DISLIKE, blogPostId, userId));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
