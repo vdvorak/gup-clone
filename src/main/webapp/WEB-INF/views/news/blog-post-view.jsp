@@ -42,27 +42,27 @@
                 <p class="newsPublished" id="bpCreatedDate">Опубликовано: </p>
                 <p class="newsName" id="bpTitle"></p> <!-- когда чувак вип надо добавить класс vip-color -->
                 <div id="bpText">
-                    <img class="newsIMG1" src="/resources/images/newsImages.png" alt="images">
-                    <p class="newsText">Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейского.
-                        Уложили его аккуратно между ямами, чтоб водитель уж точно никуда не делся.
-                        Жители двора новшевство комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?". Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейского.
-                        Уложили его аккуратно между ямами, чтоб водитель уж точно никуда не делся.
-                        Жители двора новшевство комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?".</p>
-                    <img class="newsIMG2" src="/resources/images/newsIMG2.png" alt="images">
-                    <p class="newsText">Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейского.
-                        Уложили его аккуратно между ямами, чтоб водитель уж точно никуда не делся.
-                        Жители двора новшевство
-                        комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?".
-                        Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейского.
-                        Уложили его аккуратно между ямами, чтоб водитель уж точно никуда не делся.
-                        Жители двора новшевство
-                        комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?".</p>
-                    <img class="newsIMG1" src="/resources/images/newsIMG3.png" alt="images">
-                    <p class="newsText">Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейс
-                        кого.
+                    <%--<img class="newsIMG1" src="/resources/images/newsImages.png" alt="images">--%>
+                    <%--<p class="newsText">Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейского.--%>
+                        <%--Уложили его аккуратно между ямами, чтоб водитель уж точно никуда не делся.--%>
+                        <%--Жители двора новшевство комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?". Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейского.--%>
+                        <%--Уложили его аккуратно между ямами, чтоб водитель уж точно никуда не делся.--%>
+                        <%--Жители двора новшевство комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?".</p>--%>
+                    <%--<img class="newsIMG2" src="/resources/images/newsIMG2.png" alt="images">--%>
+                    <%--<p class="newsText">Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейского.--%>
+                        <%--Уложили его аккуратно между ямами, чтоб водитель уж точно никуда не делся.--%>
+                        <%--Жители двора новшевство--%>
+                        <%--комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?".--%>
+                        <%--Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейского.--%>
+                        <%--Уложили его аккуратно между ямами, чтоб водитель уж точно никуда не делся.--%>
+                        <%--Жители двора новшевство--%>
+                        <%--комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?".</p>--%>
+                    <%--<img class="newsIMG1" src="/resources/images/newsIMG3.png" alt="images">--%>
+                    <%--<p class="newsText">Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейс--%>
+                        <%--кого.--%>
 
-                        Жители двора новшевство
-                        комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?".</p>
+                        <%--Жители двора новшевство--%>
+                        <%--комментируют ярко, но по понятным причинам привести цитаты мы не можем, в основном они сводятся к экспрессивным формам вопроса "Зачем?".</p>--%>
                 </div>
 
                 <div class="clearfix"></div>
@@ -82,24 +82,15 @@
                     <div class="newsComments">
                         <div class="clearfix"></div>
                         <p class="newsCommentsHeader">КОММЕНТАРИЙ</p>
-                        <form action="#" role="form" id="newsCommentsForm">
+                        <form id="newsCommentsForm">
                             <textarea name="newsFormComments" id="newsFormComments" placeholder="Введите свой комментарий" maxlength="22000" required></textarea>
-                            <button type="submit" class="newsFormSubmit">Отправить</button>
+                            <button id="sendComment" class="newsFormSubmit">Отправить</button>
                         </form>
                         <p id="chars"></p>
                     </div>
                 </div>
-                <div class="colComments">
-                    <div class="comments">
-                        <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
-                        <a class="NameUser" href="#">Вася Петров</a>
-                        <p class="commentUser">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui quisquam, voluptate at magni neque. Ab illum hic asperiores voluptate voluptatem. Optio alias, numquam sint delectus quod recusandae dolores tempora. Aliquam!</p>
-                    </div>
-                    <div class="comments">
-                        <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
-                        <a class="NameUser" href="#">Вася Петров</a>
-                        <p class="commentUser">Интересно было узнать, история повторяется циклично!</p>
-                    </div>
+                <div class="colComments" id="commentsBlock">
+
                 </div>
             </div>
         </div>
@@ -141,7 +132,7 @@
                 statusCode: {
                     200: function (blogPost) {
                         loadedBlogPost = blogPost;
-                        alert(JSON.stringify(blogPost));
+//                        alert(JSON.stringify(blogPost));
                         $('#bpViewsNum').append(blogPost.views);
                         var createdDate = new Date(blogPost.createdDate);
                         $('#bpCreatedDate').append(createdDate.getDate() + '.' + (createdDate.getMonth() + 1) + '.' + createdDate.getFullYear());
@@ -149,6 +140,33 @@
                         $('#bpLikeNum').append(blogPost.totalLikes);
                         $('#bpDislikeNum').append(blogPost.totalDislikes);
                         $('#bpText').append(blogPost.text);
+
+                        blogPost.comments.forEach(function(comment) {
+                            $.ajax({
+                                type: "POST",
+                                url: "/api/rest/profilesService/profile/read/id/" + comment.fromId,
+                                statusCode: {
+                                    200: function (profile) {
+                                        var profileImgTag = '<img ';
+                                        if (profile.contact.pic != null && profile.contact.pic != '') {
+                                            profileImgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1"';
+                                        } else {
+                                            profileImgTag += 'src="/resources/images/no_photo.jpg"';
+                                        }
+                                        profileImgTag +=' width="52px" height="52px" alt="logo">';
+
+                                        $('#commentsBlock').append(
+                                                '<div class="comments">' +
+                                                    '<a href="/profile/id/' + profile.id + '">' + profileImgTag+ '</a>' +
+                                                    '<a class="NameUser" href="/profile/id/' + profile.id + '">' + profile.username + '</a>' +
+                                                    '<p class="commentUser">' +  comment.comment + '</p>' +
+                                                '</div>');
+                                    }
+                                }
+                            });
+
+
+                        });
                     }
                 }
             });
@@ -177,6 +195,51 @@
                         409: function (blogPost) {}
                     }
                 });
+            });
+
+            $('#sendComment').on('click', function () {
+                var comment = {
+                    'comment' : $('#newsFormComments').val(),
+                    'toId' : ""
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/newsService/blogPost/id/" + blogPostId + "/comment/create",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(comment),
+                    statusCode: {
+                        201: function () {
+                            location.reload();
+                        }
+                    }
+                });
+            });
+
+            $(".NewsTabsFilterItem").on('click', function(){
+                $('.intro').removeClass("intro");
+                $(this).addClass("intro");
+            });
+
+            $('#newsFormComments').keyup(function() {
+                var maxLength = 1000;
+                var length = maxLength - $(this).val().length;
+                $('#chars').text(length + ' символов осталось');
+            });
+
+            $(".downComments").click(function(){
+                $(".downComments").hide('slow');
+                $(".colNewsComments").show('slow');
+                $(".colComments").css("width", "50%");
+            });
+
+            $(".comments").click(function(){
+                if ($('.backgroundColorComment').is(':visible') ) {
+                    return $('.backgroundColorComment').removeClass("backgroundColorComment");;
+                } else {
+                    $(this).addClass("backgroundColorComment");
+                }
             });
             <%--function updateBlogPostsTable(blogPostFO) {--%>
                 <%--var data;--%>
