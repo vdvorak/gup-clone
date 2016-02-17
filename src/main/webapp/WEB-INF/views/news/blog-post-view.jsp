@@ -89,17 +89,8 @@
                         <p id="chars"></p>
                     </div>
                 </div>
-                <div class="colComments">
-                    <div class="comments">
-                        <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
-                        <a class="NameUser" href="#">Вася Петров</a>
-                        <p class="commentUser">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui quisquam, voluptate at magni neque. Ab illum hic asperiores voluptate voluptatem. Optio alias, numquam sint delectus quod recusandae dolores tempora. Aliquam!</p>
-                    </div>
-                    <div class="comments">
-                        <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
-                        <a class="NameUser" href="#">Вася Петров</a>
-                        <p class="commentUser">Интересно было узнать, история повторяется циклично!</p>
-                    </div>
+                <div class="colComments" id="commentsBlock">
+
                 </div>
             </div>
         </div>
@@ -149,6 +140,33 @@
                         $('#bpLikeNum').append(blogPost.totalLikes);
                         $('#bpDislikeNum').append(blogPost.totalDislikes);
                         $('#bpText').append(blogPost.text);
+
+                        blogPost.comments.forEach(function(comment) {
+                            $.ajax({
+                                type: "POST",
+                                url: "/api/rest/profilesService/profile/read/id/" + comment.fromId,
+                                statusCode: {
+                                    200: function (profile) {
+                                        var profileImgTag = '<img ';
+                                        if (profile.contact.pic != null && profile.contact.pic != '') {
+                                            profileImgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1"';
+                                        } else {
+                                            profileImgTag += 'src="/resources/images/no_photo.jpg"';
+                                        }
+                                        profileImgTag +=' width="52px" height="52px" alt="logo">';
+
+                                        $('#commentsBlock').append(
+                                                '<div class="comments">' +
+                                                    '<a href="/profile/id/' + profile.id + '">' + profileImgTag+ '</a>' +
+                                                    '<a class="NameUser" href="/profile/id/' + profile.id + '">' + profile.username + '</a>' +
+                                                    '<p class="commentUser">' +  comment.comment + '</p>' +
+                                                '</div>');
+                                    }
+                                }
+                            });
+
+
+                        });
                     }
                 }
             });
