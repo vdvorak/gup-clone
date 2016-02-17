@@ -15,6 +15,7 @@
   <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" rel="stylesheet"
         type="text/css"/>
+  <link href="/resources/css/mini.css" rel="stylesheet">
 </head>
 <body>
 <h1>Создание тендера</h1>
@@ -76,8 +77,8 @@
 
 <!-- city chosen -->
 <input id="countryInp" type="text" name="country" style="visibility: hidden;">
-<input id="areaInp" type="text" name="area" style="visibility: hidden;">
-<input id="cityInp" type="text" name="city" style="visibility: hidden;">
+<input id="areaInp" type="text" name="area" style="visibility: hidden">
+<input id="cityInp" type="text" name="city" style="visibility: hidden">
 
 <div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">
   <div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">
@@ -165,12 +166,10 @@
 <br>
 <br>
 
-<form id="photoInput" enctype="multipart/form-data" action="/api/rest/fileStorage/OFFERS/file/read/id/${id}"
-      method="post">
-  <p>Загрузите ваши фотографии на сервер</p>
-
-  <p><input type="file" name="file" accept="image/*,image/jpeg" multiple>
-    <input type="submit" value="Добавить"></p>
+<button id="addImg">Загрузить фото</button>
+<form id="uploadProfilePhotoForm" enctype="multipart/form-data"
+      method="post" style="display:none">
+  <p><input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" multiple></p>
 </form>
 
 <div class="imgBlock">
@@ -223,16 +222,45 @@
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
 <script>
-  var imgsArr = new Object();
+  var imgsArr = {};
   var cities;
   var members = [];
   var type = 'OPEN';
   var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
+  var picMapObj = {};
+  var imgsArrResult = {};
+  var picArrDel = [];
+  var picArrNew = [];
+  var picArrIn = {};
 
 
-
+  if ('${tender.uploadFilesIds}'.length > 5 ){
+    picMapObj = JSON.parse('${tender.uploadFilesIds}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
+  }
 
   $(document).ready(function () {
+
+    // place photo from received model on the page
+    for (var id in picMapObj) {
+      picArrIn[id] = picMapObj[id];
+      if (picMapObj[id] === "image" || picMapObj[id] === "pic1") {
+        $('.imgBlock').append('<ul id="' + id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                '<li><strong></strong></li>' +
+                ' <li style="background-color: white">' +
+                '<a rel="example_group"> ' +
+                '<img alt="" ' + ((picMapObj[id] === 'pic1') ? 'class="mainImg"' : '') + ' src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
+                '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+      } else {
+        picArrIn[id] = "doc";
+        $('.docBlock').append('<ul id="' + id + '" style="display: inline-table; list-style-type: none">' +
+                '<li><strong></strong></li>' +
+                ' <li style="background-color: white">' +
+                '<a rel="example_group"> ' +
+                '<img alt="" src="http://www.uzscience.uz/upload/userfiles/images/doc.png"' + 'width="150" height="150"> ' +
+                '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+      }
+    }
+
     // Setup the dnd listeners.
     var dropZone = document.getElementById('drop_zone');
     dropZone.addEventListener('dragover', handleDragOver, false);
@@ -261,35 +289,26 @@
           success: function (data, textStatus, request) {
             var id = data.id;
             if (f.type.substring(0, 5) === 'image') {
-              imgsArr[id] = "image";
+              picArrIn[id] = "image";
               $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
                       '<li><strong>' + f.name + '</strong></li>' +
                       ' <li style="background-color: white">' +
                       '<a rel="example_group"> ' +
-                      '<img id="img1" alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
-                      '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
-            } else if (f.type.substring(0, 4) === 'pic1') {
-              imgsArr[id] = "pic1";
-              $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-                      '<li><strong>' + f.name + '</strong></li>' +
-                      ' <li style="background-color: white">' +
-                      '<a rel="example_group"> ' +
-                      '<img id="img1" alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
+                      '<img alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
                       '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
             } else {
-              imgsArr[id] = "doc";
+              picArrIn[id] = "doc";
               $('.docBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
                       '<li><strong>' + f.name + '</strong></li>' +
                       ' <li style="background-color: white">' +
                       '<a rel="example_group"> ' +
-                      '<img id="img1" alt="" src="http://www.uzscience.uz/upload/userfiles/images/doc.png"' + 'width="150" height="150"> ' +
+                      '<img alt="" src="http://www.uzscience.uz/upload/userfiles/images/doc.png"' + 'width="150" height="150"> ' +
                       '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
             }
-            $('div.imgBlock > li').click(onClickSetMainImg);
           }
         });
       }
-      event.currentTarget.reset();
+      evt.currentTarget.form.reset();
     }
 
     function handleDragOver(evt) {
@@ -297,6 +316,11 @@
       evt.preventDefault();
       evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
     }
+
+    $('#addImg').click(function(){
+      $('#uploadProfilePhotoInput').trigger('click');
+    });
+
   });
 
   //--------------------   DATEPICKER ---------------------------------//
@@ -449,10 +473,10 @@
 
   // -------------------------- PHOTO SUBMIT AND DELETE ------------------------------//
 
-  $('#photoInput').submit(function (event) {
+  $('#uploadProfilePhotoInput').change(function (event) {
     event.preventDefault();
 
-    var files = event.currentTarget[0].files;
+    var files = event.currentTarget.files;
     for (var i = 0, f; f = files[i]; i++) {
       var formImg = new FormData($(this)[0]);
       var fd = new FormData();
@@ -469,46 +493,40 @@
         success: function (data, textStatus, request) {
           var id = data.id;
           if (f.type.substring(0, 5) === 'image') {
-            imgsArr[id] = "image";
+            picArrIn[id] = "image";
             $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
                     '<li><strong>' + f.name + '</strong></li>' +
                     ' <li style="background-color: white">' +
                     '<a rel="example_group"> ' +
-                    '<img id="img1" alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
-                    '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
-          } else if(f.type.substring(0, 4) === 'pic1') {
-            imgsArr[id] = "pic1";
-            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-                    '<li><strong>' + f.name + '</strong></li>' +
-                    ' <li style="background-color: white">' +
-                    '<a rel="example_group"> ' +
-                    '<img id="img1" alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
+                    '<img alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
                     '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
           } else {
-            imgsArr[id] = "doc";
+            picArrIn[id] = "doc";
             $('.docBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
                     '<li><strong>' + f.name + '</strong></li>' +
                     ' <li style="background-color: white">' +
                     '<a rel="example_group"> ' +
-                    '<img id="img1" alt="" src="http://www.uzscience.uz/upload/userfiles/images/doc.png"' + 'width="150" height="150"> ' +
+                    '<img alt="" src="http://www.uzscience.uz/upload/userfiles/images/doc.png"' + 'width="150" height="150"> ' +
                     '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
           }
-          $('div.imgBlock > li').click(onClickSetMainImg);
         }
       });
     }
-    event.currentTarget.reset();
+    event.currentTarget.form.reset();
   });
 
-  function deleteImg(idImg) {
-    delete imgsArr[idImg];
+  function deleteImgFromDB(idImg) {
     $.ajax({
       type: "POST",
       url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
       success: function (data, textStatus, request) {
-        $('#' + idImg).remove();
       }
     });
+  }
+
+  function deleteImg(idImg) {
+    $('#' + idImg).remove();
+    picArrDel.push(idImg);
   }
 
   function onClickSetMainImg(id) {
@@ -524,12 +542,12 @@
     if(!isMain) el.addClass("mainImg");
 
     for(var key in imgsArr) {
-      if(imgsArr[key] === "pic1") {
-        imgsArr[key] = "image";
+      if(picArrIn[key] === "pic1") {
+        picArrIn[key] = "image";
       }
     }
     if(el.hasClass("mainImg")) {
-      imgsArr[id] = "pic1";
+      picArrIn[id] = "pic1";
     }
   }
 
@@ -578,8 +596,29 @@
 
   //---------------------------- SUBMIT -----------------------------------------------------//
   $('#save').click(function () {
+
+    for(var key in picArrIn) {
+      if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
+    }
+
+    for (var i = 0; i < picArrNew.length; i++) {
+      imgsArrResult[picArrNew[i]] = picArrIn[picArrNew[i]];
+    }
+
+    var defaultMainImg = "";
+    for(var key in imgsArrResult) {
+      if(imgsArrResult[key] === "pic1") {
+        defaultMainImg = key;
+      }
+    }
+    if(defaultMainImg) imgsArrResult[defaultMainImg] = "pic1";
+
+    for(var i = 0; i < picArrDel.length; i++) {
+      deleteImgFromDB(picArrDel[i]);
+    }
+
     var tender = {};
-    tender.uploadFilesIds = imgsArr;
+    tender.uploadFilesIds = imgsArrResult;
     tender.title = $('#title').val();
     tender.body = tinymce.activeEditor.getContent();
     tender.tenderNumber = $('#tenderNumber').val();

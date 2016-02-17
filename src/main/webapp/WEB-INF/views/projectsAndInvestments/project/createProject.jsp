@@ -65,19 +65,18 @@
 </div>
 
 <div id="drop_zone">
-
-    <form id="projectPhotoInput" enctype="multipart/form-data" method="post">
-        <label for="photoFile"><b>Загрузите ваши фотографии на сервер</b></label>
-        <p><input id="photoFile" type="file" name="file" multiple accept="image/*,image/jpeg"></p>
-        <input type="submit" value="Добавить"></p>
+    <button id="addImg">Загрузить фото</button>
+    <form id="uploadProfilePhotoForm" enctype="multipart/form-data"
+          method="post" style="display:none">
+        <p><input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" multiple></p>
     </form>
 
     <div class="imgBlock">
         <!--uploaded images-->
     </div>
-
     Перетяните файлы сюда
 </div>
+
 <button id="createProject">Создать</button>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
@@ -142,12 +141,17 @@
             evt.preventDefault();
             evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
         }
+
+        $('#addImg').click(function(){
+            $('#uploadProfilePhotoInput').trigger('click');
+        });
+
     });
 
-    $('#projectPhotoInput').submit(function (event) {
+    $('#uploadProfilePhotoInput').change(function (event) {
         event.preventDefault();
 
-        var files = event.currentTarget[0].files;
+        var files = event.currentTarget.files;
         for (var i = 0, f; f = files[i]; i++) {
             var fd = new FormData();
             fd.append('file', f);
@@ -175,7 +179,7 @@
                 }
             });
         }
-        event.currentTarget.reset();
+        event.currentTarget.form.reset();
     });
 
     function deleteImgFromDB(picId) {

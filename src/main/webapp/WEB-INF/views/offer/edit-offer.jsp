@@ -736,6 +736,7 @@
         }
       });
     }
+    event.currentTarget.form.reset();
   });
   // upload photo to the server and place it into the page-----------------------END------------------------
 

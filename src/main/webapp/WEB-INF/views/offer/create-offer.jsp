@@ -599,6 +599,7 @@
                 }
             });
         }
+        event.currentTarget.form.reset();
     });
 
     function deleteImg(idImg) {
