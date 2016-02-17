@@ -27,3 +27,11 @@ $(".search-img").click(function(){
     var selectedService = $('#selectedService').find(":selected").val();
     $("#" + selectedService + "FilterBlock").slideToggle();
 });
+
+$("#selectedService").change(function(){
+    if ($('.trolol').is(':visible') ) {
+        $(".hidefilter").hide('fast');
+        var selectedService = $('#selectedService').find(":selected").val();
+        $("#" + selectedService + "FilterBlock").show("slow");
+    }
+});

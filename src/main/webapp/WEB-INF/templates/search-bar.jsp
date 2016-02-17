@@ -16,7 +16,7 @@
         <button class="users" id="userListBtn">Пользователи</button>
         <div class="clearfix"></div>
 
-            <div id="profileFilterBlock" style="display: none">
+            <div id="profileFilterBlock" class="hidefilter" style="display: none">
                 <div class="filterContacts">
                     <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-filter1" value="1" name="k"/><span></span></label>
                     <label for="checkbox-filter1">Юр. лицо</label>
@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-            <div id="newsFilterBlock" style="display: none">
+            <div id="newsFilterBlock" class="hidefilter" style="display: none">
                 <div class="categories">
                     <p>Рубрики</p>
                     <div class="categoriesItem">

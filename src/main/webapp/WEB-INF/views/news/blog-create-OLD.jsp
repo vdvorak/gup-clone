@@ -30,7 +30,7 @@
             <div class="clearfix"></div>
 
             <label for="blogCreationDescription" class="blogCreationLabel">Описание</label>
-            <textarea name="blogCreationDescription" id="blogCreationDescription"></textarea>
+            <textarea name="blogCreationDescription" id="blogCreationDescription" class="blogCreationDescription"></textarea>
 
             <div class="group-info">
                 <label for="blogCreationSocial" class="blogCreationLabel">Социальные сети</label>
