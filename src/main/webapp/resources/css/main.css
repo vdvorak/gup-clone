@@ -2742,6 +2742,7 @@ label[for="checkbox-filter3"] {
 	line-height: 35px;
 	float: right;
 }
+
 #filterForm {
 	display: none;
 }
@@ -2749,6 +2750,7 @@ label[for="checkbox-filter3"] {
 .trolol {
 	background: url(images/trololo.png) no-repeat;
 }
+
 .news {
 	position: relative;
 	margin-top: 30px;
@@ -2870,16 +2872,10 @@ label[for="checkbox-filter3"] {
 	margin: 20px auto;
 }
 
-
-
-
-
 #newsCommentsForm {
 	width: 345px;
 	margin: 0 auto;
 }
-
-
 
 #newsFormComments {
 	height: 126px;
@@ -2964,7 +2960,7 @@ label[for="checkbox-filter3"] {
 .colComments {
 	width: 100%;
 	float: left;
-	padding: 0 15px
+	padding: 0 15px;
 }
 
 .downComments {
@@ -2992,4 +2988,138 @@ label[for="checkbox-filter3"] {
 
 .vip-color {
 	color: #FDB205;
+}
+
+.blogCreation {
+	border-radius: 5px;
+	border: 5px solid rgb(153, 204, 102);
+	width: 100%;
+}
+
+.blogCreationHeader {
+	color: #aad57f;
+	font: 400 19px ArianAMU;
+	text-align: center;
+	margin: 40px 0;
+}
+
+.blogCreationLabel {
+	color: #959595;
+	font: 400 12px ArianAMU;
+	line-height: 22px;
+	margin-left: 50px;
+	float: left;
+}
+
+.blogCreationInput {
+	height: 22px;
+	width: 400px;
+	border: 2px solid rgb(153, 204, 102);
+	border-radius: 4px;
+	font: 400 11px DroidSans;
+	padding: 0 7px;
+	margin-bottom: 15px;
+	float: right;
+	margin-right: 300px;
+}
+
+#blogCreationDescription {
+	border: 2px solid rgb(153, 204, 102);
+	border-radius: 4px;
+	font: 400 11px DroidSans;
+	padding: 7px 7px;
+	height: 80px;
+	width: 400px;
+	resize: none;
+	margin-right: 300px;
+	float: right;
+	margin-bottom: 30px;
+}
+
+.blogCreationSocial:placeholder-shown {
+	color: #898989;
+	font: 400 11px DroidSans;
+}
+
+.blogCreationSocial {
+	border: 2px solid rgb(153, 204, 102);
+	border-radius: 4px;
+	font: 400 11px DroidSans;
+	padding: 7px 7px;
+	height: 22px;
+	width: 230px;
+	float: right;
+	margin-right: 470px;
+	margin-bottom: 60px;
+}
+
+.socialIconBlog {
+	position: absolute;
+	top: -4px;
+	right: 220px;
+}
+
+.socialIconBlog a:first-child {
+	margin: 0;
+}
+
+.socialIconBlog a {
+	float: left;
+	margin-left: 10px;
+}
+
+.blogCreationSubmit {
+	height: 34px;
+	width: 225px;
+	border: 4px solid rgb(153, 204, 102);
+	border-radius: 6px;
+	background-color: transparent;
+	color: #99cc66;
+	font: 400 21px ArianAMU;
+	background: url(/resources/css/images/+sub.png) no-repeat center center;
+	margin-left: 75px;
+	margin-bottom: 20px;
+}
+
+.titleFile {
+	position: relative;
+	display: inline-block;
+}
+
+.titleFile:hover::after {
+	content: attr(data-title); /* Выводим текст */
+	position: absolute; /* Абсолютное позиционирование */
+	left: 305px; top: -55px; /* Положение подсказки */
+	z-index: 1; /* Отображаем подсказку поверх других элементов */
+	background: url(/resources/css/images/title.png) no-repeat bottom left;
+	height: 54px;
+	width: 179px;
+	color: #ffffff;
+	font: 400 16px ArianAMU;
+	padding-left: 15px;
+	padding-top: 13px;
+}
+
+.defaultIMG {
+	margin-left: 190px;
+	margin-bottom: 50px;
+}
+
+.SendEdition {
+	color: #ffffff;
+	font: 400 16px ArianAMU;
+	height: 31px;
+	width: 190px;
+	border-radius: 6px;
+	background-color: rgb(153, 204, 102);
+	border: 1px solid #99cc66;
+	float: right;
+	margin: 0 20px 20px 0;
+	transition: all 0.25s;
+}
+
+.SendEdition:hover {
+	border-color: black;
+	background-color: transparent;
+	color: black;
 }

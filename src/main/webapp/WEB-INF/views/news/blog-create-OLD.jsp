@@ -13,49 +13,85 @@
 </head>
 <body>
 
-<div>
-    <input id="blogTitle" type="text" name="blogTitle" minlength="2" maxlength="70" required
-           placeholder="Название блога">
-</div>
+<div class="container2">
+    <div class="blogCreation">
+        <p class="blogCreationHeader">Новый новосной блог</p>
+        <form id="blogCreationForm" action="#" role="form">
+            <label for="blogTitle" class="blogCreationLabel">Заголовок блога</label>
+            <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput">
 
-<div>
-    <textarea id="blogDescription" minlength="50" maxlength="5000" required
-              placeholder="Описание блога"></textarea>
+            <div class="clearfix"></div>
 
-    <div id="textLength"></div>
-</div>
+            <label for="blogCreationDescription" class="blogCreationLabel">Описание</label>
+            <textarea name="blogCreationDescription" id="blogCreationDescription"></textarea>
 
-<div id="drop_zone">
-    <form id="photoInput" enctype="multipart/form-data" method="post">
-        <input id="photofile" type="file" name="file" multiple accept="image/*,image/jpeg">
-    </form>
-    Перетяните файлы сюда
-    <div class="imgBlock">
-        <img id="imgPreview" src="/resources/images/no_photo.jpg" width="200" height="200">
-    </div>
-
-</div>
-
-<div class="input-group">
-    <div id="socLinkGroup" class="input_soc_wrap">
-        <div class="left-tag">
-            <p>Социальные сети</p>
-        </div>
-        <div class="right-tag">
-            <a class="FACEBOOK"><img src="/resources/images/faceb-icon.png"></a>
-            <a class="TWITTER"><img src="/resources/images/twit-icon.png"> </a>
-            <a class="VKONTAKTE"><img src="/resources/images/vk-icon.png"></a>
-            <a class="GOOGLEPLUS"><img src="/resources/images/goo-icon.png"></a>
-            <a class="LINKEDIN"><img src="/resources/images/link-icon.png"></a>
-
-            <div><input class="input-social" type="url" name="FACEBOOK" pattern="http://www\.facebook\.com\/(.+)|https://www\.facebook\.com\/(.+)" placeholder="Страница FACEBOOK"><span class="remove_field"><img
-                    src="/resources/img/minus.png" width="15" height="15"></span>
+            <div class="group-info">
+                <label for="blogCreationSocial" class="blogCreationLabel">Социальные сети</label>
+                <input type="text" name="blogCreationSocial" id="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку">
+                <div class="socialIconBlog">
+                    <a href="#"><img class="img-responsive" src="resources/images/twitter-info.png" alt="twitter"></a>
+                    <a href="#"><img class="img-responsive" src="resources/images/facebook-info.png" alt="facebook"></a>
+                    <a href="#"><img class="img-responsive" src="resources/images/skype-info.png" alt="skype"></a>
+                    <a href="#"><img class="img-responsive" src="resources/images/vk-info.png" alt="vk"></a>
+                    <a href="#"><img class="img-responsive" src="resources/images/g+info.png" alt="g+"></a>
+                    <a href="#"><img class="img-responsive" src="resources/images/in-info.png" alt="in"></a>
+                </div>
             </div>
-        </div>
+
+            <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
+            <label for="" class="blogCreationLabel">Фотографии</label>
+            <input type="file" style="display: none;" multiple="multiple" accept="image/*">
+            <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
+        </form>
+        <button type="button" class="SendEdition">Отправить редакции</button>
+
+        <div class="clearfix"></div>
     </div>
 </div>
 
-<button id="createBlog" disabled>Создать</button>
+<%--<div>--%>
+    <%--<input id="blogTitle" type="text" name="blogTitle" minlength="2" maxlength="70" required--%>
+           <%--placeholder="Название блога">--%>
+<%--</div>--%>
+
+<%--<div>--%>
+    <%--<textarea id="blogDescription" minlength="50" maxlength="5000" required--%>
+              <%--placeholder="Описание блога"></textarea>--%>
+
+    <%--<div id="textLength"></div>--%>
+<%--</div>--%>
+
+<%--<div id="drop_zone">--%>
+    <%--<form id="photoInput" enctype="multipart/form-data" method="post">--%>
+        <%--<input id="photofile" type="file" name="file" multiple accept="image/*,image/jpeg">--%>
+    <%--</form>--%>
+    <%--Перетяните файлы сюда--%>
+    <%--<div class="imgBlock">--%>
+        <%--<img id="imgPreview" src="/resources/images/no_photo.jpg" width="200" height="200">--%>
+    <%--</div>--%>
+
+<%--</div>--%>
+
+<%--<div class="input-group">--%>
+    <%--<div id="socLinkGroup" class="input_soc_wrap">--%>
+        <%--<div class="left-tag">--%>
+            <%--<p>Социальные сети</p>--%>
+        <%--</div>--%>
+        <%--<div class="right-tag">--%>
+            <%--<a class="FACEBOOK"><img src="/resources/images/faceb-icon.png"></a>--%>
+            <%--<a class="TWITTER"><img src="/resources/images/twit-icon.png"> </a>--%>
+            <%--<a class="VKONTAKTE"><img src="/resources/images/vk-icon.png"></a>--%>
+            <%--<a class="GOOGLEPLUS"><img src="/resources/images/goo-icon.png"></a>--%>
+            <%--<a class="LINKEDIN"><img src="/resources/images/link-icon.png"></a>--%>
+
+            <%--<div><input class="input-social" type="url" name="FACEBOOK" pattern="http://www\.facebook\.com\/(.+)|https://www\.facebook\.com\/(.+)" placeholder="Страница FACEBOOK"><span class="remove_field"><img--%>
+                    <%--src="/resources/img/minus.png" width="15" height="15"></span>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+<%--</div>--%>
+
+<%--<button id="createBlog" disabled>Создать</button>--%>
 
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
