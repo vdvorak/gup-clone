@@ -18,6 +18,12 @@
     });
 
     $("#registrationBtn").click(function(){
+
+        var pass1 = $('#registration-password').val();
+        var pass2 = $('#repeat-registration-password').val();
+        var isMatch = isMatchRegEx(pass1);
+        if(!isMatch || pass1 !== pass2) return;
+
         var profile = {
             'email' : $('#registration-email').val(),
             'password' : $('#registration-password').val(),
