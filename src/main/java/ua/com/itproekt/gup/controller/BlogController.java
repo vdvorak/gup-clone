@@ -27,11 +27,16 @@ public class BlogController {
     ProfilesService profilesService;
 
 
+//    @RequestMapping("/blog-create")
+//    public String getBlogCreatePage() {
+//        return "blog-create";
+//    }
+
+    //ToDo - delete when new version will work
     @RequestMapping("/blog-create")
     public String getBlogCreatePage() {
-        return "blog-create";
+        return "news/blog-create-OLD";
     }
-
 
     @RequestMapping("/blogs")
     public String getBlogsRead(Model model) {
