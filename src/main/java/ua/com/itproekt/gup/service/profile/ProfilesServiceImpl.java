@@ -96,8 +96,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public Profile findWholeProfileByEmail(String email) {
-        Profile profile = profileRepository.findByEmail(email);
-        return profile;
+        return profileRepository.findByEmail(email);
     }
 
     @Override

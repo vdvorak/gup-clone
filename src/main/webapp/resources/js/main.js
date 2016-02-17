@@ -1,27 +1,5 @@
 $(document).ready(function(){
 
-//	$("#ad-caret").click(function(){
-//        $('.add-top1:first').clone().insertAfter('.add-top1:last');
-//        $('.add-top1:first').clone().insertAfter('.add-top1:last');
-//        $('.add-top1:first').clone().insertAfter('.add-top1:last');
-//    });
-//	
-//	$("#tend-caret").click(function(){
-//        $('.tend-top1:first').clone().insertAfter('.tend-top1:last');
-//        $('.tend-top1:first').clone().insertAfter('.tend-top1:last');
-//        $('.tend-top1:first').clone().insertAfter('.tend-top1:last');
-//    });
-//	
-//	$("#proj-caret").click(function(){
-//        $('.proj-top1:first').clone().insertAfter('.proj-top1:last');
-//        $('.proj-top1:first').clone().insertAfter('.proj-top1:last');
-//        $('.proj-top1:first').clone().insertAfter('.proj-top1:last');
-//    });
-//	
-//	$(".tidiDown").click(function(){
-//        $('.tidi4:first').clone().insertAfter('.tidi4:last');
-//    });
-
     $('#socialBtn').click( function(event){
         event.preventDefault();
         $('#overlay').fadeIn(400,
@@ -51,6 +29,11 @@ $(document).ready(function(){
         $(".mapContact").slideToggle();
     });
 
+    $(".search-img").click(function(){
+        $(".search-img").toggleClass('trolol');
+        $("#filterForm").slideToggle();
+    });
+
     $('#tab-container').easytabs({
         animate: false
     });
@@ -64,5 +47,27 @@ $(document).ready(function(){
     $(".NewsTabsFilterItem").on('click', function(){
         $('.intro').removeClass("intro");
         $(this).addClass("intro");
+    });
+
+    $('#newsFormComments').keyup(function() {
+        var maxLength = 2000;
+        var length = $(this).val().length;
+        var length = maxLength-length;
+        $('#chars').text(length + ' символов осталось');
+    });
+
+    $(".downComments").click(function(){
+        $(".downComments").hide('slow');
+        $(".colNewsComments").show('slow');
+        $(".colComments").css("width", "50%");
+    });
+
+    $(".comments").click(function(){
+
+        if ($('.backgroundColorComment').is(':visible') ) {
+            return $('.backgroundColorComment').removeClass("backgroundColorComment");;
+        } else {
+            $(this).addClass("backgroundColorComment");
+        }
     });
 });

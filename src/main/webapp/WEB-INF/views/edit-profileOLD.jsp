@@ -143,7 +143,7 @@
                                 <p>Должность</p>
                             </div>
                             <div class="right-tag">
-                                <input id="inputPosition" type="text" class="form-control input-sm" value="${profile.contact.companyDirector}" required>
+                                <input id="inputPosition" type="text" class="form-control input-sm" value="${profile.contact.position}" required>
                             </div>
                         </div>
                         <div class="input-group">
@@ -539,7 +539,7 @@
         profile.contact.linkToWebSite = webLinks;
         profile.contact.linkToSocial = socLinks;
         profile.contact.type = $('#selectCategory').value;
-        profile.contact.companyDirector = $('#inputPosition').val();
+        profile.contact.position = $('#inputPosition').val();
         profile.contact.skypeUserName = $('#skype').val();
         profile.contact.aboutUs = $('#profileDescription').val();
         profile.contact.pic = imgId;

@@ -30,9 +30,17 @@ public class ProfileController {
     @Autowired
     ActivityFeedService activityFeedService;
 
-
     @RequestMapping("/profile/id/{profileId}")
     public String getProfileById(@PathVariable String profileId, Model model) {
+        if (!profilesService.profileExists(profileId)) {
+            throw new ResourceNotFoundException();
+        }
+
+//        if (profileId.equals(SecurityOperations.getLoggedUserId())) {
+//            return "prioffice";
+//
+//        }
+
         model.addAttribute("profileId", profileId);
         return "profile/profile";
     }

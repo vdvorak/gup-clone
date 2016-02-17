@@ -145,6 +145,7 @@
 
                 <div id="description" class="input-group">Описание
                     <textarea id="offerDescription" required></textarea>
+                    <div id="textLength"></div>
                 </div>
 
                 <div id="inputs" class="input-group"></div>
@@ -195,21 +196,21 @@
                 <%--<a id="test" tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">Dismissible popover</a>--%>
             </div>
 
-        <!--
-        <form id="photoInput" enctype="multipart/form-data" action="/api/rest/fileStorage/OFFERS/file/read/id/${id}"
-              method="post">
-            <p>Загрузите ваши фотографии на сервер</p>
+        <div id="drop_zone">
 
-            <p><input type="file" name="file" accept="image/*,image/jpeg">
-                <input type="submit" value="Добавить"></p>
-        </form>
-        -->
+            <form id="photoInput" enctype="multipart/form-data" action="/api/rest/fileStorage/OFFERS/file/read/id/${id}"
+                  method="post">
+                <p>Загрузите ваши фотографии на сервер</p>
 
-        <div class="imgBlock">
-            <!--uploaded images-->
-        </div>
+                <p><input type="file" name="file" accept="image/*,image/jpeg" multiple>
+                    <input type="submit" value="Добавить"></p>
+            </form>
 
-        <div id="drop_zone"> Перетяните файлы сюда
+
+            <div class="imgBlock">
+                <!--uploaded images-->
+            </div>
+            Перетяните файлы сюда
         </div>
         <!-- city chosen -->
         <input id="countryInp" type="text" name="country" style="visibility: hidden;">
@@ -306,8 +307,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/jquery.maskedinput.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
-        async defer></script>
+
 
 
 <script>
@@ -342,7 +342,6 @@
             var files = evt.dataTransfer.files; // FileList object.
 
             // files is a FileList of File objects. List some properties.
-            var output = [];
             for (var i = 0, f; f = files[i]; i++) {
                 var formImg = new FormData($(this)[0]);
                 var fd = new FormData();
@@ -382,7 +381,26 @@
             evt.preventDefault();
             evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
         }
+
+        countTextLength();
+        $("#offerDescription").on('keyup', countTextLength);
+
     });
+
+    function countTextLength() {
+        var counter = $("#textLength");
+        var currentString = $("#offerDescription").val();
+        counter.html(currentString.length);
+        if (currentString.length <= 50) {  /*or whatever your number is*/
+            counter.css("color", "red");
+        } else {
+            if (currentString.length > 500) {
+                counter.css("color", "red");
+            } else {
+                counter.css("color", "green");
+            }
+        }
+    }
 
     $.ajax({
         type: "GET",
@@ -553,26 +571,39 @@
 
     $('#photoInput').submit(function (event) {
         event.preventDefault();
-        var formImg = new FormData($(this)[0]);
 
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/fileStorage/OFFERS/file/upload/",
-            data: formImg,
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
+        var files = event.currentTarget[0].files;
+        for (var i = 0, f; f = files[i]; i++) {
+            var formImg = new FormData($(this)[0]);
+            var fd = new FormData();
+            fd.append('file', f);
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/fileStorage/OFFERS/file/upload/",
+                data: fd,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
 
-            success: function (data, textStatus, request) {
-                var id = data.id;
-                imgsArr[id] = "someText";
-                $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
-                ' <li style="background-color: white"><a rel="example_group"> ' +
-                '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
-                '</a> <div onclick=\"deleteImg(' + '\'' + data.id + '\'' + ')">Удалить</div> </li> </ul>');
-            }
-        });
+                success: function (data, textStatus, request) {
+                    var id = data.id;
+                    var isImage = f.type.substring(0, 5) === 'image';
+                    var isPic1 = f.type.substring(0, 4) === 'pic1';
+                    if (isImage || isPic1) {
+                        imgsArr[id] = (isImage) ? "image" : 'pic1';
+                        $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                                '<li><strong>' + f.name + '</strong></li>' +
+                                ' <li style="background-color: white">' +
+                                '<a rel="example_group"> ' +
+                                '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                                '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                    }
+                    $('div.imgBlock > li').click(onClickSetMainImg);
+                }
+            });
+        }
+        event.currentTarget.reset();
     });
 
     function deleteImg(idImg) {
@@ -888,6 +919,7 @@
 //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
 
 </script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
+        async defer></script>
 </body>
 </html>

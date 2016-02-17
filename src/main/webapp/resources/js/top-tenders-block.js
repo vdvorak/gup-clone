@@ -35,6 +35,7 @@ function appendTender(elementId, tenderURL, tenderImagePreviewTag, title) {
 }
 
 function loadAndAppendTopTenders() {
+
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -51,9 +52,9 @@ function loadAndAppendTopTenders() {
                     appendTender('topTendersBlock', tenderURl, tenderImagePreviewTag, tenders[i].title);
                 }
             }
-            //,
-            //204 : function() {
-            //}
+            ,
+            204 : function() {
+            }
         }
     });
 }

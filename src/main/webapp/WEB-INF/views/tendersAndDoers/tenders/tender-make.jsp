@@ -165,6 +165,13 @@
 <br>
 <br>
 
+<form id="photoInput" enctype="multipart/form-data" action="/api/rest/fileStorage/OFFERS/file/read/id/${id}"
+      method="post">
+    <p>Загрузите ваши фотографии на сервер</p>
+
+    <p><input type="file" name="file" accept="image/*,image/jpeg" multiple>
+        <input type="submit" value="Добавить"></p>
+</form>
 
 <div class="imgBlock">
     <!--uploaded images-->
@@ -212,8 +219,7 @@
 <script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/js/bootstrap-datepicker.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
-        async defer></script>
+
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
 <script>
@@ -238,7 +244,6 @@
             var files = evt.dataTransfer.files; // FileList object.
 
             // files is a FileList of File objects. List some properties.
-            var output = [];
             for (var i = 0, f; f = files[i]; i++) {
                 var formImg = new FormData($(this)[0]);
                 var fd = new FormData();
@@ -285,7 +290,6 @@
 
 
             }
-            document.getElementById('list').innerHTML += '<ul>' + output.join('') + '</ul>';
         }
 
         function handleDragOver(evt) {
@@ -406,6 +410,56 @@
     });
 
     // ---------------   END LOAD RESOURCES    --------------------------//
+    $('#photoInput').submit(function (event) {
+        event.preventDefault();
+        var files = event.currentTarget[0].files;
+        for (var i = 0, f; f = files[i]; i++) {
+            var formFiles = new FormData($(this)[0]);
+            var fd = new FormData();
+            fd.append('file', f);
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/fileStorage/TENDER/file/upload/",
+                data: fd,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                success: function (data, textStatus, request) {
+                    var id = data.id;
+                    if (f.type.substring(0, 5) === 'image') {
+                        imgsArr[id] = "image";
+                        $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                                '<li><strong>' + f.name + '</strong></li>' +
+                                ' <li style="background-color: white">' +
+                                '<a rel="example_group"> ' +
+                                '<img id="img1" alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
+                                '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                    } else if(f.type.substring(0, 4) === 'pic1') {
+                        imgsArr[id] = "pic1";
+                        $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                                '<li><strong>' + f.name + '</strong></li>' +
+                                ' <li style="background-color: white">' +
+                                '<a rel="example_group"> ' +
+                                '<img id="img1" alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
+                                '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                    } else {
+                        imgsArr[id] = "doc";
+                        $('.docBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
+                                '<li><strong>' + f.name + '</strong></li>' +
+                                ' <li style="background-color: white">' +
+                                '<a rel="example_group"> ' +
+                                '<img id="img1" alt="" src="http://www.uzscience.uz/upload/userfiles/images/doc.png"' + 'width="150" height="150"> ' +
+                                '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                    }
+                    $('div.imgBlock > li').click(onClickSetMainImg);
+                }
+            });
+        }
+
+        event.currentTarget.reset();
+    });
 
     function deleteImg(idImg) {
         delete imgsArr[idImg];
@@ -419,6 +473,7 @@
     }
 
     function onClickSetMainImg(id) {
+        var isMain = $('#' + id).find("img").hasClass("mainImg");
         var allImgs = $(".imgBlock").find("img");
         for (var i =0; i < allImgs.length; i++) {
             var curImg = $(allImgs[i]);
@@ -427,9 +482,8 @@
             }
         }
         var el = $('#' + id).find("img");
-        if(!el.hasClass("mainImg")) {
-            el.addClass("mainImg");
-        }
+        if(!isMain) el.addClass("mainImg");
+
         for(var key in imgsArr) {
             if(imgsArr[key] === "pic1") {
                 imgsArr[key] = "image";
@@ -561,6 +615,7 @@
 
     //--------------------------- END GOOGLE MAP API ---------------------------------------//
 </script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
+        async defer></script>
 </body>
 </html>
