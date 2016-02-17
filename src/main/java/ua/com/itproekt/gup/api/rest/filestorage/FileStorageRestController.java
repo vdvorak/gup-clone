@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
-import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.ServiceNames;
 
 import javax.imageio.ImageIO;
@@ -55,7 +55,7 @@ public class FileStorageRestController {
     }
 
     @RequestMapping(value="{serviceName}/file/upload", method=RequestMethod.POST)
-    public ResponseEntity<CreatedObjResponse>
+    public ResponseEntity<CreatedObjResp>
     fileUpload(@PathVariable String serviceName, @RequestParam MultipartFile file,
                @RequestParam(required = false, defaultValue = "false") boolean cacheImage){
 
@@ -84,7 +84,7 @@ public class FileStorageRestController {
                     }
                 }
 
-                return new ResponseEntity<>(new CreatedObjResponse(uploadedFileId), HttpStatus.CREATED);
+                return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
             } catch (IOException e) {
                 System.err.println("IOException");
 

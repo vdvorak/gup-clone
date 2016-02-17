@@ -1,13 +1,13 @@
 package ua.com.itproekt.gup.util;
 
 
-public class CreatedObjResponse {
+public class CreatedObjResp {
     private String id;
 
-    public CreatedObjResponse() {
+    public CreatedObjResp() {
     }
 
-    public CreatedObjResponse(String id) {
+    public CreatedObjResp(String id) {
         this.id = id;
     }
 

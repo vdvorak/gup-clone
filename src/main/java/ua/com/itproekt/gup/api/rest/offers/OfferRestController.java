@@ -13,7 +13,7 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
@@ -65,7 +65,7 @@ public class OfferRestController {
 
     @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
                     consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResponse> createOffer(@Valid @RequestBody Offer offer) {
+    public ResponseEntity<CreatedObjResp> createOffer(@Valid @RequestBody Offer offer) {
 
         if (offer.getUserInfo() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -93,8 +93,8 @@ public class OfferRestController {
 
         offersService.create(offer);
 
-        CreatedObjResponse createdObjResponse = new CreatedObjResponse(offer.getId());
-        return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
+        CreatedObjResp createdObjResp = new CreatedObjResp(offer.getId());
+        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
     }
 
     //------------------------------------------ Update -----------------------------------------------------------------
@@ -102,7 +102,7 @@ public class OfferRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/edit", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResponse> editOffer(@Valid @RequestBody Offer offer) {
+    public ResponseEntity<CreatedObjResp> editOffer(@Valid @RequestBody Offer offer) {
 
         if (offer.getId() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -120,8 +120,8 @@ public class OfferRestController {
 //        offer.setModerationStatus(null);
         offersService.edit(offer);
 
-        CreatedObjResponse createdObjResponse = new CreatedObjResponse(offer.getId());
-        return new ResponseEntity<>(createdObjResponse, HttpStatus.OK);
+        CreatedObjResp createdObjResp = new CreatedObjResp(offer.getId());
+        return new ResponseEntity<>(createdObjResp, HttpStatus.OK);
     }
 
     @PreAuthorize("isAuthenticated()")

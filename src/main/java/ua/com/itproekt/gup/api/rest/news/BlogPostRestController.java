@@ -14,7 +14,7 @@ import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.news.BlogPostService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
@@ -63,12 +63,12 @@ public class BlogPostRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/blogPost/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResponse> createBlogPost(@Valid @RequestBody BlogPost blogPost) {
+    public ResponseEntity<CreatedObjResp> createBlogPost(@Valid @RequestBody BlogPost blogPost) {
 
         // Проверка на права создавать посты от блога{userId, blogId} !!!!!!!!
         // .........
 
-        CreatedObjResponse createdObjResponse = null;
+        CreatedObjResp createdObjResp = null;
         try {
             String userId = SecurityOperations.getLoggedUserId();
             blogPost.setAuthorId(userId);
@@ -76,11 +76,11 @@ public class BlogPostRestController {
 
             blogPostService.create(blogPost);
 
-            createdObjResponse = new CreatedObjResponse(blogPost.getId());
+            createdObjResp = new CreatedObjResp(blogPost.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
     }
 
     //------------------------------------------ Update -----------------------------------------------------------------

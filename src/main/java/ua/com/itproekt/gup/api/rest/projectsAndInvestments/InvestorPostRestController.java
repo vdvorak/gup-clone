@@ -10,7 +10,7 @@ import ua.com.itproekt.gup.model.projectsAndInvestments.investment.InvestorPost;
 import ua.com.itproekt.gup.model.projectsAndInvestments.investment.InvestorPostFilterOptions;
 import ua.com.itproekt.gup.service.projectsAndInvestments.investment.InvestorService;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
-import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
@@ -52,15 +52,15 @@ public class InvestorPostRestController {
 
     @RequestMapping(value = "/investorPost/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResponse> createInvestorPost(@Valid @RequestBody InvestorPost investorPost) {
+    public ResponseEntity<CreatedObjResp> createInvestorPost(@Valid @RequestBody InvestorPost investorPost) {
 
         String userId = SecurityOperations.getLoggedUserId();
 
         investorPost.setuId(userId);
         investorService.create(investorPost);
 
-        CreatedObjResponse createdObjResponse = new CreatedObjResponse(investorPost.getId());
-        return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
+        CreatedObjResp createdObjResp = new CreatedObjResp(investorPost.getId());
+        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
     }
 
     //------------------------------------------ Update -----------------------------------------------------------------

@@ -11,7 +11,7 @@ import ua.com.itproekt.gup.model.projectsAndInvestments.project.ModerationStatus
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOptions;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
-import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
@@ -65,14 +65,14 @@ public class ProjectsRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/project/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResponse> createProject(@Valid @RequestBody Project project) {
+    public ResponseEntity<CreatedObjResp> createProject(@Valid @RequestBody Project project) {
 
         String userId = SecurityOperations.getLoggedUserId();
         project.setAuthorId(userId);
         projectService.create(project);
 
-        CreatedObjResponse createdObjResponse = new CreatedObjResponse(project.getId());
-        return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
+        CreatedObjResp createdObjResp = new CreatedObjResp(project.getId());
+        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
     }
 
     //------------------------------------------ Update -----------------------------------------------------------------

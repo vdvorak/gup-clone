@@ -13,7 +13,7 @@ import ua.com.itproekt.gup.model.news.Comment;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.news.BlogPostService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 @RestController
@@ -44,8 +44,9 @@ public class BlogPostCommentRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/blogPost/id/{blogPostId}/comment/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResponse> createComment(@PathVariable String blogPostId,
-                                                            @RequestBody Comment comment) {
+    public ResponseEntity<CreatedObjResp> createComment(@PathVariable String blogPostId,
+                                                        @RequestBody Comment comment) {
+        // ?? - spring валидирует
         if (comment.getComment().trim().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -55,7 +56,7 @@ public class BlogPostCommentRestController {
         blogPostService.createComment(blogPostId, comment);
 
         String toId = comment.getToId();
-
+        // ** проверять существует ли пользователь с toId
         if( blogPostId.equals(toId)) {
             String authorId = blogPostService.findById(toId).getAuthorId();
             activityFeedService.createEvent(new Event(authorId, EventType.BLOG_POST_COMMENT, comment.getcId(), userId));
@@ -63,8 +64,7 @@ public class BlogPostCommentRestController {
             activityFeedService.createEvent(new Event(toId, EventType.BLOG_POST_COMMENT_REPLY, comment.getcId(), userId));
         }
 
-        CreatedObjResponse createdObjResponse = new CreatedObjResponse(comment.getcId());
-        return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(new CreatedObjResp(comment.getcId()), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/blogPost/id/{blogPostId}/comment/id/{commentId}/delete", method = RequestMethod.POST,
