@@ -199,20 +199,18 @@
 
     <div id="drop_zone">
 
-      <form id="photoInput" enctype="multipart/form-data" action="/api/rest/fileStorage/OFFERS/file/read/id/${id}"
-            method="post">
-        <p>Загрузите ваши фотографии на сервер</p>
-
-        <p><input type="file" name="file" accept="image/*,image/jpeg" multiple>
-          <input type="submit" value="Добавить"></p>
+      <button id="addImg">Загрузить фото</button>
+      <form id="uploadProfilePhotoForm" enctype="multipart/form-data"
+            method="post" style="display:none">
+        <p><input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" multiple></p>
       </form>
 
       <div class="imgBlock">
-      <!--uploaded images-->
+        <!--uploaded images-->
       </div>
-
       Перетяните файлы сюда
     </div>
+
   </div>
 
 </div>
@@ -472,9 +470,9 @@
     // place photo from received model on the page
     for (var id in picMapObj) {
       picArrIn[id] = picMapObj[id];
-      $('.imgBlock').append('<ul id="' + id + '" style="display: inline-table; list-style-type: none">' +
+      $('.imgBlock').append('<ul id="' + id + '" '+ ((picMapObj[id] === 'pic1')? 'class="mainImg"': '') +' style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
       ' <li style="background-color: white"><a rel="example_group"> ' +
-      '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + id + '"' + 'width="150" height="150" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')"> ' +
+      '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
       '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
     }
     // Setup the dnd listeners.
@@ -505,16 +503,14 @@
           success: function (data, textStatus, request) {
             var id = data.id;
             var isImage = f.type.substring(0, 5) === 'image';
-            var isPic1 = f.type.substring(0, 4) === 'pic1';
-            if (isImage || isPic1) {
-              picArrIn[id] = (isImage) ? "image" : 'pic1';
+            if (isImage) {
+              picArrIn[id] = "image";
               $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
                       ' <li style="background-color: white">' +
                       '<a rel="example_group"> ' +
-                      '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                      '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
                       '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
             }
-            $('div.imgBlock > li').click(onClickSetMainImg);
           }
         });
 
@@ -658,6 +654,10 @@
     countTextLength();
     $("#offerDescription").on('keyup', countTextLength);
 
+    $('#addImg').click(function(){
+      $('#uploadProfilePhotoInput').trigger('click');
+    });
+
   });
 
   function countTextLength() {
@@ -704,34 +704,11 @@
     }
   }
   // upload photo to the server and place it into the page-----------------------BEGIN------------------------
-  $('#photoInput').submit(function (event) {
-    event.preventDefault();
-    var formImg = new FormData($(this)[0]);
 
-    $.ajax({
-
-      type: "POST",
-      url: "/api/rest/fileStorage/OFFERS/file/upload/",
-      data: formImg,
-      async: false,
-      cache: false,
-      contentType: false,
-      processData: false,
-
-      success: function (data, textStatus, request) {
-        picArrIn.push(data.id);
-        $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
-        ' <li style="background-color: white"><a rel="example_group"> ' +
-        '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
-        '</a> <div onclick=\"deleteImgFromPage(' + '\'' + data.id + '\'' + ')">Удалить</div> </li> </ul>');
-      }
-    });
-  });
-
-  $('#photoInput').submit(function (event) {
+  $('#uploadProfilePhotoInput').change(function (event) {
     event.preventDefault();
 
-    var files = event.currentTarget[0].files;
+    var files = event.currentTarget.files;
     for (var i = 0, f; f = files[i]; i++) {
       var formImg = new FormData($(this)[0]);
       var fd = new FormData();
@@ -748,20 +725,18 @@
         success: function (data, textStatus, request) {
           var id = data.id;
           var isImage = f.type.substring(0, 5) === 'image';
-          var isPic1 = f.type.substring(0, 4) === 'pic1';
-          if (isImage || isPic1) {
-            picArrIn[id] = (isImage) ? "image" : 'pic1';
+          if (isImage) {
+            picArrIn[id] = "image";
             $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
                     ' <li style="background-color: white">' +
                     '<a rel="example_group"> ' +
-                    '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                    '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
                     '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
           }
-          $('div.imgBlock > li').click(onClickSetMainImg);
         }
       });
     }
-    event.currentTarget.reset();
+    event.currentTarget.form.reset();
   });
   // upload photo to the server and place it into the page-----------------------END------------------------
 
