@@ -10,6 +10,13 @@
 <head>
     <title>Создание блога</title>
     <link href="/resources/css/mini.css" rel="stylesheet">
+    <link href="/resources/css/main.css" rel="stylesheet">
+    <link href="/resources/css/bootstrap.css" rel="stylesheet">
+    <link href="/resources/css/bootstrap-theme.css" rel="stylesheet">
+
+
+    <%-- Cropper style --%>
+    <link  href="/resources/css/cropper.css" rel="stylesheet">
 </head>
 <body>
 
@@ -43,6 +50,15 @@
             <input type="file" style="display: none;" multiple="multiple" accept="image/*">
             <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
         </form>
+
+
+
+        <div>
+            <img id="image" src="/api/rest/fileStorage/profile/file/read/id/56a20d87e7b81d0bf53266bf">
+        </div>
+
+
+
         <button type="button" class="SendEdition">Отправить редакции</button>
 
         <div class="clearfix"></div>
@@ -93,9 +109,34 @@
 
 <%--<button id="createBlog" disabled>Создать</button>--%>
 
+
+
+
+
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script src="/resources/js/cropper.js"></script>
 <script>
+
+
+
+    var image = document.getElementById('image');
+    var cropper = new Cropper(image, {
+        aspectRatio: 1 / 1,
+        crop: function(data) {
+            console.log(data.x);
+            console.log(data.y);
+            console.log(data.width);
+            console.log(data.height);
+            console.log(data.rotate);
+            console.log(data.scaleX);
+            console.log(data.scaleY);
+        }
+    });
+
+
+
+
     // -------------------------------------------------------BEGIN soc network links --------------------------------------------
     // Add/Remove social Input Fields Dynamically with jQuery
     $(document).ready(function () {
