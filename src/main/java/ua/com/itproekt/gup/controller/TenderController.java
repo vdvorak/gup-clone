@@ -5,14 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.model.tender.Tender;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.nace.NaceService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.tender.TenderService;
 import ua.com.itproekt.gup.util.SecurityOperations;
-
-import java.security.Security;
 
 /**
  * Created by qz on 1/12/2016.
@@ -35,18 +35,18 @@ public class TenderController {
 
     @RequestMapping("/tenders")
     public String getAllTenders(Model model) {
-        return "tenders";
+        return "tendersAndDoers/tenders/tenders";
     }
 
     @RequestMapping("/tender/{id}")
     public String getTender(@PathVariable String id, Model model) {
         model.addAttribute("id", id);
-        return "tender";
+        return "tendersAndDoers/tenders/tender";
     }
 
     @RequestMapping("/tender-make")
     public String thenderMake() {
-        return "tender-make";
+        return "tendersAndDoers/tenders/tender-make";
     }
 
     @RequestMapping("/tender/id/{id}/update")
@@ -55,11 +55,13 @@ public class TenderController {
         if(SecurityOperations.getLoggedUserId() == null){
             return "redirect:/";
         }
-        if(tender == null || !tender.getAuthorId().equals(SecurityOperations.getLoggedUserId())){
+        Profile loggedUser = profileService.findWholeProfileById(SecurityOperations.getLoggedUserId());
+        boolean admin = loggedUser.getUserRoles().contains(UserRole.ROLE_ADMIN);
+        if(tender == null || (!tender.getAuthorId().equals(loggedUser.getId()) && !admin) ){
             System.out.println("!!!!!!!!!!!!!!!! tender.getAuthorId=" + tender.getAuthorId() + "SecurityOperations.getLoggedUserId() = " + SecurityOperations.getLoggedUserId());
             return "redirect:/tenders";
         }
         model.addAttribute("tender", tender);
-        return "tender-edit";
+        return "tendersAndDoers/tenders/tender-edit";
     }
 }

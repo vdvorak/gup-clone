@@ -24,7 +24,7 @@ import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.nace.NaceService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.tender.TenderService;
-import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
@@ -32,7 +32,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -62,6 +65,7 @@ public class TenderRestController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tender> getTenderById(@PathVariable("id") String id, HttpServletRequest req) {
+        System.err.println("------------------------------in----------------------------");
         Tender tender = tenderService.findById(id);
         if (tender == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -69,6 +73,8 @@ public class TenderRestController {
 
         if(getCurrentUser() == null){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } else {
+            System.err.println("OLOLOLO!!!!!!!!!!!!!!!!!!!!");
         }
 
         if(tender != null){
@@ -146,7 +152,7 @@ public class TenderRestController {
     @RequestMapping(value = "/tender/create/",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResponse> createTender(@RequestBody Tender tender) {
+    public ResponseEntity<CreatedObjResp> createTender(@RequestBody Tender tender) {
 
         tender.setAuthorId(SecurityOperations.getLoggedUserId());
         if(tender.getType() == TenderType.CLOSE){
@@ -154,8 +160,8 @@ public class TenderRestController {
         }
         tenderService.createTender(tender);
 
-        CreatedObjResponse createdObjResponse = new CreatedObjResponse(tender.getId());
-        return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
+        CreatedObjResp createdObjResp = new CreatedObjResp(tender.getId());
+        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/tender/id/{id}/propose/create/",
@@ -189,7 +195,7 @@ public class TenderRestController {
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
         // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an member;
-        UserType userType = profileService.findById(member.getId()).getContact().getType();
+        UserType userType = profileService.findWholeProfileById(member.getId()).getContact().getType();
         if (userType == null || userType == UserType.INDIVIDUAL) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -282,7 +288,7 @@ public class TenderRestController {
         tender.setEnd(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
         tender.setProposes(null);
         tender.setMembers(null);
-        //todo ActivityFeed!!!!!!!!!!!!!!!!!!!!!
+        activityFeedService.createEvent(new Event(tender.getWinnerId(), EventType.YOU_WON_IN_TENDER, tender.getId(), tender.getAuthorId()));
         return new ResponseEntity<Tender>(tenderService.updateTender(tender), HttpStatus.OK);
     }
 

@@ -85,7 +85,7 @@
 
                             if (project.imagesIds !== null && project.imagesIds != '') {
                                 for (var key in project.imagesIds) {
-                                    if (project.imagesIds[key] === "1") {
+                                    if (project.imagesIds[key] === "pic1") {
                                         project.imagesIds = '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key + '" width="100" height="100">';
                                     }
                                 }

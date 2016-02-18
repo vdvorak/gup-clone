@@ -153,7 +153,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
             throw new AuthenticationException();
         }
 
-        profilesService.updateProfile(profile);
+        profilesService.editProfile(profile);
         verificationTokenRepository.save(token);
         return token;
     }
@@ -186,8 +186,8 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     }
 
 
-    private Profile ensureUserIsLoaded(String userId) {
-        Profile profile = profilesService.findById(userId);
+    private Profile ensureUserIsLoaded(String profileId) {
+        Profile profile = profilesService.findWholeProfileById(profileId);
         if (profile == null) {
             throw new RuntimeException("Profile not found");
         }

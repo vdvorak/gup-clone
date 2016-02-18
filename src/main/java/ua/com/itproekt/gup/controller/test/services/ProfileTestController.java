@@ -48,7 +48,7 @@ public class ProfileTestController {
 
         Contact contact = new Contact();
         contact.setType(UserType.LEGAL_ENTITY);
-        contact.setCompanyDirector("Admin Jr. Adm");
+        contact.setPosition("Admin Jr. Adm");
         HashSet<String> contactEmails = new HashSet<>();
         contactEmails.add("info@abc");
         contactEmails.add("office@abc");
@@ -57,9 +57,10 @@ public class ProfileTestController {
         contactPhones.add("+38(044)-111-11-11");
         contactPhones.add("+38(067)-111-11-11");
         contact.setContactPhones(contactPhones);
-        HashSet<String> linkToWebSite = new HashSet<>();
-        linkToWebSite.add("http://www.president.gov.ua/");
-        linkToWebSite.add("https://www.whitehouse.gov/");
+//        HashSet<String> linkToWebSite = new HashSet<>();
+//        linkToWebSite.add("http://www.president.gov.ua/");
+//        linkToWebSite.add("https://www.whitehouse.gov/");
+        String linkToWebSite = "https://www.whitehouse.gov/";
         contact.setLinkToWebSite(linkToWebSite);
         contact.setAboutUs("In the morning, the President will depart Chicago en route Washington, DC. ");
         contact.setNace(Nace.E);

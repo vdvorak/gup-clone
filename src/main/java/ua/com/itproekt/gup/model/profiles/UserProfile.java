@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Set;
 
 public class UserProfile {
-    private Date birthDate;
+    private Long birthDate;
     private String legalEntityLocation; //Місцезнаходження юридичної особи
     private String usreou; //ЄДРПОУ
     private String beneficiaryAccount; //Рахунок отримувача
@@ -15,7 +15,7 @@ public class UserProfile {
     private String vatNumber; //ІПН
     private Set<String> idAddFile;
 
-    public UserProfile setBirthDate(Date birthDate) {
+    public UserProfile setBirthDate(Long birthDate) {
         this.birthDate = birthDate;
         return this;
     }
@@ -55,7 +55,7 @@ public class UserProfile {
         return this;
     }
 
-    public Date getBirthDate() {
+    public Long getBirthDate() {
         return birthDate;
     }
 

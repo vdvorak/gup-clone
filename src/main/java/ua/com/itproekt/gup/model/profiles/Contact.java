@@ -14,12 +14,13 @@ import java.util.Set;
  */
 public class Contact {
     private UserType type;
-    private String companyDirector;
+    private String companyName;
+    private String position;
     private Set<String> contactEmails;
     private Set<String> contactPhones;
     private Map<SocialNetwork, String> socNetLink;
+    private String linkToWebSite;
     private String skypeUserName;
-    private Set<String> linkToWebSite;
     private String aboutUs;
     private Nace nace;
     private String pic;
@@ -27,8 +28,31 @@ public class Contact {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Long lastUpdate;
     private boolean member;
-
     private List<String> naceId;
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getLinkToWebSite() {
+        return linkToWebSite;
+    }
+
+    public void setLinkToWebSite(String linkToWebSite) {
+        this.linkToWebSite = linkToWebSite;
+    }
+
+    public Long getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Long lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
 
     /**
      * Instantiates a new created date of Contact.
@@ -60,17 +84,17 @@ public class Contact {
      *
      * @return the company director
      */
-    public String getCompanyDirector() {
-        return companyDirector;
+    public String getPosition() {
+        return position;
     }
 
     /**
      * Sets company director.
      *
-     * @param companyDirector the company director
+     * @param position the company director
      */
-    public void setCompanyDirector(String companyDirector) {
-        this.companyDirector = companyDirector;
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     /**
@@ -146,24 +170,6 @@ public class Contact {
     }
 
     /**
-     * Gets link to web site.
-     *
-     * @return the link to web site
-     */
-    public Set<String> getLinkToWebSite() {
-        return linkToWebSite;
-    }
-
-    /**
-     * Sets link to web site.
-     *
-     * @param linkToWebSite the link to web site
-     */
-    public void setLinkToWebSite(Set<String> linkToWebSite) {
-        this.linkToWebSite = linkToWebSite;
-    }
-
-    /**
      * Gets about us.
      *
      * @return the about us
@@ -178,9 +184,6 @@ public class Contact {
      * @param aboutUs the about us
      */
     public void setAboutUs(String aboutUs) {
-        if (aboutUs.length() > 3000) {
-            aboutUs = aboutUs.substring(0, 3000);
-        }
         this.aboutUs = aboutUs;
     }
 
@@ -296,7 +299,7 @@ public class Contact {
     public String toString() {
         return "Contact{" +
                 "type=" + type +
-                ", companyDirector='" + companyDirector + '\'' +
+                ", position='" + position + '\'' +
                 ", contactEmails=" + contactEmails +
                 ", contactPhones=" + contactPhones +
                 ", socNetLink=" + socNetLink +

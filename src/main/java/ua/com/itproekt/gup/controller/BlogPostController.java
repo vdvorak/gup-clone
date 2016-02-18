@@ -8,13 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ua.com.itproekt.gup.exception.ResourceNotFoundException;
 import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.news.BlogPostService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
-import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,22 +33,28 @@ public class BlogPostController {
     @Autowired
     BlogPostService blogPostService;
 
-    @RequestMapping("/view/{id}")
-    public String blogPostView(Model model, @PathVariable("id") String id) {
+    @RequestMapping("/view/id/{blogPostId}")
+    public String blogPostView(Model model, @PathVariable String blogPostId) {
 
-        boolean check = false;
+//        boolean check = false;
+//
+//        BlogPost blogPost = blogPostService.findBlogPostAndIncViews(id);
+//
+//        if (SecurityOperations.isUserLoggedIn()) {
+//            String userId = SecurityOperations.getLoggedUserId();
+//            check = userId.equals(blogPost.getAuthorId());
+//            model.addAttribute("check", check);
+//        }
+//
+//        model.addAttribute("check", check);
+//        model.addAttribute("blogPost", blogPost);
 
-        BlogPost blogPost = blogPostService.findBlogPostAndIncViews(id);
-
-        if (SecurityOperations.isUserLoggedIn()) {
-            String userId = SecurityOperations.getLoggedUserId();
-            check = userId.equals(blogPost.getAuthorId());
-            model.addAttribute("check", check);
+        if (!blogPostService.blogPostExists(blogPostId)) {
+            throw new ResourceNotFoundException();
         }
 
-        model.addAttribute("check", check);
-        model.addAttribute("blogPost", blogPost);
-        return "blog-post-view";
+        model.addAttribute("blogPostId", blogPostId);
+        return "news/blog-post-view";
     }
 
     @RequestMapping("/news")

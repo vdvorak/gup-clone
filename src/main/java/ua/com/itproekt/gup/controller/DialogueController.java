@@ -16,7 +16,6 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +74,7 @@ public class DialogueController {
         System.err.println("search: " + search);
 
         System.err.println("URL: " + request.getQueryString());
-        return "dialogues1";
+        return "dialogues/dialogues1";
     }
 
     //----------------------------------- one dialogue  ------
@@ -88,7 +87,7 @@ public class DialogueController {
         }
         completeMembers(dialogue);
         model.addAttribute("dialogue", dialogue);
-        return "dialogue";
+        return "dialogues/dialogue";
     }
 
     @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.POST)
@@ -105,13 +104,13 @@ public class DialogueController {
     //----------------------------------- one dialogue  ------
     @RequestMapping(value = "/dialogue/create", method = RequestMethod.GET)
     public String createDialogue(Model model) {
-        return "dialogue-create";
+        return "dialogues/dialogue-create";
     }
 
     //----------------------------------- one dialogue  ------
     @RequestMapping(value = "/dialogue/create/with/{userId}", method = RequestMethod.GET)
     public String createDialogueWith(@PathVariable String userId, Model model) {
-        Profile profile = profileService.findById(userId);
+        Profile profile = profileService.findWholeProfileById(userId);
         if(profile == null || SecurityOperations.getLoggedUserId() == null){
             return "";
         }
@@ -152,7 +151,7 @@ public class DialogueController {
 
     private void completeMembers(Dialogue dialogue){
         for (Member member : dialogue.getMembers()) {
-            Profile profile = profileService.findUserProfile(member.getId());
+            Profile profile = profileService.findById(member.getId());
             if(profile != null && profile.getContact() != null) member.setUserPicId(profile.getContact().getPic());
             if(profile != null && profile.getUsername() != null && profile.getUsername().length() > 1) member.setName(profile.getUsername());
             else member.setName("Anonymous" );

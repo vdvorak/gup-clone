@@ -1,131 +1,218 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Sasha
-  Date: 19.01.2016
-  Time: 12:46
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html>
-<html lang="ru-RU">
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-        <title>GUP</title>
-        <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
-        <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
-        <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
-        <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
 
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang=""> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="/resources/css/bootstrap.css">
+        <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+        <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+        <link rel="stylesheet" href="/resources/css/main.css">
+        <link rel="stylesheet" href="/resources/css/font-awesome.css">
+        <link rel="stylesheet" href="/resources/css/media-queries.css">
+
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     </head>
     <body>
+        <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
         <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
-        <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
 
-        <div>
-            <div>
-                <h2 align="center">Просмотр профиля</h2>
-                <h2 align="center"><a href="/">Перейти на главную</a></h2>
-            </div>
-            <div>
+        <jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
 
-                <div>
-                    <img id="mainProfileImg" src="" width="200" height="200">
+        <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+        <div class="container2">
+            <div class="profile"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border -->
+                <p class="online">online</p>
+                <div class="profile-img"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border, а если организации то organization-color-border -->
+                    <img class="img-responsive" id="profileImg" src="">
+                    <div class="vip-profile-img"> <!-- этот блок надо включить когда профиль випа, у обычного он выключен -->
+                        <div class="rating-vip">
+
+                        </div>
+                        <img class="backgroundSun" src="/resources/images/backgroundSun.png" alt="backgroundSun">
+                    </div>
+                    <div class="organization-profile-img"> <!-- этот блок надо включить когда профиль организации, у обычного он выключен -->
+                        <div class="rating-organization">
+                            <%--<p>000</p>--%>
+                        </div>
+                        <img class="backgroundSun" src="/resources/images/backgroundOrganization.png" alt="backgroundOrganization">
+                    </div>
+                </div>
+                <p class="firstName" id="profileName"></p>
+                <div id="birthDate">
+                    <%-- подставляется в js --%>
+                </div>
+                <div class="contacts">
+                    <div class="map">
+                        <p class="map-p">Адрес: г. Киев, ул. Артема 11 а, офис 115, этаж 4</p>
+                        <div class="mapContact">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2538.5440185405746!2d30.327353815253502!3d50.48683199262453!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x472b332fd9405241%3A0x82781e1e788c6455!2z0LLRg9C7LiDQkNGA0YLQtdC80LAsIDEx0JAsIDExNSwgMTFBLCDQmtC-0YbRjtCx0LjQvdGB0YzQutC1LCDQmtC40ZfQstGB0YzQutCwINC-0LHQu9Cw0YHRgtGM!5e0!3m2!1sru!2sua!4v1454520039972" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+                        </div>
+                        <div class="caretContact"></div>
+                    </div>
+                    <div class="phone" style="display:none">
+                    </div>
+                    <div class="skypeContact" style="display:none">
+                    </div>
+                    <div class="emailContact" style="display:none">
+                    </div>
                 </div>
 
-                <div>
-                    <button id="addProfileToContactList" onclick="addProfileToContactList()">Добавить к себе в контакты</button>
-                </div>
 
-                <div>
-                    <label for="profileName"><b>Имя: </b></label>
-                    <label id="profileName"></label>
-                </div>
+                <sec:authorize access="isAuthenticated()">
+                    <div class="contact-btn-group">
+                        <button class="writeMessage" id="writeMessageToProfile">Написать сообщение</button>
+                        <button class="addToContact" id="addProfileToContact">Добавить в контакты</button> <!-- если профиль вип то сюда надо добавлять класс vip-color-background -->
+                    </div>
+                </sec:authorize>
 
-                <div>
-                    <label for="aboutProfile"><b>О себе: </b></label>
-                    <label id="aboutProfile"></label>
+                <div class="social-icon">
+                    <a href="#"><img class="img-responsive" src="/resources/images/in.png" alt="in"></a>
+                    <a href="#"><img class="img-responsive" src="/resources/images/g+.png" alt="g+"></a>
+                    <a href="#"><img class="img-responsive" src="/resources/images/B.png" alt="B"></a>
+                    <a href="#"><img class="img-responsive" src="/resources/images/skype-icon.png" alt="skype-icon"></a>
+                    <a href="#"><img class="img-responsive" src="/resources/images/facebook.png" alt="facebook"></a>
+                    <a href="#"><img class="img-responsive" src="/resources/images/twitter.png" alt="twitter"></a>
                 </div>
-
-                <div>
-                    <label for="contactTable" id="contactLabel"><b>Контактные данные: </b></label>
-                    <table id="contactTable" border="1" width="25%">
-                        <thead>
-                        <tr>
-                            <th>Email</th>
-                        </tr>
-                        </thead>
-                    </table>
+                <div class="AboutMe">
+                    <p class="AboutMe-p2">О себе</p>
+                    <p class="AboutMe-p"></p>
                 </div>
             </div>
         </div>
 
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-        <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
-        <script src="/resources/js/common.js"></script>
-        <sec:authorize access="isAuthenticated()">
-            <script src="/resources/js/autorizedHeader.js"></script>
-        </sec:authorize>
+        <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+        <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+        <script src="/resources/js/vendor/bootstrap.js"></script>
+        <script src="/resources/js/jquery.bxslider.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
+
+        <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+
+        <sec:authorize var="loggedIn" access="isAuthenticated()" />
+        <c:choose>
+            <c:when test="${loggedIn}">
+                <script src="/resources/js/autorizedHeader.js"></script>
+            </c:when>
+            <c:otherwise>
+                <script src="/resources/js/anonymHeader.js"></script>
+            </c:otherwise>
+        </c:choose>
+
+        <script src="/resources/js/main.js"></script>
+        <script src="/resources/js/logo-section.js"></script>
+        <script src="/resources/js/search-bar.js"></script>
+
+        <script src="/resources/js/profile.js"></script>
         <script>
-            $(document).ready(function () {
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/profilesService/profile/read/id/${profileId}",
-                    success: function (profile) {
-                        if (profile.contact != null && profile.contact.pic != null && profile.contact.pic != '') {
-                            $('#mainProfileImg').attr('src','/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
+            var profileId = "${profileId}";
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/profilesService/profile/read/id/" + profileId,
+                statusCode: {
+                    200: function (profile) {
+                        if (profile.contact.pic != null && profile.contact.pic != '') {
+                            $('#profileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
                         } else {
-                            $('#mainProfileImg').attr('src','/resources/images/no_photo.jpg');
+                            $('#profileImg').attr('src', '/resources/images/no_photo.jpg');
                         }
 
-                        if (profile.username == null) {
-                            $('#profileName').text("Безымянный");
-                        } else {
+                        if(profile.contact.member == true) {
+                            $('.organization-profile-img').show();
+                            $('.rating-organization').append('<p>' + profile.point + '</p>');
+                        }
+
+                        if (profile.username != null) {
                             $('#profileName').text(profile.username);
+                        } else {
+                            $('#profileName').text("Безымянный");
                         }
 
-                        if (profile.contact != null && profile.contact.aboutUs != null) {
-                            $('#aboutProfile').text(profile.contact.aboutUs);
+                        if (profile.userProfile.birthDate != null) {
+                            var birthDate = new Date(profile.userProfile.birthDate);
+                            var readableBirthDate = birthDate.getDate() + '.' + (birthDate.getMonth() + 1) + '.' + birthDate.getFullYear();
+                            $('#birthDate').append(
+                                    '<ul class="DateOfBirth">' +
+                                        '<li>' +
+                                            '<p>Дата рождения:</p>' +
+                                        '</li>' +
+                                        '<li>' +
+                                            '<p>&nbsp;' + readableBirthDate + '</p>' +
+                                        '</li>' +
+                                    '</ul>'
+                            );
+                        }
+//                        else {
+//                            $('#birthDate').hide();
+//                        }
+
+                        if (profile.contact.aboutUs != null) {
+                            $('.AboutMe-p').append(profile.contact.aboutUs);
                         } else {
-                            $('#aboutProfile').text("Пользователь еще ничего на рассказал о себе");
+                            $('.AboutMe-p').append("Пользователь еще ничего на рассказал о себе.");
                         }
 
-                        if (profile.contact == null || profile.contact.contactEmails == null || profile.contact.contactEmails.length == 0) {
-                            $('#contactLabel').append('Пользователь еще не добавил контактных email-ов');
-                            $('#contactTable').hide();
-                        } else {
-                            for (var i = 0; i < profile.contact.contactEmails.length; i++) {
-                                var row = $('<tr>');
-                                row.append($('<td>').html(profile.contact.contactEmails[i]));
+                        if (profile.contact.contactPhones.length > 0) {
+                            profile.contact.contactPhones.forEach(function(phoneNumber) {
+                                $('.phone').append('<p class="phoneNumber">' + phoneNumber + '</p>');});
+                                $('.phone').show();
+                        }
 
-                                $('#contactTable').append(row);
-                            }
+                        if (profile.contact.skypeUserName != null) {
+                            $('.skypeContact').append('<p class="skype">Skype: ' + profile.contact.skypeUserName + '</p>');
+                            $('.skypeContact').show();
+                        }
+
+                        if (profile.contact.contactEmails.length > 0) {
+                            profile.contact.contactEmails.forEach(function(email) {
+                                $('.emailContact').append('<p class="email">' + email + '</p>');
+                            });
+                            $('.emailContact').show();
                         }
                     },
+                    404: function () {
+//                        alert('Такого пользователя нет');
+                        window.location.href = "/profileList";
+                    }
+                }
+            });
+
+            $(document).on('click', '#writeMessageToProfile', function () {
+                window.location.href = "/dialogue/create/with/" + profileId;
+            });
+
+            $(document).on('click', '#addProfileToContact', function () {
+                $.ajax({
+                    type: "POST",
+                    url: '/api/rest/profilesService/profile/id/' + profileId + '/myContactList/add',
                     statusCode: {
-                        404: function() {
-                            alert('Такого пользователя нет');
-                            window.location.href = "/";
+                        200: function () {
+                            $('#addProfileToContact').hide();
+                            alert('Профиль добавлен в контакты.')
+//                          window.location.reload();
                         }
                     }
                 });
             });
-
-            function addProfileToContactList() {
-                $.ajax({
-                    type: "POST",
-                    url: '/api/rest/profilesService/profile/id/${profileId}/myContactList/add',
-                    success: function () {
-                        alert('Пользователь добавлен в контакты')
-                        location.reload();
-                    }
-                });
-
-            }
         </script>
     </body>
+
 </html>
-
-

@@ -17,7 +17,6 @@ import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.nace.DepartmentOrNace;
 import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.UserType;
 import ua.com.itproekt.gup.model.tender.doer.Doer;
 import ua.com.itproekt.gup.model.tender.doer.DoerClient;
 import ua.com.itproekt.gup.model.tender.doer.DoerFilterOptions;
@@ -26,7 +25,7 @@ import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.nace.NaceService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.tender.doer.DoerService;
-import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import javax.servlet.http.HttpServletRequest;
@@ -100,10 +99,10 @@ public class DoerRestController {
     @RequestMapping(value = "/doer/create/",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResponse> createDoer(@RequestBody Doer doer, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<CreatedObjResp> createDoer(@RequestBody Doer doer, UriComponentsBuilder ucBuilder) {
         System.err.println("Hi from createDoer in REST controller");
         // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an doer;
-//        UserType userType = profileService.findById(doer.getAuthorId()).getContact().getType();
+//        UserType userType = profileService.findByIdWholeProfile(doer.getAuthorId()).getContact().getType();
 //        if(userType == null || userType == UserType.INDIVIDUAL){
 //            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 //        }
@@ -113,8 +112,8 @@ public class DoerRestController {
         HttpHeaders headers = new HttpHeaders();
 //        headers.setLocation(ucBuilder.path("/doer/read/id/{id}").buildAndExpand(doer.getId()).toUri());
 //        return new ResponseEntity<>(headers, HttpStatus.OK);
-        CreatedObjResponse createdObjResponse = new CreatedObjResponse(doer.getId());
-        return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
+        CreatedObjResp createdObjResp = new CreatedObjResp(doer.getId());
+        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/doer/id/{id}/recall/create/",
@@ -144,7 +143,7 @@ public class DoerRestController {
     public ResponseEntity<Doer> addClient(@PathVariable("id") Doer doer, @RequestParam String clientId) {
         // handling situation when doer add client
         if (getCurrentUserId().equals(doer.getAuthorId())) {
-            if (profileService.findById(clientId) == null) {
+            if (profileService.findWholeProfileById(clientId) == null) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             // check current client isn't already in list

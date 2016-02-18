@@ -2,6 +2,7 @@ package ua.com.itproekt.gup.api.rest.dialogues;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,11 @@ import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import java.beans.PropertyEditorSupport;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/rest/dialogueService")
@@ -129,6 +133,38 @@ public class DialogueRestController {
         dialogueService.completeMembers(dialogue);
         log.log(Level.INFO, LOGGED_TITLE + "/dialogue/read/id/{id} - dialogue was find successfully");
         return new ResponseEntity<>(dialogue, HttpStatus.OK);
+    }
+
+    //
+    @RequestMapping(value="/unread-msg/for-user-id/{id}",
+            method=RequestMethod.POST)
+    public String getUnreadMessagesForUser(@PathVariable("id") String userId) {
+        List<Dialogue> dialogues = dialogueService.findDialogsForUser(userId);
+        String result = "";
+        if(dialogues == null){
+            return result;
+        }
+        Map<String, PrivateMessage> msgs = new HashMap<>();
+        dialogues.stream().filter(d -> (d.getUnreadMsgCounter().get(userId) > 0))
+                .forEach(dialogue -> {
+                    msgs.put(dialogue.getId(), dialogue.getMessages().
+                            stream().
+                            filter(m -> m.getDate().equals(dialogue.getLustMsgTime())).
+                            findFirst().get());
+                });
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            result = mapper.writeValueAsString(msgs);
+            System.out.println("Cool! msgs now is JSON = ");
+            System.out.println(result);
+        } catch (IOException e) {
+            System.out.println("Ololo, msgs can't became a JSON");
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     // this method provide getting all dialogs for current user.

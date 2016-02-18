@@ -1,0 +1,49 @@
+
+
+
+
+
+
+.notice-box {
+	padding-top: 20px;
+	overflow: hidden;
+	clear: both;
+}
+
+
+.notice-box li {
+	width: calc(20% - 20px);
+	padding: 7px 10px;
+	margin-left: 20px;
+	float: left;
+	border: 5px solid #99cc66;
+	border-radius: 11px;
+}
+
+
+.notice-box li:first-child {
+	width: 20%;
+	margin-left: 0;
+}
+
+
+.notice-box li a.image {	
+	margin-bottom: 4px;
+	display: block;
+	text-align: center;
+	font-size: 13px;
+}
+
+.notice-box li a.image img {
+	width: 100%;
+	margin-bottom: 10px;
+	display: block;
+	border: 2px solid #faaf3a;
+	border-radius: 10px;
+}
+
+.notice-box li span {
+	margin-left: 0px;
+	display: inline-block;
+	font-size: 9px;
+}

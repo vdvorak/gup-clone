@@ -32,12 +32,12 @@ public class DoerController {
         doerFilterOptions.setLimit(10000);
         EntityPage<Doer> doerEntityPage = doerService.findWihOptions(doerFilterOptions);
         model.addAttribute("doerPages", doerEntityPage);
-        return "doers";
+        return "tendersAndDoers/doers/doers";
     }
 
     @RequestMapping("/doer-create")
     public String getDoerCreatePage() {
-        return "doer-create";
+        return "tendersAndDoers/doers/doer-create";
     }
 
     @RequestMapping("/doer/update/{id}")
@@ -50,7 +50,7 @@ public class DoerController {
             }
         }
         model.addAttribute("doer", doer);
-        return "doer-edit";
+        return "tendersAndDoers/doers/doer-edit";
     }
 
     @RequestMapping(value = "/doer/{id}", method = RequestMethod.GET)
@@ -65,13 +65,13 @@ public class DoerController {
             model.addAttribute("check", check);
         }
 
-        Profile profile = profilesService.findById(doer.getAuthorId());
+        Profile profile = profilesService.findWholeProfileById(doer.getAuthorId());
         String userName = profile.getUsername();
 
         if(userName != null && userName.length() > 0) model.addAttribute("username", userName);
         else model.addAttribute("username", "Anonimous");
         model.addAttribute("check", check);
         model.addAttribute("doer", doer);
-        return "doer";
+        return "tendersAndDoers/doers/doer";
     }
 }

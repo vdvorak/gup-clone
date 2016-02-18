@@ -2,6 +2,7 @@ package ua.com.itproekt.gup.api.rest.filestorage;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import org.apache.commons.lang3.EnumUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
@@ -10,28 +11,38 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
-import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.ServiceNames;
 
+import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Set;
 
 @RestController
 @RequestMapping("/api/rest/fileStorage")
 public class FileStorageRestController {
+    private static final Logger LOG = Logger.getLogger(FileStorageRestController.class);
 
     @Autowired
     private StorageService storageService;
 
     @RequestMapping(value = "{serviceName}/file/read/id/{fileId}", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> getById(@PathVariable String serviceName,
-                                                       @PathVariable String fileId) throws IOException {
+    public ResponseEntity<InputStreamResource>
+    getById(@PathVariable String serviceName, @PathVariable String fileId,
+            @RequestParam(required = false, defaultValue = "false") boolean cachedImage) throws IOException {
 
         if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        GridFSDBFile gridFSDBFile = storageService.get(serviceName.toUpperCase(), fileId);
+        GridFSDBFile gridFSDBFile;
+        if (cachedImage) {
+            gridFSDBFile = storageService.getCachedImage(serviceName.toUpperCase(), fileId);
+        } else {
+            gridFSDBFile = storageService.get(serviceName.toUpperCase(), fileId);
+        }
 
         if (gridFSDBFile != null) {
             return ResponseEntity.ok()
@@ -44,10 +55,12 @@ public class FileStorageRestController {
     }
 
     @RequestMapping(value="{serviceName}/file/upload", method=RequestMethod.POST)
-    public ResponseEntity<CreatedObjResponse> fileUpload(@PathVariable String serviceName,
-                                                         @RequestParam MultipartFile file){
+    public ResponseEntity<CreatedObjResp>
+    fileUpload(@PathVariable String serviceName, @RequestParam MultipartFile file,
+               @RequestParam(required = false, defaultValue = "false") boolean cacheImage){
 
         if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
+            System.err.println("        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {\n");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -58,12 +71,32 @@ public class FileStorageRestController {
                         file.getContentType(),
                         file.getOriginalFilename());
 
-                return new ResponseEntity<>(new CreatedObjResponse(uploadedFileId), HttpStatus.CREATED);
+                if (cacheImage){
+                    System.err.println("if cacheImage file.getContentType()::" + file.getContentType());
+                    if (file.getContentType().startsWith("image/")) {
+                        storageService.cacheImage(serviceName.toUpperCase(),
+                                uploadedFileId,
+                                ImageIO.read(file.getInputStream()),
+                                file.getContentType(),
+                                file.getOriginalFilename());
+                    } else {
+                        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                    }
+                }
+
+                return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
             } catch (IOException e) {
-//                e.printStackTrace();
+                System.err.println("IOException");
+
+                StringWriter stack = new StringWriter();
+                e.printStackTrace(new PrintWriter(stack));
+                LOG.error(stack.toString());
+
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         } else {
+            System.err.println("else BAD_REQUEST");
+
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

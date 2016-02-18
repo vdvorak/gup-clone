@@ -39,8 +39,10 @@
             </div>
 
             <div>
+                <hr>
                 <label for="projectDescription"><b>Описание: </b></label>
                 <label id="projectDescription"></label>
+                <hr>
             </div>
 
             <div>
@@ -123,7 +125,7 @@
                     projectId = projectData.id;
                     if (projectData.imagesIds !== null && projectData.imagesIds != '') {
                         for (var key in projectData.imagesIds) {
-                            if (projectData.imagesIds[key] === "1") {
+                            if (projectData.imagesIds[key] === "pic1") {
                                 $('#projectImg').attr('src','/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key);
                                 break;
                             }
@@ -133,7 +135,7 @@
                     }
                     $('#projectName').text(projectData.projectName);
                     $('#projectType').text(projectData.typeOfProject);
-                    $('#projectDescription').text(projectData.projectDescription);
+                    $('#projectDescription').html(projectData.projectDescription);
                     $('#amountRequested').text(projectData.amountRequested);
                     $('#investedAmount').text(projectData.investedAmount);
                     $('#totalScore').text(projectData.totalScore);

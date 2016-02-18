@@ -5,7 +5,6 @@ import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;
 import ua.com.itproekt.gup.util.EntityPage;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,13 +18,15 @@ public interface ProfilesService {
      */
     void createProfile(Profile profile);
 
+    Profile findById(String id);
+
     /**
      * Read by id profile.
      *
      * @param id the id
      * @return the profile
      */
-    Profile findById(String id);
+    Profile findWholeProfileById(String id);
 
     /**
      * Update profile profile.
@@ -33,7 +34,7 @@ public interface ProfilesService {
      * @param currentProfile the current profile
      * @return the profile
      */
-    Profile updateProfile(Profile currentProfile);
+    Profile editProfile(Profile currentProfile);
 
     /**
      * Delete profile by id.
@@ -126,11 +127,9 @@ public interface ProfilesService {
      */
     void addFriend(String profileId, String friendProfileId);
 
-    Profile findUserProfile(String profileId);
-
-    List<Profile> findAllWithoutOptions();
-
     Set<String> getMatchedNames(String term);
 
     void addContactToContactList(String profileOwnerContactListId, String contactId);
+
+    Profile findWholeProfileByEmail(String email);
 }

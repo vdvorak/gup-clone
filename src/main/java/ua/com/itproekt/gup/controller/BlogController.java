@@ -27,11 +27,16 @@ public class BlogController {
     ProfilesService profilesService;
 
 
+//    @RequestMapping("/blog-create")
+//    public String getBlogCreatePage() {
+//        return "blog-create";
+//    }
+
+    //ToDo - delete when new version will work
     @RequestMapping("/blog-create")
     public String getBlogCreatePage() {
-        return "blog-create";
+        return "news/blog-create-OLD";
     }
-
 
     @RequestMapping("/blogs")
     public String getBlogsRead(Model model) {
@@ -71,7 +76,7 @@ public class BlogController {
             model.addAttribute("check", check);
         }
 
-        Profile profile = profilesService.findById(blog.getAuthorId());
+        Profile profile = profilesService.findWholeProfileById(blog.getAuthorId());
         String userName = profile.getUsername();
 
         model.addAttribute("username", userName);
@@ -79,4 +84,11 @@ public class BlogController {
         model.addAttribute("blog", blog);
         return "blog";
     }
+
+
+    @RequestMapping("/blogs-and-news")
+    public String getAdminProfileBlogsAndNews() {
+        return "news/blogs-and-news";
+    }
+
 }

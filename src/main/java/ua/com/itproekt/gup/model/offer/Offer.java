@@ -22,17 +22,16 @@ public class Offer {
     private String id;
     private String authorId;
     private OfferUserContactInfo userInfo;
-    private Integer views;
     private ModerationStatus moderationStatus;
+    private Boolean active;
     private Long createdDate;
-
     private Reservation reservation;
+    private Integer views;
     private Rent rent;
 
-    //user can edit
+
     private LinkedHashSet<String> categories;
     private List<Property> properties;
-
     @Size(max = 15)
     private Map<String, String> imagesIds;
     private String videoUrl;
@@ -45,7 +44,6 @@ public class Offer {
     private Boolean priceCanBeNegotiated;
     private Boolean urgent;
     private Boolean used; // б/y
-    private Boolean active;
     private Boolean canBeReserved;
     private Boolean canBeRented;
     private Address address;

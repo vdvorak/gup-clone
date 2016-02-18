@@ -3,14 +3,11 @@ package ua.com.itproekt.gup.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.dao.dialogue.DialogueRepository;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
-import ua.com.itproekt.gup.model.privatemessages.DialogueFilterOption;
 import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
@@ -60,7 +57,7 @@ public class SupportDialogueController {
         Dialogue dialogue = dialogueService.findById(id);
         completeMembers(dialogue);
         model.addAttribute("dialogue", dialogue);
-        return "dialogue";
+        return "dialogues/dialogue";
     }
 
     @RequestMapping(value = "/support/dialogue/id/{id}", method = RequestMethod.POST)
@@ -74,7 +71,7 @@ public class SupportDialogueController {
     //----------------------------------- one dialogue  ------
     @RequestMapping(value = "/support/dialogue/create", method = RequestMethod.GET)
     public String createDialogue(Model model) {
-        return "dialogue-create";
+        return "dialogues/dialogue-create";
     }
 
     @RequestMapping(value = "/support/dialogue/update", method = RequestMethod.POST)
@@ -99,7 +96,7 @@ public class SupportDialogueController {
 
     private void completeMembers(Dialogue dialogue){
         for (Member member : dialogue.getMembers()) {
-            Profile profile = profileService.findUserProfile(member.getId());
+            Profile profile = profileService.findById(member.getId());
             if(profile != null && profile.getContact() != null) member.setUserPicId(profile.getContact().getPic());
             if(profile != null && profile.getUsername() != null && profile.getUsername().length() > 1) member.setName(profile.getUsername());
             else member.setName("Anonymous" );

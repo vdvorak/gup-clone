@@ -12,28 +12,28 @@
 <html lang="ru-RU">
 <head>
     <title>GUP</title>
-    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="/resources/css/media-queries.css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
 <body>
 
-<!-- BEGIN Common general header-->
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
 <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
-<!-- END common general header-->
 
-<!--BEGIN 1nd section with logo, apps button and organization button-->
 <jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
-<!-- END 1st section -->
 
-<!--BEGIN section with search bar-->
-<jsp:include page="/WEB-INF/templates/main-search-bar.jsp"/>
-<!-- END search bar -->
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
 
-<!--2nd section menu+slider -->
-<jsp:include page="/WEB-INF/templates/main-menu-slider-bar.jsp"/>
-<!--END 2nd section -->
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
 
 <section>
@@ -135,11 +135,11 @@
                                     </c:forEach>
                                 </c:if>
                                 <c:if test="${empty dialogues}">
-                                    <p><a href="/dialogue-create">создать диалог</a></p>
+                                    <p><a href="/dialogue/create">создать диалог</a></p>
                                 </c:if>
                             </div>
                             <div class="prioffice-tabs-items-return">
-                                <a href=""><img src="/resources/img/strippeddownbuttonsmall.png"></a>
+                                <a href="/dialogues"><img src="/resources/img/strippeddownbuttonsmall.png"></a>
                             </div>
                         </div>
                         <div class="prioffice-tabs-items-wrap">
@@ -333,20 +333,41 @@
     </div>
 </section>
 
-<!-- libs starts here-->
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+<script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+<script src="/resources/js/vendor/bootstrap.js"></script>
+<script src="/resources/js/jquery.bxslider.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
+
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-<script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
-<script src="/resources/libs/jquery.magnific-popup.min.js"></script>
+
+<sec:authorize var="loggedIn" access="isAuthenticated()" />
+<c:choose>
+    <c:when test="${loggedIn}">
+        <script src="/resources/js/autorizedHeader.js"></script>
+    </c:when>
+    <c:otherwise>
+        <script src="/resources/js/anonymHeader.js"></script>
+    </c:otherwise>
+</c:choose>
+
+<script src="/resources/js/main.js"></script>
+<script src="/resources/js/logo-section.js"></script>
+<script src="/resources/js/search-bar.js"></script>
+
+
+
+
+
+
+
+<!-- libs starts here-->
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/js/service.js"></script>
-<script src="/resources/js/common.js"></script>
-<script src="/resources/js/prioffice.js"></script>
 <!--END of libs-->
 
-<sec:authorize access="isAuthenticated()">
-    <script src="/resources/js/autorizedHeader.js"></script>
-</sec:authorize>
+
 
 <script>
 

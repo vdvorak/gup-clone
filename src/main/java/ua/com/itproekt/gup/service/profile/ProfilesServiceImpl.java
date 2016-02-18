@@ -12,7 +12,6 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -46,11 +45,18 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public Profile findById(String id) {
-        return profileRepository.findProfileById(id);
+        Profile profile = profileRepository.findById(id);
+        removeAdministrativeFields(profile);
+        return profile;
     }
 
     @Override
-    public Profile updateProfile(Profile currentProfile) {
+    public Profile findWholeProfileById(String id) {
+        return profileRepository.findById(id);
+    }
+
+    @Override
+    public Profile editProfile(Profile currentProfile) {
         return profileRepository.findProfileAndUpdate(currentProfile);
     }
 
@@ -76,11 +82,20 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public Profile findProfileByUsername(String username) {
-        return profileRepository.findByUsername(username);
+        Profile profile = profileRepository.findByUsername(username);
+        removeAdministrativeFields(profile);
+        return profile;
     }
 
     @Override
     public Profile findProfileByEmail(String email) {
+        Profile profile = profileRepository.findByEmail(email);
+        removeAdministrativeFields(profile);
+        return profile;
+    }
+
+    @Override
+    public Profile findWholeProfileByEmail(String email) {
         return profileRepository.findByEmail(email);
     }
 
@@ -117,16 +132,6 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public Profile findUserProfile(String profileId) {
-        return profileRepository.findUserProfile(profileId);
-    }
-
-    @Override
-    public List<Profile> findAllWithoutOptions() {
-        return profileRepository.findAll();
-    }
-
-    @Override
     public Set<String> getMatchedNames(String term) {
         return profileRepository.getMatchedNames(term);
     }
@@ -134,5 +139,11 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public void addContactToContactList(String profileOwnerContactListId, String contactId) {
         profileRepository.addContactToContactList(profileOwnerContactListId, contactId);
+    }
+
+    private void removeAdministrativeFields(Profile profile){
+        profile.setEmail(null);
+        profile.setPassword(null);
+        profile.setMainPhoneNumber(null);
     }
 }
