@@ -41,7 +41,10 @@
 
 
     <div class="container2" id="profileListContainer">
-        <p style="display:inline" class="profileListDescription" id="foundedProfilesNum"></p>
+        <div>
+            <p style="display: inline" class="profileListDescription">Колличество найденых профилей: </p>
+            <p style="display: inline" class="profileListDescription" id="foundedProfilesNum">0</p>
+        </div>
         <%--<div class="profileList">--%>
             <%--<div class="profileListLogo"--%>
                  <%--style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>--%>
@@ -177,7 +180,7 @@
                 data: JSON.stringify(profileFO),
                 statusCode: {
                     200: function (responseEntity) {
-                        $('#foundedProfilesNum').text("Колличество найденых профилей: " + responseEntity.totalEntities);
+                        $('#foundedProfilesNum').text(responseEntity.totalEntities);
 
                         responseEntity.entities.forEach(function (profile) {
                             appendProfileBlock(profile);
