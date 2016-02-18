@@ -172,29 +172,50 @@
             });
 
             $('#newsLike').on('click', function () {
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/newsService/blogPost/id/" + blogPostId + "/like",
-                    statusCode: {
-                        200: function (blogPost) {
-                            $('#bpLikeNum').text(loadedBlogPost.totalLikes + 1);
-                        },
-                        409: function (blogPost) {}
+                if($.inArray(loggedInProfile.id, loadedBlogPost.likedIds) == -1) {
+                    if($.inArray(loggedInProfile.id, loadedBlogPost.dislikedIds) != -1) {
+                        $('#bpDislikeNum').text(--loadedBlogPost.totalDislikes);
+                        loadedBlogPost.dislikedIds = $.grep(loadedBlogPost.dislikedIds, function(value) {
+                            return value != loggedInProfile.id;
+                        });
                     }
-                });
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/rest/newsService/blogPost/id/" + blogPostId + "/like",
+                        statusCode: {
+                            200: function () {
+                                $('#bpLikeNum').text(++loadedBlogPost.totalLikes);
+                                loadedBlogPost.likedIds.push(loggedInProfile.id);
+                            },
+                            409: function () {}
+                        }
+                    });
+                }
             });
 
             $('#newsDislike').on('click', function () {
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/newsService/blogPost/id/" + blogPostId + "/dislike",
-                    statusCode: {
-                        200: function (blogPost) {
-                            $('#bpDislikeNum').text(loadedBlogPost.totalDislikes + 1);
-                        },
-                        409: function (blogPost) {}
+                if($.inArray(loggedInProfile.id, loadedBlogPost.dislikedIds) == -1) {
+                    if($.inArray(loggedInProfile.id, loadedBlogPost.likedIds) != 1) {
+                        $('#bpLikeNum').text(--loadedBlogPost.totalLikes);
+                        loadedBlogPost.likedIds = $.grep(loadedBlogPost.likedIds, function(value) {
+                            return value != loggedInProfile.id;
+                        });
                     }
-                });
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/rest/newsService/blogPost/id/" + blogPostId + "/dislike",
+                        statusCode: {
+                            200: function () {
+                                $('#bpDislikeNum').text(++loadedBlogPost.totalDislikes);
+                                loadedBlogPost.dislikedIds.push(loggedInProfile.id);
+                            },
+                            409: function () {
+                            }
+                        }
+                    });
+                }
             });
 
             $('#sendComment').on('click', function () {
