@@ -172,50 +172,59 @@
             });
 
             $('#newsLike').on('click', function () {
-                if($.inArray(loggedInProfile.id, loadedBlogPost.likedIds) == -1) {
-                    if($.inArray(loggedInProfile.id, loadedBlogPost.dislikedIds) != -1) {
-                        $('#bpDislikeNum').text(--loadedBlogPost.totalDislikes);
-                        loadedBlogPost.dislikedIds = $.grep(loadedBlogPost.dislikedIds, function(value) {
-                            return value != loggedInProfile.id;
+                if (typeof loggedInProfile != 'undefined') {
+                    if($.inArray(loggedInProfile.id, loadedBlogPost.likedIds) == -1) {
+                        if($.inArray(loggedInProfile.id, loadedBlogPost.dislikedIds) != -1) {
+                            $('#bpDislikeNum').text(--loadedBlogPost.totalDislikes);
+                            loadedBlogPost.dislikedIds = $.grep(loadedBlogPost.dislikedIds, function(value) {
+                                return value != loggedInProfile.id;
+                            });
+                        }
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/rest/newsService/blogPost/id/" + blogPostId + "/like",
+                            statusCode: {
+                                200: function () {
+                                    $('#bpLikeNum').text(++loadedBlogPost.totalLikes);
+                                    loadedBlogPost.likedIds.push(loggedInProfile.id);
+                                },
+                                409: function () {}
+                            }
                         });
                     }
-
-                    $.ajax({
-                        type: "POST",
-                        url: "/api/rest/newsService/blogPost/id/" + blogPostId + "/like",
-                        statusCode: {
-                            200: function () {
-                                $('#bpLikeNum').text(++loadedBlogPost.totalLikes);
-                                loadedBlogPost.likedIds.push(loggedInProfile.id);
-                            },
-                            409: function () {}
-                        }
-                    });
+                } else {
+                    alert("Чтобы проголосовать сначала нужно авторизироваться.")
                 }
             });
 
             $('#newsDislike').on('click', function () {
-                if($.inArray(loggedInProfile.id, loadedBlogPost.dislikedIds) == -1) {
-                    if($.inArray(loggedInProfile.id, loadedBlogPost.likedIds) != 1) {
-                        $('#bpLikeNum').text(--loadedBlogPost.totalLikes);
-                        loadedBlogPost.likedIds = $.grep(loadedBlogPost.likedIds, function(value) {
-                            return value != loggedInProfile.id;
+                if (typeof loggedInProfile != 'undefined') {
+                    if($.inArray(loggedInProfile.id, loadedBlogPost.dislikedIds) == -1) {
+                        if($.inArray(loggedInProfile.id, loadedBlogPost.likedIds) != 1) {
+                            $('#bpLikeNum').text(--loadedBlogPost.totalLikes);
+                            loadedBlogPost.likedIds = $.grep(loadedBlogPost.likedIds, function(value) {
+                                return value != loggedInProfile.id;
+                            });
+                        }
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/rest/newsService/blogPost/id/" + blogPostId + "/dislike",
+                            statusCode: {
+                                200: function () {
+                                    $('#bpDislikeNum').text(++loadedBlogPost.totalDislikes);
+                                    loadedBlogPost.dislikedIds.push(loggedInProfile.id);
+                                },
+                                409: function () {
+                                }
+                            }
                         });
                     }
-
-                    $.ajax({
-                        type: "POST",
-                        url: "/api/rest/newsService/blogPost/id/" + blogPostId + "/dislike",
-                        statusCode: {
-                            200: function () {
-                                $('#bpDislikeNum').text(++loadedBlogPost.totalDislikes);
-                                loadedBlogPost.dislikedIds.push(loggedInProfile.id);
-                            },
-                            409: function () {
-                            }
-                        }
-                    });
+                } else {
+                    alert("Чтобы проголосовать сначала нужно авторизироваться.")
                 }
+
             });
 
             $('#sendComment').on('click', function () {
@@ -250,9 +259,13 @@
             });
 
             $(".downComments").click(function(){
-                $(".downComments").hide('slow');
-                $(".colNewsComments").show('slow');
-                $(".colComments").css("width", "50%");
+                if (typeof loggedInProfile != 'undefined') {
+                    $(".downComments").hide('slow');
+                    $(".colNewsComments").show('slow');
+                    $(".colComments").css("width", "50%");
+                } else {
+                    alert("Чтобы оставить комментарий сначала нужно авторизироваться.")
+                }
             });
 
             $(".comments").click(function(){
