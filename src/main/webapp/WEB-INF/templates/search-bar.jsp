@@ -126,6 +126,29 @@
                 </div>
             </div>
 
+            <div id="tenderFilterBlock" class="hidefilter" style="display: none">
+                <form class="filterArtists" action="#">
+                    <label class="filterArtistsLabel" for="filterArtistsInput">Cоздатель:&nbsp;</label>
+                    <input id="filterArtistsInput" type="text" placeholder="Автозаполнение"><br>
+
+                    <label class="filterArtistsLabel marginTop" for="checkboxArtists">По актуальности:&nbsp;</label>
+                    <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkboxArtists" value="1" name="k"/><span></span></label>
+
+                    <label class="filterArtistsLabel marginTop marginLeft">По оценке:&nbsp;</label>
+                    <div class="selectBoxEvaluation">
+                        <select class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+                    <button type="submit">Искать по фильтру</button>
+                </form>
+            </div>
+
         <div class="clearfix"></div>
 
         <div class="search-img"></div>
