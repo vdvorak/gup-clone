@@ -18,15 +18,15 @@
 
             <div id="profileFilterBlock" class="hidefilter" style="display: none">
                 <div class="filterContacts">
-                    <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-filter1" value="1" name="k"/><span></span></label>
+                    <label class="label-checkbox"><input type="radio" class="greenCheckbox" id="checkbox-filter1" value="1" name="k"/><span></span></label>
                     <label for="checkbox-filter1">Юр. лицо</label>
                 </div>
                 <div class="filterContacts">
-                    <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-filter2" value="1" name="k"/><span></span></label>
+                    <label class="label-checkbox"><input type="radio" class="greenCheckbox" id="checkbox-filter2" value="1" name="k"/><span></span></label>
                     <label for="checkbox-filter2">Физ. лицо</label>
                 </div>
                 <div class="filterContacts">
-                    <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-filter3" value="1" name="k"/><span></span></label>
+                    <label class="label-checkbox"><input type="radio" class="greenCheckbox" id="checkbox-filter3" value="1" name="k"/><span></span></label>
                     <label for="checkbox-filter3">ФОП</label>
                 </div>
             </div>
@@ -124,6 +124,29 @@
 
                     <div class="clearfix"></div>
                 </div>
+            </div>
+
+            <div id="tenderFilterBlock" class="hidefilter" style="display: none">
+                <form class="filterArtists" action="#">
+                    <label class="filterArtistsLabel" for="filterArtistsInput">Cоздатель:&nbsp;</label>
+                    <input id="filterArtistsInput" type="text" placeholder="Автозаполнение"><br>
+
+                    <label class="filterArtistsLabel marginTop" for="checkboxArtists">По актуальности:&nbsp;</label>
+                    <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkboxArtists" value="1" name="k"/><span></span></label>
+
+                    <label class="filterArtistsLabel marginTop marginLeft">По оценке:&nbsp;</label>
+                    <div class="selectBoxEvaluation">
+                        <select class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+                    <button type="submit">Искать по фильтру</button>
+                </form>
             </div>
 
         <div class="clearfix"></div>

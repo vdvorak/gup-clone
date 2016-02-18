@@ -1909,7 +1909,7 @@ label[for="repeat-registration-password"] {
 	height: 32px;
 	border-radius: 5px;
 	color: #ffffff;
-	font: 400 26px ArianAMU;
+	font: 400 21px ArianAMU;
 	border: 0;
 	float: right;
 	margin-bottom: 22px;
@@ -2824,7 +2824,9 @@ label[for="checkbox-filter3"] {
 	transform: rotate(360deg);
 	-webkit-transform: rotate(360deg);
 	-moz-transform: rotate(360deg);
+	transition: -webkit-transform 0.2s ease-out;
 	transition: transform 0.2s ease-out;
+	transition: transform 0.2s ease-out, -webkit-transform 0.2s ease-out;
 	-webkit-transition: -webkit-transform 0.2s ease-out;
 	-moz-transition: -moz-transform 0.2s ease-out;
 }
@@ -2898,6 +2900,7 @@ label[for="checkbox-filter3"] {
 	border-radius: 5px;
 	background-color: #97CA65;
 	float: right;
+	-webkit-transition: all 0.25s;
 	transition: all 0.25s;
 	margin-bottom: 5px;
 	margin-top: 5px;
@@ -2923,6 +2926,7 @@ label[for="checkbox-filter3"] {
 	float: right;
 	padding: 8px;
 	margin-top: 10px;
+	-webkit-transition: all 0.25s;
 	transition: all 0.25s;
 }
 
@@ -3111,6 +3115,7 @@ label[for="checkbox-filter3"] {
 	float: right;
 	margin: 0 20px 20px 0;
 	border: 1px solid #99cc66;
+	-webkit-transition: all 0.25s;
 	transition: all 0.25s;
 }
 
@@ -3160,4 +3165,78 @@ label[for="checkbox-filter3"] {
 .ItemADS a {
 	color: #ffffff;
 	font: 400 12px DroidSans;
+}
+
+.filterArtists input[type='text'] {
+	border-radius: 5px;
+	height: 30px;
+	width: 236px;
+	border: 0;
+	padding: 0 7px;
+	margin-bottom: 15px;
+}
+
+.filterArtists input[type='text']:placeholder-shown {
+	font: 400 13px DroidSans;
+}
+
+::-webkit-input-placeholder       {text-indent: 0px;   -webkit-transition: text-indent 0.25s ease;   transition: text-indent 0.25s ease;}
+::-moz-placeholder                {text-indent: 0px;   -webkit-transition: text-indent 0.25s ease;   transition: text-indent 0.25s ease;}
+:-moz-placeholder                 {text-indent: 0px;   -webkit-transition: text-indent 0.25s ease;   transition: text-indent 0.25s ease;}
+:-ms-input-placeholder            {text-indent: 0px;   -webkit-transition: text-indent 0.25s ease;   transition: text-indent 0.25s ease;}
+:focus::-webkit-input-placeholder {text-indent: 500px; -webkit-transition: text-indent 0.25s ease; transition: text-indent 0.25s ease;}
+:focus::-moz-placeholder          {text-indent: 500px; -webkit-transition: text-indent 0.25s ease; transition: text-indent 0.25s ease;}
+:focus:-moz-placeholder           {text-indent: 500px; -webkit-transition: text-indent 0.25s ease; transition: text-indent 0.25s ease;}
+:focus:-ms-input-placeholder      {text-indent: 500px; -webkit-transition: text-indent 0.25s ease; transition: text-indent 0.25s ease;}
+
+.filterArtistsLabel {
+	color: #ffffff;
+	font: 400 20px DroidSans;
+	line-height: 30px;
+	float: left;
+	margin-bottom: 15px;
+}
+
+.marginTop {
+	margin-top: 2px;
+}
+
+.marginLeft {
+	margin-left: 90px;
+}
+
+.selectBoxEvaluation {
+	width: 82px;
+	height: 35px;
+	overflow: hidden;
+	background: url(/resources/css/images/caret.png) no-repeat 90% 50%;
+	border-radius: 2px;
+	background-color: #ffffff;
+}
+
+.selectBoxEvaluation select {
+	border-radius: 0;
+	height: 35px;
+	width: 95px;
+	color: #898989;
+	font: 400 18px DroidSans;
+	background: transparent;
+	padding: 0 5px 0 4px;
+	border: 0;
+}
+
+.filterArtists {
+	margin: 25px 40px 20px 20px;
+}
+
+.filterArtists button {
+	color: #ffffff;
+	font: 400 16px DroidSans;
+	height: 30px;
+	width: 158px;
+	border-radius: 8px;
+	background-color: rgb( 153, 204, 102 );
+	float: right;
+	margin-top: 45px;
+	border: 0;
 }
