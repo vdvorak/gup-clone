@@ -69,6 +69,63 @@
                 </div>
             </div>
 
+            <div id="offerFilterBlock" class="hidefilter" style="display: none">
+                <div class="filterADS">
+                    <div class="clearfix"></div>
+
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/kids.png" alt="kids"></a>
+                        <a href="#">Малыши</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/Zoo.png" alt="Zoo"></a>
+                        <a href="#">Zoo</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/StyleAndFashion.png" alt="StyleAndFashion"></a>
+                        <a href="#">Стиль и мода</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/SportAndHobby.png" alt="SportAndHobby"></a>
+                        <a href="#">Спорт и хобби</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/Equipment.png" alt="Equipment"></a>
+                        <a href="#">Техника</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/HouseAndCottage.png" alt="HouseAndCottage"></a>
+                        <a href="#">Дома и дача</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/Barter.png" alt="Barter"></a>
+                        <a href="#">Бартер</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/TheProperty.png" alt="TheProperty"></a>
+                        <a href="#">Недвижимость</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/Transport.png" alt="Transport"></a>
+                        <a href="#">Транспорт</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/BusinessAndServices.png" alt="BusinessAndServices"></a>
+                        <a href="#">Бизнес и услуги</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/Volunteering.png" alt="Volunteering"></a>
+                        <a href="#">Волонтерство</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/IsFree.png" alt="IsFree"></a>
+                        <a href="#">Бесплатно</a>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
         <div class="clearfix"></div>
 
         <div class="search-img"></div>

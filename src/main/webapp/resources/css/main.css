@@ -1,6 +1,6 @@
 /* font-family: "ArianAMURegular"; */
 @font-face {
-	font-family: "ArianAMURegular";
+	font-family: "ArianAMU";
 	src: url("/resources/fonts/ArianAMURegular/ArianAMURegular.eot");
 	src: url("/resources/fonts/ArianAMURegular/ArianAMURegular.eot?#iefix")format("embedded-opentype"),
 	url("/resources/fonts/ArianAMURegular/ArianAMURegular.woff") format("woff"),
@@ -42,7 +42,7 @@
 
 /* font-family: "DroidSansRegular"; */
 @font-face {
-	font-family: "DroidSansRegular";
+	font-family: "DroidSans";
 	src: url("/resources/fonts/DroidSansRegular/DroidSansRegular.eot");
 	src: url("/resources/fonts/DroidSansRegular/DroidSansRegular.eot?#iefix")format("embedded-opentype"),
 	url("/resources/fonts/DroidSansRegular/DroidSansRegular.woff") format("woff"),
@@ -307,7 +307,7 @@ table {
 
 .submit-search {
 	color: #ffffff;
-	font: 400 28px DroidSans;
+	font: 400 27px DroidSans;
 	background-color: #99cc66;
 	height: 35px;
 	width: 123px;
@@ -331,7 +331,7 @@ table {
 
 .users {
 	color: #1269a7;
-	font: 400 28px DroidSans;
+	font: 400 25px DroidSans;
 	padding: 1px;
 	width: 181px;
 	height: 39px;
@@ -862,7 +862,7 @@ table {
 	width: 284px;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
-	top: 17px;
+	top: 23px;
 	left: 1px;
 	display: none;
 	padding-top: 8px;
@@ -905,6 +905,7 @@ table {
 
 .btnMail {
 	position: relative;
+	margin-top: 7px;
 }
 
 .dropFace {
@@ -2497,7 +2498,6 @@ input[id="checkbox-rich"]:checked + span  	{
 	width: 900px;
 	margin: 0 auto;
 }
-
 .container2:after {
 	content: '';
 	clear: both;
@@ -2732,7 +2732,7 @@ label[for="checkbox-filter1"] {
 
 label[for="checkbox-filter2"] {
 	color: #898989;
-	font: 400 24px ArianAMU;
+	font: 400 23px ArianAMU;
 	line-height: 35px;
 	float: right;
 }
@@ -2744,9 +2744,8 @@ label[for="checkbox-filter3"] {
 	float: right;
 }
 
-
 .trolol {
-	background: url(images/trololo.png) no-repeat;
+	background: url(/resources/css/images/trololo.png) no-repeat;
 }
 
 .news {
@@ -2992,6 +2991,7 @@ label[for="checkbox-filter3"] {
 	border-radius: 5px;
 	border: 5px solid rgb(153, 204, 102);
 	width: 100%;
+	margin-top: 10px;
 }
 
 .blogCreationHeader {
@@ -3021,7 +3021,7 @@ label[for="checkbox-filter3"] {
 	margin-right: 300px;
 }
 
-#blogCreationDescription {
+.blogCreationDescription {
 	border: 2px solid rgb(153, 204, 102);
 	border-radius: 4px;
 	font: 400 11px DroidSans;
@@ -3075,32 +3075,30 @@ label[for="checkbox-filter3"] {
 	color: #99cc66;
 	font: 400 21px ArianAMU;
 	background: url(/resources/css/images/+sub.png) no-repeat center center;
-	margin-left: 75px;
-	margin-bottom: 20px;
 }
 
 .titleFile {
 	position: relative;
 	display: inline-block;
+	margin-left: 77px;
 }
 
 .titleFile:hover::after {
 	content: attr(data-title); /* Выводим текст */
 	position: absolute; /* Абсолютное позиционирование */
-	left: 305px; top: -55px; /* Положение подсказки */
+	left: 230px; top: -55px; /* Положение подсказки */
 	z-index: 1; /* Отображаем подсказку поверх других элементов */
 	background: url(/resources/css/images/title.png) no-repeat bottom left;
 	height: 54px;
-	width: 179px;
+	width: 182px;
 	color: #ffffff;
-	font: 400 16px ArianAMU;
-	padding-left: 15px;
+	font: 400 15px ArianAMU;
+	padding-left: 13px;
 	padding-top: 13px;
 }
 
 .defaultIMG {
-	margin-left: 190px;
-	margin-bottom: 50px;
+	margin: 20px 0 50px 190px;
 }
 
 .SendEdition {
@@ -3131,9 +3129,9 @@ label[for="checkbox-filter3"] {
 }
 
 .categoriesItem {
-	width: 100px;
+	width: 104px;
 	height: 85px;
-	margin: 35px 62px;
+	margin: 15px 60px;
 	text-align: center;
 	float: left;
 }
@@ -3142,4 +3140,24 @@ label[for="checkbox-filter3"] {
 	color: #ffffff;
 	font: 400 14px ArianAMU;
 	display: inline-block;
+}
+
+.blueColor {
+	color: #1269a7;
+}
+
+.blueBorder {
+	border-color: #1269a7;
+}
+
+.ItemADS {
+	float: left;
+	margin: 15px 68px;
+	width: 89px;
+	text-align: center;
+}
+
+.ItemADS a {
+	color: #ffffff;
+	font: 400 12px DroidSans;
 }
