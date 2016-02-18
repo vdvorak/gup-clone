@@ -40,59 +40,59 @@
     <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
 
-    <div class="container2">
-        <div class="profileList">
-            <div class="profileListLogo"
-                 style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>
-            <a href="#" class="profileListName">Веган Фест</a>
+    <div class="container2" id="profileListContainer">
+        <%--<div class="profileList">--%>
+            <%--<div class="profileListLogo"--%>
+                 <%--style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>--%>
+            <%--<a href="#" class="profileListName">Веган Фест</a>--%>
 
-            <p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание
-                пользователя Описание пользователя Описание пользователя Описание пользователя</p>
-        </div>
-        <div class="profileList vip-color-border">
-            <!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->
-            <div class="profileListLogo vip-color-border"
-                 style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>
-            <!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->
-            <a href="#" class="profileListName">Веган Фест</a>
+            <%--<p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание--%>
+                <%--пользователя Описание пользователя Описание пользователя Описание пользователя</p>--%>
+        <%--</div>--%>
+        <%--<div class="profileList vip-color-border">--%>
+            <%--<!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->--%>
+            <%--<div class="profileListLogo vip-color-border"--%>
+                 <%--style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>--%>
+            <%--<!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->--%>
+            <%--<a href="#" class="profileListName">Веган Фест</a>--%>
 
-            <p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание
-                пользователя Описание пользователя Описание пользователя Описание пользователя</p>
-        </div>
-        <div class="profileList">
-            <div class="profileListLogo"
-                 style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>
-            <a href="#" class="profileListName">Веган Фест</a>
+            <%--<p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание--%>
+                <%--пользователя Описание пользователя Описание пользователя Описание пользователя</p>--%>
+        <%--</div>--%>
+        <%--<div class="profileList">--%>
+            <%--<div class="profileListLogo"--%>
+                 <%--style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>--%>
+            <%--<a href="#" class="profileListName">Веган Фест</a>--%>
 
-            <p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание
-                пользователя Описание пользователя Описание пользователя Описание пользователя</p>
-        </div>
-        <div class="profileList vip-color-border">
-            <!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->
-            <div class="profileListLogo vip-color-border"
-                 style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>
-            <!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->
-            <a href="#" class="profileListName">Веган Фест</a>
+            <%--<p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание--%>
+                <%--пользователя Описание пользователя Описание пользователя Описание пользователя</p>--%>
+        <%--</div>--%>
+        <%--<div class="profileList vip-color-border">--%>
+            <%--<!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->--%>
+            <%--<div class="profileListLogo vip-color-border"--%>
+                 <%--style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>--%>
+            <%--<!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->--%>
+            <%--<a href="#" class="profileListName">Веган Фест</a>--%>
 
-            <p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание
-                пользователя Описание пользователя Описание пользователя Описание пользователя</p>
-        </div>
-        <div class="profileList">
-            <div class="profileListLogo"
-                 style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>
-            <a href="#" class="profileListName">Веган Фест</a>
+            <%--<p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание--%>
+                <%--пользователя Описание пользователя Описание пользователя Описание пользователя</p>--%>
+        <%--</div>--%>
+        <%--<div class="profileList">--%>
+            <%--<div class="profileListLogo"--%>
+                 <%--style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>--%>
+            <%--<a href="#" class="profileListName">Веган Фест</a>--%>
 
-            <p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание
-                пользователя Описание пользователя Описание пользователя Описание пользователя</p>
-        </div>
-        <div class="profileList">
-            <div class="profileListLogo"
-                 style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>
-            <a href="#" class="profileListName">Веган Фест</a>
+            <%--<p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание--%>
+                <%--пользователя Описание пользователя Описание пользователя Описание пользователя</p>--%>
+        <%--</div>--%>
+        <%--<div class="profileList">--%>
+            <%--<div class="profileListLogo"--%>
+                 <%--style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>--%>
+            <%--<a href="#" class="profileListName">Веган Фест</a>--%>
 
-            <p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание
-                пользователя Описание пользователя Описание пользователя Описание пользователя</p>
-        </div>
+            <%--<p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание--%>
+                <%--пользователя Описание пользователя Описание пользователя Описание пользователя</p>--%>
+        <%--</div>--%>
     </div>
 
     <%--<div>--%>
@@ -162,11 +162,44 @@
 
     <script>
         var profileFO = {skip: 0, limit: 20};
-
         <c:if test="${profileFO != null}">
             profileFO = ${profileFO};
         </c:if>
 
+        loadAndAppendProfileBlocks();
+
+        function loadAndAppendProfileBlocks() {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "/api/rest/profilesService/profile/read/all",
+                data: JSON.stringify(profileFO),
+                statusCode: {
+                    200: function (responseEntity) {
+                        responseEntity.entities.forEach(function (profile) {
+                            appendProfileBlock(profile);
+                        });
+                    }
+                }
+            });
+        }
+
+        function getUrlForProfilePic(picId) {
+            if (picId != null && picId != '') {
+                return "/api/rest/fileStorage/PROFILE/file/read/id/" + picId;
+            } else {
+                return "/resources/images/no_photo.jpg";
+            }
+        }
+
+        function appendProfileBlock(profile) {
+            $('#profileListContainer').append(
+                    '<div class="profileList <%-- vip-color-border --%>">' +
+                        '<div class="profileListLogo <%-- vip-color-border --%>" style="background: url(' + getUrlForProfilePic(profile.contact.pic) + ') no-repeat center center;"></div>' +
+                        '<a href="/profile/id/' + profile.id + '" class="profileListName">' + profile.username + '</a>' +
+                        '<p class="profileListDescription">' + profile.contact.aboutUs + '</p>' +
+                    '</div>');
+        }
 //        $(document).ready(function () {
 //            $('#searchInput').val(profileFO.searchField);
 //            updateProfilesTable(profileFO);
@@ -185,12 +218,12 @@
         <%--function updateProfilesTable(profileFO) {--%>
             <%--//            alert('updateProfilesTable: ' + JSON.stringify(profileFO));--%>
 
-            <%--$.ajax({--%>
-                <%--type: "POST",--%>
-                <%--contentType: "application/json; charset=utf-8",--%>
-                <%--url: "/api/rest/profilesService/profile/read/all",--%>
-                <%--data: JSON.stringify(profileFO),--%>
-                <%--success: function (response) {--%>
+//            $.ajax({
+//                type: "POST",
+//                contentType: "application/json; charset=utf-8",
+//                url: "/api/rest/profilesService/profile/read/all",
+//                data: JSON.stringify(profileFO),
+//                success: function (response) {
 
                     <%--updatePaginationBlock(response);--%>
 
