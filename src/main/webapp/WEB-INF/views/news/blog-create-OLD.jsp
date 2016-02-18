@@ -22,11 +22,10 @@
 
 <div class="container2">
     <div class="blogCreation">
-        <p class="blogCreationHeader">Новый новосной блог</p>
+        <p class="blogCreationHeader">Новый новостной блог</p>
         <form id="blogCreationForm" action="#" role="form">
             <label for="blogTitle" class="blogCreationLabel">Заголовок блога</label>
             <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput">
-
             <div class="clearfix"></div>
 
             <label for="blogCreationDescription" class="blogCreationLabel">Описание</label>
@@ -47,14 +46,14 @@
 
             <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
             <label for="" class="blogCreationLabel">Фотографии</label>
-            <input type="file" style="display: none;" multiple="multiple" accept="image/*">
+            <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
             <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
         </form>
 
 
 
-        <div>
-            <img id="image" src="/api/rest/fileStorage/profile/file/read/id/56a20d87e7b81d0bf53266bf">
+        <div id="drop_zone">
+            <img id="image" src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/56c4940c1be9ac5b1bcdbc02">
         </div>
 
 
@@ -118,7 +117,8 @@
 <script src="/resources/js/cropper.js"></script>
 <script>
 
-
+    var imgId = '';
+    var blog = {};
 
     var image = document.getElementById('image');
     var cropper = new Cropper(image, {
@@ -135,23 +135,29 @@
     });
 
 
-
-
-    // -------------------------------------------------------BEGIN soc network links --------------------------------------------
-    // Add/Remove social Input Fields Dynamically with jQuery
     $(document).ready(function () {
-        var max_fields = 5; //maximum input boxes allowed
+
+        // -------------------------------------------------------BEGIN soc network links --------------------------------------------
+        // Add/Remove social Input Fields Dynamically with jQuery
+
+        var max_fields = 6; //maximum input boxes allowed
         var wrapper = $(".input_soc_wrap"); //Fields wrapper
 
         var x = 1;
 
+        $(".img-responsive").click(function (e) {
+            e.preventDefault();
+            var el = e.currentTarget;
+            var socName = $(el).attr("alt");
+
+        });
+
         $(".input_soc_wrap a").click(function (e) {
             e.preventDefault();
             var socName = $(this).attr("class");
-            var patternRegEx = getPatternSocialLinks(socName);
             if (x < max_fields) { //max input box allowed
                 x++; //text box increment
-                $(wrapper).append('<div><input class="input-social" name="' + socName + '" type="url" ' + patternRegEx + ' placeholder = "Страница ' + socName + '"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="15" height="15"></a></div>');
+                $(wrapper).append('<div><input class="input-social" name="' + socName + '" type="url" placeholder = "Страница ' + socName + '"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="15" height="15"></a></div>');
             }
         });
 
@@ -160,6 +166,24 @@
             $(this).parent('div').remove();
             x--;
         })
+
+        function isMatchPatternSocialLinks(socName, url) {
+            if(socName === "FACEBOOK") {
+                return /^(https?:\/\/)?(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]/.test(url);
+            } else if(socName === "TWITTER") {
+                return /(?:http:\/\/)?(?:www\.)?twitter\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/.test(url);
+            } else if(socName === "LINKEDIN") {
+                return /(http|https):\/\/?(?:www\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(url);
+            } else if(socName === "GOOGLEPLUS") {
+                return /((http|https):\/\/)?(www[.])?plus\.google\.com\/.?\/?.?\/?([0-9]*)/.test(url);
+            } else if(socName === "VKONTAKTE") {
+                return /^(http:\/\/|https:\/\/)?(www\.)?vk\.com\/(\w|\d)+?\/?$/.test(url);
+            } else if(socName === "SKYPE") {
+                /[a-zA-Z][a-zA-Z0-9\.,\-_]{5,31}/.test(url);
+            } else {
+                return false;
+            }
+        }
 
         // ---------------------------------------------------- END Soc network links --------------------------------------
 
@@ -174,10 +198,75 @@
             evt.preventDefault();
 
             var files = evt.dataTransfer.files; // FileList object.
+
+            var reader  = new FileReader();
+
+            reader.addEventListener("load", function () {
+                cropper.replace(reader.result);
+            }, false);
+
+            if (files[0]) {
+                reader.readAsDataURL(files[0]);
+            }
+
+            if (files.length) {
+                    var formImg = new FormData();
+                    formImg.append('file', files[0]);
+                    // files is a FileList of File objects. List some properties.
+
+                    if (imgId !== '') {
+                        deleteImgFromDB(imgId);
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/rest/fileStorage/NEWS/file/upload/",
+                        data: formImg,
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (data, textStatus, request) {
+                            imgId = data.id;
+                            $('.defaultIMG > img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                        }
+                    });
+            }
+
+
+        }
+
+        function handleDragOver(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        }
+
+        // ---------------------------------------------------- END Drop zone --------------------------------------
+
+        //----------------------------------------------------- Begin Images-----------------------------------------
+        $('.blogCreationSubmit').click(function(){
+            $('#photoInput').trigger('click');
+        });
+
+        $('#photoInput').change(function (event) {
+            event.preventDefault();
+
+            var files = event.currentTarget.files;
+
+            var reader  = new FileReader();
+
+            reader.addEventListener("load", function () {
+                cropper.replace(reader.result);
+            }, false);
+
+            if (files[0]) {
+                reader.readAsDataURL(files[0]);
+            }
+
             if (files.length) {
                 var formImg = new FormData();
                 formImg.append('file', files[0]);
-                // files is a FileList of File objects. List some properties.
 
                 if (imgId !== '') {
                     deleteImgFromDB(imgId);
@@ -193,72 +282,15 @@
                     processData: false,
                     success: function (data, textStatus, request) {
                         imgId = data.id;
-                        $('#imgPreview').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                        $('.defaultIMG > img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
                     }
                 });
-            }
-        }
 
-        function handleDragOver(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
-            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-        }
-
-        // ---------------------------------------------------- END Drop zone --------------------------------------
-    });
-
-
-    var imgId = '';
-    var blog = {};
-
-    $("#blogDescription").on('keyup', function (event) {
-        var button = $('#createBlog');
-        var counter = $("#textLength");
-
-        var currentString = $("#blogDescription").val();
-        counter.html(currentString.length);
-        if (currentString.length <= 50) {  /*or whatever your number is*/
-            button.attr("disabled", true);
-            counter.css("color", "red");
-        } else {
-            if (currentString.length > 500) {
-                button.attr("disabled", true);
-                counter.css("color", "red");
-            } else {
-                button.attr("disabled", false);
-                counter.css("color", "green");
-            }
-        }
-    });
-    //----------------------------------------------------- Image form -----------------------------------------------
-
-    $(document).on('change', '#photofile', function (e) {
-
-        var formImg = new FormData($('#photoInput')[0]);
-
-        if (imgId !== '') {
-            deleteImgFromDB(imgId);
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/fileStorage/NEWS/file/upload/",
-            data: formImg,
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (data, textStatus, request) {
-                imgId = data.id;
-                $('#imgPreview').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
             }
         });
+
     });
 
-    //----------------------------------------------------- Image form -----------------------------------------------
-
-    ///----------------------Delete photo from  DB-----------------------------------------
     function deleteImgFromDB(picId) {
         $.ajax({
             url: '/api/rest/fileStorage/NEWS/file/delete/id/' + picId,
@@ -269,14 +301,20 @@
             }
         });
     }
-    ///----------------------Delete photo from  DB-----------------------------------------
+
+    //----------------------------------------------------- End Images -----------------------------------------------
 
     ///------------------------- Upload Blog -----------------------------------------------
-    $(document).on('click', '#createBlog', function (event) {
+    $(document).on('click', 'button.SendEdition', function (event) {
+        event.preventDefault();
 
+        var title = $('#blogTitle').val();
+        var description = $('#blogCreationDescription').val();
+        if(description.length > 70 || title.length < 2) return;
+        if(description.length > 5000 || title.length < 50) return;
 
-        blog.title = $('#blogTitle').val();
-        blog.description = $('#blogDescription').val();
+        blog.title = title;
+        blog.description = description;
         blog.imageId = imgId;
 
         var socArr = {};
@@ -307,22 +345,6 @@
         });
     });
     ///------------------------- Upload Blog -----------------------------------------------
-
-    function getPatternSocialLinks(socName) {
-        if(socName === "FACEBOOK") {
-            return "pattern=http://www\.facebook\.com\/(.+)|https://www\.facebook\.com\/(.+)";
-        } else if(socName === "TWITTER") {
-            return "pattern=http://twitter\.com\/(.+)|https://\twitter\.com\/(.+)";
-        } else if(socName === "LINKEDIN") {
-            return "pattern=http://www\.linkedin\.com\/(.+)|https://www\.linkedin\.com\/(.+)";
-        } else if(socName === "GOOGLEPLUS") {
-            return "pattern=http://plus\.google\.com\/(.+)|https://\plus\.google\.com\/(.+)";
-        } else if(socName === "VKONTAKTE") {
-            return "pattern=http://vk\.com\/(.+)|https://\vk\.com\/(.+)";
-        } else {
-            return "";
-        }
-    }
 
 </script>
 </body>
