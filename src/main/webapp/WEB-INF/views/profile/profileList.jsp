@@ -45,91 +45,7 @@
             <p style="display: inline" class="profileListDescription">Колличество найденых профилей: </p>
             <p style="display: inline" class="profileListDescription" id="foundedProfilesNum">0</p>
         </div>
-        <%--<div class="profileList">--%>
-            <%--<div class="profileListLogo"--%>
-                 <%--style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>--%>
-            <%--<a href="#" class="profileListName">Веган Фест</a>--%>
-
-            <%--<p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание--%>
-                <%--пользователя Описание пользователя Описание пользователя Описание пользователя</p>--%>
-        <%--</div>--%>
-        <%--<div class="profileList vip-color-border">--%>
-            <%--<!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->--%>
-            <%--<div class="profileListLogo vip-color-border"--%>
-                 <%--style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>--%>
-            <%--<!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->--%>
-            <%--<a href="#" class="profileListName">Веган Фест</a>--%>
-
-            <%--<p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание--%>
-                <%--пользователя Описание пользователя Описание пользователя Описание пользователя</p>--%>
-        <%--</div>--%>
-        <%--<div class="profileList">--%>
-            <%--<div class="profileListLogo"--%>
-                 <%--style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>--%>
-            <%--<a href="#" class="profileListName">Веган Фест</a>--%>
-
-            <%--<p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание--%>
-                <%--пользователя Описание пользователя Описание пользователя Описание пользователя</p>--%>
-        <%--</div>--%>
-        <%--<div class="profileList vip-color-border">--%>
-            <%--<!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->--%>
-            <%--<div class="profileListLogo vip-color-border"--%>
-                 <%--style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>--%>
-            <%--<!-- что бы цвет бордера стал виповым надо добавить клас vip-color-border-->--%>
-            <%--<a href="#" class="profileListName">Веган Фест</a>--%>
-
-            <%--<p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание--%>
-                <%--пользователя Описание пользователя Описание пользователя Описание пользователя</p>--%>
-        <%--</div>--%>
-        <%--<div class="profileList">--%>
-            <%--<div class="profileListLogo"--%>
-                 <%--style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>--%>
-            <%--<a href="#" class="profileListName">Веган Фест</a>--%>
-
-            <%--<p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание--%>
-                <%--пользователя Описание пользователя Описание пользователя Описание пользователя</p>--%>
-        <%--</div>--%>
-        <%--<div class="profileList">--%>
-            <%--<div class="profileListLogo"--%>
-                 <%--style="background: url(/resources/css/images/profileListLogo.png) no-repeat center center;"></div>--%>
-            <%--<a href="#" class="profileListName">Веган Фест</a>--%>
-
-            <%--<p class="profileListDescription">Описание пользователя Описание пользователя Описание пользователя Описание--%>
-                <%--пользователя Описание пользователя Описание пользователя Описание пользователя</p>--%>
-        <%--</div>--%>
     </div>
-
-    <%--<div>--%>
-    <%--<jsp:include page="/WEB-INF/templates/common-header.jsp"/>--%>
-    <%--<jsp:include page="/WEB-INF/templates/authentification.jsp"/>--%>
-
-    <%--<div>--%>
-    <%--<h2 align="center">Профили</h2>--%>
-    <%--<a href="/profile/list"><h3 align="center">Посмотреть все профили</h3></a>--%>
-    <%--</div>--%>
-    <%--<div align="center">--%>
-    <%--<input id="searchInput" size="100" placeholder="Имя профиля">--%>
-    <%--<button id="findProfilesButton">Найти профиль</button>--%>
-    <%--</div>--%>
-    <%--<div id="paginationDiv">--%>
-    <%--<label id="pageLabel" for="pageNumLine"><b>Страница:</b> <label id="pageNumLine"></label></label>--%>
-
-    <%--<button id="prevPageButton">Назад</button>--%>
-    <%--<button id="nextPageButton">Вперед</button>--%>
-    <%--</div>--%>
-    <%--<div>--%>
-    <%--<table id="profilesTable" border="1" width="100%">--%>
-    <%--<thead>--%>
-    <%--<tr>--%>
-    <%--<th>Фото</th>--%>
-    <%--<th>Имя</th>--%>
-    <%--<th>О себе</th>--%>
-    <%--<th>Добавить в контакты</th>--%>
-    <%--</tr>--%>
-    <%--</thead>--%>
-    <%--</table>--%>
-    <%--</div>--%>
-    <%--</div>--%>
 
     <sec:authorize access="isAuthenticated()">
         <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
@@ -165,14 +81,15 @@
     <script src="/resources/js/top-projects-block.js"></script>
 
     <script>
-        var profileFO = {skip: 0, limit: 20};
+        var profileFO = {skip: 0, limit: 10};
         <c:if test="${profileFO != null}">
             profileFO = ${profileFO};
         </c:if>
 
-        loadAndAppendProfileBlocks();
+        loadAndAppendProfileBlocks(profileFO);
 
-        function loadAndAppendProfileBlocks() {
+
+        function loadAndAppendProfileBlocks(profileFO) {
             $.ajax({
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
@@ -206,103 +123,13 @@
                         '<p class="profileListDescription">' + profile.contact.aboutUs + '</p>' +
                     '</div>');
         }
-//        $(document).ready(function () {
-//            $('#searchInput').val(profileFO.searchField);
-//            updateProfilesTable(profileFO);
-//        });
 
-        <%--$(function () {--%>
-            <%--$("#searchInput").autocomplete({--%>
-                <%--source: function (request, response) {--%>
-                    <%--$.getJSON("${pageContext.request.contextPath}/search/autocomplete/profile", {--%>
-                        <%--term: request.term--%>
-                    <%--}, response);--%>
-                <%--}--%>
-            <%--});--%>
-        <%--});--%>
-
-        <%--function updateProfilesTable(profileFO) {--%>
-            <%--//            alert('updateProfilesTable: ' + JSON.stringify(profileFO));--%>
-
-//            $.ajax({
-//                type: "POST",
-//                contentType: "application/json; charset=utf-8",
-//                url: "/api/rest/profilesService/profile/read/all",
-//                data: JSON.stringify(profileFO),
-//                success: function (response) {
-
-                    <%--updatePaginationBlock(response);--%>
-
-                    <%--$("#profilesTable").find("tr:not(:first)").remove();--%>
-
-                    <%--response.entities.forEach(function (profile) {--%>
-                        <%--var row = $('<tr>');--%>
-
-                        <%--if (profile.contact != null && profile.contact.pic != null && profile.contact.pic != undefined) {--%>
-                            <%--row.append($('<td>').html('<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '" width="100" height="100">'));--%>
-                        <%--} else {--%>
-                            <%--row.append($('<td>').html('<img src="/resources/images/no_photo.jpg" width="100" height="100">'));--%>
-                        <%--}--%>
-
-                        <%--if (profile.username == null) {--%>
-                            <%--row.append($('<td>').html('<a href="/profile/id/' + profile.id + '">' + 'Безымянный' + '</a>'));--%>
-                        <%--} else {--%>
-                            <%--row.append($('<td>').html('<a href="/profile/id/' + profile.id + '">' + profile.username + '</a>'));--%>
-                        <%--}--%>
-
-                        <%--if (profile.contact != null && profile.contact.aboutUs != null) {--%>
-                            <%--row.append($('<td>').html(profile.contact.aboutUs));--%>
-                        <%--} else {--%>
-                            <%--row.append($('<td>').html("Пользователь еще ничего на рассказал о себе"));--%>
-                        <%--}--%>
-
-                        <%--row.append($('<td>').html('<a href="/profile/id/' + profile.id + '">Добавить</a>'));--%>
-
-                        <%--$('#profilesTable').append(row);--%>
-                    <%--});--%>
-
-                <%--}--%>
-            <%--});--%>
-        <%--}--%>
-
-        <%--function updatePaginationBlock(responseEntities) {--%>
-            <%--$('#pageNumLine').html((profileFO.skip / profileFO.limit + 1) + ' из ' + Math.ceil(responseEntities.totalEntities / profileFO.limit));--%>
-
-            <%--if (profileFO.skip < profileFO.limit) {--%>
-                <%--$('#prevPageButton').hide();--%>
-            <%--} else {--%>
-                <%--$('#prevPageButton').show();--%>
-            <%--}--%>
-
-            <%--if ((profileFO.skip + profileFO.limit) >= responseEntities.totalEntities) {--%>
-                <%--$('#nextPageButton').hide();--%>
-            <%--} else {--%>
-                <%--$('#nextPageButton').show();--%>
-            <%--}--%>
-        <%--}--%>
-
-        <%--$(document).on('click', '#prevPageButton', function () {--%>
-            <%--profileFO.skip -= profileFO.limit;--%>
-            <%--updateProfilesTable(profileFO);--%>
-        <%--});--%>
-
-        <%--$(document).on('click', '#nextPageButton', function () {--%>
-            <%--profileFO.skip += profileFO.limit;--%>
-            <%--updateProfilesTable(profileFO);--%>
-        <%--});--%>
-
-        <%--$(document).on('click', '#findProfilesButton', function (event) {--%>
-            <%--// заполнять profileFO с фильтров--%>
-            <%--profileFO.skip = 0;--%>
-
-            <%--if ($("#searchInput").val() == "") {--%>
-                <%--$("#searchInput").focus();--%>
-            <%--} else {--%>
-                <%--profileFO.searchField = $("#searchInput").val();--%>
-            <%--}--%>
-
-            <%--updateProfilesTable(profileFO);--%>
-        <%--});--%>
+        $(window).scroll(function () {
+            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                profileFO.skip += profileFO.limit;
+                loadAndAppendProfileBlocks(profileFO);
+            }
+        });
     </script>
 </body>
 </html>
