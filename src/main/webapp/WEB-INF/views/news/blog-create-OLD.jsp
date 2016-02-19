@@ -33,7 +33,7 @@
 
             <div class="group-info">
                 <label for="blogCreationSocial" class="blogCreationLabel">Социальные сети</label>
-                <input type="text" name="blogCreationSocial" id="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку">
+                <input type="text" name="blogCreationSocial" id="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку на Facebook">
                 <div class="socialIconBlog">
                     <a href="#"><img class="img-responsive" src="resources/images/twitter-info.png" alt="twitter"></a>
                     <a href="#"><img class="img-responsive" src="resources/images/facebook-info.png" alt="facebook"></a>
@@ -44,9 +44,12 @@
                 </div>
             </div>
 
+            <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
+                <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
+            </form>
+
             <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
             <label for="" class="blogCreationLabel">Фотографии</label>
-            <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
             <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
         </form>
 
@@ -55,7 +58,7 @@
         <div id="drop_zone">
             <img id="image" src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/56c4940c1be9ac5b1bcdbc02">
         </div>
-
+        <button id="btn-done">Готово</button>
 
 
         <button type="button" class="SendEdition">Отправить редакции</button>
@@ -141,17 +144,30 @@
         // Add/Remove social Input Fields Dynamically with jQuery
 
         var max_fields = 6; //maximum input boxes allowed
-        var wrapper = $(".input_soc_wrap"); //Fields wrapper
+        //var wrapper = $(".input_soc_wrap"); //Fields wrapper
 
-        var x = 1;
+        var cur_fields = 1;
 
         $(".img-responsive").click(function (e) {
             e.preventDefault();
             var el = e.currentTarget;
             var socName = $(el).attr("alt");
+            var placeholder = (socName === "twitter") ? "Добавить ссылку на Twitter" :
+                    (socName === "facebook") ? "Добавить ссылку на Facebook" :
+                            (socName === "skype") ? "Добавить ссылку на Skype" :
+                                    (socName === "vk") ? "Добавить ссылку на Vkontakte" :
+                                            (socName === "g+") ? "Добавить ссылку на Google +" :
+                                                    (socName === "in") ? "Добавить ссылку на LinkedIn" : "Добавить ссылку";
 
+
+            if(cur_fields < max_fields)
+            $("#blogCreationSocial").clone()
+                    .attr("placeholder", placeholder)
+                    .appendTo(".group-info");
+            cur_fields++;
         });
 
+        /*
         $(".input_soc_wrap a").click(function (e) {
             e.preventDefault();
             var socName = $(this).attr("class");
@@ -164,8 +180,9 @@
         $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
             e.preventDefault();
             $(this).parent('div').remove();
-            x--;
+            cur_fields--;
         })
+        */
 
         function isMatchPatternSocialLinks(socName, url) {
             if(socName === "FACEBOOK") {
@@ -303,7 +320,41 @@
     }
 
     //----------------------------------------------------- End Images -----------------------------------------------
+    function dataURItoBlob(dataURI) {
+        var binary = atob(dataURI.split(',')[1]);
+        var array = [];
+        for(var i = 0; i < binary.length; i++) {
+            array.push(binary.charCodeAt(i));
+        }
+        return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+    }
 
+    $("#btn-done").click(function() {
+        var canvas = cropper.getCroppedCanvas();
+        var dataURL = canvas.toDataURL('image/jpeg', 0.5);
+        var blob = dataURItoBlob(dataURL);
+
+        var formData = new FormData();
+        formData.append('file', blob);
+
+        if (imgId !== '') {
+            deleteImgFromDB(imgId);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/fileStorage/NEWS/file/upload/",
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data, textStatus, request) {
+                imgId = data.id;
+                $('.defaultIMG > img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+            }
+        });
+});
     ///------------------------- Upload Blog -----------------------------------------------
     $(document).on('click', 'button.SendEdition', function (event) {
         event.preventDefault();
