@@ -47,9 +47,9 @@
         <div id="tabs1-news">
 
             <div class="NewsTabsFilter">
-                <p class="NewsTabsFilterItem">Киев</p>
-                <p class="NewsTabsFilterItem">Днепропетровск</p>
-                <p class="NewsTabsFilterItem">Запорожье</p>
+                <p class="NewsTabsFilterItem" value="Киев">Киев</p>
+                <p class="NewsTabsFilterItem" value="Киев1">Днепропетровск</p>
+                <p class="NewsTabsFilterItem" value="Киев2">Запорожье</p>
                 <p class="NewsTabsFilterItem">Львов</p>
                 <p class="NewsTabsFilterItem">Одесса</p>
                 <p class="NewsTabsFilterItem">Полтава</p>
@@ -74,13 +74,13 @@
             <div>
                 <div id="startBlockOfNews">
                     <div class="normalNews">
-                        <a href="#"><img class="news-img" src="" alt=""></a>
-                        <a class="descriptionNormalNews" href="#">Студенты “топовых” бизнес—школ мира предпочитают
-                            практиковаться на стартапах</a>
-                        <p class="descriptionNormalNews2">&nbsp;&nbsp;</p>
-                        <p class="normalNews-p">Просмотров: </p>
-                        <p class="normalNews-p2">Опубликовано: </p>
-                        <p class="normalNews-p3">Комментарии: </p>
+                    <a href="#"><img class="news-img" src="" alt=""></a>
+                    <a class="descriptionNormalNews" href="#">Студенты “топовых” бизнес—школ мира предпочитают
+                        практиковаться на стартапах</a>
+                    <p class="descriptionNormalNews2">&nbsp;&nbsp;</p>
+                    <p class="normalNews-p">Просмотров: </p>
+                    <p class="normalNews-p2">Опубликовано: </p>
+                    <p class="normalNews-p3">Комментарии: </p>
                     </div>
                 </div>
                 <button id="nextPageNews">Загрузить ещё новости</button>
@@ -195,6 +195,7 @@
         }
 
         function doAjax(filterOptions, url, whatDraw) {
+            alert("doAjax");
             $.ajax({
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
@@ -206,6 +207,8 @@
                     }
                     if (whatDraw === 'news') {
                         drawNews(response.entities);
+                        alert("Draw === 'news'");
+                        console.log(response);
                     }
                 }
             });
@@ -240,26 +243,40 @@
 
 
         var newsFO = {};
+        var address = {};
         newsFO.skip = 0;
-        newsFO.limit = 5;
+        newsFO.limit = 2;
 
+        $(".NewsTabsFilterItem").on('click', function(){
+            $('.intro').removeClass("intro");
+            $(this).addClass("intro");
+            address.city = $('.intro').text();
+            newsFO.address = address;
+            $("div.normalNews").remove();
+            newsFO.skip = 0;
+            newsFO.limit = 2;
+            doAjax(newsFO, urlGetNews, 'news');
+//            setTimeout(function() {alert("timout gone");doAjax(newsFO, urlGetNews, 'news');}, 1000);
+        });
 
         function drawNews(data) {
 
-            for (var i in data) {
+            for (var i = 0; i<data.length; i++ ) {
                 data[i].text = data[i].text.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', "");
-
+                if($('.normalNews').length == 0){
+                    $('#startBlockOfNews').append(firstBlockNews);
+                    alert("pew");
+                }
                 $('.normalNews').last().attr('style', 'display:;');
                 $(".news-img").last().attr('src', findFirstImgNews(data[i].imageId));
                 $(".news-img").last().attr('alt', data[i].title);
-                $(".normalNews a").attr('href', '/blog-post/view/' + data[i].id);
+                $(".normalNews a").attr('href', '/blog-post/view/id/' + data[i].id);
                 $(".descriptionNormalNews2").last().text(data[i].text);  // - описание
                 $(".normalNews-p2").last().append(localDateTime(data[i].createdDate)); // - дата создания
                 $(".descriptionNormalNews").last().text(data[i].title);  // - заголовок
                 $(".normalNews-p").last().append(data[i].views);  // - просмотры
                 $(".normalNews-p3").last().append(data[i].totalComments);  // - комментарии
                 $('#startBlockOfNews').append(firstBlockNews);
-
             }
             $('.normalNews').last().attr('style', 'display: none;');
         }
@@ -268,7 +285,7 @@
         doAjax(newsFO, urlGetNews, 'news');
 
         $('#nextPageNews').on('click', function () {
-            newsFO.skip += 5;
+            newsFO.skip += 2;
             doAjax(newsFO, urlGetNews, 'news');
         })
 
