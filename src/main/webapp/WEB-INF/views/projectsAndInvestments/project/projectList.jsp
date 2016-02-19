@@ -38,6 +38,8 @@
 
     <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
 
+    <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+
     <body>
 
         <!--PAGE CONTENT START-->
@@ -163,6 +165,8 @@
         <script src="/resources/js/search-bar.js"></script>
 
         <script>
+            $("#selectedService option[value='project']").attr("selected","selected");
+
             <%--var projectFO = {skip:0, limit:20};--%>
 
             <%--<c:if test="${projectFO != null}">--%>
