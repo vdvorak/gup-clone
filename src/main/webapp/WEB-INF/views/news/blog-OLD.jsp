@@ -10,7 +10,7 @@
 <html>
 <head>
     <title>${blog.title} | Портал GUP</title>
-    <link href="/resources/css/main.css" rel="stylesheet" type="text/css">
+
 
 
     <link href="/resources/css/bootstrap.css" rel="stylesheet">
@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link href="/resources/css/main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <!-- BEGIN Common general header-->

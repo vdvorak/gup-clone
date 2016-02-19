@@ -11,7 +11,7 @@ import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
-import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
@@ -41,7 +41,7 @@ public class ProfileRestController {
      */
     @RequestMapping(value = "/profile/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResponse> createProfile(@RequestBody Profile profile) {
+    public ResponseEntity<CreatedObjResp> createProfile(@RequestBody Profile profile) {
         if (profilesService.profileExistsWithEmail(profile.getEmail())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -49,9 +49,9 @@ public class ProfileRestController {
         profilesService.createProfile(profile);
         verificationTokenService.sendEmailRegistrationToken(profile.getId());
 
-        CreatedObjResponse createdObjResponse = new CreatedObjResponse(profile.getId());
+        CreatedObjResp createdObjResp = new CreatedObjResp(profile.getId());
 
-        return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
     }
 
     /**

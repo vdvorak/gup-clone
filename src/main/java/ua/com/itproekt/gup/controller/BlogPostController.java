@@ -92,7 +92,7 @@ public class BlogPostController {
         Profile profile = profilesService.findProfileByEmail(email);
         model.addAttribute("profileId", profile.getId());
         model.addAttribute("blogId", blogId);
-        return "blog-post-create";
+        return "news/blog-post-create-OLD";
     }
 
     @RequestMapping("/edit/{blogPostId}")

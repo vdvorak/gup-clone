@@ -24,7 +24,7 @@ function getNewsResponse(blogPostFO) {
 }
 
 function getBlogPostUrl(blogPost) {
-    return '/blog-post/view/' + blogPost.id;
+    return '/blog-post/view/id/' + blogPost.id;
 }
 
 function getBlogPostImagePreviewTag(blogPost) {

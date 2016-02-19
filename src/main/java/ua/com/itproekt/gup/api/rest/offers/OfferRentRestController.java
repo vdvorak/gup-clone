@@ -12,7 +12,7 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.offers.OffersService;
-import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 @RestController
@@ -27,8 +27,8 @@ public class OfferRentRestController {
 
     @RequestMapping(value = "/offer/id/{offerId}/rent", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResponse> rentOffer(@PathVariable String offerId,
-                                                        @RequestBody RentedOfferPeriodInfo rentedOfferPeriodInfo) {
+    public ResponseEntity<CreatedObjResp> rentOffer(@PathVariable String offerId,
+                                                    @RequestBody RentedOfferPeriodInfo rentedOfferPeriodInfo) {
         if (!offersService.offerExists(offerId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

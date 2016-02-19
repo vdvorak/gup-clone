@@ -80,6 +80,9 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             query.addCriteria(Criteria.where("userRoles").all(profileFilterOptions.getUserRoles()));
         }
 
+        if (profileFilterOptions.getContact() != null && profileFilterOptions.getContact().getType() != null) {
+            query.addCriteria(Criteria.where("contact.type").is(profileFilterOptions.getContact().getType()));
+        }
 
         query.fields().exclude("email");
         query.fields().exclude("password");
@@ -122,8 +125,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
         mongoTemplate.updateFirst(addContactQuery, update, Profile.class);
     }
-
-
 
     @Override
     public Profile findByUsername(String username) {

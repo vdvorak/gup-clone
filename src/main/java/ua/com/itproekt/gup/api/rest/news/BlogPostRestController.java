@@ -14,7 +14,7 @@ import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.news.BlogPostService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
@@ -63,12 +63,12 @@ public class BlogPostRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/blogPost/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResponse> createBlogPost(@Valid @RequestBody BlogPost blogPost) {
+    public ResponseEntity<CreatedObjResp> createBlogPost(@Valid @RequestBody BlogPost blogPost) {
 
         // Проверка на права создавать посты от блога{userId, blogId} !!!!!!!!
         // .........
 
-        CreatedObjResponse createdObjResponse = null;
+        CreatedObjResp createdObjResp = null;
         try {
             String userId = SecurityOperations.getLoggedUserId();
             blogPost.setAuthorId(userId);
@@ -76,11 +76,11 @@ public class BlogPostRestController {
 
             blogPostService.create(blogPost);
 
-            createdObjResponse = new CreatedObjResponse(blogPost.getId());
+            createdObjResp = new CreatedObjResp(blogPost.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
     }
 
     //------------------------------------------ Update -----------------------------------------------------------------
@@ -117,11 +117,15 @@ public class BlogPostRestController {
         }
 
         String userId = SecurityOperations.getLoggedUserId();
-        String authorId = blogPostService.findById(blogPostId).getAuthorId();
+        BlogPost blogPost = blogPostService.findById(blogPostId);
+
+        if (blogPost.getLikedIds().contains(userId)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
 
         blogPostService.likeBlogPost(blogPostId, userId);
 
-        activityFeedService.createEvent(new Event(authorId, EventType.BLOG_POST_LIKE, blogPostId, userId));
+        activityFeedService.createEvent(new Event(blogPost.getAuthorId(), EventType.BLOG_POST_LIKE, blogPostId, userId));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -134,11 +138,14 @@ public class BlogPostRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        String authorId = blogPostService.findById(blogPostId).getAuthorId();
+        BlogPost blogPost = blogPostService.findById(blogPostId);
         String userId = SecurityOperations.getLoggedUserId();
+        if (blogPost.getDislikedIds().contains(userId)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
 
         blogPostService.dislikeBlogPost(blogPostId, userId);
-        activityFeedService.createEvent(new Event(authorId, EventType.BLOG_POST_DISLIKE, blogPostId, userId));
+        activityFeedService.createEvent(new Event(blogPost.getAuthorId(), EventType.BLOG_POST_DISLIKE, blogPostId, userId));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
