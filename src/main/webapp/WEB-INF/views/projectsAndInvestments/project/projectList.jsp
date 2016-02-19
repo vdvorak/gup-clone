@@ -70,61 +70,63 @@
                     </div>
                 </div>
 
-                <div class="feedItem vip">
-                    <!--Add class "vip" to vip-tialize project-->
-                    <div class="publishDate">Опубликовано: 22. 10. 16</div>
-                    <div class="preview">
-                        <img src="/resources/css/images/sample/project2.png" alt="project photo" />
-                        <div class="likes">
-                            <div class="hearthPlace">
-                                <div class="hearth"></div>
-                            </div>
-                            <div class="number">22 000</div>
-                        </div>
-                    </div>
-                    <a href="#" class="content">
-                        <div class="title">Название проекта</div>
-                        <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                    </a>
-                    <div class="bottomContent">
-                        <button type="button" class="abutton invest">Инвестировать</button>
-                        <div class="projectProgressBlock">
-                            <div class="current elem cash">234 $</div>
-                            <div class="bar elem">
-                                <div class="colored"></div>
-                                <div class="empty" style="width: 30%;"></div>
-                                <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
-                            </div>
-                            <div class="todo elem cash">2304 $</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="feedItem">
-                    <!--Add class "vip" to vip-tialize project-->
-                    <div class="preview">
-                        <img src="/resources/css/images/sample/project1.png" alt="project photo" />
-                        <div class="likes">
-                            <div class="hearthPlace">
-                                <div class="hearth"></div>
-                            </div>
-                            <div class="number">22 000</div>
-                        </div>
-                    </div>
-                    <a href="#" class="content">
+                <div id="projectsBlock">
+                    <div class="feedItem vip">
+                        <!--Add class "vip" to vip-tialize project-->
                         <div class="publishDate">Опубликовано: 22. 10. 16</div>
-                        <div class="title">Название проекта</div>
-                        <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                    </a>
-                    <div class="bottomContent">
-                        <button type="button" class="abutton invest">Инвестировать</button>
-                        <div class="projectProgressBlock">
-                            <div class="current elem cash">234 $</div>
-                            <div class="bar elem">
-                                <div class="colored"></div>
-                                <div class="empty" style="width: 70%;"></div>
-                                <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
+                        <div class="preview">
+                            <img src="/resources/css/images/sample/project2.png" alt="project photo" />
+                            <div class="likes">
+                                <div class="hearthPlace">
+                                    <div class="hearth"></div>
+                                </div>
+                                <div class="number">22 000</div>
                             </div>
-                            <div class="todo elem cash">2304 $</div>
+                        </div>
+                        <a href="#" class="content">
+                            <div class="title">Название проекта</div>
+                            <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                        </a>
+                        <div class="bottomContent">
+                            <button type="button" class="abutton invest">Инвестировать</button>
+                            <div class="projectProgressBlock">
+                                <div class="current elem cash">234 $</div>
+                                <div class="bar elem">
+                                    <div class="colored"></div>
+                                    <div class="empty" style="width: 30%;"></div>
+                                    <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
+                                </div>
+                                <div class="todo elem cash">2304 $</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feedItem">
+                        <!--Add class "vip" to vip-tialize project-->
+                        <div class="preview">
+                            <img src="/resources/css/images/sample/project1.png" alt="project photo" />
+                            <div class="likes">
+                                <div class="hearthPlace">
+                                    <div class="hearth"></div>
+                                </div>
+                                <div class="number">22 000</div>
+                            </div>
+                        </div>
+                        <a href="#" class="content">
+                            <div class="publishDate">Опубликовано: 22. 10. 16</div>
+                            <div class="title">Название проекта</div>
+                            <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                        </a>
+                        <div class="bottomContent">
+                            <button type="button" class="abutton invest">Инвестировать</button>
+                            <div class="projectProgressBlock">
+                                <div class="current elem cash">234 $</div>
+                                <div class="bar elem">
+                                    <div class="colored"></div>
+                                    <div class="empty" style="width: 70%;"></div>
+                                    <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
+                                </div>
+                                <div class="todo elem cash">2304 $</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -165,7 +167,103 @@
         <script src="/resources/js/search-bar.js"></script>
 
         <script>
+            var projectFO = {type : getUrlParam('type').toUpperCase(), searchField : getUrlParam('name'), skip: 0, limit: 10};
+            <%--<c:if test="${projectFO != null}">--%>
+                <%--projectFO = ${projectFO};--%>
+            <%--</c:if>--%>
+
             $("#selectedService option[value='project']").attr("selected","selected");
+            loadAndAppendProjectBlocks(projectFO);
+
+            function loadAndAppendProjectBlocks(projectFO) {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: "/api/rest/projectsAndInvestmentsService/project/read/all",
+                    data: JSON.stringify(projectFO),
+                    statusCode: {
+                        200: function (responseEntity) {
+//                            $('#foundedProfilesNum').text(responseEntity.totalEntities);
+
+                            responseEntity.entities.forEach(function (project) {
+                                appendProjectBlock(project);
+                            });
+                        }
+                    }
+                });
+            }
+
+            function getReadableCreatedDate(timestamp) {
+                var createdDate = new Date(timestamp);
+                return createdDate.getDate() + '.' + (createdDate.getMonth() + 1) + '.' + createdDate.getFullYear();
+            }
+
+            function getUrlForProjectMainPic(imagesIds) {
+                for (var id in imagesIds) {
+                    if (imagesIds[id] === "1") {
+                        return "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + id;
+                    }
+                }
+                return "/resources/images/no_photo.jpg";
+            }
+
+            function getProjectUrl(id) {
+                return "/project?id=" + id;
+            }
+
+            function getInvertedProgressNum(investedAmount, amountRequested) {
+                var invertedProgressNum = (1 -(investedAmount/amountRequested))*100;
+//                alert(invertedProgressNum);
+//                alert(Math.floor(invertedProgressNum/5));
+                return 5 * Math.ceil(invertedProgressNum/5);
+            }
+
+            function appendProjectBlock(project) {
+                $('#projectsBlock').append(
+                    '<div class="feedItem">' +
+                        <!--Add class "vip" to vip-tialize project-->
+                        '<div class="preview">' +
+                        '<a href="' + getProjectUrl(project.id) + '">' +
+                            '<img src="' + getUrlForProjectMainPic(project.imagesIds) + '" alt="project photo" />' +
+                        '</a>' +
+                            '<div class="likes">' +
+                                '<div class="hearthPlace">' +
+                                    '<div class="hearth"></div>' +
+                                '</div>' +
+                                '<div class="number">' + project.totalScore + '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="content">' +
+                            '<a href="' + getProjectUrl(project.id) + '">' +
+                                '<div class="publishDate">Опубликовано: ' + getReadableCreatedDate(project.createdDate) + '</div>' +
+                                '<div class="title">' + project.title + '</div>' +
+                            '</a>' +
+                            '<div class="text">' + project.description + '</div>' +
+                        '</div>' +
+
+
+                        '<div class="bottomContent">' +
+                            '<button type="button" class="abutton invest">Инвестировать</button>' +
+                            '<div class="projectProgressBlock">' +
+                                '<div class="current elem cash">' + project.investedAmount + ' ₴ </div>' +
+                                '<div class="bar elem">' +
+                                    '<div class="colored"></div>' +
+                                    '<div class="empty" style="width: ' +
+                                        getInvertedProgressNum(project.investedAmount, project.amountRequested) + '%;"></div>' +
+                                    <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
+                                '</div>' +
+                                '<div class="todo elem cash">' + project.amountRequested + ' ₴ </div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>');
+            }
+
+//            $(window).scroll(function () {
+//                if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+//                    projectFO.skip += projectFO.limit;
+//                    loadAndAppendProjectBlocks(projectFO);
+//                }
+//            });
 
             <%--var projectFO = {skip:0, limit:20};--%>
 
@@ -186,16 +284,16 @@
                         <%--updatePaginationBlock(response);--%>
 
                         <%--response.entities.forEach(function(project) {--%>
-                            <%--project.projectName = '<a href="/project/id/' + project.id + '">' + project.projectName + '</a>';--%>
+                            <%--project.title = '<a href="/project/id/' + project.id + '">' + project.title + '</a>';--%>
                             <%--var createdDate = new Date(project.createdDate);--%>
                             <%--project.createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();--%>
 
                             <%--if (project.imagesIds !== null && project.imagesIds != '') {--%>
-                                <%--for (var key in project.imagesIds) {--%>
-                                    <%--if (project.imagesIds[key] === "pic1") {--%>
-                                        <%--project.imagesIds = '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key + '" width="100" height="100">';--%>
-                                    <%--}--%>
-                                <%--}--%>
+//                                for (var key in project.imagesIds) {
+//                                    if (project.imagesIds[key] === "pic1") {
+//                                        project.imagesIds = '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key + '" width="100" height="100">';
+//                                    }
+//                                }
                             <%--} else {--%>
                                 <%--project.imagesIds = {};--%>
                                 <%--project.imagesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';--%>
@@ -203,8 +301,8 @@
 
                             <%--var row = $('<tr>');--%>
                             <%--row.append($('<td>').html(project.imagesIds));--%>
-                            <%--row.append($('<td>').html(project.projectName));--%>
-                            <%--row.append($('<td>').html(project.typeOfProject));--%>
+                            <%--row.append($('<td>').html(project.title));--%>
+                            <%--row.append($('<td>').html(project.type));--%>
                             <%--row.append($('<td>').html(project.views));--%>
                             <%--row.append($('<td>').html(project.totalComments));--%>
 //                            row.append($('<td>').html(project.createdDate));

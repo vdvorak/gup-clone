@@ -30,14 +30,14 @@
 </div>
 
 <div>
-    <label for="projectName"><b>Название: </b></label>
-    <input id="projectName" type="text" name="projectName" min="4" maxlength="140"
+    <label for="title"><b>Название: </b></label>
+    <input id="title" type="text" name="title" min="4" maxlength="140"
            placeholder="Минимум 4 символа" required>
 </div>
 <!--
 <div>
-    <label for="projectDescription"><b>Описание: </b></label>
-            <textarea id="projectDescription"
+    <label for="description"><b>Описание: </b></label>
+            <textarea id="description"
                       placeholder="Минимум 50 символов, максимум 5000ю" required></textarea>
 </div>
 -->
@@ -197,9 +197,9 @@
 
     $(document).on('click', '#createProject', function (event) {
 
-        project.typeOfProject = $('#projectType').val();
-        project.projectName = $('#projectName').val();
-        project.projectDescription = tinymce.activeEditor.getContent({format : 'raw'});
+        project.type = $('#projectType').val();
+        project.title = $('#title').val();
+        project.description = tinymce.activeEditor.getContent({format : 'raw'});
         project.amountRequested = $('#amountRequested').val();
         project.categoriesOfIndustry = $('#categoriesOfIndustry').val();
         for(var key in imagesIds) {

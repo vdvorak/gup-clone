@@ -204,7 +204,7 @@
                             <div class="myitems-projects-items">
                                 <c:if test="${not empty projects}">
                                     <c:forEach items="${projects}" var="project">
-                                        <p><a href="/project/id/${project.id}">${project.projectName}</a></p>
+                                        <p><a href="/project/id/${project.id}">${project.title}</a></p>
                                     </c:forEach>
                                 </c:if>
                                 <c:if test="${empty projects}">

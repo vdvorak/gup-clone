@@ -49,8 +49,8 @@
         </div>
 
         <div>
-            <label for="projectName"><b>Название: </b></label>
-            <input id="projectName"/>
+            <label for="title"><b>Название: </b></label>
+            <input id="title"/>
         </div>
 
         <div>
@@ -111,8 +111,8 @@
          } else {
          $('#projectImg').attr('src', '/resources/images/no_photo.jpg');
          }
-         $('#projectName').attr('placeholder', projectData.projectName);
-         $('#projectType').attr('placeholder', projectData.typeOfProject);
+         $('#title').attr('placeholder', projectData.title);
+         $('#projectType').attr('placeholder', projectData.type);
 
          //----------------------  HTML EDITOR-------------------------------------//
 
@@ -144,8 +144,8 @@
                                 '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
                     }
                 }
-                $('#projectName').attr('placeholder', projectData.projectName);
-                $('#projectType').attr('placeholder', projectData.typeOfProject);
+                $('#title').attr('placeholder', projectData.title);
+                $('#projectType').attr('placeholder', projectData.type);
 
                 //----------------------  HTML EDITOR-------------------------------------//
                 tinymce.init({
@@ -170,7 +170,7 @@
                         '//www.tinymce.com/css/codepen.min.css'
                     ],
                     init_instance_callback: function (editor) {
-                        editor.setContent(projectData.projectDescription);
+                        editor.setContent(projectData.description);
                     }
                 });
 
@@ -332,11 +332,11 @@
         changedProject.id = projectId;
 
         if ($('#projectType').val() != "") {
-            changedProject.typeOfProject = $('#projectType').val();
+            changedProject.type = $('#projectType').val();
         }
 
-        if ($('#projectName').val() != "") {
-            changedProject.projectName = $('#projectName').val();
+        if ($('#title').val() != "") {
+            changedProject.title = $('#title').val();
         }
 
         if (imgId != "") {
@@ -344,7 +344,7 @@
             changedProject.imagesIds =  imgsArrResult;
         }
 
-        changedProject.projectDescription = tinymce.activeEditor.getContent({format: 'raw'});
+        changedProject.description = tinymce.activeEditor.getContent({format: 'raw'});
 
         $.ajax({
             type: "POST",

@@ -2,7 +2,6 @@ package ua.com.itproekt.gup.api.rest.projectsAndInvestments;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import ua.com.itproekt.gup.api.rest.util.Util;
@@ -25,12 +23,10 @@ import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOptions;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -254,7 +250,7 @@ public class ProjectsRestControllerTest {
 //        Project project = new Project();
 //        project.setId(null);
 //        project.setAuthorId(profilesService.findProfileByEmail(Util.USER_EMAIL).getId());
-//        project.setProjectName("****");
+//        project.setTitle("****");
 //        String projectJson = Util.ow.writeValueAsString(project);
 //
 //        this.mockMvc.perform(post(url)
@@ -269,7 +265,7 @@ public class ProjectsRestControllerTest {
 //                .andExpect(status().isBadRequest());
 //
 //        projectRepository.create(project);
-//        project.setProjectName("ddddd");
+//        project.setTitle("ddddd");
 //        projectJson = Util.ow.writeValueAsString(project);
 //
 //        this.mockMvc.perform(post(url)

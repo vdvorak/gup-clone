@@ -49,7 +49,7 @@ function loadAndAppendTopProjects() {
                     var projectURl = getProjectUrl(projects[i]);
                     var imagePreviewTag = getProjectImagePreviewTag(projects[i]);
 
-                    appendProject('topProjectsBlock', projectURl, imagePreviewTag, projects[i].projectName);
+                    appendProject('topProjectsBlock', projectURl, imagePreviewTag, projects[i].title);
                 }
             }
             //,

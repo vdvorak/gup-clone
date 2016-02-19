@@ -215,7 +215,7 @@ public class TenderRestControllerTest {
 //        Project project = new Project();
 //        project.setId(null);
 //        project.setAuthorId(profilesService.findProfileByEmail(Util.USER_EMAIL).getId());
-//        project.setProjectName("****");
+//        project.setTitle("****");
 //        String projectJson = Util.ow.writeValueAsString(project);
 //
 //        this.mockMvc.perform(post(url)
@@ -230,7 +230,7 @@ public class TenderRestControllerTest {
 //                .andExpect(status().isBadRequest());
 //
 //        projectRepository.create(project);
-//        project.setProjectName("ddddd");
+//        project.setTitle("ddddd");
 //        projectJson = Util.ow.writeValueAsString(project);
 //
 //        this.mockMvc.perform(post(url)

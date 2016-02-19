@@ -43,9 +43,9 @@ public class ProjectServiceImpl implements ProjectService {
                 .setLastInvestmentDateEqualsToCurrentDate()
                 .updateExpirationDateAt20Days()
                 .setAmountRequested(project.getAmountRequested())
-                .setProjectName(project.getProjectName())
-                .setProjectDescription(project.getProjectDescription())
-                .setTypeOfProject(project.getTypeOfProject())
+                .setTitle(project.getTitle())
+                .setDescription(project.getDescription())
+                .setType(project.getType())
                 .setCategoriesOfIndustry(project.getCategoriesOfIndustry())
                 .setImagesIds(project.getImagesIds())
                 .setComments(new HashSet<>())
@@ -117,9 +117,9 @@ public class ProjectServiceImpl implements ProjectService {
     public Project edit(Project project) {
         Project newProject = new Project()
                 .setId(project.getId())
-                .setProjectName(project.getProjectName())
-                .setProjectDescription(project.getProjectDescription())
-                .setTypeOfProject(project.getTypeOfProject())
+                .setTitle(project.getTitle())
+                .setDescription(project.getDescription())
+                .setType(project.getType())
                 .setCategoriesOfIndustry(project.getCategoriesOfIndustry())
                 .setImagesIds(project.getImagesIds());
         return projectRepository.findProjectAndUpdate(newProject);

@@ -86,8 +86,8 @@
             profileFO = ${profileFO};
         </c:if>
 
+        $("#selectedService option[value='profile']").attr("selected","selected");
         loadAndAppendProfileBlocks(profileFO);
-
 
         function loadAndAppendProfileBlocks(profileFO) {
             $.ajax({

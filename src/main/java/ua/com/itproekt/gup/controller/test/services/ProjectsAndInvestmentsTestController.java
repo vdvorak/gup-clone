@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ua.com.itproekt.gup.model.projectsAndInvestments.investment.InvestorPost;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Comment;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
-import ua.com.itproekt.gup.model.projectsAndInvestments.project.TypeOfProject;
+import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectType;
 import ua.com.itproekt.gup.service.projectsAndInvestments.investment.InvestorService;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
 
@@ -29,9 +29,9 @@ public class ProjectsAndInvestmentsTestController {
 
             Project project = new Project()
                     .setAuthorId("5681546ed139e28bcda3f845")
-                    .setTypeOfProject(TypeOfProject.KNOW_HOW)
-                    .setProjectName("Проект " + i)
-                    .setProjectDescription("Описание описание описание описание описание описание описание описание" +
+                    .setType(ProjectType.KNOW_HOW)
+                    .setTitle("Проект " + i)
+                    .setDescription("Описание описание описание описание описание описание описание описание" +
                             " описание описание описание описание описание описание описание описание описание описание" +
                             " описание описание описание описание описание описание описание описание описание описание" +
                             " описание описание описание описание описание описание описание описание описание описание")

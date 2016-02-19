@@ -227,8 +227,8 @@
 
 .abutton {
     border-radius: 5px;
-    border: 2px #99cc66 solid;
-    background-color: #99cc66;
+    border: 2px #36aae0 solid;
+    background-color: #36aae0;
     padding: 3px 10px;
     color: #ffffff;
     font: 15px DroidSans;
@@ -236,7 +236,7 @@
 
 .abutton:hover {
     background-color: white;
-    color: #99cc66;
+    color: #36aae0;
 }
 .abutton.blue {
     border-color: #36aae0;

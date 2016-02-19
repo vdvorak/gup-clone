@@ -211,6 +211,11 @@
             })
         });
 
+//        if (getUrlParam('projectId') == null) {
+//            alert('null');
+//        }
+//            alert(getUrlParam('projectId'));
+
         <%--var projectId = '';--%>
         <%--var comment = {};--%>
 
@@ -230,9 +235,9 @@
                     <%--} else {--%>
                         <%--$('#projectImg').attr('src','/resources/images/no_photo.jpg');--%>
                     <%--}--%>
-                    <%--$('#projectName').text(projectData.projectName);--%>
-                    <%--$('#projectType').text(projectData.typeOfProject);--%>
-                    <%--$('#projectDescription').html(projectData.projectDescription);--%>
+                    <%--$('#title').text(projectData.title);--%>
+                    <%--$('#projectType').text(projectData.type);--%>
+                    <%--$('#description').html(projectData.description);--%>
                     <%--$('#amountRequested').text(projectData.amountRequested);--%>
                     <%--$('#investedAmount').text(projectData.investedAmount);--%>
                     <%--$('#totalScore').text(projectData.totalScore);--%>
