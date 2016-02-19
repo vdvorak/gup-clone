@@ -3055,7 +3055,7 @@ label[for="checkbox-filter3"] {
 	width: 230px;
 	float: right;
 	margin-right: 470px;
-	margin-bottom: 60px;
+	margin-bottom: 30px;
 }
 
 .socialIconBlog {
@@ -3082,6 +3082,7 @@ label[for="checkbox-filter3"] {
 	color: #99cc66;
 	font: 400 21px ArianAMU;
 	background: url(/resources/css/images/+sub.png) no-repeat center center;
+	margin-bottom: 30px;
 }
 
 .titleFile {
@@ -3105,7 +3106,9 @@ label[for="checkbox-filter3"] {
 }
 
 .defaultIMG {
-	margin: 20px 0 50px 190px;
+	margin-left: 195px;
+	width: 225px;
+	height: 225px;
 }
 
 .SendEdition {
