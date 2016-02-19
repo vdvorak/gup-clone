@@ -9,12 +9,12 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="resources/css/bootstrap.css">
-  <link rel="stylesheet" href="resources/css/bootstrap-theme.css">
-  <link rel="stylesheet" href="resources/css/jquery.bxslider.css">
-  <link rel="stylesheet" href="resources/css/main.css">
-  <link rel="stylesheet" href="resources/css/font-awesome.css">
-  <link rel="stylesheet" href="resources/css/media-queries.css">
+  <link rel="stylesheet" href="/resources/css/bootstrap.css">
+  <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+  <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+  <link rel="stylesheet" href="/resources/css/main.css">
+  <link rel="stylesheet" href="/resources/css/font-awesome.css">
+  <link rel="stylesheet" href="/resources/css/media-queries.css">
 </head>
 <body>
 
@@ -220,11 +220,11 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
 <script>window.jQuery || document.write('<script src="resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
 
-<script src="resources/js/vendor/bootstrap.js"></script>
+<script src="/resources/js/vendor/bootstrap.js"></script>
 
-<script src="resources/js/jquery.bxslider.js"></script>
+<script src="/resources/js/jquery.bxslider.js"></script>
 
-<script src="resources/js/main.js"></script>
+<script src="/resources/js/main.js"></script>
 
 </body>
 </html>

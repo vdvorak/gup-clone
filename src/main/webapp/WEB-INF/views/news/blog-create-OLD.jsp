@@ -49,7 +49,7 @@
             </form>
 
             <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
-            <label for="" class="blogCreationLabel">Фотографии</label>
+            <label class="blogCreationLabel">Фотографии</label>
             <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
         </form>
 
