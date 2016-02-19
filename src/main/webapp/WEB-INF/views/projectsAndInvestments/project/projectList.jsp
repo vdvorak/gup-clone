@@ -45,11 +45,11 @@
         <!--PAGE CONTENT START-->
         <div class="container2">
             <div class="projectFeedContainer feedContainer contentContainer">
-                <div class="projectsVSInvestments-block">
-                    <div class="projectsVSInvestments-btn projects selected">ПРОЕКТЫ</div>
-                    <!--Add "selected" class to show this element as selected-->
-                    <div class="projectsVSInvestments-btn investments">ИНВЕСТИЦИИ</div>
-                </div>
+                <ul class="projectsVSInvestments-block">
+                    <li class="projectsVSInvestments-btn projects active" data-atab="projects"><a href="#tabs1-project">ПРОЕКТЫ</a></li>
+                    <!--Add "active" class to show this element as selected-->
+                    <li class="projectsVSInvestments-btn investments" data-atab="investments"><a href="#tabs1-investment">ИНВЕСТИЦИИ</a></li>
+                </ul>
                 <div class="projectsVSInvestmentsCats">
                     <div class="catContainer selected">
                         <!--Add "selected" class to show this element as selected-->
