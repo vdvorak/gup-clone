@@ -38,13 +38,15 @@ public class OfferController {
     //----------------------------------- all offers  ------
     @RequestMapping(value = "/offers-old", method = RequestMethod.GET)
     public String getOffers() {
-        return "redirect:offers-old/1";
+        return "redirect:offer-all";
     }
 
-    @RequestMapping(value = "/offers", method = RequestMethod.GET)
-    public String getAllOffers() {
-        return "offers";
-    }
+
+    //ToDo turn on this controller when it will be created offers.jsp
+//    @RequestMapping(value = "/offers", method = RequestMethod.GET)
+//    public String getAllOffers() {
+//        return "offers";
+//    }
 
     @RequestMapping(value = "/offers-old/{page}", method = RequestMethod.GET)
     public String getOffersPerPage(Model model, HttpServletRequest request,

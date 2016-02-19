@@ -18,15 +18,15 @@
 
             <div id="profileFilterBlock" class="hidefilter" style="display: none">
                 <div class="filterContacts">
-                    <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-filter1" value="1" name="k"/><span></span></label>
+                    <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-filter1" value="legal_entity" name="profileType"/><span></span></label>
                     <label for="checkbox-filter1">Юр. лицо</label>
                 </div>
                 <div class="filterContacts">
-                    <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-filter2" value="1" name="k"/><span></span></label>
+                    <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-filter2" value="individual" name="profileType"/><span></span></label>
                     <label for="checkbox-filter2">Физ. лицо</label>
                 </div>
                 <div class="filterContacts">
-                    <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-filter3" value="1" name="k"/><span></span></label>
+                    <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-filter3" value="entrepreneur" name="profileType"/><span></span></label>
                     <label for="checkbox-filter3">ФОП</label>
                 </div>
             </div>
@@ -67,6 +67,86 @@
                         <a href="#">Соц.сети</a>
                     </div>
                 </div>
+            </div>
+
+            <div id="offerFilterBlock" class="hidefilter" style="display: none">
+                <div class="filterADS">
+                    <div class="clearfix"></div>
+
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/kids.png" alt="kids"></a>
+                        <a href="#">Малыши</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/Zoo.png" alt="Zoo"></a>
+                        <a href="#">Zoo</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/StyleAndFashion.png" alt="StyleAndFashion"></a>
+                        <a href="#">Стиль и мода</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/SportAndHobby.png" alt="SportAndHobby"></a>
+                        <a href="#">Спорт и хобби</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/Equipment.png" alt="Equipment"></a>
+                        <a href="#">Техника</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/HouseAndCottage.png" alt="HouseAndCottage"></a>
+                        <a href="#">Дома и дача</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/Barter.png" alt="Barter"></a>
+                        <a href="#">Бартер</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/TheProperty.png" alt="TheProperty"></a>
+                        <a href="#">Недвижимость</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/Transport.png" alt="Transport"></a>
+                        <a href="#">Транспорт</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/BusinessAndServices.png" alt="BusinessAndServices"></a>
+                        <a href="#">Бизнес и услуги</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/Volunteering.png" alt="Volunteering"></a>
+                        <a href="#">Волонтерство</a>
+                    </div>
+                    <div class="ItemADS">
+                        <a href="#"><img src="/resources/images/IsFree.png" alt="IsFree"></a>
+                        <a href="#">Бесплатно</a>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+
+            <div id="tenderFilterBlock" class="hidefilter" style="display: none">
+                <form class="filterArtists" action="#">
+                    <label class="filterArtistsLabel" for="filterArtistsInput">Cоздатель:&nbsp;</label>
+                    <input id="filterArtistsInput" type="text" placeholder="Автозаполнение"><br>
+
+                    <label class="filterArtistsLabel marginTop" for="checkboxArtists">По актуальности:&nbsp;</label>
+                    <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkboxArtists" value="1" name="k"/><span></span></label>
+
+                    <label class="filterArtistsLabel marginTop marginLeft">По оценке:&nbsp;</label>
+                    <div class="selectBoxEvaluation">
+                        <select class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+                    <button type="submit">Искать по фильтру</button>
+                </form>
             </div>
 
         <div class="clearfix"></div>
