@@ -114,6 +114,9 @@
                 <a href="/blog-post/create/${blog.id}">
                     <button type="button" class="SubmitArticles">Добавить статью</button>
                 </a>
+                <a href="/blog/${blog.id}/edit">
+                    <button type="button" class="SubmitArticles">Редактировать блог</button>
+                </a>
             </c:if>
             <a href="/blog-post/view-all/${blog.id}">
                 <button type="button" class="SubmitArticles">Все новости блога</button>
