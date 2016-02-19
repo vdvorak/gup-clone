@@ -48,9 +48,9 @@
                 <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
             </form>
 
+            <div class="defaultIMG"><img class="img-responsive" src="/resources/images/no_photo.jpg" alt="defaultIMG"></div>
             <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
-            <label for="" class="blogCreationLabel">Фотографии</label>
-            <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
+            <label class="blogCreationLabel">Фотографии</label>
         </form>
 
 
