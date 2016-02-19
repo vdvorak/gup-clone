@@ -56,7 +56,7 @@
 
 
         <div id="drop_zone">
-            <img id="image" src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/56c4940c1be9ac5b1bcdbc02">
+            <img id="image" src="/resources/images/no_photo.jpg">
         </div>
         <button id="btn-done">Готово</button>
 
@@ -363,8 +363,8 @@
 
         var title = $('#blogTitle').val();
         var description = $('#blogCreationDescription').val();
-        if(description.length > 70 || title.length < 2) return;
-        if(description.length > 5000 || title.length < 50) return;
+        if(title.length > 70 || title.length < 2) return;
+        if(description.length > 5000 || description.length < 50) return;
 
         blog.title = title;
         blog.description = description;
