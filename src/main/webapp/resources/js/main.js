@@ -38,4 +38,8 @@ $(document).ready(function(){
     $('#tab-container-news').easytabs({
         animate: false
     });
+
+    $(".listArtist img").click(function(){
+        $(".listArtist ul").css("height", "auto");
+    });
 });
