@@ -126,8 +126,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         mongoTemplate.updateFirst(addContactQuery, update, Profile.class);
     }
 
-
-
     @Override
     public Profile findByUsername(String username) {
         Query query = new Query(Criteria.where("username").is(username));
