@@ -45,7 +45,7 @@ public class BlogController {
 
         EntityPage<Blog> blogEntityPage = blogService.findBlogWihOptions(blogFilterOptions);
         model.addAttribute("blogPages", blogEntityPage);
-        return "blogs";
+        return "news/blogs-OLD";
     }
 
 
@@ -58,7 +58,7 @@ public class BlogController {
 
         if (blog.getAuthorId().equals(userId)) {
             model.addAttribute("blog", blog);
-            return "blog-edit";
+            return "news/blog-edit-OLD";
         } else {
             return "index";
         }
@@ -82,7 +82,7 @@ public class BlogController {
         model.addAttribute("username", userName);
         model.addAttribute("check", check);
         model.addAttribute("blog", blog);
-        return "blog";
+        return "news/blog-OLD";
     }
 
 
