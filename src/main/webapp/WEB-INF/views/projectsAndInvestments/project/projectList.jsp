@@ -131,6 +131,8 @@
                     <%--</div>--%>
                 </div>
 
+                <img class="caretDown" style="padding: 10px 408px" id="showNextProjects" src="/resources/images/caret.png" alt="caret">
+
                 <div class="feedFooter"></div>
             </div>
         </div>
@@ -173,7 +175,6 @@
             loadAndAppendProjectBlocks(projectFO);
 
             function loadAndAppendProjectBlocks(projectFO) {
-                alert(JSON.stringify(projectFO));
                 $.ajax({
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
@@ -181,9 +182,7 @@
                     data: JSON.stringify(projectFO),
                     statusCode: {
                         200: function (responseEntity) {
-//                            $('#foundedProfilesNum').text(responseEntity.totalEntities);
-                            alert(JSON.stringify(responseEntity));
-
+//                            $('#foundedProjectsNum').text(responseEntity.totalEntities);
                             responseEntity.entities.forEach(function (project) {
                                 appendProjectBlock(project);
                             });
@@ -253,6 +252,11 @@
                     '</div>');
             }
 
+            $('#showNextProjects').on('click',function () {
+//                $('#projectsBlock').empty();
+                projectFO.skip += projectFO.limit;
+                loadAndAppendProjectBlocks(projectFO);
+            });
 //            $(window).scroll(function () {
 //                if ($(window).scrollTop() == $(document).height() - $(window).height()) {
 //                    projectFO.skip += projectFO.limit;

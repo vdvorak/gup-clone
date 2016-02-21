@@ -172,7 +172,6 @@
 
     <!--PAGE CONTENT END-->
 
-
     <sec:authorize access="isAuthenticated()">
         <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
     </sec:authorize>
