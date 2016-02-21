@@ -71,64 +71,64 @@
                 </div>
 
                 <div id="projectsBlock">
-                    <div class="feedItem vip">
-                        <!--Add class "vip" to vip-tialize project-->
-                        <div class="publishDate">Опубликовано: 22. 10. 16</div>
-                        <div class="preview">
-                            <img src="/resources/css/images/sample/project2.png" alt="project photo" />
-                            <div class="likes">
-                                <div class="hearthPlace">
-                                    <div class="hearth"></div>
-                                </div>
-                                <div class="number">22 000</div>
-                            </div>
-                        </div>
-                        <a href="#" class="content">
-                            <div class="title">Название проекта</div>
-                            <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                        </a>
-                        <div class="bottomContent">
-                            <button type="button" class="abutton invest">Инвестировать</button>
-                            <div class="projectProgressBlock">
-                                <div class="current elem cash">234 $</div>
-                                <div class="bar elem">
-                                    <div class="colored"></div>
-                                    <div class="empty" style="width: 30%;"></div>
-                                    <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
-                                </div>
-                                <div class="todo elem cash">2304 $</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="feedItem">
-                        <!--Add class "vip" to vip-tialize project-->
-                        <div class="preview">
-                            <img src="/resources/css/images/sample/project1.png" alt="project photo" />
-                            <div class="likes">
-                                <div class="hearthPlace">
-                                    <div class="hearth"></div>
-                                </div>
-                                <div class="number">22 000</div>
-                            </div>
-                        </div>
-                        <a href="#" class="content">
-                            <div class="publishDate">Опубликовано: 22. 10. 16</div>
-                            <div class="title">Название проекта</div>
-                            <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                        </a>
-                        <div class="bottomContent">
-                            <button type="button" class="abutton invest">Инвестировать</button>
-                            <div class="projectProgressBlock">
-                                <div class="current elem cash">234 $</div>
-                                <div class="bar elem">
-                                    <div class="colored"></div>
-                                    <div class="empty" style="width: 70%;"></div>
-                                    <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
-                                </div>
-                                <div class="todo elem cash">2304 $</div>
-                            </div>
-                        </div>
-                    </div>
+                    <%--<div class="feedItem vip">--%>
+                        <%--<!--Add class "vip" to vip-tialize project-->--%>
+                        <%--<div class="publishDate">Опубликовано: 22. 10. 16</div>--%>
+                        <%--<div class="preview">--%>
+                            <%--<img src="/resources/css/images/sample/project2.png" alt="project photo" />--%>
+                            <%--<div class="likes">--%>
+                                <%--<div class="hearthPlace">--%>
+                                    <%--<div class="hearth"></div>--%>
+                                <%--</div>--%>
+                                <%--<div class="number">22 000</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<a href="#" class="content">--%>
+                            <%--<div class="title">Название проекта</div>--%>
+                            <%--<div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>--%>
+                        <%--</a>--%>
+                        <%--<div class="bottomContent">--%>
+                            <%--<button type="button" class="abutton invest">Инвестировать</button>--%>
+                            <%--<div class="projectProgressBlock">--%>
+                                <%--<div class="current elem cash">234 $</div>--%>
+                                <%--<div class="bar elem">--%>
+                                    <%--<div class="colored"></div>--%>
+                                    <%--<div class="empty" style="width: 30%;"></div>--%>
+                                    <%--<!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->--%>
+                                <%--</div>--%>
+                                <%--<div class="todo elem cash">2304 $</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="feedItem">--%>
+                        <%--<!--Add class "vip" to vip-tialize project-->--%>
+                        <%--<div class="preview">--%>
+                            <%--<img src="/resources/css/images/sample/project1.png" alt="project photo" />--%>
+                            <%--<div class="likes">--%>
+                                <%--<div class="hearthPlace">--%>
+                                    <%--<div class="hearth"></div>--%>
+                                <%--</div>--%>
+                                <%--<div class="number">22 000</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<a href="#" class="content">--%>
+                            <%--<div class="publishDate">Опубликовано: 22. 10. 16</div>--%>
+                            <%--<div class="title">Название проекта</div>--%>
+                            <%--<div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>--%>
+                        <%--</a>--%>
+                        <%--<div class="bottomContent">--%>
+                            <%--<button type="button" class="abutton invest">Инвестировать</button>--%>
+                            <%--<div class="projectProgressBlock">--%>
+                                <%--<div class="current elem cash">234 $</div>--%>
+                                <%--<div class="bar elem">--%>
+                                    <%--<div class="colored"></div>--%>
+                                    <%--<div class="empty" style="width: 70%;"></div>--%>
+                                    <%--<!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->--%>
+                                <%--</div>--%>
+                                <%--<div class="todo elem cash">2304 $</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
                 </div>
 
                 <div class="feedFooter"></div>
@@ -136,7 +136,6 @@
         </div>
 
         <!--PAGE CONTENT END-->
-
 
         <sec:authorize access="isAuthenticated()">
             <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
@@ -167,15 +166,14 @@
         <script src="/resources/js/search-bar.js"></script>
 
         <script>
-            var projectFO = {type : getUrlParam('type').toUpperCase(), searchField : getUrlParam('name'), skip: 0, limit: 10};
-            <%--<c:if test="${projectFO != null}">--%>
-                <%--projectFO = ${projectFO};--%>
-            <%--</c:if>--%>
+            var projectType = (getUrlParam('type') != null ? getUrlParam('type').toUpperCase() : null);
+            var projectFO = {type : projectType, searchField : getUrlParam('name'), skip: 0, limit: 10};
 
             $("#selectedService option[value='project']").attr("selected","selected");
             loadAndAppendProjectBlocks(projectFO);
 
             function loadAndAppendProjectBlocks(projectFO) {
+                alert(JSON.stringify(projectFO));
                 $.ajax({
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
@@ -184,6 +182,7 @@
                     statusCode: {
                         200: function (responseEntity) {
 //                            $('#foundedProfilesNum').text(responseEntity.totalEntities);
+                            alert(JSON.stringify(responseEntity));
 
                             responseEntity.entities.forEach(function (project) {
                                 appendProjectBlock(project);
@@ -213,8 +212,6 @@
 
             function getInvertedProgressNum(investedAmount, amountRequested) {
                 var invertedProgressNum = (1 -(investedAmount/amountRequested))*100;
-//                alert(invertedProgressNum);
-//                alert(Math.floor(invertedProgressNum/5));
                 return 5 * Math.ceil(invertedProgressNum/5);
             }
 
@@ -240,8 +237,6 @@
                             '</a>' +
                             '<div class="text">' + project.description + '</div>' +
                         '</div>' +
-
-
                         '<div class="bottomContent">' +
                             '<button type="button" class="abutton invest">Инвестировать</button>' +
                             '<div class="projectProgressBlock">' +
@@ -264,107 +259,6 @@
 //                    loadAndAppendProjectBlocks(projectFO);
 //                }
 //            });
-
-            <%--var projectFO = {skip:0, limit:20};--%>
-
-            <%--<c:if test="${projectFO != null}">--%>
-                <%--projectFO = ${projectFO};--%>
-                <%--projectFO.includeComments = false;--%>
-            <%--</c:if>--%>
-
-            <%--function updateProjectsTable(projectFO) {--%>
-                <%--$.ajax({--%>
-                    <%--type: "POST",--%>
-                    <%--contentType: "application/json; charset=utf-8",--%>
-                    <%--url: "/api/rest/projectsAndInvestmentsService/project/read/all",--%>
-                    <%--data: JSON.stringify(projectFO),--%>
-                    <%--success: function (response) {--%>
-                        <%--$("#projectsTable").find("tr:not(:first)").remove();--%>
-
-                        <%--updatePaginationBlock(response);--%>
-
-                        <%--response.entities.forEach(function(project) {--%>
-                            <%--project.title = '<a href="/project/id/' + project.id + '">' + project.title + '</a>';--%>
-                            <%--var createdDate = new Date(project.createdDate);--%>
-                            <%--project.createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();--%>
-
-                            <%--if (project.imagesIds !== null && project.imagesIds != '') {--%>
-//                                for (var key in project.imagesIds) {
-//                                    if (project.imagesIds[key] === "pic1") {
-//                                        project.imagesIds = '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key + '" width="100" height="100">';
-//                                    }
-//                                }
-                            <%--} else {--%>
-                                <%--project.imagesIds = {};--%>
-                                <%--project.imagesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';--%>
-                            <%--}--%>
-
-                            <%--var row = $('<tr>');--%>
-                            <%--row.append($('<td>').html(project.imagesIds));--%>
-                            <%--row.append($('<td>').html(project.title));--%>
-                            <%--row.append($('<td>').html(project.type));--%>
-                            <%--row.append($('<td>').html(project.views));--%>
-                            <%--row.append($('<td>').html(project.totalComments));--%>
-//                            row.append($('<td>').html(project.createdDate));
-
-                            <%--$('#projectsTable').append(row);--%>
-                        <%--});--%>
-                    <%--}--%>
-                <%--});--%>
-            <%--}--%>
-
-            <%--$(function() {--%>
-                <%--$("#searchInput").autocomplete({--%>
-                    <%--source: function (request, response) {--%>
-                        <%--$.getJSON("${pageContext.request.contextPath}/search/project", {--%>
-                            <%--term: request.term--%>
-                        <%--}, response);--%>
-                    <%--}--%>
-                <%--});--%>
-            <%--});--%>
-
-            <%--$(document).ready(function () {--%>
-                <%--$('#searchInput').val(projectFO.searchField);--%>
-                <%--updateProjectsTable(projectFO);--%>
-            <%--});--%>
-
-            <%--function updatePaginationBlock(responseEntities) {--%>
-                <%--$('#pageNumLine').html((projectFO.skip/projectFO.limit + 1) + ' из ' + Math.ceil(responseEntities.totalEntities/projectFO.limit));--%>
-
-                <%--if (projectFO.skip < projectFO.limit) {--%>
-                    <%--$('#prevPageButton').hide();--%>
-                <%--} else {--%>
-                    <%--$('#prevPageButton').show();--%>
-                <%--}--%>
-
-                <%--if ((projectFO.skip +  projectFO.limit) >= responseEntities.totalEntities) {--%>
-                    <%--$('#nextPageButton').hide();--%>
-                <%--} else {--%>
-                    <%--$('#nextPageButton').show();--%>
-                <%--}--%>
-            <%--}--%>
-
-            <%--$(document).on('click', '#prevPageButton', function () {--%>
-                <%--projectFO.skip -= projectFO.limit;--%>
-                <%--updateProjectsTable(projectFO);--%>
-            <%--});--%>
-
-            <%--$(document).on('click', '#nextPageButton', function () {--%>
-                <%--projectFO.skip += projectFO.limit;--%>
-                <%--updateProjectsTable(projectFO);--%>
-            <%--});--%>
-
-            <%--$(document).on('click', '#findPojectsButton', function () {--%>
-                <%--projectFO.skip = 0;--%>
-
-                <%--if ($("#searchInput").val() == "") {--%>
-                    <%--$("#searchInput").focus();--%>
-                <%--} else {--%>
-                    <%--projectFO.searchField = $("#searchInput").val();--%>
-                <%--}--%>
-
-                <%--updateProjectsTable(projectFO);--%>
-            <%--});--%>
         </script>
     </body>
 </html>
