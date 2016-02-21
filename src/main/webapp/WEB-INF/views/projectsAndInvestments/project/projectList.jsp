@@ -46,25 +46,25 @@
         <div class="container2">
             <div class="projectFeedContainer feedContainer contentContainer">
                 <ul class="projectsVSInvestments-block">
-                    <li class="projectsVSInvestments-btn projects active" data-atab="projects"><a href="#tabs1-project">ПРОЕКТЫ</a></li>
+                    <li class="projectsVSInvestments-btn projects active" data-atab="projects" id="projectsTab"><a href="#tabs1-project">ПРОЕКТЫ</a></li>
                     <!--Add "active" class to show this element as selected-->
-                    <li class="projectsVSInvestments-btn investments" data-atab="investments"><a href="#tabs1-investment">ИНВЕСТИЦИИ</a></li>
+                    <li class="projectsVSInvestments-btn investments" data-atab="investments" id="investmentsTab"><a href="#tabs1-investment">ИНВЕСТИЦИИ</a></li>
                 </ul>
                 <div class="projectsVSInvestmentsCats">
-                    <div class="catContainer selected">
+                    <div class="catContainer" name="RENOVATION">
                         <!--Add "selected" class to show this element as selected-->
                         <div class="catLogo restruct"></div>
                         <div class="catName">Реструктуризация</div>
                     </div>
-                    <div class="catContainer">
+                    <div class="catContainer" name="PROTOTYPE">
                         <div class="catLogo prototype"></div>
                         <div class="catName">Готовый прототип</div>
                     </div>
-                    <div class="catContainer">
+                    <div class="catContainer" name="PROJECT_ON_PAPER">
                         <div class="catLogo paper"></div>
                         <div class="catName">Проект на бумаге</div>
                     </div>
-                    <div class="catContainer">
+                    <div class="catContainer" name="KNOW_HOW">
                         <div class="catLogo nouHau"></div>
                         <div class="catName">Ноу-Хау</div>
                     </div>
@@ -171,7 +171,7 @@
             var projectType = (getUrlParam('type') != null ? getUrlParam('type').toUpperCase() : null);
             var projectFO = {type : projectType, searchField : getUrlParam('name'), skip: 0, limit: 10};
 
-            $("#selectedService option[value='project']").attr("selected","selected");
+            $('[name="' + projectType + '"]').addClass('selected');
             loadAndAppendProjectBlocks(projectFO);
 
             function loadAndAppendProjectBlocks(projectFO) {
@@ -253,16 +253,22 @@
             }
 
             $('#showNextProjects').on('click',function () {
-//                $('#projectsBlock').empty();
                 projectFO.skip += projectFO.limit;
                 loadAndAppendProjectBlocks(projectFO);
             });
-//            $(window).scroll(function () {
-//                if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-//                    projectFO.skip += projectFO.limit;
-//                    loadAndAppendProjectBlocks(projectFO);
-//                }
-//            });
+
+            $('.projectsVSInvestments-btn').on('click',function () {
+                $('.projectsVSInvestments-btn').removeClass('active');
+                $(this).addClass('active');
+            });
+
+            $('.catContainer').on('click',function () {
+                $('.catContainer').removeClass('selected');
+                $(this).addClass('selected');
+                $('#projectsBlock').empty();
+                projectFO.type = $(this).attr('name');
+                loadAndAppendProjectBlocks(projectFO);
+            });
         </script>
     </body>
 </html>
