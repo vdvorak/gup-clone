@@ -129,30 +129,33 @@
                     <div class="count" id="commentsNum">Комментарии: </div>
                 </div>
                 <div class="clearfix"></div>
-                <div class="downComments"><p>КОММЕНТАРИИ</p></div>
+
+                <div class="downComments"><p>Комментировать</p></div>
+
+                <div class="clearfix"></div>
 
                 <div class="colNewsComments">
                     <div class="newsComments">
                         <div class="clearfix"></div>
-                        <p class="newsCommentsHeader">КОММЕНТАРИИ</p>
-                        <form action="#" role="form" id="newsCommentsForm">
-                            <textarea name="newsFormComments" id="newsFormComments" placeholder="Введите свой комментарий" maxlength="2000" required></textarea>
-                            <button type="submit" class="newsFormSubmit">Отправить</button>
+                        <p class="newsCommentsHeader">Комментарий</p>
+                        <form id="projectsCommentsForm" class="projectsCommentsForm">
+                            <textarea name="projectsFormComments" id="projectsFormComments" class="projectsFormComments" placeholder="Введите свой комментарий" maxlength="1000" required></textarea>
+                            <button id="sendProjComment" class="newsFormSubmit">Отправить</button>
                         </form>
-                        <p id="chars">2000 символов осталось</p>
+                        <p id="chars"></p>
                     </div>
                 </div>
-                <div class="colComments">
-                    <div class="comments">
-                        <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
-                        <a class="NameUser" href="#">Вася Петров</a>
-                        <p class="commentUser">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui quisquam, voluptate at magni neque. Ab illum hic asperiores voluptate voluptatem. Optio alias, numquam sint delectus quod recusandae dolores tempora. Aliquam!</p>
-                    </div>
-                    <div class="comments">
-                        <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
-                        <a class="NameUser" href="#">Вася Петров</a>
-                        <p class="commentUser">Интересно было узнать, история повторяется циклично!</p>
-                    </div>
+                <div class="colComments" id="commentsBlock">
+                    <%--<div class="comments">--%>
+                        <%--<a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>--%>
+                        <%--<a class="NameUser" href="#">Вася Петров</a>--%>
+                        <%--<p class="commentUser">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui quisquam, voluptate at magni neque. Ab illum hic asperiores voluptate voluptatem. Optio alias, numquam sint delectus quod recusandae dolores tempora. Aliquam!</p>--%>
+                    <%--</div>--%>
+                    <%--<div class="comments">--%>
+                        <%--<a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>--%>
+                        <%--<a class="NameUser" href="#">Вася Петров</a>--%>
+                        <%--<p class="commentUser">Интересно было узнать, история повторяется циклично!</p>--%>
+                    <%--</div>--%>
                 </div>
                 <div class="clearfix"></div>
                 <div style="height: 15px;"></div>
@@ -190,7 +193,6 @@
     <script src="/resources/js/search-bar.js"></script>
 
     <script>
-
         $("#selectedService option[value='project']").attr("selected","selected");
 
         $(document).ready(function(){
@@ -270,7 +272,52 @@
             var invertedProgressNum = (1 -(investedAmount/amountRequested))*100;
             return 5 * Math.ceil(invertedProgressNum/5);
         }
-//        if (getUrlParam('projectId') == null) {
+
+        $('#sendProjComment').on('click', function () {
+            var comment = {
+                'comment' : $('#projectsFormComments').val(),
+                'toId' : ""
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/comment/create",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(comment),
+                statusCode: {
+                    201: function () {
+                        location.reload();
+                    }
+                }
+            });
+        });
+
+        $('#projectsFormComments').keyup(function() {
+            var maxLength = 1000;
+            var length = maxLength - $(this).val().length;
+            $('#chars').text(length + ' символов осталось');
+        });
+
+        $(".downComments").click(function(){
+            if (typeof loggedInProfile != 'undefined') {
+                $(".downComments").hide('slow');
+                $(".colNewsComments").show('slow');
+                $(".colComments").css("width", "50%");
+            } else {
+                alert("Чтобы оставить комментарий сначала нужно авторизироваться.")
+            }
+        });
+
+        $(".comments").click(function(){
+            if ($('.backgroundColorComment').is(':visible') ) {
+                return $('.backgroundColorComment').removeClass("backgroundColorComment");;
+            } else {
+                $(this).addClass("backgroundColorComment");
+            }
+        });
+
+        //        if (getUrlParam('projectId') == null) {
 //            alert('null');
 //        }
 //            alert(getUrlParam('projectId'));
