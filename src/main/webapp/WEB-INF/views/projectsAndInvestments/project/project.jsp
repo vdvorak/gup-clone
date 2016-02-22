@@ -44,7 +44,7 @@
 
     <div class="container2">
         <!-- Add "vip" class for "vip" users :3 -->
-        <div class="contentContainer vip">
+        <div class="contentContainer">
             <%--<ul class="projectsVSInvestments-block">--%>
                 <%--<li class="projectsVSInvestments-btn projects" data-atab="projects"><a href="#tabs1-project">ПРОЕКТЫ</a></li>--%>
                 <%--<!--Add "active" class to show this element as selected-->--%>
@@ -77,16 +77,6 @@
                         <div class="publish">Опубликовано: 22. 10. 16</div>
                         <div class="views">Просмотров: 220</div>
                     </div>
-                    <button type="button" class="abutton blue invest">Инвестировать</button>
-                    <div class="projectProgressBlock">
-                        <div class="current elem cash">234 $</div>
-                        <div class="bar elem">
-                            <div class="colored"></div>
-                            <div class="empty" style="width: 30%;"></div>
-                            <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
-                        </div>
-                        <div class="todo elem cash">2304 $</div>
-                    </div>
                 </div>
                 <div class="contentHeader">
                     <div class="leftSec">
@@ -102,6 +92,19 @@
                             <img class="photo" src="/resources/css/images/sample/projectView3.png" alt="">
                         </div>
                     </div>
+                </div>
+                <div id="investBlock" class="bottomSection">
+                    <button type="button" class="abutton blue invest">Инвестировать</button>
+                    <div class="projectProgressBlock">
+                        <div class="current elem cash">234 $</div>
+                        <div class="bar elem">
+                            <div class="colored"></div>
+                            <div class="empty" style="width: 30%;"></div>
+                            <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
+                        </div>
+                        <div class="todo elem cash">2304 $</div>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
                 <div class="description">
                     <div class="title">Описание</div>
@@ -149,19 +152,6 @@
                         <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
                         <a class="NameUser" href="#">Вася Петров</a>
                         <p class="commentUser">Интересно было узнать, история повторяется циклично!</p>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-                <div class="bottomSection">
-                    <button type="button" class="abutton blue invest">Инвестировать</button>
-                    <div class="projectProgressBlock">
-                        <div class="current elem cash">234 $</div>
-                        <div class="bar elem">
-                            <div class="colored"></div>
-                            <div class="empty" style="width: 30%;"></div>
-                            <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
-                        </div>
-                        <div class="todo elem cash">2304 $</div>
                     </div>
                 </div>
                 <div class="clearfix"></div>
