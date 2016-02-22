@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Document(collection = "doer")
 public class Doer {
@@ -32,6 +33,7 @@ public class Doer {
     private String imageId;
     //answer (otklik)/raiting
     private String email;
+    private Set<String> contactPhones;
     private Map<SocialNetwork, String> socLinks;
 
     public Doer() {
@@ -158,6 +160,14 @@ public class Doer {
         this.socLinks = socLinks;
     }
 
+    public Set<String> getContactPhones() {
+        return contactPhones;
+    }
+
+    public void setContactPhones(Set<String> contactPhones) {
+        this.contactPhones = contactPhones;
+    }
+
     @Override
     public String toString() {
         String authorContactsStr = "null";
@@ -183,6 +193,7 @@ public class Doer {
                 ", authorId='" + authorId + '\'' +
                 ", authorContacts=" + authorContactsStr +
                 ", email=" + email +
+                ", contactPhones=" + contactPhones +
                 ", soc.links=" + socLinks +
                 ", naceIds=" + naceIds +
                 ", title='" + title + '\'' +
