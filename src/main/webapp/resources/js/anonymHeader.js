@@ -1,4 +1,4 @@
-$(document).ready(function() {
+//$(document).ready(function() {
     $("#loginBtn").click(function(){
         $.ajax({
             type: 'POST',
@@ -18,6 +18,12 @@ $(document).ready(function() {
     });
 
     $("#registrationBtn").click(function(){
+
+        var pass1 = $('#registration-password').val();
+        var pass2 = $('#repeat-registration-password').val();
+        var isMatch = isMatchRegEx(pass1);
+        if(!isMatch || pass1 !== pass2) return;
+
         var profile = {
             'email' : $('#registration-email').val(),
             'password' : $('#registration-password').val(),
@@ -26,9 +32,10 @@ $(document).ready(function() {
             'contactList' : [],
             'userProfile' : {},
             'contact' : {
+                'type' : 'INDIVIDUAL',
                 'contactEmails' : [],
                 'contactPhones' : [],
-                'linkToWebSite' : [],
+                //'linkToWebSite' : [],
                 'socNetLink' : {},
                 'naceId' : []
             }
@@ -51,6 +58,56 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('#registration-email').blur(checkEmail);
+
+    function checkEmail() {
+        $.ajax({
+            type: "POST",
+            url: "/login/checkEmail",
+            data: $('input[name="registration-email"]').val(),
+            cache: false,
+            success: function (response) {
+                if (response == 'true') {
+                    $("#responseEmail").text("Такой email уже существует в системе").css("color", "red");
+                    $('#registrationBtn').attr("disabled", true);
+                } else {
+                    $("#responseEmail").text("email свободен").css("color", "green");
+                    $('#registrationBtn').removeAttr("disabled");
+                }
+            }
+        });
+    }
+
+    $('#registration-password').change(checkPass);
+    $('#repeat-registration-password').change(checkPass);
+
+    function checkPass() {
+        var goodColor = "#66cc66";
+        var badColor = "#ff6666";
+
+        var pass1 = $('#registration-password');
+        var pass2 = $('#repeat-registration-password');
+
+        var isMatch = isMatchRegEx(pass1.val());
+
+        if (isMatch) {
+            pass1.css("color", goodColor);
+        } else {
+            pass1.css("color", badColor);
+        }
+
+        if (pass1.val() === pass2.val()) {
+            pass2.css("color", goodColor);
+        } else {
+            pass2.css("color", badColor);
+        }
+    }
+
+    function isMatchRegEx(password) {
+        var re = /^[0-9a-zA-Z_]{6,}$/;
+        return re.test(password);
+    }
 
     $('#go').click( function(event){ // лoвим клик пo ссылки с id="go"
         event.preventDefault(); // выключaем стaндaртную рoль элементa
@@ -91,4 +148,4 @@ $(document).ready(function() {
             }
         );
     });
-});
+//});

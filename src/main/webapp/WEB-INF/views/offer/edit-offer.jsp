@@ -36,7 +36,8 @@
           <br>
 
           Описание
-          <textarea calss="inputDescript">${offer.description}</textarea>
+          <textarea id="offerDescription" class="inputDescript">${offer.description}</textarea>
+          <div id="textLength"></div>
           <br>
 
           <div id="inputPrice">
@@ -196,11 +197,20 @@
    </div>
    <div id="map" style="height: 50%"></div>
 
-   <div class="imgBlock">
-     <!--uploaded images-->
+    <div id="drop_zone">
+
+      <button id="addImg">Загрузить фото</button>
+      <form id="uploadProfilePhotoForm" enctype="multipart/form-data"
+            method="post" style="display:none">
+        <p><input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" multiple></p>
+      </form>
+
+      <div class="imgBlock">
+        <!--uploaded images-->
+      </div>
+      Перетяните файлы сюда
     </div>
-    <div id="drop_zone"> Перетяните файлы сюда
-    </div>
+
   </div>
 
 </div>
@@ -208,8 +218,7 @@
 <script src="/resources/js/jquery.min.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/jquery.maskedinput.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
-        async defer></script>
+
 
 
 <script>
@@ -461,9 +470,9 @@
     // place photo from received model on the page
     for (var id in picMapObj) {
       picArrIn[id] = picMapObj[id];
-      $('.imgBlock').append('<ul id="' + id + '" style="display: inline-table; list-style-type: none">' +
+      $('.imgBlock').append('<ul id="' + id + '" '+ ((picMapObj[id] === 'pic1')? 'class="mainImg"': '') +' style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
       ' <li style="background-color: white"><a rel="example_group"> ' +
-      '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + id + '"' + 'width="150" height="150" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')"> ' +
+      '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
       '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
     }
     // Setup the dnd listeners.
@@ -478,7 +487,6 @@
       var files = evt.dataTransfer.files; // FileList object.
 
       // files is a FileList of File objects. List some properties.
-      var output = [];
       for (var i = 0, f; f = files[i]; i++) {
         var formImg = new FormData($(this)[0]);
         var fd = new FormData();
@@ -495,16 +503,14 @@
           success: function (data, textStatus, request) {
             var id = data.id;
             var isImage = f.type.substring(0, 5) === 'image';
-            var isPic1 = f.type.substring(0, 4) === 'pic1';
-            if (isImage || isPic1) {
-              picArrIn[id] = (isImage) ? "image" : 'pic1';
+            if (isImage) {
+              picArrIn[id] = "image";
               $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
                       ' <li style="background-color: white">' +
                       '<a rel="example_group"> ' +
-                      '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                      '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
                       '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
             }
-            $('div.imgBlock > li').click(onClickSetMainImg);
           }
         });
 
@@ -645,7 +651,29 @@
       });
     });
 // serialize form and sent it via POST method in JSON --------------------------END---------------------
+    countTextLength();
+    $("#offerDescription").on('keyup', countTextLength);
+
+    $('#addImg').click(function(){
+      $('#uploadProfilePhotoInput').trigger('click');
+    });
+
   });
+
+  function countTextLength() {
+    var counter = $("#textLength");
+    var currentString = $("#offerDescription").val();
+    counter.html(currentString.length);
+    if (currentString.length <= 50) {  /*or whatever your number is*/
+      counter.css("color", "red");
+    } else {
+      if (currentString.length > 500) {
+        counter.css("color", "red");
+      } else {
+        counter.css("color", "green");
+      }
+    }
+  }
 
   // delete pictures only from page
   function deleteImgFromPage(idImg) {
@@ -676,28 +704,39 @@
     }
   }
   // upload photo to the server and place it into the page-----------------------BEGIN------------------------
-  $('#photoInput').submit(function (event) {
+
+  $('#uploadProfilePhotoInput').change(function (event) {
     event.preventDefault();
-    var formImg = new FormData($(this)[0]);
 
-    $.ajax({
+    var files = event.currentTarget.files;
+    for (var i = 0, f; f = files[i]; i++) {
+      var formImg = new FormData($(this)[0]);
+      var fd = new FormData();
+      fd.append('file', f);
+      $.ajax({
+        type: "POST",
+        url: "/api/rest/fileStorage/OFFERS/file/upload/",
+        data: fd,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
 
-      type: "POST",
-      url: "/api/rest/fileStorage/OFFERS/file/upload/",
-      data: formImg,
-      async: false,
-      cache: false,
-      contentType: false,
-      processData: false,
-
-      success: function (data, textStatus, request) {
-        picArrIn.push(data.id);
-        $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
-        ' <li style="background-color: white"><a rel="example_group"> ' +
-        '<img id="img1" alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
-        '</a> <div onclick=\"deleteImgFromPage(' + '\'' + data.id + '\'' + ')">Удалить</div> </li> </ul>');
-      }
-    });
+        success: function (data, textStatus, request) {
+          var id = data.id;
+          var isImage = f.type.substring(0, 5) === 'image';
+          if (isImage) {
+            picArrIn[id] = "image";
+            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                    ' <li style="background-color: white">' +
+                    '<a rel="example_group"> ' +
+                    '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                    '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+          }
+        }
+      });
+    }
+    event.currentTarget.form.reset();
   });
   // upload photo to the server and place it into the page-----------------------END------------------------
 
@@ -807,7 +846,8 @@
     );
   });
 </script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
+        async defer></script>
 </body>
 
 </html>

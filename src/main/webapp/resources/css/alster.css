@@ -1,0 +1,738 @@
+.feedContainer {
+    position: relative;
+}
+
+.contentContainer {
+    position: relative;
+    border-radius: 10px;
+    border: 4px #99cc66 solid;
+}
+
+.feedContainer .feedFooter {
+    height: 20px;
+}
+
+.projectFeedContainer {}
+
+.projectsVSInvestments-block {
+    position: relative;
+    height: 87px;
+}
+
+.projectsVSInvestments-btn {
+    position: absolute;
+    text-align: center;
+    margin: 25px 40px;
+    padding: 5px 10px;
+    border: 4px white solid;
+    cursor: pointer;
+    border-radius: 10px;
+    width: 150px;
+}
+
+.projectsVSInvestments-btn a {
+    color: #1269a7;
+    font-weight: bold;
+    font: 400 17px ArianAMU;
+}
+
+.projectsVSInvestments-btn:hover {
+    border-color: #1269a7;
+    background-color: #1269a7;
+}
+
+.projectsVSInvestments-btn:hover a {
+    color: white;
+}
+
+.projectsVSInvestments-btn.active {
+    border-color: #1269a7;
+}
+
+.projectsVSInvestments-btn.projects {
+    right: 50%;
+}
+
+.projectsVSInvestments-btn.investments {
+    left: 50%;
+}
+
+.projectsVSInvestmentsCats {
+    text-align: center;
+}
+
+.projectsVSInvestmentsCats > .catContainer {
+    display: inline-block;
+    width: 190px;
+    height: 150px;
+    cursor: pointer;
+}
+
+.projectsVSInvestmentsCats > .catContainer > .wrapper {
+    width: 91px;
+    margin: auto;
+}
+
+.projectsVSInvestmentsCats > .catContainer > .catLogo {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+}
+
+.projectsVSInvestmentsCats > .catContainer > .catName {
+    bottom: 0;
+    text-align: center;
+    color: #99cc66;
+    font: 18px DroidSans;
+    border: 3px solid white;
+    border-radius: 5px;
+    padding: 0 5px;
+}
+
+.projectsVSInvestmentsCats > .catContainer:hover > .catName {
+    background-color: #99cc66;
+    border-color: #99cc66;
+    color: white;
+}
+
+.projectsVSInvestmentsCats > .catContainer.selected > .catName {
+    color: #36aae0;
+    border: 3px solid #5ebbe6;
+}
+
+.projectsVSInvestmentsCats > .catContainer.selected:hover > .catName {
+    background-color: #36aae0;
+    border-color: #36aae0;
+    color: white;
+}
+
+.projectsVSInvestmentsCats > .catContainer > .catLogo.restruct {
+    background: url(images/projectCat/restruct.png) center no-repeat;
+}
+
+.projectsVSInvestmentsCats > .catContainer > .catLogo.prototype {
+    background: url(images/projectCat/prototype.png) center no-repeat;
+}
+
+.projectsVSInvestmentsCats > .catContainer > .catLogo.paper {
+    background: url(images/projectCat/paper.png) center no-repeat;
+}
+
+.projectsVSInvestmentsCats > .catContainer > .catLogo.nouHau {
+    background: url(images/projectCat/nouHau.png) center no-repeat;
+}
+
+.feedItem {
+    margin: 15px 5px;
+    border-radius: 10px;
+    border: 2px solid;
+    position: relative;
+}
+
+.feedItem .publishDate {
+    position: absolute;
+    right: 0;
+    color: #545454;
+    font: 11px DroidSans;
+    font-style: italic;
+    padding: 0 5px;
+}
+
+.projectFeedContainer .feedItem {
+    border-color: #99cc66;
+}
+
+.projectFeedContainer .feedItem .preview {
+    position: relative;
+    width: 246px;
+    height: 154px;
+    margin: 10px;
+}
+
+.projectFeedContainer .feedItem .preview img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    border: 1px #99cc66 solid;
+}
+
+.projectFeedContainer .feedItem .preview .likes {
+    position: absolute;
+    bottom: 5px;
+    right: 12px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 2px 5px;
+    /*cursor: pointer;*/
+}
+
+
+/*.projectFeedContainer .feedItem .preview .likes:hover{
+    background-color: #36aae0;
+}*/
+
+
+/*.projectFeedContainer .feedItem .preview .likes:hover .number{
+    color: white;
+}*/
+
+.projectFeedContainer .feedItem .preview .likes .number {
+    color: #36aae0;
+    margin-right: 20px;
+    font: 14px DroidSans;
+}
+
+.projectFeedContainer .feedItem .preview .likes .hearthPlace {
+    position: absolute;
+    background: url(images/projectsFeed/hearthPlace.png);
+    width: 33px;
+    height: 33px;
+    right: -10px;
+    top: -7px;
+}
+
+.projectFeedContainer .feedItem .preview .likes .hearthPlace .hearth {
+    position: absolute;
+    top: 8px;
+    left: 6px;
+    width: 21px;
+    height: 19px;
+    background: url(images/projectsFeed/hearth.png);
+}
+
+.projectFeedContainer .content {
+    position: absolute;
+    top: 3px;
+    left: 270px;
+    right: 10px;
+}
+
+.projectFeedContainer .content .title {
+    color: #99cc66;
+    font: 24px Calibri;
+}
+
+.projectFeedContainer .content .text {
+    color: #242424;
+    font: 14px Calibri;
+    text-indent: 40px;
+}
+
+.projectFeedContainer .bottomContent {
+    position: absolute;
+    bottom: 5px;
+    left: 270px;
+    right: 10px;
+}
+
+.abutton {
+    border-radius: 5px;
+    border: 2px #99cc66 solid;
+    background-color: #99cc66;
+    padding: 3px 10px;
+    color: #ffffff;
+    font: 15px DroidSans;
+}
+
+.abutton:hover {
+    background-color: white;
+    color: #99cc66;
+}
+.abutton.blue {
+    border-color: #36aae0;
+    background-color: #36aae0;
+}
+
+.abutton.blue:hover {
+    background-color: white;
+    color: #36aae0;
+}
+
+.projectFeedContainer .bottomContent .abutton {
+    float: right;
+}
+
+.projectProgressBlock {
+    float: right;
+    padding-top: 7px;
+    margin-right: 20px;
+}
+
+.projectProgressBlock .elem {
+    display: inline-block;
+}
+
+.projectProgressBlock .cash {
+    font: 14px DroidSans;
+    color: #1269a7;
+}
+
+.projectProgressBlock .bar {
+    margin-bottom: -2px;
+    position: relative;
+    width: 280px;
+    height: 14px;
+}
+
+.projectProgressBlock .bar .colored {
+    position: absolute;
+    background: url(images/projectsFeed/progressFull.png);
+    background-size: 100%;
+    width: 277px;
+    height: 14px;
+    margin-left: 1px;
+}
+
+.projectProgressBlock .bar .empty {
+    position: absolute;
+    background: url(images/projectsFeed/progressEmpty.jpg);
+    right: 0;
+    height: 100%;
+}
+
+.investmentsFeedContainer {}
+
+.investmentsFeedContainer .feedItem {
+    border-color: #1269a7;
+}
+
+.investmentsFeedContainer .feedItem .photo {
+    position: relative;
+    width: 156px;
+    height: 156px;
+    border-radius: 5px;
+    border: 4px solid #1269a7;
+    margin: 10px;
+}
+
+.investmentsFeedContainer .feedItem .photo img {
+    width: 120px;
+    height: 121px;
+    margin: 14px;
+}
+
+.investmentsFeedContainer .feedItem .content {
+    position: absolute;
+    left: 184px;
+    top: 10px;
+    width: 271px;
+    padding-left: 10px;
+}
+
+.investmentsFeedContainer .feedItem .content .title {
+    color: #1269a7;
+    font: 19px ArianAMU;
+}
+
+.investmentsFeedContainer .feedItem .content .desc {
+    padding-left: 20px;
+    color: #bfc4c7;
+    font: 12px Calibri;
+    padding-left: 5px;
+}
+
+.investmentsFeedContainer .feedItem .content .text {
+    color: #828a8f;
+    font: 13px Calibri;
+    text-indent: 20px;
+    max-height: 108px;
+    overflow: hidden;
+}
+
+.investmentsFeedContainer .feedItem .cats {
+    position: absolute;
+    left: 460px;
+    top: 45px;
+    width: 220px;
+    padding-left: 10px;
+}
+
+.investmentsFeedContainer .feedItem .cats ul {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    /*list-style-type: disc;*/
+    list-style-image: url(images/listStyleImage.png);
+    list-style-position: inside;
+}
+
+.investmentsFeedContainer .feedItem .cats ul li a {
+    color: #2c95b5;
+    font: 16px Calibri;
+    line-height: 10px;
+}
+
+.investmentsFeedContainer .feedItem .cats ul li a:hover {
+    text-decoration: underline;
+}
+
+.investmentsFeedContainer .feedItem .details {
+    position: absolute;
+    right: 19px;
+    top: 50px;
+    width: 164px;
+    padding-left: 10px;
+}
+
+.investmentsFeedContainer .feedItem .details .canInvest {
+    height: 48px;
+    background-color: #ffed33;
+    color: #2c95b5;
+    font: 20px Calibri;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 12px;
+}
+
+.investmentsFeedContainer .feedItem .details .alreadyInvested {
+    margin-top: 6px;
+    border: 1px solid #4bc5e6;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.investmentsFeedContainer .feedItem .details .alreadyInvested .desc {
+    color: #828a8f;
+    font: 9px Calibri;
+    padding-left: 5px;
+}
+
+.investmentsFeedContainer .feedItem .details .alreadyInvested .total {
+    display: inline-block;
+    color: #2c95b5;
+    font: 14px Calibri;
+    padding: 0px 5px;
+    line-height: 13px;
+    background-color: #b1e3e7;
+    border-radius: 5px;
+}
+
+.investmentsFeedContainer .feedItem .details .alreadyInvested .totalProjects {
+    color: #36aae0;
+    font: 12px Calibri;
+    padding-left: 5px;
+}
+
+.editor {
+    position: relative;
+}
+
+.editor .title {
+    color: #1269a7;
+    font: 17px ArianAMU;
+    margin-top: 25px;
+    text-align: center;
+}
+
+.editor form.investor,
+.editor form.project {
+    position: relative;
+    padding-top: 50px;
+    padding-left: 67px;
+    padding-bottom: 20px;
+    padding-right: 33px;
+}
+
+.editor .field {
+    margin-bottom: 15px;
+    min-height: 23px;
+}
+
+.editor .editorLabel {
+    float: left;
+    width: 160px;
+    text-align: left;
+    color: #9e9e9e;
+    font: 17px DroidSans;
+}
+
+.editor .field.required .editorLabel:after {
+    content: '*';
+    color: #ed4423;
+}
+
+.editor form.project .editorLabel {
+    width: 90px;
+}
+
+.editor .editorInput {
+    position: relative;
+    margin-left: 5px;
+    border: 3px solid rgb(153, 204, 102);
+    border-radius: 6px;
+    font: 400 16px DroidSans;
+    line-height: 20px;
+}
+
+.editor .radioGroup {}
+
+.editor .field .radioGroup label {
+    color: #959595;
+    font: 11px DroidSans;
+    text-align: right;
+}
+
+.editor form.investor .kvd .editorInput {
+    width: 553px;
+}
+
+.editor form.investor .sum .editorLabel {
+    width: 70px;
+}
+
+.editor form.investor .sum .editorInput {
+    width: 292px;
+}
+
+.editor form.investor .sum {
+    padding-left: 165px;
+}
+
+.editor .field .currency {
+    position: relative;
+    border: 3px solid rgb(153, 204, 102);
+    border-radius: 3px;
+    padding: 2px 5px;
+    color: #1269a7;
+}
+
+.editor form.investor .field.description {
+    margin-top: 100px;
+}
+
+.editor form.project .field.description {
+    margin-top: 70px;
+}
+
+.editor form.investor .field.description .editorLabel,
+.editor form.project .field.description .editorLabel {
+    width: 90px;
+}
+
+.editor form.investor .field.description .editorInput,
+.editor form.project .field.description .editorInput {
+    width: 642px;
+    height: 242px;
+}
+
+.editor form.project .tit .editorInput {
+    width: 553px;
+}
+
+.editor form.project .projType .editorLabel {
+    width: 120px;
+}
+
+.editor form.project .field.projType .radioGroup {
+    margin-left: 220px;
+}
+
+.editor form.project .field.projType .radioGroup .column {
+    display: inline-block;
+    width: 140px;
+    margin-left: 60px;
+}
+
+.editor form.project .field.projType .radioGroup .column .row {
+    width: 150px;
+    margin-bottom: 16px;
+}
+
+.editor form.project .field.projType .radioGroup .label-checkbox {
+    float: right;
+}
+
+.editor form.project .field.projType .radioGroup label {
+    line-height: 35px;
+}
+
+.field.IMGUploader {
+    min-height: 50px;
+    margin: 30px 0;
+}
+
+.IMGUploader .titleFile {
+    margin-left: 95px;
+    float: left;
+}
+
+.IMGUploader .IMGBlock {
+    float: left;
+    margin-top: -12px;
+}
+
+.IMGUploader .IMGBlock .defaultIMG {
+    display: inline-block;
+    margin: 0 0 0 10px;
+}
+
+.projectContent {
+    padding: 0 34px;
+}
+
+.projectContent .topSection {
+    position: relative;
+    height: 40px;
+}
+.projectContent .bottomSection {
+    margin: 15px 50px;
+}
+
+.projectsCommentsForm {
+    width: 345px;
+    margin: 0 auto;
+}
+
+.projectsFormComments {
+    height: 126px;
+    width: 100%;
+    resize: none;
+    font: 400 14px DroidSans;
+    padding: 15px;
+    border-radius: 5px;
+    border: 0;
+}
+
+.projectContent .topSection .abutton.invest,
+.projectContent .bottomSection .abutton.invest {
+    float: right;
+}
+
+.projectContent .topSection .statInfo {
+    float: left;
+}
+
+.projectContent .topSection .statInfo .publish {
+    color: #545454;
+    font: 12px DroidSans;
+    font-style: italic;
+}
+
+.projectContent .topSection .statInfo .views {
+    color: #545454;
+    font: 11px DroidSans;
+    font-style: italic;
+}
+
+.projectContent .contentHeader {
+    position: relative;
+    background-color: #99cc66;
+    border-radius: 10px;
+    padding: 10px 47px;
+    margin: 0 48px;
+    height: 283px;
+}
+
+.projectContent .leftSec {
+    float: left;
+    width: 210px;
+}
+
+.projectContent .rightSec {
+    float: left;
+}
+
+.projectContent .contentHeader .author,
+.projectContent .contentHeader .name {
+    color: #1269a7;
+    font-family: DroidSans;
+    margin-bottom: 15px;
+}
+
+.projectContent .contentHeader .author {
+    font-size: 10px;
+    padding-left: 5px;
+}
+
+.projectContent .contentHeader .name {
+    font-size: 12px;
+}
+
+.projectContent .contentHeader .additionalPhotos {
+    width: 422px;
+}
+
+.projectContent .contentHeader .additionalPhotos .photo {
+    display: inline-block;
+    width: 77px;
+    height: 70px;
+    margin: 0 12px 7px 0;
+    cursor: progress;
+    cursor: pointer;
+}
+
+.projectContent .contentHeader .additionalPhotos .photo.full {
+    float: left;
+    width: 312px;
+    height: 231px;
+}
+
+.projectContent .contentHeader .additionalPhotos .photo,
+.projectContent .contentHeader .mainPhoto {
+    border-radius: 5px;
+}
+
+.projectContent .contentHeader .mainPhoto {
+    width: 167px;
+    height: 210px;
+    margin-top: 15px;
+}
+.projectContent .description {
+    position: relative;
+}
+.projectContent .description .title {
+    color: #3e5da2;
+    font: 14px Calibri;
+    font-weight: bold;
+    padding-left: 67px;
+}
+.projectContent .description .text {
+    padding: 0 47px;
+    text-indent: 20px;
+    text-align:justify;
+    color: #828a8f;
+    font: 12px Calibri;
+}
+.projectContent .commentsSection {
+    position: relative;
+    margin-top: 8px;
+    margin-left: 15px;
+    margin-bottom: 8px;
+}
+.projectContent .commentsSection .count {
+    color: #464646;
+    font: 8px Calibri;
+}
+
+
+/***VIP***/
+
+.feedItem.vip {
+    border: 4px #ffd781 solid;
+}
+
+.vip .border-color {
+    border-color: #ffbb00 !important;
+}
+
+.projectFeedContainer .feedItem.vip .preview .likes .hearthPlace {
+    background: url(images/projectsFeed/likedHearthPlace.png) no-repeat;
+}
+
+.vip .abutton {
+    border-color: #36aae0;
+    background-color: #36aae0;
+}
+
+.vip .abutton:hover {
+    background-color: white;
+    color: #36aae0;
+}
+
+.investmentsFeedContainer .feedItem.vip .content .title {
+    color: #50b5e4;
+}
+
+.vip.contentContainer .projectContent .contentHeader {
+    background-color: #faaf3a;
+}

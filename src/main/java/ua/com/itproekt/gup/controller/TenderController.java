@@ -35,18 +35,18 @@ public class TenderController {
 
     @RequestMapping("/tenders")
     public String getAllTenders(Model model) {
-        return "tenders";
+        return "tendersAndDoers/tenders/tenders";
     }
 
     @RequestMapping("/tender/{id}")
     public String getTender(@PathVariable String id, Model model) {
         model.addAttribute("id", id);
-        return "tender";
+        return "tendersAndDoers/tenders/tender";
     }
 
     @RequestMapping("/tender-make")
     public String thenderMake() {
-        return "tender-make";
+        return "tendersAndDoers/tenders/tender-make";
     }
 
     @RequestMapping("/tender/id/{id}/update")
@@ -62,6 +62,6 @@ public class TenderController {
             return "redirect:/tenders";
         }
         model.addAttribute("tender", tender);
-        return "tender-edit";
+        return "tendersAndDoers/tenders/tender-edit";
     }
 }

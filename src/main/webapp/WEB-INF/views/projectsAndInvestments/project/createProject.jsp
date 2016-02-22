@@ -10,67 +10,153 @@
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/alster.css">
     <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
 <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
 
-<div>
-    <h2 align="center">Создание Проекта</h2>
-</div>
-<div>
-    <label for="projectType"><b>Тип: </b></label>
-    <select name="projectType" id="projectType" required>
-        <option value="RENOVATION">Реструктуризация</option>
-        <option value="PROTOTYPE">Прототип</option>
-        <option value="PROJECT_ON_PAPER">Проект на бумаге</option>
-        <option value="KNOW_HOW">Ноу хау</option>
-    </select>
-</div>
+<div class="container2">
+    <div class="contentContainer editor">
+        <div class="title">РЕДАКТОР ПРОЕКТА</div>
+        <form class="project" action="">
+            <div class="field required tit">
+                <label for="main-title-info" class="editorLabel">Заголовок</label>
+                <input id="main-title-info" type="text" name='text' class="editorInput">
+            </div>
+            <div class="field required projType">
+                <div class="editorLabel">Тип проекта</div>
+                <div class="radioGroup">
+                    <div class="column c1">
+                        <div class="row">
+                            <label for="type-restruct">Реструктуризация</label>
+                            <label class="label-checkbox">
+                                <input type="radio" class="greenCheckbox" id="type-restruct" value="RENOVATION" name="type" /><span></span></label>
+                        </div>
+                        <div class="row">
+                            <label for="type-paper">Проект на бумаге</label>
+                            <label class="label-checkbox">
+                                <input type="radio" class="greenCheckbox" id="type-paper" value="PROJECT_ON_PAPER" name="type" /><span></span></label>
+                        </div>
+                    </div>
+                    <div class="column c2">
+                        <div class="row">
+                            <label for="type-prototype">Готовый прототип</label>
+                            <label class="label-checkbox">
+                                <input type="radio" class="greenCheckbox" id="type-prototype" value="PROTOTYPE" name="type" /><span></span></label>
+                        </div>
+                        <div class="row">
+                            <label for="type-nouHau">Ноу-Хау</label>
+                            <label class="label-checkbox">
+                                <input type="radio" class="greenCheckbox" id="type-nouHau" value="KNOW_HOW" name="type" /><span></span></label>
+                        </div>
+                    </div>
+                </div>
 
-<div>
-    <label for="projectName"><b>Название: </b></label>
-    <input id="projectName" type="text" name="projectName" min="4" maxlength="140"
-           placeholder="Минимум 4 символа" required>
-</div>
-<!--
-<div>
-    <label for="projectDescription"><b>Описание: </b></label>
-            <textarea id="projectDescription"
-                      placeholder="Минимум 50 символов, максимум 5000ю" required></textarea>
-</div>
--->
-<div class="row">
-    <div class="col-xs-12">
-        <label for="textarea"><b>Описание: </b></label>
-        <textarea id="textarea"></textarea>
+            </div>
+
+            <div class="field required">
+                <label for="sum" class="editorLabel">Сумма</label>
+                <input id="sum" type="number" name='sum' class="editorInput" style="width: 291px;">
+                <span class="currency">₴</span>
+            </div>
+
+            <div class="field required">
+                <label for="categoriesOfIndustry" class="editorLabel">Категории индустрии:</label>
+                <select multiple="multiple" size="4" name="categoriesOfIndustry" id="categoriesOfIndustry" required>
+                    <option value="cat1">Категория 1</option>
+                    <option value="cat2">Категория 2</option>
+                    <option value="cat3">Категория 3</option>
+                    <option value="cat4">Категория 4</option>
+                </select>
+            </div>
+
+            <div class="field description">
+                <label for="description" class="editorLabel">Описание</label>
+                <textarea id="description" type="text" name='description' class="editorInput"></textarea>
+            </div>
+
+            <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
+                <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
+            </form>
+
+            <div class="field IMGUploader">
+                <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
+                <div id="drop_zone" class="IMGBlock">
+                    <div id="img-default" class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
+                </div>
+            </div>
+
+            <div class="field">
+                <button type="submit" class="info-submit">Сохранить</button>
+            </div>
+        </form>
     </div>
 </div>
 
-<div>
-    <label for="amountRequested"><b>Нужная сумма: </b></label>
-    <input id="amountRequested" type="number" min="1"
-           placeholder="Минимум 1" required>
-</div>
+<%--<div>--%>
+    <%--<h2 align="center">Создание Проекта</h2>--%>
+<%--</div>--%>
+<%--<div>--%>
+    <%--<label for="projectType"><b>Тип: </b></label>--%>
+    <%--<select name="projectType" id="projectType" required>--%>
+        <%--<option value="RENOVATION">Реструктуризация</option>--%>
+        <%--<option value="PROTOTYPE">Прототип</option>--%>
+        <%--<option value="PROJECT_ON_PAPER">Проект на бумаге</option>--%>
+        <%--<option value="KNOW_HOW">Ноу хау</option>--%>
+    <%--</select>--%>
+<%--</div>--%>
 
-<div>
-    <label for="categoriesOfIndustry"><b>Категории индустрии: </b></label>
-    <select multiple="multiple" size="4" name="categoriesOfIndustry" id="categoriesOfIndustry" required>
-        <option value="cat1">Категория 1</option>
-        <option value="cat2">Категория 2</option>
-        <option value="cat3">Категория 3</option>
-        <option value="cat4">Категория 4</option>
-    </select>
-</div>
+<%--<div>--%>
+    <%--<label for="title"><b>Название: </b></label>--%>
+    <%--<input id="title" type="text" name="title" min="4" maxlength="140"--%>
+           <%--placeholder="Минимум 4 символа" required>--%>
+<%--</div>--%>
+<%--<!----%>
+<%--<div>--%>
+    <%--<label for="description"><b>Описание: </b></label>--%>
+            <%--<textarea id="description"--%>
+                      <%--placeholder="Минимум 50 символов, максимум 5000ю" required></textarea>--%>
+<%--</div>--%>
+<%---->--%>
+<%--<div class="row">--%>
+    <%--<div class="col-xs-12">--%>
+        <%--<label for="textarea"><b>Описание: </b></label>--%>
+        <%--<textarea id="textarea"></textarea>--%>
+    <%--</div>--%>
+<%--</div>--%>
 
-<div>
-    <form id="projectPhotoInput" enctype="multipart/form-data" method="post">
-        <label for="photoFile"><b>Фотография: </b></label>
-        <input id="photoFile" type="file" name="file" multiple accept="image/*,image/jpeg">
-    </form>
-</div>
-<button id="createProject">Создать</button>
+<%--<div>--%>
+    <%--<label for="amountRequested"><b>Нужная сумма: </b></label>--%>
+    <%--<input id="amountRequested" type="number" min="1"--%>
+           <%--placeholder="Минимум 1" required>--%>
+<%--</div>--%>
+
+<%--<div>--%>
+    <%--<label for="categoriesOfIndustry"><b>Категории индустрии: </b></label>--%>
+    <%--<select multiple="multiple" size="4" name="categoriesOfIndustry" id="categoriesOfIndustry" required>--%>
+        <%--<option value="cat1">Категория 1</option>--%>
+        <%--<option value="cat2">Категория 2</option>--%>
+        <%--<option value="cat3">Категория 3</option>--%>
+        <%--<option value="cat4">Категория 4</option>--%>
+    <%--</select>--%>
+<%--</div>--%>
+
+<%--<div id="drop_zone">--%>
+    <%--<button id="addImg">Загрузить фото</button>--%>
+    <%--<form id="uploadProfilePhotoForm" enctype="multipart/form-data"--%>
+          <%--method="post" style="display:none">--%>
+        <%--<p><input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" multiple></p>--%>
+    <%--</form>--%>
+
+    <%--<div class="imgBlock">--%>
+        <%--<!--uploaded images-->--%>
+    <%--</div>--%>
+    <%--Перетяните файлы сюда--%>
+<%--</div>--%>
+
+<%--<button id="createProject">Создать</button>--%>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
@@ -81,54 +167,141 @@
 </sec:authorize>
 <script>
 
-    var imgId = '';
     var imagesIds = {};
     var projectType = [];
     var project = {};
 
-    $(document).on('change', '#photoFile', function (e) {
+    $(document).ready(function () {
+        // Setup the dnd listeners.
+        var dropZone = document.getElementById('drop_zone');
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
 
-        var formImg = new FormData($('#projectPhotoInput')[0]);
+        function handleFileSelect(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
 
-        if (imgId !== '') {
-            deleteImgFromDB(imgId);
+            var files = evt.dataTransfer.files; // FileList object.
+
+            // files is a FileList of File objects. List some properties.
+            for (var i = 0, f; f = files[i]; i++) {
+                var fd = new FormData();
+                fd.append('file', f);
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
+                    data: fd,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+
+                    success: function (data, textStatus, request) {
+                        var id = data.id;
+                        var isImage = f.type.substring(0, 5) === 'image';
+                        if (isImage) {
+                            imagesIds[id] = "image";
+                            var cloneImg = $("#img-default").clone();
+                            $("#img-default").css("display", "none");
+                            cloneImg.find('img')
+                                    .attr("alt", "")
+                                    .attr("src", '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + id)
+                                    .attr("id", id)
+                                    .appendTo('.IMGBlock');
+
+                        }
+                    }
+                });
+
+
+            }
         }
 
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
-            data: formImg,
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                imgId = data.id;
-                $('#imgPreview').attr("src", "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + imgId);
-            }
+        function handleDragOver(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        }
+
+        $('button.blogCreationSubmit').click(function(){
+            $('#photoInput').trigger('click');
         });
+
+    });
+
+    $('#photoInput').change(function (event) {
+        event.preventDefault();
+
+        var files = event.currentTarget.files;
+        for (var i = 0, f; f = files[i]; i++) {
+            var fd = new FormData();
+            fd.append('file', f);
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
+                data: fd,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                success: function (data, textStatus, request) {
+                    var id = data.id;
+                    var isImage = f.type.substring(0, 5) === 'image';
+                    if (isImage) {
+                        imagesIds[id] = "image";
+                        var cloneImg = $("#img-default").clone();
+                        $("#img-default").css("display", "none");
+                        cloneImg.find('img')
+                                .attr("alt", "")
+                                .attr("src", '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + id)
+                                .attr("id", id)
+                                .appendTo('.IMGBlock');
+                    }
+                }
+            });
+        }
+        event.currentTarget.form.reset();
     });
 
     function deleteImgFromDB(picId) {
+        delete imagesIds[picId];
         $.ajax({
             url: '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/delete/id/' + picId,
             method: 'POST',
             success: function (response) {
+                $('#' + picId).remove();
             },
             error: function (response) {
             }
         });
     }
 
-    $(document).on('click', '#createProject', function (event) {
+    $(document).on('click', 'button.info-submit', function (event) {
 
-        project.typeOfProject = $('#projectType').val();
-        project.projectName = $('#projectName').val();
-        project.projectDescription = tinymce.activeEditor.getContent({format : 'raw'});
-        project.amountRequested = $('#amountRequested').val();
-        project.categoriesOfIndustry = $('#categoriesOfIndustry').val();
+        var type = "";
+        if($('input[class="greenCheckbox"]:checked').length) type = $('input[class="greenCheckbox"]:checked').val();
+        var title = $('#main-title-info').val();
+        var description = tinymce.activeEditor.getContent({format : 'raw'});
+        var amountRequested = +$('#sum').val();
+        var categoriesOfIndustry = "";
+        if($('#categoriesOfIndustry').length) categoriesOfIndustry = $('#categoriesOfIndustry').val();
 
-        imagesIds[imgId] = 'pic1';
+        if (title.length < 4 || title.length > 140) return;
+        if (description.length < 50 || description.length > 5000) return;
+        if (!type) return;
+        if (!categoriesOfIndustry) return;
+        if (amountRequested < 1) return;
+
+        project.type = type;
+        project.title = title;
+        project.description = description;
+        project.amountRequested = amountRequested;
+        project.categoriesOfIndustry = categoriesOfIndustry;
+        for(var key in imagesIds) {
+            imagesIds[key] = 'pic1';
+            break;
+        }
         project.imagesIds = imagesIds;
 
         $.ajax({
@@ -138,7 +311,7 @@
             dataType: "json",
             data: JSON.stringify(project),
             success: function (createdProjectId) {
-                window.location.href = '/project/id/' + createdProjectId.id;
+                window.location.href = '/project?id=' + createdProjectId.id;
             },
             error: function (response) {
                 alert("Проверьте введенные значения");

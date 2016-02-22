@@ -74,7 +74,7 @@ public class DialogueController {
         System.err.println("search: " + search);
 
         System.err.println("URL: " + request.getQueryString());
-        return "dialogues1";
+        return "dialogues/dialogues1";
     }
 
     //----------------------------------- one dialogue  ------
@@ -87,7 +87,7 @@ public class DialogueController {
         }
         completeMembers(dialogue);
         model.addAttribute("dialogue", dialogue);
-        return "dialogue";
+        return "dialogues/dialogue";
     }
 
     @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.POST)
@@ -104,7 +104,7 @@ public class DialogueController {
     //----------------------------------- one dialogue  ------
     @RequestMapping(value = "/dialogue/create", method = RequestMethod.GET)
     public String createDialogue(Model model) {
-        return "dialogue-create";
+        return "dialogues/dialogue-create";
     }
 
     //----------------------------------- one dialogue  ------

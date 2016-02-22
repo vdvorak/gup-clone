@@ -22,6 +22,7 @@
             <%--<form class="registration-form" method="post" action="#" role="form">--%>
               <label for="registration-email">Введите логин/ E-mail</label>
               <input type="email" name="registration-email" id='registration-email' required>
+              <div id="responseEmail"></div>
 
               <div class="clearfix"></div>
 
@@ -52,8 +53,8 @@
               <input type="password" name="password" id='password' placeholder="Не менее 6 символов" required>
               <div class="clearfix"></div>
               <div class="rememberMe">
-                <label class="label-checkbox"><input type="checkbox" id="checkbox-modal" value="1" name="k"/><span></span></label>
-                <label for="checkbox-modal">Запомнить меня</label>
+                <label class="label-checkbox"><input type="checkbox" id="checkbox-contact" value="1" name="k"/><span></span></label>
+                <label for="checkbox-contact">Запомнить меня</label>
               </div>
               <button class="submit" id="loginBtn">Войти</button>
             <%--</form>--%>

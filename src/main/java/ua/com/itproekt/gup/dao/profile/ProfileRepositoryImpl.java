@@ -15,7 +15,6 @@ import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -81,12 +80,16 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             query.addCriteria(Criteria.where("userRoles").all(profileFilterOptions.getUserRoles()));
         }
 
-        query.skip(profileFilterOptions.getSkip());
-        query.limit(profileFilterOptions.getLimit());
+        if (profileFilterOptions.getContact() != null && profileFilterOptions.getContact().getType() != null) {
+            query.addCriteria(Criteria.where("contact.type").is(profileFilterOptions.getContact().getType()));
+        }
 
         query.fields().exclude("email");
         query.fields().exclude("password");
         query.fields().exclude("mainPhoneNumber");
+
+        query.skip(profileFilterOptions.getSkip());
+        query.limit(profileFilterOptions.getLimit());
         return new EntityPage<>(mongoTemplate.count(query, Profile.class),
                                 mongoTemplate.find(query, Profile.class));
     }
@@ -122,8 +125,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
         mongoTemplate.updateFirst(addContactQuery, update, Profile.class);
     }
-
-
 
     @Override
     public Profile findByUsername(String username) {

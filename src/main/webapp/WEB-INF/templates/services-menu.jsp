@@ -26,10 +26,10 @@
             <a href="/project/list" class="ads-p">Проекты</a>
             <div class="ads-img3"></div>
             <ul class="dropUl">
-                <li><a class="ads-a1" href="/project/list?typeOfProject=renovation">Реструкторизация</a></li>
-                <li><a class="ads-a1" href="project/list?typeOfProject=prototype">Готовый прототип</a></li>
-                <li><a class="ads-a1" href="/project/list?typeOfProject=project_on_paper">Проект на бумаге</a></li>
-                <li><a class="ads-drop" href="/project/list?typeOfProject=know_how">Ноу-Хау</a></li>
+                <li><a class="ads-a1" href="/project/list?type=renovation">Реструкторизация</a></li>
+                <li><a class="ads-a1" href="/project/list?type=prototype">Готовый прототип</a></li>
+                <li><a class="ads-a1" href="/project/list?type=project_on_paper">Проект на бумаге</a></li>
+                <li><a class="ads-drop" href="/project/list?type=know_how">Ноу-Хау</a></li>
             </ul>
         </li>
         <li>

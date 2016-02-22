@@ -10,7 +10,7 @@ import ua.com.itproekt.gup.model.news.Blog;
 import ua.com.itproekt.gup.model.news.BlogFilterOptions;
 import ua.com.itproekt.gup.service.news.BlogService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
@@ -55,14 +55,14 @@ public class BlogRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/blog/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResponse> createBlog(@Valid @RequestBody Blog blog) {
+    public ResponseEntity<CreatedObjResp> createBlog(@Valid @RequestBody Blog blog) {
 
         String userId = SecurityOperations.getLoggedUserId();
         blog.setAuthorId(userId);
         blogService.createBlog(blog);
 
-        CreatedObjResponse createdObjResponse = new CreatedObjResponse(blog.getId());
-        return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
+        CreatedObjResp createdObjResp = new CreatedObjResp(blog.getId());
+        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
     }
 
     //------------------------------------------ Update -----------------------------------------------------------------

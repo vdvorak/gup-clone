@@ -14,7 +14,7 @@ public class BlogPostSearchRestController {
     @Autowired
     BlogPostService blogPostService;
 
-    @RequestMapping("/search/blogPost")
+    @RequestMapping("/search/autocomplete/news")
     public Set<String> getMachedNames(@RequestParam String term){
         return blogPostService.getMatchedNames(term);
     }

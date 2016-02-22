@@ -12,7 +12,7 @@ import ua.com.itproekt.gup.model.projectsAndInvestments.project.Comment;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
-import ua.com.itproekt.gup.util.CreatedObjResponse;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 @RestController
@@ -40,8 +40,8 @@ public class ProjectCommentsRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/project/id/{projectId}/comment/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResponse> createComment(@PathVariable String projectId,
-                                                            @RequestBody Comment comment) {
+    public ResponseEntity<CreatedObjResp> createComment(@PathVariable String projectId,
+                                                        @RequestBody Comment comment) {
 
         if (!projectService.projectExists(projectId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -65,9 +65,7 @@ public class ProjectCommentsRestController {
             activityFeedService.createEvent(new Event(toId, EventType.PROJECT_COMMENT_REPLY, comment.getcId(), userId));
         }
 
-
-        CreatedObjResponse createdObjResponse = new CreatedObjResponse(comment.getcId());
-        return new ResponseEntity<>(createdObjResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(new CreatedObjResp(comment.getcId()), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/project/id/{projectId}/comment/id/{commentId}/delete", method = RequestMethod.POST)

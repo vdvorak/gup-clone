@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.controller.profile;
 
 import com.google.gson.Gson;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.itproekt.gup.exception.ResourceNotFoundException;
-import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.profiles.Contact;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.model.profiles.UserType;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
@@ -30,28 +32,40 @@ public class ProfileController {
     @Autowired
     ActivityFeedService activityFeedService;
 
-
     @RequestMapping("/profile/id/{profileId}")
     public String getProfileById(@PathVariable String profileId, Model model) {
+        if (!profilesService.profileExists(profileId)) {
+            throw new ResourceNotFoundException();
+        }
+
+        //если владелец, то перенаправить на prioffice
+        //если владелец, то перенаправить на prioffice
+        //если владелец, то перенаправить на prioffice
+//        if (profileId.equals(SecurityOperations.getLoggedUserId())) {
+//            return "prioffice";
+//
+//        }
+
         model.addAttribute("profileId", profileId);
         return "profile/profile";
     }
 
-    //----------------------------------- read profile for edit-profile page  ------
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/edit-profile/{id}", method = RequestMethod.GET)
-    public String editProfilePageById(Model model, @PathVariable("id") String id) {
-        Profile profile = new Profile();
-        try {
-            profile = profilesService.findWholeProfileById(id);
-        } catch (Exception e) {
-            System.out.println("Can't read profile by id: " + id);
-            e.printStackTrace();
-        }
-
-        model.addAttribute("profile", profile);
-        return "profile/edit-profile";
-    }
+//    //----------------------------------- read profile for edit-profile page  ------
+//    @Deprecated
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @RequestMapping(value = "/edit-profile/{id}", method = RequestMethod.GET)
+//    public String editProfilePageById(Model model, @PathVariable("id") String id) {
+//        Profile profile = new Profile();
+//        try {
+//            profile = profilesService.findWholeProfileById(id);
+//        } catch (Exception e) {
+//            System.out.println("Can't read profile by id: " + id);
+//            e.printStackTrace();
+//        }
+//
+//        model.addAttribute("profile", profile);
+//        return "profile/edit-profile";
+//    }
 
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @RequestMapping(value = "/edit-profile", method = RequestMethod.GET)
@@ -76,23 +90,25 @@ public class ProfileController {
         return "profile/edit-profile";
     }
 
-    @RequestMapping("/profile/list")
-    public String getProfileList(@RequestParam(required = false, defaultValue = "0") int pageNumber,
-                                 @RequestParam(required = false, defaultValue = "") String name,
-                                 Model model) {
+    @RequestMapping(value = "/profile/list")
+    public String getProfileListWithFO(@RequestParam(required = false, defaultValue = "0") int pageNum,
+                                       @RequestParam(required = false) String name,
+                                       @RequestParam(required = false) String type,
+                                       Model model) {
         ProfileFilterOptions profileFO = new ProfileFilterOptions();
-        if (!name.isEmpty()) {
+        Contact contact = new Contact();
+        if (name != null) {
             profileFO.setSearchField(name);
         }
-        profileFO.setSkip(pageNumber);
+
+        if (type != null && EnumUtils.isValidEnum(UserType.class, type.toUpperCase())) {
+            contact.setType(EnumUtils.getEnum(UserType.class, type.toUpperCase()));
+        }
+
+        profileFO.setSkip(pageNum);
+        profileFO.setContact(contact);
 
         model.addAttribute("profileFO", new Gson().toJson(profileFO) );
         return "profile/profileList";
     }
-
-//    @RequestMapping(value = "/profile/list", method = RequestMethod.POST)
-//    public String getProfileList(@ModelAttribute ProfileFilterOptions profileFO, Model model) {
-//        model.addAttribute("profileFO", profileFO);
-//        return "profile/profileList";
-//    }
 }

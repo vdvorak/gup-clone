@@ -18,24 +18,25 @@ var loggedInProfile = {};
                 $('#headerProfileName').text("Безымянный");
             }
 
-            if (profile.contactList != null) {
+            if (profile.contactList.length > 0) {
                 profile.contactList.forEach(function (contactId) {
                     $.ajax({
                         type: "POST",
                         url: "/api/rest/profilesService/profile/read/id/" + contactId,
                         success: function (profile) {
-                            var imgTag = '<img src width="58"/>';
+                            var imgTag = '<img ';
                             if (profile.contact.pic == null) {
-                                imgTag.replace('src', 'src="/resources/images/no_photo.jpg"');
+                                imgTag += 'src="/resources/images/no_photo.jpg"';
                             } else {
-                                imgTag.replace('src', 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1"');
+                                imgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1"';
                             }
+                            imgTag += ' width="60"/>';
 
                             $('#headerProfileContactListUl').append(
                                 '<li>' +
-                                '<a href="/profile/id/' + contactId + '">' +
-                                imgTag +
-                                '</a>' +
+                                    '<a href="/profile/id/' + contactId + '">' +
+                                        imgTag +
+                                    '</a>' +
                                 '</li>');
                         }
                     });
@@ -43,8 +44,8 @@ var loggedInProfile = {};
             } else {
                 $('#headerProfileContactListUl').append(
                     '<li>' +
-                    '<p>Вы еще никого не добавили к себе в контакты.</p>' +
-                    '<a href="/profile/list">Найти знакомых</a>' +
+                        '<p>Вы еще никого не добавили к себе в контакты.</p>' +
+                        '<a href="/profile/list">Найти знакомых</a>' +
                     '</li>');
             }
 

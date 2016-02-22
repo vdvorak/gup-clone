@@ -1,26 +1,19 @@
-$(document).ready(function(){
+function getUrlParam(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
 
-//	$("#ad-caret").click(function(){
-//        $('.add-top1:first').clone().insertAfter('.add-top1:last');
-//        $('.add-top1:first').clone().insertAfter('.add-top1:last');
-//        $('.add-top1:first').clone().insertAfter('.add-top1:last');
-//    });
-//	
-//	$("#tend-caret").click(function(){
-//        $('.tend-top1:first').clone().insertAfter('.tend-top1:last');
-//        $('.tend-top1:first').clone().insertAfter('.tend-top1:last');
-//        $('.tend-top1:first').clone().insertAfter('.tend-top1:last');
-//    });
-//	
-//	$("#proj-caret").click(function(){
-//        $('.proj-top1:first').clone().insertAfter('.proj-top1:last');
-//        $('.proj-top1:first').clone().insertAfter('.proj-top1:last');
-//        $('.proj-top1:first').clone().insertAfter('.proj-top1:last');
-//    });
-//	
-//	$(".tidiDown").click(function(){
-//        $('.tidi4:first').clone().insertAfter('.tidi4:last');
-//    });
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? null : sParameterName[1];
+        }
+    }
+}
+
+$(document).ready(function(){
 
     $('#socialBtn').click( function(event){
         event.preventDefault();
@@ -61,8 +54,7 @@ $(document).ready(function(){
         animate: false
     });
 
-    $(".NewsTabsFilterItem").on('click', function(){
-        $('.intro').removeClass("intro");
-        $(this).addClass("intro");
+    $(".listArtist img").click(function(){
+        $(".listArtist ul").css("height", "auto");
     });
 });

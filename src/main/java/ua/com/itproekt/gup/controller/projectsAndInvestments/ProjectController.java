@@ -1,61 +1,68 @@
 package ua.com.itproekt.gup.controller.projectsAndInvestments;
 
-import com.google.gson.Gson;
-import org.apache.commons.lang3.EnumUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOptions;
-import ua.com.itproekt.gup.model.projectsAndInvestments.project.TypeOfProject;
+import ua.com.itproekt.gup.exception.ResourceNotFoundException;
+import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.model.projectsAndInvestments.project.ModerationStatus;
+import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
+import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
-/**
- * Created by Sasha on 13.01.2016.
- */
+import javax.servlet.http.HttpServletRequest;
+
+
 @Controller
 public class ProjectController {
 
-    @RequestMapping("/project/list")
-    public String getProjects(@RequestParam(required = false, defaultValue = "0") int pageNumber,
-                              @RequestParam(required = false, defaultValue = "") String typeOfProject,
-                              Model model) {
-        ProjectFilterOptions projectFO = new ProjectFilterOptions();
-        if (EnumUtils.isValidEnum(TypeOfProject.class, typeOfProject.toUpperCase()) ) {
-            projectFO.setTypeOfProject(TypeOfProject.valueOf(typeOfProject.toUpperCase()));
-        }
-        projectFO.setSkip(pageNumber);
+    @Autowired
+    ProjectService projectService;
 
-        Gson gson = new Gson();
-        model.addAttribute("projectFO", gson.toJson(projectFO) );
+    @RequestMapping("/project")
+    public String getProjectById(@RequestParam String id, HttpServletRequest request) {
+        Project project = projectService.findById(id);
+        if (project == null) {
+            throw new ResourceNotFoundException();
+        }
+
+        if (project.getModerationStatus().equals(ModerationStatus.COMPLETE) ||
+                project.getAuthorId().equals(SecurityOperations.getLoggedUserId()) ||
+                request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+
+            return "projectsAndInvestments/project/project";
+        } else {
+            throw new AccessDeniedException("The project is not moderated by admin");
+        }
+    }
+
+    @RequestMapping("/project/list")
+    public String getProjects(@RequestParam(required = false) String type,
+                              @RequestParam(required = false) String name) {
         return "projectsAndInvestments/project/projectList";
     }
 
-//    @RequestMapping("/project/search")
-//    public String getProjects(@RequestBody ProjectFilterOptions projectFO,
-//                              @RequestParam int pageNumber, Model model) {
-//        projectFO.setSkip(pageNumber);
-//
-//        model.addAttribute("pageNumber", pageNumber);
-//        model.addAttribute("projectFO", projectFO);
-//        return "projectsAndInvestments/project/projectSearchList";
-//    }
-
-    @RequestMapping("/createProject")
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping("/project/create")
     public String createProject() {
         return "projectsAndInvestments/project/createProject";
     }
 
-    @RequestMapping("/editProject/id/{projectId}")
-    public String editProject(@PathVariable String projectId, Model model) {
-        model.addAttribute("projectId", projectId);
-        return "projectsAndInvestments/project/editProject";
-    }
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping("/project/edit")
+    public String editProject(@RequestParam String id, HttpServletRequest request) {
+        if (!projectService.projectExists(id)) {
+            throw new ResourceNotFoundException();
+        }
 
-    @RequestMapping("/project/id/{projectId}")
-    public String getProjectById(@PathVariable String projectId, Model model) {
-        model.addAttribute("projectId", projectId);
-        return "projectsAndInvestments/project/project";
+        String userId = SecurityOperations.getLoggedUserId();
+        if (projectService.findById(id).getAuthorId().equals(userId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+            return "projectsAndInvestments/project/editProject";
+        } else {
+            throw new AccessDeniedException("Editing of project is allowed only for owner or admin");
+        }
     }
-
 }
