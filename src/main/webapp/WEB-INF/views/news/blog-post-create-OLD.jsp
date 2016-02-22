@@ -19,136 +19,162 @@
     <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
 </head>
-<body class="center-block" style="padding-top: 70px; max-width: 1200px;">
+<body>
 
-<div>Заголовок
-    <input id="title" type="text" name="title">
-</div>
-<br>
+<div class="container2">
+    <div class="blogCreation">
+        <p class="blogCreationHeader blueColor">Новая новость</p>
+        <form action="#" role="form">
+            <label for="newsTitle" class="blogCreationLabel">Заголовок новости</label>
+            <input type="text" name="newsTitle" id="newsTitle" class="blogCreationInput blueBorder">
 
+            <div class="clearfix"></div>
 
-<div class="row">
-    <div class="col-xs-12">
-        <textarea id="textarea"></textarea>
+            <label for="newsCreationDescription" class="blogCreationLabel">Текст новости</label>
+            <textarea name="newsCreationDescription" class="blogCreationDescription blueBorder"></textarea>
+
+            <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
+            <label class="blogCreationLabel">Фотографии</label>
+            <input type="file" style="display: none;" multiple="multiple" accept="image/*">
+            <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
+
+            <label for="blogTitle" class="blogCreationLabel">Добавить видео</label>
+            <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput blueBorder" placeholder="Youtube, Vine, Cube">
+        </form>
+        <button type="button" class="SendEdition">Отправить редакции</button>
+
+        <div class="clearfix"></div>
     </div>
 </div>
 
-
-
-<%--<div>Описание--%>
-    <%--<textarea id="text" required></textarea>--%>
+<%--<div>Заголовок--%>
+    <%--<input id="title" type="text" name="title">--%>
 <%--</div>--%>
 <%--<br>--%>
 
-<div class="input-group cat">Категория
-    <hr>
-    <input id="sciCategory" type="checkbox" name="sci"><label for="sciCategory">Наука и техника</label><br>
-    <input id="artCategory" type="checkbox" name="art"><label for="artCategory">Искусство</label><br>
-    <input id="savorCategory" type="checkbox" name="savor"><label for="savorCategory">Светская жизнь</label><br>
-    <input id="policyCategory" type="checkbox" name="policy"><label for="policyCategory">Политика</label><br>
-    <input id="worldCategory" type="checkbox" name="world"><label for="worldCategory">Мир и общество</label><br>
-    <input id="economyCategory" type="checkbox" name="economy"><label for="economyCategory">Экономика</label><br>
-    <input id="sportCategory" type="checkbox" name="sport"><label for="sportCategory">Спорт, хобби</label><br>
-    <input id="socialCategory" type="checkbox" name="social"><label for="socialCategory">Соц. сети</label>
-    <hr>
-</div>
-<br>
 
-<form id="photoInput" enctype="multipart/form-data" action="/api/rest/fileStorage/OFFERS/file/read/id/${id}"
-      method="post">
-    <br>
+<%--<div class="row">--%>
+    <%--<div class="col-xs-12">--%>
+        <%--<textarea id="textarea"></textarea>--%>
+    <%--</div>--%>
+<%--</div>--%>
 
-    <p>Загрузите ваши фотографии на сервер</p>
 
-    <p><input type="file" name="file" accept="image/*,image/jpeg">
-        <input type="submit" value="Добавить"></p>
-</form>
 
-<div class="imgBlock">
-    <!--uploaded images-->
-</div>
-<!-- city chosen -->
-<input id="countryInp" type="text" name="country" style="visibility: hidden;">
-<input id="areaInp" type="text" name="area" style="visibility: hidden;">
-<input id="cityInp" type="text" name="city" style="visibility: hidden;">
+<%--&lt;%&ndash;<div>Описание&ndash;%&gt;--%>
+    <%--&lt;%&ndash;<textarea id="text" required></textarea>&ndash;%&gt;--%>
+<%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+<%--&lt;%&ndash;<br>&ndash;%&gt;--%>
 
-<div class="row">
-    <div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">
-        <div class="input-group">
+<%--<div class="input-group cat">Категория--%>
+    <%--<hr>--%>
+    <%--<input id="sciCategory" type="checkbox" name="sci"><label for="sciCategory">Наука и техника</label><br>--%>
+    <%--<input id="artCategory" type="checkbox" name="art"><label for="artCategory">Искусство</label><br>--%>
+    <%--<input id="savorCategory" type="checkbox" name="savor"><label for="savorCategory">Светская жизнь</label><br>--%>
+    <%--<input id="policyCategory" type="checkbox" name="policy"><label for="policyCategory">Политика</label><br>--%>
+    <%--<input id="worldCategory" type="checkbox" name="world"><label for="worldCategory">Мир и общество</label><br>--%>
+    <%--<input id="economyCategory" type="checkbox" name="economy"><label for="economyCategory">Экономика</label><br>--%>
+    <%--<input id="sportCategory" type="checkbox" name="sport"><label for="sportCategory">Спорт, хобби</label><br>--%>
+    <%--<input id="socialCategory" type="checkbox" name="social"><label for="socialCategory">Соц. сети</label>--%>
+    <%--<hr>--%>
+<%--</div>--%>
+<%--<br>--%>
 
-            <div class="col-xs-6" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a id="chosenRegion" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите область<b
-                                class="caret"></b></a>
-                        <ul class="dropdown-menu multi-column columns-2">
-                            <div id="regions" class="row">
-                                <div class="col-sm-6">
-                                    <ul class="multi-column-dropdown">
-                                        <li><a role="menuitem" tabindex="-1" href="#"><b>Вся Украина</b></a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Винницкая область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Волынская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Донецкая область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Житомирская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Закарпатская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Ивано‑Франковская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Киевская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Кировоградская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Крым</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Луганская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Львовская область</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-sm-6">
-                                    <ul class="multi-column-dropdown">
-                                        <li><a role="menuitem" tabindex="-1" href="#">Николаевская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Одесская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Полтавская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Ровенская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Сумская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Тернопольская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Харьковская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Херсонская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Хмельницкая область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Черкасская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Черниговская область</a></li>
-                                        <li><a role="menuitem" tabindex="-1" href="#">Черновицкая область</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+<%--<form id="photoInput" enctype="multipart/form-data" action="/api/rest/fileStorage/OFFERS/file/read/id/${id}"--%>
+      <%--method="post">--%>
+    <%--<br>--%>
 
-            <div class="col-xs-6" id="bs-example-navbar-collapse-2" style="visibility: hidden">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a id="chosenCity" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите город<b
-                                class="caret"></b></a>
-                        <ul class="dropdown-menu multi-column columns-2">
-                            <div id="cities" class="row">
+    <%--<p>Загрузите ваши фотографии на сервер</p>--%>
 
-                                <div class="col-sm-6">
-                                    <ul id="cities1" class="multi-column-dropdown">
-                                    </ul>
-                                </div>
+    <%--<p><input type="file" name="file" accept="image/*,image/jpeg">--%>
+        <%--<input type="submit" value="Добавить"></p>--%>
+<%--</form>--%>
 
-                                <div class="col-sm-6">
-                                    <ul id="cities2" class="multi-column-dropdown">
-                                    </ul>
-                                </div>
-                            </div>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-<br>
-<a id="submit" class="btn btn-lg btn-danger">Сохранить</a>
+<%--<div class="imgBlock">--%>
+    <%--<!--uploaded images-->--%>
+<%--</div>--%>
+<%--<!-- city chosen -->--%>
+<%--<input id="countryInp" type="text" name="country" style="visibility: hidden;">--%>
+<%--<input id="areaInp" type="text" name="area" style="visibility: hidden;">--%>
+<%--<input id="cityInp" type="text" name="city" style="visibility: hidden;">--%>
+
+<%--<div class="row">--%>
+    <%--<div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">--%>
+        <%--<div class="input-group">--%>
+
+            <%--<div class="col-xs-6" id="bs-example-navbar-collapse-1">--%>
+                <%--<ul class="nav navbar-nav">--%>
+                    <%--<li class="dropdown">--%>
+                        <%--<a id="chosenRegion" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите область<b--%>
+                                <%--class="caret"></b></a>--%>
+                        <%--<ul class="dropdown-menu multi-column columns-2">--%>
+                            <%--<div id="regions" class="row">--%>
+                                <%--<div class="col-sm-6">--%>
+                                    <%--<ul class="multi-column-dropdown">--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#"><b>Вся Украина</b></a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Винницкая область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Волынская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Донецкая область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Житомирская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Закарпатская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Ивано‑Франковская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Киевская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Кировоградская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Крым</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Луганская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Львовская область</a></li>--%>
+                                    <%--</ul>--%>
+                                <%--</div>--%>
+                                <%--<div class="col-sm-6">--%>
+                                    <%--<ul class="multi-column-dropdown">--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Николаевская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Одесская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Полтавская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Ровенская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Сумская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Тернопольская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Харьковская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Херсонская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Хмельницкая область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Черкасская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Черниговская область</a></li>--%>
+                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Черновицкая область</a>--%>
+                                        <%--</li>--%>
+                                    <%--</ul>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</ul>--%>
+                    <%--</li>--%>
+                <%--</ul>--%>
+            <%--</div>--%>
+
+            <%--<div class="col-xs-6" id="bs-example-navbar-collapse-2" style="visibility: hidden">--%>
+                <%--<ul class="nav navbar-nav">--%>
+                    <%--<li class="dropdown">--%>
+                        <%--<a id="chosenCity" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите город<b--%>
+                                <%--class="caret"></b></a>--%>
+                        <%--<ul class="dropdown-menu multi-column columns-2">--%>
+                            <%--<div id="cities" class="row">--%>
+
+                                <%--<div class="col-sm-6">--%>
+                                    <%--<ul id="cities1" class="multi-column-dropdown">--%>
+                                    <%--</ul>--%>
+                                <%--</div>--%>
+
+                                <%--<div class="col-sm-6">--%>
+                                    <%--<ul id="cities2" class="multi-column-dropdown">--%>
+                                    <%--</ul>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</ul>--%>
+                    <%--</li>--%>
+                <%--</ul>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+<%--</div>--%>
+<%--<br>--%>
+<%--<a id="submit" class="btn btn-lg btn-danger">Сохранить</a>--%>
 <!-- script references -->
 <script src="/resources/js/jquery.min.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
