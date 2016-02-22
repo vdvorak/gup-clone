@@ -17,12 +17,12 @@
     <meta name="generator" content="Bootply"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <link rel="stylesheet" href="/resources/css/bootstrap.css">
-    <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link href="/resources/css/com.css" rel="stylesheet">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
@@ -53,28 +53,25 @@
             <input type="text" name="newsTitle" id="newsTitle" class="blogCreationInput blueBorder">
 
             <div class="input-group cat">Категория
-            <hr>
-            <input id="sciCategory" type="checkbox" name="sci"><label for="sciCategory">Наука и техника</label><br>
-            <input id="artCategory" type="checkbox" name="art"><label for="artCategory">Искусство</label><br>
-            <input id="savorCategory" type="checkbox" name="savor"><label for="savorCategory">Светская жизнь</label><br>
-            <input id="policyCategory" type="checkbox" name="policy"><label for="policyCategory">Политика</label><br>
-            <input id="worldCategory" type="checkbox" name="world"><label for="worldCategory">Мир и общество</label><br>
-            <input id="economyCategory" type="checkbox" name="economy"><label for="economyCategory">Экономика</label><br>
-            <input id="sportCategory" type="checkbox" name="sport"><label for="sportCategory">Спорт, хобби</label><br>
-            <input id="socialCategory" type="checkbox" name="social"><label for="socialCategory">Соц. сети</label>
-            <hr>
+                <hr>
+                <input id="sciCategory" type="checkbox" name="sci"><label for="sciCategory">Наука и техника</label><br>
+                <input id="artCategory" type="checkbox" name="art"><label for="artCategory">Искусство</label><br>
+                <input id="savorCategory" type="checkbox" name="savor"><label for="savorCategory">Светская жизнь</label><br>
+                <input id="policyCategory" type="checkbox" name="policy"><label
+                        for="policyCategory">Политика</label><br>
+                <input id="worldCategory" type="checkbox" name="world"><label for="worldCategory">Мир и общество</label><br>
+                <input id="economyCategory" type="checkbox" name="economy"><label
+                        for="economyCategory">Экономика</label><br>
+                <input id="sportCategory" type="checkbox" name="sport"><label for="sportCategory">Спорт,
+                    хобби</label><br>
+                <input id="socialCategory" type="checkbox" name="social"><label for="socialCategory">Соц. сети</label>
+                <hr>
             </div>
-
-
 
 
             <div class="clearfix"></div>
             <textarea id="newsCreationDescription" name="newsCreationDescription"
                       class="blogCreationDescription blueBorder"></textarea>
-
-
-
-
 
 
             <!-- city chosen -->
@@ -83,117 +80,106 @@
             <input id="cityInp" type="text" name="city" style="visibility: hidden;">
 
             <div class="row">
-            <div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">
-            <div class="input-group">
+                <div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">
+                    <div class="input-group">
 
-            <div class="col-xs-6" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-            <li class="dropdown">
-            <a id="chosenRegion" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите область<b
-            class="caret"></b></a>
-            <ul class="dropdown-menu multi-column columns-2">
-            <div id="regions" class="row">
-            <div class="col-sm-6">
-            <ul class="multi-column-dropdown">
-            <li><a role="menuitem" tabindex="-1" href="#"><b>Вся Украина</b></a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Винницкая область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Волынская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Донецкая область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Житомирская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Закарпатская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Ивано‑Франковская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Киевская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Кировоградская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Крым</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Луганская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Львовская область</a></li>
-            </ul>
-            </div>
-            <div class="col-sm-6">
-            <ul class="multi-column-dropdown">
-            <li><a role="menuitem" tabindex="-1" href="#">Николаевская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Одесская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Полтавская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Ровенская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Сумская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Тернопольская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Харьковская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Херсонская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Хмельницкая область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Черкасская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Черниговская область</a></li>
-            <li><a role="menuitem" tabindex="-1" href="#">Черновицкая область</a>
-            </li>
-            </ul>
-            </div>
-            </div>
-            </ul>
-            </li>
-            </ul>
+                        <div class="col-xs-6" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+                                    <a id="chosenRegion" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите
+                                        область<b
+                                                class="caret"></b></a>
+                                    <ul class="dropdown-menu multi-column columns-2">
+                                        <div id="regions" class="row">
+                                            <div class="col-sm-6">
+                                                <ul class="multi-column-dropdown">
+                                                    <li><a role="menuitem" tabindex="-1" href="#"><b>Вся Украина</b></a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Винницкая область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Волынская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Донецкая область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Житомирская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Закарпатская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Ивано‑Франковская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Киевская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Кировоградская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Крым</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Луганская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Львовская область</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <ul class="multi-column-dropdown">
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Николаевская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Одесская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Полтавская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Ровенская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Сумская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Тернопольская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Харьковская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Херсонская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Хмельницкая область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Черкасская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Черниговская область</a></li>
+                                                    <li><a role="menuitem" tabindex="-1" href="#">Черновицкая область</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-xs-6" id="bs-example-navbar-collapse-2" style="visibility: hidden">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+                                    <a id="chosenCity" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите
+                                        город<b
+                                                class="caret"></b></a>
+                                    <ul class="dropdown-menu multi-column columns-2">
+                                        <div id="cities" class="row">
+
+                                            <div class="col-sm-6">
+                                                <ul id="cities1" class="multi-column-dropdown">
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <ul id="cities2" class="multi-column-dropdown">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-xs-6" id="bs-example-navbar-collapse-2" style="visibility: hidden">
-            <ul class="nav navbar-nav">
-            <li class="dropdown">
-            <a id="chosenCity" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите город<b
-            class="caret"></b></a>
-            <ul class="dropdown-menu multi-column columns-2">
-            <div id="cities" class="row">
-
-            <div class="col-sm-6">
-            <ul id="cities1" class="multi-column-dropdown">
-            </ul>
-            </div>
-
-            <div class="col-sm-6">
-            <ul id="cities2" class="multi-column-dropdown">
-            </ul>
-            </div>
-            </div>
-            </ul>
-            </li>
-            </ul>
-            </div>
-            </div>
-            </div>
-            </div>
-            <br>
-            <a id="submit" class="btn btn-lg btn-danger">Сохранить</a>
-
-
-
-
-
-
-
+            <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
+                <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
+            </form>
 
             <div class="titleFile" data-title="Добавить изображение">
                 <button type="submit" class="blogCreationSubmit"></button>
             </div>
             <label class="blogCreationLabel">Фотографии</label>
-            <input type="file" style="display: none;" multiple="multiple" accept="image/*">
 
-            <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
+            <div id="drop_zone" class="IMGBlock">
+                <div id="img-default" class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
+            </div>
 
             <label for="blogTitle" class="blogCreationLabel">Добавить видео</label>
             <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput blueBorder"
-                   placeholder="Youtube" pattern="(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?">
+                   placeholder="Youtube"
+                   pattern="(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?">
         </form>
         <button type="button" class="SendEdition">Отправить редакции</button>
 
         <div class="clearfix"></div>
+
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
 
 
 <%--<div>Заголовок--%>
@@ -325,12 +311,6 @@
 <%--<a id="submit" class="btn btn-lg btn-danger">Сохранить</a>--%>
 
 
-
-
-
-
-
-
 <!-- script references -->
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
@@ -417,12 +397,18 @@
 
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
 
-    $('#submit').click(function () {
+    $('button.SendEdition').click(function () {
+
+        var title = $('#newsTitle').val();
+        var text = tinymce.activeEditor.getContent({format : 'raw'});
+
+        if (title.length < 4 || title.length > 140) return;
+        if (text.length < 50 || text.length > 5000) return;
 
         var blogPost = {};
         blogPost.blogId = '${blogId}';
-        blogPost.title = $('#newsTitle').val();
-        blogPost.text = tinymce.activeEditor.getContent({format: 'raw'});
+        blogPost.title = title;
+        blogPost.text = text;
         blogPost.address = {};
         blogPost.address.country = 'Украина';
         blogPost.address.area = $('#areaInp').val();
@@ -457,30 +443,122 @@
 
 
     // -------------------------- PHOTO SUBMIT AND DELETE ------------------------------//
+    $(document).ready(function () {
+        // Setup the dnd listeners.
+        var dropZone = document.getElementById('drop_zone');
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
 
-    $('#photoInput').submit(function (event) {
-        event.preventDefault();
-        var formImg = new FormData($(this)[0]);
+        function handleFileSelect(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
 
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/fileStorage/NEWS/file/upload/",
-            data: formImg,
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
+            var files = evt.dataTransfer.files; // FileList object.
 
-            success: function (data, textStatus, request) {
-                var id = data.id;
-                imgsArr[id] = "someText";
-                $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
-                ' <li style="background-color: white"><a rel="example_group"> ' +
-                '<img id="img1" alt="" src="/api/rest/fileStorage/NEWS/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
-                '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+            // files is a FileList of File objects. List some properties.
+            for (var i = 0, f; f = files[i]; i++) {
+                var fd = new FormData();
+                fd.append('file', f);
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/fileStorage/NEWS/file/upload/",
+                    data: fd,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+
+                    success: function (data, textStatus, request) {
+                        var id = data.id;
+                        var isImage = f.type.substring(0, 5) === 'image';
+                        if (isImage) {
+                            imgsArr[id] = "image";
+                            var cloneImg = $("#img-default").clone();
+                            $("#img-default").css("display", "none");
+                            cloneImg.find('img')
+                                    .attr("alt", "")
+                                    .attr("src", '/api/rest/fileStorage/NEWS/file/read/id/' + id)
+                                    .attr("id", id)
+                                    .appendTo('.IMGBlock');
+
+                        }
+                    }
+                });
+
+
             }
+        }
+
+        function handleDragOver(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        }
+
+        $('button.blogCreationSubmit').click(function(){
+            $('#photoInput').trigger('click');
         });
+
+        $('#photoInput').change(function (event) {
+            event.preventDefault();
+
+            var files = event.currentTarget.files;
+            for (var i = 0, f; f = files[i]; i++) {
+                var fd = new FormData();
+                fd.append('file', f);
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/fileStorage/NEWS/file/upload/",
+                    data: fd,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+
+                    success: function (data, textStatus, request) {
+                        var id = data.id;
+                        var isImage = f.type.substring(0, 5) === 'image';
+                        if (isImage) {
+                            imgsArr[id] = "image";
+                            var cloneImg = $("#img-default").clone();
+                            $("#img-default").css("display", "none");
+                            cloneImg.find('img')
+                                    .attr("alt", "")
+                                    .attr("src", '/api/rest/fileStorage/NEWS/file/read/id/' + id)
+                                    .attr("id", id)
+                                    .appendTo('.IMGBlock');
+                        }
+                    }
+                });
+            }
+            event.currentTarget.form.reset();
+        });
+
     });
+
+//    $('#photoInput').submit(function (event) {
+//        event.preventDefault();
+//        var formImg = new FormData($(this)[0]);
+//
+//        $.ajax({
+//            type: "POST",
+//            url: "/api/rest/fileStorage/NEWS/file/upload/",
+//            data: formImg,
+//            async: false,
+//            cache: false,
+//            contentType: false,
+//            processData: false,
+//
+//            success: function (data, textStatus, request) {
+//                var id = data.id;
+//                imgsArr[id] = "someText";
+//                $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
+//                        ' <li style="background-color: white"><a rel="example_group"> ' +
+//                        '<img id="img1" alt="" src="/api/rest/fileStorage/NEWS/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
+//                        '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+//            }
+//        });
+//    });
 
     function deleteImg(idImg) {
         delete imgsArr[idImg];
@@ -498,7 +576,9 @@
 
     //--------------------------- REGIONS LIST --------------------------------------------//
 
-    $('#regions').find('li').click(function () {
+    $('#regions').find('li').click(function (event) {
+        event.preventDefault();
+
         var region = $(this).text();
         $('#chosenRegion').text(region);
         $('#areaInp').val(region);
@@ -518,7 +598,8 @@
             $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][j] + '</a></li>');
         }
 
-        $('#cities').find('li').click(function () {
+        $('#cities').find('li').click(function (event) {
+                    event.preventDefault();
                     var city = $(this).text();
                     $('#chosenCity').text(city);
                     $('#cityInp').val(city);
