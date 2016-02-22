@@ -397,7 +397,8 @@
 
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
 
-    $('button.SendEdition').click(function () {
+    $('button.SendEdition').click(function (event) {
+        event.preventDefault();
 
         var title = $('#newsTitle').val();
         var text = tinymce.activeEditor.getContent({format : 'raw'});
@@ -431,7 +432,7 @@
             dataType: "json",
             data: JSON.stringify(blogPost),
             success: function (response) {
-                window.location.href = '/blog-post/view/' + response.id;
+                window.location.href = '/blog-post/view/id/' + response.id;
             },
             error: function (response) {
                 alert("Внутренняя ошибка сервера");
