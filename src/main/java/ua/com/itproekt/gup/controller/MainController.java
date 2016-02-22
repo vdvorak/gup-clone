@@ -18,16 +18,6 @@ public class MainController {
 
     @RequestMapping(value = {"/", "/index"})
     public String index() {
-
-//        if (SecurityOperations.isUserLoggedIn()) {
-//            String userId = SecurityOperations.getLoggedUserId();
-//            Profile profile = profilesService.findById(userId);
-//
-//            model.addAttribute("profile", profile);
-//        }
-//
-//        model.addAttribute("profileFO", new ProfileFilterOptions());
-
         return "index";
     }
 

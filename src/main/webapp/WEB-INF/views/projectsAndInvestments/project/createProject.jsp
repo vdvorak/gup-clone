@@ -311,7 +311,7 @@
             dataType: "json",
             data: JSON.stringify(project),
             success: function (createdProjectId) {
-                window.location.href = '/project/id/' + createdProjectId.id;
+                window.location.href = '/project?id=' + createdProjectId.id;
             },
             error: function (response) {
                 alert("Проверьте введенные значения");

@@ -65,9 +65,7 @@ public class ProjectCommentsRestController {
             activityFeedService.createEvent(new Event(toId, EventType.PROJECT_COMMENT_REPLY, comment.getcId(), userId));
         }
 
-
-        CreatedObjResp createdObjResp = new CreatedObjResp(comment.getcId());
-        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
+        return new ResponseEntity<>(new CreatedObjResp(comment.getcId()), HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/project/id/{projectId}/comment/id/{commentId}/delete", method = RequestMethod.POST)

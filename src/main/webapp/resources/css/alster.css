@@ -578,6 +578,21 @@
     margin: 15px 50px;
 }
 
+.projectsCommentsForm {
+    width: 345px;
+    margin: 0 auto;
+}
+
+.projectsFormComments {
+    height: 126px;
+    width: 100%;
+    resize: none;
+    font: 400 14px DroidSans;
+    padding: 15px;
+    border-radius: 5px;
+    border: 0;
+}
+
 .projectContent .topSection .abutton.invest,
 .projectContent .bottomSection .abutton.invest {
     float: right;
