@@ -232,7 +232,34 @@
             $('#projText').append(project.description);
             $('#commentsNum').append(project.totalComments);
             setAuthorContent(project.authorId);
+            setProjectCommentsBlock(project.comments);
+        }
 
+        function setProjectCommentsBlock(projectComments) {
+            projectComments.forEach(function(comment) {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/profilesService/profile/read/id/" + comment.fromId,
+                    statusCode: {
+                        200: function (profile) {
+                            var profileImgTag = '<img ';
+                            if (profile.contact.pic != null && profile.contact.pic != '') {
+                                profileImgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1"';
+                            } else {
+                                profileImgTag += 'src="/resources/images/no_photo.jpg"';
+                            }
+                            profileImgTag += ' width="52px" height="52px" alt="logo">';
+
+                            $('#commentsBlock').append(
+                                    '<div class="comments">' +
+                                        '<a href="/profile/id/' + profile.id + '">' + profileImgTag + '</a>' +
+                                        '<a class="NameUser" href="/profile/id/' + profile.id + '">' + profile.username + '</a>' +
+                                        '<p class="commentUser">' +  comment.comment + '</p>' +
+                                    '</div>');
+                        }
+                    }
+                });
+            });
         }
 
         function setAuthorContent(profileId) {
