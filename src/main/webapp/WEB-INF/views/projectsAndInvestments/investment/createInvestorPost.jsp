@@ -1,3 +1,5 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Sasha
@@ -17,13 +19,23 @@
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
-
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-
     <link rel="stylesheet" type="text/css" href="/resources/css/alster.css">
-
 </head>
 <body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+
 <%--<div>--%>
 <%--<h2 align="center">Создание публикации инвестора</h2>--%>
 <%--</div>--%>
@@ -52,64 +64,44 @@
 
 <%--<button id="createInvestorPost">Создать</button>--%>
 
-
-<!--[if lt IE 8]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-    your browser</a> to improve your experience.</p>
-<![endif]-->
-
-<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
-
-<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
-
-<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
-
-<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
-
 <div class="container2">
     <div class="contentContainer editor" id="tab-container-pVSi">
 
-        <div class="title">РЕДАКТОР</div>
+        <div class="title">СОЗДАНИЕ ПУБЛИКАЦИИ ИНВЕСТОРА</div>
         <form class="investor" action="" id="tabs1-investment">
             <div class="field required kvd">
                 <label for="main-kvd-info" class="editorLabel">Выберите отрасль</label>
-                <input id="main-kvd-info" type="text" name='text' class="editorInput">
+                <%--<input id="main-kvd-info" type="text" name='text' class="editorInput">--%>
+                <select id="main-kvd-info" class="editorInput">
+                    <option value="cat1">Категория 1</option>
+                    <option value="cat2">Категория 2</option>
+                    <option value="cat3">Категория 3</option>
+                    <option value="cat4">Категория 4</option>
+                </select>
             </div>
             <div class="field required">
-                <div class="editorLabel">Указать сумму</div>
+                <div class="editorLabel">кажите сумму</div>
             </div>
             <div class="sum">
                 <div class="field">
                     <label for="sum1" class="editorLabel">Сумма</label>
-                    <input id="sum1" type="number" name='sum1' class="editorInput">
+                    <input id="sum1" type="number" class="editorInput" required>
                     <span class="currency">₴</span>
                 </div>
                 <div class="field">
                     <label for="sum2" class="editorLabel">Сумма</label>
-                    <input id="sum2" type="number" name='sum2' class="editorInput">
+                    <input id="sum2" type="number" class="editorInput">
                     <span class="currency">₴</span>
                 </div>
             </div>
             <div class="field description">
                 <label for="description" class="editorLabel">Описание</label>
-                <textarea id="description" name='description' class="editorInput"></textarea>
-            </div>
-            <div class="field IMGUploader">
-                <div class="titleFile" data-title="Добавить изображение">
-                    <button type="submit" class="blogCreationSubmit"></button>
-                </div>
-                <input type="file" style="display: none;" multiple="multiple" accept="image/*">
-
-                <div class="IMGBlock">
-                    <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
-                    <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
-                </div>
+                <textarea id="description" class="editorInput"></textarea>
             </div>
             <div class="field">
-                <button type="submit" class="info-submit">Сохранить</button>
+                <button id="createInvestorPost" class="info-submit">Сохранить</button>
             </div>
         </form>
-
     </div>
 </div>
 
@@ -149,13 +141,12 @@
 
 
 <script>
-
     var investorPost = {};
 
     $(document).on('click', '#createInvestorPost', function (event) {
 
-        investorPost.description = $('#investorPostDescription').val();
-        investorPost.amountOfMoney = $('#amountOfMoney').val();
+        investorPost.description = $('#description').val();
+        investorPost.amountOfMoney = $('#sum1').val();
         investorPost.categoriesOfIndustry = $('#categoriesOfIndustry').val();
 
         $.ajax({
