@@ -3136,14 +3136,17 @@ label[for="checkbox-filter3"] {
 	width: 100%;
 	height: auto;
 	background-color: rgba(0,0,0,.5);
+	-webkit-transition: all .5s;
 	transition: all .5s;
 	opacity: 0;
+	-webkit-transform: rotateZ(90deg);
 	transform: rotateZ(90deg);
 	border-radius: 50%;
 }
 
 .defaultIMG li:hover .descr {
 	opacity: 1;
+	-webkit-transform: rotateZ(0deg);
 	transform: rotateZ(0deg);
 	border-radius: 0;
 }
@@ -3152,6 +3155,7 @@ label[for="checkbox-filter3"] {
 	float: right;
 	padding: 10px;
 	cursor: pointer;
+	-webkit-transition: all .25s;
 	transition: all .25s;
 }
 
@@ -3364,4 +3368,90 @@ input:focus:-ms-input-placeholder      {text-indent: 500px; -webkit-transition: 
 	position: absolute;
 	top: 0px;
 	left: 40px;
+}
+
+.doerCreate {
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 17px;
+}
+
+.doerCreate form {
+	margin: 0 100px 10px 50px;
+}
+
+.doerCreate h1 {
+	color: #1269a7;
+	font: 400 17px ArianAMU;
+	text-align: center;
+	margin: 50px 0;
+}
+
+.doerCreate form label {
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+}
+
+.doerCreate form input {
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	height: 23px;
+	width: 553px;
+	padding: 0 7px;
+	float: right;
+	margin-bottom: 30px;
+}
+
+.doerCreate form label:after {
+	content: '*';
+	color: #ed4423;
+}
+
+.doerCreate form #selectBox-info-type {
+	width: 291px;
+	height: 23px;
+	margin: 0 260px 30px 0;
+	border-width: 2px;
+}
+
+.doerCreate form #selectBox-info-type select {
+	width: 300px;
+	height: 19px;
+	line-height: 19px;
+	font-size: 13px;
+}
+
+.doerCreate form textarea {
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	width: 641px;
+	height: 239px;
+	resize: none;
+	float: right;
+	padding: 7px;
+}
+.clip {
+	cursor: pointer;
+	margin: 0 20px 55px 155px;
+	border-radius: 14px;
+	float: left;
+}
+
+.doerCreate button {
+	float: right;
+	color: #ffffff;
+	font: 400 16px ArianAMU;
+	border-radius: 5px;
+	height: 32px;
+	width: 133px;
+	background-color: rgb( 153, 204, 102 );
+	border: 2px solid rgb( 153, 204, 102 );
+	margin: 0 40px 15px 0;
+	-webkit-transition: all .25s;
+	transition: all .25s;
+}
+
+.doerCreate button:hover {
+	color: rgb( 153, 204, 102 );
+	background-color: transparent;
 }
