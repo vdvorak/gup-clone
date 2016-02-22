@@ -3,10 +3,12 @@ package ua.com.itproekt.gup.model.tender.doer;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.itproekt.gup.model.profiles.Contact;
+import ua.com.itproekt.gup.util.SocialNetwork;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 
 @Document(collection = "doer")
 public class Doer {
@@ -29,6 +31,8 @@ public class Doer {
     private long recallCount;
     private String imageId;
     //answer (otklik)/raiting
+    private String email;
+    private Map<SocialNetwork, String> socLinks;
 
     public Doer() {
         dateOfCreate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -138,6 +142,22 @@ public class Doer {
         this.imageId = imageId;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Map<SocialNetwork, String> getSocLinks() {
+        return socLinks;
+    }
+
+    public void setSocLinks(Map<SocialNetwork, String> socLinks) {
+        this.socLinks = socLinks;
+    }
+
     @Override
     public String toString() {
         String authorContactsStr = "null";
@@ -162,6 +182,8 @@ public class Doer {
                 "id='" + id + '\'' +
                 ", authorId='" + authorId + '\'' +
                 ", authorContacts=" + authorContactsStr +
+                ", email=" + email +
+                ", soc.links=" + socLinks +
                 ", naceIds=" + naceIds +
                 ", title='" + title + '\'' +
                 ", body='" + body + '\'' +
