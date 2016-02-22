@@ -80,8 +80,8 @@
                 </div>
                 <div class="contentHeader">
                     <div class="leftSec">
-                        <div class="author">НАЗВАНИЕ КОМПАНИИ/ФИО</div>
-                        <img class="mainPhoto" src="/resources/css/images/sample/projectViewMainPhoto.png" alt="mainPhoto">
+                        <div class="author" id="authorName"></div>
+                        <img class="mainPhoto" id="projCreatorPhoto" src="" alt="mainPhoto">
                     </div>
                     <div class="rightSec">
                         <div class="name" id="projName"></div>
@@ -229,7 +229,28 @@
             $('#projProgress').css('width', getInvertedProgressNum(project.investedAmount, project.amountRequested) + '%');
             $('#projText').append(project.description);
             $('#commentsNum').append(project.totalComments);
+            setAuthorContent(project.authorId);
 
+        }
+
+        function setAuthorContent(profileId) {
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/profilesService/profile/read/id/" + profileId,
+                statusCode: {
+                    200: function (profile) {
+                        if (profile.contact.pic != null && profile.contact.pic != '') {
+                            $('#projCreatorPhoto').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
+                        } else {
+                            $('#projCreatorPhoto').attr('src', '/resources/images/no_photo.jpg');
+                        }
+
+                        if (profile.username != null) {
+                            $('#authorName').text(profile.username);
+                        }
+                    }
+                }
+            });
         }
 
         function appendProjectImage(imgId, imgKey) {
