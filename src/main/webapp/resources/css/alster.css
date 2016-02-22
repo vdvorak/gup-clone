@@ -107,19 +107,19 @@
 }
 
 .projectsVSInvestmentsCats > .catContainer > .catLogo.restruct {
-    background: url(/resources/css/images/projectCat/restruct.png) center no-repeat;
+    background: url(images/projectCat/restruct.png) center no-repeat;
 }
 
 .projectsVSInvestmentsCats > .catContainer > .catLogo.prototype {
-    background: url(/resources/css/images/projectCat/prototype.png) center no-repeat;
+    background: url(images/projectCat/prototype.png) center no-repeat;
 }
 
 .projectsVSInvestmentsCats > .catContainer > .catLogo.paper {
-    background: url(/resources/css/images/projectCat/paper.png) center no-repeat;
+    background: url(images/projectCat/paper.png) center no-repeat;
 }
 
 .projectsVSInvestmentsCats > .catContainer > .catLogo.nouHau {
-    background: url(/resources/css/images/projectCat/nouHau.png) center no-repeat;
+    background: url(images/projectCat/nouHau.png) center no-repeat;
 }
 
 .feedItem {
@@ -184,7 +184,7 @@
 
 .projectFeedContainer .feedItem .preview .likes .hearthPlace {
     position: absolute;
-    background: url(/resources/css/images/projectsFeed/hearthPlace.png);
+    background: url(images/projectsFeed/hearthPlace.png);
     width: 33px;
     height: 33px;
     right: -10px;
@@ -197,7 +197,7 @@
     left: 6px;
     width: 21px;
     height: 19px;
-    background: url(/resources/css/images/projectsFeed/hearth.png);
+    background: url(images/projectsFeed/hearth.png);
 }
 
 .projectFeedContainer .content {
@@ -227,8 +227,8 @@
 
 .abutton {
     border-radius: 5px;
-    border: 2px #36aae0 solid;
-    background-color: #36aae0;
+    border: 2px #99cc66 solid;
+    background-color: #99cc66;
     padding: 3px 10px;
     color: #ffffff;
     font: 15px DroidSans;
@@ -236,7 +236,7 @@
 
 .abutton:hover {
     background-color: white;
-    color: #36aae0;
+    color: #99cc66;
 }
 .abutton.blue {
     border-color: #36aae0;
@@ -276,7 +276,7 @@
 
 .projectProgressBlock .bar .colored {
     position: absolute;
-    background: url(/resources/css/images/projectsFeed/progressFull.png);
+    background: url(images/projectsFeed/progressFull.png);
     background-size: 100%;
     width: 277px;
     height: 14px;
@@ -285,7 +285,7 @@
 
 .projectProgressBlock .bar .empty {
     position: absolute;
-    background: url(/resources/css/images/projectsFeed/progressEmpty.jpg);
+    background: url(images/projectsFeed/progressEmpty.jpg);
     right: 0;
     height: 100%;
 }
@@ -352,7 +352,7 @@
     -webkit-columns: 2;
     -moz-columns: 2;
     /*list-style-type: disc;*/
-    list-style-image: url(/resources/css/images/listStyleImage.png);
+    list-style-image: url(images/listStyleImage.png);
     list-style-position: inside;
 }
 
@@ -521,7 +521,6 @@
 
 .editor form.project .projType .editorLabel {
     width: 120px;
-    !
 }
 
 .editor form.project .field.projType .radioGroup {
@@ -566,8 +565,6 @@
     display: inline-block;
     margin: 0 0 0 10px;
 }
-
-.editor editingTitle {}
 
 .projectContent {
     padding: 0 34px;
@@ -704,7 +701,7 @@
 }
 
 .projectFeedContainer .feedItem.vip .preview .likes .hearthPlace {
-    background: url(/resources/css/images/projectsFeed/likedHearthPlace.png) no-repeat;
+    background: url(images/projectsFeed/likedHearthPlace.png) no-repeat;
 }
 
 .vip .abutton {

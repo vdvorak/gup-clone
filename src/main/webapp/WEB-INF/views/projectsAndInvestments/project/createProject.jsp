@@ -10,74 +10,137 @@
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/alster.css">
     <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
 <jsp:include page="/WEB-INF/templates/authentification.jsp"/>
 
-<div>
-    <h2 align="center">Создание Проекта</h2>
-</div>
-<div>
-    <label for="projectType"><b>Тип: </b></label>
-    <select name="projectType" id="projectType" required>
-        <option value="RENOVATION">Реструктуризация</option>
-        <option value="PROTOTYPE">Прототип</option>
-        <option value="PROJECT_ON_PAPER">Проект на бумаге</option>
-        <option value="KNOW_HOW">Ноу хау</option>
-    </select>
-</div>
+<div class="container2">
+    <div class="contentContainer editor">
+        <div class="title">РЕДАКТОР ПРОЕКТА</div>
+        <form class="project" action="">
+            <div class="field required tit">
+                <label for="main-title-info" class="editorLabel">Заголовок</label>
+                <input id="main-title-info" type="text" name='text' class="editorInput">
+            </div>
+            <div class="field required projType">
+                <div class="editorLabel">Тип проекта</div>
+                <div class="radioGroup">
+                    <div class="column c1">
+                        <div class="row">
+                            <label for="type-restruct">Реструктуризация</label>
+                            <label class="label-checkbox">
+                                <input type="radio" class="greenCheckbox" id="type-restruct" value="restruct" name="type" /><span></span></label>
+                        </div>
+                        <div class="row">
+                            <label for="type-paper">Проект на бумаге</label>
+                            <label class="label-checkbox">
+                                <input type="radio" class="greenCheckbox" id="type-paper" value="paper" name="type" /><span></span></label>
+                        </div>
+                    </div>
+                    <div class="column c2">
+                        <div class="row">
+                            <label for="type-prototype">Готовый прототип</label>
+                            <label class="label-checkbox">
+                                <input type="radio" class="greenCheckbox" id="type-prototype" value="prototype" name="type" /><span></span></label>
+                        </div>
+                        <div class="row">
+                            <label for="type-nouHau">Ноу-Хау</label>
+                            <label class="label-checkbox">
+                                <input type="radio" class="greenCheckbox" id="type-nouHau" value="nouHau" name="type" /><span></span></label>
+                        </div>
+                    </div>
+                </div>
 
-<div>
-    <label for="title"><b>Название: </b></label>
-    <input id="title" type="text" name="title" min="4" maxlength="140"
-           placeholder="Минимум 4 символа" required>
-</div>
-<!--
-<div>
-    <label for="description"><b>Описание: </b></label>
-            <textarea id="description"
-                      placeholder="Минимум 50 символов, максимум 5000ю" required></textarea>
-</div>
--->
-<div class="row">
-    <div class="col-xs-12">
-        <label for="textarea"><b>Описание: </b></label>
-        <textarea id="textarea"></textarea>
+            </div>
+            <div class="field required">
+                <label for="sum" class="editorLabel">Сумма</label>
+                <input id="sum" type="number" name='sum' class="editorInput" style="width: 291px;">
+                <span class="currency">₴</span>
+            </div>
+            <div class="field description">
+                <label for="description" class="editorLabel">Описание</label>
+                <textarea id="description" type="text" name='description' class="editorInput"></textarea>
+            </div>
+            <div class="field IMGUploader">
+                <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
+                <input type="file" style="display: none;" multiple="multiple" accept="image/*">
+                <div class="IMGBlock">
+                    <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
+                    <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
+                </div>
+            </div>
+            <div class="field">
+                <button type="submit" class="info-submit">Сохранить</button>
+            </div>
+        </form>
     </div>
 </div>
 
-<div>
-    <label for="amountRequested"><b>Нужная сумма: </b></label>
-    <input id="amountRequested" type="number" min="1"
-           placeholder="Минимум 1" required>
-</div>
+<%--<div>--%>
+    <%--<h2 align="center">Создание Проекта</h2>--%>
+<%--</div>--%>
+<%--<div>--%>
+    <%--<label for="projectType"><b>Тип: </b></label>--%>
+    <%--<select name="projectType" id="projectType" required>--%>
+        <%--<option value="RENOVATION">Реструктуризация</option>--%>
+        <%--<option value="PROTOTYPE">Прототип</option>--%>
+        <%--<option value="PROJECT_ON_PAPER">Проект на бумаге</option>--%>
+        <%--<option value="KNOW_HOW">Ноу хау</option>--%>
+    <%--</select>--%>
+<%--</div>--%>
 
-<div>
-    <label for="categoriesOfIndustry"><b>Категории индустрии: </b></label>
-    <select multiple="multiple" size="4" name="categoriesOfIndustry" id="categoriesOfIndustry" required>
-        <option value="cat1">Категория 1</option>
-        <option value="cat2">Категория 2</option>
-        <option value="cat3">Категория 3</option>
-        <option value="cat4">Категория 4</option>
-    </select>
-</div>
+<%--<div>--%>
+    <%--<label for="title"><b>Название: </b></label>--%>
+    <%--<input id="title" type="text" name="title" min="4" maxlength="140"--%>
+           <%--placeholder="Минимум 4 символа" required>--%>
+<%--</div>--%>
+<%--<!----%>
+<%--<div>--%>
+    <%--<label for="description"><b>Описание: </b></label>--%>
+            <%--<textarea id="description"--%>
+                      <%--placeholder="Минимум 50 символов, максимум 5000ю" required></textarea>--%>
+<%--</div>--%>
+<%---->--%>
+<%--<div class="row">--%>
+    <%--<div class="col-xs-12">--%>
+        <%--<label for="textarea"><b>Описание: </b></label>--%>
+        <%--<textarea id="textarea"></textarea>--%>
+    <%--</div>--%>
+<%--</div>--%>
 
-<div id="drop_zone">
-    <button id="addImg">Загрузить фото</button>
-    <form id="uploadProfilePhotoForm" enctype="multipart/form-data"
-          method="post" style="display:none">
-        <p><input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" multiple></p>
-    </form>
+<%--<div>--%>
+    <%--<label for="amountRequested"><b>Нужная сумма: </b></label>--%>
+    <%--<input id="amountRequested" type="number" min="1"--%>
+           <%--placeholder="Минимум 1" required>--%>
+<%--</div>--%>
 
-    <div class="imgBlock">
-        <!--uploaded images-->
-    </div>
-    Перетяните файлы сюда
-</div>
+<%--<div>--%>
+    <%--<label for="categoriesOfIndustry"><b>Категории индустрии: </b></label>--%>
+    <%--<select multiple="multiple" size="4" name="categoriesOfIndustry" id="categoriesOfIndustry" required>--%>
+        <%--<option value="cat1">Категория 1</option>--%>
+        <%--<option value="cat2">Категория 2</option>--%>
+        <%--<option value="cat3">Категория 3</option>--%>
+        <%--<option value="cat4">Категория 4</option>--%>
+    <%--</select>--%>
+<%--</div>--%>
 
-<button id="createProject">Создать</button>
+<%--<div id="drop_zone">--%>
+    <%--<button id="addImg">Загрузить фото</button>--%>
+    <%--<form id="uploadProfilePhotoForm" enctype="multipart/form-data"--%>
+          <%--method="post" style="display:none">--%>
+        <%--<p><input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" multiple></p>--%>
+    <%--</form>--%>
+
+    <%--<div class="imgBlock">--%>
+        <%--<!--uploaded images-->--%>
+    <%--</div>--%>
+    <%--Перетяните файлы сюда--%>
+<%--</div>--%>
+
+<%--<button id="createProject">Создать</button>--%>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
