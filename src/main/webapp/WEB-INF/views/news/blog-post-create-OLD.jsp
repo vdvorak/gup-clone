@@ -1,3 +1,5 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
@@ -24,13 +26,13 @@
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
-
 </head>
 <body>
 
 
 <!--[if lt IE 8]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
@@ -50,11 +52,120 @@
             <label for="newsTitle" class="blogCreationLabel">Заголовок новости</label>
             <input type="text" name="newsTitle" id="newsTitle" class="blogCreationInput blueBorder">
 
-            <div class="clearfix"></div>
+            <div class="input-group cat">Категория
+            <hr>
+            <input id="sciCategory" type="checkbox" name="sci"><label for="sciCategory">Наука и техника</label><br>
+            <input id="artCategory" type="checkbox" name="art"><label for="artCategory">Искусство</label><br>
+            <input id="savorCategory" type="checkbox" name="savor"><label for="savorCategory">Светская жизнь</label><br>
+            <input id="policyCategory" type="checkbox" name="policy"><label for="policyCategory">Политика</label><br>
+            <input id="worldCategory" type="checkbox" name="world"><label for="worldCategory">Мир и общество</label><br>
+            <input id="economyCategory" type="checkbox" name="economy"><label for="economyCategory">Экономика</label><br>
+            <input id="sportCategory" type="checkbox" name="sport"><label for="sportCategory">Спорт, хобби</label><br>
+            <input id="socialCategory" type="checkbox" name="social"><label for="socialCategory">Соц. сети</label>
+            <hr>
+            </div>
 
-            <label for="newsCreationDescription" class="blogCreationLabel">Текст новости</label>
+
+
+
+            <div class="clearfix"></div>
             <textarea id="newsCreationDescription" name="newsCreationDescription"
                       class="blogCreationDescription blueBorder"></textarea>
+
+
+
+
+
+
+            <!-- city chosen -->
+            <input id="countryInp" type="text" name="country" style="visibility: hidden;">
+            <input id="areaInp" type="text" name="area" style="visibility: hidden;">
+            <input id="cityInp" type="text" name="city" style="visibility: hidden;">
+
+            <div class="row">
+            <div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">
+            <div class="input-group">
+
+            <div class="col-xs-6" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+            <li class="dropdown">
+            <a id="chosenRegion" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите область<b
+            class="caret"></b></a>
+            <ul class="dropdown-menu multi-column columns-2">
+            <div id="regions" class="row">
+            <div class="col-sm-6">
+            <ul class="multi-column-dropdown">
+            <li><a role="menuitem" tabindex="-1" href="#"><b>Вся Украина</b></a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Винницкая область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Волынская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Донецкая область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Житомирская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Закарпатская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Ивано‑Франковская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Киевская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Кировоградская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Крым</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Луганская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Львовская область</a></li>
+            </ul>
+            </div>
+            <div class="col-sm-6">
+            <ul class="multi-column-dropdown">
+            <li><a role="menuitem" tabindex="-1" href="#">Николаевская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Одесская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Полтавская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Ровенская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Сумская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Тернопольская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Харьковская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Херсонская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Хмельницкая область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Черкасская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Черниговская область</a></li>
+            <li><a role="menuitem" tabindex="-1" href="#">Черновицкая область</a>
+            </li>
+            </ul>
+            </div>
+            </div>
+            </ul>
+            </li>
+            </ul>
+            </div>
+
+            <div class="col-xs-6" id="bs-example-navbar-collapse-2" style="visibility: hidden">
+            <ul class="nav navbar-nav">
+            <li class="dropdown">
+            <a id="chosenCity" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите город<b
+            class="caret"></b></a>
+            <ul class="dropdown-menu multi-column columns-2">
+            <div id="cities" class="row">
+
+            <div class="col-sm-6">
+            <ul id="cities1" class="multi-column-dropdown">
+            </ul>
+            </div>
+
+            <div class="col-sm-6">
+            <ul id="cities2" class="multi-column-dropdown">
+            </ul>
+            </div>
+            </div>
+            </ul>
+            </li>
+            </ul>
+            </div>
+            </div>
+            </div>
+            </div>
+            <br>
+            <a id="submit" class="btn btn-lg btn-danger">Сохранить</a>
+
+
+
+
+
+
+
 
             <div class="titleFile" data-title="Добавить изображение">
                 <button type="submit" class="blogCreationSubmit"></button>
@@ -66,13 +177,24 @@
 
             <label for="blogTitle" class="blogCreationLabel">Добавить видео</label>
             <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput blueBorder"
-                   placeholder="Youtube, Vine, Cube">
+                   placeholder="Youtube" pattern="(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?">
         </form>
         <button type="button" class="SendEdition">Отправить редакции</button>
 
         <div class="clearfix"></div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
 
 <%--<div>Заголовок--%>
 <%--<input id="title" type="text" name="title">--%>
@@ -201,6 +323,14 @@
 <%--</div>--%>
 <%--<br>--%>
 <%--<a id="submit" class="btn btn-lg btn-danger">Сохранить</a>--%>
+
+
+
+
+
+
+
+
 <!-- script references -->
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
@@ -291,7 +421,7 @@
 
         var blogPost = {};
         blogPost.blogId = '${blogId}';
-        blogPost.title = $('#title').val();
+        blogPost.title = $('#newsTitle').val();
         blogPost.text = tinymce.activeEditor.getContent({format: 'raw'});
         blogPost.address = {};
         blogPost.address.country = 'Украина';
