@@ -44,7 +44,7 @@
 
     <div class="container2">
         <!-- Add "vip" class for "vip" users :3 -->
-        <div class="contentContainer vip">
+        <div class="contentContainer">
             <%--<ul class="projectsVSInvestments-block">--%>
                 <%--<li class="projectsVSInvestments-btn projects" data-atab="projects"><a href="#tabs1-project">ПРОЕКТЫ</a></li>--%>
                 <%--<!--Add "active" class to show this element as selected-->--%>
@@ -74,18 +74,8 @@
             <div class="projectContent">
                 <div class="topSection">
                     <div class="statInfo">
-                        <div class="publish">Опубликовано: 22. 10. 16</div>
-                        <div class="views">Просмотров: 220</div>
-                    </div>
-                    <button type="button" class="abutton blue invest">Инвестировать</button>
-                    <div class="projectProgressBlock">
-                        <div class="current elem cash">234 $</div>
-                        <div class="bar elem">
-                            <div class="colored"></div>
-                            <div class="empty" style="width: 30%;"></div>
-                            <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
-                        </div>
-                        <div class="todo elem cash">2304 $</div>
+                        <div class="publish" id="projCreatedDate">Опубликовано: </div>
+                        <div class="views" id="projViewsNum">Просмотров: </div>
                     </div>
                 </div>
                 <div class="contentHeader">
@@ -94,36 +84,49 @@
                         <img class="mainPhoto" src="/resources/css/images/sample/projectViewMainPhoto.png" alt="mainPhoto">
                     </div>
                     <div class="rightSec">
-                        <div class="name">НАЗВАНИЕ ПРОЕКТА</div>
-                        <div class="additionalPhotos">
-                            <img class="photo full" src="/resources/css/images/sample/projectView0.png" alt="">
-                            <img class="photo" src="/resources/css/images/sample/projectView1.png" alt="">
-                            <img class="photo" src="/resources/css/images/sample/projectView2.png" alt="">
-                            <img class="photo" src="/resources/css/images/sample/projectView3.png" alt="">
+                        <div class="name" id="projName"></div>
+                        <div class="additionalPhotos" id="projImages">
+                            <%--<img class="photo full" src="/resources/css/images/sample/projectView0.png" alt="">--%>
+                            <%--<img class="photo" src="/resources/css/images/sample/projectView1.png" alt="">--%>
+                            <%--<img class="photo" src="/resources/css/images/sample/projectView2.png" alt="">--%>
+                            <%--<img class="photo" src="/resources/css/images/sample/projectView3.png" alt="">--%>
                         </div>
                     </div>
                 </div>
+                <div id="investBlock" class="bottomSection">
+                    <button type="button" class="abutton blue invest">Инвестировать</button>
+                    <div class="projectProgressBlock">
+                        <div class="current elem cash" id="investedAmount"></div>
+                        <div class="bar elem">
+                            <div class="colored"></div>
+                            <div class="empty" id="projProgress"></div>
+                            <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
+                        </div>
+                        <div class="todo elem cash" id ="requestedAmount"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
                 <div class="description">
                     <div class="title">Описание</div>
-                    <div class="text">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed massa lobortis, tristique mauris pulvinar, bibendum risus. Cras consectetur convallis mauris vel aliquam. Maecenas molestie, lacus in aliquam commodo, risus ex consectetur libero, vitae euismod nisi nulla commodo libero. In fringilla nibh et eros interdum pharetra. Nulla condimentum nulla eget pulvinar posuere. Etiam aliquet fermentum lectus, sed feugiat nibh mattis quis. Curabitur justo urna, laoreet sed pellentesque vitae, volutpat sed est. Etiam sollicitudin tincidunt tortor vitae euismod. Vestibulum ut accumsan ante, ac mollis felis. Pellentesque id metus consectetur, maximus ex at, luctus sapien. Sed non nibh id urna cursus ultrices blandit id arcu. Nunc facilisis eu lacus a consequat. Nunc convallis nec lacus id convallis. Morbi aliquet commodo nisi, sit amet pellentesque mi imperdiet non. Morbi a arcu nisi.
-                        </p>
-                        <p>
-                            Vivamus pulvinar faucibus eros, et ultricies est ultrices eu. Praesent commodo odio id urna bibendum, eu vestibulum augue sodales. Nullam eget ornare arcu. Aenean eget tincidunt lectus. Nam finibus ex nec quam porttitor viverra. Quisque sed euismod quam, ut tempor justo. Donec finibus, felis et cursus commodo, ligula tellus tincidunt ex, a ullamcorper enim risus maximus arcu. Aliquam euismod mollis sollicitudin.
-                        </p>
-                        <p>
-                            Sed vel luctus nisi. Fusce laoreet vitae lorem eget gravida. Morbi et consectetur nisi. In ac purus non dui fringilla rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Etiam porta eu libero id iaculis. Suspendisse velit orci, euismod nec leo non, auctor laoreet eros. Maecenas a dolor magna. Duis efficitur elit in vulputate mattis. Donec turpis odio, bibendum ut consectetur a, ultrices non lectus. Maecenas vitae lacus at sem vulputate pulvinar.
-                        </p>
-                        <p>
-                            Proin vitae erat condimentum, commodo lacus in, euismod nulla. Aenean vehicula risus eu lacus elementum dignissim. Praesent dapibus diam non lacinia efficitur. Donec vel neque quis orci mattis auctor sit amet quis tellus. Phasellus auctor viverra convallis. Cras ac elementum velit, quis imperdiet tortor. Suspendisse metus magna, congue in ipsum sit amet, varius efficitur orci. Vivamus urna tellus, vulputate a faucibus sit amet, accumsan at velit. Sed auctor sem quis est imperdiet dignissim. Nam a tortor sit amet quam finibus tincidunt eu sit amet nunc. Phasellus ultricies hendrerit rhoncus.
-                        </p>
-                        <p>
-                            Morbi pellentesque mauris at porttitor malesuada. Nulla facilisi. Nulla feugiat semper ipsum et rhoncus. Cras rhoncus arcu at massa suscipit lobortis. Sed convallis, ex eu auctor laoreet, odio neque hendrerit nisl, at porta odio turpis a magna. Etiam in eleifend neque. Aliquam fringilla ut neque sed tristique. Vestibulum porttitor urna eget nulla placerat gravida. Aliquam erat volutpat. Quisque nec nibh metus. Mauris vitae felis vitae nisl facilisis pharetra. Phasellus quis enim pulvinar, iaculis lectus eu, rhoncus ex. Cras sed ipsum vel mi euismod condimentum.
+                    <div class="text" id="projText">
+                        <%--<p>--%>
+                            <%--Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed massa lobortis, tristique mauris pulvinar, bibendum risus. Cras consectetur convallis mauris vel aliquam. Maecenas molestie, lacus in aliquam commodo, risus ex consectetur libero, vitae euismod nisi nulla commodo libero. In fringilla nibh et eros interdum pharetra. Nulla condimentum nulla eget pulvinar posuere. Etiam aliquet fermentum lectus, sed feugiat nibh mattis quis. Curabitur justo urna, laoreet sed pellentesque vitae, volutpat sed est. Etiam sollicitudin tincidunt tortor vitae euismod. Vestibulum ut accumsan ante, ac mollis felis. Pellentesque id metus consectetur, maximus ex at, luctus sapien. Sed non nibh id urna cursus ultrices blandit id arcu. Nunc facilisis eu lacus a consequat. Nunc convallis nec lacus id convallis. Morbi aliquet commodo nisi, sit amet pellentesque mi imperdiet non. Morbi a arcu nisi.--%>
+                        <%--</p>--%>
+                        <%--<p>--%>
+                            <%--Vivamus pulvinar faucibus eros, et ultricies est ultrices eu. Praesent commodo odio id urna bibendum, eu vestibulum augue sodales. Nullam eget ornare arcu. Aenean eget tincidunt lectus. Nam finibus ex nec quam porttitor viverra. Quisque sed euismod quam, ut tempor justo. Donec finibus, felis et cursus commodo, ligula tellus tincidunt ex, a ullamcorper enim risus maximus arcu. Aliquam euismod mollis sollicitudin.--%>
+                        <%--</p>--%>
+                        <%--<p>--%>
+                            <%--Sed vel luctus nisi. Fusce laoreet vitae lorem eget gravida. Morbi et consectetur nisi. In ac purus non dui fringilla rutrum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Etiam porta eu libero id iaculis. Suspendisse velit orci, euismod nec leo non, auctor laoreet eros. Maecenas a dolor magna. Duis efficitur elit in vulputate mattis. Donec turpis odio, bibendum ut consectetur a, ultrices non lectus. Maecenas vitae lacus at sem vulputate pulvinar.--%>
+                        <%--</p>--%>
+                        <%--<p>--%>
+                            <%--Proin vitae erat condimentum, commodo lacus in, euismod nulla. Aenean vehicula risus eu lacus elementum dignissim. Praesent dapibus diam non lacinia efficitur. Donec vel neque quis orci mattis auctor sit amet quis tellus. Phasellus auctor viverra convallis. Cras ac elementum velit, quis imperdiet tortor. Suspendisse metus magna, congue in ipsum sit amet, varius efficitur orci. Vivamus urna tellus, vulputate a faucibus sit amet, accumsan at velit. Sed auctor sem quis est imperdiet dignissim. Nam a tortor sit amet quam finibus tincidunt eu sit amet nunc. Phasellus ultricies hendrerit rhoncus.--%>
+                        <%--</p>--%>
+                        <%--<p>--%>
+                            <%--Morbi pellentesque mauris at porttitor malesuada. Nulla facilisi. Nulla feugiat semper ipsum et rhoncus. Cras rhoncus arcu at massa suscipit lobortis. Sed convallis, ex eu auctor laoreet, odio neque hendrerit nisl, at porta odio turpis a magna. Etiam in eleifend neque. Aliquam fringilla ut neque sed tristique. Vestibulum porttitor urna eget nulla placerat gravida. Aliquam erat volutpat. Quisque nec nibh metus. Mauris vitae felis vitae nisl facilisis pharetra. Phasellus quis enim pulvinar, iaculis lectus eu, rhoncus ex. Cras sed ipsum vel mi euismod condimentum.--%>
                     </div>
                 </div>
                 <div class="commentsSection">
-                    <div class="count">Комментарии: 123</div>
+                    <div class="count" id="commentsNum">Комментарии: </div>
                 </div>
                 <div class="clearfix"></div>
                 <div class="downComments"><p>КОММЕНТАРИИ</p></div>
@@ -149,19 +152,6 @@
                         <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
                         <a class="NameUser" href="#">Вася Петров</a>
                         <p class="commentUser">Интересно было узнать, история повторяется циклично!</p>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-                <div class="bottomSection">
-                    <button type="button" class="abutton blue invest">Инвестировать</button>
-                    <div class="projectProgressBlock">
-                        <div class="current elem cash">234 $</div>
-                        <div class="bar elem">
-                            <div class="colored"></div>
-                            <div class="empty" style="width: 30%;"></div>
-                            <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
-                        </div>
-                        <div class="todo elem cash">2304 $</div>
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -210,6 +200,55 @@
             })
         });
 
+        var projectId = getUrlParam('id');
+
+        loadAndAppendProject(projectId);
+
+        function loadAndAppendProject(projectId) {
+            $.ajax({
+                type: "GET",
+                url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/read",
+                statusCode: {
+                    200: function (project) {
+                        appendProjectBlock(project);
+                    }
+                }
+            });
+        }
+
+        function appendProjectBlock(project) {
+            $('#projCreatedDate').append(getReadableCreatedDate(project.createdDate));
+            $('#projViewsNum').append(project.views);
+            $('#projName').append(project.title);
+
+            for (var imgId in project.imagesIds) {
+                appendProjectImage(imgId, project.imagesIds[imgId]);
+            }
+            $('#investedAmount').append(project.investedAmount + ' ₴ ');
+            $('#requestedAmount').append(project.amountRequested + ' ₴ ');
+            $('#projProgress').css('width', getInvertedProgressNum(project.investedAmount, project.amountRequested) + '%');
+            $('#projText').append(project.description);
+            $('#commentsNum').append(project.totalComments);
+
+        }
+
+        function appendProjectImage(imgId, imgKey) {
+            var imgTag = '<img class="photo ';
+            imgTag += (imgKey === "1") ? 'full" ' : '" ';
+            imgTag += 'src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + imgId + '" >';
+
+            $('#projImages').append(imgTag);
+        }
+
+        function getReadableCreatedDate(timestamp) {
+            var createdDate = new Date(timestamp);
+            return createdDate.getDate() + '.' + (createdDate.getMonth() + 1) + '.' + createdDate.getFullYear();
+        }
+
+        function getInvertedProgressNum(investedAmount, amountRequested) {
+            var invertedProgressNum = (1 -(investedAmount/amountRequested))*100;
+            return 5 * Math.ceil(invertedProgressNum/5);
+        }
 //        if (getUrlParam('projectId') == null) {
 //            alert('null');
 //        }

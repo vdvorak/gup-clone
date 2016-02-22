@@ -168,6 +168,8 @@
         <script src="/resources/js/search-bar.js"></script>
 
         <script>
+            $("#selectedService option[value='project']").attr("selected","selected");
+
             var projectType = (getUrlParam('type') != null ? getUrlParam('type').toUpperCase() : null);
             var projectFO = {type : projectType, searchField : getUrlParam('name'), skip: 0, limit: 10};
 
