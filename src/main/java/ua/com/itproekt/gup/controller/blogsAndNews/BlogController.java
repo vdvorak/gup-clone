@@ -82,7 +82,7 @@ public class BlogController {
         model.addAttribute("username", userName);
         model.addAttribute("check", check);
         model.addAttribute("blog", blog);
-        return "news/blog-OLD";
+        return "news/blog";
     }
 
 

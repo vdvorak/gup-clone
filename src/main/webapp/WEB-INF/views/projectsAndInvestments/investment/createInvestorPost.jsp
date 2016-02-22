@@ -36,34 +36,6 @@
 
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
-<%--<div>--%>
-<%--<h2 align="center">Создание публикации инвестора</h2>--%>
-<%--</div>--%>
-
-<%--<div>--%>
-<%--<label for="investorPostDescription"><b>Описание: </b></label>--%>
-<%--<textarea id="investorPostDescription"--%>
-<%--placeholder="Минимум 50 символов, максимум 5000." required></textarea>--%>
-<%--</div>--%>
-
-<%--<div>--%>
-<%--<label for="amountOfMoney"><b>Сумма инвестирования: </b></label>--%>
-<%--<input id="amountOfMoney" type="number" min="1"--%>
-<%--placeholder="Минимум 1" required>--%>
-<%--</div>--%>
-
-<%--<div>--%>
-<%--<label for="categoriesOfIndustry"><b>Категории индустрии: </b></label>--%>
-<%--<select multiple="multiple" size="4" name="categoriesOfIndustry" id="categoriesOfIndustry" required>--%>
-<%--<option value="cat1">Категория 1</option>--%>
-<%--<option value="cat2">Категория 2</option>--%>
-<%--<option value="cat3">Категория 3</option>--%>
-<%--<option value="cat4">Категория 4</option>--%>
-<%--</select>--%>
-<%--</div>--%>
-
-<%--<button id="createInvestorPost">Создать</button>--%>
-
 <div class="container2">
     <div class="contentContainer editor" id="tab-container-pVSi">
 
