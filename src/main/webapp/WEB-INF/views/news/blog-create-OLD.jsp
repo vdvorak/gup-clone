@@ -9,11 +9,12 @@
 <html>
 <head>
     <title>Создание блога</title>
-    <link href="/resources/css/mini.css" rel="stylesheet">
-    <link href="/resources/css/main.css" rel="stylesheet">
-    <link href="/resources/css/bootstrap.css" rel="stylesheet">
-    <link href="/resources/css/bootstrap-theme.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="resources/css/bootstrap.css">
+    <link rel="stylesheet" href="resources/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="resources/css/main.css">
+    <link rel="stylesheet" href="resources/css/font-awesome.css">
+    <link rel="stylesheet" href="resources/css/media-queries.css">
 
     <%-- Cropper style --%>
     <link  href="/resources/css/cropper.css" rel="stylesheet">
@@ -48,7 +49,15 @@
                 <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
             </form>
 
-            <div class="defaultIMG"><img class="img-responsive" src="/resources/images/no_photo.jpg" alt="defaultIMG"></div>
+            <div class="defaultIMG">
+                <ul>
+                    <li>
+                        <span class="descr"><i class="fa fa-trash-o fa-2x"></i><i class="fa fa-pencil fa-2x"></i></span>
+                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                    </li>
+                </ul>
+            </div>
+
             <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
             <label class="blogCreationLabel">Фотографии</label>
         </form>

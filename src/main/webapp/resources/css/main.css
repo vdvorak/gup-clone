@@ -3107,8 +3107,56 @@ label[for="checkbox-filter3"] {
 
 .defaultIMG {
 	margin-left: 195px;
+}
+
+.defaultIMG ul,
+.defaultIMG li {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.defaultIMG li {
+	display: inline-block;
 	width: 225px;
-	height: 225px;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+
+.defaultIMG img {
+	max-width: 100%;
+	display: block;
+}
+
+.descr {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: auto;
+	background-color: rgba(0,0,0,.5);
+	transition: all .5s;
+	opacity: 0;
+	transform: rotateZ(90deg);
+	border-radius: 50%;
+}
+
+.defaultIMG li:hover .descr {
+	opacity: 1;
+	transform: rotateZ(0deg);
+	border-radius: 0;
+}
+
+.descr i {
+	float: right;
+	padding: 10px;
+	cursor: pointer;
+	transition: all .25s;
+}
+
+.descr i:hover {
+	color: white;
 }
 
 .SendEdition {
