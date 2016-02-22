@@ -433,7 +433,9 @@
             url: "/api/rest/tenderService/tender/read/all/",
             data: JSON.stringify(projectFO),
             success: function (response) {
-                draw(response.entities);
+                if(response) {
+                    draw(response.entities);
+                }
             }
         });
 
