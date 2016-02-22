@@ -35,7 +35,7 @@ public class BlogController {
     //ToDo - delete when new version will work
     @RequestMapping("/blog-create")
     public String getBlogCreatePage() {
-        return "news/blog-create-OLD";
+        return "news/blog-create";
     }
 
     @RequestMapping("/blogs")

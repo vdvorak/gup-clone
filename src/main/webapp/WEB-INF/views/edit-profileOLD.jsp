@@ -397,7 +397,7 @@
 
             if (x < max_fields ) { //max input box allowed
                 x++; //text box increment
-                $(wrapper).append('<div><input id="soc' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png"></a></div>');
+                $(wrapper).append('<div><input id="soc' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="20" height="20"></a></div>');
             }
         });
 
