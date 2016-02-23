@@ -52,7 +52,7 @@
             <div class="defaultIMG">
                 <ul>
                     <li>
-                        <span class="descr"><i class="fa fa-trash-o fa-2x"></i><i class="fa fa-pencil fa-2x"></i></span>
+                        <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImgFromDB()"></i><i class="fa fa-pencil fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
                     </li>
                 </ul>
@@ -243,7 +243,7 @@
                     // files is a FileList of File objects. List some properties.
 
                     if (imgId !== '') {
-                        deleteImgFromDB(imgId);
+                        deleteImgFromDB();
                     }
 
                     $.ajax({
@@ -256,7 +256,7 @@
                         processData: false,
                         success: function (data, textStatus, request) {
                             imgId = data.id;
-                            $('.defaultIMG > img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                            $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
                         }
                     });
             }
@@ -297,7 +297,7 @@
                 formImg.append('file', files[0]);
 
                 if (imgId !== '') {
-                    deleteImgFromDB(imgId);
+                    deleteImgFromDB();
                 }
 
                 $.ajax({
@@ -310,7 +310,7 @@
                     processData: false,
                     success: function (data, textStatus, request) {
                         imgId = data.id;
-                        $('.defaultIMG > img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                        $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
                     }
                 });
 
@@ -319,9 +319,10 @@
 
     });
 
-    function deleteImgFromDB(picId) {
+    function deleteImgFromDB() {
+        $('.defaultIMG').find('img').attr("src", "/resources/images/no_photo.jpg");
         $.ajax({
-            url: '/api/rest/fileStorage/NEWS/file/delete/id/' + picId,
+            url: '/api/rest/fileStorage/NEWS/file/delete/id/' + imgId,
             method: 'POST',
             success: function (response) {
             },
@@ -349,7 +350,7 @@
         formData.append('file', blob);
 
         if (imgId !== '') {
-            deleteImgFromDB(imgId);
+            deleteImgFromDB();
         }
 
         $.ajax({
