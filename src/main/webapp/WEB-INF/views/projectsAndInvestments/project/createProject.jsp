@@ -11,7 +11,8 @@
     <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/alster.css">
-    <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/resources/css/font-awesome.css">
+
 </head>
 <body>
 <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
@@ -62,16 +63,6 @@
                 <span class="currency">₴</span>
             </div>
 
-            <div class="field required">
-                <label for="categoriesOfIndustry" class="editorLabel">Категории индустрии:</label>
-                <select multiple="multiple" size="4" name="categoriesOfIndustry" id="categoriesOfIndustry" required>
-                    <option value="cat1">Категория 1</option>
-                    <option value="cat2">Категория 2</option>
-                    <option value="cat3">Категория 3</option>
-                    <option value="cat4">Категория 4</option>
-                </select>
-            </div>
-
             <div class="field description">
                 <label for="description" class="editorLabel">Описание</label>
                 <textarea id="description" type="text" name='description' class="editorInput"></textarea>
@@ -83,9 +74,15 @@
 
             <div class="field IMGUploader">
                 <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
-                <div id="drop_zone" class="IMGBlock">
-                    <div id="img-default" class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
-                </div>
+            </div>
+
+            <div id="drop_zone" class="defaultIMG">
+                <ul>
+                    <li class="li-containerIMG li-defaultIMG">
+                        <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                    </li>
+                </ul>
             </div>
 
             <div class="field">
@@ -201,13 +198,17 @@
                         var isImage = f.type.substring(0, 5) === 'image';
                         if (isImage) {
                             imagesIds[id] = "image";
-                            var cloneImg = $("#img-default").clone();
-                            $("#img-default").css("display", "none");
+                            $(".li-defaultIMG").css("display", "none");
+                            var cloneImg = $(".li-defaultIMG").clone()
+                                    .removeClass('li-defaultIMG')
+                                    .css("display", "inline-block");
                             cloneImg.find('img')
                                     .attr("alt", "")
                                     .attr("src", '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + id)
-                                    .attr("id", id)
-                                    .appendTo('.IMGBlock');
+                                    .attr("id", id);
+                            cloneImg.find('span')
+                                    .click(deleteImgFromDB);
+                            cloneImg.appendTo('.defaultIMG ul');
 
                         }
                     }
@@ -250,13 +251,17 @@
                     var isImage = f.type.substring(0, 5) === 'image';
                     if (isImage) {
                         imagesIds[id] = "image";
-                        var cloneImg = $("#img-default").clone();
-                        $("#img-default").css("display", "none");
+                        $(".li-defaultIMG").css("display", "none");
+                        var cloneImg = $(".li-defaultIMG").clone()
+                                .removeClass('li-defaultIMG')
+                                .css("display", "inline-block");
                         cloneImg.find('img')
                                 .attr("alt", "")
                                 .attr("src", '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + id)
-                                .attr("id", id)
-                                .appendTo('.IMGBlock');
+                                .attr("id", id);
+                        cloneImg.find('span')
+                                .click(deleteImgFromDB);
+                        cloneImg.appendTo('.defaultIMG ul');
                     }
                 }
             });
@@ -264,13 +269,22 @@
         event.currentTarget.form.reset();
     });
 
-    function deleteImgFromDB(picId) {
-        delete imagesIds[picId];
+    function deleteImgFromDB(event) {
+
+        var picId = $(event.currentTarget).parent()
+                .find('img')
+                .attr('id');
+       delete imagesIds[picId];
         $.ajax({
             url: '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/delete/id/' + picId,
             method: 'POST',
             success: function (response) {
-                $('#' + picId).remove();
+                $('#' + picId).parent().remove();
+
+                var numberImg = $(".defaultIMG").find('img').length;
+                if(numberImg < 2) {
+                    $(".li-defaultIMG").css("display", "inline-block");
+                }
             },
             error: function (response) {
             }
