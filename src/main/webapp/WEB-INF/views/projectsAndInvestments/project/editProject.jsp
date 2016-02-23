@@ -43,7 +43,7 @@
 
     <div class="container2">
         <div class="contentContainer editor">
-            <div class="title">РЕДАКТОР ПРОЕКТА</div>
+            <div class="title">Редактирование проекта</div>
             <form class="project" action="">
                 <div class="field required tit">
                     <label for="main-title-info" class="editorLabel">Заголовок</label>
@@ -56,45 +56,42 @@
                             <div class="row">
                                 <label for="type-restruct">Реструктуризация</label>
                                 <label class="label-checkbox">
-                                    <input type="radio" class="greenCheckbox" id="type-restruct" value="restruct" name="type" /><span></span></label>
+                                    <input type="radio" class="greenCheckbox" id="type-restruct" value="RENOVATION" name="type" /><span></span></label>
                             </div>
                             <div class="row">
                                 <label for="type-paper">Проект на бумаге</label>
                                 <label class="label-checkbox">
-                                    <input type="radio" class="greenCheckbox" id="type-paper" value="paper" name="type" /><span></span></label>
+                                    <input type="radio" class="greenCheckbox" id="type-paper" value="PROJECT_ON_PAPER" name="type" /><span></span></label>
                             </div>
                         </div>
                         <div class="column c2">
                             <div class="row">
                                 <label for="type-prototype">Готовый прототип</label>
                                 <label class="label-checkbox">
-                                    <input type="radio" class="greenCheckbox" id="type-prototype" value="prototype" name="type" /><span></span></label>
+                                    <input type="radio" class="greenCheckbox" id="type-prototype" value="PROTOTYPE" name="type" /><span></span></label>
                             </div>
                             <div class="row">
                                 <label for="type-nouHau">Ноу-Хау</label>
                                 <label class="label-checkbox">
-                                    <input type="radio" class="greenCheckbox" id="type-nouHau" value="nouHau" name="type" /><span></span></label>
+                                    <input type="radio" class="greenCheckbox" id="type-nouHau" value="KNOW_HOW" name="type" /><span></span></label>
                             </div>
                         </div>
                     </div>
-
+                </div>
+                <div class="field IMGUploader">
+                    <label for="imgInput" class="editorLabel">Изображения</label>
+                    <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
+                    <input type="file" id="imgInput" style="display: none;" multiple="multiple" accept="image/*">
+                    <div class="IMGBlock" id="IMGBlock"></div>
                 </div>
                 <div class="field required">
-                    <label for="sum" class="editorLabel">Сумма</label>
+                    <label for="sum" class="editorLabel">Нужная сумма</label>
                     <input id="sum" type="number" name='sum' class="editorInput" style="width: 291px;">
                     <span class="currency">₴</span>
                 </div>
                 <div class="field description">
                     <label for="description" class="editorLabel">Описание</label>
                     <textarea id="description" type="text" name='description' class="editorInput"></textarea>
-                </div>
-                <div class="field IMGUploader">
-                    <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
-                    <input type="file" style="display: none;" multiple="multiple" accept="image/*">
-                    <div class="IMGBlock">
-                        <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
-                        <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
-                    </div>
                 </div>
                 <div class="field">
                     <button type="submit" class="info-submit">Сохранить</button>
@@ -126,6 +123,40 @@
     <script>
         $("#selectedService option[value='project']").attr("selected","selected");
 
+        var projectId = getUrlParam('id');
+
+        loadAndAppendProjectInfo(projectId);
+
+        function loadAndAppendProjectInfo(projectId) {
+            $.ajax({
+                type: "GET",
+                url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/read",
+                statusCode: {
+                    200: function (project) {
+                        appendProjectInfo(project);
+                    }
+                }
+            });
+        }
+
+        function appendProjectInfo(project) {
+            $('#main-title-info').val(project.title);
+            $('#sum').val(project.amountRequested);
+            $('#description').val(project.description);
+            $('input:radio').filter('[value="' + project.type + '"]').attr('checked', true);
+
+            for (var imgId in project.imagesIds) {
+                appendProjectImage(imgId);
+            }
+        }
+
+        function appendProjectImage(imageId) {
+            var imgTag = '<div class="defaultIMG">' +
+                            '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + imageId + '" width="60" height="60">' +
+                         '</div>';
+
+            $('#IMGBlock').append(imgTag);
+        }
     </script>
 
     <%--var changedProject = {};--%>

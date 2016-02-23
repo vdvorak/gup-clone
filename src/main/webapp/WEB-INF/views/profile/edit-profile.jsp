@@ -186,6 +186,22 @@
         var emailCloneCount = 1;
         var contactPhoneCloneCount = 1;
 
+        $(document).ready(function() {
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/profilesService/profile/read/id/" + profileId + "/wholeProfile",
+                statusCode: {
+                    200: function (profile) {
+                        loadedProfile = profile;
+                        updatedProfile.contact = loadedProfile.contact;
+                        updatedProfile.userProfile = loadedProfile.userProfile;
+
+                        setValuesForFieldsFromProfile(profile);
+                    }
+                }
+            });
+        });
+
         function setValuesForFieldsFromProfile(profile) {
 //            alert('loadedProfile: ' + JSON.stringify(loadedProfile));
 
@@ -247,8 +263,6 @@
                     }).appendTo('#contactPhonesBlock');
                 }
             }
-
-//                    $('#tel-info').attr("placeholder", profile.contact.O);
         }
 
         function initializeProfileEntityForUpdate() {
@@ -300,21 +314,6 @@
 
         }
 
-        $(document).ready(function() {
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/profilesService/profile/read/id/" + profileId + "/wholeProfile",
-                statusCode: {
-                    200: function (profile) {
-                        loadedProfile = profile;
-                        updatedProfile.contact = loadedProfile.contact;
-                        updatedProfile.userProfile = loadedProfile.userProfile;
-
-                        setValuesForFieldsFromProfile(profile);
-                    }
-                }
-            });
-        });
 
         $('#updateProfileBtn').on('click', function () {
             initializeProfileEntityForUpdate();
