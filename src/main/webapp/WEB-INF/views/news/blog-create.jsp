@@ -48,26 +48,19 @@
             <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
                 <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
             </form>
-
-            <div class="defaultIMG">
-                <ul>
-                    <li>
-                        <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImgFromDB()"></i><i class="fa fa-pencil fa-2x"></i></span>
-                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
-                    </li>
-                </ul>
+            <div class="drop_zone">
+                <div class="defaultIMG">
+                    <ul>
+                        <li>
+                            <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImgFromDB()"></i><i class="fa fa-pencil fa-2x" onClick="openImgCropper()"></i></span>
+                            <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                        </li>
+                    </ul>
+                </div>
             </div>
-
             <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
             <label class="blogCreationLabel">Фотографии</label>
         </form>
-
-
-
-        <div id="drop_zone">
-            <img id="image" src="/resources/images/no_photo.jpg">
-        </div>
-        <button id="btn-done">Готово</button>
 
 
         <button type="button" class="SendEdition">Отправить редакции</button>
@@ -75,6 +68,26 @@
         <div class="clearfix"></div>
     </div>
 </div>
+
+<div id="cropperModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Редактирование фото</h4>
+            </div>
+            <div class="modal-body">
+                <div class="drop_zone">
+                    <img id="image" src="/resources/images/no_photo.jpg">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button id="btn-cropp-done" type="button" class="btn btn-primary">Готово</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <%--<div>--%>
     <%--<input id="blogTitle" type="text" name="blogTitle" minlength="2" maxlength="70" required--%>
@@ -126,6 +139,7 @@
 
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/cropper.js"></script>
 <script>
 
@@ -217,10 +231,11 @@
 
         // -------------------------------------------------------BEGIN drop zone ------------------------------------------
 
-        var dropZone = document.getElementById('drop_zone');
-        dropZone.addEventListener('dragover', handleDragOver, false);
-        dropZone.addEventListener('drop', handleFileSelect, false);
-
+        var dropZone = document.getElementsByClassName('drop_zone');
+        for(var i = 0; i < dropZone.length; i++) {
+            dropZone[i].addEventListener('dragover', handleDragOver, false);
+            dropZone[i].addEventListener('drop', handleFileSelect, false);
+        }
         function handleFileSelect(evt) {
             evt.stopPropagation();
             evt.preventDefault();
@@ -331,6 +346,11 @@
         });
     }
 
+    function openImgCropper() {
+
+        console.log(cropper.container);
+        $('#cropperModal').modal('show');
+    }
     //----------------------------------------------------- End Images -----------------------------------------------
     function dataURItoBlob(dataURI) {
         var binary = atob(dataURI.split(',')[1]);
@@ -341,10 +361,14 @@
         return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
     }
 
-    $("#btn-done").click(function() {
+    $("#btn-cropp-done").click(function() {
+        $('#cropperModal').modal('hide');
+
         var canvas = cropper.getCroppedCanvas();
         var dataURL = canvas.toDataURL('image/jpeg', 0.5);
         var blob = dataURItoBlob(dataURL);
+
+        cropper.replace(dataURL);
 
         var formData = new FormData();
         formData.append('file', blob);
@@ -363,7 +387,7 @@
             processData: false,
             success: function (data, textStatus, request) {
                 imgId = data.id;
-                $('.defaultIMG > img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
             }
         });
 });
