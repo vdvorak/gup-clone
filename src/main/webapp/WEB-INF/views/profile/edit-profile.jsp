@@ -267,33 +267,16 @@
 
         function initializeProfileEntityForUpdate() {
             updatedProfile.id = loadedProfile.id;
-
-//            if(loadedProfile.username !== $('#userName').val()) {
-                updatedProfile.username = $('#userName').val();
-//            }
+            updatedProfile.username = $('#userName').val();
+            updatedProfile.contact.position = $('#position').val();
+            updatedProfile.contact.companyName = $('#nameCompany').val();
+            updatedProfile.contact.aboutUs = $('#info-about-me').val();
+            updatedProfile.contact.skypeUserName = $('#skype-info').val();
+            updatedProfile.contact.linkToWebSite = $('#web-addresses').val();
+            updatedProfile.mainPhoneNumber = $('#main-tel-info').val();
 
 //            if(loadedProfile.contact.type !== $('#select-type').val() && $('#select-type').val() !== "") {
                 updatedProfile.contact.type = $('#select-type').val();
-//            }
-
-            updatedProfile.contact.position = $('#position').val();
-            updatedProfile.contact.companyName = $('#nameCompany').val();
-
-
-//            if(loadedProfile.contact.aboutUs !== $('#info-about-me').val()) {
-                updatedProfile.contact.aboutUs = $('#info-about-me').val();
-//            }
-
-//            if(loadedProfile.contact.skypeUserName !== $('#skype-info').val()) {
-                updatedProfile.contact.skypeUserName = $('#skype-info').val();
-//            }
-
-//            if(loadedProfile.contact.linkToWebSite !== $('#web-addresses').val()) {
-                updatedProfile.contact.linkToWebSite = $('#web-addresses').val();
-//            }
-
-//            if(loadedProfile.mainPhoneNumber !== $('#main-tel-info').val()) {
-                updatedProfile.mainPhoneNumber = $('#main-tel-info').val();
 //            }
 
             var contactEmails = [];

@@ -91,10 +91,10 @@
                 </div>
                 <div class="field description">
                     <label for="description" class="editorLabel">Описание</label>
-                    <textarea id="description" type="text" name='description' class="editorInput"></textarea>
+                    <textarea id="description" name='description' class="editorInput"></textarea>
                 </div>
                 <div class="field">
-                    <button type="submit" class="info-submit">Сохранить</button>
+                    <button id="editProjectBtn" class="info-submit">Сохранить</button>
                 </div>
             </form>
         </div>
@@ -124,6 +124,7 @@
         $("#selectedService option[value='project']").attr("selected","selected");
 
         var projectId = getUrlParam('id');
+        var updatedProject = {};
 
         loadAndAppendProjectInfo(projectId);
 
@@ -156,6 +157,33 @@
                          '</div>';
 
             $('#IMGBlock').append(imgTag);
+        }
+
+        $('#editProjectBtn').on('click', function () {
+            initializeProjectEntityForUpdate();
+
+            alert('updatedProject : ' + JSON.stringify(updatedProject));
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/projectsAndInvestmentsService/project/edit",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(updatedProject),
+                statusCode: {
+                    200: function () {
+                        window.location.href = '/project?id=' + projectId;
+                    }
+                }
+            });
+        });
+
+        function initializeProjectEntityForUpdate() {
+            updatedProject.id = projectId;
+            updatedProject.title = $('#main-title-info').val();
+            updatedProject.type = $('input:radio[name="type"]:checked').val()
+            updatedProject.description = $('#description').val();
+            updatedProject.amountRequested = $('#sum').val();
         }
     </script>
 
