@@ -154,7 +154,6 @@
                 url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/read",
                 statusCode: {
                     200: function (project) {
-                        alert(JSON.stringify(project));
                         appendProjectBlock(project);
                     }
                 }

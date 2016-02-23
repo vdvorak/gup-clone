@@ -178,6 +178,7 @@
     <script src="/resources/js/logo-section.js"></script>
     <script src="/resources/js/search-bar.js"></script>
 
+    <script src="/resources/js/edit-profile.js"></script>
     <script>
         var profileId = "${profileId}";
         var loadedProfile = {};
@@ -300,9 +301,7 @@
 
         $('#updateProfileBtn').on('click', function () {
             initializeProfileEntityForUpdate();
-
 //            alert('updatedProfile : ' + JSON.stringify(updatedProfile));
-
             $.ajax({
                 type: "POST",
                 url: "/api/rest/profilesService/profile/edit",
@@ -346,16 +345,14 @@
                     $('#companyAddressBlock').show();
                     break;
 
-                default:
-                    $('#userName').show();
-                    $('#aboutCompany').hide();
-                    $('#aboutMe').show();
+//                default:
+//                    $('#userName').show();
+//                    $('#aboutCompany').hide();
+//                    $('#aboutMe').show();
             }
         });
 
-        $('#addProfileImg').on('click', function () {
-            $("#uploadProfilePhotoInput").click();
-        });
+
 
         $('#addEmailImg').on('click', function () {
             if (emailCloneCount < 5) {
@@ -377,6 +374,10 @@
             }
         });
 
+        $('#addProfileImg').on('click', function () {
+            $("#uploadProfilePhotoInput").click();
+        });
+
         $('#uploadProfilePhotoInput').on('change', function () {
             $.ajax({
                 type: "POST",
@@ -389,7 +390,6 @@
                 processData: false,
                 statusCode: {
                     201: function (data) {
-//                        alert('201');
                         updatedProfile.contact.pic = data.id;
                         $('.moreInformation-img').css('background',
                                 'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');
@@ -401,11 +401,7 @@
                 }
             });
         });
-
-
     </script>
-    <script src="/resources/js/edit-profile.js"></script>
-
 </body>
 </html>
 

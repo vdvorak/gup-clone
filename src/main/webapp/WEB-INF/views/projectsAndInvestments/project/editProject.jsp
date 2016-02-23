@@ -44,7 +44,10 @@
     <div class="container2">
         <div class="contentContainer editor">
             <div class="title">Редактирование проекта</div>
-            <form class="project" action="">
+            <form id="uploadProjectPhotoForm">
+                <input id="uploadProjectPhotoInput" type="file" name="file" accept="image/*,image/jpeg" style="display:none">
+            </form>
+            <form class="project">
                 <div class="field required tit">
                     <label for="main-title-info" class="editorLabel">Заголовок</label>
                     <input id="main-title-info" type="text" name='text' class="editorInput">
@@ -78,12 +81,16 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="field IMGUploader">
-                    <label for="imgInput" class="editorLabel">Изображения</label>
-                    <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
-                    <input type="file" id="imgInput" style="display: none;" multiple="multiple" accept="image/*">
+                    <label for="addProjPhoto" class="editorLabel">Изображения</label>
+                    <div class="titleFile" data-title="Добавить изображение">
+                        <button id="addProjPhoto" class="blogCreationSubmit"></button>
+                    </div>
                     <div class="IMGBlock" id="IMGBlock"></div>
                 </div>
+
+
                 <div class="field required">
                     <label for="sum" class="editorLabel">Нужная сумма</label>
                     <input id="sum" type="number" name='sum' class="editorInput" style="width: 291px;">
@@ -134,6 +141,7 @@
                 url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/read",
                 statusCode: {
                     200: function (project) {
+                        updatedProject.imagesIds = project.imagesIds;
                         appendProjectInfo(project);
                     }
                 }
@@ -173,6 +181,32 @@
                 statusCode: {
                     200: function () {
                         window.location.href = '/project?id=' + projectId;
+                    }
+                }
+            });
+        });
+
+        $('#addProjPhoto').on('click', function () {
+            $("#uploadProjectPhotoInput").click();
+        });
+
+        $('#uploadProjectPhotoInput').on('change', function () {
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/fileStorage/project/file/upload", //
+                data: new FormData($("#uploadProjectPhotoForm")[0]),
+                enctype: 'multipart/form-data',
+//                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                statusCode: {
+                    201: function (data) {
+                        updatedProject.imagesIds.push(data.id);
+                        appendProjectImage(data.id);
+                    },
+                    400: function () {
+                        alert('400');
                     }
                 }
             });
