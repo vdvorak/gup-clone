@@ -25,125 +25,140 @@
 </head>
 <body>
 
-    <!--[if lt IE 8]>
-        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
 
-    <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
 
-    <jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
 
-    <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
 
-    <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
-    <sec:authorize access="isAuthenticated()">
-        <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
-    </sec:authorize>
+<sec:authorize access="isAuthenticated()">
+    <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
 
-    <div class="container2">
-        <div class="moreInformation">
-            <p class="info-p">Редактирование профиля</p>
+<div class="container2">
+    <div class="moreInformation">
+        <p class="info-p">Редактирование профиля</p>
 
-            <form id="uploadProfilePhotoForm">
-                <input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" style="display:none">
-            </form>
-            <div class="moreInformation-img" id="addProfileImg">
-                <a><img src="resources/images/pluse.png" alt="plus"></a>
+        <form id="uploadProfilePhotoForm">
+            <input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg"
+                   style="display:none">
+        </form>
+        <div class="moreInformation-img" id="addProfileImg">
+            <a><img src="resources/images/pluse.png" alt="plus"></a>
+        </div>
+        <div id="moreInformation-form">
+            <label class="label-form-info" for="select-type">Тип аккаунта</label>
+
+            <div id="selectBox-info-type">
+                <select id="select-type" class="form-control">
+                    <option value="INDIVIDUAL">Физическое лицо</option>
+                    <option value="LEGAL_ENTITY">Юридическое лицо</option>
+                    <option value="ENTREPRENEUR">Частный предпрениматель</option>
+                </select>
             </div>
-            <div id="moreInformation-form">
-                <label class="label-form-info" for="select-type">Тип аккаунта</label>
-                <div id="selectBox-info-type">
-                    <select id="select-type" class="form-control">
-                        <option value="INDIVIDUAL">Физическое лицо</option>
-                        <option value="LEGAL_ENTITY">Юридическое лицо</option>
-                        <option value="ENTREPRENEUR">Частный предпрениматель</option>
+
+            <div class="clearfix"></div>
+
+            <div id="nameCompanyBlock">
+                <label class="label-form-info" for="nameCompany">Название компании</label>
+                <input id="nameCompany" class="form-info-input" name='name' type="text">
+
+                <div class="clearfix"></div>
+            </div>
+
+            <div id="scopeOfActivityBlock">
+                <label class="label-form-info" for="select-sphere">Cфера деятельности</label>
+
+                <div id="selectBox-info-sphere">
+                    <select id="select-sphere" class="form-control">
+                        <option>Выберете сферу</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
                     </select>
                 </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div id="companyAddressBlock">
+                <label for="address" class="label-form-info">Адрес компании</label>
+                <input type="text" name="address" id="address" class="input-info-normal" placeholder="Добавить ссылку">
 
                 <div class="clearfix"></div>
+            </div>
 
-                <div id="nameCompanyBlock">
-                    <label class="label-form-info" for="nameCompany">Название компании</label>
-                    <input id="nameCompany" class="form-info-input" name='name' type="text">
-                    <div class="clearfix"></div>
-                </div>
-
-                <div id="scopeOfActivityBlock">
-                    <label class="label-form-info" for="select-sphere">Cфера деятельности</label>
-                    <div id="selectBox-info-sphere">
-                        <select id="select-sphere" class="form-control">
-                            <option>Выберете сферу</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-
-                <div id="companyAddressBlock">
-                    <label for="address" class="label-form-info">Адрес компании</label>
-                    <input type="text" name="address" id="address" class="input-info-normal" placeholder="Добавить ссылку">
-                    <div class="clearfix"></div>
-                </div>
-
-                <div id="positionBlock">
-                    <label for="position" class="label-form-info">Должность</label>
-                    <input id="position" type="text" name='position' class="form-info-input">
-                    <div class="clearfix"></div>
-                </div>
-
-                <div id="userNameBlock">
-                    <label class="label-form-info" for="userName">ФИО</label>
-                    <input id="userName" class="form-info-input" name='name' type="text">
-                    <div class="clearfix"></div>
-                </div>
-
-
-                <label for="main-email-info" class="label-form-info">Основной E-mail</label>
-                <input id="main-email-info" type="email" name='email' class="form-info-input">
+            <div id="positionBlock">
+                <label for="position" class="label-form-info">Должность</label>
+                <input id="position" type="text" name='position' class="form-info-input">
 
                 <div class="clearfix"></div>
+            </div>
 
-                <div id="contactEmailsBlock">
-                    <div id="addEmailImg" class="title-email" data-title="Добавить e-mail">
-                        <img class="email-plus" src="resources/images/pluse.png" alt="plus">
-                    </div>
-                    <label for="email-info-1" class="label-form-info">Контактный e-mail</label>
-
-                    <input id="email-info-1" type="email" name='contactEmail' class="form-info-input">
-                    <div class="clearfix"></div>
-                </div>
-
-                <label for="main-tel-info" class="label-form-info">Основной Телефон</label>
-                <input type="tel" name="tel" id="main-tel-info" class="input-info-min">
+            <div id="userNameBlock">
+                <label class="label-form-info" for="userName">ФИО</label>
+                <input id="userName" class="form-info-input" name='name' type="text">
 
                 <div class="clearfix"></div>
+            </div>
 
-                <div id="contactPhonesBlock">
-                    <div  id="addPhoneImg" class="title-tel" data-title="Добавить телефон">
-                        <img class="tel-plus" src="resources/images/pluse.png" alt="plus">
-                    </div>
-                    <label for="tel-info-1" class="label-form-info">Контактный телефон</label>
-                    <input type="tel" name="contactTel" id="tel-info-1" class="input-info-min">
-                    <div class="clearfix"></div>
+
+            <label for="main-email-info" class="label-form-info">Основной E-mail</label>
+            <input id="main-email-info" type="email" name='email' class="form-info-input">
+
+            <div class="clearfix"></div>
+
+            <div id="contactEmailsBlock">
+                <div id="addEmailImg" class="title-email" data-title="Добавить e-mail">
+                    <img class="email-plus" src="resources/images/pluse.png" alt="plus">
                 </div>
+                <label for="email-info-1" class="label-form-info">Контактный e-mail</label>
 
-                <label for="skype-info" class="label-form-info">Skype</label>
-                <input type="text" name="skype" id="skype-info" class="input-info-min">
+                <input id="email-info-1" type="email" name='contactEmail' class="form-info-input">
 
-                <div class="group-info">
-                    <label for="social-icon" class="label-form-info">Социальные сети</label>
-                    <input type="text" name="social-icon" id="social-icon" class="input-info-normal" placeholder="Добавить ссылку">
-                    <div class="social-icon-info">
-                        <a href="#"><img class="img-responsive" src="/resources/images/twitter-info.png" alt=""></a>
-                        <a href="#"><img class="img-responsive" src="/resources/images/facebook-info.png" alt=""></a>
-                        <a href="#"><img class="img-responsive" src="/resources/images/skype-info.png" alt=""></a>
-                        <a href="#"><img class="img-responsive" src="/resources/images/vk-info.png" alt=""></a>
-                        <a href="#"><img class="img-responsive" src="/resources/images/g+info.png" alt=""></a>
-                        <a href="#"><img class="img-responsive" src="/resources/images/in-info.png" alt=""></a>
+                <div class="clearfix"></div>
+            </div>
+
+            <label for="main-tel-info" class="label-form-info">Основной Телефон</label>
+            <input type="tel" name="tel" id="main-tel-info" class="input-info-min">
+
+            <div class="clearfix"></div>
+
+
+
+
+
+
+            <div id="contactPhonesBlock">
+                <div id="addPhoneImg" class="title-tel" data-title="Добавить телефон">
+                    <img class="tel-plus" src="resources/images/pluse.png" alt="plus">
+                </div>
+                <label for="tel-info-1" class="label-form-info">Контактный телефон</label>
+                <input type="tel" name="contactTel" id="tel-info-1" class="input-info-min">
+
+                <div class="clearfix"></div>
+            </div>
+
+
+            <%--<a href="#" class="remove_field" required><img src="/resources/img/minus.png" with="20" height="20"></a>--%>
+
+
+
+            <label for="skype-info" class="label-form-info">Skype</label>
+            <input type="text" name="skype" id="skype-info" class="input-info-min">
+
+
+            <div class="input-group">
+                <div id="socLinkGroup" class="input_soc_wrap">
+                    <div class="left-tag">
+                        <p>Социальные сети</p>
                     </div>
                     <div class="right-tag">
                         <a class="FACEBOOK"><img src="/resources/images/faceb-icon.png"></a>
@@ -162,37 +177,40 @@
                         </div>
                     </div>
                 </div>
-
-                <label for="web-addresses" class="label-form-info">Ссылка на сайт</label>
-                <input type="url" name="web-addresses" id="web-addresses" class="input-info-normal" placeholder="Добавить ссылку">
-
-                <div class="clearfix"></div>
-
-                <label id="aboutMe" for="info-about-me" class="label-form-info">О себе</label>
-                <label id="aboutCompany" for="info-about-me" class="label-form-info">Информация о компании</label>
-                <textarea name="info-about-me" id="info-about-me" class="textarea-about-me" maxlength="3000"></textarea>
-
-                <div class="clearfix"></div>
-
-                <button id="updateProfileBtn" class="info-submit">Сохранить</button>
             </div>
+
+
+            <label for="web-addresses" class="label-form-info">Ссылка на сайт</label>
+            <input type="url" name="web-addresses" id="web-addresses" class="input-info-normal"
+                   placeholder="Добавить ссылку">
+
+            <div class="clearfix"></div>
+
+            <label id="aboutMe" for="info-about-me" class="label-form-info">О себе</label>
+            <label id="aboutCompany" for="info-about-me" class="label-form-info">Информация о компании</label>
+            <textarea name="info-about-me" id="info-about-me" class="textarea-about-me" maxlength="3000"></textarea>
+
+            <div class="clearfix"></div>
+
+            <button id="updateProfileBtn" class="info-submit">Сохранить</button>
         </div>
     </div>
+</div>
 
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
-    <jsp:include page="/WEB-INF/templates/footer.jsp"/>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+<script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+<script src="/resources/js/vendor/bootstrap.js"></script>
+<script src="/resources/js/jquery.bxslider.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
+<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
-    <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
-    <script src="/resources/js/vendor/bootstrap.js"></script>
-    <script src="/resources/js/jquery.bxslider.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
-    <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-
-    <script src="/resources/js/autorizedHeader.js"></script>
-    <script src="/resources/js/main.js"></script>
-    <script src="/resources/js/logo-section.js"></script>
-    <script src="/resources/js/search-bar.js"></script>
+<script src="/resources/js/autorizedHeader.js"></script>
+<script src="/resources/js/main.js"></script>
+<script src="/resources/js/logo-section.js"></script>
+<script src="/resources/js/search-bar.js"></script>
 
 <script>
     var profileId = "${profileId}";
@@ -201,4 +219,3 @@
 
 </body>
 </html>
-
