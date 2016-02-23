@@ -299,9 +299,19 @@ $('#addEmailImg').on('click', function () {
 
 $('#addPhoneImg').on('click', function () {
     if (contactPhoneCloneCount < 5) {
+
+        var cl = '.tel-wrapper-' + (contactPhoneCloneCount + 1);
+        $('<div/>', {
+            class: 'tel-wrapper-' + (contactPhoneCloneCount + 1)
+        }).appendTo('#contactPhonesBlock');
+
+
         $("#tel-info-" + contactPhoneCloneCount).clone()
             .attr('id', 'tel-info-' + (++contactPhoneCloneCount)).val("")
-            .insertAfter("#tel-info-" + (contactPhoneCloneCount - 1));
+            .appendTo(cl);
+
+        $(cl).append('<img class="remove_phone" src="/resources/img/minus.png" with="20" height="20"></a>');
+            //.insertAfter("#tel-info-" + (contactPhoneCloneCount - 1));
     } else {
         alert('Максимум 5 контактных телефоноов');
     }
