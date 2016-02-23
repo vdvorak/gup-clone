@@ -25,7 +25,6 @@
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
-
 <body>
     <!--[if lt IE 8]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
@@ -68,7 +67,7 @@
                         <div class="current elem cash" id="investedAmount"></div>
                         <div class="bar elem">
                             <div class="colored"></div>
-                            <div class="empty" id="projProgress"></div>
+                            <div class="empty" id="projProgress" style="width: 100%;"></div>
                             <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
                         </div>
                         <div class="todo elem cash" id ="requestedAmount"></div>
@@ -165,15 +164,15 @@
             $('#projCreatedDate').append(getReadableCreatedDate(project.createdDate));
             $('#projViewsNum').append(project.views);
             $('#projName').append(project.title);
+            $('#projText').append(project.description);
+            $('#projProgress').css('width', getInvertedProgressNum(project.investedAmount, project.amountRequested) + '%');
+            $('#investedAmount').append(project.investedAmount + ' ₴ ');
+            $('#requestedAmount').append(project.amountRequested + ' ₴ ');
+            $('#commentsNum').append(project.totalComments);
 
             for (var imgId in project.imagesIds) {
                 appendProjectImage(imgId, project.imagesIds[imgId]);
             }
-            $('#investedAmount').append(project.investedAmount + ' ₴ ');
-            $('#requestedAmount').append(project.amountRequested + ' ₴ ');
-            $('#projProgress').css('width', getInvertedProgressNum(project.investedAmount, project.amountRequested) + '%');
-            $('#projText').append(project.description);
-            $('#commentsNum').append(project.totalComments);
             setAuthorContent(project.authorId);
             setProjectCommentsBlock(project.comments);
         }
