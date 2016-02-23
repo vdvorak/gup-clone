@@ -132,40 +132,26 @@
             <div class="clearfix"></div>
 
 
-
-
-
-
             <div id="contactPhonesBlock">
                 <div id="addPhoneImg" class="title-tel" data-title="Добавить телефон">
                     <img class="tel-plus" src="resources/images/pluse.png" alt="plus">
                 </div>
-                <label for="tel-info-1" class="label-form-info">Контактный телефон</label>
-                <input type="tel" name="contactTel" id="tel-info-1" class="input-info-min">
 
-                <div class="clearfix"></div>
+                <div class="tel-wrapper-1">
+                    <label for="tel-info-1" class="label-form-info">Контактный телефон</label>
+                    <input type="tel" name="contactTel" id="tel-info-1" class="input-info-min">
+                    <img class="remove_phone" src="/resources/img/minus.png" with="20" height="20"></a>
+                    <div class="clearfix"></div>
+                </div>
+
             </div>
 
 
-
-
+            <%--<a href="#" class="remove_field" required><img src="/resources/img/minus.png" with="20" height="20"></a>--%>
 
 
             <label for="skype-info" class="label-form-info">Skype</label>
             <input type="text" name="skype" id="skype-info" class="input-info-min">
-
-            <%--<div class="group-info">--%>
-            <%--<label for="social-icon" class="label-form-info">Социальные сети</label>--%>
-            <%--<input type="text" name="social-icon" id="social-icon" class="input-info-normal" placeholder="Добавить ссылку">--%>
-            <%--<div class="social-icon-info">--%>
-            <%--<a href="#"><img class="img-responsive" src="/resources/images/twitter-info.png" alt=""></a>--%>
-            <%--<a href="#"><img class="img-responsive" src="/resources/images/facebook-info.png" alt=""></a>--%>
-            <%--<a href="#"><img class="img-responsive" src="/resources/images/skype-info.png" alt=""></a>--%>
-            <%--<a href="#"><img class="img-responsive" src="/resources/images/vk-info.png" alt=""></a>--%>
-            <%--<a href="#"><img class="img-responsive" src="/resources/images/g+info.png" alt=""></a>--%>
-            <%--<a href="#"><img class="img-responsive" src="/resources/images/in-info.png" alt=""></a>--%>
-            <%--</div>--%>
-            <%--</div>--%>
 
 
             <div class="input-group">
@@ -232,4 +218,3 @@
 
 </body>
 </html>
-

@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
@@ -20,6 +22,22 @@
     <link  href="/resources/css/cropper.css" rel="stylesheet">
 </head>
 <body>
+
+
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+
+
+
 
 <div class="container2">
     <div class="blogCreation">
@@ -133,12 +151,34 @@
 
 <%--<button id="createBlog" disabled>Создать</button>--%>
 
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
 
-
-
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+<script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+<script src="/resources/js/vendor/bootstrap.js"></script>
+<script src="/resources/js/jquery.bxslider.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+
+<sec:authorize var="loggedIn" access="isAuthenticated()" />
+<c:choose>
+    <c:when test="${loggedIn}">
+        <script src="/resources/js/autorizedHeader.js"></script>
+    </c:when>
+    <c:otherwise>
+        <script src="/resources/js/anonymHeader.js"></script>
+    </c:otherwise>
+</c:choose>
+
+<script src="/resources/js/main.js"></script>
+<script src="/resources/js/logo-section.js"></script>
+<script src="/resources/js/search-bar.js"></script>
+
+
+
+
+
 <script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/cropper.js"></script>
 <script>
@@ -347,8 +387,6 @@
     }
 
     function openImgCropper() {
-
-        console.log(cropper.container);
         $('#cropperModal').modal('show');
     }
     //----------------------------------------------------- End Images -----------------------------------------------

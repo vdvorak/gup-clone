@@ -53,17 +53,25 @@ function setValuesForFieldsFromProfile(profile) {
         } else {
             contactPhoneCloneCount++;
 
+            $('<div/>', {
+                class: 'tel-wrapper-' + (i + 1)
+            }).appendTo('#contactPhonesBlock');
+
+
+            var cl = '.tel-wrapper-' + (i + 1);
             $('<input/>', {
                 id: 'tel-info-' + (i + 1),
                 type: 'tel',
                 name: 'contactTel',
                 class: 'input-info-min',
                 value: profile.contact.contactPhones[i]
-            }).appendTo('#contactPhonesBlock');
+            }).appendTo(cl);
+
+            $(cl).append('<img class="remove_phone" src="/resources/img/minus.png" with="20" height="20"></a>');
 
             $('<div/>', {
                 class: 'clearfix'
-            }).appendTo('#contactPhonesBlock');
+            }).appendTo('.tel-wrapper').last();
         }
     }
 
@@ -179,7 +187,6 @@ $(document).ready(function () {
                 }
 
                 $(".right-tag a").click(function (e) {
-                    alert('Азазаз')
                     e.preventDefault();
                     var socName = $(this).attr("class");
 
@@ -202,25 +209,10 @@ $(document).ready(function () {
     // ----------------------------------------------------- Multiply phone numbers -----------------------------------
                 // Add/Remove phone Input Fields Dynamically with jQuery
 
-                    var tel_max_fields = 3; //maximum input boxes allowed
-                    var tel_wrapper = $(".input_fields_wrap"); //Fields wrapper
-                    var add_button = $(".add_field_button"); //Add button ID
-
-
-                    var x = phoneArr.length; //initial text box count
-
-                    $(add_button).click(function (e) { //on add input button click
-                        e.preventDefault();
-                        if (x < tel_max_fields) { //max input box allowed
-                            x++; //text box increment
-                            $(tel_wrapper).append('<div><input id="phone' + x + '" type="text"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png"></a></div>'); //add input box
-                        }
-                    });
-
-                    $(tel_wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+                    $('.remove_phone').on("click", function (e) { //user click on remove text
                         e.preventDefault();
                         $(this).parent('div').remove();
-                        x--;
+                        contactPhoneCloneCount--;
                     })
 
 // ----------------------------------------------------- Multiply phone numbers -----------------------------------
@@ -301,17 +293,27 @@ $('#addEmailImg').on('click', function () {
             .attr('id', 'email-info-' + (++emailCloneCount)).val("")
             .insertAfter("#email-info-" + (emailCloneCount - 1));
     } else {
-        alert('Максимум 5 контактных телефонов');
+        alert('Максимум 5 контактных email-ов');
     }
 });
 
 $('#addPhoneImg').on('click', function () {
     if (contactPhoneCloneCount < 5) {
+
+        var cl = '.tel-wrapper-' + (contactPhoneCloneCount + 1);
+        $('<div/>', {
+            class: 'tel-wrapper-' + (contactPhoneCloneCount + 1)
+        }).appendTo('#contactPhonesBlock');
+
+
         $("#tel-info-" + contactPhoneCloneCount).clone()
             .attr('id', 'tel-info-' + (++contactPhoneCloneCount)).val("")
-            .insertAfter("#tel-info-" + (contactPhoneCloneCount - 1));
+            .appendTo(cl);
+
+        $(cl).append('<img class="remove_phone" src="/resources/img/minus.png" with="20" height="20"></a>');
+            //.insertAfter("#tel-info-" + (contactPhoneCloneCount - 1));
     } else {
-        alert('Максимум 5 контактных email-ов');
+        alert('Максимум 5 контактных телефоноов');
     }
 });
 
