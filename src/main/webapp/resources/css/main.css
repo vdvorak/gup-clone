@@ -3348,11 +3348,22 @@ input:focus:-ms-input-placeholder      {text-indent: 500px; -webkit-transition: 
 .listArtist ul li {
 	float: left;
 	width: 50%;
+	-webkit-transition: all .25s;
+	transition: all .25s;
+}
+
+.listArtist ul li:hover {
+	padding-left: 10px;
 }
 
 .listArtist ul li p {
 	color: #1269a7;
 	font: 400 16px DroidSansDroidSans;
+}
+
+.listArtist ul li p.anonymous {
+	color: #cccccc;
+	cursor: pointer;
 }
 
 .maxWidth {
@@ -3567,4 +3578,51 @@ input:focus:-ms-input-placeholder      {text-indent: 500px; -webkit-transition: 
 .doersFeed.vip .doersRang button:hover {
 	background-color: transparent;
 	color: #fc9b00;
+}
+.modalDoer {
+	height: 160px;
+	width: 530px;
+	border-radius: 6px;
+	background-color: rgb( 18, 105, 167 );
+	padding: 50px 20px 25px 20px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -80px;
+	margin-left: -265px;
+	display: none;
+	z-index: 10;
+}
+
+.modalDoer > div {
+	background-color: #ffffff;
+	width: 100%;
+	height: 100%;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+.modalDoer > div > p {
+	color: #1269a7;
+	font: 400 17px DroidSans;
+}
+
+.modalDoer > div > button {
+	color: #ffffff;
+	font: 400 17px ArianAMU;
+	height: 25px;
+	width: 110px;
+	border-radius: 7px;
+	background-color: rgb( 153, 204, 102 );
+	border: 1px solid rgb( 153, 204, 102 );
+	float: left;
+}
+
+.modalDoer > div > button:last-child {
+	float: right;
+}
+
+.modalDoer > div > button:hover {
+	background-color: transparent;
+	color: rgb( 153, 204, 102 );
 }

@@ -107,6 +107,13 @@
         <li><p>Spirit Breaker</p></li>
       </ul>
       <img src="/resources/images/downArtist.png" alt="downArtist">
+      <div class="modalDoer">
+        <div>
+          <p>Вася Пупкин отправил заявку на добавление, подтвердите что он входит в список ваших клиентов</p>
+          <button type="button" id="close">Отмена</button>
+          <button type="button">Добавить</button>
+        </div>
+      </div>
     </div>
 
     <div class="clearfix"></div>
@@ -149,6 +156,34 @@
     <div class="clearfix"></div>
   </div>
 </div>
+
+<script>
+  $('.listArtist ul li p.anonymous').click(function (event) {
+    event.preventDefault();
+    $('#overlay').fadeIn(400,
+            function () {
+              $('.modalDoer')
+                      .css('display', 'block')
+                      .animate({
+                        opacity: 1,
+                        top: '50%'
+                      }, 200);
+            });
+  });
+  /* Зaкрытие мoдaльнoгo oкнa, тут делaем тo же сaмoе нo в oбрaтнoм пoрядке */
+  $('#close, #overlay').click(function () {
+    $('.modalDoer')
+            .animate({
+              opacity: 0,
+              top: '45%'
+            }, 200,
+            function () {
+              $(this).css('display', 'none');
+              $('#overlay').fadeOut(400);
+            }
+    );
+  });
+</script>
 
 <%--<div>--%>
   <%--${doer.title}--%>
