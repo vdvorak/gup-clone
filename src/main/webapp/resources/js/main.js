@@ -57,4 +57,8 @@ $(document).ready(function(){
     $(".listArtist img").click(function(){
         $(".listArtist ul").css("height", "auto");
     });
+
+    $(".doersRang div").click(function(){
+        $(this).parent().closest('.doersFeed').find('.colNewsComments').slideToggle('slow');
+    });
 });

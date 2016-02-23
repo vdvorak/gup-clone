@@ -7,5 +7,5 @@
         <%--заполняется из бызы--%>
     </div>
 
-    <img class="caretDown" id="proj-caret" src="resources/images/caret.png" alt="caret">
+    <img class="caretDown" id="proj-caret" src="/resources/images/caret.png" alt="caret">
 </div>

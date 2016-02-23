@@ -10,7 +10,7 @@ $("#proj-caret").click(function(){
 });
 
 function getProjectUrl(project) {
-    return '/project/id/' + project.id;
+    return '/project?id=' + project.id;
 }
 
 function getProjectImagePreviewTag(project) {

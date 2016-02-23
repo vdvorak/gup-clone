@@ -1,9 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="head">
   <div class="container2">
+    <a href="/index">
     <div class="logo">
       <p class="logo-p">Global Ukranian Portal</p>
     </div>
+    </a>
     <div class="social">
       <ul class="store">
         <li><a href="#"><img src="/resources/images/windowsStore.png" alt="Windows Store"></a></li>

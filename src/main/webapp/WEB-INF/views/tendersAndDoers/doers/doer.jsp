@@ -49,7 +49,39 @@
         </div>
         <p class="firstName">${doer.title}</p>
 
-        <p><a href="http://localhost:8080/profile/id/${doer.authorId}"> ${username} </a></p>
+    <div class="listArtist">
+      <p>Список клиентов:</p>
+      <ul>
+        <li><p>Earthshaker</p></li>
+        <li><p>Axe</p></li>
+        <li><p>Sven</p></li>
+        <li><p>Pudge</p></li>
+        <li><p>Tiny</p></li>
+        <li><p>Sand King</p></li>
+        <li><p>Kunkka</p></li>
+        <li><p>Slardar</p></li>
+        <li><p>Beastmaster</p></li>
+        <li><p>Tidehunter</p></li>
+        <li><p>Dragon Knight</p></li>
+        <li><p>Wraith King</p></li>
+        <li><p>Clockwerk</p></li>
+        <li><p>Lifestealer</p></li>
+        <li><p>Omniknight</p></li>
+        <li><p>Night Stalker</p></li>
+        <li><p>Huskar</p></li>
+        <li><p>Doom</p></li>
+        <li><p>Alchemist</p></li>
+        <li><p>Spirit Breaker</p></li>
+      </ul>
+      <img src="/resources/images/downArtist.png" alt="downArtist">
+      <div class="modalDoer">
+        <div>
+          <p>Вася Пупкин отправил заявку на добавление, подтвердите что он входит в список ваших клиентов</p>
+          <button type="button" id="close">Отмена</button>
+          <button type="button">Добавить</button>
+        </div>
+      </div>
+    </div>
 
         <div class="artistData">
             <ul>
@@ -185,6 +217,36 @@
     </div>
 </div>
 
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
+
+<script>
+  $('.listArtist ul li p.anonymous').click(function (event) {
+    event.preventDefault();
+    $('#overlay').fadeIn(400,
+            function () {
+              $('.modalDoer')
+                      .css('display', 'block')
+                      .animate({
+                        opacity: 1,
+                        top: '50%'
+                      }, 200);
+            });
+  });
+  /* Зaкрытие мoдaльнoгo oкнa, тут делaем тo же сaмoе нo в oбрaтнoм пoрядке */
+  $('#close, #overlay').click(function () {
+    $('.modalDoer')
+            .animate({
+              opacity: 0,
+              top: '45%'
+            }, 200,
+            function () {
+              $(this).css('display', 'none');
+              $('#overlay').fadeOut(400);
+            }
+    );
+  });
+</script>
+
 <%--<div>--%>
 <%--${doer.title}--%>
 <%--</div>--%>
@@ -204,39 +266,39 @@
 <%--</c:choose>--%>
 <%--</div>--%>
 <%--<div>--%>
-<%--Название--%>
-<%--<br>--%>
-<%--${doer.authorId}--%>
+  <%--Название--%>
+  <%--<br>--%>
+  <%--${doer.authorId}--%>
 <%--</div>--%>
 
 <%--<div>--%>
-<%--Автор: ${username}--%>
+  <%--Автор: ${username}--%>
 <%--</div>--%>
 <%--<div>--%>
-<%--Описание--%>
-<%--<br>--%>
-<%--${doer.body}--%>
+  <%--Описание--%>
+  <%--<br>--%>
+  <%--${doer.body}--%>
 <%--</div>--%>
 <%--<div>--%>
-<%--Количество посещений--%>
-<%--<br>--%>
-<%--${doer.countVisit}--%>
+  <%--Количество посещений--%>
+  <%--<br>--%>
+  <%--${doer.countVisit}--%>
 <%--</div>--%>
 <%--<div>--%>
-<%--Дата создания--%>
-<%--<br>--%>
-<%--${doer.dateOfCreate}--%>
+  <%--Дата создания--%>
+  <%--<br>--%>
+  <%--${doer.dateOfCreate}--%>
 <%--</div>--%>
 <%--<div>--%>
-<%--Дата последнего обноновления--%>
-<%--<br>--%>
-<%--${doer.dateOfUpdate}--%>
+  <%--Дата последнего обноновления--%>
+  <%--<br>--%>
+  <%--${doer.dateOfUpdate}--%>
 <%--</div>--%>
 
 <%--<div>--%>
-<%--Дата последнего обноновления--%>
-<%--<br>--%>
-<%--${doer.dateOfUpdate}--%>
+  <%--Дата последнего обноновления--%>
+  <%--<br>--%>
+  <%--${doer.dateOfUpdate}--%>
 <%--</div>--%>
 
 <c:if test="${check}">

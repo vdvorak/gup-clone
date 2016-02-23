@@ -18,5 +18,5 @@
     </div>
 
 
-    <img class="caretDown" id="ad-caret" src="resources/images/caret.png" alt="caret">
+    <img class="caretDown" id="ad-caret" src="/resources/images/caret.png" alt="caret">
 </div>

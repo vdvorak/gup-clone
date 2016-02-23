@@ -68,10 +68,10 @@
                 <div class="colNewsComments">
                     <div class="newsComments">
                         <div class="clearfix"></div>
-                        <p class="newsCommentsHeader">КОММЕНТАРИЙ</p>
+                        <p class="newsCommentsHeader">Комментарий</p>
                         <form id="newsCommentsForm">
-                            <textarea name="newsFormComments" id="newsFormComments" placeholder="Введите свой комментарий" maxlength="22000" required></textarea>
-                            <button id="sendComment" class="newsFormSubmit">Отправить</button>
+                            <textarea name="newsFormComments" id="newsFormComments" placeholder="Введите свой комментарий" maxlength="1000" required></textarea>
+                            <button id="sendNewsComment" class="newsFormSubmit">Отправить</button>
                         </form>
                         <p id="chars"></p>
                     </div>
@@ -210,7 +210,7 @@
                 }
             });
 
-            $('#sendComment').on('click', function () {
+            $('#sendNewsComment').on('click', function () {
                 var comment = {
                     'comment' : $('#newsFormComments').val(),
                     'toId' : ""

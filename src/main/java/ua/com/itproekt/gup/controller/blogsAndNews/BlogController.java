@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.controller;
+package ua.com.itproekt.gup.controller.blogsAndNews;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +35,7 @@ public class BlogController {
     //ToDo - delete when new version will work
     @RequestMapping("/blog-create")
     public String getBlogCreatePage() {
-        return "news/blog-create-OLD";
+        return "news/blog-create";
     }
 
     @RequestMapping("/blogs")
@@ -82,7 +82,7 @@ public class BlogController {
         model.addAttribute("username", userName);
         model.addAttribute("check", check);
         model.addAttribute("blog", blog);
-        return "news/blog-OLD";
+        return "news/blog";
     }
 
 

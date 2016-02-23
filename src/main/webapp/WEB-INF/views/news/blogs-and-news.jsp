@@ -68,9 +68,6 @@
                 <a href="#" class="descriptionMedium">10 ошибок при управлении личными финансами</a>
             </div>
 
-
-
-
             <div>
                 <div id="startBlockOfNews">
                     <div class="normalNews">

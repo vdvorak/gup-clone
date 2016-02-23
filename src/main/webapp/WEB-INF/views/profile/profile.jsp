@@ -195,11 +195,11 @@
                 }
             });
 
-            $(document).on('click', '#writeMessageToProfile', function () {
+            $('#writeMessageToProfile').on('click',function () {
                 window.location.href = "/dialogue/create/with/" + profileId;
             });
 
-            $(document).on('click', '#addProfileToContact', function () {
+            $('#addProfileToContact').on('click', function () {
                 $.ajax({
                     type: "POST",
                     url: '/api/rest/profilesService/profile/id/' + profileId + '/myContactList/add',
