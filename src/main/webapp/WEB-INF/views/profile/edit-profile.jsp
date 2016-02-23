@@ -147,7 +147,7 @@
             </div>
 
 
-
+            <%--<a href="#" class="remove_field" required><img src="/resources/img/minus.png" with="20" height="20"></a>--%>
 
 
 

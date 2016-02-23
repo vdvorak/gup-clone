@@ -179,7 +179,6 @@ $(document).ready(function () {
                 }
 
                 $(".right-tag a").click(function (e) {
-                    alert('Азазаз')
                     e.preventDefault();
                     var socName = $(this).attr("class");
 
@@ -301,7 +300,7 @@ $('#addEmailImg').on('click', function () {
             .attr('id', 'email-info-' + (++emailCloneCount)).val("")
             .insertAfter("#email-info-" + (emailCloneCount - 1));
     } else {
-        alert('Максимум 5 контактных телефонов');
+        alert('Максимум 5 контактных email-ов');
     }
 });
 
@@ -311,7 +310,7 @@ $('#addPhoneImg').on('click', function () {
             .attr('id', 'tel-info-' + (++contactPhoneCloneCount)).val("")
             .insertAfter("#tel-info-" + (contactPhoneCloneCount - 1));
     } else {
-        alert('Максимум 5 контактных email-ов');
+        alert('Максимум 5 контактных телефоноов');
     }
 });
 
