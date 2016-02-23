@@ -157,6 +157,8 @@
   </div>
 </div>
 
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
+
 <script>
   $('.listArtist ul li p.anonymous').click(function (event) {
     event.preventDefault();
