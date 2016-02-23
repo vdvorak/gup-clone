@@ -2,9 +2,9 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang=""> <!--<![endif]-->
 <head>
@@ -145,6 +145,22 @@
                         <a href="#"><img class="img-responsive" src="/resources/images/g+info.png" alt=""></a>
                         <a href="#"><img class="img-responsive" src="/resources/images/in-info.png" alt=""></a>
                     </div>
+                    <div class="right-tag">
+                        <a class="FACEBOOK"><img src="/resources/images/faceb-icon.png"></a>
+                        <a class="TWITTER"><img src="/resources/images/twit-icon.png"> </a>
+                        <a class="VKONTAKTE"><img src="/resources/images/vk-icon.png"></a>
+                        <a class="GOOGLEPLUS"><img src="/resources/images/goo-icon.png"></a>
+                        <a class="LINKEDIN"><img src="/resources/images/link-icon.png"></a>
+
+                        <div class="soc-input-group">
+                            <div class="soc-input-wrap show-inp"><input class="soc-input" type="text" name="FACEBOOK"
+                                                                        value=""
+                                                                        placeholder="Ссылка на FACEBOOK"><span
+                                    class="remove_field"><img
+                                    src="/resources/img/minus.png" width="15" height="15"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <label for="web-addresses" class="label-form-info">Ссылка на сайт</label>
@@ -178,230 +194,11 @@
     <script src="/resources/js/logo-section.js"></script>
     <script src="/resources/js/search-bar.js"></script>
 
-    <script src="/resources/js/edit-profile.js"></script>
-    <script>
-        var profileId = "${profileId}";
-        var loadedProfile = {};
-        var updatedProfile = {};
+<script>
+    var profileId = "${profileId}";
+</script>
+<script src="/resources/js/edit-profile.js"></script>
 
-        var emailCloneCount = 1;
-        var contactPhoneCloneCount = 1;
-
-        $(document).ready(function() {
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/profilesService/profile/read/id/" + profileId + "/wholeProfile",
-                statusCode: {
-                    200: function (profile) {
-                        loadedProfile = profile;
-                        updatedProfile.contact = loadedProfile.contact;
-                        updatedProfile.userProfile = loadedProfile.userProfile;
-
-                        setValuesForFieldsFromProfile(profile);
-                    }
-                }
-            });
-        });
-
-        function setValuesForFieldsFromProfile(profile) {
-//            alert('loadedProfile: ' + JSON.stringify(loadedProfile));
-
-            if (profile.contact.pic != null) {
-                $('.moreInformation-img').css('background',
-                        'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center');
-            }
-
-            $('#select-type').val(profile.contact.type);
-            $('#select-type').change();
-
-            $('#userName').val(profile.username);
-            $('#position').val(profile.contact.position);
-            $('#nameCompany').val(profile.contact.companyName);
-            $('#main-email-info').val(profile.email);
-            $('#main-tel-info').val(profile.mainPhoneNumber);
-            $('#skype-info').val(profile.contact.skypeUserName);
-            $('#info-about-me').val(profile.contact.aboutUs);
-            $('#web-addresses').val(profile.contact.linkToWebSite);
-
-
-
-            for	(var i = 0; i < profile.contact.contactEmails.length; i++) {
-                if (i === 0) {
-                    $('#email-info-1').val(profile.contact.contactEmails[i]);
-                } else {
-                    emailCloneCount++;
-
-                    $('<input/>', {
-                        id: 'email-info-' + (i + 1),
-                        type: 'email',
-                        name: 'contactEmail',
-                        class: 'form-info-input',
-                        value: profile.contact.contactEmails[i]
-                    }).appendTo('#contactEmailsBlock');
-
-                    $('<div/>', {
-                        class: 'clearfix'
-                    }).appendTo('#contactEmailsBlock');
-                }
-            }
-
-            for	(var i = 0; i < profile.contact.contactPhones.length; i++) {
-                if (i === 0) {
-                    $('#tel-info-1').val(profile.contact.contactPhones[i]);
-                } else {
-                    contactPhoneCloneCount++;
-
-                    $('<input/>', {
-                        id: 'tel-info-' + (i + 1),
-                        type: 'tel',
-                        name: 'contactTel',
-                        class: 'input-info-min',
-                        value: profile.contact.contactPhones[i]
-                    }).appendTo('#contactPhonesBlock');
-
-                    $('<div/>', {
-                        class: 'clearfix'
-                    }).appendTo('#contactPhonesBlock');
-                }
-            }
-        }
-
-        function initializeProfileEntityForUpdate() {
-            updatedProfile.id = loadedProfile.id;
-            updatedProfile.username = $('#userName').val();
-            updatedProfile.contact.position = $('#position').val();
-            updatedProfile.contact.companyName = $('#nameCompany').val();
-            updatedProfile.contact.aboutUs = $('#info-about-me').val();
-            updatedProfile.contact.skypeUserName = $('#skype-info').val();
-            updatedProfile.contact.linkToWebSite = $('#web-addresses').val();
-            updatedProfile.mainPhoneNumber = $('#main-tel-info').val();
-
-//            if(loadedProfile.contact.type !== $('#select-type').val() && $('#select-type').val() !== "") {
-                updatedProfile.contact.type = $('#select-type').val();
-//            }
-
-            var contactEmails = [];
-            $("input[name=contactEmail]").each(function() {
-                if($(this).val() !== '') {
-                    contactEmails.push($(this).val());
-                }
-            });
-            updatedProfile.contact.contactEmails = contactEmails;
-
-            var contactPhones = [];
-            $("input[name=contactTel]").each(function() {
-                if($(this).val() !== '') {
-                    contactPhones.push($(this).val());
-                }
-            });
-            updatedProfile.contact.contactPhones = contactPhones;
-
-        }
-
-
-        $('#updateProfileBtn').on('click', function () {
-            initializeProfileEntityForUpdate();
-//            alert('updatedProfile : ' + JSON.stringify(updatedProfile));
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/profilesService/profile/edit",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify(updatedProfile),
-                statusCode: {
-                    200: function () {
-                        window.location.href = '/profile/id/' + updatedProfile.id;
-                    }
-                }
-            });
-        });
-
-        $('#select-type').on('change', function () {
-            switch ($('#select-type').val()) {
-                case "INDIVIDUAL":
-                    $('#userNameBlock').show();
-                    $('#positionBlock').show();
-                    $('#aboutMe').show();
-                    $('#companyAddressBlock').hide();
-                    $('#scopeOfActivityBlock').hide();
-                    $('#aboutCompany').hide();
-                    break;
-                case "LEGAL_ENTITY":
-                    $('#aboutMe').hide();
-                    $('#userNameBlock').hide();
-                    $('#positionBlock').hide();
-                    $('#aboutCompany').show();
-                    $('#nameCompanyBlock').show();
-                    $('#companyAddressBlock').show();
-                    $('#scopeOfActivityBlock').show();
-                    break;
-                case "ENTREPRENEUR":
-                    $('#aboutMe').hide();
-                    $('#aboutCompany').show();
-                    $('#positionBlock').show();
-                    $('#userNameBlock').show();
-                    $('#scopeOfActivityBlock').show();
-                    $('#nameCompanyBlock').show();
-                    $('#companyAddressBlock').show();
-                    break;
-
-//                default:
-//                    $('#userName').show();
-//                    $('#aboutCompany').hide();
-//                    $('#aboutMe').show();
-            }
-        });
-
-
-
-        $('#addEmailImg').on('click', function () {
-            if (emailCloneCount < 5) {
-                $("#email-info-" + emailCloneCount).clone()
-                        .attr('id', 'email-info-' + (++emailCloneCount)).val("")
-                        .insertAfter("#email-info-" + (emailCloneCount - 1));
-            } else {
-                alert('Максимум 5 контактных телефонов');
-            }
-        });
-
-        $('#addPhoneImg').on('click', function () {
-            if (contactPhoneCloneCount < 5) {
-                $("#tel-info-" + contactPhoneCloneCount).clone()
-                        .attr('id', 'tel-info-' + (++contactPhoneCloneCount)).val("")
-                        .insertAfter("#tel-info-" + (contactPhoneCloneCount - 1));
-            } else {
-                alert('Максимум 5 контактных email-ов');
-            }
-        });
-
-        $('#addProfileImg').on('click', function () {
-            $("#uploadProfilePhotoInput").click();
-        });
-
-        $('#uploadProfilePhotoInput').on('change', function () {
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1", //
-                data: new FormData($("#uploadProfilePhotoForm")[0]),
-                enctype: 'multipart/form-data',
-//                async: false,
-                cache: false,
-                contentType: false,
-                processData: false,
-                statusCode: {
-                    201: function (data) {
-                        updatedProfile.contact.pic = data.id;
-                        $('.moreInformation-img').css('background',
-                                'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');
-
-                    },
-                    400: function () {
-                        alert('400');
-                    }
-                }
-            });
-        });
-    </script>
 </body>
 </html>
 

@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
@@ -20,6 +22,22 @@
     <link  href="/resources/css/cropper.css" rel="stylesheet">
 </head>
 <body>
+
+
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+
+
+
 
 <div class="container2">
     <div class="blogCreation">
@@ -48,26 +66,19 @@
             <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
                 <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
             </form>
-
-            <div class="defaultIMG">
-                <ul>
-                    <li>
-                        <span class="descr"><i class="fa fa-trash-o fa-2x"></i><i class="fa fa-pencil fa-2x"></i></span>
-                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
-                    </li>
-                </ul>
+            <div class="drop_zone">
+                <div class="defaultIMG">
+                    <ul>
+                        <li>
+                            <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImgFromDB()"></i><i class="fa fa-pencil fa-2x" onClick="openImgCropper()"></i></span>
+                            <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                        </li>
+                    </ul>
+                </div>
             </div>
-
             <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
             <label class="blogCreationLabel">Фотографии</label>
         </form>
-
-
-
-        <div id="drop_zone">
-            <img id="image" src="/resources/images/no_photo.jpg">
-        </div>
-        <button id="btn-done">Готово</button>
 
 
         <button type="button" class="SendEdition">Отправить редакции</button>
@@ -75,6 +86,26 @@
         <div class="clearfix"></div>
     </div>
 </div>
+
+<div id="cropperModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Редактирование фото</h4>
+            </div>
+            <div class="modal-body">
+                <div class="drop_zone">
+                    <img id="image" src="/resources/images/no_photo.jpg">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button id="btn-cropp-done" type="button" class="btn btn-primary">Готово</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <%--<div>--%>
     <%--<input id="blogTitle" type="text" name="blogTitle" minlength="2" maxlength="70" required--%>
@@ -120,12 +151,35 @@
 
 <%--<button id="createBlog" disabled>Создать</button>--%>
 
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
 
-
-
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+<script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+<script src="/resources/js/vendor/bootstrap.js"></script>
+<script src="/resources/js/jquery.bxslider.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+
+<sec:authorize var="loggedIn" access="isAuthenticated()" />
+<c:choose>
+    <c:when test="${loggedIn}">
+        <script src="/resources/js/autorizedHeader.js"></script>
+    </c:when>
+    <c:otherwise>
+        <script src="/resources/js/anonymHeader.js"></script>
+    </c:otherwise>
+</c:choose>
+
+<script src="/resources/js/main.js"></script>
+<script src="/resources/js/logo-section.js"></script>
+<script src="/resources/js/search-bar.js"></script>
+
+
+
+
+
+<script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/cropper.js"></script>
 <script>
 
@@ -217,10 +271,11 @@
 
         // -------------------------------------------------------BEGIN drop zone ------------------------------------------
 
-        var dropZone = document.getElementById('drop_zone');
-        dropZone.addEventListener('dragover', handleDragOver, false);
-        dropZone.addEventListener('drop', handleFileSelect, false);
-
+        var dropZone = document.getElementsByClassName('drop_zone');
+        for(var i = 0; i < dropZone.length; i++) {
+            dropZone[i].addEventListener('dragover', handleDragOver, false);
+            dropZone[i].addEventListener('drop', handleFileSelect, false);
+        }
         function handleFileSelect(evt) {
             evt.stopPropagation();
             evt.preventDefault();
@@ -243,7 +298,7 @@
                     // files is a FileList of File objects. List some properties.
 
                     if (imgId !== '') {
-                        deleteImgFromDB(imgId);
+                        deleteImgFromDB();
                     }
 
                     $.ajax({
@@ -256,7 +311,7 @@
                         processData: false,
                         success: function (data, textStatus, request) {
                             imgId = data.id;
-                            $('.defaultIMG > img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                            $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
                         }
                     });
             }
@@ -297,7 +352,7 @@
                 formImg.append('file', files[0]);
 
                 if (imgId !== '') {
-                    deleteImgFromDB(imgId);
+                    deleteImgFromDB();
                 }
 
                 $.ajax({
@@ -310,7 +365,7 @@
                     processData: false,
                     success: function (data, textStatus, request) {
                         imgId = data.id;
-                        $('.defaultIMG > img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                        $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
                     }
                 });
 
@@ -319,9 +374,10 @@
 
     });
 
-    function deleteImgFromDB(picId) {
+    function deleteImgFromDB() {
+        $('.defaultIMG').find('img').attr("src", "/resources/images/no_photo.jpg");
         $.ajax({
-            url: '/api/rest/fileStorage/NEWS/file/delete/id/' + picId,
+            url: '/api/rest/fileStorage/NEWS/file/delete/id/' + imgId,
             method: 'POST',
             success: function (response) {
             },
@@ -330,6 +386,9 @@
         });
     }
 
+    function openImgCropper() {
+        $('#cropperModal').modal('show');
+    }
     //----------------------------------------------------- End Images -----------------------------------------------
     function dataURItoBlob(dataURI) {
         var binary = atob(dataURI.split(',')[1]);
@@ -340,16 +399,20 @@
         return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
     }
 
-    $("#btn-done").click(function() {
+    $("#btn-cropp-done").click(function() {
+        $('#cropperModal').modal('hide');
+
         var canvas = cropper.getCroppedCanvas();
         var dataURL = canvas.toDataURL('image/jpeg', 0.5);
         var blob = dataURItoBlob(dataURL);
+
+        cropper.replace(dataURL);
 
         var formData = new FormData();
         formData.append('file', blob);
 
         if (imgId !== '') {
-            deleteImgFromDB(imgId);
+            deleteImgFromDB();
         }
 
         $.ajax({
@@ -362,7 +425,7 @@
             processData: false,
             success: function (data, textStatus, request) {
                 imgId = data.id;
-                $('.defaultIMG > img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
             }
         });
 });
