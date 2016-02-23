@@ -49,7 +49,7 @@
                 <c:forEach var="socLink" items="${blog.socLinks.entrySet()}">
                     <c:choose>
                         <c:when test="${socLink.getKey() == 'FACEBOOK'}">
-                            <input type="text" name="blogCreationSocial" id="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку на Facebook" name="FACEBOOK" value="${socLink.getValue()}">
+                            <input type="text" name="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку на Facebook" name="FACEBOOK" value="${socLink.getValue()}">
                         </c:when>
                         <c:when test="${socLink.getKey() == 'VKONTAKTE'}">
                             <input type="text" name="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку на Vkontakte" name="VKONTAKTE" value="${socLink.getValue()}">
@@ -126,7 +126,6 @@
                             <img id="image" src="/resources/images/no_photo.jpg">
                         </c:otherwise>
                     </c:choose>
-                    <img id="image" src="/resources/images/no_photo.jpg">
                 </div>
             </div>
             <div class="modal-footer">

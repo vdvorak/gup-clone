@@ -249,24 +249,6 @@
         })
         */
 
-        function isMatchPatternSocialLinks(socName, url) {
-            if(socName === "FACEBOOK") {
-                return /^(https?:\/\/)?(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]/.test(url);
-            } else if(socName === "TWITTER") {
-                return /(?:http:\/\/)?(?:www\.)?twitter\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/.test(url);
-            } else if(socName === "LINKEDIN") {
-                return /(http|https):\/\/?(?:www\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(url);
-            } else if(socName === "GOOGLEPLUS") {
-                return /((http|https):\/\/)?(www[.])?plus\.google\.com\/.?\/?.?\/?([0-9]*)/.test(url);
-            } else if(socName === "VKONTAKTE") {
-                return /^(http:\/\/|https:\/\/)?(www\.)?vk\.com\/(\w|\d)+?\/?$/.test(url);
-            } else if(socName === "SKYPE") {
-                /[a-zA-Z][a-zA-Z0-9\.,\-_]{5,31}/.test(url);
-            } else {
-                return false;
-            }
-        }
-
         // ---------------------------------------------------- END Soc network links --------------------------------------
 
         // -------------------------------------------------------BEGIN drop zone ------------------------------------------
@@ -430,6 +412,25 @@
         });
 });
     ///------------------------- Upload Blog -----------------------------------------------
+
+    function isMatchPatternSocialLinks(socName, url) {
+        if(socName === "FACEBOOK") {
+            return /^(https?:\/\/)?(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]/.test(url);
+        } else if(socName === "TWITTER") {
+            return /(?:http:\/\/)?(?:www\.)?twitter\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/.test(url);
+        } else if(socName === "LINKEDIN") {
+            return /(http|https):\/\/?(?:www\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(url);
+        } else if(socName === "GOOGLEPLUS") {
+            return /((http|https):\/\/)?(www[.])?plus\.google\.com\/.?\/?.?\/?([0-9]*)/.test(url);
+        } else if(socName === "VKONTAKTE") {
+            return /^(http:\/\/|https:\/\/)?(www\.)?vk\.com\/(\w|\d)+?\/?$/.test(url);
+        } else if(socName === "SKYPE") {
+            /[a-zA-Z][a-zA-Z0-9\.,\-_]{5,31}/.test(url);
+        } else {
+            return false;
+        }
+    }
+
     $(document).on('click', 'button.SendEdition', function (event) {
         event.preventDefault();
 
