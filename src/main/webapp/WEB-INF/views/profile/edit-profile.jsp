@@ -132,22 +132,23 @@
             <div class="clearfix"></div>
 
 
-
-
-
-
             <div id="contactPhonesBlock">
                 <div id="addPhoneImg" class="title-tel" data-title="Добавить телефон">
                     <img class="tel-plus" src="resources/images/pluse.png" alt="plus">
                 </div>
-                <label for="tel-info-1" class="label-form-info">Контактный телефон</label>
-                <input type="tel" name="contactTel" id="tel-info-1" class="input-info-min">
 
-                <div class="clearfix"></div>
+                <label for="tel-info-1" class="label-form-info">Контактные телефоны</label>
+
+                <div class="tel-wrapper-1">
+                    <input type="tel" name="contactTel" id="tel-info-1" class="input-info-min">
+                    <img class="remove_phone" src="/resources/img/minus.png" with="20" height="20">
+                    <div class="clearfix"></div>
+                </div>
+
+
             </div>
 
 
-            <%--<a href="#" class="remove_field" required><img src="/resources/img/minus.png" with="20" height="20"></a>--%>
 
 
 
