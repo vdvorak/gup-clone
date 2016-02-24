@@ -61,4 +61,20 @@ $(document).ready(function(){
     $(".doersRang div").click(function(){
         $(this).parent().closest('.doersFeed').find('.colNewsComments').slideToggle('slow');
     });
+
+
+    $('#money_amount').change(function(){
+        alert("dfs")
+        $.ajax({
+            url: '/account/getLiqPayParam',
+            method: 'POST',
+            data: {'amount': $('#money_amount').val()},
+            success: function(response) {
+                $('#liq-pay-data').val(response[0]);
+                $('#liq-pay-signature').val(response[1]);
+            }
+        });
+    });
+
+
 });
