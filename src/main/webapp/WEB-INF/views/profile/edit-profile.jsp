@@ -115,16 +115,31 @@
 
             <div class="clearfix"></div>
 
-            <div id="contactEmailsBlock">
-                <div id="addEmailImg" class="title-email" data-title="Добавить e-mail">
-                    <img class="email-plus" src="resources/images/pluse.png" alt="plus">
-                </div>
-                <label for="email-info-1" class="label-form-info">Контактный e-mail</label>
 
-                <input id="email-info-1" type="email" name='contactEmail' class="form-info-input">
 
-                <div class="clearfix"></div>
+
+            <div class="input_email_fields_wrap">Контактные e-mail
+                <button class="add_email_field_button">Добавить -mail</button>
+                <div class="email-input-unit"><input type="text" name="myemail"><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div>
             </div>
+
+
+        <%--<div id="contactEmailsBlock">--%>
+                <%--<div id="addEmailImg" class="title-email" data-title="Добавить e-mail">--%>
+                    <%--<img class="email-plus" src="resources/images/pluse.png" alt="plus">--%>
+                <%--</div>--%>
+                <%--<label for="email-info-1" class="label-form-info">Контактный e-mail</label>--%>
+
+                <%--<input id="email-info-1" type="email" name='contactEmail' class="form-info-input">--%>
+
+                <%--<div class="clearfix"></div>--%>
+            <%--</div>--%>
+
+
+
+
+
+
 
             <label for="main-tel-info" class="label-form-info">Основной Телефон</label>
             <input type="tel" name="tel" id="main-tel-info" class="input-info-min">
@@ -147,9 +162,9 @@
             <%--</div>--%>
 
 
-            <div class="input_fields_wrap">Контактные телефоны
-                <button class="add_field_button">Add More Fields</button>
-                <div class="tel-input-unit"><input type="text" name="mytel"><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div></div>
+            <div class="input_tel_fields_wrap">Контактные телефоны
+                <button class="add_tel_field_button">Add More Fields</button>
+                <div class="tel-input-unit"><input type="text" name="mytel"><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div>
             </div>
 
 
