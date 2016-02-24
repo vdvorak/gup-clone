@@ -132,19 +132,26 @@
             <div class="clearfix"></div>
 
 
-            <div id="contactPhonesBlock">
-                <div id="addPhoneImg" class="title-tel" data-title="Добавить телефон">
-                    <img class="tel-plus" src="resources/images/pluse.png" alt="plus">
-                </div>
 
-                <div class="tel-wrapper-1">
-                    <label for="tel-info-1" class="label-form-info">Контактный телефон</label>
-                    <input type="tel" name="contactTel" id="tel-info-1" class="input-info-min">
-                    <img class="remove_phone" src="/resources/img/minus.png" with="20" height="20"></a>
-                    <div class="clearfix"></div>
-                </div>
+            <%--<div id="contactPhonesBlock">--%>
+                <%--<div id="addPhoneImg" class="title-tel" data-title="Добавить телефон">--%>
+                    <%--<img class="tel-plus" src="resources/images/pluse.png" alt="plus">--%>
+                <%--</div>--%>
 
+                <%--<div class="tel-wrapper-1">--%>
+                    <%--<label for="tel-info-1" class="label-form-info">Контактный телефон</label>--%>
+                    <%--<input type="tel" name="contactTel" id="tel-info-1" class="input-info-min">--%>
+                    <%--<img class="remove_phone" src="/resources/img/minus.png" with="20" height="20"></a>--%>
+                    <%--<div class="clearfix"></div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+
+
+            <div class="input_fields_wrap">Контактные телефоны
+                <button class="add_field_button">Add More Fields</button>
+                <div class="tel-input-unit"><input type="text" name="mytel"><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div></div>
             </div>
+
 
 
             <%--<a href="#" class="remove_field" required><img src="/resources/img/minus.png" with="20" height="20"></a>--%>
