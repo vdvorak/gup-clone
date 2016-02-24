@@ -385,6 +385,7 @@
         }
 
     function deleteImg() {
+        imgId = '';
         $('.defaultIMG').find('img').attr("src", "/resources/images/no_photo.jpg");
     }
 
@@ -417,12 +418,13 @@
             if (title.length > 70 || title.length < 2) return;
             if (description.length > 5000 || description.length < 50) return;
 
+            blog.id = blogId;
             blog.title = title;
             blog.description = description;
 
             blog.imageId = imgId;
 
-            if (oldImgId !== '') {
+            if (oldImgId !== '' || oldImgId !== imgId) {
                 deleteImgFromDB(oldImgId);
             }
 
