@@ -77,7 +77,7 @@
             </div>
 
             <div class="feedContainer investmentsFeedContainer contentContainer" id="investmentsContainer" style="display: none">
-                <div id="investmentsBlock">
+                <div id="investorPostsBlock">
                     <div class="feedItem vip">
                         <!--Add class "vip" to vip-tialize investment-->
                         <div class="publishDate">Опубликовано: 22. 10. 16</div>
@@ -202,7 +202,9 @@
         <script src="/resources/js/logo-section.js"></script>
         <script src="/resources/js/search-bar.js"></script>
 
-        <script src="/resources/js/projectUtil.js"></script>
+        <script src="/resources/js/profileUtil.js"></script>
+        <script src="/resources/js/projectsAndInvestmentsUtil.js"></script>
         <script src="/resources/js/projectList.js"></script>
+        <script src="/resources/js/investorList.js"></script>
     </body>
 </html>

@@ -5,7 +5,7 @@ function loadProjectById(projectId) {
     });
 }
 
-function loadProjectsWithFO(projectFO) {
+function loadPInvestorPostsWithFO(projectFO) {
     return $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -36,3 +36,39 @@ function getInvertedProgressNum(investedAmount, amountRequested) {
     var invertedProgressNum = (1 -(investedAmount/amountRequested))*100;
     return 5 * Math.ceil(invertedProgressNum/5);
 }
+
+$("#selectedService option[value='project']").attr("selected","selected");
+
+$('#showNext').on('click',function () {
+    if($('#projectsTab').hasClass('active')) {
+        projectFO.skip += projectFO.limit;
+        appendProjects(projectFO);
+    } else {
+        alert('investmentFO');
+        investorPostFO.skip += investorPostFO.limit;
+        appendInvestorPosts(investorPostFO);
+    }
+});
+
+$('#projectsTab').on('click',function () {
+    $('#investmentsContainer').hide();
+    $('#projectsContainer').show();
+    $('.catContainer').removeClass('selected');
+
+    projectFO.type = null;
+    projectFO.skip = 0;
+    appendProjects(projectFO);
+});
+
+$('#investmentsTab').on('click',function () {
+    $('#projectsContainer').hide();
+    $('#investmentsContainer').show();
+
+    investorPostFO.skip = 0;
+    appendInvestorPosts(investorPostFO);
+});
+
+$('.projectsVSInvestments-btn').on('click',function () {
+    $('.projectsVSInvestments-btn').removeClass('active');
+    $(this).addClass('active');
+});

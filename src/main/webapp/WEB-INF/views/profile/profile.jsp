@@ -130,6 +130,8 @@
 <script src="/resources/js/search-bar.js"></script>
 
 <script src="/resources/js/profile.js"></script>
+<script src="/resources/js/profileUtil.js"></script>
+
 <script>
     var profileId = "${profileId}";
 

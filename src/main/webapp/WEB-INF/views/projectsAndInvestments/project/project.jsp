@@ -134,7 +134,7 @@
     <script src="/resources/js/logo-section.js"></script>
     <script src="/resources/js/search-bar.js"></script>
 
-    <script src="/resources/js/projectUtil.js"></script>
+    <script src="/resources/js/projectsAndInvestmentsUtil.js"></script>
     <script src="/resources/js/project.js"></script>
 </body>
 </html>

@@ -1,5 +1,3 @@
-$("#selectedService option[value='project']").attr("selected","selected");
-
 var projectType = (getUrlParam('type') != null ? getUrlParam('type').toUpperCase() : null);
 var projectFO = {type : projectType, searchField : getUrlParam('name'), skip: 0, limit: 10};
 
@@ -7,7 +5,7 @@ $('[name="' + projectType + '"]').addClass('selected');
 appendProjects(projectFO);
 
 function appendProjects(projectFO) {
-    loadProjectsWithFO(projectFO).statusCode({
+    loadPInvestorPostsWithFO(projectFO).statusCode({
         200: function (responseEntity) {
 //          $('#foundedProjectsNum').text(responseEntity.totalEntities);
             responseEntity.entities.forEach(function (project) {
@@ -54,39 +52,6 @@ function appendProjectBlock(project) {
         '</div>' +
         '</div>');
 }
-
-$('#showNext').on('click',function () {
-    if($('#projectsTab').hasClass('active')) {
-        projectFO.skip += projectFO.limit;
-        appendProjects(projectFO);
-    } else {
-        alert('investmentFO');
-        investmentFO.skip += investmentFO.limit;
-        loadAndAppendInvestmentsBlocks(investmentFO);
-    }
-
-});
-
-$('#projectsTab').on('click',function () {
-    $('#investmentsContainer').hide();
-    $('#projectsContainer').show();
-    $('.catContainer').removeClass('selected');
-
-    projectFO.type = null;
-    projectFO.skip = 0;
-    appendProjects(projectFO);
-});
-
-$('#investmentsTab').on('click',function () {
-    $('#investmentsContainer').show();
-    $('#projectsContainer').hide();
-});
-
-
-$('.projectsVSInvestments-btn').on('click',function () {
-    $('.projectsVSInvestments-btn').removeClass('active');
-    $(this).addClass('active');
-});
 
 $('.catContainer').on('click',function () {
     $('.catContainer').removeClass('selected');
