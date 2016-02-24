@@ -7,7 +7,7 @@ public final class InvestorPostFilterOptions extends InvestorPost {
 
     public InvestorPostFilterOptions() {
         this.skip = 0;
-        this.limit = 20;
+        this.limit = 10;
     }
 
     public int getSkip() {
