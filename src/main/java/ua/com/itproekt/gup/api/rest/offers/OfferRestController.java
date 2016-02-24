@@ -63,6 +63,7 @@ public class OfferRestController {
 
     //------------------------------------------ Create -----------------------------------------------------------------
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
                     consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResp> createOffer(@Valid @RequestBody Offer offer) {

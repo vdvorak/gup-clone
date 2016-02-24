@@ -102,8 +102,8 @@ public class BlogPostRestController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        BlogPost newBlogPost = blogPostService.edit(blogPost);
-        return new ResponseEntity<>(newBlogPost, HttpStatus.OK);
+        blogPostService.edit(blogPost);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //------------------------------------------ like/dislike -----------------------------------------------------------------
@@ -152,6 +152,7 @@ public class BlogPostRestController {
 
     //------------------------------------------ Delete -----------------------------------------------------------------
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/blogPost/id/{blogPostId}/delete", method = RequestMethod.POST)
     public ResponseEntity<Blog> deleteBlogPost(@PathVariable String blogPostId) {
         if (!blogPostService.blogPostExists(blogPostId)) {

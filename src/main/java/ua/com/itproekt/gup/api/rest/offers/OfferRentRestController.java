@@ -25,6 +25,7 @@ public class OfferRentRestController {
     @Autowired
     ActivityFeedService activityFeedService;
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/id/{offerId}/rent", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResp> rentOffer(@PathVariable String offerId,

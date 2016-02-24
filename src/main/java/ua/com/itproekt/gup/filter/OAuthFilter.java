@@ -51,11 +51,9 @@ public class OAuthFilter implements Filter {
                 try {
                     tokenServices.readAccessToken(authToken);
                 } catch (Exception ex) {
-                    System.err.println(" **** Exception readAccessToken ****");
-
                     StringWriter stack = new StringWriter();
                     ex.printStackTrace(new PrintWriter(stack));
-                    LOG.error(stack.toString());
+                    LOG.error(" **** Exception readAccessToken **** " + stack.toString());
                 }
                 filteredReq.addParameter("access_token", new String[]{authToken});
             } else {
@@ -99,11 +97,9 @@ public class OAuthFilter implements Filter {
                         try {
                             tokenServices.readAccessToken(accessToken.getValue());
                         } catch (Exception ex) {
-                            System.err.println(" **** Exception readAccessToken ****");
-
                             StringWriter stack = new StringWriter();
                             ex.printStackTrace(new PrintWriter(stack));
-                            LOG.error(stack.toString());
+                            LOG.error(" **** Exception readAccessToken **** " + stack.toString());
                         }
 
                         filteredReq.addParameter("access_token", new String[]{accessToken.getValue()});

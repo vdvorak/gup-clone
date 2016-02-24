@@ -43,7 +43,7 @@ public class BlogPostCommentRestController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/blogPost/id/{blogPostId}/comment/create", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResp> createComment(@PathVariable String blogPostId,
                                                         @RequestBody Comment comment) {
         // ?? - spring валидирует
@@ -67,6 +67,8 @@ public class BlogPostCommentRestController {
         return new ResponseEntity<>(new CreatedObjResp(comment.getcId()), HttpStatus.CREATED);
     }
 
+
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/blogPost/id/{blogPostId}/comment/id/{commentId}/delete", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteComment(@PathVariable String blogPostId,
@@ -83,7 +85,7 @@ public class BlogPostCommentRestController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/blogPost/id/{blogPostId}/comment/id/{commentId}/like", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> likeComment(@PathVariable String blogPostId,
                                                 @PathVariable String commentId) {
 
