@@ -13,7 +13,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Создание новости | GUP</title>
+    <title>Редактирование новости</title>
     <meta name="generator" content="Bootply"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -46,11 +46,11 @@
 
 <div class="container2">
     <div class="blogCreation">
-        <p class="blogCreationHeader blueColor">Новая новость</p>
+        <p class="blogCreationHeader blueColor">Редактирование новости</p>
 
         <form action="#" role="form">
             <label for="newsTitle" class="blogCreationLabel">Заголовок новости</label>
-            <input type="text" name="newsTitle" id="newsTitle" class="blogCreationInput blueBorder">
+            <input type="text" name="newsTitle" id="newsTitle" class="blogCreationInput blueBorder" value="${blogPost.title}">
 
             <div class="input-group cat">Категория
                 <hr>
@@ -86,8 +86,7 @@
                         <div class="col-xs-6" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
                                 <li class="dropdown">
-                                    <a id="chosenRegion" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите
-                                        область<b
+                                    <a id="chosenRegion" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите область<b
                                                 class="caret"></b></a>
                                     <ul class="dropdown-menu multi-column columns-2">
                                         <div id="regions" class="row">
@@ -132,8 +131,7 @@
                         <div class="col-xs-6" id="bs-example-navbar-collapse-2" style="visibility: hidden">
                             <ul class="nav navbar-nav">
                                 <li class="dropdown">
-                                    <a id="chosenCity" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите
-                                        город<b
+                                    <a id="chosenCity" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите город<b
                                                 class="caret"></b></a>
                                     <ul class="dropdown-menu multi-column columns-2">
                                         <div id="cities" class="row">
@@ -160,13 +158,15 @@
                 <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
             </form>
 
-            <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
+            <div class="titleFile" data-title="Добавить изображение">
+                <button type="submit" class="blogCreationSubmit"></button>
+            </div>
             <label class="blogCreationLabel">Фотографии</label>
 
             <div id="drop_zone" class="defaultIMG">
                 <ul>
                     <li class="li-containerIMG li-defaultIMG">
-                        <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+                        <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImg()"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
                     </li>
                 </ul>
@@ -183,136 +183,6 @@
 
     </div>
 </div>
-
-
-<%--<div>Заголовок--%>
-<%--<input id="title" type="text" name="title">--%>
-<%--</div>--%>
-<%--<br>--%>
-
-
-<%--<div class="row">--%>
-<%--<div class="col-xs-12">--%>
-<%--<textarea id="textarea"></textarea>--%>
-<%--</div>--%>
-<%--</div>--%>
-
-
-<%--&lt;%&ndash;<div>Описание&ndash;%&gt;--%>
-<%--&lt;%&ndash;<textarea id="text" required></textarea>&ndash;%&gt;--%>
-<%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-<%--&lt;%&ndash;<br>&ndash;%&gt;--%>
-
-<%--<div class="input-group cat">Категория--%>
-<%--<hr>--%>
-<%--<input id="sciCategory" type="checkbox" name="sci"><label for="sciCategory">Наука и техника</label><br>--%>
-<%--<input id="artCategory" type="checkbox" name="art"><label for="artCategory">Искусство</label><br>--%>
-<%--<input id="savorCategory" type="checkbox" name="savor"><label for="savorCategory">Светская жизнь</label><br>--%>
-<%--<input id="policyCategory" type="checkbox" name="policy"><label for="policyCategory">Политика</label><br>--%>
-<%--<input id="worldCategory" type="checkbox" name="world"><label for="worldCategory">Мир и общество</label><br>--%>
-<%--<input id="economyCategory" type="checkbox" name="economy"><label for="economyCategory">Экономика</label><br>--%>
-<%--<input id="sportCategory" type="checkbox" name="sport"><label for="sportCategory">Спорт, хобби</label><br>--%>
-<%--<input id="socialCategory" type="checkbox" name="social"><label for="socialCategory">Соц. сети</label>--%>
-<%--<hr>--%>
-<%--</div>--%>
-<%--<br>--%>
-
-<%--<form id="photoInput" enctype="multipart/form-data" action="/api/rest/fileStorage/OFFERS/file/read/id/${id}"--%>
-<%--method="post">--%>
-<%--<br>--%>
-
-<%--<p>Загрузите ваши фотографии на сервер</p>--%>
-
-<%--<p><input type="file" name="file" accept="image/*,image/jpeg">--%>
-<%--<input type="submit" value="Добавить"></p>--%>
-<%--</form>--%>
-
-<%--<div class="imgBlock">--%>
-<%--<!--uploaded images-->--%>
-<%--</div>--%>
-<%--<!-- city chosen -->--%>
-<%--<input id="countryInp" type="text" name="country" style="visibility: hidden;">--%>
-<%--<input id="areaInp" type="text" name="area" style="visibility: hidden;">--%>
-<%--<input id="cityInp" type="text" name="city" style="visibility: hidden;">--%>
-
-<%--<div class="row">--%>
-<%--<div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">--%>
-<%--<div class="input-group">--%>
-
-<%--<div class="col-xs-6" id="bs-example-navbar-collapse-1">--%>
-<%--<ul class="nav navbar-nav">--%>
-<%--<li class="dropdown">--%>
-<%--<a id="chosenRegion" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите область<b--%>
-<%--class="caret"></b></a>--%>
-<%--<ul class="dropdown-menu multi-column columns-2">--%>
-<%--<div id="regions" class="row">--%>
-<%--<div class="col-sm-6">--%>
-<%--<ul class="multi-column-dropdown">--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#"><b>Вся Украина</b></a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Винницкая область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Волынская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Донецкая область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Житомирская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Закарпатская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Ивано‑Франковская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Киевская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Кировоградская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Крым</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Луганская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Львовская область</a></li>--%>
-<%--</ul>--%>
-<%--</div>--%>
-<%--<div class="col-sm-6">--%>
-<%--<ul class="multi-column-dropdown">--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Николаевская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Одесская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Полтавская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Ровенская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Сумская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Тернопольская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Харьковская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Херсонская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Хмельницкая область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Черкасская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Черниговская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Черновицкая область</a>--%>
-<%--</li>--%>
-<%--</ul>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</ul>--%>
-<%--</li>--%>
-<%--</ul>--%>
-<%--</div>--%>
-
-<%--<div class="col-xs-6" id="bs-example-navbar-collapse-2" style="visibility: hidden">--%>
-<%--<ul class="nav navbar-nav">--%>
-<%--<li class="dropdown">--%>
-<%--<a id="chosenCity" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите город<b--%>
-<%--class="caret"></b></a>--%>
-<%--<ul class="dropdown-menu multi-column columns-2">--%>
-<%--<div id="cities" class="row">--%>
-
-<%--<div class="col-sm-6">--%>
-<%--<ul id="cities1" class="multi-column-dropdown">--%>
-<%--</ul>--%>
-<%--</div>--%>
-
-<%--<div class="col-sm-6">--%>
-<%--<ul id="cities2" class="multi-column-dropdown">--%>
-<%--</ul>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</ul>--%>
-<%--</li>--%>
-<%--</ul>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--<br>--%>
-<%--<a id="submit" class="btn btn-lg btn-danger">Сохранить</a>--%>
-
 
 <!-- script references -->
 <sec:authorize access="isAuthenticated()">
@@ -331,12 +201,12 @@
 
 <sec:authorize var="loggedIn" access="isAuthenticated()"/>
 <c:choose>
-    <c:when test="${loggedIn}">
-        <script src="/resources/js/autorizedHeader.js"></script>
-    </c:when>
-    <c:otherwise>
-        <script src="/resources/js/anonymHeader.js"></script>
-    </c:otherwise>
+<c:when test="${loggedIn}">
+<script src="/resources/js/autorizedHeader.js"></script>
+</c:when>
+<c:otherwise>
+<script src="/resources/js/anonymHeader.js"></script>
+</c:otherwise>
 </c:choose>
 
 <script src="/resources/js/main.js"></script>
@@ -355,8 +225,13 @@
 <script>
 
     var imgsArr = {};
-    var inpCategories = [];
     var cities;
+    var inpCategories = [];
+    var oldCategories = ('${blogPost.categories}') ? '${blogPost.categories}'.replace('[', '').replace(']', '').replace(' ', '').split(',') : []; // make array from string
+    var oldImgArr = {};
+    var imgsArrResult = {};
+    var picArrDel = [];
+    var picArrNew = [];
 
     // ---------------    LOAD RESOURCES    --------------------------//
     $.ajax({
@@ -370,6 +245,49 @@
     });
     // ---------------   END LOAD RESOURCES    --------------------------//
 
+    //----------------------  DROP ZONE -------------------------------------//
+    var dropZone = document.getElementById('drop_zone');
+    dropZone.addEventListener('dragover', handleDragOver, false);
+    dropZone.addEventListener('drop', handleFileSelect, false);
+
+    function handleFileSelect(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+
+        var files = evt.dataTransfer.files; // FileList object.
+
+        // files is a FileList of File objects. List some properties.
+        for (var i = 0, f; f = files[i]; i++) {
+            var fd = new FormData();
+            fd.append('file', f);
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/fileStorage/NEWS/file/upload/",
+                data: fd,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                success: function (data, textStatus, request) {
+                    var id = data.id;
+                    var isImage = f.type.substring(0, 5) === 'image';
+                    if (isImage) {
+                        imgsArr[id] = "image";
+                        appendImg(id);
+                    }
+                }
+            });
+
+        }
+    }
+
+    function handleDragOver(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+    }
+    //----------------------  DROP ZONE -------------------------------------//
 
     //----------------------  HTML EDITOR-------------------------------------//
     tinymce.init({
@@ -392,15 +310,24 @@
         content_css: [
             '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
             '//www.tinymce.com/css/codepen.min.css'
-        ]
+        ],
+        init_instance_callback : function(editor) {
+            editor.setContent('${blogPost.text}');
+        }
     });
 
     //---------------------- END  HTML EDITOR-------------------------------------//
 
 
-    // --------------------- MAIN FORM CONSTRUCTION ----------------------//
+    // ---------------    SET CATEGORIES    --------------------------//
+    for (var i = 0; i< oldCategories.length; i++){
+        $('input[name='+oldCategories[i]+']').prop('checked',true);
+    }
+    // ---------------    END SET CATEGORIES  --------------------------//
 
-    $(document).on('click', 'button.SendEdition', function (event) {
+
+    // --------------------- MAIN FORM CONSTRUCTION ----------------------//
+    $('button.SendEdition').click(function (event) {
         event.preventDefault();
 
         var title = $('#newsTitle').val();
@@ -409,15 +336,28 @@
         if (title.length < 4 || title.length > 140) return;
         if (text.length < 50 || text.length > 5000) return;
 
+        for(var key in imgsArr) {
+            if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
+        }
+
+        for (var i = 0; i < picArrNew.length; i++) {
+            imgsArrResult[picArrNew[i]] = imgsArr[picArrNew[i]];
+        }
+
+        for(var i = 0; i < picArrDel.length; i++) {
+            deleteImgFromDB(picArrDel[i]);
+        }
+
         var blogPost = {};
-        blogPost.blogId = '${blogId}';
+        blogPost.id = '${blogPost.id}';
+        blogPost.blogId = '${blogPost.blogId}';
         blogPost.title = title;
         blogPost.text = text;
         blogPost.address = {};
         blogPost.address.country = 'Украина';
         blogPost.address.area = $('#areaInp').val();
         blogPost.address.city = $('#cityInp').val();
-        blogPost.imagesIds = imgsArr;
+        blogPost.imagesIds = imgsArrResult;
         blogPost.categories = [];
 
         $('.cat input').each(function (index) {
@@ -427,10 +367,9 @@
         });
 
         blogPost.categories = inpCategories;
-
         $.ajax({
             type: "POST",
-            url: "/api/rest/newsService/blogPost/create",
+            url: "/api/rest/newsService/blogPost/edit",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(blogPost),
@@ -445,86 +384,15 @@
 
     // --------------------- END MAIN FORM CONSTRUCTION ----------------------//
 
+    // place photo from received model on the page
+    if ('${blogPost.imagesIds}'.length > 5 ){
+        oldImgArr = JSON.parse('${blogPost.imagesIds}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
+    }
+    for (var key in oldImgArr) {
+        imgsArr[key] = oldImgArr[key];
+        appendImg(key);
+    }
 
-    // -------------------------- PHOTO SUBMIT AND DELETE ------------------------------//
-    $(document).ready(function () {
-        // Setup the dnd listeners.
-        var dropZone = document.getElementById('drop_zone');
-        dropZone.addEventListener('dragover', handleDragOver, false);
-        dropZone.addEventListener('drop', handleFileSelect, false);
-
-        function handleFileSelect(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
-
-            var files = evt.dataTransfer.files; // FileList object.
-
-            // files is a FileList of File objects. List some properties.
-            for (var i = 0, f; f = files[i]; i++) {
-                var fd = new FormData();
-                fd.append('file', f);
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/fileStorage/NEWS/file/upload/",
-                    data: fd,
-                    async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-
-                    success: function (data, textStatus, request) {
-                        var id = data.id;
-                        var isImage = f.type.substring(0, 5) === 'image';
-                        if (isImage) {
-                            imgsArr[id] = "image";
-                            appendImg(id);
-
-                        }
-                    }
-                });
-
-
-            }
-        }
-
-        function handleDragOver(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
-            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-        }
-    });
-
-    $('.blogCreationSubmit').click(function(){
-        $('#photoInput').trigger('click');
-    });
-
-    $('#photoInput').change(function (event) {
-        event.preventDefault();
-
-        var files = event.currentTarget.files;
-        for (var i = 0, f; f = files[i]; i++) {
-            var fd = new FormData();
-            fd.append('file', f);
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/fileStorage/NEWS/file/upload/",
-                data: fd,
-                async: false,
-                cache: false,
-                contentType: false,
-                processData: false,
-
-                success: function (data, textStatus, request) {
-                    var id = data.id;
-                    var isImage = f.type.substring(0, 5) === 'image';
-                    if (isImage) {
-                        imgsArr[id] = "image";
-                        appendImg(id);
-                    }
-                }
-            });
-        }
-    });
 
     function appendImg(id) {
         $(".li-defaultIMG").css("display", "none");
@@ -540,53 +408,77 @@
         cloneImg.appendTo('.defaultIMG ul');
     }
 
-//    $('#photoInput').submit(function (event) {
-//        event.preventDefault();
-//        var formImg = new FormData($(this)[0]);
-//
-//        $.ajax({
-//            type: "POST",
-//            url: "/api/rest/fileStorage/NEWS/file/upload/",
-//            data: formImg,
-//            async: false,
-//            cache: false,
-//            contentType: false,
-//            processData: false,
-//
-//            success: function (data, textStatus, request) {
-//                var id = data.id;
-//                imgsArr[id] = "someText";
-//                $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
-//                        ' <li style="background-color: white"><a rel="example_group"> ' +
-//                        '<img id="img1" alt="" src="/api/rest/fileStorage/NEWS/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
-//                        '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
-//            }
-//        });
-//    });
+    // -------------------------- PHOTO SUBMIT AND DELETE ------------------------------//
+    $('#photoInput').change(function (event) {
+        event.preventDefault();
 
-    function deleteImg() {
-        var idImg = $(event.currentTarget).parent()
-                .find('img')
-                .attr('id');
-        delete imgsArr[idImg];
+        var files = event.currentTarget.files;
+        for (var i = 0, f; f = files[i]; i++) {
+            var fd = new FormData();
+            fd.append('file', f);
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/fileStorage/NEWS/file/upload/",
+            data: fd,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (data, textStatus, request) {
+                var id = data.id;
+                var isImage = f.type.substring(0, 5) === 'image';
+                if (isImage) {
+                    imgsArr[id] = "image";
+                    appendImg(id);
+                }
+            }
+        });
+        }
+    });
+
+    $('button.blogCreationSubmit').click(function(){
+        $('#photoInput').trigger('click');
+    });
+
+    function deleteImgFromDB(idImg) {
         $.ajax({
             type: "POST",
             url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
             success: function (data, textStatus, request) {
-                $('#' + idImg).parent().remove();
-
-                var numberImg = $(".defaultIMG").find('img').length;
-                if(numberImg < 2) {
-                    $(".li-defaultIMG").css("display", "inline-block");
-                }
             }
         });
     }
 
+    function deleteImg(idImg) {
+        $('#' + idImg).parent().remove();
+
+        var numberImg = $(".defaultIMG").find('img').length;
+        if(numberImg < 2) {
+            $(".li-defaultIMG").css("display", "inline-block");
+        }
+
+        picArrDel.push(idImg);
+    }
     // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//
 
 
     //--------------------------- REGIONS LIST --------------------------------------------//
+
+    var area = '${blogPost.address.area}';
+    var city = '${blogPost.address.city}';
+
+    if(area) {
+        $('#chosenRegion').text(area);
+        $('#areaInp').val(area);
+    }
+
+    if(city) {
+        $('#chosenCity').text(city);
+        $('#cityInp').val(city);
+        $('#bs-example-navbar-collapse-2').attr("style", "visibility: visible");
+    }
 
     $('#regions').find('li').click(function (event) {
         event.preventDefault();
@@ -610,16 +502,13 @@
             $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][j] + '</a></li>');
         }
 
-        $('#cities').find('li').click(function (event) {
-                    event.preventDefault();
+        $('#cities').find('li').click(function () {
                     var city = $(this).text();
                     $('#chosenCity').text(city);
                     $('#cityInp').val(city);
                 }
         );
     });
-
     //--------------------------- END REGIONS LIST --------------------------------------------//
 </script>
-</body>
 </html>

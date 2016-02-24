@@ -103,7 +103,7 @@ public class BlogPostController {
         BlogPost blogPost = blogPostService.findById(blogPostId);
         model.addAttribute("blogPost", blogPost);
         model.addAttribute("profileId", profile.getId());
-        return "blog-post-edit";
+        return "news/blog-post-edit";
     }
 
 
