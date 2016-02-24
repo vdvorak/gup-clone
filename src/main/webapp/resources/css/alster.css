@@ -18,6 +18,10 @@
     position: relative;
     height: 87px;
 }
+.projAndInvestCaretDown {
+    cursor: pointer;
+    padding: 10px 408px;
+}
 
 .projectsVSInvestments-btn {
     position: absolute;

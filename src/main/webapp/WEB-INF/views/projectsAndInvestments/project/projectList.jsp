@@ -44,13 +44,14 @@
 
         <!--PAGE CONTENT START-->
         <div class="container2">
-            <div class="projectFeedContainer feedContainer contentContainer">
-                <ul class="projectsVSInvestments-block">
-                    <li class="projectsVSInvestments-btn projects active" data-atab="projects" id="projectsTab"><a href="#tabs1-project">ПРОЕКТЫ</a></li>
-                    <!--Add "active" class to show this element as selected-->
-                    <li class="projectsVSInvestments-btn investments" data-atab="investments" id="investmentsTab"><a href="#tabs1-investment">ИНВЕСТИЦИИ</a></li>
-                </ul>
-                <div class="projectsVSInvestmentsCats">
+            <ul class="projectsVSInvestments-block">
+                <li class="projectsVSInvestments-btn projects active" data-atab="projects" id="projectsTab"><a href="#tabs1-project">ПРОЕКТЫ</a></li>
+                <!--Add "active" class to show this element as selected-->
+                <li class="projectsVSInvestments-btn investments" data-atab="investments" id="investmentsTab"><a href="#tabs1-investment">ИНВЕСТИЦИИ</a></li>
+            </ul>
+
+            <div class="projectFeedContainer feedContainer contentContainer" id="projectsContainer">
+                <div class="projectsVSInvestmentsCats" id="projectTypeBlock">
                     <div class="catContainer" name="RENOVATION">
                         <!--Add "selected" class to show this element as selected-->
                         <div class="catLogo restruct"></div>
@@ -71,70 +72,104 @@
                 </div>
 
                 <div id="projectsBlock">
-                    <%--<div class="feedItem vip">--%>
-                        <%--<!--Add class "vip" to vip-tialize project-->--%>
-                        <%--<div class="publishDate">Опубликовано: 22. 10. 16</div>--%>
-                        <%--<div class="preview">--%>
-                            <%--<img src="/resources/css/images/sample/project2.png" alt="project photo" />--%>
-                            <%--<div class="likes">--%>
-                                <%--<div class="hearthPlace">--%>
-                                    <%--<div class="hearth"></div>--%>
-                                <%--</div>--%>
-                                <%--<div class="number">22 000</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<a href="#" class="content">--%>
-                            <%--<div class="title">Название проекта</div>--%>
-                            <%--<div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>--%>
-                        <%--</a>--%>
-                        <%--<div class="bottomContent">--%>
-                            <%--<button type="button" class="abutton invest">Инвестировать</button>--%>
-                            <%--<div class="projectProgressBlock">--%>
-                                <%--<div class="current elem cash">234 $</div>--%>
-                                <%--<div class="bar elem">--%>
-                                    <%--<div class="colored"></div>--%>
-                                    <%--<div class="empty" style="width: 30%;"></div>--%>
-                                    <%--<!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->--%>
-                                <%--</div>--%>
-                                <%--<div class="todo elem cash">2304 $</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="feedItem">--%>
-                        <%--<!--Add class "vip" to vip-tialize project-->--%>
-                        <%--<div class="preview">--%>
-                            <%--<img src="/resources/css/images/sample/project1.png" alt="project photo" />--%>
-                            <%--<div class="likes">--%>
-                                <%--<div class="hearthPlace">--%>
-                                    <%--<div class="hearth"></div>--%>
-                                <%--</div>--%>
-                                <%--<div class="number">22 000</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<a href="#" class="content">--%>
-                            <%--<div class="publishDate">Опубликовано: 22. 10. 16</div>--%>
-                            <%--<div class="title">Название проекта</div>--%>
-                            <%--<div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>--%>
-                        <%--</a>--%>
-                        <%--<div class="bottomContent">--%>
-                            <%--<button type="button" class="abutton invest">Инвестировать</button>--%>
-                            <%--<div class="projectProgressBlock">--%>
-                                <%--<div class="current elem cash">234 $</div>--%>
-                                <%--<div class="bar elem">--%>
-                                    <%--<div class="colored"></div>--%>
-                                    <%--<div class="empty" style="width: 70%;"></div>--%>
-                                    <%--<!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->--%>
-                                <%--</div>--%>
-                                <%--<div class="todo elem cash">2304 $</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
+
                 </div>
-
-                <img class="caretDown" style="padding: 10px 408px" id="showNextProjects" src="/resources/images/caret.png" alt="caret">
-
-                <div class="feedFooter"></div>
             </div>
+
+            <div class="feedContainer investmentsFeedContainer contentContainer" id="investmentsContainer" style="display: none">
+                <div id="investmentsBlock">
+                    <div class="feedItem vip">
+                        <!--Add class "vip" to vip-tialize investment-->
+                        <div class="publishDate">Опубликовано: 22. 10. 16</div>
+                        <div class="photo border-color">
+                            <img src="/resources/css/images/profileListLogo.png" alt="user avatar"/>
+                        </div>
+                        <a href="#" class="content">
+                            <div class="title">Заголовок (ФИО/Компании)</div>
+                            <div class="desc">Описание</div>
+                            <p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        </a>
+                        <div class="cats">
+                            <!--Recommended max 14 elements-->
+                            <ul>
+                                <!--Emmet shortcut-->
+                                <!--li*14>a[href="#"]>{IT Ресурсы}-->
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="details">
+                            <div class="canInvest">15468900$</div>
+                            <div class="alreadyInvested">
+                                <div class="desc">Проинвестировано:</div>
+                                <div class="total">15468900$</div>
+                                <div class="totalProjects">25 проектов</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feedItem">
+                        <!--Add class "vip" to vip-tialize investment-->
+                        <div class="publishDate">Опубликовано: 22. 10. 16</div>
+                        <div class="photo">
+                            <img src="/resources/css/images/profileListLogo.png" alt="user avatar"/>
+                        </div>
+                        <a href="#" class="content">
+                            <div class="title">Заголовок (ФИО/Компании)</div>
+                            <div class="desc">Описание</div>
+                            <p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        </a>
+                        <div class="cats">
+                            <!--Recommended max 14 elements-->
+                            <ul>
+                                <!--Emmet shortcut-->
+                                <!--li*14>a[href="#"]>{IT Ресурсы}-->
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                                <li><a href="#">IT Ресурсы</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="details">
+                            <div class="canInvest">15468900$</div>
+                            <div class="alreadyInvested">
+                                <div class="desc">Проинвестировано:</div>
+                                <div class="total">15468900$</div>
+                                <div class="totalProjects">25 проектов</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="contentContainer" style="margin-top: 5px">
+                <img class="projAndInvestCaretDown" id="showNext" src="/resources/images/caret.png" alt="caret">
+            </div>
+
+            <div class="feedFooter"></div>
+
         </div>
 
         <!--PAGE CONTENT END-->
@@ -254,10 +289,33 @@
                     '</div>');
             }
 
-            $('#showNextProjects').on('click',function () {
-                projectFO.skip += projectFO.limit;
+            $('#showNext').on('click',function () {
+                if($('#projectsTab').hasClass('active')) {
+                    projectFO.skip += projectFO.limit;
+                    loadAndAppendProjectBlocks(projectFO);
+                } else {
+                    alert('investmentFO');
+                    investmentFO.skip += investmentFO.limit;
+                    loadAndAppendInvestmentsBlocks(investmentFO);
+                }
+
+            });
+
+            $('#projectsTab').on('click',function () {
+                $('#investmentsContainer').hide();
+                $('#projectsContainer').show();
+                $('.catContainer').removeClass('selected');
+
+                projectFO.type = null;
+                projectFO.skip = 0;
                 loadAndAppendProjectBlocks(projectFO);
             });
+
+            $('#investmentsTab').on('click',function () {
+                $('#investmentsContainer').show();
+                $('#projectsContainer').hide();
+            });
+
 
             $('.projectsVSInvestments-btn').on('click',function () {
                 $('.projectsVSInvestments-btn').removeClass('active');

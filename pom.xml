@@ -246,7 +246,6 @@
                     </systemProperties>
                     <protocol>org.apache.coyote.http11.Http11NioProtocol</protocol>
                 </configuration>
-
             </plugin>
         </plugins>
     </build>
