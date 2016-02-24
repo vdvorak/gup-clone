@@ -109,72 +109,54 @@
                 <div class="clearfix"></div>
             </div>
 
-
             <label for="main-email-info" class="label-form-info">Основной E-mail</label>
             <input id="main-email-info" type="email" name='email' class="form-info-input">
 
             <div class="clearfix"></div>
 
-
-
-
             <div class="input_email_fields_wrap">Контактные e-mail
                 <button class="add_email_field_button">Добавить -mail</button>
-                <div class="email-input-unit"><input type="text" name="myemail"><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div>
+                <div class="email-input-unit"><input type="text" name="myemail"><a href="#" class="remove_field"><img
+                        src="/resources/img/minus.png" with="20" height="20"></a></div>
             </div>
 
-
-        <%--<div id="contactEmailsBlock">--%>
-                <%--<div id="addEmailImg" class="title-email" data-title="Добавить e-mail">--%>
-                    <%--<img class="email-plus" src="resources/images/pluse.png" alt="plus">--%>
-                <%--</div>--%>
-                <%--<label for="email-info-1" class="label-form-info">Контактный e-mail</label>--%>
-
-                <%--<input id="email-info-1" type="email" name='contactEmail' class="form-info-input">--%>
-
-                <%--<div class="clearfix"></div>--%>
+            <%--<div id="contactEmailsBlock">--%>
+            <%--<div id="addEmailImg" class="title-email" data-title="Добавить e-mail">--%>
+            <%--<img class="email-plus" src="resources/images/pluse.png" alt="plus">--%>
             <%--</div>--%>
+            <%--<label for="email-info-1" class="label-form-info">Контактный e-mail</label>--%>
 
+            <%--<input id="email-info-1" type="email" name='contactEmail' class="form-info-input">--%>
 
-
-
-
-
+            <%--<div class="clearfix"></div>--%>
+            <%--</div>--%>
 
             <label for="main-tel-info" class="label-form-info">Основной Телефон</label>
             <input type="tel" name="tel" id="main-tel-info" class="input-info-min">
 
             <div class="clearfix"></div>
 
-
-
             <%--<div id="contactPhonesBlock">--%>
-                <%--<div id="addPhoneImg" class="title-tel" data-title="Добавить телефон">--%>
-                    <%--<img class="tel-plus" src="resources/images/pluse.png" alt="plus">--%>
-                <%--</div>--%>
-
-                <%--<div class="tel-wrapper-1">--%>
-                    <%--<label for="tel-info-1" class="label-form-info">Контактный телефон</label>--%>
-                    <%--<input type="tel" name="contactTel" id="tel-info-1" class="input-info-min">--%>
-                    <%--<img class="remove_phone" src="/resources/img/minus.png" with="20" height="20"></a>--%>
-                    <%--<div class="clearfix"></div>--%>
-                <%--</div>--%>
+            <%--<div id="addPhoneImg" class="title-tel" data-title="Добавить телефон">--%>
+            <%--<img class="tel-plus" src="resources/images/pluse.png" alt="plus">--%>
             <%--</div>--%>
 
+            <%--<div class="tel-wrapper-1">--%>
+            <%--<label for="tel-info-1" class="label-form-info">Контактный телефон</label>--%>
+            <%--<input type="tel" name="contactTel" id="tel-info-1" class="input-info-min">--%>
+            <%--<img class="remove_phone" src="/resources/img/minus.png" with="20" height="20"></a>--%>
+            <%--<div class="clearfix"></div>--%>
+            <%--</div>--%>
+            <%--</div>--%>
 
             <div class="input_tel_fields_wrap">Контактные телефоны
                 <button class="add_tel_field_button">Add More Fields</button>
-                <div class="tel-input-unit"><input type="text" name="mytel"><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div>
+                <div class="tel-input-unit"><input type="text" name="mytel"><a href="#" class="remove_field"><img
+                        src="/resources/img/minus.png" with="20" height="20"></a></div>
             </div>
-
-
-
-            <%--<a href="#" class="remove_field" required><img src="/resources/img/minus.png" with="20" height="20"></a>--%>
-
 
             <label for="skype-info" class="label-form-info">Skype</label>
             <input type="text" name="skype" id="skype-info" class="input-info-min">
-
 
             <div class="input-group">
                 <div id="socLinkGroup" class="input_soc_wrap">
@@ -199,7 +181,6 @@
                     </div>
                 </div>
             </div>
-
 
             <label for="web-addresses" class="label-form-info">Ссылка на сайт</label>
             <input type="url" name="web-addresses" id="web-addresses" class="input-info-normal"
