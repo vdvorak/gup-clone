@@ -62,9 +62,7 @@ $(document).ready(function(){
         $(this).parent().closest('.doersFeed').find('.colNewsComments').slideToggle('slow');
     });
 
-
-    $('#money_amount').change(function(){
-        alert("dfs")
+    $('#money_amount').on('input',function(){
         $.ajax({
             url: '/account/getLiqPayParam',
             method: 'POST',
@@ -75,6 +73,4 @@ $(document).ready(function(){
             }
         });
     });
-
-
 });
