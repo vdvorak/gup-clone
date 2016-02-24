@@ -59,6 +59,8 @@
             <li>
               <div class="balance">
                 <button type="button" class="btnBalance" data-toggle="modal" data-target="#myModal">Пополнить баланс</button>
+
+                <!-- Modal -->
                 <div class="modal fade" id="myModal" role="dialog">
                   <div class="modal-dialog">
                     <div class="modal-content">
@@ -72,12 +74,26 @@
                             <option>5</option>
                           </select>
                         </div>
-                        <input type="text" class="form-control sear mod1" placeholder="Введите сумму">
+                        <%--<input type="text" class="form-control sear mod1" placeholder="Введите сумму">--%>
+                        <input id="money_amount" type="text" class="form-control" placeholder="Введите сумму">
+                        <%--<button type="submit" class="submit">Пополнить</button>--%>
+                      </form>
+                      <form method="post" action="https://www.liqpay.com/api/checkout" accept-charset="utf-8">
+                        <input id="liq-pay-data" type="hidden" name="data" value="eyJhbW91bnQiOjEwMCwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6ItCf0L7Qv9C+0LvQvdC10L3QuNC1INCx0LDQu9Cw0L3RgdCwIiwib3JkZXJfaWQiOiJsM2Q2d1VvR3Rlc3QiLCJwdWJsaWNfa2V5IjoiaTc0MDQ0MTgyODM5Iiwic2FuZGJveCI6IjEiLCJzZXJ2ZXJfdXJsIjoiaHR0cDpcL1wvYmFuay10a2FuaS5yaGNsb3VkLmNvbVwvY2FsbGJhY2siLCJ2ZXJzaW9uIjoiMyJ9" />
+                        <input id="liq-pay-signature" type="hidden" name="signature" value="DxXg8vXCVuw39G1Qvk8hmLyad6o=" />
+                        <%--<button type="submit" class="btn btn-primary">Пополнить</button>--%>
                         <button type="submit" class="submit">Пополнить</button>
                       </form>
+
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                      </div>
+
                     </div>
                   </div>
                 </div>
+                <!-- End modal -->
+                
               </div>
             </li>
           </ul>
