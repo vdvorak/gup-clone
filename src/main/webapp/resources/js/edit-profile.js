@@ -5,12 +5,78 @@ var emailCloneCount = 1;
 var contactPhoneCloneCount = 1;
 var socInputTemplate = $('.soc-input-group').html();
 
+// --------------------------------------  BEGIN cropper  ----------------------------------------------
+var image = document.getElementById('image');
+var cropper = new Cropper(image, {
+    aspectRatio: 1 / 1,
+    crop: function(data) {
+        console.log(data.x);
+        console.log(data.y);
+        console.log(data.width);
+        console.log(data.height);
+        console.log(data.rotate);
+        console.log(data.scaleX);
+        console.log(data.scaleY);
+    }
+});
+
+function dataURItoBlob(dataURI) {
+    var binary = atob(dataURI.split(',')[1]);
+    var array = [];
+    for(var i = 0; i < binary.length; i++) {
+        array.push(binary.charCodeAt(i));
+    }
+    return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+}
+
+$("#btn-cropp-done").click(function() {
+    $('#cropperModal').modal('hide');
+
+    var canvas = cropper.getCroppedCanvas();
+    var dataURL = canvas.toDataURL('image/jpeg', 0.5);
+    var blob = dataURItoBlob(dataURL);
+
+    cropper.replace(dataURL);
+
+    var formData = new FormData();
+    formData.append('file', blob);
+
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1", //
+        data: formData,
+        enctype: 'multipart/form-data',
+//                async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        statusCode: {
+            201: function (data) {
+//                        alert('201');
+                updatedProfile.contact.pic = data.id;
+                $('.moreInformation-img').css('background',
+                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');
+                cropper.replace('url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');
+
+            },
+            400: function () {
+                alert('400');
+            }
+        }
+    });
+
+
+});
+
+// --------------------------------------  End cropper  ----------------------------------------------
+
 function setValuesForFieldsFromProfile(profile) {
 //            alert('loadedProfile: ' + JSON.stringify(loadedProfile));
 
     if (profile.contact.pic != null) {
         $('.moreInformation-img').css('background',
             'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center');
+        cropper.replace('url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center');
     }
 
     $('#select-type').val(profile.contact.type);
@@ -80,6 +146,7 @@ function initializeProfileEntityForUpdate() {
         }
     });
     updatedProfile.contact.socNetLink = socArr;
+
 }
 
 $(document).ready(function () {
@@ -265,7 +332,7 @@ $('#addProfileImg').on('click', function () {
 
 // ------------------------------------------- Photo upload block ---------------------------------
 $('#uploadProfilePhotoInput').on('change', function () {
-    $.ajax({
+    /*$.ajax({
         type: "POST",
         url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1", //
         data: new FormData($("#uploadProfilePhotoForm")[0]),
@@ -286,6 +353,20 @@ $('#uploadProfilePhotoInput').on('change', function () {
                 alert('400');
             }
         }
-    });
+    });*/
+
+    var files = event.currentTarget.files;
+
+    var reader  = new FileReader();
+
+    reader.addEventListener("load", function () {
+        cropper.replace(reader.result);
+    }, false);
+
+    if (files[0]) {
+        reader.readAsDataURL(files[0]);
+    }
+
+    $('#cropperModal').modal('show');
 });
 // ------------------------------------------- End photo upload block ---------------------------------

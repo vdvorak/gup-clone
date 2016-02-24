@@ -149,6 +149,72 @@
                 </form>
             </div>
 
+        <div id="tenderFilterBlock" class="hidefilter" style="display: none">
+            <div class="tenderFilter">
+
+                <div class="column">
+                    <form action="#">
+                        <div class="clearfix"></div>
+
+                        <label for="tenderNumber">Номер тендера:</label>
+                        <input type="text" placeholder="Автозаполнение" id="tenderNumber">
+
+                        <div class="clearfix"></div>
+
+                        <label for="filterNACE">КВЭДЫ:</label>
+                        <input type="text" placeholder="Автозаполнение" id="filterNACE">
+
+                        <div class="clearfix"></div>
+
+                        <label for="Author">Автор:</label>
+                        <input type="text" id="Author">
+
+                        <div class="clearfix"></div>
+
+                        <label>Тип тендера:</label>
+                        <div class="tenderRadio">
+                            <label><input type="radio" value="open" name="k"/><span></span></label><p>открытый</p>
+                            <label><input type="radio" value="open" name="k"/><span></span></label><p>закрытый</p>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <label>Ожидаемая стоимость: от&nbsp;</label>
+                        <input type="text" class="moneyAfter">
+                        <p class="tenderP">до</p>
+                        <input type="text" class="moneyAfter">
+
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+
+                <div class="column">
+                    <h2>Адрес (место проведения):</h2>
+                    <form action="#">
+                        <div class="location">
+                            <img src="/resources/images/location.png" alt="location">
+                            <label for="region">Область</label>
+                            <input type="text" id="region">
+                            <label for="city">Город</label>
+                            <input type="text" id="city">
+
+                            <div class="clearfix"></div>
+                        </div>
+                        <label for="">Период проведения:</label>
+                        <p class="datePickPi">от <input type="text" id="datepicker"></p>
+                        <p class="datePickPi">до <input type="text" id="datepicker2"></p>
+                        <label for="available">Доступные к участию:</label>
+                        <label class="participate"><input type="checkbox" id="available" value="1" name="k"/><span></span></label>
+
+                        <div class="clearfix"></div>
+                    </form>
+                    <button type="button">Искать по фильтру</button>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
         <div class="clearfix"></div>
 
         <div class="search-img"></div>

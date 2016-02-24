@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="/resources/css/media-queries.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link  href="/resources/css/cropper.css" rel="stylesheet">
 </head>
 <body>
 
@@ -199,6 +200,27 @@
     </div>
 </div>
 
+<div id="cropperModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Редактирование фото</h4>
+            </div>
+            <div class="modal-body">
+                <div class="drop_zone">
+                    <img id="image" src="/resources/images/no_photo.jpg">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button id="btn-cropp-done" type="button" class="btn btn-primary">Готово</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
@@ -208,6 +230,7 @@
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script src="/resources/js/cropper.js"></script>
 
 <script src="/resources/js/autorizedHeader.js"></script>
 <script src="/resources/js/main.js"></script>
