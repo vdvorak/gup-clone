@@ -86,7 +86,7 @@
                                                         <option>5</option>
                                                     </select>
                                                 </div>
-                                                <input id="money_amount" type="text" class="form-control"
+                                                <input id="header_money_amount" type="text" class="form-control"
                                                        placeholder="Введите сумму">
                                             </form>
                                             <form method="post" action="https://www.liqpay.com/api/checkout"
