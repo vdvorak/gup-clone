@@ -43,7 +43,7 @@
 
 <div class="container2">
     <div class="contentContainer editor" id="tab-container-pVSi">
-        <div class="title">Создание инвестиции</div>
+        <div class="title">Редактирование инвестиции</div>
         <form class="investor" action="" id="tabs1-investment">
             <div class="field required kvd">
                 <label for="main-kvd-info" class="editorLabel">Выберите отрасль</label>

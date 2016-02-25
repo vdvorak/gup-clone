@@ -43,21 +43,15 @@
 
 <div class="container2">
     <div class="contentContainer editor" id="tab-container-pVSi">
-        <ul class="projectsVSInvestments-block">
-            <li class="projectsVSInvestments-btn projects" data-atab="projects"><a href="#tabs1-project">ПРОЕКТЫ</a></li>
-            <!--Add "active" class to show this element as selected-->
-            <li class="projectsVSInvestments-btn investments" data-atab="investments"><a href="#tabs1-investment">ИНВЕСТИЦИИ</a></li>
-        </ul>
-
-        <div class="title">РЕДАКТОР</div>
+        <div class="title">Создание инвестиции</div>
         <form class="investor" action="" id="tabs1-investment">
             <div class="field required kvd">
                 <label for="main-kvd-info" class="editorLabel">Выберите отрасль</label>
                 <input id="main-kvd-info" type="text" name='text' class="editorInput">
             </div>
-            <div class="field required">
-                <div class="editorLabel">Указать сумму</div>
-            </div>
+            <%--<div class="field required">--%>
+                <%--<div class="editorLabel">Указать сумму</div>--%>
+            <%--</div>--%>
             <div class="sum">
                 <div class="field">
                     <label for="sum1" class="editorLabel">Сумма</label>
@@ -74,74 +68,16 @@
                 <label for="description" class="editorLabel">Описание</label>
                 <textarea id="description" type="text" name='description' class="editorInput"></textarea>
             </div>
-            <div class="field IMGUploader">
-                <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
-                <input type="file" style="display: none;" multiple="multiple" accept="image/*">
-                <div class="IMGBlock">
-                    <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
-                    <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
-                </div>
-            </div>
+            <%--<div class="field IMGUploader">--%>
+                <%--<div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>--%>
+                <%--<input type="file" style="display: none;" multiple="multiple" accept="image/*">--%>
+                <%--<div class="IMGBlock">--%>
+                    <%--<div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>--%>
+                    <%--<div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
             <div class="field">
                 <button type="submit" class="info-submit">Сохранить</button>
-            </div>
-        </form>
-
-        <form class="project" action="" id="tabs1-project">
-            <div class="field required tit">
-                <label for="main-title-info" class="editorLabel">Заголовок</label>
-                <input id="main-title-info" type="text" name='text' class="editorInput">
-            </div>
-            <div class="field required projType">
-                <div class="editorLabel">Тип проекта</div>
-                <div class="radioGroup">
-                    <div class="column c1">
-                        <div class="row">
-                            <label for="type-restruct">Реструктуризация</label>
-                            <label class="label-checkbox">
-                                <input type="radio" class="greenCheckbox" id="type-restruct" value="restruct" name="type" /><span></span></label>
-                        </div>
-                        <div class="row">
-                            <label for="type-paper">Проект на бумаге</label>
-                            <label class="label-checkbox">
-                                <input type="radio" class="greenCheckbox" id="type-paper" value="paper" name="type" /><span></span></label>
-                        </div>
-                    </div>
-                    <div class="column c2">
-                        <div class="row">
-                            <label for="type-prototype">Готовый прототип</label>
-                            <label class="label-checkbox">
-                                <input type="radio" class="greenCheckbox" id="type-prototype" value="prototype" name="type" /><span></span></label>
-                        </div>
-                        <div class="row">
-                            <label for="type-nouHau">Ноу-Хау</label>
-                            <label class="label-checkbox">
-                                <input type="radio" class="greenCheckbox" id="type-nouHau" value="nouHau" name="type" /><span></span></label>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="field required">
-                <label for="sum" class="editorLabel">Сумма</label>
-                <input id="sum" type="number" name='sum' class="editorInput" style="width: 291px;">
-                <span class="currency">₴</span>
-            </div>
-            <div class="field description">
-                <label for="description" class="editorLabel">Описание</label>
-                <textarea id="description" type="text" name='description' class="editorInput"></textarea>
-            </div>
-            <div class="field IMGUploader">
-                <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
-                <input type="file" style="display: none;" multiple="multiple" accept="image/*">
-                <div class="IMGBlock">
-                    <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
-                    <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
-                </div>
-            </div>
-            <div class="field">
-                <button type="submit" class="info-submit">Сохранить</button>
-                <button type="button" class="SendEdition">Посмотреть</button>
             </div>
         </form>
     </div>

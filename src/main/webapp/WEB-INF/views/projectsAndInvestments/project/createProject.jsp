@@ -20,7 +20,7 @@
 
 <div class="container2">
     <div class="contentContainer editor">
-        <div class="title">РЕДАКТОР ПРОЕКТА</div>
+        <div class="title">Создание проекта</div>
         <form class="project" action="">
             <div class="field required tit">
                 <label for="main-title-info" class="editorLabel">Заголовок</label>
