@@ -91,15 +91,35 @@ $(document).ready(function () {
 
     })
 
-
     $.ajax({
         type: "POST",
         url: "/check-balance",
         cache: false,
         success: function (response) {
-            $('#score').text(response)
+            $('#score').text(response);
+
+            if (response >= 50) {
+                $('.brokeAss').hide();
+                $('.richAss').show()
+            }else {
+                $('.brokeAss').show();
+                $('.richAss').hide()
+            }
         }
     });
+
+
+
+
+
+    //$('#socialBtn').click(function (event) {
+    //
+    //
+    //    $('.brokeAss').hide()
+    //    $('.richAss').show()
+    //
+    //});
+
 
 
 });

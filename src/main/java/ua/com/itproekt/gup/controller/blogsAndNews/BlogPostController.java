@@ -63,7 +63,7 @@ public class BlogPostController {
 //        EntityPage<BlogPost> blogPostPages = blogPostService.findBlogPostsWihOptions(blogPostFO);
 //        model.addAttribute("news", blogPostPages);
         model.addAttribute("pageNumber", pageNumber);
-        return "news";
+        return "news/blogs-and-news";
     }
 
     @RequestMapping("/view-all/{blogId}")
@@ -81,7 +81,7 @@ public class BlogPostController {
         }
 
         model.addAttribute("blogPostPages", filteredPosts);
-        return "blog-post-view-all";
+        return "";
     }
 
     //ToDo Проверять "А ты ли владелец этого блога, чтобы в неём создовать новость?"
