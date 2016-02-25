@@ -6,7 +6,7 @@ var contactPhoneCloneCount = 1;
 var socInputTemplate = $('.soc-input-group').html();
 
 // --------------------------------------  BEGIN cropper  ----------------------------------------------
-var image = document.getElementById('image');
+var image = document.getElementById('cropper-image');
 var cropper = new Cropper(image, {
     aspectRatio: 1 / 1,
     crop: function(data) {
@@ -20,17 +20,19 @@ var cropper = new Cropper(image, {
     }
 });
 
-function dataURItoBlob(dataURI) {
-    var binary = atob(dataURI.split(',')[1]);
-    var array = [];
-    for(var i = 0; i < binary.length; i++) {
-        array.push(binary.charCodeAt(i));
-    }
-    return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
-}
+$(".cropper-btn-cancel").click(function() {
+    $('#cropperModal').css('display',"none");
+});
 
-$("#btn-cropp-done").click(function() {
-    $('#cropperModal').modal('hide');
+$(window).click(function(event) {
+    var modal = document.getElementById('cropperModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+});
+
+$(".cropper-btn-success").click(function() {
+    $('#cropperModal').css('display',"none");
 
     var canvas = cropper.getCroppedCanvas();
     var dataURL = canvas.toDataURL('image/jpeg', 0.5);
@@ -55,8 +57,9 @@ $("#btn-cropp-done").click(function() {
 //                        alert('201');
                 updatedProfile.contact.pic = data.id;
                 $('.moreInformation-img').css('background',
-                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');
-                cropper.replace('url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');
+                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center')
+                    .css("background-size","cover");
+                cropper.replace('url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ')');
 
             },
             400: function () {
@@ -64,19 +67,26 @@ $("#btn-cropp-done").click(function() {
             }
         }
     });
-
-
 });
 
-// --------------------------------------  End cropper  ----------------------------------------------
+function dataURItoBlob(dataURI) {
+    var binary = atob(dataURI.split(',')[1]);
+    var array = [];
+    for(var i = 0; i < binary.length; i++) {
+        array.push(binary.charCodeAt(i));
+    }
+    return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+}
+// --------------------------------------  END cropper  ----------------------------------------------
 
 function setValuesForFieldsFromProfile(profile) {
 //            alert('loadedProfile: ' + JSON.stringify(loadedProfile));
 
     if (profile.contact.pic != null) {
         $('.moreInformation-img').css('background',
-            'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center');
-        cropper.replace('url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center');
+            'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center')
+            .css("background-size","cover");
+        cropper.replace('url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ')');
     }
 
     $('#select-type').val(profile.contact.type);
@@ -367,6 +377,6 @@ $('#uploadProfilePhotoInput').on('change', function () {
         reader.readAsDataURL(files[0]);
     }
 
-    $('#cropperModal').modal('show');
+    $('#cropperModal').css('display',"block");
 });
 // ------------------------------------------- End photo upload block ---------------------------------

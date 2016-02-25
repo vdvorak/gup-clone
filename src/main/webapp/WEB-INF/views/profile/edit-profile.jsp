@@ -23,6 +23,7 @@
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link  href="/resources/css/cropper.css" rel="stylesheet">
+    <link rel="stylesheet" href="/resources/css/cropper-modal-window.css">
 </head>
 <body>
 
@@ -200,32 +201,30 @@
     </div>
 </div>
 
-<div id="cropperModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Редактирование фото</h4>
-            </div>
-            <div class="modal-body">
-                <div class="drop_zone">
-                    <img id="image" src="/resources/images/no_photo.jpg">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-                <button id="btn-cropp-done" type="button" class="btn btn-primary">Готово</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+<!-- The Modal -->
+<div id="cropperModal" class="cropper-modal">
 
+    <!-- Modal content -->
+    <div class="cropper-modal-content">
+        <div class="cropper-modal-header">
+            <span>Редактирование фотографии</span>
+        </div>
+        <div class="cropper-modal-body drop_zone">
+            <img id="cropper-image" src="/resources/images/no_photo.jpg" style="max-width: 100%">
+        </div>
+        <div class="cropper-modal-footer">
+            <button class="cropper-btn cropper-btn-success">Готово</button>
+            <button class="cropper-btn cropper-btn-cancel">Отмена</button>
+
+        </div>
+    </div>
+
+</div>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
 <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
-<script src="/resources/js/vendor/bootstrap.js"></script>
 <script src="/resources/js/jquery.bxslider.js"></script>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
