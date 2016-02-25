@@ -91,10 +91,10 @@
                     <div class="newsComments">
                         <div class="clearfix"></div>
                         <p class="newsCommentsHeader">Комментарий</p>
-                        <form id="projectsCommentsForm" class="projectsCommentsForm">
+                        <div id="projectsCommentsForm" class="projectsCommentsForm">
                             <textarea name="projectsFormComments" id="projectsFormComments" class="projectsFormComments" placeholder="Введите свой комментарий" maxlength="1000" required></textarea>
                             <button id="sendProjComment" class="newsFormSubmit">Отправить</button>
-                        </form>
+                        </div>
                         <p id="chars"></p>
                     </div>
                 </div>
