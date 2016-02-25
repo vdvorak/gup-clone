@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/alster.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
 
@@ -115,22 +116,24 @@
 
             <div class="clearfix"></div>
 
-            <div class="input_email_fields_wrap">Контактные e-mail
-                <button class="add_email_field_button">Добавить -mail</button>
-                <div class="email-input-unit"><input type="text" name="myemail"><a href="#" class="remove_field"><img
-                        src="/resources/img/minus.png" with="20" height="20"></a></div>
-            </div>
-
-            <%--<div id="contactEmailsBlock">--%>
-            <%--<div id="addEmailImg" class="title-email" data-title="Добавить e-mail">--%>
-            <%--<img class="email-plus" src="resources/images/pluse.png" alt="plus">--%>
+            <%--<div class="input_email_fields_wrap">Контактный e-mail--%>
+                <%--<button class="add_email_field_button">Добавить -mail</button>--%>
+                <%--<div class="email-input-unit"><input type="text" name="myemail"><a href="#" class="remove_field"><img--%>
+                        <%--src="/resources/img/minus.png" with="20" height="20"></a></div>--%>
             <%--</div>--%>
-            <%--<label for="email-info-1" class="label-form-info">Контактный e-mail</label>--%>
-
-            <%--<input id="email-info-1" type="email" name='contactEmail' class="form-info-input">--%>
 
             <%--<div class="clearfix"></div>--%>
-            <%--</div>--%>
+
+            <div id="contactEmailsBlock">
+                <div id="addEmailImg" class="title-email" data-title="Добавить e-mail">
+                    <img class="email-plus" src="resources/images/pluse.png" alt="plus">
+                </div>
+                <label class="label-form-info">Контактный e-mail</label>
+
+                <input type="email" name="myemail" class="form-info-input">
+            </div>
+
+            <div class="clearfix"></div>
 
             <label for="main-tel-info" class="label-form-info">Основной Телефон</label>
             <input type="tel" name="tel" id="main-tel-info" class="input-info-min">
