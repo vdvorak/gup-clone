@@ -59,3 +59,11 @@ $('.catContainer').on('click',function () {
     projectFO.type = $(this).attr('name');
     appendProjects(projectFO);
 });
+
+$('#createProject').on('click',function () {
+    window.location.href = "/project/create"
+});
+
+$('#createInvestorPost').on('click',function () {
+    window.location.href = "/investorPost/create"
+});

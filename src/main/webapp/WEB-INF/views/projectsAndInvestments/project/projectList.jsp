@@ -44,6 +44,11 @@
 
         <!--PAGE CONTENT START-->
         <div class="container2">
+            <div class="contentContainer" style="padding: 5px;">
+                <button type="button" id="createProject" class="abutton">Создать свой проект</button>
+                <button type="button" id="createInvestorPost" class="abutton">Сделать инвестицию</button>
+            </div>
+
             <ul class="projectsVSInvestments-block">
                 <li class="projectsVSInvestments-btn projects active" data-atab="projects" id="projectsTab"><a href="#tabs1-project">ПРОЕКТЫ</a></li>
                 <!--Add "active" class to show this element as selected-->
@@ -180,7 +185,7 @@
 
         <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
-        
+
         <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 
         <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
