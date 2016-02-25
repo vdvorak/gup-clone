@@ -5,6 +5,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.entity.BankUser;
 import ua.com.itproekt.gup.bank_api.liqpay.LiqPay;
 import ua.com.itproekt.gup.bank_api.repository.BalanceRepository;
@@ -23,6 +24,8 @@ import java.util.Map;
 /**
  * Created by RAYANT on 20.10.2015.
  */
+
+@Service
 public class BankSession {
 
     private final String URL = "e-otg-gup-bank.herokuapp.com";
