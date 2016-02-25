@@ -55,7 +55,8 @@ $("#btn-cropp-done").click(function() {
 //                        alert('201');
                 updatedProfile.contact.pic = data.id;
                 $('.moreInformation-img').css('background',
-                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');
+                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center')
+                    .css("background-size","cover");
                 cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic);
 
             },
@@ -76,6 +77,7 @@ function setValuesForFieldsFromProfile(profile) {
     if (profile.contact.pic != null) {
         $('.moreInformation-img').css('background',
             'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center');
+            .css("background-size","cover");
         cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic);
     }
 
@@ -93,15 +95,12 @@ function setValuesForFieldsFromProfile(profile) {
 
 
     for (var i = 0; i < profile.contact.contactEmails.length; i++) {
-        $('#contactEmailsBlock').append(
-            '<div>' +
-                '<input type="email" name="myemail" class="form-info-input">' +
-                '<img name="removeFieldImg" src="/resources/img/minus.png" with="20" height="20">' +
-            '</div>');
-        $("input[name='myemail']").last().val(profile.contact.contactEmails[i]);
+        $('.input_email_fields_wrap').append($('.email-input-unit').last().clone())
+        $('.email-input-unit input').last().val(profile.contact.contactEmails[i]);
         emailCloneCount++;
     }
-    $("input[name='myemail']").first().remove();
+    $('.email-input-unit').first().remove();
+
 
     for (var i = 0; i < profile.contact.contactPhones.length; i++) {
         $('.input_tel_fields_wrap').append($('.tel-input-unit').last().clone())
@@ -125,7 +124,7 @@ function initializeProfileEntityForUpdate() {
     updatedProfile.mainPhoneNumber = $('#main-tel-info').val();
 
     var contactEmails = [];
-    $("input[name='myemail']").each(function () {
+    $("input[name=myemail]").each(function () {
         if ($(this).val() !== '') {
             contactEmails.push($(this).val());
         }
@@ -185,19 +184,19 @@ $(document).ready(function () {
                     for (var soc in loadedProfile.contact.socNetLink) {
                         key = loadedProfile.contact.socNetLink[soc];
                         if (soc === "FACEBOOK") {
-                            drawInput(socInputTemplate, "Facebook" , key)
+                            drawInput(socInputTemplate, soc, key)
                         }
                         if (soc === "VKONTAKTE") {
-                            drawInput(socInputTemplate, "Vk", key)
+                            drawInput(socInputTemplate, soc, key)
                         }
                         if (soc === "LINKEDIN") {
-                            drawInput(socInputTemplate, "LinkedIn", key)
+                            drawInput(socInputTemplate, soc, key)
                         }
                         if (soc === "GOOGLEPLUS") {
-                            drawInput(socInputTemplate, "GoglePlus", key)
+                            drawInput(socInputTemplate, soc, key)
                         }
                         if (soc === "TWITTER") {
-                            drawInput(socInputTemplate, "Twitter", key)
+                            drawInput(socInputTemplate, soc, key)
                         }
                     }
                 }
@@ -250,25 +249,21 @@ $(document).ready(function () {
                 // Add/Remove phone Input Fields Dynamically with jQuery
 
                 var max_fields_email = 6; //maximum input boxes allowed + 1
-                var email_wrapper = $("#contactEmailsBlock"); //Fields wrapper
-                var add_button_email = $("#addEmailImg"); //Add button ID
+                var email_wrapper = $(".input_email_fields_wrap"); //Fields wrapper
+                var add_button_email = $(".add_email_field_button"); //Add button ID
 
                 var x_email = emailCloneCount; //initial text box count
                 $(add_button_email).click(function (e) { //on add input button click
                     e.preventDefault();
                     if (x_email < max_fields_email) { //max input box allowed
                         x_email++; //text box increment
-                        $(email_wrapper).append(
-                            '<div>' +
-                                '<input type="email" name="myemail" class="form-info-input"/>' +
-                                '<img name="removeFieldImg" src="/resources/img/minus.png" with="20" height="20">' +
-                            '</div>'); //add input box
+                        $(email_wrapper).append('<div><input type="text" name="myemail"/><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div>'); //add input box
                     } else {
                         alert('Максимум 5 контактных email-ов');
                     }
                 });
 
-                $("img[name='removeFieldImg']").on("click", function (e) { //user click on remove text
+                $(email_wrapper).on("click", ".remove_field", function (e) { //user click on remove text
                     e.preventDefault();
                     $(this).parent('div').remove();
                     x_email--;
