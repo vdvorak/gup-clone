@@ -81,7 +81,7 @@ public class BlogPostController {
         }
 
         model.addAttribute("blogPostPages", filteredPosts);
-        return "news/blog-post-view-all-OLD";
+        return "";
     }
 
     //ToDo Проверять "А ты ли владелец этого блога, чтобы в неём создовать новость?"
