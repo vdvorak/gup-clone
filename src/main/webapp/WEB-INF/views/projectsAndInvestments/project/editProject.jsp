@@ -47,7 +47,7 @@
             <form id="uploadProjectPhotoForm">
                 <input id="uploadProjectPhotoInput" type="file" name="file" accept="image/*,image/jpeg" style="display:none">
             </form>
-            <form class="project">
+            <div class="project">
                 <div class="field required tit">
                     <label for="main-title-info" class="editorLabel">Заголовок</label>
                     <input id="main-title-info" type="text" name='text' class="editorInput">
@@ -101,9 +101,10 @@
                     <textarea id="description" name='description' class="editorInput"></textarea>
                 </div>
                 <div class="field">
+                    <button id="deleteProjectBtn" class="delete-btn">Удалить проект</button>
                     <button id="editProjectBtn" class="info-submit">Сохранить</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 

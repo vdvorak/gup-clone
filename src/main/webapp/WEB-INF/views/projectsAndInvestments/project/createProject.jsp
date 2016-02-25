@@ -1,22 +1,42 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Создание Проекта</title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/alster.css">
-    <link rel="stylesheet" href="/resources/css/font-awesome.css">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang=""> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Создание проекта | GUP</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/alster.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="/resources/css/media-queries.css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
 <body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
 <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
-<jsp:include page="/WEB-INF/templates/authentification.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
 <div class="container2">
     <div class="contentContainer editor">
@@ -58,7 +78,7 @@
             </div>
 
             <div class="field required">
-                <label for="sum" class="editorLabel">Сумма</label>
+                <label for="sum" class="editorLabel">Нужная сумма</label>
                 <input id="sum" type="number" name='sum' class="editorInput" style="width: 291px;">
                 <span class="currency">₴</span>
             </div>

@@ -429,7 +429,7 @@
 }
 
 .editor form.investor,
-.editor form.project {
+.editor div.project {
     position: relative;
     padding-top: 50px;
     padding-left: 67px;
@@ -440,6 +440,20 @@
 .editor .field {
     margin-bottom: 15px;
     min-height: 23px;
+}
+
+.delete-btn {
+    background-color: #C3212D;
+    width: 190px;
+    height: 32px;
+    border-radius: 5px;
+    color: #ffffff;
+    font: 400 21px ArianAMU;
+    border: 0;
+    float: left;
+    margin-bottom: 22px;
+    /*-webkit-transition: all 0.25s;*/
+    /*transition: all 0.25s;*/
 }
 
 .editor .editorLabel {
@@ -455,8 +469,8 @@
     color: #ed4423;
 }
 
-.editor form.project .editorLabel {
-    width: 90px;
+.editor div.project .editorLabel {
+    width: 160px;
 }
 
 .editor .editorInput {
@@ -504,49 +518,49 @@
     margin-top: 100px;
 }
 
-.editor form.project .field.description {
+.editor div.project .field.description {
     margin-top: 70px;
 }
 
 .editor form.investor .field.description .editorLabel,
-.editor form.project .field.description .editorLabel {
+.editor div.project .field.description .editorLabel {
     width: 90px;
 }
 
 .editor form.investor .field.description .editorInput,
-.editor form.project .field.description .editorInput {
+.editor div.project .field.description .editorInput {
     width: 670px;
     height: 242px;
 }
 
-.editor form.project .tit .editorInput {
+.editor div.project .tit .editorInput {
     width: 553px;
 }
 
-.editor form.project .projType .editorLabel {
+.editor div.project .projType .editorLabel {
     width: 120px;
 }
 
-.editor form.project .field.projType .radioGroup {
-    margin-left: 220px;
-}
+/*.editor form.project .field.projType .radioGroup {*/
+    /*margin-left: 220px;*/
+/*}*/
 
-.editor form.project .field.projType .radioGroup .column {
+.editor div.project .field.projType .radioGroup .column {
     display: inline-block;
     width: 140px;
     margin-left: 60px;
 }
 
-.editor form.project .field.projType .radioGroup .column .row {
+.editor div.project .field.projType .radioGroup .column .row {
     width: 150px;
     margin-bottom: 16px;
 }
 
-.editor form.project .field.projType .radioGroup .label-checkbox {
+.editor div.project .field.projType .radioGroup .label-checkbox {
     float: right;
 }
 
-.editor form.project .field.projType .radioGroup label {
+.editor div.project .field.projType .radioGroup label {
     line-height: 35px;
 }
 

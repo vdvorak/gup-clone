@@ -2,6 +2,7 @@ $("#selectedService option[value='project']").attr("selected","selected");
 
 var projectId = getUrlParam('id');
 var updatedProject = {};
+var loadedProject = {};
 
 loadAndAppendProjectInfo(projectId);
 
@@ -11,6 +12,7 @@ function loadAndAppendProjectInfo(projectId) {
         url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/read",
         statusCode: {
             200: function (project) {
+                loadedProject = project;
                 updatedProject.imagesIds = project.imagesIds;
                 appendProjectInfo(project);
             }
@@ -39,9 +41,6 @@ function appendProjectImage(imageId) {
 
 $('#editProjectBtn').on('click', function () {
     initializeProjectEntityForUpdate();
-
-    alert('updatedProject : ' + JSON.stringify(updatedProject));
-
     $.ajax({
         type: "POST",
         url: "/api/rest/projectsAndInvestmentsService/project/edit",
@@ -58,6 +57,10 @@ $('#editProjectBtn').on('click', function () {
 
 $('#addProjPhoto').on('click', function () {
     $("#uploadProjectPhotoInput").click();
+});
+
+$('#deleteProjectBtn').on('click', function () {
+    alert('Вы точно хотите удалить ваш проект "' + loadedProject.title + '"?')
 });
 
 $('#uploadProjectPhotoInput').on('change', function () {
