@@ -6,5 +6,5 @@
         <%--заполняется из базы--%>
     </div>
 
-    <img class="caretDown" id="tend-caret" src="resources/images/caret.png" alt="caret">
+    <img class="caretDown" id="tend-caret" src="/resources/images/caret.png" alt="caret">
 </div>

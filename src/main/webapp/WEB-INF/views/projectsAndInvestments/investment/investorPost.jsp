@@ -34,7 +34,7 @@
                             var createdDate = new Date(investorPostData.thoseInNeed[i].createdDate);
                             investorPostData.thoseInNeed[i].createdDate = createdDate.getDate() + '/' + (createdDate.getMonth() + 1) + '/' + createdDate.getFullYear();
                             investorPostData.thoseInNeed[i].projectId =
-                                    "<a href='/project/id/" + investorPostData.thoseInNeed[i].projectId + "'>Посмотреть проект</a>";
+                                    "<a href='/project?id=" + investorPostData.thoseInNeed[i].projectId + "'>Посмотреть проект</a>";
 
                             var row = $('<tr>');
                             row.append($('<td>').html(investorPostData.thoseInNeed[i].uId));

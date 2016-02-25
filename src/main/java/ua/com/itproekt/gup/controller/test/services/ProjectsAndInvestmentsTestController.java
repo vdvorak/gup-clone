@@ -7,12 +7,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.com.itproekt.gup.model.projectsAndInvestments.investment.InvestorPost;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Comment;
+import ua.com.itproekt.gup.model.projectsAndInvestments.project.ModerationStatus;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
-import ua.com.itproekt.gup.model.projectsAndInvestments.project.TypeOfProject;
+import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectType;
 import ua.com.itproekt.gup.service.projectsAndInvestments.investment.InvestorService;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
 
 import java.util.HashSet;
+import java.util.Random;
 
 
 @Controller
@@ -29,17 +31,17 @@ public class ProjectsAndInvestmentsTestController {
 
             Project project = new Project()
                     .setAuthorId("5681546ed139e28bcda3f845")
-                    .setTypeOfProject(TypeOfProject.KNOW_HOW)
-                    .setProjectName("Проект " + i)
-                    .setProjectDescription("Описание описание описание описание описание описание описание описание" +
+                    .setType(ProjectType.KNOW_HOW)
+                    .setTitle("Проект " + i)
+                    .setDescription("Описание описание описание описание описание описание описание описание" +
                             " описание описание описание описание описание описание описание описание описание описание" +
                             " описание описание описание описание описание описание описание описание описание описание" +
                             " описание описание описание описание описание описание описание описание описание описание")
                     .setAmountRequested(i * 1000 + 1)
-                    .setInvestedAmount(0)
+                    .setInvestedAmount(i * new Random().nextInt(i * 1000))
                     .setTotalComments(0)
-                    .setViews(0);
-
+                    .setModerationStatus(ModerationStatus.COMPLETE)
+                    .setViews(i);
 
                 HashSet<Comment> set = new HashSet<>();
                     Comment comment = new Comment()
@@ -48,6 +50,12 @@ public class ProjectsAndInvestmentsTestController {
                 set.add(comment);
             project.setComments(set);
             projectService.create(project);
+
+            project.setModerationStatus(ModerationStatus.NO)
+                    .setId(null)
+                    .setType(ProjectType.PROTOTYPE);
+            projectService.create(project);
+
         }
 
         model.addAttribute("message", numberOfProjects + " test projects is created.");

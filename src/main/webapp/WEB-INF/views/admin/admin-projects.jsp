@@ -123,8 +123,8 @@
                     data: data,
                     "columns": [
                         {"data": "imagesIds"},
-                        {"data": "projectName"},
-                        {"data": "typeOfProject"}
+                        {"data": "title"},
+                        {"data": "type"}
                     ],
                     "language": {
                         "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"

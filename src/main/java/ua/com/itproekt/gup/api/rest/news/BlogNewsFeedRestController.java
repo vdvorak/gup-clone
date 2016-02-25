@@ -90,9 +90,7 @@ public class BlogNewsFeedRestController {
 
         blogNewsFeedService.updateBlogNewsFeed(userId);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/blogNewsFeed/read/{skip}/{limit}").buildAndExpand(0, 20).toUri());
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //---------------------------------------------------------------------------------------------------------------

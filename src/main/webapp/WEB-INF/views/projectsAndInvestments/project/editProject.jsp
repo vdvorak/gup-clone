@@ -1,367 +1,501 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html>
-<html lang="ru-RU">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang=""> <!--<![endif]-->
 <head>
-    <title>GUP - Проекты</title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
-    <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Проекты | GUP</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="/resources/css/media-queries.css">
+    <link rel="stylesheet" href="/resources/css/alster.css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
-
 <body>
-<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
-<jsp:include page="/WEB-INF/templates/authentification.jsp"/>
+    <!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+        your browser</a> to improve your experience.</p>
+    <![endif]-->
 
-<div>
-    <div>
-        <h2 align="center">Редактирование проекта</h2>
-    </div>
-    <div>
-        <!--
-        <div>
-            <img id="projectImg" src="#" width="200" height="200">
-        </div>
+    <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
 
-        <div>
-            <form id="projectPhotoInput" enctype="multipart/form-data" method="post">
-                <label for="photoFile"><b>Новая фотография: </b></label>
-                <input id="photoFile" type="file" name="file" multiple accept="image/*,image/jpeg">
+    <jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+
+    <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+    <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+
+    <!--PAGE CONTENT START-->
+
+    <div class="container2">
+        <div class="contentContainer editor">
+            <div class="title">Редактирование проекта</div>
+            <form id="uploadProjectPhotoForm">
+                <input id="uploadProjectPhotoInput" type="file" name="file" accept="image/*,image/jpeg" style="display:none">
+            </form>
+            <form class="project">
+                <div class="field required tit">
+                    <label for="main-title-info" class="editorLabel">Заголовок</label>
+                    <input id="main-title-info" type="text" name='text' class="editorInput">
+                </div>
+                <div class="field required projType">
+                    <div class="editorLabel">Тип проекта</div>
+                    <div class="radioGroup">
+                        <div class="column c1">
+                            <div class="row">
+                                <label for="type-restruct">Реструктуризация</label>
+                                <label class="label-checkbox">
+                                    <input type="radio" class="greenCheckbox" id="type-restruct" value="RENOVATION" name="type" /><span></span></label>
+                            </div>
+                            <div class="row">
+                                <label for="type-paper">Проект на бумаге</label>
+                                <label class="label-checkbox">
+                                    <input type="radio" class="greenCheckbox" id="type-paper" value="PROJECT_ON_PAPER" name="type" /><span></span></label>
+                            </div>
+                        </div>
+                        <div class="column c2">
+                            <div class="row">
+                                <label for="type-prototype">Готовый прототип</label>
+                                <label class="label-checkbox">
+                                    <input type="radio" class="greenCheckbox" id="type-prototype" value="PROTOTYPE" name="type" /><span></span></label>
+                            </div>
+                            <div class="row">
+                                <label for="type-nouHau">Ноу-Хау</label>
+                                <label class="label-checkbox">
+                                    <input type="radio" class="greenCheckbox" id="type-nouHau" value="KNOW_HOW" name="type" /><span></span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field IMGUploader">
+                    <label for="addProjPhoto" class="editorLabel">Изображения</label>
+                    <div class="titleFile" data-title="Добавить изображение">
+                        <button id="addProjPhoto" class="blogCreationSubmit"></button>
+                    </div>
+                    <div class="IMGBlock" id="IMGBlock"></div>
+                </div>
+
+
+                <div class="field required">
+                    <label for="sum" class="editorLabel">Нужная сумма</label>
+                    <input id="sum" type="number" name='sum' class="editorInput" style="width: 291px;">
+                    <span class="currency">₴</span>
+                </div>
+                <div class="field description">
+                    <label for="description" class="editorLabel">Описание</label>
+                    <textarea id="description" name='description' class="editorInput"></textarea>
+                </div>
+                <div class="field">
+                    <button id="editProjectBtn" class="info-submit">Сохранить</button>
+                </div>
             </form>
         </div>
-        -->
-        <div id="drop_zone">
-
-            <button id="addImg">Загрузить фото</button>
-            <form id="uploadProfilePhotoForm" enctype="multipart/form-data"
-                  method="post" style="display:none">
-                <p><input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" multiple></p>
-            </form>
-
-            <div class="imgBlock">
-                <!--uploaded images-->
-            </div>
-            Перетяните файлы сюда
-        </div>
-
-        <div>
-            <label for="projectName"><b>Название: </b></label>
-            <input id="projectName"/>
-        </div>
-
-        <div>
-            <label for="projectType"><b>Тип: </b></label>
-            <select name="projectType" id="projectType">
-                <option value="" selected></option>
-                <option value="RENOVATION">Реструктуризация</option>
-                <option value="PROTOTYPE">Прототип</option>
-                <option value="PROJECT_ON_PAPER">Проект на бумаге</option>
-                <option value="KNOW_HOW">Ноу хау</option>
-            </select>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-12">
-                <label for="textarea"><b>Описание: </b></label>
-                <textarea id="textarea"></textarea>
-            </div>
-        </div>
-
-
-        <button id="editProject">Сохранить изменения</button>
     </div>
-</div>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-<script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
-<script src="/resources/js/common.js"></script>
-<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
-<sec:authorize access="isAuthenticated()">
+    <!--PAGE CONTENT END-->
+
+    <sec:authorize access="isAuthenticated()">
+        <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+    </sec:authorize>
+
+    <jsp:include page="/WEB-INF/templates/footer.jsp"/>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+    <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+    <script src="/resources/js/vendor/bootstrap.js"></script>
+    <script src="/resources/js/jquery.bxslider.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
+    <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+
     <script src="/resources/js/autorizedHeader.js"></script>
-</sec:authorize>
-<script>
-    var changedProject = {};
-    var projectId = '';
-    var imgId = '';
-    var imagesIds = {};
-    var picMapObj = {};
-    var imgsArrResult = {};
-    var picArrDel = [];
-    var picArrNew = [];
-    var picArrIn = {};
+    <script src="/resources/js/main.js"></script>
+    <script src="/resources/js/logo-section.js"></script>
+    <script src="/resources/js/search-bar.js"></script>
 
-    $(document).ready(function () {
-        /*$.ajax({
-         type: "GET",
-         url: "/api/rest/projectsAndInvestmentsService/project/id/
-        ${projectId}/read",
-         success: function (projectData) {
-         projectId = projectData.id;
-         if (projectData.imagesIds !== null && projectData.imagesIds != '') {
-         for (var key in projectData.imagesIds) {
-         if (projectData.imagesIds[key] === "pic1") {
-         $('#projectImg').attr('src', '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key);
-         break;
-         }
-         }
-         } else {
-         $('#projectImg').attr('src', '/resources/images/no_photo.jpg');
-         }
-         $('#projectName').attr('placeholder', projectData.projectName);
-         $('#projectType').attr('placeholder', projectData.typeOfProject);
+    <script>
+        $("#selectedService option[value='project']").attr("selected","selected");
 
-         //----------------------  HTML EDITOR-------------------------------------//
+        var projectId = getUrlParam('id');
+        var updatedProject = {};
 
+        loadAndAppendProjectInfo(projectId);
 
-         //---------------------- END  HTML EDITOR-------------------------------------//
-         },
-         statusCode: {
-         404: function () {
-         alert('Такого проекта нет');
-         window.location.href = "/project/list";
-         }
-         }
-         });
-         */
-
-        $.ajax({
-            type: "GET",
-            url: "/api/rest/projectsAndInvestmentsService/project/id/${projectId}/read",
-            success: function (projectData) {
-                projectId = projectData.id;
-                if (projectData.imagesIds !== null && projectData.imagesIds != '') {
-                    picMapObj = projectData.imagesIds;
-                    for (var id in picMapObj) {
-                        picArrIn[id] = picMapObj[id];
-                        $('.imgBlock').append('<ul id="' + id + '" style="display: inline-table; list-style-type: none"' +
-                                ' <li style="background-color: white">' +
-                                '<a rel="example_group"> ' +
-                                '<img alt="" src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
-                                '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+        function loadAndAppendProjectInfo(projectId) {
+            $.ajax({
+                type: "GET",
+                url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/read",
+                statusCode: {
+                    200: function (project) {
+                        updatedProject.imagesIds = project.imagesIds;
+                        appendProjectInfo(project);
                     }
                 }
-                $('#projectName').attr('placeholder', projectData.projectName);
-                $('#projectType').attr('placeholder', projectData.typeOfProject);
+            });
+        }
 
-                //----------------------  HTML EDITOR-------------------------------------//
-                tinymce.init({
-                    selector: 'textarea',
-                    height: 300,
-                    theme: 'modern',
-                    plugins: [
-                        'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-                        'searchreplace wordcount visualblocks visualchars code fullscreen',
-                        'insertdatetime media nonbreaking save table contextmenu directionality',
-                        'emoticons template paste textcolor colorpicker textpattern imagetools'
-                    ],
-                    toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-                    toolbar2: 'print preview media | forecolor backcolor emoticons',
-                    image_advtab: true,
-                    templates: [
-                        {title: 'Test template 1', content: 'Test 1'},
-                        {title: 'Test template 2', content: 'Test 2'}
-                    ],
-                    content_css: [
-                        '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
-                        '//www.tinymce.com/css/codepen.min.css'
-                    ],
-                    init_instance_callback: function (editor) {
-                        editor.setContent(projectData.projectDescription);
+        function appendProjectInfo(project) {
+            $('#main-title-info').val(project.title);
+            $('#sum').val(project.amountRequested);
+            $('#description').val(project.description);
+            $('input:radio').filter('[value="' + project.type + '"]').attr('checked', true);
+
+            for (var imgId in project.imagesIds) {
+                appendProjectImage(imgId);
+            }
+        }
+
+        function appendProjectImage(imageId) {
+            var imgTag = '<div class="defaultIMG">' +
+                            '<img src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + imageId + '" width="60" height="60">' +
+                         '</div>';
+
+            $('#IMGBlock').append(imgTag);
+        }
+
+        $('#editProjectBtn').on('click', function () {
+            initializeProjectEntityForUpdate();
+
+            alert('updatedProject : ' + JSON.stringify(updatedProject));
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/projectsAndInvestmentsService/project/edit",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(updatedProject),
+                statusCode: {
+                    200: function () {
+                        window.location.href = '/project?id=' + projectId;
                     }
-                });
-
-                //---------------------- END  HTML EDITOR-------------------------------------//
-            },
-            statusCode: {
-                404: function () {
-                    alert('Такого проекта нет');
-                    window.location.href = "/project/list";
                 }
-            }
+            });
         });
 
-        // Setup the dnd listeners.
-        var dropZone = document.getElementById('drop_zone');
-        dropZone.addEventListener('dragover', handleDragOver, false);
-        dropZone.addEventListener('drop', handleFileSelect, false);
+        $('#addProjPhoto').on('click', function () {
+            $("#uploadProjectPhotoInput").click();
+        });
 
-        function handleFileSelect(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
-
-            var files = evt.dataTransfer.files; // FileList object.
-
-            // files is a FileList of File objects. List some properties.
-            for (var i = 0, f; f = files[i]; i++) {
-                var fd = new FormData();
-                fd.append('file', f);
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
-                    data: fd,
-                    async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-
-                    success: function (data, textStatus, request) {
-                        var id = data.id;
-                        var isImage = f.type.substring(0, 5) === 'image';
-                        if (isImage) {
-                            picArrIn[id] = "image";
-                            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none"' +
-                                    ' <li style="background-color: white">' +
-                                    '<a rel="example_group"> ' +
-                                    '<img alt="" src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
-                                    '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
-                        }
+        $('#uploadProjectPhotoInput').on('change', function () {
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/fileStorage/project/file/upload", //
+                data: new FormData($("#uploadProjectPhotoForm")[0]),
+                enctype: 'multipart/form-data',
+//                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                statusCode: {
+                    201: function (data) {
+                        updatedProject.imagesIds.push(data.id);
+                        appendProjectImage(data.id);
+                    },
+                    400: function () {
+                        alert('400');
                     }
-                });
-
-
-            }
-        }
-
-        function handleDragOver(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
-            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-        }
-
-        $('#addImg').click(function(){
-            $('#uploadProfilePhotoInput').trigger('click');
-        });
-
-        $('#uploadProfilePhotoInput').change(function (event) {
-            event.preventDefault();
-
-            var files = event.currentTarget.files;
-            for (var i = 0, f; f = files[i]; i++) {
-                var fd = new FormData();
-                fd.append('file', f);
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
-                    data: fd,
-                    async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-
-                    success: function (data, textStatus, request) {
-                        var id = data.id;
-                        var isImage = f.type.substring(0, 5) === 'image';
-                        if (isImage) {
-                            picArrIn[id] = "image";
-                            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
-                                    ' <li style="background-color: white">' +
-                                    '<a rel="example_group"> ' +
-                                    '<img alt="" src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
-                                    '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
-                        }
-                    }
-                });
-            }
-            event.currentTarget.form.reset();
-        });
-    });
-
-    function deleteImgFromDB(picId) {
-        $.ajax({
-            url: '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/delete/id/' + picId,
-            method: 'POST',
-            success: function (response) {
-            },
-            error: function (response) {
-            }
-        });
-    }
-
-    // delete pictures only from page
-    function deleteImgFromPage(idImg) {
-        $('#' + idImg).remove();
-        picArrDel.push(idImg);
-    }
-    /*
-     $(document).on('change', '#photoFile', function (e) {
-
-     var formImg = new FormData($('#photoInput')[0]);
-
-     if (imgId !== '') {
-     deleteImgFromDB(imgId);
-     }
-
-     $.ajax({
-     type: "POST",
-     url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
-     data: formImg,
-     async: false,
-     cache: false,
-     contentType: false,
-     processData: false,
-     success: function (data, textStatus, request) {
-     imgId = data.id;
-     $('#projectImg').attr("src", "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + imgId);
-     }
-     });
-     });
-     */
-    $(document).on('click', '#editProject', function (event) {
-
-        for(var key in picArrIn) {
-            if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
-        }
-
-        for (var i = 0; i < picArrNew.length; i++) {
-            imgsArrResult[picArrNew[i]] = picArrIn[picArrNew[i]];
-        }
-
-        for(var key in imgsArrResult) {
-            imgId = key;
-            break;
-        }
-
-        for(var i = 0; i < picArrDel.length; i++) {
-            deleteImgFromDB(picArrDel[i]);
-        }
-
-        changedProject.id = projectId;
-
-        if ($('#projectType').val() != "") {
-            changedProject.typeOfProject = $('#projectType').val();
-        }
-
-        if ($('#projectName').val() != "") {
-            changedProject.projectName = $('#projectName').val();
-        }
-
-        if (imgId != "") {
-            imgsArrResult[imgId] = "pic1";
-            changedProject.imagesIds =  imgsArrResult;
-        }
-
-        changedProject.projectDescription = tinymce.activeEditor.getContent({format: 'raw'});
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/projectsAndInvestmentsService/project/edit",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(changedProject),
-            statusCode: {
-                200: function () {
-                    window.location.href = '/project/id/' + projectId;
                 }
-            }
+            });
         });
-    });
+
+        function initializeProjectEntityForUpdate() {
+            updatedProject.id = projectId;
+            updatedProject.title = $('#main-title-info').val();
+            updatedProject.type = $('input:radio[name="type"]:checked').val()
+            updatedProject.description = $('#description').val();
+            updatedProject.amountRequested = $('#sum').val();
+        }
+    </script>
+
+    <%--var changedProject = {};--%>
+    <%--var projectId = '';--%>
+    <%--var imgId = '';--%>
+    <%--var imagesIds = {};--%>
+    <%--var picMapObj = {};--%>
+    <%--var imgsArrResult = {};--%>
+    <%--var picArrDel = [];--%>
+    <%--var picArrNew = [];--%>
+    <%--var picArrIn = {};--%>
+
+    <%--$(document).ready(function () {--%>
+        <%--/*$.ajax({--%>
+         <%--type: "GET",--%>
+         <%--url: "/api/rest/projectsAndInvestmentsService/project/id/--%>
+        <%--${projectId}/read",--%>
+         <%--success: function (projectData) {--%>
+         <%--projectId = projectData.id;--%>
+         <%--if (projectData.imagesIds !== null && projectData.imagesIds != '') {--%>
+         <%--for (var key in projectData.imagesIds) {--%>
+         <%--if (projectData.imagesIds[key] === "pic1") {--%>
+         <%--$('#projectImg').attr('src', '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + key);--%>
+         <%--break;--%>
+         <%--}--%>
+         <%--}--%>
+         <%--} else {--%>
+         <%--$('#projectImg').attr('src', '/resources/images/no_photo.jpg');--%>
+         <%--}--%>
+         <%--$('#title').attr('placeholder', projectData.title);--%>
+         <%--$('#projectType').attr('placeholder', projectData.type);--%>
+
+         <%--//----------------------  HTML EDITOR-------------------------------------//--%>
 
 
-</script>
+         <%--//---------------------- END  HTML EDITOR-------------------------------------//--%>
+         <%--},--%>
+         <%--statusCode: {--%>
+         <%--404: function () {--%>
+         <%--alert('Такого проекта нет');--%>
+         <%--window.location.href = "/project/list";--%>
+         <%--}--%>
+         <%--}--%>
+         <%--});--%>
+         <%--*/--%>
+
+        <%--$.ajax({--%>
+            <%--type: "GET",--%>
+            <%--url: "/api/rest/projectsAndInvestmentsService/project/id/" + getUrlParam('id') + "/read",--%>
+            <%--success: function (projectData) {--%>
+                <%--projectId = projectData.id;--%>
+                <%--if (projectData.imagesIds !== null && projectData.imagesIds != '') {--%>
+                    <%--picMapObj = projectData.imagesIds;--%>
+                    <%--for (var id in picMapObj) {--%>
+                        <%--picArrIn[id] = picMapObj[id];--%>
+                        <%--$('.imgBlock').append('<ul id="' + id + '" style="display: inline-table; list-style-type: none"' +--%>
+                                <%--' <li style="background-color: white">' +--%>
+                                <%--'<a rel="example_group"> ' +--%>
+                                <%--'<img alt="" src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + id + '"' + 'width="150" height="150"> ' +--%>
+                                <%--'</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');--%>
+                    <%--}--%>
+                <%--}--%>
+                <%--$('#title').attr('placeholder', projectData.title);--%>
+                <%--$('#projectType').attr('placeholder', projectData.type);--%>
+
+                <%--//----------------------  HTML EDITOR-------------------------------------//--%>
+                <%--tinymce.init({--%>
+                    <%--selector: 'textarea',--%>
+                    <%--height: 300,--%>
+                    <%--theme: 'modern',--%>
+                    <%--plugins: [--%>
+                        <%--'advlist autolink lists link image charmap print preview hr anchor pagebreak',--%>
+                        <%--'searchreplace wordcount visualblocks visualchars code fullscreen',--%>
+                        <%--'insertdatetime media nonbreaking save table contextmenu directionality',--%>
+                        <%--'emoticons template paste textcolor colorpicker textpattern imagetools'--%>
+                    <%--],--%>
+                    <%--toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',--%>
+                    <%--toolbar2: 'print preview media | forecolor backcolor emoticons',--%>
+                    <%--image_advtab: true,--%>
+                    <%--templates: [--%>
+                        <%--{title: 'Test template 1', content: 'Test 1'},--%>
+                        <%--{title: 'Test template 2', content: 'Test 2'}--%>
+                    <%--],--%>
+                    <%--content_css: [--%>
+                        <%--'//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',--%>
+                        <%--'//www.tinymce.com/css/codepen.min.css'--%>
+                    <%--],--%>
+                    <%--init_instance_callback: function (editor) {--%>
+                        <%--editor.setContent(projectData.description);--%>
+                    <%--}--%>
+                <%--});--%>
+
+                <%--//---------------------- END  HTML EDITOR-------------------------------------//--%>
+            <%--},--%>
+            <%--statusCode: {--%>
+                <%--404: function () {--%>
+                    <%--alert('Такого проекта нет');--%>
+                    <%--window.location.href = "/project/list";--%>
+                <%--}--%>
+            <%--}--%>
+        <%--});--%>
+
+        <%--// Setup the dnd listeners.--%>
+        <%--var dropZone = document.getElementById('drop_zone');--%>
+        <%--dropZone.addEventListener('dragover', handleDragOver, false);--%>
+        <%--dropZone.addEventListener('drop', handleFileSelect, false);--%>
+
+        <%--function handleFileSelect(evt) {--%>
+            <%--evt.stopPropagation();--%>
+            <%--evt.preventDefault();--%>
+
+            <%--var files = evt.dataTransfer.files; // FileList object.--%>
+
+            <%--// files is a FileList of File objects. List some properties.--%>
+            <%--for (var i = 0, f; f = files[i]; i++) {--%>
+                <%--var fd = new FormData();--%>
+                <%--fd.append('file', f);--%>
+                <%--$.ajax({--%>
+                    <%--type: "POST",--%>
+                    <%--url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",--%>
+                    <%--data: fd,--%>
+                    <%--async: false,--%>
+                    <%--cache: false,--%>
+                    <%--contentType: false,--%>
+                    <%--processData: false,--%>
+
+                    <%--success: function (data, textStatus, request) {--%>
+                        <%--var id = data.id;--%>
+                        <%--var isImage = f.type.substring(0, 5) === 'image';--%>
+                        <%--if (isImage) {--%>
+                            <%--picArrIn[id] = "image";--%>
+                            <%--$('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none"' +--%>
+                                    <%--' <li style="background-color: white">' +--%>
+                                    <%--'<a rel="example_group"> ' +--%>
+                                    <%--'<img alt="" src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +--%>
+                                    <%--'</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');--%>
+                        <%--}--%>
+                    <%--}--%>
+                <%--});--%>
+
+
+            <%--}--%>
+        <%--}--%>
+
+        <%--function handleDragOver(evt) {--%>
+            <%--evt.stopPropagation();--%>
+            <%--evt.preventDefault();--%>
+            <%--evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.--%>
+        <%--}--%>
+
+        <%--$('#addImg').click(function(){--%>
+            <%--$('#uploadProfilePhotoInput').trigger('click');--%>
+        <%--});--%>
+
+        <%--$('#uploadProfilePhotoInput').change(function (event) {--%>
+            <%--event.preventDefault();--%>
+
+            <%--var files = event.currentTarget.files;--%>
+            <%--for (var i = 0, f; f = files[i]; i++) {--%>
+                <%--var fd = new FormData();--%>
+                <%--fd.append('file', f);--%>
+                <%--$.ajax({--%>
+                    <%--type: "POST",--%>
+                    <%--url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",--%>
+                    <%--data: fd,--%>
+                    <%--async: false,--%>
+                    <%--cache: false,--%>
+                    <%--contentType: false,--%>
+                    <%--processData: false,--%>
+
+                    <%--success: function (data, textStatus, request) {--%>
+                        <%--var id = data.id;--%>
+                        <%--var isImage = f.type.substring(0, 5) === 'image';--%>
+                        <%--if (isImage) {--%>
+                            <%--picArrIn[id] = "image";--%>
+                            <%--$('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +--%>
+                                    <%--' <li style="background-color: white">' +--%>
+                                    <%--'<a rel="example_group"> ' +--%>
+                                    <%--'<img alt="" src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +--%>
+                                    <%--'</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');--%>
+                        <%--}--%>
+                    <%--}--%>
+                <%--});--%>
+            <%--}--%>
+            <%--event.currentTarget.form.reset();--%>
+        <%--});--%>
+    <%--});--%>
+
+    <%--function deleteImgFromDB(picId) {--%>
+        <%--$.ajax({--%>
+            <%--url: '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/delete/id/' + picId,--%>
+            <%--method: 'POST',--%>
+            <%--success: function (response) {--%>
+            <%--},--%>
+            <%--error: function (response) {--%>
+            <%--}--%>
+        <%--});--%>
+    <%--}--%>
+
+    <%--// delete pictures only from page--%>
+    <%--function deleteImgFromPage(idImg) {--%>
+        <%--$('#' + idImg).remove();--%>
+        <%--picArrDel.push(idImg);--%>
+    <%--}--%>
+    <%--/*--%>
+     <%--$(document).on('change', '#photoFile', function (e) {--%>
+
+     <%--var formImg = new FormData($('#photoInput')[0]);--%>
+
+     <%--if (imgId !== '') {--%>
+     <%--deleteImgFromDB(imgId);--%>
+     <%--}--%>
+
+     <%--$.ajax({--%>
+     <%--type: "POST",--%>
+     <%--url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",--%>
+     <%--data: formImg,--%>
+     <%--async: false,--%>
+     <%--cache: false,--%>
+     <%--contentType: false,--%>
+     <%--processData: false,--%>
+     <%--success: function (data, textStatus, request) {--%>
+     <%--imgId = data.id;--%>
+     <%--$('#projectImg').attr("src", "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + imgId);--%>
+     <%--}--%>
+     <%--});--%>
+     <%--});--%>
+     <%--*/--%>
+    <%--$(document).on('click', '#editProject', function (event) {--%>
+
+        <%--for(var key in picArrIn) {--%>
+            <%--if(picArrDel.indexOf(key) === -1) picArrNew.push(key);--%>
+        <%--}--%>
+
+        <%--for (var i = 0; i < picArrNew.length; i++) {--%>
+            <%--imgsArrResult[picArrNew[i]] = picArrIn[picArrNew[i]];--%>
+        <%--}--%>
+
+        <%--for(var key in imgsArrResult) {--%>
+            <%--imgId = key;--%>
+            <%--break;--%>
+        <%--}--%>
+
+        <%--for(var i = 0; i < picArrDel.length; i++) {--%>
+            <%--deleteImgFromDB(picArrDel[i]);--%>
+        <%--}--%>
+
+        <%--changedProject.id = projectId;--%>
+
+        <%--if ($('#projectType').val() != "") {--%>
+            <%--changedProject.type = $('#projectType').val();--%>
+        <%--}--%>
+
+        <%--if ($('#title').val() != "") {--%>
+            <%--changedProject.title = $('#title').val();--%>
+        <%--}--%>
+
+        <%--if (imgId != "") {--%>
+            <%--imgsArrResult[imgId] = "pic1";--%>
+            <%--changedProject.imagesIds =  imgsArrResult;--%>
+        <%--}--%>
+
+        <%--changedProject.description = tinymce.activeEditor.getContent({format: 'raw'});--%>
+
+        <%--$.ajax({--%>
+            <%--type: "POST",--%>
+            <%--url: "/api/rest/projectsAndInvestmentsService/project/edit",--%>
+            <%--contentType: "application/json; charset=utf-8",--%>
+            <%--dataType: "json",--%>
+            <%--data: JSON.stringify(changedProject),--%>
+            <%--statusCode: {--%>
+                <%--200: function () {--%>
+                    <%--window.location.href = '/project/id/' + projectId;--%>
+                <%--}--%>
+            <%--}--%>
+        <%--});--%>
+    <%--});--%>
 </body>
 </html>
 

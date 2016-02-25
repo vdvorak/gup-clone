@@ -32,10 +32,10 @@ public class Project {
     @Min(0)
     private Integer investedAmount;
     @Size(min = 4, max = 140)
-    private String projectName;
+    private String title;
     @Size(min = 50, max = 5000)
-    private String projectDescription;
-    private TypeOfProject typeOfProject;
+    private String description;
+    private ProjectType type;
     private Set<String> categoriesOfIndustry;
     @Size(max = 15)
     private Map<String, String> imagesIds;
@@ -59,9 +59,9 @@ public class Project {
                 ", lastInvestmentDate=" + lastInvestmentDate +
                 ", amountRequested=" + amountRequested +
                 ", investedAmount=" + investedAmount +
-                ", projectName='" + projectName + '\'' +
-                ", projectDescription='" + projectDescription + '\'' +
-                ", typeOfProject=" + typeOfProject +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", type=" + type +
                 ", categoriesOfIndustry=" + categoriesOfIndustry +
                 ", imagesIds=" + imagesIds +
                 '}';
@@ -211,30 +211,30 @@ public class Project {
         return this;
     }
 
-    public String getProjectName() {
-        return projectName;
+    public String getTitle() {
+        return title;
     }
 
-    public Project setProjectName(String projectName) {
-        this.projectName = projectName;
+    public Project setTitle(String title) {
+        this.title = title;
         return this;
     }
 
-    public String getProjectDescription() {
-        return projectDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public Project setProjectDescription(String projectDescription) {
-        this.projectDescription = projectDescription;
+    public Project setDescription(String description) {
+        this.description = description;
         return this;
     }
 
-    public TypeOfProject getTypeOfProject() {
-        return typeOfProject;
+    public ProjectType getType() {
+        return type;
     }
 
-    public Project setTypeOfProject(TypeOfProject typeOfProject) {
-        this.typeOfProject = typeOfProject;
+    public Project setType(ProjectType type) {
+        this.type = type;
         return this;
     }
 

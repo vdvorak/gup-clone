@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.projectsAndInvestments.investment.ApplicationForInvestment;
 import ua.com.itproekt.gup.model.projectsAndInvestments.investment.InvestorPost;
@@ -65,6 +66,7 @@ public class InvestorPostRestController {
 
     //------------------------------------------ Update -----------------------------------------------------------------
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/investorPost/edit", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<InvestorPost> editInvestorPost(@Valid @RequestBody InvestorPost investorPost ) {
@@ -100,6 +102,7 @@ public class InvestorPostRestController {
 
     //------------------------------------------ Delete -----------------------------------------------------------------
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/investorPost/id/{investorPostId}/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteInvestorPost(@PathVariable String investorPostId) {
         if (!investorService.investorPostExist(investorPostId)) {

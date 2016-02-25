@@ -67,7 +67,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
         if (projectFO.getSearchField() != null) {
             String searchFieldRegex = "(?i:.*" + projectFO.getSearchField() + ".*)";
-            query.addCriteria(Criteria.where("projectName").regex(searchFieldRegex));
+            query.addCriteria(Criteria.where("title").regex(searchFieldRegex));
         }
 
         if (projectFO.getStatus() != null) {
@@ -88,8 +88,8 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             query.addCriteria(Criteria.where("authorId").is(projectFO.getAuthorId()));
         }
 
-        if (projectFO.getTypeOfProject() != null) {
-            query.addCriteria(Criteria.where("typeOfProject").is(projectFO.getTypeOfProject()));
+        if (projectFO.getType() != null) {
+            query.addCriteria(Criteria.where("type").is(projectFO.getType()));
         }
 
         if (projectFO.getCategoriesOfIndustry() != null) {
@@ -213,13 +213,13 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         String searchFieldRegex = "(?i:.*" + name + ".*)";
 
         Query query = new Query()
-                .addCriteria(Criteria.where("projectName").regex(searchFieldRegex))
+                .addCriteria(Criteria.where("title").regex(searchFieldRegex))
                 .addCriteria(Criteria.where("moderationStatus").is(ModerationStatus.COMPLETE));
 
-        query.fields().include("projectName");
+        query.fields().include("title");
         query.skip(0);
         query.limit(10);
-        return mongoTemplate.find(query, Project.class).stream().map(Project::getProjectName).collect(Collectors.toSet());
+        return mongoTemplate.find(query, Project.class).stream().map(Project::getTitle).collect(Collectors.toSet());
     }
 
     @Override

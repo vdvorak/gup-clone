@@ -1,30 +1,45 @@
-$(document).ready(function(){
+function getUrlParam(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
 
-    $('#socialBtn').click( function(event){
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? null : sParameterName[1];
+        }
+    }
+}
+
+$(document).ready(function () {
+
+    $('#socialBtn').click(function (event) {
         event.preventDefault();
         $('#overlay').fadeIn(400,
-            function(){
+            function () {
                 $('#refill')
                     .css('display', 'block')
                     .animate({opacity: 1, top: '50%'}, 200);
             });
     });
 
-    $('#noMoneyClose, #overlay, #noMoneyCloseRich').click( function(){
+    $('#noMoneyClose, #overlay, #noMoneyCloseRich').click(function () {
         $('#refill')
             .animate({opacity: 0, top: '45%'}, 200,
-            function(){
+            function () {
                 $(this).css('display', 'none');
                 $('#overlay').fadeOut(400);
             }
         );
     });
 
-    $(".question-img").click(function(){
+    $(".question-img").click(function () {
         $(".questionForm").slideToggle(1);
     });
 
-    $(".caretContact").click(function(){
+    $(".caretContact").click(function () {
         $(".caretContact").toggleClass('lol');
         $(".mapContact").slideToggle();
     });
@@ -38,4 +53,41 @@ $(document).ready(function(){
     $('#tab-container-news').easytabs({
         animate: false
     });
+
+    $(".listArtist img").click(function () {
+        $(".listArtist ul").css("height", "auto");
+    });
+
+    $(".doersRang div").click(function () {
+        $(this).parent().closest('.doersFeed').find('.colNewsComments').slideToggle('slow');
+    });
+
+    $('#header_money_amount').on('input', function () {
+        $.ajax({
+            url: '/account/getLiqPayParam',
+            method: 'POST',
+            data: {'amount': $('#money_amount').val()},
+            success: function (response) {
+                $('#liq-pay-data').val(response[0]);
+                $('#liq-pay-signature').val(response[1]);
+            }
+        });
+    });
+
+    $('#modal_money_amount').on('input', function () {
+        $.ajax({
+            url: '/account/getLiqPayParam',
+            method: 'POST',
+            data: {'amount': $('#modal_money_amount').val()},
+            success: function (response) {
+                $('#modal_liq-pay-data').val(response[0]);
+                $('#modal_liq-pay-signature').val(response[1]);
+            }
+        });
+    });
+
+    $('.modal-pay-liq-pay').on('click', function () {
+        $('#modal-bill-submit').click()
+
+    })
 });

@@ -621,8 +621,8 @@ table {
 
 .footer {
 	background-color: #9c6;
-	height: 42px;
-	margin-top: 59px;
+	height: 45px;
+	margin-top: 70px;
 }
 
 .bookDrop {
@@ -1140,7 +1140,7 @@ input[class="greenCheckbox"] + span {
 	left: 0; top: 0;
 	width: 100%; height: 100%;
 	background: url(images/backgroundCheck.png) no-repeat; /* Фоновый рисунок */
-	cursor: pointer; /* Курсор в виде руки */
+	cursor: pointer;
 }
 
 input[class="greenCheckbox"]:checked + span  	{
@@ -1181,11 +1181,12 @@ input[class="greenCheckbox"]:checked + span  	{
 	width: 100%;
 	position: relative;
 	margin-top: 10px;
+	padding-bottom: 10px;
 }
 
 .online {
 	color: #ffb405;
-	font: 400 30px DroidSans;
+	font: 400 20px DroidSans;
 	top: 10px;
 	right: 20px;
 	position: absolute;
@@ -1204,9 +1205,10 @@ input[class="greenCheckbox"]:checked + span  	{
 
 .firstName {
 	margin-top: 20px;
+	margin-bottom: 5px;
 	display: inline-block;
 	color: #1269a7;
-	font: 400 36px DroidSans;
+	font: 400 21px DroidSans;
 }
 
 .phone {
@@ -1220,7 +1222,7 @@ input[class="greenCheckbox"]:checked + span  	{
 .contacts {
 	width: 570px;
 	display: inline-block;
-	margin: 20px 20px 0 0;
+	margin: 20px 20px 20px 0;
 }
 
 .phoneNumber {
@@ -1310,7 +1312,7 @@ input[class="greenCheckbox"]:checked + span  	{
 	height: 39px;
 	width: 255px;
 	color: #ffffff;
-	font: 400 26px DroidSans;
+	font: 400 21px DroidSans;
 	background-color: #63CAED;
 	border-radius: 7px;
 	border: 0;
@@ -1325,7 +1327,7 @@ input[class="greenCheckbox"]:checked + span  	{
 
 .addToContact {
 	color: #ffffff;
-	font: 400 26px DroidSans;
+	font: 400 21px DroidSans;
 	width: 280px;
 	background-color: #1168A5;
 	border-radius: 7px;
@@ -2663,7 +2665,7 @@ input[id="checkbox-rich"]:checked + span  	{
 
 .DateOfBirth {
 	color: #898989;
-	font: 400 25px DroidSans;
+	font: 400 18px DroidSans;
 }
 .profileList {
 	border: 4px solid rgb(153, 204, 102);
@@ -2863,7 +2865,7 @@ label[for="checkbox-filter3"] {
 	margin-top: 10px;
 }
 
-.newsCommentsHeader {
+.colNewsComments .newsCommentsHeader {
 	color: #ffffff;
 	font: 400 16px ArianAMU;
 	height: 15px;
@@ -2893,7 +2895,7 @@ label[for="checkbox-filter3"] {
 
 .newsFormSubmit {
 	color: #ffffff;
-	font: 400 15px DroidSans;
+	font: 400 14px DroidSans;
 	height: 27px;
 	width: 82px;
 	border: 1px solid #97CA65;
@@ -2917,6 +2919,7 @@ label[for="checkbox-filter3"] {
 	left: 23px;
 	color: #ffffff;
 	font: 400 14px DroidSans;
+	width: auto;
 }
 
 .comments {
@@ -2928,6 +2931,7 @@ label[for="checkbox-filter3"] {
 	margin-top: 10px;
 	-webkit-transition: all 0.25s;
 	transition: all 0.25s;
+	position: relative;
 }
 
 .comments img {
@@ -3052,7 +3056,7 @@ label[for="checkbox-filter3"] {
 	width: 230px;
 	float: right;
 	margin-right: 470px;
-	margin-bottom: 60px;
+	margin-bottom: 30px;
 }
 
 .socialIconBlog {
@@ -3079,6 +3083,7 @@ label[for="checkbox-filter3"] {
 	color: #99cc66;
 	font: 400 21px ArianAMU;
 	background: url(/resources/css/images/+sub.png) no-repeat center center;
+	margin-bottom: 30px;
 }
 
 .titleFile {
@@ -3102,7 +3107,61 @@ label[for="checkbox-filter3"] {
 }
 
 .defaultIMG {
-	margin: 20px 0 50px 190px;
+	margin-left: 195px;
+}
+
+.defaultIMG ul,
+.defaultIMG li {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.defaultIMG li {
+	display: inline-block;
+	width: 225px;
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+
+.defaultIMG img {
+	max-width: 100%;
+	display: block;
+}
+
+.descr {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: auto;
+	background-color: rgba(0,0,0,.5);
+	-webkit-transition: all .5s;
+	transition: all .5s;
+	opacity: 0;
+	-webkit-transform: rotateZ(90deg);
+	transform: rotateZ(90deg);
+	border-radius: 50%;
+}
+
+.defaultIMG li:hover .descr {
+	opacity: 1;
+	-webkit-transform: rotateZ(0deg);
+	transform: rotateZ(0deg);
+	border-radius: 0;
+}
+
+.descr i {
+	float: right;
+	padding: 10px;
+	cursor: pointer;
+	-webkit-transition: all .25s;
+	transition: all .25s;
+}
+
+.descr i:hover {
+	color: white;
 }
 
 .SendEdition {
@@ -3180,14 +3239,14 @@ label[for="checkbox-filter3"] {
 	font: 400 13px DroidSans;
 }
 
-::-webkit-input-placeholder       {text-indent: 0px;   -webkit-transition: text-indent 0.25s ease;   transition: text-indent 0.25s ease;}
-::-moz-placeholder                {text-indent: 0px;   -webkit-transition: text-indent 0.25s ease;   transition: text-indent 0.25s ease;}
-:-moz-placeholder                 {text-indent: 0px;   -webkit-transition: text-indent 0.25s ease;   transition: text-indent 0.25s ease;}
-:-ms-input-placeholder            {text-indent: 0px;   -webkit-transition: text-indent 0.25s ease;   transition: text-indent 0.25s ease;}
-:focus::-webkit-input-placeholder {text-indent: 500px; -webkit-transition: text-indent 0.25s ease; transition: text-indent 0.25s ease;}
-:focus::-moz-placeholder          {text-indent: 500px; -webkit-transition: text-indent 0.25s ease; transition: text-indent 0.25s ease;}
-:focus:-moz-placeholder           {text-indent: 500px; -webkit-transition: text-indent 0.25s ease; transition: text-indent 0.25s ease;}
-:focus:-ms-input-placeholder      {text-indent: 500px; -webkit-transition: text-indent 0.25s ease; transition: text-indent 0.25s ease;}
+input::-webkit-input-placeholder       {text-indent: 0px;   -webkit-transition: text-indent 0.25s ease;   transition: text-indent 0.25s ease;}
+input::-moz-placeholder                {text-indent: 0px;   -webkit-transition: text-indent 0.25s ease;   transition: text-indent 0.25s ease;}
+input:-moz-placeholder                 {text-indent: 0px;   -webkit-transition: text-indent 0.25s ease;   transition: text-indent 0.25s ease;}
+input:-ms-input-placeholder            {text-indent: 0px;   -webkit-transition: text-indent 0.25s ease;   transition: text-indent 0.25s ease;}
+input:focus::-webkit-input-placeholder {text-indent: 500px; -webkit-transition: text-indent 0.25s ease; transition: text-indent 0.25s ease;}
+input:focus::-moz-placeholder          {text-indent: 500px; -webkit-transition: text-indent 0.25s ease; transition: text-indent 0.25s ease;}
+input:focus:-moz-placeholder           {text-indent: 500px; -webkit-transition: text-indent 0.25s ease; transition: text-indent 0.25s ease;}
+input:focus:-ms-input-placeholder      {text-indent: 500px; -webkit-transition: text-indent 0.25s ease; transition: text-indent 0.25s ease;}
 
 .filterArtistsLabel {
 	color: #ffffff;
@@ -3239,4 +3298,516 @@ label[for="checkbox-filter3"] {
 	float: right;
 	margin-top: 45px;
 	border: 0;
+}
+.abra {
+	color: #99cc66;
+	font: 400 30px DroidSans;
+}
+
+.artistData {
+	position: absolute;
+	top: 20px;
+	right: 18px;
+	width: 170px;
+}
+
+.artistData p {
+	color: #464646;
+	font: 400 14px Calibri;
+}
+
+.listArtist {
+	width: 387px;
+	border: 4px solid rgb( 153, 204, 102 );
+	border-radius: 3px;
+	margin: 0 29px 50px 29px;
+	float: right;
+	padding: 10px;
+}
+
+.listArtist img {
+	cursor: pointer;
+	display: block;
+	margin: 10px auto;
+}
+
+.listArtist p {
+	color: #1269a7;
+	font: 400 23px DroidSans;
+}
+
+.listArtist ul {
+	width: 300px;
+	margin: 0 auto;
+	list-style-position: inside;
+	list-style-image:url(/resources/images/dot.png);
+	height: 90px;
+	overflow: hidden;
+}
+
+.listArtist ul li {
+	float: left;
+	width: 50%;
+	-webkit-transition: all .25s;
+	transition: all .25s;
+}
+
+.listArtist ul li:hover {
+	padding-left: 10px;
+}
+
+.listArtist ul li p {
+	color: #1269a7;
+	font: 400 16px DroidSansDroidSans;
+}
+
+.listArtist ul li p.anonymous {
+	color: #cccccc;
+	cursor: pointer;
+}
+
+.maxWidth {
+	width: 860px;
+}
+
+.likeComments {
+	position: absolute;
+	top: 0px;
+	left: 40px;
+}
+
+.dislikeComments {
+	position: absolute;
+	top: 0px;
+	left: 40px;
+}
+
+.doerCreate {
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 17px;
+}
+
+.doerCreate form {
+	margin: 0 100px 10px 50px;
+}
+
+.doerCreate h1 {
+	color: #1269a7;
+	font: 400 17px ArianAMU;
+	text-align: center;
+	margin: 50px 0;
+}
+
+.doerCreate form label {
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+}
+
+.doerCreate form input {
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	height: 23px;
+	width: 553px;
+	padding: 0 7px;
+	float: right;
+	margin-bottom: 30px;
+}
+
+.doerCreate form label:after {
+	content: '*';
+	color: #ed4423;
+}
+
+.doerCreate form #selectBox-info-type {
+	width: 291px;
+	height: 23px;
+	margin: 0 260px 30px 0;
+	border-width: 2px;
+}
+
+.doerCreate form #selectBox-info-type select {
+	width: 300px;
+	height: 19px;
+	line-height: 19px;
+	font-size: 13px;
+}
+
+.doerCreate form textarea {
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	width: 641px;
+	height: 239px;
+	resize: none;
+	float: right;
+	padding: 7px;
+}
+.clip {
+	cursor: pointer;
+	margin: 0 20px 55px 155px;
+	border-radius: 14px;
+	float: left;
+}
+
+.doerCreate button {
+	float: right;
+	color: #ffffff;
+	font: 400 16px ArianAMU;
+	border-radius: 5px;
+	height: 32px;
+	width: 133px;
+	background-color: rgb( 153, 204, 102 );
+	border: 2px solid rgb( 153, 204, 102 );
+	margin: 0 40px 15px 0;
+	-webkit-transition: all .25s;
+	transition: all .25s;
+}
+
+.doerCreate button:hover {
+	color: rgb( 153, 204, 102 );
+	background-color: transparent;
+}
+.doers {
+	border: 4px solid rgb( 153, 204, 102 );
+	border-radius: 18px;
+	margin-top: 10px;
+	padding-bottom: 50px;
+}
+
+.doersFeed {
+	border: 2px solid rgb( 54, 170, 224 );
+	border-radius: 5px;
+	width: 870px;
+	margin: 0 auto;
+	margin-bottom: 15px;
+	position: relative;
+	padding: 15px;
+}
+
+.doersFeed img {
+	height: 156px;
+	width: 156px;
+	border: 4px solid rgb( 18, 105, 167 );
+	border-radius: 5px;
+	padding: 20px;
+	margin-right: 15px;
+	float: left;
+}
+
+.doersFeed h2 {
+	color: #1269a7;
+	font: 400 21px DroidSans;
+}
+
+.doersFeed p {
+	color: #828a8f;
+	font: 400 18px Calibri;
+	width: 650px;
+	text-align: justify;
+}
+
+.doersFeed .artistData ul li p {
+	color: #464646;
+	font: 400 14px Calibri;
+	display: inline;
+}
+
+.doersFeed .artistData {
+	top: 15px;
+	right: 15px;
+}
+.doersRang {
+	position: absolute;
+	width: 169px;
+	height: 100px;
+	top: 80px;
+	right: 15px;
+}
+
+.doersRang button {
+	color: #ffffff;
+	font: 400 16px DroidSans;
+	height: 32px;
+	width: 168px;
+	border-radius: 6px;
+	background-color: rgb( 54, 170, 224 );
+	border: 1px solid rgb( 54, 170, 224 );
+	margin-top: 25px;
+	-webkit-transition: all .25s;
+	transition: all .25s;
+}
+
+.doersRang button:hover {
+	background-color: transparent;
+	color: #36aae0;
+}
+
+.doersRang div {
+	float: left;
+	width: 40px;
+	height: 40px;
+	margin-left: 10px;
+	cursor: pointer;
+	background: url(/resources/images/likeArtist.png) no-repeat;
+	border-radius: 50%;
+}
+
+.doersRang div:nth-child(2) {
+	float: right;
+	margin-right: 10px;
+	background: url(/resources/images/dislikeArtist.png) no-repeat;
+}
+
+.doersFeed.vip {
+	border-color: rgb( 252, 155, 0 );
+}
+
+.doersFeed.vip .doersRang div {
+	background: url(/resources/css/images/vipLike.png) no-repeat;
+}
+
+.doersFeed.vip .doersRang div:nth-child(2) {
+	background: url(/resources/css/images/vipDislike.png) no-repeat;
+}
+
+.doersFeed.vip .doersRang button {
+	background-color: #fc9b00;
+	border: 1px solid #fc9b00;
+}
+
+.doersFeed.vip .doersRang button:hover {
+	background-color: transparent;
+	color: #fc9b00;
+}
+.modalDoer {
+	height: 160px;
+	width: 530px;
+	border-radius: 6px;
+	background-color: rgb( 18, 105, 167 );
+	padding: 50px 20px 25px 20px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -80px;
+	margin-left: -265px;
+	display: none;
+	z-index: 10;
+}
+
+.modalDoer > div {
+	background-color: #ffffff;
+	width: 100%;
+	height: 100%;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+.modalDoer > div > p {
+	color: #1269a7;
+	font: 400 17px DroidSans;
+}
+
+.modalDoer > div > button {
+	color: #ffffff;
+	font: 400 17px ArianAMU;
+	height: 25px;
+	width: 110px;
+	border-radius: 7px;
+	background-color: rgb( 153, 204, 102 );
+	border: 1px solid rgb( 153, 204, 102 );
+	float: left;
+}
+
+.modalDoer > div > button:last-child {
+	float: right;
+}
+
+.modalDoer > div > button:hover {
+	background-color: transparent;
+	color: rgb( 153, 204, 102 );
+}
+.tenderFilter {
+	margin: 0 25px;
+}
+
+.tenderFilter > .column {
+	width: 50%;
+	float: left;
+	margin-top: 10px;
+}
+
+.tenderFilter > .column > form > label {
+	color: #ffffff;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	float: left;
+}
+
+.tenderFilter > .column > form > input {
+	height: 23px;
+	width: 186px;
+	border-radius: 4px;
+	padding: 0 7px;
+	float: right;
+	margin-right: 100px;
+	margin-bottom: 15px;
+	border: none;
+	font: 400 10px DroidSans;
+}
+
+.tenderFilter > .column > form > input:placeholder-shown {
+	color: #838383;
+	font: 400 10px DroidSans;
+}
+
+.tenderFilter > .column > form > div > label {
+	width: 23px;
+	height: 23px;
+	position: relative;
+	float: left;
+}
+
+input[value="open"] + span {
+	position: absolute;
+	left: 0; top: 0;
+	width: 100%; height: 100%;
+	background: url(/resources/css/images/backgroundCheck.png) no-repeat center center;
+	background-size: cover;
+	cursor: pointer;
+}
+
+input[value="open"]:checked + span  	{
+	background: url(/resources/css/images/check.png) no-repeat center center;
+	background-size: cover;
+}
+
+.tenderFilter .tenderRadio {
+	height: 23px;
+	width: 195px;
+	float: right;
+	margin-right: 90px;
+	margin-bottom: 20px;
+}
+
+.tenderFilter .tenderRadio p {
+	color: #ffffff;
+	font: 400 13px DroidSans;
+	display: inline-block;
+	float: left;
+	line-height: 23px;
+	margin: 0 7px;
+}
+
+.tenderFilter > .column > form > input[class='moneyAfter'] {
+	height: 23px;
+	width: 50px;
+	float: left;
+	margin-right: 5px;
+}
+
+.tenderFilter > .column > form .tenderP {
+	float: left;
+	color: #ffffff;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	margin-right: 5px;
+}
+
+.column > h2 {
+	color: #ffffff;
+	font: 400 15px DroidSans;
+}
+
+.column > form > .location {
+	position: relative;
+	margin-top: 15px;
+	height: 60px;
+}
+
+.column > form > .location > img {
+	float: left;
+	border-radius: 10%;
+	margin: 6px 0;
+}
+
+.tenderFilter > .column > form > .location > label {
+	color: #ffffff;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	margin-left: 15px;
+	width: auto;
+	margin-top: 5px;
+}
+
+.tenderFilter > .column > form > .location > input {
+	height: 23px;
+	width: 151px;
+	border-radius: 3px;
+	border: none;
+	float: right;
+	margin-right: 125px;
+	margin-top: 5px;
+	padding: 0 7px;
+}
+
+.tenderFilter > .column > form > .datePickPi {
+	color: #ffffff;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	float: left;
+	margin-left: 5px;
+}
+
+.tenderFilter > .column > form > .datePickPi > input {
+	border-radius: 3px;
+	width: 90px;
+	height: 23px;
+	border: none;
+	color: black;
+	font: 400 15px DroidSans;
+	padding-left: 7px;
+	margin-bottom: 10px;
+}
+
+.bx-wrapper .bx-controls-direction a {
+	z-index: 1;
+}
+
+.tenderFilter > .column > form > .participate {
+	width: 23px;
+	height: 23px;
+	position: relative;
+	float: left;
+	margin-left: 5px;
+}
+
+.tenderFilter > .column > form > .participate > input + span {
+	position: absolute;
+	left: 0; top: 0;
+	width: 100%; height: 100%;
+	background: url(/resources/css/images/backgroundCheck.png) no-repeat center center;
+	cursor: pointer;
+	background-size: cover;
+}
+
+.tenderFilter > .column > form > .participate > input:checked + span  	{
+	background: url(/resources/css/images/check.png) no-repeat center center;
+	background-size: cover;
+}
+
+.tenderFilter > .column > button {
+	float: right;
+	color: #ffffff;
+	font: 400 17px DroidSans;
+	border-radius: 8px;
+	background-color: rgb( 153, 204, 102 );
+	height: 30px;
+	width: 167px;
+	border: 1px solid rgb( 153, 204, 102 );
+	transition: all .25s;
+}
+
+.tenderFilter > .column > button:hover {
+	background-color: transparent;
+	border-color: white;
 }

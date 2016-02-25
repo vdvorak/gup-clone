@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.controller;
+package ua.com.itproekt.gup.controller.blogsAndNews;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -103,7 +103,7 @@ public class BlogPostController {
         BlogPost blogPost = blogPostService.findById(blogPostId);
         model.addAttribute("blogPost", blogPost);
         model.addAttribute("profileId", profile.getId());
-        return "blog-post-edit";
+        return "news/blog-post-edit";
     }
 
 

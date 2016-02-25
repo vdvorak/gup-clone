@@ -9,11 +9,12 @@
 <html>
 <head>
     <title>Создание блога</title>
-    <link href="/resources/css/mini.css" rel="stylesheet">
-    <link href="/resources/css/main.css" rel="stylesheet">
-    <link href="/resources/css/bootstrap.css" rel="stylesheet">
-    <link href="/resources/css/bootstrap-theme.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="resources/css/bootstrap.css">
+    <link rel="stylesheet" href="resources/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="resources/css/main.css">
+    <link rel="stylesheet" href="resources/css/font-awesome.css">
+    <link rel="stylesheet" href="resources/css/media-queries.css">
 
     <%-- Cropper style --%>
     <link  href="/resources/css/cropper.css" rel="stylesheet">
@@ -33,14 +34,14 @@
 
             <div class="group-info">
                 <label for="blogCreationSocial" class="blogCreationLabel">Социальные сети</label>
-                <input type="text" name="blogCreationSocial" id="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку на Facebook">
+                <input type="text" name="blogCreationSocial" id="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку на Facebook" name="FACEBOOK">
                 <div class="socialIconBlog">
-                    <a href="#"><img class="img-responsive" src="resources/images/twitter-info.png" alt="twitter"></a>
-                    <a href="#"><img class="img-responsive" src="resources/images/facebook-info.png" alt="facebook"></a>
-                    <a href="#"><img class="img-responsive" src="resources/images/skype-info.png" alt="skype"></a>
-                    <a href="#"><img class="img-responsive" src="resources/images/vk-info.png" alt="vk"></a>
-                    <a href="#"><img class="img-responsive" src="resources/images/g+info.png" alt="g+"></a>
-                    <a href="#"><img class="img-responsive" src="resources/images/in-info.png" alt="in"></a>
+                    <a href="#"><img class="img-responsive" src="resources/images/twitter-info.png" alt="TWITTER"></a>
+                    <a href="#"><img class="img-responsive" src="resources/images/facebook-info.png" alt="FACEBOOK"></a>
+                    <a href="#"><img class="img-responsive" src="resources/images/skype-info.png" alt="SKYPE"></a>
+                    <a href="#"><img class="img-responsive" src="resources/images/vk-info.png" alt="VKONTAKTE"></a>
+                    <a href="#"><img class="img-responsive" src="resources/images/g+info.png" alt="GOOGLEPLUS"></a>
+                    <a href="#"><img class="img-responsive" src="resources/images/in-info.png" alt="LINKEDIN"></a>
                 </div>
             </div>
 
@@ -48,15 +49,23 @@
                 <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
             </form>
 
+            <div class="defaultIMG">
+                <ul>
+                    <li>
+                        <span class="descr"><i class="fa fa-trash-o fa-2x"></i><i class="fa fa-pencil fa-2x"></i></span>
+                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                    </li>
+                </ul>
+            </div>
+
             <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
-            <label for="" class="blogCreationLabel">Фотографии</label>
-            <div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
+            <label class="blogCreationLabel">Фотографии</label>
         </form>
 
 
 
         <div id="drop_zone">
-            <img id="image" src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/56c4940c1be9ac5b1bcdbc02">
+            <img id="image" src="/resources/images/no_photo.jpg">
         </div>
         <button id="btn-done">Готово</button>
 
@@ -152,17 +161,19 @@
             e.preventDefault();
             var el = e.currentTarget;
             var socName = $(el).attr("alt");
-            var placeholder = (socName === "twitter") ? "Добавить ссылку на Twitter" :
-                    (socName === "facebook") ? "Добавить ссылку на Facebook" :
-                            (socName === "skype") ? "Добавить ссылку на Skype" :
-                                    (socName === "vk") ? "Добавить ссылку на Vkontakte" :
-                                            (socName === "g+") ? "Добавить ссылку на Google +" :
-                                                    (socName === "in") ? "Добавить ссылку на LinkedIn" : "Добавить ссылку";
+            var placeholder = (socName === "TWITTER") ? "Добавить ссылку на Twitter" :
+                    (socName === "FACEBOOK") ? "Добавить ссылку на Facebook" :
+                            (socName === "SKYPE") ? "Добавить ссылку на Skype" :
+                                    (socName === "VKONTAKTE") ? "Добавить ссылку на Vkontakte" :
+                                            (socName === "GOOGLEPLUS") ? "Добавить ссылку на Google +" :
+                                                    (socName === "LINKEDIN") ? "Добавить ссылку на LinkedIn" : "Добавить ссылку";
 
 
             if(cur_fields < max_fields)
             $("#blogCreationSocial").clone()
                     .attr("placeholder", placeholder)
+                    .removeAttr("id")
+                    .attr("name", socName)
                     .appendTo(".group-info");
             cur_fields++;
         });
@@ -361,20 +372,18 @@
 
         var title = $('#blogTitle').val();
         var description = $('#blogCreationDescription').val();
-        if(description.length > 70 || title.length < 2) return;
-        if(description.length > 5000 || title.length < 50) return;
+        if(title.length > 70 || title.length < 2) return;
+        if(description.length > 5000 || description.length < 50) return;
 
         blog.title = title;
         blog.description = description;
         blog.imageId = imgId;
 
         var socArr = {};
-        $(".input_soc_wrap input").each(function (index) {
+        $(".group-info > input").each(function (index) {
             var socName = $(this).attr("name");
             var url = $(this).val();
-
-            var entity = {};
-            if (url.length > 0) {
+            if(isMatchPatternSocialLinks(socName, url) && url.length) {
                 socArr[socName] = url;
             }
         });

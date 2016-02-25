@@ -8,7 +8,6 @@ import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import javax.security.sasl.SaslException;
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +48,13 @@ public class OAuthFilter implements Filter {
                     .findAny().orElse("");
 
             if (!authToken.isEmpty()) {
+                try {
+                    tokenServices.readAccessToken(authToken);
+                } catch (Exception ex) {
+                    StringWriter stack = new StringWriter();
+                    ex.printStackTrace(new PrintWriter(stack));
+                    LOG.error(" **** Exception readAccessToken **** " + stack.toString());
+                }
                 filteredReq.addParameter("access_token", new String[]{authToken});
             } else {
                 String refreshToken = Arrays.stream(cookies)
@@ -87,6 +93,14 @@ public class OAuthFilter implements Filter {
                         cookie.setMaxAge(ACCESS_TOKEN_EXPIRES_IN_SECONDS);
                         cookie.setPath("/");
                         httpServletResp.addCookie(cookie);
+
+                        try {
+                            tokenServices.readAccessToken(accessToken.getValue());
+                        } catch (Exception ex) {
+                            StringWriter stack = new StringWriter();
+                            ex.printStackTrace(new PrintWriter(stack));
+                            LOG.error(" **** Exception readAccessToken **** " + stack.toString());
+                        }
 
                         filteredReq.addParameter("access_token", new String[]{accessToken.getValue()});
                     }

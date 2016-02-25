@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
@@ -24,6 +25,7 @@ public class OfferReservationRestController {
     @Autowired
     ActivityFeedService activityFeedService;
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/id/{offerId}/reserve", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> reserveOffer(@PathVariable String offerId,
@@ -47,6 +49,7 @@ public class OfferReservationRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/id/{offerId}/deleteReservation", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteReservation(@PathVariable String offerId) {
         if (!offersService.offerExists(offerId)) {
