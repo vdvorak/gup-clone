@@ -13,23 +13,23 @@ public class InvestmentController {
     @RequestMapping("/investorPost/list")
     public String investorPostList(@RequestParam int pageNumber, Model model) {
         model.addAttribute("pageNumber", pageNumber);
-        return "projectsAndInvestments/investment/investorPostList";
+        return "projectsAndInvestments/investment/investorPostList-OLD";
     }
 
     @RequestMapping("/investorPost/create")
     public String createInvestorPost() {
-        return "projectsAndInvestments/investment/createInvestorPost";
+        return "projectsAndInvestments/investment/createInvestorPost-OLD";
     }
 
     @RequestMapping("/investorPost/id/{investorPostId}/edit")
     public String editInvestorPost(@PathVariable String investorPostId, Model model) {
         model.addAttribute("investorPostId", investorPostId);
-        return "projectsAndInvestments/investment/editInvestorPost";
+        return "projectsAndInvestments/investment/editInvestorPost-OLD";
     }
 
     @RequestMapping("/investorPost/id/{investorPostId}")
     public String getInvestorPostById(@PathVariable String investorPostId, Model model) {
         model.addAttribute("investorPostId", investorPostId);
-        return "projectsAndInvestments/investment/investorPost";
+        return "projectsAndInvestments/investment/investorPost-OLD";
     }
 }
