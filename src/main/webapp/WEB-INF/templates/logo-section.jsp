@@ -37,7 +37,7 @@
                                    value="eyJhbW91bnQiOjEwMCwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6ItCf0L7Qv9C+0LvQvdC10L3QuNC1INCx0LDQu9Cw0L3RgdCwIiwib3JkZXJfaWQiOiJsM2Q2d1VvR3Rlc3QiLCJwdWJsaWNfa2V5IjoiaTc0MDQ0MTgyODM5Iiwic2FuZGJveCI6IjEiLCJzZXJ2ZXJfdXJsIjoiaHR0cDpcL1wvYmFuay10a2FuaS5yaGNsb3VkLmNvbVwvY2FsbGJhY2siLCJ2ZXJzaW9uIjoiMyJ9"/>
                             <input id="modal_liq-pay-signature" type="hidden" name="signature"
                                    value="DxXg8vXCVuw39G1Qvk8hmLyad6o="/>
-                            <button id="modal-bill-submit" type="submit" class="submit">Пополнить</button>
+                            <button id="modal-bill-submit" type="submit" class="submit" style="display: none;">Пополнить</button>
                         </form>
 
                         <p class="noMoney-p2">Пополните счет, с помощью этих банк-систем:</p>

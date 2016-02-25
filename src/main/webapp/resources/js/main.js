@@ -90,4 +90,16 @@ $(document).ready(function () {
         $('#modal-bill-submit').click()
 
     })
+
+
+    $.ajax({
+        type: "POST",
+        url: "/check-balance",
+        cache: false,
+        success: function (response) {
+            $('#score').text(response)
+        }
+    });
+
+
 });

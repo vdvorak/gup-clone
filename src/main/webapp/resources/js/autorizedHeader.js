@@ -50,7 +50,7 @@ var loggedInProfile = {};
             }
 
             if (profile.contact.member == true) {
-                $('#joinToGupBtn').hide();
+                $('#socialBtn').hide();
             }
 
             if (profile.unreadMessages > 0) {

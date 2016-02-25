@@ -64,7 +64,7 @@
             </ul>
             <ul class="money">
                 <li>
-                    <a class="score" href="#">00.00. грн.</a>
+                    <a class="score" href="#"><span id="score"></span> грн.</a>
                     <ul>
                         <li>
                             <div class="balance">
