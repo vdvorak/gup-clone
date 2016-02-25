@@ -54,12 +54,12 @@
             <%--</div>--%>
             <div class="sum">
                 <div class="field">
-                    <label for="sum1" class="editorLabel">Сумма</label>
+                    <label for="sum1" class="editorLabel">Минимальная сумма</label>
                     <input id="sum1" type="number" name='sum1' class="editorInput">
                     <span class="currency">₴</span>
                 </div>
                 <div class="field">
-                    <label for="sum2" class="editorLabel">Сумма</label>
+                    <label for="sum2" class="editorLabel">Максимальная сумма</label>
                     <input id="sum2" type="number" name='sum2' class="editorInput">
                     <span class="currency">₴</span>
                 </div>
