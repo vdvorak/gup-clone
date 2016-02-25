@@ -76,7 +76,7 @@ function setValuesForFieldsFromProfile(profile) {
 
     if (profile.contact.pic != null) {
         $('.moreInformation-img').css('background',
-            'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center');
+            'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center')
             .css("background-size","cover");
         cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic);
     }
