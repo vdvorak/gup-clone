@@ -56,6 +56,7 @@ var loggedInProfile = {};
             if (profile.unreadMessages > 0) {
                 $('.num').show().text(profile.unreadMessages);
             }
+
         }
     });
 
