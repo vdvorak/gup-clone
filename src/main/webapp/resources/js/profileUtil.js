@@ -6,7 +6,6 @@ function loadProfileById(profileId) {
 }
 
 function getProfileImgUrl(pic) {
-    alert("pic: " + pic);
     if (pic) {
         return '/api/rest/fileStorage/PROFILE/file/read/id/' + pic;
     } else {
