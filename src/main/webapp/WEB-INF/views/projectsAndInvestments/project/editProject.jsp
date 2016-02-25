@@ -122,7 +122,6 @@
     <script src="/resources/js/main.js"></script>
     <script src="/resources/js/logo-section.js"></script>
     <script src="/resources/js/search-bar.js"></script>
-
     <script src="/resources/js/editProject.js"></script>
 </body>
 </html>

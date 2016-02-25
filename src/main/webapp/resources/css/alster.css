@@ -444,7 +444,7 @@
 
 .editor .editorLabel {
     float: left;
-    width: 160px;
+    width: 200px;
     text-align: left;
     color: #9e9e9e;
     font: 17px DroidSans;
@@ -480,17 +480,17 @@
     width: 553px;
 }
 
-.editor form.investor .sum .editorLabel {
-    width: 70px;
-}
+/*.editor form.investor .sum .editorLabel {*/
+    /*width: 70px;*/
+/*}*/
 
 .editor form.investor .sum .editorInput {
     width: 292px;
 }
 
-.editor form.investor .sum {
-    padding-left: 165px;
-}
+/*.editor form.investor .sum {*/
+    /*padding-left: 165px;*/
+/*}*/
 
 .editor .field .currency {
     position: relative;
