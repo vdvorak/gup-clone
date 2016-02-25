@@ -155,13 +155,13 @@
 
 <%--<button id="createProject">Создать</button>--%>
 
+<jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 <script src="/resources/js/common.js"></script>
-<sec:authorize access="isAuthenticated()">
-    <script src="/resources/js/autorizedHeader.js"></script>
-</sec:authorize>
+
 <script>
 
     var imagesIds = {};

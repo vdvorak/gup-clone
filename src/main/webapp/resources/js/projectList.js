@@ -5,9 +5,8 @@ $('[name="' + projectType + '"]').addClass('selected');
 appendProjects(projectFO);
 
 function appendProjects(projectFO) {
-    loadPInvestorPostsWithFO(projectFO).statusCode({
+    loadProjectsWithFO(projectFO).statusCode({
         200: function (responseEntity) {
-//          $('#foundedProjectsNum').text(responseEntity.totalEntities);
             responseEntity.entities.forEach(function (project) {
                 appendProjectBlock(project);
             });
