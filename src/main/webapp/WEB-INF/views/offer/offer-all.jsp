@@ -219,10 +219,11 @@
     }
 
     function cleanResult() {
-        var offerBoxArr = $('.notice-box');
+        var offerBoxArr = $('ul.notice-box:not(:first)');
         for (var i = 0; i < offerBoxArr.length; i++) {
             offerBoxArr[i].remove();
         }
+        $('ul.notice-box:first').text("");    
     }
 
     $('#btn-offers-more').click(function () {
