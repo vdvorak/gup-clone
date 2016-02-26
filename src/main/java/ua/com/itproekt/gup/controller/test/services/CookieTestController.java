@@ -16,5 +16,10 @@ public class CookieTestController {
     public void addAccessTokenCookie(HttpServletResponse response) {
         CookieUtil.addCookie(response, "authToken", "90a71d9b-26f8-4151-a001-95dc8ba3b943", 777);
     }
+
+    @RequestMapping("/test/addRefreshTokenCookie")
+    public void addRefreshTokenCookie(HttpServletResponse response) {
+        CookieUtil.addCookie(response, "refreshToken", "90a71d9b-26f8-4751-a771-95dc8ba3b973", 777);
+    }
 //
 }

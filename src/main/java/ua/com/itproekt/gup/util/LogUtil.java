@@ -11,6 +11,6 @@ public final class LogUtil {
     public static String getExceptionStackTrace(Exception ex) {
         StringWriter stack = new StringWriter();
         ex.printStackTrace(new PrintWriter(stack));
-        return stack.toString();
+        return " [" + ex.getClass() + "] " + stack.toString();
     }
 }
