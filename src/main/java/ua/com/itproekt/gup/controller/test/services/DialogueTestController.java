@@ -17,6 +17,7 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /*
@@ -77,6 +78,10 @@ public class DialogueTestController {
                 msgs.add(msg3);
 
                 dialog.setMessages(msgs);
+
+                ConcurrentHashMap<String, Integer> umc = dialog.getUnreadMsgCounter();
+                umc.put(dialog.getMembers().get(0).getId(), 2);
+                umc.put(dialog.getMembers().get(1).getId(), 1);
 
                 dialog.setSubject("very important dialogue " + i);
 
