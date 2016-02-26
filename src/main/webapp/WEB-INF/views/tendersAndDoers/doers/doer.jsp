@@ -49,39 +49,6 @@
         </div>
         <p class="firstName">${doer.title}</p>
 
-    <div class="listArtist">
-      <p>Список клиентов:</p>
-      <ul>
-        <li><p>Earthshaker</p></li>
-        <li><p>Axe</p></li>
-        <li><p>Sven</p></li>
-        <li><p>Pudge</p></li>
-        <li><p>Tiny</p></li>
-        <li><p>Sand King</p></li>
-        <li><p>Kunkka</p></li>
-        <li><p>Slardar</p></li>
-        <li><p>Beastmaster</p></li>
-        <li><p>Tidehunter</p></li>
-        <li><p>Dragon Knight</p></li>
-        <li><p>Wraith King</p></li>
-        <li><p>Clockwerk</p></li>
-        <li><p>Lifestealer</p></li>
-        <li><p>Omniknight</p></li>
-        <li><p>Night Stalker</p></li>
-        <li><p>Huskar</p></li>
-        <li><p>Doom</p></li>
-        <li><p>Alchemist</p></li>
-        <li><p>Spirit Breaker</p></li>
-      </ul>
-      <img src="/resources/images/downArtist.png" alt="downArtist">
-      <div class="modalDoer">
-        <div>
-          <p>Вася Пупкин отправил заявку на добавление, подтвердите что он входит в список ваших клиентов</p>
-          <button type="button" id="close">Отмена</button>
-          <button type="button">Добавить</button>
-        </div>
-      </div>
-    </div>
 
         <div class="artistData">
             <ul>
@@ -165,6 +132,40 @@
                 <li><p>Spirit Breaker</p></li>
             </ul>
             <img src="/resources/images/downArtist.png" alt="downArtist">
+        </div>
+
+        <div class="listArtist">
+            <p>Список клиентов:</p>
+            <ul>
+                <li><p>Earthshaker</p></li>
+                <li><p>Axe</p></li>
+                <li><p>Sven</p></li>
+                <li><p>Pudge</p></li>
+                <li><p>Tiny</p></li>
+                <li><p>Sand King</p></li>
+                <li><p>Kunkka</p></li>
+                <li><p>Slardar</p></li>
+                <li><p>Beastmaster</p></li>
+                <li><p>Tidehunter</p></li>
+                <li><p>Dragon Knight</p></li>
+                <li><p>Wraith King</p></li>
+                <li><p>Clockwerk</p></li>
+                <li><p>Lifestealer</p></li>
+                <li><p>Omniknight</p></li>
+                <li><p>Night Stalker</p></li>
+                <li><p>Huskar</p></li>
+                <li><p>Doom</p></li>
+                <li><p>Alchemist</p></li>
+                <li><p>Spirit Breaker</p></li>
+            </ul>
+            <img src="/resources/images/downArtist.png" alt="downArtist">
+            <div class="modalDoer">
+                <div>
+                    <p>Вася Пупкин отправил заявку на добавление, подтвердите что он входит в список ваших клиентов</p>
+                    <button type="button" id="close">Отмена</button>
+                    <button type="button">Добавить</button>
+                </div>
+            </div>
         </div>
 
         <div class="clearfix"></div>
