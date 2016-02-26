@@ -42,6 +42,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .setStatus(ProjectStatus.ACTIVE)
                 .setLastInvestmentDateEqualsToCurrentDate()
                 .updateExpirationDateAt20Days()
+                .setInvestedAmount(0)
                 .setAmountRequested(project.getAmountRequested())
                 .setTitle(project.getTitle())
                 .setDescription(project.getDescription())
