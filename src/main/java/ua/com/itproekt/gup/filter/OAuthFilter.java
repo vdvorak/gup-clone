@@ -23,10 +23,10 @@ import java.util.concurrent.TimeUnit;
 public class OAuthFilter implements Filter {
     private static final Logger LOG = Logger.getLogger(OAuthFilter.class);
 
-    private final int ACCESS_TOKEN_EXPIRES_IN_SECONDS = (int) TimeUnit.MINUTES.toSeconds(10);
     private final String ACCESS_TOKEN_COOKIE_NAME = "authToken";
     private final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
     private final String SPRING_ACCESS_TOKEN_PARAM_NAME = "access_token";
+    private final int ACCESS_TOKEN_EXPIRES_IN_SECONDS = (int) TimeUnit.MINUTES.toSeconds(10);
 
     private DefaultTokenServices tokenServices;
 
@@ -47,36 +47,45 @@ public class OAuthFilter implements Filter {
         Cookie[] cookies = httpServletReq.getCookies();
         if (cookies != null) {
             String accessTokenValue = CookieUtil.getCookieValue(cookies, ACCESS_TOKEN_COOKIE_NAME);
+            String refreshTokenValue = CookieUtil.getCookieValue(cookies, REFRESH_TOKEN_COOKIE_NAME);
+
             if (!accessTokenValue.isEmpty()) {
-                if (null == tokenServices.readAccessToken(accessTokenValue)) {
-                    LOG.error(" **** Access token not valid **** ");
-                }
-
-                filteredReq.addParameter(SPRING_ACCESS_TOKEN_PARAM_NAME, new String[]{accessTokenValue});
-            } else {
-                String refreshToken = CookieUtil.getCookieValue(cookies, REFRESH_TOKEN_COOKIE_NAME);
-                if (!refreshToken.isEmpty()) {
-                    Set<String> scope = new HashSet<>();
-                    HashMap<String, String> requestParameters = new HashMap<>();
-                    String clientId = "7b5a38705d7b3562655925406a652e32";
-                    String grantType = "password";
-
-                    TokenRequest tokenRequest = new TokenRequest(requestParameters, clientId, scope, grantType);
-
-                    try {
-                        OAuth2AccessToken accessToken = tokenServices.refreshAccessToken(refreshToken, tokenRequest);
-                        filteredReq.addParameter(SPRING_ACCESS_TOKEN_PARAM_NAME, new String[]{accessToken.getValue()});
-                        CookieUtil.addCookie(httpServletResp, ACCESS_TOKEN_COOKIE_NAME, accessToken.getValue(), ACCESS_TOKEN_EXPIRES_IN_SECONDS);
-                    } catch (AuthenticationException ex) {
-                        CookieUtil.addCookie(httpServletResp, REFRESH_TOKEN_COOKIE_NAME, null, 0);
-                        LOG.error("Incorrect request token. " + LogUtil.getExceptionStackTrace(ex));
-                        throw ex;
-                    }
-                }
+                authenticateByAccessToken(filteredReq, httpServletResp, accessTokenValue);
+            } else if (!refreshTokenValue.isEmpty()){
+                authenticateByRefreshToken(filteredReq, httpServletResp, refreshTokenValue);
             }
         }
 
         chain.doFilter(filteredReq, httpServletResp);
+    }
+
+    private void authenticateByAccessToken(FilteredRequest request, HttpServletResponse response, String accessTokenValue) {
+        if (null == tokenServices.readAccessToken(accessTokenValue)) {
+            LOG.error(" **** Access token not valid **** ");
+        }
+
+        request.addParameter(SPRING_ACCESS_TOKEN_PARAM_NAME, new String[]{accessTokenValue});
+    }
+
+    private void authenticateByRefreshToken(FilteredRequest request, HttpServletResponse response, String refreshTokenValue) {
+        try {
+            OAuth2AccessToken accessToken = tokenServices.refreshAccessToken(refreshTokenValue, getTokenRequest());
+            request.addParameter(SPRING_ACCESS_TOKEN_PARAM_NAME, new String[]{accessToken.getValue()});
+            CookieUtil.addCookie(response, ACCESS_TOKEN_COOKIE_NAME, accessToken.getValue(), ACCESS_TOKEN_EXPIRES_IN_SECONDS);
+        } catch (AuthenticationException ex) {
+            CookieUtil.addCookie(response, REFRESH_TOKEN_COOKIE_NAME, null, 0);
+            LOG.error("Incorrect request token. " + LogUtil.getExceptionStackTrace(ex));
+            throw ex;
+        }
+    }
+
+    private TokenRequest getTokenRequest() {
+        Set<String> scope = new HashSet<>();
+        HashMap<String, String> requestParameters = new HashMap<>();
+        String clientId = "7b5a38705d7b3562655925406a652e32";
+        String grantType = "password";
+
+        return new TokenRequest(requestParameters, clientId, scope, grantType);
     }
 
     @Override
