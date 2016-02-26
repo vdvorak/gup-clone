@@ -60,8 +60,7 @@
                 </p>
             </div>
 
-            <div class="pluso" data-background="#ebebeb" data-options="big,square,line,horizontal,counter,theme=01"
-                 data-services="vkontakte,odnoklassniki,facebook,twitter,google,email,print,linkedin"></div>
+
         </div>
 
         <div class="boxLeft">
@@ -128,9 +127,6 @@
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
-<!-- Begin Social buttons js -->
-<jsp:include page="/WEB-INF/templates/social-buttons-js.jsp"/>
-<!-- End Social buttons js -->
 <!-- script references -->
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>

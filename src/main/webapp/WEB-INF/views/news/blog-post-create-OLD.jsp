@@ -160,13 +160,16 @@
                 <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
             </form>
 
-            <div class="titleFile" data-title="Добавить изображение">
-                <button type="submit" class="blogCreationSubmit"></button>
-            </div>
+            <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
             <label class="blogCreationLabel">Фотографии</label>
 
-            <div id="drop_zone" class="IMGBlock">
-                <div id="img-default" class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
+            <div id="drop_zone" class="defaultIMG">
+                <ul>
+                    <li class="li-containerIMG li-defaultIMG">
+                        <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                    </li>
+                </ul>
             </div>
 
             <label for="blogTitle" class="blogCreationLabel">Добавить видео</label>
@@ -397,7 +400,7 @@
 
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
 
-    $('button.SendEdition').click(function (event) {
+    $(document).on('click', 'button.SendEdition', function (event) {
         event.preventDefault();
 
         var title = $('#newsTitle').val();
@@ -474,13 +477,7 @@
                         var isImage = f.type.substring(0, 5) === 'image';
                         if (isImage) {
                             imgsArr[id] = "image";
-                            var cloneImg = $("#img-default").clone();
-                            $("#img-default").css("display", "none");
-                            cloneImg.find('img')
-                                    .attr("alt", "")
-                                    .attr("src", '/api/rest/fileStorage/NEWS/file/read/id/' + id)
-                                    .attr("id", id)
-                                    .appendTo('.IMGBlock');
+                            appendImg(id);
 
                         }
                     }
@@ -495,47 +492,53 @@
             evt.preventDefault();
             evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
         }
-
-        $('button.blogCreationSubmit').click(function(){
-            $('#photoInput').trigger('click');
-        });
-
-        $('#photoInput').change(function (event) {
-            event.preventDefault();
-
-            var files = event.currentTarget.files;
-            for (var i = 0, f; f = files[i]; i++) {
-                var fd = new FormData();
-                fd.append('file', f);
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/fileStorage/NEWS/file/upload/",
-                    data: fd,
-                    async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-
-                    success: function (data, textStatus, request) {
-                        var id = data.id;
-                        var isImage = f.type.substring(0, 5) === 'image';
-                        if (isImage) {
-                            imgsArr[id] = "image";
-                            var cloneImg = $("#img-default").clone();
-                            $("#img-default").css("display", "none");
-                            cloneImg.find('img')
-                                    .attr("alt", "")
-                                    .attr("src", '/api/rest/fileStorage/NEWS/file/read/id/' + id)
-                                    .attr("id", id)
-                                    .appendTo('.IMGBlock');
-                        }
-                    }
-                });
-            }
-            event.currentTarget.form.reset();
-        });
-
     });
+
+    $('.blogCreationSubmit').click(function(){
+        $('#photoInput').trigger('click');
+    });
+
+    $('#photoInput').change(function (event) {
+        event.preventDefault();
+
+        var files = event.currentTarget.files;
+        for (var i = 0, f; f = files[i]; i++) {
+            var fd = new FormData();
+            fd.append('file', f);
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/fileStorage/NEWS/file/upload/",
+                data: fd,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                success: function (data, textStatus, request) {
+                    var id = data.id;
+                    var isImage = f.type.substring(0, 5) === 'image';
+                    if (isImage) {
+                        imgsArr[id] = "image";
+                        appendImg(id);
+                    }
+                }
+            });
+        }
+    });
+
+    function appendImg(id) {
+        $(".li-defaultIMG").css("display", "none");
+        var cloneImg = $(".li-defaultIMG").clone()
+                .removeClass('li-defaultIMG')
+                .css("display", "inline-block");
+        cloneImg.find('img')
+                .attr("alt", "")
+                .attr("src", '/api/rest/fileStorage/NEWS/file/read/id/' + id)
+                .attr("id", id);
+        cloneImg.find('span')
+                .click(deleteImg);
+        cloneImg.appendTo('.defaultIMG ul');
+    }
 
 //    $('#photoInput').submit(function (event) {
 //        event.preventDefault();
@@ -561,13 +564,21 @@
 //        });
 //    });
 
-    function deleteImg(idImg) {
+    function deleteImg() {
+        var idImg = $(event.currentTarget).parent()
+                .find('img')
+                .attr('id');
         delete imgsArr[idImg];
         $.ajax({
             type: "POST",
             url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
             success: function (data, textStatus, request) {
-                $('#' + idImg).remove();
+                $('#' + idImg).parent().remove();
+
+                var numberImg = $(".defaultIMG").find('img').length;
+                if(numberImg < 2) {
+                    $(".li-defaultIMG").css("display", "inline-block");
+                }
             }
         });
     }

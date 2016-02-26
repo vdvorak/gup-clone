@@ -18,6 +18,10 @@
     position: relative;
     height: 87px;
 }
+.projAndInvestCaretDown {
+    cursor: pointer;
+    padding: 10px 408px;
+}
 
 .projectsVSInvestments-btn {
     position: absolute;
@@ -129,12 +133,13 @@
     position: relative;
 }
 
-.feedItem .publishDate {
+.feedItem .publishDate, 
+.tenderContent .publishDate {
     position: absolute;
     right: 0;
     color: #545454;
     font: 11px DroidSans;
-    font-style: italic;
+    /*font-style: italic;*/
     padding: 0 5px;
 }
 
@@ -142,14 +147,17 @@
     border-color: #99cc66;
 }
 
-.projectFeedContainer .feedItem .preview {
+.projectFeedContainer .feedItem .preview, 
+.tenders .feedItem .preview {
+    display: block;
     position: relative;
     width: 246px;
     height: 154px;
     margin: 10px;
 }
 
-.projectFeedContainer .feedItem .preview img {
+.projectFeedContainer .feedItem .preview img, 
+.tenders .feedItem .preview img {
     width: 100%;
     height: 100%;
     border-radius: 5px;
@@ -218,7 +226,8 @@
     text-indent: 40px;
 }
 
-.projectFeedContainer .bottomContent {
+.projectFeedContainer .bottomContent, 
+.tenders .bottomContent{
     position: absolute;
     bottom: 5px;
     left: 270px;
@@ -238,6 +247,7 @@
     background-color: white;
     color: #99cc66;
 }
+
 .abutton.blue {
     border-color: #36aae0;
     background-color: #36aae0;
@@ -296,7 +306,8 @@
     border-color: #1269a7;
 }
 
-.investmentsFeedContainer .feedItem .photo {
+.investmentsFeedContainer .feedItem .photo, 
+.tenders .feedItem .photo {
     position: relative;
     width: 156px;
     height: 156px;
@@ -305,21 +316,29 @@
     margin: 10px;
 }
 
-.investmentsFeedContainer .feedItem .photo img {
+.investmentsFeedContainer .feedItem .photo img, 
+.tenders .feedItem .photo img {
     width: 120px;
     height: 121px;
     margin: 14px;
 }
 
-.investmentsFeedContainer .feedItem .content {
+.investmentsFeedContainer .feedItem .content, 
+.tenders .feedItem .content {
     position: absolute;
     left: 184px;
     top: 10px;
     width: 271px;
     padding-left: 10px;
 }
+.tenders .feedItem .content {
+    top: 10px;
+    left: 260px;
+    width: 610px;
+}
 
-.investmentsFeedContainer .feedItem .content .title {
+.investmentsFeedContainer .feedItem .content .title, 
+.tenders .feedItem .content .title {
     color: #1269a7;
     font: 19px ArianAMU;
 }
@@ -331,12 +350,16 @@
     padding-left: 5px;
 }
 
-.investmentsFeedContainer .feedItem .content .text {
+.investmentsFeedContainer .feedItem .content .text, 
+.tenders .feedItem .content .text {
     color: #828a8f;
     font: 13px Calibri;
     text-indent: 20px;
     max-height: 108px;
     overflow: hidden;
+}
+.tenders .feedItem .content .text {
+    max-height: 78px;
 }
 
 .investmentsFeedContainer .feedItem .cats {
@@ -425,7 +448,7 @@
 }
 
 .editor form.investor,
-.editor form.project {
+.editor div.project {
     position: relative;
     padding-top: 50px;
     padding-left: 67px;
@@ -438,9 +461,23 @@
     min-height: 23px;
 }
 
+.delete-btn {
+    background-color: #C3212D;
+    width: 190px;
+    height: 32px;
+    border-radius: 5px;
+    color: #ffffff;
+    font: 400 21px ArianAMU;
+    border: 0;
+    float: left;
+    margin-bottom: 22px;
+    /*-webkit-transition: all 0.25s;*/
+    /*transition: all 0.25s;*/
+}
+
 .editor .editorLabel {
     float: left;
-    width: 160px;
+    width: 200px;
     text-align: left;
     color: #9e9e9e;
     font: 17px DroidSans;
@@ -451,11 +488,12 @@
     color: #ed4423;
 }
 
-.editor form.project .editorLabel {
-    width: 90px;
+.editor div.project .editorLabel {
+    width: 160px;
 }
 
 .editor .editorInput {
+    padding-left: 5px;
     position: relative;
     margin-left: 5px;
     border: 3px solid rgb(153, 204, 102);
@@ -476,17 +514,17 @@
     width: 553px;
 }
 
-.editor form.investor .sum .editorLabel {
-    width: 70px;
-}
+/*.editor form.investor .sum .editorLabel {*/
+    /*width: 70px;*/
+/*}*/
 
 .editor form.investor .sum .editorInput {
     width: 292px;
 }
 
-.editor form.investor .sum {
-    padding-left: 165px;
-}
+/*.editor form.investor .sum {*/
+    /*padding-left: 165px;*/
+/*}*/
 
 .editor .field .currency {
     position: relative;
@@ -500,49 +538,49 @@
     margin-top: 100px;
 }
 
-.editor form.project .field.description {
+.editor div.project .field.description {
     margin-top: 70px;
 }
 
 .editor form.investor .field.description .editorLabel,
-.editor form.project .field.description .editorLabel {
+.editor div.project .field.description .editorLabel {
     width: 90px;
 }
 
 .editor form.investor .field.description .editorInput,
-.editor form.project .field.description .editorInput {
-    width: 642px;
+.editor div.project .field.description .editorInput {
+    width: 670px;
     height: 242px;
 }
 
-.editor form.project .tit .editorInput {
-    width: 553px;
+.editor div.project .tit .editorInput {
+    width: 554px;
 }
 
-.editor form.project .projType .editorLabel {
+.editor div.project .projType .editorLabel {
     width: 120px;
 }
 
-.editor form.project .field.projType .radioGroup {
-    margin-left: 220px;
-}
+/*.editor form.project .field.projType .radioGroup {*/
+    /*margin-left: 220px;*/
+/*}*/
 
-.editor form.project .field.projType .radioGroup .column {
+.editor div.project .field.projType .radioGroup .column {
     display: inline-block;
     width: 140px;
     margin-left: 60px;
 }
 
-.editor form.project .field.projType .radioGroup .column .row {
+.editor div.project .field.projType .radioGroup .column .row {
     width: 150px;
     margin-bottom: 16px;
 }
 
-.editor form.project .field.projType .radioGroup .label-checkbox {
+.editor div.project .field.projType .radioGroup .label-checkbox {
     float: right;
 }
 
-.editor form.project .field.projType .radioGroup label {
+.editor div.project .field.projType .radioGroup label {
     line-height: 35px;
 }
 
@@ -572,7 +610,8 @@
 
 .projectContent .topSection {
     position: relative;
-    height: 40px;
+    height: 12px;
+    margin: 10px 48px;
 }
 .projectContent .bottomSection {
     margin: 15px 50px;
@@ -599,19 +638,21 @@
 }
 
 .projectContent .topSection .statInfo {
-    float: left;
+    position: relative;
 }
 
 .projectContent .topSection .statInfo .publish {
     color: #545454;
     font: 12px DroidSans;
-    font-style: italic;
+    /*font-style: italic;*/
+    float: right;
 }
 
 .projectContent .topSection .statInfo .views {
     color: #545454;
-    font: 11px DroidSans;
-    font-style: italic;
+    font: 12px DroidSans;
+    /*font-style: italic;*/
+    float: left;
 }
 
 .projectContent .contentHeader {
@@ -640,7 +681,7 @@
 }
 
 .projectContent .contentHeader .author {
-    font-size: 10px;
+    font-size: 12px;
     padding-left: 5px;
 }
 
@@ -677,49 +718,970 @@
     height: 210px;
     margin-top: 15px;
 }
+
 .projectContent .description {
     position: relative;
 }
+
 .projectContent .description .title {
     color: #3e5da2;
     font: 14px Calibri;
     font-weight: bold;
     padding-left: 67px;
 }
+
 .projectContent .description .text {
     padding: 0 47px;
     text-indent: 20px;
     text-align:justify;
     color: #828a8f;
-    font: 12px Calibri;
+    font: 14px Calibri;
 }
+
 .projectContent .commentsSection {
     position: relative;
     margin-top: 8px;
     margin-left: 15px;
     margin-bottom: 8px;
 }
+
 .projectContent .commentsSection .count {
     color: #464646;
-    font: 8px Calibri;
+    font: 12px Calibri;
+}
+
+.greenBox {
+    position: relative;
+    border: 3px solid #99cc66;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.greenBox .titleMain {
+    text-align: center;
+    color: #42abe0;
+    font: 17px DroidSans;
+    padding: 9px 0;
+}
+
+.greenBox.closed .titleMain {
+    opacity: 0;
+    transition: 300ms;
+}
+
+.greenBox .titleMain.big {
+    text-align: center;
+    color: #42abe0;
+    font: 20px DroidSans;
+    padding: 9px 0;
+}
+
+.greenBox .titleMain.toggler {
+    cursor: pointer;
+}
+
+.greenBox .arrow.toggler {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 25px;
+    background-color: #fff;
+    background-image: url(images/toggleArrowDown.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    opacity: 1;
+    border-radius: 0 0 5px 5px;
+}
+
+.greenBox .arrow.toggler.toggled {
+    background-image: url(images/toggleArrowUp.png);
+}
+
+.greenBox.closed .arrow.toggler {
+    background-image: url(images/toggleArrowUp.png);
+    opacity: 0;
+    transition: 300ms;
+}
+
+.greenBox[toggler] {
+    padding-bottom: 25px;
+}
+
+.greenBox .closeBox {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16px;
+    height: 17px;
+    background: url(images/greenBoxClose.png);
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+.greenBox .closeBox:hover {
+    opacity: 1;
+}
+
+.sideBlock {
+    float: left;
+    margin-top: 65px;
+}
+
+.contentBlock {
+    float: right;
+    width: 517px;
+    margin-right: 100px;
+}
+
+.buttonBack {
+    display: block;
+    width: 84px;
+    height: 25px;
+    background-color: #c5c5c5;
+    text-align: center;
+    color: #1269a7;
+    font: 15px DroidSans;
+    line-height: 25px;
+    border-radius: 5px;
+}
+
+.buttonBack:hover {
+    background-color: #1269a7;
+    color: #fff;
+}
+
+.sideBlock .mainInfo {
+    margin-top: 41px;
+}
+
+.sideBlock .mainInfo .name {
+    color: #1269a7;
+    font: 20px DroidSansBold;
+}
+
+.sideBlock .mainInfo .photo {
+    margin-top: 8px;
+    width: 198px;
+    height: 207px;
+    cursor: pointer;
+}
+
+.sideBlock .mainInfo .photo img {
+    width: 100%;
+    height: 100%;
+}
+
+.sideBlock .mainInfo .photo .rating {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 6px;
+    color: #ffffff;
+    font: 15px DroidSans;
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 0 0 0 6px;
+}
+
+.sideBlock .mainInfo .photo .uploadButton {
+    display: none;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 34px;
+    height: 33px;
+    cursor: pointer;
+    background: url(images/privateOffice/buttonUpload.png);
+}
+
+.sideBlock .mainInfo .photo:hover .uploadButton {
+    display: block;
+}
+
+.greenBox.settings {
+    margin-top: 36px;
+}
+
+.greenBox .settingsToggle {
+    background: url(images/privateOffice/downArrowBig.png);
+    width: 58px;
+    height: 28px;
+    margin: 7px auto;
+    cursor: pointer;
+}
+
+.greenBox .settingsToggle.toggled {
+    background: url(images/privateOffice/upArrowBig.png);
+}
+
+.greenBox .panel-group {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.greenBox .panel-group .panel {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+}
+
+.greenBox .panel-group .panel > a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #68717a;
+    font: 10px DroidSans;
+    padding: 10px 6px;
+    background-color: #b7dff3;
+    border-bottom: 2px solid #b7dff3;
+    border-top: 2px solid #b7dff3;
+    transition: 1000ms;
+}
+
+.greenBox .panel-group .panel a.collapsed {
+    color: #424244;
+    font: 10px DroidSans;
+    background-color: #fff;
+    border-bottom: 2px solid #99cc66;
+    border-top: 2px solid #99cc66;
+    transition: 200ms;
+}
+
+.greenBox .panel-group .panel a.collapsed:hover {
+    background-color: #b7dff3;
+    transition: 200ms;
+}
+
+.greenBox .panel-group .panel .panel-body {
+    margin: 0;
+    padding: 11px 27px;
+}
+
+.greenBox .panel-group .panel .collapse {
+    margin: 0;
+    padding: 0;
+    max-width: 190px;
+    color: #424244;
+    font: 8px DroidSans;
+}
+
+.greenBox .panel-group .panel .collapse.in {
+    margin: 0;
+    padding: 0;
+    max-width: 190px;
+    color: #424244;
+    font: 8px DroidSans;
+}
+
+.greenBox .panel-group .panel .collapsing {
+    margin: 0;
+    padding: 0;
+    max-width: 190px;
+    color: #424244;
+    font: 8px DroidSans;
+}
+
+.greenBox.settings .panel-group .info-submit {
+    display: block;
+    float: none;
+    margin: 15px auto;
+}
+
+.greenBox.settings .panel-group .radioGroup {}
+
+.greenBox.settings .panel-group .radioGroup .row {
+    line-height: 20px;
+    padding: 5px 0;
+}
+
+.greenBox.settings .panel-group .radioGroup .label-checkbox {
+    float: right;
+    width: 20px;
+    height: 20px;
+}
+
+.greenBox.settings .panel-group .radioGroup .label-checkbox span {
+    background-size: cover;
+}
+
+.contactsMain {
+    width: 600px;
+    margin: 0 auto;
+    margin-top: 89px;
+}
+
+.contactsMain .topBar {
+    position: relative;
+    width: 454px;
+    height: 30px;
+    margin: 0 auto;
+    padding: 0;
+    background-color: #99cc66;
+    border-radius: 10px;
+}
+
+.contactsMain .topBar .searchContactsF {
+    position: absolute;
+    margin: 5px 9px;
+    padding: 0;
+    overflow: hidden;
+    height: 16px;
+    width: 340px;
+    border: none;
+}
+
+.contactsMain .topBar .searchContactsF input.text {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    width: 290px;
+    color: #68717a;
+    font: 10px DroidSans;
+    height: 100%;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    padding-left: 10px;
+}
+
+.contactsMain .topBar .searchContactsF input.startSearch {
+    display: block;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    right: 0;
+    width: 50px;
+    max-width: 50px;
+    height: 100%;
+    border: none;
+    background-color: #1269a7;
+    color: #ffffff;
+    font: 10px DroidSans;
+    border-radius: 2px;
+}
+
+.contactsMain .topBar .searchContactsF input.startSearch:hover {
+    background-color: #fff;
+    color: #1269a7;
+}
+
+.contactsMain .topBar .count {
+    position: absolute;
+    right: 7px;
+    top: 6px;
+    color: #ffffff;
+    font: 13px ArianAMU;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.contactsMain .topBar .count:hover {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.contactsMain .contactsContainer {
+    position: relative;
+    max-height: 110px;
+    padding: 0 15px;
+    padding-bottom: 25px;
+    margin-top: -7px;
+    background-color: #fff;
+    font-size: 21px;
+    overflow: hidden;
+    -webkit-transition: max-height 0.8s;
+    -moz-transition: max-height 0.8s;
+    transition: max-height 0.8s;
+}
+
+.contactsContainer.toggled {
+    max-height: 999px;
+}
+
+.contactsContainer .persona {
+    position: relative;
+    display: inline-block;
+    width: 58px;
+    height: 70px;
+    margin-top: 10px;
+}
+
+.contactsContainer .persona .photo {
+    position: absolute;
+    top: 0;
+    width: 58px;
+    height: 58px;
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.contactsContainer .persona .photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.contactsContainer .persona .photo .sendMessage {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 17px;
+    height: 16px;
+    background: url(images/sendMessage.png);
+}
+
+.contactsContainer .persona .photo .name {
+    position: absolute;
+    bottom: -12px;
+    color: #68717a;
+    font: 7px DroidSans;
+    text-align: center;
+    width: 100%;
+}
+
+.msAndNt {
+    margin-top: 73px;
+    width: 100%;
+}
+
+.msAndNt .ptabs {
+    position: absolute;
+    width: 100%;
+    top: -30px;
+    font-size: 0;
+    text-align: center;
+}
+
+.msAndNt .ptabs .ptab {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    padding: 3px 20px;
+    border: 3px solid;
+    background-color: #dfe5e6;
+}
+
+.msAndNt .ptabs .ptab:hover {
+    background-color: #fff;
+}
+
+.msAndNt .ptabs .ptab.active {
+    background-color: #99cc66;
+}
+
+.msAndNt .ptabs .ptab.active a {
+    color: #fff;
+}
+
+.msAndNt .ptabs .ptab:first-child {
+    border-radius: 10px 0 0 0;
+}
+
+.msAndNt .ptabs .ptab:last-child {
+    border-radius: 0 10px 0 0;
+}
+
+.msAndNt .ptabs .ptab a {
+    color: #42abe0;
+    font: 13px DroidSans;
+}
+
+.msAndNt .ptabs .ptab .count {
+    position: absolute;
+    top: -5px;
+    left: -10px;
+    background-color: #1269a7;
+    border-radius: 999px;
+    color: #ffffff;
+    font: 12px DroidSans;
+    padding: 1px 5px;
+    display: none;
+}
+
+.msAndNt .ptabs .ptab .count.show {
+    display: block;
+}
+
+.msAndNt .messages {
+    position: relative;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 455px;
+}
+
+.msAndNt .notifications {
+    position: relative;
+    width: 100%;
+}
+
+.messages .baron__scroller {
+    position: relative;
+    width: 100%;
+}
+
+.msAndNt .messages.opened {
+    overflow: visible;
+    max-height: none;
+}
+
+.msAndNt .messages .dialog {
+    display: flex;
+    flex-direction: column-reverse;
+    position: relative;
+    height: 65px;
+    border-top: 1px solid #99cc66;
+    overflow: hidden;
+    width: calc(100% - 0px);
+}
+
+.msAndNt .messages .dialog:first-child,
+.msAndNt .notifications .notify {
+    border-radius: 5px 5px 0 0;
+    border-top: none;
+}
+
+.msAndNt .messages .dialog.opened {
+    height: 300px;
+    overflow-y: auto;
+}
+
+.msAndNt .messages .dialog .msg,
+.msAndNt .notifications .notify {
+    position: relative;
+    cursor: pointer;
+    border-top: 2px solid #edf6e3;
+}
+
+.msAndNt .notifications .notify {
+    min-height: 65px;
+    width: 100%;
+    display: block;
+}
+
+.msAndNt .messages .dialog.opened .msg {
+    cursor: auto;
+}
+
+.msAndNt .messages .dialog:hover,
+.msAndNt .notifications .notify:hover {
+    background-color: #d9edf7;
+}
+
+.msAndNt .messages .dialog.opened:hover {
+    background-color: #fff;
+}
+
+.msAndNt .messages .dialog .msg .persona,
+.msAndNt .notifications .notify .persona {
+    position: relative;
+    margin: 3px 10px;
+    padding-bottom: 10px;
+    float: left;
+}
+
+.msAndNt .messages .dialog .msg.myself .persona {
+    float: right;
+}
+
+.msAndNt .messages .dialog .msg .persona img.avatar,
+.msAndNt .notifications .notify .persona img.avatar {
+    width: 47px;
+    height: 47px;
+    margin: 0 auto;
+    background-color: #dfe5e6;
+    border-radius: 5px;
+}
+
+.msAndNt .messages .dialog .msg .persona .date,
+.msAndNt .notifications .notify .persona .date {
+    position: absolute;
+    top: 50px;
+    right: 9px;
+    left: auto;
+    color: #828a8f;
+    font: 8px DroidSans;
+    text-align: center;
+}
+
+.msAndNt .messages .dialog .msg .text,
+.msAndNt .notifications .notify .text {
+    color: #646b6f;
+    font: 11px DroidSans;
+    margin: 4px 10px;
+    text-align: justify;
+}
+
+.msAndNt .messages .dialog.opened .msg .text {}
+
+.msAndNt .messages .messageForm {
+    position: relative;
+    margin: 12px auto;
+    width: 570px;
+    display: none;
+}
+
+.msAndNt .messages .messageForm .text {
+    margin: 0;
+    min-height: 65px;
+    border: 2px solid;
+    border-radius: 5px;
+    color: #646b6f;
+    font: 11px DroidSans;
+    width: calc(100% - 4px);
+    max-width: calc(100% - 4px);
+}
+
+.msAndNt .messages .messageForm .messageSubmit {
+    bottom: 7px;
+    right: 11px;
+    background-color: #42abe0;
+    border-radius: 5px;
+    color: #ffffff;
+    font: 8px DroidSans;
+    border: 2px solid;
+    padding: 3px 9px;
+}
+
+.msAndNt .messages .messageForm .messageSubmit:hover {
+    background-color: #fff;
+    border-radius: 5px;
+    color: #42abe0;
+    border-color: #42abe0;
+    cursor: pointer;
+}
+
+.msAndNt .messages .messageForm .arrowHide {
+    width: 49px;
+    height: 15px;
+    margin: 0 auto;
+    background: url(images/toggleArrowUp.png);
+    cursor: pointer;
+}
+.historyContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* justify-content:space-between; */
+    height:auto;
+    width: 100%;
+    overflow-y:scroll;
+}
+.historyBox {
+    width: calc(50% - 50px);
+}
+
+.historyBox .historyContent {
+    max-height: 159px;
+    overflow: hidden;
+}
+
+.historyBox.toggled .historyContent {
+    max-height: 999px;
+}
+
+.balanceHistory .record {
+    color: #68717a;
+    font: 10px DroidSans;
+    padding: 0 8px;
+}
+
+.inlineBox {
+    position: relative;
+    /*display: inline-block;
+    width: calc(50% - 52px);*/
+    margin: 25px 25px;
+}
+
+.historyBox .historyItem {
+    display: block;
+    padding: 8px 8px;
+    color: #898989;
+    font: 10px DroidSans;
+    border-top: 2px solid #99cc66;
+}
+
+.historyBox .historyItem:hover {
+    background-color: #d9edf7;
+}
+
+.historyBox .historyIcon {
+    position: absolute;
+    float: left;
+    left: -25px;
+    top: -20px;
+    width: 60px;
+    height: 60px;
+    border: 4px solid;
+    border-radius: 999px;
+    border-color: #1269a7;
+    background-color: #fff;
+    overflow: visible;
+}
+
+.historyBox .historyIcon:after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 70%;
+}
+
+.historyBox#myTenders .historyIcon:after {
+    background-image: url(images/hammer.png);
+}
+
+.historyBox#myProjects .historyIcon:after {
+    background-image: url(images/compass.png);
+}
+
+.historyBox#myNews .historyIcon:after {
+    background-image: url(images/newspaper.png);
+}
+
+.historyBox#myBalance .historyIcon:after {
+    background-image: url(images/balance.png);
+}
+
+.historyBox#myOffers .historyIcon:after {
+    background-image: url(images/rupor.png);
+}
+
+.historyBox#myInvestments .historyIcon:after {
+    background-image: url(images/dollarUp.png);
+}
+
+.tenders .feedItem {
+    border-color: #9ad4ef;
+    padding-bottom: 5px;
+}
+.tenders .feedItem .proposals, 
+.tenders .feedItem .views {
+    color: #1269a7;
+    font: 10px DroidSans;
+    text-decoration: underline;
+    font-style: italic;
+    position: absolute;
+    bottom: -13px;
+}
+.tenders .feedItem .proposals {
+    left: 0;
+}
+.tenders .feedItem .views {
+    right: 0;
+}
+.tenders .feedItem .content .publishDate {
+    top: -10px;
+}
+.tenders .feedItem .content .number {
+    position: absolute;
+    top: 5px;
+    right: 3px;
+    display: none;
+}
+.tenders .feedItem .content .number.visible {
+    display: block;
+}
+.tenders .feedItem .sum, 
+.tenderContent .sum {
+    background-color: #faff65;
+    color: #1269a7;
+    font: 17px DroidSans;
+    height: 29px;
+    padding: 4px 15px;
+    border-radius: 4px;
+    display: block;
+    float: right;
+    margin-right: 6px;
+}
+.tenders .participate, 
+.tenderContent .participate {
+    position: relative;
+    float: right;
+    width: 134px;
+    height: 32px;
+}
+.tenders .participate .abutton, 
+.tenderContent .participate .abutton {
+    position: absolute;
+    right: 0;
+    width: 100%;
+}
+.tenders .participate .clock, 
+.tenderContent .participate .clock {
+    position: absolute;
+    background-color: red;
+    width: 36px;
+    height: 40px;
+    right: 50px;
+    top: -28px;
+    background: url(images/tenderClock.png) no-repeat;
+}
+.tenders .participate .clock .time, 
+.tenderContent .participate .clock .time {
+    position: absolute;
+    background-color: #99cc66;
+    border-radius: 4px;
+    width: 38px;
+    height: 17px;
+    right: -39px;
+    top: 7px;
+    color: #1269a7;
+    font: 12px DroidSans;
+    text-align: center;
+}
+.feedPagination {
+    position: relative;
+    cursor: default
+}
+.feedPagination .arr, 
+.feedPagination .page{
+    display: inline-block;
+}
+.feedPagination .arr, 
+.feedPagination .page {
+    width: 0;
+    height: 0;;
+    border-style: solid;
+}
+.feedPagination .arr.left {
+    border-width: 6px 12px 6px 0;
+}
+.feedPagination .arr.right {
+    border-width: 6px 0 6px 12px;
+}
+.feedPagination .arr.left {
+    border-color: transparent #fab03a transparent transparent;
+}
+.feedPagination .arr.right {
+    border-color: transparent transparent transparent #fab03a;
+}
+.feedPagination .arr.left.active {
+    border-color: transparent #99cc66 transparent transparent;
+}
+.feedPagination .arr.right.active {
+    border-color: transparent transparent transparent #99cc66;
+}
+.feedPagination .page {
+    border-width: 4px;
+    border-radius: 999px;
+    border-color: #fab03a;
+    margin-bottom: 2px;
+}
+.feedPagination .page.active {
+    border-color: #99cc66;
+}
+.tenders .feedPagination {
+    float: right;
+    text-align: right;
+    padding-right: 10px;
+}
+.tenderContent {
+    padding: 25px 51px;
+}
+.tenderContent .topSection {
+    position: absolute;
+    top: -100px;
+    width: 100%;
+    height: 100px;
+    left: 0;
+}
+.tenderContent .topSection .number {
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
+    float: right;
+    display: none;
+    color: #1269a7;
+    font: 11px DroidSansBold;
+}
+.tenderContent .topSection .number.visible {
+    display: block;
+}
+.tenderContent .tenderButtons {
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+}
+.tenderContent .leaveProposal {
+    margin: 0 15px;
+}
+.tenderContent .publishDate {
+    right: auto;
+    left: 20px;
+}
+.tenderContent .title {
+    color: #1269a7;
+    font: 28px DroidSans;
+    position: absolute;
+    top: -40px;
+    left: 56px;
+}
+.tenderContent .mainPhoto {
+    border-radius: 5px;
+    width: 399px;
+    height: 249px;
+    padding: 0px 15px 0 0;
+    float: left;
+}
+.tenderContent .text {
+    text-align: justify;
+    text-indent: 30px;
+}
+.tenderContent .bottomSection {
+    position: relative;
 }
 
 
 /***VIP***/
 
+.border-color {
+    border-color: #99cc66 !important;
+}
+
 .feedItem.vip {
     border: 4px #ffd781 solid;
 }
 
-.vip .border-color {
+.feedItem.vip .title {
+    color: #36aae0 !important;
+}
+
+.vip .border-color,
+.vip.border-color {
     border-color: #ffbb00 !important;
+}
+
+.vip .bg-color,
+.vip.bg-color {
+    background-color: #ffbb00 !important;
+}
+
+.vip .persona img,
+.vip.persona img {
+    border: 2px solid #ffbb00 !important;
 }
 
 .projectFeedContainer .feedItem.vip .preview .likes .hearthPlace {
     background: url(images/projectsFeed/likedHearthPlace.png) no-repeat;
 }
+.tenders .vip .participate .abutton {
+    background-color: #ffbb00 !important;
+    border-color: #ffbb00 !important;
+}
+.tenders .vip .participate .abutton:hover {
+    background-color: #fff !important;
+    color: #ffbb00 !important;
+}
 
-.vip .abutton {
+
+/*.vip .abutton {
     border-color: #36aae0;
     background-color: #36aae0;
 }
@@ -727,7 +1689,7 @@
 .vip .abutton:hover {
     background-color: white;
     color: #36aae0;
-}
+}*/
 
 .investmentsFeedContainer .feedItem.vip .content .title {
     color: #50b5e4;
@@ -736,3 +1698,25 @@
 .vip.contentContainer .projectContent .contentHeader {
     background-color: #faaf3a;
 }
+
+::-webkit-scrollbar {
+    /* for Mac OS X support */
+    width: 0;
+}
+
+.track3 {
+    width: 5px;
+    border-left: 2px solid #99cc66;
+}
+
+.track3:hover,
+.track3.dragging {}
+
+.handle3 {
+    width: 10px;
+    right: -5px;
+    background: #99cc66;
+}
+
+.track3:hover .handle3,
+.track3.dragging .handle3 {}

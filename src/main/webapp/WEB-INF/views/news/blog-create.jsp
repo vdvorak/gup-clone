@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
@@ -18,8 +20,25 @@
 
     <%-- Cropper style --%>
     <link  href="/resources/css/cropper.css" rel="stylesheet">
+    <link rel="stylesheet" href="/resources/css/cropper-modal-window.css">
 </head>
 <body>
+
+
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+
+
+
 
 <div class="container2">
     <div class="blogCreation">
@@ -48,32 +67,45 @@
             <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
                 <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
             </form>
-
-            <div class="defaultIMG">
-                <ul>
-                    <li>
-                        <span class="descr"><i class="fa fa-trash-o fa-2x"></i><i class="fa fa-pencil fa-2x"></i></span>
-                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
-                    </li>
-                </ul>
+            <div class="drop_zone">
+                <div class="defaultIMG">
+                    <ul>
+                        <li>
+                            <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImgFromDB()"></i></span>
+                            <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                        </li>
+                    </ul>
+                </div>
             </div>
-
             <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
             <label class="blogCreationLabel">Фотографии</label>
         </form>
-
-
-
-        <div id="drop_zone">
-            <img id="image" src="/resources/images/no_photo.jpg">
-        </div>
-        <button id="btn-done">Готово</button>
 
 
         <button type="button" class="SendEdition">Отправить редакции</button>
 
         <div class="clearfix"></div>
     </div>
+</div>
+
+<!-- The Modal -->
+<div id="cropperModal" class="cropper-modal">
+
+    <!-- Modal content -->
+    <div class="cropper-modal-content">
+        <div class="cropper-modal-header">
+            <span>Редактирование фотографии</span>
+        </div>
+        <div class="cropper-modal-body drop_zone">
+            <img id="cropper-image" src="/resources/images/no_photo.jpg" style="max-width: 100%">
+        </div>
+        <div class="cropper-modal-footer">
+            <button class="cropper-btn cropper-btn-success">Готово</button>
+            <button class="cropper-btn cropper-btn-cancel">Отмена</button>
+
+        </div>
+    </div>
+
 </div>
 
 <%--<div>--%>
@@ -120,19 +152,43 @@
 
 <%--<button id="createBlog" disabled>Создать</button>--%>
 
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
 
-
-
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+<script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+<script src="/resources/js/vendor/bootstrap.js"></script>
+<script src="/resources/js/jquery.bxslider.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+
+<sec:authorize var="loggedIn" access="isAuthenticated()" />
+<c:choose>
+    <c:when test="${loggedIn}">
+        <script src="/resources/js/autorizedHeader.js"></script>
+    </c:when>
+    <c:otherwise>
+        <script src="/resources/js/anonymHeader.js"></script>
+    </c:otherwise>
+</c:choose>
+
+<script src="/resources/js/main.js"></script>
+<script src="/resources/js/logo-section.js"></script>
+<script src="/resources/js/search-bar.js"></script>
+
+
+
+
+
+<script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/cropper.js"></script>
 <script>
 
     var imgId = '';
     var blog = {};
 
-    var image = document.getElementById('image');
+    // --------------------------------------  BEGIN cropper  ----------------------------------------------
+    var image = document.getElementById('cropper-image');
     var cropper = new Cropper(image, {
         aspectRatio: 1 / 1,
         crop: function(data) {
@@ -146,8 +202,58 @@
         }
     });
 
+    $(".cropper-btn-cancel").click(function() {
+        $('#cropperModal').css('display',"none");
+    });
 
-    $(document).ready(function () {
+    $(window).click(function(event) {
+        var modal = document.getElementById('cropperModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    $(".cropper-btn-success").click(function() {
+        $('#cropperModal').css('display',"none");
+
+        var canvas = cropper.getCroppedCanvas();
+        var dataURL = canvas.toDataURL('image/jpeg', 0.5);
+        var blob = dataURItoBlob(dataURL);
+
+        cropper.replace(dataURL);
+
+        var formData = new FormData();
+        formData.append('file', blob);
+
+        if (imgId !== '') {
+            deleteImgFromDB();
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/fileStorage/NEWS/file/upload/",
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data, textStatus, request) {
+                imgId = data.id;
+                $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
+            }
+        });
+    });
+
+    function dataURItoBlob(dataURI) {
+        var binary = atob(dataURI.split(',')[1]);
+        var array = [];
+        for(var i = 0; i < binary.length; i++) {
+            array.push(binary.charCodeAt(i));
+        }
+        return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+    }
+    // --------------------------------------  END cropper  ----------------------------------------------
 
         // -------------------------------------------------------BEGIN soc network links --------------------------------------------
         // Add/Remove social Input Fields Dynamically with jQuery
@@ -195,31 +301,15 @@
         })
         */
 
-        function isMatchPatternSocialLinks(socName, url) {
-            if(socName === "FACEBOOK") {
-                return /^(https?:\/\/)?(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]/.test(url);
-            } else if(socName === "TWITTER") {
-                return /(?:http:\/\/)?(?:www\.)?twitter\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/.test(url);
-            } else if(socName === "LINKEDIN") {
-                return /(http|https):\/\/?(?:www\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(url);
-            } else if(socName === "GOOGLEPLUS") {
-                return /((http|https):\/\/)?(www[.])?plus\.google\.com\/.?\/?.?\/?([0-9]*)/.test(url);
-            } else if(socName === "VKONTAKTE") {
-                return /^(http:\/\/|https:\/\/)?(www\.)?vk\.com\/(\w|\d)+?\/?$/.test(url);
-            } else if(socName === "SKYPE") {
-                /[a-zA-Z][a-zA-Z0-9\.,\-_]{5,31}/.test(url);
-            } else {
-                return false;
-            }
-        }
-
         // ---------------------------------------------------- END Soc network links --------------------------------------
 
         // -------------------------------------------------------BEGIN drop zone ------------------------------------------
 
-        var dropZone = document.getElementById('drop_zone');
-        dropZone.addEventListener('dragover', handleDragOver, false);
-        dropZone.addEventListener('drop', handleFileSelect, false);
+        var dropZone = document.getElementsByClassName('drop_zone');
+        for(var i = 0; i < dropZone.length; i++) {
+            dropZone[i].addEventListener('dragover', handleDragOver, false);
+            dropZone[i].addEventListener('drop', handleFileSelect, false);
+        }
 
         function handleFileSelect(evt) {
             evt.stopPropagation();
@@ -236,31 +326,7 @@
             if (files[0]) {
                 reader.readAsDataURL(files[0]);
             }
-
-            if (files.length) {
-                    var formImg = new FormData();
-                    formImg.append('file', files[0]);
-                    // files is a FileList of File objects. List some properties.
-
-                    if (imgId !== '') {
-                        deleteImgFromDB(imgId);
-                    }
-
-                    $.ajax({
-                        type: "POST",
-                        url: "/api/rest/fileStorage/NEWS/file/upload/",
-                        data: formImg,
-                        async: false,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        success: function (data, textStatus, request) {
-                            imgId = data.id;
-                            $('.defaultIMG > img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
-                        }
-                    });
-            }
-
+            $('#cropperModal').css('display',"block");
 
         }
 
@@ -292,36 +358,13 @@
                 reader.readAsDataURL(files[0]);
             }
 
-            if (files.length) {
-                var formImg = new FormData();
-                formImg.append('file', files[0]);
-
-                if (imgId !== '') {
-                    deleteImgFromDB(imgId);
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/fileStorage/NEWS/file/upload/",
-                    data: formImg,
-                    async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (data, textStatus, request) {
-                        imgId = data.id;
-                        $('.defaultIMG > img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
-                    }
-                });
-
-            }
-        });
-
+            $('#cropperModal').css('display',"block");
     });
 
-    function deleteImgFromDB(picId) {
+    function deleteImgFromDB() {
+        $('.defaultIMG').find('img').attr("src", "/resources/images/no_photo.jpg");
         $.ajax({
-            url: '/api/rest/fileStorage/NEWS/file/delete/id/' + picId,
+            url: '/api/rest/fileStorage/NEWS/file/delete/id/' + imgId,
             method: 'POST',
             success: function (response) {
             },
@@ -331,49 +374,35 @@
     }
 
     //----------------------------------------------------- End Images -----------------------------------------------
-    function dataURItoBlob(dataURI) {
-        var binary = atob(dataURI.split(',')[1]);
-        var array = [];
-        for(var i = 0; i < binary.length; i++) {
-            array.push(binary.charCodeAt(i));
+
+
+    ///------------------------- Upload Blog -----------------------------------------------
+
+    function isMatchPatternSocialLinks(socName, url) {
+        if(socName === "FACEBOOK") {
+            return /^(https?:\/\/)?(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]/.test(url);
+        } else if(socName === "TWITTER") {
+            return /(?:http:\/\/)?(?:www\.)?twitter\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/.test(url);
+        } else if(socName === "LINKEDIN") {
+            return /(http|https):\/\/?(?:www\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(url);
+        } else if(socName === "GOOGLEPLUS") {
+            return /((http|https):\/\/)?(www[.])?plus\.google\.com\/.?\/?.?\/?([0-9]*)/.test(url);
+        } else if(socName === "VKONTAKTE") {
+            return /^(http:\/\/|https:\/\/)?(www\.)?vk\.com\/(\w|\d)+?\/?$/.test(url);
+        } else if(socName === "SKYPE") {
+            /[a-zA-Z][a-zA-Z0-9\.,\-_]{5,31}/.test(url);
+        } else {
+            return false;
         }
-        return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
     }
 
-    $("#btn-done").click(function() {
-        var canvas = cropper.getCroppedCanvas();
-        var dataURL = canvas.toDataURL('image/jpeg', 0.5);
-        var blob = dataURItoBlob(dataURL);
-
-        var formData = new FormData();
-        formData.append('file', blob);
-
-        if (imgId !== '') {
-            deleteImgFromDB(imgId);
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/fileStorage/NEWS/file/upload/",
-            data: formData,
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (data, textStatus, request) {
-                imgId = data.id;
-                $('.defaultIMG > img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
-            }
-        });
-});
-    ///------------------------- Upload Blog -----------------------------------------------
     $(document).on('click', 'button.SendEdition', function (event) {
         event.preventDefault();
 
         var title = $('#blogTitle').val();
         var description = $('#blogCreationDescription').val();
-        if(title.length > 70 || title.length < 2) return;
-        if(description.length > 5000 || description.length < 50) return;
+        if (title.length > 70 || title.length < 2) return;
+        if (description.length > 5000 || description.length < 50) return;
 
         blog.title = title;
         blog.description = description;
@@ -383,7 +412,7 @@
         $(".group-info > input").each(function (index) {
             var socName = $(this).attr("name");
             var url = $(this).val();
-            if(isMatchPatternSocialLinks(socName, url) && url.length) {
+            if (isMatchPatternSocialLinks(socName, url) && url.length) {
                 socArr[socName] = url;
             }
         });

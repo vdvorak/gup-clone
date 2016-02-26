@@ -35,19 +35,8 @@ public class BlogController {
     //ToDo - delete when new version will work
     @RequestMapping("/blog-create")
     public String getBlogCreatePage() {
-        return "news/blog-create-OLD";
+        return "news/blog-create";
     }
-
-    @RequestMapping("/blogs")
-    public String getBlogsRead(Model model) {
-
-        BlogFilterOptions blogFilterOptions = new BlogFilterOptions();
-
-        EntityPage<Blog> blogEntityPage = blogService.findBlogWihOptions(blogFilterOptions);
-        model.addAttribute("blogPages", blogEntityPage);
-        return "news/blogs-OLD";
-    }
-
 
     @RequestMapping(value = "/blog/{id}/edit", method = RequestMethod.GET)
     public String getBlogEditPage(Model model, @PathVariable String id) {
@@ -82,7 +71,7 @@ public class BlogController {
         model.addAttribute("username", userName);
         model.addAttribute("check", check);
         model.addAttribute("blog", blog);
-        return "news/blog-OLD";
+        return "news/blog";
     }
 
 

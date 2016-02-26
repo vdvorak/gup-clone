@@ -1,29 +1,50 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html>
-<html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang=""> <!--<![endif]-->
 <head>
-    <title>Создание Проекта</title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/magnific-popup.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/alster.css">
-    <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Создание проекта | GUP</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/alster.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="/resources/css/media-queries.css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
 <body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
 <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
-<jsp:include page="/WEB-INF/templates/authentification.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
 <div class="container2">
     <div class="contentContainer editor">
-        <div class="title">РЕДАКТОР ПРОЕКТА</div>
-        <form class="project" action="">
+        <div class="title">Создание проекта</div>
+        <div class="project">
             <div class="field required tit">
                 <label for="main-title-info" class="editorLabel">Заголовок</label>
-                <input id="main-title-info" type="text" name='text' class="editorInput">
+                <input id="main-title-info" type="text" name='text' class="editorInput" placeholder="От 4 до 70 символов">
             </div>
             <div class="field required projType">
                 <div class="editorLabel">Тип проекта</div>
@@ -57,24 +78,14 @@
             </div>
 
             <div class="field required">
-                <label for="sum" class="editorLabel">Сумма</label>
-                <input id="sum" type="number" name='sum' class="editorInput" style="width: 291px;">
+                <label for="sum" class="editorLabel">Нужная сумма</label>
+                <input id="sum" type="number" name='sum' class="editorInput" style="width: 291px;" placeholder="Минимум 1">
                 <span class="currency">₴</span>
-            </div>
-
-            <div class="field required">
-                <label for="categoriesOfIndustry" class="editorLabel">Категории индустрии:</label>
-                <select multiple="multiple" size="4" name="categoriesOfIndustry" id="categoriesOfIndustry" required>
-                    <option value="cat1">Категория 1</option>
-                    <option value="cat2">Категория 2</option>
-                    <option value="cat3">Категория 3</option>
-                    <option value="cat4">Категория 4</option>
-                </select>
             </div>
 
             <div class="field description">
                 <label for="description" class="editorLabel">Описание</label>
-                <textarea id="description" type="text" name='description' class="editorInput"></textarea>
+                <textarea id="description" name='description' class="editorInput" placeholder="От 50 до 5000 символов"></textarea>
             </div>
 
             <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
@@ -83,265 +94,30 @@
 
             <div class="field IMGUploader">
                 <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
-                <div id="drop_zone" class="IMGBlock">
-                    <div id="img-default" class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>
-                </div>
+            </div>
+
+            <div id="drop_zone" class="defaultIMG">
+                <ul>
+                    <li class="li-containerIMG li-defaultIMG">
+                        <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                    </li>
+                </ul>
             </div>
 
             <div class="field">
-                <button type="submit" class="info-submit">Сохранить</button>
+                <button class="info-submit">Сохранить</button>
             </div>
-        </form>
+        </div>
     </div>
 </div>
-
-<%--<div>--%>
-    <%--<h2 align="center">Создание Проекта</h2>--%>
-<%--</div>--%>
-<%--<div>--%>
-    <%--<label for="projectType"><b>Тип: </b></label>--%>
-    <%--<select name="projectType" id="projectType" required>--%>
-        <%--<option value="RENOVATION">Реструктуризация</option>--%>
-        <%--<option value="PROTOTYPE">Прототип</option>--%>
-        <%--<option value="PROJECT_ON_PAPER">Проект на бумаге</option>--%>
-        <%--<option value="KNOW_HOW">Ноу хау</option>--%>
-    <%--</select>--%>
-<%--</div>--%>
-
-<%--<div>--%>
-    <%--<label for="title"><b>Название: </b></label>--%>
-    <%--<input id="title" type="text" name="title" min="4" maxlength="140"--%>
-           <%--placeholder="Минимум 4 символа" required>--%>
-<%--</div>--%>
-<%--<!----%>
-<%--<div>--%>
-    <%--<label for="description"><b>Описание: </b></label>--%>
-            <%--<textarea id="description"--%>
-                      <%--placeholder="Минимум 50 символов, максимум 5000ю" required></textarea>--%>
-<%--</div>--%>
-<%---->--%>
-<%--<div class="row">--%>
-    <%--<div class="col-xs-12">--%>
-        <%--<label for="textarea"><b>Описание: </b></label>--%>
-        <%--<textarea id="textarea"></textarea>--%>
-    <%--</div>--%>
-<%--</div>--%>
-
-<%--<div>--%>
-    <%--<label for="amountRequested"><b>Нужная сумма: </b></label>--%>
-    <%--<input id="amountRequested" type="number" min="1"--%>
-           <%--placeholder="Минимум 1" required>--%>
-<%--</div>--%>
-
-<%--<div>--%>
-    <%--<label for="categoriesOfIndustry"><b>Категории индустрии: </b></label>--%>
-    <%--<select multiple="multiple" size="4" name="categoriesOfIndustry" id="categoriesOfIndustry" required>--%>
-        <%--<option value="cat1">Категория 1</option>--%>
-        <%--<option value="cat2">Категория 2</option>--%>
-        <%--<option value="cat3">Категория 3</option>--%>
-        <%--<option value="cat4">Категория 4</option>--%>
-    <%--</select>--%>
-<%--</div>--%>
-
-<%--<div id="drop_zone">--%>
-    <%--<button id="addImg">Загрузить фото</button>--%>
-    <%--<form id="uploadProfilePhotoForm" enctype="multipart/form-data"--%>
-          <%--method="post" style="display:none">--%>
-        <%--<p><input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" multiple></p>--%>
-    <%--</form>--%>
-
-    <%--<div class="imgBlock">--%>
-        <%--<!--uploaded images-->--%>
-    <%--</div>--%>
-    <%--Перетяните файлы сюда--%>
-<%--</div>--%>
-
-<%--<button id="createProject">Создать</button>--%>
-
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 <script src="/resources/js/common.js"></script>
-<sec:authorize access="isAuthenticated()">
-    <script src="/resources/js/autorizedHeader.js"></script>
-</sec:authorize>
-<script>
 
-    var imagesIds = {};
-    var projectType = [];
-    var project = {};
+<jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
+<script src="/resources/js/createProject.js"></script>
 
-    $(document).ready(function () {
-        // Setup the dnd listeners.
-        var dropZone = document.getElementById('drop_zone');
-        dropZone.addEventListener('dragover', handleDragOver, false);
-        dropZone.addEventListener('drop', handleFileSelect, false);
-
-        function handleFileSelect(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
-
-            var files = evt.dataTransfer.files; // FileList object.
-
-            // files is a FileList of File objects. List some properties.
-            for (var i = 0, f; f = files[i]; i++) {
-                var fd = new FormData();
-                fd.append('file', f);
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
-                    data: fd,
-                    async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-
-                    success: function (data, textStatus, request) {
-                        var id = data.id;
-                        var isImage = f.type.substring(0, 5) === 'image';
-                        if (isImage) {
-                            imagesIds[id] = "image";
-                            var cloneImg = $("#img-default").clone();
-                            $("#img-default").css("display", "none");
-                            cloneImg.find('img')
-                                    .attr("alt", "")
-                                    .attr("src", '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + id)
-                                    .attr("id", id)
-                                    .appendTo('.IMGBlock');
-
-                        }
-                    }
-                });
-
-
-            }
-        }
-
-        function handleDragOver(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
-            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-        }
-
-        $('button.blogCreationSubmit').click(function(){
-            $('#photoInput').trigger('click');
-        });
-
-    });
-
-    $('#photoInput').change(function (event) {
-        event.preventDefault();
-
-        var files = event.currentTarget.files;
-        for (var i = 0, f; f = files[i]; i++) {
-            var fd = new FormData();
-            fd.append('file', f);
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
-                data: fd,
-                async: false,
-                cache: false,
-                contentType: false,
-                processData: false,
-
-                success: function (data, textStatus, request) {
-                    var id = data.id;
-                    var isImage = f.type.substring(0, 5) === 'image';
-                    if (isImage) {
-                        imagesIds[id] = "image";
-                        var cloneImg = $("#img-default").clone();
-                        $("#img-default").css("display", "none");
-                        cloneImg.find('img')
-                                .attr("alt", "")
-                                .attr("src", '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + id)
-                                .attr("id", id)
-                                .appendTo('.IMGBlock');
-                    }
-                }
-            });
-        }
-        event.currentTarget.form.reset();
-    });
-
-    function deleteImgFromDB(picId) {
-        delete imagesIds[picId];
-        $.ajax({
-            url: '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/delete/id/' + picId,
-            method: 'POST',
-            success: function (response) {
-                $('#' + picId).remove();
-            },
-            error: function (response) {
-            }
-        });
-    }
-
-    $(document).on('click', 'button.info-submit', function (event) {
-
-        var type = "";
-        if($('input[class="greenCheckbox"]:checked').length) type = $('input[class="greenCheckbox"]:checked').val();
-        var title = $('#main-title-info').val();
-        var description = tinymce.activeEditor.getContent({format : 'raw'});
-        var amountRequested = +$('#sum').val();
-        var categoriesOfIndustry = "";
-        if($('#categoriesOfIndustry').length) categoriesOfIndustry = $('#categoriesOfIndustry').val();
-
-        if (title.length < 4 || title.length > 140) return;
-        if (description.length < 50 || description.length > 5000) return;
-        if (!type) return;
-        if (!categoriesOfIndustry) return;
-        if (amountRequested < 1) return;
-
-        project.type = type;
-        project.title = title;
-        project.description = description;
-        project.amountRequested = amountRequested;
-        project.categoriesOfIndustry = categoriesOfIndustry;
-        for(var key in imagesIds) {
-            imagesIds[key] = 'pic1';
-            break;
-        }
-        project.imagesIds = imagesIds;
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/projectsAndInvestmentsService/project/create",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(project),
-            success: function (createdProjectId) {
-                window.location.href = '/project?id=' + createdProjectId.id;
-            },
-            error: function (response) {
-                alert("Проверьте введенные значения");
-            }
-        });
-    });
-
-    tinymce.init({
-        selector: 'textarea',
-        height: 300,
-        theme: 'modern',
-        plugins: [
-            'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-            'searchreplace wordcount visualblocks visualchars code fullscreen',
-            'insertdatetime media nonbreaking save table contextmenu directionality',
-            'emoticons template paste textcolor colorpicker textpattern imagetools'
-        ],
-        toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-        toolbar2: 'print preview media | forecolor backcolor emoticons',
-        image_advtab: true,
-        templates: [
-            {title: 'Test template 1', content: 'Test 1'},
-            {title: 'Test template 2', content: 'Test 2'}
-        ],
-        content_css: [
-            '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
-            '//www.tinymce.com/css/codepen.min.css'
-        ]
-    });
-
-</script>
 </body>
 </html>

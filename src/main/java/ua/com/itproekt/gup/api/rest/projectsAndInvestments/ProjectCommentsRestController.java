@@ -68,6 +68,7 @@ public class ProjectCommentsRestController {
         return new ResponseEntity<>(new CreatedObjResp(comment.getcId()), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/project/id/{projectId}/comment/id/{commentId}/delete", method = RequestMethod.POST)
     public ResponseEntity<Project> deleteComment(@PathVariable String projectId,
                                                  @PathVariable String commentId) {

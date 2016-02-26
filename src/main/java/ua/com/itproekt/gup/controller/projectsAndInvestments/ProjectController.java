@@ -29,7 +29,7 @@ public class ProjectController {
             throw new ResourceNotFoundException();
         }
 
-        if (project.getModerationStatus().equals(ModerationStatus.COMPLETE) ||
+        if (ModerationStatus.COMPLETE.equals(project.getModerationStatus()) ||
                 project.getAuthorId().equals(SecurityOperations.getLoggedUserId()) ||
                 request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
 

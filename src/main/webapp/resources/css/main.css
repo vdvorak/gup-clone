@@ -1140,7 +1140,7 @@ input[class="greenCheckbox"] + span {
 	left: 0; top: 0;
 	width: 100%; height: 100%;
 	background: url(images/backgroundCheck.png) no-repeat; /* Фоновый рисунок */
-	cursor: pointer; /* Курсор в виде руки */
+	cursor: pointer;
 }
 
 input[class="greenCheckbox"]:checked + span  	{
@@ -1186,7 +1186,7 @@ input[class="greenCheckbox"]:checked + span  	{
 
 .online {
 	color: #ffb405;
-	font: 400 30px DroidSans;
+	font: 400 20px DroidSans;
 	top: 10px;
 	right: 20px;
 	position: absolute;
@@ -2865,7 +2865,7 @@ label[for="checkbox-filter3"] {
 	margin-top: 10px;
 }
 
-.newsCommentsHeader {
+.colNewsComments .newsCommentsHeader {
 	color: #ffffff;
 	font: 400 16px ArianAMU;
 	height: 15px;
@@ -2919,6 +2919,7 @@ label[for="checkbox-filter3"] {
 	left: 23px;
 	color: #ffffff;
 	font: 400 14px DroidSans;
+	width: auto;
 }
 
 .comments {
@@ -3347,11 +3348,22 @@ input:focus:-ms-input-placeholder      {text-indent: 500px; -webkit-transition: 
 .listArtist ul li {
 	float: left;
 	width: 50%;
+	-webkit-transition: all .25s;
+	transition: all .25s;
+}
+
+.listArtist ul li:hover {
+	padding-left: 10px;
 }
 
 .listArtist ul li p {
 	color: #1269a7;
 	font: 400 16px DroidSansDroidSans;
+}
+
+.listArtist ul li p.anonymous {
+	color: #cccccc;
+	cursor: pointer;
 }
 
 .maxWidth {
@@ -3454,4 +3466,598 @@ input:focus:-ms-input-placeholder      {text-indent: 500px; -webkit-transition: 
 .doerCreate button:hover {
 	color: rgb( 153, 204, 102 );
 	background-color: transparent;
+}
+.doers {
+	border: 4px solid rgb( 153, 204, 102 );
+	border-radius: 18px;
+	margin-top: 10px;
+	padding-bottom: 50px;
+}
+
+.doersFeed {
+	border: 2px solid rgb( 54, 170, 224 );
+	border-radius: 5px;
+	width: 870px;
+	margin: 0 auto;
+	margin-bottom: 15px;
+	position: relative;
+	padding: 15px;
+}
+
+.doersFeed img {
+	height: 156px;
+	width: 156px;
+	border: 4px solid rgb( 18, 105, 167 );
+	border-radius: 5px;
+	padding: 20px;
+	margin-right: 15px;
+	float: left;
+}
+
+.doersFeed h2 {
+	color: #1269a7;
+	font: 400 21px DroidSans;
+}
+
+.doersFeed p {
+	color: #828a8f;
+	font: 400 18px Calibri;
+	width: 650px;
+	text-align: justify;
+}
+
+.doersFeed .artistData ul li p {
+	color: #464646;
+	font: 400 14px Calibri;
+	display: inline;
+}
+
+.doersFeed .artistData {
+	top: 15px;
+	right: 15px;
+}
+.doersRang {
+	position: absolute;
+	width: 169px;
+	height: 100px;
+	top: 80px;
+	right: 15px;
+}
+
+.doersRang button {
+	color: #ffffff;
+	font: 400 16px DroidSans;
+	height: 32px;
+	width: 168px;
+	border-radius: 6px;
+	background-color: rgb( 54, 170, 224 );
+	border: 1px solid rgb( 54, 170, 224 );
+	margin-top: 25px;
+	-webkit-transition: all .25s;
+	transition: all .25s;
+}
+
+.doersRang button:hover {
+	background-color: transparent;
+	color: #36aae0;
+}
+
+.doersRang div {
+	float: left;
+	width: 40px;
+	height: 40px;
+	margin-left: 10px;
+	cursor: pointer;
+	background: url(/resources/images/likeArtist.png) no-repeat;
+	border-radius: 50%;
+}
+
+.doersRang div:nth-child(2) {
+	float: right;
+	margin-right: 10px;
+	background: url(/resources/images/dislikeArtist.png) no-repeat;
+}
+
+.doersFeed.vip {
+	border-color: rgb( 252, 155, 0 );
+}
+
+.doersFeed.vip .doersRang div {
+	background: url(/resources/css/images/vipLike.png) no-repeat;
+}
+
+.doersFeed.vip .doersRang div:nth-child(2) {
+	background: url(/resources/css/images/vipDislike.png) no-repeat;
+}
+
+.doersFeed.vip .doersRang button {
+	background-color: #fc9b00;
+	border: 1px solid #fc9b00;
+}
+
+.doersFeed.vip .doersRang button:hover {
+	background-color: transparent;
+	color: #fc9b00;
+}
+.modalDoer {
+	height: 160px;
+	width: 530px;
+	border-radius: 6px;
+	background-color: rgb( 18, 105, 167 );
+	padding: 50px 20px 25px 20px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -80px;
+	margin-left: -265px;
+	display: none;
+	z-index: 10;
+}
+
+.modalDoer > div {
+	background-color: #ffffff;
+	width: 100%;
+	height: 100%;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+.modalDoer > div > p {
+	color: #1269a7;
+	font: 400 17px DroidSans;
+}
+
+.modalDoer > div > button {
+	color: #ffffff;
+	font: 400 17px ArianAMU;
+	height: 25px;
+	width: 110px;
+	border-radius: 7px;
+	background-color: rgb( 153, 204, 102 );
+	border: 1px solid rgb( 153, 204, 102 );
+	float: left;
+}
+
+.modalDoer > div > button:last-child {
+	float: right;
+}
+
+.modalDoer > div > button:hover {
+	background-color: transparent;
+	color: rgb( 153, 204, 102 );
+}
+.tenderFilter {
+	margin: 0 25px;
+}
+
+.tenderFilter > .column {
+	width: 50%;
+	float: left;
+	margin-top: 10px;
+}
+
+.tenderFilter > .column > form > label {
+	color: #ffffff;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	float: left;
+}
+
+.tenderFilter > .column > form > input {
+	height: 23px;
+	width: 186px;
+	border-radius: 4px;
+	padding: 0 7px;
+	float: right;
+	margin-right: 100px;
+	margin-bottom: 15px;
+	border: none;
+	font: 400 10px DroidSans;
+}
+
+.tenderFilter > .column > form > input:placeholder-shown {
+	color: #838383;
+	font: 400 10px DroidSans;
+}
+
+.tenderFilter > .column > form > div > label {
+	width: 23px;
+	height: 23px;
+	position: relative;
+	float: left;
+}
+
+input[value="open"] + span {
+	position: absolute;
+	left: 0; top: 0;
+	width: 100%; height: 100%;
+	background: url(/resources/css/images/backgroundCheck.png) no-repeat center center;
+	background-size: cover;
+	cursor: pointer;
+}
+
+input[value="open"]:checked + span  	{
+	background: url(/resources/css/images/check.png) no-repeat center center;
+	background-size: cover;
+}
+
+.tenderFilter .tenderRadio {
+	height: 23px;
+	width: 195px;
+	float: right;
+	margin-right: 90px;
+	margin-bottom: 20px;
+}
+
+.tenderFilter .tenderRadio p {
+	color: #ffffff;
+	font: 400 13px DroidSans;
+	display: inline-block;
+	float: left;
+	line-height: 23px;
+	margin: 0 7px;
+}
+
+.tenderFilter > .column > form > input[class='moneyAfter'] {
+	height: 23px;
+	width: 50px;
+	float: left;
+	margin-right: 5px;
+}
+
+.tenderFilter > .column > form .tenderP {
+	float: left;
+	color: #ffffff;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	margin-right: 5px;
+}
+
+.column > h2 {
+	color: #ffffff;
+	font: 400 15px DroidSans;
+}
+
+.column > form > .location {
+	position: relative;
+	margin-top: 15px;
+	height: 60px;
+}
+
+.column > form > .location > img {
+	float: left;
+	border-radius: 10%;
+	margin: 6px 0;
+}
+
+.tenderFilter > .column > form > .location > label {
+	color: #ffffff;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	margin-left: 15px;
+	width: auto;
+	margin-top: 5px;
+}
+
+.tenderFilter > .column > form > .location > input {
+	height: 23px;
+	width: 151px;
+	border-radius: 3px;
+	border: none;
+	float: right;
+	margin-right: 125px;
+	margin-top: 5px;
+	padding: 0 7px;
+}
+
+.tenderFilter > .column > form > .datePickPi {
+	color: #ffffff;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	float: left;
+	margin-left: 5px;
+}
+
+.tenderFilter > .column > form > .datePickPi > input {
+	border-radius: 3px;
+	width: 90px;
+	height: 23px;
+	border: none;
+	color: black;
+	font: 400 15px DroidSans;
+	padding-left: 7px;
+	margin-bottom: 10px;
+}
+
+.bx-wrapper .bx-controls-direction a {
+	z-index: 1;
+}
+
+.tenderFilter > .column > form > .participate {
+	width: 23px;
+	height: 23px;
+	position: relative;
+	float: left;
+	margin-left: 5px;
+}
+
+.tenderFilter > .column > form > .participate > input + span {
+	position: absolute;
+	left: 0; top: 0;
+	width: 100%; height: 100%;
+	background: url(/resources/css/images/backgroundCheck.png) no-repeat center center;
+	cursor: pointer;
+	background-size: cover;
+}
+
+.tenderFilter > .column > form > .participate > input:checked + span  	{
+	background: url(/resources/css/images/check.png) no-repeat center center;
+	background-size: cover;
+}
+
+.tenderFilter > .column > button {
+	float: right;
+	color: #ffffff;
+	font: 400 17px DroidSans;
+	border-radius: 8px;
+	background-color: rgb( 153, 204, 102 );
+	height: 30px;
+	width: 167px;
+	border: 1px solid rgb( 153, 204, 102 );
+	-webkit-transition: all .25s;
+	transition: all .25s;
+}
+
+.tenderFilter > .column > button:hover {
+	background-color: transparent;
+	border-color: white;
+}
+.tenderMake {
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 17px;
+	margin-top: 10px;
+}
+
+.tenderMake h1 {
+	color: #1269a7;
+	font: 400 17px ArianAMU;
+	text-align: center;
+	margin: 50px 0;
+}
+
+.tenderMake > form {
+	margin: 0 50px 15px 50px;
+}
+
+.tenderMake > form:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.tenderMake > form > label {
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	float: left;
+}
+
+.tenderMake > form > label:after {
+	content: '*';
+	color: #ed4423;
+}
+
+.tenderMake > form > input[id='EnterTheTitle'] {
+	height: 23px;
+	width: 553px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	padding: 0 7px;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	margin-bottom: 40px;
+	margin-left: 10px;
+}
+
+.tenderMake > form > #selectBox-info-type {
+	float: left;
+	height: 23px;
+	width: 291px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	margin-right: 70px;
+	margin-left: 12px;
+}
+
+.tenderMake > form > #selectBox-info-type > select {
+	font: 400 13px DroidSans;
+	line-height: 19px;
+	height: 19px;
+	width: 304px;
+}
+
+.tenderMake > form > .datePickPi {
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	float: left;
+}
+
+.tenderMake > form > .datePickPi > input {
+	height: 23px;
+	width: 80px;
+	color: #a7a7a7;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	text-align: center;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+}
+
+.tenderMake > form > h2 {
+	color: #1269a7;
+	font: 400 16px DroidSans;
+	text-align: center;
+	margin: 35px 0;
+}
+
+.tenderMake > form > .location:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.tenderMake > form > .location > label {
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	float: left;
+}
+
+.tenderMake > form > .location > label:after {
+	content: '*';
+	color: #ed4423;
+}
+
+.tenderMake > form > .location > input {
+	height: 23px;
+	width: 290px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	padding: 0 7px;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	margin-left: 10px;
+	margin-bottom: 25px;
+}
+
+.tenderMake > form > .location > input:last-child {
+	margin-left: 25px;
+	margin-bottom: 70px;
+}
+
+.tenderMake > form > .tenderRadio {
+	height: 23px;
+	width: 340px;
+	float: left;
+	margin-bottom: 25px;
+}
+
+.tenderMake > form > .tenderRadio > label {
+	width: 23px;
+	height: 23px;
+	position: relative;
+	float: left;
+	border-radius: 20%;
+	margin-left: 10px;
+}
+
+.tenderMake > form > .tenderRadio > label:first-child {
+	margin-left: 120px;
+}
+
+.tenderMake > form > .tenderRadio > p {
+	float: left;
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	margin-left: 5px;
+}
+
+.tenderMake > form > .description > label {
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	margin-bottom: 30px;
+	float: left;
+}
+
+.tenderMake > form > .description > label:nth-child(2) {
+	width: 23px;
+	height: 23px;
+	position: relative;
+	border-radius: 20%;
+	margin-left: 5px;
+}
+
+.tenderMake > form > .description > label[for="InviteBidders"] {
+	margin-left: 90px;
+}
+
+form > .description > input {
+	height: 23px;
+	width: 170px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	padding: 0 7px;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	float: left;
+	margin-left: 5px;
+}
+
+form > .description > input[id='ExpectedValue'] {
+	width: 48px;
+}
+
+form > .description > input[id='ExpectedValue']:placeholder-shown {
+	color: #bfbfbf;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+}
+
+form > .description > label[for="TenderNumber"] {
+	margin-left: 125px;
+}
+
+form > .description > textarea {
+	margin-left: 5px;
+	resize: none;
+	height: 240px;
+	width: 640px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	padding: 3px 7px;
+	margin-bottom: 30px;
+}
+
+.tenderMake > form > .description {
+	margin-bottom: 10px;
+}
+
+.tenderMake > form > .titleFile {
+	margin-left: 80px;
+	float: left;
+	margin-top: 13px;
+}
+
+.tenderMake > form > img {
+	float: left;
+	margin-left: 25px;
+}
+
+.tenderMake > form > img[alt="clip"] {
+	margin-top: 4px;
+}
+
+.tenderMake > form > button[type="submit"] {
+	float: right;
+	margin-top: 30px;
+	color: #ffffff;
+	font: 400 16px ArianAMU;
+	height: 32px;
+	width: 133px;
+	border-radius: 5px;
+	border: 2px solid rgb( 153, 204, 102 );
+	background-color: rgb( 153, 204, 102 );
+	-webkit-transition: all .25s;
+	transition: all .25s;
+	margin-right: 5px;
+}
+
+.tenderMake > form > button[type="submit"]:hover {
+	background-color: transparent;
+	color: rgb( 153, 204, 102 );
 }

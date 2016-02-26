@@ -8,8 +8,9 @@
                 <option value="profile">Пользователи</option>
                 <option value="news">Новости</option>
                 <option value="project">Проекты</option>
-                <option value="tender">Тендеры</option>
                 <option value="offer">Обьявления</option>
+                <option value="tender">Тендеры</option>
+                <option value="doer">Исполнители</option>
             </select>
         </div>
         <button id="searchButton" class="submit-search">Найти <i class="fa fa-search fa-flip-horizontal"></i></button>
@@ -127,27 +128,94 @@
             </div>
 
             <div id="tenderFilterBlock" class="hidefilter" style="display: none">
-                <form class="filterArtists" action="#">
-                    <label class="filterArtistsLabel" for="filterArtistsInput">Cоздатель:&nbsp;</label>
-                    <input id="filterArtistsInput" type="text" placeholder="Автозаполнение"><br>
 
-                    <label class="filterArtistsLabel marginTop" for="checkboxArtists">По актуальности:&nbsp;</label>
-                    <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkboxArtists" value="1" name="k"/><span></span></label>
+                <div class="clearfix"></div>
+                <div class="clearfix"></div>
+                <div class="clearfix"></div>
 
-                    <label class="filterArtistsLabel marginTop marginLeft">По оценке:&nbsp;</label>
-                    <div class="selectBoxEvaluation">
-                        <select class="form-control">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
+                <div class="tenderFilter">
+
+                    <div class="column">
+                        <form action="#">
+                            <div class="clearfix"></div>
+
+                            <label for="tenderNumber">Номер тендера:</label>
+                            <input type="text" placeholder="Автозаполнение" id="tenderNumber">
+
+                            <div class="clearfix"></div>
+
+                            <label for="filterNACE">КВЭДЫ:</label>
+                            <input type="text" placeholder="Автозаполнение" id="filterNACE">
+
+                            <div class="clearfix"></div>
+
+                            <label for="Author">Автор:</label>
+                            <input type="text" id="Author">
+
+                            <div class="clearfix"></div>
+
+                            <label>Тип тендера:</label>
+                            <div class="tenderRadio">
+                                <label><input type="radio" value="open" name="k"/><span></span></label><p>открытый</p>
+                                <label><input type="radio" value="open" name="k"/><span></span></label><p>закрытый</p>
+                            </div>
+
+                            <div class="clearfix"></div>
+
+                            <label>Ожидаемая стоимость: от&nbsp;</label>
+                            <input type="text" class="moneyAfter">
+                            <p class="tenderP">до</p>
+                            <input type="text" class="moneyAfter">
+
+                            <div class="clearfix"></div>
+                        </form>
                     </div>
 
-                    <button type="submit">Искать по фильтру</button>
-                </form>
+                    <div class="column">
+                        <h2>Адрес (место проведения):</h2>
+                        <form action="#">
+                            <div class="location">
+                                <img src="/resources/images/location.png" alt="location">
+                                <label for="region">Область</label>
+                                <input type="text" id="region">
+                                <label for="city">Город</label>
+                                <input type="text" id="city">
+
+                                <div class="clearfix"></div>
+                            </div>
+                            <label for="">Период проведения:</label>
+                            <p class="datePickPi">от <input type="text" id="datepicker"></p>
+                            <p class="datePickPi">до <input type="text" id="datepicker2"></p>
+                            <label for="available">Доступные к участию:</label>
+                            <label class="participate"><input type="checkbox" id="available" value="1" name="k"/><span></span></label>
+
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
             </div>
+
+        <div id="doerFilterBlock" class="hidefilter" style="display: none">
+            <form class="filterArtists" action="#">
+                <label class="filterArtistsLabel" for="filterArtistsInput">Cоздатель:&nbsp;</label>
+                <input id="filterArtistsInput" type="text" placeholder="Автозаполнение"><br>
+
+                <label class="filterArtistsLabel marginTop" for="checkboxArtists">По актуальности:&nbsp;</label>
+                <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkboxArtists" value="1" name="k"/><span></span></label>
+
+                <label class="filterArtistsLabel marginTop marginLeft">По оценке:&nbsp;</label>
+                <div class="selectBoxEvaluation">
+                    <select class="form-control">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </form>
+        </div>
 
         <div class="clearfix"></div>
 

@@ -63,6 +63,7 @@ public class OfferRestController {
 
     //------------------------------------------ Create -----------------------------------------------------------------
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
                     consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResp> createOffer(@Valid @RequestBody Offer offer) {
@@ -90,11 +91,9 @@ public class OfferRestController {
         }
 
         offer.setAuthorId(userId);
-
         offersService.create(offer);
 
-        CreatedObjResp createdObjResp = new CreatedObjResp(offer.getId());
-        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
+        return new ResponseEntity<>(new CreatedObjResp(offer.getId()), HttpStatus.CREATED);
     }
 
     //------------------------------------------ Update -----------------------------------------------------------------
@@ -120,8 +119,7 @@ public class OfferRestController {
 //        offer.setModerationStatus(null);
         offersService.edit(offer);
 
-        CreatedObjResp createdObjResp = new CreatedObjResp(offer.getId());
-        return new ResponseEntity<>(createdObjResp, HttpStatus.OK);
+        return new ResponseEntity<>(new CreatedObjResp(offer.getId()), HttpStatus.OK);
     }
 
     @PreAuthorize("isAuthenticated()")

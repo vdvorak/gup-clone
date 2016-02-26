@@ -90,6 +90,40 @@ public class ProfileController {
         return "profile/edit-profile";
     }
 
+
+
+
+// ToDo Delete after normal edit-profile.jsp will work
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @RequestMapping(value = "/edit-profile-old", method = RequestMethod.GET)
+    public String editProfileOldPage(Model model, HttpServletRequest request,
+                                  @RequestParam(required = false) String profileId) {
+        if (profileId == null) {
+            profileId = SecurityOperations.getLoggedUserId();
+        } else {
+            if(!profilesService.profileExists(profileId)) {
+                throw new ResourceNotFoundException();
+            }
+
+            if(!profileId.equals(SecurityOperations.getLoggedUserId()) || !request.isUserInRole(UserRole.ROLE_ADMIN.toString())){
+                throw new AccessDeniedException("Edit profile can only owner or admin");
+            }
+
+            return "loginForm";
+        }
+
+
+        model.addAttribute("profileId", profileId);
+        return "edit-profileOLD";
+    }
+
+
+
+
+
+
+
+
     @RequestMapping(value = "/profile/list")
     public String getProfileListWithFO(@RequestParam(required = false, defaultValue = "0") int pageNum,
                                        @RequestParam(required = false) String name,

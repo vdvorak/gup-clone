@@ -67,8 +67,9 @@ public class BlogRestController {
 
     //------------------------------------------ Update -----------------------------------------------------------------
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/blog/edit", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Blog> editBlog(@Valid @RequestBody Blog blog) {
 
         if (blog.getId() == null) {
@@ -77,13 +78,14 @@ public class BlogRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Blog updatedBlog = blogService.findBlogAndUpdate(blog);
+        blogService.findBlogAndUpdate(blog);
 
-        return new ResponseEntity<>(updatedBlog, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //------------------------------------------ Delete -----------------------------------------------------------------
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/blog/id/{id}/delete", method = RequestMethod.POST)
     public ResponseEntity<Blog> deleteBlog(@PathVariable String id) {
         if (!blogService.blogExists(id)) {
