@@ -227,25 +227,21 @@ public class ProfileRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/join-organization", method = RequestMethod.POST)
     public ResponseEntity<String> joinToOrganization() {
-
-        System.err.println("Зашли");
+        
         String userId = SecurityOperations.getLoggedUserId();
         Profile profile = profilesService.findById(userId);
 
         if (profile.getContact().isMember()) {
-            System.err.println("Не член");
             return new ResponseEntity<>("1", HttpStatus.OK);
         } else {
             Integer userBalance = bankSession.getUserBalance(userId);
             if (userBalance >= 50) {
-                System.err.println("Больше 50");
                 bankSession.investInOrganization(5555, userId, 50L, 11, "Success");
                 profile.getContact().setMember(true);
                 profilesService.editProfile(profile);
                 return new ResponseEntity<>("2", HttpStatus.OK);
-            }else{
-                System.err.println("Нищеброд");
-               return new ResponseEntity<>("3", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("3", HttpStatus.OK);
             }
         }
     }
