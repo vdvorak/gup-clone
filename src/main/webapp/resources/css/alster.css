@@ -474,6 +474,7 @@
 }
 
 .editor .editorInput {
+    padding-left: 5px;
     position: relative;
     margin-left: 5px;
     border: 3px solid rgb(153, 204, 102);
@@ -534,7 +535,7 @@
 }
 
 .editor div.project .tit .editorInput {
-    width: 553px;
+    width: 554px;
 }
 
 .editor div.project .projType .editorLabel {

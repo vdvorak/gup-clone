@@ -71,8 +71,7 @@ public class ProjectsRestController {
         project.setAuthorId(userId);
         projectService.create(project);
 
-        CreatedObjResp createdObjResp = new CreatedObjResp(project.getId());
-        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
+        return new ResponseEntity<>(new CreatedObjResp(project.getId()), HttpStatus.CREATED);
     }
 
     //------------------------------------------ Update -----------------------------------------------------------------
