@@ -94,14 +94,38 @@
             </div>
 
             <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
-            <img src="/resources/images/clip.png" alt="clip">
+            <img id="tender-btn-addDoc" src="/resources/images/clip.png" alt="clip">
+
+            <div class="clearfix"></div>
+
+            <div id="drop_zone" class="defaultIMG">
+                <ul id="tender-img-block">
+                    <li class="li-containerIMG li-defaultIMG">
+                        <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                    </li>
+                </ul>
+                <ul id="tender-doc-block">
+                    <li class="li-containerIMG li-defaultIMG">
+                        <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+                        <img src="http://www.uzscience.uz/upload/userfiles/images/doc.png" alt="defaultIMG">
+                        <div style="width: 100%; text-align: center; font-weight: bold"></div>
+                    </li>
+                </ul>
+            </div>
+<%--
             <img src="/resources/images/doerLogo.png" alt="doerLogo">
             <img src="/resources/images/doerLogo.png" alt="doerLogo">
             <img src="/resources/images/doerLogo.png" alt="doerLogo">
             <img src="/resources/images/doerLogo.png" alt="doerLogo">
-            <img src="/resources/images/doerLogo.png" alt="doerLogo">
+            <img src="/resources/images/doerLogo.png" alt="doerLogo">--%>
             <button type="submit">Сохранить</button>
         </form>
+
+        <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
+            <input id="photoInput" type="file" style="display: none;" multiple="multiple">
+        </form>
+
     </div>
 </div>
 
@@ -351,20 +375,10 @@
                         var id = data.id;
                         if (f.type.substring(0, 5) === 'image') {
                             imgsArr[id] = "image";
-                            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-                                    '<li><strong>' + f.name + '</strong></li>' +
-                                    ' <li style="background-color: white">' +
-                                    '<a rel="example_group"> ' +
-                                    '<img alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
-                                    '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                            appendImg(id);
                         } else {
                             imgsArr[id] = "doc";
-                            $('.docBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
-                            '<li><strong>' + f.name + '</strong></li>' +
-                            ' <li style="background-color: white">' +
-                            '<a rel="example_group"> ' +
-                            '<img alt="" src="http://www.uzscience.uz/upload/userfiles/images/doc.png"' + 'width="150" height="150"> ' +
-                            '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                            appendDoc(id, f.name);
                         }
                     }
                 });
@@ -379,11 +393,42 @@
             evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
         }
 
-        $('#addImg').click(function(){
-            $('#uploadProfilePhotoInput').trigger('click');
-        });
-
     });
+
+    $('.blogCreationSubmit').click(function(){
+        $('#photoInput').trigger('click');
+    });
+    $('#tender-btn-addDoc').click(function(){
+        $('#photoInput').trigger('click');
+    });
+
+    function appendImg(id) {
+        $("#tender-img-block > .li-defaultIMG").css("display", "none");
+        var cloneImg = $("#tender-img-block > .li-defaultIMG").clone()
+                .removeClass('li-defaultIMG')
+                .css("display", "inline-block");
+        cloneImg.find('img')
+                .attr("alt", "")
+                .attr("src", '/api/rest/fileStorage/TENDER/file/read/id/' + id)
+                .attr("id", id);
+        cloneImg.find('span')
+                .click(deleteImg);
+        cloneImg.appendTo('#tender-img-block');
+    }
+
+    function appendDoc(id, name) {
+        $("#tender-doc-block > .li-defaultIMG").css("display", "none");
+        var cloneDoc = $("#tender-doc-block > .li-defaultIMG").clone()
+                .removeClass('li-defaultIMG')
+                .css("display", "inline-block");
+        cloneDoc.find('img')
+                .attr("id", id);
+        cloneDoc.find('div')
+                .text(name);
+        cloneDoc.find('span')
+                .click(deleteImg);
+        cloneDoc.appendTo('#tender-doc-block');
+    }
 
     //--------------------   DATEPICKER ---------------------------------//
     $(function () {
@@ -496,11 +541,11 @@
     });
 
     // ---------------   END LOAD RESOURCES    --------------------------//
-    $('#uploadProfilePhotoInput').change(function (event) {
+    $('#photoInput').change(function (event) {
         event.preventDefault();
+
         var files = event.currentTarget.files;
         for (var i = 0, f; f = files[i]; i++) {
-            var formFiles = new FormData($(this)[0]);
             var fd = new FormData();
             fd.append('file', f);
             $.ajax({
@@ -516,35 +561,43 @@
                     var id = data.id;
                     if (f.type.substring(0, 5) === 'image') {
                         imgsArr[id] = "image";
-                        $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-                                '<li><strong>' + f.name + '</strong></li>' +
-                                ' <li style="background-color: white">' +
-                                '<a rel="example_group"> ' +
-                                '<img alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
-                                '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                        appendImg(id);
                     } else {
                         imgsArr[id] = "doc";
-                        $('.docBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
-                                '<li><strong>' + f.name + '</strong></li>' +
-                                ' <li style="background-color: white">' +
-                                '<a rel="example_group"> ' +
-                                '<img alt="" src="http://www.uzscience.uz/upload/userfiles/images/doc.png"' + 'width="150" height="150"> ' +
-                                '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                        appendDoc(id, f.name);
                     }
                 }
             });
         }
-
-        event.currentTarget.form.reset();
     });
 
-    function deleteImg(idImg) {
+    /*function deleteImg(idImg) {
         delete imgsArr[idImg];
         $.ajax({
             type: "POST",
             url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
             success: function (data, textStatus, request) {
                 $('#' + idImg).remove();
+            }
+        });
+    }*/
+
+    function deleteImg() {
+        var idImg = $(event.currentTarget).parent()
+                .find('img')
+                .attr('id');
+        delete imgsArr[idImg];
+        var block = $(event.currentTarget).parent().parent();
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
+            success: function (data, textStatus, request) {
+                $('#' + idImg).parent().remove();
+
+                var numberImg = block.find('img').length;
+                if(numberImg < 2) {
+                    block.find(".li-defaultIMG").css("display", "inline-block");
+                }
             }
         });
     }
