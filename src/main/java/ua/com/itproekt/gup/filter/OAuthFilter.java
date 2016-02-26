@@ -40,39 +40,63 @@ public class OAuthFilter implements Filter {
     public void doFilter(ServletRequest servletReq, ServletResponse servletResp, FilterChain chain)
             throws IOException, ServletException {
 
+        try {
+
         HttpServletRequest httpServletReq = (HttpServletRequest) servletReq;
         HttpServletResponse httpServletResp = (HttpServletResponse) servletResp;
         FilteredRequest filteredReq = new FilteredRequest(httpServletReq);
 
         Cookie[] cookies = httpServletReq.getCookies();
         if (cookies != null) {
+            System.err.println("if (cookies != nu");
+
             String accessTokenValue = CookieUtil.getCookieValue(cookies, ACCESS_TOKEN_COOKIE_NAME);
             String refreshTokenValue = CookieUtil.getCookieValue(cookies, REFRESH_TOKEN_COOKIE_NAME);
 
             if (!accessTokenValue.isEmpty()) {
-                authenticateByAccessToken(filteredReq, httpServletResp, accessTokenValue);
+                System.err.println(" if (!accessTokenValue.isEmpty(");
+                if (isExistAccessToken(accessTokenValue)) {
+                    System.err.println(" *** isExistAccessToken.isEmpty():" + accessTokenValue);
+                    filteredReq.addParameter(SPRING_ACCESS_TOKEN_PARAM_NAME, new String[]{accessTokenValue});
+                    System.err.println(" *** accessTokenValue.isEmpty()");
+                } else {
+                    System.err.println(" *** accessTokenValue.else()");
+                    LOG.error(" **** Access token [" + accessTokenValue + "] not valid **** ");
+                    CookieUtil.addCookie(httpServletResp, ACCESS_TOKEN_COOKIE_NAME, null, 0);
+                    authenticateByRefreshToken(filteredReq, httpServletResp, refreshTokenValue);
+                }
             } else if (!refreshTokenValue.isEmpty()){
                 authenticateByRefreshToken(filteredReq, httpServletResp, refreshTokenValue);
             }
         }
 
         chain.doFilter(filteredReq, httpServletResp);
-    }
-
-    private void authenticateByAccessToken(FilteredRequest request, HttpServletResponse response, String accessTokenValue) {
-        if (null == tokenServices.readAccessToken(accessTokenValue)) {
-            LOG.error(" **** Access token not valid **** ");
+        } catch (Exception ex) {
+            System.err.println(LogUtil.getExceptionStackTrace(ex));
         }
 
-        request.addParameter(SPRING_ACCESS_TOKEN_PARAM_NAME, new String[]{accessTokenValue});
+    }
+
+    private boolean isExistAccessToken(String accessTokenValue) {
+        System.err.println(" *** tokenServices.readAccessToken(accessTokenValue):" + tokenServices.readAccessToken(accessTokenValue));
+        System.err.println(null != tokenServices.readAccessToken(accessTokenValue));
+
+        return (null != tokenServices.readAccessToken(accessTokenValue));
     }
 
     private void authenticateByRefreshToken(FilteredRequest request, HttpServletResponse response, String refreshTokenValue) {
+        System.err.println("authenticateByRefreshToken");
+
         try {
             OAuth2AccessToken accessToken = tokenServices.refreshAccessToken(refreshTokenValue, getTokenRequest());
             request.addParameter(SPRING_ACCESS_TOKEN_PARAM_NAME, new String[]{accessToken.getValue()});
             CookieUtil.addCookie(response, ACCESS_TOKEN_COOKIE_NAME, accessToken.getValue(), ACCESS_TOKEN_EXPIRES_IN_SECONDS);
+
+            System.err.println("try accessToken:" + accessToken.getValue() );
+
         } catch (AuthenticationException ex) {
+            System.err.println("authenticateByRefreshToken" );
+
             CookieUtil.addCookie(response, REFRESH_TOKEN_COOKIE_NAME, null, 0);
             LOG.error("Incorrect request token. " + LogUtil.getExceptionStackTrace(ex));
             throw ex;

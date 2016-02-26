@@ -53,7 +53,11 @@ public class TokenStoreService implements TokenStore {
 //        if (null == token) {
 //            throw new InvalidTokenException("Token not valid");
 //        }
-        return token.getoAuth2AccessToken();
+        if (token != null) {
+            return token.getoAuth2AccessToken();
+        } else {
+            return null;
+        }
     }
 
     @Override
