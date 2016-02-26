@@ -41,34 +41,38 @@ public class OAuthFilter implements Filter {
 
         HttpServletRequest httpServletReq = (HttpServletRequest) servletReq;
         HttpServletResponse httpServletResp = (HttpServletResponse) servletResp;
-        FilteredRequest filteredReq = new FilteredRequest(httpServletReq);
+        CustomParametersRequest customParamsReq = new CustomParametersRequest(httpServletReq);
 
         Cookie[] cookies = httpServletReq.getCookies();
         if (cookies != null) {
-            String accessTokenValue = CookieUtil.getCookieValue(cookies, ACCESS_TOKEN_COOKIE_NAME);
-            String refreshTokenValue = CookieUtil.getCookieValue(cookies, REFRESH_TOKEN_COOKIE_NAME);
-
-            if (!accessTokenValue.isEmpty()) {
-                if (isExistAccessToken(accessTokenValue)) {
-                    filteredReq.addParameter(SPRING_ACCESS_TOKEN_PARAM_NAME, new String[]{accessTokenValue});
-                } else {
-                    LOG.error(" Incorrect access token [" + accessTokenValue + "]");
-                    CookieUtil.addCookie(httpServletResp, ACCESS_TOKEN_COOKIE_NAME, null, 0);
-                    authenticateByRefreshToken(filteredReq, httpServletResp, refreshTokenValue);
-                }
-            } else if (!refreshTokenValue.isEmpty()) {
-                authenticateByRefreshToken(filteredReq, httpServletResp, refreshTokenValue);
-            }
+            authenticateByTokensFromCookies(customParamsReq, httpServletResp, cookies);
         }
 
-        chain.doFilter(filteredReq, httpServletResp);
+        chain.doFilter(customParamsReq, httpServletResp);
+    }
+
+    private void authenticateByTokensFromCookies(CustomParametersRequest customParamsReq, HttpServletResponse httpServletResp, Cookie[] cookies) {
+        String accessTokenValue = CookieUtil.getCookieValue(cookies, ACCESS_TOKEN_COOKIE_NAME);
+        String refreshTokenValue = CookieUtil.getCookieValue(cookies, REFRESH_TOKEN_COOKIE_NAME);
+
+        if (!accessTokenValue.isEmpty()) {
+            if (isExistAccessToken(accessTokenValue)) {
+                customParamsReq.addParameter(SPRING_ACCESS_TOKEN_PARAM_NAME, new String[]{accessTokenValue});
+            } else {
+                LOG.error(" Incorrect access token [" + accessTokenValue + "]");
+                CookieUtil.addCookie(httpServletResp, ACCESS_TOKEN_COOKIE_NAME, null, 0);
+                authenticateByRefreshToken(customParamsReq, httpServletResp, refreshTokenValue);
+            }
+        } else if (!refreshTokenValue.isEmpty()) {
+            authenticateByRefreshToken(customParamsReq, httpServletResp, refreshTokenValue);
+        }
     }
 
     private boolean isExistAccessToken(String accessTokenValue) {
         return (null != tokenServices.readAccessToken(accessTokenValue));
     }
 
-    private void authenticateByRefreshToken(FilteredRequest request, HttpServletResponse response, String refreshTokenValue) {
+    private void authenticateByRefreshToken(CustomParametersRequest request, HttpServletResponse response, String refreshTokenValue) {
         try {
             OAuth2AccessToken accessToken = tokenServices.refreshAccessToken(refreshTokenValue, getTokenRequest());
             request.addParameter(SPRING_ACCESS_TOKEN_PARAM_NAME, new String[]{accessToken.getValue()});
