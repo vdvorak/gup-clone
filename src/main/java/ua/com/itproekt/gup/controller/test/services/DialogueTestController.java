@@ -61,17 +61,28 @@ public class DialogueTestController {
                     dialog.setMembers(members);
                 }
 
+                String member1 = dialog.getMembers().get(0).getId();
+                String member2 = dialog.getMembers().get(1).getId();
+
                 PrivateMessage msg1 = new PrivateMessage();
                 PrivateMessage msg2 = new PrivateMessage();
                 PrivateMessage msg3 = new PrivateMessage();
 
-                msg1.setAuthorId(dialog.getMembers().get(0).getId());
-                msg2.setAuthorId(dialog.getMembers().get(1).getId());
-                msg3.setAuthorId(dialog.getMembers().get(0).getId());
+                msg1.setAuthorId(member1);
+                msg2.setAuthorId(member2);
+                msg3.setAuthorId(member1);
 
                 msg1.setMessage("Hi!");
                 msg2.setMessage("Hello! How are you?");
                 msg3.setMessage("I'm fine thanks, and you?");
+
+                msg1.getWhoRead().add(member1);
+                msg1.getWhoRead().add(member2);
+                msg2.getWhoRead().add(member1);
+                msg2.getWhoRead().add(member2);
+                msg3.getWhoRead().add(member1);
+                msg3.getWhoRead().add(member2);
+
                 List<PrivateMessage> msgs = new ArrayList<>();
                 msgs.add(msg1);
                 msgs.add(msg2);
@@ -80,8 +91,8 @@ public class DialogueTestController {
                 dialog.setMessages(msgs);
 
                 ConcurrentHashMap<String, Integer> umc = dialog.getUnreadMsgCounter();
-                umc.put(dialog.getMembers().get(0).getId(), 2);
-                umc.put(dialog.getMembers().get(1).getId(), 1);
+                umc.put(dialog.getMembers().get(0).getId(), 0);
+                umc.put(dialog.getMembers().get(1).getId(), 0);
 
                 dialog.setSubject("very important dialogue " + i);
 
