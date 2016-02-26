@@ -18,6 +18,10 @@
     position: relative;
     height: 87px;
 }
+.projAndInvestCaretDown {
+    cursor: pointer;
+    padding: 10px 408px;
+}
 
 .projectsVSInvestments-btn {
     position: absolute;
@@ -135,7 +139,7 @@
     right: 0;
     color: #545454;
     font: 11px DroidSans;
-    font-style: italic;
+    /*font-style: italic;*/
     padding: 0 5px;
 }
 
@@ -444,7 +448,7 @@
 }
 
 .editor form.investor,
-.editor form.project {
+.editor div.project {
     position: relative;
     padding-top: 50px;
     padding-left: 67px;
@@ -457,9 +461,23 @@
     min-height: 23px;
 }
 
+.delete-btn {
+    background-color: #C3212D;
+    width: 190px;
+    height: 32px;
+    border-radius: 5px;
+    color: #ffffff;
+    font: 400 21px ArianAMU;
+    border: 0;
+    float: left;
+    margin-bottom: 22px;
+    /*-webkit-transition: all 0.25s;*/
+    /*transition: all 0.25s;*/
+}
+
 .editor .editorLabel {
     float: left;
-    width: 160px;
+    width: 200px;
     text-align: left;
     color: #9e9e9e;
     font: 17px DroidSans;
@@ -470,8 +488,8 @@
     color: #ed4423;
 }
 
-.editor form.project .editorLabel {
-    width: 90px;
+.editor div.project .editorLabel {
+    width: 160px;
 }
 
 .editor .editorInput {
@@ -496,17 +514,17 @@
     width: 553px;
 }
 
-.editor form.investor .sum .editorLabel {
-    width: 70px;
-}
+/*.editor form.investor .sum .editorLabel {*/
+    /*width: 70px;*/
+/*}*/
 
 .editor form.investor .sum .editorInput {
     width: 292px;
 }
 
-.editor form.investor .sum {
-    padding-left: 165px;
-}
+/*.editor form.investor .sum {*/
+    /*padding-left: 165px;*/
+/*}*/
 
 .editor .field .currency {
     position: relative;
@@ -520,49 +538,49 @@
     margin-top: 100px;
 }
 
-.editor form.project .field.description {
+.editor div.project .field.description {
     margin-top: 70px;
 }
 
 .editor form.investor .field.description .editorLabel,
-.editor form.project .field.description .editorLabel {
+.editor div.project .field.description .editorLabel {
     width: 90px;
 }
 
 .editor form.investor .field.description .editorInput,
-.editor form.project .field.description .editorInput {
-    width: 642px;
+.editor div.project .field.description .editorInput {
+    width: 670px;
     height: 242px;
 }
 
-.editor form.project .tit .editorInput {
+.editor div.project .tit .editorInput {
     width: 554px;
 }
 
-.editor form.project .projType .editorLabel {
+.editor div.project .projType .editorLabel {
     width: 120px;
 }
 
-.editor form.project .field.projType .radioGroup {
-    margin-left: 220px;
-}
+/*.editor form.project .field.projType .radioGroup {*/
+    /*margin-left: 220px;*/
+/*}*/
 
-.editor form.project .field.projType .radioGroup .column {
+.editor div.project .field.projType .radioGroup .column {
     display: inline-block;
     width: 140px;
     margin-left: 60px;
 }
 
-.editor form.project .field.projType .radioGroup .column .row {
+.editor div.project .field.projType .radioGroup .column .row {
     width: 150px;
     margin-bottom: 16px;
 }
 
-.editor form.project .field.projType .radioGroup .label-checkbox {
+.editor div.project .field.projType .radioGroup .label-checkbox {
     float: right;
 }
 
-.editor form.project .field.projType .radioGroup label {
+.editor div.project .field.projType .radioGroup label {
     line-height: 35px;
 }
 
@@ -592,11 +610,26 @@
 
 .projectContent .topSection {
     position: relative;
-    height: 40px;
+    height: 12px;
+    margin: 10px 48px;
+}
+.projectContent .bottomSection {
+    margin: 15px 50px;
 }
 
-.projectContent .bottomSection {
-    margin: 15px 0;
+.projectsCommentsForm {
+    width: 345px;
+    margin: 0 auto;
+}
+
+.projectsFormComments {
+    height: 126px;
+    width: 100%;
+    resize: none;
+    font: 400 14px DroidSans;
+    padding: 15px;
+    border-radius: 5px;
+    border: 0;
 }
 
 .projectContent .topSection .abutton.invest,
@@ -605,19 +638,21 @@
 }
 
 .projectContent .topSection .statInfo {
-    float: left;
+    position: relative;
 }
 
 .projectContent .topSection .statInfo .publish {
     color: #545454;
     font: 12px DroidSans;
-    font-style: italic;
+    /*font-style: italic;*/
+    float: right;
 }
 
 .projectContent .topSection .statInfo .views {
     color: #545454;
-    font: 11px DroidSans;
-    font-style: italic;
+    font: 12px DroidSans;
+    /*font-style: italic;*/
+    float: left;
 }
 
 .projectContent .contentHeader {
@@ -646,7 +681,7 @@
 }
 
 .projectContent .contentHeader .author {
-    font-size: 10px;
+    font-size: 12px;
     padding-left: 5px;
 }
 
@@ -698,9 +733,9 @@
 .projectContent .description .text {
     padding: 0 47px;
     text-indent: 20px;
-    text-align: justify;
+    text-align:justify;
     color: #828a8f;
-    font: 12px Calibri;
+    font: 14px Calibri;
 }
 
 .projectContent .commentsSection {
@@ -712,7 +747,7 @@
 
 .projectContent .commentsSection .count {
     color: #464646;
-    font: 8px Calibri;
+    font: 12px Calibri;
 }
 
 .greenBox {
@@ -796,7 +831,8 @@
 
 .contentBlock {
     float: right;
-    width: 650px;
+    width: 517px;
+    margin-right: 100px;
 }
 
 .buttonBack {
