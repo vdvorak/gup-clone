@@ -101,7 +101,7 @@ $(document).ready(function () {
             if (response >= 50) {
                 $('.brokeAss').hide();
                 $('.richAss').show()
-            }else {
+            } else {
                 $('.brokeAss').show();
                 $('.richAss').hide()
             }
@@ -109,17 +109,16 @@ $(document).ready(function () {
     });
 
 
-
-
-
-    //$('#socialBtn').click(function (event) {
-    //
-    //
-    //    $('.brokeAss').hide()
-    //    $('.richAss').show()
-    //
-    //});
-
-
-
+    $('#noMoneyStartRich').on('click', function () {
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/profilesService/join-organization",
+            cache: false,
+            success: function (response) {
+                if (response == "2") {
+                    alert("Поздравляем со вступлением в организацию!")
+                }
+            }
+        });
+    })
 });

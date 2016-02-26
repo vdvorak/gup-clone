@@ -106,6 +106,9 @@ $('#sendProjComment').on('click', function () {
         statusCode: {
             201: function () {
                 location.reload();
+            },
+            409: function () {
+                alert('Чтобы написать комментарий нужно проголосовать');
             }
         }
     });
