@@ -106,38 +106,56 @@
                         <li class="prioffice-tabs-title">Уведомления</li>
                     </ul>
                     <div class="prioffice-tabs-items-wrap">
-                        <div>
-                            <div class="prioffice-tabs-items">
-                                <c:if test="${not empty dialogues}">
-                                    <c:forEach items="${dialogues}" var="dialogue">
-                                        <c:forEach items="${dialogue.members}" var="member">
-                                            <c:choose>
-                                                <c:when test="${not empty profile.contact.pic}">
-                                                    <div class="prioffice-tabs-items-pic">
-                                                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${member.userPicId}"
-                                                             width="80" , hight="80">
-                                                    </div>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <div class="prioffice-tabs-items-pic">
-                                                        <img src="/resources/images/no_photo.jpg" width="80" ,
-                                                             hight="80">
-                                                    </div>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
-                                        <p class="prioffice-tabs-items-text"><a
-                                                href="/dialogue/id/${dialogue.id}">${dialogue.messages.get(dialogue.messages.size()-1).message}</a>
-                                        </p>
 
-                                        <p class="prioffice-tabs-items-status">
-                                            непрочитанных: ${dialogue.unreadMsgCounter.get(profile.id)}</p>
-                                    </c:forEach>
-                                </c:if>
-                                <c:if test="${empty dialogues}">
-                                    <p><a href="/dialogue/create">создать диалог</a></p>
-                                </c:if>
-                            </div>
+
+
+
+
+                        <div>
+
+
+
+
+
+                            <%--<div class="prioffice-tabs-items">--%>
+                                <%--<c:if test="${not empty dialogues}">--%>
+                                    <%--<c:forEach items="${dialogues}" var="dialogue">--%>
+                                        <%--<c:forEach items="${dialogue.members}" var="member">--%>
+                                            <%--<c:choose>--%>
+                                                <%--<c:when test="${not empty profile.contact.pic}">--%>
+                                                    <%--<div class="prioffice-tabs-items-pic">--%>
+                                                        <%--<img src="/api/rest/fileStorage/PROFILE/file/read/id/${member.userPicId}"--%>
+                                                             <%--width="80" , hight="80">--%>
+                                                    <%--</div>--%>
+                                                <%--</c:when>--%>
+                                                <%--<c:otherwise>--%>
+                                                    <%--<div class="prioffice-tabs-items-pic">--%>
+                                                        <%--<img src="/resources/images/no_photo.jpg" width="80" ,--%>
+                                                             <%--hight="80">--%>
+                                                    <%--</div>--%>
+                                                <%--</c:otherwise>--%>
+                                            <%--</c:choose>--%>
+                                        <%--</c:forEach>--%>
+                                        <%--<p class="prioffice-tabs-items-text"><a--%>
+                                                <%--href="/dialogue/id/${dialogue.id}">${dialogue.messages.get(dialogue.messages.size()-1).message}</a>--%>
+                                        <%--</p>--%>
+
+                                        <%--<p class="prioffice-tabs-items-status">--%>
+                                            <%--непрочитанных: ${dialogue.unreadMsgCounter.get(profile.id)}</p>--%>
+                                    <%--</c:forEach>--%>
+                                <%--</c:if>--%>
+                                <%--<c:if test="${empty dialogues}">--%>
+                                    <%--<p><a href="/dialogue/create">создать диалог</a></p>--%>
+                                <%--</c:if>--%>
+                            <%--</div>--%>
+
+
+
+
+
+
+
+
                             <div class="prioffice-tabs-items-return">
                                 <a href="/dialogues"><img src="/resources/img/strippeddownbuttonsmall.png"></a>
                             </div>
