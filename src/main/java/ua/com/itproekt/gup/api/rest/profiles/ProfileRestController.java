@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
@@ -33,10 +34,13 @@ public class ProfileRestController {
     @Autowired
     VerificationTokenService verificationTokenService;
 
+    @Autowired
+    BankSession bankSession;
+
     /**
      * Create profile.
      *
-     * @param profile   JSON object in request body
+     * @param profile JSON object in request body
      * @return the response status
      */
     @RequestMapping(value = "/profile/create", method = RequestMethod.POST,
@@ -142,7 +146,7 @@ public class ProfileRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Profile profile= profilesService.findById(newProfile.getId());
+        Profile profile = profilesService.findById(newProfile.getId());
         String loggedUserId = SecurityOperations.getLoggedUserId();
         if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             profilesService.editProfile(newProfile);
@@ -194,7 +198,7 @@ public class ProfileRestController {
 
     @ResponseBody
     @RequestMapping(value = "/profile/email-check", method = RequestMethod.POST)
-    public String idByEmail (@RequestParam String email) {
+    public String idByEmail(@RequestParam String email) {
         Profile profile = profilesService.findProfileByEmail(email);
         if (profile == null) {
             return "NOT FOUND";
@@ -220,4 +224,29 @@ public class ProfileRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/join-organization", method = RequestMethod.POST)
+    public ResponseEntity<String> joinToOrganization() {
+
+        System.err.println("Зашли");
+        String userId = SecurityOperations.getLoggedUserId();
+        Profile profile = profilesService.findById(userId);
+
+        if (profile.getContact().isMember()) {
+            System.err.println("Не член");
+            return new ResponseEntity<>("1", HttpStatus.OK);
+        } else {
+            Integer userBalance = bankSession.getUserBalance(userId);
+            if (userBalance >= 50) {
+                System.err.println("Больше 50");
+                bankSession.investInOrganization(5555, userId, 50L, 11, "Success");
+                profile.getContact().setMember(true);
+                profilesService.editProfile(profile);
+                return new ResponseEntity<>("2", HttpStatus.OK);
+            }else{
+                System.err.println("Нищеброд");
+               return new ResponseEntity<>("3", HttpStatus.OK);
+            }
+        }
+    }
 }
