@@ -36,9 +36,11 @@
 
 <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
 
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+
 <div class="container2">
     <div class="profile"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border -->
-        <p class="online">online</p>
+        <p class="online">Online</p>
 
         <div class="profile-img">
             <!-- если профиль вип то сюда надо добавлять класс vip-color-border, а если организации то organization-color-border -->
@@ -128,6 +130,8 @@
 <script src="/resources/js/search-bar.js"></script>
 
 <script src="/resources/js/profile.js"></script>
+<script src="/resources/js/profileUtil.js"></script>
+
 <script>
     var profileId = "${profileId}";
 

@@ -25,6 +25,11 @@ public class DoerController {
     @Autowired
     ProfilesService profilesService;
 
+    @RequestMapping("/doer/list")
+    public String getDoersList() {
+        return "tendersAndDoers/doers/doers";
+    }
+
     @RequestMapping("/doers")
     public String getDoersRead(Model model) {
 

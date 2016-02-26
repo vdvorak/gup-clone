@@ -31,7 +31,7 @@ public class Project {
     private Integer amountRequested;
     @Min(0)
     private Integer investedAmount;
-    @Size(min = 4, max = 140)
+    @Size(min = 4, max = 70)
     private String title;
     @Size(min = 50, max = 5000)
     private String description;

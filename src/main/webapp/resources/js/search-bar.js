@@ -44,6 +44,9 @@ function getTargetUrlBasedOnCheckedFilters() {
         case 'offer':
             //code block
             break;
+        case 'doer':
+            //code block
+            break;
         //default:
         //default code block
     }

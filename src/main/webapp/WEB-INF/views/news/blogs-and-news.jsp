@@ -192,7 +192,6 @@
         }
 
         function doAjax(filterOptions, url, whatDraw) {
-            alert("doAjax");
             $.ajax({
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
@@ -204,7 +203,6 @@
                     }
                     if (whatDraw === 'news') {
                         drawNews(response.entities);
-                        alert("Draw === 'news'");
                         console.log(response);
                     }
                 }
@@ -262,7 +260,6 @@
                 data[i].text = data[i].text.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', "");
                 if($('.normalNews').length == 0){
                     $('#startBlockOfNews').append(firstBlockNews);
-                    alert("pew");
                 }
                 $('.normalNews').last().attr('style', 'display:;');
                 $(".news-img").last().attr('src', findFirstImgNews(data[i].imageId));

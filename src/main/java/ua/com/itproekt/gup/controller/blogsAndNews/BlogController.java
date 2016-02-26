@@ -38,17 +38,6 @@ public class BlogController {
         return "news/blog-create";
     }
 
-    @RequestMapping("/blogs")
-    public String getBlogsRead(Model model) {
-
-        BlogFilterOptions blogFilterOptions = new BlogFilterOptions();
-
-        EntityPage<Blog> blogEntityPage = blogService.findBlogWihOptions(blogFilterOptions);
-        model.addAttribute("blogPages", blogEntityPage);
-        return "news/blogs-OLD";
-    }
-
-
     @RequestMapping(value = "/blog/{id}/edit", method = RequestMethod.GET)
     public String getBlogEditPage(Model model, @PathVariable String id) {
 
