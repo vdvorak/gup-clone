@@ -226,7 +226,7 @@
         formData.append('file', blob);
 
         if (imgId !== '') {
-            deleteImgFromDB();
+            deleteImgFromDB(imgId);
         }
 
         $.ajax({
@@ -240,7 +240,7 @@
             success: function (data, textStatus, request) {
                 imgId = data.id;
                 $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
-                cropper.replace('url(/api/rest/fileStorage/NEWS/file/read/id/' + imgId + ')');
+                cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
             }
         });
     });
@@ -443,12 +443,14 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 data: JSON.stringify(blog),
-                success: function (response) {
-                    window.location.href = '/index';
-//               в перспективе должно перекидывать на страницу этого блога - его просмотр
-                },
-                error: function (response) {
-                    alert("Внутренняя ошибка сервера");
+                statusCode: {
+                    200: function (response) {
+                        window.location.href = '/blog/' + blogId;
+                    },
+                    400: function (response) {
+                    },
+                    404: function (response) {
+                    }
                 }
             });
         });

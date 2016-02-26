@@ -240,7 +240,7 @@
             success: function (data, textStatus, request) {
                 imgId = data.id;
                 $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
-                cropper.replace('url(/api/rest/fileStorage/NEWS/file/read/id/' + imgId + ')');
+                cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
             }
         });
     });
