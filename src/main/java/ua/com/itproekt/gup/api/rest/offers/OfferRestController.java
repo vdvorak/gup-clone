@@ -91,11 +91,9 @@ public class OfferRestController {
         }
 
         offer.setAuthorId(userId);
-
         offersService.create(offer);
 
-        CreatedObjResp createdObjResp = new CreatedObjResp(offer.getId());
-        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
+        return new ResponseEntity<>(new CreatedObjResp(offer.getId()), HttpStatus.CREATED);
     }
 
     //------------------------------------------ Update -----------------------------------------------------------------
@@ -121,8 +119,7 @@ public class OfferRestController {
 //        offer.setModerationStatus(null);
         offersService.edit(offer);
 
-        CreatedObjResp createdObjResp = new CreatedObjResp(offer.getId());
-        return new ResponseEntity<>(createdObjResp, HttpStatus.OK);
+        return new ResponseEntity<>(new CreatedObjResp(offer.getId()), HttpStatus.OK);
     }
 
     @PreAuthorize("isAuthenticated()")

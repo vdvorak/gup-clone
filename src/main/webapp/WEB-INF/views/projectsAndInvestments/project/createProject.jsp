@@ -41,7 +41,7 @@
 <div class="container2">
     <div class="contentContainer editor">
         <div class="title">Создание проекта</div>
-        <form class="project" action="">
+        <div class="project">
             <div class="field required tit">
                 <label for="main-title-info" class="editorLabel">Заголовок</label>
                 <input id="main-title-info" type="text" name='text' class="editorInput">
@@ -108,7 +108,7 @@
             <div class="field">
                 <button type="submit" class="info-submit">Сохранить</button>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
