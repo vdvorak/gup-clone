@@ -3804,10 +3804,260 @@ input[value="open"]:checked + span  	{
 	height: 30px;
 	width: 167px;
 	border: 1px solid rgb( 153, 204, 102 );
+	-webkit-transition: all .25s;
 	transition: all .25s;
 }
 
 .tenderFilter > .column > button:hover {
 	background-color: transparent;
 	border-color: white;
+}
+.tenderMake {
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 17px;
+	margin-top: 10px;
+}
+
+.tenderMake h1 {
+	color: #1269a7;
+	font: 400 17px ArianAMU;
+	text-align: center;
+	margin: 50px 0;
+}
+
+.tenderMake > form {
+	margin: 0 50px 15px 50px;
+}
+
+.tenderMake > form:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.tenderMake > form > label {
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	float: left;
+}
+
+.tenderMake > form > label:after {
+	content: '*';
+	color: #ed4423;
+}
+
+.tenderMake > form > input[id='EnterTheTitle'] {
+	height: 23px;
+	width: 553px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	padding: 0 7px;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	margin-bottom: 40px;
+	margin-left: 10px;
+}
+
+.tenderMake > form > #selectBox-info-type {
+	float: left;
+	height: 23px;
+	width: 291px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	margin-right: 70px;
+	margin-left: 12px;
+}
+
+.tenderMake > form > #selectBox-info-type > select {
+	font: 400 13px DroidSans;
+	line-height: 19px;
+	height: 19px;
+	width: 304px;
+}
+
+.tenderMake > form > .datePickPi {
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	float: left;
+}
+
+.tenderMake > form > .datePickPi > input {
+	height: 23px;
+	width: 80px;
+	color: #a7a7a7;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	text-align: center;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+}
+
+.tenderMake > form > h2 {
+	color: #1269a7;
+	font: 400 16px DroidSans;
+	text-align: center;
+	margin: 35px 0;
+}
+
+.tenderMake > form > .location:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.tenderMake > form > .location > label {
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	float: left;
+}
+
+.tenderMake > form > .location > label:after {
+	content: '*';
+	color: #ed4423;
+}
+
+.tenderMake > form > .location > input {
+	height: 23px;
+	width: 290px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	padding: 0 7px;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	margin-left: 10px;
+	margin-bottom: 25px;
+}
+
+.tenderMake > form > .location > input:last-child {
+	margin-left: 25px;
+	margin-bottom: 70px;
+}
+
+.tenderMake > form > .tenderRadio {
+	height: 23px;
+	width: 340px;
+	float: left;
+	margin-bottom: 25px;
+}
+
+.tenderMake > form > .tenderRadio > label {
+	width: 23px;
+	height: 23px;
+	position: relative;
+	float: left;
+	border-radius: 20%;
+	margin-left: 10px;
+}
+
+.tenderMake > form > .tenderRadio > label:first-child {
+	margin-left: 120px;
+}
+
+.tenderMake > form > .tenderRadio > p {
+	float: left;
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	margin-left: 5px;
+}
+
+.tenderMake > form > .description > label {
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	margin-bottom: 30px;
+	float: left;
+}
+
+.tenderMake > form > .description > label:nth-child(2) {
+	width: 23px;
+	height: 23px;
+	position: relative;
+	border-radius: 20%;
+	margin-left: 5px;
+}
+
+.tenderMake > form > .description > label[for="InviteBidders"] {
+	margin-left: 90px;
+}
+
+form > .description > input {
+	height: 23px;
+	width: 170px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	padding: 0 7px;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	float: left;
+	margin-left: 5px;
+}
+
+form > .description > input[id='ExpectedValue'] {
+	width: 48px;
+}
+
+form > .description > input[id='ExpectedValue']:placeholder-shown {
+	color: #bfbfbf;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+}
+
+form > .description > label[for="TenderNumber"] {
+	margin-left: 125px;
+}
+
+form > .description > textarea {
+	margin-left: 5px;
+	resize: none;
+	height: 240px;
+	width: 640px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	padding: 3px 7px;
+	margin-bottom: 30px;
+}
+
+.tenderMake > form > .description {
+	margin-bottom: 10px;
+}
+
+.tenderMake > form > .titleFile {
+	margin-left: 80px;
+	float: left;
+	margin-top: 13px;
+}
+
+.tenderMake > form > img {
+	float: left;
+	margin-left: 25px;
+}
+
+.tenderMake > form > img[alt="clip"] {
+	margin-top: 4px;
+}
+
+.tenderMake > form > button[type="submit"] {
+	float: right;
+	margin-top: 30px;
+	color: #ffffff;
+	font: 400 16px ArianAMU;
+	height: 32px;
+	width: 133px;
+	border-radius: 5px;
+	border: 2px solid rgb( 153, 204, 102 );
+	background-color: rgb( 153, 204, 102 );
+	-webkit-transition: all .25s;
+	transition: all .25s;
+	margin-right: 5px;
+}
+
+.tenderMake > form > button[type="submit"]:hover {
+	background-color: transparent;
+	color: rgb( 153, 204, 102 );
 }
