@@ -34,7 +34,7 @@ public class TenderController {
 
 
     @RequestMapping("/tenders")
-    public String getAllTenders(Model model) {
+    public String getAllTenders() {
         return "tendersAndDoers/tenders/tenders";
     }
 

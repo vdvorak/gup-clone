@@ -55,12 +55,28 @@ $('#editProjectBtn').on('click', function () {
     });
 });
 
+$('#cancelProjDelBtn').on('click', function () {
+    $("#confirmProjDelete").hide();
+});
+
+$('#confirmProjDelBtn').on('click', function () {
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/projectsAndInvestmentsService/project/id/" + loadedProject.id + "/delete",
+        statusCode: {
+            204: function () {
+                window.location.href = '/project/list';
+            }
+        }
+    });
+});
+
 $('#addProjPhoto').on('click', function () {
     $("#uploadProjectPhotoInput").click();
 });
 
 $('#deleteProjectBtn').on('click', function () {
-    alert('Вы точно хотите удалить ваш проект "' + loadedProject.title + '"?')
+    $("#confirmProjDelete").show();
 });
 
 $('#uploadProjectPhotoInput').on('change', function () {
