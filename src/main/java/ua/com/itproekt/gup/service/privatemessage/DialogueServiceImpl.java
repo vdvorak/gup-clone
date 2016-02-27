@@ -73,9 +73,7 @@ public class DialogueServiceImpl implements DialogueService {
         Member member = new Member();
         member.setId(currentUserId);
         List<Dialogue> d1 = dr.findByMembersIn(member);
-        System.out.println("!!!!!!!! findByMembersIn !!!!!!!! d1.isEmpty() = " + d1.isEmpty());
         for (Dialogue d : d1) {
-            System.out.println("DialogueServiceImpl.findDialogsForUser() d = " + d);
             updateCountersWhenRead(d);
         }
         return d1;

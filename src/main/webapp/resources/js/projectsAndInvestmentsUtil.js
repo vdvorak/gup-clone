@@ -71,8 +71,8 @@ $('#projectsTab').on('click',function () {
 
 $('#investmentsTab').on('click',function () {
     $('#projectsContainer').hide();
-    $('#investmentsContainer').show();
     $('#investorPostsBlock').empty();
+    $('#investmentsContainer').show();
 
     investorPostFO.skip = 0;
     appendInvestorPosts(investorPostFO);

@@ -249,6 +249,16 @@ R._libra = {
                 all: '>'
             }
         }
+    },
+    activityFeed: {
+        event: {
+            read: {
+                all: '>'
+            },
+            id_eventId: {
+                delete: '>'
+            }
+        }
     }
 };
 

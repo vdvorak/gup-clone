@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.api.rest.dialogues;
 
+import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -15,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.privatemessages.PrivateMessage;
+import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
@@ -33,6 +35,7 @@ public class DialogueRestController {
 
     @Autowired
     DialogueService dialogueService;
+
     @Autowired
     ProfilesService profileService;
 
@@ -147,20 +150,31 @@ public class DialogueRestController {
         Map<String, PrivateMessage> msgs = new HashMap<>();
         dialogues.stream().filter(d -> (d.getUnreadMsgCounter().get(userId) > 0))
                 .forEach(dialogue -> {
-                    msgs.put(dialogue.getId(), dialogue.getMessages().
+                    //find last msg (with latest date);
+                    PrivateMessage msg = dialogue.getMessages().
                             stream().
                             filter(m -> m.getDate().equals(dialogue.getLustMsgTime())).
-                            findFirst().get());
+                            findFirst().get();
+
+                    //Look out! GOVNOCOD
+                    //Change AuthorId in messages to UserPicId
+                    Profile p = profileService.findById(msg.getAuthorId());
+                    if(p != null && p.getContact() != null && p.getContact().getPic() != null){
+                        msg.setAuthorId(p.getContact().getPic());
+                    }else {
+                        msg.setAuthorId("");
+                    }
+
+                    //put into map
+                    msgs.put(dialogue.getId(), msg);
                 });
 
         ObjectMapper mapper = new ObjectMapper();
 
         try {
             result = mapper.writeValueAsString(msgs);
-            System.out.println("Cool! msgs now is JSON = ");
             System.out.println(result);
         } catch (IOException e) {
-            System.out.println("Ololo, msgs can't became a JSON");
             e.printStackTrace();
         }
 
@@ -172,7 +186,7 @@ public class DialogueRestController {
             method=RequestMethod.POST
             )
     public ResponseEntity<List<Dialogue>> getAllDialogues(){
-        List<Dialogue> dialogues = dialogueService.findDialogsForUser(getCurrentUserId());
+        List<Dialogue> dialogues = dialogueService.findDialogsForUserAndUpdateUnread(getCurrentUserId());
         for(Dialogue d: dialogues){
             dialogueService.completeMembers(d);
         }

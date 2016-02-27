@@ -37,7 +37,7 @@
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
 
-<div class="container2">
+<div class="container2" ng-app="routerApp">
     <div class="sideBlock">
         <a href="#" class="buttonBack">&lt; Назад</a>
         <div class="mainInfo" data-id="${profile.id}">
@@ -140,17 +140,17 @@
                 </div>
                 <div class="count" onclick="contactToggle();">Контакты: ${profile.contactList.size()}</div>
             </div>
-            <div class="contactsContainer greenBox" toggler="">
-
-                <c:forEach items="${profile.contactList}" var="contact">
-                    <div class="persona" data-id="${contact}">
-                        <a href="#" class="photo border-color">
-                            <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
-                            <span class="sendMessage"></span>
-                            <span class="name">...</span>
-                        </a>
-                    </div>
-                </c:forEach>
+            <c:forEach items="${profile.contactList}" var="contact">
+                <div class="_contact" data-id="${contact}"></div>
+            </c:forEach>
+            <div class="contactsContainer greenBox" toggler="" ng-controller="contacts">
+                <div class="persona {{vip}}" ng-repeat="contact in contacts" data-id="{{contact.id}}">
+                    <a href="{{contact.homepage}}" class="photo border-color">
+                        <img src="{{contact.pic}}" alt="profile avatar">
+                        <span class="sendMessage"></span>
+                        <span class="name">{{contact.name}}</span>
+                    </a>
+                </div>
 
                 <div class="noFinded" style="display: none;">
                     Не найдено
@@ -162,42 +162,27 @@
         </div>
         <div class="greenBox msAndNt" id="tab-container-msAndNt">
             <ul class="ptabs">
-                <li class="ptab border-color active">
-                    <div class="count show">3</div><a href="#tab-messages">Сообщения</a></li>
-                <li class="ptab border-color">
+                <li class="ptab border-color active" messagesTab>
+                    <%--add "show" class to show counter--%>
+                    <div class="count">3</div><a href="#tab-messages">Сообщения</a></li>
+                <li class="ptab border-color" notificationsTab>
                     <div class="count">3</div><a href="#tab-notifications">Уведомления</a></li>
             </ul>
             <div class="messages" id="tab-messages">
                 <form class="messageForm" data-id="0">
                     <textarea class="text border-color"></textarea>
-                    <input type="submit" value="Написать" class="messageSubmit">
+                    <input type="submit" value="Отправить (Ctrl+Enter)" class="messageSubmit">
                     <div class="clearfix"></div>
                     <div class="arrowHide"></div>
                 </form>
             </div>
-            <div class="notifications" id="tab-notifications">
-                <a href="#" class="notify">
+            <div class="notifications" id="tab-notifications" ng-controller="notifications">
+                <a href="#" class="notify" ng-repeat="notify in notifies">
                     <div class="persona">
                         <img src="/resources/css/images/rupor.png" alt="" class="avatar">
                         <div class="date">25.10.15</div>
                     </div>
-                    <div class="text">Ваше обьявление забанено ибо потомучто</div>
-                    <div class="clearfix"></div>
-                </a>
-                <a href="#" class="notify">
-                    <div class="persona">
-                        <img src="/resources/css/images/compass.png" alt="" class="avatar">
-                        <div class="date">25.10.15</div>
-                    </div>
-                    <div class="text">Ваш проект забанен ибо потомучто</div>
-                    <div class="clearfix"></div>
-                </a>
-                <a href="#" class="notify">
-                    <div class="persona">
-                        <img src="/resources/css/images/newspaper.png" alt="" class="avatar">
-                        <div class="date">25.10.15</div>
-                    </div>
-                    <div class="text">Ваша новость ЗАБАНЕНА ибо потомучто</div>
+                    <div class="text">{{getText(notify.type)}}</div>
                     <div class="clearfix"></div>
                 </a>
             </div>
@@ -283,6 +268,7 @@
 <script src="/resources/js/service.js"></script>
 <script src="/resources/js/masonry.pkgd.min.js"></script>
 <script src="/resources/js/enscroll-0.6.1.min.js"></script>
+<script src="/resources/js/angular.min.js"></script>
 <!--END of libs-->
 
 <script src="/resources/js/api-generator/api-request.js"></script>
