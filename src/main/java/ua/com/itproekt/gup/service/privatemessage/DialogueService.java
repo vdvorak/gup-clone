@@ -16,8 +16,6 @@ public interface DialogueService {
 
     Dialogue findById(String Id);
 
-    List<Dialogue> findDialogsForUserAndUpdateUnread(String currentUserId);
-
     List<Dialogue> findDialogsForUser(String currentUserId);
 
     List<Dialogue> findDialogsForUserSimple(String currentUserId);
