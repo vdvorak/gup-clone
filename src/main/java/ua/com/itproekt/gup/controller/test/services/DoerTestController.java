@@ -13,9 +13,9 @@ import ua.com.itproekt.gup.model.tender.doer.Doer;
 import ua.com.itproekt.gup.model.tender.doer.DoerClient;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.util.SocialNetwork;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -74,6 +74,21 @@ public class DoerTestController {
                 naceIds.add("20.20");
                 naceIds.add("30.30");
                 doer.setNaceIds(naceIds);
+
+                doer.setEmail("doerEmail@com.ua");
+
+                Set<String> contactPhones = new HashSet<>();
+                contactPhones.add("123-45-67");
+                contactPhones.add("567-89-00");
+                doer.setContactPhones(contactPhones);
+
+                Map<SocialNetwork, String> socLinks = new HashMap<>();
+                socLinks.put(SocialNetwork.FACEBOOK, "FBlink");
+                socLinks.put(SocialNetwork.VKONTAKTE, "VKlink");
+                socLinks.put(SocialNetwork.LINKEDIN, "LinkedIn/link");
+                socLinks.put(SocialNetwork.GOOGLEPLUS, "Google+/link");
+                socLinks.put(SocialNetwork.TWITTER, "twitter/link");
+
                 doerRepository.createDoer(doer);
             }
         } catch (Exception e){
