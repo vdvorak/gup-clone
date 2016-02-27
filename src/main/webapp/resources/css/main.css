@@ -273,6 +273,12 @@ table {
 	width: 100%;
 }
 
+.search:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
 .sear {
 	font: 400 18px DroidSans;
 	height: 32px;
@@ -1186,7 +1192,7 @@ input[class="greenCheckbox"]:checked + span  	{
 
 .online {
 	color: #ffb405;
-	font: 400 20px DroidSans;
+	font: 400 30px DroidSans;
 	top: 10px;
 	right: 20px;
 	position: absolute;
@@ -3219,11 +3225,24 @@ label[for="checkbox-filter3"] {
 	margin: 15px 68px;
 	width: 89px;
 	text-align: center;
+	position: relative;
 }
 
 .ItemADS a {
 	color: #ffffff;
 	font: 400 12px DroidSans;
+
+}
+
+.ItemADS img {
+	border: 3px solid transparent;
+	border-radius: 6px;
+	width: 85px;
+	height: 85px;
+}
+
+.hoverIMG {
+	border-color: rgb(153, 204, 102) !important;
 }
 
 .filterArtists input[type='text'] {
@@ -4060,4 +4079,169 @@ form > .description > textarea {
 .tenderMake > form > button[type="submit"]:hover {
 	background-color: transparent;
 	color: rgb( 153, 204, 102 );
+}
+
+.ItemADS > .descriptionTitleLeft {
+	position: absolute;
+	top: 60px;
+	left: 65px;
+	height: 175px;
+	width: 397px;
+	z-index: 1;
+	background: url(/resources/images/descriptionTitleLeft.png) no-repeat;
+	padding: 20px 10px 10px 30px;
+	display: none;
+}
+
+.ItemADS > .descriptionTitleRight {
+	position: absolute;
+	top: 60px;
+	left: -380px;
+	height: 175px;
+	width: 397px;
+	z-index: 1;
+	background: url(/resources/images/descriptionTitleRight.png) no-repeat;
+	padding: 20px 30px 10px 10px;
+	display: none;
+}
+
+.ItemADS > .descriptionTitleLeft a {
+	color: #ffffff;
+	font: 400 11px DroidSans;
+	float: left;
+	margin: 0 11px 15px 11px;
+	width: 27%;
+}
+
+.ItemADS > .descriptionTitleRight a {
+	color: #ffffff;
+	font: 400 11px DroidSans;
+	float: left;
+	margin: 0 11px 15px 11px;
+	width: 27%;
+}
+
+.ItemADS > .descriptionTitleLeft a:hover {
+	font-style: italic;
+	text-decoration: underline;
+}
+
+.ItemADS > .descriptionTitleRight a:hover {
+	font-style: italic;
+	text-decoration: underline;
+}
+
+.ItemADS > .descriptionTitleLeft a:last-child {
+	float: right;
+	width: auto;
+	font-style: italic;
+	text-decoration: underline;
+	margin-bottom: 0;
+	margin-top: 5px;
+}
+
+.ItemADS > .descriptionTitleRight a:last-child {
+	float: right;
+	width: auto;
+	font-style: italic;
+	text-decoration: underline;
+	margin-bottom: 0;
+	margin-top: 5px;
+}
+
+.ItemADS > .descriptionTitleLeft a:last-child:hover {
+	text-decoration: none;
+	font-style: normal;
+}
+
+.ItemADS > .descriptionTitleRight a:last-child:hover {
+	text-decoration: none;
+	font-style: normal;
+}
+
+.filterADS:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.search > .filterADS > .superFilter {
+	border-top: 3px solid #8bd0ea;
+	width: 770px;
+	margin: 0 auto;
+	padding-top: 20px;
+	margin-bottom: 10px;
+	display: none;
+}
+
+.superFilter > form > select {
+	height: 23px;
+	width: 125px;
+	border-radius: 5px;
+	color: #36aae0;
+	font: 400 11px DroidSans;
+	border: none;
+	background-color: #ffffff;
+	margin-left: 20px;
+}
+
+.superFilter > form > .price {
+	width: 186px;
+	float: left;
+	margin-left: 20px;
+	margin-top: 20px;
+}
+
+form > .price > p {
+	color: #ffffff;
+	font: 400 11 DroidSans;
+	display: inline;
+	line-height: 23px;
+}
+
+form > .price > input {
+	height: 23px;
+	width: 49px;
+	border: none;
+	border-radius: 3px;
+	padding: 0 5px;
+	color: #36aae0;
+	font: 400 11px DroidSans;
+}
+
+form > .price > input:placeholder-shown {
+	color: #36aae0;
+	font: 400 10px DroidSans;
+}
+
+.superFilter > form > input {
+	border-radius: 5px;
+	height: 23px;
+	width: 130px;
+	border: none;
+	padding: 0 7px;
+	color: #36aae0;
+	font: 400 11px DroidSans;
+	float: left;
+	margin-top: 20px;
+	margin-left: 20px;
+}
+
+.superFilter > form > button {
+	float: right;
+	margin-top: 20px;
+	color: #ffffff;
+	font: 400 16px DroidSans;
+	background-color: #99cc66;
+	border-radius: 8px;
+	height: 29px;
+	width: 154px;
+	border: none;
+	-webkit-transition: all .25s;
+	transition: all .25s;
+}
+
+.superFilter > form > button:hover {
+	background-color: white;
+	color: #36aae0;
 }
