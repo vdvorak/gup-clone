@@ -53,10 +53,10 @@
         <div class="artistData">
             <ul>
                 <li>
-                    <p>Дата создания: ${doer.dateOfCreate}</p>
+                    <p>Дата создания: <span class="date-create">${doer.dateOfCreate}</span></p>
                 </li>
                 <li>
-                    <p>Дата обновления: ${doer.dateOfUpdate}</p>
+                    <p>Дата обновления: <span class="date-create">${doer.dateOfUpdate}</span></p>
                 </li>
                 <li>
                     <p>Просмотров: ${doer.countVisit}</p>
@@ -218,6 +218,7 @@
     </div>
 </div>
 
+
 <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
 <script>
@@ -309,11 +310,6 @@
 
 </c:if>
 
-
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-
-
 <script>
     var categories = '${doer.naceIds}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
 
@@ -348,5 +344,7 @@
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
 
+<script src="/resources/js/moment-with-locales.js"></script>
+<script src="/resources/js/service.js"></script>
 </body>
 </html>
