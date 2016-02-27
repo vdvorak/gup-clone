@@ -291,7 +291,7 @@ table {
 .selectBox select {
 	border-radius: 0;
 	height: 32px;
-	width: 166px;
+	width: 169px;
 	color: #898989;
 	font: 400 18px DroidSans;
 	background: transparent;
@@ -4244,4 +4244,130 @@ form > .price > input:placeholder-shown {
 .superFilter > form > button:hover {
 	background-color: white;
 	color: #36aae0;
+}
+
+.bx-wrapper .bx-controls-direction a {
+	width: 25px;
+	height: 50px;
+}
+
+.slider .bx-wrapper .bx-prev {
+	display: none;
+}
+
+.slider .bx-wrapper .bx-next {
+	background: url(/resources/css/images/controls.png) no-repeat center center;
+	background-size: cover;
+	right: -20px;
+	top: 50%;
+	margin-top: -25px;
+}
+
+.slider .bx-wrapper .bx-pager.bx-default-pager a {
+	background-color: #9c6;
+}
+
+.slider .bx-wrapper .bx-pager.bx-default-pager a:hover,
+.slider .bx-wrapper .bx-pager.bx-default-pager a.active {
+	background-color: #36aae0;
+}
+
+.slider .bx-wrapper .bx-pager {
+	padding: 20px 0 0 200px;
+}
+
+.sliderTender .bx-wrapper .bx-next {
+	background: url(/resources/images/controlsTenderRight.png) no-repeat center center;
+	background-size: cover;
+	top: 50%;
+	margin-top: -25px;
+	right: -20px;
+}
+
+.sliderTender .bx-wrapper .bx-prev {
+	background: url(/resources/images/controlsTenderLeft.png) no-repeat center center;
+	background-size: cover;
+	top: 50%;
+	margin-top: -25px;
+	left: -30px;
+}
+
+.sliderTender .bx-wrapper .bx-pager {
+	display: none;
+}
+
+.sliderTender .bx-wrapper {
+	margin-bottom: 20px;
+}
+
+.contentContainer > .tenderFils {
+	margin-bottom: 10px;
+}
+
+.contentContainer > .tenderFils:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.contentContainer > .tenderFils > a {
+	background: url(/resources/images/caretDOC.png) no-repeat 95% 50%;
+	color: #ffffff;
+	font: 400 14px Arial;
+	background-color: #1269a7;
+	height: 30px;
+	width: 179px;
+	float: left;
+	margin: 20px;
+	line-height: 30px;
+	padding: 0 35px 0 10px;
+	border-radius: 4px;
+}
+
+.contentContainer > .tenderFils > a:hover {
+	-webkit-animation: swing 0.5s ease;
+	animation: swing 0.5s ease;
+	-webkit-animation-iteration-count: 1;
+	animation-iteration-count: 1;
+}
+
+.contentContainer > .tenderMap {
+	height: 194px;
+	margin: 0 auto;
+	margin-bottom: 40px;
+	position: relative;
+}
+
+.contentContainer > .tenderMap:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.contentContainer > .tenderMap > iframe {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.contentContainer > .downComments {
+	width: 100%;
+	margin-left: 0;
+}
+
+.contentContainer.vip {
+	border: 2px solid rgb( 252, 155, 0 );
+	border-radius: 4px;
+}
+
+.contentContainer.vip .abutton.blue {
+	background-color: #fdb33c;
+	border-color: #fdb33c;
+	-webkit-transition: all .25s;
+	transition: all .25s;
+}
+
+.contentContainer.vip .abutton.blue:hover {
+	background-color: transparent;
+	color: #fdb33c;
 }
