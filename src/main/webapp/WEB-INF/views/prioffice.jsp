@@ -176,29 +176,13 @@
                     <div class="arrowHide"></div>
                 </form>
             </div>
-            <div class="notifications" id="tab-notifications">
-                <a href="#" class="notify">
+            <div class="notifications" id="tab-notifications" ng-controller="notifications">
+                <a href="#" class="notify" ng-repeat="notify in notifies">
                     <div class="persona">
                         <img src="/resources/css/images/rupor.png" alt="" class="avatar">
                         <div class="date">25.10.15</div>
                     </div>
-                    <div class="text">Ваше обьявление забанено ибо потомучто</div>
-                    <div class="clearfix"></div>
-                </a>
-                <a href="#" class="notify">
-                    <div class="persona">
-                        <img src="/resources/css/images/compass.png" alt="" class="avatar">
-                        <div class="date">25.10.15</div>
-                    </div>
-                    <div class="text">Ваш проект забанен ибо потомучто</div>
-                    <div class="clearfix"></div>
-                </a>
-                <a href="#" class="notify">
-                    <div class="persona">
-                        <img src="/resources/css/images/newspaper.png" alt="" class="avatar">
-                        <div class="date">25.10.15</div>
-                    </div>
-                    <div class="text">Ваша новость ЗАБАНЕНА ибо потомучто</div>
+                    <div class="text">{{getText(notify.type)}}</div>
                     <div class="clearfix"></div>
                 </a>
             </div>

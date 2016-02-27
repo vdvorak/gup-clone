@@ -896,6 +896,7 @@ color: white;
     width: 198px;
     height: 207px;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .sideBlock .mainInfo .photo img {
@@ -1153,6 +1154,7 @@ color: white;
     height: 58px;
     border: 2px solid;
     border-radius: 5px;
+    overflow: hidden;
 }
 
 .contactsContainer .persona .photo img {
@@ -1319,6 +1321,13 @@ color: white;
     padding-bottom: 10px;
     float: left;
 }
+.msAndNt .messages .dialog .msg .persona {
+    pointer-events: none;
+}
+.msAndNt .messages .dialog.opened .msg .persona {
+    cursor: pointer;
+    pointer-events: auto;
+}
 
 .msAndNt .messages .dialog .msg.myself .persona {
     float: right;
@@ -1336,8 +1345,9 @@ color: white;
 .msAndNt .messages .dialog .msg .persona .date,
 .msAndNt .notifications .notify .persona .date {
     position: absolute;
+    width: 100%;
+    text-align: center;
     top: 50px;
-    right: 9px;
     left: auto;
     color: #828a8f;
     font: 8px DroidSans;

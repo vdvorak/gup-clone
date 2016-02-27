@@ -81,6 +81,113 @@ $(document).ready(function () {
 	}
 })
 
+Nots = {}
+Nots.types = {
+	BLOG_SUBSCRIPTION: {
+		img: "",
+		text: "Новый подписчик"
+	},
+
+	BLOG_POST_LIKE: {
+		img: "",
+		text: "Лайк записи блога"
+	},
+	BLOG_POST_DISLIKE: {
+		img: "",
+		text: "Дизлайк записи блога"
+	},
+
+	BLOG_POST_COMMENT: {
+		img: "",
+		text: "Новый комментарий"
+	},
+	BLOG_POST_COMMENT_REPLY: {
+		img: "",
+		text: "На ваш комментарий ответили"
+	},
+	BLOG_POST_COMMENT_LIKE: {
+		img: "",
+		text: "Лайк Вашего комментария"
+	},
+
+	PROJECT_COMMENT: {
+		img: "",
+		text: "Новый комментарий к проекту"
+	},
+	PROJECT_COMMENT_REPLY: {
+		img: "",
+		text: "На ваш комментарий ответили"
+	},
+
+	MONEY_TRANSFER_TO_USER: {
+		img: "",
+		text: "Вам зачислены средства"
+	},
+	MONEY_TRANSFER_TO_PROJECT: {
+		img: "",
+		text: "Вы инвестировали в проект"
+	},
+	PROJECT_BRING_BACK_MONEY: {
+		img: "",
+		text: "Вы вернули деньги"
+	},
+
+
+//for doerService
+	NEW_CLIENT_WANT_CONFIRM: {
+		img: "",
+		text: "NEW_CLIENT_WANT_CONFIRM"
+	},
+	USER_ADD_TO_DOER_CLIENT_LIST: {
+		img: "",
+		text: "USER_ADD_TO_DOER_CLIENT_LIST"
+	},
+
+//for tenderService
+	TENDER_END_DAY_NEED_CHOOSE_WINNER: {
+		img: "",
+		text: "Тендер закончился. Выберите победителя."
+	},
+	YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER: {
+		img: "",
+		text: "YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER"
+	},
+	NEW_PROPOSE_IN_YOUR_TENDER: {
+		img: "",
+		text: "NEW_PROPOSE_IN_YOUR_TENDER"
+	},
+	YOU_WON_IN_TENDER: {
+		img: "",
+		text: "YOU_WON_IN_TENDER"
+	},
+
+	OFFER_RESERVATION: {
+		img: "",
+		text: "OFFER_RESERVATION"
+	},
+	OFFER_RENT: {
+		img: "",
+		text: "OFFER_RENT"
+	}
+}
+Nots.scope = null
+routerApp.controller('notifications', function($scope, $http, $window){
+	Nots.scope = $scope
+})
+loadingQueue.push(function(){
+	Nots.scope.getText = function (type) {
+		return Nots.types[type].text
+	}
+	Nots.scope.notifies = []
+	var root = $('.notifications')
+	R.Libra().activityFeed().event().read().all({
+		skip: 0, limit: 999
+	}, function(res){
+		Nots.scope.notifies = res.entities
+		Nots.scope.$apply()
+	})
+})
+
 var User = {}
 User.bank = {}
 User.get = function (id, callback) {
@@ -275,7 +382,6 @@ Contacts.init = function(){
 	Contacts.scope.contacts = []
 	$('.contactsMain').find('._contact').each(function (num, e) {
 		var id = $(e).attr('data-id')
-		console.log(id)
 		User.get(id, function(err, profile){
 			Contacts.scope.contacts.push({
 				id: profile.id,
@@ -394,12 +500,12 @@ Dialogs.init = function () {
 			}
 			Dialogs.close()
 			R.Libra().dialogueService().dialogue().create(newDialog, function (res) {
-				console.log('dialog created!')
+
 			})
 		}
 		else {
 			R.Libra().dialogueService().dialogue().id(Dialogs.opened.id).message().create(msg, function (res) {
-				console.log('message writed!')
+
 			})
 		}
 	}
@@ -515,6 +621,7 @@ Dialogs.Message = (function () {
 		}
 		User.get(self.authorId, function(err, profile){
 			var persona = self.handle.find('.persona')
+			persona.attr('href', profile.getPage())
 			persona.find('.avatar').attr('src', profile.getPic())
 			if (profile.contact.member){
 				persona.addClass('vip')
@@ -528,10 +635,10 @@ Dialogs.Message = (function () {
 Dialogs.dialogTemplate = $('<div class="dialog" data-id=""></div>')
 Dialogs.messageTemplate = $(
 	'<div class="msg" data-author="">'+
-		'<div class="persona">'+
+		'<a class="persona" href="#"">'+
 			'<img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">'+
 			'<div class="date">25.10.15</div>'+
-		'</div>'+
+		'</a>'+
 		'<div class="text">Message text</div>'+
 		'<div class="clearfix"></div>'+
 	'</div>')
@@ -541,18 +648,16 @@ var ELoader = (function () {
 		this.api = null;
 		this.id = 0;
 		this.callback = function () {};
+		this.href = function(id){return id}
 		this.template = ELoader.templateDefault;
 		$.extend(this, options)
 		this.page = 0
 
 		var self = this
-		console.log('constructor: ' + self.id)
 		$(document).ready(function () {
-			console.log('ready: ' + self.id)
 			self.handle = $('#' + self.id)
 			self.historyContent = self.handle.find('.historyContent').first()
 			self.handle.find('.arrow.loader').each(function(num, el){
-				console.log('each')
 				$(el).on('click', function(){
 					self.load(self.callback)
 				})
@@ -575,6 +680,7 @@ ELoader.prototype.load = function () {
 			var entity = res.entities[r]
 			var temp = self.template.clone()
 			temp.text(entity.title)
+			temp.attr('href', self.href(entity.id))
 			self.historyContent.append(temp)
 		}
 		self.callback(res)
@@ -590,11 +696,13 @@ loadingQueue.push(function(){
 	}).load()
 	new ELoader({
 		api: R.Libra().projectsAndInvestmentsService().project().read().all,
-		id: 'myProjects'
+		id: 'myProjects',
+		href: function(id){return '/project?id=' + id}
 	}).load()
 	new ELoader({
 		api: R.Libra().newsService().blog().read().all,
-		id: 'myNews'
+		id: 'myNews',
+		href: function(id){return '/blog-post/view/id/' + id}
 	}).load()
 	new ELoader({
 		api: R.Libra().offersService().offer().read().all,

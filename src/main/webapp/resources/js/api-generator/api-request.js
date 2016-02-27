@@ -83,7 +83,7 @@ Request.prototype.post = function (url, data, success, error) {
                 catch (err) {
                     //throwError("can't parse response");
                 }
-                console.info(String.format('url: [0], data: [1]\nresponse: [2]', self.baseHref + url, data, JSON.stringify(res)))
+                //console.info(String.format('url: [0], data: [1]\nresponse: [2]', self.baseHref + url, data, JSON.stringify(res)))
                 success(res);
             }
             else {
