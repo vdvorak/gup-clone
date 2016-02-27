@@ -139,7 +139,7 @@ public class DialogueRestController {
     @RequestMapping(value="/unread-msg/for-user-id/{id}",
             method=RequestMethod.POST)
     public String getUnreadMessagesForUser(@PathVariable("id") String userId) {
-        List<Dialogue> dialogues = dialogueService.findDialogsForUser(userId);
+        List<Dialogue> dialogues = dialogueService.findDialogsForUserSimple(userId);
         String result = "";
         if(dialogues == null){
             return result;

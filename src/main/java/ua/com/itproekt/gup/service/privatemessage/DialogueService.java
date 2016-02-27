@@ -18,6 +18,8 @@ public interface DialogueService {
 
     List<Dialogue> findDialogsForUser(String currentUserId);
 
+    List<Dialogue> findDialogsForUserSimple(String currentUserId);
+
     void completeMembers(Dialogue dialogue);
 
     PrivateMessage completeMessage(PrivateMessage message, String authorId);

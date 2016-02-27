@@ -82,6 +82,15 @@ public class DialogueServiceImpl implements DialogueService {
     }
 
     @Override
+    public List<Dialogue> findDialogsForUserSimple(String currentUserId){
+        Member member = new Member();
+        member.setId(currentUserId);
+        List<Dialogue> d1 = dr.findByMembersIn(member);
+        return d1;
+    }
+
+
+    @Override
     public void completeMembers(Dialogue dialogue) {
         List<Member> members = dialogue.getMembers();
         for (Member m : members) {
