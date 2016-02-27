@@ -48,95 +48,47 @@
 
 
     <div id="tabs1-tenders">
-      <div class="feedContainer tenders">
-        <div class="feedItem vip">
+      <div id="tenders-start-block" class="feedContainer tenders">
+
+
+        <div class="feedItem build-item-wrap">
           <!--Add class "vip" to vip-tialize tender-->
-          <a class="preview" href="#">
+          <a class="preview build-pic-wrap" href="#">
             <img src="resources/css/images/sample/tender1.png" alt="project photo" />
-            <span class="proposals">Предложений: 110</span>
-            <span class="views">Просмотров: 25</span>
+            <span class="proposals build-proposal-count">Предложений: <span></span></span>
+            <span class="views build-veiws">Просмотров: <span></span></span>
           </a>
-          <a href="#" class="content">
-            <div class="publishDate">Опубликовано: 22. 10. 16</div>
+          <section class="content">
+            <div class="publishDate build-publish-date">Опубликовано: <span></span></div>
             <!-- Добавь класс "visible" и ты узреешь номер -->
-            <span class="number visible">№953745195</span>
-            <div class="title">Название тендера</div>
-            <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-          </a>
+            <span class="number visible">Номер тендера: <span class="build-number"></span> </span>
+            <div class="title build-name"></div>
+            <div class="text build-item-text"></div>
+          </section>
           <div class="bottomContent">
             <div class="participate">
               <div class="clock">
-                <div class="time">15</div>
+                <div class="time build-end"></div>
               </div>
               <button type="button" class="abutton blue">Участвовать</button>
             </div>
-            <div class="sum">00 000 000$</div>
+            <div class="sum"><span class="build-sum"></span>₴</div>
           </div>
         </div>
-        <div class="feedItem">
-          <!--Add class "vip" to vip-tialize tender-->
-          <a class="preview" href="#">
-            <img src="resources/css/images/sample/tender2.png" alt="project photo" />
-            <span class="proposals">Предложений: 110</span>
-            <span class="views">Просмотров: 25</span>
-          </a>
-          <a href="#" class="content">
-            <div class="publishDate">Опубликовано: 22. 10. 16</div>
-            <!-- Добавь класс "visible" и ты узреешь номер -->
-            <span class="number">№953745195</span>
-            <div class="title">Название тендера</div>
-            <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-          </a>
-          <div class="bottomContent">
-            <div class="participate">
-              <div class="clock">
-                <div class="time">15</div>
-              </div>
-              <button type="button" class="abutton blue">Участвовать</button>
-            </div>
-            <div class="sum">00 000 000$</div>
-          </div>
-        </div>
-        <div class="feedItem">
-          <!--Add class "vip" to vip-tialize tender-->
-          <a class="preview" href="#">
-            <img src="resources/css/images/sample/tender3.png" alt="project photo" />
-            <span class="proposals">Предложений: 110</span>
-            <span class="views">Просмотров: 25</span>
-          </a>
-          <a href="#" class="content">
-            <div class="publishDate">Опубликовано: 22. 10. 16</div>
-            <!-- Добавь класс "visible" и ты узреешь номер -->
-            <span class="number visible">№953745195</span>
-            <div class="title">Название тендера</div>
-            <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-          </a>
-          <div class="bottomContent">
-            <div class="participate">
-              <div class="clock">
-                <div class="time">15</div>
-              </div>
-              <button type="button" class="abutton blue">Участвовать</button>
-            </div>
-            <div class="sum">00 000 000$</div>
-          </div>
-        </div>
-        <div class="feedPagination">
-          <a href="#" class="arr left active"></a>
-          <a href="#" class="page"></a>
-          <a href="#" class="page"></a>
-          <a href="#" class="page"></a>
-          <a href="#" class="page"></a>
-          <a href="#" class="page active"></a>
-          <a href="#" class="page"></a>
-          <a href="#" class="page"></a>
-          <a href="#" class="page"></a>
-          <a href="#" class="arr right"></a>
-        </div>
+        <%--<div class="feedPagination">--%>
+          <%--<a href="#" class="arr left active"></a>--%>
+          <%--<a href="#" class="page"></a>--%>
+          <%--<a href="#" class="page"></a>--%>
+          <%--<a href="#" class="page"></a>--%>
+          <%--<a href="#" class="page"></a>--%>
+          <%--<a href="#" class="page active"></a>--%>
+          <%--<a href="#" class="page"></a>--%>
+          <%--<a href="#" class="page"></a>--%>
+          <%--<a href="#" class="page"></a>--%>
+          <%--<a href="#" class="arr right"></a>--%>
+        <%--</div>--%>
       </div>
+      <button id="tenderNextPage">Загрузить ещё тендеры</button>
     </div>
 
 
@@ -222,86 +174,7 @@
         <div class="clearfix"></div>
       </div>
 
-      <div class="doersFeed"> <!-- если чувак вип, добавь сюда класс vip и ты увидишь магию -->
-        <img src="/resources/images/doersLogo.png" alt="doersLogo">
-        <div class="artistData">
-          <ul>
-            <li>
-              <p>Дата создания: 12. 09. 15</p>
-            </li>
-            <li>
-              <p>Дата обновления: 12. 09. 15</p>
-            </li>
-            <li>
-              <p>Просмотров: 133</p>
-            </li>
-          </ul>
-        </div>
-        <h2>ФИО исполнителя</h2>
-        <p>Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимодействия с ним. 	Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимодействия с ним.
-          Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимодействия с ним.</p>
-        <div class="doersRang">
-          <div></div>
-          <div></div>
-          <button type="button">Добавить в клиенты</button>
-        </div>
-
-        <div class="clearfix"></div>
-
-        <div class="colNewsComments">
-          <div class="newsComments">
-            <div class="clearfix"></div>
-            <p class="newsCommentsHeader">КОММЕНТАРИИ</p>
-            <form action="#" role="form" id="newsCommentsForm">
-              <textarea name="newsFormComments" id="newsFormComments" placeholder="Введите свой комментарий" maxlength="2000" required></textarea>
-              <button type="submit" class="newsFormSubmit">Отправить</button>
-            </form>
-            <p id="chars">2000 символов осталось</p>
-          </div>
-        </div>
-        <div class="clearfix"></div>
       </div>
-
-      <div class="doersFeed"> <!-- если чувак вип, добавь сюда класс vip и ты увидишь магию -->
-        <img src="/resources/images/doersLogo.png" alt="doersLogo">
-        <div class="artistData">
-          <ul>
-            <li>
-              <p>Дата создания: 12. 09. 15</p>
-            </li>
-            <li>
-              <p>Дата обновления: 12. 09. 15</p>
-            </li>
-            <li>
-              <p>Просмотров: 133</p>
-            </li>
-          </ul>
-        </div>
-        <h2>ФИО исполнителя</h2>
-        <p>Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимодействия с ним. 	Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимодействия с ним.
-          Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимодействия с ним.</p>
-        <div class="doersRang">
-          <div></div>
-          <div></div>
-          <button type="button">Добавить в клиенты</button>
-        </div>
-
-        <div class="clearfix"></div>
-
-        <div class="colNewsComments">
-          <div class="newsComments">
-            <div class="clearfix"></div>
-            <p class="newsCommentsHeader">КОММЕНТАРИИ</p>
-            <form action="#" role="form" id="newsCommentsForm">
-              <textarea name="newsFormComments" id="newsFormComments" placeholder="Введите свой комментарий" maxlength="2000" required></textarea>
-              <button type="submit" class="newsFormSubmit">Отправить</button>
-            </form>
-            <p id="chars">2000 символов осталось</p>
-          </div>
-        </div>
-        <div class="clearfix"></div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -344,8 +217,7 @@
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
-<script src="/resources/js/moment-with-locales.js"></script>
-<script src="/resources/js/service.js"></script>
+
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
 <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
@@ -368,13 +240,14 @@
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
 
+<script src="/resources/js/moment-with-locales.js"></script>
+<script src="/resources/js/service.js"></script>
+<script src="/resources/js/tendersDoersList.js"></script>
+
 <script>
   $('.doers').easytabs({
     animate: false
   })
 </script>
-
-
-
 </body>
 </html>
