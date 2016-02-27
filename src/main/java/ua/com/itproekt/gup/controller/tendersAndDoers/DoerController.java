@@ -27,7 +27,7 @@ public class DoerController {
 
     @RequestMapping("/doer/list")
     public String getDoersList() {
-        return "tendersAndDoers/doers/doers";
+        return "tendersAndDoers/doers/tendersAndDoersList";
     }
 
     @RequestMapping("/doers")
@@ -37,7 +37,7 @@ public class DoerController {
         doerFilterOptions.setLimit(10000);
         EntityPage<Doer> doerEntityPage = doerService.findWihOptions(doerFilterOptions);
         model.addAttribute("doerPages", doerEntityPage);
-        return "tendersAndDoers/doers/doers";
+        return "tendersAndDoers/doers/tendersAndDoersList";
     }
 
     @RequestMapping("/doer-create")
