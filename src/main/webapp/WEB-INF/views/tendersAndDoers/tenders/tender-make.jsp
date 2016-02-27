@@ -404,6 +404,7 @@
     });
 
     function appendImg(id) {
+
         $("#tender-img-block > .li-defaultIMG").css("display", "none");
         var cloneImg = $("#tender-img-block > .li-defaultIMG").clone()
                 .removeClass('li-defaultIMG')
@@ -467,11 +468,11 @@
     $('.input-tenderRadio').change(function () {
         var invite = $('#InviteBidders');
         if ($('.input-tenderRadio[data-type="CLOSE"]').prop('checked')) {
-            invite.attr("style", "display: none");
-            $('label[for="InviteBidders"]').attr("style", "display: none");
-        } else {
             invite.attr("style", "display: ");
             $('label[for="InviteBidders"]').attr("style", "display: ");
+        } else {
+            invite.attr("style", "display: none");
+            $('label[for="InviteBidders"]').attr("style", "display: none");
         }
     });
 
