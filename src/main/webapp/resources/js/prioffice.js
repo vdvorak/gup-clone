@@ -62,6 +62,8 @@ $(document).on('click', '.prioffice-close-founds1-ico', function(e){
 /**
  * Created by Андрій on 26.02.2016.
  */
+window.routerApp = angular.module('routerApp', [])
+
 function localDateTime(long) {
 	long = new Date(parseInt(long));
 	long = moment(long).locale("ru").format('LLL');
@@ -215,6 +217,7 @@ GBox.getBox = function (e) {
 Contacts = {}
 Contacts.place = null
 Contacts.searchBar = null
+Contacts.scope = null
 Contacts.init = function(){
 	var main = $('.contactsMain')
 	Contacts.place = main.find('.contactsContainer')
@@ -222,34 +225,24 @@ Contacts.init = function(){
 	Contacts.searchBar = form.find('.text')
 	var submit = form.find('.startSearch')
 
-	Contacts.place.find('.persona').each(function (num, e) {
-		var id = $(e).attr('data-id')
-		User.get(id, function(err, profile){
-			$(e).find('.name').text(profile.username)
-			if (profile.contact.member){
-				$(e).addClass('vip')
-			}
-			$(e).find('a').attr('href', profile.getPage())
-			$(e).find('.photo img').attr('src', profile.getPic())
-			$(e).find('.sendMessage').on('click', function (event) {
-				event.preventDefault()
-				Dialogs.close()
-				var dialog = Dialogs.getDialogByMember(profile.id)
-				if (dialog){
-					Dialogs.open(dialog.id)
-				}
-				else {
-					Dialogs.remove('new')
-					Dialogs.addDialog({
-						id: 'new',
-						members: [
-							{id: profile.id}
-						]
-					})
-					Dialogs.open('new')
-				}
+	Contacts.place.on('click', '.persona .sendMessage', function (event) {
+		event.preventDefault()
+		Dialogs.close()
+		var contactId = $(this).parent().closest('.persona').attr('data-id')
+		var dialog = Dialogs.getDialogByMember(contactId)
+		if (dialog){
+			Dialogs.open(dialog.id)
+		}
+		else {
+			Dialogs.remove('new')
+			Dialogs.addDialog({
+				id: 'new',
+				members: [
+					{id: contactId}
+				]
 			})
-		})
+			Dialogs.open('new')
+		}
 	})
 
 	Contacts.searchBar.keyup(function () {
@@ -278,7 +271,26 @@ Contacts.init = function(){
 			main.find('.noFinded').hide()
 		}
 	})
+
+	Contacts.scope.contacts = []
+	$('.contactsMain').find('._contact').each(function (num, e) {
+		var id = $(e).attr('data-id')
+		console.log(id)
+		User.get(id, function(err, profile){
+			Contacts.scope.contacts.push({
+				id: profile.id,
+				name: profile.username,
+				pic: profile.getPic(),
+				homepage: profile.getPage(),
+				vip: profile.contact.member ? 'vip' : ''
+			})
+			Contacts.scope.$apply()
+		})
+	})
 }
+routerApp.controller('contacts', function($scope, $http, $window){
+	Contacts.scope = $scope
+})
 
 var Dialogs = {}
 Dialogs.dialogIdAttr = 'data-id'
@@ -368,10 +380,12 @@ Dialogs.init = function () {
 	$(Dialogs.common).on('click', '.dialog', function() {
 		Dialogs.open($(this).attr(Dialogs.dialogIdAttr))
 	})
-	Dialogs.form.find('.messageSubmit').on('click', function (event) {
-		event.preventDefault()
+	var onSubmit = function(){
 		var msg = {}
 		msg.message = Dialogs.form.find('.text').val()
+		if (msg.message.length == 0){
+			return;
+		}
 		Dialogs.form.find('.text').val('')
 		if (Dialogs.opened.id === 'new'){
 			var newDialog = {
@@ -388,11 +402,21 @@ Dialogs.init = function () {
 				console.log('message writed!')
 			})
 		}
+	}
+	Dialogs.form.find('.text').keydown(function (e) {
+		if (e.ctrlKey && e.keyCode == 13) {
+			onSubmit()
+		}
+	})
+	Dialogs.form.find('.messageSubmit').on('click', function (event) {
+		event.preventDefault()
+		onSubmit()
 	})
 	Dialogs.fixScroll(Dialogs.common)
 	setInterval(Dialogs.update, 300)
 }
 Dialogs.update = function () {
+	var unreaded = 0
 	R.Libra().dialogueService().dialogue().read().all(null, function (res) {
 		for (var d in res) {
 			var resDialog = res[d]
@@ -402,7 +426,19 @@ Dialogs.update = function () {
 			else {
 				Dialogs.addDialog(resDialog)
 			}
+			var unreadedFinded = false
+			for (var m in Dialogs.dialogs[resDialog.id].messages){
+				var msg = Dialogs.dialogs[resDialog.id].messages[m]
+				if (msg.whoRead.indexOf(User.current) < 0){
+					unreadedFinded = true
+				}
+			}
+			if (unreadedFinded){
+				unreaded++
+			}
 		}
+		var tab = $('.greenBox.msAndNt .ptabs li[messagesTab]')
+		tab.find('.count').text(unreaded)
 	})
 }
 Dialogs.addDialog = function (data) {
@@ -499,18 +535,6 @@ Dialogs.messageTemplate = $(
 		'<div class="text">Message text</div>'+
 		'<div class="clearfix"></div>'+
 	'</div>')
-loadingQueue.push(function () {
-	/*R.Libra().dialogueService().dialogue().read().all(null, function (res) {
-		for (var d in res) {
-			var _dialog = res[d]
-			var dialog = new Dialogs.addDialog(_dialog)
-			for (var m in _dialog.messages) {
-				var _message = _dialog.messages[m]
-				dialog.addMessage(_message)
-			}
-		}
-	})*/
-})
 
 var ELoader = (function () {
 	function PageLoader(options) {
@@ -560,26 +584,26 @@ ELoader.prototype.load = function () {
 }
 ELoader.templateDefault = $('<a class="historyItem" href="#">{title}</a>')
 loadingQueue.push(function(){
-	//new ELoader({
-	//	api: R.Libra().tenderService().tender().read().all,
-	//	id: 'myTenders'
-	//}).load()
-	//new ELoader({
-	//	api: R.Libra().projectsAndInvestmentsService().project().read().all,
-	//	id: 'myProjects'
-	//}).load()
-	//new ELoader({
-	//	api: R.Libra().newsService().blog().read().all,
-	//	id: 'myNews'
-	//}).load()
-	//new ELoader({
-	//	api: R.Libra().offersService().offer().read().all,
-	//	id: 'myOffers'
-	//}).load()
-	//new ELoader({
-	//	api: R.Libra().projectsAndInvestmentsService().investorPost().read().all,
-	//	id: 'myInvestments'
-	//}).load()
+	new ELoader({
+		api: R.Libra().tenderService().tender().read().all,
+		id: 'myTenders'
+	}).load()
+	new ELoader({
+		api: R.Libra().projectsAndInvestmentsService().project().read().all,
+		id: 'myProjects'
+	}).load()
+	new ELoader({
+		api: R.Libra().newsService().blog().read().all,
+		id: 'myNews'
+	}).load()
+	new ELoader({
+		api: R.Libra().offersService().offer().read().all,
+		id: 'myOffers'
+	}).load()
+	new ELoader({
+		api: R.Libra().projectsAndInvestmentsService().investorPost().read().all,
+		id: 'myInvestments'
+	}).load()
 
 	Toggler.init()
 	GBox.init()
