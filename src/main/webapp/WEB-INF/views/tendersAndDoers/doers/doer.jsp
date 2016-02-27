@@ -88,15 +88,17 @@
             </c:if>
         </div>
         <div class="clearfix"></div>
-        <button class="writeMessage">Написать сообщение</button>
-        <button class="addToContact">Добавить в контакты</button>
+        <c:if test="${check}">
+            <button class="writeMessage">Написать сообщение</button>
+            <button class="addToContact">Добавить в контакты</button>
+        </c:if>
         <div class="newsRating" style="margin-top: 5px">
             <a class="newsLike" href="#"></a>
 
-            <p class="newsLikeNum">22 000</p>
+            <p class="newsLikeNum">${like}</p>
             <a href="#" class="newsDislike"></a>
 
-            <p class="newsDislikeNum">22 000</p>
+            <p class="newsDislikeNum">${dislike}</p>
         </div>
         <div class="social-icon">
             <a href="#"><img class="img-responsive" src="/resources/images/in.png" alt="in"></a>
@@ -170,9 +172,7 @@
 
         <div class="clearfix"></div>
         <div class="AboutMe">
-            <p class="AboutMe-p">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, dolor quisquam
-                aliquid illum consequatur voluptatibus placeat perferendis hic vitae ipsum officiis, maiores, quasi quo
-                cupiditate eius nam doloremque deserunt. Provident!</p>
+            <p class="AboutMe-p">${doer.body}</p>
 
             <p class="AboutMe-p2">О себе</p>
         </div>
