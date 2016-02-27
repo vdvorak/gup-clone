@@ -131,8 +131,10 @@ $(document).on('click', 'button.info-submit', function (event) {
     //var amountRequested =
     //var categoriesOfIndustry = "";
     //if($('#categoriesOfIndustry').length) categoriesOfIndustry =
+
     var incorrectValuesMsg = '';
     var newProject = {};
+    newProject.moderationStatus = "COMPLETE";
 
     newProject.type =  $('input[class="greenCheckbox"]:checked').val();
     if (!newProject.type) { incorrectValuesMsg += "Выбрете тип проекта \n";}

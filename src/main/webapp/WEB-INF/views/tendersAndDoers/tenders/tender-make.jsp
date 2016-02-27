@@ -14,10 +14,10 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
 </head>
@@ -43,8 +43,8 @@
             <input type="text" id="EnterTheTitle" required>
             <label>Выберете отрасль</label>
             <div id="selectBox-info-type">
-                <select id="select-type" class="form-control">
-                    <option>Выберете тип</option>
+                <select id="select-type">
+                    <option>Выберите тип</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
@@ -68,8 +68,8 @@
             </div>
             <label>Тип</label>
             <div class="tenderRadio">
-                <label><input type="radio" value="open" name="k"/><span></span></label><p>открытый</p>
-                <label><input type="radio" value="open" name="k"/><span></span></label><p>закрытый</p>
+                <label><input class="input-tenderRadio" type="radio" value="open" name="k" data-type="OPEN" checked/><span></span></label><p>открытый</p>
+                <label><input class="input-tenderRadio" type="radio" value="open" name="k" data-type="CLOSE"/><span></span></label><p>закрытый</p>
             </div>
 
             <div class="clearfix"></div>
@@ -77,8 +77,8 @@
             <div class="description">
                 <label for="HideBidders">Скрывать участников тендера</label>
                 <label><input type="checkbox" id="HideBidders" value="open" name="k"/><span></span></label>
-                <label for="InviteBidders">Пригласить участников тендера</label>
-                <input type="text" id="InviteBidders" placeholder="Название">
+                <label for="InviteBidders" style="display: none">Пригласить участников тендера</label>
+                <input type="text" id="InviteBidders" placeholder="Название" style="display: none">
 
                 <div class="clearfix"></div>
 
@@ -119,7 +119,7 @@
             <img src="/resources/images/doerLogo.png" alt="doerLogo">
             <img src="/resources/images/doerLogo.png" alt="doerLogo">
             <img src="/resources/images/doerLogo.png" alt="doerLogo">--%>
-            <button type="submit">Сохранить</button>
+            <button id="tender-btn-save" type="submit">Сохранить</button>
         </form>
 
         <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
@@ -329,26 +329,22 @@
 <%--<div id="map" style="height: 50%"></div>--%>
 
 <!-- script references -->
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
 <script>window.jQuery || document.write('<script src="resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
-<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/jquery-ui.min.js"></script>
-
-<script src="resources/js/vendor/bootstrap.js"></script>
 
 <script src="resources/js/jquery.bxslider.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
+<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 <script src="resources/js/main.js"></script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
 
 <script>
     var imgsArr = {};
     var cities;
-    var members = [];
-    var type = 'OPEN';
+    var members = []
     var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
-    var hidePropose = true;
-
 
     $(document).ready(function () {
         // Setup the dnd listeners.
@@ -408,6 +404,7 @@
     });
 
     function appendImg(id) {
+
         $("#tender-img-block > .li-defaultIMG").css("display", "none");
         var cloneImg = $("#tender-img-block > .li-defaultIMG").clone()
                 .removeClass('li-defaultIMG')
@@ -415,7 +412,8 @@
         cloneImg.find('img')
                 .attr("alt", "")
                 .attr("src", '/api/rest/fileStorage/TENDER/file/read/id/' + id)
-                .attr("id", id);
+                .attr("id", id)
+                .click(onClickSetMainImg);
         cloneImg.find('span')
                 .click(deleteImg);
         cloneImg.appendTo('#tender-img-block');
@@ -436,12 +434,8 @@
     }
 
     //--------------------   DATEPICKER ---------------------------------//
-    $(function () {
-        $('#datetimepicker4').datetimepicker({format: 'yyyy-mm-dd hh:ii'});
-    });
+
     //--------------------   END  DATEPICKER ---------------------------------//
-
-
     //----------------------  HTML EDITOR-------------------------------------//
     tinymce.init({
         selector: 'textarea',
@@ -471,18 +465,14 @@
 
     //--------------------  RADIO CHECK ------------------------------------//
 
-    $('#open, #close').change(function () {
-        var members = $('#members');
-        var membersList = $('#membersList');
-        if ($('#open').prop('checked')) {
-            type = 'OPEN';
-            members.attr("style", "display: none");
-            membersList.attr("style", "display: none");
-
+    $('.input-tenderRadio').change(function () {
+        var invite = $('#InviteBidders');
+        if ($('.input-tenderRadio[data-type="CLOSE"]').prop('checked')) {
+            invite.attr("style", "display: ");
+            $('label[for="InviteBidders"]').attr("style", "display: ");
         } else {
-            type = 'CLOSE';
-            members.attr("style", "display: ");
-            membersList.attr("style", "display: ");
+            invite.attr("style", "display: none");
+            $('label[for="InviteBidders"]').attr("style", "display: none");
         }
     });
 
@@ -577,15 +567,15 @@
     });
 
     /*function deleteImg(idImg) {
-        delete imgsArr[idImg];
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
-            success: function (data, textStatus, request) {
-                $('#' + idImg).remove();
-            }
-        });
-    }*/
+     delete imgsArr[idImg];
+     $.ajax({
+     type: "POST",
+     url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
+     success: function (data, textStatus, request) {
+     $('#' + idImg).remove();
+     }
+     });
+     }*/
 
     function deleteImg() {
         var idImg = $(event.currentTarget).parent()
@@ -607,24 +597,26 @@
         });
     }
 
-    function onClickSetMainImg(id) {
-        var isMain = $('#' + id).find("img").hasClass("mainImg");
-        var allImgs = $(".imgBlock").find("img");
+    function onClickSetMainImg(event) {
+        var img = $(event.currentTarget);
+        var id = img.attr("id");
+        var isMain = img.hasClass("mainImg");
+        var allImgs = $("#tender-img-block").find("img");
         for (var i =0; i < allImgs.length; i++) {
             var curImg = $(allImgs[i]);
             if (curImg.hasClass("mainImg")) {
                 curImg.removeClass("mainImg");
             }
         }
-        var el = $('#' + id).find("img");
-        if(!isMain) el.addClass("mainImg");
+        if(!isMain) img.addClass("mainImg");
 
         for(var key in imgsArr) {
             if(imgsArr[key] === "pic1") {
                 imgsArr[key] = "image";
             }
         }
-        if(el.hasClass("mainImg")) {
+
+        if(img.hasClass("mainImg")) {
             imgsArr[id] = "pic1";
         }
     }
@@ -666,26 +658,36 @@
 
 
     //---------------------------- SUBMIT -----------------------------------------------------//
-    $('#save').click(function () {
+    $('#tender-btn-save').click(function (event) {
+
+        var body = tinymce.activeEditor.getContent();
+        if(!body) return;
+
         var tender = {};
         tender.uploadFilesIds = imgsArr;
-        tender.title = $('#title').val();
-        tender.body = tinymce.activeEditor.getContent();
-        tender.tenderNumber = $('#tenderNumber').val();
-        tender.end = new Date($('#datetimepicker4').val()).getTime();
-        tender.type = type;
-        tender.expectedPrice = $('#price').val();
-        tender.hidePropose = false;
-        if($('#hidePropose').val() == 'on'){
-            tender.hidePropose = true;
-        }
-        if (type === 'CLOSE') {
+        tender.title = $('#EnterTheTitle').val();
+        tender.body = body;
+        tender.tenderNumber = $('#TenderNumber').val();
+//        tender.begin = new Date($('#datepicker').val()).getTime();
+//        tender.end = new Date($('#datepicker2').val()).getTime();
+        tender.type = $('.input-tenderRadio:checked').attr("data-type");
+        tender.expectedPrice = $('#ExpectedValue').val();
+        tender.hidePropose =  $('#HideBidders').prop('checked');
+        var members = [];
+        if (tender.type === 'CLOSE') {
             tender.members = members;
         }
+        /*var naceIds = [];
+        var naceOptions = $('#select-type option:selected');
+        for(var i = 0; i < naceOptions.length; i++) {
+            naceIds.push(naceOptions[i]);
+        }
+        tender.naceIds = naceIds;*/
+
         tender.address = {};
-        tender.address.googleMapKey = placeKey;
-        tender.address.area = $('#areaInp').val();
-        tender.address.city = $('#cityInp').val();
+        //tender.address.googleMapKey = placeKey;
+        tender.address.area = $('#SelectArea').val();
+        tender.address.city = $('#SelectCity').val();
 
         $.ajax({
             type: "POST",
@@ -700,57 +702,56 @@
     });
     //---------------------------- END SUBMIT -------------------------------------------------//
 
-
-    //--------------------------- GOOGLE MAP API ---------------------------------------//
-
-    function initMap() {
-
-        var input = document.getElementById('address');
-
-        var options = {
-            types: []
-        };
-
-        var autocomplete = new google.maps.places.Autocomplete(input, options);
-
-        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-            var place = autocomplete.getPlace(); //получаем место
-            console.log(place);
-            console.log(place.name);  //название места
-            console.log(place.id);  //уникальный идентификатор места
-        });
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 17,
-            center: {lat: 50.4501, lng: 30.523400000000038}
-        });
-
-        var geocoder = new google.maps.Geocoder();
-
-        document.getElementById('submit').addEventListener('click', function () {
-            geocodeAddress(geocoder, map);
-        });
-    }
-
-    function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
-        geocoder.geocode({'address': address}, function (results, status) {
-            placeKey = results[0].place_id;
-            if (status === google.maps.GeocoderStatus.OK) {
-                resultsMap.setCenter(results[0].geometry.location);
-                var marker = new google.maps.Marker({
-                    map: resultsMap,
-                    position: results[0].geometry.location
-                });
-            } else {
-                alert('Geocode was not successful for the following reason: ' + status);
-            }
-        });
-    }
+    //    //--------------------------- GOOGLE MAP API ---------------------------------------//
+    //
+    //    function initMap() {
+    //
+    //        var input = document.getElementById('address');
+    //
+    //        var options = {
+    //            types: []
+    //        };
+    //
+    //        var autocomplete = new google.maps.places.Autocomplete(input, options);
+    //
+    //        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+    //            var place = autocomplete.getPlace(); //получаем место
+    //            console.log(place);
+    //            console.log(place.name);  //название места
+    //            console.log(place.id);  //уникальный идентификатор места
+    //        });
+    //
+    //        var map = new google.maps.Map(document.getElementById('map'), {
+    //            zoom: 17,
+    //            center: {lat: 50.4501, lng: 30.523400000000038}
+    //        });
+    //
+    //        var geocoder = new google.maps.Geocoder();
+    //
+    //        document.getElementById('submit').addEventListener('click', function () {
+    //            geocodeAddress(geocoder, map);
+    //        });
+    //    }
+    //
+    //    function geocodeAddress(geocoder, resultsMap) {
+    //        var address = document.getElementById('address').value;
+    //        geocoder.geocode({'address': address}, function (results, status) {
+    //            placeKey = results[0].place_id;
+    //            if (status === google.maps.GeocoderStatus.OK) {
+    //                resultsMap.setCenter(results[0].geometry.location);
+    //                var marker = new google.maps.Marker({
+    //                    map: resultsMap,
+    //                    position: results[0].geometry.location
+    //                });
+    //            } else {
+    //                alert('Geocode was not successful for the following reason: ' + status);
+    //            }
+    //        });
+    //    }
 
     //--------------------------- END GOOGLE MAP API ---------------------------------------//
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
-        async defer></script>
+<%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"--%>
+        <%--async defer></script>--%>
 </body>
 </html>

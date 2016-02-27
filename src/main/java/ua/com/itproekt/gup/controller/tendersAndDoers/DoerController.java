@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.tender.doer.Doer;
 import ua.com.itproekt.gup.model.tender.doer.DoerFilterOptions;
+import ua.com.itproekt.gup.model.tender.doer.Recall;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.tender.doer.DoerService;
 import ua.com.itproekt.gup.util.EntityPage;
@@ -27,17 +28,7 @@ public class DoerController {
 
     @RequestMapping("/doer/list")
     public String getDoersList() {
-        return "tendersAndDoers/doers/doers";
-    }
-
-    @RequestMapping("/doers")
-    public String getDoersRead(Model model) {
-
-        DoerFilterOptions doerFilterOptions = new DoerFilterOptions();
-        doerFilterOptions.setLimit(10000);
-        EntityPage<Doer> doerEntityPage = doerService.findWihOptions(doerFilterOptions);
-        model.addAttribute("doerPages", doerEntityPage);
-        return "tendersAndDoers/doers/doers";
+        return "tendersAndDoers/doers/tendersAndDoersList";
     }
 
     @RequestMapping("/doer-create")
@@ -77,6 +68,8 @@ public class DoerController {
         else model.addAttribute("username", "Anonimous");
         model.addAttribute("check", check);
         model.addAttribute("doer", doer);
+        model.addAttribute("like", doer.getRecalls().stream().filter(r -> r.getMark().equals(Recall.Mark.LIKE)));
+        model.addAttribute("dislike", doer.getRecalls().stream().filter(r -> r.getMark().equals(Recall.Mark.DISLIKE)));
         return "tendersAndDoers/doers/doer";
     }
 }

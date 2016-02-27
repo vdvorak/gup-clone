@@ -140,7 +140,7 @@
     color: #545454;
     font: 11px DroidSans;
     /*font-style: italic;*/
-    padding: 0 5px;
+    padding: 5px 20px;
 }
 
 .projectFeedContainer .feedItem {
@@ -328,6 +328,7 @@ color: white;
 
 .investmentsFeedContainer .feedItem {
     border-color: #1269a7;
+    height: 178px;
 }
 
 .investmentsFeedContainer .feedItem .photo,
@@ -350,9 +351,9 @@ color: white;
 .investmentsFeedContainer .feedItem .content,
 .tenders .feedItem .content {
     position: absolute;
-    left: 184px;
+    left: 5px;
     top: 10px;
-    width: 271px;
+    width: 400px;
     padding-left: 10px;
 }
 .tenders .feedItem .content {
@@ -361,25 +362,18 @@ color: white;
     width: 610px;
 }
 
-.investmentsFeedContainer .feedItem .content .title,
-.tenders .feedItem .content .title {
-    color: #1269a7;
-    font: 19px ArianAMU;
-}
-
 .investmentsFeedContainer .feedItem .content .desc {
-    padding-left: 20px;
-    color: #bfc4c7;
-    font: 12px Calibri;
-    padding-left: 5px;
+    padding-left: 100px;
+    color: #1269a7;
+    font: 18px Calibri;
 }
 
 .investmentsFeedContainer .feedItem .content .text,
 .tenders .feedItem .content .text {
     color: #828a8f;
-    font: 13px Calibri;
+    font: 14px Calibri;
     text-indent: 20px;
-    max-height: 108px;
+    max-height: 106px;
     overflow: hidden;
 }
 .tenders .feedItem .content .text {
@@ -388,8 +382,8 @@ color: white;
 
 .investmentsFeedContainer .feedItem .cats {
     position: absolute;
-    left: 460px;
-    top: 45px;
+    left: 420px;
+    top: 34px;
     width: 220px;
     padding-left: 10px;
 }
@@ -405,7 +399,7 @@ color: white;
 
 .investmentsFeedContainer .feedItem .cats ul li a {
     color: #2c95b5;
-    font: 16px Calibri;
+    font: 14px Calibri;
     line-height: 10px;
 }
 
@@ -416,19 +410,26 @@ color: white;
 .investmentsFeedContainer .feedItem .details {
     position: absolute;
     right: 19px;
-    top: 50px;
-    width: 164px;
+    top: 26px;
+    width: 224px;
     padding-left: 10px;
 }
 
 .investmentsFeedContainer .feedItem .details .canInvest {
-    height: 48px;
+    /*height: 48px;*/
     background-color: #ffed33;
     color: #2c95b5;
-    font: 20px Calibri;
+    font: 18px Calibri;
     font-weight: bold;
     text-align: center;
-    padding-top: 12px;
+    /*padding-top: 12px;*/
+}
+
+.investmentsFeedContainer .feedItem .content .title,
+.investmentsFeedContainer .feedItem .details .title {
+    color: #1269a7;
+    font: 14px ArianAMU;
+    padding: 5px 0px;
 }
 
 .investmentsFeedContainer .feedItem .details .alreadyInvested {
@@ -440,8 +441,7 @@ color: white;
 
 .investmentsFeedContainer .feedItem .details .alreadyInvested .desc {
     color: #828a8f;
-    font: 9px Calibri;
-    padding-left: 5px;
+    font: 14px Calibri;
 }
 
 .investmentsFeedContainer .feedItem .details .alreadyInvested .total {
