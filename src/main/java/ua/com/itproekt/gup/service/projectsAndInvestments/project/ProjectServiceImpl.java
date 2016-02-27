@@ -63,11 +63,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void delete(String id) {
-        Map<String, String> imagesIds = findById(id).getImagesIds();
+    public void delete(String projectId) {
+        Map<String, String> imagesIds = findById(projectId).getImagesIds();
         if (imagesIds != null) {
-            storageRepository.delete(ServiceNames.PROJECTS_AND_INVESTMENTS.toString(), (Set<String>)imagesIds.values());
+            storageRepository.delete(ServiceNames.PROJECTS_AND_INVESTMENTS.toString(), imagesIds.keySet());
         }
+        projectRepository.delete(projectId);
     }
 
     @Override

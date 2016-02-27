@@ -9,9 +9,9 @@
 
         <div class="social">
             <ul class="store">
-                <li><a href="#"><img src="/resources/images/windowsStore.png" alt="Windows Store"></a></li>
-                <li><a href="#"><img src="/resources/images/GooglePlay.png" alt="Google Play"></a></li>
-                <li><a href="#"><img src="/resources/images/appStore.png" alt="App Store"></a></li>
+                <li><a href="https://www.microsoft.com/ru-ru/store/apps"><img src="/resources/images/windowsStore.png" alt="Windows Store"></a></li>
+                <li><a href="https://play.google.com/store/apps"><img src="/resources/images/GooglePlay.png" alt="Google Play"></a></li>
+                <li><a href="https://itunes.apple.com"><img src="/resources/images/appStore.png" alt="App Store"></a></li>
             </ul>
             <button class="socialBtn" id="socialBtn">ВСТУПИТЬ В ОРГАНИЗАЦИЮ <i class="fa fa-plus"></i></button>
             <div id="refill">

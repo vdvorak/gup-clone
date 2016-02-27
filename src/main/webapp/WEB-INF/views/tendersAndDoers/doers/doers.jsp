@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -9,12 +10,17 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
+
   <link rel="stylesheet" href="/resources/css/bootstrap.css">
   <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
   <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
   <link rel="stylesheet" href="/resources/css/main.css">
   <link rel="stylesheet" href="/resources/css/font-awesome.css">
   <link rel="stylesheet" href="/resources/css/media-queries.css">
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
   <link rel="stylesheet" href="/resources/css/alster.css">
 </head>
 <body>
@@ -34,13 +40,60 @@
 <div class="container2">
   <div class="doers">
     <ul class="projectsVSInvestments-block">
-      <li class="projectsVSInvestments-btn projects" data-atab="projects"><a href="#tabs1-project">ТЕНДЕРЫ</a></li>
+      <li class="projectsVSInvestments-btn projects" data-atab="projects"><a href="#tabs1-tenders">ТЕНДЕРЫ</a></li>
       <!--Add "active" class to show this element as selected-->
       <li class="projectsVSInvestments-btn investments" data-atab="investments"><a href="#tabs1-investment">ИСПОЛНИТЕЛИ</a></li>
     </ul>
-    <div id="tabs1-project">
 
+
+
+    <div id="tabs1-tenders">
+      <div id="tenders-start-block" class="feedContainer tenders">
+
+
+        <div class="feedItem build-item-wrap">
+          <!--Add class "vip" to vip-tialize tender-->
+          <a class="preview build-pic-wrap" href="#">
+            <img src="resources/css/images/sample/tender1.png" alt="project photo" />
+            <span class="proposals build-proposal-count">Предложений: <span></span></span>
+            <span class="views build-veiws">Просмотров: <span></span></span>
+          </a>
+          <section class="content">
+            <div class="publishDate build-publish-date">Опубликовано: <span></span></div>
+            <!-- Добавь класс "visible" и ты узреешь номер -->
+            <span class="number visible">Номер тендера: <span class="build-number"></span> </span>
+            <div class="title build-name"></div>
+            <div class="text build-item-text"></div>
+          </section>
+          <div class="bottomContent">
+            <div class="participate">
+              <div class="clock">
+                <div class="time build-end"></div>
+              </div>
+              <button type="button" class="abutton blue">Участвовать</button>
+            </div>
+            <div class="sum"><span class="build-sum"></span>₴</div>
+          </div>
+        </div>
+        <%--<div class="feedPagination">--%>
+          <%--<a href="#" class="arr left active"></a>--%>
+          <%--<a href="#" class="page"></a>--%>
+          <%--<a href="#" class="page"></a>--%>
+          <%--<a href="#" class="page"></a>--%>
+          <%--<a href="#" class="page"></a>--%>
+          <%--<a href="#" class="page active"></a>--%>
+          <%--<a href="#" class="page"></a>--%>
+          <%--<a href="#" class="page"></a>--%>
+          <%--<a href="#" class="page"></a>--%>
+          <%--<a href="#" class="arr right"></a>--%>
+        <%--</div>--%>
+      </div>
+      <button id="tenderNextPage">Загрузить ещё тендеры</button>
     </div>
+
+
+
+
     <div id="tabs1-investment">
       <div class="doersFeed"> <!-- если чувак вип, добавь сюда класс vip и ты увидишь магию -->
         <img src="/resources/images/doersLogo.png" alt="doersLogo">
@@ -121,86 +174,7 @@
         <div class="clearfix"></div>
       </div>
 
-      <div class="doersFeed"> <!-- если чувак вип, добавь сюда класс vip и ты увидишь магию -->
-        <img src="/resources/images/doersLogo.png" alt="doersLogo">
-        <div class="artistData">
-          <ul>
-            <li>
-              <p>Дата создания: 12. 09. 15</p>
-            </li>
-            <li>
-              <p>Дата обновления: 12. 09. 15</p>
-            </li>
-            <li>
-              <p>Просмотров: 133</p>
-            </li>
-          </ul>
-        </div>
-        <h2>ФИО исполнителя</h2>
-        <p>Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимодействия с ним. 	Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимодействия с ним.
-          Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимодействия с ним.</p>
-        <div class="doersRang">
-          <div></div>
-          <div></div>
-          <button type="button">Добавить в клиенты</button>
-        </div>
-
-        <div class="clearfix"></div>
-
-        <div class="colNewsComments">
-          <div class="newsComments">
-            <div class="clearfix"></div>
-            <p class="newsCommentsHeader">КОММЕНТАРИИ</p>
-            <form action="#" role="form" id="newsCommentsForm">
-              <textarea name="newsFormComments" id="newsFormComments" placeholder="Введите свой комментарий" maxlength="2000" required></textarea>
-              <button type="submit" class="newsFormSubmit">Отправить</button>
-            </form>
-            <p id="chars">2000 символов осталось</p>
-          </div>
-        </div>
-        <div class="clearfix"></div>
       </div>
-
-      <div class="doersFeed"> <!-- если чувак вип, добавь сюда класс vip и ты увидишь магию -->
-        <img src="/resources/images/doersLogo.png" alt="doersLogo">
-        <div class="artistData">
-          <ul>
-            <li>
-              <p>Дата создания: 12. 09. 15</p>
-            </li>
-            <li>
-              <p>Дата обновления: 12. 09. 15</p>
-            </li>
-            <li>
-              <p>Просмотров: 133</p>
-            </li>
-          </ul>
-        </div>
-        <h2>ФИО исполнителя</h2>
-        <p>Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимодействия с ним. 	Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимодействия с ним.
-          Как появляется инвестор, о проблемах и противоречиях на пути его появления. Каждого инвестора окружают посредники, которые существенно влияют на процессы взаимодействия с ним.</p>
-        <div class="doersRang">
-          <div></div>
-          <div></div>
-          <button type="button">Добавить в клиенты</button>
-        </div>
-
-        <div class="clearfix"></div>
-
-        <div class="colNewsComments">
-          <div class="newsComments">
-            <div class="clearfix"></div>
-            <p class="newsCommentsHeader">КОММЕНТАРИИ</p>
-            <form action="#" role="form" id="newsCommentsForm">
-              <textarea name="newsFormComments" id="newsFormComments" placeholder="Введите свой комментарий" maxlength="2000" required></textarea>
-              <button type="submit" class="newsFormSubmit">Отправить</button>
-            </form>
-            <p id="chars">2000 символов осталось</p>
-          </div>
-        </div>
-        <div class="clearfix"></div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -237,6 +211,14 @@
   <%--</c:forEach>--%>
 <%--</div>--%>
 
+<sec:authorize access="isAuthenticated()">
+  <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
+
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
+
+
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
 <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
 <script src="/resources/js/vendor/bootstrap.js"></script>
@@ -258,20 +240,14 @@
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
 
-<script src="/resources/js/top-news-block.js"></script>
-<script src="/resources/js/top-offers-block.js"></script>
-<script src="/resources/js/top-tenders-block.js"></script>
-<script src="/resources/js/top-projects-block.js"></script>
+<script src="/resources/js/moment-with-locales.js"></script>
+<script src="/resources/js/service.js"></script>
+<script src="/resources/js/tendersDoersList.js"></script>
 
 <script>
   $('.doers').easytabs({
     animate: false
   })
 </script>
-
-
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
-<script src="/resources/js/moment-with-locales.js"></script>
-<script src="/resources/js/service.js"></script>
 </body>
 </html>

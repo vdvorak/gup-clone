@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
+    <link rel="stylesheet" href="/resources/css/confirmAlert.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
@@ -103,6 +104,13 @@
                 <div class="field">
                     <button id="deleteProjectBtn" class="delete-btn">Удалить проект</button>
                     <button id="editProjectBtn" class="info-submit">Сохранить</button>
+                </div>
+
+                <div class="confirm" id="confirmProjDelete" style="display: none">
+                    <h1>Подтвердите удаление</h1>
+                    <p>Проект будет навсегда удален</p>
+                    <button id="cancelProjDelBtn" autofocus>Отмена</button>
+                    <button id="confirmProjDelBtn">Удалить</button>
                 </div>
             </div>
         </div>
