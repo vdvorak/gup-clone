@@ -31,16 +31,6 @@ public class DoerController {
         return "tendersAndDoers/doers/tendersAndDoersList";
     }
 
-    @RequestMapping("/doers")
-    public String getDoersRead(Model model) {
-
-        DoerFilterOptions doerFilterOptions = new DoerFilterOptions();
-        doerFilterOptions.setLimit(10000);
-        EntityPage<Doer> doerEntityPage = doerService.findWihOptions(doerFilterOptions);
-        model.addAttribute("doerPages", doerEntityPage);
-        return "tendersAndDoers/doers/tendersAndDoersList";
-    }
-
     @RequestMapping("/doer-create")
     public String getDoerCreatePage() {
         return "tendersAndDoers/doers/doer-create";
