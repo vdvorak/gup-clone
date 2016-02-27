@@ -15,48 +15,41 @@ function appendInvestorPosts(investorPostFO) {
 function appendInvestorPostBlock(investorPost) {
     loadProfileById(investorPost.uId).statusCode({
         200: function (profile) {
+            var categoriesOfIndustryUlList = '';
+            investorPost.categoriesOfIndustry.forEach(function (categorieOfIndustry) {
+                categoriesOfIndustryUlList += '<li><a>' + categorieOfIndustry + '</a></li>';
+            });
             $('#investorPostsBlock').append(
-                '<div class="feedItem vip">' +
+                '<div class="feedItem">' +
                     <!--Add class "vip" to vip-tialize investment-->
                     '<div class="publishDate">Опубликовано: ' + getReadableDate(investorPost.createdDate) + '</div>' +
-                    '<div class="photo border-color">' +
-                        '<img src="' + getProfileImgUrl(profile.contact.pic) + '" alt="user avatar"/>' +
-                    '</div>' +
-                    '<a href="#" class="content">' +
-                        '<div class="title">' + profile.username + '</div>' +
-                        '<div class="desc">Описание</div>' +
+                    //'<div class="photo border-color">' +
+                    //    //'<img src="' + getProfileImgUrl(profile.contact.pic) + '" alt="user avatar"/>' +
+                    //'</div>' +
+                    '<div class="content">' +
+                        '<div class="desc">Описание инвестиции</div>' +
                         '<p class="text">' + investorPost.description + '</p>' +
-                    '</a>' +
+                    '</div>' +
                     '<div class="cats">' +
                         <!--Recommended max 14 elements-->
                         '<ul>' +
                             <!--Emmet shortcut-->
                             <!--li*14>a[href="#"]>{IT Ресурсы}-->
-                            '<li><a href="#">IT Ресурсы</a></li>' +
-                            '<li><a href="#">IT Ресурсы</a></li>' +
-                            '<li><a href="#">IT Ресурсы</a></li>' +
-                            '<li><a href="#">IT Ресурсы</a></li>' +
-                            '<li><a href="#">IT Ресурсы</a></li>' +
-                            '<li><a href="#">IT Ресурсы</a></li>' +
-                            '<li><a href="#">IT Ресурсы</a></li>' +
-                            '<li><a href="#">IT Ресурсы</a></li>' +
-                            '<li><a href="#">IT Ресурсы</a></li>' +
-                            '<li><a href="#">IT Ресурсы</a></li>' +
-                            '<li><a href="#">IT Ресурсы</a></li>' +
-                            '<li><a href="#">IT Ресурсы</a></li>' +
-                            '<li><a href="#">IT Ресурсы</a></li>' +
-                            '<li><a href="#">IT Ресурсы</a></li>' +
+                            categoriesOfIndustryUlList +
                         '</ul>' +
                     '</div>' +
 
                     '<div class="details">' +
-                        '<div class="canInvest">' + profile.contact.balance + ' ₴ </div>' +
+
                         '<div class="alreadyInvested">' +
-                            '<div class="desc">Проинвестировано:</div>' +
-                            '<div class="total">15468900$</div>' +
-                            '<div class="totalProjects">25 проектов</div>' +
+                            '<div class="desc">Сумма инвестирования:  <div class="total">' + investorPost.amountOfMoney + ' ₴ </div></div>' +
                         '</div>' +
-                    '</div>' +
+                        '<a href="/profile/id/' + profile.id + '">' +
+                            '<div class="title"> Инвестор: ' + profile.username + '</div>' +
+                        '</a>' +
+                        '<div class="canInvest">' + profile.contact.balance + ' ₴ </div>' +
+
+                '</div>' +
             '</div>');
         }
     });
