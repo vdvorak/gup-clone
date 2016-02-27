@@ -1433,7 +1433,7 @@ input[class="greenCheckbox"]:checked + span  	{
 	border-radius: 4px;
 	float: left;
 	margin: 19px 7px;
-	background: url(/resources/css/images/tractor.png) no-repeat center center;
+	background: url('') no-repeat center center;
 }
 
 .massage-box {
