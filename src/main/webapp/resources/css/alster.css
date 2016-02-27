@@ -133,7 +133,7 @@
     position: relative;
 }
 
-.feedItem .publishDate, 
+.feedItem .publishDate,
 .tenderContent .publishDate {
     position: absolute;
     right: 0;
@@ -147,7 +147,7 @@
     border-color: #99cc66;
 }
 
-.projectFeedContainer .feedItem .preview, 
+.projectFeedContainer .feedItem .preview,
 .tenders .feedItem .preview {
     display: block;
     position: relative;
@@ -156,7 +156,7 @@
     margin: 10px;
 }
 
-.projectFeedContainer .feedItem .preview img, 
+.projectFeedContainer .feedItem .preview img,
 .tenders .feedItem .preview img {
     width: 100%;
     height: 100%;
@@ -164,7 +164,8 @@
     border: 1px #99cc66 solid;
 }
 
-.projectFeedContainer .feedItem .preview .likes {
+.projectFeedContainer .feedItem .preview .likes,
+.projectContent .projectRating .likes {
     position: absolute;
     bottom: 5px;
     right: 12px;
@@ -173,24 +174,34 @@
     padding: 2px 5px;
     /*cursor: pointer;*/
 }
+.projectContent .projectRating .likes {
+    position: relative;
+    float: right;
+    margin-top: 10px;
+    margin-left: 30px;
+}
 
 
-/*.projectFeedContainer .feedItem .preview .likes:hover{
-    background-color: #36aae0;
+/*.projectFeedContainer .feedItem .preview .likes:hove,
+.projectContent .projectRating .likes:hover{
+background-color: #36aae0;
 }*/
 
 
-/*.projectFeedContainer .feedItem .preview .likes:hover .number{
-    color: white;
+/*.projectFeedContainer .feedItem .preview .likes:hover .numbe,
+.projectContent .projectRating .likes:hover .number{
+color: white;
 }*/
 
-.projectFeedContainer .feedItem .preview .likes .number {
+.projectFeedContainer .feedItem .preview .likes .number,
+.projectContent .projectRating .likes .number {
     color: #36aae0;
     margin-right: 20px;
     font: 14px DroidSans;
 }
 
-.projectFeedContainer .feedItem .preview .likes .hearthPlace {
+.projectFeedContainer .feedItem .preview .likes .hearthPlace,
+.projectContent .projectRating .likes .hearthPlace {
     position: absolute;
     background: url(images/projectsFeed/hearthPlace.png);
     width: 33px;
@@ -199,13 +210,24 @@
     top: -7px;
 }
 
-.projectFeedContainer .feedItem .preview .likes .hearthPlace .hearth {
+.projectFeedContainer .feedItem .preview .likes .hearthPlace .hearth,
+.projectContent .projectRating .likes .hearthPlace .hearth {
     position: absolute;
     top: 8px;
     left: 6px;
     width: 21px;
     height: 19px;
     background: url(images/projectsFeed/hearth.png);
+}
+.projectContent .projectRating .abutton.vote {
+    display: block;
+    float: left;
+}
+.projectContent .projectRating .ratingSelector {
+    display: block;
+    float: left;
+    margin: 0 5px;
+    margin-top: 5px;
 }
 
 .projectFeedContainer .content {
@@ -224,9 +246,11 @@
     color: #242424;
     font: 14px Calibri;
     text-indent: 40px;
+    max-height: 100px;
+    overflow: hidden;
 }
 
-.projectFeedContainer .bottomContent, 
+.projectFeedContainer .bottomContent,
 .tenders .bottomContent{
     position: absolute;
     bottom: 5px;
@@ -306,7 +330,7 @@
     border-color: #1269a7;
 }
 
-.investmentsFeedContainer .feedItem .photo, 
+.investmentsFeedContainer .feedItem .photo,
 .tenders .feedItem .photo {
     position: relative;
     width: 156px;
@@ -316,14 +340,14 @@
     margin: 10px;
 }
 
-.investmentsFeedContainer .feedItem .photo img, 
+.investmentsFeedContainer .feedItem .photo img,
 .tenders .feedItem .photo img {
     width: 120px;
     height: 121px;
     margin: 14px;
 }
 
-.investmentsFeedContainer .feedItem .content, 
+.investmentsFeedContainer .feedItem .content,
 .tenders .feedItem .content {
     position: absolute;
     left: 184px;
@@ -337,7 +361,7 @@
     width: 610px;
 }
 
-.investmentsFeedContainer .feedItem .content .title, 
+.investmentsFeedContainer .feedItem .content .title,
 .tenders .feedItem .content .title {
     color: #1269a7;
     font: 19px ArianAMU;
@@ -350,7 +374,7 @@
     padding-left: 5px;
 }
 
-.investmentsFeedContainer .feedItem .content .text, 
+.investmentsFeedContainer .feedItem .content .text,
 .tenders .feedItem .content .text {
     color: #828a8f;
     font: 13px Calibri;
@@ -515,7 +539,7 @@
 }
 
 /*.editor form.investor .sum .editorLabel {*/
-    /*width: 70px;*/
+/*width: 70px;*/
 /*}*/
 
 .editor form.investor .sum .editorInput {
@@ -523,7 +547,7 @@
 }
 
 /*.editor form.investor .sum {*/
-    /*padding-left: 165px;*/
+/*padding-left: 165px;*/
 /*}*/
 
 .editor .field .currency {
@@ -562,7 +586,7 @@
 }
 
 /*.editor form.project .field.projType .radioGroup {*/
-    /*margin-left: 220px;*/
+/*margin-left: 220px;*/
 /*}*/
 
 .editor div.project .field.projType .radioGroup .column {
@@ -613,6 +637,7 @@
     height: 12px;
     margin: 10px 48px;
 }
+
 .projectContent .bottomSection {
     margin: 15px 50px;
 }
@@ -631,7 +656,6 @@
     border-radius: 5px;
     border: 0;
 }
-
 .projectContent .topSection .abutton.invest,
 .projectContent .bottomSection .abutton.invest {
     float: right;
@@ -733,7 +757,7 @@
 .projectContent .description .text {
     padding: 0 47px;
     text-indent: 20px;
-    text-align:justify;
+    text-align: justify;
     color: #828a8f;
     font: 14px Calibri;
 }
@@ -748,6 +772,11 @@
 .projectContent .commentsSection .count {
     color: #464646;
     font: 12px Calibri;
+}
+.projectContent .projectRating {
+    position: relative;
+    float: right;
+    height: 50px;
 }
 
 .greenBox {
@@ -780,7 +809,8 @@
     cursor: pointer;
 }
 
-.greenBox .arrow.toggler {
+.greenBox .arrow.toggler,
+.greenBox .arrow.loader{
     position: absolute;
     bottom: 0;
     left: 0;
@@ -831,8 +861,7 @@
 
 .contentBlock {
     float: right;
-    width: 517px;
-    margin-right: 100px;
+    width: 650px;
 }
 
 .buttonBack {
@@ -859,6 +888,7 @@
 .sideBlock .mainInfo .name {
     color: #1269a7;
     font: 20px DroidSansBold;
+    max-width: 100px;
 }
 
 .sideBlock .mainInfo .photo {
@@ -1086,9 +1116,9 @@
 
 .contactsMain .contactsContainer {
     position: relative;
-    max-height: 110px;
+    max-height: 130px;
     padding: 0 15px;
-    padding-bottom: 25px;
+    padding-bottom: 30px;
     margin-top: -7px;
     background-color: #fff;
     font-size: 21px;
@@ -1100,6 +1130,11 @@
 
 .contactsContainer.toggled {
     max-height: 999px;
+}
+.contactsContainer .noFinded {
+    color: #68717a;
+    font: 14px DroidSans;
+    text-align: center;
 }
 
 .contactsContainer .persona {
@@ -1137,7 +1172,7 @@
 
 .contactsContainer .persona .photo .name {
     position: absolute;
-    bottom: -12px;
+    top: 57px;
     color: #68717a;
     font: 7px DroidSans;
     text-align: center;
@@ -1461,7 +1496,7 @@
     border-color: #9ad4ef;
     padding-bottom: 5px;
 }
-.tenders .feedItem .proposals, 
+.tenders .feedItem .proposals,
 .tenders .feedItem .views {
     color: #1269a7;
     font: 10px DroidSans;
@@ -1488,7 +1523,7 @@
 .tenders .feedItem .content .number.visible {
     display: block;
 }
-.tenders .feedItem .sum, 
+.tenders .feedItem .sum,
 .tenderContent .sum {
     background-color: #faff65;
     color: #1269a7;
@@ -1500,20 +1535,20 @@
     float: right;
     margin-right: 6px;
 }
-.tenders .participate, 
+.tenders .participate,
 .tenderContent .participate {
     position: relative;
     float: right;
     width: 134px;
     height: 32px;
 }
-.tenders .participate .abutton, 
+.tenders .participate .abutton,
 .tenderContent .participate .abutton {
     position: absolute;
     right: 0;
     width: 100%;
 }
-.tenders .participate .clock, 
+.tenders .participate .clock,
 .tenderContent .participate .clock {
     position: absolute;
     background-color: red;
@@ -1523,7 +1558,7 @@
     top: -28px;
     background: url(images/tenderClock.png) no-repeat;
 }
-.tenders .participate .clock .time, 
+.tenders .participate .clock .time,
 .tenderContent .participate .clock .time {
     position: absolute;
     background-color: #99cc66;
@@ -1540,11 +1575,11 @@
     position: relative;
     cursor: default
 }
-.feedPagination .arr, 
+.feedPagination .arr,
 .feedPagination .page{
     display: inline-block;
 }
-.feedPagination .arr, 
+.feedPagination .arr,
 .feedPagination .page {
     width: 0;
     height: 0;;
@@ -1682,13 +1717,13 @@
 
 
 /*.vip .abutton {
-    border-color: #36aae0;
-    background-color: #36aae0;
+border-color: #36aae0;
+background-color: #36aae0;
 }
 
 .vip .abutton:hover {
-    background-color: white;
-    color: #36aae0;
+background-color: white;
+color: #36aae0;
 }*/
 
 .investmentsFeedContainer .feedItem.vip .content .title {

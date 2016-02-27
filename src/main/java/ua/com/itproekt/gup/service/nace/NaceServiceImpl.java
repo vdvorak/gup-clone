@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.nace.NaceRepository;
 import ua.com.itproekt.gup.model.nace.DepartmentOrNace;
+import ua.com.itproekt.gup.model.nace.NACE;
 
 import java.util.List;
 
@@ -13,21 +14,21 @@ public class NaceServiceImpl implements NaceService {
     NaceRepository naceRepository;
 
     @Override
-    public DepartmentOrNace findById(String id){
+    public NACE findById(String id){
         return naceRepository.findOne(id);
     }
 
     @Override
-    public DepartmentOrNace addNace(DepartmentOrNace nace) {return naceRepository.save(nace);}
+    public NACE addNace(NACE nace) {return naceRepository.save(nace);}
 
     @Override
-    public List<DepartmentOrNace> findAll(){
+    public List<NACE> findAll(){
         return naceRepository.findAll();
     }
 
     @Override
-    public DepartmentOrNace updateNace(DepartmentOrNace dialogue) {
-        return naceRepository.save(dialogue);
+    public NACE updateNace(NACE nace) {
+        return naceRepository.save(nace);
     }
 
 //    @Override

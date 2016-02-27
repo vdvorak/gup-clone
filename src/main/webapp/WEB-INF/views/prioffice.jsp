@@ -40,7 +40,7 @@
 <div class="container2">
     <div class="sideBlock">
         <a href="#" class="buttonBack">&lt; Назад</a>
-        <div class="mainInfo">
+        <div class="mainInfo" data-id="${profile.id}">
             <div class="name">${profile.username}</div>
             <div class="photo greenBox">
                 <c:choose>
@@ -138,94 +138,22 @@
                     <input class="text" type="text" placeholder="Введите ФИО или ID">
                     <input class="startSearch" type="button" value="Найти">
                 </div>
-                <div class="count" onclick="contactToggle();">Контакты: 115</div>
+                <div class="count" onclick="contactToggle();">Контакты: ${profile.contactList.size()}</div>
             </div>
             <div class="contactsContainer greenBox" toggler="">
 
-                <div class="persona"><!-- Добавь класс vip - и персона станет... VIP!!!11111 -->
-                    <a href="#" class="photo border-color">
-                        <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
-                        <span class="sendMessage"></span>
-                        <span class="name">Вася Попкин</span>
-                    </a>
-                </div>
-                <div class="persona vip">
-                    <a href="#" class="photo border-color">
-                        <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
-                        <span class="sendMessage"></span>
-                        <span class="name">Вася Попкин</span>
-                    </a>
-                </div>
-                <div class="persona">
-                    <a href="#" class="photo border-color">
-                        <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
-                        <span class="sendMessage"></span>
-                        <span class="name">Вася Попкин</span>
-                    </a>
-                </div>
-                <div class="persona vip">
-                    <a href="#" class="photo border-color">
-                        <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
-                        <span class="sendMessage"></span>
-                        <span class="name">Вася Попкин</span>
-                    </a>
-                </div>
-                <div class="persona">
-                    <a href="#" class="photo border-color">
-                        <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
-                        <span class="sendMessage"></span>
-                        <span class="name">Вася Попкин</span>
-                    </a>
-                </div>
-                <div class="persona">
-                    <a href="#" class="photo border-color">
-                        <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
-                        <span class="sendMessage"></span>
-                        <span class="name">Вася Попкин</span>
-                    </a>
-                </div>
-                <div class="persona">
-                    <a href="#" class="photo border-color">
-                        <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
-                        <span class="sendMessage"></span>
-                        <span class="name">Вася Попкин</span>
-                    </a>
-                </div>
+                <c:forEach items="${profile.contactList}" var="contact">
+                    <div class="persona" data-id="${contact}">
+                        <a href="#" class="photo border-color">
+                            <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
+                            <span class="sendMessage"></span>
+                            <span class="name">...</span>
+                        </a>
+                    </div>
+                </c:forEach>
 
-                <div class="persona">
-                    <a href="#" class="photo border-color">
-                        <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
-                        <span class="sendMessage"></span>
-                        <span class="name">Вася Попкин</span>
-                    </a>
-                </div>
-                <div class="persona">
-                    <a href="#" class="photo border-color">
-                        <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
-                        <span class="sendMessage"></span>
-                        <span class="name">Вася Попкин</span>
-                    </a>
-                </div>
-                <div class="persona">
-                    <a href="#" class="photo border-color">
-                        <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
-                        <span class="sendMessage"></span>
-                        <span class="name">Вася Попкин</span>
-                    </a>
-                </div>
-                <div class="persona">
-                    <a href="#" class="photo border-color">
-                        <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
-                        <span class="sendMessage"></span>
-                        <span class="name">Вася Попкин</span>
-                    </a>
-                </div>
-                <div class="persona">
-                    <a href="#" class="photo border-color">
-                        <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
-                        <span class="sendMessage"></span>
-                        <span class="name">Вася Попкин</span>
-                    </a>
+                <div class="noFinded" style="display: none;">
+                    Не найдено
                 </div>
 
                 <div class="arrow toggler"></div>
@@ -240,157 +168,6 @@
                     <div class="count">3</div><a href="#tab-notifications">Уведомления</a></li>
             </ul>
             <div class="messages" id="tab-messages">
-                <div class="dialog" data-id="1">
-                    <div class="msg myself">
-                        <div class="persona vip"><!-- Невероятно, но факт: добавь класс vip и персона vip-озируется -->
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Hello, wrld!!111</div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="msg">
-                        <div class="persona">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Yo, man</div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="msg">
-                        <div class="persona">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat eros eu neque posuere convallis. Fusce purus nisi, egestas vel dignissim malesuada, lacinia ac lorem. Morbi semper libero sapien, quis blandit dui auctor eget. Fusce eget purus id mauris dignissim sodales pulvinar a augue. In eu elit nisl. Mauris gravida pulvinar vehicula. Pellentesque pellentesque odio tortor, sit amet laoreet dui gravida at. Nunc eleifend dapibus pellentesque. Mauris ut ante laoreet, fermentum lectus vel, suscipit urna. Ut imperdiet quis quam in accumsan. Cras justo nulla, maximus in libero sed, luctus ullamcorper diam. Nulla malesuada nisi vitae est pellentesque cursus.</div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="msg">
-                        <div class="persona">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sagittis, est ornare tincidunt consectetur, nisl neque facilisis augue, quis elementum nunc lorem a nisl. Sed vel lectus ipsum. Proin lorem ipsum, condimentum quis sem at, laoreet tempor mi. Proin eu erat sed metus posuere ultrices. Suspendisse lobortis rhoncus sollicitudin. Integer pretium egestas nisl id ornare. Nullam in laoreet orci, et mollis justo. Donec varius, justo quis aliquam feugiat, ante arcu consectetur felis, nec imperdiet ipsum nulla a justo. Quisque iaculis malesuada odio, vitae porta nisl hendrerit ut. Sed vulputate risus nec arcu rhoncus, tincidunt ultrices dui pretium. Fusce varius augue ut metus hendrerit posuere. Suspendisse ut ultricies augue. In sagittis nisl id urna suscipit, a mollis eros blandit. Aliquam ac tincidunt mauris. Vivamus molestie ultrices est maximus interdum. Curabitur pharetra dapibus tincidunt. Fusce in facilisis justo.</div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="msg myself">
-                        <div class="persona vip">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">???</div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <div class="dialog" data-id="2">
-                    <div class="msg myself">
-                        <div class="persona">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Hello, wrld!!111</div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="msg">
-                        <div class="persona">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Yo, man</div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <div class="dialog" data-id="3">
-                    <div class="msg myself">
-                        <div class="persona">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Hello, wrld!!111</div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <div class="dialog" data-id="4">
-                    <div class="msg myself">
-                        <div class="persona vip">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Hello, wrld!!111</div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <div class="dialog" data-id="5">
-                    <div class="msg myself">
-                        <div class="persona">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Hello, wrld!!111</div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <div class="dialog" data-id="6">
-                    <div class="msg myself">
-                        <div class="persona vip">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Hello, wrld!!111</div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <div class="dialog" data-id="7">
-                    <div class="msg myself">
-                        <div class="persona">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Hello, wrld!!111</div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <div class="dialog" data-id="8">
-                    <div class="msg myself">
-                        <div class="persona">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Hello, wrld!!111</div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-
-                <div class="dialog" data-id="9">
-                    <div class="msg myself">
-                        <div class="persona">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Hello, wrld!!111</div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <div class="dialog" data-id="10">
-                    <div class="msg myself">
-                        <div class="persona">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Hello, wrld!!111</div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <div class="dialog" data-id="11">
-                    <div class="msg myself">
-                        <div class="persona">
-                            <img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">
-                            <div class="date">25.10.15</div>
-                        </div>
-                        <div class="text">Hello, wrld!!111</div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
                 <form class="messageForm" data-id="0">
                     <textarea class="text border-color"></textarea>
                     <input type="submit" value="Написать" class="messageSubmit">
@@ -430,133 +207,54 @@
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мои тендеры</div>
                 <div class="historyContent">
-                    <a class="historyItem" href="#">Баланс изменился</a>
-                    <a class="historyItem" href="#">Баланс снова изменился</a>
-                    <a class="historyItem" href="#">Баланс изменился снова</a>
-                    <a class="historyItem" href="#">Баланс снова изменился снова</a>
-                    <a class="historyItem" href="#">Угадай что? Баланс изменился</a>
-                    <a class="historyItem" href="#">Невероятно, но баланс изменился</a>
-                    <a class="historyItem" href="#">Изменился баланс</a>
-                    <a class="historyItem" href="#">Банился измеланс</a>
-                    <a class="historyItem" href="#">Балансо изменялсо</a>
-                    <a class="historyItem" href="#">Балансус изменямус</a>
-                    <a class="historyItem" href="#">Очередная трата мирских ненужностей</a>
-                    <a class="historyItem" href="#">Авокадо кедавро</a>
-                    <a class="historyItem" href="#">Баланс изменился</a>
                 </div>
                 <div class="closeBox"></div>
-                <div class="arrow toggler"></div>
+                <div class="arrow loader"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional" id="myProjects" toggler="">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мои проекты</div>
                 <div class="historyContent">
-                    <a class="historyItem" href="#">Баланс изменился</a>
-                    <a class="historyItem" href="#">Баланс снова изменился</a>
-                    <a class="historyItem" href="#">Баланс изменился снова</a>
-                    <a class="historyItem" href="#">Баланс снова изменился снова</a>
-                    <a class="historyItem" href="#">Угадай что? Баланс изменился</a>
-                    <a class="historyItem" href="#">Невероятно, но баланс изменился</a>
-                    <a class="historyItem" href="#">Изменился баланс</a>
-                    <a class="historyItem" href="#">Банился измеланс</a>
-                    <a class="historyItem" href="#">Балансо изменялсо</a>
-                    <a class="historyItem" href="#">Балансус изменямус</a>
-                    <a class="historyItem" href="#">Очередная трата мирских ненужностей</a>
-                    <a class="historyItem" href="#">Авокадо кедавро</a>
-                    <a class="historyItem" href="#">Баланс изменился</a>
                 </div>
                 <div class="closeBox"></div>
-                <div class="arrow toggler"></div>
+                <div class="arrow loader"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional" id="myNews" toggler="">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мои новости</div>
                 <div class="historyContent">
-                    <a class="historyItem" href="#">Баланс изменился</a>
-                    <a class="historyItem" href="#">Баланс снова изменился</a>
-                    <a class="historyItem" href="#">Баланс изменился снова</a>
-                    <a class="historyItem" href="#">Баланс снова изменился снова</a>
-                    <a class="historyItem" href="#">Угадай что? Баланс изменился</a>
-                    <a class="historyItem" href="#">Невероятно, но баланс изменился</a>
-                    <a class="historyItem" href="#">Изменился баланс</a>
-                    <a class="historyItem" href="#">Банился измеланс</a>
-                    <a class="historyItem" href="#">Балансо изменялсо</a>
-                    <a class="historyItem" href="#">Балансус изменямус</a>
-                    <a class="historyItem" href="#">Очередная трата мирских ненужностей</a>
-                    <a class="historyItem" href="#">Авокадо кедавро</a>
-                    <a class="historyItem" href="#">Баланс изменился</a>
                 </div>
                 <div class="closeBox"></div>
-                <div class="arrow toggler"></div>
+                <div class="arrow loader"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional" id="myOffers" toggler="">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мои обьявления</div>
                 <div class="historyContent">
-                    <a class="historyItem" href="#">Баланс изменился</a>
-                    <a class="historyItem" href="#">Баланс снова изменился</a>
-                    <a class="historyItem" href="#">Баланс изменился снова</a>
-                    <a class="historyItem" href="#">Баланс снова изменился снова</a>
-                    <a class="historyItem" href="#">Угадай что? Баланс изменился</a>
-                    <a class="historyItem" href="#">Невероятно, но баланс изменился</a>
-                    <a class="historyItem" href="#">Изменился баланс</a>
-                    <a class="historyItem" href="#">Банился измеланс</a>
-                    <a class="historyItem" href="#">Балансо изменялсо</a>
-                    <a class="historyItem" href="#">Балансус изменямус</a>
-                    <a class="historyItem" href="#">Очередная трата мирских ненужностей</a>
-                    <a class="historyItem" href="#">Авокадо кедавро</a>
-                    <a class="historyItem" href="#">Баланс изменился</a>
                 </div>
                 <div class="closeBox"></div>
-                <div class="arrow toggler"></div>
+                <div class="arrow loader"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional" id="myInvestments" toggler="">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мои инвестиции</div>
                 <div class="historyContent">
-                    <a class="historyItem" href="#">Баланс изменился</a>
-                    <a class="historyItem" href="#">Баланс снова изменился</a>
-                    <a class="historyItem" href="#">Баланс изменился снова</a>
-                    <a class="historyItem" href="#">Баланс снова изменился снова</a>
-                    <a class="historyItem" href="#">Угадай что? Баланс изменился</a>
-                    <a class="historyItem" href="#">Невероятно, но баланс изменился</a>
-                    <a class="historyItem" href="#">Изменился баланс</a>
-                    <a class="historyItem" href="#">Банился измеланс</a>
-                    <a class="historyItem" href="#">Балансо изменялсо</a>
-                    <a class="historyItem" href="#">Балансус изменямус</a>
-                    <a class="historyItem" href="#">Очередная трата мирских ненужностей</a>
-                    <a class="historyItem" href="#">Авокадо кедавро</a>
-                    <a class="historyItem" href="#">Баланс изменился</a>
                 </div>
                 <div class="closeBox"></div>
-                <div class="arrow toggler"></div>
+                <div class="arrow loader"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional" id="myBalance" toggler="">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мой баланс</div>
                 <div class="historyContent">
-                    <a class="historyItem" href="#">Баланс изменился</a>
-                    <a class="historyItem" href="#">Баланс снова изменился</a>
-                    <a class="historyItem" href="#">Баланс изменился снова</a>
-                    <a class="historyItem" href="#">Баланс снова изменился снова</a>
-                    <a class="historyItem" href="#">Угадай что? Баланс изменился</a>
-                    <a class="historyItem" href="#">Невероятно, но баланс изменился</a>
-                    <a class="historyItem" href="#">Изменился баланс</a>
-                    <a class="historyItem" href="#">Банился измеланс</a>
-                    <a class="historyItem" href="#">Балансо изменялсо</a>
-                    <a class="historyItem" href="#">Балансус изменямус</a>
-                    <a class="historyItem" href="#">Очередная трата мирских ненужностей</a>
-                    <a class="historyItem" href="#">Авокадо кедавро</a>
-                    <a class="historyItem" href="#">Баланс изменился</a>
                 </div>
                 <div class="closeBox"></div>
-                <div class="arrow toggler"></div>
+                <div class="arrow loader"></div>
             </div>
         </div>
         <div class="clearfix"></div>
     </div>
 </div>
-
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
 <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
@@ -587,8 +285,9 @@
 <script src="/resources/js/enscroll-0.6.1.min.js"></script>
 <!--END of libs-->
 
+<script src="/resources/js/api-generator/api-request.js"></script>
+<script src="/resources/js/api-generator/api-generated.js"></script>
 <script src="/resources/js/prioffice.js"></script>
-
 
 <script>
 </script>
