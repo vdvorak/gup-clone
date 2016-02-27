@@ -83,7 +83,10 @@ User.get = function (id, callback) {
 	else {
 		R.Libra().profilesService().profile().read().id(id, null, function (res) {
 			res.getPic = function () {
-				return '/api/rest/fileStorage/PROFILE/file/read/id/' + res.contact.pic
+				return res.contact.pic ? '/api/rest/fileStorage/PROFILE/file/read/id/' + res.contact.pic : '/resources/images/no_photo.jpg'
+			}
+			res.getPage = function () {
+				return '/profile/id/' + id
 			}
 			User.bank[id] = res
 			return callback(null, User.bank[id])
@@ -221,10 +224,11 @@ Contacts.init = function(){
 			if (profile.contact.member){
 				$(e).addClass('vip')
 			}
+			$(e).find('a').attr('href', profile.getPage())
 			$(e).find('.photo img').attr('src', profile.getPic())
 			$(e).find('.sendMessage').on('click', function (event) {
 				event.preventDefault()
-				alert('send message?))')
+				Dialogs.open('new')
 			})
 		})
 	})
@@ -268,6 +272,11 @@ Dialogs.dialogsScrollPosition = 0
 
 //В качестве параметра указываем идентификатор диалога (содержится в атрибуте Dialogs.dialogIdAttr)
 Dialogs.open = function (id) {
+	Dialogs.remove('new')
+	if (id === 'new'){
+		console.log('NEW dialog added: ' + id)
+		Dialogs.addDialog({id: id})
+	}
 	Dialogs.dialogsScrollPosition = Dialogs.common.scrollTop()
 	Dialogs.common.addClass(Dialogs.classOpened)
 	Dialogs.unfixScroll(Dialogs.common)
@@ -290,19 +299,27 @@ Dialogs.open = function (id) {
 		scrollTop: $('.msAndNt').offset().top - Dialogs.dialogsScrollPositionOffset
 	}, 0)
 }//Закрываем любой открытый диалог
+Dialogs.getId = function (obj) {
+	return obj.attr('data-id')
+}
 Dialogs.close = function () {
 	Dialogs.common.removeClass(Dialogs.classOpened)
 	Dialogs.form.hide()
 	Dialogs.common.find('.dialog').each(function (num, e) {
 		var dialog = $(this)
-		if (dialog.hasClass(Dialogs.classOpened)) {
-			dialog.removeClass(Dialogs.classOpened)
-			Dialogs.unfixScroll(dialog)
-			if (dialog.length) {
-				dialog.scrollTop(dialog[0].scrollHeight - dialog.height())
+		if (Dialogs.getId(dialog) === 'new'){
+			Dialogs.remove(Dialogs.getId(dialog))
+		}
+		else {
+			if (dialog.hasClass(Dialogs.classOpened)) {
+				dialog.removeClass(Dialogs.classOpened)
+				Dialogs.unfixScroll(dialog)
+				if (dialog.length) {
+					dialog.scrollTop(dialog[0].scrollHeight - dialog.height())
+				}
+			} else {
+				dialog.show()
 			}
-		} else {
-			dialog.show()
 		}
 	})
 	$('html,body').animate({
@@ -335,17 +352,32 @@ Dialogs.init = function () {
 	})
 	Dialogs.fixScroll(Dialogs.common)
 }
-Dialogs.dialogs = []
+Dialogs.addDialog = function (data) {
+	return new Dialogs.Dial(data)
+}
+Dialogs.remove = function (id) {
+	var dialog = Dialogs.dialogs[id]
+	if (dialog){
+		dialog.remove()
+	}
+}
+Dialogs.dialogs = {}
 Dialogs.Dial = (function () {
 	function Dial(settings) {
 		this.opt = {
 			id: ''
 		}
 		$.extend(this.opt, settings)
+		if (Dialogs.dialogs[this.opt.id]){
+			console.error('Dialog ' + this.opt.id + ' already created')
+			return;
+		}
+		console.log('Dialog created: ' + this.opt.id)
+		Dialogs.dialogs[this.opt.id] = this
 		this.handle = Dialogs.dialogTemplate.clone()
+		this.handle.attr('data-id', this.opt.id)
 		this.handle.text()
 		Dialogs.common.prepend(this.handle)
-		Dialogs.dialogs.push(this)
 
 		this.messages = []
 	}
@@ -355,6 +387,10 @@ Dialogs.Dial.prototype.addMessage = function (data) {
 	var msg = new Dialogs.Message(this, data)
 	this.messages.push(msg)
 	return msg
+}
+Dialogs.Dial.prototype.remove = function () {
+	delete Dialogs.dialogs[this.opt.id]
+	this.handle.remove()
 }
 Dialogs.Message = (function () {
 	function Message(dialog, settings) {
@@ -383,7 +419,7 @@ Dialogs.Message = (function () {
 	}
 	return Message
 })()
-Dialogs.dialogTemplate = $('<div class="dialog" data-id="11"></div>')
+Dialogs.dialogTemplate = $('<div class="dialog" data-id=""></div>')
 Dialogs.messageTemplate = $(
 	'<div class="msg" data-author="">'+
 		'<div class="persona">'+
@@ -397,7 +433,7 @@ loadingQueue.push(function () {
 	R.Libra().dialogueService().dialogue().read().all(null, function (res) {
 		for (var d in res) {
 			var _dialog = res[d]
-			var dialog = new Dialogs.Dial(_dialog)
+			var dialog = new Dialogs.addDialog(_dialog)
 			for (var m in _dialog.messages) {
 				var _message = _dialog.messages[m]
 				dialog.addMessage(_message)
@@ -405,6 +441,7 @@ loadingQueue.push(function () {
 		}
 	})
 })
+
 var ELoader = (function () {
 	function PageLoader(options) {
 		this.opt = {
