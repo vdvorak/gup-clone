@@ -8,7 +8,6 @@ package ua.com.itproekt.gup.service.oauth2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
-import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
@@ -51,10 +50,14 @@ public class TokenStoreService implements TokenStore {
     @Override
     public OAuth2AccessToken readAccessToken(String tokenId) {
         OAuth2AuthenticationAccessToken token = oAuth2AccessTokenRepository.findByTokenId(tokenId);
-        if (null == token) {
-            throw new InvalidTokenException("Token not valid");
+//        if (null == token) {
+//            throw new InvalidTokenException("Token not valid");
+//        }
+        if (token != null) {
+            return token.getoAuth2AccessToken();
+        } else {
+            return null;
         }
-        return token.getoAuth2AccessToken();
     }
 
     @Override
