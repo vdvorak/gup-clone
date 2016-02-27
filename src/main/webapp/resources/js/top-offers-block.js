@@ -13,25 +13,27 @@ function getOfferUrl(offer) {
     return '/offer/' + offer.id;
 }
 
-function getOfferImagePreviewTag(offer) {
-    if (offer.imagesIds !== null) {
-        for (var key in offer.imagesIds) {
-            if (offer.imagesIds[key] === "1") {
-                return '<img src="/api/rest/fileStorage/OFFERS/file/read/id/' + key + '" class="img-responsive" >';
+function getOfferImageUrl(imagesIds) {
+    if (imagesIds) {
+        for (var imgId in imagesIds) {
+            if (imagesIds[imgId] === "1") {
+                return "/api/rest/fileStorage/OFFERS/file/read/id/" + imgId;
             }
         }
     }
-    return '<img src="/resources/images/no_photo.jpg" class="img-responsive" >';
+
+    return "/resources/images/no_photo.jpg";
 }
 
-function appendOffer(elementId, offerURL, imagePreviewTag, title) {
+function appendOffer(elementId, offerURL, imageUrl, title) {
     $('#' + elementId).append(
     '<div class="add-top1">' +
-        '<a href="' + offerURL + '">' +
-            imagePreviewTag +
-        '</a>' +
         '<a href="' + offerURL + '" class="ad-a1">' + title + '</a>' +
     '</div>');
+
+    $('.add-top1').last()
+        .css('background', 'url(' + imageUrl + ')  no-repeat center center')
+        .css('background-size', 'cover');
 }
 
 function loadAndAppendTopOffers() {
@@ -46,9 +48,8 @@ function loadAndAppendTopOffers() {
 
                 for (var i = 0; i < offers.length; i++) {
                     var offerURl = getOfferUrl(offers[i]);
-                    var imagePreviewTag = getOfferImagePreviewTag(offers[i]);
 
-                    appendOffer('topOffersBlock', offerURl, imagePreviewTag, offers[i].title);
+                    appendOffer('topOffersBlock', offerURl, getOfferImageUrl(offers[i].imagesIds), offers[i].title);
                 }
             }
             //,

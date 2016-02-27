@@ -52,8 +52,7 @@ function loadAndAppendTopTenders() {
 
                     appendTender('topTendersBlock', tenderURl, getTenderImageUrl(tenders[i].imagesIds), tenders[i].title);
                 }
-            }
-            ,
+            },
             204 : function() {
             }
         }
