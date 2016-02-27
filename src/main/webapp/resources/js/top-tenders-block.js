@@ -13,25 +13,27 @@ function getTenderUrl(tender) {
     return '/tender/' + tender.id;
 }
 
-function getTenderImagePreviewTag(tender) {
-    if (tender.uploadFilesIds !== null) {
-        for (var key in tender.uploadFilesIds) {
-            if (tender.uploadFilesIds[key] === "1") {
-                return '<img src="/api/rest/fileStorage/TENDER/file/read/id/' + key + '" class="img-responsive" >';
+function getTenderImageUrl(imagesIds) {
+    if (imagesIds) {
+        for (var imgId in imagesIds) {
+            if (imagesIds[imgId] === "1") {
+                return "/api/rest/fileStorage/TENDER/file/read/id/" + imgId;
             }
         }
     }
-    return '<img src="/resources/images/no_photo.jpg" class="img-responsive" >';
+
+    return "/resources/images/no_photo.jpg";
 }
 
-function appendTender(elementId, tenderURL, tenderImagePreviewTag, title) {
+function appendTender(elementId, tenderURL, imageUrl, title) {
     $('#' + elementId).append(
     '<div class="tend-top1">' +
-        '<a href="' + tenderURL + '">' +
-            tenderImagePreviewTag +
-        '</a>' +
         '<a href="' + tenderURL + '" class="ad-a1">' + title + '</a>' +
     '</div>');
+
+    $('.tend-top1').last()
+        .css('background', 'url(' + imageUrl + ')  no-repeat center center')
+        .css('background-size', 'cover');
 }
 
 function loadAndAppendTopTenders() {
@@ -47,9 +49,8 @@ function loadAndAppendTopTenders() {
 
                 for (var i = 0; i < tenders.length; i++) {
                     var tenderURl = getTenderUrl(tenders[i]);
-                    var tenderImagePreviewTag = getTenderImagePreviewTag(tenders[i]);
 
-                    appendTender('topTendersBlock', tenderURl, tenderImagePreviewTag, tenders[i].title);
+                    appendTender('topTendersBlock', tenderURl, getTenderImageUrl(tenders[i].imagesIds), tenders[i].title);
                 }
             }
             ,
