@@ -5,7 +5,137 @@
   Time: 11:41
   To change this template use File | Settings | File Templates.
 --%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Редактирование тендера</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="/resources/css/bootstrap.css">
+  <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+  <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/css/main.css">
+  <link rel="stylesheet" href="/resources/css/font-awesome.css">
+</head>
+<body>
+
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+
+<div class="container2">
+  <div class="tenderMake">
+    <h1>РЕДАКТИРОВАНИЕ ТЕНДЕРА</h1>
+    <form action="#">
+      <label for="EnterTheTitle">Введите название</label>
+      <input type="text" id="EnterTheTitle" required value="${tender.title}">
+      <label>Выберете отрасль</label>
+      <div id="selectBox-info-type">
+        <select id="select-type">
+          <option>Выберите тип</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+        </select>
+      </div>
+      <p class="datePickPi">Сроки <input type="text" id="datepicker"></p>
+      <p class="datePickPi">&nbsp;- <input type="text" id="datepicker2"></p>
+
+      <div class="clearfix"></div>
+
+      <h2>Укажите адрес</h2>
+      <div class="location">
+        <label for="SelectArea">Выберете область</label>
+        <input type="text" id="SelectArea" required value="${tender.address.area}">
+
+        <div class="clearfix"></div>
+
+        <label for="SelectCity">Выберете город</label>
+        <input type="text" id="SelectCity" required value="${tender.address.area}">
+      </div>
+      <label>Тип</label>
+      <div class="tenderRadio">
+        <label><input class="input-tenderRadio" type="radio" value="open" name="k" data-type="OPEN"/><span></span></label><p>открытый</p>
+        <label><input class="input-tenderRadio" type="radio" value="open" name="k" data-type="CLOSE"/><span></span></label><p>закрытый</p>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="description">
+        <label for="HideBidders">Скрывать участников тендера</label>
+        <label><input type="checkbox" id="HideBidders" value="open" name="k"/><span></span></label>
+        <label for="InviteBidders">Пригласить участников тендера</label>
+        <input type="text" id="InviteBidders" placeholder="Название">
+
+        <div class="clearfix"></div>
+
+        <label for="ExpectedValue">Ожидаемая стоимость</label>
+        <input type="text" id="ExpectedValue" placeholder="456" value="${tender.expectedPrice}">
+        <label for="TenderNumber">Номер тендера</label>
+        <input type="text" id="TenderNumber" placeholder="XX12345678-90" value="${tender.tenderNumber}">
+
+        <div class="clearfix"></div>
+
+        <label for="Description">Описание</label>
+        <textarea name="Description" id="Description"></textarea>
+      </div>
+
+      <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
+      <img id="tender-btn-addDoc" src="/resources/images/clip.png" alt="clip">
+
+      <div class="clearfix"></div>
+
+      <div id="drop_zone" class="defaultIMG">
+        <ul id="tender-img-block">
+          <li class="li-containerIMG li-defaultIMG">
+            <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+            <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+          </li>
+        </ul>
+        <ul id="tender-doc-block">
+          <li class="li-containerIMG li-defaultIMG">
+            <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+            <img src="http://www.uzscience.uz/upload/userfiles/images/doc.png" alt="defaultIMG">
+            <div style="width: 100%; text-align: center; font-weight: bold"></div>
+          </li>
+        </ul>
+      </div>
+
+      <button id="tender-btn-save" type="submit">Сохранить</button>
+    </form>
+
+    <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
+      <input id="photoInput" type="file" style="display: none;" multiple="multiple">
+    </form>
+
+  </div>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+<script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+
+<script src="/resources/js/jquery.bxslider.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
+<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script src="/resources/js/main.js"></script>
+
+<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
   <title>Создание тендера</title>
@@ -219,13 +349,12 @@
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/js/bootstrap-datepicker.js"></script>
 
-<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
+<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>--%>
 
 <script>
   var imgsArr = {};
   var cities;
   var members = [];
-  var type = 'OPEN';
   var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
   var picMapObj = {};
   var imgsArrResult = {};
@@ -240,24 +369,22 @@
 
   $(document).ready(function () {
 
+    if('${tender.hidePropose}') $('#HideBidders').prop( "checked", true );
+    if(('${tender.type}') === "CLOSE") {
+      $('.input-tenderRadio[data-type="CLOSE"]').prop("checked", true);
+    } else {
+      $('.input-tenderRadio[data-type="OPEN"]').prop("checked", true);
+      $('#InviteBidders').attr("style", "display: none");
+      $('label[for="InviteBidders"]').attr("style", "display: none");
+    }
+
     // place photo from received model on the page
     for (var id in picMapObj) {
       picArrIn[id] = picMapObj[id];
       if (picMapObj[id] === "image" || picMapObj[id] === "pic1") {
-        $('.imgBlock').append('<ul id="' + id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-                '<li><strong></strong></li>' +
-                ' <li style="background-color: white">' +
-                '<a rel="example_group"> ' +
-                '<img alt="" ' + ((picMapObj[id] === 'pic1') ? 'class="mainImg"' : '') + ' src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
-                '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+        appendImg(id);
       } else {
-        picArrIn[id] = "doc";
-        $('.docBlock').append('<ul id="' + id + '" style="display: inline-table; list-style-type: none">' +
-                '<li><strong></strong></li>' +
-                ' <li style="background-color: white">' +
-                '<a rel="example_group"> ' +
-                '<img alt="" src="http://www.uzscience.uz/upload/userfiles/images/doc.png"' + 'width="150" height="150"> ' +
-                '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+        appendDoc(id, "");
       }
     }
 
@@ -290,25 +417,14 @@
             var id = data.id;
             if (f.type.substring(0, 5) === 'image') {
               picArrIn[id] = "image";
-              $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-                      '<li><strong>' + f.name + '</strong></li>' +
-                      ' <li style="background-color: white">' +
-                      '<a rel="example_group"> ' +
-                      '<img alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
-                      '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+              appendImg(id);
             } else {
               picArrIn[id] = "doc";
-              $('.docBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
-                      '<li><strong>' + f.name + '</strong></li>' +
-                      ' <li style="background-color: white">' +
-                      '<a rel="example_group"> ' +
-                      '<img alt="" src="http://www.uzscience.uz/upload/userfiles/images/doc.png"' + 'width="150" height="150"> ' +
-                      '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+              appendDoc(id, f.name);
             }
           }
         });
       }
-      evt.currentTarget.form.reset();
     }
 
     function handleDragOver(evt) {
@@ -316,17 +432,50 @@
       evt.preventDefault();
       evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
     }
-
-    $('#addImg').click(function(){
-      $('#uploadProfilePhotoInput').trigger('click');
-    });
-
   });
+
+
+  $('.blogCreationSubmit').click(function(){
+    $('#photoInput').trigger('click');
+  });
+  $('#tender-btn-addDoc').click(function(){
+    $('#photoInput').trigger('click');
+  });
+
+  function appendImg(id) {
+    var isMain = picArrIn[id] === 'pic1';
+
+    $("#tender-img-block > .li-defaultIMG").css("display", "none");
+    var cloneImg = $("#tender-img-block > .li-defaultIMG").clone()
+            .removeClass('li-defaultIMG')
+            .css("display", "inline-block");
+    cloneImg.find('img')
+            .attr("alt", "")
+            .attr("src", '/api/rest/fileStorage/TENDER/file/read/id/' + id)
+            .attr("id", id)
+            .click(onClickSetMainImg);
+    cloneImg.find('span')
+            .click(deleteImg);
+    if(isMain) cloneImg.find('img').addClass("mainImg");
+    cloneImg.appendTo('#tender-img-block');
+  }
+
+  function appendDoc(id, name) {
+    $("#tender-doc-block > .li-defaultIMG").css("display", "none");
+    var cloneDoc = $("#tender-doc-block > .li-defaultIMG").clone()
+            .removeClass('li-defaultIMG')
+            .css("display", "inline-block");
+    cloneDoc.find('img')
+            .attr("id", id);
+    cloneDoc.find('div')
+            .text(name);
+    cloneDoc.find('span')
+            .click(deleteImg);
+    cloneDoc.appendTo('#tender-doc-block');
+  }
 
   //--------------------   DATEPICKER ---------------------------------//
-  $(function () {
-    $('#datetimepicker4').datetimepicker({format: 'yyyy-mm-dd hh:ii'});
-  });
+
   //--------------------   END  DATEPICKER ---------------------------------//
 
 
@@ -351,7 +500,10 @@
     content_css: [
       '//fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
       '//www.tinymce.com/css/codepen.min.css'
-    ]
+    ],
+    init_instance_callback : function(editor) {
+      editor.setContent('${tender.body}');
+    }
   });
 
   //---------------------- END  HTML EDITOR-------------------------------------//
@@ -359,18 +511,14 @@
 
   //--------------------  RADIO CHECK ------------------------------------//
 
-  $('#open, #close').change(function () {
-    var members = $('#members');
-    var membersList = $('#membersList');
-    if ($('#open').prop('checked')) {
-      type = 'OPEN';
-      members.attr("style", "display: none");
-      membersList.attr("style", "display: none");
-
+  $('.input-tenderRadio').change(function () {
+    var invite = $('#InviteBidders');
+    if ($('.input-tenderRadio[data-type="CLOSE"]').prop('checked')) {
+      invite.attr("style", "display: ");
+      $('label[for="InviteBidders"]').attr("style", "display: ");
     } else {
-      type = 'CLOSE';
-      members.attr("style", "display: ");
-      membersList.attr("style", "display: ");
+      invite.attr("style", "display: none");
+      $('label[for="InviteBidders"]').attr("style", "display: none");
     }
   });
 
@@ -421,7 +569,7 @@
   //-------------------- END ADD MEMBER ------------------------------------------//
 
 
-  //--------------------------- GOOGLE MAP API ---------------------------------------//
+  /*//--------------------------- GOOGLE MAP API ---------------------------------------//
 
   function initMap() {
 
@@ -468,17 +616,16 @@
     });
   }
 
-  //--------------------------- END GOOGLE MAP API ---------------------------------------//
+  //--------------------------- END GOOGLE MAP API ---------------------------------------//*/
 
 
   // -------------------------- PHOTO SUBMIT AND DELETE ------------------------------//
 
-  $('#uploadProfilePhotoInput').change(function (event) {
+  $('#photoInput').change(function (event) {
     event.preventDefault();
 
     var files = event.currentTarget.files;
     for (var i = 0, f; f = files[i]; i++) {
-      var formImg = new FormData($(this)[0]);
       var fd = new FormData();
       fd.append('file', f);
       $.ajax({
@@ -494,25 +641,14 @@
           var id = data.id;
           if (f.type.substring(0, 5) === 'image') {
             picArrIn[id] = "image";
-            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-                    '<li><strong>' + f.name + '</strong></li>' +
-                    ' <li style="background-color: white">' +
-                    '<a rel="example_group"> ' +
-                    '<img alt="" src="/api/rest/fileStorage/TENDER/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
-                    '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+            appendImg(id);
           } else {
             picArrIn[id] = "doc";
-            $('.docBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none">' +
-                    '<li><strong>' + f.name + '</strong></li>' +
-                    ' <li style="background-color: white">' +
-                    '<a rel="example_group"> ' +
-                    '<img alt="" src="http://www.uzscience.uz/upload/userfiles/images/doc.png"' + 'width="150" height="150"> ' +
-                    '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+            appendDoc(id, f.name);
           }
         }
       });
     }
-    event.currentTarget.form.reset();
   });
 
   function deleteImgFromDB(idImg) {
@@ -524,29 +660,41 @@
     });
   }
 
-  function deleteImg(idImg) {
-    $('#' + idImg).remove();
+  function deleteImg() {
+    var idImg = $(event.currentTarget).parent()
+            .find('img')
+            .attr('id');
+    var block = $(event.currentTarget).parent().parent();
+    $('#' + idImg).parent().remove();
+
+    var numberImg = block.find('img').length;
+    if(numberImg < 2) {
+      block.find(".li-defaultIMG").css("display", "inline-block");
+    }
     picArrDel.push(idImg);
   }
 
-  function onClickSetMainImg(id) {
-    var isMain = $('#' + id).find("img").hasClass("mainImg");
-    var allImgs = $(".imgBlock").find("img");
+  function onClickSetMainImg(event) {
+
+    var img = $(event.currentTarget);
+    var id = img.attr("id");
+    var isMain = img.hasClass("mainImg");
+    var allImgs = $("#tender-img-block").find("img");
     for (var i =0; i < allImgs.length; i++) {
       var curImg = $(allImgs[i]);
       if (curImg.hasClass("mainImg")) {
         curImg.removeClass("mainImg");
       }
     }
-    var el = $('#' + id).find("img");
-    if(!isMain) el.addClass("mainImg");
+    if(!isMain) img.addClass("mainImg");
 
     for(var key in imgsArr) {
       if(picArrIn[key] === "pic1") {
         picArrIn[key] = "image";
       }
     }
-    if(el.hasClass("mainImg")) {
+
+    if(img.hasClass("mainImg")) {
       picArrIn[id] = "pic1";
     }
   }
@@ -561,7 +709,7 @@
     async: false,
     success: function (response) {
       cities = response;
-      var area = '${tender.address.area}';
+     /* var area = '${tender.address.area}';
       var city = '${tender.address.city}';
       if (area !== '') {
         $('#chosenRegion').text(area);
@@ -589,29 +737,23 @@
                 $('#chosenCity').text(city);
                 $('#cityInp').val(city);
               }
-      );
+      );*/
     }
   });
   //--------------------------- End Take Value Cities -----------------------------------//
 
   //---------------------------- SUBMIT -----------------------------------------------------//
-  $('#save').click(function () {
+  $('#tender-btn-save').click(function (event) {
+    var body = tinymce.activeEditor.getContent();
+    if(!body) return;
 
-    for(var key in picArrIn) {
+    for(var key in imgsArr) {
       if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
     }
 
     for (var i = 0; i < picArrNew.length; i++) {
-      imgsArrResult[picArrNew[i]] = picArrIn[picArrNew[i]];
+      imgsArrResult[picArrNew[i]] = imgsArr[picArrNew[i]];
     }
-
-    var defaultMainImg = "";
-    for(var key in imgsArrResult) {
-      if(imgsArrResult[key] === "pic1") {
-        defaultMainImg = key;
-      }
-    }
-    if(defaultMainImg) imgsArrResult[defaultMainImg] = "pic1";
 
     for(var i = 0; i < picArrDel.length; i++) {
       deleteImgFromDB(picArrDel[i]);
@@ -619,20 +761,30 @@
 
     var tender = {};
     tender.uploadFilesIds = imgsArrResult;
-    tender.title = $('#title').val();
-    tender.body = tinymce.activeEditor.getContent();
-    tender.tenderNumber = $('#tenderNumber').val();
-    tender.end = new Date($('#datetimepicker4').val()).getTime();
-    tender.type = type;
-    tender.expectedPrice = $('#price').val();
-    if (type === 'CLOSE') {
+    tender.title = $('#EnterTheTitle').val();
+    tender.body = body;
+    tender.tenderNumber = $('#TenderNumber').val();
+//        tender.begin = new Date($('#datepicker').val()).getTime();
+//        tender.end = new Date($('#datepicker2').val()).getTime();
+    tender.type = $('.input-tenderRadio:checked').attr("data-type");
+    tender.expectedPrice = $('#ExpectedValue').val();
+    tender.hidePropose =  $('#HideBidders').prop('checked');
+    var members = [];
+    if (tender.type === 'CLOSE') {
       tender.members = members;
     }
+    /*var naceIds = [];
+     var naceOptions = $('#select-type option:selected');
+     for(var i = 0; i < naceOptions.length; i++) {
+     naceIds.push(naceOptions[i]);
+     }
+     tender.naceIds = naceIds;*/
+
     tender.address = {};
-    tender.address.googleMapKey = placeKey;
-    tender.address.area = $('#areaInp').val();
-    tender.address.city = $('#cityInp').val();
-    alert(JSON.stringify(tender));
+    //tender.address.googleMapKey = placeKey;
+    tender.address.area = $('#SelectArea').val();
+    tender.address.city = $('#SelectCity').val();
+
     $.ajax({
       type: "POST",
       url: "/api/rest/tenderService/tender/id/${tender.id}/update/",
@@ -649,7 +801,7 @@
 
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
-        async defer></script>
+<%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"--%>
+        <%--async defer></script>--%>
 </body>
 </html>
