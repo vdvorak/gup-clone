@@ -9,7 +9,7 @@
 
 
     <mongo:repositories base-package="ua.com.itproekt.gup.dao"/>
-    <mongo:mongo host="localhost" port="27017" id="mongo">
+    <mongo:mongo host="${mongo.local.db.server}" port="${mongo.local.db.port}" id="mongo">
         <!--<mongo:options -->
                 <!--connections-per-host="8"-->
                 <!--threads-allowed-to-block-for-connection-multiplier="4"-->
@@ -26,7 +26,7 @@
                 <!--ssl=""-->
                 <!--ssl-socket-factory-ref="" />-->
     </mongo:mongo>
-    <mongo:db-factory id="mongoDbFactory" mongo-ref="mongo" dbname="testLibraryMongo"/>
+    <mongo:db-factory id="mongoDbFactory" mongo-ref="mongo" dbname="${mongo.local.db.name}"/>
                       <!--username="${mongo.remote.db.login}" password="${mongo.remote.db.password}"/>-->
 
     <mongo:mapping-converter id="mongoConverter">
