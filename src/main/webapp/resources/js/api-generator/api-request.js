@@ -50,6 +50,10 @@ Request.prototype.post = function (url, data, success, error) {
         console.error('Success callback is null for this request: ' + url);
         return;
     }
+    if ((typeof data) === 'object'){
+        data = JSON.stringify(data)
+    }
+
     $.ajax({
         type: "POST",
         url: self.baseHref + url + '/',

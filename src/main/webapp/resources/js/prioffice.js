@@ -67,6 +67,11 @@ function localDateTime(long) {
 	long = moment(long).locale("ru").format('LLL');
 	return long;
 }
+function localDateTimeShort(long) {
+	long = new Date(parseInt(long));
+	long = moment(long).format('d.m.YY');
+	return long;
+}
 var loadingQueue = []
 $(document).ready(function () {
 	for (var q in loadingQueue){
@@ -228,7 +233,21 @@ Contacts.init = function(){
 			$(e).find('.photo img').attr('src', profile.getPic())
 			$(e).find('.sendMessage').on('click', function (event) {
 				event.preventDefault()
-				Dialogs.open('new')
+				Dialogs.close()
+				var dialog = Dialogs.getDialogByMember(profile.id)
+				if (dialog){
+					Dialogs.open(dialog.id)
+				}
+				else {
+					Dialogs.remove('new')
+					Dialogs.addDialog({
+						id: 'new',
+						members: [
+							{id: profile.id}
+						]
+					})
+					Dialogs.open('new')
+				}
 			})
 		})
 	})
@@ -269,14 +288,11 @@ Dialogs.dialogsScrollPositionOffset = 30
 Dialogs.common = null
 Dialogs.form = null
 Dialogs.dialogsScrollPosition = 0
+Dialogs.opened = null
 
 //В качестве параметра указываем идентификатор диалога (содержится в атрибуте Dialogs.dialogIdAttr)
 Dialogs.open = function (id) {
-	Dialogs.remove('new')
-	if (id === 'new'){
-		console.log('NEW dialog added: ' + id)
-		Dialogs.addDialog({id: id})
-	}
+	Dialogs.form.find('.text').val('')
 	Dialogs.dialogsScrollPosition = Dialogs.common.scrollTop()
 	Dialogs.common.addClass(Dialogs.classOpened)
 	Dialogs.unfixScroll(Dialogs.common)
@@ -285,6 +301,7 @@ Dialogs.open = function (id) {
 		dialog.addClass(Dialogs.classOpened)
 		dialog.show()
 		if ($(e).attr(Dialogs.dialogIdAttr) === id) {
+			Dialogs.opened = Dialogs.dialogs[id]
 			if (!Dialogs.form.is(':visible')) {
 				Dialogs.form.show()
 				Dialogs.fixScroll(dialog)
@@ -303,6 +320,7 @@ Dialogs.getId = function (obj) {
 	return obj.attr('data-id')
 }
 Dialogs.close = function () {
+	Dialogs.opened = null
 	Dialogs.common.removeClass(Dialogs.classOpened)
 	Dialogs.form.hide()
 	Dialogs.common.find('.dialog').each(function (num, e) {
@@ -350,7 +368,42 @@ Dialogs.init = function () {
 	$(Dialogs.common).on('click', '.dialog', function() {
 		Dialogs.open($(this).attr(Dialogs.dialogIdAttr))
 	})
+	Dialogs.form.find('.messageSubmit').on('click', function (event) {
+		event.preventDefault()
+		var msg = {}
+		msg.message = Dialogs.form.find('.text').val()
+		Dialogs.form.find('.text').val('')
+		if (Dialogs.opened.id === 'new'){
+			var newDialog = {
+				members: Dialogs.opened.members,
+				messages: [msg]
+			}
+			Dialogs.close()
+			R.Libra().dialogueService().dialogue().create(newDialog, function (res) {
+				console.log('dialog created!')
+			})
+		}
+		else {
+			R.Libra().dialogueService().dialogue().id(Dialogs.opened.id).message().create(msg, function (res) {
+				console.log('message writed!')
+			})
+		}
+	})
 	Dialogs.fixScroll(Dialogs.common)
+	setInterval(Dialogs.update, 300)
+}
+Dialogs.update = function () {
+	R.Libra().dialogueService().dialogue().read().all(null, function (res) {
+		for (var d in res) {
+			var resDialog = res[d]
+			if (Dialogs.dialogs[resDialog.id]){
+				Dialogs.dialogs[resDialog.id].updateMessages(resDialog.messages)
+			}
+			else {
+				Dialogs.addDialog(resDialog)
+			}
+		}
+	})
 }
 Dialogs.addDialog = function (data) {
 	return new Dialogs.Dial(data)
@@ -361,25 +414,37 @@ Dialogs.remove = function (id) {
 		dialog.remove()
 	}
 }
+Dialogs.getDialogByMember = function (member) {
+	for (var d in Dialogs.dialogs){
+		var dialog = Dialogs.dialogs[d]
+		for (var m in dialog.members){
+			if (dialog.members[m].id === member){
+				return dialog;
+			}
+		}
+	}
+	return null;
+}
 Dialogs.dialogs = {}
 Dialogs.Dial = (function () {
 	function Dial(settings) {
-		this.opt = {
-			id: ''
-		}
-		$.extend(this.opt, settings)
-		if (Dialogs.dialogs[this.opt.id]){
-			console.error('Dialog ' + this.opt.id + ' already created')
+		this.id = ''
+		this.members = []
+		this.messages = []
+		$.extend(this, settings)
+		if (Dialogs.dialogs[this.id]){
+			console.error('Dialog ' + this.id + ' already created')
 			return;
 		}
-		console.log('Dialog created: ' + this.opt.id)
-		Dialogs.dialogs[this.opt.id] = this
+		Dialogs.dialogs[this.id] = this
 		this.handle = Dialogs.dialogTemplate.clone()
-		this.handle.attr('data-id', this.opt.id)
+		this.handle.attr('data-id', this.id)
 		this.handle.text()
 		Dialogs.common.prepend(this.handle)
 
+		var messages = this.messages.slice()
 		this.messages = []
+		this.updateMessages(messages)
 	}
 	return Dial
 })()
@@ -388,34 +453,39 @@ Dialogs.Dial.prototype.addMessage = function (data) {
 	this.messages.push(msg)
 	return msg
 }
+Dialogs.Dial.prototype.updateMessages = function(messages){
+	if (messages.length > this.messages.length) {
+		for (var i = this.messages.length == 0 ? 0 : this.messages.length; i > -1 && i < messages.length; i++) {
+			this.addMessage(messages[i])
+		}
+	}
+}
 Dialogs.Dial.prototype.remove = function () {
-	delete Dialogs.dialogs[this.opt.id]
+	delete Dialogs.dialogs[this.id]
 	this.handle.remove()
 }
 Dialogs.Message = (function () {
 	function Message(dialog, settings) {
 		var self = this
-		this.opt = {
-			authorId: '',
-			message: 'No text assigned',
-			date: 0
-		}
-		$.extend(this.opt, settings)
+		this.authorId = ''
+		this.message = 'No text assigned'
+		this.date = 0
+		$.extend(this, settings)
 		self.handle = Dialogs.messageTemplate.clone()
-		self.handle.find('.text').text(self.opt.message)
-		self.handle.attr('data-author', self.opt.authorId)
-		if (self.opt.authorId === User.current){
+		self.handle.find('.text').text(self.message)
+		self.handle.attr('data-author', self.authorId)
+		if (self.authorId === User.current){
 			self.handle.addClass('myself')
 		}
-		User.get(self.opt.authorId, function(err, profile){
+		User.get(self.authorId, function(err, profile){
 			var persona = self.handle.find('.persona')
 			persona.find('.avatar').attr('src', profile.getPic())
 			if (profile.contact.member){
 				persona.addClass('vip')
 			}
 		})
-		self.handle.find('.date').text(localDateTime(self.opt.date))
-		self.handle.appendTo(dialog.handle)
+		self.handle.find('.date').text(localDateTimeShort(self.date))
+		self.handle.prependTo(dialog.handle)
 	}
 	return Message
 })()
@@ -430,7 +500,7 @@ Dialogs.messageTemplate = $(
 		'<div class="clearfix"></div>'+
 	'</div>')
 loadingQueue.push(function () {
-	R.Libra().dialogueService().dialogue().read().all(null, function (res) {
+	/*R.Libra().dialogueService().dialogue().read().all(null, function (res) {
 		for (var d in res) {
 			var _dialog = res[d]
 			var dialog = new Dialogs.addDialog(_dialog)
@@ -439,30 +509,28 @@ loadingQueue.push(function () {
 				dialog.addMessage(_message)
 			}
 		}
-	})
+	})*/
 })
 
 var ELoader = (function () {
 	function PageLoader(options) {
-		this.opt = {
-			api: null,
-			id: 0,
-			callback: function () {},
-			template: ELoader.templateDefault
-		}
-		$.extend(this.opt, options)
+		this.api = null;
+		this.id = 0;
+		this.callback = function () {};
+		this.template = ELoader.templateDefault;
+		$.extend(this, options)
 		this.page = 0
 
 		var self = this
-		console.log('constructor: ' + self.opt.id)
+		console.log('constructor: ' + self.id)
 		$(document).ready(function () {
-			console.log('ready: ' + self.opt.id)
-			self.handle = $('#' + self.opt.id)
+			console.log('ready: ' + self.id)
+			self.handle = $('#' + self.id)
 			self.historyContent = self.handle.find('.historyContent').first()
 			self.handle.find('.arrow.loader').each(function(num, el){
 				console.log('each')
 				$(el).on('click', function(){
-					self.load(self.opt.callback)
+					self.load(self.callback)
 				})
 			})
 		})
@@ -474,18 +542,18 @@ ELoader.prototype.load = function () {
 	var self = this
 	data.skip = this.page
 	data.limit = 5
-	this.opt.api(JSON.stringify(data), function(res){
+	this.api(JSON.stringify(data), function(res){
 		Toggler.turnToggled(self.handle)
 		if (res.entities.length <= 0){
 			return;
 		}
 		for(var r in res.entities){
 			var entity = res.entities[r]
-			var temp = self.opt.template.clone()
+			var temp = self.template.clone()
 			temp.text(entity.title)
 			self.historyContent.append(temp)
 		}
-		self.opt.callback(res)
+		self.callback(res)
 		updateHistoryLayout()
 	}, null)
 	this.page += 1
