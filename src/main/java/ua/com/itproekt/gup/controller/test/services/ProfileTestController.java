@@ -85,35 +85,35 @@ public class ProfileTestController {
         return "index";
     }
 
-    @RequestMapping("/addNace")
-    public String addNace(Model model) {
-        DepartmentOrNace nace1 = new DepartmentOrNace();
-        nace1.setId("1");
-        nace1.setName("11");
-        nace1.setTranscript("111");
-
-        DepartmentOrNace nace2 = new DepartmentOrNace();
-        nace2.setId("2");
-        nace2.setName("22");
-        nace2.setTranscript("222");
-
-        DepartmentOrNace nace3 = new DepartmentOrNace();
-        nace3.setId("3");
-        nace3.setName("33");
-        nace3.setTranscript("333");
-
-        List<DepartmentOrNace> ch2 = new ArrayList<>();
-        ch2.add(nace2);
-
-        nace1.setChildren(ch2);
-
-        List<DepartmentOrNace> ch3 = new ArrayList<>();
-        ch3.add(nace3);
-
-        nace2.setChildren(ch3);
-
-        naceService.addNace(nace1);
-        return "index";
-    }
+//    @RequestMapping("/addNace")
+//    public String addNace(Model model) {
+//        DepartmentOrNace nace1 = new DepartmentOrNace();
+//        nace1.setId("1");
+//        nace1.setName("11");
+//        nace1.setTranscript("111");
+//
+//        DepartmentOrNace nace2 = new DepartmentOrNace();
+//        nace2.setId("2");
+//        nace2.setName("22");
+//        nace2.setTranscript("222");
+//
+//        DepartmentOrNace nace3 = new DepartmentOrNace();
+//        nace3.setId("3");
+//        nace3.setName("33");
+//        nace3.setTranscript("333");
+//
+//        List<DepartmentOrNace> ch2 = new ArrayList<>();
+//        ch2.add(nace2);
+//
+//        nace1.setChildren(ch2);
+//
+//        List<DepartmentOrNace> ch3 = new ArrayList<>();
+//        ch3.add(nace3);
+//
+//        nace2.setChildren(ch3);
+//
+//        naceService.addNace(nace1);
+//        return "index";
+//    }
 
 }

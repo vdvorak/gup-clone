@@ -41,7 +41,7 @@
         <form action="#">
             <label for="EnterTheTitle">Введите название</label>
             <input type="text" id="EnterTheTitle" required>
-            <label for="">Выберете отрасль</label>
+            <label>Выберете отрасль</label>
             <div id="selectBox-info-type">
                 <select id="select-type" class="form-control">
                     <option>Выберете тип</option>
@@ -329,12 +329,17 @@
 <%--<div id="map" style="height: 50%"></div>--%>
 
 <!-- script references -->
-<script src="/resources/js/jquery.min.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
-<script src="/resources/js/moment-with-locales.js"></script>
-<script src="/resources/js/bootstrap-datepicker.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+<script>window.jQuery || document.write('<script src="resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/jquery-ui.min.js"></script>
 
-<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
+<script src="resources/js/vendor/bootstrap.js"></script>
+
+<script src="resources/js/jquery.bxslider.js"></script>
+
+<script src="resources/js/main.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
 
 <script>
     var imgsArr = {};
