@@ -40,15 +40,13 @@ function appendInvestorPostBlock(investorPost) {
                     '</div>' +
 
                     '<div class="details">' +
-
-                        '<div class="alreadyInvested">' +
-                            '<div class="desc">Сумма инвестирования:  <div class="total">' + investorPost.amountOfMoney + ' ₴ </div></div>' +
-                        '</div>' +
                         '<a href="/profile/id/' + profile.id + '">' +
                             '<div class="title"> Инвестор: ' + profile.username + '</div>' +
                         '</a>' +
-                        '<div class="canInvest">' + profile.contact.balance + ' ₴ </div>' +
-
+                        '<div class="alreadyInvested">' +
+                            '<div class="desc"> Баланс инвестора:  <div class="total">' + profile.contact.balance + ' ₴ </div></div>' +
+                            '<div class="desc">Сумма инвестирования:  <div class="total">' + investorPost.amountOfMoney + ' ₴ </div></div>' +
+                        '</div>' +
                 '</div>' +
             '</div>');
         }
