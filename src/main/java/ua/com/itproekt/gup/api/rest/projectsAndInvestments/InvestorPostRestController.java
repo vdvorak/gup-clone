@@ -60,8 +60,7 @@ public class InvestorPostRestController {
         investorPost.setuId(userId);
         investorService.create(investorPost);
 
-        CreatedObjResp createdObjResp = new CreatedObjResp(investorPost.getId());
-        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
+        return new ResponseEntity<>(new CreatedObjResp(investorPost.getId()), HttpStatus.CREATED);
     }
 
     //------------------------------------------ Update -----------------------------------------------------------------
@@ -77,9 +76,9 @@ public class InvestorPostRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        InvestorPost newInvestorPost = investorService.edit(investorPost);
+        investorService.edit(investorPost);
 
-        return new ResponseEntity<>(newInvestorPost, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/investorPost/id/{investorPostId}/apply", method = RequestMethod.POST,

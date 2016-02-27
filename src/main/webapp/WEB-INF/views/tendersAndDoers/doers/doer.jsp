@@ -49,47 +49,14 @@
         </div>
         <p class="firstName">${doer.title}</p>
 
-    <div class="listArtist">
-      <p>Список клиентов:</p>
-      <ul>
-        <li><p>Earthshaker</p></li>
-        <li><p>Axe</p></li>
-        <li><p>Sven</p></li>
-        <li><p>Pudge</p></li>
-        <li><p>Tiny</p></li>
-        <li><p>Sand King</p></li>
-        <li><p>Kunkka</p></li>
-        <li><p>Slardar</p></li>
-        <li><p>Beastmaster</p></li>
-        <li><p>Tidehunter</p></li>
-        <li><p>Dragon Knight</p></li>
-        <li><p>Wraith King</p></li>
-        <li><p>Clockwerk</p></li>
-        <li><p>Lifestealer</p></li>
-        <li><p>Omniknight</p></li>
-        <li><p>Night Stalker</p></li>
-        <li><p>Huskar</p></li>
-        <li><p>Doom</p></li>
-        <li><p>Alchemist</p></li>
-        <li><p>Spirit Breaker</p></li>
-      </ul>
-      <img src="/resources/images/downArtist.png" alt="downArtist">
-      <div class="modalDoer">
-        <div>
-          <p>Вася Пупкин отправил заявку на добавление, подтвердите что он входит в список ваших клиентов</p>
-          <button type="button" id="close">Отмена</button>
-          <button type="button">Добавить</button>
-        </div>
-      </div>
-    </div>
 
         <div class="artistData">
             <ul>
                 <li>
-                    <p>Дата создания: ${doer.dateOfCreate}</p>
+                    <p>Дата создания: <span class="date-create">${doer.dateOfCreate}</span></p>
                 </li>
                 <li>
-                    <p>Дата обновления: ${doer.dateOfUpdate}</p>
+                    <p>Дата обновления: <span class="date-create">${doer.dateOfUpdate}</span></p>
                 </li>
                 <li>
                     <p>Просмотров: ${doer.countVisit}</p>
@@ -121,15 +88,17 @@
             </c:if>
         </div>
         <div class="clearfix"></div>
-        <button class="writeMessage">Написать сообщение</button>
-        <button class="addToContact">Добавить в контакты</button>
+        <c:if test="${check}">
+            <button class="writeMessage">Написать сообщение</button>
+            <button class="addToContact">Добавить в контакты</button>
+        </c:if>
         <div class="newsRating" style="margin-top: 5px">
             <a class="newsLike" href="#"></a>
 
-            <p class="newsLikeNum">22 000</p>
+            <p class="newsLikeNum">${like}</p>
             <a href="#" class="newsDislike"></a>
 
-            <p class="newsDislikeNum">22 000</p>
+            <p class="newsDislikeNum">${dislike}</p>
         </div>
         <div class="social-icon">
             <a href="#"><img class="img-responsive" src="/resources/images/in.png" alt="in"></a>
@@ -167,11 +136,43 @@
             <img src="/resources/images/downArtist.png" alt="downArtist">
         </div>
 
+        <div class="listArtist">
+            <p>Список клиентов:</p>
+            <ul>
+                <li><p>Earthshaker</p></li>
+                <li><p>Axe</p></li>
+                <li><p>Sven</p></li>
+                <li><p>Pudge</p></li>
+                <li><p>Tiny</p></li>
+                <li><p>Sand King</p></li>
+                <li><p>Kunkka</p></li>
+                <li><p>Slardar</p></li>
+                <li><p>Beastmaster</p></li>
+                <li><p>Tidehunter</p></li>
+                <li><p>Dragon Knight</p></li>
+                <li><p>Wraith King</p></li>
+                <li><p>Clockwerk</p></li>
+                <li><p>Lifestealer</p></li>
+                <li><p>Omniknight</p></li>
+                <li><p>Night Stalker</p></li>
+                <li><p>Huskar</p></li>
+                <li><p>Doom</p></li>
+                <li><p>Alchemist</p></li>
+                <li><p>Spirit Breaker</p></li>
+            </ul>
+            <img src="/resources/images/downArtist.png" alt="downArtist">
+            <div class="modalDoer">
+                <div>
+                    <p>Вася Пупкин отправил заявку на добавление, подтвердите что он входит в список ваших клиентов</p>
+                    <button type="button" id="close">Отмена</button>
+                    <button type="button">Добавить</button>
+                </div>
+            </div>
+        </div>
+
         <div class="clearfix"></div>
         <div class="AboutMe">
-            <p class="AboutMe-p">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, dolor quisquam
-                aliquid illum consequatur voluptatibus placeat perferendis hic vitae ipsum officiis, maiores, quasi quo
-                cupiditate eius nam doloremque deserunt. Provident!</p>
+            <p class="AboutMe-p">${doer.body}</p>
 
             <p class="AboutMe-p2">О себе</p>
         </div>
@@ -216,6 +217,7 @@
         <div class="clearfix"></div>
     </div>
 </div>
+
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
@@ -308,11 +310,6 @@
 
 </c:if>
 
-
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-
-
 <script>
     var categories = '${doer.naceIds}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
 
@@ -347,5 +344,7 @@
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
 
+<script src="/resources/js/moment-with-locales.js"></script>
+<script src="/resources/js/service.js"></script>
 </body>
 </html>

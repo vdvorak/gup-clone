@@ -9,9 +9,9 @@
 
         <div class="social">
             <ul class="store">
-                <li><a href="#"><img src="/resources/images/windowsStore.png" alt="Windows Store"></a></li>
-                <li><a href="#"><img src="/resources/images/googlePlay.png" alt="Google Play"></a></li>
-                <li><a href="#"><img src="/resources/images/appStore.png" alt="App Store"></a></li>
+                <li><a href="https://www.microsoft.com/ru-ru/store/apps"><img src="/resources/images/windowsStore.png" alt="Windows Store"></a></li>
+                <li><a href="https://play.google.com/store/apps"><img src="/resources/images/GooglePlay.png" alt="Google Play"></a></li>
+                <li><a href="https://itunes.apple.com"><img src="/resources/images/appStore.png" alt="App Store"></a></li>
             </ul>
             <button class="socialBtn" id="socialBtn">ВСТУПИТЬ В ОРГАНИЗАЦИЮ <i class="fa fa-plus"></i></button>
             <div id="refill">
@@ -21,7 +21,8 @@
 
 
                     <div class="brokeAss"> <!-- когда чувак нищеброд -->
-                        <p class="noMoney-p">НА ВАШЕМ СЧЕТУ НЕТ ДЕНЕГ</p>
+                        <p class="noMoney-p">НА ВАШЕМ СЧЕТУ НЕДОСТАТОЧНО СРЕДСТВ</p>
+                        <p class="noMoney-p">необходимая сумма на балансе: 50 грн</p>
 
                         <p class="noMoney-p2">Введите сумму:</p>
 
@@ -37,7 +38,7 @@
                                    value="eyJhbW91bnQiOjEwMCwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6ItCf0L7Qv9C+0LvQvdC10L3QuNC1INCx0LDQu9Cw0L3RgdCwIiwib3JkZXJfaWQiOiJsM2Q2d1VvR3Rlc3QiLCJwdWJsaWNfa2V5IjoiaTc0MDQ0MTgyODM5Iiwic2FuZGJveCI6IjEiLCJzZXJ2ZXJfdXJsIjoiaHR0cDpcL1wvYmFuay10a2FuaS5yaGNsb3VkLmNvbVwvY2FsbGJhY2siLCJ2ZXJzaW9uIjoiMyJ9"/>
                             <input id="modal_liq-pay-signature" type="hidden" name="signature"
                                    value="DxXg8vXCVuw39G1Qvk8hmLyad6o="/>
-                            <button id="modal-bill-submit" type="submit" class="submit">Пополнить</button>
+                            <button id="modal-bill-submit" type="submit" class="submit" style="display: none;">Пополнить</button>
                         </form>
 
                         <p class="noMoney-p2">Пополните счет, с помощью этих банк-систем:</p>

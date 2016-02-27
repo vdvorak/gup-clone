@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.nace.DepartmentOrNace;
+import ua.com.itproekt.gup.model.nace.NACE;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserType;
 import ua.com.itproekt.gup.model.tender.*;
@@ -326,13 +327,13 @@ public class TenderRestController {
         );
     }
 
-    private List<DepartmentOrNace> getCurrentUserNace() {
+    private List<NACE> getCurrentUserNace() {
         Profile user = getCurrentUser();
         if(user == null || user.getContact() == null || user.getContact().getNaceId() == null) return null;
         List<String> nacesId = user.getContact().getNaceId();
-        List<DepartmentOrNace> naces = new ArrayList<>();
+        List<NACE> naces = new ArrayList<>();
         for (String id : nacesId) {
-            DepartmentOrNace nace = naceService.findById(id);
+            NACE nace = naceService.findById(id);
             if(nace != null) {
                 naces.add(naceService.findById(id));
             }

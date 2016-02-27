@@ -309,19 +309,4 @@ public class DoerRestController {
                 }
         );
     }
-
-    private List<DepartmentOrNace> getCurrentUserNace(){
-        Profile user = getCurrentUser();
-        List<String> nacesId = user.getContact().getNaceId();
-        List<DepartmentOrNace> naces = new ArrayList<>();
-        for(String id:nacesId){
-            naces.add(naceService.findById(id));
-        }
-        return naces;
-    }
-
-    private List<String> getCurrentUserNaceId() {
-        Profile user = getCurrentUser();
-        return  user.getContact().getNaceId();
-    }
 }

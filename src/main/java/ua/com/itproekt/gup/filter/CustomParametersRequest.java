@@ -4,11 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.*;
 
-public class FilteredRequest extends HttpServletRequestWrapper {
+public class CustomParametersRequest extends HttpServletRequestWrapper {
     private Map<String, String[]> modifiableParameters;
     private Map<String, String[]> allParameters = null;
 
-    public FilteredRequest(HttpServletRequest request) {
+    public CustomParametersRequest(HttpServletRequest request) {
         super(request);
         modifiableParameters = new TreeMap<>();
     }
@@ -21,8 +21,8 @@ public class FilteredRequest extends HttpServletRequestWrapper {
      * @param request
      * @param additionalParams
      */
-    public FilteredRequest(final HttpServletRequest request,
-                                     final Map<String, String[]> additionalParams) {
+    public CustomParametersRequest(final HttpServletRequest request,
+                                   final Map<String, String[]> additionalParams) {
         super(request);
         modifiableParameters = new HashMap<>();
         modifiableParameters.putAll(additionalParams);

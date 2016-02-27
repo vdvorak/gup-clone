@@ -5,7 +5,16 @@ function loadProjectById(projectId) {
     });
 }
 
-function loadPInvestorPostsWithFO(projectFO) {
+function loadInvestorPostsWithFO(investorPostFO) {
+    return $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "/api/rest/projectsAndInvestmentsService/investorPost/read/all",
+        data: JSON.stringify(investorPostFO)
+    })
+}
+
+function loadProjectsWithFO(projectFO) {
     return $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -44,7 +53,6 @@ $('#showNext').on('click',function () {
         projectFO.skip += projectFO.limit;
         appendProjects(projectFO);
     } else {
-        alert('investmentFO');
         investorPostFO.skip += investorPostFO.limit;
         appendInvestorPosts(investorPostFO);
     }
@@ -54,6 +62,7 @@ $('#projectsTab').on('click',function () {
     $('#investmentsContainer').hide();
     $('#projectsContainer').show();
     $('.catContainer').removeClass('selected');
+    $('#projectsBlock').empty();
 
     projectFO.type = null;
     projectFO.skip = 0;
@@ -62,6 +71,7 @@ $('#projectsTab').on('click',function () {
 
 $('#investmentsTab').on('click',function () {
     $('#projectsContainer').hide();
+    $('#investorPostsBlock').empty();
     $('#investmentsContainer').show();
 
     investorPostFO.skip = 0;

@@ -133,34 +133,39 @@
     position: relative;
 }
 
-.feedItem .publishDate {
+.feedItem .publishDate,
+.tenderContent .publishDate {
     position: absolute;
     right: 0;
     color: #545454;
     font: 11px DroidSans;
-    font-style: italic;
-    padding: 0 5px;
+    /*font-style: italic;*/
+    padding: 5px 20px;
 }
 
 .projectFeedContainer .feedItem {
     border-color: #99cc66;
 }
 
-.projectFeedContainer .feedItem .preview {
+.projectFeedContainer .feedItem .preview,
+.tenders .feedItem .preview {
+    display: block;
     position: relative;
     width: 246px;
     height: 154px;
     margin: 10px;
 }
 
-.projectFeedContainer .feedItem .preview img {
+.projectFeedContainer .feedItem .preview img,
+.tenders .feedItem .preview img {
     width: 100%;
     height: 100%;
     border-radius: 5px;
     border: 1px #99cc66 solid;
 }
 
-.projectFeedContainer .feedItem .preview .likes {
+.projectFeedContainer .feedItem .preview .likes,
+.projectContent .projectRating .likes {
     position: absolute;
     bottom: 5px;
     right: 12px;
@@ -169,24 +174,34 @@
     padding: 2px 5px;
     /*cursor: pointer;*/
 }
+.projectContent .projectRating .likes {
+    position: relative;
+    float: right;
+    margin-top: 10px;
+    margin-left: 30px;
+}
 
 
-/*.projectFeedContainer .feedItem .preview .likes:hover{
-    background-color: #36aae0;
+/*.projectFeedContainer .feedItem .preview .likes:hove,
+.projectContent .projectRating .likes:hover{
+background-color: #36aae0;
 }*/
 
 
-/*.projectFeedContainer .feedItem .preview .likes:hover .number{
-    color: white;
+/*.projectFeedContainer .feedItem .preview .likes:hover .numbe,
+.projectContent .projectRating .likes:hover .number{
+color: white;
 }*/
 
-.projectFeedContainer .feedItem .preview .likes .number {
+.projectFeedContainer .feedItem .preview .likes .number,
+.projectContent .projectRating .likes .number {
     color: #36aae0;
     margin-right: 20px;
     font: 14px DroidSans;
 }
 
-.projectFeedContainer .feedItem .preview .likes .hearthPlace {
+.projectFeedContainer .feedItem .preview .likes .hearthPlace,
+.projectContent .projectRating .likes .hearthPlace {
     position: absolute;
     background: url(images/projectsFeed/hearthPlace.png);
     width: 33px;
@@ -195,13 +210,24 @@
     top: -7px;
 }
 
-.projectFeedContainer .feedItem .preview .likes .hearthPlace .hearth {
+.projectFeedContainer .feedItem .preview .likes .hearthPlace .hearth,
+.projectContent .projectRating .likes .hearthPlace .hearth {
     position: absolute;
     top: 8px;
     left: 6px;
     width: 21px;
     height: 19px;
     background: url(images/projectsFeed/hearth.png);
+}
+.projectContent .projectRating .abutton.vote {
+    display: block;
+    float: left;
+}
+.projectContent .projectRating .ratingSelector {
+    display: block;
+    float: left;
+    margin: 0 5px;
+    margin-top: 5px;
 }
 
 .projectFeedContainer .content {
@@ -220,9 +246,12 @@
     color: #242424;
     font: 14px Calibri;
     text-indent: 40px;
+    max-height: 100px;
+    overflow: hidden;
 }
 
-.projectFeedContainer .bottomContent {
+.projectFeedContainer .bottomContent,
+.tenders .bottomContent{
     position: absolute;
     bottom: 5px;
     left: 270px;
@@ -242,6 +271,7 @@
     background-color: white;
     color: #99cc66;
 }
+
 .abutton.blue {
     border-color: #36aae0;
     background-color: #36aae0;
@@ -298,9 +328,11 @@
 
 .investmentsFeedContainer .feedItem {
     border-color: #1269a7;
+    height: 178px;
 }
 
-.investmentsFeedContainer .feedItem .photo {
+.investmentsFeedContainer .feedItem .photo,
+.tenders .feedItem .photo {
     position: relative;
     width: 156px;
     height: 156px;
@@ -309,44 +341,49 @@
     margin: 10px;
 }
 
-.investmentsFeedContainer .feedItem .photo img {
+.investmentsFeedContainer .feedItem .photo img,
+.tenders .feedItem .photo img {
     width: 120px;
     height: 121px;
     margin: 14px;
 }
 
-.investmentsFeedContainer .feedItem .content {
+.investmentsFeedContainer .feedItem .content,
+.tenders .feedItem .content {
     position: absolute;
-    left: 184px;
+    left: 5px;
     top: 10px;
-    width: 271px;
+    width: 400px;
     padding-left: 10px;
 }
-
-.investmentsFeedContainer .feedItem .content .title {
-    color: #1269a7;
-    font: 19px ArianAMU;
+.tenders .feedItem .content {
+    top: 10px;
+    left: 260px;
+    width: 610px;
 }
 
 .investmentsFeedContainer .feedItem .content .desc {
-    padding-left: 20px;
-    color: #bfc4c7;
-    font: 12px Calibri;
-    padding-left: 5px;
+    padding-left: 100px;
+    color: #1269a7;
+    font: 18px Calibri;
 }
 
-.investmentsFeedContainer .feedItem .content .text {
+.investmentsFeedContainer .feedItem .content .text,
+.tenders .feedItem .content .text {
     color: #828a8f;
-    font: 13px Calibri;
+    font: 14px Calibri;
     text-indent: 20px;
-    max-height: 108px;
+    max-height: 106px;
     overflow: hidden;
+}
+.tenders .feedItem .content .text {
+    max-height: 78px;
 }
 
 .investmentsFeedContainer .feedItem .cats {
     position: absolute;
-    left: 460px;
-    top: 45px;
+    left: 420px;
+    top: 34px;
     width: 220px;
     padding-left: 10px;
 }
@@ -362,7 +399,7 @@
 
 .investmentsFeedContainer .feedItem .cats ul li a {
     color: #2c95b5;
-    font: 16px Calibri;
+    font: 14px Calibri;
     line-height: 10px;
 }
 
@@ -373,19 +410,26 @@
 .investmentsFeedContainer .feedItem .details {
     position: absolute;
     right: 19px;
-    top: 50px;
-    width: 164px;
+    top: 26px;
+    width: 224px;
     padding-left: 10px;
 }
 
 .investmentsFeedContainer .feedItem .details .canInvest {
-    height: 48px;
+    /*height: 48px;*/
     background-color: #ffed33;
     color: #2c95b5;
-    font: 20px Calibri;
+    font: 18px Calibri;
     font-weight: bold;
     text-align: center;
-    padding-top: 12px;
+    /*padding-top: 12px;*/
+}
+
+.investmentsFeedContainer .feedItem .content .title,
+.investmentsFeedContainer .feedItem .details .title {
+    color: #1269a7;
+    font: 14px ArianAMU;
+    padding: 5px 0px;
 }
 
 .investmentsFeedContainer .feedItem .details .alreadyInvested {
@@ -397,8 +441,7 @@
 
 .investmentsFeedContainer .feedItem .details .alreadyInvested .desc {
     color: #828a8f;
-    font: 9px Calibri;
-    padding-left: 5px;
+    font: 14px Calibri;
 }
 
 .investmentsFeedContainer .feedItem .details .alreadyInvested .total {
@@ -429,7 +472,7 @@
 }
 
 .editor form.investor,
-.editor form.project {
+.editor div.project {
     position: relative;
     padding-top: 50px;
     padding-left: 67px;
@@ -442,9 +485,23 @@
     min-height: 23px;
 }
 
+.delete-btn {
+    background-color: #C3212D;
+    width: 190px;
+    height: 32px;
+    border-radius: 5px;
+    color: #ffffff;
+    font: 400 21px ArianAMU;
+    border: 0;
+    float: left;
+    margin-bottom: 22px;
+    /*-webkit-transition: all 0.25s;*/
+    /*transition: all 0.25s;*/
+}
+
 .editor .editorLabel {
     float: left;
-    width: 160px;
+    width: 200px;
     text-align: left;
     color: #9e9e9e;
     font: 17px DroidSans;
@@ -455,11 +512,12 @@
     color: #ed4423;
 }
 
-.editor form.project .editorLabel {
-    width: 90px;
+.editor div.project .editorLabel {
+    width: 160px;
 }
 
 .editor .editorInput {
+    padding-left: 5px;
     position: relative;
     margin-left: 5px;
     border: 3px solid rgb(153, 204, 102);
@@ -480,17 +538,17 @@
     width: 553px;
 }
 
-.editor form.investor .sum .editorLabel {
-    width: 70px;
-}
+/*.editor form.investor .sum .editorLabel {*/
+/*width: 70px;*/
+/*}*/
 
 .editor form.investor .sum .editorInput {
     width: 292px;
 }
 
-.editor form.investor .sum {
-    padding-left: 165px;
-}
+/*.editor form.investor .sum {*/
+/*padding-left: 165px;*/
+/*}*/
 
 .editor .field .currency {
     position: relative;
@@ -504,49 +562,49 @@
     margin-top: 100px;
 }
 
-.editor form.project .field.description {
+.editor div.project .field.description {
     margin-top: 70px;
 }
 
 .editor form.investor .field.description .editorLabel,
-.editor form.project .field.description .editorLabel {
+.editor div.project .field.description .editorLabel {
     width: 90px;
 }
 
 .editor form.investor .field.description .editorInput,
-.editor form.project .field.description .editorInput {
-    width: 642px;
+.editor div.project .field.description .editorInput {
+    width: 670px;
     height: 242px;
 }
 
-.editor form.project .tit .editorInput {
-    width: 553px;
+.editor div.project .tit .editorInput {
+    width: 554px;
 }
 
-.editor form.project .projType .editorLabel {
+.editor div.project .projType .editorLabel {
     width: 120px;
 }
 
-.editor form.project .field.projType .radioGroup {
-    margin-left: 220px;
-}
+/*.editor form.project .field.projType .radioGroup {*/
+/*margin-left: 220px;*/
+/*}*/
 
-.editor form.project .field.projType .radioGroup .column {
+.editor div.project .field.projType .radioGroup .column {
     display: inline-block;
     width: 140px;
     margin-left: 60px;
 }
 
-.editor form.project .field.projType .radioGroup .column .row {
+.editor div.project .field.projType .radioGroup .column .row {
     width: 150px;
     margin-bottom: 16px;
 }
 
-.editor form.project .field.projType .radioGroup .label-checkbox {
+.editor div.project .field.projType .radioGroup .label-checkbox {
     float: right;
 }
 
-.editor form.project .field.projType .radioGroup label {
+.editor div.project .field.projType .radioGroup label {
     line-height: 35px;
 }
 
@@ -576,8 +634,10 @@
 
 .projectContent .topSection {
     position: relative;
-    height: 40px;
+    height: 12px;
+    margin: 10px 48px;
 }
+
 .projectContent .bottomSection {
     margin: 15px 50px;
 }
@@ -596,7 +656,6 @@
     border-radius: 5px;
     border: 0;
 }
-
 .projectContent .topSection .abutton.invest,
 .projectContent .bottomSection .abutton.invest {
     float: right;
@@ -683,31 +742,41 @@
     height: 210px;
     margin-top: 15px;
 }
+
 .projectContent .description {
     position: relative;
 }
+
 .projectContent .description .title {
     color: #3e5da2;
     font: 14px Calibri;
     font-weight: bold;
     padding-left: 67px;
 }
+
 .projectContent .description .text {
     padding: 0 47px;
     text-indent: 20px;
-    text-align:justify;
+    text-align: justify;
     color: #828a8f;
     font: 14px Calibri;
 }
+
 .projectContent .commentsSection {
     position: relative;
     margin-top: 8px;
     margin-left: 15px;
     margin-bottom: 8px;
 }
+
 .projectContent .commentsSection .count {
     color: #464646;
     font: 12px Calibri;
+}
+.projectContent .projectRating {
+    position: relative;
+    float: right;
+    height: 50px;
 }
 
 .greenBox {
@@ -716,13 +785,32 @@
     border-radius: 8px;
     background-color: #fff;
 }
+
 .greenBox .titleMain {
+    text-align: center;
+    color: #42abe0;
+    font: 17px DroidSans;
+    padding: 9px 0;
+}
+
+.greenBox.closed .titleMain {
+    opacity: 0;
+    transition: 300ms;
+}
+
+.greenBox .titleMain.big {
     text-align: center;
     color: #42abe0;
     font: 20px DroidSans;
     padding: 9px 0;
 }
-.greenBox .toggler {
+
+.greenBox .titleMain.toggler {
+    cursor: pointer;
+}
+
+.greenBox .arrow.toggler,
+.greenBox .arrow.loader{
     position: absolute;
     bottom: 0;
     left: 0;
@@ -733,10 +821,24 @@
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
+    opacity: 1;
+    border-radius: 0 0 5px 5px;
 }
-.greenBox .toggler.toggled {
+
+.greenBox .arrow.toggler.toggled {
     background-image: url(images/toggleArrowUp.png);
 }
+
+.greenBox.closed .arrow.toggler {
+    background-image: url(images/toggleArrowUp.png);
+    opacity: 0;
+    transition: 300ms;
+}
+
+.greenBox[toggler] {
+    padding-bottom: 25px;
+}
+
 .greenBox .closeBox {
     position: absolute;
     top: 0;
@@ -747,18 +849,21 @@
     opacity: 0.3;
     cursor: pointer;
 }
+
 .greenBox .closeBox:hover {
     opacity: 1;
 }
+
 .sideBlock {
     float: left;
     margin-top: 65px;
 }
+
 .contentBlock {
     float: right;
-    width: 517px;
-    margin-right: 100px;
+    width: 650px;
 }
+
 .buttonBack {
     display: block;
     width: 84px;
@@ -770,26 +875,34 @@
     line-height: 25px;
     border-radius: 5px;
 }
+
 .buttonBack:hover {
     background-color: #1269a7;
     color: #fff;
 }
+
 .sideBlock .mainInfo {
     margin-top: 41px;
 }
+
 .sideBlock .mainInfo .name {
     color: #1269a7;
     font: 20px DroidSansBold;
+    max-width: 100px;
 }
+
 .sideBlock .mainInfo .photo {
     margin-top: 8px;
     width: 198px;
     height: 207px;
+    cursor: pointer;
 }
+
 .sideBlock .mainInfo .photo img {
     width: 100%;
     height: 100%;
 }
+
 .sideBlock .mainInfo .photo .rating {
     position: absolute;
     bottom: 0;
@@ -800,22 +913,26 @@
     background-color: rgba(0, 0, 0, .5);
     border-radius: 0 0 0 6px;
 }
+
 .sideBlock .mainInfo .photo .uploadButton {
     display: none;
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 5px;
+    right: 5px;
     width: 34px;
     height: 33px;
     cursor: pointer;
     background: url(images/privateOffice/buttonUpload.png);
 }
+
 .sideBlock .mainInfo .photo:hover .uploadButton {
     display: block;
 }
+
 .greenBox.settings {
     margin-top: 36px;
 }
+
 .greenBox .settingsToggle {
     background: url(images/privateOffice/downArrowBig.png);
     width: 58px;
@@ -823,15 +940,18 @@
     margin: 7px auto;
     cursor: pointer;
 }
+
 .greenBox .settingsToggle.toggled {
     background: url(images/privateOffice/upArrowBig.png);
 }
+
 .greenBox .panel-group {
     position: relative;
     margin: 0;
     padding: 0;
     margin-bottom: 10px;
 }
+
 .greenBox .panel-group .panel {
     position: relative;
     margin: 0;
@@ -839,6 +959,7 @@
     border-radius: 0;
     border: none;
 }
+
 .greenBox .panel-group .panel > a {
     display: block;
     width: 100%;
@@ -851,6 +972,7 @@
     border-top: 2px solid #b7dff3;
     transition: 1000ms;
 }
+
 .greenBox .panel-group .panel a.collapsed {
     color: #424244;
     font: 10px DroidSans;
@@ -859,14 +981,17 @@
     border-top: 2px solid #99cc66;
     transition: 200ms;
 }
+
 .greenBox .panel-group .panel a.collapsed:hover {
     background-color: #b7dff3;
     transition: 200ms;
 }
+
 .greenBox .panel-group .panel .panel-body {
     margin: 0;
     padding: 11px 27px;
 }
+
 .greenBox .panel-group .panel .collapse {
     margin: 0;
     padding: 0;
@@ -874,6 +999,7 @@
     color: #424244;
     font: 8px DroidSans;
 }
+
 .greenBox .panel-group .panel .collapse.in {
     margin: 0;
     padding: 0;
@@ -881,6 +1007,7 @@
     color: #424244;
     font: 8px DroidSans;
 }
+
 .greenBox .panel-group .panel .collapsing {
     margin: 0;
     padding: 0;
@@ -888,30 +1015,36 @@
     color: #424244;
     font: 8px DroidSans;
 }
+
 .greenBox.settings .panel-group .info-submit {
     display: block;
     float: none;
     margin: 15px auto;
 }
-.greenBox.settings .panel-group .radioGroup {
-}
+
+.greenBox.settings .panel-group .radioGroup {}
+
 .greenBox.settings .panel-group .radioGroup .row {
     line-height: 20px;
     padding: 5px 0;
 }
+
 .greenBox.settings .panel-group .radioGroup .label-checkbox {
     float: right;
     width: 20px;
     height: 20px;
 }
+
 .greenBox.settings .panel-group .radioGroup .label-checkbox span {
     background-size: cover;
 }
+
 .contactsMain {
-    width: 475px;
+    width: 600px;
     margin: 0 auto;
     margin-top: 89px;
 }
+
 .contactsMain .topBar {
     position: relative;
     width: 454px;
@@ -921,6 +1054,7 @@
     background-color: #99cc66;
     border-radius: 10px;
 }
+
 .contactsMain .topBar .searchContactsF {
     position: absolute;
     margin: 5px 9px;
@@ -930,6 +1064,7 @@
     width: 340px;
     border: none;
 }
+
 .contactsMain .topBar .searchContactsF input.text {
     position: absolute;
     padding: 0;
@@ -942,6 +1077,7 @@
     border-radius: 10px 0 0 10px;
     padding-left: 10px;
 }
+
 .contactsMain .topBar .searchContactsF input.startSearch {
     display: block;
     position: absolute;
@@ -957,10 +1093,12 @@
     font: 10px DroidSans;
     border-radius: 2px;
 }
+
 .contactsMain .topBar .searchContactsF input.startSearch:hover {
     background-color: #fff;
     color: #1269a7;
 }
+
 .contactsMain .topBar .count {
     position: absolute;
     right: 7px;
@@ -970,34 +1108,44 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
 .contactsMain .topBar .count:hover {
     color: #ffffff;
     text-decoration: none;
 }
+
 .contactsMain .contactsContainer {
     position: relative;
-    max-height: 110px;
+    max-height: 130px;
     padding: 0 15px;
-    padding-bottom: 25px;
+    padding-bottom: 30px;
     margin-top: -7px;
     background-color: #fff;
-    font-size: 22px;
+    font-size: 21px;
     overflow: hidden;
     -webkit-transition: max-height 0.8s;
     -moz-transition: max-height 0.8s;
     transition: max-height 0.8s;
 }
+
 .contactsContainer.toggled {
     max-height: 999px;
 }
-.contactsContainer .contactEntity {
+.contactsContainer .noFinded {
+    color: #68717a;
+    font: 14px DroidSans;
+    text-align: center;
+}
+
+.contactsContainer .persona {
     position: relative;
     display: inline-block;
     width: 58px;
     height: 70px;
     margin-top: 10px;
 }
-.contactsContainer .contactEntity .photo {
+
+.contactsContainer .persona .photo {
     position: absolute;
     top: 0;
     width: 58px;
@@ -1005,13 +1153,15 @@
     border: 2px solid;
     border-radius: 5px;
 }
-.contactsContainer .contactEntity .photo img {
+
+.contactsContainer .persona .photo img {
     display: block;
     width: 100%;
     height: 100%;
     margin: 0 auto;
 }
-.contactsContainer .contactEntity .photo .sendMessage {
+
+.contactsContainer .persona .photo .sendMessage {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -1019,18 +1169,21 @@
     height: 16px;
     background: url(images/sendMessage.png);
 }
-.contactsContainer .contactEntity .photo .name {
+
+.contactsContainer .persona .photo .name {
     position: absolute;
-    bottom: -12px;
+    top: 57px;
     color: #68717a;
     font: 7px DroidSans;
     text-align: center;
     width: 100%;
 }
+
 .msAndNt {
     margin-top: 73px;
     width: 100%;
 }
+
 .msAndNt .ptabs {
     position: absolute;
     width: 100%;
@@ -1038,6 +1191,7 @@
     font-size: 0;
     text-align: center;
 }
+
 .msAndNt .ptabs .ptab {
     position: relative;
     display: inline-block;
@@ -1046,25 +1200,32 @@
     border: 3px solid;
     background-color: #dfe5e6;
 }
+
 .msAndNt .ptabs .ptab:hover {
     background-color: #fff;
 }
+
 .msAndNt .ptabs .ptab.active {
     background-color: #99cc66;
 }
+
 .msAndNt .ptabs .ptab.active a {
     color: #fff;
 }
+
 .msAndNt .ptabs .ptab:first-child {
     border-radius: 10px 0 0 0;
 }
+
 .msAndNt .ptabs .ptab:last-child {
     border-radius: 0 10px 0 0;
 }
+
 .msAndNt .ptabs .ptab a {
     color: #42abe0;
     font: 13px DroidSans;
 }
+
 .msAndNt .ptabs .ptab .count {
     position: absolute;
     top: -5px;
@@ -1076,60 +1237,103 @@
     padding: 1px 5px;
     display: none;
 }
+
 .msAndNt .ptabs .ptab .count.show {
     display: block;
 }
+
 .msAndNt .messages {
     position: relative;
-    width: 513px;
-    overflow: hidden;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 455px;
 }
+
+.msAndNt .notifications {
+    position: relative;
+    width: 100%;
+}
+
+.messages .baron__scroller {
+    position: relative;
+    width: 100%;
+}
+
+.msAndNt .messages.opened {
+    overflow: visible;
+    max-height: none;
+}
+
 .msAndNt .messages .dialog {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     position: relative;
     height: 65px;
-    border-bottom: 1px solid #99cc66;
+    border-top: 1px solid #99cc66;
     overflow: hidden;
+    width: calc(100% - 0px);
 }
-.msAndNt .messages .dialog:first-child {
+
+.msAndNt .messages .dialog:first-child,
+.msAndNt .notifications .notify {
     border-radius: 5px 5px 0 0;
+    border-top: none;
 }
+
 .msAndNt .messages .dialog.opened {
     height: 300px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
-.msAndNt .messages .dialog .msg {
+
+.msAndNt .messages .dialog .msg,
+.msAndNt .notifications .notify {
     position: relative;
     cursor: pointer;
-    border-bottom: 1px solid #edf6e3;
+    border-top: 2px solid #edf6e3;
 }
+
+.msAndNt .notifications .notify {
+    min-height: 65px;
+    width: 100%;
+    display: block;
+}
+
 .msAndNt .messages .dialog.opened .msg {
     cursor: auto;
 }
-.msAndNt .messages .dialog:hover {
+
+.msAndNt .messages .dialog:hover,
+.msAndNt .notifications .notify:hover {
     background-color: #d9edf7;
 }
+
 .msAndNt .messages .dialog.opened:hover {
     background-color: #fff;
 }
-.msAndNt .messages .dialog .msg .persona {
+
+.msAndNt .messages .dialog .msg .persona,
+.msAndNt .notifications .notify .persona {
     position: relative;
-    margin: 3px 3px;
+    margin: 3px 10px;
     padding-bottom: 10px;
-    float: right;
-}
-.msAndNt .messages .dialog .msg.myself .persona {
     float: left;
 }
-.msAndNt .messages .dialog .msg .persona img.avatar {
+
+.msAndNt .messages .dialog .msg.myself .persona {
+    float: right;
+}
+
+.msAndNt .messages .dialog .msg .persona img.avatar,
+.msAndNt .notifications .notify .persona img.avatar {
     width: 47px;
     height: 47px;
     margin: 0 auto;
     background-color: #dfe5e6;
     border-radius: 5px;
 }
-.msAndNt .messages .dialog .msg .persona .date {
+
+.msAndNt .messages .dialog .msg .persona .date,
+.msAndNt .notifications .notify .persona .date {
     position: absolute;
     top: 50px;
     right: 9px;
@@ -1138,20 +1342,24 @@
     font: 8px DroidSans;
     text-align: center;
 }
-.msAndNt .messages .dialog .msg .text {
+
+.msAndNt .messages .dialog .msg .text,
+.msAndNt .notifications .notify .text {
     color: #646b6f;
     font: 11px DroidSans;
-    margin: 10px;
-    max-width: 490px;
-    text-align:justify;
+    margin: 4px 10px;
+    text-align: justify;
 }
-.msAndNt .messages .dialog.opened .msg .text {
-}
+
+.msAndNt .messages .dialog.opened .msg .text {}
+
 .msAndNt .messages .messageForm {
     position: relative;
     margin: 12px auto;
-    width: 484px;
+    width: 570px;
+    display: none;
 }
+
 .msAndNt .messages .messageForm .text {
     margin: 0;
     min-height: 65px;
@@ -1162,6 +1370,7 @@
     width: calc(100% - 4px);
     max-width: calc(100% - 4px);
 }
+
 .msAndNt .messages .messageForm .messageSubmit {
     bottom: 7px;
     right: 11px;
@@ -1172,6 +1381,7 @@
     border: 2px solid;
     padding: 3px 9px;
 }
+
 .msAndNt .messages .messageForm .messageSubmit:hover {
     background-color: #fff;
     border-radius: 5px;
@@ -1179,16 +1389,294 @@
     border-color: #42abe0;
     cursor: pointer;
 }
+
 .msAndNt .messages .messageForm .arrowHide {
     width: 49px;
     height: 15px;
     margin: 0 auto;
     background: url(images/toggleArrowUp.png);
+    cursor: pointer;
 }
+.historyContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* justify-content:space-between; */
+    height:auto;
+    width: 100%;
+    overflow-y:scroll;
+}
+.historyBox {
+    width: calc(50% - 50px);
+}
+
+.historyBox .historyContent {
+    max-height: 159px;
+    overflow: hidden;
+}
+
+.historyBox.toggled .historyContent {
+    max-height: 999px;
+}
+
+.balanceHistory .record {
+    color: #68717a;
+    font: 10px DroidSans;
+    padding: 0 8px;
+}
+
+.inlineBox {
+    position: relative;
+    /*display: inline-block;
+    width: calc(50% - 52px);*/
+    margin: 25px 25px;
+}
+
+.historyBox .historyItem {
+    display: block;
+    padding: 8px 8px;
+    color: #898989;
+    font: 10px DroidSans;
+    border-top: 2px solid #99cc66;
+}
+
+.historyBox .historyItem:hover {
+    background-color: #d9edf7;
+}
+
+.historyBox .historyIcon {
+    position: absolute;
+    float: left;
+    left: -25px;
+    top: -20px;
+    width: 60px;
+    height: 60px;
+    border: 4px solid;
+    border-radius: 999px;
+    border-color: #1269a7;
+    background-color: #fff;
+    overflow: visible;
+}
+
+.historyBox .historyIcon:after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 70%;
+}
+
+.historyBox#myTenders .historyIcon:after {
+    background-image: url(images/hammer.png);
+}
+
+.historyBox#myProjects .historyIcon:after {
+    background-image: url(images/compass.png);
+}
+
+.historyBox#myNews .historyIcon:after {
+    background-image: url(images/newspaper.png);
+}
+
+.historyBox#myBalance .historyIcon:after {
+    background-image: url(images/balance.png);
+}
+
+.historyBox#myOffers .historyIcon:after {
+    background-image: url(images/rupor.png);
+}
+
+.historyBox#myInvestments .historyIcon:after {
+    background-image: url(images/dollarUp.png);
+}
+
+.tenders .feedItem {
+    border-color: #9ad4ef;
+    padding-bottom: 5px;
+}
+.tenders .feedItem .proposals,
+.tenders .feedItem .views {
+    color: #1269a7;
+    font: 10px DroidSans;
+    text-decoration: underline;
+    font-style: italic;
+    position: absolute;
+    bottom: -13px;
+}
+.tenders .feedItem .proposals {
+    left: 0;
+}
+.tenders .feedItem .views {
+    right: 0;
+}
+.tenders .feedItem .content .publishDate {
+    top: -10px;
+}
+.tenders .feedItem .content .number {
+    position: absolute;
+    top: 5px;
+    right: 3px;
+    display: none;
+}
+.tenders .feedItem .content .number.visible {
+    display: block;
+}
+.tenders .feedItem .sum,
+.tenderContent .sum {
+    background-color: #faff65;
+    color: #1269a7;
+    font: 17px DroidSans;
+    height: 29px;
+    padding: 4px 15px;
+    border-radius: 4px;
+    display: block;
+    float: right;
+    margin-right: 6px;
+}
+.tenders .participate,
+.tenderContent .participate {
+    position: relative;
+    float: right;
+    width: 134px;
+    height: 32px;
+}
+.tenders .participate .abutton,
+.tenderContent .participate .abutton {
+    position: absolute;
+    right: 0;
+    width: 100%;
+}
+.tenders .participate .clock,
+.tenderContent .participate .clock {
+    position: absolute;
+    background-color: red;
+    width: 36px;
+    height: 40px;
+    right: 50px;
+    top: -28px;
+    background: url(images/tenderClock.png) no-repeat;
+}
+.tenders .participate .clock .time,
+.tenderContent .participate .clock .time {
+    position: absolute;
+    background-color: #99cc66;
+    border-radius: 4px;
+    width: 38px;
+    height: 17px;
+    right: -39px;
+    top: 7px;
+    color: #1269a7;
+    font: 12px DroidSans;
+    text-align: center;
+}
+.feedPagination {
+    position: relative;
+    cursor: default
+}
+.feedPagination .arr,
+.feedPagination .page{
+    display: inline-block;
+}
+.feedPagination .arr,
+.feedPagination .page {
+    width: 0;
+    height: 0;;
+    border-style: solid;
+}
+.feedPagination .arr.left {
+    border-width: 6px 12px 6px 0;
+}
+.feedPagination .arr.right {
+    border-width: 6px 0 6px 12px;
+}
+.feedPagination .arr.left {
+    border-color: transparent #fab03a transparent transparent;
+}
+.feedPagination .arr.right {
+    border-color: transparent transparent transparent #fab03a;
+}
+.feedPagination .arr.left.active {
+    border-color: transparent #99cc66 transparent transparent;
+}
+.feedPagination .arr.right.active {
+    border-color: transparent transparent transparent #99cc66;
+}
+.feedPagination .page {
+    border-width: 4px;
+    border-radius: 999px;
+    border-color: #fab03a;
+    margin-bottom: 2px;
+}
+.feedPagination .page.active {
+    border-color: #99cc66;
+}
+.tenders .feedPagination {
+    float: right;
+    text-align: right;
+    padding-right: 10px;
+}
+.tenderContent {
+    padding: 25px 51px;
+}
+.tenderContent .topSection {
+    position: absolute;
+    top: -100px;
+    width: 100%;
+    height: 100px;
+    left: 0;
+}
+.tenderContent .topSection .number {
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
+    float: right;
+    display: none;
+    color: #1269a7;
+    font: 11px DroidSansBold;
+}
+.tenderContent .topSection .number.visible {
+    display: block;
+}
+.tenderContent .tenderButtons {
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+}
+.tenderContent .leaveProposal {
+    margin: 0 15px;
+}
+.tenderContent .publishDate {
+    right: auto;
+    left: 20px;
+}
+.tenderContent .title {
+    color: #1269a7;
+    font: 28px DroidSans;
+    position: absolute;
+    top: -40px;
+    left: 56px;
+}
+.tenderContent .mainPhoto {
+    border-radius: 5px;
+    width: 399px;
+    height: 249px;
+    padding: 0px 15px 0 0;
+    float: left;
+}
+.tenderContent .text {
+    text-align: justify;
+    text-indent: 30px;
+}
+.tenderContent .bottomSection {
+    position: relative;
+}
+
 
 /***VIP***/
 
-.borderColor {
+.border-color {
     border-color: #99cc66 !important;
 }
 
@@ -1196,24 +1684,47 @@
     border: 4px #ffd781 solid;
 }
 
+.feedItem.vip .title {
+    color: #36aae0 !important;
+}
+
 .vip .border-color,
-.vip.bg-color {
+.vip.border-color {
     border-color: #ffbb00 !important;
+}
+
+.vip .bg-color,
+.vip.bg-color {
+    background-color: #ffbb00 !important;
+}
+
+.vip .persona img,
+.vip.persona img {
+    border: 2px solid #ffbb00 !important;
 }
 
 .projectFeedContainer .feedItem.vip .preview .likes .hearthPlace {
     background: url(images/projectsFeed/likedHearthPlace.png) no-repeat;
 }
+.tenders .vip .participate .abutton {
+    background-color: #ffbb00 !important;
+    border-color: #ffbb00 !important;
+}
+.tenders .vip .participate .abutton:hover {
+    background-color: #fff !important;
+    color: #ffbb00 !important;
+}
 
-.vip .abutton {
-    border-color: #36aae0;
-    background-color: #36aae0;
+
+/*.vip .abutton {
+border-color: #36aae0;
+background-color: #36aae0;
 }
 
 .vip .abutton:hover {
-    background-color: white;
-    color: #36aae0;
-}
+background-color: white;
+color: #36aae0;
+}*/
 
 .investmentsFeedContainer .feedItem.vip .content .title {
     color: #50b5e4;
@@ -1222,3 +1733,25 @@
 .vip.contentContainer .projectContent .contentHeader {
     background-color: #faaf3a;
 }
+
+::-webkit-scrollbar {
+    /* for Mac OS X support */
+    width: 0;
+}
+
+.track3 {
+    width: 5px;
+    border-left: 2px solid #99cc66;
+}
+
+.track3:hover,
+.track3.dragging {}
+
+.handle3 {
+    width: 10px;
+    right: -5px;
+    background: #99cc66;
+}
+
+.track3:hover .handle3,
+.track3.dragging .handle3 {}

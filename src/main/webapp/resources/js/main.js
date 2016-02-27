@@ -62,6 +62,73 @@ $(document).ready(function () {
         $(this).parent().closest('.doersFeed').find('.colNewsComments').slideToggle('slow');
     });
 
+    (function (factory) {
+        if (typeof define === "function" && define.amd) {
+
+            // AMD. Register as an anonymous module.
+            define(["../widgets/datepicker"], factory);
+        } else {
+
+            // Browser globals
+            factory(jQuery.datepicker);
+        }
+    }(function (datepicker) {
+
+        datepicker.regional.ru = {
+            closeText: "Закрыть",
+            prevText: "&#x3C;Пред",
+            nextText: "След&#x3E;",
+            currentText: "Сегодня",
+            monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+                "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+            monthNamesShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн",
+                "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
+            dayNames: ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"],
+            dayNamesShort: ["вск", "пнд", "втр", "срд", "чтв", "птн", "сбт"],
+            dayNamesMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+            weekHeader: "Нед",
+            dateFormat: "dd.mm.yy",
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ""
+        };
+        datepicker.setDefaults(datepicker.regional.ru);
+
+        return datepicker.regional.ru;
+
+    }));
+
+    $('#datepicker').datepicker();
+    $('#datepicker2').datepicker();
+
+    //
+
+    $(".ItemADS").hover(
+        function () {
+            $(this).find('img').addClass("hoverIMG");
+            $(this).find('.descriptionTitleLeft').fadeIn('fast');
+            $(this).find('.descriptionTitleRight').fadeIn('fast');
+        },
+        function () {
+            $(this).find('img').removeClass("hoverIMG");
+            $(this).find('.descriptionTitleLeft').fadeOut('fast');
+            $(this).find('.descriptionTitleRight').fadeOut('fast');
+        }
+    );
+
+    //
+
+    $(".descriptionTitleRight a").click(function(event){
+        event.preventDefault();
+        $(".superFilter").show('slow');
+    });
+
+    $(".descriptionTitleLeft a").click(function(event){
+        event.preventDefault();
+        $(".superFilter").show('slow');
+    });
+
     $('#header_money_amount').on('input', function () {
         $.ajax({
             url: '/account/getLiqPayParam',
@@ -89,5 +156,36 @@ $(document).ready(function () {
     $('.modal-pay-liq-pay').on('click', function () {
         $('#modal-bill-submit').click()
 
+    })
+
+    $.ajax({
+        type: "POST",
+        url: "/check-balance",
+        cache: false,
+        success: function (response) {
+            $('#score').text(response);
+
+            if (response >= 50) {
+                $('.brokeAss').hide();
+                $('.richAss').show()
+            } else {
+                $('.brokeAss').show();
+                $('.richAss').hide()
+            }
+        }
+    });
+
+
+    $('#noMoneyStartRich').on('click', function () {
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/profilesService/join-organization",
+            cache: false,
+            success: function (response) {
+                if (response == "2") {
+                    alert("Поздравляем со вступлением в организацию!")
+                }
+            }
+        });
     })
 });

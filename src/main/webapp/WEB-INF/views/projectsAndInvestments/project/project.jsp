@@ -85,16 +85,38 @@
 
                 <div class="downComments"><p>Комментировать</p></div>
 
+                <div class="projectRating">
+                    <div class="likes">
+                        <div class="hearthPlace">
+                            <div class="hearth"></div>
+                        </div>
+                        <div class="number">22 000</div>
+                    </div>
+                    <button type="button" class="abutton blue vote">Проголосовать</button>
+                    <select class="ratingSelector">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
                 <div class="clearfix"></div>
 
                 <div class="colNewsComments">
                     <div class="newsComments">
                         <div class="clearfix"></div>
                         <p class="newsCommentsHeader">Комментарий</p>
-                        <form id="projectsCommentsForm" class="projectsCommentsForm">
+                        <div id="projectsCommentsForm" class="projectsCommentsForm">
                             <textarea name="projectsFormComments" id="projectsFormComments" class="projectsFormComments" placeholder="Введите свой комментарий" maxlength="1000" required></textarea>
                             <button id="sendProjComment" class="newsFormSubmit">Отправить</button>
-                        </form>
+                        </div>
                         <p id="chars"></p>
                     </div>
                 </div>
@@ -113,22 +135,9 @@
 
     <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
-    <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
-    <script src="/resources/js/vendor/bootstrap.js"></script>
-    <script src="/resources/js/jquery.bxslider.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
-    <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+    <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 
-    <sec:authorize var="loggedIn" access="isAuthenticated()"/>
-    <c:choose>
-        <c:when test="${loggedIn}">
-            <script src="/resources/js/autorizedHeader.js"></script>
-        </c:when>
-        <c:otherwise>
-            <script src="/resources/js/anonymHeader.js"></script>
-        </c:otherwise>
-    </c:choose>
+    <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
     <script src="/resources/js/main.js"></script>
     <script src="/resources/js/logo-section.js"></script>

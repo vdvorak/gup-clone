@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.controller;
+package ua.com.itproekt.gup.controller.offers;
 
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -36,9 +36,9 @@ public class OfferController {
 
 
     //----------------------------------- all offers  ------
-    @RequestMapping(value = "/offers-old", method = RequestMethod.GET)
+    @RequestMapping(value = "/offers", method = RequestMethod.GET)
     public String getOffers() {
-        return "redirect:offer-all";
+        return "offer/offer-all";
     }
 
 

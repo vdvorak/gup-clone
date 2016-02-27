@@ -5,9 +5,8 @@ $('[name="' + projectType + '"]').addClass('selected');
 appendProjects(projectFO);
 
 function appendProjects(projectFO) {
-    loadPInvestorPostsWithFO(projectFO).statusCode({
+    loadProjectsWithFO(projectFO).statusCode({
         200: function (responseEntity) {
-//          $('#foundedProjectsNum').text(responseEntity.totalEntities);
             responseEntity.entities.forEach(function (project) {
                 appendProjectBlock(project);
             });
@@ -59,4 +58,12 @@ $('.catContainer').on('click',function () {
     $('#projectsBlock').empty();
     projectFO.type = $(this).attr('name');
     appendProjects(projectFO);
+});
+
+$('#createProject').on('click',function () {
+    window.location.href = "/project/create"
+});
+
+$('#createInvestorPost').on('click',function () {
+    window.location.href = "/investorPost/create"
 });

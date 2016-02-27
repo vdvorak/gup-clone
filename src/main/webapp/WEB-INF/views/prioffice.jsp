@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/alster.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
 
@@ -36,303 +37,224 @@
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
 
-<section>
-    <div class="prioffice-wrap">
-        <!--LEFT_SIDE-->
-        <!-- ЧЕРТИ ЧТО ДОПИСАТЬ И ДОПОЛНИТЬ ИНФОРМАЦИЕЙ-->
-        <div class="prioffice-left">
-            <div class="prioffice-user">${profile.username}</div>
-            <div class="prioffice-userpic">
+<div class="container2">
+    <div class="sideBlock">
+        <a href="#" class="buttonBack">&lt; Назад</a>
+        <div class="mainInfo" data-id="${profile.id}">
+            <div class="name">${profile.username}</div>
+            <div class="photo greenBox">
                 <c:choose>
                     <c:when test="${not empty profile.contact.pic}">
-                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.contact.pic}" width="100" ,
-                             hight="100">
+                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.contact.pic}">
                     </c:when>
                     <c:otherwise>
-                        <img src="/resources/images/no_photo.jpg" width="100" , hight="100">
+                        <img src="/resources/images/no_photo.jpg">
                     </c:otherwise>
                 </c:choose>
-            </div>
-            <div class="prioffice-mysettings">
-                <div class="prioffice-mysettings-title">Мои настройки</div>
-                <div class="prioffice-mysettings-menu-wrap">
-                    <img class="prioffice-mysettings_open" src="/resources/img/strippeddownbutton.png">
-                </div>
-
-                <div id="accordion">
-                    <p>Кому видна моя страница</p>
-
-                    <div>
-                        Список 1
-                        <input type="checkbox"><br>
-                        Список 2
-                        <input type="checkbox"><br>
-                        Список 3
-                        <input type="checkbox"><br>
-                    </div>
-                    <p>Параметры настройки</p>
-
-                    <div>
-                        <p>что-то </p>
-                    </div>
-                    <p>Параметры настройки</p>
-
-                    <div>
-                        <p>что-то </p>
-                    </div>
-                    <p>Параметры настройки</p>
-
-                    <div>
-                        <p>что-то </p>
-                    </div>
-                </div>
-                <div class="prioffice-mysettings-submit">
-                    <a href="#">Сохранить</a>
-                </div>
-                <div class="prioffice-mysettings-menu-wrap">
-                    <img class="prioffice-mysettings_close" src="/resources/img/strippedupbutton.png">
-                </div>
+                <div class="rating">Рейтинг</div>
+                <div class="uploadButton"></div>
             </div>
         </div>
+        <div class="greenBox settings">
+            <div class="titleMain big">Мои настройки</div>
 
-
-        <!-- RIGHT_SIDE-->
-
-        <div class="prioffice-right">
-            <div class="prioffice-tabs-wrap">
-                <div class="tabs">
-                    <ul>
-                        <li class="prioffice-tabs-title">Сообщения</li>
-                        <li class="prioffice-tabs-title">Уведомления</li>
-                    </ul>
-                    <div class="prioffice-tabs-items-wrap">
-                        <div>
-                            <div class="prioffice-tabs-items">
-                                <c:if test="${not empty dialogues}">
-                                    <c:forEach items="${dialogues}" var="dialogue">
-                                        <c:forEach items="${dialogue.members}" var="member">
-                                            <c:choose>
-                                                <c:when test="${not empty profile.contact.pic}">
-                                                    <div class="prioffice-tabs-items-pic">
-                                                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${member.userPicId}"
-                                                             width="80" , hight="80">
-                                                    </div>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <div class="prioffice-tabs-items-pic">
-                                                        <img src="/resources/images/no_photo.jpg" width="80" ,
-                                                             hight="80">
-                                                    </div>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
-                                        <p class="prioffice-tabs-items-text"><a
-                                                href="/dialogue/id/${dialogue.id}">${dialogue.messages.get(dialogue.messages.size()-1).message}</a>
-                                        </p>
-
-                                        <p class="prioffice-tabs-items-status">
-                                            непрочитанных: ${dialogue.unreadMsgCounter.get(profile.id)}</p>
-                                    </c:forEach>
-                                </c:if>
-                                <c:if test="${empty dialogues}">
-                                    <p><a href="/dialogue/create">создать диалог</a></p>
-                                </c:if>
-                            </div>
-                            <div class="prioffice-tabs-items-return">
-                                <a href="/dialogues"><img src="/resources/img/strippeddownbuttonsmall.png"></a>
-                            </div>
-                        </div>
-                        <div class="prioffice-tabs-items-wrap">
-                            <div>
-                                <div class="prioffice-tabs-items">
-                                    <c:if test="${not empty events}">
-                                        <c:forEach items="${events}" var="event">
-                                            <p>${event.toString()} </p>
-                                        </c:forEach>
-                                    </c:if>
-                                    <c:if test="${empty events}">
-                                        <p>у вас нет новых уведомлений</p>
-                                    </c:if>
+            <form action="" class="panel-group" id="userSettingsSet" style="display: none;">
+                <div class="panel">
+                    <a class="" data-toggle="collapse" data-parent="#userSettingsSet" href="#collapseOne">Права</a>
+                    <div id="collapseOne" class="collapse in">
+                        <div class="panel-body">
+                            <div class="radioGroup">
+                                <div class="row">
+                                    <label for="type-restruct">Администратор</label>
+                                    <label class="label-checkbox">
+                                        <input type="checkbox" class="greenCheckbox" id="type-restruct" value="restruct" name="type" /><span></span></label>
                                 </div>
-                                <div class="prioffice-tabs-items-return">
-                                    <a href=""><img src="/resources/img/strippeddownbuttonsmall.png"></a>
+                                <div class="row">
+                                    <label for="type-paper">Боженька</label>
+                                    <label class="label-checkbox">
+                                        <input type="checkbox" class="greenCheckbox" id="type-paper" value="paper" name="type" /><span></span></label>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="myitems-wrapper">
-                <div class="myitems-row">
-                    <div class="myitems-tenders">
-                        <div class="myitems-tenders-wrap">
-                            <div class="myitems-tenders-header">
-                                <img class="myitems-tenders-wrap-icon" src="/resources/img/tendersmall-icon.png">
-
-                                <div class="myitems-item-wrap-title">
-                                    <p class="myitems-item-wrap-titletext">Мои тендеры</p>
+                <div class="panel">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#userSettingsSet" href="#collapseTwo">Показать</a>
+                    <div id="collapseTwo" class="collapse">
+                        <div class="panel-body">
+                            <div class="radioGroup" id="gboxTumblers">
+                                <div class="row">
+                                    <label for="tenders">Мои тендеры</label>
+                                    <label class="label-checkbox">
+                                        <input gbox-id="myTenders" type="checkbox" class="greenCheckbox" id="tenders" value="tenders" name="gboxes" checked="true" /><span></span></label>
                                 </div>
-                                <img class="prioffice-close-tenders-ico" src="/resources/img/closesmall-icon.png">
-                            </div>
-                            <div class="myitems-tenders-items">
-                                <c:if test="${not empty tenders}">
-                                    <c:forEach items="${tenders}" var="tender">
-                                        <p><a href="/tender/${tender.id}">${tender.title}</a></p>
-                                    </c:forEach>
-                                </c:if>
-                                <c:if test="${empty tenders}">
-                                    <p><a href="/tender-make">создать тендер</a></p>
-                                </c:if>
-                            </div>
-
-                            <div class="myitems-tenders-footer">
-                                <a href="/tenders"><img src="/resources/img/strippeddownbuttonsmall.png"></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="myitems-projects">
-                        <div class="myitems-projects-wrap">
-                            <div class="myitems-tenders-header">
-                                <img class="myitems-projects-wrap-icon" src="/resources/img/projectsmall-icon.png">
-
-                                <div class="myitems-item-wrap-title">
-                                    <p class="myitems-item-wrap-titletext">Мои проекты</p>
+                                <div class="row">
+                                    <label for="projects">Мои проекты</label>
+                                    <label class="label-checkbox">
+                                        <input gbox-id="myProjects" type="checkbox" class="greenCheckbox" id="projects" value="projects" name="gboxes" checked="true" /><span></span></label>
                                 </div>
-                                <img class="prioffice-close-projects-ico" src="/resources/img/closesmall-icon.png">
-                            </div>
-                            <div class="myitems-projects-items">
-                                <c:if test="${not empty projects}">
-                                    <c:forEach items="${projects}" var="project">
-                                        <p><a href="/project/id/${project.id}">${project.title}</a></p>
-                                    </c:forEach>
-                                </c:if>
-                                <c:if test="${empty projects}">
-                                    <p><a href="/createProject">создать проект</a></p>
-                                </c:if>
-                            </div>
-                            <div class="myitems-projects-footer">
-                                <a href="/project/list"><img src="/resources/img/strippeddownbuttonsmall.png"></a>
+                                <div class="row">
+                                    <label for="offers">Мои обьявления</label>
+                                    <label class="label-checkbox">
+                                        <input gbox-id="myOffers" type="checkbox" class="greenCheckbox" id="offers" value="offers" name="gboxes" checked="true" /><span></span></label>
+                                </div>
+                                <div class="row">
+                                    <label for="balance">Мой баланс</label>
+                                    <label class="label-checkbox">
+                                        <input gbox-id="myBalance" type="checkbox" class="greenCheckbox" id="balance" value="balance" name="gboxes" checked="true" /><span></span></label>
+                                </div>
+                                <div class="row">
+                                    <label for="news">Мои новости</label>
+                                    <label class="label-checkbox">
+                                        <input gbox-id="myNews" type="checkbox" class="greenCheckbox" id="news" value="news" name="gboxes" checked="true" /><span></span></label>
+                                </div>
+                                <div class="row">
+                                    <label for="investments">Мои инвестиции</label>
+                                    <label class="label-checkbox">
+                                        <input gbox-id="myInvestments" type="checkbox" class="greenCheckbox" id="investments" value="investments" name="gboxes" checked="true" /><span></span></label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="myitems-row">
-                    <div class="myitems-news">
-                        <div class="myitems-news-wrap">
-                            <div class="myitems-tenders-header">
-                                <img class="myitems-news-wrap-icon" src="/resources/img/newssmall-icon.png">
-
-                                <div class="myitems-item-wrap-title">
-                                    <p class="myitems-item-wrap-titletext">Мои новости</p>
-                                </div>
-                                <img class="prioffice-close-news-ico" src="/resources/img/closesmall-icon.png">
-                            </div>
-                            <div class="myitems-news-items">
-                                <c:if test="${not empty blogposts}">
-                                    <c:forEach items="${blogposts}" var="n">
-                                        <p><a href="/blog/${n.id}">${n.title}</a></p>
-                                    </c:forEach>
-                                </c:if>
-                                <c:if test="${empty blogposts}">
-                                    <p><a href="/blog-create">создать новостной блог</a></p>
-                                </c:if>
-                            </div>
-                            <div class="myitems-news-footer">
-                                <a href="/blogs"><img src="/resources/img/strippeddownbuttonsmall.png"></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="myitems-founds">
-                        <div class="myitems-founds-wrap">
-                            <div class="myitems-tenders-header">
-                                <img class="myitems-founds-wrap-icon" src="/resources/img/ballancesmall-icon.png">
-
-                                <div class="myitems-item-wrap-title">
-                                    <p class="myitems-item-wrap-titletext">Мой баланс: ${curentBalance} грн.</p>
-                                </div>
-                                <img class="prioffice-close-founds1-ico" src="/resources/img/closesmall-icon.png">
-                            </div>
-                            <div class="myitems-founds-items">
-                                <c:forEach items="${balance}" var="b">
-                                    <p><span class="date-create">${b.dateTime}</span> пополнено на: ${b.amount} грн.</p>
-                                </c:forEach>
-                                <p>
-
-                                <form method="post" action="https://www.liqpay.com/api/checkout" accept-charset="utf-8">
-                                    <input id="liq-pay-data" type="hidden" name="data"
-                                           value="eyJhbW91bnQiOjEwMCwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6ItCf0L7Qv9C+0LvQvdC10L3QuNC1INCx0LDQu9Cw0L3RgdCwIiwib3JkZXJfaWQiOiJsM2Q2d1VvR3Rlc3QiLCJwdWJsaWNfa2V5IjoiaTc0MDQ0MTgyODM5Iiwic2FuZGJveCI6IjEiLCJzZXJ2ZXJfdXJsIjoiaHR0cDpcL1wvYmFuay10a2FuaS5yaGNsb3VkLmNvbVwvY2FsbGJhY2siLCJ2ZXJzaW9uIjoiMyJ9"/>
-                                    <input id="liq-pay-signature" type="hidden" name="signature"
-                                           value="DxXg8vXCVuw39G1Qvk8hmLyad6o="/>
-                                    <button type="submit" class="btn btn-primary">Пополнить</button>
-                                </form>
-                                </p>
-                            </div>
-                            <div class="myitems-founds-footer">
-                            </div>
+                <div class="panel">
+                    <a class="collapsed" data-toggle="collapse" data-parent="#userSettingsSet" href="#collapseThree">Уведомления</a>
+                    <div id="collapseThree" class="collapse">
+                        <div class="panel-body">
+                            Хочу все получать на мыло!
                         </div>
                     </div>
                 </div>
+                <button type="submit" class="info-submit">Сохранить</button>
+            </form>
+            <div class="settingsToggle" onclick="toggleSettingsBox(this);"></div>
 
-
-                <div>Объявления</div>
-                <c:forEach items="${offers}" var="offer">
-                    <a href="/offer/${offer.id}">${offer.title}</a>
-
-                    <c:if test="${offer.moderationStatus == 'NOT_PASSED'}"><span style="color: deeppink;">Ожидает проверки модератором</span></c:if>
-                    <c:if test="${offer.moderationStatus == 'COMPLETE'}"><span style="color: deeppink;">Одобрено модератором</span></c:if>
-                    <c:if test="${offer.moderationStatus == 'FAIL'}"><span style="color: deeppink;">Отклонено модератором</span></c:if>
-
-                    <a href="/edit-offer/${offer.id}" style="color: green;"><button>Редактировать</button> </a>
-
-                    <c:choose>
-                        <c:when test="${offer.active}">
-                            <button type="button" class="btn btn-default btn-md deactivateOffer"
-                                    style="margin-left: 25px" value="${offer.id}">
-                                Деактевировать
-                            </button>
-                        </c:when>
-                        <c:otherwise>
-                            <button type="button" class="btn btn-default btn-md activeOffer" style="margin-left: 25px"
-                                    value="${offer.id}">
-                                Активировать
-                            </button>
-                        </c:otherwise>
-                    </c:choose>
-
-                    <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#deleteModal" style="margin-left: 25px">
-                        Удалить
-                    </button>
-
-
-                    <!-- Modal window for delete offer -->
-                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Подтвердите удаление</h4>
-                                </div>
-                                <div class="modal-body">
-                                    Вы действительно желаете удалить объявление?
-                                    После удаление восстановить объявление будет невозможно.
-                                </div>
-                                <div class="modal-footer">
-                                    <button id="${offer.id}" type="button" class="btn btn-danger deleteOffer" data-dismiss="modal">Удалить</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Modal window for delete offer -->
-                    <br>
-                    <hr>
-                </c:forEach>
-            </div>
         </div>
     </div>
-</section>
+    <div class="contentBlock">
+        <div class="contactsMain">
+            <div class="topBar">
+                <div class="searchContactsF">
+                    <input class="text" type="text" placeholder="Введите ФИО или ID">
+                    <input class="startSearch" type="button" value="Найти">
+                </div>
+                <div class="count" onclick="contactToggle();">Контакты: ${profile.contactList.size()}</div>
+            </div>
+            <div class="contactsContainer greenBox" toggler="">
 
+                <c:forEach items="${profile.contactList}" var="contact">
+                    <div class="persona" data-id="${contact}">
+                        <a href="#" class="photo border-color">
+                            <img src="/resources/css/images/profileListLogo.png" alt="profile avatar">
+                            <span class="sendMessage"></span>
+                            <span class="name">...</span>
+                        </a>
+                    </div>
+                </c:forEach>
+
+                <div class="noFinded" style="display: none;">
+                    Не найдено
+                </div>
+
+                <div class="arrow toggler"></div>
+                <div class="closeBox"></div>
+            </div>
+        </div>
+        <div class="greenBox msAndNt" id="tab-container-msAndNt">
+            <ul class="ptabs">
+                <li class="ptab border-color active">
+                    <div class="count show">3</div><a href="#tab-messages">Сообщения</a></li>
+                <li class="ptab border-color">
+                    <div class="count">3</div><a href="#tab-notifications">Уведомления</a></li>
+            </ul>
+            <div class="messages" id="tab-messages">
+                <form class="messageForm" data-id="0">
+                    <textarea class="text border-color"></textarea>
+                    <input type="submit" value="Написать" class="messageSubmit">
+                    <div class="clearfix"></div>
+                    <div class="arrowHide"></div>
+                </form>
+            </div>
+            <div class="notifications" id="tab-notifications">
+                <a href="#" class="notify">
+                    <div class="persona">
+                        <img src="/resources/css/images/rupor.png" alt="" class="avatar">
+                        <div class="date">25.10.15</div>
+                    </div>
+                    <div class="text">Ваше обьявление забанено ибо потомучто</div>
+                    <div class="clearfix"></div>
+                </a>
+                <a href="#" class="notify">
+                    <div class="persona">
+                        <img src="/resources/css/images/compass.png" alt="" class="avatar">
+                        <div class="date">25.10.15</div>
+                    </div>
+                    <div class="text">Ваш проект забанен ибо потомучто</div>
+                    <div class="clearfix"></div>
+                </a>
+                <a href="#" class="notify">
+                    <div class="persona">
+                        <img src="/resources/css/images/newspaper.png" alt="" class="avatar">
+                        <div class="date">25.10.15</div>
+                    </div>
+                    <div class="text">Ваша новость ЗАБАНЕНА ибо потомучто</div>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+        </div>
+        <div class="historyContainer">
+            <div class="greenBox historyBox inlineBox optional" id="myTenders" toggler="">
+                <div class="historyIcon toggler"></div>
+                <div class="titleMain toggler">Мои тендеры</div>
+                <div class="historyContent">
+                </div>
+                <div class="closeBox"></div>
+                <div class="arrow loader"></div>
+            </div>
+            <div class="greenBox historyBox inlineBox optional" id="myProjects" toggler="">
+                <div class="historyIcon toggler"></div>
+                <div class="titleMain toggler">Мои проекты</div>
+                <div class="historyContent">
+                </div>
+                <div class="closeBox"></div>
+                <div class="arrow loader"></div>
+            </div>
+            <div class="greenBox historyBox inlineBox optional" id="myNews" toggler="">
+                <div class="historyIcon toggler"></div>
+                <div class="titleMain toggler">Мои новости</div>
+                <div class="historyContent">
+                </div>
+                <div class="closeBox"></div>
+                <div class="arrow loader"></div>
+            </div>
+            <div class="greenBox historyBox inlineBox optional" id="myOffers" toggler="">
+                <div class="historyIcon toggler"></div>
+                <div class="titleMain toggler">Мои обьявления</div>
+                <div class="historyContent">
+                </div>
+                <div class="closeBox"></div>
+                <div class="arrow loader"></div>
+            </div>
+            <div class="greenBox historyBox inlineBox optional" id="myInvestments" toggler="">
+                <div class="historyIcon toggler"></div>
+                <div class="titleMain toggler">Мои инвестиции</div>
+                <div class="historyContent">
+                </div>
+                <div class="closeBox"></div>
+                <div class="arrow loader"></div>
+            </div>
+            <div class="greenBox historyBox inlineBox optional" id="myBalance" toggler="">
+                <div class="historyIcon toggler"></div>
+                <div class="titleMain toggler">Мой баланс</div>
+                <div class="historyContent">
+                </div>
+                <div class="closeBox"></div>
+                <div class="arrow loader"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
 <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
@@ -356,148 +278,18 @@
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
 
-
-
-
-
-
-
 <!-- libs starts here-->
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/js/service.js"></script>
+<script src="/resources/js/masonry.pkgd.min.js"></script>
+<script src="/resources/js/enscroll-0.6.1.min.js"></script>
 <!--END of libs-->
 
-
+<script src="/resources/js/api-generator/api-request.js"></script>
+<script src="/resources/js/api-generator/api-generated.js"></script>
+<script src="/resources/js/prioffice.js"></script>
 
 <script>
-
-    var firstBlock = $('#startBlock').html();
-
-    $('#myModal').on('shown.bs.modal', function () {
-        $('#myInput').focus()
-    });
-
-    $('#deleteModal').on('shown.bs.modal', function () {
-        $('#myInput').focus()
-    });
-
-
-    // ------------------- Create default block of tenders -------------------------------------------------------
-
-
-
-        var projectFO = {};
-        projectFO.skip = 0;
-        projectFO.limit = 3;
-
-        function findFirstImg(arr) {
-            var url = '';
-            var imgId = '';
-            for (var i in arr) {
-                if (arr[i] === 'image') {
-                    imgId = i;
-                    break;
-                }
-            }
-            url = '/api/rest/fileStorage/TENDER/file/read/id/' + imgId;
-            return url;
-        }
-
-        function localDateTime(long) {
-            long = new Date(parseInt(long));
-            long = moment(long).locale("ru").format('LLL');
-            return long;
-        }
-
-        function draw(data) {
-            for (var i in data) {
-                $('.tender-tabs-items-wrap').last().attr('style', 'display:;');
-                $(".tender-pic-wrap img").last().attr('src', findFirstImg(data[i].uploadFilesIds));
-                $(".tender-pic-wrap a").last().attr('href', '/tender/' + data[i].id);
-                $(".tender-item-text p").last().html(data[i].body);
-                $(".tender-number").last().text(data[i].tenderNumber);
-                $(".tender-publish-date span").last().text(localDateTime(data[i].begin));
-                $(".tender-veiws").last().text(data[i].visited);
-                $(".tender-proposal-count").last().text(data[i].proposeNumber);
-                $(".tender-name p").last().text(data[i].title);
-                $(".date-create").last().text(localDateTime(data[i].end));
-                $('#startBlock').append(firstBlock);
-            }
-
-            $('.tender-tabs-items-wrap').last().attr('style', 'display: none;');
-        }
-
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            url: "/api/rest/tenderService/tender/read/all/",
-            data: JSON.stringify(projectFO),
-            success: function (response) {
-                if(response) {
-                    draw(response.entities);
-                }
-            }
-        });
-
-        $('#nextPage').on('click', function () {
-            projectFO.skip += 3;
-
-            $.ajax({
-                type: "POST",
-                contentType: "application/json; charset=utf-8",
-                url: "/api/rest/tenderService/tender/read/all/",
-                data: JSON.stringify(projectFO),
-                success: function (response) {
-                    draw(response.entities);
-                }
-            });
-        });
-
-
-        // ------------------- Start activate --------------------------------------------------
-        function changeActiveStatus(id, value) {
-            $.ajax({
-                url: '/api/rest/offersService/offer/id/' + id + '/setActive/' + value,
-                method: 'POST',
-                success: function (response) {
-                    window.location.href = '/prioffice';
-                },
-                error: function (response) {
-                    window.location.href = '/prioffice';
-                }
-            });
-        }
-
-        $('.deactivateOffer').click(function () {
-            var id = $(this).attr("value");
-            var value = false;
-            changeActiveStatus(id, value);
-        });
-
-        $('.activeOffer').click(function () {
-            var id = $(this).attr("value");
-            var value = true;
-            changeActiveStatus(id, value);
-        });
-        // ------------------- End create default block of tenders --------------------------------
-
-
-        // ------------------- Start delete offer section --------------------------------------------------
-        $('.deleteOffer').click(function () {
-            var id = $(this).attr("id");
-            $.ajax({
-                url: '/api/rest/offersService/offer/id/'+ id +'/delete',
-                method: 'POST',
-                success: function(response) {
-                    window.location.href = '/prioffice';
-                },
-                error: function (response) {
-                    window.location.href = '/prioffice';
-                }
-            });
-        });
-        // ------------------- End delete offer section --------------------------------------------------
-
 </script>
 
 

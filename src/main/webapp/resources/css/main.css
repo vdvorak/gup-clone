@@ -273,6 +273,12 @@ table {
 	width: 100%;
 }
 
+.search:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
 .sear {
 	font: 400 18px DroidSans;
 	height: 32px;
@@ -285,7 +291,7 @@ table {
 .selectBox select {
 	border-radius: 0;
 	height: 32px;
-	width: 166px;
+	width: 169px;
 	color: #898989;
 	font: 400 18px DroidSans;
 	background: transparent;
@@ -1186,7 +1192,7 @@ input[class="greenCheckbox"]:checked + span  	{
 
 .online {
 	color: #ffb405;
-	font: 400 20px DroidSans;
+	font: 400 30px DroidSans;
 	top: 10px;
 	right: 20px;
 	position: absolute;
@@ -1416,7 +1422,7 @@ input[class="greenCheckbox"]:checked + span  	{
 	border-radius: 4px;
 	float: left;
 	margin: 19px 7px;
-	background: url(/resources/css/images/name.png) no-repeat center center;
+	background: url('') no-repeat center center;
 }
 
 .proj-top1 {
@@ -1427,7 +1433,7 @@ input[class="greenCheckbox"]:checked + span  	{
 	border-radius: 4px;
 	float: left;
 	margin: 19px 7px;
-	background: url(/resources/css/images/tractor.png) no-repeat center center;
+	background: url('') no-repeat center center;
 }
 
 .massage-box {
@@ -3219,11 +3225,24 @@ label[for="checkbox-filter3"] {
 	margin: 15px 68px;
 	width: 89px;
 	text-align: center;
+	position: relative;
 }
 
 .ItemADS a {
 	color: #ffffff;
 	font: 400 12px DroidSans;
+
+}
+
+.ItemADS img {
+	border: 3px solid transparent;
+	border-radius: 6px;
+	width: 85px;
+	height: 85px;
+}
+
+.hoverIMG {
+	border-color: rgb(153, 204, 102) !important;
 }
 
 .filterArtists input[type='text'] {
@@ -3804,10 +3823,551 @@ input[value="open"]:checked + span  	{
 	height: 30px;
 	width: 167px;
 	border: 1px solid rgb( 153, 204, 102 );
+	-webkit-transition: all .25s;
 	transition: all .25s;
 }
 
 .tenderFilter > .column > button:hover {
 	background-color: transparent;
 	border-color: white;
+}
+.tenderMake {
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 17px;
+	margin-top: 10px;
+}
+
+.tenderMake h1 {
+	color: #1269a7;
+	font: 400 17px ArianAMU;
+	text-align: center;
+	margin: 50px 0;
+}
+
+.tenderMake > form {
+	margin: 0 50px 15px 50px;
+}
+
+.tenderMake > form:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.tenderMake > form > label {
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	float: left;
+}
+
+.tenderMake > form > label:after {
+	content: '*';
+	color: #ed4423;
+}
+
+.tenderMake > form > input[id='EnterTheTitle'] {
+	height: 23px;
+	width: 553px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	padding: 0 7px;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	margin-bottom: 40px;
+	margin-left: 10px;
+}
+
+.tenderMake > form > #selectBox-info-type {
+	float: left;
+	height: 23px;
+	width: 291px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	margin-right: 70px;
+	margin-left: 12px;
+}
+
+.tenderMake > form > #selectBox-info-type > select {
+	font: 400 13px DroidSans;
+	line-height: 19px;
+	height: 19px;
+	width: 304px;
+}
+
+.tenderMake > form > .datePickPi {
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	float: left;
+}
+
+.tenderMake > form > .datePickPi > input {
+	height: 23px;
+	width: 80px;
+	color: #a7a7a7;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	text-align: center;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+}
+
+.tenderMake > form > h2 {
+	color: #1269a7;
+	font: 400 16px DroidSans;
+	text-align: center;
+	margin: 35px 0;
+}
+
+.tenderMake > form > .location:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.tenderMake > form > .location > label {
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	float: left;
+}
+
+.tenderMake > form > .location > label:after {
+	content: '*';
+	color: #ed4423;
+}
+
+.tenderMake > form > .location > input {
+	height: 23px;
+	width: 290px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	padding: 0 7px;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	margin-left: 10px;
+	margin-bottom: 25px;
+}
+
+.tenderMake > form > .location > input:last-child {
+	margin-left: 25px;
+	margin-bottom: 70px;
+}
+
+.tenderMake > form > .tenderRadio {
+	height: 23px;
+	width: 340px;
+	float: left;
+	margin-bottom: 25px;
+}
+
+.tenderMake > form > .tenderRadio > label {
+	width: 23px;
+	height: 23px;
+	position: relative;
+	float: left;
+	border-radius: 20%;
+	margin-left: 10px;
+}
+
+.tenderMake > form > .tenderRadio > label:first-child {
+	margin-left: 120px;
+}
+
+.tenderMake > form > .tenderRadio > p {
+	float: left;
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	margin-left: 5px;
+}
+
+.tenderMake > form > .description > label {
+	color: #959595;
+	font: 400 16px DroidSans;
+	line-height: 23px;
+	margin-bottom: 30px;
+	float: left;
+}
+
+.tenderMake > form > .description > label:nth-child(2) {
+	width: 23px;
+	height: 23px;
+	position: relative;
+	border-radius: 20%;
+	margin-left: 5px;
+}
+
+.tenderMake > form > .description > label[for="InviteBidders"] {
+	margin-left: 90px;
+}
+
+form > .description > input {
+	height: 23px;
+	width: 170px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	padding: 0 7px;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	float: left;
+	margin-left: 5px;
+}
+
+form > .description > input[id='ExpectedValue'] {
+	width: 48px;
+}
+
+form > .description > input[id='ExpectedValue']:placeholder-shown {
+	color: #bfbfbf;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+}
+
+form > .description > label[for="TenderNumber"] {
+	margin-left: 125px;
+}
+
+form > .description > textarea {
+	margin-left: 5px;
+	resize: none;
+	height: 240px;
+	width: 640px;
+	border: 2px solid rgb( 153, 204, 102 );
+	border-radius: 5px;
+	font: 400 13px DroidSans;
+	line-height: 23px;
+	padding: 3px 7px;
+	margin-bottom: 30px;
+}
+
+.tenderMake > form > .description {
+	margin-bottom: 10px;
+}
+
+.tenderMake > form > .titleFile {
+	margin-left: 80px;
+	float: left;
+	margin-top: 13px;
+}
+
+.tenderMake > form > img {
+	float: left;
+	margin-left: 25px;
+}
+
+.tenderMake > form > img[alt="clip"] {
+	margin-top: 4px;
+}
+
+.tenderMake > form > button[type="submit"] {
+	float: right;
+	margin-top: 30px;
+	color: #ffffff;
+	font: 400 16px ArianAMU;
+	height: 32px;
+	width: 133px;
+	border-radius: 5px;
+	border: 2px solid rgb( 153, 204, 102 );
+	background-color: rgb( 153, 204, 102 );
+	-webkit-transition: all .25s;
+	transition: all .25s;
+	margin-right: 5px;
+}
+
+.tenderMake > form > button[type="submit"]:hover {
+	background-color: transparent;
+	color: rgb( 153, 204, 102 );
+}
+
+.ItemADS > .descriptionTitleLeft {
+	position: absolute;
+	top: 60px;
+	left: 65px;
+	height: 175px;
+	width: 397px;
+	z-index: 1;
+	background: url(/resources/images/descriptionTitleLeft.png) no-repeat;
+	padding: 20px 10px 10px 30px;
+	display: none;
+}
+
+.ItemADS > .descriptionTitleRight {
+	position: absolute;
+	top: 60px;
+	left: -380px;
+	height: 175px;
+	width: 397px;
+	z-index: 1;
+	background: url(/resources/images/descriptionTitleRight.png) no-repeat;
+	padding: 20px 30px 10px 10px;
+	display: none;
+}
+
+.ItemADS > .descriptionTitleLeft a {
+	color: #ffffff;
+	font: 400 11px DroidSans;
+	float: left;
+	margin: 0 11px 15px 11px;
+	width: 27%;
+}
+
+.ItemADS > .descriptionTitleRight a {
+	color: #ffffff;
+	font: 400 11px DroidSans;
+	float: left;
+	margin: 0 11px 15px 11px;
+	width: 27%;
+}
+
+.ItemADS > .descriptionTitleLeft a:hover {
+	font-style: italic;
+	text-decoration: underline;
+}
+
+.ItemADS > .descriptionTitleRight a:hover {
+	font-style: italic;
+	text-decoration: underline;
+}
+
+.ItemADS > .descriptionTitleLeft a:last-child {
+	float: right;
+	width: auto;
+	font-style: italic;
+	text-decoration: underline;
+	margin-bottom: 0;
+	margin-top: 5px;
+}
+
+.ItemADS > .descriptionTitleRight a:last-child {
+	float: right;
+	width: auto;
+	font-style: italic;
+	text-decoration: underline;
+	margin-bottom: 0;
+	margin-top: 5px;
+}
+
+.ItemADS > .descriptionTitleLeft a:last-child:hover {
+	text-decoration: none;
+	font-style: normal;
+}
+
+.ItemADS > .descriptionTitleRight a:last-child:hover {
+	text-decoration: none;
+	font-style: normal;
+}
+
+.filterADS:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.search > .filterADS > .superFilter {
+	border-top: 3px solid #8bd0ea;
+	width: 770px;
+	margin: 0 auto;
+	padding-top: 20px;
+	margin-bottom: 10px;
+	display: none;
+}
+
+.superFilter > form > select {
+	height: 23px;
+	width: 125px;
+	border-radius: 5px;
+	color: #36aae0;
+	font: 400 11px DroidSans;
+	border: none;
+	background-color: #ffffff;
+	margin-left: 20px;
+}
+
+.superFilter > form > .price {
+	width: 186px;
+	float: left;
+	margin-left: 20px;
+	margin-top: 20px;
+}
+
+form > .price > p {
+	color: #ffffff;
+	font: 400 11 DroidSans;
+	display: inline;
+	line-height: 23px;
+}
+
+form > .price > input {
+	height: 23px;
+	width: 49px;
+	border: none;
+	border-radius: 3px;
+	padding: 0 5px;
+	color: #36aae0;
+	font: 400 11px DroidSans;
+}
+
+form > .price > input:placeholder-shown {
+	color: #36aae0;
+	font: 400 10px DroidSans;
+}
+
+.superFilter > form > input {
+	border-radius: 5px;
+	height: 23px;
+	width: 130px;
+	border: none;
+	padding: 0 7px;
+	color: #36aae0;
+	font: 400 11px DroidSans;
+	float: left;
+	margin-top: 20px;
+	margin-left: 20px;
+}
+
+.superFilter > form > button {
+	float: right;
+	margin-top: 20px;
+	color: #ffffff;
+	font: 400 16px DroidSans;
+	background-color: #99cc66;
+	border-radius: 8px;
+	height: 29px;
+	width: 154px;
+	border: none;
+	-webkit-transition: all .25s;
+	transition: all .25s;
+}
+
+.superFilter > form > button:hover {
+	background-color: white;
+	color: #36aae0;
+}
+
+.bx-wrapper .bx-controls-direction a {
+	width: 25px;
+	height: 50px;
+}
+
+.slider .bx-wrapper .bx-prev {
+	display: none;
+}
+
+.slider .bx-wrapper .bx-next {
+	background: url(/resources/css/images/controls.png) no-repeat center center;
+	background-size: cover;
+	right: -20px;
+	top: 50%;
+	margin-top: -25px;
+}
+
+.slider .bx-wrapper .bx-pager.bx-default-pager a {
+	background-color: #9c6;
+}
+
+.slider .bx-wrapper .bx-pager.bx-default-pager a:hover,
+.slider .bx-wrapper .bx-pager.bx-default-pager a.active {
+	background-color: #36aae0;
+}
+
+.slider .bx-wrapper .bx-pager {
+	padding: 20px 0 0 200px;
+}
+
+.sliderTender .bx-wrapper .bx-next {
+	background: url(/resources/images/controlsTenderRight.png) no-repeat center center;
+	background-size: cover;
+	top: 50%;
+	margin-top: -25px;
+	right: -20px;
+}
+
+.sliderTender .bx-wrapper .bx-prev {
+	background: url(/resources/images/controlsTenderLeft.png) no-repeat center center;
+	background-size: cover;
+	top: 50%;
+	margin-top: -25px;
+	left: -30px;
+}
+
+.sliderTender .bx-wrapper .bx-pager {
+	display: none;
+}
+
+.sliderTender .bx-wrapper {
+	margin-bottom: 20px;
+}
+
+.contentContainer > .tenderFils {
+	margin-bottom: 10px;
+}
+
+.contentContainer > .tenderFils:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.contentContainer > .tenderFils > a {
+	background: url(/resources/images/caretDOC.png) no-repeat 95% 50%;
+	color: #ffffff;
+	font: 400 14px Arial;
+	background-color: #1269a7;
+	height: 30px;
+	width: 179px;
+	float: left;
+	margin: 20px;
+	line-height: 30px;
+	padding: 0 35px 0 10px;
+	border-radius: 4px;
+}
+
+.contentContainer > .tenderFils > a:hover {
+	-webkit-animation: swing 0.5s ease;
+	animation: swing 0.5s ease;
+	-webkit-animation-iteration-count: 1;
+	animation-iteration-count: 1;
+}
+
+.contentContainer > .tenderMap {
+	height: 194px;
+	margin: 0 auto;
+	margin-bottom: 40px;
+	position: relative;
+}
+
+.contentContainer > .tenderMap:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.contentContainer > .tenderMap > iframe {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.contentContainer > .downComments {
+	width: 100%;
+	margin-left: 0;
+}
+
+.contentContainer.vip {
+	border: 2px solid rgb( 252, 155, 0 );
+	border-radius: 4px;
+}
+
+.contentContainer.vip .abutton.blue {
+	background-color: #fdb33c;
+	border-color: #fdb33c;
+	-webkit-transition: all .25s;
+	transition: all .25s;
+}
+
+.contentContainer.vip .abutton.blue:hover {
+	background-color: transparent;
+	color: #fdb33c;
 }

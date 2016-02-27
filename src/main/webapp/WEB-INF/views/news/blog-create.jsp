@@ -20,6 +20,7 @@
 
     <%-- Cropper style --%>
     <link  href="/resources/css/cropper.css" rel="stylesheet">
+    <link rel="stylesheet" href="/resources/css/cropper-modal-window.css">
 </head>
 <body>
 
@@ -70,7 +71,7 @@
                 <div class="defaultIMG">
                     <ul>
                         <li>
-                            <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImgFromDB()"></i><i class="fa fa-pencil fa-2x" onClick="openImgCropper()"></i></span>
+                            <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImgFromDB()"></i></span>
                             <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
                         </li>
                     </ul>
@@ -87,25 +88,25 @@
     </div>
 </div>
 
-<div id="cropperModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Редактирование фото</h4>
-            </div>
-            <div class="modal-body">
-                <div class="drop_zone">
-                    <img id="image" src="/resources/images/no_photo.jpg">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-                <button id="btn-cropp-done" type="button" class="btn btn-primary">Готово</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+<!-- The Modal -->
+<div id="cropperModal" class="cropper-modal">
+
+    <!-- Modal content -->
+    <div class="cropper-modal-content">
+        <div class="cropper-modal-header">
+            <span>Редактирование фотографии</span>
+        </div>
+        <div class="cropper-modal-body drop_zone">
+            <img id="cropper-image" src="/resources/images/no_photo.jpg" style="max-width: 100%">
+        </div>
+        <div class="cropper-modal-footer">
+            <button class="cropper-btn cropper-btn-success">Готово</button>
+            <button class="cropper-btn cropper-btn-cancel">Отмена</button>
+
+        </div>
+    </div>
+
+</div>
 
 <%--<div>--%>
     <%--<input id="blogTitle" type="text" name="blogTitle" minlength="2" maxlength="70" required--%>
@@ -186,7 +187,8 @@
     var imgId = '';
     var blog = {};
 
-    var image = document.getElementById('image');
+    // --------------------------------------  BEGIN cropper  ----------------------------------------------
+    var image = document.getElementById('cropper-image');
     var cropper = new Cropper(image, {
         aspectRatio: 1 / 1,
         crop: function(data) {
@@ -200,8 +202,58 @@
         }
     });
 
+    $(".cropper-btn-cancel").click(function() {
+        $('#cropperModal').css('display',"none");
+    });
 
-    $(document).ready(function () {
+    $(window).click(function(event) {
+        var modal = document.getElementById('cropperModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    $(".cropper-btn-success").click(function() {
+        $('#cropperModal').css('display',"none");
+
+        var canvas = cropper.getCroppedCanvas();
+        var dataURL = canvas.toDataURL('image/jpeg', 0.5);
+        var blob = dataURItoBlob(dataURL);
+
+        cropper.replace(dataURL);
+
+        var formData = new FormData();
+        formData.append('file', blob);
+
+        if (imgId !== '') {
+            deleteImgFromDB();
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/fileStorage/NEWS/file/upload/",
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data, textStatus, request) {
+                imgId = data.id;
+                $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
+            }
+        });
+    });
+
+    function dataURItoBlob(dataURI) {
+        var binary = atob(dataURI.split(',')[1]);
+        var array = [];
+        for(var i = 0; i < binary.length; i++) {
+            array.push(binary.charCodeAt(i));
+        }
+        return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+    }
+    // --------------------------------------  END cropper  ----------------------------------------------
 
         // -------------------------------------------------------BEGIN soc network links --------------------------------------------
         // Add/Remove social Input Fields Dynamically with jQuery
@@ -258,6 +310,7 @@
             dropZone[i].addEventListener('dragover', handleDragOver, false);
             dropZone[i].addEventListener('drop', handleFileSelect, false);
         }
+
         function handleFileSelect(evt) {
             evt.stopPropagation();
             evt.preventDefault();
@@ -273,31 +326,7 @@
             if (files[0]) {
                 reader.readAsDataURL(files[0]);
             }
-
-            if (files.length) {
-                    var formImg = new FormData();
-                    formImg.append('file', files[0]);
-                    // files is a FileList of File objects. List some properties.
-
-                    if (imgId !== '') {
-                        deleteImgFromDB();
-                    }
-
-                    $.ajax({
-                        type: "POST",
-                        url: "/api/rest/fileStorage/NEWS/file/upload/",
-                        data: formImg,
-                        async: false,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        success: function (data, textStatus, request) {
-                            imgId = data.id;
-                            $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
-                        }
-                    });
-            }
-
+            $('#cropperModal').css('display',"block");
 
         }
 
@@ -329,31 +358,7 @@
                 reader.readAsDataURL(files[0]);
             }
 
-            if (files.length) {
-                var formImg = new FormData();
-                formImg.append('file', files[0]);
-
-                if (imgId !== '') {
-                    deleteImgFromDB();
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/fileStorage/NEWS/file/upload/",
-                    data: formImg,
-                    async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (data, textStatus, request) {
-                        imgId = data.id;
-                        $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
-                    }
-                });
-
-            }
-        });
-
+            $('#cropperModal').css('display',"block");
     });
 
     function deleteImgFromDB() {
@@ -368,49 +373,9 @@
         });
     }
 
-    function openImgCropper() {
-        $('#cropperModal').modal('show');
-    }
     //----------------------------------------------------- End Images -----------------------------------------------
-    function dataURItoBlob(dataURI) {
-        var binary = atob(dataURI.split(',')[1]);
-        var array = [];
-        for(var i = 0; i < binary.length; i++) {
-            array.push(binary.charCodeAt(i));
-        }
-        return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
-    }
 
-    $("#btn-cropp-done").click(function() {
-        $('#cropperModal').modal('hide');
 
-        var canvas = cropper.getCroppedCanvas();
-        var dataURL = canvas.toDataURL('image/jpeg', 0.5);
-        var blob = dataURItoBlob(dataURL);
-
-        cropper.replace(dataURL);
-
-        var formData = new FormData();
-        formData.append('file', blob);
-
-        if (imgId !== '') {
-            deleteImgFromDB();
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/fileStorage/NEWS/file/upload/",
-            data: formData,
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (data, textStatus, request) {
-                imgId = data.id;
-                $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
-            }
-        });
-});
     ///------------------------- Upload Blog -----------------------------------------------
 
     function isMatchPatternSocialLinks(socName, url) {
@@ -436,8 +401,8 @@
 
         var title = $('#blogTitle').val();
         var description = $('#blogCreationDescription').val();
-        if(title.length > 70 || title.length < 2) return;
-        if(description.length > 5000 || description.length < 50) return;
+        if (title.length > 70 || title.length < 2) return;
+        if (description.length > 5000 || description.length < 50) return;
 
         blog.title = title;
         blog.description = description;
@@ -447,7 +412,7 @@
         $(".group-info > input").each(function (index) {
             var socName = $(this).attr("name");
             var url = $(this).val();
-            if(isMatchPatternSocialLinks(socName, url) && url.length) {
+            if (isMatchPatternSocialLinks(socName, url) && url.length) {
                 socArr[socName] = url;
             }
         });

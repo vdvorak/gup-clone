@@ -20,8 +20,21 @@
 
     <%-- Cropper style --%>
     <link  href="/resources/css/cropper.css" rel="stylesheet">
+    <link rel="stylesheet" href="/resources/css/cropper-modal-window.css">
 </head>
 <body>
+
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
 <div class="container2">
     <div class="blogCreation">
@@ -80,7 +93,7 @@
                         <div class="defaultIMG">
                             <ul>
                                 <li>
-                                    <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImg()"></i><i class="fa fa-pencil fa-2x" onClick="openImgCropper()"></i></span>
+                                    <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImg()"></i></span>
                                     <img src="/api/rest/fileStorage/NEWS/file/read/id/${blog.imageId}" alt="">
                                 </li>
                             </ul>
@@ -90,7 +103,7 @@
                         <div class="defaultIMG">
                             <ul>
                                 <li>
-                                    <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImg()"></i><i class="fa fa-pencil fa-2x" onClick="openImgCropper()"></i></span>
+                                    <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImg()"></i></span>
                                     <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
                                 </li>
                             </ul>
@@ -109,37 +122,56 @@
     </div>
 </div>
 
-<div id="cropperModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Редактирование фото</h4>
-            </div>
-            <div class="modal-body">
-                <div class="drop_zone">
-                    <c:choose>
-                        <c:when test="${not empty blog.imageId}">
-                            <img id="image" src="/api/rest/fileStorage/NEWS/file/read/id/${blog.imageId}">
-                        </c:when>
-                        <c:otherwise>
-                            <img id="image" src="/resources/images/no_photo.jpg">
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-                <button id="btn-cropp-done" type="button" class="btn btn-primary">Готово</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+<!-- The Modal -->
+<div id="cropperModal" class="cropper-modal">
+
+    <!-- Modal content -->
+    <div class="cropper-modal-content">
+        <div class="cropper-modal-header">
+            <span>Редактирование фотографии</span>
+        </div>
+        <div class="cropper-modal-body drop_zone">
+            <c:choose>
+                <c:when test="${not empty blog.imageId}">
+                    <img id="cropper-image" src="/api/rest/fileStorage/NEWS/file/read/id/${blog.imageId}">
+                </c:when>
+                <c:otherwise>
+                    <img id="cropper-image" src="/resources/images/no_photo.jpg">
+                </c:otherwise>
+            </c:choose>
+        </div>
+        <div class="cropper-modal-footer">
+            <button class="cropper-btn cropper-btn-success">Готово</button>
+            <button class="cropper-btn cropper-btn-cancel">Отмена</button>
+
+        </div>
+    </div>
+
+</div>
+
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/cropper.js"></script>
+<script src="/resources/js/bootstrap.min.js"></script>
+<script src="/resources/js/jquery.bxslider.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
+
+<sec:authorize var="loggedIn" access="isAuthenticated()" />
+<c:choose>
+    <c:when test="${loggedIn}">
+        <script src="/resources/js/autorizedHeader.js"></script>
+    </c:when>
+    <c:otherwise>
+        <script src="/resources/js/anonymHeader.js"></script>
+    </c:otherwise>
+</c:choose>
+
+<script src="/resources/js/main.js"></script>
+<script src="/resources/js/logo-section.js"></script>
+<script src="/resources/js/search-bar.js"></script>
+
 <script>
 
     var imgId = '';
@@ -154,7 +186,9 @@
         imgId = oldImgId;
     }
 
-    var image = document.getElementById('image');
+
+    // --------------------------------------  BEGIN cropper  ----------------------------------------------
+    var image = document.getElementById('cropper-image');
     var cropper = new Cropper(image, {
         aspectRatio: 1 / 1,
         crop: function(data) {
@@ -167,6 +201,59 @@
             console.log(data.scaleY);
         }
     });
+
+    $(".cropper-btn-cancel").click(function() {
+        $('#cropperModal').css('display',"none");
+    });
+
+    $(window).click(function(event) {
+        var modal = document.getElementById('cropperModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    $(".cropper-btn-success").click(function() {
+        $('#cropperModal').css('display',"none");
+
+        var canvas = cropper.getCroppedCanvas();
+        var dataURL = canvas.toDataURL('image/jpeg', 0.5);
+        var blob = dataURItoBlob(dataURL);
+
+        cropper.replace(dataURL);
+
+        var formData = new FormData();
+        formData.append('file', blob);
+
+        if (imgId !== '') {
+            deleteImgFromDB(imgId);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/fileStorage/NEWS/file/upload/",
+            data:  formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data, textStatus, request) {
+                imgId = data.id;
+                $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
+            }
+        });
+    });
+
+    function dataURItoBlob(dataURI) {
+        var binary = atob(dataURI.split(',')[1]);
+        var array = [];
+        for(var i = 0; i < binary.length; i++) {
+            array.push(binary.charCodeAt(i));
+        }
+        return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+    }
+    // --------------------------------------  END cropper  ----------------------------------------------
 
     // -------------------------------------------------------BEGIN soc network links --------------------------------------------
 
@@ -242,30 +329,7 @@
             if (files[0]) {
                 reader.readAsDataURL(files[0]);
             }
-
-            if (files.length) {
-                var formImg = new FormData();
-                formImg.append('file', files[0]);
-                // files is a FileList of File objects. List some properties.
-
-                if (imgId !== '') {
-                    deleteImgFromDB(imgId);
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/fileStorage/NEWS/file/upload/",
-                    data: formImg,
-                    async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (data, textStatus, request) {
-                        imgId = data.id;
-                        $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
-                    }
-                });
-            }
+            $('#cropperModal').css('display',"block");
 
         }
 
@@ -300,75 +364,9 @@
         if (files[0]) {
             reader.readAsDataURL(files[0]);
         }
-
-        if (files.length) {
-            var formImg = new FormData();
-            formImg.append('file', files[0]);
-
-            if (imgId !== '') {
-                deleteImgFromDB(imgId);
-            }
-
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/fileStorage/NEWS/file/upload/",
-                data: formImg,
-                async: false,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (data, textStatus, request) {
-                    imgId = data.id;
-                    $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
-                }
-            });
-
-        }
+        $('#cropperModal').css('display',"block");
     });
 
-    function openImgCropper() {
-        $('#cropperModal').modal('show');
-    }
-
-    function dataURItoBlob(dataURI) {
-        var binary = atob(dataURI.split(',')[1]);
-        var array = [];
-        for(var i = 0; i < binary.length; i++) {
-            array.push(binary.charCodeAt(i));
-        }
-        return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
-    }
-
-    $("#btn-cropp-done").click(function() {
-        $('#cropperModal').modal('hide');
-
-        var canvas = cropper.getCroppedCanvas();
-        var dataURL = canvas.toDataURL('image/jpeg', 0.5);
-        var blob = dataURItoBlob(dataURL);
-
-        cropper.replace(dataURL);
-
-        var formData = new FormData();
-        formData.append('file', blob);
-
-        if (imgId !== '') {
-            deleteImgFromDB(imgId);
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/fileStorage/NEWS/file/upload/",
-            data: formData,
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (data, textStatus, request) {
-                imgId = data.id;
-                $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
-            }
-        });
-    });
         //----------------------------------------------------- Image form -----------------------------------------------
 
 
@@ -445,12 +443,14 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 data: JSON.stringify(blog),
-                success: function (response) {
-                    window.location.href = '/index';
-//               в перспективе должно перекидывать на страницу этого блога - его просмотр
-                },
-                error: function (response) {
-                    alert("Внутренняя ошибка сервера");
+                statusCode: {
+                    200: function (response) {
+                        window.location.href = '/blog/' + blogId;
+                    },
+                    400: function (response) {
+                    },
+                    404: function (response) {
+                    }
                 }
             });
         });

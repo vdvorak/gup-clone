@@ -50,8 +50,8 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public void delete(String id) {
-        Query query = new Query(Criteria.where("id").is(id));
+    public void delete(String projectId) {
+        Query query = new Query(Criteria.where("id").is(projectId));
         mongoTemplate.remove(query, Project.class);
     }
 
