@@ -7,8 +7,25 @@
        http://www.springframework.org/schema/data/mongo
        http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 
+
     <mongo:repositories base-package="ua.com.itproekt.gup.dao"/>
-    <mongo:mongo host="localhost" port="27017" id="mongo"/>
+    <mongo:mongo host="localhost" port="27017" id="mongo">
+        <!--<mongo:options -->
+                <!--connections-per-host="8"-->
+                <!--threads-allowed-to-block-for-connection-multiplier="4"-->
+                <!--connect-timeout="1000"-->
+                <!--max-wait-time="1500"-->
+                <!--auto-connect-retry="true"-->
+                <!--socket-keep-alive="true"-->
+                <!--socket-timeout="1500"-->
+                <!--slave-ok="true"-->
+                <!--write-number="1"-->
+                <!--write-timeout="0"-->
+                <!--write-fsync="true"-->
+                <!--max-auto-connect-retry-time=""-->
+                <!--ssl=""-->
+                <!--ssl-socket-factory-ref="" />-->
+    </mongo:mongo>
     <mongo:db-factory id="mongoDbFactory" mongo-ref="mongo" dbname="testLibraryMongo"/>
                       <!--username="${mongo.remote.db.login}" password="${mongo.remote.db.password}"/>-->
 
