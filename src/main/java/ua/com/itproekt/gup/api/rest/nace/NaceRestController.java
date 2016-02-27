@@ -10,6 +10,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.itproekt.gup.model.nace.DepartmentOrNace;
+import ua.com.itproekt.gup.model.nace.NACE;
 import ua.com.itproekt.gup.service.nace.NaceService;
 
 import java.beans.PropertyEditorSupport;
@@ -31,7 +32,7 @@ public class NaceRestController {
             value = "/nace/create",
             method = RequestMethod.POST,
             headers = "Content-Type=application/json")
-    public ResponseEntity<DepartmentOrNace> addDialogue (@RequestBody DepartmentOrNace nace,
+    public ResponseEntity<NACE> addDialogue (@RequestBody NACE nace,
                                                  UriComponentsBuilder builder) {
         log.log(Level.INFO, LOGGED_TITLE + "nace/create Hello =)");
 
@@ -62,8 +63,8 @@ public class NaceRestController {
     @RequestMapping(value="/nace/read/all",
             method=RequestMethod.POST
     )
-    public ResponseEntity<List<DepartmentOrNace>> getAllDialogues(){
-        List<DepartmentOrNace> naces = naceService.findAll();
+    public ResponseEntity<List<NACE>> getAllDialogues(){
+        List<NACE> naces = naceService.findAll();
 
         log.log(Level.INFO, LOGGED_TITLE + "/nace/read/all - all nace was find successfully");
         return new ResponseEntity<>(naces, HttpStatus.OK);
@@ -72,7 +73,7 @@ public class NaceRestController {
     @RequestMapping(value="/nace/update/id/{id}",
             method=RequestMethod.POST
     )
-    public ResponseEntity<DepartmentOrNace> updateDialogue(@PathVariable("id") String id, @RequestBody DepartmentOrNace nace){
+    public ResponseEntity<NACE> updateDialogue(@PathVariable("id") String id, @RequestBody NACE nace){
         if(nace == null || naceService.findById(id) == null){
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
@@ -90,7 +91,7 @@ public class NaceRestController {
                 new PropertyEditorSupport() {
                     @Override
                     public void setAsText(String id) {
-                        DepartmentOrNace nace = null;
+                        NACE nace = null;
                         if (id != null && !id.trim().isEmpty()) {
                             nace = naceService.findById(id);
                         }else {

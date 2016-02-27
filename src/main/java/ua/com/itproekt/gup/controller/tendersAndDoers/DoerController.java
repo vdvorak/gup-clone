@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.controller;
+package ua.com.itproekt.gup.controller.tendersAndDoers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

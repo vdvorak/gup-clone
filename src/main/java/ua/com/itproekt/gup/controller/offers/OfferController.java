@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.controller;
+package ua.com.itproekt.gup.controller.offers;
 
 
 import org.codehaus.jackson.map.ObjectMapper;
