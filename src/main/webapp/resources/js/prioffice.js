@@ -27,7 +27,9 @@
 	};	
 })(jQuery);
 
-$(document).ready(function(){
+
+
+/*$(document).ready(function(){
 	$(".tabs").lightTabs();
 });
 $(function () {
@@ -50,7 +52,7 @@ $(document).on('click', '.prioffice-close-news-ico', function(e){
 $(document).on('click', '.prioffice-close-founds1-ico', function(e){
 	e.preventDefault();
 	$('.myitems-founds ').css('display', 'none');
-});
+});*/
 
 
 
@@ -60,6 +62,58 @@ $(document).on('click', '.prioffice-close-founds1-ico', function(e){
 /**
  * Created by Андрій on 26.02.2016.
  */
+function localDateTime(long) {
+	long = new Date(parseInt(long));
+	long = moment(long).locale("ru").format('LLL');
+	return long;
+}
+var loadingQueue = []
+$(document).ready(function () {
+	for (var q in loadingQueue){
+		loadingQueue[q]()
+	}
+})
+
+var User = {}
+User.bank = {}
+User.get = function (id, callback) {
+	if (User.bank[id]){
+		return callback(null, User.bank[id])
+	}
+	else {
+		R.Libra().profilesService().profile().read().id(id, null, function (res) {
+			res.getPic = function () {
+				return '/api/rest/fileStorage/PROFILE/file/read/id/' + res.contact.pic
+			}
+			User.bank[id] = res
+			return callback(null, User.bank[id])
+		})
+	}
+}
+loadingQueue.push(function () {
+	User.current = $('.sideBlock .mainInfo').attr('data-id')
+})
+
+var updateHistoryLayout = null
+loadingQueue.push(function(){
+	var grid = $('.historyContainer').masonry({
+		// options
+		itemSelector: '.historyBox',
+		columnWidth: 325,
+		fitWidth: true,
+		transitionDuration: '0.3s',
+		resize: true,
+		originLeft: true
+	})
+	updateHistoryLayout = function(){
+		grid.masonry('layout')
+	}
+	updateHistoryLayout()
+	$('.historyBox[toggler]').on('toggledOn toggledOff gboxOpen', function(){
+		updateHistoryLayout()
+	})
+})
+
 var Toggler = {}
 Toggler.togglerAttr = 'toggler'
 Toggler.toggledClass = 'toggled'
@@ -68,6 +122,9 @@ Toggler.init = function () {
 	$('.greenBox .' + Toggler.togglerClass).on('click', function () {
 		Toggler.toggleToggler(this)
 	})
+	//$('.greenBox').on('click', '.' + Toggler.togglerClass, function() {
+	//	Toggler.toggleToggler($(this))
+	//})
 }
 //В качестве параметра указываем любой обьект, который находится внутри обьекта с атрибутом Toggler.togglerAttr
 Toggler.toggleToggler = function (e) {
@@ -147,6 +204,59 @@ GBox.getBox = function (e) {
 	return box;
 }
 
+Contacts = {}
+Contacts.place = null
+Contacts.searchBar = null
+Contacts.init = function(){
+	var main = $('.contactsMain')
+	Contacts.place = main.find('.contactsContainer')
+	var form = main.find('.searchContactsF')
+	Contacts.searchBar = form.find('.text')
+	var submit = form.find('.startSearch')
+
+	Contacts.place.find('.persona').each(function (num, e) {
+		var id = $(e).attr('data-id')
+		User.get(id, function(err, profile){
+			$(e).find('.name').text(profile.username)
+			if (profile.contact.member){
+				$(e).addClass('vip')
+			}
+			$(e).find('.photo img').attr('src', profile.getPic())
+			$(e).find('.sendMessage').on('click', function (event) {
+				event.preventDefault()
+				alert('send message?))')
+			})
+		})
+	})
+
+	Contacts.searchBar.keyup(function () {
+		var filter = this.value.toLowerCase()
+		var finded = false
+		Contacts.place.find('.persona').each(function() {
+			var _this = $(this)
+			var title = _this.find('.name').text().toLowerCase()
+
+			if (title.indexOf(filter) < 0) {
+				if (_this.is(':visible')){
+					_this.hide()
+				}
+			}
+			else {
+				if (!_this.is(':visible')){
+					_this.show()
+				}
+				finded = true
+			}
+		})
+		if (!finded) {
+			main.find('.noFinded').show()
+		}
+		else {
+			main.find('.noFinded').hide()
+		}
+	})
+}
+
 var Dialogs = {}
 Dialogs.dialogIdAttr = 'data-id'
 Dialogs.classOpened = 'opened'
@@ -220,18 +330,156 @@ Dialogs.init = function () {
 	Dialogs.form.find('.arrowHide').click(function () {
 		Dialogs.close()
 	})
-	Dialogs.common.find('.dialog').each(function (num, e) {
-		$(e).click(function () {
-			Dialogs.open($(e).attr(Dialogs.dialogIdAttr))
-		})
+	$(Dialogs.common).on('click', '.dialog', function() {
+		Dialogs.open($(this).attr(Dialogs.dialogIdAttr))
 	})
 	Dialogs.fixScroll(Dialogs.common)
 }
+Dialogs.dialogs = []
+Dialogs.Dial = (function () {
+	function Dial(settings) {
+		this.opt = {
+			id: ''
+		}
+		$.extend(this.opt, settings)
+		this.handle = Dialogs.dialogTemplate.clone()
+		this.handle.text()
+		Dialogs.common.prepend(this.handle)
+		Dialogs.dialogs.push(this)
 
-$(document).ready(function () {
+		this.messages = []
+	}
+	return Dial
+})()
+Dialogs.Dial.prototype.addMessage = function (data) {
+	var msg = new Dialogs.Message(this, data)
+	this.messages.push(msg)
+	return msg
+}
+Dialogs.Message = (function () {
+	function Message(dialog, settings) {
+		var self = this
+		this.opt = {
+			authorId: '',
+			message: 'No text assigned',
+			date: 0
+		}
+		$.extend(this.opt, settings)
+		self.handle = Dialogs.messageTemplate.clone()
+		self.handle.find('.text').text(self.opt.message)
+		self.handle.attr('data-author', self.opt.authorId)
+		if (self.opt.authorId === User.current){
+			self.handle.addClass('myself')
+		}
+		User.get(self.opt.authorId, function(err, profile){
+			var persona = self.handle.find('.persona')
+			persona.find('.avatar').attr('src', profile.getPic())
+			if (profile.contact.member){
+				persona.addClass('vip')
+			}
+		})
+		self.handle.find('.date').text(localDateTime(self.opt.date))
+		self.handle.appendTo(dialog.handle)
+	}
+	return Message
+})()
+Dialogs.dialogTemplate = $('<div class="dialog" data-id="11"></div>')
+Dialogs.messageTemplate = $(
+	'<div class="msg" data-author="">'+
+		'<div class="persona">'+
+			'<img src="/resources/css/images/profileListLogo.png" alt="" class="avatar">'+
+			'<div class="date">25.10.15</div>'+
+		'</div>'+
+		'<div class="text">Message text</div>'+
+		'<div class="clearfix"></div>'+
+	'</div>')
+loadingQueue.push(function () {
+	R.Libra().dialogueService().dialogue().read().all(null, function (res) {
+		for (var d in res) {
+			var _dialog = res[d]
+			var dialog = new Dialogs.Dial(_dialog)
+			for (var m in _dialog.messages) {
+				var _message = _dialog.messages[m]
+				dialog.addMessage(_message)
+			}
+		}
+	})
+})
+var ELoader = (function () {
+	function PageLoader(options) {
+		this.opt = {
+			api: null,
+			id: 0,
+			callback: function () {},
+			template: ELoader.templateDefault
+		}
+		$.extend(this.opt, options)
+		this.page = 0
+
+		var self = this
+		console.log('constructor: ' + self.opt.id)
+		$(document).ready(function () {
+			console.log('ready: ' + self.opt.id)
+			self.handle = $('#' + self.opt.id)
+			self.historyContent = self.handle.find('.historyContent').first()
+			self.handle.find('.arrow.loader').each(function(num, el){
+				console.log('each')
+				$(el).on('click', function(){
+					self.load(self.opt.callback)
+				})
+			})
+		})
+	}
+	return PageLoader
+})()
+ELoader.prototype.load = function () {
+	var data = {}
+	var self = this
+	data.skip = this.page
+	data.limit = 5
+	this.opt.api(JSON.stringify(data), function(res){
+		Toggler.turnToggled(self.handle)
+		if (res.entities.length <= 0){
+			return;
+		}
+		for(var r in res.entities){
+			var entity = res.entities[r]
+			var temp = self.opt.template.clone()
+			temp.text(entity.title)
+			self.historyContent.append(temp)
+		}
+		self.opt.callback(res)
+		updateHistoryLayout()
+	}, null)
+	this.page += 1
+}
+ELoader.templateDefault = $('<a class="historyItem" href="#">{title}</a>')
+loadingQueue.push(function(){
+	//new ELoader({
+	//	api: R.Libra().tenderService().tender().read().all,
+	//	id: 'myTenders'
+	//}).load()
+	//new ELoader({
+	//	api: R.Libra().projectsAndInvestmentsService().project().read().all,
+	//	id: 'myProjects'
+	//}).load()
+	//new ELoader({
+	//	api: R.Libra().newsService().blog().read().all,
+	//	id: 'myNews'
+	//}).load()
+	//new ELoader({
+	//	api: R.Libra().offersService().offer().read().all,
+	//	id: 'myOffers'
+	//}).load()
+	//new ELoader({
+	//	api: R.Libra().projectsAndInvestmentsService().investorPost().read().all,
+	//	id: 'myInvestments'
+	//}).load()
+
 	Toggler.init()
 	GBox.init()
 	Dialogs.init()
+	Contacts.init()
 	$('#tab-container-msAndNt').easytabs({
 		animate: false,
 		updateHash: false
@@ -268,19 +516,6 @@ $(document).ready(function () {
 		} else {
 			GBox.close(gbox)
 		}
-	})
-	var grid = $('.historyContainer').masonry({
-		// options
-		itemSelector: '.historyBox',
-		columnWidth: 325,
-		fitWidth: true,
-		transitionDuration: '0.3s',
-		resize: true,
-		originLeft: true
-	})
-	grid.masonry('layout')
-	$('.historyBox[toggler]').on('toggledOn toggledOff gboxOpen', function(){
-		grid.masonry('layout')
 	})
 })
 
