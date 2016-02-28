@@ -37,7 +37,18 @@
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
 
+
+
+
+
 <div class="container2">
+
+    <div class="contentContainer" style="padding: 5px;">
+        <a href="/blog-create">
+            <button type="button" id="createProject" class="abutton">Создать новостной блог</button>
+        </a>
+    </div>
+
     <div id="tab-container-news" class="tab-container-news">
         <ul class='etabs-news'>
             <li class='tab-news'><a href="#tabs1-news">Новости</a></li>

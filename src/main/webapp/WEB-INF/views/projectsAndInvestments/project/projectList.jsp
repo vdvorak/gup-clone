@@ -40,7 +40,9 @@
 
     <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
-    <body>
+
+    <%--<body>--%>
+
 
         <!--PAGE CONTENT START-->
         <div class="container2">
