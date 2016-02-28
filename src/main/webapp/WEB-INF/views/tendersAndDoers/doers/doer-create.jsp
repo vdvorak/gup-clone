@@ -128,8 +128,6 @@
 <script src="/resources/js/top-projects-block.js"></script>
 
 
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 <script>
 
   var imgId = '';
