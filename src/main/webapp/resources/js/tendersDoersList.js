@@ -43,13 +43,14 @@ $(document).ready(function () {
         for (var i in data) {
             $('.build-item-wrap').last().attr('style', 'display:;');
             $(".build-pic-wrap img").last().attr('src', findFirstImg(data[i].uploadFilesIds));
-            $(".build-pic-wrap a").last().attr('href', '/tender/' + data[i].id);
+            $(".build-pic-wrap").last().attr('href', '/tender/' + data[i].id);
             $(".build-item-text").last().html(data[i].body);
             $(".build-number").last().text(data[i].tenderNumber);
             $(".build-publish-date span").last().text(localDateTime(data[i].begin));
             $(".build-veiws span").last().text(data[i].visited);
             $(".build-proposal-count span").last().text(data[i].proposeNumber);
             $(".build-sum").last().text(data[i].expectedPrice);
+            $(".build-name-wrap").last().attr('href', '/tender/' + data[i].id);
             $(".build-name").last().text(data[i].title);
             $(".build-end").last().text(localDateTime(data[i].end));
             $('#tenders-start-block').append(firstTenderBlock);
@@ -77,26 +78,6 @@ $(document).ready(function () {
     var doersFO = {};
     doersFO.skip = 0;
     doersFO.limit = 5;
-
-    //function findFirstImg(arr) {
-    //    var url = '/resources/images/no_photo.jpg';
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //    var imgId = '';
-    //    for (var i in arr) {
-    //        if (arr[i] === 'pic1') {
-    //            imgId = i;
-    //            url = '/api/rest/fileStorage/DOER/file/read/id/' + imgId;
-    //            break;
-    //        }
-    //    }
-    //    return url;
-    //}
 
     function localDateTime(long) {
         long = new Date(parseInt(long));
