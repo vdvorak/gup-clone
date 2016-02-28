@@ -69,7 +69,7 @@ public class DialogueServiceImpl implements DialogueService {
     }
 
     @Override
-    public List<Dialogue> findDialogsForUserAndUpdateUnread(String currentUserId) {
+    public List<Dialogue> findDialogsForUser(String currentUserId) {
         Member member = new Member();
         member.setId(currentUserId);
         List<Dialogue> d1 = dr.findByMembersIn(member);
@@ -80,12 +80,13 @@ public class DialogueServiceImpl implements DialogueService {
     }
 
     @Override
-    public List<Dialogue> findDialogsForUser(String currentUserId) {
+    public List<Dialogue> findDialogsForUserSimple(String currentUserId){
         Member member = new Member();
         member.setId(currentUserId);
         List<Dialogue> d1 = dr.findByMembersIn(member);
         return d1;
     }
+
 
     @Override
     public void completeMembers(Dialogue dialogue) {

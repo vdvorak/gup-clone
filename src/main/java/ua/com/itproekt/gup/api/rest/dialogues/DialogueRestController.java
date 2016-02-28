@@ -142,13 +142,11 @@ public class DialogueRestController {
     @RequestMapping(value="/unread-msg/for-user-id/{id}",
             method=RequestMethod.POST)
     public String getUnreadMessagesForUser(@PathVariable("id") String userId) {
-        System.out.println("---------------------------in /unread-msg/for-user-id/{id} ---------------");
-        List<Dialogue> dialogues = dialogueService.findDialogues(new Member(userId));
+        List<Dialogue> dialogues = dialogueService.findDialogsForUserSimple(userId);
         String result = "";
         if(dialogues == null){
             return result;
         }
-
         Map<String, PrivateMessage> msgs = new HashMap<>();
         dialogues.stream().filter(d -> (d.getUnreadMsgCounter().get(userId) > 0))
                 .forEach(dialogue -> {
@@ -171,8 +169,6 @@ public class DialogueRestController {
                     msgs.put(dialogue.getId(), msg);
                 });
 
-
-
         ObjectMapper mapper = new ObjectMapper();
 
         try {
@@ -190,7 +186,7 @@ public class DialogueRestController {
             method=RequestMethod.POST
             )
     public ResponseEntity<List<Dialogue>> getAllDialogues(){
-        List<Dialogue> dialogues = dialogueService.findDialogsForUserAndUpdateUnread(getCurrentUserId());
+        List<Dialogue> dialogues = dialogueService.findDialogsForUser(getCurrentUserId());
         for(Dialogue d: dialogues){
             dialogueService.completeMembers(d);
         }

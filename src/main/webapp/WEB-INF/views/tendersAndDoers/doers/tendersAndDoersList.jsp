@@ -62,7 +62,10 @@
                         <!-- Добавь класс "visible" и ты узреешь номер -->
                         <span class="number visible">Номер тендера: <span class="build-number"></span> </span>
 
+                        <a class="build-name-wrap" href="#">
                         <div class="title build-name"></div>
+                        </a>
+
                         <div class="text build-item-text"></div>
                     </section>
                     <div class="bottomContent">

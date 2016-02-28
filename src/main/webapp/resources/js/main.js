@@ -25,7 +25,7 @@ $(document).ready(function () {
             });
     });
 
-    $('#noMoneyClose, #overlay, #noMoneyCloseRich').click(function () {
+    $('.brokeAss > button, #overlay, .richAss > form > #close').click(function () {
         $('#refill')
             .animate({opacity: 0, top: '45%'}, 200,
             function () {

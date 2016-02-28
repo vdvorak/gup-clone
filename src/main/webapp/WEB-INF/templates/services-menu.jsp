@@ -4,7 +4,10 @@
     <ul class="mid">
         <li>
             <a href="/offers" class="ads-p">Обьявления</a>
+
+            <a href="/offers">
             <div class="ads-img"></div>
+            </a>
             <ul class="dropUl">
                 <li><a class="ads-a1" href="#">Топ обьявлений</a></li>
                 <li><a class="ads-a1" href="#">Новые</a></li>
@@ -14,7 +17,9 @@
         </li>
         <li>
             <a href="/tenders" class="ads-p">Тендеры</a>
+            <a href="/tenders">
             <div class="ads-img2"></div>
+            </a>
             <ul class="dropUl">
                 <li><a class="ads-a1" href="#">Участвовать</a></li>
                 <li><a class="ads-a1" href="#">Исполнители</a></li>
@@ -24,7 +29,9 @@
         </li>
         <li>
             <a href="/project/list" class="ads-p">Проекты</a>
+            <a href="/project/list">
             <div class="ads-img3"></div>
+                </a>
             <ul class="dropUl">
                 <li><a class="ads-a1" href="/project/list?type=renovation">Реструкторизация</a></li>
                 <li><a class="ads-a1" href="/project/list?type=prototype">Готовый прототип</a></li>
@@ -34,7 +41,11 @@
         </li>
         <li>
             <a href="/blog-post/news?pageNumber=0" class="ads-p">Новости</a>
+
+            <a href="/blog-post/news?pageNumber=0">
             <div class="ads-img4"></div>
+            </a>
+
             <ul class="dropUl">
                 <li><a class="ads-a1" href="#">Киев</a></li>
                 <li><a class="ads-a1" href="#">Львов</a></li>
