@@ -433,6 +433,7 @@ Dialogs.open = function (id) {
 	$('html,body').animate({
 		scrollTop: $('.msAndNt').offset().top - Dialogs.dialogsScrollPositionOffset
 	}, 0)
+	Dialogs.form.find('.text').focus()
 }//Закрываем любой открытый диалог
 Dialogs.getId = function (obj) {
 	return obj.attr('data-id')
