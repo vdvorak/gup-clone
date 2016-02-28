@@ -42,7 +42,18 @@
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 <!--END 2nd section -->
 
+
+
+
 <div class="container2">
+
+    <div class="contentContainer" style="padding: 5px;">
+        <a href="/create-offer">
+            <button type="button" id="createProject" class="abutton">Создать объявление</button>
+        </a>
+    </div>
+
+
 
     <h2>ТОП обьявлений</h2>
 

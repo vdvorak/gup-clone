@@ -90,7 +90,7 @@ public class SupportDialogueRestController {
     @RequestMapping(value = "/dialogue/read/all",
             method = RequestMethod.POST)
     public ResponseEntity<List<Dialogue>> getAllDialogues() {
-        List<Dialogue> dialogues = dialogueService.findDialogsForUserAndUpdateUnread(StaticData.SUPPORT_DIALOGUES_ADMIN_ID);
+        List<Dialogue> dialogues = dialogueService.findDialogsForUser(StaticData.SUPPORT_DIALOGUES_ADMIN_ID);
         for (Dialogue d : dialogues) {
             dialogueService.completeMembers(d);
         }

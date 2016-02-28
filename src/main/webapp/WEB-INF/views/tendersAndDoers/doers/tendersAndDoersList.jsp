@@ -38,6 +38,16 @@
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
 <div class="container2">
+
+    <div class="contentContainer" style="padding: 5px;">
+        <a href="/tender-make">
+        <button type="button" id="createProject" class="abutton">Создать свой тендер</button>
+        </a>
+        <a href="/doer-create">
+        <button type="button" id="createInvestorPost" class="abutton">Создать исполнителя</button>
+        </a>
+    </div>
+
     <div class="doers">
         <ul class="projectsVSInvestments-block">
             <li class="projectsVSInvestments-btn projects" data-atab="projects"><a href="#tabs1-tenders">ТЕНДЕРЫ</a>
@@ -46,6 +56,8 @@
             <li class="projectsVSInvestments-btn investments" data-atab="investments"><a href="#tabs1-investment">ИСПОЛНИТЕЛИ</a>
             </li>
         </ul>
+
+
 
 
         <div id="tabs1-tenders">
@@ -62,7 +74,10 @@
                         <!-- Добавь класс "visible" и ты узреешь номер -->
                         <span class="number visible">Номер тендера: <span class="build-number"></span> </span>
 
+                        <a class="build-name-wrap" href="#">
                         <div class="title build-name"></div>
+                        </a>
+
                         <div class="text build-item-text"></div>
                     </section>
                     <div class="bottomContent">
