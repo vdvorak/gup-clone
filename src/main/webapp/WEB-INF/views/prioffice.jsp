@@ -176,15 +176,30 @@
                     <div class="arrowHide"></div>
                 </form>
             </div>
-            <div class="notifications" id="tab-notifications" ng-controller="notifications">
-                <a href="#" class="notify" ng-repeat="notify in notifies">
-                    <div class="persona">
-                        <img src="/resources/css/images/rupor.png" alt="" class="avatar">
-                        <div class="date">25.10.15</div>
-                    </div>
-                    <div class="text">{{getText(notify.type)}}</div>
-                    <div class="clearfix"></div>
-                </a>
+            <div class="notifications" id="tab-notifications">
+                <%--<a href="#" class="notify" ng-repeat="notify in notifies">--%>
+                    <%--<div class="persona">--%>
+                        <%--<img src="/resources/css/images/rupor.png" alt="" class="avatar">--%>
+                        <%--<div class="date">25.10.15</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="text">{{getText(notify.type)}}</div>--%>
+                    <%--<div class="clearfix"></div>--%>
+                <%--</a>--%>
+                <c:if test="${not empty events}">
+                    <c:forEach items="${events}" var="event">
+                        <a href="#" class="notify">
+                            <div class="persona">
+                                <img src="/resources/css/images/rupor.png" alt="" class="avatar">
+                                <%--<div class="date">${event.createdDate}</div>--%>
+                            </div>
+                            <div class="text">${event.type.toString()}</div>
+                            <div class="clearfix"></div>
+                        </a>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${empty events}">
+                    <p>у вас нет новых уведомлений</p>
+                </c:if>
             </div>
         </div>
         <div class="historyContainer">
@@ -192,33 +207,65 @@
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мои тендеры</div>
                 <div class="historyContent">
+                    <c:if test="${not empty tenders}">
+                        <c:forEach items="${tenders}" var="tender">
+                            <a class="historyItem" href="/tender/${tender.id}">${tender.title}</a>
+                        </c:forEach>
+                    </c:if>
+                    <c:if test="${empty tenders}">
+                        <p><a href="/tender-make">создать тендер</a></p>
+                    </c:if>
                 </div>
                 <div class="closeBox"></div>
-                <div class="arrow loader"></div>
+                <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional" id="myProjects" toggler="">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мои проекты</div>
                 <div class="historyContent">
+                    <c:if test="${not empty projects}">
+                        <c:forEach items="${projects}" var="project">
+                            <a class="historyItem" href="/project?id=${project.id}">${project.title}</a>
+                        </c:forEach>
+                    </c:if>
+                    <c:if test="${empty projects}">
+                        <p><a href="/createProject">создать проект</a></p>
+                    </c:if>
                 </div>
                 <div class="closeBox"></div>
-                <div class="arrow loader"></div>
+                <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional" id="myNews" toggler="">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мои новости</div>
                 <div class="historyContent">
+                    <c:if test="${not empty blogposts}">
+                        <c:forEach items="${blogposts}" var="n">
+                            <a class="historyItem" href="/blog/${n.id}">${n.title}</a>
+                        </c:forEach>
+                    </c:if>
+                    <c:if test="${empty blogposts}">
+                        <p><a href="/blog-create">создать новостной блог</a></p>
+                    </c:if>
                 </div>
                 <div class="closeBox"></div>
-                <div class="arrow loader"></div>
+                <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional" id="myOffers" toggler="">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мои обьявления</div>
                 <div class="historyContent">
+                    <c:if test="${not empty offers}">
+                        <c:forEach items="${offers}" var="offer">
+                            <a class="historyItem" href="/offer/${offer.id}">${offer.title}</a>
+                        </c:forEach>
+                    </c:if>
+                    <c:if test="${empty offers}">
+                        <p><a href="/blog-create">создать новостной блог</a></p>
+                    </c:if>
                 </div>
                 <div class="closeBox"></div>
-                <div class="arrow loader"></div>
+                <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional" id="myInvestments" toggler="">
                 <div class="historyIcon toggler"></div>
@@ -226,15 +273,18 @@
                 <div class="historyContent">
                 </div>
                 <div class="closeBox"></div>
-                <div class="arrow loader"></div>
+                <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional" id="myBalance" toggler="">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мой баланс</div>
                 <div class="historyContent">
+                    <c:forEach items="${balance}" var="b">
+                        <span class="historyItem"><span class="time">${b.dateTime}</span>: пополнено на ${b.amount} грн.</span>
+                    </c:forEach>
                 </div>
                 <div class="closeBox"></div>
-                <div class="arrow loader"></div>
+                <div class="arrow toggler"></div>
             </div>
         </div>
         <div class="clearfix"></div>

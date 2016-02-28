@@ -171,11 +171,19 @@ Nots.types = {
 	}
 }
 Nots.scope = null
-routerApp.controller('notifications', function($scope, $http, $window){
+/*routerApp.controller('notifications', function($scope, $http, $window){
 	Nots.scope = $scope
-})
+})*/
 loadingQueue.push(function(){
-	Nots.scope.getText = function (type) {
+	$('#myBalance .historyItem').each(function (num, e) {
+		var temp = $(e).find('.time')
+		temp.text(localDateTime(temp.text()))
+	})
+	$('.notifications .notify').each(function (num, e) {
+		var temp = $(e).find('.text')
+		temp.text(Nots.types[temp.text()].text)
+	})
+	/*Nots.scope.getText = function (type) {
 		return Nots.types[type].text
 	}
 	Nots.scope.notifies = []
@@ -185,7 +193,7 @@ loadingQueue.push(function(){
 	}, function(res){
 		Nots.scope.notifies = res.entities
 		Nots.scope.$apply()
-	})
+	})*/
 })
 
 var User = {}
@@ -691,7 +699,7 @@ ELoader.prototype.load = function () {
 }
 ELoader.templateDefault = $('<a class="historyItem" href="#">{title}</a>')
 loadingQueue.push(function(){
-	new ELoader({
+	/*new ELoader({
 		api: R.Libra().tenderService().tender().read().all,
 		id: 'myTenders'
 	}).load()
@@ -712,7 +720,7 @@ loadingQueue.push(function(){
 	new ELoader({
 		api: R.Libra().projectsAndInvestmentsService().investorPost().read().all,
 		id: 'myInvestments'
-	}).load()
+	}).load()*/
 
 	Toggler.init()
 	GBox.init()
