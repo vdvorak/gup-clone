@@ -39,7 +39,7 @@
 <div class="container2">
   <div class="tenderMake">
     <h1>РЕДАКТИРОВАНИЕ ТЕНДЕРА</h1>
-    <form action="#">
+    <form id="tender-make-form" action="#">
       <label for="EnterTheTitle">Введите название</label>
       <input type="text" id="EnterTheTitle" required value="${tender.title}">
       <label>Выберете отрасль</label>
@@ -94,7 +94,7 @@
         <textarea name="Description" id="Description"></textarea>
       </div>
 
-      <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
+      <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit" form="photoForm"></button></div>
       <img id="tender-btn-addDoc" src="/resources/images/clip.png" alt="clip">
 
       <div class="clearfix"></div>
@@ -115,11 +115,12 @@
         </ul>
       </div>
 
-      <button id="tender-btn-save" type="submit">Сохранить</button>
-    </form>
+      <button id="tender-btn-save" type="submit" form="tender-make-form">Сохранить</button>
 
-    <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
-      <input id="photoInput" type="file" style="display: none;" multiple="multiple">
+      <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
+        <input id="photoInput" type="file" style="display: none;" multiple="multiple">
+      </form>
+
     </form>
 
   </div>
@@ -743,9 +744,12 @@
   //--------------------------- End Take Value Cities -----------------------------------//
 
   //---------------------------- SUBMIT -----------------------------------------------------//
-  $('#tender-btn-save').click(function (event) {
+
+  $('#tender-make-form').submit(function (event) {
     var body = tinymce.activeEditor.getContent();
-    if(!body) return;
+    if(!body) {
+      return false;
+    }
 
     for(var key in imgsArr) {
       if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
