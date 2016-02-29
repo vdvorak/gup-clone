@@ -142,6 +142,7 @@ $(document).ready(function () {
         $(".downComments").hide('slow');
         $(".colNewsComments").show('slow');
         $(".colComments").css("width", "50%");
+
     });
 
     //
