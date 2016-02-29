@@ -129,6 +129,25 @@ $(document).ready(function () {
         $(".superFilter").show('slow');
     });
 
+    $('.bxsliderTender').bxSlider({
+        minSlides: 5,
+        maxSlides: 5,
+        slideWidth: 140,
+        slideMargin: 20
+    });
+
+    //
+
+    $(".descriptionTitleRight a").click(function(event){
+        event.preventDefault();
+        $(".superFilter").show('slow');
+    });
+
+    $(".descriptionTitleLeft a").click(function(event){
+        event.preventDefault();
+        $(".superFilter").show('slow');
+    });
+
     $('#header_money_amount').on('input', function () {
         $.ajax({
             url: '/account/getLiqPayParam',
