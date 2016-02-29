@@ -42,36 +42,97 @@
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 <!--END 2nd section -->
 
-
-
-
 <div class="container2">
-
-    <div class="contentContainer" style="padding: 5px;">
-        <a href="/create-offer">
-            <button type="button" id="createProject" class="abutton">Создать объявление</button>
-        </a>
-    </div>
-
-
-
-    <h2>ТОП обьявлений</h2>
+    <h2 class="title-h2-blue text-center">ТОП обьявлений</h2>
 
     <ul class="notice-box">
+        <li>
+            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
+            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
+            <span>Просмотров: 222</span>
+        </li>
+        <li>
+            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic1.jpg" alt="">Заголовок</a>
+            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
+            <span>Просмотров: 222</span>
+        </li>
+        <li>
+            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic2.jpg" alt="">Заголовок</a>
+            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
+            <span>Просмотров: 222</span>
+        </li>
+        <li>
+            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic3.jpg" alt="">Заголовок</a>
+            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
+            <span>Просмотров: 222</span>
+        </li>
+        <li>
+            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic4.jpg" alt="">Заголовок</a>
+            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
+            <span>Просмотров: 222</span>
+        </li>
     </ul>
-    <!-- li pattern for clone -->
-    <li id="li-offer-basic" style="display:none">
-        <a href="#" class="image"><img src="/resources/images/no_photo.jpg" alt=""><p>Заголовок обьявления</p></a>
-        <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-        <span>Просмотров: 222</span>
-    </li>
-    <!-- li pattern for clone -->
-    <div class="contentContainer" style="margin-top: 5px">
-        <img class="projAndInvestCaretDown" id="btn-offers-more" src="/resources/images/caret.png" alt="caret">
-    </div>
 
-    <div class="feedFooter"></div>
+    <ul class="notice-box">
+        <li>
+            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
+            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
+            <span>Просмотров: 222</span>
+        </li>
+        <li>
+            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
+            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
+            <span>Просмотров: 222</span>
+        </li>
+        <li>
+            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
+            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
+            <span>Просмотров: 222</span>
+        </li>
+        <li>
+            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
+            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
+            <span>Просмотров: 222</span>
+        </li>
+        <li>
+            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
+            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
+            <span>Просмотров: 222</span>
+        </li>
+    </ul>
+
+
+    <p>&nbsp;</p>
 </div>
+
+
+<%--<div class="container2">--%>
+
+    <%--<div class="contentContainer" style="padding: 5px;">--%>
+        <%--<a href="/create-offer">--%>
+            <%--<button type="button" id="createProject" class="abutton">Создать объявление</button>--%>
+        <%--</a>--%>
+    <%--</div>--%>
+
+
+
+    <%--<h2>ТОП обьявлений</h2>--%>
+
+    <%--<ul class="notice-box">--%>
+    <%--</ul>--%>
+    <%--<!-- li pattern for clone -->--%>
+    <%--<li id="li-offer-basic" style="display:none">--%>
+        <%--<a href="#" class="image"><img src="/resources/images/no_photo.jpg" alt=""><p>Заголовок обьявления</p></a>--%>
+        <%--<a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>--%>
+        <%--<span>Просмотров: 222</span>--%>
+    <%--</li>--%>
+    <%--<!-- li pattern for clone -->--%>
+    <%--<div class="contentContainer" style="margin-top: 5px">--%>
+        <%--<img class="projAndInvestCaretDown" id="btn-offers-more" src="/resources/images/caret.png" alt="caret">--%>
+    <%--</div>--%>
+
+    <%--<div class="feedFooter"></div>--%>
+<%--</div>--%>
 
 
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
