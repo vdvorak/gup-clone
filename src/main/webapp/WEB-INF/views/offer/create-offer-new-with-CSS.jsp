@@ -557,7 +557,7 @@
 
     function countTextLength() {
         var counter = $("#p-textlength");
-        var currentString = $("textarea").val();
+        var currentString = $("#new-label-3").val();
         counter.text("Количество символов: " + currentString.length);
         if (currentString.length <= 50) {  /*or whatever your number is*/
             counter.css("color", "red");
