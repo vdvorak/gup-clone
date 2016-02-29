@@ -686,11 +686,14 @@ color: white;
 
 .projectContent .contentHeader {
     position: relative;
-    background-color: #99cc66;
+    /*background-color: #99cc66;*/
+    border: 2px solid #1269a7;
     border-radius: 10px;
     padding: 10px 47px;
     margin: 0 48px;
     height: 283px;
+    width: 730px;
+    overflow: hidden;
 }
 
 .projectContent .leftSec {
