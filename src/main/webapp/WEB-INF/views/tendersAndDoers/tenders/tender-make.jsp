@@ -38,7 +38,7 @@
 <div class="container2">
     <div class="tenderMake">
         <h1>СОЗДАНИЕ ТЕНДЕРА</h1>
-        <form action="#">
+        <form id="tender-make-form" action="#">
             <label for="EnterTheTitle">Введите название</label>
             <input type="text" id="EnterTheTitle" required>
             <label>Выберете отрасль</label>
@@ -93,7 +93,7 @@
                 <textarea name="Description" id="Description"></textarea>
             </div>
 
-            <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
+            <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit" form="photoForm"></button></div>
             <img id="tender-btn-addDoc" src="/resources/images/clip.png" alt="clip">
 
             <div class="clearfix"></div>
@@ -119,11 +119,12 @@
             <img src="/resources/images/doerLogo.png" alt="doerLogo">
             <img src="/resources/images/doerLogo.png" alt="doerLogo">
             <img src="/resources/images/doerLogo.png" alt="doerLogo">--%>
-            <button id="tender-btn-save" type="submit">Сохранить</button>
-        </form>
+            <button id="tender-btn-save" type="submit" form="tender-make-form">Сохранить</button>
 
-        <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
-            <input id="photoInput" type="file" style="display: none;" multiple="multiple">
+            <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
+                <input id="photoInput" type="file" style="display: none;" multiple="multiple">
+            </form>
+
         </form>
 
     </div>
@@ -658,15 +659,15 @@
 
 
     //---------------------------- SUBMIT -----------------------------------------------------//
-    $('#tender-btn-save').click(function (event) {
 
+    $('#tender-make-form').submit(function (event) {
         var body = tinymce.activeEditor.getContent();
-        if(!body) return;
+        if(!body) return false;
 
         var tender = {};
         tender.uploadFilesIds = imgsArr;
         tender.title = $('#EnterTheTitle').val();
-        tender.body = body;
+        tender.body = tinymce.activeEditor.getContent();
         tender.tenderNumber = $('#TenderNumber').val();
 //        tender.begin = new Date($('#datepicker').val()).getTime();
 //        tender.end = new Date($('#datepicker2').val()).getTime();

@@ -4,8 +4,15 @@
 
 .contentContainer {
     position: relative;
-    border-radius: 10px;
-    border: 4px #99cc66 solid;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    padding: 10px;
+}
+
+.contentContainer:after {
+    content: '';
+    clear: both;
+    display: table;
 }
 
 .feedContainer .feedFooter {
@@ -17,10 +24,6 @@
 .projectsVSInvestments-block {
     position: relative;
     height: 87px;
-}
-.projAndInvestCaretDown {
-    cursor: pointer;
-    padding: 10px 408px;
 }
 
 .projectsVSInvestments-btn {
@@ -139,8 +142,8 @@
     right: 0;
     color: #545454;
     font: 11px DroidSans;
-    /*font-style: italic;*/
-    padding: 5px 20px;
+    font-style: italic;
+    padding: 0 5px;
 }
 
 .projectFeedContainer .feedItem {
@@ -164,8 +167,7 @@
     border: 1px #99cc66 solid;
 }
 
-.projectFeedContainer .feedItem .preview .likes,
-.projectContent .projectRating .likes {
+.projectFeedContainer .feedItem .preview .likes {
     position: absolute;
     bottom: 5px;
     right: 12px;
@@ -174,34 +176,24 @@
     padding: 2px 5px;
     /*cursor: pointer;*/
 }
-.projectContent .projectRating .likes {
-    position: relative;
-    float: right;
-    margin-top: 10px;
-    margin-left: 30px;
-}
 
 
-/*.projectFeedContainer .feedItem .preview .likes:hove,
-.projectContent .projectRating .likes:hover{
-background-color: #36aae0;
+/*.projectFeedContainer .feedItem .preview .likes:hover{
+    background-color: #36aae0;
 }*/
 
 
-/*.projectFeedContainer .feedItem .preview .likes:hover .numbe,
-.projectContent .projectRating .likes:hover .number{
-color: white;
+/*.projectFeedContainer .feedItem .preview .likes:hover .number{
+    color: white;
 }*/
 
-.projectFeedContainer .feedItem .preview .likes .number,
-.projectContent .projectRating .likes .number {
+.projectFeedContainer .feedItem .preview .likes .number {
     color: #36aae0;
     margin-right: 20px;
     font: 14px DroidSans;
 }
 
-.projectFeedContainer .feedItem .preview .likes .hearthPlace,
-.projectContent .projectRating .likes .hearthPlace {
+.projectFeedContainer .feedItem .preview .likes .hearthPlace {
     position: absolute;
     background: url(images/projectsFeed/hearthPlace.png);
     width: 33px;
@@ -210,24 +202,13 @@ color: white;
     top: -7px;
 }
 
-.projectFeedContainer .feedItem .preview .likes .hearthPlace .hearth,
-.projectContent .projectRating .likes .hearthPlace .hearth {
+.projectFeedContainer .feedItem .preview .likes .hearthPlace .hearth {
     position: absolute;
     top: 8px;
     left: 6px;
     width: 21px;
     height: 19px;
     background: url(images/projectsFeed/hearth.png);
-}
-.projectContent .projectRating .abutton.vote {
-    display: block;
-    float: left;
-}
-.projectContent .projectRating .ratingSelector {
-    display: block;
-    float: left;
-    margin: 0 5px;
-    margin-top: 5px;
 }
 
 .projectFeedContainer .content {
@@ -246,8 +227,6 @@ color: white;
     color: #242424;
     font: 14px Calibri;
     text-indent: 40px;
-    max-height: 100px;
-    overflow: hidden;
 }
 
 .projectFeedContainer .bottomContent,
@@ -328,7 +307,6 @@ color: white;
 
 .investmentsFeedContainer .feedItem {
     border-color: #1269a7;
-    height: 178px;
 }
 
 .investmentsFeedContainer .feedItem .photo,
@@ -351,9 +329,9 @@ color: white;
 .investmentsFeedContainer .feedItem .content,
 .tenders .feedItem .content {
     position: absolute;
-    left: 5px;
+    left: 184px;
     top: 10px;
-    width: 400px;
+    width: 271px;
     padding-left: 10px;
 }
 .tenders .feedItem .content {
@@ -362,18 +340,25 @@ color: white;
     width: 610px;
 }
 
-.investmentsFeedContainer .feedItem .content .desc {
-    padding-left: 100px;
+.investmentsFeedContainer .feedItem .content .title,
+.tenders .feedItem .content .title {
     color: #1269a7;
-    font: 18px Calibri;
+    font: 19px ArianAMU;
+}
+
+.investmentsFeedContainer .feedItem .content .desc {
+    padding-left: 20px;
+    color: #bfc4c7;
+    font: 12px Calibri;
+    padding-left: 5px;
 }
 
 .investmentsFeedContainer .feedItem .content .text,
 .tenders .feedItem .content .text {
     color: #828a8f;
-    font: 14px Calibri;
+    font: 13px Calibri;
     text-indent: 20px;
-    max-height: 106px;
+    max-height: 108px;
     overflow: hidden;
 }
 .tenders .feedItem .content .text {
@@ -382,8 +367,8 @@ color: white;
 
 .investmentsFeedContainer .feedItem .cats {
     position: absolute;
-    left: 420px;
-    top: 34px;
+    left: 460px;
+    top: 45px;
     width: 220px;
     padding-left: 10px;
 }
@@ -399,7 +384,7 @@ color: white;
 
 .investmentsFeedContainer .feedItem .cats ul li a {
     color: #2c95b5;
-    font: 14px Calibri;
+    font: 16px Calibri;
     line-height: 10px;
 }
 
@@ -410,26 +395,19 @@ color: white;
 .investmentsFeedContainer .feedItem .details {
     position: absolute;
     right: 19px;
-    top: 26px;
-    width: 224px;
+    top: 50px;
+    width: 164px;
     padding-left: 10px;
 }
 
 .investmentsFeedContainer .feedItem .details .canInvest {
-    /*height: 48px;*/
+    height: 48px;
     background-color: #ffed33;
     color: #2c95b5;
-    font: 18px Calibri;
+    font: 20px Calibri;
     font-weight: bold;
     text-align: center;
-    /*padding-top: 12px;*/
-}
-
-.investmentsFeedContainer .feedItem .content .title,
-.investmentsFeedContainer .feedItem .details .title {
-    color: #1269a7;
-    font: 14px ArianAMU;
-    padding: 5px 0px;
+    padding-top: 12px;
 }
 
 .investmentsFeedContainer .feedItem .details .alreadyInvested {
@@ -441,7 +419,8 @@ color: white;
 
 .investmentsFeedContainer .feedItem .details .alreadyInvested .desc {
     color: #828a8f;
-    font: 14px Calibri;
+    font: 9px Calibri;
+    padding-left: 5px;
 }
 
 .investmentsFeedContainer .feedItem .details .alreadyInvested .total {
@@ -472,7 +451,7 @@ color: white;
 }
 
 .editor form.investor,
-.editor div.project {
+.editor form.project {
     position: relative;
     padding-top: 50px;
     padding-left: 67px;
@@ -485,23 +464,9 @@ color: white;
     min-height: 23px;
 }
 
-.delete-btn {
-    background-color: #C3212D;
-    width: 190px;
-    height: 32px;
-    border-radius: 5px;
-    color: #ffffff;
-    font: 400 21px ArianAMU;
-    border: 0;
-    float: left;
-    margin-bottom: 22px;
-    /*-webkit-transition: all 0.25s;*/
-    /*transition: all 0.25s;*/
-}
-
 .editor .editorLabel {
     float: left;
-    width: 200px;
+    width: 160px;
     text-align: left;
     color: #9e9e9e;
     font: 17px DroidSans;
@@ -512,8 +477,8 @@ color: white;
     color: #ed4423;
 }
 
-.editor div.project .editorLabel {
-    width: 160px;
+.editor form.project .editorLabel {
+    width: 90px;
 }
 
 .editor .editorInput {
@@ -538,17 +503,17 @@ color: white;
     width: 553px;
 }
 
-/*.editor form.investor .sum .editorLabel {*/
-/*width: 70px;*/
-/*}*/
+.editor form.investor .sum .editorLabel {
+    width: 70px;
+}
 
 .editor form.investor .sum .editorInput {
     width: 292px;
 }
 
-/*.editor form.investor .sum {*/
-/*padding-left: 165px;*/
-/*}*/
+.editor form.investor .sum {
+    padding-left: 165px;
+}
 
 .editor .field .currency {
     position: relative;
@@ -562,49 +527,49 @@ color: white;
     margin-top: 100px;
 }
 
-.editor div.project .field.description {
+.editor form.project .field.description {
     margin-top: 70px;
 }
 
 .editor form.investor .field.description .editorLabel,
-.editor div.project .field.description .editorLabel {
+.editor form.project .field.description .editorLabel {
     width: 90px;
 }
 
 .editor form.investor .field.description .editorInput,
-.editor div.project .field.description .editorInput {
-    width: 670px;
+.editor form.project .field.description .editorInput {
+    width: 642px;
     height: 242px;
 }
 
-.editor div.project .tit .editorInput {
+.editor form.project .tit .editorInput {
     width: 554px;
 }
 
-.editor div.project .projType .editorLabel {
+.editor form.project .projType .editorLabel {
     width: 120px;
 }
 
-/*.editor form.project .field.projType .radioGroup {*/
-/*margin-left: 220px;*/
-/*}*/
+.editor form.project .field.projType .radioGroup {
+    margin-left: 220px;
+}
 
-.editor div.project .field.projType .radioGroup .column {
+.editor form.project .field.projType .radioGroup .column {
     display: inline-block;
     width: 140px;
     margin-left: 60px;
 }
 
-.editor div.project .field.projType .radioGroup .column .row {
+.editor form.project .field.projType .radioGroup .column .row {
     width: 150px;
     margin-bottom: 16px;
 }
 
-.editor div.project .field.projType .radioGroup .label-checkbox {
+.editor form.project .field.projType .radioGroup .label-checkbox {
     float: right;
 }
 
-.editor div.project .field.projType .radioGroup label {
+.editor form.project .field.projType .radioGroup label {
     line-height: 35px;
 }
 
@@ -634,49 +599,32 @@ color: white;
 
 .projectContent .topSection {
     position: relative;
-    height: 12px;
-    margin: 10px 48px;
+    height: 40px;
 }
 
 .projectContent .bottomSection {
-    margin: 15px 50px;
+    margin: 15px 0;
 }
 
-.projectsCommentsForm {
-    width: 345px;
-    margin: 0 auto;
-}
-
-.projectsFormComments {
-    height: 126px;
-    width: 100%;
-    resize: none;
-    font: 400 14px DroidSans;
-    padding: 15px;
-    border-radius: 5px;
-    border: 0;
-}
 .projectContent .topSection .abutton.invest,
 .projectContent .bottomSection .abutton.invest {
     float: right;
 }
 
 .projectContent .topSection .statInfo {
-    position: relative;
+    float: left;
 }
 
 .projectContent .topSection .statInfo .publish {
     color: #545454;
     font: 12px DroidSans;
-    /*font-style: italic;*/
-    float: right;
+    font-style: italic;
 }
 
 .projectContent .topSection .statInfo .views {
     color: #545454;
-    font: 12px DroidSans;
-    /*font-style: italic;*/
-    float: left;
+    font: 11px DroidSans;
+    font-style: italic;
 }
 
 .projectContent .contentHeader {
@@ -705,7 +653,7 @@ color: white;
 }
 
 .projectContent .contentHeader .author {
-    font-size: 12px;
+    font-size: 10px;
     padding-left: 5px;
 }
 
@@ -759,7 +707,7 @@ color: white;
     text-indent: 20px;
     text-align: justify;
     color: #828a8f;
-    font: 14px Calibri;
+    font: 12px Calibri;
 }
 
 .projectContent .commentsSection {
@@ -771,12 +719,7 @@ color: white;
 
 .projectContent .commentsSection .count {
     color: #464646;
-    font: 12px Calibri;
-}
-.projectContent .projectRating {
-    position: relative;
-    float: right;
-    height: 50px;
+    font: 8px Calibri;
 }
 
 .greenBox {
@@ -809,8 +752,7 @@ color: white;
     cursor: pointer;
 }
 
-.greenBox .arrow.toggler,
-.greenBox .arrow.loader{
+.greenBox .arrow.toggler {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -888,7 +830,6 @@ color: white;
 .sideBlock .mainInfo .name {
     color: #1269a7;
     font: 20px DroidSansBold;
-    max-width: 100px;
 }
 
 .sideBlock .mainInfo .photo {
@@ -896,7 +837,6 @@ color: white;
     width: 198px;
     height: 207px;
     cursor: pointer;
-    overflow: hidden;
 }
 
 .sideBlock .mainInfo .photo img {
@@ -1117,9 +1057,9 @@ color: white;
 
 .contactsMain .contactsContainer {
     position: relative;
-    max-height: 130px;
+    max-height: 110px;
     padding: 0 15px;
-    padding-bottom: 30px;
+    padding-bottom: 25px;
     margin-top: -7px;
     background-color: #fff;
     font-size: 21px;
@@ -1132,11 +1072,6 @@ color: white;
 .contactsContainer.toggled {
     max-height: 999px;
 }
-.contactsContainer .noFinded {
-    color: #68717a;
-    font: 14px DroidSans;
-    text-align: center;
-}
 
 .contactsContainer .persona {
     position: relative;
@@ -1144,7 +1079,6 @@ color: white;
     width: 58px;
     height: 70px;
     margin-top: 10px;
-    margin-right: 7px;
 }
 
 .contactsContainer .persona .photo {
@@ -1154,7 +1088,6 @@ color: white;
     height: 58px;
     border: 2px solid;
     border-radius: 5px;
-    overflow: hidden;
 }
 
 .contactsContainer .persona .photo img {
@@ -1175,7 +1108,7 @@ color: white;
 
 .contactsContainer .persona .photo .name {
     position: absolute;
-    top: 57px;
+    bottom: -12px;
     color: #68717a;
     font: 7px DroidSans;
     text-align: center;
@@ -1329,13 +1262,6 @@ color: white;
     padding-bottom: 10px;
     float: left;
 }
-.msAndNt .messages .dialog .msg .persona {
-    pointer-events: none;
-}
-.msAndNt .messages .dialog.opened .msg .persona {
-    cursor: pointer;
-    pointer-events: auto;
-}
 
 .msAndNt .messages .dialog .msg.myself .persona {
     float: right;
@@ -1353,9 +1279,8 @@ color: white;
 .msAndNt .messages .dialog .msg .persona .date,
 .msAndNt .notifications .notify .persona .date {
     position: absolute;
-    width: 100%;
-    text-align: center;
     top: 50px;
+    right: 9px;
     left: auto;
     color: #828a8f;
     font: 8px DroidSans;
@@ -1573,18 +1498,20 @@ color: white;
     background-color: red;
     width: 36px;
     height: 40px;
-    right: 50px;
+    right: 150px;
     top: -28px;
     background: url(images/tenderClock.png) no-repeat;
+    z-index: -1;
 }
 .tenders .participate .clock .time,
 .tenderContent .participate .clock .time {
     position: absolute;
     background-color: #99cc66;
     border-radius: 4px;
-    width: 38px;
+    width: 140px;
     height: 17px;
-    right: -39px;
+    line-height: 17px;
+    right: -150px;
     top: 7px;
     color: #1269a7;
     font: 12px DroidSans;
@@ -1736,13 +1663,13 @@ color: white;
 
 
 /*.vip .abutton {
-border-color: #36aae0;
-background-color: #36aae0;
+    border-color: #36aae0;
+    background-color: #36aae0;
 }
 
 .vip .abutton:hover {
-background-color: white;
-color: #36aae0;
+    background-color: white;
+    color: #36aae0;
 }*/
 
 .investmentsFeedContainer .feedItem.vip .content .title {

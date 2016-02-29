@@ -41,6 +41,16 @@ public class TenderController {
         return "tendersAndDoers/tenders/tenders";
     }
 
+
+    // ToDo Delete in the future   // ToDo Delete in the future
+    @RequestMapping("/tender-old/{id}")
+    public String getOldTender(@PathVariable String id, Model model) {
+        model.addAttribute("id", id);
+        return "tendersAndDoers/tenders/tender-OLD";
+    }
+
+
+
     @RequestMapping("/tender/{id}")
     public String getTender(@PathVariable String id, Model model) {
         model.addAttribute("id", id);

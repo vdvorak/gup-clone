@@ -132,6 +132,13 @@ public class OfferController {
         return "offer/create-offer";
     }
 
+
+    // ToDo Delete in the future
+    @RequestMapping(value = "/create-offer-old", method = RequestMethod.GET)
+    public String createOldOffer(Model model) {
+        return "offer/create-offer-new-with-CSS";
+    }
+
     //----------------------------------- one certain offer  ------
     @RequestMapping(value = "/edit-offer/{id}", method = RequestMethod.GET)
     public String getOffer(Model model, @PathVariable("id") String id) {
