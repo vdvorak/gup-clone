@@ -6,19 +6,13 @@ import java.util.Date;
 import java.util.Set;
 
 public class UserProfile {
-    private Long birthDate;
-    private String legalEntityLocation; //Місцезнаходження юридичної особи
     private String usreou; //ЄДРПОУ
-    private String beneficiaryAccount; //Рахунок отримувача
     private String bankCode; //МФО
-    private String beneficiaryBank; //Назва банку
     private String vatNumber; //ІПН
+    private String beneficiaryBank; //Назва банку
+    private String beneficiaryAccount; //Рахунок отримувача
+    private String legalEntityLocation; //Місцезнаходження юридичної особи
     private Set<String> idAddFile;
-
-    public UserProfile setBirthDate(Long birthDate) {
-        this.birthDate = birthDate;
-        return this;
-    }
 
     public UserProfile setLegalEntityLocation(String legalEntityLocation) {
         this.legalEntityLocation = legalEntityLocation;
@@ -55,10 +49,6 @@ public class UserProfile {
         return this;
     }
 
-    public Long getBirthDate() {
-        return birthDate;
-    }
-
     public String getLegalEntityLocation() {
         return legalEntityLocation;
     }
@@ -90,7 +80,6 @@ public class UserProfile {
     @Override
     public String toString() {
         return "UserProfile{" +
-                "birthDate=" + birthDate +
                 ", legalEntityLocation='" + legalEntityLocation + '\'' +
                 ", usreou='" + usreou + '\'' +
                 ", beneficiaryAccount='" + beneficiaryAccount + '\'' +

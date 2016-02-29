@@ -11,33 +11,60 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Document(collection = "users")
 public class Profile {
-
     @Id
     private String id;
-    private Boolean confirmModerator;
-    private String idWord;
-    private String mainPhoneNumber;
-    private String username;
     private String email;
     private String password;
+    private String mainPhoneNumber;
     private Set<UserRole> userRoles;
-    private UserProfile userProfile;
-    private Contact contact;
-    private Integer point;
-    private Set<ProfileRating> profileRating;
-    private Set<String> contactList;
-    private Long createdDate;
+    private Boolean confirmModerator;
+
+    private String idWord;
+    private String username;
     private Integer unreadMessages;
+
+    private Integer point;
+    private Contact contact;
+    private UserProfile userProfile;
+    private Set<String> contactList;
+    private Set<ProfileRating> profileRating;
+
+    private Long birthDate;
+    private Long createdDate;
+    private Long lastLoginDate;
 
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
     }
 
-    //*********************************************************************
+    public Profile setLastLoginDateEqualsToCurrentDate() {
+        this.lastLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        return this;
+    }
 
     public Profile setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
+    }
+
+    //*********************************************************************
+
+    public Long getBirthDate() {
+        return birthDate;
+    }
+
+    public Profile setBirthDate(Long birthDate) {
+        this.birthDate = birthDate;
+        return this;
+    }
+
+    public Profile setLastLoginDate(Long lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
+        return this;
+    }
+
+    public Long getLastLoginDate() {
+        return lastLoginDate;
     }
 
     public Boolean getConfirmModerator() {
