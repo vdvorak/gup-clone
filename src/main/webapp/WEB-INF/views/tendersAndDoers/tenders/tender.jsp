@@ -44,23 +44,20 @@
 
 
 <!--PAGE CONTENT START-->
-
 <div class="container2">
-    <!-- Add "vip" class for "vip" users :3 -->
-    <div class="contentContainer" style="margin-top: 100px;">
+    <div class="contentContainer" style="margin-top: 100px;"> <!-- Add "vip" class for "vip" users :3 -->
         <div class="tenderContent">
             <div class="topSection">
                 <div class="statInfo">
                     <div class="publishDate">Опубликовано: 22. 10. 16</div>
                     <span class="number visible">№953745195</span>
-
                     <div class="sum">00 000 000$</div>
                 </div>
                 <div class="clearfix"></div>
                 <div class="tenderButtons">
                     <div class="participate">
                         <div class="clock">
-                            <div class="time">15</div>
+                            <div class="time">31 января 2016 г., 23:35</div>
                         </div>
                         <button type="button" class="abutton blue">Участвовать</button>
                     </div>
@@ -69,48 +66,47 @@
             </div>
             <div class="clearfix"></div>
             <div class="title">Название тендера</div>
-            <img src="/resources/css/images/sample/tender1.png" alt="" class="mainPhoto">
+            <%--<img src="/resources/css/images/sample/tender1.png" alt="" class="mainPhoto">--%>
+            <p class="text tender-item-text">
 
-            <p class="text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc malesuada molestie euismod. In vulputate
-                mi dictum orci vulputate auctor. Fusce sit amet orci suscipit neque lacinia pulvinar nec in est. Proin
-                neque ante, elementum at maximus a, luctus nec diam. Mauris convallis tellus nec sapien accumsan, quis
-                posuere odio congue. Etiam eu tincidunt arcu, pellentesque euismod odio. Class aptent taciti sociosqu ad
-                litora torquent per conubia nostra, per inceptos himenaeos. Donec gravida dolor ac laoreet ultrices.
-                Praesent ut turpis sit amet ante interdum vulputate ultricies ac neque. Maecenas placerat tortor magna,
-                quis consequat turpis feugiat non. Nunc vel ultricies metus. Morbi facilisis maximus augue, sed sagittis
-                ligula tincidunt at. Mauris sed vestibulum sapien. Fusce ut iaculis sem. Nulla vitae lacus enim. Etiam
-                malesuada ex at velit faucibus ultricies. Nunc quis tincidunt urna. Sed a erat faucibus, sodales velit
-                at, lacinia massa. Aliquam porta at libero et gravida. Vivamus viverra ut odio blandit posuere. Nam
-                sagittis justo at elit ornare dignissim. Maecenas eros tortor, sollicitudin non aliquet id, blandit id
-                velit. Aenean scelerisque feugiat lacus eget mattis. Etiam convallis lacinia mauris at aliquam. Ut in
-                nibh nisi. Nam tincidunt sollicitudin enim nec aliquet. Cras consectetur vitae erat eget porta. Aenean
-                efficitur eget dolor nec suscipit. Curabitur sit amet tellus nec lorem maximus lobortis euismod quis
-                libero. Donec molestie nibh ac consequat auctor. Aliquam sagittis blandit mauris. Phasellus eu ornare
-                nisi. Aenean sagittis vestibulum pellentesque. Nam venenatis condimentum sapien, sed ornare neque porta
-                fringilla. Vestibulum quis eleifend lacus, in molestie nulla. Suspendisse potenti. Sed rutrum tortor sit
-                amet tortor gravida sollicitudin. Phasellus quis condimentum lectus. Quisque sapien eros, tristique et
-                venenatis ultrices, volutpat vitae libero. In velit enim, tristique quis est feugiat, interdum laoreet
-                augue. Sed maximus sollicitudin neque non sodales. Vestibulum tempus mauris neque, eu pretium sa
             </p>
-
             <div class="bottomSection">
                 lololololololo i'm bottom section)))))azzaz
             </div>
 
         </div>
+        <div class="sliderTender">
+            <ul class="bxsliderTender">
+                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider" /></li>
+                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider" /></li>
+                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider" /></li>
+                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider" /></li>
+                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider" /></li>
+                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider" /></li>
+            </ul>
+        </div>
+        <div class="tenderFils">
+            <a href="#">doc.exel</a>
+            <a href="#">system.docx</a>
+            <a href="#">doc.exel</a>
+            <a href="#">system.docx</a>
+            <a href="#">doc.exel</a>
+            <a href="#">system.docx</a>
+            <a href="#">doc.exel</a>
+            <a href="#">system.docx</a>
+        </div>
+        <div class="tenderMap">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2534.961160242289!2d30.466304515735114!3d50.5534922794897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4d31f1b52061f%3A0x7e2e7b1a78ac5cb7!2z0LLRg9C7LiDQodCw0LTQvtCy0LAsINCa0LjRl9Cy!5e0!3m2!1sru!2sua!4v1456576844954" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+        <div class="downComments"><p>КОММЕНТАРИИ</p></div>
     </div>
-
-    <div class="downComments"><p>КОММЕНТАРИИ</p></div>
 
     <div class="colNewsComments">
         <div class="newsComments">
             <div class="clearfix"></div>
             <p class="newsCommentsHeader">ПРЕДЛОЖЕНИЯ</p>
-
             <form action="#" role="form" id="newsCommentsForm">
-                <textarea name="newsFormComments" id="newsFormComments" placeholder="Введите свой комментарий"
-                          maxlength="2000" required></textarea>
+                <textarea name="newsFormComments" id="newsFormComments" placeholder="Введите свой комментарий" maxlength="2000" required></textarea>
                 <button type="submit" class="newsFormSubmit">Отправить</button>
             </form>
             <p id="chars">2000 символов осталось</p>
@@ -120,21 +116,16 @@
         <div class="comments">
             <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
             <a class="NameUser" href="#">Вася Петров</a>
-
-            <p class="commentUser">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui quisquam, voluptate at
-                magni neque. Ab illum hic asperiores voluptate voluptatem. Optio alias, numquam sint delectus quod
-                recusandae dolores tempora. Aliquam!</p>
+            <p class="commentUser">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui quisquam, voluptate at magni neque. Ab illum hic asperiores voluptate voluptatem. Optio alias, numquam sint delectus quod recusandae dolores tempora. Aliquam!</p>
         </div>
         <div class="comments">
             <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
             <a class="NameUser" href="#">Вася Петров</a>
-
             <p class="commentUser">Интересно было узнать, история повторяется циклично!</p>
         </div>
     </div>
     <div class="clearfix"></div>
 </div>
-
 <!--PAGE CONTENT END-->
 
 
@@ -264,6 +255,9 @@
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
+
+<script src="/resources/js/moment-with-locales.js"></script>
+<script src="/resources/js/service.js"></script>
 
 <script>
 
