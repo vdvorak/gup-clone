@@ -38,7 +38,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .setTotalVoters(0)
                 .setTotalComments(0)
                 .setCreatedDateEqualsToCurrentDate()
-                .setModerationStatus(ModerationStatus.NO)
+                .setModerationStatus(ModerationStatus.COMPLETE)
                 .setStatus(ProjectStatus.ACTIVE)
                 .setLastInvestmentDateEqualsToCurrentDate()
                 .updateExpirationDateAt20Days()
@@ -138,8 +138,13 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public boolean userHasVoted(String projectId, String userId) {
-        return projectRepository.userHasVoted(projectId, userId);
+    public boolean userHasVoted(String projectId, String profileId) {
+        return projectRepository.userHasVoted(projectId, profileId);
+    }
+
+    @Override
+    public boolean userHasCommentedProject(String projectId, String profileId) {
+        return projectRepository.userHasCommentedProject(projectId, profileId);
     }
 
     @Override

@@ -56,7 +56,6 @@ public class InvestorPostRestController {
     public ResponseEntity<CreatedObjResp> createInvestorPost(@Valid @RequestBody InvestorPost investorPost) {
 
         String userId = SecurityOperations.getLoggedUserId();
-
         investorPost.setuId(userId);
         investorService.create(investorPost);
 

@@ -124,17 +124,8 @@ function deleteImgFromDB(event) {
 }
 
 $(document).on('click', 'button.info-submit', function (event) {
-    //var type = "";
-    //if($('input[class="greenCheckbox"]:checked').length) type =
-    //var title =
-    //var description =
-    //var amountRequested =
-    //var categoriesOfIndustry = "";
-    //if($('#categoriesOfIndustry').length) categoriesOfIndustry =
-
     var incorrectValuesMsg = '';
     var newProject = {};
-    newProject.moderationStatus = "COMPLETE";
 
     newProject.type =  $('input[class="greenCheckbox"]:checked').val();
     if (!newProject.type) { incorrectValuesMsg += "Выбрете тип проекта \n";}
