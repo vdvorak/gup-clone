@@ -126,7 +126,6 @@ function deleteImgFromDB(event) {
 $(document).on('click', 'button.info-submit', function (event) {
     var incorrectValuesMsg = '';
     var newProject = {};
-    newProject.moderationStatus = "COMPLETE";
 
     newProject.type =  $('input[class="greenCheckbox"]:checked').val();
     if (!newProject.type) { incorrectValuesMsg += "Выбрете тип проекта \n";}

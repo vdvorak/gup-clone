@@ -27,8 +27,12 @@ public class ProjectVotesRestController {
         }
 
         String userId = SecurityOperations.getLoggedUserId();
-        projectService.vote(projectId, userId, score);
 
+        if (!projectService.userHasCommentedProject(projectId, userId)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        projectService.vote(projectId, userId, score);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
