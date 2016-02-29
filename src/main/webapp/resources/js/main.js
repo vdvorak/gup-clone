@@ -138,6 +138,14 @@ $(document).ready(function () {
 
     //
 
+    $(".downComments").click(function(){
+        $(".downComments").hide('slow');
+        $(".colNewsComments").show('slow');
+        $(".colComments").css("width", "50%");
+    });
+
+    //
+
     $(".descriptionTitleRight a").click(function(event){
         event.preventDefault();
         $(".superFilter").show('slow');
