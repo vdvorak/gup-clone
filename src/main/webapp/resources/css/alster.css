@@ -277,6 +277,11 @@ color: white;
     background-color: #36aae0;
 }
 
+.investApp {
+    width: 214px;
+    margin-top: 5px;
+}
+
 .abutton.blue:hover {
     background-color: white;
     color: #36aae0;
@@ -373,7 +378,7 @@ color: white;
     color: #828a8f;
     font: 14px Calibri;
     text-indent: 20px;
-    max-height: 106px;
+    max-height: 120px;
     overflow: hidden;
 }
 .tenders .feedItem .content .text {
@@ -433,7 +438,7 @@ color: white;
 }
 
 .investmentsFeedContainer .feedItem .details .alreadyInvested {
-    margin-top: 6px;
+    margin-top: 1px;
     border: 1px solid #4bc5e6;
     border-radius: 3px;
     padding: 5px;
@@ -471,7 +476,7 @@ color: white;
     text-align: center;
 }
 
-.editor form.investor,
+.editor div.investor,
 .editor div.project {
     position: relative;
     padding-top: 50px;
@@ -534,19 +539,19 @@ color: white;
     text-align: right;
 }
 
-.editor form.investor .kvd .editorInput {
+.editor div.investor .kvd .editorInput {
     width: 553px;
 }
 
-/*.editor form.investor .sum .editorLabel {*/
+/*.editor div.investor .sum .editorLabel {*/
 /*width: 70px;*/
 /*}*/
 
-.editor form.investor .sum .editorInput {
+.editor div.investor .sum .editorInput {
     width: 292px;
 }
 
-/*.editor form.investor .sum {*/
+/*.editor div.investor .sum {*/
 /*padding-left: 165px;*/
 /*}*/
 
@@ -558,7 +563,7 @@ color: white;
     color: #1269a7;
 }
 
-.editor form.investor .field.description {
+.editor div.investor .field.description {
     margin-top: 100px;
 }
 
@@ -566,12 +571,12 @@ color: white;
     margin-top: 70px;
 }
 
-.editor form.investor .field.description .editorLabel,
+.editor div.investor .field.description .editorLabel,
 .editor div.project .field.description .editorLabel {
     width: 90px;
 }
 
-.editor form.investor .field.description .editorInput,
+.editor div.investor .field.description .editorInput,
 .editor div.project .field.description .editorInput {
     width: 670px;
     height: 242px;
@@ -585,7 +590,7 @@ color: white;
     width: 120px;
 }
 
-/*.editor form.project .field.projType .radioGroup {*/
+/*.editor div.project .field.projType .radioGroup {*/
 /*margin-left: 220px;*/
 /*}*/
 

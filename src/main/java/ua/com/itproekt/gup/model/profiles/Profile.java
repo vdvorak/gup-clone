@@ -51,7 +51,6 @@ public class Profile {
 
     //*********************************************************************
 
-
     public String getImgId() {
         return imgId;
     }

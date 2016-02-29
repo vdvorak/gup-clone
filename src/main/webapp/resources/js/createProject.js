@@ -134,7 +134,6 @@ $(document).on('click', 'button.info-submit', function (event) {
     if (newProject.title.length < 4 || newProject.title.length > 70) {incorrectValuesMsg += "Введите заголовок \n";}
 
     newProject.description = tinymce.activeEditor.getContent({format : 'raw'});
-    alert("[" + newProject.description + "]");
     if (newProject.description.length < 50 || newProject.description.length > 5000) {incorrectValuesMsg += "Добавьте описание \n";}
 
     newProject.amountRequested = +$('#sum').val();
