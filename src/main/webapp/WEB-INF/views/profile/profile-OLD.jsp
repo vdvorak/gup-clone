@@ -75,7 +75,7 @@
                     url: "/api/rest/profilesService/profile/read/id/${profileId}",
                     success: function (profile) {
                         if (profile.imgId) {
-                            $('#mainProfileImg').attr('src','/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
+                            $('#mainProfileImg').attr('src','/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId);
                         } else {
                             $('#mainProfileImg').attr('src','/resources/images/no_photo.jpg');
                         }

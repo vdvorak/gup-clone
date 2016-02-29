@@ -145,9 +145,9 @@
                 <div class="_contact" data-id="${contact}"></div>
             </c:forEach>
             <div class="contactsContainer greenBox" toggler="" ng-controller="contacts">
-                <div class="persona {{vip}}" ng-repeat="contact in contacts" data-id="{{contact.id}}">
+                <div class="persona {{vip}}" ng-repeat="contact in contacts" data-id="{{imgId}}">
                     <a href="{{contact.homepage}}" class="photo border-color">
-                        <img src="{{contact.pic}}" alt="profile avatar">
+                        <img src="{{imgId}}" alt="profile avatar">
                         <span class="sendMessage"></span>
                         <span class="name">{{contact.name}}</span>
                     </a>
