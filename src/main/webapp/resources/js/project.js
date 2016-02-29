@@ -28,6 +28,9 @@ function appendProjectBlock(project) {
     $('#investedAmount').append(project.investedAmount + ' ₴ ');
     $('#requestedAmount').append(project.amountRequested + ' ₴ ');
     $('#commentsNum').append(project.totalComments);
+    if (project.totalVoters > 0) {
+        $('#totalScore').append(Math.ceil((project.totalScore/project.totalVoters) * 10) / 10);
+    }
 
     for (var imgId in project.imagesIds) {
         appendProjectImage(imgId, project.imagesIds[imgId]);
@@ -106,9 +109,6 @@ $('#sendProjComment').on('click', function () {
         statusCode: {
             201: function () {
                 location.reload();
-            },
-            409: function () {
-                alert('Чтобы написать комментарий нужно проголосовать');
             }
         }
     });
@@ -118,6 +118,21 @@ $('#projectsFormComments').keyup(function() {
     var maxLength = 1000;
     var length = maxLength - $(this).val().length;
     $('#chars').text(length + ' символов осталось');
+});
+
+$("#voteBtn").click(function(){
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/vote/" + $('#projVoteSelect').find(":selected").text(),
+        statusCode: {
+            200: function () {
+                alert('Ваш голос будет учтен');
+            },
+            409: function () {
+                alert('Чтобы проголосовать сначала нужно написать комментарий');
+            }
+        }
+    });
 });
 
 $(".downComments").click(function(){

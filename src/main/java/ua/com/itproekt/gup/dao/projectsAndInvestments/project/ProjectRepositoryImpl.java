@@ -191,10 +191,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 .set("votes.$.score", projectVote.getScore())
                 .inc("totalScore", projectVote.getScore() - oldUserScore);
 
-        mongoTemplate.updateFirst(
-                query,
-                update,
-                Project.class);
+        mongoTemplate.updateFirst(query, update, Project.class);
     }
 
     @Override
