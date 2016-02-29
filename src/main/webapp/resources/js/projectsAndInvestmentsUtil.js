@@ -28,6 +28,10 @@ function getReadableDate(timestamp) {
     return createdDate.getDate() + '.' + (createdDate.getMonth() + 1) + '.' + createdDate.getFullYear();
 }
 
+function getProjectScore(totalScore, totalVoters) {
+    return Math.ceil((totalScore/totalVoters) * 10) / 10;
+}
+
 function getUrlForProjectMainPic(imagesIds) {
     for (var id in imagesIds) {
         if (imagesIds[id] === "1") {

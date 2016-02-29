@@ -232,8 +232,8 @@
                 </form>
 
                 <c:choose>
-                    <c:when test="${not empty profile.contact.pic}">
-                        <img id="avatar" src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.contact.pic}" width="200"
+                    <c:when test="${not empty profile.imgId}">
+                        <img id="avatar" src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.imgId}" width="200"
                              height="200">
                     </c:when>
                     <c:otherwise>
@@ -303,8 +303,8 @@
     var webLinks = [];
 
 
-    if ('${profile.contact.pic}'.length > 2) {
-        imgId = '${profile.contact.pic}';
+    if ('${profile.imgId}'.length > 2) {
+        imgId = '${profile.imgId}';
     }
 
     // ------------------------------------------- Phone numbers multi input --------------------------------------------
@@ -542,7 +542,7 @@
         profile.contact.position = $('#inputPosition').val();
         profile.contact.skypeUserName = $('#skype').val();
         profile.contact.aboutUs = $('#profileDescription').val();
-        profile.contact.pic = imgId;
+        profile.imgId = imgId;
 
         $.ajax({
             type: "POST",

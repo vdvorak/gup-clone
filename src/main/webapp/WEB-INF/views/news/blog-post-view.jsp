@@ -134,8 +134,8 @@
                                 statusCode: {
                                     200: function (profile) {
                                         var profileImgTag = '<img ';
-                                        if (profile.contact.pic != null && profile.contact.pic != '') {
-                                            profileImgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1"';
+                                        if (profile.imgId) {
+                                            profileImgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '?cachedImage=1"';
                                         } else {
                                             profileImgTag += 'src="/resources/images/no_photo.jpg"';
                                         }

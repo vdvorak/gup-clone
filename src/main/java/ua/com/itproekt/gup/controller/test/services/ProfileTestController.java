@@ -39,6 +39,7 @@ public class ProfileTestController {
         profile.setIdWord("ImChiefHere");
         profile.setUsername("Main Admin");
         profile.setEmail("admin@abc.com");
+        profile.setImgId("EnterPictureIdHere");
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode("admin");
         profile.setPassword(hashedPassword);
@@ -64,15 +65,13 @@ public class ProfileTestController {
         contact.setLinkToWebSite(linkToWebSite);
         contact.setAboutUs("In the morning, the President will depart Chicago en route Washington, DC. ");
         contact.setNace(Nace.E);
-        contact.setPic("EnterPictureIdHere");
-        contact.setBalance(988);
         HashMap<SocialNetwork, String> socNetLink = new HashMap<>();
         socNetLink.put(SocialNetwork.SKYPE, "SkypeAdm");
         socNetLink.put(SocialNetwork.FACEBOOK, "https://www.facebook.com/zuck");
         contact.setSocNetLink(socNetLink);
 
         ProfileRating profileRating = new ProfileRating();
-        Set<ProfileRating> profileRatingSet = new HashSet();
+        Set<ProfileRating> profileRatingSet = new HashSet<>();
         profileRatingSet.add(profileRating.setEarnPoints(1));
         profileRatingSet.add(profileRating.setLongDescription("We've selected this list of the 10 best volunteer activities."));
         profileRatingSet.add(profileRating.setShortDescription("Best volunteer"));

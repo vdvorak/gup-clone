@@ -47,8 +47,8 @@ function setProjectCommentsBlock(projectComments) {
             statusCode: {
                 200: function (profile) {
                     var profileImgTag = '<img ';
-                    if (profile.contact.pic != null && profile.contact.pic != '') {
-                        profileImgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1"';
+                    if (profile.imgId) {
+                        profileImgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '?cachedImage=1"';
                     } else {
                         profileImgTag += 'src="/resources/images/no_photo.jpg"';
                     }
@@ -72,8 +72,8 @@ function setAuthorContent(profileId) {
         url: "/api/rest/profilesService/profile/read/id/" + profileId,
         statusCode: {
             200: function (profile) {
-                if (profile.contact.pic != null && profile.contact.pic != '') {
-                    $('#projCreatorPhoto').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
+                if (profile.imgId) {
+                    $('#projCreatorPhoto').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId);
                 } else {
                     $('#projCreatorPhoto').attr('src', '/resources/images/no_photo.jpg');
                 }

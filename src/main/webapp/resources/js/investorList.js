@@ -24,7 +24,7 @@ function appendInvestorPostBlock(investorPost) {
                     <!--Add class "vip" to vip-tialize investment-->
                     '<div class="publishDate">Опубликовано: ' + getReadableDate(investorPost.createdDate) + '</div>' +
                     //'<div class="photo border-color">' +
-                    //    //'<img src="' + getProfileImgUrl(profile.contact.pic) + '" alt="user avatar"/>' +
+                    //    //'<img src="' + getProfileImgUrl(profile.imgId) + '" alt="user avatar"/>' +
                     //'</div>' +
                     '<div class="content">' +
                         '<div class="desc">Описание инвестиции</div>' +

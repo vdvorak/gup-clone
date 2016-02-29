@@ -150,7 +150,7 @@ public class TenderServiceImpl implements TenderService {
             Profile p = profilesService.findWholeProfileById(m.getId());
             m.setName(p.getUsername());
             if(p.getContact() != null) {
-                m.setUserPic(p.getContact().getPic());
+                m.setUserPic(p.getImgId());
             }
         }
         return t;

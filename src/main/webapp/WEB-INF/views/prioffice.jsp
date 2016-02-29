@@ -45,8 +45,8 @@
             <div class="name">${profile.username}</div>
             <div class="photo greenBox">
                 <c:choose>
-                    <c:when test="${not empty profile.contact.pic}">
-                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.contact.pic}">
+                    <c:when test="${not empty profile.imgId}">
+                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.imgId}">
                     </c:when>
                     <c:otherwise>
                         <img src="/resources/images/no_photo.jpg">
@@ -145,9 +145,9 @@
                 <div class="_contact" data-id="${contact}"></div>
             </c:forEach>
             <div class="contactsContainer greenBox" toggler="" ng-controller="contacts">
-                <div class="persona {{vip}}" ng-repeat="contact in contacts" data-id="{{contact.id}}">
+                <div class="persona {{vip}}" ng-repeat="contact in contacts" data-id="{{imgId}}">
                     <a href="{{contact.homepage}}" class="photo border-color">
-                        <img src="{{contact.pic}}" alt="profile avatar">
+                        <img src="{{imgId}}" alt="profile avatar">
                         <span class="sendMessage"></span>
                         <span class="name">{{contact.name}}</span>
                     </a>

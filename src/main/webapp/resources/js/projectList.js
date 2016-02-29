@@ -26,7 +26,7 @@ function appendProjectBlock(project) {
         '<div class="hearthPlace">' +
         '<div class="hearth"></div>' +
         '</div>' +
-        '<div class="number">' + project.totalScore + '</div>' +
+        '<div class="number">' + getProjectScore(project.totalScore, project.totalVoters) + '</div>' +
         '</div>' +
         '</div>' +
         '<div class="content">' +
