@@ -27,6 +27,7 @@
                     <p class="num" style="display: none"></p>
 
                     <div class="mailDrop">
+                        <section id="dialogStart">
                         <div class="mailDrop-message">
                             <a href="#"><img src="/resources/images/logo.png" alt="LOGO"></a>
 
@@ -34,12 +35,7 @@
                                 est, officiis dolorem natus asperiores, quam qui id blanditiis sit illum dolor accusamus
                                 autem? Totam rem voluptatem, laborum provident quasi deserunt.</p>
                         </div>
-                        <div class="mailDrop-message">
-                            <a href="#"><img src="/resources/images/logo.png" alt="LOGO"></a>
-
-                            <p class="mailDrop-message-p">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex,
-                                est, officiis</p>
-                        </div>
+                        </section>
                         <div class="answer">
                             <a href="#"><img src="/resources/images/logo.png" alt="LOGO"></a>
 
