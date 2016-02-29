@@ -62,6 +62,7 @@
                     </div>
                 </div>
                 <div id="investBlock" class="bottomSection">
+                    <button id="editProjectBtn" type="button" class="abutton" style="display: none">Редактировать</button>
                     <button type="button" class="abutton blue invest">Инвестировать</button>
                     <div class="projectProgressBlock">
                         <div class="current elem cash" id="investedAmount"></div>
@@ -72,6 +73,7 @@
                         </div>
                         <div class="todo elem cash" id ="requestedAmount"></div>
                     </div>
+
                     <div class="clearfix"></div>
                 </div>
                 <div class="description">

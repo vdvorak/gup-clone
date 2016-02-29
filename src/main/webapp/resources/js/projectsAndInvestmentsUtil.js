@@ -45,6 +45,10 @@ function getProjectUrl(id) {
     return "/project?id=" + id;
 }
 
+function getProjectEditUrl(id) {
+    return "/project/edit?id=" + id;
+}
+
 function getInvertedProgressNum(investedAmount, amountRequested) {
     var invertedProgressNum = (1 -(investedAmount/amountRequested))*100;
     return 5 * Math.ceil(invertedProgressNum/5);
