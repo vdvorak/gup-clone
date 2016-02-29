@@ -3,6 +3,7 @@ var loggedInProfile = {};
     $.ajax({
         type: "POST",
         url: "/api/rest/profilesService/profile/read/loggedInProfile",
+        async: false,
         success: function (profile) {
             loggedInProfile = profile;
 
