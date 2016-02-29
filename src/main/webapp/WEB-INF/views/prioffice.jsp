@@ -45,8 +45,8 @@
             <div class="name">${profile.username}</div>
             <div class="photo greenBox">
                 <c:choose>
-                    <c:when test="${not empty profile.contact.pic}">
-                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.contact.pic}">
+                    <c:when test="${not empty profile.imgId}">
+                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.imgId}">
                     </c:when>
                     <c:otherwise>
                         <img src="/resources/images/no_photo.jpg">

@@ -1,8 +1,5 @@
 package ua.com.itproekt.gup.model.profiles;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Set;
 
 public class UserProfile {

@@ -13,13 +13,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Profile {
     @Id
     private String id;
+    private String idWord;
+
     private String email;
     private String password;
     private String mainPhoneNumber;
     private Set<UserRole> userRoles;
     private Boolean confirmModerator;
 
-    private String idWord;
+    private String imgId;
     private String username;
     private Integer unreadMessages;
 
@@ -48,6 +50,16 @@ public class Profile {
     }
 
     //*********************************************************************
+
+
+    public String getImgId() {
+        return imgId;
+    }
+
+    public Profile setImgId(String imgId) {
+        this.imgId = imgId;
+        return this;
+    }
 
     public Long getBirthDate() {
         return birthDate;

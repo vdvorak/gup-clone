@@ -9,12 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * The type Contact is a part of Profile entity.
- */
 public class Contact {
-    private String pic;
-
     private Nace nace;
     private boolean member;
     private List<String> naceId;
@@ -110,14 +105,6 @@ public class Contact {
         this.nace = nace;
     }
 
-    public String getPic() {
-        return pic;
-    }
-
-    public void setPic(String pic) {
-        this.pic = pic;
-    }
-
     public boolean isMember() {
         return member;
     }
@@ -146,7 +133,6 @@ public class Contact {
                 ", linkToWebSite=" + linkToWebSite +
                 ", aboutUs='" + aboutUs + '\'' +
                 ", nace=" + nace +
-                ", pic='" + pic + '\'' +
                 ", member=" + member +
                 ", naceId=" + naceId +
                 '}';
