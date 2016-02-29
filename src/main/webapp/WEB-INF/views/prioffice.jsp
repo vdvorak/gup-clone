@@ -175,6 +175,7 @@
                     <div class="clearfix"></div>
                     <div class="arrowHide"></div>
                 </form>
+                <%--<div class="scrollPreffered"></div>--%>
             </div>
             <div class="notifications" id="tab-notifications">
                 <%--<a href="#" class="notify" ng-repeat="notify in notifies">--%>

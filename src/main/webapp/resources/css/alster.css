@@ -1301,6 +1301,14 @@ color: white;
     display: block;
 }
 
+.msAndNt .messages .scrollPreffered {
+    position: absolute;
+    right: -5px;
+    width: 10px;
+    height: 100%;
+    top: 0;
+    background-color: #99cc66;
+}
 .msAndNt .messages .dialog.opened .msg {
     cursor: auto;
 }
