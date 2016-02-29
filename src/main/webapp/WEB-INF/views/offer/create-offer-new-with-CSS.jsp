@@ -25,9 +25,20 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
 <body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
 <div class="container2">
-    <h1 class="title-h1-blue text-center">Новое обьявления</h1>
+    <h1 class="title-h1-blue text-center">Новое обьявление</h1>
     <a href="#" class="pull-right">Мои обьявления</a>
 
     <div class="clearfix"></div>
@@ -38,17 +49,35 @@
                 <label for="new-label-1">Заголовок<em>*</em></label>
             </div>
             <div class="col-xs-8">
-                <input type="text" id="new-label-1">
+                <input type="text" id="new-label-1" placeholder="Длина заголовка от 5 до 70 символов">
             </div>
         </div>
         <div class="row">
             <div class="col-xs-4">
-                <label for="new-label-2">Рубрика<em>*</em></label>
+                <label for="categories-row">Рубрика<em>*</em></label>
             </div>
-            <div class="col-xs-8">
-                <select name="" id="new-label-2">
-                    <option value=""></option>
-                </select>
+            <div id="categories-row" class="col-xs-8">
+                <div id="category1-container" class="dropdown" style="display: inline-block;">
+                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span id="text-category1">Выберите категорию</span>
+                        <span class="caret"></span></button>
+                    <ul id="ul-category1" class="dropdown-menu">
+
+                    </ul>
+                </div>
+                <div id="category2-container" class="dropdown" style="display: none">
+                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span id="text-category2">Выберите подкатегорию</span>
+                        <span class="caret"></span></button>
+                    <ul id="ul-category2" class="dropdown-menu">
+
+                    </ul>
+                </div>
+                <div id="category3-container" class="dropdown" style="display: none">
+                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span id="text-category3">Выберите подкатегорию</span>
+                        <span class="caret"></span></button>
+                    <ul id="ul-category3" class="dropdown-menu">
+
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -56,7 +85,12 @@
                 <label for="new-label-3">Описание<em>*</em></label>
             </div>
             <div class="col-xs-8">
-                <textarea name="" id="new-label-3" cols="30" rows="10"></textarea>
+                <textarea name="" id="new-label-3" cols="30" rows="10" placeholder="Длина описания от 50 до 4000 символов"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-4">
+                <p id="p-textlength" style="text-align: right;">Количество символов: 0</p>
             </div>
         </div>
         <div class="row">
@@ -69,10 +103,24 @@
         <div class="row file-browse-wrap">
             <div class="col-xs-4">Фотографии</div>
             <div class="col-xs-8">
-                <input type="file" id="new-label-file">
-                <label for="new-label-file" class="file-browse" data-toggle="tooltip" data-placement="right" data-original-title="Добавить изображение"><i class="fa fa-plus"></i></label>
+                <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
+                    <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
+                </form>
+                <button id="btn-offer-addImg" type="submit" class="file-browse" style="background-color:white" data-toggle="tooltip" data-placement="right" data-original-title="Добавить изображение"><i class="fa fa-plus"></i></button>
             </div>
         </div>
+        <div class="row file-browse-wrap">
+            <div class="col-xs-4"></div>
+            <div id="drop_zone" class="col-xs-8">
+                <ul>
+                    <li class="li-containerIMG li-defaultIMG">
+                        <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-xs-4">
                 <label for="new-label-4">Добавить видео</label>
@@ -125,12 +173,14 @@
     </div>
 
     <div class="new-ad-btn">
-        <a href="#" class="btn btn-lg btn-success">Посмотреть</a>
+        <%--<a href="#" class="btn btn-lg btn-success">Посмотреть</a>--%>
         <a href="#" class="btn btn-lg btn-primary">Сохранить</a>
     </div>
 
     <p>&nbsp;</p>
 </div>
+
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
 <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
@@ -138,14 +188,13 @@
 <script src="/resources/js/jquery.bxslider.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script src="resources/js/main.js"></script>
 
 <script>
     $(document).ready(function() {
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
-        });
-        console.log(124124);
-
+        })
     })
 </script>
 
@@ -427,10 +476,10 @@
 
 <%--</div>--%>
 
-<!-- script references -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
-<script src="/resources/js/jquery.maskedinput.min.js"></script>
+<%--<!-- script references -->--%>
+<%--<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>--%>
+<%--<script src="/resources/js/bootstrap.min.js"></script>--%>
+<%--<script src="/resources/js/jquery.maskedinput.min.js"></script>--%>
 
 
 
@@ -454,7 +503,7 @@
 
 // ---------------    LOAD RESOURCES    --------------------------//
     $(document).ready(function () {
-        // Setup the dnd listeners.
+        /*// Setup the dnd listeners.
         var dropZone = document.getElementById('drop_zone');
         dropZone.addEventListener('dragover', handleDragOver, false);
         dropZone.addEventListener('drop', handleFileSelect, false);
@@ -502,21 +551,14 @@
             evt.stopPropagation();
             evt.preventDefault();
             evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-        }
-
-        countTextLength();
-        $("#offerDescription").on('keyup', countTextLength);
-
-        $('#addImg').click(function(){
-            $('#uploadProfilePhotoInput').trigger('click');
-        });
+        }*/
 
     });
 
     function countTextLength() {
-        var counter = $("#textLength");
-        var currentString = $("#offerDescription").val();
-        counter.html(currentString.length);
+        var counter = $("#p-textlength");
+        var currentString = $("textarea").val();
+        counter.text("Количество символов: " + currentString.length);
         if (currentString.length <= 50) {  /*or whatever your number is*/
             counter.css("color", "red");
         } else {
@@ -527,6 +569,9 @@
             }
         }
     }
+
+    countTextLength();
+     $("textarea").on('keyup', countTextLength);
 
     $.ajax({
         type: "GET",
@@ -545,6 +590,13 @@
         async: false,
         success: function (response) {
             jsonCategory = response;
+
+            for (var i in jsonCategory) {
+                var li = $('<li><a id="'+jsonCategory[i].id +'" href="#">' + jsonCategory[i].name + '</a></li>')
+                        .click(selectCategoryLvl1);
+                $('#ul-category1').append(li);
+            }
+
         }
     });
 
@@ -694,8 +746,53 @@
 
 
 // -------------------------- PHOTO SUBMIT AND DELETE ------------------------------//
+    $('#btn-offer-addImg').click(function(){
+        $('#photoInput').trigger('click');
+    });
 
-    $('#uploadProfilePhotoInput').change(function (event) {
+    $('#photoInput').change(function (event) {
+        event.preventDefault();
+
+        var files = event.currentTarget.files;
+        for (var i = 0, f; f = files[i]; i++) {
+            var fd = new FormData();
+            fd.append('file', f);
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/fileStorage/OFFERS/file/upload/",
+                data: fd,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                success: function (data, textStatus, request) {
+                    var id = data.id;
+                    var isImage = f.type.substring(0, 5) === 'image';
+                    if (isImage) {
+                        imgsArr[id] = "image";
+                        appendImg(id);
+                    }
+                }
+            });
+        }
+    });
+
+    function appendImg(id) {
+        $(".li-defaultIMG").css("display", "none");
+        var cloneImg = $(".li-defaultIMG").clone()
+                .removeClass('li-defaultIMG')
+                .css("display", "inline-block");
+        cloneImg.find('img')
+                .attr("alt", "")
+                .attr("src", '/api/rest/fileStorage/OFFERS/file/read/id/' + id)
+                .attr("id", id);
+        cloneImg.find('span')
+                .click(deleteImg);
+        cloneImg.appendTo('#drop_zone ul');
+    }
+
+/*    $('#uploadProfilePhotoInput').change(function (event) {
         event.preventDefault();
 
         var files = event.currentTarget.files;
@@ -728,9 +825,9 @@
             });
         }
         event.currentTarget.form.reset();
-    });
+    });*/
 
-    function deleteImg(idImg) {
+    /*function deleteImg(idImg) {
         delete imgsArr[idImg];
         $.ajax({
             type: "POST",
@@ -739,7 +836,26 @@
                 $('#' + idImg).remove();
             }
         });
-    };
+    };*/
+
+    function deleteImg() {
+        var idImg = $(event.currentTarget).parent()
+                .find('img')
+                .attr('id');
+        delete imgsArr[idImg];
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/fileStorage/OFFERS/file/delete/id/" + idImg,
+            success: function (data, textStatus, request) {
+                $('#' + idImg).parent().remove();
+
+                var numberImg = $(".defaultIMG").find('img').length;
+                if(numberImg < 2) {
+                    $(".li-defaultIMG").css("display", "inline-block");
+                }
+            }
+        });
+    }
 
     function onClickSetMainImg(id) {
         var isMain = $('#' + id).find("img").hasClass("mainImg");
@@ -767,7 +883,7 @@
 
 //--------------------------- GOOGLE MAP API ---------------------------------------//
 
-    function initMap() {
+   /* function initMap() {
 
         var input = document.getElementById('address');
 
@@ -810,7 +926,7 @@
                 alert('Geocode was not successful for the following reason: ' + status);
             }
         });
-    }
+    }*/
 
 //--------------------------- END GOOGLE MAP API ---------------------------------------//
 
@@ -863,11 +979,11 @@
                 $(wrapper).append('<div><input id="phone'+ x +'" type="text" name="mytext[]"/><a href="#" class="remove_field" required>Удалить</a></div>'); //add input box
 
                 //Add mask for some input fields after add new input
-                jQuery(function($){
+                /*jQuery(function($){
                     $("#phone1").mask("9999999999");
                     $("#phone2").mask("9999999999");
                     $("#phone3").mask("9999999999");
-                });
+                });*/
             }
         });
 
@@ -879,171 +995,75 @@
 //----------------------------- END PHONES LIST ----------------------------------------------//
 
 //------------------------------- PHONE MASK ------------------------------------------------//
-
-    jQuery(function($){
-        $("#phone1").mask("9999999999");
-        $("#phone2").mask("9999999999");
-        $("#phone3").mask("9999999999");
-    });
+//
+//    jQuery(function($){
+//        $("#phone1").mask("9999999999");
+//        $("#phone2").mask("9999999999");
+//        $("#phone3").mask("9999999999");
+//    });
 
 //------------------------------- END PHONE MASK ------------------------------------------------//
 
 
-//--------------------------------1-LVL CATEGORY-------------------------------------------------//
-    for (var i in jsonCategory) {
-        $('#category1lvl').append('<li><a id="'+jsonCategory[i].id +'" role="menuitem" tabindex="-1" href="#">' + jsonCategory[i].name + '</a></li>');
+//--------------------------------BEGIN CATEGORY-------------------------------------------------//
+    function selectCategoryLvl1(event) {
+        event.preventDefault();
+
+        $('#ul-category2').html("");
+        $('#ul-category3').html("");
+        $('#category3-container').attr("style", "display: none");
+        $('#text-category2').text("Выберите подкатегорию");
+        $('#text-category3').text("Выберите подкатегорию");
+
+        var a1 = $(event.currentTarget).children('a');
+        var category1Id = a1.attr("id");
+        var category1 = a1.text()
+        $('#text-category1').text(category1);
+        $('#category2-container').attr("style", "display: inline-block");
+        var child1 = jsonCategory.filter(function(obj) {
+            return obj.id === +category1Id; // Filter out the appropriate one
+        })[0].children;
+        for (var key in child1) {
+            var li = $('<li><a id="' + child1[key].id + '" href="#">' + child1[key].name + '</a></li>')
+                    .click(selectCategoryLvl2);
+            $('#ul-category2').append(li);
+        }
     }
-//-------------------------------- END 1-LVL CATEGORY-------------------------------------------------//
 
+    function selectCategoryLvl2(event) {
+        event.preventDefault();
 
-//--------------------------------- 1-LVL CATEGORY ON CLICK -----------------------------------------//
+        $('#ul-category3').html("");
+        $('#text-category3').text("Выберите подкатегорию");
 
-    $('#category1lvl').find('li').click(function () {
-
-        $('#container2lvl').attr("style", "visibility: hidden");
-        $('#container3lvl').attr("style", "visibility: hidden");
-        isComplete = 0;
-        category2Id = '';
-        category3Id = '';
-        category1Id = $(this).find('a').attr("id");
-        var category1 = $(this).text();
-        $('#category1lvlText').text(category1);
-        $('#category1inp').val(category1);
-
-        if (category1 !== 'Выберите категорию') {
-
-            $('#container2lvl').attr("style", "visibility: visible");
-        } else {
-            $('#container2lvl').attr("style", "visibility: hidden");
-        }
-
-        $('#category2lvl').empty();
-
-        $('#category2lvlText').text("Выберите подкатегорию");
-
-            for (var j in jsonCategory) {
-
-                if (jsonCategory[j].name === category1) {
-                    for (var i in jsonCategory[j].children) {
-                        $('#category2lvl').append('<li><a id="' + jsonCategory[j].children[i].id + '" role="menuitem" tabindex="-1" href="#">' + jsonCategory[j].children[i].name + '</a></li>');
-                    }
-                    if (jsonCategory[j].children.length === 0){
-                        $('#container2lvl').attr("style", "visibility: hidden");
-                        isComplete = 1;
-                        drawOptions(category1Id);
-                    }else{
-                        erase(category1Id);
-                    }
-            }}
-
-//--------------------------------- END 1-LVL CATEGORY ON CLICK -----------------------------------------//
-
-//--------------------------------- 2-LVL CATEGORY ON CLICK ---------------------------------------------//
-
-        $('#category2lvl').find('li').click(function () {
-            $('#container3lvl').attr("style", "visibility: hidden");
-            isComplete = 0;
-            category3Id = '';
-            category2Id = $(this).find('a').attr("id");
-            var category2 = $(this).text();
-            $('#category2lvlText').text(category2);
-            $('#category2inp').val(category2);
-
-            if (category2 !== 'Выберите подкатегорию' && jsonSubcategory[category2Id]!==undefined && jsonSubcategory[category2Id].children!==undefined) {
-                $('#container3lvl').attr("style", "visibility: visible");
-            } else {
-                $('#container3lvl').attr("style", "visibility: hidden");
-            }
-
-            $('#category3lvl').empty();
-
-            $('#category3lvlText').text("Выберите подкатегорию");
-
-                    if(jsonSubcategory[category2Id]!==undefined && jsonSubcategory[category2Id].children!==undefined){
-                        for (var i in jsonSubcategory[category2Id].children){
-                            $('#category3lvl').append('<li><a id="'+i +'" role="menuitem" tabindex="-1" href="#">' + jsonSubcategory[category2Id].children[i].label + '</a></li>');
-                        }
-                        erase(category2Id);
-                    }else{
-                        isComplete = 1;
-                        drawOptions(category2Id);
-                    }
-
-
-
-//------------------------------------------------3-LVL CATEGORY ON CLICK-----------------------------------//
-            $('#category3lvl').find('li').click(function () {
-                erase(category2Id);
-                category3Id = $(this).find('a').attr("id");
-                var category3 = $(this).text();
-                $('#category3lvlText').text(category3);
-                $('#category2inp').val(category3);
-                isComplete = 1;
-                drawOptions(category3Id);
-            });
-        });
-    });
-//------------------------------------END 3-LVL CATEGORY ON CLICK-----------------------------------------//
-
-//--------------------------------- END 2-LVL CATEGORY ON CLICK ------------------------------------------//
-
-//--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
-
-    var drawOptions = function(id){
-        $('#options').empty();
-        for(var i in options){
-            if(options[i]['c'][id]!==undefined){
-                var name;
-                for (j in options[i]['k']){
-                    name = j;
-                }
-
-                for (j in parameters){
-
-                    if (parameters[j]['parameter']['key'] === name && parameters[j]['parameter']['validators']['required'] === 1){
-                        $('#options').append('<div><select class="prop" required name="'+name+'"  id="00'+i+'">'+ '</select></div>');
-                        break;
-                    }else{
-                        $('#options').append('<div><select class="prop" name="'+name+'"  id="00'+i+'">'+ '</select></div>');
-                        break;
-                    }
-                }
-
-                $('#00'+i).on('change',function(){
-                    if(this.value === 'price'){
-                        $('#inptPrice').removeClass("element-hidden");
-                        $('#selectCurrency').removeClass("element-hidden");
-                    }else if (this.value === 'exchange' || this.value === 'arranged' || this.value === 'free') {
-                        $('#inptPrice').addClass("element-hidden");
-                        $('#selectCurrency').addClass("element-hidden");
-                    }
-                });
-
-                for ( var j in options[i]['v']){
-                    $('#00'+i).append('<option value = "'+j+'"  id ="'+ j +'">'+ options[i]['v'][j]+'</option>');
-                }
-
+        var a2 = $(event.currentTarget).children('a');
+        var category2Id = a2.attr("id");
+        var category2 = a2.text();
+        $('#text-category2').text(category2);
+        if(jsonSubcategory[category2Id]) {
+            var child2 = jsonSubcategory[category2Id].children;
+            $('#category3-container').attr("style", "display: inline-block");
+            for (var key in child2) {
+                var li = $('<li><a id="' + key + '" href="#">' + child2[key].label + '</a></li>')
+                        .click(selectCategoryLvl3);
+                $('#ul-category3').append(li);
             }
         }
+    }
 
-        for ( j in parameters){
-            if (parameters[j]['parameter']['type'] === "input" && parameters[j]['categories'][id]  !== undefined ){
-                $('#inputs').append('<input id="'+ parameters[j]['parameter']['key'] +'" type="number" name="'+ parameters[j]['parameter']['key'] +'" placeholder="'+parameters[j]['parameter']['key']+'"/>');
-            }
-        }
-    };
+    function selectCategoryLvl3(event) {
+        event.preventDefault();
+        var a3 = $(event.currentTarget).children('a');
+        category3Id = a3.attr("id");
+        var category3 = a3.text();
+        $('#text-category3').text(category3);
+    }
 
-//---------------------------- END DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
 
-//------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
-    var erase = function(id){
-        $('#options').empty();
-        $('#inputs').empty();
-    };
-//------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
+    //--------------------------------END CATEGORY-------------------------------------------------//
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
-        async defer></script>
+<%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"--%>
+        <%--async defer></script>--%>
 </body>
 </html>

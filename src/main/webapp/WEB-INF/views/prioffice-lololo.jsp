@@ -44,8 +44,8 @@
             <div class="prioffice-user">${profile.username}</div>
             <div class="prioffice-userpic">
                 <c:choose>
-                    <c:when test="${not empty profile.contact.pic}">
-                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.contact.pic}" width="100" ,
+                    <c:when test="${not empty profile.imgId}">
+                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.imgId}" width="100" ,
                              hight="100">
                     </c:when>
                     <c:otherwise>
@@ -122,7 +122,7 @@
                                     <%--<c:forEach items="${dialogues}" var="dialogue">--%>
                                         <%--<c:forEach items="${dialogue.members}" var="member">--%>
                                             <%--<c:choose>--%>
-                                                <%--<c:when test="${not empty profile.contact.pic}">--%>
+                                                <%--<c:when test="${not empty profile.imgId}">--%>
                                                     <%--<div class="prioffice-tabs-items-pic">--%>
                                                         <%--<img src="/api/rest/fileStorage/PROFILE/file/read/id/${member.userPicId}"--%>
                                                              <%--width="80" , hight="80">--%>

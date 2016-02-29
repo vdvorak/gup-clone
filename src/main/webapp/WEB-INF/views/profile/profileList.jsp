@@ -118,7 +118,7 @@
         function appendProfileBlock(profile) {
             $('#profileListContainer').append(
                     '<div class="profileList <%-- vip-color-border --%>">' +
-                        '<div class="profileListLogo <%-- vip-color-border --%>" style="background: url(' + getUrlForProfilePic(profile.contact.pic) + ') no-repeat center center;"></div>' +
+                        '<div class="profileListLogo <%-- vip-color-border --%>" style="background: url(' + getUrlForProfilePic(profile.imgId) + ') no-repeat center center;"></div>' +
                         '<a href="/profile/id/' + profile.id + '" class="profileListName">' + profile.username + '</a>' +
                         '<p class="profileListDescription">' + profile.contact.aboutUs + '</p>' +
                     '</div>');

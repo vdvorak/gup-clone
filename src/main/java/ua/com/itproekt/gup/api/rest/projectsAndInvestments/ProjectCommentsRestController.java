@@ -49,9 +49,9 @@ public class ProjectCommentsRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-        if (!projectService.userHasVoted(projectId, userId)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+//        if (!projectService.userHasVoted(projectId, userId)) {
+//            return new ResponseEntity<>(HttpStatus.CONFLICT);
+//        }
 
         comment.setFromId(userId);
         projectService.addComment(projectId, comment);

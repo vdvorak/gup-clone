@@ -55,11 +55,11 @@ $(".cropper-btn-success").click(function() {
         statusCode: {
             201: function (data) {
 //                        alert('201');
-                updatedProfile.contact.pic = data.id;
+                updatedProfile.imgId = data.id;
                 $('.moreInformation-img').css('background',
-                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center')
+                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId + ') no-repeat center center')
                     .css("background-size","cover");
-                cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic);
+                cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId);
 
             },
             400: function () {
@@ -84,11 +84,11 @@ function dataURItoBlob(dataURI) {
 function setValuesForFieldsFromProfile(profile) {
 //            alert('loadedProfile: ' + JSON.stringify(loadedProfile));
 
-    if (profile.contact.pic != null) {
+    if (profile.imgId != null) {
         $('.moreInformation-img').css('background',
-            'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center')
+            'url(/api/rest/fileStorage/profile/file/read/id/' + profile.imgId + ') no-repeat center center')
             .css("background-size","cover");
-        cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic);
+        cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + profile.imgId);
     }
 
     $('#select-type').val(profile.contact.type);
@@ -356,9 +356,9 @@ $('#uploadProfilePhotoInput').on('change', function () {
         statusCode: {
             201: function (data) {
 //                        alert('201');
-                updatedProfile.contact.pic = data.id;
+                updatedProfile.imgId = data.id;
                 $('.moreInformation-img').css('background',
-                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');
+                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId + ') no-repeat center center');
 
             },
             400: function () {
