@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import ua.com.itproekt.gup.util.CookieUtil;
 import ua.com.itproekt.gup.util.LogUtil;
+import ua.com.itproekt.gup.util.Oauth2Util;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -21,11 +22,6 @@ import java.util.concurrent.TimeUnit;
 
 public class OAuthFilter implements Filter {
     private static final Logger LOG = Logger.getLogger(OAuthFilter.class);
-
-    private final String ACCESS_TOKEN_COOKIE_NAME = "authToken";
-    private final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
-    private final String SPRING_ACCESS_TOKEN_PARAM_NAME = "access_token";
-    private final int ACCESS_TOKEN_EXPIRES_IN_SECONDS = (int) TimeUnit.MINUTES.toSeconds(10);
 
     private DefaultTokenServices tokenServices;
 
@@ -52,15 +48,15 @@ public class OAuthFilter implements Filter {
     }
 
     private void authenticateByTokensFromCookies(CustomParametersRequest customParamsReq, HttpServletResponse httpServletResp, Cookie[] cookies) {
-        String accessTokenValue = CookieUtil.getCookieValue(cookies, ACCESS_TOKEN_COOKIE_NAME);
-        String refreshTokenValue = CookieUtil.getCookieValue(cookies, REFRESH_TOKEN_COOKIE_NAME);
+        String accessTokenValue = CookieUtil.getCookieValue(cookies, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME);
+        String refreshTokenValue = CookieUtil.getCookieValue(cookies, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME);
 
         if (!accessTokenValue.isEmpty()) {
             if (isExistAccessToken(accessTokenValue)) {
-                customParamsReq.addParameter(SPRING_ACCESS_TOKEN_PARAM_NAME, new String[]{accessTokenValue});
+                customParamsReq.addParameter(Oauth2Util.SPRING_ACCESS_TOKEN_PARAM_NAME, new String[]{accessTokenValue});
             } else {
                 LOG.error(" Incorrect access token [" + accessTokenValue + "]");
-                CookieUtil.addCookie(httpServletResp, ACCESS_TOKEN_COOKIE_NAME, null, 0);
+                CookieUtil.removeCookie(httpServletResp, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME);
                 authenticateByRefreshToken(customParamsReq, httpServletResp, refreshTokenValue);
             }
         } else if (!refreshTokenValue.isEmpty()) {
@@ -74,26 +70,15 @@ public class OAuthFilter implements Filter {
 
     private void authenticateByRefreshToken(CustomParametersRequest request, HttpServletResponse response, String refreshTokenValue) {
         try {
-            OAuth2AccessToken accessToken = tokenServices.refreshAccessToken(refreshTokenValue, getTokenRequest());
-            request.addParameter(SPRING_ACCESS_TOKEN_PARAM_NAME, new String[]{accessToken.getValue()});
-            CookieUtil.addCookie(response, ACCESS_TOKEN_COOKIE_NAME, accessToken.getValue(), ACCESS_TOKEN_EXPIRES_IN_SECONDS);
+            OAuth2AccessToken accessToken = tokenServices.refreshAccessToken(refreshTokenValue, Oauth2Util.getTokenRequest());
+            request.addParameter(Oauth2Util.SPRING_ACCESS_TOKEN_PARAM_NAME, new String[]{accessToken.getValue()});
+            CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, accessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
         } catch (Exception ex) {
-            CookieUtil.addCookie(response, REFRESH_TOKEN_COOKIE_NAME, null, 0);
+            CookieUtil.removeCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME);
             LOG.error(" Incorrect refresh token. " + LogUtil.getExceptionStackTrace(ex));
         }
     }
 
-    private TokenRequest getTokenRequest() {
-        Set<String> scope = new HashSet<>();
-        HashMap<String, String> requestParameters = new HashMap<>();
-        String clientId = "7b5a38705d7b3562655925406a652e32";
-        String grantType = "password";
-
-        return new TokenRequest(requestParameters, clientId, scope, grantType);
-    }
-
     @Override
-    public void destroy() {
-
-    }
+    public void destroy() {}
 }
