@@ -40,7 +40,7 @@
 
 <div class="container2" ng-app="routerApp">
     <div class="sideBlock">
-        <a href="#" class="buttonBack">&lt; Назад</a>
+        <a href="#" class="buttonBack" onclick="window.history.back()">&lt; Назад</a>
         <div class="mainInfo" data-id="${profile.id}">
             <div class="name">${profile.username}</div>
             <div class="photo greenBox">
@@ -189,9 +189,9 @@
                 <%--</a>--%>
                 <c:if test="${not empty events}">
                     <c:forEach items="${events}" var="event">
-                        <a href="#" class="notify">
+                        <a href="#" class="notify" data-uid="${event.uId}" data-contentId="${event.contentId}" data-creatorEventId="${event.creatorEventId}">
                             <div class="persona">
-                                <img src="/resources/css/images/rupor.png" alt="" class="avatar">
+                                <img src="" alt="" class="avatar">
                                 <%--<div class="date">${event.createdDate}</div>--%>
                             </div>
                             <div class="text">${event.type.toString()}</div>
