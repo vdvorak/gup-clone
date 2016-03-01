@@ -41,11 +41,10 @@
 
 <div class="container2">
     <ul class="page-navigation" id="breadcrumbs">
-
     </ul>
-
+    <ul class="page-navigation" id="offer-cities">
+    </ul>
     <h1 class="title-h1-blue offer-title"></h1>
-
     <div class="offer-info-wrap">
         <div class="offer-info-box">
             <div class="reservation">
@@ -92,33 +91,56 @@
 
     <h2 class="title-h2-blue text-center">САМЫЕ ПОСЛЕДНИЕ ДОБАВЛЕНИЯ</h2>
 
-    <ul class="notice-box">
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
+    <%--<ul class="notice-box">--%>
+        <%--<li>--%>
+            <%--<a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>--%>
+            <%--<a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>--%>
+            <%--<span>Просмотров: 222</span>--%>
+        <%--</li>--%>
+        <%--<li>--%>
+            <%--<a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>--%>
+            <%--<a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>--%>
+            <%--<span>Просмотров: 222</span>--%>
+        <%--</li>--%>
+        <%--<li>--%>
+            <%--<a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>--%>
+            <%--<a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>--%>
+            <%--<span>Просмотров: 222</span>--%>
+        <%--</li>--%>
+        <%--<li>--%>
+            <%--<a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>--%>
+            <%--<a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>--%>
+            <%--<span>Просмотров: 222</span>--%>
+        <%--</li>--%>
+        <%--<li>--%>
+            <%--<a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>--%>
+            <%--<a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>--%>
+            <%--<span>Просмотров: 222</span>--%>
+        <%--</li>--%>
+    <%--</ul>--%>
+
+
+    <div class="container2">
+
+
+        <ul class="notice-box">
+        </ul>
+        <!-- li pattern for clone -->
+        <li id="li-offer-basic" style="display:none">
+            <a href="#" class="image"><img src="/resources/images/no_photo.jpg" alt="">
+
+                <p>Заголовок обьявления</p></a>
             <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
             <span>Просмотров: 222</span>
         </li>
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
-            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-            <span>Просмотров: 222</span>
-        </li>
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
-            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-            <span>Просмотров: 222</span>
-        </li>
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
-            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-            <span>Просмотров: 222</span>
-        </li>
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
-            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-            <span>Просмотров: 222</span>
-        </li>
-    </ul>
+        <!-- li pattern for clone -->
+        <div class="contentContainer" style="margin-top: 5px">
+            <img class="projAndInvestCaretDown" id="btn-offers-more" src="/resources/images/caret.png" alt="caret">
+        </div>
+
+        <div class="feedFooter"></div>
+    </div>
+
 </div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>

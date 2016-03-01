@@ -104,7 +104,7 @@ public class OfferController {
     }
 
     //----------------------------------- one certain offer  ------
-    @RequestMapping(value = "/offer/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/offer-new/{id}", method = RequestMethod.GET)
     public String offer(Model model, @PathVariable("id") String id) {
 
         Offer offer = new Offer();
@@ -126,12 +126,11 @@ public class OfferController {
     }
 
 
-    @RequestMapping(value = "/offer-new/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/offer/{id}", method = RequestMethod.GET)
     public String offerNew(Model model, @PathVariable("id") String id) {
         model.addAttribute("offerId", id);
         return "offer/offer-new-CSS";
     }
-
 
 
     //----------------------------------- create offer  ------

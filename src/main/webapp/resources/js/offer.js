@@ -1,4 +1,3 @@
-
 var offer = {};
 var phonesSet;
 var jsonCategory = '';
@@ -25,7 +24,6 @@ $.ajax({
 });
 
 
-
 //    alert("Перед ажаксом: " + offerId);
 $.ajax({
     type: "POST",
@@ -42,16 +40,15 @@ $.ajax({
 $('.offer-title').text(offer.title);
 $('.offer-price').text(offer.price);
 $('.offer-video').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/' + offer.videoUrl.split('=')[1] + '" frameborder="0" allowfullscreen></iframe>');
-$('.offer-map').append('<iframe width="300" height="225" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + offer.address.coordinates +'&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>');
+$('.offer-map').append('<iframe width="300" height="225" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + offer.address.coordinates + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>');
 
 
 $('.offer-skype').text(offer.userInfo.skypeLogin);
 $('.offer-description').text(offer.description);
 
 
-
 var currency = $('.currency');
-switch(offer.currency) {
+switch (offer.currency) {
     case 'UAH':
         currency.text(' грн.');
         break;
@@ -61,32 +58,33 @@ switch(offer.currency) {
     case 'EUR':
         currency.text(' евро');
         break;
-    default: currency.text(' грн.')
+    default:
+        currency.text(' грн.')
 }
 
-
-
-if (offer.currency === 'UAH'){
-    $('.currency').text(' грн.')
+if (offer.address) {
+    if (offer.address.country) {
+        $('#offer-cities').append('<li><a href="#">' + offer.address.country + '</a>' + '</li>')
+    }
+    if (offer.address.area) {
+        $('#offer-cities').append('<li><a href="#">' + " \ " + offer.address.area + '</a>' + '</li>')
+    }
+    if (offer.address.city) {
+        $('#offer-cities').append('<li><a href="#">' + " \ " + offer.address.city + '</a>' + '</li>')
+    }
 }
-
-
-
-
-
-
 
 
 var breadcrumbs = offer.categories;
 if (breadcrumbs[0]) {
     for (var i = 0; i < jsonCategory.length; i++) {
         if (jsonCategory[i].id === +breadcrumbs[0]) {
-            $('#breadcrumbs').append('<li><a href="#">' + jsonCategory[i].name + '</a>' + "/" + '</li>');
+            $('#breadcrumbs').append('<li><a href="#">' + jsonCategory[i].name + '</a>' + '</li>');
 
             if (breadcrumbs[1]) {
                 for (var m in jsonCategory[i].children) {
                     if (jsonCategory[i].children[m].id == +breadcrumbs[1]) {
-                        $('#breadcrumbs').append('<li><a href="#">' + jsonCategory[i].children[m].name + '</a>' + "/" + '</li>');
+                        $('#breadcrumbs').append('<li><a href="#">' + jsonCategory[i].children[m].name + '</a>' + '</li>');
                     }
                 }
             }
@@ -98,14 +96,6 @@ if (breadcrumbs[0]) {
         }
     }
 }
-
-
-
-
-
-
-
-
 
 
 $('.show-number').on('click', function () {

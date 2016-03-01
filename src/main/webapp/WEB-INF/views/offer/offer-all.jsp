@@ -212,7 +212,10 @@
                                 .attr('id', "")
                                 .css("display", "inline-block");
                         newLi.find('p').text(offerObj.title);
-                        newLi.find('img').attr("href", '/offer/' + offerObj.id + '').attr("src", imgSrc);
+                        newLi.find('.image').attr("href", '/offer/' + offerObj.id + '');
+                        newLi.find('img').attr("src", imgSrc);
+
+
                         newLi.children('span').text("Просмотров: " + offerObj.views);
                         newLi.find('a.btn').text(priceStr).attr("href", '/offer/' + offerObj.id + '');
 
