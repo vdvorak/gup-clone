@@ -4,10 +4,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
-/**
- * Created by Zver on 26.02.2016.
- */
+
 public final class CookieUtil {
+
     public static String getCookieValue(final Cookie[] cookies, final String cookieName) {
         return  Arrays.stream(cookies)
                 .filter(c -> cookieName.equals(c.getName()))
@@ -20,5 +19,9 @@ public final class CookieUtil {
         cookie.setMaxAge(secondExpires);
         cookie.setPath("/");
         resp.addCookie(cookie);
+    }
+
+    public static void removeCookie(HttpServletResponse resp, String cookieName) {
+        addCookie(resp, cookieName, null, 0);
     }
 }
