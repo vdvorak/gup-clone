@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
@@ -9,21 +10,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${blog.title} | Портал GUP</title>
-    <link href="/resources/css/main.css" rel="stylesheet" type="text/css">
-    <link href="/resources/css/custom-new.css" rel="stylesheet" type="text/css">
+    <title>Объявления | Портал GUP</title>
 
-
-    <link href="/resources/css/bootstrap.css" rel="stylesheet">
-
-    <link href="/resources/css/com.css" rel="stylesheet">
-
-    <link type="text/css" rel="stylesheet" href="/resources/css/simplePagination.css"/>
-    <link href="/resources/css/pgwslideshow.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
+    <link href="/resources/css/custom-new.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <!-- BEGIN Common general header-->
@@ -43,113 +39,65 @@
 <!--END 2nd section -->
 
 <div class="container2">
-    <h2 class="title-h2-blue text-center">ТОП обьявлений</h2>
+
+    <div class="contentContainer" style="padding: 5px;">
+        <a href="/create-offer">
+            <button type="button" id="createProject" class="abutton">Создать объявление</button>
+        </a>
+    </div>
+
+    <h2>ТОП обьявлений</h2>
 
     <ul class="notice-box">
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
-            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-            <span>Просмотров: 222</span>
-        </li>
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic1.jpg" alt="">Заголовок</a>
-            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-            <span>Просмотров: 222</span>
-        </li>
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic2.jpg" alt="">Заголовок</a>
-            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-            <span>Просмотров: 222</span>
-        </li>
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic3.jpg" alt="">Заголовок</a>
-            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-            <span>Просмотров: 222</span>
-        </li>
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic4.jpg" alt="">Заголовок</a>
-            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-            <span>Просмотров: 222</span>
-        </li>
     </ul>
+    <!-- li pattern for clone -->
+    <li id="li-offer-basic" style="display:none">
+        <a href="#" class="image"><img src="/resources/images/no_photo.jpg" alt="">
 
-    <ul class="notice-box">
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
-            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-            <span>Просмотров: 222</span>
-        </li>
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
-            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-            <span>Просмотров: 222</span>
-        </li>
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
-            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-            <span>Просмотров: 222</span>
-        </li>
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
-            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-            <span>Просмотров: 222</span>
-        </li>
-        <li>
-            <a href="#" class="image"><i class="fa fa-star"></i><img src="images/pic.jpg" alt="">Заголовок</a>
-            <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
-            <span>Просмотров: 222</span>
-        </li>
-    </ul>
+            <p>Заголовок обьявления</p></a>
+        <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
+        <span>Просмотров: 222</span>
+    </li>
+    <!-- li pattern for clone -->
+    <div class="contentContainer" style="margin-top: 5px">
+        <img class="projAndInvestCaretDown" id="btn-offers-more" src="/resources/images/caret.png" alt="caret">
+    </div>
 
-
-    <p>&nbsp;</p>
+    <div class="feedFooter"></div>
 </div>
 
+<sec:authorize access="isAuthenticated()">
+    <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
 
-<%--<div class="container2">--%>
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
-    <%--<div class="contentContainer" style="padding: 5px;">--%>
-        <%--<a href="/create-offer">--%>
-            <%--<button type="button" id="createProject" class="abutton">Создать объявление</button>--%>
-        <%--</a>--%>
-    <%--</div>--%>
-
-
-
-    <%--<h2>ТОП обьявлений</h2>--%>
-
-    <%--<ul class="notice-box">--%>
-    <%--</ul>--%>
-    <%--<!-- li pattern for clone -->--%>
-    <%--<li id="li-offer-basic" style="display:none">--%>
-        <%--<a href="#" class="image"><img src="/resources/images/no_photo.jpg" alt=""><p>Заголовок обьявления</p></a>--%>
-        <%--<a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>--%>
-        <%--<span>Просмотров: 222</span>--%>
-    <%--</li>--%>
-    <%--<!-- li pattern for clone -->--%>
-    <%--<div class="contentContainer" style="margin-top: 5px">--%>
-        <%--<img class="projAndInvestCaretDown" id="btn-offers-more" src="/resources/images/caret.png" alt="caret">--%>
-    <%--</div>--%>
-
-    <%--<div class="feedFooter"></div>--%>
-<%--</div>--%>
-
-
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+<script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+<script src="/resources/js/vendor/bootstrap.js"></script>
+<script src="/resources/js/jquery.bxslider.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 
-<!-- Begin Social buttons js -->
-<jsp:include page="/WEB-INF/templates/social-buttons-js.jsp"/>
-<!-- End Social buttons js -->
-<!-- script references -->
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
-<script src="/resources/js/jquery.maskedinput.min.js"></script>
-<script src="/resources/libs/jquery.magnific-popup.min.js"></script>
-<script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
+<sec:authorize var="loggedIn" access="isAuthenticated()"/>
+<c:choose>
+    <c:when test="${loggedIn}">
+        <script src="/resources/js/autorizedHeader.js"></script>
+    </c:when>
+    <c:otherwise>
+        <script src="/resources/js/anonymHeader.js"></script>
+    </c:otherwise>
+</c:choose>
 
-<script src="/resources/js/common.js"></script>
+<script src="/resources/js/main.js"></script>
+<script src="/resources/js/logo-section.js"></script>
+<script src="/resources/js/search-bar.js"></script>
+
+<script src="/resources/js/top-news-block.js"></script>
+<script src="/resources/js/top-offers-block.js"></script>
+<script src="/resources/js/top-tenders-block.js"></script>
+<script src="/resources/js/top-projects-block.js"></script>
 
 <script>
 
@@ -240,22 +188,22 @@
                         var imagesIds = offerObj.imagesIds;
                         var imgSrc = "";
                         var arrKeys = Object.keys(imagesIds);
-                        if(arrKeys.length) {
+                        if (arrKeys.length) {
                             for (var key in imagesIds) {
                                 if (imagesIds[key] === 'pic1') {
                                     imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + key;
                                     break;
                                 }
                             }
-                            if(imgSrc === '') imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + arrKeys[0];
+                            if (imgSrc === '') imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + arrKeys[0];
                         } else {
                             imgSrc = "/resources/images/no_photo.jpg";
                         }
 
                         var priceStr = "Нет цены";
-                        if(offerObj.price) {
+                        if (offerObj.price) {
                             priceStr = offerObj.price.toString();
-                            if(offerObj.currency) {
+                            if (offerObj.currency) {
                                 priceStr = priceStr + offerObj.currency;
                             }
                         }
@@ -295,7 +243,7 @@
         for (var i = 0; i < offerBoxArr.length; i++) {
             offerBoxArr[i].remove();
         }
-        $('ul.notice-box:first').text("");    
+        $('ul.notice-box:first').text("");
     }
 
     $('#btn-offers-more').click(function () {
