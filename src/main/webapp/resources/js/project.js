@@ -20,6 +20,10 @@ function loadAndAppendProject(projectId) {
 }
 
 function appendProjectBlock(project) {
+    if (project.authorId === loggedInProfile.id) {
+        $('#editProjectBtn').show();
+    }
+
     $('#projCreatedDate').append(getReadableDate(project.createdDate));
     $('#projViewsNum').append(project.views);
     $('#projName').append(project.title);
@@ -133,6 +137,10 @@ $("#voteBtn").click(function(){
             }
         }
     });
+});
+
+$("#editProjectBtn").click(function(){
+    window.location.href = getProjectEditUrl(projectId);
 });
 
 $(".downComments").click(function(){

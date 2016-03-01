@@ -52,16 +52,18 @@
                     <div class="publishDate tender-publish-date">Опубликовано: <span></span></div>
 
 
-
                     <!--Need fix-->
                     <br>
+
                     <div class="tender-veiws">Просмотров: <span></span></div>
                     <br>
+
                     <div class="tender-proposal-count">Предложений: <span></span></div>
                     <br>
                     <!--Need fix-->
 
                     <span class="number visible">№<span class="tender-number"></span></span>
+
                     <div class="sum tender-expectedPrice"><span></span>₴</div>
                 </div>
                 <div class="clearfix"></div>
@@ -81,15 +83,16 @@
             <p class="text tender-item-text">
 
             </p>
+
             <div class="bottomSection">
-                lololololololo i'm bottom section)))))azzaz
+
             </div>
 
         </div>
         <div class="sliderTender">
             <ul class="bxsliderTender">
-                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider" /></li>
-                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider" /></li>
+                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider"/></li>
+                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider"/></li>
             </ul>
         </div>
         <div class="tenderFils">
@@ -103,7 +106,7 @@
             <a href="#">system.docx</a>
         </div>
         <div class="tenderMap">
-            </div>
+        </div>
         <div class="downComments"><p>КОММЕНТАРИИ</p></div>
     </div>
 
@@ -111,128 +114,34 @@
         <div class="newsComments">
             <div class="clearfix"></div>
             <p class="newsCommentsHeader">ПРЕДЛОЖЕНИЯ</p>
+
             <form action="#" role="form" id="newsCommentsForm">
-                <textarea name="newsFormComments" id="newsFormComments" placeholder="Введите свой комментарий" maxlength="2000" required></textarea>
-                <button type="submit" class="newsFormSubmit">Отправить</button>
+                <textarea name="newsFormComments" id="newsFormComments" placeholder="Введите свой комментарий"
+                          maxlength="2000" required></textarea>
+                <input id="visionSelect" type="checkbox"><label for="visionSelect">Скрыть
+                предложение от других участников</label>
+                <button id="makePropose" class="newsFormSubmit">Отправить</button>
             </form>
             <p id="chars">2000 символов осталось</p>
         </div>
     </div>
     <div class="colComments" id="commentStart">
+
+
+
         <div class="comments">
             <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
             <a class="NameUser propose-author" href="#">Вася Петров</a>
-            <p class="commentUser poropse-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui quisquam, voluptate at magni neque. Ab illum hic asperiores voluptate voluptatem. Optio alias, numquam sint delectus quod recusandae dolores tempora. Aliquam!</p>
+            <p class="propose-date">Дата публикации: <span></span></p>
+            <p class="commentUser poropse-text">Lorem </p>
             <button class="chooseWinner">Выбрать победителем</button>
         </div>
-        <%--<div class="comments">--%>
-            <%--<a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>--%>
-            <%--<a class="NameUser" href="#">Вася Петров</a>--%>
-            <%--<p class="commentUser">Интересно было узнать, история повторяется циклично!</p>--%>
-        <%--</div>--%>
+
+
     </div>
     <div class="clearfix"></div>
 </div>
 <!--PAGE CONTENT END-->
-
-
-<%--<section>--%>
-<%--<div class="tender-wrap">--%>
-<%--<div class="tender-tabs-wrap">--%>
-<%--<div class="tabs">--%>
-
-<%--<div>--%>
-
-<%--<!-- Repeated section with tender -->--%>
-
-<%--<div class="tender-tabs-items-wrap">--%>
-
-<%--<div class="tender-item-wrapper">--%>
-<%--<div class="tender-item-leftside">--%>
-<%--&lt;%&ndash;<div class="tender-pic-wrap">&ndash;%&gt;--%>
-<%--&lt;%&ndash;<img src="#">&ndash;%&gt;--%>
-<%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-<%--<div class="tender-subpic-stuff">--%>
-<%--<p style="margin-top: 0px; display: inline-block;">Предложений:<span--%>
-<%--class="tender-proposal-count"></span></p>--%>
-
-<%--<p style="margin-top: 0px; display: inline-block; float: right;">--%>
-<%--Просмотров:<span--%>
-<%--class="tender-veiws"></span></p>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--<div class="tender-item-rightside">--%>
-<%--<div class="tender-item-header-wrap">--%>
-<%--<div class="tender-name">--%>
-<%--<p></p>--%>
-<%--</div>--%>
-<%--<div class="tender-item-info">--%>
-<%--<p class="tender-publish-date">Опубликовано:<span--%>
-<%--class="date-create"></span></p>--%>
-
-<%--<p class="tender-number">№<span></span></p>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--<div class="tender-item-text">--%>
-<%--<p></p>--%>
-<%--</div>--%>
-<%--<div class="tender-item-subtext-stuff">--%>
-<%--<div class="tender-time-remain">--%>
-<%--<img src="/resources/img/alarm.png">--%>
-
-<%--<p class="tender-time date-create"></p>--%>
-
-<%--<div class="tender-cost-wrap">--%>
-<%--<p><span class="tender-cost"></span>$</p>--%>
-<%--<button class="tender-apply-for">Участвовать</button>--%>
-<%--</div>--%>
-
-<%--</div>--%>
-<%--</div>--%>
-<%--<div class="imgGal"></div>--%>
-
-<%--<div class="map">--%>
-<%--</div>--%>
-
-<%--<sec:authorize access="isAuthenticated()">--%>
-<%--<div id="no-propose" style="display: none">Нет предложений. Будье первыми!--%>
-<%--</div>--%>
-
-<%--<div id="start">--%>
-<%--<div class="proposes-wraper" style="outline: 2px solid #000;">--%>
-<%--<div class="propose-author">Вася</div>--%>
-<%--<img class="member-pic" src="#" width="50" height="50">--%>
-
-<%--<div class="propose-date"> 1 февраля</div>--%>
-<%--<button class="chooseWinner">Выбрать победителем</button>--%>
-<%--<div class="poropse-text">Азазаз</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-
-<%--<div class="offer-wraper" style="height: 200px; background-color: #006dcc">--%>
-<%--<div class="offer-input-group">--%>
-<%--<textarea id="tenderPropose"></textarea>--%>
-
-<%--<div id="textLength"></div>--%>
-<%--</div>--%>
-
-<%--<input id="visionSelect" type="checkbox"><label for="visionSelect">Скрыть--%>
-<%--предложение от других участников</label>--%>
-
-<%--<button id="makePropose" disabled>Отправить</button>--%>
-<%--</div>--%>
-<%--</sec:authorize>--%>
-
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--&lt;%&ndash;<!-- End of repeated section with tender -->&ndash;%&gt;--%>
-
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</section>--%>
 
 
 <sec:authorize access="isAuthenticated()">
@@ -332,9 +241,6 @@
             $(".tender-name").last().text(data.title);
 
 
-
-
-
             $(".date-finish").last().text(localDateTime(data.end));
 
 
@@ -342,35 +248,26 @@
             $('.tenderMap').append(map);
 
 // ------------------------- Propose bulid block ---------------------------------------------------------------------
-           var commetnItem = $('#commentStart').html()
-
-            if (data.proposes === undefined) {
-                if (data.proposes.length < 1) {
-                    $('#no-propose').attr('style', 'display: ');
-                    $('#start').attr('style', 'display: none')
-                }
-            }
-
-alert(JSON.stringify(data.proposes))
-
-
             for (var i in data.proposes) {
+                $('#commentStart').append($('.comments').last().clone());
                 $(".propose-author").last().text(data.proposes[i].authorId);
-                $(".propose-date").last().text(localDateTime(data.proposes[i].time));
+                $(".propose-date span").last().text(localDateTime(data.proposes[i].time));
                 $(".poropse-text").last().text(data.proposes[i].body);
                 $(".chooseWinner").last().attr('id', data.proposes[i].authorId);
-                $('#start').append(firstBlock);
             }
+            $('.comments').first().remove();
 // ------------------------- Propose bulid block ---------------------------------------------------------------------
 
 
+
+
             $(".chooseWinner").on('click', function () {
-                alert("Азазаз");
+                alert($(this).attr('id'));
 
                 var Tender = {};
                 Tender.winnerId = $(this).attr('id');
                 Tender.id = tenderId;
-
+                alert(Tender.winnerId);
                 $.ajax({
                     type: "POST",
                     url: "/api/rest/tenderService/tender/chooseWinner",
@@ -383,7 +280,6 @@ alert(JSON.stringify(data.proposes))
                         }
                     }
                 });
-
             });
 
 
@@ -419,7 +315,7 @@ alert(JSON.stringify(data.proposes))
     // ----------------- BEGIN Propose sent -------------------------------------------------
     $('#makePropose').on('click', function () {
         var Propose = {};
-        Propose.body = $('#tenderPropose').val();
+        Propose.body = $('#comment').val();
         Propose.hidden = $('#visionSelect').prop('checked');
 
 

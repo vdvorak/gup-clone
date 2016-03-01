@@ -40,10 +40,6 @@
 
     <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
-
-    <%--<body>--%>
-
-
         <!--PAGE CONTENT START-->
         <div class="container2">
             <div class="contentContainer" style="padding: 5px;">
@@ -85,90 +81,6 @@
 
             <div class="feedContainer investmentsFeedContainer contentContainer" id="investmentsContainer" style="display: none">
                 <div id="investorPostsBlock">
-                    <%--<div class="feedItem vip">--%>
-                        <%--<!--Add class "vip" to vip-tialize investment-->--%>
-                        <%--<div class="publishDate">Опубликовано: 22. 10. 16</div>--%>
-                        <%--<div class="photo border-color">--%>
-                            <%--<img src="/resources/css/images/profileListLogo.png" alt="user avatar"/>--%>
-                        <%--</div>--%>
-                        <%--<a href="#" class="content">--%>
-                            <%--<div class="title">Заголовок (ФИО/Компании)</div>--%>
-                            <%--<div class="desc">Описание</div>--%>
-                            <%--<p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>--%>
-                        <%--</a>--%>
-                        <%--<div class="cats">--%>
-                            <%--<!--Recommended max 14 elements-->--%>
-                            <%--<ul>--%>
-                                <%--<!--Emmet shortcut-->--%>
-                                <%--<!--li*14>a[href="#"]>{IT Ресурсы}-->--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                            <%--</ul>--%>
-                        <%--</div>--%>
-
-                        <%--<div class="details">--%>
-                            <%--<div class="canInvest">15468900$</div>--%>
-                            <%--<div class="alreadyInvested">--%>
-                                <%--<div class="desc">Проинвестировано:</div>--%>
-                                <%--<div class="total">15468900$</div>--%>
-                                <%--<div class="totalProjects">25 проектов</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="feedItem">--%>
-                        <%--<!--Add class "vip" to vip-tialize investment-->--%>
-                        <%--<div class="publishDate">Опубликовано: 22. 10. 16</div>--%>
-                        <%--<div class="photo">--%>
-                            <%--<img src="/resources/css/images/profileListLogo.png" alt="user avatar"/>--%>
-                        <%--</div>--%>
-                        <%--<a href="#" class="content">--%>
-                            <%--<div class="title">Заголовок (ФИО/Компании)</div>--%>
-                            <%--<div class="desc">Описание</div>--%>
-                            <%--<p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>--%>
-                        <%--</a>--%>
-                        <%--<div class="cats">--%>
-                            <%--<!--Recommended max 14 elements-->--%>
-                            <%--<ul>--%>
-                                <%--<!--Emmet shortcut-->--%>
-                                <%--<!--li*14>a[href="#"]>{IT Ресурсы}-->--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                                <%--<li><a href="#">IT Ресурсы</a></li>--%>
-                            <%--</ul>--%>
-                        <%--</div>--%>
-
-                        <%--<div class="details">--%>
-                            <%--<div class="canInvest">15468900$</div>--%>
-                            <%--<div class="alreadyInvested">--%>
-                                <%--<div class="desc">Проинвестировано:</div>--%>
-                                <%--<div class="total">15468900$</div>--%>
-                                <%--<div class="totalProjects">25 проектов</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
                 </div>
             </div>
             <div class="contentContainer" style="margin-top: 5px">
@@ -186,7 +98,6 @@
         </sec:authorize>
 
         <jsp:include page="/WEB-INF/templates/footer.jsp"/>
-
 
         <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 
