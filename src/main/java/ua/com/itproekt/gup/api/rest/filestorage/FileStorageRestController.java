@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.util.CreatedObjResp;
+import ua.com.itproekt.gup.util.LogUtil;
 import ua.com.itproekt.gup.util.ServiceNames;
 
 import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Set;
 
 @RestController
@@ -30,7 +29,7 @@ public class FileStorageRestController {
 
     @RequestMapping(value = "{serviceName}/file/read/id/{fileId}", method = RequestMethod.GET)
     public ResponseEntity<InputStreamResource>
-    getById(@PathVariable String serviceName, @PathVariable String fileId,
+    getById2(@PathVariable String serviceName, @PathVariable String fileId,
             @RequestParam(required = false, defaultValue = "false") boolean cachedImage) {
 
         if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
@@ -48,6 +47,7 @@ public class FileStorageRestController {
             return ResponseEntity.ok()
                     .contentLength(gridFSDBFile.getLength())
                     .contentType(MediaType.parseMediaType(gridFSDBFile.getContentType()))
+                    .header("Content-Disposition", "attachment; filename=" + gridFSDBFile.getFilename())
                     .body(new InputStreamResource(gridFSDBFile.getInputStream()));
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -83,11 +83,8 @@ public class FileStorageRestController {
                 }
 
                 return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
-            } catch (IOException e) {
-                StringWriter stack = new StringWriter();
-                e.printStackTrace(new PrintWriter(stack));
-                LOG.error(stack.toString());
-
+            } catch (IOException ex) {
+                LOG.error(LogUtil.getExceptionStackTrace(ex));
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         } else {
