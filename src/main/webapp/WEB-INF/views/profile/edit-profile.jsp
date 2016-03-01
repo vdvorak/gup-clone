@@ -126,15 +126,15 @@
             <%--<div class="clearfix"></div>--%>
 
             <div id="contactEmailsBlock">
+                <label for="contactEmail-0" class="label-form-info">Контактный e-mail</label>
+                <input type="email" id="contactEmail-0" name="myemail" class="form-info-input">
+
+                <div id="deleteEmailImg-1" class="title-email" data-title="Удалить e-mail">
+                    <img class="email-minus" src="/resources/img/minus.png">
+                </div>
                 <div id="addEmailImg" class="title-email" data-title="Добавить e-mail">
                     <img class="email-plus" src="resources/images/pluse.png" alt="plus">
                 </div>
-                <div id="deleteEmailImg" class="title-email" data-title="Удалить e-mail">
-                    <img class="email-minus" src="/resources/img/minus.png" width="32px" height="32px">
-                </div>
-                <label class="label-form-info">Контактный e-mail</label>
-
-                <input type="email" name="myemail" class="form-info-input">
             </div>
 
 

@@ -104,13 +104,17 @@ function setValuesForFieldsFromProfile(profile) {
     $('#web-addresses').val(profile.contact.linkToWebSite);
 
 
-    for (var i = 0; i < profile.contact.contactEmails.length; i++) {
-        $('.input_email_fields_wrap').append($('.email-input-unit').last().clone())
-        $('.email-input-unit input').last().val(profile.contact.contactEmails[i]);
-        emailCloneCount++;
+    for (var i = 1; i < profile.contact.contactEmails.length; i++) {
+        $('#contactEmailsBlock').append('<input type="email" id="contactEmail-'+ i +'" name="myemail" class="form-info-input">');
     }
-    $('.email-input-unit').first().remove();
 
+    for (var i = 0; i < profile.contact.contactEmails.length; i++) {
+        $('#contactEmail-' + i).val(profile.contact.contactEmails[i]);
+    }
+
+    //$('#contactEmailsBlock').append($('.email-input-unit').last().clone());
+    //$('#contactEmailsBlock input').last().val(profile.contact.contactEmails[i]);
+    //emailCloneCount++;
 
     for (var i = 0; i < profile.contact.contactPhones.length; i++) {
         $('.input_tel_fields_wrap').append($('.tel-input-unit').last().clone())
