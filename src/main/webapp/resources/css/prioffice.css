@@ -520,6 +520,9 @@
     width: 100%;
     display: block;
 }
+.msAndNt .notifications .notify .text a {
+    font-weight: bold;
+}
 
 .msAndNt .messages .scrollPreffered {
     position: absolute;

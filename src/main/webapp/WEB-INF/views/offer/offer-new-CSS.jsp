@@ -40,21 +40,17 @@
 
 
 <div class="container2">
-    <ul class="page-navigation">
-        <li><a href="#">Хлебные крошки</a></li>
-        <li><a href="#">хлебные крошки</a></li>
-        <li><a href="#">хлебные крошки</a></li>
-        <li><a href="#">хлебные крошки</a></li>
-        <li><a href="#">хлебные крошки</a></li>
+    <ul class="page-navigation" id="breadcrumbs">
+
     </ul>
 
-    <h1 class="title-h1-blue offer-title">ЗАГОЛОВОК ОБЬЯВЛЕНИЯ</h1>
+    <h1 class="title-h1-blue offer-title"></h1>
 
     <div class="offer-info-wrap">
         <div class="offer-info-box">
             <div class="reservation">
                 <div class="col-xs-6">ЗАБРОНИРОВАТЬ</div>
-                <div class="col-xs-6 text-right"><span class="offer-price"></span> <i class="fa fa-lock"></i></div>
+                <div class="col-xs-6 text-right"><span class="offer-price"></span><span class="currency"></span> <i class="fa fa-lock"></i></div>
             </div>
             <div class="clearfix"></div>
             <div class="row">
@@ -67,7 +63,7 @@
 
                     </div>
                     <div class="clearfix"></div>
-                    <div class="contact">Skype: Deptors <i class="fa fa-skype"></i></div>
+                    <div class="contact"><span class="offer-skype"></span> <i class="fa fa-skype"></i></div>
                 </div>
                 <div class="col-xs-7">
                     Автор: Вася Пупкин
@@ -79,7 +75,10 @@
                 </div>
             </div>
             <div class="clearfix"></div>
-            <img src="images/map.jpg" width="420" alt="">
+            <section class="offer-map">
+            </section>
+            <section class="offer-video">
+            </section>
         </div>
         <div class="offer-info-slider"><img src="images/slider.jpg" width="450" alt=""></div>
     </div>
@@ -88,18 +87,7 @@
     <h2 class="title-h2-blue">Описание</h2>
 
     <div class="descr-text-box">
-        <p>Практичный ноутбук с диагональю экрана <strong>17.3</strong> дюйма станет удачным выбором для домашнего
-            использования и решения несложных задач. <strong>LENOVO G7080 (80FF00DAUA)</strong> обладает высоким
-            разрешение 1600 х 900 пикселей, что наверняка придется по душе настоящим киноманам.</p>
-
-        <p>За решение всех поставленных задач отвечает процессор <strong>Intel Pentium 3825U</strong> с частотой
-            <strong>1.9 ГГц</strong>. Объем оперативной памяти составляет 4 Гб. Для хранения всей вашей информации
-            выделено 500 Гб пространства на жестком диске.</p>
-
-        <p>
-            <strong>LENOVO G7080 (80FF00DAUA)</strong> оснащен разъемами <strong>VGA, HDMI, USB</strong> версии 2.0 и
-            3.0. Для беспроводного подключения используется модуль <strong>Wi-Fi и Bluetooth.</strong>
-        </p>
+        <p class="offer-description"></p>
     </div>
 
     <h2 class="title-h2-blue text-center">САМЫЕ ПОСЛЕДНИЕ ДОБАВЛЕНИЯ</h2>
