@@ -20,10 +20,12 @@ public class ActivityFeedServiceImpl implements ActivityFeedService {
 
     @Override
     public void createEvent(Event event) {
-        Profile profile = profilesService.findById(event.getTargetUId());
-        event.setMakerName(profile.getUsername());
-        event.setMakerImgId(profile.getImgId());
-        activityFeedRepository.createEvent(event);
+        if (profilesService.profileExists(event.getTargetUId())) {
+            Profile profile = profilesService.findById(event.getTargetUId());
+            event.setMakerName(profile.getUsername());
+            event.setMakerImgId(profile.getImgId());
+            activityFeedRepository.createEvent(event);
+        }
     }
 
     @Override
