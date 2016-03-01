@@ -322,7 +322,7 @@ $(document).ready(function(){
     $('.mailDrop-message').last().hide();
     $.ajax({
         type: "POST",
-        url: "api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
+        url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
         success: function (response) {
             var data = JSON.parse(response)
             for (var i in data){
@@ -331,8 +331,6 @@ $(document).ready(function(){
                 $('.mailDrop-message img').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' +  data[i]['authorId']).attr('width', '44').attr('height', '44');
             }
             $('.mailDrop-message').first().remove();
-
-
         }
     });
 
