@@ -34,7 +34,7 @@ public interface BlogPostRepository {
 
     void likeComment(String blogPostId, String commentId, String userId);
 
-    BlogPost findComment(String blogPostId, String commentId);
+    Comment findComment(String blogPostId, String commentId);
 
     void likeBlogPost(String blogPostId, String userId);
 

@@ -173,7 +173,7 @@ public class ProjectServiceImpl implements ProjectService {
             String uId = pair.getKey();
             Long moneyAmount = pair.getValue();
             activityFeedService.createEvent(new Event(uId, EventType.PROJECT_BRING_BACK_MONEY,
-                    moneyAmount.toString(), projectId));
+                    projectId, moneyAmount.toString(), null));
         });
 
     }

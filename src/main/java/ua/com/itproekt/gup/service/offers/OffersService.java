@@ -21,7 +21,7 @@ public interface OffersService {
 
     Offer edit(Offer oldOffer);
 
-    Offer reserveOffer(String offerId, Reservation reservation);
+    void reserveOffer(String offerId, Reservation reservation);
 
     void deleteReservation(String offerId);
 

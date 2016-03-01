@@ -33,7 +33,7 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
     @Override
     public void setFeedsViewed(EventFilterOptions eventFO) {
         Query query = new Query()
-                .addCriteria(Criteria.where("uId").is(eventFO.getuId()))
+                .addCriteria(Criteria.where("uId").is(eventFO.getTargetUId()))
                 .addCriteria(Criteria.where("viewed").ne(Boolean.TRUE));
 
         Update update = new Update()
@@ -47,7 +47,7 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
         Query query = new Query();
 
         //should not be == null
-        query.addCriteria(Criteria.where("uId").is(eventFO.getuId()));
+        query.addCriteria(Criteria.where("uId").is(eventFO.getTargetUId()));
 
         if (eventFO.getAfterDate() != null) {
             query.addCriteria(Criteria.where("createdDate").gte(eventFO.getAfterDate()));

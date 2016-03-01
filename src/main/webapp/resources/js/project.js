@@ -101,7 +101,7 @@ function appendProjectImage(imgId, imgKey) {
 $('#sendProjComment').on('click', function () {
     var comment = {
         'comment' : $('#projectsFormComments').val(),
-        'toId' : ""
+        'toId' : projectId
     };
 
     $.ajax({
