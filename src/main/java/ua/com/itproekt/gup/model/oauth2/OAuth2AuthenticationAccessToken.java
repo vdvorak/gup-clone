@@ -18,6 +18,7 @@ public class OAuth2AuthenticationAccessToken implements Serializable {
 
     @Indexed
     private String id;
+    @Indexed
     private String tokenId;
     private OAuth2AccessToken oAuth2AccessToken;
     private String authenticationId;
@@ -41,7 +42,6 @@ public class OAuth2AuthenticationAccessToken implements Serializable {
         this.authentication = authentication;
         this.refreshToken = oAuth2AccessToken.getRefreshToken().getValue();
     }
-
 
     public String getId() {
         return id;

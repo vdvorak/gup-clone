@@ -18,6 +18,7 @@ public class OAuth2AuthenticationRefreshToken implements Serializable {
 
     @Indexed
     private String id;
+    @Indexed
     private final String tokenId;
     private final OAuth2RefreshToken oAuth2RefreshToken;
     private final OAuth2Authentication authentication;
