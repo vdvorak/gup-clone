@@ -26,7 +26,9 @@
     <link rel="stylesheet" href="/resources/css/custom-style.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <style>
-
+        .element-hidden{
+            display: none;
+        }
         .dropdown-menu {
             min-width: 300px;
         }
@@ -118,6 +120,26 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div id="options">
+            </div>
+        </div>
+        <div class="row">
+            <div id="inputs" class="input-group"></div>
+        </div>
+        <div class="row">
+            <div id="inptPrice" class="input-group element-hidden">Цена
+                <input  name="price" type="number" class="input-sm">
+            </div>
+            <div id="selectCurrency" class="input-group element-hidden">Валюта
+                <select  name="currency">
+                    <option>UAH</option>
+                    <option>USD</option>
+                    <option>EUR</option>
+                </select>
+            </div>
+        </div>
         <div class="row">
             <div class="col-xs-4">
                 <label for="region-row">Регион<em>*</em></label>
@@ -185,27 +207,29 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-4">
-                <label for="new-label-1">Цена<em>*</em></label>
-            </div>
-            <div class="col-xs-3">
-                <select id="selection-price">
-                    <option value="arranged">Договорная</option>
-                    <option value="price">Цена</option>
-                </select>
-            </div>
-            <div class="col-xs-3" style="display: none">
-                <input type="number" id="offer-inpPrice" style="border: 4px solid rgb( 153, 204, 102); border-radius: 5px;">
-            </div>
-            <div class="col-xs-2" style="display: none">
-                <select id="selection-currency">
-                    <option value="UAH">UAH</option>
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                </select>
-            </div>
-        </div>
+        <%--<div class="row">--%>
+            <%--<div class="col-xs-4">--%>
+                <%--<label for="selection-price">Цена<em>*</em></label>--%>
+            <%--</div>--%>
+            <%--<div class="col-xs-3">--%>
+                <%--<select id="selection-price">--%>
+                    <%--<option value="arranged">Договорная</option>--%>
+                    <%--<option value="price">Цена</option>--%>
+                    <%--<option value="free">Бесплатно</option>--%>
+                    <%--<option value="exchange">Обмен</option>--%>
+                <%--</select>--%>
+            <%--</div>--%>
+            <%--<div class="col-xs-3" style="display: none">--%>
+                <%--<input type="number" id="offer-inpPrice" style="border: 4px solid rgb( 153, 204, 102); border-radius: 5px;">--%>
+            <%--</div>--%>
+            <%--<div class="col-xs-2" style="display: none">--%>
+                <%--<select id="selection-currency">--%>
+                    <%--<option value="UAH">UAH</option>--%>
+                    <%--<option value="USD">USD</option>--%>
+                    <%--<option value="EUR">EUR</option>--%>
+                <%--</select>--%>
+            <%--</div>--%>
+        <%--</div>--%>
         <div class="row">
             <div class="col-xs-4">
                 <label for="new-label-3">Описание<em>*</em></label>
@@ -643,6 +667,9 @@
     var parameters = [];
     var properties = [];
     var cities;
+    var category1Id = '';
+    var category2Id = '';
+    var category3Id = '';
 
     // ---------------    LOAD RESOURCES    --------------------------//
     $(document).ready(function () {
@@ -1139,12 +1166,14 @@
 
         $('#ul-category2').html("");
         $('#ul-category3').html("");
+        category2Id = '';
+        category3Id = '';
         $('#category3-container').attr("style", "display: none");
         $('#text-category2').text("Выберите подкатегорию");
         $('#text-category3').text("Выберите подкатегорию");
 
         var a1 = $(event.currentTarget).children('a');
-        var category1Id = a1.attr("id");
+        category1Id = a1.attr("id");
         var category1 = a1.text()
         $('#text-category1').text(category1);
         $('#category2-container').attr("style", "display: inline-block");
@@ -1156,6 +1185,11 @@
                     .click(selectCategoryLvl2);
             $('#ul-category2').append(li);
         }
+        if(child1.length) {
+            drawOptions(category1Id);
+        } else {
+            erase(category1Id);
+        }
     }
 
     function selectCategoryLvl2(event) {
@@ -1163,9 +1197,9 @@
 
         $('#ul-category3').html("");
         $('#text-category3').text("Выберите подкатегорию");
-
+        category3Id = '';
         var a2 = $(event.currentTarget).children('a');
-        var category2Id = a2.attr("id");
+        category2Id = a2.attr("id");
         var category2 = a2.text();
         $('#text-category2').text(category2);
         if (jsonSubcategory[category2Id]) {
@@ -1176,19 +1210,81 @@
                         .click(selectCategoryLvl3);
                 $('#ul-category3').append(li);
             }
+            if(child2.length) {
+                drawOptions(category2Id);
+            } else {
+                erase(category2Id);
+            }
         }
     }
 
     function selectCategoryLvl3(event) {
         event.preventDefault();
+        erase(category2Id);
         var a3 = $(event.currentTarget).children('a');
         category3Id = a3.attr("id");
         var category3 = a3.text();
         $('#text-category3').text(category3);
+        drawOptions(category3Id);
     }
 
 
     //--------------------------------END CATEGORY-------------------------------------------------//
+
+    //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
+
+    function drawOptions(id){
+        $('#options').empty();
+        for(var i in options){
+            if(options[i]['c'][id]){
+                var name;
+                for (j in options[i]['k']){
+                    name = j;
+                }
+
+                for (j in parameters){
+
+                    if (parameters[j]['parameter']['key'] === name && parameters[j]['parameter']['validators']['required'] === 1){
+                        $('#options').append('<div><select class="prop" required name="'+name+'"  id="00'+i+'">'+ '</select></div>');
+                        break;
+                    }else{
+                        $('#options').append('<div><select class="prop" name="'+name+'"  id="00'+i+'">'+ '</select></div>');
+                        break;
+                    }
+                }
+
+                $('#00'+i).on('change',function(){
+                    if(this.value === 'price'){
+                        $('#inptPrice').removeClass("element-hidden");
+                        $('#selectCurrency').removeClass("element-hidden");
+                    }else if (this.value === 'exchange' || this.value === 'arranged' || this.value === 'free') {
+                        $('#inptPrice').addClass("element-hidden");
+                        $('#selectCurrency').addClass("element-hidden");
+                    }
+                });
+
+                for ( var j in options[i]['v']){
+                    $('#00'+i).append('<option value = "'+j+'"  id ="'+ j +'">'+ options[i]['v'][j]+'</option>');
+                }
+
+            }
+        }
+
+        for ( j in parameters){
+            if (parameters[j]['parameter']['type'] === "input" && parameters[j]['categories'][id]){
+                $('#inputs').append('<input id="'+ parameters[j]['parameter']['key'] +'" type="number" name="'+ parameters[j]['parameter']['key'] +'" placeholder="'+parameters[j]['parameter']['key']+'"/>');
+            }
+        }
+    };
+
+    //---------------------------- END DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
+
+    //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
+    function erase(id){
+        $('#options').empty();
+        $('#inputs').empty();
+    };
+    //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
 
 </script>
 <%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"--%>
