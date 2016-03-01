@@ -252,4 +252,86 @@ $(document).ready(function(){
         slideWidth: 140,
         slideMargin: 20
     });
+
+    //
+
+
+    //
+
+    $('#header_money_amount').on('input', function () {
+        $.ajax({
+            url: '/account/getLiqPayParam',
+            method: 'POST',
+            data: {'amount': $('#money_amount').val()},
+            success: function (response) {
+                $('#liq-pay-data').val(response[0]);
+                $('#liq-pay-signature').val(response[1]);
+            }
+        });
+    });
+
+    $('#modal_money_amount').on('input', function () {
+        $.ajax({
+            url: '/account/getLiqPayParam',
+            method: 'POST',
+            data: {'amount': $('#modal_money_amount').val()},
+            success: function (response) {
+                $('#modal_liq-pay-data').val(response[0]);
+                $('#modal_liq-pay-signature').val(response[1]);
+            }
+        });
+    });
+
+    $('.modal-pay-liq-pay').on('click', function () {
+        $('#modal-bill-submit').click()
+
+    })
+
+    $.ajax({
+        type: "POST",
+        url: "/check-balance",
+        cache: false,
+        success: function (response) {
+            $('#score').text(response);
+
+            if (response >= 50) {
+                $('.brokeAss').hide();
+                $('.richAss').show()
+            } else {
+                $('.brokeAss').show();
+                $('.richAss').hide()
+            }
+        }
+    });
+
+
+    $('#noMoneyStartRich').on('click', function () {
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/profilesService/join-organization",
+            cache: false,
+            success: function (response) {
+                if (response == "2") {
+                    alert("Поздравляем со вступлением в организацию!")
+                }
+            }
+        });
+    })
+
+    var dialogInit = $('#dialogStart').html();
+    $('.mailDrop-message').last().hide();
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
+        success: function (response) {
+            var data = JSON.parse(response)
+            for (var i in data){
+                $('#dialogStart').append($('.mailDrop-message').last().clone());
+                $('.mailDrop-message-p').last().text(data[i]['message']);
+                $('.mailDrop-message img').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' +  data[i]['authorId']).attr('width', '44').attr('height', '44');
+            }
+            $('.mailDrop-message').first().remove();
+        }
+    });
+
 });

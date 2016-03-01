@@ -3,11 +3,12 @@ var loggedInProfile = {};
     $.ajax({
         type: "POST",
         url: "/api/rest/profilesService/profile/read/loggedInProfile",
+        async: false,
         success: function (profile) {
             loggedInProfile = profile;
 
-            if (profile.contact.pic != null && profile.contact.pic != '') {
-                $('#headerProfileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1');
+            if (profile.imgId) {
+                $('#headerProfileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '?cachedImage=1');
             } else {
                 $('#headerProfileImg').attr('src', '/resources/images/no_avatar.jpg');
             }
@@ -25,10 +26,10 @@ var loggedInProfile = {};
                         url: "/api/rest/profilesService/profile/read/id/" + contactId,
                         success: function (profile) {
                             var imgTag = '<img ';
-                            if (profile.contact.pic == null) {
+                            if (profile.imgId) {
                                 imgTag += 'src="/resources/images/no_photo.jpg"';
                             } else {
-                                imgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1"';
+                                imgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '?cachedImage=1"';
                             }
                             imgTag += ' width="60"/>';
 
@@ -104,8 +105,8 @@ var loggedInProfile = {};
     //                        url: "/api/rest/profilesService/profile/read/id/" + event.creatorEventId,
     //                        success: function (profile) {
     //                            var imgLinkTag = '<a href="/profile/id/'+ profile.id +'">';
-    //                            if (profile.contact != null && profile.contact.pic != null && profile.contact.pic != '') {
-    //                                imgLinkTag +=  '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '" class="notifimage"/>';
+    //                            if (profile.contact != null && profile.contact.imgId != null && profile.imgId != '') {
+    //                                imgLinkTag +=  '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '" class="notifimage"/>';
     //                            } else {
     //                                imgLinkTag +=  '<img src="/resources/images/no_photo.jpg" class="notifimage"/>';
     //                            }
@@ -152,8 +153,8 @@ var loggedInProfile = {};
     //                url: "/api/rest/profilesService/profile/read/id/" + contactId,
     //                success: function (profile) {
     //                    var imgLinkTag = '<a href="/profile/id/'+ profile.id +'">';
-    //                    if (profile.contact != null && profile.contact.pic != null && profile.contact.pic != '') {
-    //                        imgLinkTag +=  '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '" class="notifimage"/>';
+    //                    if (profile.contact != null && profile.imgId != null && profile.imgId != '') {
+    //                        imgLinkTag +=  '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '" class="notifimage"/>';
     //                    } else {
     //                        imgLinkTag +=  '<img src="/resources/images/no_photo.jpg" class="notifimage"/>';
     //                    }

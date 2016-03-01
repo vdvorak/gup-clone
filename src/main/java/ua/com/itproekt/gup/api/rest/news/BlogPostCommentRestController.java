@@ -31,14 +31,14 @@ public class BlogPostCommentRestController {
 
     @RequestMapping(value = "/blogPost/id/{blogPostId}/comment/{commentId}/read", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BlogPost> getCommentById(@PathVariable String blogPostId,
+    public ResponseEntity<Comment> getCommentById(@PathVariable String blogPostId,
                                                    @PathVariable String commentId) {
-        BlogPost blogPost = blogPostService.findComment(blogPostId, commentId);
-        if (blogPost == null) {
+        Comment comment = blogPostService.findComment(blogPostId, commentId);
+        if (comment == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(blogPost, HttpStatus.OK);
+        return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -54,15 +54,6 @@ public class BlogPostCommentRestController {
         String userId = SecurityOperations.getLoggedUserId();
         comment.setFromId(userId);
         blogPostService.createComment(blogPostId, comment);
-
-        String toId = comment.getToId();
-        // ** проверять существует ли пользователь с toId
-        if( blogPostId.equals(toId)) {
-            String authorId = blogPostService.findById(toId).getAuthorId();
-            activityFeedService.createEvent(new Event(authorId, EventType.BLOG_POST_COMMENT, comment.getcId(), userId));
-        } else {
-            activityFeedService.createEvent(new Event(toId, EventType.BLOG_POST_COMMENT_REPLY, comment.getcId(), userId));
-        }
 
         return new ResponseEntity<>(new CreatedObjResp(comment.getcId()), HttpStatus.CREATED);
     }
@@ -93,11 +84,10 @@ public class BlogPostCommentRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        String authorId = blogPostService.findComment(blogPostId, commentId).getComments().iterator().next().getFromId();
         String userId = SecurityOperations.getLoggedUserId();
 
         blogPostService.likeComment(blogPostId, commentId, userId);
-        activityFeedService.createEvent(new Event(authorId, EventType.BLOG_POST_COMMENT_LIKE, blogPostId, userId));
+
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

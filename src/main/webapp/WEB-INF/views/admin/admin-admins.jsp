@@ -299,16 +299,16 @@
                 }
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].contact !== null) {
-                        if (data[i].contact.pic !== null &&   data[i].contact.pic.length > 2) {
-                            data[i].contact.pic = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].contact.pic + '" width="100" height="100">';
+                        if (data[i].imgId !== null &&   data[i].imgId.length > 2) {
+                            data[i].imgId = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].imgId + '" width="100" height="100">';
                         }
                         else {
-                            data[i].contact.pic = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                            data[i].imgId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
                         }
                     }
                     else {
                         data[i].contact = {};
-                        data[i].contact.pic = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                        data[i].imgId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
                     }
                 }
 
@@ -334,7 +334,7 @@
                     },
                     data: admins,
                     "columns": [
-                        {"data": "contact.pic"},
+                        {"data": "imgId"},
                         {"data": "email"},
                         {"data": "createdDate"}
                     ],
@@ -362,7 +362,7 @@
                     },
                     data: moderators,
                     "columns": [
-                        {"data": "contact.pic"},
+                        {"data": "imgId"},
                         {"data": "email"},
                         {"data": "createdDate"}
                     ],

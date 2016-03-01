@@ -28,7 +28,7 @@ public interface BlogPostService {
 
     int deleteComment(String blogPostId, String commentId);
 
-    BlogPost findComment(String blogPostId, String commentId);
+    Comment findComment(String blogPostId, String commentId);
 
     void likeBlogPost(String blogPostId, String userId);
 

@@ -159,8 +159,8 @@ public class DialogueRestController {
                     //Look out! GOVNOCOD
                     //Change AuthorId in messages to UserPicId
                     Profile p = profileService.findById(msg.getAuthorId());
-                    if(p != null && p.getContact() != null && p.getContact().getPic() != null){
-                        msg.setAuthorId(p.getContact().getPic());
+                    if(p != null && p.getImgId() != null){
+                        msg.setAuthorId(p.getImgId());
                     }else {
                         msg.setAuthorId("");
                     }

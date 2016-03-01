@@ -68,7 +68,7 @@ public class ProjectsAndInvestmentsTestController {
 
             InvestorPost investorPost = new InvestorPost()
                     .setCreatedDateEqualsToCurrentDate()
-                    .setAmountOfMoney(i * 1000 + 1)
+                    .setMaxInvestAmount(i * 1000 + 1)
                     .setDescription("Описание описание описание описание описание описание");
 
             investorService.create(investorPost);

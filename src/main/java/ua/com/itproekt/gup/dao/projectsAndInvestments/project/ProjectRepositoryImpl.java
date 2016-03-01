@@ -165,6 +165,14 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
+    public boolean userHasCommentedProject(String projectId, String profileId) {
+        Query query = new Query()
+                .addCriteria(Criteria.where("id").is(projectId))
+                .addCriteria(Criteria.where("comments.fromId").is(profileId));
+        return mongoTemplate.exists(query, Project.class);
+    }
+
+    @Override
     public void vote(String projectId, ProjectVote projectVote) {
         Update update = new Update()
                 .push("votes", projectVote)
@@ -191,10 +199,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 .set("votes.$.score", projectVote.getScore())
                 .inc("totalScore", projectVote.getScore() - oldUserScore);
 
-        mongoTemplate.updateFirst(
-                query,
-                update,
-                Project.class);
+        mongoTemplate.updateFirst(query, update, Project.class);
     }
 
     @Override

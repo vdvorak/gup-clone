@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.activityfeed.ActivityFeedRepository;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
+import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
 
 @Service
@@ -13,9 +15,17 @@ public class ActivityFeedServiceImpl implements ActivityFeedService {
     @Autowired
     ActivityFeedRepository activityFeedRepository;
 
+    @Autowired
+    ProfilesService profilesService;
+
     @Override
     public void createEvent(Event event) {
-        activityFeedRepository.createEvent(event);
+        if (profilesService.profileExists(event.getTargetUId())) {
+            Profile profile = profilesService.findById(event.getTargetUId());
+            event.setMakerName(profile.getUsername());
+            event.setMakerImgId(profile.getImgId());
+            activityFeedRepository.createEvent(event);
+        }
     }
 
     @Override

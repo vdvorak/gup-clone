@@ -129,7 +129,6 @@
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
 
-<script src="/resources/js/profile.js"></script>
 <script src="/resources/js/profileUtil.js"></script>
 
 <script>
@@ -140,8 +139,8 @@
         url: "/api/rest/profilesService/profile/read/id/" + profileId,
         statusCode: {
             200: function (profile) {
-                if (profile.contact.pic != null && profile.contact.pic != '') {
-                    $('#profileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
+                if (profile.imgId) {
+                    $('#profileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId);
                 } else {
                     $('#profileImg').attr('src', '/resources/images/no_photo.jpg');
                 }
@@ -248,7 +247,6 @@
                 200: function () {
                     $('#addProfileToContact').hide();
                     alert('Профиль добавлен в контакты.')
-//                          window.location.reload();
                 }
             }
         });

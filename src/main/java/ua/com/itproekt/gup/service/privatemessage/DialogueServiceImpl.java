@@ -95,7 +95,7 @@ public class DialogueServiceImpl implements DialogueService {
             if (m.getId() != null) {
                 Profile profile = pr.findById(m.getId());
                 m.setName(profile.getUsername());
-                m.setUserPicId(profile.getContact().getPic());
+                m.setUserPicId(profile.getImgId());
             }
         }
     }

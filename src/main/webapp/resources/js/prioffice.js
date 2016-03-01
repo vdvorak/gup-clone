@@ -210,7 +210,7 @@ User.get = function (id, callback) {
 	else {
 		R.Libra().profilesService().profile().read().id(id, null, function (res) {
 			res.getPic = function () {
-				return res.contact.pic ? '/api/rest/fileStorage/PROFILE/file/read/id/' + res.contact.pic : '/resources/images/no_photo.jpg'
+				return res.imgId ? '/api/rest/fileStorage/PROFILE/file/read/id/' + res.imgId : '/resources/images/no_photo.jpg'
 			}
 			res.getPage = function () {
 				return '/profile/id/' + id

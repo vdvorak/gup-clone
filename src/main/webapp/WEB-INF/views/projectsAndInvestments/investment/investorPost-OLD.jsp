@@ -37,7 +37,7 @@
                                     "<a href='/project?id=" + investorPostData.thoseInNeed[i].projectId + "'>Посмотреть проект</a>";
 
                             var row = $('<tr>');
-                            row.append($('<td>').html(investorPostData.thoseInNeed[i].uId));
+                            row.append($('<td>').html(investorPostData.thoseInNeed[i].targetUId));
                             row.append($('<td>').html(investorPostData.thoseInNeed[i].projectId));
                             row.append($('<td>').html(investorPostData.thoseInNeed[i].createdDate));
 

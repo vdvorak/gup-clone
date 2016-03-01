@@ -7,32 +7,49 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
-@Document(collection = "events")
+@Document
 public class Event {
     @Id
     private String id;
-    private String uId;
-    private Boolean viewed;
+
     private EventType type;
+    private String targetUId;
+    private String contentStoreId;
     private String contentId;
-    private String creatorEventId;
+
+    private String makerId;
+    private String makerName;
+    private String makerImgId;
+
+    private Boolean isViewed;
 
     @Indexed(expireAfterSeconds = 60*60*24*14)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime createdDate;
-//    private String userCreatorEventName;
-//    private Boolean hidden;
 
     public Event() {
         createdDate = LocalDateTime.now();
     }
 
-    public Event(String uId, EventType type, String contentId, String creatorEventId) {
+    public Event(String targetUId, EventType type, String contentStoreId, String makerId) {
         this();
-        this.uId = uId;
+        this.targetUId = targetUId;
         this.type = type;
+        this.contentStoreId = contentStoreId;
+        this.makerId = makerId;
+    }
+
+    public Event(String targetUId, EventType type, String contentStoreId, String contentId, String makerId) {
+        this(targetUId, type, contentStoreId, makerId);
         this.contentId = contentId;
-        this.creatorEventId = creatorEventId;
+    }
+
+    public String getContentStoreId() {
+        return contentStoreId;
+    }
+
+    public void setContentStoreId(String contentStoreId) {
+        this.contentStoreId = contentStoreId;
     }
 
     public LocalDateTime getCreatedDate() {
@@ -51,20 +68,20 @@ public class Event {
         this.id = id;
     }
 
-    public String getuId() {
-        return uId;
+    public String getTargetUId() {
+        return targetUId;
     }
 
-    public void setuId(String uId) {
-        this.uId = uId;
+    public void setTargetUId(String targetUId) {
+        this.targetUId = targetUId;
     }
 
-    public Boolean getViewed() {
-        return viewed;
+    public Boolean getIsViewed() {
+        return isViewed;
     }
 
-    public void setViewed(Boolean viewed) {
-        this.viewed = viewed;
+    public void setIsViewed(Boolean isViewed) {
+        this.isViewed = isViewed;
     }
 
     public EventType getType() {
@@ -83,12 +100,35 @@ public class Event {
         this.contentId = contentId;
     }
 
-    public String getCreatorEventId() {
-        return creatorEventId;
+    public String getMakerId() {
+        return makerId;
     }
 
-    public void setCreatorEventId(String creatorEventId) {
-        this.creatorEventId = creatorEventId;
+    public void setMakerId(String makerId) {
+        this.makerId = makerId;
     }
 
+    public String getMakerName() {
+        return makerName;
+    }
+
+    public void setMakerName(String makerName) {
+        this.makerName = makerName;
+    }
+
+    public String getMakerImgId() {
+        return makerImgId;
+    }
+
+    public void setMakerImgId(String makerImgId) {
+        this.makerImgId = makerImgId;
+    }
+
+    public Boolean getViewed() {
+        return isViewed;
+    }
+
+    public void setViewed(Boolean viewed) {
+        isViewed = viewed;
+    }
 }

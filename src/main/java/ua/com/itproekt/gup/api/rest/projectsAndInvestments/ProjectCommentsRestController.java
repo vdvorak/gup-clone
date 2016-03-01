@@ -49,9 +49,9 @@ public class ProjectCommentsRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-        if (!projectService.userHasVoted(projectId, userId)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+//        if (!projectService.userHasVoted(projectId, userId)) {
+//            return new ResponseEntity<>(HttpStatus.CONFLICT);
+//        }
 
         comment.setFromId(userId);
         projectService.addComment(projectId, comment);
@@ -60,9 +60,9 @@ public class ProjectCommentsRestController {
 
         if( projectId.equals(toId)) {
             String authorId = projectService.findById(toId).getAuthorId();
-            activityFeedService.createEvent(new Event(authorId, EventType.PROJECT_COMMENT, comment.getcId(), userId));
+            activityFeedService.createEvent(new Event(authorId, EventType.PROJECT_COMMENT, projectId, comment.getcId(), userId));
         } else {
-            activityFeedService.createEvent(new Event(toId, EventType.PROJECT_COMMENT_REPLY, comment.getcId(), userId));
+            activityFeedService.createEvent(new Event(toId, EventType.PROJECT_COMMENT_REPLY, projectId, comment.getcId(), userId));
         }
 
         return new ResponseEntity<>(new CreatedObjResp(comment.getcId()), HttpStatus.CREATED);

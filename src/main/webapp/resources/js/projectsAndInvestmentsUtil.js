@@ -28,6 +28,10 @@ function getReadableDate(timestamp) {
     return createdDate.getDate() + '.' + (createdDate.getMonth() + 1) + '.' + createdDate.getFullYear();
 }
 
+function getProjectScore(totalScore, totalVoters) {
+    return Math.ceil((totalScore/totalVoters) * 10) / 10;
+}
+
 function getUrlForProjectMainPic(imagesIds) {
     for (var id in imagesIds) {
         if (imagesIds[id] === "1") {
@@ -39,6 +43,10 @@ function getUrlForProjectMainPic(imagesIds) {
 
 function getProjectUrl(id) {
     return "/project?id=" + id;
+}
+
+function getProjectEditUrl(id) {
+    return "/project/edit?id=" + id;
 }
 
 function getInvertedProgressNum(investedAmount, amountRequested) {

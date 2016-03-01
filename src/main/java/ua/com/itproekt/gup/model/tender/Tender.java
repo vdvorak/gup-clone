@@ -227,7 +227,7 @@ public class Tender {
 
     public void setWinnerId(String winnerId) {
         long now = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        if (now < end){
+        if (end == null || now < end){
             end = now;
         }
         this.winnerId = winnerId;

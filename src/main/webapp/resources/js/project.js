@@ -20,6 +20,10 @@ function loadAndAppendProject(projectId) {
 }
 
 function appendProjectBlock(project) {
+    if (project.authorId === loggedInProfile.id) {
+        $('#editProjectBtn').show();
+    }
+
     $('#projCreatedDate').append(getReadableDate(project.createdDate));
     $('#projViewsNum').append(project.views);
     $('#projName').append(project.title);
@@ -28,6 +32,9 @@ function appendProjectBlock(project) {
     $('#investedAmount').append(project.investedAmount + ' ₴ ');
     $('#requestedAmount').append(project.amountRequested + ' ₴ ');
     $('#commentsNum').append(project.totalComments);
+    if (project.totalVoters > 0) {
+        $('#totalScore').append(Math.ceil((project.totalScore/project.totalVoters) * 10) / 10);
+    }
 
     for (var imgId in project.imagesIds) {
         appendProjectImage(imgId, project.imagesIds[imgId]);
@@ -44,8 +51,8 @@ function setProjectCommentsBlock(projectComments) {
             statusCode: {
                 200: function (profile) {
                     var profileImgTag = '<img ';
-                    if (profile.contact.pic != null && profile.contact.pic != '') {
-                        profileImgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1"';
+                    if (profile.imgId) {
+                        profileImgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '?cachedImage=1"';
                     } else {
                         profileImgTag += 'src="/resources/images/no_photo.jpg"';
                     }
@@ -69,8 +76,8 @@ function setAuthorContent(profileId) {
         url: "/api/rest/profilesService/profile/read/id/" + profileId,
         statusCode: {
             200: function (profile) {
-                if (profile.contact.pic != null && profile.contact.pic != '') {
-                    $('#projCreatorPhoto').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic);
+                if (profile.imgId) {
+                    $('#projCreatorPhoto').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId);
                 } else {
                     $('#projCreatorPhoto').attr('src', '/resources/images/no_photo.jpg');
                 }
@@ -94,7 +101,7 @@ function appendProjectImage(imgId, imgKey) {
 $('#sendProjComment').on('click', function () {
     var comment = {
         'comment' : $('#projectsFormComments').val(),
-        'toId' : ""
+        'toId' : projectId
     };
 
     $.ajax({
@@ -106,9 +113,6 @@ $('#sendProjComment').on('click', function () {
         statusCode: {
             201: function () {
                 location.reload();
-            },
-            409: function () {
-                alert('Чтобы написать комментарий нужно проголосовать');
             }
         }
     });
@@ -118,6 +122,25 @@ $('#projectsFormComments').keyup(function() {
     var maxLength = 1000;
     var length = maxLength - $(this).val().length;
     $('#chars').text(length + ' символов осталось');
+});
+
+$("#voteBtn").click(function(){
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/vote/" + $('#projVoteSelect').find(":selected").text(),
+        statusCode: {
+            200: function () {
+                alert('Ваш голос будет учтен');
+            },
+            409: function () {
+                alert('Чтобы проголосовать сначала нужно написать комментарий');
+            }
+        }
+    });
+});
+
+$("#editProjectBtn").click(function(){
+    window.location.href = getProjectEditUrl(projectId);
 });
 
 $(".downComments").click(function(){

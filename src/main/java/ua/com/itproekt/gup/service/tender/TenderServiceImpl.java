@@ -67,7 +67,7 @@ public class TenderServiceImpl implements TenderService {
     public void checkClosedTendersAndSendActivityFeed() {
         List<Tender> endTenders = tenderRepository.getTodayEndTenders();
         endTenders.parallelStream().filter(t -> t.getWinnerId() == null).forEach(tender -> {
-            activityFeedService.createEvent(new Event(tender.getAuthorId(), EventType.TENDER_END_DAY_NEED_CHOOSE_WINNER, tender.getId(), tender.getId()));
+            activityFeedService.createEvent(new Event(tender.getAuthorId(), EventType.TENDER_END_DAY_NEED_CHOOSE_WINNER, tender.getId(), null, null));
         });
         System.err.println("Debag ! void checkClosedTendersAndSendActivityFeed()");
     }
@@ -150,7 +150,7 @@ public class TenderServiceImpl implements TenderService {
             Profile p = profilesService.findWholeProfileById(m.getId());
             m.setName(p.getUsername());
             if(p.getContact() != null) {
-                m.setUserPic(p.getContact().getPic());
+                m.setUserPic(p.getImgId());
             }
         }
         return t;
