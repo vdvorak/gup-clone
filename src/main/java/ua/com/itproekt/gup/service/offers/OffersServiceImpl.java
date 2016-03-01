@@ -4,12 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.offers.OfferRepository;
+import ua.com.itproekt.gup.model.activityfeed.Event;
+import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.ServiceNames;
 
 import java.util.Map;
@@ -22,6 +26,10 @@ public class OffersServiceImpl implements OffersService {
 
     @Autowired
     private StorageRepository storageRepository;
+
+    @Autowired
+    private ActivityFeedService activityFeedService;
+
 
     @Override
     public void create(Offer offer) {
@@ -107,7 +115,7 @@ public class OffersServiceImpl implements OffersService {
     }
 
     @Override
-    public Offer reserveOffer(String offerId, Reservation reservation) {
+    public void reserveOffer(String offerId, Reservation reservation) {
         Reservation newReservation = new Reservation()
                 .setProfileId(reservation.getProfileId())
                 .setUserContactInfo(reservation.getUserContactInfo())
@@ -117,7 +125,8 @@ public class OffersServiceImpl implements OffersService {
             .setId(offerId)
             .setReservation(newReservation);
 
-        return offerRepository.findAndUpdate(newOffer);
+        Offer updatedOffer = offerRepository.findAndUpdate(newOffer);
+        activityFeedService.createEvent(new Event(updatedOffer.getAuthorId(), EventType.OFFER_RESERVATION, offerId, null, SecurityOperations.getLoggedUserId()));
     }
 
     @Override

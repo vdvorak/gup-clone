@@ -121,7 +121,7 @@ public class AccountController {
         EventFilterOptions ef = new EventFilterOptions();
         ef.setLimit(3);
         ef.setSkip(0);
-        ef.setuId(profile.getId());
+        ef.setTargetUId(profile.getId());
         EntityPage<Event> events = activityFeedService.findEventsWithOptionsAndSetViewed(ef);
         model.addAttribute("events", events.getEntities());
 

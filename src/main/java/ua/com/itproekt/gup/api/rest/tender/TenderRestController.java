@@ -178,7 +178,7 @@ public class TenderRestController {
         newTender.setMembers(tender.getMembers());
         newTender.setProposes(tender.getProposes());
 
-        activityFeedService.createEvent(new Event(tender.getId(), EventType.NEW_PROPOSE_IN_YOUR_TENDER, propose.getAuthorId(), propose.getAuthorId()));
+        activityFeedService.createEvent(new Event(tender.getAuthorId(), EventType.NEW_PROPOSE_IN_YOUR_TENDER, tender.getId(), propose.getAuthorId()));
 
         tenderService.updateTender(newTender);
         HttpHeaders headers = new HttpHeaders();
@@ -227,7 +227,7 @@ public class TenderRestController {
             newTender.getUploadFilesIds().putAll(files);
         }
         if(newTender.getWinnerId() != null && newTender.getWinnerId().length() > 0){
-            activityFeedService.createEvent(new Event(newTender.getWinnerId(), EventType.YOU_WON_IN_TENDER, tender.getId(), tender.getAuthorId()));
+            activityFeedService.createEvent(new Event(newTender.getWinnerId(), EventType.YOU_WON_IN_TENDER, tender.getId(), null, tender.getAuthorId()));
         }
         tenderService.updateTender(newTender);
 
