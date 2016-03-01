@@ -85,7 +85,7 @@
             </p>
 
             <div class="bottomSection">
-                lololololololo i'm bottom section)))))azzaz
+
             </div>
 
         </div>
@@ -138,115 +138,10 @@
         </div>
 
 
-
-        <%--<div class="comments">--%>
-        <%--<a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>--%>
-        <%--<a class="NameUser" href="#">Вася Петров</a>--%>
-        <%--<p class="commentUser">Интересно было узнать, история повторяется циклично!</p>--%>
-        <%--</div>--%>
     </div>
     <div class="clearfix"></div>
 </div>
 <!--PAGE CONTENT END-->
-
-
-<%--<section>--%>
-<%--<div class="tender-wrap">--%>
-<%--<div class="tender-tabs-wrap">--%>
-<%--<div class="tabs">--%>
-
-<%--<div>--%>
-
-<%--<!-- Repeated section with tender -->--%>
-
-<%--<div class="tender-tabs-items-wrap">--%>
-
-<%--<div class="tender-item-wrapper">--%>
-<%--<div class="tender-item-leftside">--%>
-<%--&lt;%&ndash;<div class="tender-pic-wrap">&ndash;%&gt;--%>
-<%--&lt;%&ndash;<img src="#">&ndash;%&gt;--%>
-<%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-<%--<div class="tender-subpic-stuff">--%>
-<%--<p style="margin-top: 0px; display: inline-block;">Предложений:<span--%>
-<%--class="tender-proposal-count"></span></p>--%>
-
-<%--<p style="margin-top: 0px; display: inline-block; float: right;">--%>
-<%--Просмотров:<span--%>
-<%--class="tender-veiws"></span></p>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--<div class="tender-item-rightside">--%>
-<%--<div class="tender-item-header-wrap">--%>
-<%--<div class="tender-name">--%>
-<%--<p></p>--%>
-<%--</div>--%>
-<%--<div class="tender-item-info">--%>
-<%--<p class="tender-publish-date">Опубликовано:<span--%>
-<%--class="date-create"></span></p>--%>
-
-<%--<p class="tender-number">№<span></span></p>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--<div class="tender-item-text">--%>
-<%--<p></p>--%>
-<%--</div>--%>
-<%--<div class="tender-item-subtext-stuff">--%>
-<%--<div class="tender-time-remain">--%>
-<%--<img src="/resources/img/alarm.png">--%>
-
-<%--<p class="tender-time date-create"></p>--%>
-
-<%--<div class="tender-cost-wrap">--%>
-<%--<p><span class="tender-cost"></span>$</p>--%>
-<%--<button class="tender-apply-for">Участвовать</button>--%>
-<%--</div>--%>
-
-<%--</div>--%>
-<%--</div>--%>
-<%--<div class="imgGal"></div>--%>
-
-<%--<div class="map">--%>
-<%--</div>--%>
-
-<%--<sec:authorize access="isAuthenticated()">--%>
-<%--<div id="no-propose" style="display: none">Нет предложений. Будье первыми!--%>
-<%--</div>--%>
-
-<%--<div id="start">--%>
-<%--<div class="proposes-wraper" style="outline: 2px solid #000;">--%>
-<%--<div class="propose-author">Вася</div>--%>
-<%--<img class="member-pic" src="#" width="50" height="50">--%>
-
-<%--<div class="propose-date"> 1 февраля</div>--%>
-<%--<button class="chooseWinner">Выбрать победителем</button>--%>
-<%--<div class="poropse-text">Азазаз</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-
-<%--<div class="offer-wraper" style="height: 200px; background-color: #006dcc">--%>
-<%--<div class="offer-input-group">--%>
-<%--<textarea id="tenderPropose"></textarea>--%>
-
-<%--<div id="textLength"></div>--%>
-<%--</div>--%>
-
-<%--<input id="visionSelect" type="checkbox"><label for="visionSelect">Скрыть--%>
-<%--предложение от других участников</label>--%>
-
-<%--<button id="makePropose" disabled>Отправить</button>--%>
-<%--</div>--%>
-<%--</sec:authorize>--%>
-
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--&lt;%&ndash;<!-- End of repeated section with tender -->&ndash;%&gt;--%>
-
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</section>--%>
 
 
 <sec:authorize access="isAuthenticated()">
