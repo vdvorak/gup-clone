@@ -17,7 +17,6 @@ function getProjectImageUrl(imagesIds) {
     if (imagesIds) {
         for (var imgId in imagesIds) {
             if (imagesIds[imgId] === "pic1") {
-                alert("/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + imgId)
                 return "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + imgId;
             }
         }
