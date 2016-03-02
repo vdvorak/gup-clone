@@ -38,9 +38,6 @@
 
 
 
-
-
-
 <div class="container2">
 
     <div class="contentContainer" style="padding: 5px;">
@@ -58,9 +55,9 @@
         <div id="tabs1-news">
 
             <div class="NewsTabsFilter">
-                <p class="NewsTabsFilterItem" value="Киев">Киев</p>
-                <p class="NewsTabsFilterItem" value="Киев1">Днепропетровск</p>
-                <p class="NewsTabsFilterItem" value="Киев2">Запорожье</p>
+                <p class="NewsTabsFilterItem">Киев</p>
+                <p class="NewsTabsFilterItem">Днепропетровск</p>
+                <p class="NewsTabsFilterItem">Запорожье</p>
                 <p class="NewsTabsFilterItem">Львов</p>
                 <p class="NewsTabsFilterItem">Одесса</p>
                 <p class="NewsTabsFilterItem">Полтава</p>
@@ -96,10 +93,6 @@
         </div>
 
 
-
-
-
-
         <div id="tabs1-blogs">
             <div>
                 <div id="startBlockOfBlogs">
@@ -115,10 +108,6 @@
                 <button id="nextPageBlog">Загрузить ещё блоги</button>
             </div>
         </div>
-
-
-
-
 
 
 
@@ -225,7 +214,7 @@
                 $('.blogs').last().attr('style', 'display:;');
                 $(".blogs-img").last().attr('src', findFirstImgBlog(data[i].imageId));
                 $(".blogs-img").last().attr('alt', data[i].title);
-                $(".blogs a").attr('href', '/blog/' + data[i].id);
+                $(".blogs a").last().attr('href', '/blog/' + data[i].id);
                 $(".text-blogs").last().text(data[i].description);
                 $(".DateOfCreation-blogs-num").last().append(localDateTime(data[i].createdDate));
                 $(".nameBlogs").last().text(data[i].title);
@@ -275,7 +264,7 @@
                 $('.normalNews').last().attr('style', 'display:;');
                 $(".news-img").last().attr('src', findFirstImgNews(data[i].imageId));
                 $(".news-img").last().attr('alt', data[i].title);
-                $(".normalNews a").attr('href', '/blog-post/view/id/' + data[i].id);
+                $(".normalNews a").last().attr('href', '/blog-post/view/id/' + data[i].id);
                 $(".descriptionNormalNews2").last().text(data[i].text);  // - описание
                 $(".normalNews-p2").last().append(localDateTime(data[i].createdDate)); // - дата создания
                 $(".descriptionNormalNews").last().text(data[i].title);  // - заголовок
