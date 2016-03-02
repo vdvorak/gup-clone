@@ -2,6 +2,12 @@
     position: relative;
 }
 
+.input-soc-wrap {
+    font: 400 16px DroidSans;
+    line-height: 20px;
+    padding-left: 224px;
+}
+
 .contentContainer {
     position: relative;
     border-radius: 10px;

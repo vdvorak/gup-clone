@@ -87,7 +87,8 @@ function setValuesForFieldsFromProfile(profile) {
         cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + profile.imgId);
     }
 
-    $('#select-type').val(profile.contact.type).change();
+    $('#select-type').val(profile.contact.type);
+    $('#select-type').change();
 
     $('#userName').val(profile.username);
     $('#position').val(profile.contact.position);
@@ -111,6 +112,18 @@ function setValuesForFieldsFromProfile(profile) {
         }
         $("input[name=contactTel]").last().val(profile.contact.contactPhones[i]);
     }
+
+    if (loadedProfile.contact.socNetLink) {
+        for (var soc in loadedProfile.contact.socNetLink) {
+            drawSocInput(soc, loadedProfile.contact.socNetLink[soc]);
+        }
+    }
+}
+
+function drawSocInput(socName, value) {
+    var socNamePlaceholder = socName.charAt(0).toUpperCase() +  socName.substring(1).toLowerCase();
+    $(".soc-input-group").append('<input class="input-info-normal socInput" type="text" name="'+ socName +'" ' +
+        'placeholder="Ссылка на ' + socNamePlaceholder + '" value="'+ value + '">');
 }
 
 function initializeProfileEntityForUpdate() {
@@ -141,15 +154,13 @@ function initializeProfileEntityForUpdate() {
 
     updatedProfile.contact.contactPhones = contactPhones;
 
-    var socArr = {};
-    $(".soc-input").each(function (index) {
-        if ($(this).parent().hasClass('show-inp')) {
-            var socName = $(this).attr("name");
-            socArr[socName] = $(this).val();
-        }
+    var socLinks = {};
+    $(".socInput").each(function () {
+        var socName = $(this).attr("name");
+        socLinks[socName] = $(this).val();
     });
-    updatedProfile.contact.socNetLink = socArr;
 
+    updatedProfile.contact.socNetLink = socLinks;
 }
 
 $(document).ready(function () {
@@ -166,58 +177,19 @@ $(document).ready(function () {
 
 // --------------------------------------  BEGIN soc network links  ----------------------------------------------
                 // Add/Remove social Input Fields Dynamically with jQuery
-                var max_fields = 5; //maximum input boxes allowed
-                var wrapper = $(".soc-input-group"); //Fields wrapper
-                var x = 1;
+                var max_soc_fields = 7; //maximum input boxes allowed
 
-                function drawInput(template, name, value) {
-                    $('.soc-input-wrap').last().attr('style', 'display:;').addClass('show-inp');
-                    $('.soc-input').last().attr('name', name).attr('value', value);
-                    $('.soc-input-group').append(socInputTemplate);
-                    $('.soc-input-wrap').last().attr('style', 'display: none;').removeClass('show-inp');
-                }
+                $(".socIcon").click(function () {
+                    var socName = $(this).attr("name");
 
-// Draw social networks input
-                if (loadedProfile.contact.socNetLink) {
-                    x = Object.keys(loadedProfile.contact.socNetLink).length;
-
-                    for (var soc in loadedProfile.contact.socNetLink) {
-                        key = loadedProfile.contact.socNetLink[soc];
-                        if (soc === "FACEBOOK") {
-                            drawInput(socInputTemplate, soc, key)
-                        }
-                        if (soc === "VKONTAKTE") {
-                            drawInput(socInputTemplate, soc, key)
-                        }
-                        if (soc === "LINKEDIN") {
-                            drawInput(socInputTemplate, soc, key)
-                        }
-                        if (soc === "GOOGLEPLUS") {
-                            drawInput(socInputTemplate, soc, key)
-                        }
-                        if (soc === "TWITTER") {
-                            drawInput(socInputTemplate, soc, key)
-                        }
-                    }
-                }
-
-                $(".right-tag a").click(function (e) {
-                    e.preventDefault();
-                    var socName = $(this).attr("class");
-
-                    if (x < max_fields) { //max input box allowed
-                        x++; //text box increment
-                        $(wrapper).append('<div class="soc-input-wrap show-inp"><input class="soc-input" name="' + socName + '" type="text" placeholder = "Страница ' + socName + '"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="15" height="15"></a></div>');
+                    if ($(".socInput").length < max_soc_fields) { //max input box allowed
+                        drawSocInput(socName, "");
+                    } else {
+                        alert("Максимум допустимо " + max_soc_fields + "социальных ссылок.")
                     }
                 });
 
-                $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
-                    e.preventDefault();
-                    $(this).parent('div').remove();
-                    x--;
-                });
  // ---------------------------------------------------- END Soc network links --------------------------------
-
 
  // ----------------------------------------------------- Multiply phone numbers -----------------------------------
                 // Add/Remove phone Input Fields Dynamically with jQuery
