@@ -56,7 +56,7 @@ $(document).ready(function(){
 		$('#modal_form')
 			.animate({opacity: 0, top: '45%'}, 200,  // плaвнo меняем прoзрaчнoсть нa 0 и oднoвременнo двигaем oкнo вверх
 				function(){ // пoсле aнимaции
-					$(this).css('display', 'none'); // делaем ему display: none;
+-					$(this).css('display', 'none'); // делaем ему display: none;
 					$('#overlay').fadeOut(400); // скрывaем пoдлoжку
 				}
 			);
@@ -300,21 +300,5 @@ $(document).ready(function(){
             }
         });
     })
-
-    var dialogInit = $('#dialogStart').html();
-    $('.mailDrop-message').last().hide();
-    $.ajax({
-        type: "POST",
-        url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
-        success: function (response) {
-            var data = JSON.parse(response)
-            for (var i in data){
-                $('#dialogStart').append($('.mailDrop-message').last().clone());
-                $('.mailDrop-message-p').last().text(data[i]['message']);
-                $('.mailDrop-message img').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' +  data[i]['authorId']).attr('width', '44').attr('height', '44');
-            }
-            $('.mailDrop-message').first().remove();
-        }
-    });
 
 });
