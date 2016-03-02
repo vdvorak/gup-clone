@@ -24,7 +24,7 @@ function getOfferImageUrl(imagesIds) {
     return "/resources/images/no_photo.jpg";
 }
 
-function appendOffer(elementId, offerURL, imageUrl, title) {
+function appendOffer(offerURL, imageUrl, title) {
     $('#topOffersBlock').append($('.offer-item-wrapper').last().clone());
     $('.add-top1').last().css('background', 'url(' + imageUrl + ')  no-repeat center center').css('background-size', 'cover');
     $('.add-top1 span').last().text(title);
@@ -43,7 +43,7 @@ function loadAndAppendTopOffers() {
 
                 for (var i = 0; i < offers.length; i++) {
                     var offerURl = getOfferUrl(offers[i]);
-                    appendOffer('topOffersBlock', offerURl, getOfferImageUrl(offers[i].imagesIds), offers[i].title);
+                    appendOffer(offerURl, getOfferImageUrl(offers[i].imagesIds), offers[i].title);
                 }
             }
             //,
