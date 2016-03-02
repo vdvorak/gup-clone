@@ -262,7 +262,7 @@
                     $('#startBlockOfNews').append(firstBlockNews);
                 }
                 $('.normalNews').last().attr('style', 'display:;');
-                $(".news-img").last().attr('src', findFirstImgNews(data[i].imageId));
+                $(".news-img").last().attr('src', findFirstImgNews(data[i].imagesIds));
                 $(".news-img").last().attr('alt', data[i].title);
                 $(".normalNews a").last().attr('href', '/blog-post/view/id/' + data[i].id);
                 $(".descriptionNormalNews2").last().text(data[i].text);  // - описание
