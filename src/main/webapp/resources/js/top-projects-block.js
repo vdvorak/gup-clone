@@ -16,7 +16,8 @@ function getProjectUrl(project) {
 function getProjectImageUrl(imagesIds) {
     if (imagesIds) {
         for (var imgId in imagesIds) {
-            if (imagesIds[imgId] === "1") {
+            if (imagesIds[imgId] === "pic1") {
+                alert("/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + imgId)
                 return "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + imgId;
             }
         }
@@ -25,15 +26,11 @@ function getProjectImageUrl(imagesIds) {
     return "/resources/images/no_photo.jpg";
 }
 
-function appendProject(elementId, projectURL, imageUrl, title) {
-    $('#' + elementId).append(
-    '<div class="proj-top1">' +
-        '<a href="' + projectURL + '" class="ad-a1">' + title + '</a>' +
-    '</div>');
-
-    $('.proj-top1').last()
-        .css('background', 'url(' + imageUrl + ')  no-repeat center center')
-        .css('background-size', 'cover');
+function appendProject(projectURL, imageUrl, title) {
+    $('#topProjectsBlock').append($('.project-item-wrapper').last().clone());
+    $('.proj-top1').last().css('background', 'url(' + imageUrl + ')  no-repeat center center').css('background-size', 'cover');
+    $('.proj-top1 span').last().text(title);
+    $('.project-item-wrapper').last().attr('href', projectURL).show();
 }
 
 function loadAndAppendTopProjects() {
@@ -49,7 +46,7 @@ function loadAndAppendTopProjects() {
                 for (var i = 0; i < projects.length; i++) {
                     var projectURl = getProjectUrl(projects[i]);
 
-                    appendProject('topProjectsBlock', projectURl, getProjectImageUrl(projects[i].imagesIds), projects[i].title);
+                    appendProject(projectURl, getProjectImageUrl(projects[i].imagesIds), projects[i].title);
                 }
             }
             //,
