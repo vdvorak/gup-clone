@@ -63,6 +63,7 @@
         <c:choose>
             <c:when test="${loggedIn}">
                 <script src="/resources/js/autorizedHeader.js"></script>
+                <script src="/resources/js/dialogueInHeder.js"></script>
             </c:when>
             <c:otherwise>
                 <script src="/resources/js/anonymHeader.js"></script>
