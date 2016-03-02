@@ -26,7 +26,24 @@
     <link rel="stylesheet" href="/resources/css/custom-style.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/dropdown-multicolumn.css">
+    <style>
+        a.explanation-point-tooltip {
+            position: relative;
+            display: inline;
+        }
+        a.explanation-point-tooltip img {
+            position: absolute;
+            width:30px;
+            height: 30px;
+            visibility: visible;
+            left: 100%;
+            top: 50%;
+            margin-top: -17px;
+            margin-left: 15px;
+            z-index: 999;
+        }
 
+    </style>
 </head>
 <body>
 <!--[if lt IE 8]>
@@ -44,7 +61,7 @@
 
 <div class="container2">
     <h1 class="title-h1-blue text-center">Новое обьявление</h1>
-    <a href="#" class="pull-right">Мои обьявления</a>
+    <%--<a href="#" class="pull-right">Мои обьявления</a>--%>
 
     <div class="clearfix"></div>
 
@@ -54,7 +71,9 @@
                 <label for="new-label-1">Заголовок<em>*</em></label>
             </div>
             <div class="col-xs-8">
-                <input type="text" id="new-label-1" placeholder="Длина заголовка от 5 до 70 символов">
+                <a class="explanation-point-tooltip" href="#">
+                    <input type="text" id="new-label-1" placeholder="Длина заголовка от 5 до 70 символов">
+                    <img src="/resources/css/images/explanation-point.png"></a>
             </div>
         </div>
         <div class="row">
@@ -785,98 +804,104 @@
     // ---------------   END LOAD RESOURCES    --------------------------//
 
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
+    function validateOffer() {
+
+    }
 
     $('#btn-offer-save').click(function () {
+        if(validateOffer()) {
 
-        var offer = {};
-        offer.title = $("#new-label-1").val();
-        offer.imagesIds = imgsArr;
-        offer.canBeReserved = $("#reserve-checkbox").is(":checked");
-        offer.address = {};
-//        offer.address.coordinates = placeKey;
-        offer.address.country = 'Украина';
+            var offer = {};
+            offer.title = $("#new-label-1").val();
+            offer.imagesIds = imgsArr;
+            offer.canBeReserved = $("#reserve-checkbox").is(":checked");
+            offer.address = {};
+            //        offer.address.coordinates = placeKey;
+            offer.address.country = 'Украина';
 
 
-        var city = $('#text-city').text();
-        if (city !== 'Выберите город' && city !== 'Все города') {
-            offer.address.city = city;
-        }
+            var city = $('#text-city').text();
+            if (city !== 'Выберите город' && city !== 'Все города') {
+                offer.address.city = city;
+            }
 
-        var area = $('#text-region').text();
-        if (area !== 'Выберите область') {
-            offer.address.area = area;
-        }
+            var area = $('#text-region').text();
+            if (area !== 'Выберите область') {
+                offer.address.area = area;
+            }
 
-        if ($('#new-label-check').is(':checked')) {
-            offer.urgent = true;
-        }
+            if ($('#new-label-check').is(':checked')) {
+                offer.urgent = true;
+            }
 
-        var phones = [];
-        $.each($('.row-telephone').find('input'), function(index) {
-            var val = $(this).val();
-            if(val) phones.push(val);
-        });
+            var phones = [];
+            $.each($('.row-telephone').find('input'), function (index) {
+                var val = $(this).val();
+                if (val) phones.push(val);
+            });
 
-        var categoryResult = [];
-        if (category1Id !==''){
-            categoryResult.push(category1Id)
-        }
-        if (category2Id !==''){
-            categoryResult.push(category2Id)
-        }
-        if (category3Id !==''){
-            categoryResult.push(category3Id)
-        }
+            var categoryResult = [];
+            if (category1Id !== '') {
+                categoryResult.push(category1Id)
+            }
+            if (category2Id !== '') {
+                categoryResult.push(category2Id)
+            }
+            if (category3Id !== '') {
+                categoryResult.push(category3Id)
+            }
 
-        offer.categories = categoryResult;
-        offer.active = true;
-        offer.description = $('#new-label-3').val();
-        offer.userInfo = {};
-        offer.userInfo.skypeLogin = $('#inpSkype').val();
-        offer.userInfo.contactName = $('#inptAuthor').val();
-        offer.userInfo.email = $('#inpEmail').val();
-        offer.videoUrl = $('#inpVideo').val();
-        offer.userInfo.phoneNumbers = phones;
+            offer.categories = categoryResult;
+            offer.active = true;
+            offer.description = $('#new-label-3').val();
+            offer.userInfo = {};
+            offer.userInfo.skypeLogin = $('#inpSkype').val();
+            offer.userInfo.contactName = $('#inptAuthor').val();
+            offer.userInfo.email = $('#inpEmail').val();
+            offer.videoUrl = $('#inpVideo').val();
+            offer.userInfo.phoneNumbers = phones;
 
-        $('#other-options').find('select').each(function () {
-            var prop = {};
-            prop.key = this.name;
-            prop.value = this.value;
-            properties.push(prop);
-        });
-
-        $('#other-options').find('input').each(function () {
-            var prop = {};
-            prop.key = this.name;
-            prop.value = this.value;
-            properties.push(prop);
-        });
-
-        if($('#offer-price-row').css('display') !== 'none') {
-            $('#offer-price-row > .prop').each(function () {
+            $('#other-options').find('select').each(function () {
                 var prop = {};
                 prop.key = this.name;
                 prop.value = this.value;
                 properties.push(prop);
             });
-            offer.price = $('#offer-inpPrice').val();
-        };
 
-        offer.properties = properties;
+            $('#other-options').find('input').each(function () {
+                var prop = {};
+                prop.key = this.name;
+                prop.value = this.value;
+                properties.push(prop);
+            });
 
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/offersService/offer/create",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(offer),
-            success: function (response) {
-                window.location.href = '/offer/' + response.id;
-            },
-            error: function (response) {
-                alert("Внутренняя ошибка сервера");
+            if ($('#offer-price-row').css('display') !== 'none') {
+                $('#offer-price-row > .prop').each(function () {
+                    var prop = {};
+                    prop.key = this.name;
+                    prop.value = this.value;
+                    properties.push(prop);
+                });
+                offer.price = $('#offer-inpPrice').val();
             }
-        });
+            ;
+
+            offer.properties = properties;
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/offersService/offer/create",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(offer),
+                success: function (response) {
+                    window.location.href = '/offer/' + response.id;
+                },
+                error: function (response) {
+                    alert("Внутренняя ошибка сервера");
+                }
+            });
+        }
     });
 
     // --------------------- END MAIN FORM CONSTRUCTION ----------------------//
@@ -923,7 +948,8 @@
         cloneImg.find('img')
                 .attr("alt", "")
                 .attr("src", '/api/rest/fileStorage/OFFERS/file/read/id/' + id)
-                .attr("id", id);
+                .attr("id", id)
+                .click(onClickSetMainImg);;
         cloneImg.find('span')
                 .click(deleteImg);
         cloneImg.appendTo('#drop_zone ul');

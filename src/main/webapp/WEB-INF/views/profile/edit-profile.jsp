@@ -127,9 +127,9 @@
 
             <div id="contactEmailsBlock">
                 <label for="contactEmail-0" class="label-form-info">Контактный e-mail</label>
-                <input type="email" id="contactEmail-0" name="myemail" class="form-info-input">
+                <input type="email" name="contactEmail" id="contactEmail-0" class="form-info-input">
 
-                <div id="deleteEmailImg-1" class="title-email" data-title="Удалить e-mail">
+                <div id="deleteEmailImg" class="title-email" data-title="Удалить e-mail">
                     <img class="email-minus" src="/resources/img/minus.png">
                 </div>
                 <div id="addEmailImg" class="title-email" data-title="Добавить e-mail">
@@ -152,52 +152,37 @@
                 <div id="deletePhoneImg" class="title-tel" data-title="Удалить телефон">
                     <img class="tel-minus" src="/resources/img/minus.png" width="32px" height="32px">
                 </div>
-                <label for="tel-info-1" class="label-form-info">Контактный телефон</label>
-                <input type="tel" name="contactTel" id="tel-info-1" class="input-info-min">
-
-                <%--<div class="tel-wrapper-1">--%>
-                    <%--&lt;%&ndash;<img class="remove_phone" src="/resources/img/minus.png" with="20" height="20"></a>&ndash;%&gt;--%>
-                <%--</div>--%>
+                <label for="tel-info-0" class="label-form-info">Контактный телефон</label>
+                <input type="tel" name="contactTel" id="tel-info-0" class="input-info-min">
             </div>
             <div class="clearfix"></div>
-
-
-        <%--<div class="input_tel_fields_wrap">Контактные телефоны--%>
-                <%--<button class="add_tel_field_button">Add More Fields</button>--%>
-                <%--<div class="tel-input-unit"><input type="text" name="mytel"><a href="#" class="remove_field"><img--%>
-                        <%--src="/resources/img/minus.png" with="20" height="20"></a></div>--%>
-            <%--</div>--%>
 
             <label for="skype-info" class="label-form-info">Skype</label>
             <input type="text" name="skype" id="skype-info" class="input-info-min">
 
-            <div class="input-group">
-                <div id="socLinkGroup" class="input_soc_wrap">
-                    <div class="left-tag">
-                        <p>Социальные сети</p>
-                    </div>
-                    <div class="right-tag">
-                        <a class="FACEBOOK"><img src="/resources/images/faceb-icon.png"></a>
-                        <a class="TWITTER"><img src="/resources/images/twit-icon.png"> </a>
-                        <a class="VKONTAKTE"><img src="/resources/images/vk-icon.png"></a>
-                        <a class="GOOGLEPLUS"><img src="/resources/images/goo-icon.png"></a>
-                        <a class="LINKEDIN"><img src="/resources/images/link-icon.png"></a>
-
-                        <div class="soc-input-group">
-                            <div class="soc-input-wrap show-inp"><input class="soc-input" type="text" name="FACEBOOK"
-                                                                        value=""
-                                                                        placeholder="Ссылка на FACEBOOK"><span
-                                    class="remove_field"><img
-                                    src="/resources/img/minus.png" width="15" height="15"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="clearfix"></div>
 
             <label for="web-addresses" class="label-form-info">Ссылка на сайт</label>
             <input type="url" name="web-addresses" id="web-addresses" class="input-info-normal"
                    placeholder="Добавить ссылку">
+
+            <div class="clearfix"></div>
+
+            <div class="input-group">
+                <label for="socLinkGroup" class="label-form-info">Социальные сети</label>
+
+                <div id="socLinkGroup" class="input-soc-wrap">
+                    <a class="socIcon" name="FACEBOOK"><img src="/resources/images/faceb-icon.png"></a>
+                    <a class="socIcon" name="TWITTER"><img src="/resources/images/twit-icon.png"> </a>
+                    <a class="socIcon" name="VKONTAKTE"><img src="/resources/images/vk-icon.png"></a>
+                    <a class="socIcon" name="GOOGLEPLUS"><img src="/resources/images/goo-icon.png"></a>
+                    <a class="socIcon" name="LINKEDIN"><img src="/resources/images/link-icon.png"></a>
+
+                    <div class="soc-input-group">
+                        <%--<input class="input-info-normal" type="text" name="FACEBOOK" placeholder="Ссылка на Facebook">--%>
+                    </div>
+                </div>
+            </div>
 
             <div class="clearfix"></div>
 
