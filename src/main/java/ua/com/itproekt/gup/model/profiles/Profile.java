@@ -6,10 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Document(collection = "users")
 public class Profile {
@@ -36,17 +33,7 @@ public class Profile {
     private Long birthDate;
     private Long createdDate;
     private Long lastLoginDate;
-    private Map<PriOfficeSetting, Boolean> priofficeSets;
-
-    public Profile() {
-        priofficeSets = new HashMap<>();
-        priofficeSets.put(PriOfficeSetting.BALANCE, true);
-        priofficeSets.put(PriOfficeSetting.INVESTMENT, true);
-        priofficeSets.put(PriOfficeSetting.OFFER, true);
-        priofficeSets.put(PriOfficeSetting.NEWS, true);
-        priofficeSets.put(PriOfficeSetting.PROJECT, true);
-        priofficeSets.put(PriOfficeSetting.TENDER, true);
-    }
+    private Set<PriOfficeSetting> priofficeSets;
 
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);

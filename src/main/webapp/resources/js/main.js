@@ -14,10 +14,6 @@ function getUrlParam(sParam) {
 }
 
 $(document).ready(function(){
-
-	$(".tidiDown").click(function(){
-        $('.tidi4:first').clone().insertAfter('.tidi4:last');
-    });
     
     $(".btnMail").mouseenter(function(){
         if ($('.answer').is(':visible') ) {

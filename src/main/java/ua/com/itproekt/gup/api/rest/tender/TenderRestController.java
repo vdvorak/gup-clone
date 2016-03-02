@@ -230,6 +230,9 @@ public class TenderRestController {
             activityFeedService.createEvent(new Event(newTender.getWinnerId(), EventType.YOU_WON_IN_TENDER, tender.getId(), null, tender.getAuthorId()));
             tender.setEnd(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
         }
+        if(tender.getType() == TenderType.CLOSE && !newTender.getMembers().isEmpty()){
+            newTender.getMembers().stream().forEach(m -> activityFeedService.createEvent(new Event(m.getId(), EventType.YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER, tender.getId(), null, tender.getAuthorId())));
+        }
         tenderService.updateTender(newTender);
 
         HttpHeaders headers = new HttpHeaders();
