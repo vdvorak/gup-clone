@@ -1,10 +1,9 @@
 var loadedProfile = {};
 var updatedProfile = {};
 
-var emailCloneCount = 1;
-var contactPhoneCloneCount = 1;
 var socInputTemplate = $('.soc-input-group').html();
-
+var contactTelTagHtml = '<input type="tel" name="contactTel" class="input-info-min contactTel">';
+var contactEmailTagHtml = '<input type="email" name="contactEmail" class="form-info-input contactEmail">';
 // --------------------------------------  BEGIN cropper  ----------------------------------------------
 var image = document.getElementById('cropper-image');
 var cropper = new Cropper(image, {
@@ -54,7 +53,6 @@ $(".cropper-btn-success").click(function() {
         processData: false,
         statusCode: {
             201: function (data) {
-//                        alert('201');
                 updatedProfile.imgId = data.id;
                 $('.moreInformation-img').css('background',
                     'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId + ') no-repeat center center')
@@ -79,20 +77,17 @@ function dataURItoBlob(dataURI) {
 }
 // --------------------------------------  END cropper  ----------------------------------------------
 
-// --------------------------------------  End cropper  ----------------------------------------------
-
 function setValuesForFieldsFromProfile(profile) {
 //            alert('loadedProfile: ' + JSON.stringify(loadedProfile));
 
     if (profile.imgId != null) {
         $('.moreInformation-img').css('background',
-            'url(/api/rest/fileStorage/profile/file/read/id/' + profile.imgId + ') no-repeat center center')
-            .css("background-size","cover");
+                'url(/api/rest/fileStorage/profile/file/read/id/' + profile.imgId + ') no-repeat center center')
+            .css("background-size", "cover");
         cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + profile.imgId);
     }
 
-    $('#select-type').val(profile.contact.type);
-    $('#select-type').change();
+    $('#select-type').val(profile.contact.type).change();
 
     $('#userName').val(profile.username);
     $('#position').val(profile.contact.position);
@@ -103,27 +98,19 @@ function setValuesForFieldsFromProfile(profile) {
     $('#info-about-me').val(profile.contact.aboutUs);
     $('#web-addresses').val(profile.contact.linkToWebSite);
 
-
-    for (var i = 1; i < profile.contact.contactEmails.length; i++) {
-        $('#contactEmailsBlock').append('<input type="email" id="contactEmail-'+ i +'" name="myemail" class="form-info-input">');
-    }
-
     for (var i = 0; i < profile.contact.contactEmails.length; i++) {
-        $('#contactEmail-' + i).val(profile.contact.contactEmails[i]);
+        if (i > 0) {
+            $('#contactEmailsBlock').append('<input type="email" name="contactEmail" class="form-info-input contactEmail">');
+        }
+        $("input[name=contactEmail]").last().val(profile.contact.contactEmails[i]);
     }
-
-    //$('#contactEmailsBlock').append($('.email-input-unit').last().clone());
-    //$('#contactEmailsBlock input').last().val(profile.contact.contactEmails[i]);
-    //emailCloneCount++;
 
     for (var i = 0; i < profile.contact.contactPhones.length; i++) {
-        $('.input_tel_fields_wrap').append($('.tel-input-unit').last().clone())
-        $('.tel-input-unit input').last().val(profile.contact.contactPhones[i]);
-        contactPhoneCloneCount++;
+        if (i > 0) {
+            $('#contactPhonesBlock').append(contactTelTagHtml);
+        }
+        $("input[name=contactTel]").last().val(profile.contact.contactPhones[i]);
     }
-    $('.tel-input-unit').first().remove();
-
-//                    $('#tel-info').attr("placeholder", profile.contact.O);
 }
 
 function initializeProfileEntityForUpdate() {
@@ -138,7 +125,7 @@ function initializeProfileEntityForUpdate() {
     updatedProfile.mainPhoneNumber = $('#main-tel-info').val();
 
     var contactEmails = [];
-    $("input[name=myemail]").each(function () {
+    $("input[name=contactEmail]").each(function () {
         if ($(this).val() !== '') {
             contactEmails.push($(this).val());
         }
@@ -146,7 +133,7 @@ function initializeProfileEntityForUpdate() {
     updatedProfile.contact.contactEmails = contactEmails;
 
     var contactPhones = [];
-    $("input[name=mytel]").each(function () {
+    $("input[name=contactTel]").each(function () {
         if ($(this).val() !== '') {
             contactPhones.push($(this).val());
         }
@@ -176,7 +163,6 @@ $(document).ready(function () {
                 updatedProfile.userProfile = loadedProfile.userProfile;
 
                 setValuesForFieldsFromProfile(profile);
-
 
 // --------------------------------------  BEGIN soc network links  ----------------------------------------------
                 // Add/Remove social Input Fields Dynamically with jQuery
@@ -236,52 +222,40 @@ $(document).ready(function () {
  // ----------------------------------------------------- Multiply phone numbers -----------------------------------
                 // Add/Remove phone Input Fields Dynamically with jQuery
 
-                var max_fields_tel = 6; //maximum input boxes allowed + 1
-                var tel_wrapper = $(".input_tel_fields_wrap"); //Fields wrapper
-                var add_button_tel = $(".add_tel_field_button"); //Add button ID
+                var max_fields_tel = 5; //maximum input boxes allowed + 1
 
-                var x_tel = contactPhoneCloneCount; //initial text box count
-                $(add_button_tel).click(function (e) { //on add input button click
-                    e.preventDefault();
-                    if (x_tel < max_fields_tel) { //max input box allowed
-                        x_tel++; //text box increment
-                        $(tel_wrapper).append('<div><input type="text" name="mytel"/><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div>'); //add input box
+                $("#addPhoneImg").click(function () { //on add input button click
+                    if ($("input[name=contactTel]").length < max_fields_tel) { //max input box allowed
+                        $("#contactPhonesBlock").append(contactTelTagHtml); //add input box
                     } else {
-                        alert('Максимум 5 контактных телефоноов');
+                        alert('Максимум ' + max_fields_tel + ' контактных телефоноов');
                     }
                 });
 
-                $(tel_wrapper).on("click", ".remove_field", function (e) { //user click on remove text
-                    e.preventDefault();
-                    $(this).parent('div').remove();
-                    x_tel--;
+                $('#deletePhoneImg').on('click', function () {
+                    $('.contactTel').last().remove();
                 });
+
 // ----------------------------------------------------- Multiply phone numbers -----------------------------------
 
 
 // ----------------------------------------------------- Multiply emails -----------------------------------
                 // Add/Remove phone Input Fields Dynamically with jQuery
 
-                var max_fields_email = 6; //maximum input boxes allowed + 1
-                var email_wrapper = $(".input_email_fields_wrap"); //Fields wrapper
-                var add_button_email = $(".add_email_field_button"); //Add button ID
+                var max_fields_email = 5; //maximum input boxes allowed + 1
 
-                var x_email = emailCloneCount; //initial text box count
-                $(add_button_email).click(function (e) { //on add input button click
-                    e.preventDefault();
-                    if (x_email < max_fields_email) { //max input box allowed
-                        x_email++; //text box increment
-                        $(email_wrapper).append('<div><input type="text" name="myemail"/><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div>'); //add input box
+                $("#addEmailImg").click(function () { //on add input button click
+                    if ($("input[name=contactEmail]").length < max_fields_email) { //max input box allowed
+                        $("#contactEmailsBlock").append(contactEmailTagHtml); //add input box
                     } else {
-                        alert('Максимум 5 контактных email-ов');
+                        alert('Максимум ' + max_fields_email +' контактных email');
                     }
                 });
 
-                $(email_wrapper).on("click", ".remove_field", function (e) { //user click on remove text
-                    e.preventDefault();
-                    $(this).parent('div').remove();
-                    x_email--;
+                $('#deleteEmailImg').on('click', function () {
+                    $('.contactEmail').last().remove();
                 });
+
 // ----------------------------------------------------- Multiply emails -----------------------------------
             }
         }
@@ -348,31 +322,7 @@ $('#addProfileImg').on('click', function () {
 
 // ------------------------------------------- Photo upload block ---------------------------------
 $('#uploadProfilePhotoInput').on('change', function () {
-    /*$.ajax({
-        type: "POST",
-        url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1", //
-        data: new FormData($("#uploadProfilePhotoForm")[0]),
-        enctype: 'multipart/form-data',
-//                async: false,
-        cache: false,
-        contentType: false,
-        processData: false,
-        statusCode: {
-            201: function (data) {
-//                        alert('201');
-                updatedProfile.imgId = data.id;
-                $('.moreInformation-img').css('background',
-                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId + ') no-repeat center center');
-
-            },
-            400: function () {
-                alert('400');
-            }
-        }
-    });*/
-
     var files = event.currentTarget.files;
-
     var reader  = new FileReader();
 
     reader.addEventListener("load", function () {
