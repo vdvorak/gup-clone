@@ -121,25 +121,38 @@
             </div>
         </div>
 
-        <div class="row">
-            <div id="options">
+
+        <div id="offer-price-row" class="row" style="display: none">
+            <div class="col-xs-4">
+                <label for="offer-inpPrice">Цена<em>*</em></label>
             </div>
-        </div>
-        <div class="row">
-            <div id="inputs" class="input-group"></div>
-        </div>
-        <div class="row">
-            <div id="inptPrice" class="input-group element-hidden">Цена
-                <input  name="price" type="number" class="input-sm">
+            <div id="price-options" class="col-xs-3">
+                <select class="prop" name="price">
+
+                </select>
             </div>
-            <div id="selectCurrency" class="input-group element-hidden">Валюта
-                <select  name="currency">
+            <div class="col-xs-3" style="display: none">
+                <input id="offer-inpPrice" name="price" type="number" style="border: 4px solid #9c6; border-radius: 5px;">
+            </div>
+            <div class="col-xs-2" style="display: none">
+                <select id="selection-currency" name="currency" class="prop">
                     <option>UAH</option>
                     <option>USD</option>
                     <option>EUR</option>
                 </select>
             </div>
         </div>
+
+
+        <div id="offer-options-row" class="row" style="display: none">
+            <div class="col-xs-4">
+                <label for="other-options">Дополнительно</label>
+            </div>
+            <div id="other-options" class="col-xs-8">
+
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-xs-4">
                 <label for="region-row">Регион<em>*</em></label>
@@ -670,6 +683,7 @@
     var category1Id = '';
     var category2Id = '';
     var category3Id = '';
+    var isComplete = 0;
 
     // ---------------    LOAD RESOURCES    --------------------------//
     $(document).ready(function () {
@@ -802,23 +816,6 @@
 
     // ---------------   END LOAD RESOURCES    --------------------------//
 
-
-    // ---------------  HIDE PRICE AND CURRENCY ON PAGE ----------------//
-    $('#selection-price').change(function(event) {
-        var selectVal = $(event.currentTarget).val();
-        if(selectVal === 'price') {
-            $('#selection-currency').parent().css('display', 'inline-block');
-            $('#offer-inpPrice').parent().css('display', 'inline-block');
-        } else {
-            $('#selection-currency').parent().css('display', 'none');
-            $('#offer-inpPrice').parent().css('display', 'none');
-        }
-
-    });
-
-    // --------------- END HIDE PRICE AND CURRENCY ON PAGE ----------------//
-
-
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
 
     $('#btn-offer-save').click(function () {
@@ -859,9 +856,15 @@
         });
 
         var categoryResult = [];
-        if($('#text-category1').text() !== 'Выберите категорию') categoryResult.push($('#text-category1').text());
-        if($('#text-category2').text() !== 'Выберите подкатегорию' && $('#category2-container').css('display') !== 'none') categoryResult.push($('#text-category2').text());
-        if($('#text-category3').text() !== 'Выберите подкатегорию' && $('#category3-container').css('display') !== 'none') categoryResult.push($('#text-category3').text());
+        if (category1Id !==''){
+            categoryResult.push(category1Id)
+        }
+        if (category2Id !==''){
+            categoryResult.push(category2Id)
+        }
+        if (category3Id !==''){
+            categoryResult.push(category3Id)
+        }
 
         offer.categories = categoryResult;
         offer.active = true;
@@ -873,23 +876,31 @@
         offer.videoUrl = $('#inpVideo').val();
         offer.userInfo.phoneNumbers = phones;
 
-        $('#options').find('select').each(function () {
+        $('#other-options').find('select').each(function () {
             var prop = {};
             prop.key = this.name;
             prop.value = this.value;
             properties.push(prop);
         });
 
-        $('#inputs').find('input').each(function () {
+        $('#other-options').find('input').each(function () {
             var prop = {};
             prop.key = this.name;
             prop.value = this.value;
             properties.push(prop);
         });
+
+        if($('#offer-price-row').css('display') !== 'none') {
+            $('#offer-price-row > .prop').each(function () {
+                var prop = {};
+                prop.key = this.name;
+                prop.value = this.value;
+                properties.push(prop);
+            });
+            offer.price = $('#offer-inpPrice').val();
+        };
 
         offer.properties = properties;
-
-        alert(JSON.stringify(offer));
 
         $.ajax({
             type: "POST",
@@ -1166,29 +1177,38 @@
 
         $('#ul-category2').html("");
         $('#ul-category3').html("");
+        isComplete = 0;
         category2Id = '';
         category3Id = '';
-        $('#category3-container').attr("style", "display: none");
+
         $('#text-category2').text("Выберите подкатегорию");
         $('#text-category3').text("Выберите подкатегорию");
+        $('#category3-container').attr("style", "display: none");
+        $('#category2-container').attr("style", "display: inline-block");
 
         var a1 = $(event.currentTarget).children('a');
         category1Id = a1.attr("id");
-        var category1 = a1.text()
-        $('#text-category1').text(category1);
-        $('#category2-container').attr("style", "display: inline-block");
-        var child1 = jsonCategory.filter(function (obj) {
+        $('#text-category1').text(a1.text());
+
+        var child1 = {};
+        var childArr = jsonCategory.filter(function (obj) {
             return obj.id === +category1Id; // Filter out the appropriate one
-        })[0].children;
-        for (var key in child1) {
-            var li = $('<li><a id="' + child1[key].id + '" href="#">' + child1[key].name + '</a></li>')
-                    .click(selectCategoryLvl2);
-            $('#ul-category2').append(li);
+        });
+        if(childArr[0]) {
+            child1 = childArr[0].children;
+
+            for (var key in child1) {
+                var li = $('<li><a id="' + child1[key].id + '" href="#">' + child1[key].name + '</a></li>')
+                        .click(selectCategoryLvl2);
+                $('#ul-category2').append(li);
+            }
         }
-        if(child1.length) {
-            drawOptions(category1Id);
-        } else {
+        if(Object.keys(child1).length) {
             erase(category1Id);
+        } else {
+            isComplete = 1;
+            drawOptions(category1Id);
+            $('#category2-container').attr("style", "display: none");
         }
     }
 
@@ -1197,34 +1217,40 @@
 
         $('#ul-category3').html("");
         $('#text-category3').text("Выберите подкатегорию");
+        $('#category3-container').attr("style", "display: inline-block");
+        isComplete = 0;
         category3Id = '';
+
         var a2 = $(event.currentTarget).children('a');
         category2Id = a2.attr("id");
-        var category2 = a2.text();
-        $('#text-category2').text(category2);
+        $('#text-category2').text(a2.text());
+
+        var child2 = {};
         if (jsonSubcategory[category2Id]) {
-            var child2 = jsonSubcategory[category2Id].children;
-            $('#category3-container').attr("style", "display: inline-block");
+            child2 = jsonSubcategory[category2Id].children;
             for (var key in child2) {
                 var li = $('<li><a id="' + key + '" href="#">' + child2[key].label + '</a></li>')
                         .click(selectCategoryLvl3);
                 $('#ul-category3').append(li);
             }
-            if(child2.length) {
-                drawOptions(category2Id);
-            } else {
-                erase(category2Id);
-            }
+        }
+        if(Object.keys(child2).length) {
+            erase(category2Id);
+        } else {
+            isComplete = 1;
+            drawOptions(category2Id);
+            $('#category3-container').attr("style", "display: none");
         }
     }
 
     function selectCategoryLvl3(event) {
         event.preventDefault();
-        erase(category2Id);
+
+        isComplete = 1;
         var a3 = $(event.currentTarget).children('a');
         category3Id = a3.attr("id");
-        var category3 = a3.text();
-        $('#text-category3').text(category3);
+        $('#text-category3').text(a3.text());
+        erase(category2Id);
         drawOptions(category3Id);
     }
 
@@ -1232,57 +1258,74 @@
     //--------------------------------END CATEGORY-------------------------------------------------//
 
     //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
+    $('select[name="price"]').change(selectPrice);
+
+    function selectPrice(event) {
+        var selectVal = $(event.currentTarget).val();
+        if(selectVal === 'price') {
+            $('#selection-currency').parent().css('display', 'inline-block');
+            $('#offer-inpPrice').parent().css('display', 'inline-block');
+        } else {
+            $('#selection-currency').parent().css('display', 'none');
+            $('#offer-inpPrice').parent().css('display', 'none');
+        }
+    }
 
     function drawOptions(id){
-        $('#options').empty();
+        erase(id);
+
         for(var i in options){
             if(options[i]['c'][id]){
-                var name;
+                var name = "";
                 for (j in options[i]['k']){
                     name = j;
                 }
 
                 for (j in parameters){
-
-                    if (parameters[j]['parameter']['key'] === name && parameters[j]['parameter']['validators']['required'] === 1){
-                        $('#options').append('<div><select class="prop" required name="'+name+'"  id="00'+i+'">'+ '</select></div>');
-                        break;
-                    }else{
-                        $('#options').append('<div><select class="prop" name="'+name+'"  id="00'+i+'">'+ '</select></div>');
+                    if(name !== 'price') {
+                        var selectWrapper = $('<div style="display: inline-block; margin-bottom: 5px; margin-right: 5px;"></div>');
+                        var select = $('<select class="prop" name="'+name+'" id="00'+i+'">'+ '</select>');
+                        select.appendTo(selectWrapper);
+                        if (parameters[j]['parameter']['key'] === name && parameters[j]['parameter']['validators']['required'] === 1) {
+                            select.prop("required", true);
+                        }
+                        $('#other-options').append(selectWrapper);
                         break;
                     }
                 }
-
-                $('#00'+i).on('change',function(){
-                    if(this.value === 'price'){
-                        $('#inptPrice').removeClass("element-hidden");
-                        $('#selectCurrency').removeClass("element-hidden");
-                    }else if (this.value === 'exchange' || this.value === 'arranged' || this.value === 'free') {
-                        $('#inptPrice').addClass("element-hidden");
-                        $('#selectCurrency').addClass("element-hidden");
-                    }
-                });
 
                 for ( var j in options[i]['v']){
-                    $('#00'+i).append('<option value = "'+j+'"  id ="'+ j +'">'+ options[i]['v'][j]+'</option>');
+                    var option = $('<option value = "'+j+'"  id ="'+ j +'">'+ options[i]['v'][j]+'</option>');
+                    if(name === 'price') {
+                        $('select[name="price"]').append(option);
+                    } else {
+                        $('#00'+i).append(option);
+                    }
                 }
-
+                if(name === 'price') $('#offer-price-row').css('display', 'block');
             }
         }
 
         for ( j in parameters){
-            if (parameters[j]['parameter']['type'] === "input" && parameters[j]['categories'][id]){
-                $('#inputs').append('<input id="'+ parameters[j]['parameter']['key'] +'" type="number" name="'+ parameters[j]['parameter']['key'] +'" placeholder="'+parameters[j]['parameter']['key']+'"/>');
+            if (parameters[j]['parameter']['type'] === "input" && parameters[j]['categories'][id] && parameters[j]['parameter']['key'] !== 'price'){
+
+                var inpWrapper = $('<div style="display: inline-block; margin-bottom: 5px; margin-right: 5px;"></div>');
+                var inp = $('<input id="'+ parameters[j]['parameter']['key'] +'" type="text"  name="'+ parameters[j]['parameter']['key'] +'" placeholder="'+parameters[j]['parameter']['label']+'"/>');
+                inp.appendTo(inpWrapper);
+                $('#other-options').append(inpWrapper);
             }
         }
+        if($('#other-options').children().length) $('#offer-options-row').css('display', 'block');
     };
 
     //---------------------------- END DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
 
     //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
     function erase(id){
-        $('#options').empty();
-        $('#inputs').empty();
+        $('#offer-price-row').css('display', 'none');
+        $('#offer-options-row').css('display', 'none');
+        $('select[name="price"]').empty();
+        $('#other-options').empty();
     };
     //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
 
