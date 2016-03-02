@@ -14,6 +14,7 @@ import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.ServiceNames;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,19 +49,21 @@ public class BlogPostServiceImpl implements BlogPostService {
                 .setViews(0)
                 .setTotalComments(0)
                 .setTotalLikes(0)
+                .setLikedIds(new HashSet<>())
                 .setTotalDislikes(0)
+                .setDislikedIds(new HashSet<>())
                 .setModifiedDateEqualsToCurrentDate()
                 .setCreatedDateEqualsToCurrentDate()
                 .setTitle(blogPost.getTitle())
                 .setText(blogPost.getText())
                 .setAddress(blogPost.getAddress())
-                .setTags(blogPost.getTags())
+//                .setTags(blogPost.getTags())
                 .setCategories(blogPost.getCategories())
                 .setImagesIds(blogPost.getImagesIds());
 
         blogPostRepository.create(newBlogPost);
 
-        blogPost.setId(newBlogPost.getId()); // ***
+        blogPost.setId(newBlogPost.getId());
     }
 
     @Override
@@ -100,7 +103,7 @@ public class BlogPostServiceImpl implements BlogPostService {
         blogPostRepository.createComment(blogPostId, newComment);
 
         String toId = comment.getToId();
-        // ** проверять существует ли пользователь с toId
+        //TODO ** проверять существует ли пользователь с toId
         if( blogPostId.equals(toId)) {
             String authorId = findById(toId).getAuthorId();
             activityFeedService.createEvent(new Event(authorId, EventType.BLOG_POST_COMMENT, blogPostId, comment.getcId(), SecurityOperations.getLoggedUserId()));
@@ -149,7 +152,7 @@ public class BlogPostServiceImpl implements BlogPostService {
                 .setText(blogPost.getText())
                 .setAddress(blogPost.getAddress())
                 .setImagesIds(blogPost.getImagesIds())
-                .setTags(blogPost.getTags())
+//                .setTags(blogPost.getTags())
                 .setCategories(blogPost.getCategories())
                 .setModifiedDateEqualsToCurrentDate();
         return blogPostRepository.findBlogPostAndUpdate(newBlogPost);

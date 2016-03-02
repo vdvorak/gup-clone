@@ -15,6 +15,7 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.news.BlogPostService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,12 +88,10 @@ public class BlogPostController {
     //ToDo Проверять "А ты ли владелец этого блога, чтобы в неём создовать новость?"
     @RequestMapping("/create/{blogId}")
     public String blogPostCreate(Model model, @PathVariable("blogId") String blogId) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        Profile profile = profilesService.findProfileByEmail(email);
+        Profile profile = profilesService.findById(SecurityOperations.getLoggedUserId());
         model.addAttribute("profileId", profile.getId());
         model.addAttribute("blogId", blogId);
-        return "news/blog-post-create-OLD";
+        return "news/blog-post-create";
     }
 
     @RequestMapping("/edit/{blogPostId}")

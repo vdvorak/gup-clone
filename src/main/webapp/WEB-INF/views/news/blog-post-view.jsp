@@ -158,7 +158,7 @@
             $('#newsLike').on('click', function () {
                 if (typeof loggedInProfile != 'undefined') {
                     if($.inArray(loggedInProfile.id, loadedBlogPost.likedIds) == -1) {
-                        if($.inArray(loggedInProfile.id, loadedBlogPost.dislikedIds) != -1) {
+                        if($.inArray(loggedInProfile.id, loadedBlogPost.dislikedIds) != -1 && loadedBlogPost.totalDislikes > 0) {
                             $('#bpDislikeNum').text(--loadedBlogPost.totalDislikes);
                             loadedBlogPost.dislikedIds = $.grep(loadedBlogPost.dislikedIds, function(value) {
                                 return value != loggedInProfile.id;
@@ -185,7 +185,7 @@
             $('#newsDislike').on('click', function () {
                 if (typeof loggedInProfile != 'undefined') {
                     if($.inArray(loggedInProfile.id, loadedBlogPost.dislikedIds) == -1) {
-                        if($.inArray(loggedInProfile.id, loadedBlogPost.likedIds) != 1) {
+                        if($.inArray(loggedInProfile.id, loadedBlogPost.likedIds) != 1 && loadedBlogPost.totalLikes > 0) {
                             $('#bpLikeNum').text(--loadedBlogPost.totalLikes);
                             loadedBlogPost.likedIds = $.grep(loadedBlogPost.likedIds, function(value) {
                                 return value != loggedInProfile.id;
