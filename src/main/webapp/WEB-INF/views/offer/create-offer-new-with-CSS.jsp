@@ -25,40 +25,8 @@
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/custom-style.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-    <style>
-        .element-hidden{
-            display: none;
-        }
-        .dropdown-menu {
-            min-width: 300px;
-        }
-        .dropdown-menu.columns-2 {
-            min-width: 400px;
-        }
+    <link rel="stylesheet" href="/resources/css/dropdown-multicolumn.css">
 
-        .dropdown-menu li a {
-            padding: 5px 15px;
-            font-size: 14px;
-        }
-        .multi-column-dropdown {
-            list-style: none;
-            margin: 0px;
-            padding: 0px;
-        }
-        .multi-column-dropdown li a {
-            display: block;
-            clear: both;
-            line-height: 1.428571429;
-            color: #333;
-            white-space: normal;
-        }
-        .multi-column-dropdown li a:hover {
-            text-decoration: none;
-            color: #262626;
-            background-color: #999;
-        }
-
-    </style>
 </head>
 <body>
 <!--[if lt IE 8]>
@@ -283,7 +251,7 @@
         </div>
         <div class="row file-browse-wrap">
             <div class="col-xs-4"></div>
-            <div id="drop_zone" class="col-xs-8">
+            <div id="drop_zone" class="col-xs-8 defaultIMG">
                 <ul>
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
@@ -828,13 +796,7 @@
 //        offer.address.coordinates = placeKey;
         offer.address.country = 'Украина';
 
-//        if (!$('#inptPrice').hasClass("element-hidden")) {
-//            offer.price = $('input[name="price"]').val();
-//        }
-//
-//        if (!$('#selectCurrency').hasClass("element-hidden")) {
-//            offer.currency = $('select[name="currency"]').val();
-//        }
+
         var city = $('#text-city').text();
         if (city !== 'Выберите город' && city !== 'Все города') {
             offer.address.city = city;
@@ -967,51 +929,6 @@
         cloneImg.appendTo('#drop_zone ul');
     }
 
-    /*    $('#uploadProfilePhotoInput').change(function (event) {
-     event.preventDefault();
-
-     var files = event.currentTarget.files;
-     for (var i = 0, f; f = files[i]; i++) {
-     var formImg = new FormData($(this)[0]);
-     var fd = new FormData();
-     fd.append('file', f);
-     $.ajax({
-     type: "POST",
-     url: "/api/rest/fileStorage/OFFERS/file/upload/",
-     data: fd,
-     async: false,
-     cache: false,
-     contentType: false,
-     processData: false,
-
-     success: function (data, textStatus, request) {
-     var id = data.id;
-     var isImage = f.type.substring(0, 5) === 'image';
-     if (isImage) {
-     imgsArr[id] = "image";
-     $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-     '<li><strong>' + f.name + '</strong></li>' +
-     ' <li style="background-color: white">' +
-     '<a rel="example_group"> ' +
-     '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
-     '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
-     }
-     }
-     });
-     }
-     event.currentTarget.form.reset();
-     });*/
-
-    /*function deleteImg(idImg) {
-     delete imgsArr[idImg];
-     $.ajax({
-     type: "POST",
-     url: "/api/rest/fileStorage/OFFERS/file/delete/id/" + idImg,
-     success: function (data, textStatus, request) {
-     $('#' + idImg).remove();
-     }
-     });
-     };*/
 
     function deleteImg() {
         var idImg = $(event.currentTarget).parent()
