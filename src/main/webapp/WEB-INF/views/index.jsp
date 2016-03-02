@@ -35,7 +35,7 @@
         <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
 
         <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
-        
+
         <div class="container2">
 			<jsp:include page="/WEB-INF/templates/top-news-block.jsp"/>
 
