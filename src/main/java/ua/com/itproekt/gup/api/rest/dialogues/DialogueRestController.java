@@ -186,7 +186,7 @@ public class DialogueRestController {
             method=RequestMethod.POST
             )
     public ResponseEntity<List<Dialogue>> getAllDialogues(){
-        List<Dialogue> dialogues = dialogueService.findDialogsForUser(getCurrentUserId());
+        List<Dialogue> dialogues = dialogueService.findDialogsForUserSimple(getCurrentUserId());
         for(Dialogue d: dialogues){
             dialogueService.completeMembers(d);
         }
