@@ -16,24 +16,19 @@ function getTenderUrl(tender) {
 function getTenderImageUrl(imagesIds) {
     if (imagesIds) {
         for (var imgId in imagesIds) {
-            if (imagesIds[imgId] === "1") {
+            if (imagesIds[imgId] === "pic1") {
                 return "/api/rest/fileStorage/TENDER/file/read/id/" + imgId;
             }
         }
     }
-
     return "/resources/images/no_photo.jpg";
 }
 
-function appendTender(elementId, tenderURL, imageUrl, title) {
-    $('#' + elementId).append(
-    '<div class="tend-top1">' +
-        '<a href="' + tenderURL + '" class="ad-a1">' + title + '</a>' +
-    '</div>');
-
-    $('.tend-top1').last()
-        .css('background', 'url(' + imageUrl + ')  no-repeat center center')
-        .css('background-size', 'cover');
+function appendTender(tenderURL, imageUrl, title) {
+    $('#topTendersBlock').append($('.tender-item-wrapper').last().clone());
+    $('.tend-top1').last().css('background', 'url(' + imageUrl + ')  no-repeat center center').css('background-size', 'cover');
+    $('.tend-top1 span').last().text(title);
+    $('.tender-item-wrapper').last().attr('href', tenderURL).show();
 }
 
 function loadAndAppendTopTenders() {
@@ -50,7 +45,7 @@ function loadAndAppendTopTenders() {
                 for (var i = 0; i < tenders.length; i++) {
                     var tenderURl = getTenderUrl(tenders[i]);
 
-                    appendTender('topTendersBlock', tenderURl, getTenderImageUrl(tenders[i].imagesIds), tenders[i].title);
+                    appendTender(tenderURl, getTenderImageUrl(tenders[i].uploadFilesIds), tenders[i].title);
                 }
             },
             204 : function() {
