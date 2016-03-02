@@ -242,14 +242,12 @@ public class TenderRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tender> winnerChoose (@RequestBody Tender tender) {
         String id = tenderService.findById(tender.getId()).getAuthorId();
-        if(SecurityOperations.getLoggedUserId() == null || !SecurityOperations.getLoggedUserId().equals(id)){
+        if (SecurityOperations.getLoggedUserId() == null || !SecurityOperations.getLoggedUserId().equals(id)) {
             return new ResponseEntity<Tender>(HttpStatus.FORBIDDEN);
         }
         tender.setEnd(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
-        tender.setProposes(null);
-        tender.setMembers(null);
         activityFeedService.createEvent(new Event(tender.getWinnerId(), EventType.YOU_WON_IN_TENDER, tender.getId(), tender.getAuthorId()));
-        return new ResponseEntity<Tender>(tenderService.updateTender(tender), HttpStatus.OK);
+        return new ResponseEntity<>(tenderService.updateTender(tender), HttpStatus.OK);
     }
 
     //------------------------------------------ Delete -----------------------------------------------------------------
