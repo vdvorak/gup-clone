@@ -2,11 +2,7 @@ package ua.com.itproekt.gup.service.profile;
 
 import ua.com.itproekt.gup.model.profiles.verification.VerificationToken;
 
-/**
- * @version 1.0
- * @author: Iain Porter
- * @since 13/05/2013
- */
+
 public interface VerificationTokenService {
 
     VerificationToken sendEmailRegistrationToken(String userId);
