@@ -92,7 +92,7 @@ function setAuthorContent(profileId) {
 
 function appendProjectImage(imgId, imgKey) {
     var imgTag = '<img class="photo ';
-    imgTag += (imgKey === "1") ? 'full" ' : '" ';
+    imgTag += (imgKey === "pic1") ? 'full" ' : '" ';
     imgTag += 'src="/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + imgId + '" >';
 
     $('#projImages').append(imgTag);
