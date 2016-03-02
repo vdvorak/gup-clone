@@ -4,8 +4,12 @@
     <p class="proj-p">ТОП ПРОЕКТОВ</p>
 
     <div id="topProjectsBlock">
+        <a href="#" class="project-item-wrapper" style="display: none;">
+            <div class="proj-top1">
+                <span class="ad-a1"></span>
+            </div>
+        </a>
         <%--заполняется из бызы--%>
     </div>
-
     <img class="caretDown" id="proj-caret" src="/resources/images/caret.png" alt="caret">
 </div>
