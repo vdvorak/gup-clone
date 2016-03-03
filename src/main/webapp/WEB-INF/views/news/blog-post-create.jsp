@@ -196,10 +196,7 @@
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
 
-
-
 <script>
-
     var imgsArr = {};
     var inpCategories = [];
     var cities;
