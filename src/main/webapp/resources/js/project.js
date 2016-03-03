@@ -173,7 +173,7 @@ $(".comments").click(function () {
     }
 });
 
-// ----------------------------------- Check project balance
+// ----------------------------------- Check project balance ----------------------------------------------
 function checkProjectBalance(projectId) {
     return $.ajax({
         type: "POST",
@@ -183,3 +183,24 @@ function checkProjectBalance(projectId) {
     });
 }
 
+
+$('#makeInvest').click( function(event){
+    event.preventDefault();
+    $('#overlay').fadeIn(400,
+        function(){
+            $('#investModal')
+                .css('display', 'block')
+                .animate({opacity: 1, top: '50%'}, 200);
+        });
+});
+
+
+$('#overlay, .richAss > form > #close').click( function(){
+    $('#investModal')
+        .animate({opacity: 0, top: '45%'}, 200,
+        function(){
+            $(this).css('display', 'none');
+            $('#overlay').fadeOut(400);
+        }
+    );
+});
