@@ -586,7 +586,7 @@
         var block = $(event.currentTarget).parent().parent();
         $.ajax({
             type: "POST",
-            url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
+            url: "/api/rest/fileStorage/TENDER/file/delete/id/" + idImg,
             success: function (data, textStatus, request) {
                 $('#' + idImg).parent().remove();
 
