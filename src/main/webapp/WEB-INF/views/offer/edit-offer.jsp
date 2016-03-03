@@ -1119,7 +1119,15 @@
     //--------------------------- END REGIONS LIST --------------------------------------------//
 
     //----------------------------- PHONES LIST ----------------------------------------------//
-
+    var phonesArr = ${offer.userInfo.phoneNumbers};
+    for(var i = 0; i < phonesArr.length; i++) {
+        if(i < 3) {
+            addTelephone();
+            $('.row-telephone:last').find('input').val(phonesArr[i]);
+        } else {
+            break;
+        }
+    }
 
     function addTelephone() {
         var curNumber = $('.row-telephone').length;
