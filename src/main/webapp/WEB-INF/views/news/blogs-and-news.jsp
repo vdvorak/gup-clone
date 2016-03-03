@@ -42,7 +42,10 @@
 
     <div class="contentContainer" style="padding: 5px;">
         <a href="/blog-create">
-            <button type="button" id="createProject" class="abutton">Создать новостной блог</button>
+            <button type="button" class="abutton">Создать новостной блог</button>
+        </a>
+        <a href="#">
+            <button type="button" class="abutton">Создать новость в блоге</button>
         </a>
     </div>
 
@@ -53,7 +56,6 @@
         </ul>
 
         <div id="tabs1-news">
-
             <div class="NewsTabsFilter">
                 <p class="NewsTabsFilterItem">Киев</p>
                 <p class="NewsTabsFilterItem">Днепропетровск</p>
@@ -93,30 +95,24 @@
 
         </div>
 
-
         <div id="tabs1-blogs">
             <div>
                 <div id="startBlockOfBlogs">
                     <div class="blogs">
-                        <a href="#"><img class="blogs-img" src="resources/images/1+1.png" alt="1+1"></a>
+                        <a href="#"><img class="blogs-img" src=""></a>
                         <a href="#" class="nameBlogs"></a>
-
                         <p class="text-blogs"></p>
-
                         <p class="DateOfCreation-blogs-num">Дата создания: </p>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-
 
     <div class="contentContainer" style="margin-top: 5px">
         <img class="projAndInvestCaretDown" name="getNextImg" id="nextPageNews" src="/resources/images/caret.png" alt="caret">
     </div>
 </div>
-
 
 <!--PAGE CONTENT END-->
 
@@ -250,7 +246,6 @@
         });
 
         function drawNews(data) {
-
             for (var i = 0; i<data.length; i++ ) {
                 data[i].text = data[i].text.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', "");
                 if($('.normalNews').length == 0){
@@ -270,14 +265,12 @@
             $('.normalNews').last().attr('style', 'display: none;');
         }
 
-
         doAjax(newsFO, urlGetNews, 'news');
 
         $('#nextPageNews').on('click', function () {
             newsFO.skip += 5;
             doAjax(newsFO, urlGetNews, 'news');
         })
-
 
     });
     // ------------------- End create default block of blogs and news -------------------------------------------------------

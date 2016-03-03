@@ -47,8 +47,8 @@ function appendInvestorPostBlock(investorPost) {
                                                                         '<div class="total">' + investorPost.maxInvestAmount + ' ₴ </div> </div>' +
                         '</div>' +
                         '<button type="button" class="abutton blue investApp">Нужна инвестиция</button>' +
-                '</div>' +
-            '</div>');
+                    '</div>' +
+                '</div>');
         }
     });
 }

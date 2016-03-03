@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.itproekt.gup.exception.ResourceNotFoundException;
 import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
@@ -59,11 +58,12 @@ public class BlogPostController {
     }
 
     @RequestMapping("/news")
-    public String newsView(@RequestParam(required = false, defaultValue = "0") int pageNumber, Model model) {
+    public String newsView() {
+//    public String newsView(@RequestParam(required = false, defaultValue = "0") int pageNumber, Model model) {
 //        BlogPostFilterOptions blogPostFO = new BlogPostFilterOptions();
 //        EntityPage<BlogPost> blogPostPages = blogPostService.findBlogPostsWihOptions(blogPostFO);
 //        model.addAttribute("news", blogPostPages);
-        model.addAttribute("pageNumber", pageNumber);
+//        model.addAttribute("pageNumber", pageNumber);
         return "news/blogs-and-news";
     }
 
