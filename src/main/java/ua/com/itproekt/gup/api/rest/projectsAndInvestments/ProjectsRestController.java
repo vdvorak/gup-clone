@@ -126,7 +126,7 @@ public class ProjectsRestController {
 
     // ----------------------------------------- Check project balance -----------------------------------------------
 
-
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/check-project-balance", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<Integer> checkProjectBalance(@RequestParam("projectId") String projectId) {
@@ -139,5 +139,4 @@ public class ProjectsRestController {
 
         return new ResponseEntity<>(score, HttpStatus.OK);
     }
-
 }

@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
 
+    <link rel="stylesheet" href="/resources/css/sasha.css">
+
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
 <body>
@@ -63,7 +65,7 @@
                 </div>
                 <div id="investBlock" class="bottomSection">
                     <button id="editProjectBtn" type="button" class="abutton" style="display: none">Редактировать</button>
-                    <button type="button" class="abutton blue invest">Инвестировать</button>
+                    <button id="makeInvest" type="button" class="abutton blue invest">Инвестировать</button>
                     <div class="projectProgressBlock">
                         <div class="current elem cash" id="investedAmount"></div>
                         <div class="bar elem">
@@ -133,6 +135,28 @@
     </div>
 
     <!--PAGE CONTENT END-->
+
+    <!-- Modal window invest-->
+    <div id="investModal">
+        <h2>Проинвестировать проект</h2>
+        <div class="whichBankYouChoose">
+            <div class="richAss">
+                <p>С вашего счета будет снято 000. 00 грн</p>
+                <form role="form" action="#">
+                    <div class="richAssCheck">
+                        <label for="hustle">Windows XP&nbsp;</label>
+                        <label class="label-checkbox-rich">
+                            <input type="checkbox" id="hustle" value="1" name="k" /><span></span>
+                        </label>
+                    </div>
+                    <div class="clearfix"></div>
+                    <button type="button" id='close'>Отмена</button>
+                    <button type="submit">Подтвердить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End modal window invest-->
 
     <sec:authorize access="isAuthenticated()">
         <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
