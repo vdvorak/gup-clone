@@ -12,70 +12,70 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Редактирование объявления</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Редактирование объявления</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="/resources/css/bootstrap.css">
-  <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
-  <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
-  <link rel="stylesheet" href="/resources/css/main.css">
-  <link rel="stylesheet" href="/resources/css/font-awesome.css">
-  <link rel="stylesheet" href="/resources/css/custom-style.css">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/css/dropdown-multicolumn.css">
-  <style>
-    a.explanation-point-tooltip {
-      position: relative;
-      display: inline-block;
-      width: 100%;
-    }
+    <link rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="/resources/css/custom-style.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/css/dropdown-multicolumn.css">
+    <style>
+        a.explanation-point-tooltip {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
 
-    a.explanation-point-tooltip img:hover {
-      cursor: default;
-    }
+        a.explanation-point-tooltip img:hover {
+            cursor: default;
+        }
 
-    a.explanation-point-tooltip:focus {
-      outline: 0;
-    }
+        a.explanation-point-tooltip:focus {
+            outline: 0;
+        }
 
-    a.explanation-point-tooltip img {
-      position: absolute;
-      width: 23px;
-      height: 23px;
-      visibility: visible;
-      left: 100%;
-      top: 0%;
-      z-index: 999;
-    }
+        a.explanation-point-tooltip img {
+            position: absolute;
+            width: 23px;
+            height: 23px;
+            visibility: visible;
+            left: 100%;
+            top: 0%;
+            z-index: 999;
+        }
 
-    #btn-offer-save {
-      float: right;
-      margin-top: 60px;
-      color: #ffffff;
-      font: 400 16px ArianAMU;
-      height: 32px;
-      width: 133px;
-      border-radius: 5px;
-      border: 2px solid rgb(153, 204, 102);
-      background-color: rgb(153, 204, 102);
-      -webkit-transition: all .25s;
-      transition: all .25s;
-      margin-right: 15px;
-    }
+        #btn-offer-save {
+            float: right;
+            margin-top: 60px;
+            color: #ffffff;
+            font: 400 16px ArianAMU;
+            height: 32px;
+            width: 133px;
+            border-radius: 5px;
+            border: 2px solid rgb(153, 204, 102);
+            background-color: rgb(153, 204, 102);
+            -webkit-transition: all .25s;
+            transition: all .25s;
+            margin-right: 15px;
+        }
 
-    #btn-offer-save:hover {
-      background-color: transparent;
-      color: rgb(153, 204, 102);
-    }
-  </style>
+        #btn-offer-save:hover {
+            background-color: transparent;
+            color: rgb(153, 204, 102);
+        }
+    </style>
 </head>
 <body>
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-  your browser</a> to improve your experience.</p>
+    your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
@@ -87,274 +87,275 @@
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
 <div class="container2">
-  <h1 class="title-h1-blue text-center">Редактирование обьявления</h1>
-  <%--<a href="#" class="pull-right">Мои обьявления</a>--%>
+    <h1 class="title-h1-blue text-center">Редактирование обьявления</h1>
+    <%--<a href="#" class="pull-right">Мои обьявления</a>--%>
 
-  <div class="clearfix"></div>
+    <div class="clearfix"></div>
 
-  <div class="container-fluid new-adv-box">
-    <div class="row">
-      <div class="col-xs-3">
-        <label for="new-label-1">Заголовок<em>*</em></label>
-      </div>
-      <div class="col-xs-8">
-        <input type="text" id="new-label-1" placeholder="Длина заголовка от 5 до 70 символов" value="${offer.title}">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-3">
-        <label for="categories-row">Рубрика<em>*</em></label>
-      </div>
-      <div class="col-xs-8">
-        <div id="categories-row">
-          <div id="category1-container" class="dropdown" style="display: inline-block;">
-            <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
-                    id="text-category1">Выберите категорию</span>
-              <span class="caret"></span></button>
-            <ul id="ul-category1" class="dropdown-menu">
-
-            </ul>
-          </div>
-          <div id="category2-container" class="dropdown" style="display: none">
-            <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
-                    id="text-category2">Выберите подкатегорию</span>
-              <span class="caret"></span></button>
-            <ul id="ul-category2" class="dropdown-menu">
-
-            </ul>
-          </div>
-          <div id="category3-container" class="dropdown" style="display: none">
-            <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
-                    id="text-category3">Выберите подкатегорию</span>
-              <span class="caret"></span></button>
-            <ul id="ul-category3" class="dropdown-menu">
-
-            </ul>
-          </div>
+    <div class="container-fluid new-adv-box">
+        <div class="row">
+            <div class="col-xs-3">
+                <label for="new-label-1">Заголовок<em>*</em></label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" id="new-label-1" placeholder="Длина заголовка от 5 до 70 символов"
+                       value="${offer.title}">
+            </div>
         </div>
-      </div>
-    </div>
+        <div class="row">
+            <div class="col-xs-3">
+                <label for="categories-row">Рубрика<em>*</em></label>
+            </div>
+            <div class="col-xs-8">
+                <div id="categories-row">
+                    <div id="category1-container" class="dropdown" style="display: inline-block;">
+                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
+                                id="text-category1">Выберите категорию</span>
+                            <span class="caret"></span></button>
+                        <ul id="ul-category1" class="dropdown-menu">
 
+                        </ul>
+                    </div>
+                    <div id="category2-container" class="dropdown" style="display: none">
+                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
+                                id="text-category2">Выберите подкатегорию</span>
+                            <span class="caret"></span></button>
+                        <ul id="ul-category2" class="dropdown-menu">
 
-    <div id="offer-price-row" class="row" style="display: none;">
+                        </ul>
+                    </div>
+                    <div id="category3-container" class="dropdown" style="display: none">
+                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
+                                id="text-category3">Выберите подкатегорию</span>
+                            <span class="caret"></span></button>
+                        <ul id="ul-category3" class="dropdown-menu">
 
-      <div class="col-xs-3">
-        <label for="offer-inpPrice">Цена<em>*</em></label>
-      </div>
-      <div id="price-options" class="col-xs-3">
-        <select class="prop" name="price">
-
-        </select>
-      </div>
-      <div class="col-xs-3" style="display: none">
-        <input id="offer-inpPrice" name="price" type="number"
-               style="border: 4px solid #9c6; border-radius: 5px;" value="${offer.price}">
-      </div>
-      <div class="col-xs-2" style="display: none">
-        <select id="selection-currency" name="currency" class="prop">
-          <option>UAH</option>
-          <option>USD</option>
-          <option>EUR</option>
-        </select>
-      </div>
-    </div>
-
-
-    <div id="offer-options-row" class="row" style="display: none">
-      <div class="col-xs-3">
-        <label for="other-options">Дополнительно</label>
-      </div>
-      <div id="other-options" class="col-xs-8">
-
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-xs-3">
-        <label for="region-row">Регион<em>*</em></label>
-      </div>
-      <div class="col-xs-8">
-        <div id="region-row">
-          <div id="region-container" class="dropdown" style="display: inline-block">
-            <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
-                    id="text-region">Выберите область</span>
-              <span class="caret"></span></button>
-            <ul class="dropdown-menu  multi-column columns-2">
-              <div class="row">
-                <div class="col-sm-6">
-                  <ul class="multi-column-dropdown">
-                    <li><a href="#" style="font-weight: bold">Вся Украина</a></li>
-                    <li><a href="#">Винницкая область</a></li>
-                    <li><a href="#">Волынская область</a></li>
-                    <li><a href="#">Донецкая область</a></li>
-                    <li><a href="#">Житомирская область</a></li>
-                    <li><a href="#">Закарпатская область</a></li>
-                    <li><a href="#">Ивано‑Франковская область</a></li>
-                    <li><a href="#">Киевская область</a></li>
-                    <li><a href="#">Кировоградская область</a></li>
-                    <li><a href="#">Крым</a></li>
-                    <li><a href="#">Луганская область</a></li>
-                    <li><a href="#">Львовская область</a></li>
-                  </ul>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                  <ul class="multi-column-dropdown">
-                    <li><a href="#">Николаевская область</a></li>
-                    <li><a href="#">Одесская область</a></li>
-                    <li><a href="#">Полтавская область</a></li>
-                    <li><a href="#">Ровенская область</a></li>
-                    <li><a href="#">Сумская область</a></li>
-                    <li><a href="#">Тернопольская область</a></li>
-                    <li><a href="#">Харьковская область</a></li>
-                    <li><a href="#">Херсонская область</a></li>
-                    <li><a href="#">Хмельницкая область</a></li>
-                    <li><a href="#">Черкасская область</a></li>
-                    <li><a href="#">Черниговская область</a></li>
-                    <li><a href="#">Черновицкая область</a>
-                  </ul>
-                </div>
-              </div>
-            </ul>
-          </div>
-          <div id="city-container" class="dropdown" style="display: none">
-            <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
-                    id="text-city">Выберите город</span>
-              <span class="caret"></span></button>
-            <ul class="dropdown-menu  multi-column columns-2">
-              <div class="row">
-                <div class="col-sm-6">
-                  <ul class="multi-column-dropdown">
-
-                  </ul>
-                </div>
-                <div class="col-sm-6">
-                  <ul class="multi-column-dropdown">
-
-                  </ul>
-                </div>
-              </div>
-            </ul>
-          </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-xs-3">
-        <label for="new-label-3">Описание<em>*</em></label>
-      </div>
-      <div class="col-xs-8">
+
+        <div id="offer-price-row" class="row" style="display: none;">
+
+            <div class="col-xs-3">
+                <label for="offer-inpPrice">Цена<em>*</em></label>
+            </div>
+            <div id="price-options" class="col-xs-3">
+                <select class="prop" name="price">
+
+                </select>
+            </div>
+            <div class="col-xs-3" style="display: none">
+                <input id="offer-inpPrice" name="price" type="number"
+                       style="border: 4px solid #9c6; border-radius: 5px;" value="${offer.price}">
+            </div>
+            <div class="col-xs-2" style="display: none">
+                <select id="selection-currency" name="currency" class="prop">
+                    <option>UAH</option>
+                    <option>USD</option>
+                    <option>EUR</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div id="offer-options-row" class="row" style="display: none">
+            <div class="col-xs-3">
+                <label for="other-options">Дополнительно</label>
+            </div>
+            <div id="other-options" class="col-xs-8">
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <label for="region-row">Регион<em>*</em></label>
+            </div>
+            <div class="col-xs-8">
+                <div id="region-row">
+                    <div id="region-container" class="dropdown" style="display: inline-block">
+                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
+                                id="text-region">Выберите область</span>
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu  multi-column columns-2">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <ul class="multi-column-dropdown">
+                                        <li><a href="#" style="font-weight: bold">Вся Украина</a></li>
+                                        <li><a href="#">Винницкая область</a></li>
+                                        <li><a href="#">Волынская область</a></li>
+                                        <li><a href="#">Донецкая область</a></li>
+                                        <li><a href="#">Житомирская область</a></li>
+                                        <li><a href="#">Закарпатская область</a></li>
+                                        <li><a href="#">Ивано‑Франковская область</a></li>
+                                        <li><a href="#">Киевская область</a></li>
+                                        <li><a href="#">Кировоградская область</a></li>
+                                        <li><a href="#">Крым</a></li>
+                                        <li><a href="#">Луганская область</a></li>
+                                        <li><a href="#">Львовская область</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ul class="multi-column-dropdown">
+                                        <li><a href="#">Николаевская область</a></li>
+                                        <li><a href="#">Одесская область</a></li>
+                                        <li><a href="#">Полтавская область</a></li>
+                                        <li><a href="#">Ровенская область</a></li>
+                                        <li><a href="#">Сумская область</a></li>
+                                        <li><a href="#">Тернопольская область</a></li>
+                                        <li><a href="#">Харьковская область</a></li>
+                                        <li><a href="#">Херсонская область</a></li>
+                                        <li><a href="#">Хмельницкая область</a></li>
+                                        <li><a href="#">Черкасская область</a></li>
+                                        <li><a href="#">Черниговская область</a></li>
+                                        <li><a href="#">Черновицкая область</a>
+                                    </ul>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                    <div id="city-container" class="dropdown" style="display: none">
+                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
+                                id="text-city">Выберите город</span>
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu  multi-column columns-2">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <ul class="multi-column-dropdown">
+
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ul class="multi-column-dropdown">
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <label for="new-label-3">Описание<em>*</em></label>
+            </div>
+            <div class="col-xs-8">
         <textarea name="" id="new-label-3" cols="30" rows="10"
                   placeholder="Длина описания от 50 до 4000 символов">${offer.description}</textarea>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-8 col-xs-offset-3">
-        <p id="p-textlength" style="text-align: right;">Количество символов: 0</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        Срочное обьявление
-        <input type="checkbox" id="new-label-check">
-        <label for="new-label-check">Только для скоропортящихся продуктов</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        Разрешить бронь
-        <input type="checkbox" id="reserve-checkbox">
-      </div>
-    </div>
-    <div class="row file-browse-wrap">
-      <div class="col-xs-3">Фотографии</div>
-      <div class="col-xs-8">
-        <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
-          <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
-        </form>
-        <button id="btn-offer-addImg" type="submit" class="file-browse" style="background-color:white"
-                data-toggle="tooltip" data-placement="right" data-original-title="Добавить изображение"><i
-                class="fa fa-plus"></i></button>
-      </div>
-    </div>
-    <div class="row file-browse-wrap">
-      <div class="col-xs-3"></div>
-      <div id="drop_zone" class="col-xs-8 defaultIMG">
-        <ul>
-          <li class="li-containerIMG li-defaultIMG">
-            <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
-            <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
-          </li>
-        </ul>
-      </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8 col-xs-offset-3">
+                <p id="p-textlength" style="text-align: right;">Количество символов: 0</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                Срочное обьявление
+                <input type="checkbox" id="new-label-check">
+                <label for="new-label-check">Только для скоропортящихся продуктов</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                Разрешить бронь
+                <input type="checkbox" id="reserve-checkbox">
+            </div>
+        </div>
+        <div class="row file-browse-wrap">
+            <div class="col-xs-3">Фотографии</div>
+            <div class="col-xs-8">
+                <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
+                    <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
+                </form>
+                <button id="btn-offer-addImg" type="submit" class="file-browse" style="background-color:white"
+                        data-toggle="tooltip" data-placement="right" data-original-title="Добавить изображение"><i
+                        class="fa fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="row file-browse-wrap">
+            <div class="col-xs-3"></div>
+            <div id="drop_zone" class="col-xs-8 defaultIMG">
+                <ul>
+                    <li class="li-containerIMG li-defaultIMG">
+                        <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <label for="inpVideo">Добавить видео</label>
+            </div>
+            <div class="col-xs-8">
+                <input type="text" id="inpVideo" value="${offer.videoUrl}">
+            </div>
+        </div>
+        <h2 class="title-h2-blue text-center">Контакты</h2>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <label for="inpAuthor">Контактное лицо<em>*</em></label>
+            </div>
+            <div class="col-xs-3">
+                <input type="text" id="inpAuthor" value="${offer.userInfo.contactName}">
+            </div>
+            <div class="col-xs-2">
+                <label for="inpAdress">Адрес</label>
+            </div>
+            <div class="col-xs-3">
+                <input type="text" id="inpAdress">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">
+                <label for="inpEmail">E-mail<em>*</em></label>
+            </div>
+            <div class="col-xs-3">
+                <input type="text" id="inpEmail" value="${offer.userInfo.email}">
+            </div>
+            <div class="col-xs-2">
+                <label for="inpSkype">Skype</label>
+            </div>
+            <div class="col-xs-3">
+                <input type="text" id="inpSkype" value="${offer.userInfo.skypeLogin}">
+            </div>
+        </div>
+        <div class="row row-telephone">
+            <div class="col-xs-3">
+                <label>Телефон</label>
+            </div>
+            <div class="col-xs-3">
+                <input type="text">
+            </div>
+            <div id="btn-add-tel" class="col-xs-1" data-toggle="tooltip" data-placement="right"
+                 title="Добавить телефон"
+                 onClick="addTelephone()">
+                <img src="resources/images/pluse.png" alt="plus">
+            </div>
+        </div>
     </div>
 
+    <%--<div class="new-ad-btn">--%>
     <div class="row">
-      <div class="col-xs-3">
-        <label for="inpVideo">Добавить видео</label>
-      </div>
-      <div class="col-xs-8">
-        <input type="text" id="inpVideo" value="${offer.videoUrl}">
-      </div>
+        <%--<a href="#" class="btn btn-lg btn-success">Посмотреть</a>--%>
+        <div class="col-xs-3 col-xs-offset-8">
+            <button id="btn-offer-save">Сохранить</button>
+        </div>
     </div>
-    <h2 class="title-h2-blue text-center">Контакты</h2>
 
-    <div class="row">
-      <div class="col-xs-3">
-        <label for="inpAuthor">Контактное лицо<em>*</em></label>
-      </div>
-      <div class="col-xs-3">
-        <input type="text" id="inpAuthor" value="${offer.userInfo.contactName}">
-      </div>
-      <div class="col-xs-2">
-        <label for="inpAdress">Адрес</label>
-      </div>
-      <div class="col-xs-3">
-        <input type="text" id="inpAdress">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-3">
-        <label for="inpEmail">E-mail<em>*</em></label>
-      </div>
-      <div class="col-xs-3">
-        <input type="text" id="inpEmail" value="${offer.userInfo.email}">
-      </div>
-      <div class="col-xs-2">
-        <label for="inpSkype">Skype</label>
-      </div>
-      <div class="col-xs-3">
-        <input type="text" id="inpSkype" value="${offer.userInfo.skypeLogin}">
-      </div>
-    </div>
-    <div class="row row-telephone">
-      <div class="col-xs-3">
-        <label>Телефон</label>
-      </div>
-      <div class="col-xs-3">
-        <input type="text">
-      </div>
-      <div id="btn-add-tel" class="col-xs-1" data-toggle="tooltip" data-placement="right"
-           title="Добавить телефон"
-           onClick="addTelephone()">
-        <img src="resources/images/pluse.png" alt="plus">
-      </div>
-    </div>
-  </div>
-
-  <%--<div class="new-ad-btn">--%>
-  <div class="row">
-    <%--<a href="#" class="btn btn-lg btn-success">Посмотреть</a>--%>
-    <div class="col-xs-3 col-xs-offset-8">
-      <button id="btn-offer-save">Сохранить</button>
-    </div>
-  </div>
-
-  <p>&nbsp;</p>
+    <p>&nbsp;</p>
 </div>
 
 <sec:authorize access="isAuthenticated()">
-  <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+    <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
 </sec:authorize>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"/>
@@ -369,12 +370,12 @@
 
 <sec:authorize var="loggedIn" access="isAuthenticated()"/>
 <c:choose>
-  <c:when test="${loggedIn}">
-    <script src="/resources/js/autorizedHeader.js"></script>
-  </c:when>
-  <c:otherwise>
-    <script src="/resources/js/anonymHeader.js"></script>
-  </c:otherwise>
+<c:when test="${loggedIn}">
+<script src="/resources/js/autorizedHeader.js"></script>
+</c:when>
+<c:otherwise>
+<script src="/resources/js/anonymHeader.js"></script>
+</c:otherwise>
 </c:choose>
 
 <script src="/resources/js/main.js"></script>
@@ -382,11 +383,11 @@
 <script src="/resources/js/search-bar.js"></script>
 
 <script>
-  $(document).ready(function () {
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
+    $(document).ready(function () {
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     })
-  })
 </script>
 
 
@@ -631,17 +632,15 @@
     var picArrIn = {};
     var picMapObj = ${imagesIds};
 
-    if(${offer.canBeReserved}) $('#reserve-checkbox').prop('checked', true);
-    if(${offer.urgent}) $('#new-label-check').prop('checked', true);
 
+    if (${offer.canBeReserved}) $('#reserve-checkbox').prop('checked', true);
+    if (${offer.urgent}) $('#new-label-check').prop('checked', true);
 
-
-
-
-
+    if (${offer.adress.area}) $('#text-region').text(${offer.adress.area});
 
     // ---------------    LOAD RESOURCES    --------------------------//
     $(document).ready(function () {
+
         // Setup the dnd listeners.
         var dropZone = document.getElementById('drop_zone');
         dropZone.addEventListener('dragover', handleDragOver, false);
@@ -713,6 +712,17 @@
         dataType: 'json',
         success: function (response) {
             cities = response;
+            var area = '${offer.address.area}';
+            var city = '${offer.address.city}';
+            if (area) {
+                $('#text-region').text(area);
+
+                if (area !== 'Вся Украина') {
+                    if (city) $('#text-city').text(city);
+                    drawCities(area);
+
+                }
+            }
         }
     });
 
@@ -982,7 +992,7 @@
         $('#' + idImg).parent().remove();
 
         var numberImg = block.find('img').length;
-        if(numberImg < 2) {
+        if (numberImg < 2) {
             block.find(".li-defaultIMG").css("display", "inline-block");
         }
         picArrDel.push(idImg);
@@ -1079,20 +1089,25 @@
         if (region === 'Вся Украина') {
             $('#city-container').css('display', 'none');
         } else {
-            var citiesArr = cities[region];
-
-            var parentBlock = $('#city-container').find('.multi-column-dropdown').first();
-            var li = $('<li><a href="#" style="font-weight: bold">Все города</a></li>').click(selectCity);
-            parentBlock.append(li);
-
-            var numInColumn = citiesArr.length / 2 + (citiesArr.length % 2);
-            for (var i = 0; i < citiesArr.length; i++) {
-                parentBlock = (i + 2 <= numInColumn) ? $('#city-container').find('.multi-column-dropdown').first() : $('#city-container').find('.multi-column-dropdown').last();
-                li = $('<li><a href="#">' + citiesArr[i] + '</a></li>').click(selectCity);
-                parentBlock.append(li);
-            }
-            $('#city-container').css('display', 'inline-block');
+            drawCities(region);
         }
+    }
+
+    function drawCities(area) {
+        var citiesArr = cities[area];
+
+        var parentBlock = $('#city-container').find('.multi-column-dropdown').first();
+        var li = $('<li><a href="#" style="font-weight: bold">Все города</a></li>').click(selectCity);
+        parentBlock.append(li);
+
+        var numInColumn = citiesArr.length / 2 + (citiesArr.length % 2);
+        for (var i = 0; i < citiesArr.length; i++) {
+            parentBlock = (i + 2 <= numInColumn) ? $('#city-container').find('.multi-column-dropdown').first() : $('#city-container').find('.multi-column-dropdown').last();
+            li = $('<li><a href="#">' + citiesArr[i] + '</a></li>').click(selectCity);
+            parentBlock.append(li);
+        }
+
+        $('#city-container').css('display', 'inline-block');
     }
 
     function selectCity(event) {
@@ -1285,633 +1300,634 @@
     }
     ;
     //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
-//--------------------------------- OLD!!!!!------------------------------------//
+    <%--//--------------------------------- OLD!!!!!------------------------------------//
 
-  var imgsArrResult = {};
-  var phoneArrResult = [];
+      var imgsArrResult = {};
+      var phoneArrResult = [];
 
-  var picArrDel = [];
-  var picArrNew = [];
-  var picArrIn = {};
-  var picMapObj = ${imagesIds};
-  var parameters = '';
-  var options = '';
-  var placeKey = '';
-  var offerProperties = ${properties};
-  var categories = ${categories};
-  var categoryObj1 = {};
-  var categoryObj2 = {};
-  var categoryObj3 = {};
-  var jsonCategory;
-  var jsonSubcategory;
-
-
-  $.ajax({
-    type: "GET",
-    url: "/resources/json/searchValues.json",
-    dataType: 'json',
-    success: function (response) {
-      options = response;
-    }
-  });
+      var picArrDel = [];
+      var picArrNew = [];
+      var picArrIn = {};
+      var picMapObj = ${imagesIds};
+      var parameters = '';
+      var options = '';
+      var placeKey = '';
+      var offerProperties = ${properties};
+      var categories = ${categories};
+      var categoryObj1 = {};
+      var categoryObj2 = {};
+      var categoryObj3 = {};
+      var jsonCategory;
+      var jsonSubcategory;
 
 
-  $.ajax({
-    type: "GET",
-    url: "/resources/json/parameters.json",
-    dataType: 'json',
-    success: function (response) {
-      parameters = response;
-    }
-  });
-
-  function ajaxCategories1() {
-  return  $.ajax({
-      type: "GET",
-      url: "/resources/json/searchCategories.json",
-      dataType: "json",
-      success: function (response) {
-        jsonCategory = response;
-      }
-    });
-  }
-
-  function ajaxCategories2() {
-   return $.ajax({
-      type: "GET",
-      url: "/resources/json/searchSubcategories.json",
-      dataType: "json",
-      success: function (response) {
-        jsonSubcategory = response;
-      }
-
-    });
-  }
-
-
-  $.when(ajaxCategories1(), ajaxCategories2()).done(function (resp1, resp2) {
-    if(categories.length > 0) {
-      var a1 = jsonCategory.filter(function(obj) {
-        return parseInt(obj.id) === parseInt(categories[0]);
+      $.ajax({
+        type: "GET",
+        url: "/resources/json/searchValues.json",
+        dataType: 'json',
+        success: function (response) {
+          options = response;
+        }
       });
-      if(a1.length) {
-        categoryObj1 = a1[0];
-        appendCategory(categoryObj1.name);
-      }
 
-    }
 
-    if(categories.length > 1) {
-      var a2 = categoryObj1.children.filter(function(obj) {
-        return parseInt(obj.id) === parseInt(categories[1]);
+      $.ajax({
+        type: "GET",
+        url: "/resources/json/parameters.json",
+        dataType: 'json',
+        success: function (response) {
+          parameters = response;
+        }
       });
-      if(a2.length) {
-        categoryObj2 = a2[0];
-        appendCategory(categoryObj2.name);
-      }
 
-    }
-
-    if(categories.length > 2) {
-      var obj3 = jsonSubcategory[categories[1].toString()];
-      if(obj3){
-        var child3 = obj3.children;
-        if(child3){
-          categoryObj3 = child3[categories[2].toString()];
-          appendCategory(categoryObj3.label);
-        }
-      }
-    }
-
-
-  });
-
-  function appendCategory(txt) {
-  var el = $('#category-element').clone()
-          .removeClass("element-hidden")
-          .removeAttr("id")
-          .text(txt);
-
-  $("#categories-container").append(el);
-}
-
-  //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
-
-  var drawOptions = function(id){
-    for(var i in options){
-      var key_ru;
-      if(options[i]['c'][id]!==undefined){
-        var name;
-        for (j in options[i]['k']){
-          name = j;
-        }
-
-        for (j in parameters){
-
-          if (parameters[j]['parameter']['key'] === name && parameters[j]['parameter']['validators']['required'] === 1){
-            key_ru = parameters[j]["parameter"]["label"];
-            $('#options').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><select class="form-control" required name="'+name+'"  id="00'+i+'">'+ '</select></div>');
-            break;
-          }else if(parameters[j]['parameter']['key'] === name){
-            key_ru = parameters[j]["parameter"]["label"];
-            $('#options').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><select class="form-control" name="'+name+'"  id="00'+i+'">'+ '</select></div>');
-            break;
-          }
-        }
-
-        $('#00'+i).on('change',function(){
-          if(this.value === 'price'){
-            $('#inputPrice').attr("style", "display: ");
-          }else if (this.value === 'exchange' || this.value === 'arranged' || this.value === 'free') {
-            $('#inputPrice').attr("style", "display: none");
+      function ajaxCategories1() {
+      return  $.ajax({
+          type: "GET",
+          url: "/resources/json/searchCategories.json",
+          dataType: "json",
+          success: function (response) {
+            jsonCategory = response;
           }
         });
-
-        for ( var j in options[i]['v']){
-          $('#00'+i).append('<option value = "'+j+'"  id ="'+ j +'">'+ options[i]['v'][j]+'</option>');
-        }
-
       }
-    }
 
-    for ( j in parameters){
-      key_ru = parameters[j]["parameter"]["label"];
-      if (parameters[j]['parameter']['type'] === "input" && parameters[j]['categories'][id]  !== undefined ){
-        $('#inputs').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><input class="form-control" id="'+ parameters[j]['parameter']['key'] +'" type="number" name="'+ parameters[j]['parameter']['key'] +'" placeholder="'+parameters[j]['parameter']['key']+'"/></div>');
+      function ajaxCategories2() {
+       return $.ajax({
+          type: "GET",
+          url: "/resources/json/searchSubcategories.json",
+          dataType: "json",
+          success: function (response) {
+            jsonSubcategory = response;
+          }
 
-      }
-    }
-  };
-  drawOptions(categories[categories.length -1]);
-  //---------------------------- END DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
-  var offerProperties = ${properties};
-  for (var i in offerProperties){
-    var key = offerProperties[i].key;
-    var value = offerProperties[i].value;
-    var key_ru = '';
-    var value_ru = '';
-    for (var j in parameters){
-      if (parameters[j]["parameter"]["key"] === key){
-        key_ru = parameters[j]["parameter"]["label"];
-        if(parameters[j]["parameter"]["type"] === 'input'){
-          value_ru = value;
-        }
-        break;
-      }
-    }
-    if (value_ru ===''){
-      for (var m in options){
-        if(options[m]["k"][key] !== undefined && options[m]["v"][value] !== undefined){
-          value_ru =  options[m]["v"][value];
-        }
-      }
-    }
-      $('input[name="'+key+'"]').val(value_ru);
-      $('select[name="'+key+'"]').val(value);
-  }
-
-  <%--$('select[name="price"]').change(function(){--%>
-    <%--if (this.value === 'price'){--%>
-      <%--$('#input_price').html('Цена <input id="inputPrice" name="price" type="number" class="form-control input-sm" value="${offer.price}" required><br>Валюта<select id="inputCurrency" name="currency"><option vlaue="UAH">UAH</option><option value="USD">USD</option><option value="EUR">EUR</option></select>');--%>
-    <%--}else{--%>
-      <%--$('#input_price').html("");--%>
-    <%--}--%>
-//  });
-
-  // google map api-----------------------------BEGIN---------------------------------------------
-  function initMap() {
-
-    var input = document.getElementById('address');
-
-    var options = {
-      types: []
-    };
-
-    var autocomplete = new google.maps.places.Autocomplete(input, options);
-
-    google.maps.event.addListener(autocomplete, 'place_changed', function () {
-      var place = autocomplete.getPlace(); //получаем место
-      console.log(place);
-      console.log(place.name);  //название места
-      console.log(place.id);  //уникальный идентификатор места
-    });
-
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 17,
-      center: {lat: 50.4501, lng: 30.523400000000038}
-    });
-
-    var geocoder = new google.maps.Geocoder();
-
-    document.getElementById('submit').addEventListener('click', function() {
-      geocodeAddress(geocoder, map);
-    });
-  }
-
-  function geocodeAddress(geocoder, resultsMap) {
-    var address = document.getElementById('address').value;
-    geocoder.geocode({'address': address}, function(results, status) {
-      placeKey = results[0].place_id;
-      if (status === google.maps.GeocoderStatus.OK) {
-        resultsMap.setCenter(results[0].geometry.location);
-        var marker = new google.maps.Marker({
-          map: resultsMap,
-          position: results[0].geometry.location
         });
-      } else {
-        alert('Geocode was not successful for the following reason: ' + status);
       }
-    });
-  }
-  // google map api------------------------------END----------------------------------------------
 
-  $(document).ready(function () {
 
-    // selecte currency from options
-    var currency = '${offer.currency}';
-    $('#inputCurrency').val(currency);
+      $.when(ajaxCategories1(), ajaxCategories2()).done(function (resp1, resp2) {
+        if(categories.length > 0) {
+          var a1 = jsonCategory.filter(function(obj) {
+            return parseInt(obj.id) === parseInt(categories[0]);
+          });
+          if(a1.length) {
+            categoryObj1 = a1[0];
+            appendCategory(categoryObj1.name);
+          }
 
-    // place photo from received model on the page
-    for (var id in picMapObj) {
-      picArrIn[id] = picMapObj[id];
-      $('.imgBlock').append('<ul id="' + id + '" '+ ((picMapObj[id] === 'pic1')? 'class="mainImg"': '') +' style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-      ' <li style="background-color: white"><a rel="example_group"> ' +
-      '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
-      '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
-    }
-    // Setup the dnd listeners.
-    var dropZone = document.getElementById('drop_zone');
-    dropZone.addEventListener('dragover', handleDragOver, false);
-    dropZone.addEventListener('drop', handleFileSelect, false);
+        }
 
-    function handleFileSelect(evt) {
-      evt.stopPropagation();
-      evt.preventDefault();
+        if(categories.length > 1) {
+          var a2 = categoryObj1.children.filter(function(obj) {
+            return parseInt(obj.id) === parseInt(categories[1]);
+          });
+          if(a2.length) {
+            categoryObj2 = a2[0];
+            appendCategory(categoryObj2.name);
+          }
 
-      var files = evt.dataTransfer.files; // FileList object.
+        }
 
-      // files is a FileList of File objects. List some properties.
-      for (var i = 0, f; f = files[i]; i++) {
-        var formImg = new FormData($(this)[0]);
-        var fd = new FormData();
-        fd.append('file', f);
-        $.ajax({
-          type: "POST",
-          url: "/api/rest/fileStorage/OFFERS/file/upload/",
-          data: fd,
-          async: false,
-          cache: false,
-          contentType: false,
-          processData: false,
-
-          success: function (data, textStatus, request) {
-            var id = data.id;
-            var isImage = f.type.substring(0, 5) === 'image';
-            if (isImage) {
-              picArrIn[id] = "image";
-              $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-                      ' <li style="background-color: white">' +
-                      '<a rel="example_group"> ' +
-                      '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
-                      '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+        if(categories.length > 2) {
+          var obj3 = jsonSubcategory[categories[1].toString()];
+          if(obj3){
+            var child3 = obj3.children;
+            if(child3){
+              categoryObj3 = child3[categories[2].toString()];
+              appendCategory(categoryObj3.label);
             }
           }
-        });
-
-
-      }
-    }
-
-    function handleDragOver(evt) {
-      evt.stopPropagation();
-      evt.preventDefault();
-      evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-    }
-
-// delete images before save changes in offer (must be called before update offer)
-    function deleteImgFromDB(arr) {
-      $.ajax({
-        url: '/api/rest/fileStorage/OFFERS/file/delete',
-        method: 'POST',
-        data: {'fileId': arr},
-        traditional: true,
-        success: function (response) {
-          alert("Успех");
-//          window.location.href = '/account';
-        },
-        error: function (response) {
-          alert("Неудача");
-//          window.location.href = '/account';
         }
-      });
-    }
 
-// serialize form and sent it via POST method in JSON --------------------------BEGIN---------------------
-    $('#btn-submit').click(function (event) {
-      event.preventDefault();
 
-      var c = {};
-
-// subtract deleted imgId from sum of oldImgId and upploaded img---------Begin-----------
-
-      for(var key in picArrIn) {
-        if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
-      }
-
-      for (var i = 0; i < picArrNew.length; i++) {
-        imgsArrResult[picArrNew[i]] = picArrIn[picArrNew[i]];
-      }
-
-      var defaultMainImg = "";
-      for(var key in imgsArrResult) {
-        if(imgsArrResult[key] === "pic1") {
-          defaultMainImg = key;
-        }
-      }
-      if(defaultMainImg) imgsArrResult[defaultMainImg] = "pic1";
-//      alert(JSON.stringify(imgsArrResult));
-// subtract deleted imgId from sum of oldImgId and upploaded img---------End-----------
-
-      c.id = '${offer.id}';
-      c.title = $("#inputTitle").val();
-      c.imagesIds = imgsArrResult;
-      c.canBeReserved = $("#inputReserved").is(":checked");
-      c.address = {};
-      c.address.coordinates = placeKey;
-      c.address.country = 'Украина';
-      c.videoUrl = $('#inputVideo').val();
-
-      if ($('#cityInp').val() !== 'Выберите город' && $('#cityInp').val() !== '' && $('#cityInp').val() !== 'Все города') {
-        c.address.city = $('#cityInp').val();
-      }
-
-      if ($('#areaInp').val() !== 'Выберите область' && $('#areaInp').val() !== '') {
-        c.address.area = $('#areaInp').val();
-      }
-
-      if ($('#inputUrgent').is(':checked')) {
-        c.urgent = true;
-      } else {
-        c.urgent = false;
-      }
-
-      c.description = $('#inputDescript').val();
-      c.userInfo = {};
-      c.userInfo.skypeLogin = $('#inputSkype').val();
-      c.userInfo.contactName = $('#inptContactName').val();
-      c.userInfo.email = $('#inptEmail').val();
-      c.videoUrl = $('#inputVideo').val();
-
-      $('.phoneInputGroup').each(function (i, obj) {
-        phoneArrResult.push($(this).val());
       });
 
-      c.userInfo.phoneNumbers = phoneArrResult;
-      console.log(JSON.stringify(c));
+      function appendCategory(txt) {
+      var el = $('#category-element').clone()
+              .removeClass("element-hidden")
+              .removeAttr("id")
+              .text(txt);
 
-      alert("удаляем фото из БД перед отправкой формы");
-
-      if (picArrDel.length !== 0){
-        deleteImgFromDB(picArrDel);
-      }
-
-      var properties = [];
-
-      $('#options').find('select').each(function(){
-        var prop = {};
-        prop.key = this.name;
-        prop.value = this.value;
-        properties.push(prop);
-      });
-
-      $('#inputs').find('input').each(function(){
-        var prop = {};
-        prop.key = this.name;
-        prop.value = this.value;
-        properties.push(prop);
-      });
-
-      c.properties = properties;
-
-      for (var j in properties){
-        if (properties[j].price !== 'price'){
-          delete c.price;
-          break;
-        }
-      }
-
-      $.ajax({
-        type: "POST",
-        url: "/api/rest/offersService/offer/edit",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(c),
-        success: function (response) {
-          window.location.href = '/offer/' + response.id;
-        },
-        error: function (response) {
-          alert("Внутренняя ошибка сервера");
-        }
-      });
-    });
-// serialize form and sent it via POST method in JSON --------------------------END---------------------
-    countTextLength();
-    $("#offerDescription").on('keyup', countTextLength);
-
-    $('#addImg').click(function(){
-      $('#uploadProfilePhotoInput').trigger('click');
-    });
-
-  });
-
-  function countTextLength() {
-    var counter = $("#textLength");
-    var currentString = $("#offerDescription").val();
-    counter.html(currentString.length);
-    if (currentString.length <= 50) {  /*or whatever your number is*/
-      counter.css("color", "red");
-    } else {
-      if (currentString.length > 500) {
-        counter.css("color", "red");
-      } else {
-        counter.css("color", "green");
-      }
+      $("#categories-container").append(el);
     }
-  }
 
-  // delete pictures only from page
-  function deleteImgFromPage(idImg) {
-    $('#' + idImg).remove();
-    picArrDel.push(idImg);
-  }
+      //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
 
-  function onClickSetMainImg(id) {
-    var isMain = $('#' + id).find("img").hasClass("mainImg");
+      var drawOptions = function(id){
+        for(var i in options){
+          var key_ru;
+          if(options[i]['c'][id]!==undefined){
+            var name;
+            for (j in options[i]['k']){
+              name = j;
+            }
 
-    var allImgs = $(".imgBlock").find("img");
-    for (var i =0; i < allImgs.length; i++) {
-      var curImg = $(allImgs[i]);
-      if (curImg.hasClass("mainImg")) {
-        curImg.removeClass("mainImg");
-      }
-    }
-    var el = $('#' + id).find("img");
-    if(!isMain) el.addClass("mainImg");
+            for (j in parameters){
 
-    for(var key in picArrIn) {
-      if( picArrIn[key] === "pic1") {
-        picArrIn[key] = "image";
-      }
-    }
-    if(el.hasClass("mainImg")) {
-      picArrIn[id] = "pic1";
-    }
-  }
-  // upload photo to the server and place it into the page-----------------------BEGIN------------------------
-
-  $('#uploadProfilePhotoInput').change(function (event) {
-    event.preventDefault();
-
-    var files = event.currentTarget.files;
-    for (var i = 0, f; f = files[i]; i++) {
-      var formImg = new FormData($(this)[0]);
-      var fd = new FormData();
-      fd.append('file', f);
-      $.ajax({
-        type: "POST",
-        url: "/api/rest/fileStorage/OFFERS/file/upload/",
-        data: fd,
-        async: false,
-        cache: false,
-        contentType: false,
-        processData: false,
-
-        success: function (data, textStatus, request) {
-          var id = data.id;
-          var isImage = f.type.substring(0, 5) === 'image';
-          if (isImage) {
-            picArrIn[id] = "image";
-            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-                    ' <li style="background-color: white">' +
-                    '<a rel="example_group"> ' +
-                    '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
-                    '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
-          }
-        }
-      });
-    }
-    event.currentTarget.form.reset();
-  });
-  // upload photo to the server and place it into the page-----------------------END------------------------
-
-</script>
-
-
-<script>
-  var cities;
-  $.ajax({
-    url: '/resources/json/cities.json',
-    dataType: 'json',
-    async: false,
-    success: function (response) {
-      cities = response;
-      var area = '${offer.address.area}';
-      var city = '${offer.address.city}';
-      if (area !== '') {
-        $('#chosenRegion').text(area);
-        $('#chosenCity').attr("style", "visibility: visible");
-
-        if (city !== '') {
-          $('#chosenCity').text(city);
-        } else {
-          $('#chosenCity').text("Выберите город");
-        }
-      }
-
-      $('#bs-example-navbar-collapse-2').find('#cities1, #cities2').empty();
-      $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#"><b>' + 'Все города' + '</b></a></li>');
-      for (var i = 0; i < Math.floor(cities[area].length / 2); i++) {
-        $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[area][i] + '</a></li>');
-      }
-      for (var j = Math.floor(cities[area].length / 2); j < cities[area].length; j++) {
-        $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[area][j] + '</a></li>');
-      }
-      $('#bs-example-navbar-collapse-2').attr("style", "visibility: visible");
-
-      $('#cities').find('li').click(function () {
-                var city = $(this).text();
-                $('#chosenCity').text(city);
-                $('#cityInp').val(city);
+              if (parameters[j]['parameter']['key'] === name && parameters[j]['parameter']['validators']['required'] === 1){
+                key_ru = parameters[j]["parameter"]["label"];
+                $('#options').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><select class="form-control" required name="'+name+'"  id="00'+i+'">'+ '</select></div>');
+                break;
+              }else if(parameters[j]['parameter']['key'] === name){
+                key_ru = parameters[j]["parameter"]["label"];
+                $('#options').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><select class="form-control" name="'+name+'"  id="00'+i+'">'+ '</select></div>');
+                break;
               }
-      );
-    }
-  });
+            }
 
-  // Add/Remove phone Input Fields Dynamically with jQuery
-  $(document).ready(function() {
-    var max_fields      = 3; //maximum input boxes allowed
-    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-    var add_button      = $(".add_field_button"); //Add button ID
+            $('#00'+i).on('change',function(){
+              if(this.value === 'price'){
+                $('#inputPrice').attr("style", "display: ");
+              }else if (this.value === 'exchange' || this.value === 'arranged' || this.value === 'free') {
+                $('#inputPrice').attr("style", "display: none");
+              }
+            });
 
-    var x = 1; //initial text box count
-    $(add_button).click(function(e){ //on add input button click
-      e.preventDefault();
-      if(x < max_fields){ //max input box allowed
-        x++; //text box increment
-        $(wrapper).append('<div><input id="phone'+ x +'" type="text" name="mytext[]"/><a href="#" class="remove_field" required>Удалить</a></div>'); //add input box
+            for ( var j in options[i]['v']){
+              $('#00'+i).append('<option value = "'+j+'"  id ="'+ j +'">'+ options[i]['v'][j]+'</option>');
+            }
 
-        //Add mask for some input fields after add new input
-        jQuery(function($){
-          $("#phone1").mask("(999) 999-9999");
-          $("#phone2").mask("(999) 999-9999");
-          $("#phone3").mask("(999) 999-9999");
+          }
+        }
+
+        for ( j in parameters){
+          key_ru = parameters[j]["parameter"]["label"];
+          if (parameters[j]['parameter']['type'] === "input" && parameters[j]['categories'][id]  !== undefined ){
+            $('#inputs').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><input class="form-control" id="'+ parameters[j]['parameter']['key'] +'" type="number" name="'+ parameters[j]['parameter']['key'] +'" placeholder="'+parameters[j]['parameter']['key']+'"/></div>');
+
+          }
+        }
+      };
+      drawOptions(categories[categories.length -1]);
+      //---------------------------- END DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
+      var offerProperties = ${properties};
+      for (var i in offerProperties){
+        var key = offerProperties[i].key;
+        var value = offerProperties[i].value;
+        var key_ru = '';
+        var value_ru = '';
+        for (var j in parameters){
+          if (parameters[j]["parameter"]["key"] === key){
+            key_ru = parameters[j]["parameter"]["label"];
+            if(parameters[j]["parameter"]["type"] === 'input'){
+              value_ru = value;
+            }
+            break;
+          }
+        }
+        if (value_ru ===''){
+          for (var m in options){
+            if(options[m]["k"][key] !== undefined && options[m]["v"][value] !== undefined){
+              value_ru =  options[m]["v"][value];
+            }
+          }
+        }
+          $('input[name="'+key+'"]').val(value_ru);
+          $('select[name="'+key+'"]').val(value);
+      }
+
+      &lt;%&ndash;$('select[name="price"]').change(function(){&ndash;%&gt;
+        &lt;%&ndash;if (this.value === 'price'){&ndash;%&gt;
+          &lt;%&ndash;$('#input_price').html('Цена <input id="inputPrice" name="price" type="number" class="form-control input-sm" value="${offer.price}" required><br>Валюта<select id="inputCurrency" name="currency"><option vlaue="UAH">UAH</option><option value="USD">USD</option><option value="EUR">EUR</option></select>');&ndash;%&gt;
+        &lt;%&ndash;}else{&ndash;%&gt;
+          &lt;%&ndash;$('#input_price').html("");&ndash;%&gt;
+        &lt;%&ndash;}&ndash;%&gt;
+    //  });
+
+      // google map api-----------------------------BEGIN---------------------------------------------
+      function initMap() {
+
+        var input = document.getElementById('address');
+
+        var options = {
+          types: []
+        };
+
+        var autocomplete = new google.maps.places.Autocomplete(input, options);
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+          var place = autocomplete.getPlace(); //получаем место
+          console.log(place);
+          console.log(place.name);  //название места
+          console.log(place.id);  //уникальный идентификатор места
+        });
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 17,
+          center: {lat: 50.4501, lng: 30.523400000000038}
+        });
+
+        var geocoder = new google.maps.Geocoder();
+
+        document.getElementById('submit').addEventListener('click', function() {
+          geocodeAddress(geocoder, map);
         });
       }
-    });
 
-    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-      e.preventDefault(); $(this).parent('div').remove(); x--;
-    })
-  });
+      function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function(results, status) {
+          placeKey = results[0].place_id;
+          if (status === google.maps.GeocoderStatus.OK) {
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+      // google map api------------------------------END----------------------------------------------
 
-  //Add mask for some input fields on page ready
-  jQuery(function($){
-    $("#phone1").mask("(999) 999-9999");
-    $("#phone2").mask("(999) 999-9999");
-    $("#phone3").mask("(999) 999-9999");
-  });
+      $(document).ready(function () {
 
-  // cities form script
-  $('#regions').find('li').click(function () {
-    var region = $(this).text();
-    $('#chosenRegion').text(region);
-    $('#areaInp').val(region);
-    if (region !== 'Вся Украина') {
-      $('#bs-example-navbar-collapse-2').attr("style", "visibility: visible");
-    } else {
-      $('#bs-example-navbar-collapse-2').attr("style", "visibility: hidden");
-    }
-    $('#chosenCity').text("Выберите город");
+        // selecte currency from options
+        var currency = '${offer.currency}';
+        $('#inputCurrency').val(currency);
 
-    $('#bs-example-navbar-collapse-2').find('#cities1, #cities2').empty();
-    $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#"><b>' + 'Все города' + '</b></a></li>');
-    for (var i = 0; i < Math.floor(cities[region].length / 2); i++) {
-      $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][i] + '</a></li>');
-    }
-    for (var j = Math.floor(cities[region].length / 2); j < cities[region].length; j++) {
-      $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][j] + '</a></li>');
-    }
+        // place photo from received model on the page
+        for (var id in picMapObj) {
+          picArrIn[id] = picMapObj[id];
+          $('.imgBlock').append('<ul id="' + id + '" '+ ((picMapObj[id] === 'pic1')? 'class="mainImg"': '') +' style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+          ' <li style="background-color: white"><a rel="example_group"> ' +
+          '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
+          '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+        }
+        // Setup the dnd listeners.
+        var dropZone = document.getElementById('drop_zone');
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
 
-    $('#cities').find('li').click(function () {
-              var city = $(this).text();
-              $('#chosenCity').text(city);
-              $('#cityInp').val(city);
+        function handleFileSelect(evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+
+          var files = evt.dataTransfer.files; // FileList object.
+
+          // files is a FileList of File objects. List some properties.
+          for (var i = 0, f; f = files[i]; i++) {
+            var formImg = new FormData($(this)[0]);
+            var fd = new FormData();
+            fd.append('file', f);
+            $.ajax({
+              type: "POST",
+              url: "/api/rest/fileStorage/OFFERS/file/upload/",
+              data: fd,
+              async: false,
+              cache: false,
+              contentType: false,
+              processData: false,
+
+              success: function (data, textStatus, request) {
+                var id = data.id;
+                var isImage = f.type.substring(0, 5) === 'image';
+                if (isImage) {
+                  picArrIn[id] = "image";
+                  $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                          ' <li style="background-color: white">' +
+                          '<a rel="example_group"> ' +
+                          '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                          '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+                }
+              }
+            });
+
+
+          }
+        }
+
+        function handleDragOver(evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+          evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        }
+
+    // delete images before save changes in offer (must be called before update offer)
+        function deleteImgFromDB(arr) {
+          $.ajax({
+            url: '/api/rest/fileStorage/OFFERS/file/delete',
+            method: 'POST',
+            data: {'fileId': arr},
+            traditional: true,
+            success: function (response) {
+              alert("Успех");
+    //          window.location.href = '/account';
+            },
+            error: function (response) {
+              alert("Неудача");
+    //          window.location.href = '/account';
             }
-    );
-  });
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
-        async defer></script>
-</body>
+          });
+        }
 
-</html>
+    // serialize form and sent it via POST method in JSON --------------------------BEGIN---------------------
+        $('#btn-submit').click(function (event) {
+          event.preventDefault();
+
+          var c = {};
+
+    // subtract deleted imgId from sum of oldImgId and upploaded img---------Begin-----------
+
+          for(var key in picArrIn) {
+            if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
+          }
+
+          for (var i = 0; i < picArrNew.length; i++) {
+            imgsArrResult[picArrNew[i]] = picArrIn[picArrNew[i]];
+          }
+
+          var defaultMainImg = "";
+          for(var key in imgsArrResult) {
+            if(imgsArrResult[key] === "pic1") {
+              defaultMainImg = key;
+            }
+          }
+          if(defaultMainImg) imgsArrResult[defaultMainImg] = "pic1";
+    //      alert(JSON.stringify(imgsArrResult));
+    // subtract deleted imgId from sum of oldImgId and upploaded img---------End-----------
+
+          c.id = '${offer.id}';
+          c.title = $("#inputTitle").val();
+          c.imagesIds = imgsArrResult;
+          c.canBeReserved = $("#inputReserved").is(":checked");
+          c.address = {};
+          c.address.coordinates = placeKey;
+          c.address.country = 'Украина';
+          c.videoUrl = $('#inputVideo').val();
+
+          if ($('#cityInp').val() !== 'Выберите город' && $('#cityInp').val() !== '' && $('#cityInp').val() !== 'Все города') {
+            c.address.city = $('#cityInp').val();
+          }
+
+          if ($('#areaInp').val() !== 'Выберите область' && $('#areaInp').val() !== '') {
+            c.address.area = $('#areaInp').val();
+          }
+
+          if ($('#inputUrgent').is(':checked')) {
+            c.urgent = true;
+          } else {
+            c.urgent = false;
+          }
+
+          c.description = $('#inputDescript').val();
+          c.userInfo = {};
+          c.userInfo.skypeLogin = $('#inputSkype').val();
+          c.userInfo.contactName = $('#inptContactName').val();
+          c.userInfo.email = $('#inptEmail').val();
+          c.videoUrl = $('#inputVideo').val();
+
+          $('.phoneInputGroup').each(function (i, obj) {
+            phoneArrResult.push($(this).val());
+          });
+
+          c.userInfo.phoneNumbers = phoneArrResult;
+          console.log(JSON.stringify(c));
+
+          alert("удаляем фото из БД перед отправкой формы");
+
+          if (picArrDel.length !== 0){
+            deleteImgFromDB(picArrDel);
+          }
+
+          var properties = [];
+
+          $('#options').find('select').each(function(){
+            var prop = {};
+            prop.key = this.name;
+            prop.value = this.value;
+            properties.push(prop);
+          });
+
+          $('#inputs').find('input').each(function(){
+            var prop = {};
+            prop.key = this.name;
+            prop.value = this.value;
+            properties.push(prop);
+          });
+
+          c.properties = properties;
+
+          for (var j in properties){
+            if (properties[j].price !== 'price'){
+              delete c.price;
+              break;
+            }
+          }
+
+          $.ajax({
+            type: "POST",
+            url: "/api/rest/offersService/offer/edit",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(c),
+            success: function (response) {
+              window.location.href = '/offer/' + response.id;
+            },
+            error: function (response) {
+              alert("Внутренняя ошибка сервера");
+            }
+          });
+        });
+    // serialize form and sent it via POST method in JSON --------------------------END---------------------
+        countTextLength();
+        $("#offerDescription").on('keyup', countTextLength);
+
+        $('#addImg').click(function(){
+          $('#uploadProfilePhotoInput').trigger('click');
+        });
+
+      });
+
+      function countTextLength() {
+        var counter = $("#textLength");
+        var currentString = $("#offerDescription").val();
+        counter.html(currentString.length);
+        if (currentString.length <= 50) {  /*or whatever your number is*/
+          counter.css("color", "red");
+        } else {
+          if (currentString.length > 500) {
+            counter.css("color", "red");
+          } else {
+            counter.css("color", "green");
+          }
+        }
+      }
+
+      // delete pictures only from page
+      function deleteImgFromPage(idImg) {
+        $('#' + idImg).remove();
+        picArrDel.push(idImg);
+      }
+
+      function onClickSetMainImg(id) {
+        var isMain = $('#' + id).find("img").hasClass("mainImg");
+
+        var allImgs = $(".imgBlock").find("img");
+        for (var i =0; i < allImgs.length; i++) {
+          var curImg = $(allImgs[i]);
+          if (curImg.hasClass("mainImg")) {
+            curImg.removeClass("mainImg");
+          }
+        }
+        var el = $('#' + id).find("img");
+        if(!isMain) el.addClass("mainImg");
+
+        for(var key in picArrIn) {
+          if( picArrIn[key] === "pic1") {
+            picArrIn[key] = "image";
+          }
+        }
+        if(el.hasClass("mainImg")) {
+          picArrIn[id] = "pic1";
+        }
+      }
+      // upload photo to the server and place it into the page-----------------------BEGIN------------------------
+
+      $('#uploadProfilePhotoInput').change(function (event) {
+        event.preventDefault();
+
+        var files = event.currentTarget.files;
+        for (var i = 0, f; f = files[i]; i++) {
+          var formImg = new FormData($(this)[0]);
+          var fd = new FormData();
+          fd.append('file', f);
+          $.ajax({
+            type: "POST",
+            url: "/api/rest/fileStorage/OFFERS/file/upload/",
+            data: fd,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+
+            success: function (data, textStatus, request) {
+              var id = data.id;
+              var isImage = f.type.substring(0, 5) === 'image';
+              if (isImage) {
+                picArrIn[id] = "image";
+                $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                        ' <li style="background-color: white">' +
+                        '<a rel="example_group"> ' +
+                        '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                        '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+              }
+            }
+          });
+        }
+        event.currentTarget.form.reset();
+      });
+      // upload photo to the server and place it into the page-----------------------END------------------------
+
+    </script>
+
+
+    <script>
+      var cities;
+      $.ajax({
+        url: '/resources/json/cities.json',
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+          cities = response;
+          var area = '${offer.address.area}';
+          var city = '${offer.address.city}';
+          if (area !== '') {
+            $('#chosenRegion').text(area);
+            $('#chosenCity').attr("style", "visibility: visible");
+
+            if (city !== '') {
+              $('#chosenCity').text(city);
+            } else {
+              $('#chosenCity').text("Выберите город");
+            }
+          }
+
+          $('#bs-example-navbar-collapse-2').find('#cities1, #cities2').empty();
+          $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#"><b>' + 'Все города' + '</b></a></li>');
+          for (var i = 0; i < Math.floor(cities[area].length / 2); i++) {
+            $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[area][i] + '</a></li>');
+          }
+          for (var j = Math.floor(cities[area].length / 2); j < cities[area].length; j++) {
+            $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[area][j] + '</a></li>');
+          }
+          $('#bs-example-navbar-collapse-2').attr("style", "visibility: visible");
+
+          $('#cities').find('li').click(function () {
+                    var city = $(this).text();
+                    $('#chosenCity').text(city);
+                    $('#cityInp').val(city);
+                  }
+          );
+        }
+      });
+
+      // Add/Remove phone Input Fields Dynamically with jQuery
+      $(document).ready(function() {
+        var max_fields      = 3; //maximum input boxes allowed
+        var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+        var add_button      = $(".add_field_button"); //Add button ID
+
+        var x = 1; //initial text box count
+        $(add_button).click(function(e){ //on add input button click
+          e.preventDefault();
+          if(x < max_fields){ //max input box allowed
+            x++; //text box increment
+            $(wrapper).append('<div><input id="phone'+ x +'" type="text" name="mytext[]"/><a href="#" class="remove_field" required>Удалить</a></div>'); //add input box
+
+            //Add mask for some input fields after add new input
+            jQuery(function($){
+              $("#phone1").mask("(999) 999-9999");
+              $("#phone2").mask("(999) 999-9999");
+              $("#phone3").mask("(999) 999-9999");
+            });
+          }
+        });
+
+        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+          e.preventDefault(); $(this).parent('div').remove(); x--;
+        })
+      });
+
+      //Add mask for some input fields on page ready
+      jQuery(function($){
+        $("#phone1").mask("(999) 999-9999");
+        $("#phone2").mask("(999) 999-9999");
+        $("#phone3").mask("(999) 999-9999");
+      });
+
+      // cities form script
+      $('#regions').find('li').click(function () {
+        var region = $(this).text();
+        $('#chosenRegion').text(region);
+        $('#areaInp').val(region);
+        if (region !== 'Вся Украина') {
+          $('#bs-example-navbar-collapse-2').attr("style", "visibility: visible");
+        } else {
+          $('#bs-example-navbar-collapse-2').attr("style", "visibility: hidden");
+        }
+        $('#chosenCity').text("Выберите город");
+
+        $('#bs-example-navbar-collapse-2').find('#cities1, #cities2').empty();
+        $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#"><b>' + 'Все города' + '</b></a></li>');
+        for (var i = 0; i < Math.floor(cities[region].length / 2); i++) {
+          $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][i] + '</a></li>');
+        }
+        for (var j = Math.floor(cities[region].length / 2); j < cities[region].length; j++) {
+          $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][j] + '</a></li>');
+        }
+
+        $('#cities').find('li').click(function () {
+                  var city = $(this).text();
+                  $('#chosenCity').text(city);
+                  $('#cityInp').val(city);
+                }
+        );
+      });
+    </script>--%>
+    <%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
+    <%--
+            async defer></script>&ndash;%&gt;
+    </body>
+
+    </html>--%>

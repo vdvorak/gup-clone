@@ -1141,20 +1141,25 @@
         if (region === 'Вся Украина') {
             $('#city-container').css('display', 'none');
         } else {
-            var citiesArr = cities[region];
-
-            var parentBlock = $('#city-container').find('.multi-column-dropdown').first();
-            var li = $('<li><a href="#" style="font-weight: bold">Все города</a></li>').click(selectCity);
-            parentBlock.append(li);
-
-            var numInColumn = citiesArr.length / 2 + (citiesArr.length % 2);
-            for (var i = 0; i < citiesArr.length; i++) {
-                parentBlock = (i + 2 <= numInColumn) ? $('#city-container').find('.multi-column-dropdown').first() : $('#city-container').find('.multi-column-dropdown').last();
-                li = $('<li><a href="#">' + citiesArr[i] + '</a></li>').click(selectCity);
-                parentBlock.append(li);
-            }
-            $('#city-container').css('display', 'inline-block');
+            drawCities(region);
         }
+    }
+
+    function drawCities(area) {
+        var citiesArr = cities[area];
+
+        var parentBlock = $('#city-container').find('.multi-column-dropdown').first();
+        var li = $('<li><a href="#" style="font-weight: bold">Все города</a></li>').click(selectCity);
+        parentBlock.append(li);
+
+        var numInColumn = citiesArr.length / 2 + (citiesArr.length % 2);
+        for (var i = 0; i < citiesArr.length; i++) {
+            parentBlock = (i + 2 <= numInColumn) ? $('#city-container').find('.multi-column-dropdown').first() : $('#city-container').find('.multi-column-dropdown').last();
+            li = $('<li><a href="#">' + citiesArr[i] + '</a></li>').click(selectCity);
+            parentBlock.append(li);
+        }
+
+        $('#city-container').css('display', 'inline-block');
     }
 
     function selectCity(event) {
