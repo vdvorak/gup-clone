@@ -1031,7 +1031,6 @@
                     .attr("src", '/api/rest/fileStorage/OFFERS/file/read/id/' + id)
                     .attr("id", id)
                     .click(onClickSetMainImg);
-            ;
             cloneImg.find('span')
                     .click(deleteImg);
             cloneImg.appendTo('#drop_zone ul');
