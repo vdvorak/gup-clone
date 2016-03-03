@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/alster.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
@@ -37,7 +38,6 @@
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
 
-
 <div class="container2">
 
     <div class="contentContainer" style="padding: 5px;">
@@ -48,8 +48,8 @@
 
     <div id="tab-container-news" class="tab-container-news">
         <ul class='etabs-news'>
-            <li class='tab-news'><a href="#tabs1-news">Новости</a></li>
-            <li class='tab-news'><a href="#tabs1-blogs">Блоги</a></li>
+            <li class='tab-news'><a id="newsTab" href="#tabs1-news">Новости</a></li>
+            <li class='tab-news'><a id="blogsTab" href="#tabs1-blogs">Блоги</a></li>
         </ul>
 
         <div id="tabs1-news">
@@ -88,8 +88,9 @@
                     <p class="normalNews-p3">Комментарии: </p>
                     </div>
                 </div>
-                <button id="nextPageNews">Загрузить ещё новости</button>
+                <%--<button id="nextPageNews">Загрузить ещё новости</button>--%>
             </div>
+
         </div>
 
 
@@ -105,46 +106,36 @@
                         <p class="DateOfCreation-blogs-num">Дата создания: </p>
                     </div>
                 </div>
-                <button id="nextPageBlog">Загрузить ещё блоги</button>
             </div>
+
         </div>
-
-
-
     </div>
 
+
+    <div class="contentContainer" style="margin-top: 5px">
+        <img class="projAndInvestCaretDown" name="getNextImg" id="nextPageNews" src="/resources/images/caret.png" alt="caret">
+    </div>
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
-<script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
-<script src="/resources/js/vendor/bootstrap.js"></script>
-<script src="/resources/js/jquery.bxslider.js"></script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
 
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<!--PAGE CONTENT END-->
 
-<sec:authorize var="loggedIn" access="isAuthenticated()"/>
-<c:choose>
-    <c:when test="${loggedIn}">
-        <script src="/resources/js/autorizedHeader.js"></script>
-    </c:when>
-    <c:otherwise>
-        <script src="/resources/js/anonymHeader.js"></script>
-    </c:otherwise>
-</c:choose>
+<sec:authorize access="isAuthenticated()">
+    <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
+
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
 
-<script src="/resources/js/top-news-block.js"></script>
-<script src="/resources/js/top-projects-block.js"></script>
-<script src="/resources/js/top-offers-block.js"></script>
-<script src="/resources/js/top-tenders-block.js"></script>
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/js/service.js"></script>
-
 
 <script>
 
@@ -158,6 +149,14 @@
     // ------------------- Create default block blogs and news -------------------------------------------------------
 
     $(document).ready(function () {
+
+        $('#newsTab').on('click', function () {
+            $('[name="getNextImg"]').attr('id', 'nextPageNews');
+        });
+
+        $('#blogsTab').on('click', function () {
+            $('[name="getNextImg"]').attr('id', 'nextPageBlog');
+        });
 
         var blogsFO = {};
         blogsFO.skip = 0;
@@ -228,14 +227,10 @@
         $('#nextPageBlog').on('click', function () {
             blogsFO.skip += 5;
             doAjax(blogsFO, urlGetBlog, 'blogs');
-        })
+        });
 
         //---------------------------------------------------------------------------------------------------------
         //---------------------------------------------------------------------------------------------------------
-        //---------------------------------------------------------------------------------------------------------
-        //---------------------------------------------------------------------------------------------------------
-        //---------------------------------------------------------------------------------------------------------
-
 
         var newsFO = {};
         var address = {};
@@ -279,7 +274,7 @@
         doAjax(newsFO, urlGetNews, 'news');
 
         $('#nextPageNews').on('click', function () {
-            newsFO.skip += 2;
+            newsFO.skip += 5;
             doAjax(newsFO, urlGetNews, 'news');
         })
 

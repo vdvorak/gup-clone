@@ -59,7 +59,7 @@ public class BlogPostController {
     }
 
     @RequestMapping("/news")
-    public String newsView(@RequestParam int pageNumber, Model model) {
+    public String newsView(@RequestParam(required = false, defaultValue = "0") int pageNumber, Model model) {
 //        BlogPostFilterOptions blogPostFO = new BlogPostFilterOptions();
 //        EntityPage<BlogPost> blogPostPages = blogPostService.findBlogPostsWihOptions(blogPostFO);
 //        model.addAttribute("news", blogPostPages);
