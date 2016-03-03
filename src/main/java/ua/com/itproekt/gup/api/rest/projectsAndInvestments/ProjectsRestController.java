@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.ModerationStatus;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
@@ -25,6 +26,9 @@ public class ProjectsRestController {
     @Autowired
     ProjectService projectService;
 
+    @Autowired
+    BankSession bankSession;
+
     //------------------------------------------ Read -----------------------------------------------------------------
 
     @RequestMapping(value = "/project/id/{projectId}/read", method = RequestMethod.GET,
@@ -36,8 +40,8 @@ public class ProjectsRestController {
         }
 
         if (project.getModerationStatus().equals(ModerationStatus.COMPLETE) ||
-            project.getAuthorId().equals(SecurityOperations.getLoggedUserId()) ||
-            request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+                project.getAuthorId().equals(SecurityOperations.getLoggedUserId()) ||
+                request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
 
             return new ResponseEntity<>(project, HttpStatus.OK);
         } else {
@@ -49,12 +53,12 @@ public class ProjectsRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityPage<Project>> listOfAllProjects(@RequestBody ProjectFilterOptions projectFO,
                                                                  HttpServletRequest request) {
-        if(!request.isUserInRole(UserRole.ROLE_ADMIN.toString())){
+        if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             projectFO.setSimpleUserRestrictions(SecurityOperations.getLoggedUserId());
         }
 
         EntityPage<Project> projectPages = projectService.findProjectsWihOptions(projectFO);
-        if(projectPages.getEntities().isEmpty()){
+        if (projectPages.getEntities().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(projectPages, HttpStatus.OK);
@@ -70,6 +74,9 @@ public class ProjectsRestController {
         String userId = SecurityOperations.getLoggedUserId();
         project.setAuthorId(userId);
         projectService.create(project);
+
+        // "5" - is a user_balance_type in Bank. It is mean, that it is project.
+        bankSession.createBalanceRecord(project.getId(), 5);
 
         return new ResponseEntity<>(new CreatedObjResp(project.getId()), HttpStatus.CREATED);
     }
@@ -96,7 +103,7 @@ public class ProjectsRestController {
         }
     }
 
-    //------------------------------------------ Delete -----------------------------------------------------------------
+    //------------------------------------------ Delete ---------------------------------------------------------------
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/project/id/{projectId}/delete", method = RequestMethod.POST)
@@ -107,8 +114,8 @@ public class ProjectsRestController {
         }
 
         Project project = projectService.findById(projectId);
-        if(project.getAuthorId().equals(SecurityOperations.getLoggedUserId()) ||
-                request.isUserInRole(UserRole.ROLE_ADMIN.toString())){
+        if (project.getAuthorId().equals(SecurityOperations.getLoggedUserId()) ||
+                request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
 
             projectService.delete(projectId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -116,4 +123,21 @@ public class ProjectsRestController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
+
+    // ----------------------------------------- Check project balance -----------------------------------------------
+
+
+    @RequestMapping(value = "/check-project-balance", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Integer> checkProjectBalance(@RequestParam("projectId") String projectId) {
+
+        if (!projectService.projectExists(projectId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Integer score = bankSession.getUserBalance(projectId);
+
+        return new ResponseEntity<>(score, HttpStatus.OK);
+    }
+
 }
