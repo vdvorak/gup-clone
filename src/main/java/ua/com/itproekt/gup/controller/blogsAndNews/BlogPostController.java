@@ -10,6 +10,7 @@ import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.news.BlogPostService;
+import ua.com.itproekt.gup.service.news.BlogService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
@@ -28,22 +29,11 @@ public class BlogPostController {
     @Autowired
     BlogPostService blogPostService;
 
+    @Autowired
+    BlogService blogService;
+
     @RequestMapping("/view/id/{blogPostId}")
     public String blogPostView(Model model, @PathVariable String blogPostId) {
-
-//        boolean check = false;
-//
-//        BlogPost blogPost = blogPostService.findBlogPostAndIncViews(id);
-//
-//        if (SecurityOperations.isUserLoggedIn()) {
-//            String userId = SecurityOperations.getLoggedUserId();
-//            check = userId.equals(blogPost.getAuthorId());
-//            model.addAttribute("check", check);
-//        }
-//
-//        model.addAttribute("check", check);
-//        model.addAttribute("blogPost", blogPost);
-
         if (!blogPostService.blogPostExists(blogPostId)) {
             throw new ResourceNotFoundException();
         }
@@ -54,27 +44,19 @@ public class BlogPostController {
 
     @RequestMapping("/news")
     public String newsView() {
-//    public String newsView(@RequestParam(required = false, defaultValue = "0") int pageNumber, Model model) {
-//        BlogPostFilterOptions blogPostFO = new BlogPostFilterOptions();
-//        EntityPage<BlogPost> blogPostPages = blogPostService.findBlogPostsWihOptions(blogPostFO);
-//        model.addAttribute("news", blogPostPages);
-//        model.addAttribute("pageNumber", pageNumber);
         return "news/blogs-and-news";
     }
 
     @RequestMapping("/view-all/blogId/{blogId}")
     public String blogPostViewAll(Model model, @PathVariable String blogId) {
+        if (!blogService.blogExists(blogId)) {
+            throw new ResourceNotFoundException();
+        }
+
         BlogPostFilterOptions blogPostFO = new BlogPostFilterOptions();
         blogPostFO.setBlogId(blogId);
 
         EntityPage<BlogPost> blogPostPages = blogPostService.findBlogPostsWihOptions(blogPostFO);
-
-//        List<BlogPost> filteredPosts = new ArrayList<>();
-//        for (BlogPost blogPost : blogPostPages.getEntities()) {
-//            if(blogPost.getBlogId().equals(blogId)){
-//                filteredPosts.add(blogPost);
-//            }
-//        }
 
         model.addAttribute("blogPostPages", blogPostPages);
         return "";
@@ -82,7 +64,7 @@ public class BlogPostController {
 
     //ToDo Проверять "А ты ли владелец этого блога, чтобы в неём создовать новость?"
     @RequestMapping("/create/{blogId}")
-    public String blogPostCreate(Model model, @PathVariable("blogId") String blogId) {
+    public String blogPostCreate(Model model, @PathVariable String blogId) {
         Profile profile = profilesService.findById(SecurityOperations.getLoggedUserId());
         model.addAttribute("profileId", profile.getId());
         model.addAttribute("blogId", blogId);
@@ -90,7 +72,10 @@ public class BlogPostController {
     }
 
     @RequestMapping("/edit/{blogPostId}")
-    public String blogPostEdit(Model model, @PathVariable("blogPostId") String blogPostId) {
+    public String blogPostEdit(Model model, @PathVariable String blogPostId) {
+        if (!blogPostService.blogPostExists(blogPostId)) {
+            throw new ResourceNotFoundException();
+        }
         String email = SecurityOperations.getCurrentUserEmail();
         Profile profile = profilesService.findProfileByEmail(email);
         BlogPost blogPost = blogPostService.findById(blogPostId);
