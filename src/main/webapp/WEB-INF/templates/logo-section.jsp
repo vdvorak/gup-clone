@@ -3,7 +3,8 @@
     <div class="container2">
         <a href="/index">
             <div class="logo">
-                <p class="logo-p">Global Ukranian Portal</p>
+                <a href="#"><img src="/resources/css/images/brand.png" alt="brand"></a>
+                <p>Global Ukranian Portal</p>
             </div>
         </a>
 
