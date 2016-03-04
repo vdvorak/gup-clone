@@ -26,81 +26,7 @@
     <link rel="stylesheet" href="/resources/css/custom-style.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/dropdown-multicolumn.css">
-    <style>
-        a.explanation-point-tooltip {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-
-        a.explanation-point-tooltip img:hover {
-            cursor: default;
-        }
-
-        a.explanation-point-tooltip:focus {
-            outline: 0;
-        }
-
-        a.explanation-point-tooltip img {
-            position: absolute;
-            width: 23px;
-            height: 23px;
-            visibility: visible;
-            left: 100%;
-            top: 0%;
-            z-index: 999;
-        }
-
-        #btn-offer-save {
-            float: right;
-            margin-top: 60px;
-            color: #ffffff;
-            font: 400 16px ArianAMU;
-            height: 32px;
-            width: 133px;
-            border-radius: 5px;
-            border: 2px solid rgb(153, 204, 102);
-            background-color: rgb(153, 204, 102);
-            -webkit-transition: all .25s;
-            transition: all .25s;
-            margin-right: 15px;
-        }
-
-        #btn-offer-save:hover {
-            background-color: transparent;
-            color: rgb(153, 204, 102);
-        }
-        .ul-img-container {
-            padding: 0px 15px;
-            width: 100%;
-            background-color: rgba(153,204,102,0.30);
-        }
-
-        .ul-img-container li {
-            margin: 10px 15px;
-            padding: 0px;
-            width: 150px;
-            height: 150px;
-            list-style-type: none;
-            display: inline-block;
-            border-radius: 5px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ul-img-container img {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        .ul-img-container li:hover .descr {
-            opacity: 1;
-            -webkit-transform: rotateZ(0deg);
-            transform: rotateZ(0deg);
-            border-radius: 0;
-        }
-    </style>
+    <link rel="stylesheet" href="/resources/css/mini.css">
 </head>
 <body>
 <!--[if lt IE 8]>
@@ -311,7 +237,7 @@
         <div class="row file-browse-wrap">
             <div class="col-xs-3"></div>
             <div id="drop_zone" class="col-xs-8">
-                <ul class="ul-img-container">
+                <ul class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">

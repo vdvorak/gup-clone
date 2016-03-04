@@ -21,31 +21,10 @@
     <%-- Cropper style --%>
     <link href="/resources/css/cropper.css" rel="stylesheet">
     <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
-    <style>
-        .blog-social-container {
-            float: right;
-            margin-right: 450px;
-            margin-bottom: 10px;
-        }
-
-        .blog-social-input {
-            border: 2px solid rgb(153, 204, 102);
-            border-radius: 4px;
-            font: 400 11px DroidSans;
-            padding: 7px 7px;
-            height: 22px;
-            width: 230px;
-        }
-
-        .blog-btn-removeSocial {
-            width: 20px;
-            height: 20px;
-            margin-bottom: -5px;
-        }
-    </style>
 
     <link  href="/resources/css/cropper.css" rel="stylesheet">
     <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
+    <link rel="stylesheet" href="resources/css/mini.css">
 
 </head>
 <body>
@@ -102,9 +81,9 @@
                 <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
             </form>
             <div class="drop_zone">
-                <div class="defaultIMG">
-                    <ul>
-                        <li>
+                <div class="blog-img">
+                    <ul class="ul-img-container">
+                        <li class="li-defaultIMG">
                             <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImgFromDB()"></i></span>
                             <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
                         </li>
@@ -273,7 +252,7 @@
             processData: false,
             success: function (data, textStatus, request) {
                 imgId = data.id;
-                $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                $('.ul-img-container').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
                 cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
             }
         });
@@ -398,7 +377,7 @@
     });
 
     function deleteImgFromDB() {
-        $('.defaultIMG').find('img').attr("src", "/resources/images/no_photo.jpg");
+        $('.ul-img-container').find('img').attr("src", "/resources/images/no_photo.jpg");
         $.ajax({
             url: '/api/rest/fileStorage/NEWS/file/delete/id/' + imgId,
             method: 'POST',

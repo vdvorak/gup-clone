@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="/resources/css/mini.css">
 </head>
 <body>
 
@@ -98,14 +99,14 @@
 
             <div class="clearfix"></div>
 
-            <div id="drop_zone" class="defaultIMG">
-                <ul id="tender-img-block">
+            <div id="drop_zone">
+                <ul id="tender-img-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
                     </li>
                 </ul>
-                <ul id="tender-doc-block">
+                <ul id="tender-doc-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="http://www.uzscience.uz/upload/userfiles/images/doc.png" alt="defaultIMG">
