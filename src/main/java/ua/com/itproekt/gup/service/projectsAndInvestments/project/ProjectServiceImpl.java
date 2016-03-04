@@ -169,7 +169,8 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.getMatchedNames(name);
     }
 
-    //TODO refactoring
+    //TODO: create method for send notifications
+    //TODO: refactoring
     public void sendNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {
         projectInvestments.parallelStream().unordered().forEach(pair -> {
             String uId = pair.getKey();
@@ -179,8 +180,13 @@ public class ProjectServiceImpl implements ProjectService {
         });
     }
 
+    //TODO: create implementation
+    //TODO: create shcedule for autostart (mongoTask.xml)
+    @Override
+    public void sendNotificationsToInvestorsOfCompletedProjects() {
+        throw new UnsupportedOperationException();
+    }
 
-    //TODO method for send notifications
 
 
 
