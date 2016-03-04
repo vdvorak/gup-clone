@@ -148,11 +148,11 @@
                 </select>
             </div>
             <div class="col-xs-3" style="display: none">
-                <input id="offer-inpPrice" name="price" type="number"
+                <input id="offer-inpPrice" type="number"
                        style="border: 4px solid #9c6; border-radius: 5px;" value="${offer.price}">
             </div>
             <div class="col-xs-2" style="display: none">
-                <select id="selection-currency" name="currency" class="prop">
+                <select id="selection-currency" name="currency" class="prop" value="${offer.currency}">
                     <option>UAH</option>
                     <option>USD</option>
                     <option>EUR</option>
@@ -338,7 +338,7 @@
             <div id="btn-add-tel" class="col-xs-1" data-toggle="tooltip" data-placement="right"
                  title="Добавить телефон"
                  onClick="addTelephone()">
-                <img src="resources/images/pluse.png" alt="plus">
+                <img src="/resources/images/pluse.png" alt="plus">
             </div>
         </div>
     </div>
@@ -370,12 +370,12 @@
 
 <sec:authorize var="loggedIn" access="isAuthenticated()"/>
 <c:choose>
-<c:when test="${loggedIn}">
-<script src="/resources/js/autorizedHeader.js"></script>
-</c:when>
-<c:otherwise>
-<script src="/resources/js/anonymHeader.js"></script>
-</c:otherwise>
+    <c:when test="${loggedIn}">
+        <script src="/resources/js/autorizedHeader.js"></script>
+    </c:when>
+    <c:otherwise>
+        <script src="/resources/js/anonymHeader.js"></script>
+    </c:otherwise>
 </c:choose>
 
 <script src="/resources/js/main.js"></script>
@@ -620,23 +620,23 @@
     var options;
     var parameters = [];
     var cities;
+
+    var categories = ${categories};
     var category1Id = '';
     var category2Id = '';
     var category3Id = '';
     var isComplete = 0;
-    var imgsArrResult = {};
-    var phoneArrResult = [];
 
+    var properties = ${properties};
+
+    var imgsArrResult = {};
+    var picMapObj = ${imagesIds};
     var picArrDel = [];
     var picArrNew = [];
-    var picArrIn = {};
-    var picMapObj = ${imagesIds};
+    var imgsArr = {};
 
-
-    if (${offer.canBeReserved}) $('#reserve-checkbox').prop('checked', true);
-    if (${offer.urgent}) $('#new-label-check').prop('checked', true);
-
-    if (${offer.adress.area}) $('#text-region').text(${offer.adress.area});
+    if ('${offer.canBeReserved}' === 'true') $('#reserve-checkbox').prop('checked', true);
+    if ('${offer.urgent}' === 'true') $('#new-label-check').prop('checked', true);
 
     // ---------------    LOAD RESOURCES    --------------------------//
     $(document).ready(function () {
@@ -705,6 +705,9 @@
     countTextLength();
     $("textarea").on('keyup', countTextLength);
 
+    var area = '${offer.address.area}';
+    if (area) $('#text-region').text(area);
+
     $.ajax({
         type: "GET",
         url: "/resources/json/cities.json",
@@ -712,16 +715,12 @@
         dataType: 'json',
         success: function (response) {
             cities = response;
-            var area = '${offer.address.area}';
+
             var city = '${offer.address.city}';
-            if (area) {
-                $('#text-region').text(area);
 
-                if (area !== 'Вся Украина') {
-                    if (city) $('#text-city').text(city);
-                    drawCities(area);
-
-                }
+            if (area && area !== 'Вся Украина') {
+                if (city) $('#text-city').text(city);
+                drawCities(area);
             }
         }
     });
@@ -830,9 +829,21 @@
     $('#btn-offer-save').click(function () {
         if (validateOffer()) {
 
+            for (var key in imgsArr) {
+                if (picArrDel.indexOf(key) === -1) picArrNew.push(key);
+            }
+
+            for (var i = 0; i < picArrNew.length; i++) {
+                imgsArrResult[picArrNew[i]] = imgsArr[picArrNew[i]];
+            }
+
+            for (var i = 0; i < picArrDel.length; i++) {
+                deleteImgFromDB(picArrDel[i]);
+            }
+
             var offer = {};
             offer.title = $("#new-label-1").val();
-            offer.imagesIds = imgsArr;
+            offer.imagesIds = imgsArrResult;
             offer.canBeReserved = $("#reserve-checkbox").is(":checked");
             offer.address = {};
             //        offer.address.coordinates = placeKey;
@@ -859,28 +870,28 @@
                 if (val) phones.push(val);
             });
 
-            var categoryResult = [];
+            categories = [];
             if (category1Id !== '') {
-                categoryResult.push(category1Id)
+                categories.push(category1Id)
             }
             if (category2Id !== '') {
-                categoryResult.push(category2Id)
+                categories.push(category2Id)
             }
             if (category3Id !== '') {
-                categoryResult.push(category3Id)
+                categories.push(category3Id)
             }
 
-            offer.categories = categoryResult;
+            offer.categories = categories;
             offer.active = true;
             offer.description = $('#new-label-3').val();
             offer.userInfo = {};
             offer.userInfo.skypeLogin = $('#inpSkype').val();
-            offer.userInfo.contactName = $('#inptAuthor').val();
+            offer.userInfo.contactName = $('#inpAuthor').val();
             offer.userInfo.email = $('#inpEmail').val();
             offer.videoUrl = $('#inpVideo').val();
             offer.userInfo.phoneNumbers = phones;
 
-            var properties = [];
+            properties = [];
             $('#other-options').find('select').each(function () {
                 var prop = {};
                 prop.key = this.name;
@@ -896,12 +907,11 @@
             });
 
             if ($('#offer-price-row').css('display') !== 'none') {
-                $('#offer-price-row > .prop').each(function () {
-                    var prop = {};
-                    prop.key = this.name;
-                    prop.value = this.value;
-                    properties.push(prop);
+                properties.push({
+                    key: 'price',
+                    value: $('select[name="price"]').val()
                 });
+                offer.currency = $('select[name="currency"]').val();
                 offer.price = $('#offer-inpPrice').val();
             }
 
@@ -927,6 +937,14 @@
 
 
     // -------------------------- PHOTO SUBMIT AND DELETE ------------------------------//
+    // place photo from received model on the page
+    for (var id in picMapObj) {
+        imgsArr[id] = picMapObj[id];
+        if (picMapObj[id] === "image" || picMapObj[id] === "pic1") {
+            appendImg(id);
+        }
+    }
+
     $('#btn-offer-addImg').click(function () {
         $('#photoInput').trigger('click');
     });
@@ -974,12 +992,17 @@
         cloneImg.appendTo('#drop_zone ul');
     }
 
-
-    function deleteImgFromDB(idImg) {
+    // delete images before save changes in offer (must be called before update offer)
+    function deleteImgFromDB(arr) {
         $.ajax({
-            type: "POST",
-            url: "/api/rest/fileStorage/OFFERS/file/delete/id/" + idImg,
-            success: function (data, textStatus, request) {
+            url: '/api/rest/fileStorage/OFFERS/file/delete',
+            method: 'POST',
+            data: {'fileId': arr},
+            traditional: true,
+            success: function (response) {
+
+            },
+            error: function (response) {
             }
         });
     }
@@ -1120,9 +1143,9 @@
 
     //----------------------------- PHONES LIST ----------------------------------------------//
     var phonesArr = ${offer.userInfo.phoneNumbers};
-    for(var i = 0; i < phonesArr.length; i++) {
-        if(i < 3) {
-            addTelephone();
+    for (var i = 0; i < phonesArr.length; i++) {
+        if (i < 3) {
+            if (i) addTelephone();
             $('.row-telephone:last').find('input').val(phonesArr[i]);
         } else {
             break;
@@ -1136,7 +1159,7 @@
             var row = $('.row-telephone').first().clone();
             row.children('#btn-add-tel').remove();
             row.find('label').parent().remove();
-            var inputBlock = row.find('input').parent().addClass('col-xs-offset-4');
+            var inputBlock = row.find('input').val("").parent().addClass('col-xs-offset-3');
             imgDel.insertAfter(inputBlock);
             row.appendTo('.new-adv-box');
         }
@@ -1151,6 +1174,28 @@
     //----------------------------- END PHONES LIST ----------------------------------------------//
 
     //--------------------------------BEGIN CATEGORY-------------------------------------------------//
+    var numberCategories = categories.length;
+    if(numberCategories > 0) {
+        category1Id = categories[0];
+        $('#'+category1Id+'').parent().click();
+        if(numberCategories > 1) {
+            category2Id = categories[1];
+            $('#'+category2Id+'').parent().click();
+            if(numberCategories > 2) {
+                category3Id = categories[2];
+                $('#'+category3Id+'').parent().click();
+            }
+        }
+        for(var i = 0; i < properties.length; i++) {
+            var curProperty = properties[i];
+            $('[name="'+ curProperty.key +'"]').val(curProperty.value);
+        }
+        if ($('select[name="price"]').val() === 'price') {
+            $('#selection-currency').parent().css('display', 'inline-block');
+            $('#offer-inpPrice').parent().css('display', 'inline-block');
+        }
+    }
+
     function selectCategoryLvl1(event) {
         event.preventDefault();
 
@@ -1306,636 +1351,641 @@
         $('select[name="price"]').empty();
         $('#other-options').empty();
     }
-    ;
     //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
-    <%--//--------------------------------- OLD!!!!!------------------------------------//
+</script>
+<%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
+        async defer></script>--%>
+</body>
+</html>
 
-      var imgsArrResult = {};
-      var phoneArrResult = [];
+<%--//--------------------------------- OLD!!!!!------------------------------------//
 
-      var picArrDel = [];
-      var picArrNew = [];
-      var picArrIn = {};
-      var picMapObj = ${imagesIds};
-      var parameters = '';
-      var options = '';
-      var placeKey = '';
-      var offerProperties = ${properties};
-      var categories = ${categories};
-      var categoryObj1 = {};
-      var categoryObj2 = {};
-      var categoryObj3 = {};
-      var jsonCategory;
-      var jsonSubcategory;
+  var imgsArrResult = {};
+  var phoneArrResult = [];
 
-
-      $.ajax({
-        type: "GET",
-        url: "/resources/json/searchValues.json",
-        dataType: 'json',
-        success: function (response) {
-          options = response;
-        }
-      });
+  var picArrDel = [];
+  var picArrNew = [];
+  var picArrIn = {};
+  var picMapObj = ${imagesIds};
+  var parameters = '';
+  var options = '';
+  var placeKey = '';
+  var offerProperties = ${properties};
+  var categories = ${categories};
+  var categoryObj1 = {};
+  var categoryObj2 = {};
+  var categoryObj3 = {};
+  var jsonCategory;
+  var jsonSubcategory;
 
 
-      $.ajax({
-        type: "GET",
-        url: "/resources/json/parameters.json",
-        dataType: 'json',
-        success: function (response) {
-          parameters = response;
-        }
-      });
+  $.ajax({
+    type: "GET",
+    url: "/resources/json/searchValues.json",
+    dataType: 'json',
+    success: function (response) {
+      options = response;
+    }
+  });
 
-      function ajaxCategories1() {
-      return  $.ajax({
-          type: "GET",
-          url: "/resources/json/searchCategories.json",
-          dataType: "json",
-          success: function (response) {
-            jsonCategory = response;
-          }
-        });
+
+  $.ajax({
+    type: "GET",
+    url: "/resources/json/parameters.json",
+    dataType: 'json',
+    success: function (response) {
+      parameters = response;
+    }
+  });
+
+  function ajaxCategories1() {
+  return  $.ajax({
+      type: "GET",
+      url: "/resources/json/searchCategories.json",
+      dataType: "json",
+      success: function (response) {
+        jsonCategory = response;
+      }
+    });
+  }
+
+  function ajaxCategories2() {
+   return $.ajax({
+      type: "GET",
+      url: "/resources/json/searchSubcategories.json",
+      dataType: "json",
+      success: function (response) {
+        jsonSubcategory = response;
       }
 
-      function ajaxCategories2() {
-       return $.ajax({
-          type: "GET",
-          url: "/resources/json/searchSubcategories.json",
-          dataType: "json",
-          success: function (response) {
-            jsonSubcategory = response;
-          }
+    });
+  }
 
-        });
+
+  $.when(ajaxCategories1(), ajaxCategories2()).done(function (resp1, resp2) {
+    if(categories.length > 0) {
+      var a1 = jsonCategory.filter(function(obj) {
+        return parseInt(obj.id) === parseInt(categories[0]);
+      });
+      if(a1.length) {
+        categoryObj1 = a1[0];
+        appendCategory(categoryObj1.name);
       }
 
-
-      $.when(ajaxCategories1(), ajaxCategories2()).done(function (resp1, resp2) {
-        if(categories.length > 0) {
-          var a1 = jsonCategory.filter(function(obj) {
-            return parseInt(obj.id) === parseInt(categories[0]);
-          });
-          if(a1.length) {
-            categoryObj1 = a1[0];
-            appendCategory(categoryObj1.name);
-          }
-
-        }
-
-        if(categories.length > 1) {
-          var a2 = categoryObj1.children.filter(function(obj) {
-            return parseInt(obj.id) === parseInt(categories[1]);
-          });
-          if(a2.length) {
-            categoryObj2 = a2[0];
-            appendCategory(categoryObj2.name);
-          }
-
-        }
-
-        if(categories.length > 2) {
-          var obj3 = jsonSubcategory[categories[1].toString()];
-          if(obj3){
-            var child3 = obj3.children;
-            if(child3){
-              categoryObj3 = child3[categories[2].toString()];
-              appendCategory(categoryObj3.label);
-            }
-          }
-        }
-
-
-      });
-
-      function appendCategory(txt) {
-      var el = $('#category-element').clone()
-              .removeClass("element-hidden")
-              .removeAttr("id")
-              .text(txt);
-
-      $("#categories-container").append(el);
     }
 
-      //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
+    if(categories.length > 1) {
+      var a2 = categoryObj1.children.filter(function(obj) {
+        return parseInt(obj.id) === parseInt(categories[1]);
+      });
+      if(a2.length) {
+        categoryObj2 = a2[0];
+        appendCategory(categoryObj2.name);
+      }
 
-      var drawOptions = function(id){
-        for(var i in options){
-          var key_ru;
-          if(options[i]['c'][id]!==undefined){
-            var name;
-            for (j in options[i]['k']){
-              name = j;
-            }
+    }
 
-            for (j in parameters){
+    if(categories.length > 2) {
+      var obj3 = jsonSubcategory[categories[1].toString()];
+      if(obj3){
+        var child3 = obj3.children;
+        if(child3){
+          categoryObj3 = child3[categories[2].toString()];
+          appendCategory(categoryObj3.label);
+        }
+      }
+    }
 
-              if (parameters[j]['parameter']['key'] === name && parameters[j]['parameter']['validators']['required'] === 1){
-                key_ru = parameters[j]["parameter"]["label"];
-                $('#options').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><select class="form-control" required name="'+name+'"  id="00'+i+'">'+ '</select></div>');
-                break;
-              }else if(parameters[j]['parameter']['key'] === name){
-                key_ru = parameters[j]["parameter"]["label"];
-                $('#options').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><select class="form-control" name="'+name+'"  id="00'+i+'">'+ '</select></div>');
-                break;
-              }
-            }
 
-            $('#00'+i).on('change',function(){
-              if(this.value === 'price'){
-                $('#inputPrice').attr("style", "display: ");
-              }else if (this.value === 'exchange' || this.value === 'arranged' || this.value === 'free') {
-                $('#inputPrice').attr("style", "display: none");
-              }
-            });
+  });
 
-            for ( var j in options[i]['v']){
-              $('#00'+i).append('<option value = "'+j+'"  id ="'+ j +'">'+ options[i]['v'][j]+'</option>');
-            }
+  function appendCategory(txt) {
+  var el = $('#category-element').clone()
+          .removeClass("element-hidden")
+          .removeAttr("id")
+          .text(txt);
 
-          }
+  $("#categories-container").append(el);
+}
+
+  //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
+
+  var drawOptions = function(id){
+    for(var i in options){
+      var key_ru;
+      if(options[i]['c'][id]!==undefined){
+        var name;
+        for (j in options[i]['k']){
+          name = j;
         }
 
-        for ( j in parameters){
-          key_ru = parameters[j]["parameter"]["label"];
-          if (parameters[j]['parameter']['type'] === "input" && parameters[j]['categories'][id]  !== undefined ){
-            $('#inputs').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><input class="form-control" id="'+ parameters[j]['parameter']['key'] +'" type="number" name="'+ parameters[j]['parameter']['key'] +'" placeholder="'+parameters[j]['parameter']['key']+'"/></div>');
+        for (j in parameters){
 
-          }
-        }
-      };
-      drawOptions(categories[categories.length -1]);
-      //---------------------------- END DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
-      var offerProperties = ${properties};
-      for (var i in offerProperties){
-        var key = offerProperties[i].key;
-        var value = offerProperties[i].value;
-        var key_ru = '';
-        var value_ru = '';
-        for (var j in parameters){
-          if (parameters[j]["parameter"]["key"] === key){
+          if (parameters[j]['parameter']['key'] === name && parameters[j]['parameter']['validators']['required'] === 1){
             key_ru = parameters[j]["parameter"]["label"];
-            if(parameters[j]["parameter"]["type"] === 'input'){
-              value_ru = value;
-            }
+            $('#options').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><select class="form-control" required name="'+name+'"  id="00'+i+'">'+ '</select></div>');
+            break;
+          }else if(parameters[j]['parameter']['key'] === name){
+            key_ru = parameters[j]["parameter"]["label"];
+            $('#options').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><select class="form-control" name="'+name+'"  id="00'+i+'">'+ '</select></div>');
             break;
           }
         }
-        if (value_ru ===''){
-          for (var m in options){
-            if(options[m]["k"][key] !== undefined && options[m]["v"][value] !== undefined){
-              value_ru =  options[m]["v"][value];
-            }
-          }
-        }
-          $('input[name="'+key+'"]').val(value_ru);
-          $('select[name="'+key+'"]').val(value);
-      }
 
-      &lt;%&ndash;$('select[name="price"]').change(function(){&ndash;%&gt;
-        &lt;%&ndash;if (this.value === 'price'){&ndash;%&gt;
-          &lt;%&ndash;$('#input_price').html('Цена <input id="inputPrice" name="price" type="number" class="form-control input-sm" value="${offer.price}" required><br>Валюта<select id="inputCurrency" name="currency"><option vlaue="UAH">UAH</option><option value="USD">USD</option><option value="EUR">EUR</option></select>');&ndash;%&gt;
-        &lt;%&ndash;}else{&ndash;%&gt;
-          &lt;%&ndash;$('#input_price').html("");&ndash;%&gt;
-        &lt;%&ndash;}&ndash;%&gt;
-    //  });
-
-      // google map api-----------------------------BEGIN---------------------------------------------
-      function initMap() {
-
-        var input = document.getElementById('address');
-
-        var options = {
-          types: []
-        };
-
-        var autocomplete = new google.maps.places.Autocomplete(input, options);
-
-        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-          var place = autocomplete.getPlace(); //получаем место
-          console.log(place);
-          console.log(place.name);  //название места
-          console.log(place.id);  //уникальный идентификатор места
-        });
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 17,
-          center: {lat: 50.4501, lng: 30.523400000000038}
-        });
-
-        var geocoder = new google.maps.Geocoder();
-
-        document.getElementById('submit').addEventListener('click', function() {
-          geocodeAddress(geocoder, map);
-        });
-      }
-
-      function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
-        geocoder.geocode({'address': address}, function(results, status) {
-          placeKey = results[0].place_id;
-          if (status === google.maps.GeocoderStatus.OK) {
-            resultsMap.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-              map: resultsMap,
-              position: results[0].geometry.location
-            });
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
+        $('#00'+i).on('change',function(){
+          if(this.value === 'price'){
+            $('#inputPrice').attr("style", "display: ");
+          }else if (this.value === 'exchange' || this.value === 'arranged' || this.value === 'free') {
+            $('#inputPrice').attr("style", "display: none");
           }
         });
+
+        for ( var j in options[i]['v']){
+          $('#00'+i).append('<option value = "'+j+'"  id ="'+ j +'">'+ options[i]['v'][j]+'</option>');
+        }
+
       }
-      // google map api------------------------------END----------------------------------------------
+    }
 
-      $(document).ready(function () {
+    for ( j in parameters){
+      key_ru = parameters[j]["parameter"]["label"];
+      if (parameters[j]['parameter']['type'] === "input" && parameters[j]['categories'][id]  !== undefined ){
+        $('#inputs').append('<div class="col-xs-6">'+key_ru+'</div><div class="col-xs-6"><input class="form-control" id="'+ parameters[j]['parameter']['key'] +'" type="number" name="'+ parameters[j]['parameter']['key'] +'" placeholder="'+parameters[j]['parameter']['key']+'"/></div>');
 
-        // selecte currency from options
-        var currency = '${offer.currency}';
-        $('#inputCurrency').val(currency);
-
-        // place photo from received model on the page
-        for (var id in picMapObj) {
-          picArrIn[id] = picMapObj[id];
-          $('.imgBlock').append('<ul id="' + id + '" '+ ((picMapObj[id] === 'pic1')? 'class="mainImg"': '') +' style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-          ' <li style="background-color: white"><a rel="example_group"> ' +
-          '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
-          '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+      }
+    }
+  };
+  drawOptions(categories[categories.length -1]);
+  //---------------------------- END DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
+  var offerProperties = ${properties};
+  for (var i in offerProperties){
+    var key = offerProperties[i].key;
+    var value = offerProperties[i].value;
+    var key_ru = '';
+    var value_ru = '';
+    for (var j in parameters){
+      if (parameters[j]["parameter"]["key"] === key){
+        key_ru = parameters[j]["parameter"]["label"];
+        if(parameters[j]["parameter"]["type"] === 'input'){
+          value_ru = value;
         }
-        // Setup the dnd listeners.
-        var dropZone = document.getElementById('drop_zone');
-        dropZone.addEventListener('dragover', handleDragOver, false);
-        dropZone.addEventListener('drop', handleFileSelect, false);
-
-        function handleFileSelect(evt) {
-          evt.stopPropagation();
-          evt.preventDefault();
-
-          var files = evt.dataTransfer.files; // FileList object.
-
-          // files is a FileList of File objects. List some properties.
-          for (var i = 0, f; f = files[i]; i++) {
-            var formImg = new FormData($(this)[0]);
-            var fd = new FormData();
-            fd.append('file', f);
-            $.ajax({
-              type: "POST",
-              url: "/api/rest/fileStorage/OFFERS/file/upload/",
-              data: fd,
-              async: false,
-              cache: false,
-              contentType: false,
-              processData: false,
-
-              success: function (data, textStatus, request) {
-                var id = data.id;
-                var isImage = f.type.substring(0, 5) === 'image';
-                if (isImage) {
-                  picArrIn[id] = "image";
-                  $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-                          ' <li style="background-color: white">' +
-                          '<a rel="example_group"> ' +
-                          '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
-                          '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
-                }
-              }
-            });
-
-
-          }
+        break;
+      }
+    }
+    if (value_ru ===''){
+      for (var m in options){
+        if(options[m]["k"][key] !== undefined && options[m]["v"][value] !== undefined){
+          value_ru =  options[m]["v"][value];
         }
+      }
+    }
+      $('input[name="'+key+'"]').val(value_ru);
+      $('select[name="'+key+'"]').val(value);
+  }
 
-        function handleDragOver(evt) {
-          evt.stopPropagation();
-          evt.preventDefault();
-          evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-        }
+  &lt;%&ndash;$('select[name="price"]').change(function(){&ndash;%&gt;
+    &lt;%&ndash;if (this.value === 'price'){&ndash;%&gt;
+      &lt;%&ndash;$('#input_price').html('Цена <input id="inputPrice" name="price" type="number" class="form-control input-sm" value="${offer.price}" required><br>Валюта<select id="inputCurrency" name="currency"><option vlaue="UAH">UAH</option><option value="USD">USD</option><option value="EUR">EUR</option></select>');&ndash;%&gt;
+    &lt;%&ndash;}else{&ndash;%&gt;
+      &lt;%&ndash;$('#input_price').html("");&ndash;%&gt;
+    &lt;%&ndash;}&ndash;%&gt;
+//  });
 
-    // delete images before save changes in offer (must be called before update offer)
-        function deleteImgFromDB(arr) {
-          $.ajax({
-            url: '/api/rest/fileStorage/OFFERS/file/delete',
-            method: 'POST',
-            data: {'fileId': arr},
-            traditional: true,
-            success: function (response) {
-              alert("Успех");
-    //          window.location.href = '/account';
-            },
-            error: function (response) {
-              alert("Неудача");
-    //          window.location.href = '/account';
-            }
-          });
-        }
+  // google map api-----------------------------BEGIN---------------------------------------------
+  function initMap() {
 
-    // serialize form and sent it via POST method in JSON --------------------------BEGIN---------------------
-        $('#btn-submit').click(function (event) {
-          event.preventDefault();
+    var input = document.getElementById('address');
 
-          var c = {};
+    var options = {
+      types: []
+    };
 
-    // subtract deleted imgId from sum of oldImgId and upploaded img---------Begin-----------
+    var autocomplete = new google.maps.places.Autocomplete(input, options);
 
-          for(var key in picArrIn) {
-            if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
-          }
+    google.maps.event.addListener(autocomplete, 'place_changed', function () {
+      var place = autocomplete.getPlace(); //получаем место
+      console.log(place);
+      console.log(place.name);  //название места
+      console.log(place.id);  //уникальный идентификатор места
+    });
 
-          for (var i = 0; i < picArrNew.length; i++) {
-            imgsArrResult[picArrNew[i]] = picArrIn[picArrNew[i]];
-          }
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 17,
+      center: {lat: 50.4501, lng: 30.523400000000038}
+    });
 
-          var defaultMainImg = "";
-          for(var key in imgsArrResult) {
-            if(imgsArrResult[key] === "pic1") {
-              defaultMainImg = key;
-            }
-          }
-          if(defaultMainImg) imgsArrResult[defaultMainImg] = "pic1";
-    //      alert(JSON.stringify(imgsArrResult));
-    // subtract deleted imgId from sum of oldImgId and upploaded img---------End-----------
+    var geocoder = new google.maps.Geocoder();
 
-          c.id = '${offer.id}';
-          c.title = $("#inputTitle").val();
-          c.imagesIds = imgsArrResult;
-          c.canBeReserved = $("#inputReserved").is(":checked");
-          c.address = {};
-          c.address.coordinates = placeKey;
-          c.address.country = 'Украина';
-          c.videoUrl = $('#inputVideo').val();
+    document.getElementById('submit').addEventListener('click', function() {
+      geocodeAddress(geocoder, map);
+    });
+  }
 
-          if ($('#cityInp').val() !== 'Выберите город' && $('#cityInp').val() !== '' && $('#cityInp').val() !== 'Все города') {
-            c.address.city = $('#cityInp').val();
-          }
-
-          if ($('#areaInp').val() !== 'Выберите область' && $('#areaInp').val() !== '') {
-            c.address.area = $('#areaInp').val();
-          }
-
-          if ($('#inputUrgent').is(':checked')) {
-            c.urgent = true;
-          } else {
-            c.urgent = false;
-          }
-
-          c.description = $('#inputDescript').val();
-          c.userInfo = {};
-          c.userInfo.skypeLogin = $('#inputSkype').val();
-          c.userInfo.contactName = $('#inptContactName').val();
-          c.userInfo.email = $('#inptEmail').val();
-          c.videoUrl = $('#inputVideo').val();
-
-          $('.phoneInputGroup').each(function (i, obj) {
-            phoneArrResult.push($(this).val());
-          });
-
-          c.userInfo.phoneNumbers = phoneArrResult;
-          console.log(JSON.stringify(c));
-
-          alert("удаляем фото из БД перед отправкой формы");
-
-          if (picArrDel.length !== 0){
-            deleteImgFromDB(picArrDel);
-          }
-
-          var properties = [];
-
-          $('#options').find('select').each(function(){
-            var prop = {};
-            prop.key = this.name;
-            prop.value = this.value;
-            properties.push(prop);
-          });
-
-          $('#inputs').find('input').each(function(){
-            var prop = {};
-            prop.key = this.name;
-            prop.value = this.value;
-            properties.push(prop);
-          });
-
-          c.properties = properties;
-
-          for (var j in properties){
-            if (properties[j].price !== 'price'){
-              delete c.price;
-              break;
-            }
-          }
-
-          $.ajax({
-            type: "POST",
-            url: "/api/rest/offersService/offer/edit",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(c),
-            success: function (response) {
-              window.location.href = '/offer/' + response.id;
-            },
-            error: function (response) {
-              alert("Внутренняя ошибка сервера");
-            }
-          });
+  function geocodeAddress(geocoder, resultsMap) {
+    var address = document.getElementById('address').value;
+    geocoder.geocode({'address': address}, function(results, status) {
+      placeKey = results[0].place_id;
+      if (status === google.maps.GeocoderStatus.OK) {
+        resultsMap.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+          map: resultsMap,
+          position: results[0].geometry.location
         });
-    // serialize form and sent it via POST method in JSON --------------------------END---------------------
-        countTextLength();
-        $("#offerDescription").on('keyup', countTextLength);
+      } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+  }
+  // google map api------------------------------END----------------------------------------------
 
-        $('#addImg').click(function(){
-          $('#uploadProfilePhotoInput').trigger('click');
+  $(document).ready(function () {
+
+    // selecte currency from options
+    var currency = '${offer.currency}';
+    $('#inputCurrency').val(currency);
+
+    // place photo from received model on the page
+    for (var id in picMapObj) {
+      picArrIn[id] = picMapObj[id];
+      $('.imgBlock').append('<ul id="' + id + '" '+ ((picMapObj[id] === 'pic1')? 'class="mainImg"': '') +' style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+      ' <li style="background-color: white"><a rel="example_group"> ' +
+      '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + id + '"' + 'width="150" height="150"> ' +
+      '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+    }
+    // Setup the dnd listeners.
+    var dropZone = document.getElementById('drop_zone');
+    dropZone.addEventListener('dragover', handleDragOver, false);
+    dropZone.addEventListener('drop', handleFileSelect, false);
+
+    function handleFileSelect(evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+
+      var files = evt.dataTransfer.files; // FileList object.
+
+      // files is a FileList of File objects. List some properties.
+      for (var i = 0, f; f = files[i]; i++) {
+        var formImg = new FormData($(this)[0]);
+        var fd = new FormData();
+        fd.append('file', f);
+        $.ajax({
+          type: "POST",
+          url: "/api/rest/fileStorage/OFFERS/file/upload/",
+          data: fd,
+          async: false,
+          cache: false,
+          contentType: false,
+          processData: false,
+
+          success: function (data, textStatus, request) {
+            var id = data.id;
+            var isImage = f.type.substring(0, 5) === 'image';
+            if (isImage) {
+              picArrIn[id] = "image";
+              $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                      ' <li style="background-color: white">' +
+                      '<a rel="example_group"> ' +
+                      '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                      '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
+            }
+          }
         });
 
-      });
 
-      function countTextLength() {
-        var counter = $("#textLength");
-        var currentString = $("#offerDescription").val();
-        counter.html(currentString.length);
-        if (currentString.length <= 50) {  /*or whatever your number is*/
-          counter.css("color", "red");
-        } else {
-          if (currentString.length > 500) {
-            counter.css("color", "red");
-          } else {
-            counter.css("color", "green");
-          }
-        }
       }
+    }
 
-      // delete pictures only from page
-      function deleteImgFromPage(idImg) {
-        $('#' + idImg).remove();
-        picArrDel.push(idImg);
-      }
+    function handleDragOver(evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+      evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+    }
 
-      function onClickSetMainImg(id) {
-        var isMain = $('#' + id).find("img").hasClass("mainImg");
-
-        var allImgs = $(".imgBlock").find("img");
-        for (var i =0; i < allImgs.length; i++) {
-          var curImg = $(allImgs[i]);
-          if (curImg.hasClass("mainImg")) {
-            curImg.removeClass("mainImg");
-          }
-        }
-        var el = $('#' + id).find("img");
-        if(!isMain) el.addClass("mainImg");
-
-        for(var key in picArrIn) {
-          if( picArrIn[key] === "pic1") {
-            picArrIn[key] = "image";
-          }
-        }
-        if(el.hasClass("mainImg")) {
-          picArrIn[id] = "pic1";
-        }
-      }
-      // upload photo to the server and place it into the page-----------------------BEGIN------------------------
-
-      $('#uploadProfilePhotoInput').change(function (event) {
-        event.preventDefault();
-
-        var files = event.currentTarget.files;
-        for (var i = 0, f; f = files[i]; i++) {
-          var formImg = new FormData($(this)[0]);
-          var fd = new FormData();
-          fd.append('file', f);
-          $.ajax({
-            type: "POST",
-            url: "/api/rest/fileStorage/OFFERS/file/upload/",
-            data: fd,
-            async: false,
-            cache: false,
-            contentType: false,
-            processData: false,
-
-            success: function (data, textStatus, request) {
-              var id = data.id;
-              var isImage = f.type.substring(0, 5) === 'image';
-              if (isImage) {
-                picArrIn[id] = "image";
-                $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-                        ' <li style="background-color: white">' +
-                        '<a rel="example_group"> ' +
-                        '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
-                        '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
-              }
-            }
-          });
-        }
-        event.currentTarget.form.reset();
-      });
-      // upload photo to the server and place it into the page-----------------------END------------------------
-
-    </script>
-
-
-    <script>
-      var cities;
+// delete images before save changes in offer (must be called before update offer)
+    function deleteImgFromDB(arr) {
       $.ajax({
-        url: '/resources/json/cities.json',
-        dataType: 'json',
-        async: false,
+        url: '/api/rest/fileStorage/OFFERS/file/delete',
+        method: 'POST',
+        data: {'fileId': arr},
+        traditional: true,
         success: function (response) {
-          cities = response;
-          var area = '${offer.address.area}';
-          var city = '${offer.address.city}';
-          if (area !== '') {
-            $('#chosenRegion').text(area);
-            $('#chosenCity').attr("style", "visibility: visible");
-
-            if (city !== '') {
-              $('#chosenCity').text(city);
-            } else {
-              $('#chosenCity').text("Выберите город");
-            }
-          }
-
-          $('#bs-example-navbar-collapse-2').find('#cities1, #cities2').empty();
-          $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#"><b>' + 'Все города' + '</b></a></li>');
-          for (var i = 0; i < Math.floor(cities[area].length / 2); i++) {
-            $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[area][i] + '</a></li>');
-          }
-          for (var j = Math.floor(cities[area].length / 2); j < cities[area].length; j++) {
-            $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[area][j] + '</a></li>');
-          }
-          $('#bs-example-navbar-collapse-2').attr("style", "visibility: visible");
-
-          $('#cities').find('li').click(function () {
-                    var city = $(this).text();
-                    $('#chosenCity').text(city);
-                    $('#cityInp').val(city);
-                  }
-          );
+          alert("Успех");
+//          window.location.href = '/account';
+        },
+        error: function (response) {
+          alert("Неудача");
+//          window.location.href = '/account';
         }
       });
+    }
 
-      // Add/Remove phone Input Fields Dynamically with jQuery
-      $(document).ready(function() {
-        var max_fields      = 3; //maximum input boxes allowed
-        var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-        var add_button      = $(".add_field_button"); //Add button ID
+// serialize form and sent it via POST method in JSON --------------------------BEGIN---------------------
+    $('#btn-submit').click(function (event) {
+      event.preventDefault();
 
-        var x = 1; //initial text box count
-        $(add_button).click(function(e){ //on add input button click
-          e.preventDefault();
-          if(x < max_fields){ //max input box allowed
-            x++; //text box increment
-            $(wrapper).append('<div><input id="phone'+ x +'" type="text" name="mytext[]"/><a href="#" class="remove_field" required>Удалить</a></div>'); //add input box
+      var c = {};
 
-            //Add mask for some input fields after add new input
-            jQuery(function($){
-              $("#phone1").mask("(999) 999-9999");
-              $("#phone2").mask("(999) 999-9999");
-              $("#phone3").mask("(999) 999-9999");
-            });
+// subtract deleted imgId from sum of oldImgId and upploaded img---------Begin-----------
+
+      for(var key in picArrIn) {
+        if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
+      }
+
+      for (var i = 0; i < picArrNew.length; i++) {
+        imgsArrResult[picArrNew[i]] = picArrIn[picArrNew[i]];
+      }
+
+      var defaultMainImg = "";
+      for(var key in imgsArrResult) {
+        if(imgsArrResult[key] === "pic1") {
+          defaultMainImg = key;
+        }
+      }
+      if(defaultMainImg) imgsArrResult[defaultMainImg] = "pic1";
+//      alert(JSON.stringify(imgsArrResult));
+// subtract deleted imgId from sum of oldImgId and upploaded img---------End-----------
+
+      c.id = '${offer.id}';
+      c.title = $("#inputTitle").val();
+      c.imagesIds = imgsArrResult;
+      c.canBeReserved = $("#inputReserved").is(":checked");
+      c.address = {};
+      c.address.coordinates = placeKey;
+      c.address.country = 'Украина';
+      c.videoUrl = $('#inputVideo').val();
+
+      if ($('#cityInp').val() !== 'Выберите город' && $('#cityInp').val() !== '' && $('#cityInp').val() !== 'Все города') {
+        c.address.city = $('#cityInp').val();
+      }
+
+      if ($('#areaInp').val() !== 'Выберите область' && $('#areaInp').val() !== '') {
+        c.address.area = $('#areaInp').val();
+      }
+
+      if ($('#inputUrgent').is(':checked')) {
+        c.urgent = true;
+      } else {
+        c.urgent = false;
+      }
+
+      c.description = $('#inputDescript').val();
+      c.userInfo = {};
+      c.userInfo.skypeLogin = $('#inputSkype').val();
+      c.userInfo.contactName = $('#inptContactName').val();
+      c.userInfo.email = $('#inptEmail').val();
+      c.videoUrl = $('#inputVideo').val();
+
+      $('.phoneInputGroup').each(function (i, obj) {
+        phoneArrResult.push($(this).val());
+      });
+
+      c.userInfo.phoneNumbers = phoneArrResult;
+      console.log(JSON.stringify(c));
+
+      alert("удаляем фото из БД перед отправкой формы");
+
+      if (picArrDel.length !== 0){
+        deleteImgFromDB(picArrDel);
+      }
+
+      var properties = [];
+
+      $('#options').find('select').each(function(){
+        var prop = {};
+        prop.key = this.name;
+        prop.value = this.value;
+        properties.push(prop);
+      });
+
+      $('#inputs').find('input').each(function(){
+        var prop = {};
+        prop.key = this.name;
+        prop.value = this.value;
+        properties.push(prop);
+      });
+
+      c.properties = properties;
+
+      for (var j in properties){
+        if (properties[j].price !== 'price'){
+          delete c.price;
+          break;
+        }
+      }
+
+      $.ajax({
+        type: "POST",
+        url: "/api/rest/offersService/offer/edit",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(c),
+        success: function (response) {
+          window.location.href = '/offer/' + response.id;
+        },
+        error: function (response) {
+          alert("Внутренняя ошибка сервера");
+        }
+      });
+    });
+// serialize form and sent it via POST method in JSON --------------------------END---------------------
+    countTextLength();
+    $("#offerDescription").on('keyup', countTextLength);
+
+    $('#addImg').click(function(){
+      $('#uploadProfilePhotoInput').trigger('click');
+    });
+
+  });
+
+  function countTextLength() {
+    var counter = $("#textLength");
+    var currentString = $("#offerDescription").val();
+    counter.html(currentString.length);
+    if (currentString.length <= 50) {  /*or whatever your number is*/
+      counter.css("color", "red");
+    } else {
+      if (currentString.length > 500) {
+        counter.css("color", "red");
+      } else {
+        counter.css("color", "green");
+      }
+    }
+  }
+
+  // delete pictures only from page
+  function deleteImgFromPage(idImg) {
+    $('#' + idImg).remove();
+    picArrDel.push(idImg);
+  }
+
+  function onClickSetMainImg(id) {
+    var isMain = $('#' + id).find("img").hasClass("mainImg");
+
+    var allImgs = $(".imgBlock").find("img");
+    for (var i =0; i < allImgs.length; i++) {
+      var curImg = $(allImgs[i]);
+      if (curImg.hasClass("mainImg")) {
+        curImg.removeClass("mainImg");
+      }
+    }
+    var el = $('#' + id).find("img");
+    if(!isMain) el.addClass("mainImg");
+
+    for(var key in picArrIn) {
+      if( picArrIn[key] === "pic1") {
+        picArrIn[key] = "image";
+      }
+    }
+    if(el.hasClass("mainImg")) {
+      picArrIn[id] = "pic1";
+    }
+  }
+  // upload photo to the server and place it into the page-----------------------BEGIN------------------------
+
+  $('#uploadProfilePhotoInput').change(function (event) {
+    event.preventDefault();
+
+    var files = event.currentTarget.files;
+    for (var i = 0, f; f = files[i]; i++) {
+      var formImg = new FormData($(this)[0]);
+      var fd = new FormData();
+      fd.append('file', f);
+      $.ajax({
+        type: "POST",
+        url: "/api/rest/fileStorage/OFFERS/file/upload/",
+        data: fd,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+
+        success: function (data, textStatus, request) {
+          var id = data.id;
+          var isImage = f.type.substring(0, 5) === 'image';
+          if (isImage) {
+            picArrIn[id] = "image";
+            $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
+                    ' <li style="background-color: white">' +
+                    '<a rel="example_group"> ' +
+                    '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
+                    '</a> <div onclick=\"deleteImgFromPage(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
           }
-        });
-
-        $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-          e.preventDefault(); $(this).parent('div').remove(); x--;
-        })
+        }
       });
+    }
+    event.currentTarget.form.reset();
+  });
+  // upload photo to the server and place it into the page-----------------------END------------------------
 
-      //Add mask for some input fields on page ready
-      jQuery(function($){
-        $("#phone1").mask("(999) 999-9999");
-        $("#phone2").mask("(999) 999-9999");
-        $("#phone3").mask("(999) 999-9999");
-      });
+</script>
 
-      // cities form script
-      $('#regions').find('li').click(function () {
-        var region = $(this).text();
-        $('#chosenRegion').text(region);
-        $('#areaInp').val(region);
-        if (region !== 'Вся Украина') {
-          $('#bs-example-navbar-collapse-2').attr("style", "visibility: visible");
+
+<script>
+  var cities;
+  $.ajax({
+    url: '/resources/json/cities.json',
+    dataType: 'json',
+    async: false,
+    success: function (response) {
+      cities = response;
+      var area = '${offer.address.area}';
+      var city = '${offer.address.city}';
+      if (area !== '') {
+        $('#chosenRegion').text(area);
+        $('#chosenCity').attr("style", "visibility: visible");
+
+        if (city !== '') {
+          $('#chosenCity').text(city);
         } else {
-          $('#bs-example-navbar-collapse-2').attr("style", "visibility: hidden");
+          $('#chosenCity').text("Выберите город");
         }
-        $('#chosenCity').text("Выберите город");
+      }
 
-        $('#bs-example-navbar-collapse-2').find('#cities1, #cities2').empty();
-        $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#"><b>' + 'Все города' + '</b></a></li>');
-        for (var i = 0; i < Math.floor(cities[region].length / 2); i++) {
-          $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][i] + '</a></li>');
-        }
-        for (var j = Math.floor(cities[region].length / 2); j < cities[region].length; j++) {
-          $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][j] + '</a></li>');
-        }
+      $('#bs-example-navbar-collapse-2').find('#cities1, #cities2').empty();
+      $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#"><b>' + 'Все города' + '</b></a></li>');
+      for (var i = 0; i < Math.floor(cities[area].length / 2); i++) {
+        $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[area][i] + '</a></li>');
+      }
+      for (var j = Math.floor(cities[area].length / 2); j < cities[area].length; j++) {
+        $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[area][j] + '</a></li>');
+      }
+      $('#bs-example-navbar-collapse-2').attr("style", "visibility: visible");
 
-        $('#cities').find('li').click(function () {
-                  var city = $(this).text();
-                  $('#chosenCity').text(city);
-                  $('#cityInp').val(city);
-                }
-        );
-      });
-    </script>--%>
-    <%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
-    <%--
-            async defer></script>&ndash;%&gt;
-    </body>
+      $('#cities').find('li').click(function () {
+                var city = $(this).text();
+                $('#chosenCity').text(city);
+                $('#cityInp').val(city);
+              }
+      );
+    }
+  });
 
-    </html>--%>
+  // Add/Remove phone Input Fields Dynamically with jQuery
+  $(document).ready(function() {
+    var max_fields      = 3; //maximum input boxes allowed
+    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+    var add_button      = $(".add_field_button"); //Add button ID
+
+    var x = 1; //initial text box count
+    $(add_button).click(function(e){ //on add input button click
+      e.preventDefault();
+      if(x < max_fields){ //max input box allowed
+        x++; //text box increment
+        $(wrapper).append('<div><input id="phone'+ x +'" type="text" name="mytext[]"/><a href="#" class="remove_field" required>Удалить</a></div>'); //add input box
+
+        //Add mask for some input fields after add new input
+        jQuery(function($){
+          $("#phone1").mask("(999) 999-9999");
+          $("#phone2").mask("(999) 999-9999");
+          $("#phone3").mask("(999) 999-9999");
+        });
+      }
+    });
+
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+      e.preventDefault(); $(this).parent('div').remove(); x--;
+    })
+  });
+
+  //Add mask for some input fields on page ready
+  jQuery(function($){
+    $("#phone1").mask("(999) 999-9999");
+    $("#phone2").mask("(999) 999-9999");
+    $("#phone3").mask("(999) 999-9999");
+  });
+
+  // cities form script
+  $('#regions').find('li').click(function () {
+    var region = $(this).text();
+    $('#chosenRegion').text(region);
+    $('#areaInp').val(region);
+    if (region !== 'Вся Украина') {
+      $('#bs-example-navbar-collapse-2').attr("style", "visibility: visible");
+    } else {
+      $('#bs-example-navbar-collapse-2').attr("style", "visibility: hidden");
+    }
+    $('#chosenCity').text("Выберите город");
+
+    $('#bs-example-navbar-collapse-2').find('#cities1, #cities2').empty();
+    $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#"><b>' + 'Все города' + '</b></a></li>');
+    for (var i = 0; i < Math.floor(cities[region].length / 2); i++) {
+      $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][i] + '</a></li>');
+    }
+    for (var j = Math.floor(cities[region].length / 2); j < cities[region].length; j++) {
+      $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[region][j] + '</a></li>');
+    }
+
+    $('#cities').find('li').click(function () {
+              var city = $(this).text();
+              $('#chosenCity').text(city);
+              $('#cityInp').val(city);
+            }
+    );
+  });
+</script>--%>
+<%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
+<%--
+        async defer></script>&ndash;%&gt;
+</body>
+
+</html>--%>
