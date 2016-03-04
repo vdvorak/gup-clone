@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
-
+    <link rel="stylesheet" href="/resources/css/mini.css">
     <link href="/resources/css/com.css" rel="stylesheet">
 
 </head>
@@ -165,8 +165,8 @@
             </div>
             <label class="blogCreationLabel">Фотографии</label>
 
-            <div id="drop_zone" class="defaultIMG">
-                <ul>
+            <div id="drop_zone">
+                <ul class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImg()"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
@@ -406,7 +406,7 @@
 
         if(imgsArr[key] === "pic1") cloneImg.find('img').addClass('mainImg');
 
-        cloneImg.appendTo('.defaultIMG ul');
+        cloneImg.appendTo('.ul-img-container');
     }
 
     function checkMainImg() {
@@ -490,10 +490,13 @@
         });
     }
 
-    function deleteImg(idImg) {
+    function deleteImg() {
+        var idImg = $(event.currentTarget).parent()
+                .find('img')
+                .attr('id');
         $('#' + idImg).parent().remove();
 
-        var numberImg = $(".defaultIMG").find('img').length;
+        var numberImg = $(".ul-img-container").find('img').length;
         if(numberImg < 2) {
             $(".li-defaultIMG").css("display", "inline-block");
         }

@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link href="/resources/css/com.css" rel="stylesheet">
+    <link rel="stylesheet" href="/resources/css/mini.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
@@ -156,8 +157,8 @@
             <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
             <label class="blogCreationLabel">Фотографии</label>
 
-            <div id="drop_zone" class="defaultIMG">
-                <ul>
+            <div id="drop_zone">
+                <ul class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
@@ -381,7 +382,7 @@
                 .click(onClickSetMainImg);
         cloneImg.find('span')
                 .click(deleteImg);
-        cloneImg.appendTo('.defaultIMG ul');
+        cloneImg.appendTo('.ul-img-container');
     }
 
     function onClickSetMainImg() {
@@ -443,7 +444,7 @@
             success: function (data, textStatus, request) {
                 $('#' + idImg).parent().remove();
 
-                var numberImg = $(".defaultIMG").find('img').length;
+                var numberImg = $(".ul-img-container").find('img').length;
                 if(numberImg < 2) {
                     $(".li-defaultIMG").css("display", "inline-block");
                 }
