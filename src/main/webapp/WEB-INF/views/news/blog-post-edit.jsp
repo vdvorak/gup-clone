@@ -14,17 +14,19 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <title>Редактирование новости</title>
-    <meta name="generator" content="Bootply"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/alster.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
-    <link rel="stylesheet" href="/resources/css/bootstrap.css">
-    <link href="/resources/css/com.css" rel="stylesheet">
-
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+
+    <link href="/resources/css/com.css" rel="stylesheet">
 
 </head>
 <body>
@@ -43,12 +45,11 @@
 
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
-
 <div class="container2">
     <div class="blogCreation">
         <p class="blogCreationHeader blueColor">Редактирование новости</p>
 
-        <form action="#" role="form">
+        <div>
             <label for="newsTitle" class="blogCreationLabel">Заголовок новости</label>
             <input type="text" name="newsTitle" id="newsTitle" class="blogCreationInput blueBorder" value="${blogPost.title}">
 
@@ -176,13 +177,25 @@
             <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput blueBorder"
                    placeholder="Youtube"
                    pattern="(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?">
-        </form>
-        <button type="button" class="SendEdition">Отправить редакции</button>
+        </div>
+
+        <div class="field">
+            <button id="deleteBlogPosdtBtn" class="delete-btn">Удалить новость</button>
+            <button id="sendBpToEdition" class="info-submit">Отправить редакции</button>
+        </div>
+
+        <div class="confirm" id="confirmBpDelete" style="display: none">
+            <h1>Подтвердите удаление</h1>
+            <p>Статья будет навсегда удалена</p>
+            <button id="cancelBpDelBtn" autofocus>Отмена</button>
+            <button id="confirmBpDelBtn">Удалить</button>
+        </div>
 
         <div class="clearfix"></div>
 
     </div>
 </div>
+
 
 <!-- script references -->
 <sec:authorize access="isAuthenticated()">
@@ -192,15 +205,14 @@
 <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
 <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
+<script src="/resources/js/jquery.maskedinput.min.js"></script>
+<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
-
-<script src="/resources/js/jquery.maskedinput.min.js"></script>
-<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
 <script>
 
@@ -307,7 +319,7 @@
 
 
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
-    $('button.SendEdition').click(function (event) {
+    $('#sendBpToEdition').click(function (event) {
         event.preventDefault();
 
         var title = $('#newsTitle').val();
@@ -491,4 +503,6 @@
     });
     //--------------------------- END REGIONS LIST --------------------------------------------//
 </script>
+
+</body>
 </html>
