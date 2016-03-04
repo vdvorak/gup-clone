@@ -20,7 +20,7 @@ function loadAndAppendProject(projectId) {
                 balance = response;
                 appendProjectBlock(project, balance);
             }).fail(function (response) {
-               alert("Проблемы с балансом проекта");
+                alert("Проблемы с балансом проекта");
                 appendProjectBlock(project, balance);
             });
         }
@@ -32,7 +32,7 @@ function appendProjectBlock(project, balance) {
         $('#editProjectBtn').show();
     }
 
-    if (balance || balance == 0){
+    if (balance || balance == 0) {
         $('#projProgress').css('width', getInvertedProgressNum(balance, project.amountRequested) + '%');
         $('#investedAmount').append(balance + ' ₴ ');
     }
@@ -183,24 +183,69 @@ function checkProjectBalance(projectId) {
     });
 }
 
-
-$('#makeInvest').click( function(event){
-    event.preventDefault();
-    $('#overlay').fadeIn(400,
-        function(){
-            $('#investModal')
-                .css('display', 'block')
-                .animate({opacity: 1, top: '50%'}, 200);
-        });
+// ----------------------------------- Modal invest window ----------------------------------------------
+//$('#makeInvest').click( function(event){
+//    event.preventDefault();
+//    $('#overlay').fadeIn(400,
+//        function(){
+//            $('#investModal')
+//                .css('display', 'block')
+//                .animate({opacity: 1, top: '50%'}, 200);
+//        });
+//});
+//
+//
+//$('#overlay, .richAss > form > #close').click( function(){
+//    $('#investModal')
+//        .animate({opacity: 0, top: '45%'}, 200,
+//        function(){
+//            $(this).css('display', 'none');
+//            $('#overlay').fadeOut(400);
+//        }
+//    );
+//});
+//
+//
+//    $.ajax({
+//        type: "POST",
+//        url: "/api/rest/projectsAndInvestmentsService/check-project-balance",
+//        data: {"projectId": projectId},
+//        cache: false
+//    });
+$(".cropper-btn-cancel").click(function () {
+    $('#cropperModal').css('display', "none");
 });
 
+$(window).click(function (event) {
+    var modal = document.getElementById('cropperModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+});
 
-$('#overlay, .richAss > form > #close').click( function(){
-    $('#investModal')
-        .animate({opacity: 0, top: '45%'}, 200,
-        function(){
-            $(this).css('display', 'none');
-            $('#overlay').fadeOut(400);
+$('#makeInvest').on('click', function () {
+    $('#cropperModal').css('display', "block");
+});
+
+$('#confirmInvest').on('click', function () {
+    var investAmount = $('#investInput').val();
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/projectsAndInvestmentsService/make-invest",
+        data: {"projectId": projectId, "investAmount": investAmount},
+        cache: false,
+        statusCode: {
+            200: function (response) {
+                alert("Операция прошла успешно");
+                $('#cropperModal').css('display', "none");
+            },
+            403: function (response) {
+                alert("Недостаточно денег на счету для совершения операции")
+            },
+            404: function (response) {
+                alert("Внутрення ошибка серера - обратитесь к администратору!")
+            }
         }
-    );
+    });
 });
+// ----------------------------------- End Modal invest window ----------------------------------------------

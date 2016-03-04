@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="/resources/css/sasha.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
 </head>
 <body>
     <!--[if lt IE 8]>
@@ -137,26 +138,51 @@
     <!--PAGE CONTENT END-->
 
     <!-- Modal window invest-->
-    <div id="investModal">
-        <h2>Проинвестировать проект</h2>
-        <div class="whichBankYouChoose">
-            <div class="richAss">
-                <p>С вашего счета будет снято 000. 00 грн</p>
-                <form role="form" action="#">
-                    <div class="richAssCheck">
-                        <label for="hustle">Windows XP&nbsp;</label>
-                        <label class="label-checkbox-rich">
-                            <input type="checkbox" id="hustle" value="1" name="k" /><span></span>
-                        </label>
-                    </div>
-                    <div class="clearfix"></div>
-                    <button type="button" id='close'>Отмена</button>
-                    <button type="submit">Подтвердить</button>
-                </form>
+
+    <%--<div id="investModal">--%>
+        <%--<h2>Проинвестировать проект</h2>--%>
+        <%--<div class="whichBankYouChoose">--%>
+            <%--<div class="richAss">--%>
+                <%--<p>Введите сумму инвестирования</p>--%>
+                <%--<input type="number" id="investAmount">--%>
+                <%--<form role="form" action="#">--%>
+                    <%--<div class="richAssCheck">--%>
+                        <%--<label for="hustle">Windows XP&nbsp;</label>--%>
+                        <%--<label class="label-checkbox-rich">--%>
+                            <%--<input type="checkbox" id="hustle" value="1" name="k" /><span></span>--%>
+                        <%--</label>--%>
+                    <%--</div>--%>
+                    <%--<div class="clearfix"></div>--%>
+                    <%--<button type="button" id='close'>Отмена</button>--%>
+                    <%--<button>Подтвердить</button>--%>
+                <%--</form>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+
+    <!-- End modal window invest-->
+
+
+
+    <!-- The Modal -->
+    <div id="cropperModal" class="cropper-modal">
+
+        <!-- Modal content -->
+        <div class="cropper-modal-content">
+            <div class="cropper-modal-header">
+                <span>ИНВЕСТИРОВАНИЕ В ПРОЕКТ</span>
+            </div>
+            <input id="investInput" placeholder="Сумма инвестирования">
+            <%--<div class="cropper-modal-body drop_zone">--%>
+                <%--<img id="cropper-image" src="/resources/images/no_photo.jpg" style="max-width: 100%">--%>
+            <%--</div>--%>
+            <div class="cropper-modal-footer">
+                <button id="confirmInvest" class="cropper-btn cropper-btn-success">Ок</button>
+                <button class="cropper-btn cropper-btn-cancel">Отмена</button>
             </div>
         </div>
+
     </div>
-    <!-- End modal window invest-->
 
     <sec:authorize access="isAuthenticated()">
         <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>

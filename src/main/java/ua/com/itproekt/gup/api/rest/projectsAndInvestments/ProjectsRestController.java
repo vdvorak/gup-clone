@@ -139,4 +139,31 @@ public class ProjectsRestController {
 
         return new ResponseEntity<>(score, HttpStatus.OK);
     }
+
+    // ----------------------------------------- Do invest in project -----------------------------------------------
+
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/make-invest", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Void> makeInvest(@RequestParam("projectId") String projectId, @RequestParam("investAmount") Long investAmount) {
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        Integer currentBalanceAmount = bankSession.getUserBalance(userId);
+
+
+        if (!projectService.projectExists(projectId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (currentBalanceAmount < investAmount) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        bankSession.transferBetweenUsers(5555, userId, projectId, investAmount, 20, "project invest");
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

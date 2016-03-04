@@ -20,7 +20,7 @@
 
     <%-- Cropper style --%>
     <link  href="/resources/css/cropper.css" rel="stylesheet">
-    <link rel="stylesheet" href="/resources/css/cropper-modal-window.css">
+    <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
 </head>
 <body>
 
