@@ -18,7 +18,7 @@
 </head>
 <body>
 <br>
-<a href="/blog-post/view-all/${blogPost.blogId}"><button>Назад в блог</button></a>
+<a href="/blog-post/view-all/blogId/${blogPost.blogId}"><button>Назад в блог</button></a>
 
 <h1>${blogPost.title}</h1>
 

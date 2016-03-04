@@ -16,9 +16,6 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by RAYANT on 13.01.2016.
  */
@@ -67,21 +64,21 @@ public class BlogPostController {
         return "news/blogs-and-news";
     }
 
-    @RequestMapping("/view-all/{blogId}")
-    public String blogPostViewAll(Model model, @PathVariable("blogId") String blogId) {
+    @RequestMapping("/view-all/blogId/{blogId}")
+    public String blogPostViewAll(Model model, @PathVariable String blogId) {
         BlogPostFilterOptions blogPostFO = new BlogPostFilterOptions();
         blogPostFO.setBlogId(blogId);
 
         EntityPage<BlogPost> blogPostPages = blogPostService.findBlogPostsWihOptions(blogPostFO);
-        //TODO убрать когда заработает фильтр по ид блога
-        List<BlogPost> filteredPosts = new ArrayList<>();
-        for (BlogPost blogPost : blogPostPages.getEntities()) {
-            if(blogPost.getBlogId().equals(blogId)){
-                filteredPosts.add(blogPost);
-            }
-        }
 
-        model.addAttribute("blogPostPages", filteredPosts);
+//        List<BlogPost> filteredPosts = new ArrayList<>();
+//        for (BlogPost blogPost : blogPostPages.getEntities()) {
+//            if(blogPost.getBlogId().equals(blogId)){
+//                filteredPosts.add(blogPost);
+//            }
+//        }
+
+        model.addAttribute("blogPostPages", blogPostPages);
         return "";
     }
 
