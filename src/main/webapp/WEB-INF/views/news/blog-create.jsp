@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="resources/css/media-queries.css">
 
     <%-- Cropper style --%>
+<<<<<<< HEAD
     <link href="/resources/css/cropper.css" rel="stylesheet">
     <link rel="stylesheet" href="/resources/css/cropper-modal-window.css">
     <style>
@@ -43,6 +44,10 @@
             margin-bottom: -5px;
         }
     </style>
+=======
+    <link  href="/resources/css/cropper.css" rel="stylesheet">
+    <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
+>>>>>>> 86beaff276763ef435412f896b62f18cf4abe2c5
 </head>
 <body>
 
