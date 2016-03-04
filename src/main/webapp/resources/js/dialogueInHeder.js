@@ -17,4 +17,10 @@ $(document).ready(function () {
             $('.mailDrop-message').first().remove();
         }
     });
+
+    $(".mailDrop-message").click(function(){
+        $(".mailDrop-message").hide('slow');
+        $(".answer").show('slow');
+        $("#overlay").show();
+    });
 });

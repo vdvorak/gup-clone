@@ -43,7 +43,7 @@
                                 <textarea class="form-control" rows="7" id="comment"></textarea>
                                 <button type="submit" class="btnSubmit">Ответить</button>
                             </form>
-                            <p>перейти в</p><a class="answer-a" href="#">диалоги</a>
+                            <p>перейти в</p><a class="answer-a" href="/dialogues">диалоги</a>
                         </div>
                     </div>
                 </il>

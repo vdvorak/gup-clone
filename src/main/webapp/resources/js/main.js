@@ -25,12 +25,6 @@ $(document).ready(function(){
         }
     });
 
-    $(".mailDrop-message").click(function(){
-        $(".mailDrop-message").hide('slow');
-        $(".answer").show('slow');
-        $("#overlay").show();
-    });
-
     $("#overlay").click(function(){
         $(".mailDrop-message").show('slow');
         $(".answer").hide('slow');
