@@ -23,8 +23,6 @@
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
 
-    <link rel="stylesheet" href="/resources/css/sasha.css">
-
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
 </head>
@@ -136,33 +134,6 @@
     </div>
 
     <!--PAGE CONTENT END-->
-
-    <!-- Modal window invest-->
-
-    <%--<div id="investModal">--%>
-        <%--<h2>Проинвестировать проект</h2>--%>
-        <%--<div class="whichBankYouChoose">--%>
-            <%--<div class="richAss">--%>
-                <%--<p>Введите сумму инвестирования</p>--%>
-                <%--<input type="number" id="investAmount">--%>
-                <%--<form role="form" action="#">--%>
-                    <%--<div class="richAssCheck">--%>
-                        <%--<label for="hustle">Windows XP&nbsp;</label>--%>
-                        <%--<label class="label-checkbox-rich">--%>
-                            <%--<input type="checkbox" id="hustle" value="1" name="k" /><span></span>--%>
-                        <%--</label>--%>
-                    <%--</div>--%>
-                    <%--<div class="clearfix"></div>--%>
-                    <%--<button type="button" id='close'>Отмена</button>--%>
-                    <%--<button>Подтвердить</button>--%>
-                <%--</form>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-
-    <!-- End modal window invest-->
-
-
 
     <!-- The Modal -->
     <div id="cropperModal" class="cropper-modal">
