@@ -886,6 +886,8 @@
     $('#btn-offer-save').click(function () {
         if (validateOffer()) {
 
+            checkMainImg();
+
             var offer = {};
             offer.title = $("#new-label-1").val();
             offer.imagesIds = imgsArr;
@@ -1070,6 +1072,25 @@
 
         if (img.hasClass("mainImg")) {
             imgsArr[id] = "pic1";
+        }
+    }
+
+
+    function checkMainImg() {
+        var hasMainImg = false;
+
+        for(var key in imgsArr) {
+            if(imgsArr[key] === 'pic1') {
+                hasMainImg = true;
+                break;
+            }
+        }
+
+        if(!hasMainImg) {
+            for(var key in imgsArr) {
+                imgsArr[key] = 'pic1';
+                break;
+            }
         }
     }
     // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//

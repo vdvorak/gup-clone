@@ -622,6 +622,24 @@
         }
     }
 
+    function checkMainImg() {
+        var hasMainImg = false;
+
+        for(var key in imgsArr) {
+            if(imgsArr[key] === 'pic1') {
+                hasMainImg = true;
+                break;
+            }
+        }
+
+        if(!hasMainImg) {
+            for(var key in imgsArr) {
+                imgsArr[key] = 'pic1';
+                break;
+            }
+        }
+    }
+
     // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//
 
 
@@ -663,6 +681,8 @@
     $('#tender-make-form').submit(function (event) {
         var body = tinymce.activeEditor.getContent();
         if(!body) return false;
+
+        checkMainImg();
 
         var tender = {};
         tender.uploadFilesIds = imgsArr;

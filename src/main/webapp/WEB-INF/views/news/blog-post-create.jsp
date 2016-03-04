@@ -377,10 +377,35 @@
         cloneImg.find('img')
                 .attr("alt", "")
                 .attr("src", '/api/rest/fileStorage/NEWS/file/read/id/' + id)
-                .attr("id", id);
+                .attr("id", id)
+                .click(onClickSetMainImg);
         cloneImg.find('span')
                 .click(deleteImg);
         cloneImg.appendTo('.defaultIMG ul');
+    }
+
+    function onClickSetMainImg() {
+        var img = $(event.currentTarget);
+        var id = img.attr("id");
+        var isMain = img.hasClass("mainImg");
+        var allImgs = $("#tender-img-block").find("img");
+        for (var i = 0; i < allImgs.length; i++) {
+            var curImg = $(allImgs[i]);
+            if (curImg.hasClass("mainImg")) {
+                curImg.removeClass("mainImg");
+            }
+        }
+        if (!isMain) img.addClass("mainImg");
+
+        for (var key in imgsArr) {
+            if (imgsArr[key] === "pic1") {
+                imgsArr[key] = "image";
+            }
+        }
+
+        if (img.hasClass("mainImg")) {
+            imgsArr[id] = "pic1";
+        }
     }
 
 //    $('#photoInput').submit(function (event) {

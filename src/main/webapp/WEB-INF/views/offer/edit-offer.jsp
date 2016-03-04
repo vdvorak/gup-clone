@@ -841,6 +841,8 @@
                 deleteImgFromDB(picArrDel[i]);
             }
 
+            checkMainImg();
+
             var offer = {};
             offer.title = $("#new-label-1").val();
             offer.imagesIds = imgsArrResult;
@@ -989,6 +991,9 @@
                 .click(onClickSetMainImg);
         cloneImg.find('span')
                 .click(deleteImg);
+
+        if(imgsArr[key] === "pic1") cloneImg.find('img').addClass('mainImg');
+
         cloneImg.appendTo('#drop_zone ul');
     }
 
@@ -1042,6 +1047,25 @@
 
         if (img.hasClass("mainImg")) {
             imgsArr[id] = "pic1";
+        }
+    }
+
+
+    function checkMainImg() {
+        var hasMainImg = false;
+
+        for(var key in imgsArrResult) {
+            if(imgsArrResult[key] === 'pic1') {
+                hasMainImg = true;
+                break;
+            }
+        }
+
+        if(!hasMainImg) {
+            for(var key in imgsArrResult) {
+                imgsArrResult[key] = 'pic1';
+                break;
+            }
         }
     }
     // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//

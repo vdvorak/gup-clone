@@ -443,8 +443,6 @@
   });
 
   function appendImg(id) {
-    var isMain = imgsArr[id] === 'pic1';
-
     $("#tender-img-block > .li-defaultIMG").css("display", "none");
     var cloneImg = $("#tender-img-block > .li-defaultIMG").clone()
             .removeClass('li-defaultIMG')
@@ -456,7 +454,9 @@
             .click(onClickSetMainImg);
     cloneImg.find('span')
             .click(deleteImg);
-    if(isMain) cloneImg.find('img').addClass("mainImg");
+
+    if(imgsArr[id] === 'pic1') cloneImg.find('img').addClass("mainImg");
+
     cloneImg.appendTo('#tender-img-block');
   }
 
@@ -699,6 +699,24 @@
     }
   }
 
+  function checkMainImg() {
+    var hasMainImg = false;
+
+    for(var key in imgsArrResult) {
+      if(imgsArrResult[key] === 'pic1') {
+        hasMainImg = true;
+        break;
+      }
+    }
+
+    if(!hasMainImg) {
+      for(var key in imgsArrResult) {
+        imgsArrResult[key] = 'pic1';
+        break;
+      }
+    }
+  }
+
   // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//
 
 
@@ -761,6 +779,8 @@
     for(var i = 0; i < picArrDel.length; i++) {
       deleteImgFromDB(picArrDel[i]);
     }
+
+    checkMainImg();
 
     var tender = {};
     tender.uploadFilesIds = imgsArrResult;
