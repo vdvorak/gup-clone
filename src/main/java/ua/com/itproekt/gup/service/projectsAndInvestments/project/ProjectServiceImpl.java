@@ -150,6 +150,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void bringBackMoneyToInvestors() {
         Set<String> expiredProjectsIds = projectRepository.getExpiredProjectsIds();
+
         expiredProjectsIds.parallelStream().unordered().forEach(projectId -> {
             List<Pair<String, Long>> projectInvestments = null;
             try {
@@ -168,6 +169,7 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.getMatchedNames(name);
     }
 
+    //TODO refactoring
     public void sendNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {
         projectInvestments.parallelStream().unordered().forEach(pair -> {
             String uId = pair.getKey();
@@ -175,7 +177,11 @@ public class ProjectServiceImpl implements ProjectService {
             activityFeedService.createEvent(new Event(uId, EventType.PROJECT_BRING_BACK_MONEY,
                     projectId, moneyAmount.toString(), null));
         });
-
     }
+
+
+    //TODO method for send notifications
+
+
 
 }

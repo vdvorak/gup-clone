@@ -202,6 +202,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         mongoTemplate.updateFirst(query, update, Project.class);
     }
 
+    // TODO delete investedAmount ???
     @Override
     public Set<String> getExpiredProjectsIds() {
         Long currentDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -214,7 +215,8 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
-    public Set<String> getMatchedNames(String name) {
+    public Set<S
+    tring> getMatchedNames(String name) {
         String searchFieldRegex = "(?i:.*" + name + ".*)";
 
         Query query = new Query()
