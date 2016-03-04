@@ -775,5 +775,10 @@
 </script>
 <%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"--%>
         <%--async defer></script>--%>
+
+
+<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script src="/resources/js/kved_autocomplete.js"></script>
+
 </body>
 </html>
