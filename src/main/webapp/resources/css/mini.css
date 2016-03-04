@@ -106,5 +106,36 @@ a.explanation-point-tooltip img {
     margin-left: 195px;
 }
 
+.blog-img ul,
+.blog-img ul li{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.blog-img ul li {
+    width: 225px;
+    height: 225px;
+    list-style-type: none;
+    display: inline-block;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.blog-img ul li img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.blog-img ul li li:not(.li-defaultIMG):hover .descr {
+    opacity: 1;
+    -webkit-transform: rotateZ(0deg);
+    transform: rotateZ(0deg);
+    border-radius: 0;
+}
+
 
 

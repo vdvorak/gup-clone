@@ -82,7 +82,7 @@
             </form>
             <div class="drop_zone">
                 <div class="blog-img">
-                    <ul class="ul-img-container">
+                    <ul>
                         <li class="li-defaultIMG">
                             <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImgFromDB()"></i></span>
                             <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
@@ -252,7 +252,7 @@
             processData: false,
             success: function (data, textStatus, request) {
                 imgId = data.id;
-                $('.ul-img-container').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                $('.blog-img ul').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
                 cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
             }
         });
@@ -377,7 +377,7 @@
     });
 
     function deleteImgFromDB() {
-        $('.ul-img-container').find('img').attr("src", "/resources/images/no_photo.jpg");
+        $('.blog-img ul').find('img').attr("src", "/resources/images/no_photo.jpg");
         $.ajax({
             url: '/api/rest/fileStorage/NEWS/file/delete/id/' + imgId,
             method: 'POST',

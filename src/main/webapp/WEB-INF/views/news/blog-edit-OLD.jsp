@@ -114,7 +114,7 @@
                 <c:choose>
                     <c:when test="${not empty blog.imageId}">
                     <div class="blog-img">
-                            <ul class="ul-img-container">
+                            <ul>
                                 <li class="li-defaultIMG">
                                     <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImg()"></i></span>
                                     <img src="/api/rest/fileStorage/NEWS/file/read/id/${blog.imageId}" alt="">
@@ -124,7 +124,7 @@
                     </c:when>
                     <c:otherwise>
                         <div class="blog-img">
-                            <ul class="ul-img-container">
+                            <ul>
                                 <li class="li-defaultIMG">
                                     <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImg()"></i></span>
                                     <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
@@ -268,7 +268,7 @@
             processData: false,
             success: function (data, textStatus, request) {
                 imgId = data.id;
-                $('.ul-img-container").find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                $('.blog-img ul').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
                 cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
             }
         });
@@ -422,7 +422,7 @@
 
     function deleteImg() {
         imgId = '';
-        $('.ul-img-container').find('img').attr("src", "/resources/images/no_photo.jpg");
+        $('.blog-img ul').find('img').attr("src", "/resources/images/no_photo.jpg");
     }
 
     ///----------------------Delete photo from  DB-----------------------------------------
