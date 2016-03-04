@@ -1,8 +1,6 @@
 package ua.com.itproekt.gup.controller.blogsAndNews;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -93,8 +91,7 @@ public class BlogPostController {
 
     @RequestMapping("/edit/{blogPostId}")
     public String blogPostEdit(Model model, @PathVariable("blogPostId") String blogPostId) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
+        String email = SecurityOperations.getCurrentUserEmail();
         Profile profile = profilesService.findProfileByEmail(email);
         BlogPost blogPost = blogPostService.findById(blogPostId);
         model.addAttribute("blogPost", blogPost);
