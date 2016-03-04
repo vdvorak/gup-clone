@@ -70,6 +70,36 @@
             background-color: transparent;
             color: rgb(153, 204, 102);
         }
+        .ul-img-container {
+            padding: 0px 15px;
+            width: 100%;
+            background-color: rgba(153,204,102,0.30);
+        }
+
+        .ul-img-container li {
+            margin: 10px 15px;
+            padding: 0px;
+            width: 150px;
+            height: 150px;
+            list-style-type: none;
+            display: inline-block;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ul-img-container img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .ul-img-container li:hover .descr {
+            opacity: 1;
+            -webkit-transform: rotateZ(0deg);
+            transform: rotateZ(0deg);
+            border-radius: 0;
+        }
     </style>
 </head>
 <body>
@@ -280,8 +310,8 @@
         </div>
         <div class="row file-browse-wrap">
             <div class="col-xs-3"></div>
-            <div id="drop_zone" class="col-xs-8 defaultIMG">
-                <ul>
+            <div id="drop_zone" class="col-xs-8">
+                <ul class="ul-img-container">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
@@ -994,7 +1024,7 @@
 
         if(imgsArr[key] === "pic1") cloneImg.find('img').addClass('mainImg');
 
-        cloneImg.appendTo('#drop_zone ul');
+        cloneImg.appendTo('.ul-img-container');
     }
 
     // delete images before save changes in offer (must be called before update offer)
@@ -1030,7 +1060,7 @@
         var img = $(event.currentTarget);
         var id = img.attr("id");
         var isMain = img.hasClass("mainImg");
-        var allImgs = $("#tender-img-block").find("img");
+        var allImgs = $(".ul-img-container").find("img");
         for (var i = 0; i < allImgs.length; i++) {
             var curImg = $(allImgs[i]);
             if (curImg.hasClass("mainImg")) {
