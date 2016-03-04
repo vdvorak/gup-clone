@@ -353,7 +353,6 @@
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>--%>
 
 <script>
-  var imgsArr = {};
   var cities;
   var members = [];
   var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
@@ -361,7 +360,7 @@
   var imgsArrResult = {};
   var picArrDel = [];
   var picArrNew = [];
-  var picArrIn = {};
+  var imgsArr = {};
 
 
   if ('${tender.uploadFilesIds}'.length > 5 ){
@@ -381,7 +380,7 @@
 
     // place photo from received model on the page
     for (var id in picMapObj) {
-      picArrIn[id] = picMapObj[id];
+      imgsArr[id] = picMapObj[id];
       if (picMapObj[id] === "image" || picMapObj[id] === "pic1") {
         appendImg(id);
       } else {
@@ -417,10 +416,10 @@
           success: function (data, textStatus, request) {
             var id = data.id;
             if (f.type.substring(0, 5) === 'image') {
-              picArrIn[id] = "image";
+              imgsArr[id] = "image";
               appendImg(id);
             } else {
-              picArrIn[id] = "doc";
+              imgsArr[id] = "doc";
               appendDoc(id, f.name);
             }
           }
@@ -444,7 +443,7 @@
   });
 
   function appendImg(id) {
-    var isMain = picArrIn[id] === 'pic1';
+    var isMain = imgsArr[id] === 'pic1';
 
     $("#tender-img-block > .li-defaultIMG").css("display", "none");
     var cloneImg = $("#tender-img-block > .li-defaultIMG").clone()
@@ -641,10 +640,10 @@
         success: function (data, textStatus, request) {
           var id = data.id;
           if (f.type.substring(0, 5) === 'image') {
-            picArrIn[id] = "image";
+            imgsArr[id] = "image";
             appendImg(id);
           } else {
-            picArrIn[id] = "doc";
+            imgsArr[id] = "doc";
             appendDoc(id, f.name);
           }
         }
@@ -690,13 +689,13 @@
     if(!isMain) img.addClass("mainImg");
 
     for(var key in imgsArr) {
-      if(picArrIn[key] === "pic1") {
-        picArrIn[key] = "image";
+      if(imgsArr[key] === "pic1") {
+        imgsArr[key] = "image";
       }
     }
 
     if(img.hasClass("mainImg")) {
-      picArrIn[id] = "pic1";
+      imgsArr[id] = "pic1";
     }
   }
 
