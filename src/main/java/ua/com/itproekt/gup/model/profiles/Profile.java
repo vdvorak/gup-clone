@@ -2,6 +2,7 @@ package ua.com.itproekt.gup.model.profiles;
 
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ public class Profile {
     @Id
     private String id;
     private String idWord;
-
+    @Indexed
     private String email;
     private String password;
     private String mainPhoneNumber;
@@ -21,6 +22,7 @@ public class Profile {
     private Boolean confirmModerator;
 
     private String imgId;
+    @Indexed
     private String username;
     private Integer unreadMessages;
 
@@ -50,6 +52,15 @@ public class Profile {
     }
 
     //*********************************************************************
+
+    public Set<PriOfficeSetting> getPriofficeSets() {
+        return priofficeSets;
+    }
+
+    public Profile setPriofficeSets(Set<PriOfficeSetting> priofficeSets) {
+        this.priofficeSets = priofficeSets;
+        return this;
+    }
 
     public String getImgId() {
         return imgId;

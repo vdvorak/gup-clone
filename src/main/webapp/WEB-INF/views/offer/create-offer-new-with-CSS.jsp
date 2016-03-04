@@ -931,7 +931,7 @@
             offer.description = $('#new-label-3').val();
             offer.userInfo = {};
             offer.userInfo.skypeLogin = $('#inpSkype').val();
-            offer.userInfo.contactName = $('#inptAuthor').val();
+            offer.userInfo.contactName = $('#inpAuthor').val();
             offer.userInfo.email = $('#inpEmail').val();
             offer.videoUrl = $('#inpVideo').val();
             offer.userInfo.phoneNumbers = phones;
@@ -952,12 +952,11 @@
             });
 
             if ($('#offer-price-row').css('display') !== 'none') {
-                $('#offer-price-row > .prop').each(function () {
-                    var prop = {};
-                    prop.key = this.name;
-                    prop.value = this.value;
-                    properties.push(prop);
+                properties.push({
+                    key: 'price',
+                    value: $('select[name="price"]').val()
                 });
+                offer.currency = $('select[name="currency"]').val();
                 offer.price = $('#offer-inpPrice').val();
             }
 
@@ -1180,7 +1179,7 @@
             var row = $('.row-telephone').first().clone();
             row.children('#btn-add-tel').remove();
             row.find('label').parent().remove();
-            var inputBlock = row.find('input').parent().addClass('col-xs-offset-4');
+            var inputBlock = row.find('input').val("").parent().addClass('col-xs-offset-3');
             imgDel.insertAfter(inputBlock);
             row.appendTo('.new-adv-box');
         }
@@ -1350,7 +1349,6 @@
         $('select[name="price"]').empty();
         $('#other-options').empty();
     }
-    ;
     //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
 
 </script>
