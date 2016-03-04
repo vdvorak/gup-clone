@@ -56,12 +56,7 @@ public class NaceRestController {
 
         System.err.println("______________ naces.size() = " + naces.size());
         for(NACE nace : naces){
-            nace = naceService.addNace(nace);
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            naceService.addNace(nace);
             log.log(Level.INFO, LOGGED_TITLE + "nace/create - nace was created successfully");
         }
         System.err.println("______________ naces.size() = " + naces.size());
