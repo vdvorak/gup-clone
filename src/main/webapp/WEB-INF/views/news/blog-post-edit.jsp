@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
 
     <link href="/resources/css/com.css" rel="stylesheet">
 
@@ -179,18 +180,20 @@
                    pattern="(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?">
         </div>
 
-        <div class="field">
-            <button id="deleteBlogPosdtBtn" class="delete-btn">Удалить новость</button>
-            <button id="sendBpToEdition" class="info-submit">Отправить редакции</button>
-        </div>
 
-        <div class="confirm" id="confirmBpDelete" style="display: none">
-            <h1>Подтвердите удаление</h1>
-            <p>Статья будет навсегда удалена</p>
-            <button id="cancelBpDelBtn" autofocus>Отмена</button>
-            <button id="confirmBpDelBtn">Удалить</button>
-        </div>
+        <div class="editor">
+            <div class="field">
+                <button id="deleteBpBtn" class="delete-btn">Удалить новость</button>
+                <button id="sendBpToEdition" class="info-submit">Отправить редакции</button>
+            </div>
 
+            <div class="confirm" id="confirmBpDelete" style="display: none">
+                <h1>Подтвердите удаление</h1>
+                <p>Статья будет навсегда удалена</p>
+                <button id="cancelBpDelBtn" autofocus>Отмена</button>
+                <button id="confirmBpDelBtn">Удалить</button>
+            </div>
+        </div>
         <div class="clearfix"></div>
 
     </div>
@@ -428,6 +431,27 @@
             }
         });
         }
+    });
+
+    $('#deleteBpBtn').click(function(){
+        $("#confirmBpDelete").show();
+    });
+
+
+    $('#cancelBpDelBtn').on('click', function () {
+        $("#confirmBpDelete").hide();
+    });
+
+    $('#confirmBpDelBtn').on('click', function () {
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/newsService/blogPost/id/" + '${blogPost.id}' + "/delete",
+            statusCode: {
+                204: function () {
+                    window.location.href = '/news/list';
+                }
+            }
+        });
     });
 
     $('button.blogCreationSubmit').click(function(){

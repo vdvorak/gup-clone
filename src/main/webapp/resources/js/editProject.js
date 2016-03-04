@@ -55,6 +55,10 @@ $('#editProjectBtn').on('click', function () {
     });
 });
 
+$('#deleteProjectBtn').on('click', function () {
+    $("#confirmProjDelete").show();
+});
+
 $('#cancelProjDelBtn').on('click', function () {
     $("#confirmProjDelete").hide();
 });
@@ -73,10 +77,6 @@ $('#confirmProjDelBtn').on('click', function () {
 
 $('#addProjPhoto').on('click', function () {
     $("#uploadProjectPhotoInput").click();
-});
-
-$('#deleteProjectBtn').on('click', function () {
-    $("#confirmProjDelete").show();
 });
 
 $('#uploadProjectPhotoInput').on('change', function () {
