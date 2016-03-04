@@ -19,9 +19,8 @@
     <link rel="stylesheet" href="resources/css/media-queries.css">
 
     <%-- Cropper style --%>
-<<<<<<< HEAD
     <link href="/resources/css/cropper.css" rel="stylesheet">
-    <link rel="stylesheet" href="/resources/css/cropper-modal-window.css">
+    <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
     <style>
         .blog-social-container {
             float: right;
@@ -44,10 +43,10 @@
             margin-bottom: -5px;
         }
     </style>
-=======
+
     <link  href="/resources/css/cropper.css" rel="stylesheet">
     <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
->>>>>>> 86beaff276763ef435412f896b62f18cf4abe2c5
+
 </head>
 <body>
 
@@ -71,12 +70,12 @@
         <p class="blogCreationHeader">Новый новостной блог</p>
 
         <form id="blogCreationForm" action="#" role="form">
-            <label for="blogTitle" class="blogCreationLabel">Заголовок блога</label>
+            <label for="blogTitle" class="blogCreationLabel">Заголовок блога <em>*</em></label>
             <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput">
 
             <div class="clearfix"></div>
 
-            <label for="blogCreationDescription" class="blogCreationLabel">Описание</label>
+            <label for="blogCreationDescription" class="blogCreationLabel">Описание <em>*</em></label>
             <textarea name="blogCreationDescription" id="blogCreationDescription"
                       class="blogCreationDescription"></textarea>
 
