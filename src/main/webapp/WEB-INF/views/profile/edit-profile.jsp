@@ -24,7 +24,7 @@
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link  href="/resources/css/cropper.css" rel="stylesheet">
-    <link rel="stylesheet" href="/resources/css/cropper-modal-window.css">
+    <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
 </head>
 <body>
 
