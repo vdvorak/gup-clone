@@ -1,11 +1,13 @@
 package ua.com.itproekt.gup.controller.blogsAndNews;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.com.itproekt.gup.exception.ResourceNotFoundException;
+import ua.com.itproekt.gup.model.news.Blog;
 import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
@@ -62,11 +64,16 @@ public class BlogPostController {
         return "";
     }
 
-    //ToDo Проверять "А ты ли владелец этого блога, чтобы в неём создовать новость?"
     @RequestMapping("/create/{blogId}")
     public String blogPostCreate(Model model, @PathVariable String blogId) {
-        Profile profile = profilesService.findById(SecurityOperations.getLoggedUserId());
-        model.addAttribute("profileId", profile.getId());
+        String loggedProfileId = SecurityOperations.getLoggedUserId();
+        Blog blog = blogService.findBlog(blogId);
+
+        if (!(loggedProfileId.equals(blog.getAuthorId()) || blog.getEditorsIds().containsValue(loggedProfileId))) {
+            throw new AccessDeniedException("You don't have the appropriate privileges to create posts in this blog.");
+        }
+
+        model.addAttribute("profileId", loggedProfileId);
         model.addAttribute("blogId", blogId);
         return "news/blog-post-create";
     }

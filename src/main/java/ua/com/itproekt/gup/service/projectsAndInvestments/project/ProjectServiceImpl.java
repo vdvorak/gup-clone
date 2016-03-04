@@ -54,7 +54,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         projectRepository.create(newProject);
 
-        project.setId(newProject.getId()); // ***
+        project.setId(newProject.getId());
     }
 
     @Override
