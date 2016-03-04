@@ -343,6 +343,8 @@
             deleteImgFromDB(picArrDel[i]);
         }
 
+        checkMainImg();
+        
         var blogPost = {};
         blogPost.id = '${blogPost.id}';
         blogPost.blogId = '${blogPost.blogId}';
@@ -397,12 +399,33 @@
         cloneImg.find('img')
                 .attr("alt", "")
                 .attr("src", '/api/rest/fileStorage/NEWS/file/read/id/' + id)
-                .attr("id", id);
+                .attr("id", id)
+                .click(onClickSetMainImg);
         cloneImg.find('span')
                 .click(deleteImg);
+
+        if(imgsArr[key] === "pic1") cloneImg.find('img').addClass('mainImg');
+
         cloneImg.appendTo('.defaultIMG ul');
     }
 
+    function checkMainImg() {
+        var hasMainImg = false;
+
+        for(var key in imgsArrResult) {
+            if(imgsArrResult[key] === 'pic1') {
+                hasMainImg = true;
+                break;
+            }
+        }
+
+        if(!hasMainImg) {
+            for(var key in imgsArrResult) {
+                imgsArrResult[key] = 'pic1';
+                break;
+            }
+        }
+    }
     // -------------------------- PHOTO SUBMIT AND DELETE ------------------------------//
     $('#photoInput').change(function (event) {
         event.preventDefault();
