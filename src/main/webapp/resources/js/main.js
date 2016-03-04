@@ -188,4 +188,169 @@ $(document).ready(function () {
             }
         });
     })
+
+//  <js for header>
+
+    $("body").prepend("<div class='fadeScreen'></div>");
+
+    $(".fadeScreen").click(function() {
+        $('.selecionado').removeClass( "selecionado" );
+        $(".fadeScreen").hide()
+        $(".user > div").slideUp("fast");
+        $(".dropDownMail").slideUp("fast");
+        $(".answer").slideUp('fast');
+        $(".mailMessage").slideDown('fast');
+        $(".dropDownBell").slideUp('fast');
+        $(".book div").slideUp('fast');
+        $(".dropDownMoney").slideUp('fast');
+    });
+
+    //
+
+    $(".user").click(function() {
+        $('.user > div').slideToggle('fast', function() {
+            $(this).toggleClass('selecionado');
+            if( $('.selecionado').is(':visible') ) {
+                $(".fadeScreen").show()
+            } else {
+                $(".fadeScreen").hide()
+            }
+        });
+    });
+
+    $(".user > div").mouseleave(function() {
+        setTimeout( function () {
+            if ( !$('.user > div:hover').length ) {
+                $('.selecionado').removeClass('selecionado');
+                $('.user > div').slideUp('fast');
+                $('.fadeScreen').hide('fast');
+            }
+        }, 1000);
+    });
+
+    $(".user > div").click(function(event) {
+        event.stopPropagation();
+    });
+
+    //
+
+    $(".mail").click(function(){
+        $('.dropDownMail').slideToggle('fast', function() {
+            $(this).toggleClass('selecionado');
+            if( $('.selecionado').is(':visible') ) {
+                $(".fadeScreen").show()
+            } else {
+                $(".fadeScreen").hide()
+            }
+        });
+    });
+
+    $(".mailMessage").click(function(event){
+        event.stopPropagation();
+        $(".mailMessage").hide('slow');
+        $(".answer").show('slow');
+    });
+
+    $(".mailMessage, .answer").mouseleave(function() {
+        setTimeout( function () {
+            if ( !$('.mailMessage:hover, .answer:hover').length ) {
+                $('.selecionado').removeClass('selecionado');
+                $('.dropDownMail').slideUp('fast');
+                $('.answer').slideUp('fast');
+                $('.mailMessage').slideDown('fast');
+                $('.fadeScreen').hide('fast');
+            }
+        }, 1000);
+    });
+
+    //
+
+    $(".bell").click(function() {
+        $('.dropDownBell').slideToggle('fast', function() {
+            $(this).toggleClass('selecionado');
+            if( $('.selecionado').is(':visible') ) {
+                $(".fadeScreen").show()
+            } else {
+                $(".fadeScreen").hide()
+            }
+        });
+    });
+
+    $(".dropDownBell").mouseleave(function() {
+        setTimeout( function () {
+            if ( !$('.dropDownBell:hover').length ) {
+                $('.selecionado').removeClass('selecionado');
+                $('.dropDownBell').slideUp('fast');
+                $('.fadeScreen').hide('fast');
+            }
+        }, 1000);
+    });
+
+    $(".dropDownBell").click(function(event) {
+        event.stopPropagation();
+    });
+
+    //
+
+    $(".book").click(function() {
+        $('.book div').slideToggle('fast', function() {
+            $(this).toggleClass('selecionado');
+            if( $('.selecionado').is(':visible') ) {
+                $(".fadeScreen").show()
+            } else {
+                $(".fadeScreen").hide()
+            }
+        });
+    });
+
+    $(".book div").mouseleave(function() {
+        setTimeout( function () {
+            if ( !$('.book div:hover').length ) {
+                $('.selecionado').removeClass('selecionado');
+                $('.book div').slideUp('fast');
+                $('.fadeScreen').hide('fast');
+            }
+        }, 1000);
+    });
+
+    $(".book div").click(function(event) {
+        event.stopPropagation();
+    });
+
+    //
+
+    $(".money").click(function() {
+        $('.dropDownMoney').slideToggle('fast', function() {
+            $(this).toggleClass('selecionado');
+            if( $('.selecionado').is(':visible') ) {
+                $(".fadeScreen").show()
+            } else {
+                $(".fadeScreen").hide()
+            }
+        });
+    });
+
+    $(".dropDownMoney").mouseleave(function() {
+        setTimeout( function () {
+            if ( !$('.dropDownMoney:hover').length ) {
+                $('.selecionado').removeClass('selecionado');
+                $('.dropDownMoney').slideUp('fast');
+                $('.fadeScreen').hide('fast');
+            }
+        }, 1000);
+    });
+
+    $(".dropDownMoney").click(function(event) {
+        event.stopPropagation();
+    });
+
+    //
+
+    $('.dropDownBook').enscroll({
+        verticalTrackClass: 'track4',
+        verticalHandleClass: 'handle4',
+        minScrollbarLength: 28
+    });
+
+//  </js for header>
 });
