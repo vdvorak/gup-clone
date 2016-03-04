@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="/resources/css/mini.css">
 </head>
 <body>
 
@@ -98,14 +99,14 @@
 
             <div class="clearfix"></div>
 
-            <div id="drop_zone" class="defaultIMG">
-                <ul id="tender-img-block">
+            <div id="drop_zone">
+                <ul id="tender-img-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
                     </li>
                 </ul>
-                <ul id="tender-doc-block">
+                <ul id="tender-doc-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="http://www.uzscience.uz/upload/userfiles/images/doc.png" alt="defaultIMG">
@@ -586,7 +587,7 @@
         var block = $(event.currentTarget).parent().parent();
         $.ajax({
             type: "POST",
-            url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
+            url: "/api/rest/fileStorage/TENDER/file/delete/id/" + idImg,
             success: function (data, textStatus, request) {
                 $('#' + idImg).parent().remove();
 
@@ -619,6 +620,24 @@
 
         if(img.hasClass("mainImg")) {
             imgsArr[id] = "pic1";
+        }
+    }
+
+    function checkMainImg() {
+        var hasMainImg = false;
+
+        for(var key in imgsArr) {
+            if(imgsArr[key] === 'pic1') {
+                hasMainImg = true;
+                break;
+            }
+        }
+
+        if(!hasMainImg) {
+            for(var key in imgsArr) {
+                imgsArr[key] = 'pic1';
+                break;
+            }
         }
     }
 
@@ -663,6 +682,8 @@
     $('#tender-make-form').submit(function (event) {
         var body = tinymce.activeEditor.getContent();
         if(!body) return false;
+
+        checkMainImg();
 
         var tender = {};
         tender.uploadFilesIds = imgsArr;

@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <link rel="stylesheet" href="/resources/css/main.css">
   <link rel="stylesheet" href="/resources/css/font-awesome.css">
+  <link rel="stylesheet" href="/resources/css/mini.css">
 </head>
 <body>
 
@@ -100,13 +101,13 @@
       <div class="clearfix"></div>
 
       <div id="drop_zone" class="defaultIMG">
-        <ul id="tender-img-block">
+        <ul id="tender-img-block" class="ul-img-container">
           <li class="li-containerIMG li-defaultIMG">
             <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
             <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
           </li>
         </ul>
-        <ul id="tender-doc-block">
+        <ul id="tender-doc-block" class="ul-img-container ul-img-container-green">
           <li class="li-containerIMG li-defaultIMG">
             <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
             <img src="http://www.uzscience.uz/upload/userfiles/images/doc.png" alt="defaultIMG">
@@ -353,7 +354,6 @@
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>--%>
 
 <script>
-  var imgsArr = {};
   var cities;
   var members = [];
   var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
@@ -361,7 +361,7 @@
   var imgsArrResult = {};
   var picArrDel = [];
   var picArrNew = [];
-  var picArrIn = {};
+  var imgsArr = {};
 
 
   if ('${tender.uploadFilesIds}'.length > 5 ){
@@ -381,7 +381,7 @@
 
     // place photo from received model on the page
     for (var id in picMapObj) {
-      picArrIn[id] = picMapObj[id];
+      imgsArr[id] = picMapObj[id];
       if (picMapObj[id] === "image" || picMapObj[id] === "pic1") {
         appendImg(id);
       } else {
@@ -417,10 +417,10 @@
           success: function (data, textStatus, request) {
             var id = data.id;
             if (f.type.substring(0, 5) === 'image') {
-              picArrIn[id] = "image";
+              imgsArr[id] = "image";
               appendImg(id);
             } else {
-              picArrIn[id] = "doc";
+              imgsArr[id] = "doc";
               appendDoc(id, f.name);
             }
           }
@@ -444,8 +444,6 @@
   });
 
   function appendImg(id) {
-    var isMain = picArrIn[id] === 'pic1';
-
     $("#tender-img-block > .li-defaultIMG").css("display", "none");
     var cloneImg = $("#tender-img-block > .li-defaultIMG").clone()
             .removeClass('li-defaultIMG')
@@ -457,7 +455,9 @@
             .click(onClickSetMainImg);
     cloneImg.find('span')
             .click(deleteImg);
-    if(isMain) cloneImg.find('img').addClass("mainImg");
+
+    if(imgsArr[id] === 'pic1') cloneImg.find('img').addClass("mainImg");
+
     cloneImg.appendTo('#tender-img-block');
   }
 
@@ -641,10 +641,10 @@
         success: function (data, textStatus, request) {
           var id = data.id;
           if (f.type.substring(0, 5) === 'image') {
-            picArrIn[id] = "image";
+            imgsArr[id] = "image";
             appendImg(id);
           } else {
-            picArrIn[id] = "doc";
+            imgsArr[id] = "doc";
             appendDoc(id, f.name);
           }
         }
@@ -655,7 +655,7 @@
   function deleteImgFromDB(idImg) {
     $.ajax({
       type: "POST",
-      url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
+      url: "/api/rest/fileStorage/TENDER/file/delete/id/" + idImg,
       success: function (data, textStatus, request) {
       }
     });
@@ -690,13 +690,31 @@
     if(!isMain) img.addClass("mainImg");
 
     for(var key in imgsArr) {
-      if(picArrIn[key] === "pic1") {
-        picArrIn[key] = "image";
+      if(imgsArr[key] === "pic1") {
+        imgsArr[key] = "image";
       }
     }
 
     if(img.hasClass("mainImg")) {
-      picArrIn[id] = "pic1";
+      imgsArr[id] = "pic1";
+    }
+  }
+
+  function checkMainImg() {
+    var hasMainImg = false;
+
+    for(var key in imgsArrResult) {
+      if(imgsArrResult[key] === 'pic1') {
+        hasMainImg = true;
+        break;
+      }
+    }
+
+    if(!hasMainImg) {
+      for(var key in imgsArrResult) {
+        imgsArrResult[key] = 'pic1';
+        break;
+      }
     }
   }
 
@@ -762,6 +780,8 @@
     for(var i = 0; i < picArrDel.length; i++) {
       deleteImgFromDB(picArrDel[i]);
     }
+
+    checkMainImg();
 
     var tender = {};
     tender.uploadFilesIds = imgsArrResult;

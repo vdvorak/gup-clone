@@ -26,24 +26,8 @@
     <link rel="stylesheet" href="/resources/css/custom-style.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/dropdown-multicolumn.css">
-    <style>
-        a.explanation-point-tooltip {
-            position: relative;
-            display: inline;
-        }
-        a.explanation-point-tooltip img {
-            position: absolute;
-            width:30px;
-            height: 30px;
-            visibility: visible;
-            left: 100%;
-            top: 50%;
-            margin-top: -17px;
-            margin-left: 15px;
-            z-index: 999;
-        }
+    <link rel="stylesheet" href="/resources/css/mini.css">
 
-    </style>
 </head>
 <body>
 <!--[if lt IE 8]>
@@ -67,50 +51,51 @@
 
     <div class="container-fluid new-adv-box">
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-3">
                 <label for="new-label-1">Заголовок<em>*</em></label>
             </div>
             <div class="col-xs-8">
-                <a class="explanation-point-tooltip" href="#">
-                    <input type="text" id="new-label-1" placeholder="Длина заголовка от 5 до 70 символов">
-                    <img src="/resources/css/images/explanation-point.png"></a>
+                <input type="text" id="new-label-1" placeholder="Длина заголовка от 5 до 70 символов">
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-3">
                 <label for="categories-row">Рубрика<em>*</em></label>
             </div>
-            <div id="categories-row" class="col-xs-8">
-                <div id="category1-container" class="dropdown" style="display: inline-block;">
-                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
-                            id="text-category1">Выберите категорию</span>
-                        <span class="caret"></span></button>
-                    <ul id="ul-category1" class="dropdown-menu">
+            <div class="col-xs-8">
+                <div id="categories-row">
+                    <div id="category1-container" class="dropdown" style="display: inline-block;">
+                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
+                                id="text-category1">Выберите категорию</span>
+                            <span class="caret"></span></button>
+                        <ul id="ul-category1" class="dropdown-menu">
 
-                    </ul>
-                </div>
-                <div id="category2-container" class="dropdown" style="display: none">
-                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
-                            id="text-category2">Выберите подкатегорию</span>
-                        <span class="caret"></span></button>
-                    <ul id="ul-category2" class="dropdown-menu">
+                        </ul>
+                    </div>
+                    <div id="category2-container" class="dropdown" style="display: none">
+                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
+                                id="text-category2">Выберите подкатегорию</span>
+                            <span class="caret"></span></button>
+                        <ul id="ul-category2" class="dropdown-menu">
 
-                    </ul>
-                </div>
-                <div id="category3-container" class="dropdown" style="display: none">
-                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
-                            id="text-category3">Выберите подкатегорию</span>
-                        <span class="caret"></span></button>
-                    <ul id="ul-category3" class="dropdown-menu">
+                        </ul>
+                    </div>
+                    <div id="category3-container" class="dropdown" style="display: none">
+                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
+                                id="text-category3">Выберите подкатегорию</span>
+                            <span class="caret"></span></button>
+                        <ul id="ul-category3" class="dropdown-menu">
 
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
 
 
-        <div id="offer-price-row" class="row" style="display: none">
-            <div class="col-xs-4">
+        <div id="offer-price-row" class="row" style="display: none;">
+
+            <div class="col-xs-3">
                 <label for="offer-inpPrice">Цена<em>*</em></label>
             </div>
             <div id="price-options" class="col-xs-3">
@@ -119,7 +104,8 @@
                 </select>
             </div>
             <div class="col-xs-3" style="display: none">
-                <input id="offer-inpPrice" name="price" type="number" style="border: 4px solid #9c6; border-radius: 5px;">
+                <input id="offer-inpPrice" name="price" type="number"
+                       style="border: 4px solid #9c6; border-radius: 5px;">
             </div>
             <div class="col-xs-2" style="display: none">
                 <select id="selection-currency" name="currency" class="prop">
@@ -132,7 +118,7 @@
 
 
         <div id="offer-options-row" class="row" style="display: none">
-            <div class="col-xs-4">
+            <div class="col-xs-3">
                 <label for="other-options">Дополнительно</label>
             </div>
             <div id="other-options" class="col-xs-8">
@@ -141,97 +127,99 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-3">
                 <label for="region-row">Регион<em>*</em></label>
             </div>
-            <div id="region-row" class="col-xs-8">
-                <div id="region-container" class="dropdown" style="display: inline-block">
-                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
-                        id="text-region">Выберите область</span>
-                    <span class="caret"></span></button>
-                    <ul class="dropdown-menu  multi-column columns-2">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <ul class="multi-column-dropdown">
-                                    <li><a href="#" style="font-weight: bold">Вся Украина</a></li>
-                                    <li><a href="#">Винницкая область</a></li>
-                                    <li><a href="#">Волынская область</a></li>
-                                    <li><a href="#">Донецкая область</a></li>
-                                    <li><a href="#">Житомирская область</a></li>
-                                    <li><a href="#">Закарпатская область</a></li>
-                                    <li><a href="#">Ивано‑Франковская область</a></li>
-                                    <li><a href="#">Киевская область</a></li>
-                                    <li><a href="#">Кировоградская область</a></li>
-                                    <li><a href="#">Крым</a></li>
-                                    <li><a href="#">Луганская область</a></li>
-                                    <li><a href="#">Львовская область</a></li>
-                                </ul>
+            <div class="col-xs-8">
+                <div id="region-row">
+                    <div id="region-container" class="dropdown" style="display: inline-block">
+                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
+                                id="text-region">Выберите область</span>
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu  multi-column columns-2">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <ul class="multi-column-dropdown">
+                                        <li><a href="#" style="font-weight: bold">Вся Украина</a></li>
+                                        <li><a href="#">Винницкая область</a></li>
+                                        <li><a href="#">Волынская область</a></li>
+                                        <li><a href="#">Донецкая область</a></li>
+                                        <li><a href="#">Житомирская область</a></li>
+                                        <li><a href="#">Закарпатская область</a></li>
+                                        <li><a href="#">Ивано‑Франковская область</a></li>
+                                        <li><a href="#">Киевская область</a></li>
+                                        <li><a href="#">Кировоградская область</a></li>
+                                        <li><a href="#">Крым</a></li>
+                                        <li><a href="#">Луганская область</a></li>
+                                        <li><a href="#">Львовская область</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ul class="multi-column-dropdown">
+                                        <li><a href="#">Николаевская область</a></li>
+                                        <li><a href="#">Одесская область</a></li>
+                                        <li><a href="#">Полтавская область</a></li>
+                                        <li><a href="#">Ровенская область</a></li>
+                                        <li><a href="#">Сумская область</a></li>
+                                        <li><a href="#">Тернопольская область</a></li>
+                                        <li><a href="#">Харьковская область</a></li>
+                                        <li><a href="#">Херсонская область</a></li>
+                                        <li><a href="#">Хмельницкая область</a></li>
+                                        <li><a href="#">Черкасская область</a></li>
+                                        <li><a href="#">Черниговская область</a></li>
+                                        <li><a href="#">Черновицкая область</a>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="col-sm-6">
-                                <ul class="multi-column-dropdown">
-                                    <li><a href="#">Николаевская область</a></li>
-                                    <li><a href="#">Одесская область</a></li>
-                                    <li><a href="#">Полтавская область</a></li>
-                                    <li><a href="#">Ровенская область</a></li>
-                                    <li><a href="#">Сумская область</a></li>
-                                    <li><a href="#">Тернопольская область</a></li>
-                                    <li><a href="#">Харьковская область</a></li>
-                                    <li><a href="#">Херсонская область</a></li>
-                                    <li><a href="#">Хмельницкая область</a></li>
-                                    <li><a href="#">Черкасская область</a></li>
-                                    <li><a href="#">Черниговская область</a></li>
-                                    <li><a href="#">Черновицкая область</a>
-                                </ul>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
-                <div id="city-container" class="dropdown" style="display: none">
-                    <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
-                            id="text-city">Выберите город</span>
-                        <span class="caret"></span></button>
-                    <ul class="dropdown-menu  multi-column columns-2">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <ul class="multi-column-dropdown">
+                        </ul>
+                    </div>
+                    <div id="city-container" class="dropdown" style="display: none">
+                        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><span
+                                id="text-city">Выберите город</span>
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu  multi-column columns-2">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <ul class="multi-column-dropdown">
 
-                                </ul>
-                            </div>
-                            <div class="col-sm-6">
-                                <ul class="multi-column-dropdown">
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ul class="multi-column-dropdown">
 
-                                </ul>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
         <%--<div class="row">--%>
-            <%--<div class="col-xs-4">--%>
-                <%--<label for="selection-price">Цена<em>*</em></label>--%>
-            <%--</div>--%>
-            <%--<div class="col-xs-3">--%>
-                <%--<select id="selection-price">--%>
-                    <%--<option value="arranged">Договорная</option>--%>
-                    <%--<option value="price">Цена</option>--%>
-                    <%--<option value="free">Бесплатно</option>--%>
-                    <%--<option value="exchange">Обмен</option>--%>
-                <%--</select>--%>
-            <%--</div>--%>
-            <%--<div class="col-xs-3" style="display: none">--%>
-                <%--<input type="number" id="offer-inpPrice" style="border: 4px solid rgb( 153, 204, 102); border-radius: 5px;">--%>
-            <%--</div>--%>
-            <%--<div class="col-xs-2" style="display: none">--%>
-                <%--<select id="selection-currency">--%>
-                    <%--<option value="UAH">UAH</option>--%>
-                    <%--<option value="USD">USD</option>--%>
-                    <%--<option value="EUR">EUR</option>--%>
-                <%--</select>--%>
-            <%--</div>--%>
+        <%--<div class="col-xs-4">--%>
+        <%--<label for="selection-price">Цена<em>*</em></label>--%>
+        <%--</div>--%>
+        <%--<div class="col-xs-3">--%>
+        <%--<select id="selection-price">--%>
+        <%--<option value="arranged">Договорная</option>--%>
+        <%--<option value="price">Цена</option>--%>
+        <%--<option value="free">Бесплатно</option>--%>
+        <%--<option value="exchange">Обмен</option>--%>
+        <%--</select>--%>
+        <%--</div>--%>
+        <%--<div class="col-xs-3" style="display: none">--%>
+        <%--<input type="number" id="offer-inpPrice" style="border: 4px solid rgb( 153, 204, 102); border-radius: 5px;">--%>
+        <%--</div>--%>
+        <%--<div class="col-xs-2" style="display: none">--%>
+        <%--<select id="selection-currency">--%>
+        <%--<option value="UAH">UAH</option>--%>
+        <%--<option value="USD">USD</option>--%>
+        <%--<option value="EUR">EUR</option>--%>
+        <%--</select>--%>
+        <%--</div>--%>
         <%--</div>--%>
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-3">
                 <label for="new-label-3">Описание<em>*</em></label>
             </div>
             <div class="col-xs-8">
@@ -240,7 +228,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-8 col-xs-offset-4">
+            <div class="col-xs-8 col-xs-offset-3">
                 <p id="p-textlength" style="text-align: right;">Количество символов: 0</p>
             </div>
         </div>
@@ -258,7 +246,7 @@
             </div>
         </div>
         <div class="row file-browse-wrap">
-            <div class="col-xs-4">Фотографии</div>
+            <div class="col-xs-3">Фотографии</div>
             <div class="col-xs-8">
                 <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
                     <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
@@ -269,9 +257,9 @@
             </div>
         </div>
         <div class="row file-browse-wrap">
-            <div class="col-xs-4"></div>
-            <div id="drop_zone" class="col-xs-8 defaultIMG">
-                <ul>
+            <div class="col-xs-3"></div>
+            <div id="drop_zone" class="col-xs-8">
+                <ul class="ul-img-container">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
@@ -281,7 +269,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-3">
                 <label for="inpVideo">Добавить видео</label>
             </div>
             <div class="col-xs-8">
@@ -291,7 +279,7 @@
         <h2 class="title-h2-blue text-center">Контакты</h2>
 
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-3">
                 <label for="inpAuthor">Контактное лицо<em>*</em></label>
             </div>
             <div class="col-xs-3">
@@ -305,7 +293,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-3">
                 <label for="inpEmail">E-mail<em>*</em></label>
             </div>
             <div class="col-xs-3">
@@ -319,22 +307,26 @@
             </div>
         </div>
         <div class="row row-telephone">
-            <div class="col-xs-4">
+            <div class="col-xs-3">
                 <label>Телефон</label>
             </div>
             <div class="col-xs-3">
                 <input type="text">
             </div>
-            <div id="btn-add-tel" class="col-xs-1" data-toggle="tooltip" data-placement="right" title="Добавить телефон"
+            <div id="btn-add-tel" class="col-xs-1" data-toggle="tooltip" data-placement="right"
+                 title="Добавить телефон"
                  onClick="addTelephone()">
                 <img src="resources/images/pluse.png" alt="plus">
             </div>
         </div>
     </div>
 
-    <div class="new-ad-btn">
+    <%--<div class="new-ad-btn">--%>
+    <div class="row">
         <%--<a href="#" class="btn btn-lg btn-success">Посмотреть</a>--%>
-        <button id="btn-offer-save" class="btn btn-lg btn-primary">Сохранить</button>
+        <div class="col-xs-3 col-xs-offset-8">
+            <button id="btn-offer-save">Сохранить</button>
+        </div>
     </div>
 
     <p>&nbsp;</p>
@@ -665,7 +657,6 @@
     var jsonSubcategory;
     var options;
     var parameters = [];
-    var properties = [];
     var cities;
     var category1Id = '';
     var category2Id = '';
@@ -674,55 +665,49 @@
 
     // ---------------    LOAD RESOURCES    --------------------------//
     $(document).ready(function () {
-        /*// Setup the dnd listeners.
-         var dropZone = document.getElementById('drop_zone');
-         dropZone.addEventListener('dragover', handleDragOver, false);
-         dropZone.addEventListener('drop', handleFileSelect, false);
+        // Setup the dnd listeners.
+        var dropZone = document.getElementById('drop_zone');
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
 
-         function handleFileSelect(evt) {
-         evt.stopPropagation();
-         evt.preventDefault();
+        function handleFileSelect(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
 
-         var files = evt.dataTransfer.files; // FileList object.
+            var files = evt.dataTransfer.files; // FileList object.
 
-         // files is a FileList of File objects. List some properties.
-         for (var i = 0, f; f = files[i]; i++) {
-         var formImg = new FormData($(this)[0]);
-         var fd = new FormData();
-         fd.append('file', f);
-         $.ajax({
-         type: "POST",
-         url: "/api/rest/fileStorage/OFFERS/file/upload/",
-         data: fd,
-         async: false,
-         cache: false,
-         contentType: false,
-         processData: false,
+            // files is a FileList of File objects. List some properties.
+            for (var i = 0, f; f = files[i]; i++) {
+                var fd = new FormData();
+                fd.append('file', f);
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/fileStorage/OFFERS/file/upload/",
+                    data: fd,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
 
-         success: function (data, textStatus, request) {
-         var id = data.id;
-         var isImage = f.type.substring(0, 5) === 'image';
-         if (isImage) {
-         imgsArr[id] = "image";
-         $('.imgBlock').append('<ul id="' + data.id + '" style="display: inline-table; list-style-type: none" onClick="onClickSetMainImg(' + '\'' + id + '\'' + ')">' +
-         '<li><strong>' + f.name + '</strong></li>' +
-         ' <li style="background-color: white">' +
-         '<a rel="example_group"> ' +
-         '<img alt="" src="/api/rest/fileStorage/OFFERS/file/read/id/' + data.id + '"' + 'width="150" height="150"> ' +
-         '</a> <div onclick=\"deleteImg(' + '\'' + id + '\'' + ')">Удалить</div> </li> </ul>');
-         }
-         }
-         });
+                    success: function (data, textStatus, request) {
+                        var id = data.id;
+                        var isImage = f.type.substring(0, 5) === 'image';
+                        if (isImage) {
+                            imgsArr[id] = "image";
+                            appendImg(id);
+                        }
+                    }
+                });
 
 
-         }
-         }
+            }
+        }
 
-         function handleDragOver(evt) {
-         evt.stopPropagation();
-         evt.preventDefault();
-         evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-         }*/
+        function handleDragOver(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        }
 
     });
 
@@ -804,12 +789,61 @@
     // ---------------   END LOAD RESOURCES    --------------------------//
 
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
-    function validateOffer() {
+    function showExplanationPointTooltip(elem) {
+        var wrapper = $('<a class="explanation-point-tooltip" href="#/"></a>');
+        var tooltipImg = $('<img src="/resources/css/images/explanation-point.png">');
 
+        elem.wrap(wrapper)
+                .parent()
+                .append(tooltipImg)
+                .focus()
+                .children('img')
+                .delay(1500)
+                .fadeOut(300, function () {
+                    $(this).remove();
+                    elem.unwrap();
+                });
+        return false;
+    }
+
+    function validateOffer() {
+        var title = $("#new-label-1").val();
+        if (title.length < 5 || title.length > 70) {
+            return showExplanationPointTooltip($("#new-label-1"));
+        }
+        if (!isComplete) {
+            return showExplanationPointTooltip($('#categories-row'));
+        }
+
+        if ($('#offer-price-row').css('display') !== 'none' && $('select[name="price"]').val() === 'price' && !$('#offer-inpPrice').val()) {
+            return showExplanationPointTooltip($('#selection-currency'));
+        }
+
+        var region = $('#text-region').text();
+        var city = $('#text-city').text();
+        if (region === 'Выберите область' || (region !== 'Вся Украина' && city === 'Выберите город')) {
+            return showExplanationPointTooltip($('#region-row'));
+        }
+
+        var description = $('#new-label-3').val();
+        if (description.length < 50 || description.length > 4000) {
+            return showExplanationPointTooltip($('#new-label-3'));
+        }
+
+        if (!$('#inpEmail').val()) {
+            return showExplanationPointTooltip($('#inpEmail'));
+        }
+
+        if (!$('#inpAuthor').val()) {
+            return showExplanationPointTooltip($('#inpAuthor'));
+        }
+        return true;
     }
 
     $('#btn-offer-save').click(function () {
-        if(validateOffer()) {
+        if (validateOffer()) {
+
+            checkMainImg();
 
             var offer = {};
             offer.title = $("#new-label-1").val();
@@ -856,11 +890,12 @@
             offer.description = $('#new-label-3').val();
             offer.userInfo = {};
             offer.userInfo.skypeLogin = $('#inpSkype').val();
-            offer.userInfo.contactName = $('#inptAuthor').val();
+            offer.userInfo.contactName = $('#inpAuthor').val();
             offer.userInfo.email = $('#inpEmail').val();
             offer.videoUrl = $('#inpVideo').val();
             offer.userInfo.phoneNumbers = phones;
 
+            var properties = [];
             $('#other-options').find('select').each(function () {
                 var prop = {};
                 prop.key = this.name;
@@ -876,15 +911,13 @@
             });
 
             if ($('#offer-price-row').css('display') !== 'none') {
-                $('#offer-price-row > .prop').each(function () {
-                    var prop = {};
-                    prop.key = this.name;
-                    prop.value = this.value;
-                    properties.push(prop);
+                properties.push({
+                    key: 'price',
+                    value: $('select[name="price"]').val()
                 });
+                offer.currency = $('select[name="currency"]').val();
                 offer.price = $('#offer-inpPrice').val();
             }
-            ;
 
             offer.properties = properties;
 
@@ -949,10 +982,10 @@
                 .attr("alt", "")
                 .attr("src", '/api/rest/fileStorage/OFFERS/file/read/id/' + id)
                 .attr("id", id)
-                .click(onClickSetMainImg);;
+                .click(onClickSetMainImg);
         cloneImg.find('span')
                 .click(deleteImg);
-        cloneImg.appendTo('#drop_zone ul');
+        cloneImg.appendTo('.ul-img-container');
     }
 
 
@@ -967,7 +1000,7 @@
             success: function (data, textStatus, request) {
                 $('#' + idImg).parent().remove();
 
-                var numberImg = $(".defaultIMG").find('img').length;
+                var numberImg = $(".ul-img-container").find('img').length;
                 if (numberImg < 2) {
                     $(".li-defaultIMG").css("display", "inline-block");
                 }
@@ -979,7 +1012,7 @@
         var img = $(event.currentTarget);
         var id = img.attr("id");
         var isMain = img.hasClass("mainImg");
-        var allImgs = $("#tender-img-block").find("img");
+        var allImgs = $(".ul-img-container").find("img");
         for (var i = 0; i < allImgs.length; i++) {
             var curImg = $(allImgs[i]);
             if (curImg.hasClass("mainImg")) {
@@ -996,6 +1029,25 @@
 
         if (img.hasClass("mainImg")) {
             imgsArr[id] = "pic1";
+        }
+    }
+
+
+    function checkMainImg() {
+        var hasMainImg = false;
+
+        for(var key in imgsArr) {
+            if(imgsArr[key] === 'pic1') {
+                hasMainImg = true;
+                break;
+            }
+        }
+
+        if(!hasMainImg) {
+            for(var key in imgsArr) {
+                imgsArr[key] = 'pic1';
+                break;
+            }
         }
     }
     // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//
@@ -1063,23 +1115,28 @@
         $('#city-container').find('li').remove();
         $('#text-city').text('Выберите город');
 
-        if(region === 'Вся Украина') {
+        if (region === 'Вся Украина') {
             $('#city-container').css('display', 'none');
         } else {
-            var citiesArr = cities[region];
-
-            var parentBlock = $('#city-container').find('.multi-column-dropdown').first();
-            var li = $('<li><a href="#" style="font-weight: bold">Все города</a></li>').click(selectCity);
-            parentBlock.append(li);
-
-            var numInColumn = citiesArr.length / 2 + (citiesArr.length % 2);
-            for(var i = 0; i < citiesArr.length; i++) {
-                parentBlock = (i + 2 <= numInColumn) ? $('#city-container').find('.multi-column-dropdown').first() : $('#city-container').find('.multi-column-dropdown').last();
-                li = $('<li><a href="#">'+ citiesArr[i] +'</a></li>').click(selectCity);
-                parentBlock.append(li);
-            }
-            $('#city-container').css('display', 'inline-block');
+            drawCities(region);
         }
+    }
+
+    function drawCities(area) {
+        var citiesArr = cities[area];
+
+        var parentBlock = $('#city-container').find('.multi-column-dropdown').first();
+        var li = $('<li><a href="#" style="font-weight: bold">Все города</a></li>').click(selectCity);
+        parentBlock.append(li);
+
+        var numInColumn = citiesArr.length / 2 + (citiesArr.length % 2);
+        for (var i = 0; i < citiesArr.length; i++) {
+            parentBlock = (i + 2 <= numInColumn) ? $('#city-container').find('.multi-column-dropdown').first() : $('#city-container').find('.multi-column-dropdown').last();
+            li = $('<li><a href="#">' + citiesArr[i] + '</a></li>').click(selectCity);
+            parentBlock.append(li);
+        }
+
+        $('#city-container').css('display', 'inline-block');
     }
 
     function selectCity(event) {
@@ -1100,7 +1157,7 @@
             var row = $('.row-telephone').first().clone();
             row.children('#btn-add-tel').remove();
             row.find('label').parent().remove();
-            var inputBlock = row.find('input').parent().addClass('col-xs-offset-4');
+            var inputBlock = row.find('input').val("").parent().addClass('col-xs-offset-3');
             imgDel.insertAfter(inputBlock);
             row.appendTo('.new-adv-box');
         }
@@ -1137,7 +1194,7 @@
         var childArr = jsonCategory.filter(function (obj) {
             return obj.id === +category1Id; // Filter out the appropriate one
         });
-        if(childArr[0]) {
+        if (childArr[0]) {
             child1 = childArr[0].children;
 
             for (var key in child1) {
@@ -1146,7 +1203,7 @@
                 $('#ul-category2').append(li);
             }
         }
-        if(Object.keys(child1).length) {
+        if (Object.keys(child1).length) {
             erase(category1Id);
         } else {
             isComplete = 1;
@@ -1177,7 +1234,7 @@
                 $('#ul-category3').append(li);
             }
         }
-        if(Object.keys(child2).length) {
+        if (Object.keys(child2).length) {
             erase(category2Id);
         } else {
             isComplete = 1;
@@ -1205,7 +1262,7 @@
 
     function selectPrice(event) {
         var selectVal = $(event.currentTarget).val();
-        if(selectVal === 'price') {
+        if (selectVal === 'price') {
             $('#selection-currency').parent().css('display', 'inline-block');
             $('#offer-inpPrice').parent().css('display', 'inline-block');
         } else {
@@ -1214,20 +1271,20 @@
         }
     }
 
-    function drawOptions(id){
+    function drawOptions(id) {
         erase(id);
 
-        for(var i in options){
-            if(options[i]['c'][id]){
+        for (var i in options) {
+            if (options[i]['c'][id]) {
                 var name = "";
-                for (j in options[i]['k']){
+                for (j in options[i]['k']) {
                     name = j;
                 }
 
-                for (j in parameters){
-                    if(name !== 'price') {
+                for (j in parameters) {
+                    if (name !== 'price') {
                         var selectWrapper = $('<div style="display: inline-block; margin-bottom: 5px; margin-right: 5px;"></div>');
-                        var select = $('<select class="prop" name="'+name+'" id="00'+i+'">'+ '</select>');
+                        var select = $('<select class="prop" name="' + name + '" id="00' + i + '">' + '</select>');
                         select.appendTo(selectWrapper);
                         if (parameters[j]['parameter']['key'] === name && parameters[j]['parameter']['validators']['required'] === 1) {
                             select.prop("required", true);
@@ -1237,39 +1294,39 @@
                     }
                 }
 
-                for ( var j in options[i]['v']){
-                    var option = $('<option value = "'+j+'"  id ="'+ j +'">'+ options[i]['v'][j]+'</option>');
-                    if(name === 'price') {
+                for (var j in options[i]['v']) {
+                    var option = $('<option value = "' + j + '"  id ="' + j + '">' + options[i]['v'][j] + '</option>');
+                    if (name === 'price') {
                         $('select[name="price"]').append(option);
                     } else {
-                        $('#00'+i).append(option);
+                        $('#00' + i).append(option);
                     }
                 }
-                if(name === 'price') $('#offer-price-row').css('display', 'block');
+                if (name === 'price') $('#offer-price-row').css('display', 'block');
             }
         }
 
-        for ( j in parameters){
-            if (parameters[j]['parameter']['type'] === "input" && parameters[j]['categories'][id] && parameters[j]['parameter']['key'] !== 'price'){
+        for (j in parameters) {
+            if (parameters[j]['parameter']['type'] === "input" && parameters[j]['categories'][id] && parameters[j]['parameter']['key'] !== 'price') {
 
                 var inpWrapper = $('<div style="display: inline-block; margin-bottom: 5px; margin-right: 5px;"></div>');
-                var inp = $('<input id="'+ parameters[j]['parameter']['key'] +'" type="text"  name="'+ parameters[j]['parameter']['key'] +'" placeholder="'+parameters[j]['parameter']['label']+'"/>');
+                var inp = $('<input id="' + parameters[j]['parameter']['key'] + '" type="text"  name="' + parameters[j]['parameter']['key'] + '" placeholder="' + parameters[j]['parameter']['label'] + '"/>');
                 inp.appendTo(inpWrapper);
                 $('#other-options').append(inpWrapper);
             }
         }
-        if($('#other-options').children().length) $('#offer-options-row').css('display', 'block');
-    };
+        if ($('#other-options').children().length) $('#offer-options-row').css('display', 'block');
+    }
 
     //---------------------------- END DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
 
     //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
-    function erase(id){
+    function erase(id) {
         $('#offer-price-row').css('display', 'none');
         $('#offer-options-row').css('display', 'none');
         $('select[name="price"]').empty();
         $('#other-options').empty();
-    };
+    }
     //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
 
 </script>

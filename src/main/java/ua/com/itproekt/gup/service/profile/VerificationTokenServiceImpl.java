@@ -22,7 +22,7 @@ import ua.com.itproekt.gup.service.emailnotification.MailSenderService;
 import java.util.List;
 
 
-@Service("verificationTokenService")
+@Service
 public class VerificationTokenServiceImpl implements VerificationTokenService {
 
 //    private static final Pattern UUID_PATTERN = Pattern.compile("^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$");

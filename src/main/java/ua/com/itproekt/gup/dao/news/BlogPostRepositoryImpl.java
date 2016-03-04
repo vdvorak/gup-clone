@@ -80,9 +80,9 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
             query.addCriteria(Criteria.where("categories").all(blogPostFO.getCategories()));
         }
 
-        if (blogPostFO.getTags() != null) {
-            query.addCriteria(Criteria.where("tags").all(blogPostFO.getTags()));
-        }
+//        if (blogPostFO.getTags() != null) {
+//            query.addCriteria(Criteria.where("tags").all(blogPostFO.getTags()));
+//        }
 
         if (blogPostFO.getAddress() != null) {
             if (blogPostFO.getAddress().getCountry() != null) {

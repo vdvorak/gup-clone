@@ -13,31 +13,31 @@ import java.util.Set;
 public class BlogPost {
     @Id
     private String id;
-    private String authorId;
     private String blogId;
+    private String authorId;
+
     private Integer views;
-    private Long modifiedDate;
-    private Long createdDate;
-    private Integer totalComments;
+
     private Integer totalLikes;
     private Integer totalDislikes;
+    private Integer totalComments;
 
     private Set<Comment> comments;
     private Set<String> likedIds;
     private Set<String> dislikedIds;
 
-    //user can edit
     @Size(min = 5, max = 70)
     private String title;
     @Size(min = 50, max = 50_000)
     private String text;
     private Address address;
-    private Map<String, String> imagesIds;
-    private Set<String> tags;
     private Set<String> categories;
+    private Map<String, String> imagesIds;
 
-    public BlogPost() {
-    }
+    private Long modifiedDate;
+    private Long createdDate;
+
+    //    private Set<String> tags;
 
     public BlogPost setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -49,7 +49,6 @@ public class BlogPost {
         return this;
     }
     //------------------------------------------------------------------------
-
 
     public Address getAddress() {
         return address;
@@ -87,14 +86,14 @@ public class BlogPost {
         return this;
     }
 
-    public Set<String> getTags() {
-        return tags;
-    }
-
-    public BlogPost setTags(Set<String> tags) {
-        this.tags = tags;
-        return this;
-    }
+//    public Set<String> getTags() {
+//        return tags;
+//    }
+//
+//    public BlogPost setTags(Set<String> tags) {
+//        this.tags = tags;
+//        return this;
+//    }
 
     public String getText() {
         return text;

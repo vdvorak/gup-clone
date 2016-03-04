@@ -16,6 +16,7 @@ public class Project {
     @Id
     private String id;
     private String authorId;
+
     private Integer views;
     private ProjectStatus status;
     private ModerationStatus moderationStatus;
@@ -30,12 +31,12 @@ public class Project {
     @Min(1)
     private Integer amountRequested;
     @Min(0)
-    private Integer investedAmount;
+    private Integer investedAmount; // TODO delete investedAmount?
+    private ProjectType type;
     @Size(min = 4, max = 70)
     private String title;
     @Size(min = 50, max = 5000)
     private String description;
-    private ProjectType type;
     private Set<String> categoriesOfIndustry;
     @Size(max = 15)
     private Map<String, String> imagesIds;

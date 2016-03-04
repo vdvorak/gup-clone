@@ -17,13 +17,13 @@
 
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
-    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
 </head>
 <body>
     <!--[if lt IE 8]>
@@ -63,7 +63,7 @@
                 </div>
                 <div id="investBlock" class="bottomSection">
                     <button id="editProjectBtn" type="button" class="abutton" style="display: none">Редактировать</button>
-                    <button type="button" class="abutton blue invest">Инвестировать</button>
+                    <button id="makeInvest" type="button" class="abutton blue invest">Инвестировать</button>
                     <div class="projectProgressBlock">
                         <div class="current elem cash" id="investedAmount"></div>
                         <div class="bar elem">
@@ -133,6 +133,26 @@
     </div>
 
     <!--PAGE CONTENT END-->
+
+    <!-- The Modal -->
+    <div id="cropperModal" class="cropper-modal">
+
+        <!-- Modal content -->
+        <div class="cropper-modal-content">
+            <div class="cropper-modal-header">
+                <span>ИНВЕСТИРОВАНИЕ В ПРОЕКТ</span>
+            </div>
+            <input id="investInput" placeholder="Сумма инвестирования">
+            <%--<div class="cropper-modal-body drop_zone">--%>
+                <%--<img id="cropper-image" src="/resources/images/no_photo.jpg" style="max-width: 100%">--%>
+            <%--</div>--%>
+            <div class="cropper-modal-footer">
+                <button id="confirmInvest" class="cropper-btn cropper-btn-success">Ок</button>
+                <button class="cropper-btn cropper-btn-cancel">Отмена</button>
+            </div>
+        </div>
+
+    </div>
 
     <sec:authorize access="isAuthenticated()">
         <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>

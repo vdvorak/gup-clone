@@ -108,11 +108,11 @@ public class BlogTestController {
                 .setText("post text very important part of news, possible it the most important part" + i)
                 .setTitle("post title " + i)
                 .setViews(i);
-                HashSet<String> blogPostSet = new HashSet<>();
-                blogPostSet.add("tag 1");
-                blogPostSet.add("tag 2");
-                blogPostSet.add("tag" + (3 + i));
-            blogPost.setTags(blogPostSet);
+//                HashSet<String> blogPostSet = new HashSet<>();
+//                blogPostSet.add("tag 1");
+//                blogPostSet.add("tag 2");
+//                blogPostSet.add("tag" + (3 + i));
+//            blogPost.setTags(blogPostSet);
                 HashSet<Comment> commentSet = new HashSet<>();
                 Comment comment1 = new Comment();
                 comment1.setFromId("sdsd");

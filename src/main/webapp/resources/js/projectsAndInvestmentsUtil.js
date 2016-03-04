@@ -1,7 +1,7 @@
 function loadProjectById(projectId) {
     return $.ajax({
         type: "GET",
-        url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/read",
+        url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/read"
     });
 }
 

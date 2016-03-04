@@ -42,4 +42,6 @@ public interface ProjectService {
     void bringBackMoneyToInvestors();
 
     Set<String> getMatchedNames(String name);
+
+    void sendNotificationsToInvestorsOfCompletedProjects();
 }
