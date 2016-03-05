@@ -29,12 +29,15 @@ function getReadableDate(timestamp) {
 }
 
 function getProjectScore(totalScore, totalVoters) {
-    return Math.ceil((totalScore/totalVoters) * 10) / 10;
+    if (totalScore && totalVoters) {
+        return Math.ceil((totalScore / totalVoters) * 10) / 10;
+    }
+    return 0;
 }
 
 function getUrlForProjectMainPic(imagesIds) {
     for (var id in imagesIds) {
-        if (imagesIds[id] === "1") {
+        if (imagesIds[id] === "pic1") {
             return "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + id;
         }
     }
@@ -50,14 +53,14 @@ function getProjectEditUrl(id) {
 }
 
 function getInvertedProgressNum(investedAmount, amountRequested) {
-    var invertedProgressNum = (1 -(investedAmount/amountRequested))*100;
-    return 5 * Math.ceil(invertedProgressNum/5);
+    var invertedProgressNum = (1 - (investedAmount / amountRequested)) * 100;
+    return 5 * Math.ceil(invertedProgressNum / 5);
 }
 
-$("#selectedService option[value='project']").attr("selected","selected");
+$("#selectedService option[value='project']").attr("selected", "selected");
 
-$('#showNext').on('click',function () {
-    if($('#projectsTab').hasClass('active')) {
+$('#showNext').on('click', function () {
+    if ($('#projectsTab').hasClass('active')) {
         projectFO.skip += projectFO.limit;
         appendProjects(projectFO);
     } else {
@@ -66,7 +69,7 @@ $('#showNext').on('click',function () {
     }
 });
 
-$('#projectsTab').on('click',function () {
+$('#projectsTab').on('click', function () {
     $('#investmentsContainer').hide();
     $('#projectsContainer').show();
     $('.catContainer').removeClass('selected');
@@ -77,7 +80,7 @@ $('#projectsTab').on('click',function () {
     appendProjects(projectFO);
 });
 
-$('#investmentsTab').on('click',function () {
+$('#investmentsTab').on('click', function () {
     $('#projectsContainer').hide();
     $('#investorPostsBlock').empty();
     $('#investmentsContainer').show();
@@ -86,7 +89,7 @@ $('#investmentsTab').on('click',function () {
     appendInvestorPosts(investorPostFO);
 });
 
-$('.projectsVSInvestments-btn').on('click',function () {
+$('.projectsVSInvestments-btn').on('click', function () {
     $('.projectsVSInvestments-btn').removeClass('active');
     $(this).addClass('active');
 });
