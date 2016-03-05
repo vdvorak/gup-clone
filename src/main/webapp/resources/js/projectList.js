@@ -1,5 +1,6 @@
 var projectType = (getUrlParam('type') != null ? getUrlParam('type').toUpperCase() : null);
-var projectFO = {type : projectType, searchField : getUrlParam('name'), skip: 0, limit: 10};
+var projectFO = {type: projectType, searchField: getUrlParam('name'), skip: 0, limit: 10};
+var projectIdForInvest;
 
 $('[name="' + projectType + '"]').addClass('selected');
 appendProjects(projectFO);
@@ -45,7 +46,7 @@ function appendProjectBlock(project, balance) {
         '<div class="text">' + project.description + '</div>' +
         '</div>' +
         '<div class="bottomContent">' +
-        '<button type="button" class="abutton invest">Инвестировать</button>' +
+        '<button id="' + project.id + '" class="abutton invest make-invest">Инвестировать</button>' +
         '<div class="projectProgressBlock">' +
         '<div class="current elem cash">' + balance + ' ₴ </div>' +
         '<div class="bar elem">' +
@@ -60,7 +61,7 @@ function appendProjectBlock(project, balance) {
         '</div>');
 }
 
-$('.catContainer').on('click',function () {
+$('.catContainer').on('click', function () {
     $('.catContainer').removeClass('selected');
     $(this).addClass('selected');
     $('#projectsBlock').empty();
@@ -68,10 +69,53 @@ $('.catContainer').on('click',function () {
     appendProjects(projectFO);
 });
 
-$('#createProject').on('click',function () {
+$('#createProject').on('click', function () {
     window.location.href = "/project/create"
 });
 
-$('#createInvestorPost').on('click',function () {
+$('#createInvestorPost').on('click', function () {
     window.location.href = "/investorPost/create"
 });
+
+
+// ---------------------------------------------------- Invest in project modal window -------------------------------
+
+$(".cropper-btn-cancel").click(function () {
+    $('#cropperModal').css('display', "none");
+});
+
+$(window).click(function (event) {
+    var modal = document.getElementById('cropperModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+});
+
+$(document).on("click", '.make-invest', function () {
+    projectIdForInvest = $(this).attr('id');
+    $('#cropperModal').css('display', "block");
+});
+
+$('#confirmInvest').on('click', function () {
+
+    var investAmount = $('#investInput').val();
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/projectsAndInvestmentsService/make-invest",
+        data: {"projectId": projectIdForInvest, "investAmount": investAmount},
+        cache: false,
+        statusCode: {
+            200: function (response) {
+                alert("Операция прошла успешно");
+                $('#cropperModal').css('display', "none");
+            },
+            403: function (response) {
+                alert("Недостаточно денег на счету для совершения операции")
+            },
+            404: function (response) {
+                alert("Внутрення ошибка серера - обратитесь к администратору!")
+            }
+        }
+    });
+});
+

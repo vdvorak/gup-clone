@@ -132,8 +132,6 @@
         </div>
     </div>
 
-    <!--PAGE CONTENT END-->
-
     <!-- The Modal -->
     <div id="cropperModal" class="cropper-modal">
 
@@ -153,6 +151,9 @@
         </div>
 
     </div>
+    <!-- End of the Modal -->
+
+    <!--PAGE CONTENT END-->
 
     <sec:authorize access="isAuthenticated()">
         <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>

@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
+    <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
@@ -91,6 +92,28 @@
 
         </div>
 
+
+    <!-- The Modal -->
+    <div id="cropperModal" class="cropper-modal">
+
+        <!-- Modal content -->
+        <div class="cropper-modal-content">
+            <div class="cropper-modal-header">
+                <span>ИНВЕСТИРОВАНИЕ В ПРОЕКТ</span>
+            </div>
+            <input id="investInput" placeholder="Сумма инвестирования">
+            <%--<div class="cropper-modal-body drop_zone">--%>
+            <%--<img id="cropper-image" src="/resources/images/no_photo.jpg" style="max-width: 100%">--%>
+            <%--</div>--%>
+            <div class="cropper-modal-footer">
+                <button id="confirmInvest" class="cropper-btn cropper-btn-success">Ок</button>
+                <button class="cropper-btn cropper-btn-cancel">Отмена</button>
+            </div>
+        </div>
+
+    </div>
+    <!-- End of the Modal -->
+
         <!--PAGE CONTENT END-->
 
         <sec:authorize access="isAuthenticated()">
@@ -110,5 +133,6 @@
         <script src="/resources/js/projectsAndInvestmentsUtil.js"></script>
         <script src="/resources/js/projectList.js"></script>
         <script src="/resources/js/investorList.js"></script>
+
     </body>
 </html>
