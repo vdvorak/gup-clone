@@ -43,43 +43,34 @@
 
 <div class="container2">
     <div class="contentContainer editor" id="tab-container-pVSi">
-        <div class="title">Редактирование инвестиции</div>
-        <form class="investor" action="" id="tabs1-investment">
+        <div class="title">Редактирование поста инвестора</div>
+        <div class="investor" id="tabs1-investment">
             <div class="field required kvd">
                 <label for="main-kvd-info" class="editorLabel">Выберите отрасль</label>
-                <input id="main-kvd-info" type="text" name='text' class="editorInput">
+                <input id="main-kvd-info" type="text" name='text' class="editorInput"
+                       placeholder="Введите через пробел">
             </div>
-            <%--<div class="field required">--%>
-                <%--<div class="editorLabel">Указать сумму</div>--%>
-            <%--</div>--%>
             <div class="sum">
-                <div class="field">
+                <div class="field required">
                     <label for="sum1" class="editorLabel">Минимальная сумма</label>
                     <input id="sum1" type="number" name='sum1' class="editorInput">
                     <span class="currency">₴</span>
                 </div>
-                <div class="field">
+                <div class="field required">
                     <label for="sum2" class="editorLabel">Максимальная сумма</label>
                     <input id="sum2" type="number" name='sum2' class="editorInput">
                     <span class="currency">₴</span>
                 </div>
             </div>
-            <div class="field description">
+            <div class="field description required">
                 <label for="description" class="editorLabel">Описание</label>
-                <textarea id="description" type="text" name='description' class="editorInput"></textarea>
+                <textarea id="description" name='description' class="editorInput"
+                          placeholder="От 50 до 5000 символов"></textarea>
             </div>
-            <%--<div class="field IMGUploader">--%>
-                <%--<div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>--%>
-                <%--<input type="file" style="display: none;" multiple="multiple" accept="image/*">--%>
-                <%--<div class="IMGBlock">--%>
-                    <%--<div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>--%>
-                    <%--<div class="defaultIMG"><img src="/resources/images/defaultIMG.png" alt="defaultIMG"></div>--%>
-                <%--</div>--%>
-            <%--</div>--%>
             <div class="field">
-                <button type="submit" class="info-submit">Сохранить</button>
+                <button id="updateInvestorPost" class="info-submit">Сохранить</button>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
@@ -98,9 +89,7 @@
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
-<script>
-
-</script>
+<script src="/resources/js/editInvestorPost.js"></script>
 </body>
 </html>
 

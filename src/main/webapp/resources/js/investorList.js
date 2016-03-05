@@ -56,7 +56,7 @@ function appendInvestorPostBlock(investorPost, balance) {
                 '</a>' +
                 '<div class="alreadyInvested">' +
                 '<div class="desc"> Баланс инвестора:  <div class="total">' + balance + ' ₴ </div></div>' +
-                '<div class="desc">Сумма инвестирования:  от <div class="total">' + investorPost.minInvestAmount + ' ₴ </div> до  ' +
+                '<div class="desc">Сумма инвестирования:<br>от  <div class="total">' + investorPost.minInvestAmount + ' ₴ </div> до  ' +
                 '<div class="total">' + investorPost.maxInvestAmount + ' ₴ </div> </div>' +
                 '</div>' +
                 '<button type="button" class="abutton blue investApp">Нужна инвестиция</button>' +
