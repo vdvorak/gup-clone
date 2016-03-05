@@ -142,10 +142,12 @@ $(document).on('click', 'button.info-submit', function (event) {
     //newProject.categoriesOfIndustry = $('#categoriesOfIndustry').val();
     //if (!categoriesOfIndustry) {incorrectValues += "Добавьте категории индустрии<br>";}
 
+    var picCounter = 1;
     for(var key in imagesIds) {
-        imagesIds[key] = '1';
-        break;
+        imagesIds[key] = 'pic'+picCounter;
+        picCounter++;
     }
+
     newProject.imagesIds = imagesIds;
 
     if (!incorrectValuesMsg.length) {

@@ -17,12 +17,15 @@
 
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
+    <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
     <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
 </head>
 <body>
