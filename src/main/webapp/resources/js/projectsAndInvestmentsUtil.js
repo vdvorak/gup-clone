@@ -102,3 +102,12 @@ function checkProjectBalance(projectId) {
         cache: false
     });
 }
+
+function checkInvestorBalance(investorId) {
+    return $.ajax({
+        type: "POST",
+        url: "/api/rest/profilesService/check-user-balance-by-id",
+        data: {"userId": investorId},
+        cache: false
+    });
+}
