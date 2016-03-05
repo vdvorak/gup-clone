@@ -90,3 +90,12 @@ $('.projectsVSInvestments-btn').on('click',function () {
     $('.projectsVSInvestments-btn').removeClass('active');
     $(this).addClass('active');
 });
+
+function checkProjectBalance(projectId) {
+    return $.ajax({
+        type: "POST",
+        url: "/api/rest/projectsAndInvestmentsService/check-project-balance",
+        data: {"projectId": projectId},
+        cache: false
+    });
+}

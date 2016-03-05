@@ -8,13 +8,21 @@ function appendProjects(projectFO) {
     loadProjectsWithFO(projectFO).statusCode({
         200: function (responseEntity) {
             responseEntity.entities.forEach(function (project) {
-                appendProjectBlock(project);
+                var score = checkProjectBalance(project.id);
+                var balance;
+                $.when(score).done(function (response) {
+                    balance = response;
+                    appendProjectBlock(project, balance);
+                }).fail(function (response) {
+                    balance = 0;
+                    appendProjectBlock(project, balance);
+                });
             });
         }
     });
 }
 
-function appendProjectBlock(project) {
+function appendProjectBlock(project, balance) {
     $('#projectsBlock').append(
         '<div class="feedItem">' +
             <!--Add class "vip" to vip-tialize project-->
@@ -39,11 +47,11 @@ function appendProjectBlock(project) {
         '<div class="bottomContent">' +
         '<button type="button" class="abutton invest">Инвестировать</button>' +
         '<div class="projectProgressBlock">' +
-        '<div class="current elem cash">' + project.investedAmount + ' ₴ </div>' +
+        '<div class="current elem cash">' + balance + ' ₴ </div>' +
         '<div class="bar elem">' +
         '<div class="colored"></div>' +
         '<div class="empty" style="width: ' +
-        getInvertedProgressNum(project.investedAmount, project.amountRequested) + '%;"></div>' +
+        getInvertedProgressNum(balance, project.amountRequested) + '%;"></div>' +
             <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
         '</div>' +
         '<div class="todo elem cash">' + project.amountRequested + ' ₴ </div>' +
