@@ -42,7 +42,6 @@ $('.offer-price').text(offer.price);
 $('.offer-video').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/' + offer.videoUrl.split('=')[1] + '" frameborder="0" allowfullscreen></iframe>');
 $('.offer-map').append('<iframe width="300" height="225" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + offer.address.coordinates + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>');
 
-
 $('.offer-skype').text(offer.userInfo.skypeLogin);
 $('.offer-description').text(offer.description);
 
@@ -107,6 +106,20 @@ $('.show-number').on('click', function () {
     $('.show-number').remove();
 })
 // ----------- Draw offer -------------------------------------------------------------------------------------------
+
+
+
+// ----------- Draw additional information about offer author ----------------------------------------------------
+$.ajax({
+    type: "POST",
+    url: "/api/rest/profilesService/profile/read/id/" + offer.authorId,
+    success: function (profile) {
+$('.author-name').text(profile.username);
+$('.author-link').attr('href', '/profile/id/' + offer.authorId);
+$('.author-rating').text(profile.point);
+    }
+});
+// ----------- Draw additional information about offer author ----------------------------------------------------
 
 
 // ---------------    BEGIN DRAW OFFERS IN BOTTOM    --------------------------------------------------------------//

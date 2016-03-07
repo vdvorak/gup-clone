@@ -65,9 +65,9 @@
                     <div class="contact"><span class="offer-skype"></span> <i class="fa fa-skype"></i></div>
                 </div>
                 <div class="col-xs-7">
-                    Автор: Вася Пупкин
+                    Автор: <a class="author-link"><span class="author-name" ></span></a>
                     <div class="clearfix"></div>
-                    <span class="author-rating">20</span>
+                    <span class="author-rating"></span>
 
                     <div class="clearfix"></div>
                     <a href="#">Все обьявления автора</a>
