@@ -172,8 +172,6 @@
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
-<script src="/resources/js/enscroll-0.6.1.min.js"></script>
-
 
 <script>
     var offerId = "${offerId}";
