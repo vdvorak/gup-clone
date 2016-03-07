@@ -44,12 +44,19 @@
     </ul>
     <ul class="page-navigation" id="offer-cities">
     </ul>
+
+    <a href="#" id="edit-offer-link" style="display: none">
+        <button>Редактировать объявление</button>
+    </a>
+
     <h1 class="title-h1-blue offer-title"></h1>
+
     <div class="offer-info-wrap">
         <div class="offer-info-box">
             <div class="reservation">
                 <div id="make-reserve" class="col-xs-6">ЗАБРОНИРОВАТЬ</div>
-                <div class="col-xs-6 text-right"><span class="offer-price"></span><span class="currency"></span> <i class="fa fa-lock"></i></div>
+                <div class="col-xs-6 text-right"><span class="offer-price"></span><span class="currency"></span> <i
+                        class="fa fa-lock"></i></div>
             </div>
             <div class="clearfix"></div>
             <div class="row">
@@ -65,7 +72,8 @@
                     <div class="contact"><span class="offer-skype"></span> <i class="fa fa-skype"></i></div>
                 </div>
                 <div class="col-xs-7">
-                    Автор: <a class="author-link"><span class="author-name" ></span></a>
+                    Автор: <a class="author-link"><span class="author-name"></span></a>
+
                     <div class="clearfix"></div>
                     <span class="author-rating"></span>
 
@@ -112,48 +120,46 @@
 
 <!-- The Modal -->
 <%--<div id="refill">--%>
-    <%--<h2>Вступить в организацию</h2>--%>
-    <%--<div class="whichBankYouChoose">--%>
-        <%--<div class="no-money-reserve">--%>
-            <%--<!-- когда чувак нищеброд -->--%>
-            <%--<h2>НА ВАШЕМ СЧЕТУ НЕТ ДЕНЕГ</h2>--%>
-            <%--<p>Введите сумму:</p>--%>
-            <%--<form action="#" role="form">--%>
-                <%--<input type="text" name="bill" placeholder="350, 000">--%>
-                <%--<p>$</p>--%>
-            <%--</form>--%>
-            <%--<p>Пополните счет, с помощью этих банк-систем:</p>--%>
-            <%--<div class="socialBankIcons">--%>
-                <%--<a href="#"><img src="/resources/images/visa.png" alt="visa"></a>--%>
-                <%--<a href="#"><img src="/resources/images/mastercard.png" alt="mastercard"></a>--%>
-                <%--<a href="#"><img src="/resources/images/payPal.png" alt="payPal"></a>--%>
-                <%--<a href="#"><img src="/resources/images/box.png" alt="box"></a>--%>
-            <%--</div>--%>
-            <%--<a href="#"><img src="/resources/images/privat24.png" alt="privat24"></a>--%>
-            <%--<button type="button">Отмена</button>--%>
-        <%--</div>--%>
-        <%--<div class="yes-money-reserve">--%>
-            <%--<!-- когда чувак не нищеброд -->--%>
-            <%--<p>С вашего счета будет снято 000. 00 грн</p>--%>
-            <%--<form role="form" action="#">--%>
-                <%--<div class="richAssCheck">--%>
-                    <%--<label for="hustle">Windows XP&nbsp;</label>--%>
-                    <%--<label class="label-checkbox-rich">--%>
-                        <%--<input type="checkbox" id="hustle" value="1" name="k" /><span></span>--%>
-                    <%--</label>--%>
-                <%--</div>--%>
-                <%--<div class="clearfix"></div>--%>
-                <%--<button type="button" id='close'>Отмена</button>--%>
-                <%--<button type="submit">Подтвердить</button>--%>
-            <%--</form>--%>
-        <%--</div>--%>
-    <%--</div>--%>
+<%--<h2>Вступить в организацию</h2>--%>
+<%--<div class="whichBankYouChoose">--%>
+<%--<div class="no-money-reserve">--%>
+<%--<!-- когда чувак нищеброд -->--%>
+<%--<h2>НА ВАШЕМ СЧЕТУ НЕТ ДЕНЕГ</h2>--%>
+<%--<p>Введите сумму:</p>--%>
+<%--<form action="#" role="form">--%>
+<%--<input type="text" name="bill" placeholder="350, 000">--%>
+<%--<p>$</p>--%>
+<%--</form>--%>
+<%--<p>Пополните счет, с помощью этих банк-систем:</p>--%>
+<%--<div class="socialBankIcons">--%>
+<%--<a href="#"><img src="/resources/images/visa.png" alt="visa"></a>--%>
+<%--<a href="#"><img src="/resources/images/mastercard.png" alt="mastercard"></a>--%>
+<%--<a href="#"><img src="/resources/images/payPal.png" alt="payPal"></a>--%>
+<%--<a href="#"><img src="/resources/images/box.png" alt="box"></a>--%>
+<%--</div>--%>
+<%--<a href="#"><img src="/resources/images/privat24.png" alt="privat24"></a>--%>
+<%--<button type="button">Отмена</button>--%>
+<%--</div>--%>
+<%--<div class="yes-money-reserve">--%>
+<%--<!-- когда чувак не нищеброд -->--%>
+<%--<p>С вашего счета будет снято 000. 00 грн</p>--%>
+<%--<form role="form" action="#">--%>
+<%--<div class="richAssCheck">--%>
+<%--<label for="hustle">Windows XP&nbsp;</label>--%>
+<%--<label class="label-checkbox-rich">--%>
+<%--<input type="checkbox" id="hustle" value="1" name="k" /><span></span>--%>
+<%--</label>--%>
+<%--</div>--%>
+<%--<div class="clearfix"></div>--%>
+<%--<button type="button" id='close'>Отмена</button>--%>
+<%--<button type="submit">Подтвердить</button>--%>
+<%--</form>--%>
+<%--</div>--%>
+<%--</div>--%>
 <%--</div>--%>
 <!-- End of the Modal -->
 
 
-
-<
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
 </sec:authorize>
@@ -167,7 +173,6 @@
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
 <script src="/resources/js/enscroll-0.6.1.min.js"></script>
-
 
 
 <script>
