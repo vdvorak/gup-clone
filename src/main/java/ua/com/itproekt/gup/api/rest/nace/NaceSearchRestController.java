@@ -22,8 +22,9 @@ public class NaceSearchRestController {
 
     @RequestMapping("/search/autocomplete/nace")
     public Set<String> getMachedNames(@RequestParam String term){
-        Set<NACE> naces = new HashSet<>();
-        naces.addAll(naceService.findAll());
-        return naces.stream().filter(n -> n.getName().contains(term)).map(NACE::getName).collect(Collectors.toSet());
+        Set<String> result = new HashSet<>();
+        result.addAll(naceService.findLikeName(term).stream().map(NACE::getName).collect(Collectors.toSet()));
+        result.addAll(naceService.findLikeId(term).stream().map(NACE::getId).collect(Collectors.toSet()));
+        return result;
     }
 }

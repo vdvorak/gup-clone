@@ -15,4 +15,7 @@ public interface NaceService {
     public NACE updateNace(NACE nace);
 //        public List<DepartmentOrNace> findAllDialogues(Member member);
 
+    List<NACE> findLikeId(String id);
+    List<NACE> findLikeName(String name);
+
 }

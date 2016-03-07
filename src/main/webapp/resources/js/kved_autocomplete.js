@@ -3,10 +3,10 @@
  * copy from search-bar.js
  */
 $(function() {
-    $("#searchInput").autocomplete({
+    $("#searchInputKved").autocomplete({
         source: function (request, response) {
-            var selectedService = $('#selectedService').find(":selected").val();
-            $.getJSON("/search/autocomplete/" + selectedService, {
+            //var selectedService = $('#selectedService').find(":selected").val();
+            $.getJSON("/search/autocomplete/nace" , {
                 term: request.term
             }, response);
         }
