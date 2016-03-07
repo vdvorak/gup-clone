@@ -31,9 +31,20 @@ public class NaceServiceImpl implements NaceService {
         return naceRepository.save(nace);
     }
 
+    @Override
+    public List<NACE> findLikeId(String id) {
+        return naceRepository.findByIdLike(id);
+    }
+
+    @Override
+    public List<NACE> findLikeName(String name) {
+        return naceRepository.findByNameLike(name);
+    }
+
 //    @Override
 //    public List<DepartmentOrNace> findDialogues(Member member) {
 //        return naceRepository.findByMembersIn(member);
 //    }
+
 
 }

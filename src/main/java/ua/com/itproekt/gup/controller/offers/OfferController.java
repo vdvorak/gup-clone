@@ -136,16 +136,16 @@ public class OfferController {
 
 
     //----------------------------------- create offer  ------
-    @RequestMapping(value = "/create-offer", method = RequestMethod.GET)
+    @RequestMapping(value = "/create-offer-old", method = RequestMethod.GET)
     public String createOffer(Model model) {
-        return "offer/create-offer";
+        return "offer/create-offer-OLD";
     }
 
 
     // ToDo Delete in the future
-    @RequestMapping(value = "/create-offer-old", method = RequestMethod.GET)
+    @RequestMapping(value = "/create-offer", method = RequestMethod.GET)
     public String createOldOffer(Model model) {
-        return "offer/create-offer-new-with-CSS";
+        return "offer/create-offer";
     }
 
     //----------------------------------- one certain offer  ------
