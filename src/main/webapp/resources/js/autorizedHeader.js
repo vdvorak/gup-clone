@@ -199,7 +199,6 @@ $('.dropDownBook').enscroll({
 
     function fillNotificationListBlock() {
         var eventFO = {};
-        alert('fillNotificationListBlock');
 
         $.ajax({
             type: "POST",
@@ -208,7 +207,6 @@ $('.dropDownBook').enscroll({
             data: JSON.stringify(eventFO),
             statusCode: {
                 200: function (responseEntity) {
-                    alert(JSON.stringify(responseEntity));
                     responseEntity.entities.forEach(function (event) {
                         $('.dropDownBell').append('<div class="bellMessage">' +
                             '<img src="' + getImgSrcForNotification(event.makerImgId) + '" alt="logo">' +
@@ -246,9 +244,11 @@ $('.dropDownBook').enscroll({
                     success: function (profile) {
                         $('.dropDownBook').append(
                             '<div class="friend">' +
-                            getContactProfileImgTagHtml(profile.imgId) +
-                            '<a href="/profile/id/' + contactId + '">' + profile.username + '</a>' +
-                            '<img src="/resources/images/userMessage.png" alt="Message">' +
+                                getContactProfileImgTagHtml(profile.imgId) +
+                                '<a href="/profile/id/' + contactId + '">' + profile.username + '</a>' +
+                                '<a href="/dialogue/create/with/' + contactId + '">' +
+                                    '<img src="/resources/images/userMessage.png" alt="Message">' +
+                                '</a>' +
                             '</div>');
                     }
                 });
