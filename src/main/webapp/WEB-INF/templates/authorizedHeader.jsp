@@ -4,81 +4,18 @@
 
 <header class="menu">
     <div class="container2">
-        <!-- не залогиненный -->
-        <div class="notLogged">
-            <ul class="notLogged-ul">
-                <li class="notLogged-li"><a id='go' href="#">Регистрация</a></li>
-                <li class="notLogged-li"><p>&nbsp;/&nbsp;</p></li>
-                <li class="notLogged-li"><a id='goo' href="#">Вход</a></li>
-            </ul>
-
-            <div id="modal_form"><!-- Сaмo oкнo -->
-                <div id="tab-container" class="tab-container">
-                    <ul class='etabs'>
-                        <li class='tab'><a href="#registration">Регистрация</a></li>
-                        <li class='tab'><a href="#entry-form">Вход</a></li>
-                    </ul>
-
-                    <div id="registration">
-                        <form class="registration-form" method="post" action="#" role="form">
-                            <label for="registration-email">Введите логин/ E-mail</label>
-                            <input type="email" name="registration-email" id='registration-email' required>
-
-                            <div class="clearfix"></div>
-
-                            <label for="registration-password">Пароль</label>
-                            <input type="password" name="registration-password" id='registration-password' placeholder="Не менее 6 символов" required>
-
-                            <div class="clearfix"></div>
-
-                            <label for="repeat-registration-password">Повторите пароль</label>
-                            <input type="password" name="repeat-registration-password" id='repeat-registration-password' required>
-
-                            <div class="clearfix"></div>
-
-                            <div class="conditions">
-                                <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-registration" value="1" name="k"/><span></span></label>
-                                <label for="checkbox-registration"><a href="#">Мною были прочитаны все условия</a></label>
-                            </div>
-                            <button class="registration-submit" type="submit">Зарегистрироваться</button>
-                        </form>
-                    </div>
-
-                    <div id="entry-form">
-                        <form class="contact_form" method="post" action="#" role="form">
-                            <label for="email">Введите логин/ E-mail</label>
-                            <input type="email" name="email" id='email' required>
-                            <div class="clearfix"></div>
-                            <label for="password">Пароль</label>
-                            <input type="password" name="password" id='password' placeholder="Не менее 6 символов" required>
-                            <div class="clearfix"></div>
-                            <div class="rememberMe">
-                                <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-contact" value="1" name="k"/><span></span></label>
-                                <label for="checkbox-contact">Запомнить меня</label>
-                            </div>
-                            <button class="submit" type="submit">Войти</button>
-                        </form>
-                        <a class="contactA" href="#">Забыли пароль?</a>
-                    </div>
-                </div>
-            </div>
-            <div id="overlay"></div><!-- Пoдлoжкa -->
-        </div>
-
         <!-- залогиненный -->
         <div class="Logged">
             <div id="overlay"></div><!-- Пoдлoжкa -->
             <div class="user">
-                <img src="/resources/images/face.png" alt="face">
-                <p>Петров Василий</p>
+                <img id="headerProfileImg" src="" alt="face">
+                <p id="headerProfileName"></p>
                 <div>
                     <div class="clearfix"></div>
-                    <a href="#">Анкета</a>
-                    <a href="#">Сообщения</a>
-                    <a href="#">Уведомления</a>
-                    <a href="#">Контакты</a>
-                    <a href="#">Выход</a>
-                    <a href="#">Редактировать страницу</a>
+                    <a href="/prioffice">Личный кабинет</a>
+                    <a href="/dialogues">Мои сообщения</a>
+                    <a href="/logout">Выход</a>
+                    <a href="/edit-profile">Редактировать страницу</a>
                 </div>
             </div>
             <div class="mail">
@@ -123,26 +60,21 @@
             <div class="book">
                 <img src="/resources/images/book.png" alt="book">
                 <div class="dropDownBook">
-                    <div class="friend">
-                        <img src="/resources/images/userBook.png" alt="user">
-                        <a href="#">Contact Name</a>
-                        <img src="/resources/images/userMessage.png" alt="Message">
-                    </div>
-                    <div class="friend">
-                        <img src="/resources/images/userBook.png" alt="user">
-                        <a href="#">Contact Name</a>
-                        <img src="/resources/images/userMessage.png" alt="Message">
-                    </div>
-                    <div class="friend">
-                        <img src="/resources/images/userBook.png" alt="user">
-                        <a href="#">Contact Name</a>
-                        <img src="/resources/images/userMessage.png" alt="Message">
-                    </div>
-                    <div class="friend">
-                        <img src="/resources/images/userBook.png" alt="user">
-                        <a href="#">Contact Name</a>
-                        <img src="/resources/images/userMessage.png" alt="Message">
-                    </div>
+                    <%--<div class="friend">--%>
+                        <%--<img src="/resources/images/userBook.png" alt="user">--%>
+                        <%--<a href="#">Contact Name</a>--%>
+                        <%--<img src="/resources/images/userMessage.png" alt="Message">--%>
+                    <%--</div>--%>
+                    <%--<div class="friend">--%>
+                        <%--<img src="/resources/images/userBook.png" alt="user">--%>
+                        <%--<a href="#">Contact Name</a>--%>
+                        <%--<img src="/resources/images/userMessage.png" alt="Message">--%>
+                    <%--</div>--%>
+                    <%--<div class="friend">--%>
+                        <%--<img src="/resources/images/userBook.png" alt="user">--%>
+                        <%--<a href="#">Contact Name</a>--%>
+                        <%--<img src="/resources/images/userMessage.png" alt="Message">--%>
+                    <%--</div>--%>
                 </div>
             </div>
             <div class="money">

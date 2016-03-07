@@ -31,7 +31,7 @@
 </sec:authorize>
 
 <c:if test="${!isAuthenticated}">
-  <jsp:include page="/WEB-INF/templates/headerAnonym.jsp"/>
+  <jsp:include page="/WEB-INF/templates/anonymHeader.jsp"/>
 </c:if>
 
 <!--3rd section news timeline-->
