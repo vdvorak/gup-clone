@@ -247,6 +247,22 @@ public class ProfileRestController {
     }
 
 
+//    @PreAuthorize("isAuthenticated()")
+//    @RequestMapping(value = "/offer-reservation", method = RequestMethod.POST)
+//    public ResponseEntity<Void> offerReservation() {
+//
+//        String userId = SecurityOperations.getLoggedUserId();
+//
+//            Integer userBalance = bankSession.getUserBalance(userId);
+//            if (userBalance >= 5) {
+//                bankSession.investInOrganization(5555, userId, 5L, 30, "Success");
+//                return new ResponseEntity<>(HttpStatus.OK);
+//            } else {
+//                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//            }
+//    }
+
+
     @RequestMapping(value = "/check-user-balance-by-id", method = RequestMethod.POST)
     @ResponseBody
     public Integer checkBalance(@RequestParam("userId") String userId) {

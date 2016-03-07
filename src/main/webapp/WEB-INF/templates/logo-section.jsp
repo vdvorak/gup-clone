@@ -3,7 +3,7 @@
     <div class="container2">
         <a href="/index">
             <div class="logo">
-                <a href="#"><img src="/resources/css/images/brand.png" alt="brand"></a>
+                <a href="/index"><img src="/resources/css/images/brand.png" alt="brand"></a>
                 <p>Global Ukranian Portal</p>
             </div>
         </a>
@@ -39,7 +39,8 @@
                     </div>
                     <div class="richAss">
                         <!-- когда чувак не нищеброд -->
-                        <p>С вашего счета будет снято 000. 00 грн</p>
+                        <p class="message-payment-accept">С вашего счета будет снято 000. 00 грн</p>
+                        <p class="message-for-offer-reservation"></p>
                         <form role="form" action="#">
                             <div class="richAssCheck">
                                 <label for="hustle">Windows XP&nbsp;</label>
@@ -49,7 +50,7 @@
                             </div>
                             <div class="clearfix"></div>
                             <button type="button" id='close'>Отмена</button>
-                            <button type="submit">Подтвердить</button>
+                            <button id="noMoneyStartRich" type="submit">Подтвердить</button>
                         </form>
                     </div>
                 </div>
