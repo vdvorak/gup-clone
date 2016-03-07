@@ -43,6 +43,8 @@
             <label for="EnterTheTitle">Введите название</label>
             <input type="text" id="EnterTheTitle" required>
             <label>Выберете отрасль</label>
+            <input type="text" id="searchInputKved" class="form-control sear" name="search" placeholder="Поиск">
+
             <div id="selectBox-info-type">
                 <select id="select-type">
                     <option>Выберите тип</option>
