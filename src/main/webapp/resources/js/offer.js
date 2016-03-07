@@ -181,14 +181,15 @@ function readAllByFilter() {
                     newLi.children('span').text("Просмотров: " + offerObj.views);
                     newLi.find('a.btn').text(priceStr).attr("href", '/offer/' + offerObj.id + '');
 
+                    var noticeBox = $('ul.notice-box');
                     if (count === maxCount) {
                         count = 0;
-                        var newBox = $('ul.notice-box').last()
+                        var newBox = noticeBox.last()
                             .clone()
                             .text("")
-                            .insertAfter($('ul.notice-box').last());
+                            .insertAfter(noticeBox.last());
                     }
-                    newLi.appendTo($('ul.notice-box').last());
+                    newLi.appendTo(noticeBox.last());
                     count++;
                 }
             }
@@ -203,6 +204,105 @@ function readAllByFilter() {
 
 
 // ---------------    END DRAW OFFERS    ---------------------------------------------------------------------------//
+
+
+// ---------------------------------- Reservation -----------------------------------------------------------
+
+
+//$('#make-reserve').click( function(event){
+//    event.preventDefault();
+//    $('#overlay').fadeIn(400,
+//        function(){
+//            $('#refill')
+//                .css('display', 'block')
+//                .animate({opacity: 1, top: '50%'}, 200);
+//        });
+//});
+//
+//$('.no-money-reserve > button, #overlay, .yes-money-reserve > form > #close').click( function(){
+//    $('#refill')
+//        .animate({opacity: 0, top: '45%'}, 200,
+//        function(){
+//            $(this).css('display', 'none');
+//            $('#overlay').fadeOut(400);
+//        }
+//    );
+//});
+
+
+
+
+$('#socialBtn').click( function(event){
+    event.preventDefault();
+    $('#overlay').fadeIn(400,
+        function(){
+            $('#refill')
+                .css('display', 'block')
+                .animate({opacity: 1, top: '50%'}, 200);
+        });
+});
+
+$('.brokeAss > button, #overlay, .richAss > form > #close').click( function(){
+    $('#refill')
+        .animate({opacity: 0, top: '45%'}, 200,
+        function(){
+            $(this).css('display', 'none');
+            $('#overlay').fadeOut(400);
+        }
+    );
+});
+
+
+
+
+
+
+// - first we check balance to make sure we have required amount
+$('#make-reserve').click( function(event){
+    event.preventDefault();
+
+$.ajax({
+    type: "POST",
+    url: "/check-balance",
+    cache: false,
+    success: function (response) {
+
+        if (response >= 5) {
+            $('.brokeAss').hide();
+            $('.richAss').show();
+
+            $('#overlay').fadeIn(400,
+                function(){
+                    $('#refill')
+                        .css('display', 'block')
+                        .animate({opacity: 1, top: '50%'}, 200);
+                });
+
+        } else {
+            $('.brokeAss').show();
+            $('.richAss').hide();
+
+            $('#overlay').fadeIn(400,
+                function(){
+                    $('#refill')
+                        .css('display', 'block')
+                        .animate({opacity: 1, top: '50%'}, 200);
+                });
+
+            //$('.show-message-for-payment').text("Для бронирования объявления на счету должно быть не менее 5 гривен")
+
+        }
+    },
+    error: function (response) {
+        alert("Для бронирования нужно войти в систему")
+    }
+});
+
+
+});
+
+
+// ---------------------------------- Reservation -----------------------------------------------------------
 
 
 

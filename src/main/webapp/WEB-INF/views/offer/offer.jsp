@@ -48,7 +48,7 @@
     <div class="offer-info-wrap">
         <div class="offer-info-box">
             <div class="reservation">
-                <div class="col-xs-6">ЗАБРОНИРОВАТЬ</div>
+                <div id="make-reserve" class="col-xs-6">ЗАБРОНИРОВАТЬ</div>
                 <div class="col-xs-6 text-right"><span class="offer-price"></span><span class="currency"></span> <i class="fa fa-lock"></i></div>
             </div>
             <div class="clearfix"></div>
@@ -109,6 +109,49 @@
     </div>
 
 </div>
+
+<!-- The Modal -->
+<%--<div id="refill">--%>
+    <%--<h2>Вступить в организацию</h2>--%>
+    <%--<div class="whichBankYouChoose">--%>
+        <%--<div class="no-money-reserve">--%>
+            <%--<!-- когда чувак нищеброд -->--%>
+            <%--<h2>НА ВАШЕМ СЧЕТУ НЕТ ДЕНЕГ</h2>--%>
+            <%--<p>Введите сумму:</p>--%>
+            <%--<form action="#" role="form">--%>
+                <%--<input type="text" name="bill" placeholder="350, 000">--%>
+                <%--<p>$</p>--%>
+            <%--</form>--%>
+            <%--<p>Пополните счет, с помощью этих банк-систем:</p>--%>
+            <%--<div class="socialBankIcons">--%>
+                <%--<a href="#"><img src="/resources/images/visa.png" alt="visa"></a>--%>
+                <%--<a href="#"><img src="/resources/images/mastercard.png" alt="mastercard"></a>--%>
+                <%--<a href="#"><img src="/resources/images/payPal.png" alt="payPal"></a>--%>
+                <%--<a href="#"><img src="/resources/images/box.png" alt="box"></a>--%>
+            <%--</div>--%>
+            <%--<a href="#"><img src="/resources/images/privat24.png" alt="privat24"></a>--%>
+            <%--<button type="button">Отмена</button>--%>
+        <%--</div>--%>
+        <%--<div class="yes-money-reserve">--%>
+            <%--<!-- когда чувак не нищеброд -->--%>
+            <%--<p>С вашего счета будет снято 000. 00 грн</p>--%>
+            <%--<form role="form" action="#">--%>
+                <%--<div class="richAssCheck">--%>
+                    <%--<label for="hustle">Windows XP&nbsp;</label>--%>
+                    <%--<label class="label-checkbox-rich">--%>
+                        <%--<input type="checkbox" id="hustle" value="1" name="k" /><span></span>--%>
+                    <%--</label>--%>
+                <%--</div>--%>
+                <%--<div class="clearfix"></div>--%>
+                <%--<button type="button" id='close'>Отмена</button>--%>
+                <%--<button type="submit">Подтвердить</button>--%>
+            <%--</form>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+<%--</div>--%>
+<!-- End of the Modal -->
+
+
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
 <script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
