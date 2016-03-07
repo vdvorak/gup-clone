@@ -44,13 +44,13 @@
 
         <form id="blogCreationForm" action="#" role="form">
             <label for="blogTitle" class="blogCreationLabel">Заголовок блога</label>
-            <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput" value="${blog.title}">
+            <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput" value="${blog.title}" placeholder="Длина заголовка от 2 до 70 символов">
 
             <div class="clearfix"></div>
 
             <label for="blogCreationDescription" class="blogCreationLabel">Описание</label>
             <textarea name="blogCreationDescription" id="blogCreationDescription"
-                      class="blogCreationDescription">${blog.description}</textarea>
+                      class="blogCreationDescription" placeholder="Длина описания от 50 до 5000 символов">${blog.description}</textarea>
 
             <div class="group-info">
                 <label for="blogCreationSocial" class="blogCreationLabel">Социальные сети</label>
@@ -446,51 +446,70 @@
         }
     }
 
-    $(document).on('click', 'button.SendEdition', function (event) {
-        event.preventDefault();
+    function validateBlog() {
+        $('.error-validation').removeClass('error-validation');
+
+        var arrValidate = [];
 
         var title = $('#blogTitle').val();
         var description = $('#blogCreationDescription').val();
-        if (title.length > 70 || title.length < 2) return;
-        if (description.length > 5000 || description.length < 50) return;
 
-        blog.id = blogId;
-        blog.title = title;
-        blog.description = description;
+        if (title.length > 70 || title.length < 2)  arrValidate.push($('#blogTitle'));
+        if (description.length > 5000 || description.length < 50)  arrValidate.push($('#blogCreationDescription'));
 
-        blog.imageId = imgId;
-
-        if (oldImgId !== '' || oldImgId !== imgId) {
-            deleteImgFromDB(oldImgId);
+        for(var i = 0; i < arrValidate.length; i++) {
+            arrValidate[i].addClass('error-validation');
         }
+        if(arrValidate.length) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-        var socArr = {};
-        $(".group-info").find('input').each(function (index) {
-            var socName = $(this).attr("name");
-            var url = $(this).val();
-            if (isMatchPatternSocialLinks(socName, url) && url.length) {
-                socArr[url] = socName;
+    $(document).on('click', 'button.SendEdition', function (event) {
+        event.preventDefault();
+
+        if (validateBlog()) {
+
+            blog.id = blogId;
+            blog.title = $('#blogTitle').val();
+            blog.description = $('#blogCreationDescription').val();
+
+            blog.imageId = imgId;
+
+            if (oldImgId !== '' || oldImgId !== imgId) {
+                deleteImgFromDB(oldImgId);
             }
-        });
 
-        blog.socLinks = socArr;
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/newsService/blog/edit",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(blog),
-            statusCode: {
-                200: function (response) {
-                    window.location.href = '/blog/' + blogId;
-                },
-                400: function (response) {
-                },
-                404: function (response) {
+            var socArr = {};
+            $(".group-info").find('input').each(function (index) {
+                var socName = $(this).attr("name");
+                var url = $(this).val();
+                if (isMatchPatternSocialLinks(socName, url) && url.length) {
+                    socArr[url] = socName;
                 }
-            }
-        });
+            });
+
+            blog.socLinks = socArr;
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/newsService/blog/edit",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(blog),
+                statusCode: {
+                    200: function (response) {
+                        window.location.href = '/blog/' + blogId;
+                    },
+                    400: function (response) {
+                    },
+                    404: function (response) {
+                    }
+                }
+            });
+        }
     });
     ///------------------------- Upload Blog -----------------------------------------------
 </script>

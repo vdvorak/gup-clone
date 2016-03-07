@@ -137,5 +137,23 @@ a.explanation-point-tooltip img {
     border-radius: 0;
 }
 
+.error-validation {
+     background-image:  url(/resources/css/images/explanation-point.png);
+     background-repeat: no-repeat;
+     background-position-x: right;
+     background-size: 18px 18px;
+     padding-right: 18px !important;
+ }
+
+#categories-row div, #region-row div {
+    margin-right: 10px;
+}
+#categories-row, #region-row{
+    display: inline-block;
+}
+#offer-inpPrice {
+    width: 100%;
+}
+
 
 
