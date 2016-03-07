@@ -69,7 +69,7 @@
         <div class="Logged">
             <div id="overlay"></div><!-- Пoдлoжкa -->
             <div class="user">
-                <img src="resources/images/face.png" alt="face">
+                <img src="/resources/images/face.png" alt="face">
                 <p>Петров Василий</p>
                 <div>
                     <div class="clearfix"></div>
@@ -82,7 +82,7 @@
                 </div>
             </div>
             <div class="mail">
-                <img src="resources/images/mail.png" alt="mail">
+                <img src="/resources/images/mail.png" alt="mail">
                 <p>1</p>
                 <div class="dropDownMail">
                     <div class="mailMessage">
@@ -101,7 +101,7 @@
                 </div>
             </div>
             <div class="bell">
-                <img src="resources/images/bell.png" alt="bell">
+                <img src="/resources/images/bell.png" alt="bell">
                 <div class="dropDownBell">
                     <div class="bellMessage">
                         <img src="/resources/images/logo.png" alt="logo">
@@ -121,7 +121,7 @@
                 </div>
             </div>
             <div class="book">
-                <img src="resources/images/book.png" alt="book">
+                <img src="/resources/images/book.png" alt="book">
                 <div class="dropDownBook">
                     <div class="friend">
                         <img src="/resources/images/userBook.png" alt="user">
