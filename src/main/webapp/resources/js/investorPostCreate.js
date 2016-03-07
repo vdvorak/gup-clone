@@ -26,7 +26,7 @@ $("#createInvestorPost").on('click', function (event) {
             data: JSON.stringify(newInvestorPost),
             statusCode: {
                 201: function (createdProjectId) {
-                    window.location.href = '/investorPost?id=' + createdProjectId.id;
+                    window.location.href = '/project/list';
                 }
             }
         });

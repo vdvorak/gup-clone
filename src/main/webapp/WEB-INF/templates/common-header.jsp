@@ -8,7 +8,7 @@
         <jsp:include page="/WEB-INF/templates/authorizedHeader.jsp"/>
     </c:when>
     <c:otherwise>
-        <jsp:include page="/WEB-INF/templates/headerAnonym.jsp"/>
+        <jsp:include page="/WEB-INF/templates/anonymHeader.jsp"/>
     </c:otherwise>
 </c:choose>
 

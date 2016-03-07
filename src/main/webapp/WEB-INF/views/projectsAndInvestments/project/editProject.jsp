@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
     <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
-
+    <link rel="stylesheet" href="/resources/css/mini.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
 <body>
@@ -88,9 +88,23 @@
                     <div class="titleFile" data-title="Добавить изображение">
                         <button id="addProjPhoto" class="blogCreationSubmit"></button>
                     </div>
-                    <div class="IMGBlock" id="IMGBlock"></div>
                 </div>
 
+                <div id="drop_zone">
+                    <ul id="project-img-block" class="ul-img-container ul-img-container-green">
+                        <li class="li-containerIMG li-defaultIMG">
+                            <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+                            <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                        </li>
+                    </ul>
+                    <ul id="project-doc-block" class="ul-img-container ul-img-container-green">
+                        <li class="li-containerIMG li-defaultIMG">
+                            <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+                            <img src="http://www.uzscience.uz/upload/userfiles/images/doc.png" alt="defaultIMG">
+                            <div style="width: 100%; text-align: center; font-weight: bold"></div>
+                        </li>
+                    </ul>
+                </div>
 
                 <div class="field required">
                     <label for="sum" class="editorLabel">Нужная сумма</label>

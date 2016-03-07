@@ -17,12 +17,15 @@
 
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
+    <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
     <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
 </head>
 <body>
@@ -132,8 +135,6 @@
         </div>
     </div>
 
-    <!--PAGE CONTENT END-->
-
     <!-- The Modal -->
     <div id="cropperModal" class="cropper-modal">
 
@@ -153,6 +154,9 @@
         </div>
 
     </div>
+    <!-- End of the Modal -->
+
+    <!--PAGE CONTENT END-->
 
     <sec:authorize access="isAuthenticated()">
         <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>

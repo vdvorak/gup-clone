@@ -42,7 +42,6 @@ $('.offer-price').text(offer.price);
 $('.offer-video').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/' + offer.videoUrl.split('=')[1] + '" frameborder="0" allowfullscreen></iframe>');
 $('.offer-map').append('<iframe width="300" height="225" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + offer.address.coordinates + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>');
 
-
 $('.offer-skype').text(offer.userInfo.skypeLogin);
 $('.offer-description').text(offer.description);
 
@@ -109,6 +108,19 @@ $('.show-number').on('click', function () {
 // ----------- Draw offer -------------------------------------------------------------------------------------------
 
 
+// ----------- Draw additional information about offer author ----------------------------------------------------
+$.ajax({
+    type: "POST",
+    url: "/api/rest/profilesService/profile/read/id/" + offer.authorId,
+    success: function (profile) {
+        $('.author-name').text(profile.username);
+        $('.author-link').attr('href', '/profile/id/' + offer.authorId);
+        $('.author-rating').text(profile.point);
+    }
+});
+// ----------- Draw additional information about offer author ----------------------------------------------------
+
+
 // ---------------    BEGIN DRAW OFFERS IN BOTTOM    --------------------------------------------------------------//
 $(document).ready(function () {
     var offerFO = {};
@@ -117,79 +129,168 @@ $(document).ready(function () {
     readAllByFilter();
 
 
-function readAllByFilter() {
+    function readAllByFilter() {
 
-    $.ajax({
-        type: "POST",
-        url: "/api/rest/offersService/offer/read/all",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(offerFO),
-        success: function (response) {
-            if (response) {
-                var offersArr = response.entities;
-                var count = 0;
-                var maxCount = 5;
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/offersService/offer/read/all",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(offerFO),
+            success: function (response) {
+                if (response) {
+                    var offersArr = response.entities;
+                    var count = 0;
+                    var maxCount = 5;
 
-                for (var i = 0; i < offersArr.length; i++) {
-                    var offerObj = offersArr[i];
+                    for (var i = 0; i < offersArr.length; i++) {
+                        var offerObj = offersArr[i];
 
-                    var imagesIds = offerObj.imagesIds;
-                    var imgSrc = "";
-                    var arrKeys = Object.keys(imagesIds);
-                    if (arrKeys.length) {
-                        for (var key in imagesIds) {
-                            if (imagesIds[key] === 'pic1') {
-                                imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + key;
-                                break;
+                        var imagesIds = offerObj.imagesIds;
+                        var imgSrc = "";
+                        var arrKeys = Object.keys(imagesIds);
+                        if (arrKeys.length) {
+                            for (var key in imagesIds) {
+                                if (imagesIds[key] === 'pic1') {
+                                    imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + key;
+                                    break;
+                                }
+                            }
+                            if (imgSrc === '') imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + arrKeys[0];
+                        } else {
+                            imgSrc = "/resources/images/no_photo.jpg";
+                        }
+
+                        var priceStr = "Нет цены";
+                        if (offerObj.price) {
+                            priceStr = offerObj.price.toString();
+                            if (offerObj.currency) {
+                                priceStr = priceStr + offerObj.currency;
                             }
                         }
-                        if (imgSrc === '') imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + arrKeys[0];
-                    } else {
-                        imgSrc = "/resources/images/no_photo.jpg";
-                    }
 
-                    var priceStr = "Нет цены";
-                    if (offerObj.price) {
-                        priceStr = offerObj.price.toString();
-                        if (offerObj.currency) {
-                            priceStr = priceStr + offerObj.currency;
+                        var newLi = $('#li-offer-basic').clone()
+                            .attr('id', "")
+                            .css("display", "inline-block");
+                        newLi.find('p').text(offerObj.title);
+                        newLi.find('.image').attr("href", '/offer/' + offerObj.id + '');
+                        newLi.find('img').attr("src", imgSrc);
+
+
+                        newLi.children('span').text("Просмотров: " + offerObj.views);
+                        newLi.find('a.btn').text(priceStr).attr("href", '/offer/' + offerObj.id + '');
+
+                        var noticeBox = $('ul.notice-box');
+                        if (count === maxCount) {
+                            count = 0;
+                            var newBox = noticeBox.last()
+                                .clone()
+                                .text("")
+                                .insertAfter(noticeBox.last());
                         }
+                        newLi.appendTo(noticeBox.last());
+                        count++;
                     }
-
-                    var newLi = $('#li-offer-basic').clone()
-                        .attr('id', "")
-                        .css("display", "inline-block");
-                    newLi.find('p').text(offerObj.title);
-                    newLi.find('.image').attr("href", '/offer/' + offerObj.id + '');
-                    newLi.find('img').attr("src", imgSrc);
-
-
-                    newLi.children('span').text("Просмотров: " + offerObj.views);
-                    newLi.find('a.btn').text(priceStr).attr("href", '/offer/' + offerObj.id + '');
-
-                    if (count === maxCount) {
-                        count = 0;
-                        var newBox = $('ul.notice-box').last()
-                            .clone()
-                            .text("")
-                            .insertAfter($('ul.notice-box').last());
-                    }
-                    newLi.appendTo($('ul.notice-box').last());
-                    count++;
                 }
+            },
+            error: function (response) {
+                alert("Внутренняя ошибка сервера");
             }
-        },
-        error: function (response) {
-            alert("Внутренняя ошибка сервера");
-        }
-    });
-}
+        });
+    }
 
 });
 
 
 // ---------------    END DRAW OFFERS    ---------------------------------------------------------------------------//
+
+
+// ---------------------------------- Reservation -----------------------------------------------------------
+// - Need consultation. Don't delete this part
+
+//$('#socialBtn').click(function (event) {
+//    event.preventDefault();
+//    $('#overlay').fadeIn(400,
+//        function () {
+//            $('#refill')
+//                .css('display', 'block')
+//                .animate({opacity: 1, top: '50%'}, 200);
+//        });
+//});
+//
+//$('.brokeAss > button, #overlay, .richAss > form > #close').click(function () {
+//    $('#refill')
+//        .animate({opacity: 0, top: '45%'}, 200,
+//        function () {
+//            $(this).css('display', 'none');
+//            $('#overlay').fadeOut(400);
+//        }
+//    );
+//});
+//
+//// - first we check balance to make sure we have required amount
+//$('#make-reserve').click(function (event) {
+//    event.preventDefault();
+//
+//    $.ajax({
+//        type: "POST",
+//        url: "/check-balance",
+//        cache: false,
+//        success: function (response) {
+//
+//            if (response >= 5) {
+//                $('.brokeAss').hide();
+//                $('.richAss').show();
+//
+//                $('#noMoneyStartRich').attr('id', 'acccept-reservation');
+//
+//
+//                $('#overlay').fadeIn(400,
+//                    function () {
+//                        $('#refill')
+//                            .css('display', 'block')
+//                            .animate({opacity: 1, top: '50%'}, 200);
+//                    });
+//
+//
+//                $('.message-payment-accept').text("С вашего счёта будет снято 5 гривен за бронирование объявления")
+//
+//            } else {
+//                $('.brokeAss').show();
+//                $('.richAss').hide();
+//
+//                $('#overlay').fadeIn(400,
+//                    function () {
+//                        $('#refill')
+//                            .css('display', 'block')
+//                            .animate({opacity: 1, top: '50%'}, 200);
+//                    });
+//
+//                //$('.show-message-for-payment').text("Для бронирования объявления на счету должно быть не менее 5 гривен")
+//
+//            }
+//        },
+//        error: function (response) {
+//            alert("Для бронирования нужно войти в систему")
+//        }
+//    });
+//
+//    $(document).on('click', '#acccept-reservation', function () {
+//        $.ajax({
+//            type: "POST",
+//            url: "/api/rest/offersService/offer/id/" + offerId + "/reserve",
+//            cache: false,
+//            success: function (response) {
+//                alert("Объявление успешно забронировано за вами!")
+//            },
+//            error: function (response) {
+//                alert("Недостаточно денег на балансе")
+//            }
+//        });
+//        $('#acccept-reservation').attr('id', 'noMoneyStartRich');
+//    })
+//});
+// ---------------------------------- Reservation -----------------------------------------------------------
 
 
 

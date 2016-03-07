@@ -33,7 +33,7 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
     @Override
     public void setFeedsViewed(EventFilterOptions eventFO) {
         Query query = new Query()
-                .addCriteria(Criteria.where("uId").is(eventFO.getTargetUId()))
+                .addCriteria(Criteria.where("targetUId").is(eventFO.getTargetUId()))
                 .addCriteria(Criteria.where("isViewed").ne(Boolean.TRUE));
 
         Update update = new Update()
@@ -47,7 +47,7 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
         Query query = new Query();
 
         //should not be == null
-        query.addCriteria(Criteria.where("uId").is(eventFO.getTargetUId()));
+        query.addCriteria(Criteria.where("targetUId").is(eventFO.getTargetUId()));
 
         if (eventFO.getAfterDate() != null) {
             query.addCriteria(Criteria.where("createdDate").gte(eventFO.getAfterDate()));
@@ -64,7 +64,6 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
 
         query.skip(eventFO.getSkip());
         query.limit(eventFO.getLimit());
-
         return new EntityPage<>(mongoTemplate.count(query, Event.class),
                                 mongoTemplate.find(query, Event.class));
     }

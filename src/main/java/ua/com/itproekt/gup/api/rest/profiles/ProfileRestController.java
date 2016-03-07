@@ -227,7 +227,7 @@ public class ProfileRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/join-organization", method = RequestMethod.POST)
     public ResponseEntity<String> joinToOrganization() {
-        
+
         String userId = SecurityOperations.getLoggedUserId();
         Profile profile = profilesService.findById(userId);
 
@@ -244,5 +244,32 @@ public class ProfileRestController {
                 return new ResponseEntity<>("3", HttpStatus.OK);
             }
         }
+    }
+
+
+//    @PreAuthorize("isAuthenticated()")
+//    @RequestMapping(value = "/offer-reservation", method = RequestMethod.POST)
+//    public ResponseEntity<Void> offerReservation() {
+//
+//        String userId = SecurityOperations.getLoggedUserId();
+//
+//            Integer userBalance = bankSession.getUserBalance(userId);
+//            if (userBalance >= 5) {
+//                bankSession.investInOrganization(5555, userId, 5L, 30, "Success");
+//                return new ResponseEntity<>(HttpStatus.OK);
+//            } else {
+//                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//            }
+//    }
+
+
+    @RequestMapping(value = "/check-user-balance-by-id", method = RequestMethod.POST)
+    @ResponseBody
+    public Integer checkBalance(@RequestParam("userId") String userId) {
+
+        if (profilesService.profileExists(userId)) {
+            return bankSession.getUserBalance(userId);
+        }
+        return 0;
     }
 }

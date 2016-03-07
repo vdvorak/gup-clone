@@ -50,13 +50,13 @@
 
         <form id="blogCreationForm" action="#" role="form">
             <label for="blogTitle" class="blogCreationLabel">Заголовок блога <em>*</em></label>
-            <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput">
+            <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput" placeholder="Длина заголовка от 2 до 70 символов">
 
             <div class="clearfix"></div>
 
             <label for="blogCreationDescription" class="blogCreationLabel">Описание <em>*</em></label>
             <textarea name="blogCreationDescription" id="blogCreationDescription"
-                      class="blogCreationDescription"></textarea>
+                      class="blogCreationDescription" placeholder="Длина описания от 50 до 5000 символов"></textarea>
 
             <div class="group-info">
                 <label for="blogCreationSocial" class="blogCreationLabel">Социальные сети</label>
@@ -411,42 +411,61 @@
         }
     }
 
-    $(document).on('click', 'button.SendEdition', function (event) {
-        event.preventDefault();
+    function validateBlog() {
+        $('.error-validation').removeClass('error-validation');
+
+        var arrValidate = [];
 
         var title = $('#blogTitle').val();
         var description = $('#blogCreationDescription').val();
-        if (title.length > 70 || title.length < 2) return;
-        if (description.length > 5000 || description.length < 50) return;
 
-        blog.title = title;
-        blog.description = description;
-        blog.imageId = imgId;
+        if (title.length > 70 || title.length < 2)  arrValidate.push($('#blogTitle'));
+        if (description.length > 5000 || description.length < 50)  arrValidate.push($('#blogCreationDescription'));
 
-        var socArr = {};
-        $(".group-info").find('input').each(function (index) {
-            var socName = $(this).attr("name");
-            var url = $(this).val();
-            if (isMatchPatternSocialLinks(socName, url) && url.length) {
-                socArr[url] = socName;
-            }
-        });
+        for(var i = 0; i < arrValidate.length; i++) {
+            arrValidate[i].addClass('error-validation');
+        }
+        if(arrValidate.length) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-        blog.socLinks = socArr;
+    $(document).on('click', 'button.SendEdition', function (event) {
+        event.preventDefault();
 
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/newsService/blog/create",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(blog),
-            success: function (response) {
-                window.location.href = '/blog/' + response.id;
-            },
-            error: function (response) {
-                alert("Внутренняя ошибка сервера");
-            }
-        });
+        if (validateBlog()) {
+
+            blog.title = $('#blogTitle').val();
+            blog.description = $('#blogCreationDescription').val();
+            blog.imageId = imgId;
+
+            var socArr = {};
+            $(".group-info").find('input').each(function (index) {
+                var socName = $(this).attr("name");
+                var url = $(this).val();
+                if (isMatchPatternSocialLinks(socName, url) && url.length) {
+                    socArr[url] = socName;
+                }
+            });
+
+            blog.socLinks = socArr;
+
+            $.ajax({
+                type: "POST",
+                url: "/api/rest/newsService/blog/create",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(blog),
+                success: function (response) {
+                    window.location.href = '/blog/' + response.id;
+                },
+                error: function (response) {
+                    alert("Внутренняя ошибка сервера");
+                }
+            });
+        }
     });
     ///------------------------- Upload Blog -----------------------------------------------
 

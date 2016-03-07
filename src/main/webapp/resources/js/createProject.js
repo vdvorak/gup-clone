@@ -27,21 +27,12 @@ $(document).ready(function () {
 
                 success: function (data, textStatus, request) {
                     var id = data.id;
-                    var isImage = f.type.substring(0, 5) === 'image';
-                    if (isImage) {
+                    if (f.type.substring(0, 5) === 'image') {
                         imagesIds[id] = "image";
-                        $(".li-defaultIMG").css("display", "none");
-                        var cloneImg = $(".li-defaultIMG").clone()
-                            .removeClass('li-defaultIMG')
-                            .css("display", "inline-block");
-                        cloneImg.find('img')
-                            .attr("alt", "")
-                            .attr("src", '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + id)
-                            .attr("id", id);
-                        cloneImg.find('span')
-                            .click(deleteImgFromDB);
-                        cloneImg.appendTo('.defaultIMG ul');
-
+                        appendImg(id);
+                    } else {
+                        imagesIds[id] = "doc";
+                        appendDoc(id, f.name);
                     }
                 }
             });
@@ -80,20 +71,12 @@ $('#photoInput').change(function (event) {
 
             success: function (data, textStatus, request) {
                 var id = data.id;
-                var isImage = f.type.substring(0, 5) === 'image';
-                if (isImage) {
+                if (f.type.substring(0, 5) === 'image') {
                     imagesIds[id] = "image";
-                    $(".li-defaultIMG").css("display", "none");
-                    var cloneImg = $(".li-defaultIMG").clone()
-                        .removeClass('li-defaultIMG')
-                        .css("display", "inline-block");
-                    cloneImg.find('img')
-                        .attr("alt", "")
-                        .attr("src", '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + id)
-                        .attr("id", id);
-                    cloneImg.find('span')
-                        .click(deleteImgFromDB);
-                    cloneImg.appendTo('.defaultIMG ul');
+                    appendImg(id);
+                } else {
+                    imagesIds[id] = "doc";
+                    appendDoc(id, f.name);
                 }
             }
         });
@@ -101,21 +84,95 @@ $('#photoInput').change(function (event) {
     event.currentTarget.form.reset();
 });
 
+function appendImg(id) {
+    $("#project-img-block > .li-defaultIMG").css("display", "none");
+    var cloneImg = $("#project-img-block > .li-defaultIMG").clone()
+        .removeClass('li-defaultIMG')
+        .css("display", "inline-block");
+    cloneImg.find('img')
+        .attr("alt", "")
+        .attr("src", '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + id)
+        .attr("id", id)
+        .click(onClickSetMainImg);
+    cloneImg.find('span')
+        .click(deleteImgFromDB);
+    cloneImg.appendTo('#project-img-block');
+}
+
+function appendDoc(id, name) {
+    $("#project-doc-block > .li-defaultIMG").css("display", "none");
+    var cloneDoc = $("#project-doc-block > .li-defaultIMG").clone()
+        .removeClass('li-defaultIMG')
+        .css("display", "inline-block");
+    cloneDoc.find('img')
+        .attr("id", id);
+    cloneDoc.find('div')
+        .text(name);
+    cloneDoc.find('span')
+        .click(deleteImgFromDB);
+    cloneDoc.appendTo('#project-doc-block');
+}
+
+function onClickSetMainImg() {
+    var img = $(event.currentTarget);
+    var id = img.attr("id");
+    var isMain = img.hasClass("mainImg");
+    var allImgs = $("#project-img-block").find("img");
+    for (var i = 0; i < allImgs.length; i++) {
+        var curImg = $(allImgs[i]);
+        if (curImg.hasClass("mainImg")) {
+            curImg.removeClass("mainImg");
+        }
+    }
+    if (!isMain) img.addClass("mainImg");
+
+    for (var key in imagesIds) {
+        if (imagesIds[key] === "pic1") {
+            imagesIds[key] = "image";
+        }
+    }
+
+    if (img.hasClass("mainImg")) {
+        imagesIds[id] = "pic1";
+    }
+}
+
+function checkMainImg() {
+    var hasMainImg = false;
+
+    for(var key in imagesIds) {
+        if(imagesIds[key] === 'pic1') {
+            hasMainImg = true;
+            break;
+        }
+    }
+
+    if(!hasMainImg) {
+        for(var key in imagesIds) {
+            imagesIds[key] = 'pic1';
+            break;
+        }
+    }
+}
+
 function deleteImgFromDB(event) {
 
-    var picId = $(event.currentTarget).parent()
+    var idImg = $(event.currentTarget).parent()
         .find('img')
         .attr('id');
-    delete imagesIds[picId];
+    delete imagesIds[idImg];
+
+    var block = $(event.currentTarget).parent().parent();
+
     $.ajax({
         url: '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/delete/id/' + picId,
         method: 'POST',
         success: function (response) {
-            $('#' + picId).parent().remove();
+            $('#' + idImg).parent().remove();
 
-            var numberImg = $(".defaultIMG").find('img').length;
+            var numberImg = block.find('img').length;
             if(numberImg < 2) {
-                $(".li-defaultIMG").css("display", "inline-block");
+                block.find(".li-defaultIMG").css("display", "inline-block");
             }
         },
         error: function (response) {
@@ -142,10 +199,7 @@ $(document).on('click', 'button.info-submit', function (event) {
     //newProject.categoriesOfIndustry = $('#categoriesOfIndustry').val();
     //if (!categoriesOfIndustry) {incorrectValues += "Добавьте категории индустрии<br>";}
 
-    for(var key in imagesIds) {
-        imagesIds[key] = '1';
-        break;
-    }
+    checkMainImg();
     newProject.imagesIds = imagesIds;
 
     if (!incorrectValuesMsg.length) {
