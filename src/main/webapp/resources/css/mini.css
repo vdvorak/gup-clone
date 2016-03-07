@@ -76,9 +76,30 @@ a.explanation-point-tooltip img {
     margin-right: 15px;
 }
 
-#btn-offer-save:hover {
+#btn-offer-delete {
+    float: left;
+    margin-top: 60px;
+    color: #ffffff;
+    font: 400 16px ArianAMU;
+    height: 32px;
+    width: 133px;
+    border-radius: 5px;
+    border: 2px solid #C3212D;
+    background-color: #C3212D;
+    -webkit-transition: all .25s;
+    transition: all .25s;
+    margin-left: 15px;
+}
+
+
+#btn-offer-save:hover{
+      background-color: transparent;
+      color: rgb(153, 204, 102);
+  }
+
+#btn-offer-delete:hover {
     background-color: transparent;
-    color: rgb(153, 204, 102);
+    color: #C3212D;
 }
 
 .blog-social-container {

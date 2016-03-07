@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/dropdown-multicolumn.css">
     <link rel="stylesheet" href="/resources/css/mini.css">
+    <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
 </head>
 <body>
 <!--[if lt IE 8]>
@@ -302,9 +303,19 @@
     <%--<div class="new-ad-btn">--%>
     <div class="row">
         <%--<a href="#" class="btn btn-lg btn-success">Посмотреть</a>--%>
-        <div class="col-xs-4 col-xs-offset-8">
+        <div class="col-xs-4">
+            <button id="btn-offer-delete">Удалить</button>
+        </div>
+        <div class="col-xs-4 col-xs-offset-4">
             <button id="btn-offer-save">Сохранить</button>
         </div>
+    </div>
+
+    <div class="confirm" id="confirmOfferDelete" style="display: none">
+        <h1>Подтвердите удаление</h1>
+        <p>Объявление будет навсегда удалено</p>
+        <button id="cancelOfferDelBtn" autofocus>Отмена</button>
+        <button id="confirmOfferDelBtn">Удалить</button>
     </div>
 
     <p>&nbsp;</p>
@@ -794,6 +805,7 @@
             checkMainImg();
 
             var offer = {};
+            offer.id = '${offer.id}';
             offer.title = $("#new-label-1").val();
             offer.imagesIds = imgsArrResult;
             offer.canBeReserved = $("#reserve-checkbox").is(":checked");
@@ -871,7 +883,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/api/rest/offersService/offer/create",
+                url: "/api/rest/offersService/offer/edit",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 data: JSON.stringify(offer),
@@ -883,6 +895,10 @@
                 }
             });
         }
+    });
+
+    $('#btn-offer-delete').click(function () {
+
     });
 
     // --------------------- END MAIN FORM CONSTRUCTION ----------------------//
@@ -942,7 +958,7 @@
         cloneImg.find('span')
                 .click(deleteImg);
 
-        if(imgsArr[key] === "pic1") cloneImg.find('img').addClass('mainImg');
+        if(imgsArr[id] === "pic1") cloneImg.find('img').addClass('mainImg');
 
         cloneImg.appendTo('.ul-img-container');
     }
@@ -1207,6 +1223,7 @@
             isComplete = 1;
             drawOptions(category1Id);
             $('#category2-container').attr("style", "display: none");
+            $('select[name="price"]').change();
         }
     }
 
@@ -1238,6 +1255,7 @@
             isComplete = 1;
             drawOptions(category2Id);
             $('#category3-container').attr("style", "display: none");
+            $('select[name="price"]').change();
         }
     }
 
@@ -1250,6 +1268,7 @@
         $('#text-category3').text(a3.text());
         erase(category2Id);
         drawOptions(category3Id);
+        $('select[name="price"]').change();
     }
 
 
@@ -1326,6 +1345,29 @@
         $('#other-options').empty();
     }
     //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
+
+    //------------------ BEGIN DELETE OFFER ------------------------------------//
+    $('#btn-offer-delete').on('click', function () {
+        $("#confirmOfferDelete").show();
+    });
+
+    $('#cancelOfferDelBtn').on('click', function () {
+        $("#confirmOfferDelete").hide();
+    });
+
+    $('#confirmOfferDelBtn').on('click', function () {
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/offersService/offer/id/" + "${offer.id}" + "/delete",
+            statusCode: {
+                204: function () {
+                    window.location.href = '/offers';
+                }
+            }
+        });
+    });
+    //------------------ END DELETE OFFER ------------------------------------//
+
 </script>
 <%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
         async defer></script>--%>

@@ -1204,6 +1204,7 @@
             isComplete = 1;
             drawOptions(category1Id);
             $('#category2-container').attr("style", "display: none");
+            $('select[name="price"]').change();
         }
     }
 
@@ -1235,6 +1236,7 @@
             isComplete = 1;
             drawOptions(category2Id);
             $('#category3-container').attr("style", "display: none");
+            $('select[name="price"]').change();
         }
     }
 
@@ -1247,6 +1249,7 @@
         $('#text-category3').text(a3.text());
         erase(category2Id);
         drawOptions(category3Id);
+        $('select[name="price"]').change();
     }
 
 
