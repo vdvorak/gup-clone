@@ -20,7 +20,7 @@
             </div>
             <div class="mail">
                 <img src="/resources/images/mail.png" alt="mail">
-                <p>1</p>
+                <p id="unreadMessagesNum"></p>
                 <div class="dropDownMail">
                     <div class="mailMessage">
                         <img src="/resources/images/logo.png" alt="logo">
@@ -39,22 +39,23 @@
             </div>
             <div class="bell">
                 <img src="/resources/images/bell.png" alt="bell">
+                <p id="unreadNotificationsNum"></p>
                 <div class="dropDownBell">
-                    <div class="bellMessage">
-                        <img src="/resources/images/logo.png" alt="logo">
-                        <a href="#">Notification name!</a>
-                        <p>Description of the notification :0</p>
-                    </div>
-                    <div class="bellMessage">
-                        <img src="/resources/images/logo.png" alt="logo">
-                        <a href="#">Notification name!</a>
-                        <p>Description of the notification :0</p>
-                    </div>
-                    <div class="bellMessage">
-                        <img src="/resources/images/logo.png" alt="logo">
-                        <a href="#">Notification name!</a>
-                        <p>Description of the notification :0</p>
-                    </div>
+                    <%--<div class="bellMessage">--%>
+                        <%--<img src="/resources/images/logo.png" alt="logo">--%>
+                        <%--<a href="#">Notification name!</a>--%>
+                        <%--<p>Description of the notification :0</p>--%>
+                    <%--</div>--%>
+                    <%--<div class="bellMessage">--%>
+                        <%--<img src="/resources/images/logo.png" alt="logo">--%>
+                        <%--<a href="#">Notification name!</a>--%>
+                        <%--<p>Description of the notification :0</p>--%>
+                    <%--</div>--%>
+                    <%--<div class="bellMessage">--%>
+                        <%--<img src="/resources/images/logo.png" alt="logo">--%>
+                        <%--<a href="#">Notification name!</a>--%>
+                        <%--<p>Description of the notification :0</p>--%>
+                    <%--</div>--%>
                 </div>
             </div>
             <div class="book">

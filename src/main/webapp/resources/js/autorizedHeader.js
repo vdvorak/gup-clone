@@ -184,39 +184,83 @@ $('.dropDownBook').enscroll({
                 $('#headerProfileName').text("Безымянный");
             }
 
-            if (profile.contactList.length > 0) {
-                profile.contactList.forEach(function (contactId) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/api/rest/profilesService/profile/read/id/" + contactId,
-                        success: function (profile) {
-                            $('.dropDownBook').append(
-                                '<div class="friend">' +
-                                    getContactProfileImgTagHtml(profile.imgId) +
-                                    '<a href="/profile/id/' + contactId + '">' + profile.username + '</a>' +
-                                    '<img src="/resources/images/userMessage.png" alt="Message">' +
-                                '</div>');
-                        }
-                    });
-                });
-            } else {
-                $('#dropDownBook').append(
-                    '<div class="friend">' +
-                        '<p>Вы еще никого не добавили к себе в контакты.</p>' +
-                        '<a href="/profile/list">Найти знакомых</a>' +
-                    '</div>');
+            if (profile.unreadMessages > 0) {
+                $('#unreadMessagesNum').text(profile.unreadMessages);
             }
+
+            fillNotificationListBlock();
+            fillContactListBlock(profile.contactList);
 
             if (profile.contact.member == true) {
                 $('#socialBtn').hide();
             }
-
-            if (profile.unreadMessages > 0) {
-                $('.num').show().text(profile.unreadMessages);
-            }
-
         }
     });
+
+    function fillNotificationListBlock() {
+        var eventFO = {};
+        alert('fillNotificationListBlock');
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/api/rest/activityFeed/event/read/all",
+            data: JSON.stringify(eventFO),
+            statusCode: {
+                200: function (responseEntity) {
+                    alert(JSON.stringify(responseEntity));
+                    responseEntity.entities.forEach(function (event) {
+                        $('.dropDownBell').append('<div class="bellMessage">' +
+                            '<img src="' + getImgSrcForNotification(event.makerImgId) + '" alt="logo">' +
+                            '<p>' +
+                                '<a href="/profile/id/' + event.makerId + '">' + event.makerName + '</a> ' + event.type + ' ' +
+                                '<a href="">' + event.contentStoreId + '</a> ' +
+                            '</p>' +
+                        '</div>');
+                    });
+                },
+                204: function() {
+                    $('.dropDownBell').append(
+                        '<div class="bellMessage">' +
+                            '<p>Нет новых уведомлений</p>' +
+                        '</div>');
+                }
+            }
+        });
+    }
+
+    function getImgSrcForNotification(imgId) {
+        if (imgId) {
+            return '/api/rest/fileStorage/PROFILE/file/read/id/' + imgId + '?cachedImage=1';
+        } else {
+            return '/resources/images/no_avatar.jpg';
+        }
+    }
+
+    function fillContactListBlock(contactList) {
+        if (contactList.length > 0) {
+            contactList.forEach(function (contactId) {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/rest/profilesService/profile/read/id/" + contactId,
+                    success: function (profile) {
+                        $('.dropDownBook').append(
+                            '<div class="friend">' +
+                            getContactProfileImgTagHtml(profile.imgId) +
+                            '<a href="/profile/id/' + contactId + '">' + profile.username + '</a>' +
+                            '<img src="/resources/images/userMessage.png" alt="Message">' +
+                            '</div>');
+                    }
+                });
+            });
+        } else {
+            $('#dropDownBook').append(
+                '<div class="friend">' +
+                '<p>Вы еще никого не добавили к себе в контакты.</p>' +
+                '<a href="/profile/list">Найти знакомых</a>' +
+                '</div>');
+        }
+    }
 
     function getContactProfileImgTagHtml(imgId){
         var imgTag = '<img ';

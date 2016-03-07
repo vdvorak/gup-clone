@@ -133,6 +133,5 @@
         <script src="/resources/js/projectsAndInvestmentsUtil.js"></script>
         <script src="/resources/js/projectList.js"></script>
         <script src="/resources/js/investorList.js"></script>
-
-    </body>
+</body>
 </html>

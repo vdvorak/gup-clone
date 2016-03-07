@@ -9,7 +9,7 @@ public final class EventFilterOptions extends Event {
 
     public EventFilterOptions() {
         this.skip = 0;
-        this.limit = 30;
+        this.limit = 20;
     }
 
     public boolean isHideViewed() {
