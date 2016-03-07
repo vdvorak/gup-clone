@@ -1,6 +1,8 @@
 var imagesIds = {};
 
 $(document).ready(function () {
+    $(".chosen").chosen();
+
     // Setup the dnd listeners.
     var dropZone = document.getElementById('drop_zone');
     dropZone.addEventListener('dragover', handleDragOver, false);
@@ -185,17 +187,18 @@ $(document).on('click', 'button.info-submit', function (event) {
     var newProject = {};
 
     newProject.type =  $('input[class="greenCheckbox"]:checked').val();
-    if (!newProject.type) { incorrectValuesMsg += "Выбрете тип проекта \n";}
-
     newProject.title = $('#main-title-info').val();
-    if (newProject.title.length < 4 || newProject.title.length > 70) {incorrectValuesMsg += "Введите заголовок \n";}
-
     newProject.description = tinymce.activeEditor.getContent({format : 'raw'});
-    if (newProject.description.length < 50 || newProject.description.length > 5000) {incorrectValuesMsg += "Добавьте описание \n";}
-
     newProject.amountRequested = +$('#sum').val();
+
+    if (!newProject.type) { incorrectValuesMsg += "Выбрете тип проекта \n";}
+    if (newProject.title.length < 4 || newProject.title.length > 70) {incorrectValuesMsg += "Введите заголовок \n";}
+    if (newProject.description.length < 50 || newProject.description.length > 5000) {incorrectValuesMsg += "Добавьте описание \n";}
     if (newProject.amountRequested < 1) {incorrectValuesMsg += "Укажите нужную сумму \n";}
 
+    $('#categoriesOfIndustry').find('option:selected').each(function() {
+        alert($(this).val());
+    });
     //newProject.categoriesOfIndustry = $('#categoriesOfIndustry').val();
     //if (!categoriesOfIndustry) {incorrectValues += "Добавьте категории индустрии<br>";}
 

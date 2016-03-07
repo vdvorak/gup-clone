@@ -45,6 +45,11 @@
     <!--PAGE CONTENT START-->
 
     <div class="container2">
+        <div class="contentContainer" style="padding: 5px; margin-bottom: 10px;">
+            <button type="button" id="createProject" class="abutton">Создать свой проект</button>
+            <button type="button" id="createInvestorPost" class="abutton">Сделать инвестицию</button>
+        </div>
+
         <!-- Add "vip" class for "vip" users :3 -->
         <div class="contentContainer">
             <div class="projectContent">

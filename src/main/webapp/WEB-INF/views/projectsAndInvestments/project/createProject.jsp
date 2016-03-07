@@ -20,13 +20,9 @@
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="/resources/css/chosen.min.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-
-
-
-
-
 
     <link rel="stylesheet" href="/resources/css/alster.css">
     <link rel="stylesheet" href="/resources/css/mini.css">
@@ -94,6 +90,23 @@
                 <span class="currency">₴</span>
             </div>
 
+            <div class="field required">
+                <label for="categoriesOfIndustry" class="editorLabel">Категории индустрии</label>
+                <select  id="categoriesOfIndustry" class="chosen" multiple="true" data-placeholder="Выберите категории" style="width: 550px;">
+                    <optgroup label="Инженерно-строительные услуги">
+                        <option>Строительство коттеджей, домов</option>
+                        <option>Монтаж наладка и ремонт инженерных систем</option>
+                        <option>Категория 3</option>
+                        <option>Категория 4</option>
+                    </optgroup>
+                    <optgroup label="Swedish Cars">
+                        <option>Категория 5</option>
+                        <option>Категория 7</option>
+                        <option>Категория 10</option>
+                    </optgroup>
+                </select>
+            </div>
+
             <div class="field description">
                 <label for="description" class="editorLabel">Описание</label>
                 <textarea id="description" name='description' class="editorInput" placeholder="От 50 до 5000 символов"></textarea>
@@ -130,43 +143,20 @@
     </div>
 </div>
 
-
-
-
-
-
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
 </sec:authorize>
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
-<script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
-<script src="/resources/js/vendor/bootstrap.js"></script>
-<script src="/resources/js/jquery.bxslider.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
+<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
-<sec:authorize var="loggedIn" access="isAuthenticated()" />
-<c:choose>
-    <c:when test="${loggedIn}">
-        <script src="/resources/js/autorizedHeader.js"></script>
-        <script src="/resources/js/dialogueInHeder.js"></script>
-    </c:when>
-    <c:otherwise>
-        <script src="/resources/js/anonymHeader.js"></script>
-    </c:otherwise>
-</c:choose>
+<jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
-
-<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 <script src="/resources/js/createProject.js"></script>
-
-
-
 </body>
 </html>
