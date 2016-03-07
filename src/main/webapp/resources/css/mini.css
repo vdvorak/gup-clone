@@ -154,6 +154,11 @@ a.explanation-point-tooltip img {
 #offer-inpPrice {
     width: 100%;
 }
-
-
+#offer-container {
+    border: 4px solid #9c6;
+    border-radius: 5px;
+}
+#p-textlength {
+    text-align: right;
+}
 

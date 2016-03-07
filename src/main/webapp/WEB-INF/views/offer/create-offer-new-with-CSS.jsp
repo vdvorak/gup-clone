@@ -43,7 +43,7 @@
 
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
-<div class="container2">
+<div id="offer-container" class="container2">
     <h1 class="title-h1-blue text-center">Новое обьявление</h1>
     <%--<a href="#" class="pull-right">Мои обьявления</a>--%>
 
@@ -51,7 +51,7 @@
 
     <div class="container-fluid new-adv-box">
         <div class="row">
-            <div class="col-xs-3">
+            <div class="col-xs-4">
                 <label for="new-label-1">Заголовок<em>*</em></label>
             </div>
             <div class="col-xs-8">
@@ -59,7 +59,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-3">
+            <div class="col-xs-4">
                 <label for="categories-row">Рубрика<em>*</em></label>
             </div>
             <div class="col-xs-8">
@@ -91,11 +91,9 @@
                 </div>
             </div>
         </div>
-
-
         <div id="offer-price-row" class="row" style="display: none;">
 
-            <div class="col-xs-3">
+            <div class="col-xs-4">
                 <label for="offer-inpPrice">Цена<em>*</em></label>
             </div>
             <div id="price-options" class="col-xs-3">
@@ -114,11 +112,12 @@
                     <option>EUR</option>
                 </select>
             </div>
+
         </div>
 
 
         <div id="offer-options-row" class="row" style="display: none">
-            <div class="col-xs-3">
+            <div class="col-xs-4">
                 <label for="other-options">Дополнительно</label>
             </div>
             <div id="other-options" class="col-xs-8">
@@ -127,7 +126,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-3">
+            <div class="col-xs-4">
                 <label for="region-row">Регион<em>*</em></label>
             </div>
             <div class="col-xs-8">
@@ -219,7 +218,7 @@
         <%--</div>--%>
         <%--</div>--%>
         <div class="row">
-            <div class="col-xs-3">
+            <div class="col-xs-4">
                 <label for="new-label-3">Описание<em>*</em></label>
             </div>
             <div class="col-xs-8">
@@ -228,8 +227,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-8 col-xs-offset-3">
-                <p id="p-textlength" style="text-align: right;">Количество символов: 0</p>
+            <div class="col-xs-8 col-xs-offset-4">
+                <p id="p-textlength">Количество символов: 0</p>
             </div>
         </div>
         <div class="row">
@@ -246,7 +245,7 @@
             </div>
         </div>
         <div class="row file-browse-wrap">
-            <div class="col-xs-3">Фотографии</div>
+            <div class="col-xs-4">Фотографии</div>
             <div class="col-xs-8">
                 <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
                     <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
@@ -257,9 +256,9 @@
             </div>
         </div>
         <div class="row file-browse-wrap">
-            <div class="col-xs-3"></div>
+            <div class="col-xs-4"></div>
             <div id="drop_zone" class="col-xs-8">
-                <ul class="ul-img-container">
+                <ul class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
@@ -269,7 +268,7 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-3">
+            <div class="col-xs-4">
                 <label for="inpVideo">Добавить видео</label>
             </div>
             <div class="col-xs-8">
@@ -279,7 +278,7 @@
         <h2 class="title-h2-blue text-center">Контакты</h2>
 
         <div class="row">
-            <div class="col-xs-3">
+            <div class="col-xs-4">
                 <label for="inpAuthor">Контактное лицо<em>*</em></label>
             </div>
             <div class="col-xs-3">
@@ -293,7 +292,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-3">
+            <div class="col-xs-4">
                 <label for="inpEmail">E-mail<em>*</em></label>
             </div>
             <div class="col-xs-3">
@@ -307,7 +306,7 @@
             </div>
         </div>
         <div class="row row-telephone">
-            <div class="col-xs-3">
+            <div class="col-xs-4">
                 <label>Телефон</label>
             </div>
             <div class="col-xs-3">
@@ -324,7 +323,7 @@
     <%--<div class="new-ad-btn">--%>
     <div class="row">
         <%--<a href="#" class="btn btn-lg btn-success">Посмотреть</a>--%>
-        <div class="col-xs-3 col-xs-offset-8">
+        <div class="col-xs-4 col-xs-offset-8">
             <button id="btn-offer-save">Сохранить</button>
         </div>
     </div>
@@ -789,58 +788,54 @@
     // ---------------   END LOAD RESOURCES    --------------------------//
 
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
-    function showExplanationPointTooltip(elem) {
-        var wrapper = $('<a class="explanation-point-tooltip" href="#/"></a>');
-        var tooltipImg = $('<img src="/resources/css/images/explanation-point.png">');
-
-        elem.wrap(wrapper)
-                .parent()
-                .append(tooltipImg)
-                .focus()
-                .children('img')
-                .delay(1500)
-                .fadeOut(300, function () {
-                    $(this).remove();
-                    elem.unwrap();
-                });
-        return false;
-    }
 
     function validateOffer() {
+        $('.error-validation').removeClass('error-validation');
+
+        var arrValidate = [];
+
         var title = $("#new-label-1").val();
         if (title.length < 5 || title.length > 70) {
-            return showExplanationPointTooltip($("#new-label-1"));
+            arrValidate.push($("#new-label-1"));
         }
         if (!isComplete) {
-            return showExplanationPointTooltip($('#categories-row'));
+            arrValidate.push($('#categories-row'));
         }
 
         if ($('#offer-price-row').css('display') !== 'none' && $('select[name="price"]').val() === 'price' && !$('#offer-inpPrice').val()) {
-            return showExplanationPointTooltip($('#selection-currency'));
+            arrValidate.push($('#offer-inpPrice'));
         }
 
         var region = $('#text-region').text();
         var city = $('#text-city').text();
         if (region === 'Выберите область' || (region !== 'Вся Украина' && city === 'Выберите город')) {
-            return showExplanationPointTooltip($('#region-row'));
+            arrValidate.push($('#region-row'));
         }
 
         var description = $('#new-label-3').val();
         if (description.length < 50 || description.length > 4000) {
-            return showExplanationPointTooltip($('#new-label-3'));
+            arrValidate.push($('#new-label-3'));
         }
 
         if (!$('#inpEmail').val()) {
-            return showExplanationPointTooltip($('#inpEmail'));
+            arrValidate.push($('#inpEmail'));
         }
 
         if (!$('#inpAuthor').val()) {
-            return showExplanationPointTooltip($('#inpAuthor'));
+            arrValidate.push($('#inpAuthor'));
         }
-        return true;
+        for(var i = 0; i < arrValidate.length; i++) {
+            arrValidate[i].addClass('error-validation');
+        }
+        if(arrValidate.length) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     $('#btn-offer-save').click(function () {
+
         if (validateOffer()) {
 
             checkMainImg();
