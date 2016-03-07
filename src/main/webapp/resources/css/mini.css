@@ -162,3 +162,7 @@ a.explanation-point-tooltip img {
     text-align: right;
 }
 
+textarea {
+    resize: none;
+}
+

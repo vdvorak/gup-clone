@@ -29,7 +29,7 @@
 
 
     <link rel="stylesheet" href="/resources/css/alster.css">
-
+    <link rel="stylesheet" href="/resources/css/mini.css">
 
     <%--<link rel="stylesheet" href="/resources/css/font-awesome.css">--%>
     <%--<link rel="stylesheet" href="/resources/css/media-queries.css">--%>
@@ -100,18 +100,25 @@
             </div>
 
             <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
-                <input id="photoInput" type="file" style="display: none;" multiple="multiple" accept="image/*">
+                <input id="photoInput" type="file" style="display: none;" multiple="multiple">
             </form>
 
             <div class="field IMGUploader">
                 <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
             </div>
 
-            <div id="drop_zone" class="defaultIMG">
-                <ul>
+            <div id="drop_zone">
+                <ul id="project-img-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                    </li>
+                </ul>
+                <ul id="project-doc-block" class="ul-img-container ul-img-container-green">
+                    <li class="li-containerIMG li-defaultIMG">
+                        <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+                        <img src="http://www.uzscience.uz/upload/userfiles/images/doc.png" alt="defaultIMG">
+                        <div style="width: 100%; text-align: center; font-weight: bold"></div>
                     </li>
                 </ul>
             </div>
