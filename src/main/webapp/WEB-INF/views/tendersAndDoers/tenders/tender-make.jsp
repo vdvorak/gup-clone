@@ -1,3 +1,4 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: RAYANT
@@ -334,15 +335,20 @@
 
 <!-- script references -->
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
-<script>window.jQuery || document.write('<script src="resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+<sec:authorize access="isAuthenticated()">
+    <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
 
-<script src="resources/js/jquery.bxslider.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
+<script src="/resources/js/main.js"></script>
+<script src="/resources/js/logo-section.js"></script>
+<script src="/resources/js/search-bar.js"></script>
+
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
-<script src="resources/js/main.js"></script>
 
 <script>
     var imgsArr = {};

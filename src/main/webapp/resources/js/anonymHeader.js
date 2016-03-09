@@ -18,7 +18,6 @@
     });
 
     $("#registrationBtn").click(function(){
-
         var pass1 = $('#registration-password').val();
         var pass2 = $('#repeat-registration-password').val();
         var isMatch = isMatchRegEx(pass1);

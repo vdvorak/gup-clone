@@ -24,6 +24,7 @@ function appendProjects(projectFO) {
 }
 
 function appendProjectBlock(project, balance) {
+    project.description = project.description.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', ""); // Clear description from HTML tags
     $('#projectsBlock').append(
         '<div class="feedItem">' +
             <!--Add class "vip" to vip-tialize project-->

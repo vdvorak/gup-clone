@@ -61,12 +61,18 @@
             </div>
         </div>
 
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-        <script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
-        <script src="/resources/js/common.js"></script>
         <sec:authorize access="isAuthenticated()">
-            <script src="/resources/js/autorizedHeader.js"></script>
+            <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
         </sec:authorize>
+
+        <jsp:include page="/WEB-INF/templates/footer.jsp"/>
+
+        <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
+
+        <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
+        <script src="/resources/js/main.js"></script>
+        <script src="/resources/js/logo-section.js"></script>
+        <script src="/resources/js/search-bar.js"></script>
 
         <script>
             $(document).ready(function () {

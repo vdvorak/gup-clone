@@ -1,3 +1,4 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: RAYANT
@@ -22,6 +23,7 @@
   <link rel="stylesheet" href="/resources/css/main.css">
   <link rel="stylesheet" href="/resources/css/font-awesome.css">
   <link rel="stylesheet" href="/resources/css/mini.css">
+  <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
 </head>
 <body>
 
@@ -100,8 +102,8 @@
 
       <div class="clearfix"></div>
 
-      <div id="drop_zone" class="defaultIMG">
-        <ul id="tender-img-block" class="ul-img-container">
+      <div id="drop_zone">
+        <ul id="tender-img-block" class="ul-img-container ul-img-container-green">
           <li class="li-containerIMG li-defaultIMG">
             <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
             <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
@@ -117,6 +119,14 @@
       </div>
 
       <button id="tender-btn-save" type="submit" form="tender-make-form">Сохранить</button>
+      <button id="tender-btn-delete" type="button">Удалить</button>
+
+      <div class="confirm" id="confirmTenderDelete" style="display: none">
+        <h1>Подтвердите удаление</h1>
+        <p>Объявление будет навсегда удалено</p>
+        <button id="cancelTenderDelBtn" autofocus>Отмена</button>
+        <button id="confirmTenderDelBtn">Удалить</button>
+      </div>
 
       <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
         <input id="photoInput" type="file" style="display: none;" multiple="multiple">
@@ -127,15 +137,20 @@
   </div>
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
-<script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+<sec:authorize access="isAuthenticated()">
+  <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
 
-<script src="/resources/js/jquery.bxslider.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
-<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
+<jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 <script src="/resources/js/main.js"></script>
+<script src="/resources/js/logo-section.js"></script>
+<script src="/resources/js/search-bar.js"></script>
+
+<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
 <%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -788,8 +803,8 @@
     tender.title = $('#EnterTheTitle').val();
     tender.body = body;
     tender.tenderNumber = $('#TenderNumber').val();
-//        tender.begin = new Date($('#datepicker').val()).getTime();
-//        tender.end = new Date($('#datepicker2').val()).getTime();
+    tender.begin = $('#datepicker').datepicker( 'getDate' );
+    tender.end = $('#datepicker2').datepicker( 'getDate' );
     tender.type = $('.input-tenderRadio:checked').attr("data-type");
     tender.expectedPrice = $('#ExpectedValue').val();
     tender.hidePropose =  $('#HideBidders').prop('checked');
@@ -821,8 +836,29 @@
     });
   });
   //---------------------------- END SUBMIT -------------------------------------------------//
+  //------------------ BEGIN DELETE TENDER ------------------------------------//
+  $('#tender-btn-delete').on('click', function () {
+    $("#confirmTenderDelete").show();
+  });
 
+  $('#cancelTenderDelBtn').on('click', function () {
+    $("#confirmTenderDelete").hide();
+  });
 
+  $('#confirmTenderDelBtn').on('click', function (event) {
+    event.preventDefault();
+
+    $.ajax({
+      type: "POST",
+      url: "/api/rest/tenderService/tender/" + "${tender.id}" + "/delete",
+      statusCode: {
+        200: function () {
+          window.location.href = '/tenders';
+        }
+      }
+    });
+  });
+  //------------------ END DELETE TENDER ------------------------------------//
 
 </script>
 <%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"--%>

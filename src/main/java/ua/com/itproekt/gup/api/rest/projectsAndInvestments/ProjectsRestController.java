@@ -53,8 +53,8 @@ public class ProjectsRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityPage<Project>> listOfAllProjects(@RequestBody ProjectFilterOptions projectFO,
                                                                  HttpServletRequest request) {
-        if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
-            projectFO.setSimpleUserRestrictions(SecurityOperations.getLoggedUserId());
+        if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString()) && SecurityOperations.getLoggedUserId() != null) {
+            projectFO.setSimpleUserRestrictionsForProfileId(SecurityOperations.getLoggedUserId());
         }
 
         EntityPage<Project> projectPages = projectService.findProjectsWihOptions(projectFO);

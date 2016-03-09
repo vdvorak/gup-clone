@@ -1,4 +1,6 @@
 var offer = {};
+var options = '';
+var parameters = '';
 var phonesSet;
 var jsonCategory = '';
 var jsonSubcategory = '';
@@ -23,6 +25,25 @@ $.ajax({
     }
 });
 
+$.ajax({
+    type: "GET",
+    url: "/resources/json/parameters.json",
+    dataType: "json",
+    async: false,
+    success: function (response) {
+        parameters = response;
+    }
+});
+
+$.ajax({
+    type: "GET",
+    url: "/resources/json/searchValues.json",
+    dataType: "json",
+    async: false,
+    success: function (response) {
+        options = response;
+    }
+});
 
 //    alert("Перед ажаксом: " + offerId);
 $.ajax({
@@ -39,12 +60,30 @@ $.ajax({
 // ----------- Draw offer -------------------------------------------------------------------------------------------
 $('.offer-title').text(offer.title);
 $('.offer-price').text(offer.price);
-$('.offer-video').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/' + offer.videoUrl.split('=')[1] + '" frameborder="0" allowfullscreen></iframe>');
-$('.offer-map').append('<iframe width="300" height="225" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + offer.address.coordinates + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>');
 
-$('.offer-skype').text(offer.userInfo.skypeLogin);
+$('.view-counter').text(offer.views);
+
+if (offer.videoUrl) {
+    $('.offer-video').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/' + offer.videoUrl.split('=')[1] + '" frameborder="0" allowfullscreen></iframe>');
+}
+
+if (offer.address.coordinates) {
+    $('.offer-map').append('<iframe width="300" height="225" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + offer.address.coordinates + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>');
+}
+
+if (offer.userInfo.skypeLogin) {
+    $('.offer-skype').text(offer.userInfo.skypeLogin);
+} else {
+    $('.skype-block').remove()
+}
+
+if (offer.userInfo.contactName) {
+    $('.contact-name-block-unit').text(offer.userInfo.contactName)
+} else {
+    $('.contact-name-block').remove();
+}
+
 $('.offer-description').text(offer.description);
-
 
 var currency = $('.currency');
 switch (offer.currency) {
@@ -72,7 +111,6 @@ if (offer.address) {
         $('#offer-cities').append('<li><a href="#">' + " \ " + offer.address.city + '</a>' + '</li>')
     }
 }
-
 
 var breadcrumbs = offer.categories;
 if (breadcrumbs[0]) {
@@ -104,7 +142,15 @@ $('.show-number').on('click', function () {
     }
     $('.phone-numbers').text(phoneList);
     $('.show-number').remove();
-})
+});
+
+if (typeof loggedInProfile != 'undefined') {
+    if (offer.authorId === loggedInProfile.id) {
+        var editOfferLink = $('#edit-offer-link');
+        editOfferLink.show();
+        editOfferLink.attr('href', '/edit-offer/' + offer.id);
+    }
+}
 // ----------- Draw offer -------------------------------------------------------------------------------------------
 
 
@@ -113,12 +159,47 @@ $.ajax({
     type: "POST",
     url: "/api/rest/profilesService/profile/read/id/" + offer.authorId,
     success: function (profile) {
-        $('.author-name').text(profile.username);
+        if (profile.username) {
+            $('.author-name').text(profile.username)
+        } else {
+            $('.author-name').text("Имя автора не указано")
+        }
         $('.author-link').attr('href', '/profile/id/' + offer.authorId);
         $('.author-rating').text(profile.point);
     }
 });
 // ----------- Draw additional information about offer author ----------------------------------------------------
+
+
+// ---------------------------------------- Draw properties -------------------------------------------------------
+var offerProperties = offer.properties;
+for (var i in offerProperties) {
+    var key = offerProperties[i].key;
+    var value = offerProperties[i].value;
+    var key_ru = '';
+    var value_ru = '';
+    for (var j in parameters) {
+        if (parameters[j]["parameter"]["key"] === key) {
+            key_ru = parameters[j]["parameter"]["label"];
+            if (parameters[j]["parameter"]["type"] === 'input') {
+                value_ru = value;
+            }
+            break;
+        }
+    }
+    if (value_ru === '') {
+        for (var m in options) {
+            if (options[m]["k"][key] !== undefined && options[m]["v"][value] !== undefined) {
+                value_ru = options[m]["v"][value];
+            }
+        }
+    }
+    if (value_ru !== 'Цена' && value_ru !== '') {
+        $('#options').append('<div class="col-xs-6">' + key_ru + '</div><div class="col-xs-6">' + value_ru + '</div>')
+    }
+
+}
+// ---------------------------------------- Draw properties -------------------------------------------------------
 
 
 // ---------------    BEGIN DRAW OFFERS IN BOTTOM    --------------------------------------------------------------//

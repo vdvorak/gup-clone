@@ -52,7 +52,6 @@
 
 		<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
-
         <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 
         <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>

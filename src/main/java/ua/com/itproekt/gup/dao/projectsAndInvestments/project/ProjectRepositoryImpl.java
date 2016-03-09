@@ -74,10 +74,10 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             query.addCriteria(Criteria.where("status").is(projectFO.getStatus()));
         }
 
-        if (projectFO.getSimpleUserRestrictions() != null) {
+        if (projectFO.getSimpleUserRestrictionsForProfileId() != null) {
             query.addCriteria(new Criteria().orOperator(
                     Criteria.where("moderationStatus").is(ModerationStatus.COMPLETE),
-                    Criteria.where("authorId").is(projectFO.getSimpleUserRestrictions())));
+                    Criteria.where("authorId").is(projectFO.getSimpleUserRestrictionsForProfileId())));
         }
 
         if (projectFO.getModerationStatus() != null) {

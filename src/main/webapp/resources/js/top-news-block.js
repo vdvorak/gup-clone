@@ -97,6 +97,8 @@ function loadAndAppendTopUserNews() {
             var createdDate = getReadableDate(blogPosts[i]);
             var imagePreviewTag = getBlogPostImagePreviewTag(blogPosts[i]);
 
+            blogPosts[i].text = blogPosts[i].text.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', "");
+
             if (isLeftImgLocation) {
                 appendNewsWithLeftImg('topUserNews', blogPostURL, createdDate, imagePreviewTag, blogPosts[i].title, blogPosts[i].text);
                 isLeftImgLocation = false;

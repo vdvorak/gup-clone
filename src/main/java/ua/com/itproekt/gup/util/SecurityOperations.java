@@ -13,32 +13,24 @@ public final class SecurityOperations {
     }
 
     public static String getLoggedUserId() {
-        return getLoggedUser().getProfileId();
+        return (getLoggedUser() == null) ? null : getLoggedUser().getProfileId();
     }
 
     @Deprecated
     public static String getLoggedUserEmail() {
-        return getLoggedUser().getUsername();
+        return (getLoggedUser() == null) ? null : getLoggedUser().getUsername();
     }
 
     public static LoggedUser getLoggedUser() {
-        LoggedUser loggedUser = (LoggedUser) getCtxAuthentication().getPrincipal();
-        if (loggedUser == null) {
-            throw new AccessDeniedException("You don't have the appropriate privileges to access this resource");
-        }
-        return loggedUser;
+        Authentication auth = getCtxAuthentication();
+        return (auth == null) ? null : (LoggedUser) auth.getPrincipal();
     }
 
     public static String getCurrentUserEmail() {
-        return getCtxAuthentication().getName(); //get logged in username
+        return (getCtxAuthentication() == null) ? null : getCtxAuthentication().getName(); //get logged in username
     }
 
     public static Authentication getCtxAuthentication() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
-            throw new AccessDeniedException("You don't have the appropriate privileges to access this resource");
-        }
-
-        return authentication;
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 }

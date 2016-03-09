@@ -16,7 +16,7 @@ $(".fadeScreen").click(function() {
     $(".dropDownMoney").slideUp('fast');
 });
 
-//
+//ls
 
 $(".user").click(function() {
     $('.user > div').slideToggle('fast', function() {

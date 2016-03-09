@@ -20,8 +20,10 @@
 
     <%-- Cropper style --%>
     <link href="/resources/css/cropper.css" rel="stylesheet">
+
     <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
     <link rel="stylesheet" href="/resources/css/mini.css">
+    <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
 </head>
 <body>
 
@@ -71,40 +73,6 @@
                                                                                  name="FACEBOOK"
                         ><img src="/resources/img/minus.png" class="blog-btn-removeSocial"></div>
 
-                <%--<c:forEach var="socLink" items="${blog.socLinks.entrySet()}">--%>
-                <%--<c:choose>--%>
-                <%--<c:when test="${socLink.getKey() == 'FACEBOOK'}">--%>
-                <%--<input type="text" name="blogCreationSocial" class="blogCreationSocial"--%>
-                <%--placeholder="Добавить ссылку на Facebook" name="FACEBOOK"--%>
-                <%--value="${socLink.getValue()}">--%>
-                <%--</c:when>--%>
-                <%--<c:when test="${socLink.getKey() == 'VKONTAKTE'}">--%>
-                <%--<input type="text" name="blogCreationSocial" class="blogCreationSocial"--%>
-                <%--placeholder="Добавить ссылку на Vkontakte" name="VKONTAKTE"--%>
-                <%--value="${socLink.getValue()}">--%>
-                <%--</c:when>--%>
-                <%--<c:when test="${socLink.getKey() == 'LINKEDIN'}">--%>
-                <%--<input type="text" name="blogCreationSocial" class="blogCreationSocial"--%>
-                <%--placeholder="Добавить ссылку на LinkedIn" name="LINKEDIN"--%>
-                <%--value="${socLink.getValue()}">--%>
-                <%--</c:when>--%>
-                <%--<c:when test="${socLink.getKey() == 'GOOGLEPLUS'}">--%>
-                <%--<input type="text" name="blogCreationSocial" class="blogCreationSocial"--%>
-                <%--placeholder="Добавить ссылку на Google +" name="GOOGLEPLUS"--%>
-                <%--value="${socLink.getValue()}">--%>
-                <%--</c:when>--%>
-                <%--<c:when test="${socLink.getKey() == 'TWITTER'}">--%>
-                <%--<input type="text" name="blogCreationSocial" class="blogCreationSocial"--%>
-                <%--placeholder="Добавить ссылку на Twitter" name="TWITTER"--%>
-                <%--value="${socLink.getValue()}">--%>
-                <%--</c:when>--%>
-                <%--<c:when test="${socLink.getKey() == 'SKYPE'}">--%>
-                <%--<input type="text" name="blogCreationSocial" class="blogCreationSocial"--%>
-                <%--placeholder="Добавить ссылку на Skype" name="SKYPE" value="${socLink.getValue()}">--%>
-                <%--</c:when>--%>
-                <%--</c:choose>--%>
-                <%--</c:forEach>--%>
-
             </div>
 
             <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
@@ -140,11 +108,20 @@
             <label class="blogCreationLabel">Фотографии</label>
         </form>
 
+        <div class="clearfix"></div>
 
         <button type="button" class="SendEdition">Отправить редакции</button>
+        <button id="btn-blog-delete" type="button">Удалить блог</button>
 
         <div class="clearfix"></div>
     </div>
+</div>
+
+<div class="confirm" id="confirmBlogDelete" style="display: none">
+    <h1>Подтвердите удаление</h1>
+    <p>Объявление будет навсегда удалено</p>
+    <button id="cancelBlogDelBtn" autofocus>Отмена</button>
+    <button id="confirmBlogDelBtn">Удалить</button>
 </div>
 
 <!-- The Modal -->
@@ -512,6 +489,29 @@
         }
     });
     ///------------------------- Upload Blog -----------------------------------------------
+
+    //------------------ BEGIN DELETE BLOG ------------------------------------//
+    $('#btn-blog-delete').on('click', function () {
+        $("#confirmBlogDelete").show();
+    });
+
+    $('#cancelBlogDelBtn').on('click', function () {
+        $("#confirmBlogDelete").hide();
+    });
+
+    $('#confirmBlogDelBtn').on('click', function () {
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/newsService/blog/id/" + blogId + "/delete",
+            statusCode: {
+                204: function () {
+                    window.location.href = '/blogs-and-news';
+                }
+            }
+        });
+    });
+    //------------------ END DELETE BLOG ------------------------------------//
+
 </script>
 </body>
 </html>
