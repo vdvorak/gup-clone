@@ -74,13 +74,19 @@
                 <div class="col-xs-7">
                     Автор: <a class="author-link"><span class="author-name"></span></a>
                     <br>
-                    <span class="contact-name-block">Контактное лицо: <span class="contact-name-block-unit"></span></span>
+                    <span class="contact-name-block">Контактное лицо: <span
+                            class="contact-name-block-unit"></span></span>
 
                     <div class="clearfix"></div>
                     <span class="author-rating"></span>
 
                     <div class="clearfix"></div>
                     <a href="#">Все обьявления автора</a>
+
+                    <div class="clearfix"></div>
+                    <br>
+
+                    <div id="options" class="row panel"></div>
                 </div>
             </div>
             <div class="clearfix"></div>
