@@ -39,12 +39,22 @@ $.ajax({
 // ----------- Draw offer -------------------------------------------------------------------------------------------
 $('.offer-title').text(offer.title);
 $('.offer-price').text(offer.price);
-$('.offer-video').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/' + offer.videoUrl.split('=')[1] + '" frameborder="0" allowfullscreen></iframe>');
-$('.offer-map').append('<iframe width="300" height="225" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + offer.address.coordinates + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>');
 
-$('.offer-skype').text(offer.userInfo.skypeLogin);
+if (offer.videoUrl) {
+    $('.offer-video').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/' + offer.videoUrl.split('=')[1] + '" frameborder="0" allowfullscreen></iframe>');
+}
+
+if (offer.address.coordinates) {
+    $('.offer-map').append('<iframe width="300" height="225" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + offer.address.coordinates + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>');
+}
+
+if (offer.userInfo.skypeLogin) {
+    $('.offer-skype').text(offer.userInfo.skypeLogin);
+} else {
+    $('.skype-block').remove()
+}
+
 $('.offer-description').text(offer.description);
-
 
 var currency = $('.currency');
 switch (offer.currency) {
@@ -72,7 +82,6 @@ if (offer.address) {
         $('#offer-cities').append('<li><a href="#">' + " \ " + offer.address.city + '</a>' + '</li>')
     }
 }
-
 
 var breadcrumbs = offer.categories;
 if (breadcrumbs[0]) {
@@ -106,7 +115,7 @@ $('.show-number').on('click', function () {
     $('.show-number').remove();
 });
 
-if (typeof loggedInProfile != 'undefined'){
+if (typeof loggedInProfile != 'undefined') {
     if (offer.authorId === loggedInProfile.id) {
         var editOfferLink = $('#edit-offer-link');
         editOfferLink.show();
