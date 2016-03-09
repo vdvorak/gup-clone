@@ -1,86 +1,86 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!-- залогиненный -->
-        <div class="Logged">
-            <div id="overlay"></div><!-- Пoдлoжкa -->
-            <div class="user">
-                <img id="headerProfileImg" src="" alt="face">
-                <p id="headerProfileName"></p>
-                <div>
-                    <div class="clearfix"></div>
-                    <a href="/prioffice">Личный кабинет</a>
-                    <a href="/dialogues">Мои сообщения</a>
-                    <a href="/logout">Выход</a>
-                    <a href="/edit-profile">Редактировать страницу</a>
-                </div>
+<div class="Logged">
+    <div id="overlay"></div><!-- Пoдлoжкa -->
+    <div class="user">
+        <img id="headerProfileImg" src="" alt="face">
+        <p id="headerProfileName"></p>
+        <div>
+            <div class="clearfix"></div>
+            <a href="/prioffice">Личный кабинет</a>
+            <a href="/dialogues">Мои сообщения</a>
+            <a href="/logout">Выход</a>
+            <a href="/edit-profile">Редактировать страницу</a>
+        </div>
+    </div>
+    <div class="mail">
+        <img src="/resources/images/mail.png" alt="mail">
+        <p id="unreadMessagesNum"></p>
+        <div class="dropDownMail">
+            <div class="mailMessage">
+                <img src="/resources/images/logo.png" alt="logo">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat cupiditate architecto autem officiis ratione, praesentium laborum illum culpa veniam iste commodi aliquam libero quod ducimus, corporis, ipsa inventore earum sint!</p>
             </div>
-            <div class="mail">
-                <img src="/resources/images/mail.png" alt="mail">
-                <p id="unreadMessagesNum"></p>
-                <div class="dropDownMail">
-                    <div class="mailMessage">
-                        <img src="/resources/images/logo.png" alt="logo">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat cupiditate architecto autem officiis ratione, praesentium laborum illum culpa veniam iste commodi aliquam libero quod ducimus, corporis, ipsa inventore earum sint!</p>
-                    </div>
-                    <div class="mailMessage">
-                        <img src="/resources/images/logo.png" alt="logo">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat cupiditate architecto autem officiis ratione</p>
-                    </div>
-                    <div class="answer">
-                        <img src="/resources/images/logo.png" alt="logo">
-                        <textarea required></textarea>
-                        <button>Ответить</button>
-                    </div>
-                </div>
+            <div class="mailMessage">
+                <img src="/resources/images/logo.png" alt="logo">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat cupiditate architecto autem officiis ratione</p>
             </div>
-            <div class="bell">
-                <img src="/resources/images/bell.png" alt="bell">
-                <p id="unreadNotificationsNum"></p>
-                <div class="dropDownBell">
-                    <%--<div class="bellMessage">--%>
-                        <%--<img src="/resources/images/logo.png" alt="logo">--%>
-                        <%--<a href="#">Notification name!</a>--%>
-                        <%--<p>Description of the notification :0</p>--%>
-                    <%--</div>--%>
-                    <%--<div class="bellMessage">--%>
-                        <%--<img src="/resources/images/logo.png" alt="logo">--%>
-                        <%--<a href="#">Notification name!</a>--%>
-                        <%--<p>Description of the notification :0</p>--%>
-                    <%--</div>--%>
-                    <%--<div class="bellMessage">--%>
-                        <%--<img src="/resources/images/logo.png" alt="logo">--%>
-                        <%--<a href="#">Notification name!</a>--%>
-                        <%--<p>Description of the notification :0</p>--%>
-                    <%--</div>--%>
-                </div>
-            </div>
-            <div class="book">
-                <img src="/resources/images/book.png" alt="book">
-                <div class="dropDownBook">
-                    <%--<div class="friend">--%>
-                        <%--<img src="/resources/images/userBook.png" alt="user">--%>
-                        <%--<a href="#">Contact Name</a>--%>
-                        <%--<img src="/resources/images/userMessage.png" alt="Message">--%>
-                    <%--</div>--%>
-                    <%--<div class="friend">--%>
-                        <%--<img src="/resources/images/userBook.png" alt="user">--%>
-                        <%--<a href="#">Contact Name</a>--%>
-                        <%--<img src="/resources/images/userMessage.png" alt="Message">--%>
-                    <%--</div>--%>
-                    <%--<div class="friend">--%>
-                        <%--<img src="/resources/images/userBook.png" alt="user">--%>
-                        <%--<a href="#">Contact Name</a>--%>
-                        <%--<img src="/resources/images/userMessage.png" alt="Message">--%>
-                    <%--</div>--%>
-                </div>
-            </div>
-            <div class="money">
-                <p><span id="score"></span> грн.</p>
-                <div class="dropDownMoney">
-                    <button>Пополнить баланс</button>
-                </div>
+            <div class="answer">
+                <img src="/resources/images/logo.png" alt="logo">
+                <textarea required></textarea>
+                <button>Ответить</button>
             </div>
         </div>
+    </div>
+    <div class="bell">
+        <img src="/resources/images/bell.png" alt="bell">
+        <p id="unreadNotificationsNum"></p>
+        <div class="dropDownBell">
+            <%--<div class="bellMessage">--%>
+                <%--<img src="/resources/images/logo.png" alt="logo">--%>
+                <%--<a href="#">Notification name!</a>--%>
+                <%--<p>Description of the notification :0</p>--%>
+            <%--</div>--%>
+            <%--<div class="bellMessage">--%>
+                <%--<img src="/resources/images/logo.png" alt="logo">--%>
+                <%--<a href="#">Notification name!</a>--%>
+                <%--<p>Description of the notification :0</p>--%>
+            <%--</div>--%>
+            <%--<div class="bellMessage">--%>
+                <%--<img src="/resources/images/logo.png" alt="logo">--%>
+                <%--<a href="#">Notification name!</a>--%>
+                <%--<p>Description of the notification :0</p>--%>
+            <%--</div>--%>
+        </div>
+    </div>
+    <div class="book">
+        <img src="/resources/images/book.png" alt="book">
+        <div class="dropDownBook">
+            <%--<div class="friend">--%>
+                <%--<img src="/resources/images/userBook.png" alt="user">--%>
+                <%--<a href="#">Contact Name</a>--%>
+                <%--<img src="/resources/images/userMessage.png" alt="Message">--%>
+            <%--</div>--%>
+            <%--<div class="friend">--%>
+                <%--<img src="/resources/images/userBook.png" alt="user">--%>
+                <%--<a href="#">Contact Name</a>--%>
+                <%--<img src="/resources/images/userMessage.png" alt="Message">--%>
+            <%--</div>--%>
+            <%--<div class="friend">--%>
+                <%--<img src="/resources/images/userBook.png" alt="user">--%>
+                <%--<a href="#">Contact Name</a>--%>
+                <%--<img src="/resources/images/userMessage.png" alt="Message">--%>
+            <%--</div>--%>
+        </div>
+    </div>
+    <div class="money">
+        <p><span id="score"></span> грн.</p>
+        <div class="dropDownMoney">
+            <button>Пополнить баланс</button>
+        </div>
+    </div>
+</div>
 
 <%--<div class="menu">--%>
 <%--<div class="container2">--%>

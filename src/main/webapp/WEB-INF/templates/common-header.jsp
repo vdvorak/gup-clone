@@ -4,6 +4,7 @@
 
 <header class="menu">
     <div class="container2">
+
         <sec:authorize var="loggedIn" access="isAuthenticated()" />
         <c:choose>
             <c:when test="${loggedIn}">
@@ -13,6 +14,7 @@
                 <jsp:include page="/WEB-INF/templates/anonymHeader.jsp"/>
             </c:otherwise>
         </c:choose>
+
     </div>
 </header>
 
