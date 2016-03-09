@@ -64,7 +64,6 @@
         <script src="/resources/js/top-offers-block.js"></script>
         <script src="/resources/js/top-tenders-block.js"></script>
         <script src="/resources/js/top-projects-block.js"></script>
-        <script src="/resources/js/dialogueInHeader.js"></script>
 
     </body>
 </html>

@@ -45,16 +45,7 @@ $(".user > div").click(function(event) {
 
 //
 
-$(".mail").click(function(){
-    $('.dropDownMail').slideToggle('fast', function() {
-        $(this).toggleClass('selecionado');
-        if( $('.selecionado').is(':visible') ) {
-            $(".fadeScreen").show()
-        } else {
-            $(".fadeScreen").hide()
-        }
-    });
-});
+
 
 $(".mailMessage").click(function(event){
     event.stopPropagation();
@@ -274,28 +265,63 @@ $('.dropDownBook').enscroll({
         return imgTag;
     }
 
-    $(".btnMail").mouseenter(function(){
-        if ($('.answer').is(':visible') ) {
-            return null;
-        } else {
-            $(".mailDrop").show('fast');
-            $(".mailDrop-message").show('slow');
-            $("#overlay").show();
+
+
+    $(".mail").click(function(){
+        $('.dropDownMail').slideToggle('fast', function() {
+            $(this).toggleClass('selecionado');
+            if( $('.selecionado').is(':visible') ) {
+                $(".fadeScreen").show()
+            } else {
+                $(".fadeScreen").hide()
+            }
+        });
+    });
+
+$(".mailMessage").click(function(event){
+    event.stopPropagation();
+    $(".mailMessage").hide('slow');
+    $(".answer").show('slow');
+});
+
+$(".mailMessage, .answer").mouseleave(function() {
+    setTimeout( function () {
+        if ( !$('.mailMessage:hover, .answer:hover').length ) {
+            $('.selecionado').removeClass('selecionado');
+            $('.dropDownMail').slideUp('fast');
+            $('.answer').slideUp('fast');
+            $('.mailMessage').slideDown('fast');
+            $('.fadeScreen').hide('fast');
         }
-    });
+    }, 1000);
+});
 
-    $(".mailDrop-message").click(function(){
-        $(".mailDrop-message").hide('slow');
-        $(".answer").show('slow');
-        $("#overlay").show();
-    });
+    //$("#overlay").click(function(){
+    //    $(".mailMessage").show('slow');
+    //    $(".answer").hide('slow');
+    //    $("#overlay").hide();
+    //    $(".mailDrop").hide();
+    //});
 
-    $("#overlay").click(function(){
-        $(".mailDrop-message").show('slow');
-        $(".answer").hide('slow');
-        $("#overlay").hide();
-        $(".mailDrop").hide();
-    });
+//mailMessage=mailDrop-message
+//dropDownMail=dialogStart
+alert("zazaza");
+var dialogInit = $('#dropDownMail').html();
+$('.mailMessage').last().hide();
+$.ajax({
+    type: "POST",
+    url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
+    success: function (response) {
+        alert("ololo = " + response);
+        var data = JSON.parse(response)
+        for (var i in data) {
+            $('#dropDownMail').append($('.mailMessage').last().clone());
+            $('.mailMessage p').last().text(data[i]['message']);
+            $('.mailMessage img').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + data[i]['authorId']).attr('width', '44').attr('height', '44');
+        }
+        $('.mailMessage').first().remove();
+    }
+});
 
 
     //$("#notificationBellImg").click(function () {
