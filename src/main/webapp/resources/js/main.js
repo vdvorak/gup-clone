@@ -133,7 +133,7 @@ $(document).ready(function () {
         $.ajax({
             url: '/account/getLiqPayParam',
             method: 'POST',
-            data: {'amount': $('#money_amount').val()},
+            data: {'amount': $('#header_money_amount').val()},
             success: function (response) {
                 $('#liq-pay-data').val(response[0]);
                 $('#liq-pay-signature').val(response[1]);
