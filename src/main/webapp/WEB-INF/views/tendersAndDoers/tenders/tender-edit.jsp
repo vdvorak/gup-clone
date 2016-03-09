@@ -797,8 +797,8 @@
     tender.title = $('#EnterTheTitle').val();
     tender.body = body;
     tender.tenderNumber = $('#TenderNumber').val();
-//        tender.begin = new Date($('#datepicker').val()).getTime();
-//        tender.end = new Date($('#datepicker2').val()).getTime();
+    tender.begin = $('#datepicker').datepicker( 'getDate' );
+    tender.end = $('#datepicker2').datepicker( 'getDate' );
     tender.type = $('.input-tenderRadio:checked').attr("data-type");
     tender.expectedPrice = $('#ExpectedValue').val();
     tender.hidePropose =  $('#HideBidders').prop('checked');
