@@ -76,7 +76,7 @@
 
 .sideBlock {
     float: left;
-    margin-top: 65px;
+    margin-top: 30px;
 }
 
 .contentBlock {
@@ -102,13 +102,13 @@
 }
 
 .sideBlock .mainInfo {
-    margin-top: 41px;
+    margin-top: 0px;
 }
 
 .sideBlock .mainInfo .name {
     color: #1269a7;
-    font: 20px DroidSansBold;
-    max-width: 100px;
+    font: 16px DroidSansBold;
+    max-width: 200px;
 }
 
 .sideBlock .mainInfo .photo {
@@ -263,13 +263,13 @@
 .contactsMain {
     width: 600px;
     margin: 0 auto;
-    margin-top: 89px;
+    margin-top: 30px;
 }
 
 .contactsMain .topBar {
     position: relative;
     width: 454px;
-    height: 30px;
+    height: 35px;
     margin: 0 auto;
     padding: 0;
     background-color: #99cc66;
@@ -281,7 +281,7 @@
     margin: 5px 9px;
     padding: 0;
     overflow: hidden;
-    height: 16px;
+    height: 21px;
     width: 340px;
     border: none;
 }
@@ -290,9 +290,9 @@
     position: absolute;
     padding: 0;
     margin: 0;
-    width: 290px;
+    width: 100%;
     color: #68717a;
-    font: 10px DroidSans;
+    font: 12px DroidSans;
     height: 100%;
     border: none;
     border-radius: 10px 0 0 10px;
@@ -322,7 +322,7 @@
 
 .contactsMain .topBar .count {
     position: absolute;
-    right: 7px;
+    right: 12px;
     top: 6px;
     color: #ffffff;
     font: 13px ArianAMU;
@@ -337,7 +337,7 @@
 
 .contactsMain .contactsContainer {
     position: relative;
-    max-height: 130px;
+    max-height: 125px;
     padding: 0 15px;
     padding-bottom: 30px;
     margin-top: -7px;
@@ -640,6 +640,7 @@
     cursor: pointer;
 }
 .historyContainer {
+    width: 100%!important;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

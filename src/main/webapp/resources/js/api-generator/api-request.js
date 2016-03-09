@@ -44,6 +44,7 @@ var Request = (function () {
 
     return Request
 })()
+Request.debug = false
 Request.prototype.post = function (url, data, success, error) {
     var self = this;
     if (success == null) {
@@ -64,9 +65,7 @@ Request.prototype.post = function (url, data, success, error) {
             function throwError(errorMessage) {
                 if (error == null) {
                     error = function (msg) {
-                        //alert('Request error: ' + JSON.stringify(msg));
-                        //console.error('Request error: ' + JSON.stringify(msg));
-                        console.error(String.format('data: [0]\nresponse: [1]',
+                        console.error(String.format('Request error: [0]\nresponse: [1]',
                             data, JSON.stringify(msg)))
                     };
                 }
@@ -83,7 +82,13 @@ Request.prototype.post = function (url, data, success, error) {
                 catch (err) {
                     //throwError("can't parse response");
                 }
-                //console.info(String.format('url: [0], data: [1]\nresponse: [2]', self.baseHref + url, data, JSON.stringify(res)))
+                if (Request.debug){
+                    console.groupCollapsed(self.baseHref + url)
+                    var niceData = JSON.stringify(JSON.parse(data), null, 2)
+                    console.log('in: ' + niceData)
+                    console.log('out: ' + JSON.stringify(res, null, 2))
+                    console.groupEnd()
+                }
                 success(res);
             }
             else {

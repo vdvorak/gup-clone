@@ -40,7 +40,7 @@
 
 <div class="container2" ng-app="routerApp">
     <div class="sideBlock">
-        <a href="#" class="buttonBack" onclick="window.history.back()">&lt; Назад</a>
+        <%--<a href="#" class="buttonBack" onclick="window.history.back()">&lt; Назад</a>--%>
         <div class="mainInfo" data-id="${profile.id}">
             <div class="name">${profile.username}</div>
             <div class="photo greenBox">
@@ -64,18 +64,19 @@
                     <a class="" data-toggle="collapse" data-parent="#userSettingsSet" href="#collapseOne">Права</a>
                     <div id="collapseOne" class="collapse in">
                         <div class="panel-body">
-                            <div class="radioGroup">
-                                <div class="row">
-                                    <label for="type-restruct">Администратор</label>
-                                    <label class="label-checkbox">
-                                        <input type="checkbox" class="greenCheckbox" id="type-restruct" value="restruct" name="type" /><span></span></label>
-                                </div>
-                                <div class="row">
-                                    <label for="type-paper">Боженька</label>
-                                    <label class="label-checkbox">
-                                        <input type="checkbox" class="greenCheckbox" id="type-paper" value="paper" name="type" /><span></span></label>
-                                </div>
-                            </div>
+                            <%--<div class="radioGroup">--%>
+                                <%--<div class="row">--%>
+                                    <%--<label for="type-restruct">Администратор</label>--%>
+                                    <%--<label class="label-checkbox">--%>
+                                        <%--<input type="checkbox" class="greenCheckbox" id="type-restruct" value="restruct" name="type" /><span></span></label>--%>
+                                <%--</div>--%>
+                                <%--<div class="row">--%>
+                                    <%--<label for="type-paper">Боженька</label>--%>
+                                    <%--<label class="label-checkbox">--%>
+                                        <%--<input type="checkbox" class="greenCheckbox" id="type-paper" value="paper" name="type" /><span></span></label>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                            Нет данных
                         </div>
                     </div>
                 </div>
@@ -87,32 +88,32 @@
                                 <div class="row">
                                     <label for="tenders">Мои тендеры</label>
                                     <label class="label-checkbox">
-                                        <input gbox-id="myTenders" type="checkbox" class="greenCheckbox" id="tenders" value="tenders" name="gboxes" checked="true" /><span></span></label>
+                                        <input gbox-id="myTenders" type="checkbox" class="greenCheckbox" id="tenders" value="TENDER" name="gboxes" /><span></span></label>
                                 </div>
                                 <div class="row">
                                     <label for="projects">Мои проекты</label>
                                     <label class="label-checkbox">
-                                        <input gbox-id="myProjects" type="checkbox" class="greenCheckbox" id="projects" value="projects" name="gboxes" checked="true" /><span></span></label>
+                                        <input gbox-id="myProjects" type="checkbox" class="greenCheckbox" id="projects" value="PROJECT" name="gboxes" /><span></span></label>
                                 </div>
                                 <div class="row">
                                     <label for="offers">Мои обьявления</label>
                                     <label class="label-checkbox">
-                                        <input gbox-id="myOffers" type="checkbox" class="greenCheckbox" id="offers" value="offers" name="gboxes" checked="true" /><span></span></label>
+                                        <input gbox-id="myOffers" type="checkbox" class="greenCheckbox" id="offers" value="OFFER" name="gboxes" /><span></span></label>
                                 </div>
                                 <div class="row">
                                     <label for="balance">Мой баланс</label>
                                     <label class="label-checkbox">
-                                        <input gbox-id="myBalance" type="checkbox" class="greenCheckbox" id="balance" value="balance" name="gboxes" checked="true" /><span></span></label>
+                                        <input gbox-id="myBalance" type="checkbox" class="greenCheckbox" id="balance" value="BALANCE" name="gboxes" /><span></span></label>
                                 </div>
                                 <div class="row">
                                     <label for="news">Мои новости</label>
                                     <label class="label-checkbox">
-                                        <input gbox-id="myNews" type="checkbox" class="greenCheckbox" id="news" value="news" name="gboxes" checked="true" /><span></span></label>
+                                        <input gbox-id="myNews" type="checkbox" class="greenCheckbox" id="news" value="NEWS" name="gboxes" /><span></span></label>
                                 </div>
                                 <div class="row">
                                     <label for="investments">Мои инвестиции</label>
                                     <label class="label-checkbox">
-                                        <input gbox-id="myInvestments" type="checkbox" class="greenCheckbox" id="investments" value="investments" name="gboxes" checked="true" /><span></span></label>
+                                        <input gbox-id="myInvestments" type="checkbox" class="greenCheckbox" id="investments" value="INVESTMENT" name="gboxes" /><span></span></label>
                                 </div>
                             </div>
                         </div>
@@ -122,11 +123,11 @@
                     <a class="collapsed" data-toggle="collapse" data-parent="#userSettingsSet" href="#collapseThree">Уведомления</a>
                     <div id="collapseThree" class="collapse">
                         <div class="panel-body">
-                            Хочу все получать на мыло!
+                            Нет данных
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="info-submit">Сохранить</button>
+                <button type="button" class="info-submit">Сохранить</button>
             </form>
             <div class="settingsToggle" onclick="toggleSettingsBox(this);"></div>
 
@@ -137,7 +138,6 @@
             <div class="topBar">
                 <div class="searchContactsF">
                     <input class="text" type="text" placeholder="Введите ФИО или ID">
-                    <input class="startSearch" type="button" value="Найти">
                 </div>
                 <div class="count" onclick="contactToggle();">Контакты: ${profile.contactList.size()}</div>
             </div>
@@ -145,9 +145,9 @@
                 <div class="_contact" data-id="${contact}"></div>
             </c:forEach>
             <div class="contactsContainer greenBox" toggler="" ng-controller="contacts">
-                <div class="persona {{vip}}" ng-repeat="contact in contacts" data-id="{{imgId}}">
+                <div class="persona {{contact.vip}}" ng-repeat="contact in contacts" data-id="{{contact.id}}">
                     <a href="{{contact.homepage}}" class="photo border-color">
-                        <img src="{{imgId}}" alt="profile avatar">
+                        <img src="{{contact.pic}}" alt="profile avatar">
                         <span class="sendMessage"></span>
                         <span class="name">{{contact.name}}</span>
                     </a>
@@ -178,7 +178,7 @@
                 </form>
                 <%--<div class="scrollPreffered"></div>--%>
             </div>
-            <div class="notifications" id="tab-notifications">
+            <div class="notifications" id="tab-notifications" stype="display: none;">
                 <%--<a href="#" class="notify" ng-repeat="notify in notifies">--%>
                     <%--<div class="persona">--%>
                         <%--<img src="/resources/css/images/rupor.png" alt="" class="avatar">--%>
@@ -189,7 +189,7 @@
                 <%--</a>--%>
                 <c:if test="${not empty events}">
                     <c:forEach items="${events}" var="event">
-                        <a href="#" class="notify" data-uid="${event.targetUId}" data-contentId="${event.contentId}" data-creatorEventId="${event.makerId}">
+                        <a href="#" class="notify" data-targetUId="${event.targetUId}" data-contentId="${event.contentId}" data-makerId="${event.makerId}" data-contentStoreId="${event.contentStoreId}">
                             <div class="persona">
                                 <img src="" alt="" class="avatar">
                                 <%--<div class="date">${event.createdDate}</div>--%>
@@ -205,7 +205,7 @@
             </div>
         </div>
         <div class="historyContainer">
-            <div class="greenBox historyBox inlineBox optional" id="myTenders" toggler="">
+            <div class="greenBox historyBox inlineBox optional closed" id="myTenders" toggler="" style="display: none;">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мои тендеры</div>
                 <div class="historyContent">
@@ -221,7 +221,7 @@
                 <div class="closeBox"></div>
                 <div class="arrow toggler"></div>
             </div>
-            <div class="greenBox historyBox inlineBox optional" id="myProjects" toggler="">
+            <div class="greenBox historyBox inlineBox optional closed" id="myProjects" toggler="" style="display: none;">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мои проекты</div>
                 <div class="historyContent">
@@ -237,13 +237,13 @@
                 <div class="closeBox"></div>
                 <div class="arrow toggler"></div>
             </div>
-            <div class="greenBox historyBox inlineBox optional" id="myNews" toggler="">
+            <div class="greenBox historyBox inlineBox optional closed" id="myNews" toggler="" style="display: none;">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мои новости</div>
                 <div class="historyContent">
                     <c:if test="${not empty blogposts}">
                         <c:forEach items="${blogposts}" var="n">
-                            <a class="historyItem" href="/blog/${n.id}">${n.title}</a>
+                            <a class="historyItem" href="/blog-post/view/id/${n.id}">${n.title}</a>
                         </c:forEach>
                     </c:if>
                     <c:if test="${empty blogposts}">
@@ -253,7 +253,7 @@
                 <div class="closeBox"></div>
                 <div class="arrow toggler"></div>
             </div>
-            <div class="greenBox historyBox inlineBox optional" id="myOffers" toggler="">
+            <div class="greenBox historyBox inlineBox optional closed" id="myOffers" toggler="" style="display: none;">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мои обьявления</div>
                 <div class="historyContent">
@@ -269,7 +269,7 @@
                 <div class="closeBox"></div>
                 <div class="arrow toggler"></div>
             </div>
-            <div class="greenBox historyBox inlineBox optional" id="myInvestments" toggler="">
+            <div class="greenBox historyBox inlineBox optional closed" id="myInvestments" toggler="" style="display: none;">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мои инвестиции</div>
                 <div class="historyContent">
@@ -277,7 +277,7 @@
                 <div class="closeBox"></div>
                 <div class="arrow toggler"></div>
             </div>
-            <div class="greenBox historyBox inlineBox optional" id="myBalance" toggler="">
+            <div class="greenBox historyBox inlineBox optional closed" id="myBalance" toggler="" style="display: none;">
                 <div class="historyIcon toggler"></div>
                 <div class="titleMain toggler">Мой баланс</div>
                 <div class="historyContent">
@@ -292,6 +292,11 @@
         <div class="clearfix"></div>
     </div>
 </div>
+<sec:authorize access="isAuthenticated()">
+    <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
+
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
 <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 

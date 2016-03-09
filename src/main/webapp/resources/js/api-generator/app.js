@@ -151,7 +151,7 @@ R._libra = {
                 username_username: '>',
                 all: '>'
             },
-            update: '>',
+            edit: '>',
             updateByAdmin: '>',
             delete: {
                 id_id: '>'
