@@ -124,16 +124,18 @@
     </div>
 </div>
 
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<sec:authorize access="isAuthenticated()">
+    <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
 
-<!-- script references -->
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
-<script src="/resources/js/jquery.maskedinput.min.js"></script>
-<script src="/resources/libs/jquery.magnific-popup.min.js"></script>
-<script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
+<script src="/resources/js/main.js"></script>
+<script src="/resources/js/logo-section.js"></script>
+<script src="/resources/js/search-bar.js"></script>
 
 <script src="/resources/js/common.js"></script>
 </body>

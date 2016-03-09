@@ -199,7 +199,6 @@
     </div>
 </div>
 
-
 <!-- script references -->
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
@@ -208,14 +207,16 @@
 <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
 <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
-<script src="/resources/js/jquery.maskedinput.min.js"></script>
-<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
+
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
+
+<script src="/resources/js/jquery.maskedinput.min.js"></script>
+<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
 <script>
 
