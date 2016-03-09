@@ -133,7 +133,7 @@ $(document).ready(function () {
         $.ajax({
             url: '/account/getLiqPayParam',
             method: 'POST',
-            data: {'amount': $('#money_amount').val()},
+            data: {'amount': $('#header_money_amount').val()},
             success: function (response) {
                 $('#liq-pay-data').val(response[0]);
                 $('#liq-pay-signature').val(response[1]);
@@ -188,4 +188,19 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('.money > .dropDownMoney > button').click( function() {
+        $('.modal').fadeIn(400);
+    });
+
+    $('.modal > .FillUpBalance > i').click(function() {
+        $('.modal').fadeOut(400);
+    });
+
+    var modal = document.getElementsByClassName('modal');
+    window.onclick = function(event) {
+        if (event.target == modal[0]) {
+            $('.modal').fadeOut(400);
+        }
+    }
 });

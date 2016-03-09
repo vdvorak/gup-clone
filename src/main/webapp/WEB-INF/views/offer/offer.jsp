@@ -53,6 +53,7 @@
 
     <div class="offer-info-wrap">
         <div class="offer-info-box">
+            <div>Колличество просмотров: <span class="view-counter"></span></div>
             <div class="reservation">
                 <div id="make-reserve" class="col-xs-6">ЗАБРОНИРОВАТЬ</div>
                 <div class="col-xs-6 text-right"><span class="offer-price"></span><span class="currency"></span> <i
@@ -74,13 +75,19 @@
                 <div class="col-xs-7">
                     Автор: <a class="author-link"><span class="author-name"></span></a>
                     <br>
-                    <span class="contact-name-block">Контактное лицо: <span class="contact-name-block-unit"></span></span>
+                    <span class="contact-name-block">Контактное лицо: <span
+                            class="contact-name-block-unit"></span></span>
 
                     <div class="clearfix"></div>
                     <span class="author-rating"></span>
 
                     <div class="clearfix"></div>
                     <a href="#">Все обьявления автора</a>
+
+                    <div class="clearfix"></div>
+                    <br>
+
+                    <div id="options" class="row panel"></div>
                 </div>
             </div>
             <div class="clearfix"></div>

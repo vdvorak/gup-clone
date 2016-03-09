@@ -1,4 +1,6 @@
 var offer = {};
+var options = '';
+var parameters = '';
 var phonesSet;
 var jsonCategory = '';
 var jsonSubcategory = '';
@@ -23,6 +25,25 @@ $.ajax({
     }
 });
 
+$.ajax({
+    type: "GET",
+    url: "/resources/json/parameters.json",
+    dataType: "json",
+    async: false,
+    success: function (response) {
+        parameters = response;
+    }
+});
+
+$.ajax({
+    type: "GET",
+    url: "/resources/json/searchValues.json",
+    dataType: "json",
+    async: false,
+    success: function (response) {
+        options = response;
+    }
+});
 
 //    alert("Перед ажаксом: " + offerId);
 $.ajax({
@@ -40,6 +61,8 @@ $.ajax({
 $('.offer-title').text(offer.title);
 $('.offer-price').text(offer.price);
 
+$('.view-counter').text(offer.views);
+
 if (offer.videoUrl) {
     $('.offer-video').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/' + offer.videoUrl.split('=')[1] + '" frameborder="0" allowfullscreen></iframe>');
 }
@@ -54,7 +77,7 @@ if (offer.userInfo.skypeLogin) {
     $('.skype-block').remove()
 }
 
-if (offer.userInfo.contactName){
+if (offer.userInfo.contactName) {
     $('.contact-name-block-unit').text(offer.userInfo.contactName)
 } else {
     $('.contact-name-block').remove();
@@ -136,12 +159,47 @@ $.ajax({
     type: "POST",
     url: "/api/rest/profilesService/profile/read/id/" + offer.authorId,
     success: function (profile) {
-        $('.author-name').text(profile.username);
+        if (profile.username) {
+            $('.author-name').text(profile.username)
+        } else {
+            $('.author-name').text("Имя автора не указано")
+        }
         $('.author-link').attr('href', '/profile/id/' + offer.authorId);
         $('.author-rating').text(profile.point);
     }
 });
 // ----------- Draw additional information about offer author ----------------------------------------------------
+
+
+// ---------------------------------------- Draw properties -------------------------------------------------------
+var offerProperties = offer.properties;
+for (var i in offerProperties) {
+    var key = offerProperties[i].key;
+    var value = offerProperties[i].value;
+    var key_ru = '';
+    var value_ru = '';
+    for (var j in parameters) {
+        if (parameters[j]["parameter"]["key"] === key) {
+            key_ru = parameters[j]["parameter"]["label"];
+            if (parameters[j]["parameter"]["type"] === 'input') {
+                value_ru = value;
+            }
+            break;
+        }
+    }
+    if (value_ru === '') {
+        for (var m in options) {
+            if (options[m]["k"][key] !== undefined && options[m]["v"][value] !== undefined) {
+                value_ru = options[m]["v"][value];
+            }
+        }
+    }
+    if (value_ru !== 'Цена' && value_ru !== '') {
+        $('#options').append('<div class="col-xs-6">' + key_ru + '</div><div class="col-xs-6">' + value_ru + '</div>')
+    }
+
+}
+// ---------------------------------------- Draw properties -------------------------------------------------------
 
 
 // ---------------    BEGIN DRAW OFFERS IN BOTTOM    --------------------------------------------------------------//
