@@ -53,6 +53,7 @@
 
     <div class="offer-info-wrap">
         <div class="offer-info-box">
+            <div>Колличество просмотров: <span class="view-counter"></span></div>
             <div class="reservation">
                 <div id="make-reserve" class="col-xs-6">ЗАБРОНИРОВАТЬ</div>
                 <div class="col-xs-6 text-right"><span class="offer-price"></span><span class="currency"></span> <i

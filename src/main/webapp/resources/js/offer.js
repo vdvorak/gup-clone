@@ -61,6 +61,8 @@ $.ajax({
 $('.offer-title').text(offer.title);
 $('.offer-price').text(offer.price);
 
+$('.view-counter').text(offer.views);
+
 if (offer.videoUrl) {
     $('.offer-video').append('<iframe width="560" height="315" src="https://www.youtube.com/embed/' + offer.videoUrl.split('=')[1] + '" frameborder="0" allowfullscreen></iframe>');
 }
@@ -157,7 +159,11 @@ $.ajax({
     type: "POST",
     url: "/api/rest/profilesService/profile/read/id/" + offer.authorId,
     success: function (profile) {
-        $('.author-name').text(profile.username);
+        if (profile.username) {
+            $('.author-name').text(profile.username)
+        } else {
+            $('.author-name').text("Имя автора не указано")
+        }
         $('.author-link').attr('href', '/profile/id/' + offer.authorId);
         $('.author-rating').text(profile.point);
     }
