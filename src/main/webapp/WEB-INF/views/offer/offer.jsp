@@ -73,6 +73,8 @@
                 </div>
                 <div class="col-xs-7">
                     Автор: <a class="author-link"><span class="author-name"></span></a>
+                    <br>
+                    <span class="contact-name-block">Контактное лицо: <span class="contact-name-block-unit"></span></span>
 
                     <div class="clearfix"></div>
                     <span class="author-rating"></span>

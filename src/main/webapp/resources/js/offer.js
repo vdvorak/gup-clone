@@ -54,6 +54,12 @@ if (offer.userInfo.skypeLogin) {
     $('.skype-block').remove()
 }
 
+if (offer.userInfo.contactName){
+    $('.contact-name-block-unit').text(offer.userInfo.contactName)
+} else {
+    $('.contact-name-block').remove();
+}
+
 $('.offer-description').text(offer.description);
 
 var currency = $('.currency');
