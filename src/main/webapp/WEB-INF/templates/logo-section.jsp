@@ -39,11 +39,11 @@
                     </div>
                     <div class="richAss">
                         <!-- когда чувак не нищеброд -->
-                        <p class="message-payment-accept">С вашего счета будет снято 000. 00 грн</p>
+                        <p class="message-payment-accept">С вашего счета будет снято 50. 00 грн</p>
                         <p class="message-for-offer-reservation"></p>
                         <form role="form" action="#">
                             <div class="richAssCheck">
-                                <label for="hustle">Windows XP&nbsp;</label>
+                                <label for="hustle">Согласен с правилами Портала</label>
                                 <label class="label-checkbox-rich">
                                     <input type="checkbox" id="hustle" value="1" name="k" /><span></span>
                                 </label>

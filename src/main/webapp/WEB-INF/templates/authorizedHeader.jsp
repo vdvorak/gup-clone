@@ -88,7 +88,7 @@
         </div>
     </div>
     <div class="money">
-        <p>00.00. грн.</p>
+        <p><span id="score"></span> грн.</p>
 
         <div class="dropDownMoney">
             <button>Пополнить баланс</button>

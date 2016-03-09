@@ -183,7 +183,8 @@ $(document).ready(function () {
             cache: false,
             success: function (response) {
                 if (response == "2") {
-                    alert("Поздравляем со вступлением в организацию!")
+                    $('.modal').fadeOut(400);
+                    $('#socialBtn').remove();
                 }
             }
         });
