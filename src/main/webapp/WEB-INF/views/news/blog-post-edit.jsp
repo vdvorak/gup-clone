@@ -222,12 +222,15 @@
     var imgsArr = {};
     var cities;
     var inpCategories = [];
-    var oldCategories = ('${blogPost.categories}') ? '${blogPost.categories}'.replace('[', '').replace(']', '').replace(' ', '').split(',') : []; // make array from string
+    var oldCategories = []; // make array from string
     var oldImgArr = {};
     var imgsArrResult = {};
     var picArrDel = [];
     var picArrNew = [];
 
+    if ('${blogPost.categories}'.length > 5) {
+        oldCategories = JSON.parse('${blogPost.categories}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
+    }
     // ---------------    LOAD RESOURCES    --------------------------//
     $.ajax({
         type: "GET",
@@ -552,6 +555,7 @@
         );
     });
     //--------------------------- END REGIONS LIST --------------------------------------------//
+
 </script>
 
 </body>

@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="/resources/css/main.css">
   <link rel="stylesheet" href="/resources/css/font-awesome.css">
   <link rel="stylesheet" href="/resources/css/mini.css">
+  <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
 </head>
 <body>
 
@@ -100,8 +101,8 @@
 
       <div class="clearfix"></div>
 
-      <div id="drop_zone" class="defaultIMG">
-        <ul id="tender-img-block" class="ul-img-container">
+      <div id="drop_zone">
+        <ul id="tender-img-block" class="ul-img-container ul-img-container-green">
           <li class="li-containerIMG li-defaultIMG">
             <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
             <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
@@ -117,6 +118,14 @@
       </div>
 
       <button id="tender-btn-save" type="submit" form="tender-make-form">Сохранить</button>
+      <button id="tender-btn-delete" type="button">Удалить</button>
+
+      <div class="confirm" id="confirmTenderDelete" style="display: none">
+        <h1>Подтвердите удаление</h1>
+        <p>Объявление будет навсегда удалено</p>
+        <button id="cancelTenderDelBtn" autofocus>Отмена</button>
+        <button id="confirmTenderDelBtn">Удалить</button>
+      </div>
 
       <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
         <input id="photoInput" type="file" style="display: none;" multiple="multiple">
@@ -821,8 +830,29 @@
     });
   });
   //---------------------------- END SUBMIT -------------------------------------------------//
+  //------------------ BEGIN DELETE TENDER ------------------------------------//
+  $('#tender-btn-delete').on('click', function () {
+    $("#confirmTenderDelete").show();
+  });
 
+  $('#cancelTenderDelBtn').on('click', function () {
+    $("#confirmTenderDelete").hide();
+  });
 
+  $('#confirmTenderDelBtn').on('click', function (event) {
+    event.preventDefault();
+
+    $.ajax({
+      type: "POST",
+      url: "/api/rest/tenderService/tender/" + "${tender.id}" + "/delete",
+      statusCode: {
+        200: function () {
+          window.location.href = '/tenders';
+        }
+      }
+    });
+  });
+  //------------------ END DELETE TENDER ------------------------------------//
 
 </script>
 <%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"--%>

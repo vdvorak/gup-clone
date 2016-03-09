@@ -5,7 +5,7 @@ import org.springframework.data.domain.Sort;
 public final class ProjectFilterOptions extends Project {
     private int skip;
     private int limit;
-    private String simpleUserRestrictions;
+    private String simpleUserRestrictionsForProfileId;
     private String searchField;
     private boolean includeComments;
     private Sort.Direction createdDateSortDirection;
@@ -16,12 +16,12 @@ public final class ProjectFilterOptions extends Project {
         this.limit = 20;
     }
 
-    public String getSimpleUserRestrictions() {
-        return simpleUserRestrictions;
+    public String getSimpleUserRestrictionsForProfileId() {
+        return simpleUserRestrictionsForProfileId;
     }
 
-    public void setSimpleUserRestrictions(String profileId) {
-        this.simpleUserRestrictions = profileId;
+    public void setSimpleUserRestrictionsForProfileId(String profileId) {
+        this.simpleUserRestrictionsForProfileId = profileId;
     }
 
     public String getSearchField() {
