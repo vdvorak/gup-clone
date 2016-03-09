@@ -146,11 +146,13 @@ public class TenderServiceImpl implements TenderService {
 
     @Override
     public Tender completeMembers(Tender t) {
-        for(Member m: t.getMembers()){
-            Profile p = profilesService.findWholeProfileById(m.getId());
-            m.setName(p.getUsername());
-            if(p.getContact() != null) {
-                m.setUserPic(p.getImgId());
+        if(t != null && t.getMembers() != null) {
+            for (Member m : t.getMembers()) {
+                Profile p = profilesService.findWholeProfileById(m.getId());
+                m.setName(p.getUsername());
+                if (p.getContact() != null) {
+                    m.setUserPic(p.getImgId());
+                }
             }
         }
         return t;
