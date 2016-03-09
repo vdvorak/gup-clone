@@ -189,7 +189,7 @@
                 <%--</a>--%>
                 <c:if test="${not empty events}">
                     <c:forEach items="${events}" var="event">
-                        <a href="#" class="notify" data-uid="${event.uId}" data-contentId="${event.contentId}" data-creatorEventId="${event.creatorEventId}">
+                        <a href="#" class="notify" data-uid="${event.targetUId}" data-contentId="${event.contentId}" data-creatorEventId="${event.makerId}">
                             <div class="persona">
                                 <img src="" alt="" class="avatar">
                                 <%--<div class="date">${event.createdDate}</div>--%>
@@ -293,23 +293,9 @@
     </div>
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
-<script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
-<script src="/resources/js/vendor/bootstrap.js"></script>
-<script src="/resources/js/jquery.bxslider.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
+<jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-
-<sec:authorize var="loggedIn" access="isAuthenticated()" />
-<c:choose>
-    <c:when test="${loggedIn}">
-        <script src="/resources/js/autorizedHeader.js"></script>
-    </c:when>
-    <c:otherwise>
-        <script src="/resources/js/anonymHeader.js"></script>
-    </c:otherwise>
-</c:choose>
+<jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
