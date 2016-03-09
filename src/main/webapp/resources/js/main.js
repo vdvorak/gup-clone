@@ -99,8 +99,16 @@ $(document).ready(function () {
 
     }));
 
-    $('#datepicker').datepicker();
-    $('#datepicker2').datepicker();
+    $('input#datepicker').datepicker({
+        onSelect: function(date) {
+            $('input#datepicker').val(date);
+        }
+    });
+    $('input#datepicker2').datepicker({
+        onSelect: function(date) {
+            $('input#datepicker2').val(date);
+        }
+    });
 
     //
 
