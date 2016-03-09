@@ -127,18 +127,23 @@ public class TenderRepositoryImpl implements TenderRepository {
             query.with(new Sort(Sort.Direction.fromString(tenderFilterOptions.getSortDirection()), tenderFilterOptions.getSortField()));
         }
 
+        Criteria closed = new Criteria().andOperator(Criteria.where("type").is("CLOSE"), new Criteria().orOperator(
+                Criteria.where("members").elemMatch(Criteria.where("id").is(currUser.getId())),
+                Criteria.where("authorId").is(currUser.getId())));
+        Criteria opened = new Criteria().where("type").is("OPEN");
+
         if (tenderFilterOptions.getType() == TenderType.CLOSE) {
-            query.addCriteria(Criteria.where("type").is("CLOSE"));
-            query.addCriteria(Criteria.where("members").elemMatch(Criteria.where("id").is(currUser.getId())));
-        } else {
-            Criteria opened = Criteria.where("type").is("OPEN");
-
+            query.addCriteria(closed);
+        } else if(tenderFilterOptions.getType() == TenderType.OPEN){
             query.addCriteria(opened);
-
-            if(currUser != null && currUser.getContact() != null && currUser.getContact().getNaceId() != null) {
-                query.addCriteria(Criteria.where("naceId").in(currUser.getContact().getNaceId()));
-            }
+        } else {
+            query.addCriteria(new Criteria().orOperator(opened, closed));
         }
+
+//            if(currUser != null && currUser.getContact() != null && currUser.getContact().getNaceId() != null) {
+//                query.addCriteria(Criteria.where("naceId").in(currUser.getContact().getNaceId()));
+//            }
+
         query.skip(tenderFilterOptions.getSkip());
         query.limit(tenderFilterOptions.getLimit());
         return new EntityPage<>(mongoTemplate.count(query, Tender.class),

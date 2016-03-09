@@ -41,6 +41,7 @@ $(document).ready(function () {
 
     function draw(data) {
         for (var i in data) {
+            data[i].body = data[i].body.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', ""); // Clear description from HTML tags
             $('.build-item-wrap').last().attr('style', 'display:;');
             $(".build-pic-wrap img").last().attr('src', findFirstImg(data[i].uploadFilesIds));
             $(".build-pic-wrap").last().attr('href', '/tender/' + data[i].id);

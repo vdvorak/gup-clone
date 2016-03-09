@@ -80,11 +80,6 @@
 <script src="/resources/js/search-bar.js"></script>
 <script src="/resources/js/enscroll-0.6.1.min.js"></script>
 
-<script src="/resources/js/top-news-block.js"></script>
-<script src="/resources/js/top-offers-block.js"></script>
-<script src="/resources/js/top-tenders-block.js"></script>
-<script src="/resources/js/top-projects-block.js"></script>
-
 <script>
 
     var filter = {skip: 0, limit: 10};
