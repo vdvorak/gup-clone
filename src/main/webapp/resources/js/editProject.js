@@ -21,26 +21,26 @@ function handleFileSelect(evt) {
 
     // files is a FileList of File objects. List some properties.
     for (var i = 0, f; f = files[i]; i++) {
-        var formImg = new FormData($(this)[0]);
         var fd = new FormData();
         fd.append('file', f);
         $.ajax({
             type: "POST",
-            url: "/api/rest/fileStorage/project/file/upload",
+            url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
             data: fd,
             async: false,
             cache: false,
             contentType: false,
             processData: false,
-
-            success: function (data, textStatus, request) {
-                var id = data.id;
-                if (f.type.substring(0, 5) === 'image') {
-                    imagesIds[id] = "image";
-                    appendProjectImage(imgId);
-                } else {
-                    imagesIds[id] = "doc";
-                    appendDoc(id, f.name);
+            statusCode: {
+                201: function (data, textStatus, request) {
+                    var id = data.id;
+                    if (f.type.substring(0, 5) === 'image') {
+                        imagesIds[id] = "image";
+                        appendProjectImage(id);
+                    } else {
+                        imagesIds[id] = "doc";
+                        appendDoc(id, f.name);
+                    }
                 }
             }
         });
@@ -218,32 +218,36 @@ $('#addProjPhoto').on('click', function () {
     $("#uploadProjectPhotoInput").click();
 });
 
-$('#uploadProjectPhotoInput').on('change', function () {
-    $.ajax({
-        type: "POST",
-        url: "/api/rest/fileStorage/project/file/upload", //
-        data: new FormData($("#uploadProjectPhotoForm")[0]),
-        enctype: 'multipart/form-data',
-//                async: false,
-        cache: false,
-        contentType: false,
-        processData: false,
-        statusCode: {
-            201: function (data) {
-                var id = data.id;
-                if (f.type.substring(0, 5) === 'image') {
-                    imagesIds[id] = "image";
-                    appendProjectImage(id);
-                } else {
-                    imagesIds[id] = "doc";
-                    appendDoc(id, f.name);
+$('#uploadProjectPhotoInput').change(function (event) {
+    event.preventDefault();
+
+    var files = event.currentTarget.files;
+    for (var i = 0, f; f = files[i]; i++) {
+        var fd = new FormData();
+        fd.append('file', f);
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/upload/",
+            data: fd,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            statusCode: {
+                201: function (data, textStatus, request) {
+                    var id = data.id;
+                    if (f.type.substring(0, 5) === 'image') {
+                        imagesIds[id] = "image";
+                        appendProjectImage(id);
+                    } else {
+                        imagesIds[id] = "doc";
+                        appendDoc(id, f.name);
+                    }
                 }
-            },
-            400: function () {
-                alert('400');
             }
-        }
-    });
+        });
+    }
+    event.currentTarget.form.reset();
 });
 
 function initializeProjectEntityForUpdate() {

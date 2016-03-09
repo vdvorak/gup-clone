@@ -69,7 +69,7 @@
 
                     </div>
                     <div class="clearfix"></div>
-                    <div class="contact"><span class="offer-skype"></span> <i class="fa fa-skype"></i></div>
+                    <div class="contact skype-block"><span class="offer-skype"></span> <i class="fa fa-skype"></i></div>
                 </div>
                 <div class="col-xs-7">
                     Автор: <a class="author-link"><span class="author-name"></span></a>

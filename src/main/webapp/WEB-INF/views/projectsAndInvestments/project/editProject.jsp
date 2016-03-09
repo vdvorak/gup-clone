@@ -83,6 +83,16 @@
                     </div>
                 </div>
 
+                <div class="field required">
+                    <label for="sum" class="editorLabel">Нужная сумма</label>
+                    <input id="sum" type="number" name='sum' class="editorInput" style="width: 291px;">
+                    <span class="currency">₴</span>
+                </div>
+                <div class="field description">
+                    <label for="description" class="editorLabel">Описание</label>
+                    <textarea id="description" name='description' class="editorInput"></textarea>
+                </div>
+
                 <div class="field IMGUploader">
                     <label for="addProjPhoto" class="editorLabel">Изображения</label>
                     <div class="titleFile" data-title="Добавить изображение">
@@ -106,15 +116,6 @@
                     </ul>
                 </div>
 
-                <div class="field required">
-                    <label for="sum" class="editorLabel">Нужная сумма</label>
-                    <input id="sum" type="number" name='sum' class="editorInput" style="width: 291px;">
-                    <span class="currency">₴</span>
-                </div>
-                <div class="field description">
-                    <label for="description" class="editorLabel">Описание</label>
-                    <textarea id="description" name='description' class="editorInput"></textarea>
-                </div>
                 <div class="field">
                     <button id="deleteProjectBtn" class="delete-btn">Удалить проект</button>
                     <button id="editProjectBtn" class="info-submit">Сохранить</button>
@@ -139,6 +140,7 @@
     <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
     <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
+    <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
     <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 

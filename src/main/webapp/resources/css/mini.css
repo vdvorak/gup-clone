@@ -187,3 +187,22 @@ textarea {
     resize: none;
 }
 
+#btn-blog-delete{
+    color:#fff;
+    font:400 16px ArianAMU;
+    height:31px;
+    width:190px;
+    border-radius:6px;
+    background-color:#C3212D;
+    float:left;
+    margin:0px 0px 20px 20px;;
+    border:1px solid #C3212D;
+    -webkit-transition:all .25s;
+    transition:all .25s
+}
+#btn-blog-delete:hover{
+    border-color:black;
+    background-color:transparent;
+    color:black
+}
+
