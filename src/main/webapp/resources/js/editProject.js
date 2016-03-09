@@ -21,7 +21,6 @@ function handleFileSelect(evt) {
 
     // files is a FileList of File objects. List some properties.
     for (var i = 0, f; f = files[i]; i++) {
-        var formImg = new FormData($(this)[0]);
         var fd = new FormData();
         fd.append('file', f);
         $.ajax({
@@ -32,15 +31,16 @@ function handleFileSelect(evt) {
             cache: false,
             contentType: false,
             processData: false,
-
-            success: function (data, textStatus, request) {
-                var id = data.id;
-                if (f.type.substring(0, 5) === 'image') {
-                    imagesIds[id] = "image";
-                    appendProjectImage(imgId);
-                } else {
-                    imagesIds[id] = "doc";
-                    appendDoc(id, f.name);
+            statusCode: {
+                201: function (data, textStatus, request) {
+                    var id = data.id;
+                    if (f.type.substring(0, 5) === 'image') {
+                        imagesIds[id] = "image";
+                        appendProjectImage(imgId);
+                    } else {
+                        imagesIds[id] = "doc";
+                        appendDoc(id, f.name);
+                    }
                 }
             }
         });
