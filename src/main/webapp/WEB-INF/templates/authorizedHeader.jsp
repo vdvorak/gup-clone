@@ -75,9 +75,23 @@
         </div>
     </div>
     <div class="money">
-        <p><span id="score"></span> грн.</p>
+        <p>00.00. грн.</p>
         <div class="dropDownMoney">
             <button>Пополнить баланс</button>
+        </div>
+        <div class="modal">
+            <div class="FillUpBalance">
+                <i class="fa fa-times-circle"></i>
+                <h2>Пополнить баланс</h2>
+                <div>
+                    <p>Введите сумму:</p>
+                    <div class="clearfix"></div>
+                    <input type="text" placeholder="350, 000">
+                    <p>Пополните счет, с помощью этих банк-систем:</p>
+                    <div class="clearfix"></div>
+                    <img src="/resources/images/logo-liqpay.png" alt="logo-liqpay">
+                </div>
+            </div>
         </div>
     </div>
 </div>
