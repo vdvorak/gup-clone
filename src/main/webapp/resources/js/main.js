@@ -99,8 +99,16 @@ $(document).ready(function () {
 
     }));
 
-    $('#datepicker').datepicker();
-    $('#datepicker2').datepicker();
+    $('input#datepicker').datepicker({
+        onSelect: function(date) {
+            $('input#datepicker').val(date);
+        }
+    });
+    $('input#datepicker2').datepicker({
+        onSelect: function(date) {
+            $('input#datepicker2').val(date);
+        }
+    });
 
     //
 
@@ -133,7 +141,7 @@ $(document).ready(function () {
         $.ajax({
             url: '/account/getLiqPayParam',
             method: 'POST',
-            data: {'amount': $('#money_amount').val()},
+            data: {'amount': $('#header_money_amount').val()},
             success: function (response) {
                 $('#liq-pay-data').val(response[0]);
                 $('#liq-pay-signature').val(response[1]);
@@ -183,7 +191,8 @@ $(document).ready(function () {
             cache: false,
             success: function (response) {
                 if (response == "2") {
-                    alert("Поздравляем со вступлением в организацию!")
+                    $('.modal').fadeOut(400);
+                    $('#socialBtn').remove();
                 }
             }
         });

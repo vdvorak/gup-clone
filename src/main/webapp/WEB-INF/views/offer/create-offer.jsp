@@ -279,29 +279,39 @@
 
         <div class="row">
             <div class="col-xs-4">
+                <label for="map">Адрес</label>
+            </div>
+            <div class="col-xs-8">
+                <div id="floating-panel">
+                    <input id="address" type="textbox" value="">
+                    <input id="btn-save-adress" type="button" value="Сохранить">
+                </div>
+                <div id="map" style="height: 300px"></div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">
                 <label for="inpAuthor">Контактное лицо<em>*</em></label>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-5">
                 <input type="text" id="inpAuthor">
-            </div>
-            <div class="col-xs-2">
-                <label for="inpAdress">Адрес</label>
-            </div>
-            <div class="col-xs-3">
-                <input type="text" id="inpAdress">
             </div>
         </div>
         <div class="row">
             <div class="col-xs-4">
                 <label for="inpEmail">E-mail<em>*</em></label>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-5">
                 <input type="text" id="inpEmail">
             </div>
-            <div class="col-xs-2">
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
                 <label for="inpSkype">Skype</label>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-5">
                 <input type="text" id="inpSkype">
             </div>
         </div>
@@ -309,7 +319,7 @@
             <div class="col-xs-4">
                 <label>Телефон</label>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-5">
                 <input type="text">
             </div>
             <div id="btn-add-tel" class="col-xs-1" data-toggle="tooltip" data-placement="right"
@@ -351,288 +361,6 @@
         })
     })
 </script>
-
-<%--<nav class="navbar navbar-default navbar-fixed-top" role="navigation">--%>
-<%--<div class="collapse navbar-collapse">--%>
-<%--<ul class="nav navbar-nav">--%>
-<%--<li><a href="#">Моя страница</a></li>--%>
-<%--<li><a href="#">Друзья</a></li>--%>
-<%--<li><a href="#">Сообщения</a></li>--%>
-<%--</ul>--%>
-<%--<div class="col-sm-4 col-md-4 pull-right">--%>
-<%--<ul class="nav navbar-nav">--%>
-<%--<li><a href="#">Вступить в организацию</a></li>--%>
-<%--<li><a href="#">Баланс</a></li>--%>
-<%--<li><a href="#">Укр/Рус</a></li>--%>
-<%--<li><a href="/logout">Выход</a></li>--%>
-<%--</ul>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</nav>--%>
-
-<%--<div class="container-fluid">--%>
-
-<%--<!--category-->--%>
-<%--<div class="row" style="padding: 10px;">--%>
-<%--<div class="col-xs-3" style="padding-left: 5px; padding-right: 5px;">--%>
-<%--<a><img src="/resources/images/logo.png"></a>--%>
-<%--</div>--%>
-<%--<div class="col-xs-3"--%>
-<%--style="padding-left: 5px; padding-right: 5px; color: white; font-size: 25px;  margin-top: 30px; ">--%>
-<%--ПОРТАЛ<br>РОЗВИТКУ<br>УКРАЇНИ--%>
-<%--</div>--%>
-<%--<div class="col-xs-2 pull-right" style="padding-left: 5px; padding-right: 5px; margin-top: 60px;">--%>
-
-<%--</div>--%>
-<%--<div class="col-xs-2 pull-right" style="padding-left: 5px; padding-right: 5px; margin-top: 60px;">--%>
-
-<%--</div>--%>
-<%--<div class="col-xs-2 pull-right" style="padding-left: 5px; padding-right: 5px; margin-top: 60px;">--%>
-
-<%--</div>--%>
-<%--</div>--%>
-<%--<!--category-->--%>
-
-
-<%--<!--search begin-->--%>
-
-<%--<!--search end-->--%>
-
-
-<%--<!--offers category-->--%>
-<%--<div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">--%>
-<%--<div class="col-xs-9" style="padding-left: 5px; padding-right: 5px; display: flex;">--%>
-<%--<div class="dropdown">--%>
-<%--<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">ДЛЯ РЕБЁНКА--%>
-<%--</button>--%>
-<%--<ul class="dropdown-menu" role="menu">--%>
-<%--<div class="col-xs-12" style="padding-left: 5px; padding-right: 5px;">--%>
-<%--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Посмотреть все объявления</a>--%>
-<%--</li>--%>
-<%--<li role="presentation" class="divider"></li>--%>
-<%--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Детская одежда</a></li>--%>
-<%--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Детские коляски</a></li>--%>
-<%--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Детская мебель</a></li>--%>
-<%--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Игрушки</a></li>--%>
-<%--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Товары для школьников</a></li>--%>
-<%--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Прочие детские товары</a></li>--%>
-<%--</div>--%>
-
-<%--</ul>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--<!--offers category-->--%>
-
-<%--<!-- begin -->--%>
-<%--<div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">--%>
-
-
-<%--<div class="col-xs-8" style="padding-left: 5px; padding-right: 5px;">--%>
-<%--<div class="input-group">Заголовок--%>
-<%--<input id="inptTitle" name="title" type="text" class="form-control input-sm"--%>
-<%--placeholder="Не более 70 символов" required>--%>
-<%--</div>--%>
-<%--<!--multilevel category-->--%>
-<%--<input id="category1inp" type="text" name="category1inp" style="visibility: hidden;">--%>
-<%--<input id="category2inp" type="text" name="category2inp" style="visibility: hidden;">--%>
-<%--<input id="category3inp" type="text" name="category3inp" style="visibility: hidden;">--%>
-
-<%--<div class="container" style="width: 700px;">--%>
-<%--<div class="navbar-header">--%>
-<%--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">--%>
-<%--<span class="sr-only">Toggle navigation</span>--%>
-<%--<span class="icon-bar"></span>--%>
-<%--<span class="icon-bar"></span>--%>
-<%--<span class="icon-bar"></span>--%>
-<%--</button>--%>
-<%--</div>--%>
-<%--<div class="collapse navbar-collapse">--%>
-<%--<ul class="nav navbar-nav">--%>
-<%--<li>--%>
-<%--<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="category1lvlText">Выберите категорию<b class="caret"></b></a>--%>
-<%--<ul id="category1lvl" class="dropdown-menu multi-level">--%>
-<%--</ul>--%>
-<%--</li>--%>
-<%--<li id="container2lvl" style="visibility: hidden">--%>
-<%--<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="category2lvlText">Выберите подкатегорию<b class="caret"></b></a>--%>
-<%--<ul id="category2lvl" class="dropdown-menu multi-level">--%>
-<%--</ul>--%>
-<%--</li>--%>
-<%--<li id="container3lvl" style="visibility: hidden">--%>
-<%--<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="category3lvlText">Выберите подкатегорию<b class="caret"></b></a>--%>
-<%--<ul id="category3lvl" class="dropdown-menu multi-level">--%>
-<%--</ul>--%>
-<%--</li>--%>
-<%--</ul>--%>
-<%--</div><!--/.nav-collapse -->--%>
-<%--</div>--%>
-<%--<!--multilevel category-->--%>
-<%--<div id="options">--%>
-
-<%--</div>--%>
-
-<%--<div id="description" class="input-group">Описание--%>
-<%--<textarea id="offerDescription" required></textarea>--%>
-<%--<div id="textLength"></div>--%>
-<%--</div>--%>
-
-<%--<div id="inputs" class="input-group"></div>--%>
-
-<%--<div id="inptPrice" class="input-group element-hidden">Цена--%>
-<%--<input  name="price" type="number" class="form-control input-sm" required>--%>
-<%--</div>--%>
-<%--<div id="selectCurrency" class="input-group element-hidden">Валюта--%>
-<%--<select  name="currency">--%>
-<%--<option>UAH</option>--%>
-<%--<option>USD</option>--%>
-<%--<option>EUR</option>--%>
-<%--</select>--%>
-<%--</div>--%>
-
-<%--<div class="input-group">Разрешить бронь--%>
-<%--<input id="inpReserved" type="checkbox" name="canBeReserved">--%>
-<%--<span class="btn btn-info btn-block">--%>
-<%--Забронировать даты--%>
-<%--</span>--%>
-<%--</div>--%>
-<%--<div  class="input-group">Срочное объявление--%>
-<%--<input id="inpUrgent" type="checkbox" name="urgent"> Только для быстро портящихся продуктов--%>
-<%--</div>--%>
-
-<%--<div class="input_fields_wrap">Номера телефонов--%>
-<%--<button class="add_field_button">Добавить ещё номер</button>--%>
-<%--<div><input id="phone1" type="text" name="mytext[]" required></div>--%>
-<%--</div>--%>
-
-<%--<div class="input-group">Skype--%>
-<%--<input id="inptSkype" type="text" class="form-control input-sm" placeholder="Введите ваш логин в Skype">--%>
-<%--</div>--%>
-
-<%--<div class="input-group">Контактное лицо--%>
-<%--<input id="inptAuthor" type="text" class="form-control input-sm" placeholder="Введите имя контактного лица">--%>
-<%--</div>--%>
-<%--<div class="input-group">E-mail--%>
-<%--<input id="inptMail" type="email" class="form-control input-sm" placeholder="Введите email">--%>
-<%--</div>--%>
-
-<%--<div class="input-group">Добавить видео--%>
-<%--<input id="inptVideo" type="text" class="form-control input-sm" placeholder="Ссылка на видео Youtube" pattern="(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?">--%>
-<%--</div>--%>
-
-<%--<input id="test" type="submit" value="Отправить Форму" class="btn btn-info btn-block" data-toggle="popover" data-trigger="focus" data-content="Выберите категорию">--%>
-
-<%--&lt;%&ndash;<a id="test" tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">Dismissible popover</a>&ndash;%&gt;--%>
-<%--</div>--%>
-
-<%--<div id="drop_zone">--%>
-<%--<button id="addImg">Загрузить фото</button>--%>
-<%--<form id="uploadProfilePhotoForm" enctype="multipart/form-data"--%>
-<%--method="post" style="display:none">--%>
-<%--<p><input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" multiple></p>--%>
-<%--</form>--%>
-
-<%--<div class="imgBlock">--%>
-<%--<!--uploaded images-->--%>
-<%--</div>--%>
-<%--Перетяните файлы сюда--%>
-<%--</div>--%>
-<%--<!-- city chosen -->--%>
-<%--<input id="countryInp" type="text" name="country" style="visibility: hidden;">--%>
-<%--<input id="areaInp" type="text" name="area" style="visibility: hidden;">--%>
-<%--<input id="cityInp" type="text" name="city" style="visibility: hidden;">--%>
-
-<%--<div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">--%>
-<%--<div class="col-xs-4" style="padding-left: 5px; padding-right: 5px; background-color: antiquewhite;">--%>
-<%--<div class="input-group">--%>
-
-<%--<div class="col-xs-6" id="bs-example-navbar-collapse-1">--%>
-<%--<ul class="nav navbar-nav">--%>
-<%--<li class="dropdown">--%>
-<%--<a id="chosenRegion" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите область<b class="caret"></b></a>--%>
-<%--<ul class="dropdown-menu multi-column columns-2">--%>
-<%--<div id="regions" class="row">--%>
-<%--<div class="col-sm-6">--%>
-<%--<ul class="multi-column-dropdown">--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#"><b>Вся Украина</b></a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Винницкая область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Волынская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Донецкая область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Житомирская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Закарпатская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#" >Ивано‑Франковская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Киевская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Кировоградская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Крым</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Луганская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Львовская область</a></li>--%>
-<%--</ul>--%>
-<%--</div>--%>
-<%--<div class="col-sm-6">--%>
-<%--<ul class="multi-column-dropdown">--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Николаевская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Одесская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Полтавская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Ровенская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Сумская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Тернопольская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Харьковская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Херсонская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Хмельницкая область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Черкасская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Черниговская область</a></li>--%>
-<%--<li><a role="menuitem" tabindex="-1" href="#">Черновицкая область</a>--%>
-<%--</li>--%>
-<%--</ul>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</ul>--%>
-<%--</li>--%>
-<%--</ul>--%>
-<%--</div>--%>
-
-<%--<div class="col-xs-6" id="bs-example-navbar-collapse-2" style="visibility: hidden">--%>
-<%--<ul class="nav navbar-nav">--%>
-<%--<li class="dropdown">--%>
-<%--<a id="chosenCity" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите город<b--%>
-<%--class="caret"></b></a>--%>
-<%--<ul class="dropdown-menu multi-column columns-2">--%>
-<%--<div id="cities" class="row">--%>
-
-<%--<div class="col-sm-6">--%>
-<%--<ul id="cities1" class="multi-column-dropdown">--%>
-<%--</ul>--%>
-<%--</div>--%>
-
-<%--<div class="col-sm-6">--%>
-<%--<ul id="cities2" class="multi-column-dropdown">--%>
-<%--</ul>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</ul>--%>
-<%--</li>--%>
-<%--</ul>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--<!-- city chosen -->--%>
-<%--</div>--%>
-
-<%--<div id="floating-panel">--%>
-<%--<input id="address" type="textbox" value="">--%>
-<%--<input id="submit" type="button" value="Сохранить">--%>
-<%--</div>--%>
-<%--<div id="map" style="height: 50%"></div>--%>
-
-
-<%--</div>--%>
-
-<%--<!-- script references -->--%>
-<%--<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>--%>
-<%--<script src="/resources/js/bootstrap.min.js"></script>--%>
-<%--<script src="/resources/js/jquery.maskedinput.min.js"></script>--%>
-
 
 <script>
     var imgsArr = {};
@@ -809,10 +537,10 @@
         if (!$('#inpAuthor').val()) {
             arrValidate.push($('#inpAuthor'));
         }
-        for(var i = 0; i < arrValidate.length; i++) {
+        for (var i = 0; i < arrValidate.length; i++) {
             arrValidate[i].addClass('error-validation');
         }
-        if(arrValidate.length) {
+        if (arrValidate.length) {
             return false;
         } else {
             return true;
@@ -830,7 +558,7 @@
             offer.imagesIds = imgsArr;
             offer.canBeReserved = $("#reserve-checkbox").is(":checked");
             offer.address = {};
-            //        offer.address.coordinates = placeKey;
+            offer.address.coordinates = placeKey;
             offer.address.country = 'Украина';
 
 
@@ -1016,15 +744,15 @@
     function checkMainImg() {
         var hasMainImg = false;
 
-        for(var key in imgsArr) {
-            if(imgsArr[key] === 'pic1') {
+        for (var key in imgsArr) {
+            if (imgsArr[key] === 'pic1') {
                 hasMainImg = true;
                 break;
             }
         }
 
-        if(!hasMainImg) {
-            for(var key in imgsArr) {
+        if (!hasMainImg) {
+            for (var key in imgsArr) {
                 imgsArr[key] = 'pic1';
                 break;
             }
@@ -1035,50 +763,50 @@
 
     //--------------------------- GOOGLE MAP API ---------------------------------------//
 
-    /* function initMap() {
+    function initMap() {
 
-     var input = document.getElementById('address');
+        var input = document.getElementById('address');
 
-     var options = {
-     types: []
-     };
+        var options = {
+            types: []
+        };
 
-     var autocomplete = new google.maps.places.Autocomplete(input, options);
+        var autocomplete = new google.maps.places.Autocomplete(input, options);
 
-     google.maps.event.addListener(autocomplete, 'place_changed', function () {
-     var place = autocomplete.getPlace(); //получаем место
-     console.log(place);
-     console.log(place.name);  //название места
-     console.log(place.id);  //уникальный идентификатор места
-     });
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace(); //получаем место
+            console.log(place);
+            console.log(place.name);  //название места
+            console.log(place.id);  //уникальный идентификатор места
+        });
 
-     var map = new google.maps.Map(document.getElementById('map'), {
-     zoom: 17,
-     center: {lat: 50.4501, lng: 30.523400000000038}
-     });
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 17,
+            center: {lat: 50.4501, lng: 30.523400000000038}
+        });
 
-     var geocoder = new google.maps.Geocoder();
+        var geocoder = new google.maps.Geocoder();
 
-     document.getElementById('submit').addEventListener('click', function() {
-     geocodeAddress(geocoder, map);
-     });
-     }
+        document.getElementById('btn-save-adress').addEventListener('click', function () {
+            geocodeAddress(geocoder, map);
+        });
+    }
 
-     function geocodeAddress(geocoder, resultsMap) {
-     var address = document.getElementById('address').value;
-     geocoder.geocode({'address': address}, function(results, status) {
-     placeKey = results[0].place_id;
-     if (status === google.maps.GeocoderStatus.OK) {
-     resultsMap.setCenter(results[0].geometry.location);
-     var marker = new google.maps.Marker({
-     map: resultsMap,
-     position: results[0].geometry.location
-     });
-     } else {
-     alert('Geocode was not successful for the following reason: ' + status);
-     }
-     });
-     }*/
+    function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function (results, status) {
+            placeKey = results[0].place_id;
+            if (status === google.maps.GeocoderStatus.OK) {
+                resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
 
     //--------------------------- END GOOGLE MAP API ---------------------------------------//
 
@@ -1137,7 +865,7 @@
             var row = $('.row-telephone').first().clone();
             row.children('#btn-add-tel').remove();
             row.find('label').parent().remove();
-            var inputBlock = row.find('input').val("").parent().addClass('col-xs-offset-3');
+            var inputBlock = row.find('input').val("").parent().addClass('col-xs-offset-4');
             imgDel.insertAfter(inputBlock);
             row.appendTo('.new-adv-box');
         }
@@ -1313,7 +1041,7 @@
     //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
 
 </script>
-<%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"--%>
-<%--async defer></script>--%>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
+        async defer></script>
 </body>
 </html>

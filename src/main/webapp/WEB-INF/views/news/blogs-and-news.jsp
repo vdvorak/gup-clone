@@ -44,9 +44,6 @@
         <a href="/blog-create">
             <button type="button" class="abutton">Создать новостной блог</button>
         </a>
-        <a href="#">
-            <button type="button" class="abutton">Создать новость в блоге</button>
-        </a>
     </div>
 
     <div id="tab-container-news" class="tab-container-news">
