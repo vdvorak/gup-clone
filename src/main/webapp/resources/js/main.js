@@ -188,4 +188,19 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('.money > .dropDownMoney > button').click( function() {
+        $('.modal').fadeIn(400);
+    });
+
+    $('.modal > .FillUpBalance > i').click(function() {
+        $('.modal').fadeOut(400);
+    });
+
+    var modal = document.getElementsByClassName('modal');
+    window.onclick = function(event) {
+        if (event.target == modal[0]) {
+            $('.modal').fadeOut(400);
+        }
+    }
 });

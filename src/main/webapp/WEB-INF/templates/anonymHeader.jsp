@@ -2,8 +2,7 @@
 
 <!-- не залогиненный -->
 <div class="notLogged">
-  ************
-  <ul class="notLogged-ul">
+  <ul>
     <li class="notLogged-li"><a id='go' href="#">Регистрация</a></li>
     <li class="notLogged-li"><p>&nbsp;/&nbsp;</p></li>
     <li class="notLogged-li"><a id='goo' href="#">Вход</a></li>
@@ -17,7 +16,7 @@
       </ul>
 
       <div id="registration">
-        <form class="registration-form" method="post" action="#" role="form">
+        <div class="registration-form">
           <label for="registration-email">Введите логин/ E-mail</label>
           <input type="email" name="registration-email" id='registration-email' required>
 
@@ -37,12 +36,12 @@
             <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-registration" value="1" name="k"/><span></span></label>
             <label for="checkbox-registration"><a href="#">Мною были прочитаны все условия</a></label>
           </div>
-          <button class="registration-submit" type="submit">Зарегистрироваться</button>
-        </form>
+          <button class="registration-submit" id="registrationBtn">Зарегистрироваться</button>
+        </div>
       </div>
 
       <div id="entry-form">
-        <form class="contact_form" method="post" action="#" role="form">
+        <div class="contact_form">
           <label for="email">Введите логин/ E-mail</label>
           <input type="email" name="email" id='email' required>
           <div class="clearfix"></div>
@@ -53,11 +52,13 @@
             <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-contact" value="1" name="k"/><span></span></label>
             <label for="checkbox-contact">Запомнить меня</label>
           </div>
-          <button class="submit" type="submit">Войти</button>
-        </form>
-        <a class="contactA" href="#">Забыли пароль?</a>
+          <button class="submit" id="loginBtn">Войти</button>
+        </div>
+        <a class="contactA" href="/restore">Забыли пароль?</a>
       </div>
+
     </div>
   </div>
+
   <div id="overlay"></div><!-- Пoдлoжкa -->
 </div>
