@@ -8,10 +8,10 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <task:scheduled-tasks scheduler="bringBackMoneyToInvestorsOfExpiredProjects">
+        <!--<task:scheduled ref="projectServiceImpl" method="bringBackMoneyToInvestors"-->
+                        <!--fixed-delay="${mongo.task.projectService.bringBackMoneyToInvestorsPeriod}" />-->
         <task:scheduled ref="projectServiceImpl" method="bringBackMoneyToInvestors"
-                        fixed-delay="${mongo.task.projectService.bringBackMoneyToInvestorsPeriod}" />
-        <!--<task:scheduled ref="projectServiceImpl" method="bringBackMoneyToInvestors"
-                        cron="0 0 4 * * *""/>-->
+                        cron="0 0 4 * * *"/>
     </task:scheduled-tasks>
 
     <task:scheduler id="bringBackMoneyToInvestorsOfExpiredProjects"/>

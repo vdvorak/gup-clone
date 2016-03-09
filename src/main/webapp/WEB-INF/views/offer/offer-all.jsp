@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
@@ -9,21 +10,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${blog.title} | Портал GUP</title>
-    <link href="/resources/css/main.css" rel="stylesheet" type="text/css">
-    <link href="/resources/css/custom-new.css" rel="stylesheet" type="text/css">
+    <title>Объявления | Портал GUP</title>
 
-
-    <link href="/resources/css/bootstrap.css" rel="stylesheet">
-
-    <link href="/resources/css/com.css" rel="stylesheet">
-
-    <link type="text/css" rel="stylesheet" href="/resources/css/simplePagination.css"/>
-    <link href="/resources/css/pgwslideshow.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
+    <link href="/resources/css/custom-new.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <!-- BEGIN Common general header-->
@@ -42,9 +38,6 @@
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 <!--END 2nd section -->
 
-
-
-
 <div class="container2">
 
     <div class="contentContainer" style="padding: 5px;">
@@ -53,15 +46,15 @@
         </a>
     </div>
 
-
-
     <h2>ТОП обьявлений</h2>
 
     <ul class="notice-box">
     </ul>
     <!-- li pattern for clone -->
     <li id="li-offer-basic" style="display:none">
-        <a href="#" class="image"><img src="/resources/images/no_photo.jpg" alt=""><p>Заголовок обьявления</p></a>
+        <a href="#" class="image"><img src="/resources/images/no_photo.jpg" alt="">
+
+            <p>Заголовок обьявления</p></a>
         <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
         <span>Просмотров: 222</span>
     </li>
@@ -73,22 +66,24 @@
     <div class="feedFooter"></div>
 </div>
 
+<sec:authorize access="isAuthenticated()">
+    <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 
-<!-- Begin Social buttons js -->
-<jsp:include page="/WEB-INF/templates/social-buttons-js.jsp"/>
-<!-- End Social buttons js -->
-<!-- script references -->
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
-<script src="/resources/js/jquery.maskedinput.min.js"></script>
-<script src="/resources/libs/jquery.magnific-popup.min.js"></script>
-<script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
+<jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
-<script src="/resources/js/common.js"></script>
+<script src="/resources/js/main.js"></script>
+<script src="/resources/js/logo-section.js"></script>
+<script src="/resources/js/search-bar.js"></script>
+<script src="/resources/js/enscroll-0.6.1.min.js"></script>
+
+<script src="/resources/js/top-news-block.js"></script>
+<script src="/resources/js/top-offers-block.js"></script>
+<script src="/resources/js/top-tenders-block.js"></script>
+<script src="/resources/js/top-projects-block.js"></script>
 
 <script>
 
@@ -179,22 +174,22 @@
                         var imagesIds = offerObj.imagesIds;
                         var imgSrc = "";
                         var arrKeys = Object.keys(imagesIds);
-                        if(arrKeys.length) {
+                        if (arrKeys.length) {
                             for (var key in imagesIds) {
                                 if (imagesIds[key] === 'pic1') {
                                     imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + key;
                                     break;
                                 }
                             }
-                            if(imgSrc === '') imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + arrKeys[0];
+                            if (imgSrc === '') imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + arrKeys[0];
                         } else {
                             imgSrc = "/resources/images/no_photo.jpg";
                         }
 
                         var priceStr = "Нет цены";
-                        if(offerObj.price) {
+                        if (offerObj.price) {
                             priceStr = offerObj.price.toString();
-                            if(offerObj.currency) {
+                            if (offerObj.currency) {
                                 priceStr = priceStr + offerObj.currency;
                             }
                         }
@@ -203,7 +198,10 @@
                                 .attr('id', "")
                                 .css("display", "inline-block");
                         newLi.find('p').text(offerObj.title);
-                        newLi.find('img').attr("href", '/offer/' + offerObj.id + '').attr("src", imgSrc);
+                        newLi.find('.image').attr("href", '/offer/' + offerObj.id + '');
+                        newLi.find('img').attr("src", imgSrc);
+
+
                         newLi.children('span').text("Просмотров: " + offerObj.views);
                         newLi.find('a.btn').text(priceStr).attr("href", '/offer/' + offerObj.id + '');
 
@@ -234,7 +232,7 @@
         for (var i = 0; i < offerBoxArr.length; i++) {
             offerBoxArr[i].remove();
         }
-        $('ul.notice-box:first').text("");    
+        $('ul.notice-box:first').text("");
     }
 
     $('#btn-offers-more').click(function () {

@@ -4,17 +4,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.news.BlogPostRepository;
+import ua.com.itproekt.gup.model.activityfeed.Event;
+import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.news.Comment;
+import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.ServiceNames;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 @Service
 public class BlogPostServiceImpl implements BlogPostService {
+
+    @Autowired
+    ActivityFeedService activityFeedService;
 
     @Autowired
     BlogPostRepository blogPostRepository;
@@ -41,19 +49,21 @@ public class BlogPostServiceImpl implements BlogPostService {
                 .setViews(0)
                 .setTotalComments(0)
                 .setTotalLikes(0)
+                .setLikedIds(new HashSet<>())
                 .setTotalDislikes(0)
+                .setDislikedIds(new HashSet<>())
                 .setModifiedDateEqualsToCurrentDate()
                 .setCreatedDateEqualsToCurrentDate()
                 .setTitle(blogPost.getTitle())
                 .setText(blogPost.getText())
                 .setAddress(blogPost.getAddress())
-                .setTags(blogPost.getTags())
+//                .setTags(blogPost.getTags())
                 .setCategories(blogPost.getCategories())
                 .setImagesIds(blogPost.getImagesIds());
 
         blogPostRepository.create(newBlogPost);
 
-        blogPost.setId(newBlogPost.getId()); // ***
+        blogPost.setId(newBlogPost.getId());
     }
 
     @Override
@@ -78,6 +88,8 @@ public class BlogPostServiceImpl implements BlogPostService {
     @Override
     public void likeComment(String blogPostId, String commentId, String userId) {
         blogPostRepository.likeComment(blogPostId, commentId, userId);
+        String authorId = findComment(blogPostId, commentId).getFromId();
+        activityFeedService.createEvent(new Event(authorId, EventType.BLOG_POST_COMMENT_LIKE, blogPostId, commentId, userId));
     }
 
     @Override
@@ -90,6 +102,14 @@ public class BlogPostServiceImpl implements BlogPostService {
 
         blogPostRepository.createComment(blogPostId, newComment);
 
+        String toId = comment.getToId();
+        //TODO ** проверять существует ли пользователь с toId
+        if( blogPostId.equals(toId)) {
+            String authorId = findById(toId).getAuthorId();
+            activityFeedService.createEvent(new Event(authorId, EventType.BLOG_POST_COMMENT, blogPostId, comment.getcId(), SecurityOperations.getLoggedUserId()));
+        } else {
+            activityFeedService.createEvent(new Event(toId, EventType.BLOG_POST_COMMENT_REPLY, blogPostId, comment.getcId(), SecurityOperations.getLoggedUserId()));
+        }
         comment.setcId(newComment.getcId());
     }
 
@@ -99,7 +119,7 @@ public class BlogPostServiceImpl implements BlogPostService {
     }
 
     @Override
-    public BlogPost findComment(String blogPostId, String commentId) {
+    public Comment findComment(String blogPostId, String commentId) {
         return blogPostRepository.findComment(blogPostId, commentId);
     }
 
@@ -132,7 +152,7 @@ public class BlogPostServiceImpl implements BlogPostService {
                 .setText(blogPost.getText())
                 .setAddress(blogPost.getAddress())
                 .setImagesIds(blogPost.getImagesIds())
-                .setTags(blogPost.getTags())
+//                .setTags(blogPost.getTags())
                 .setCategories(blogPost.getCategories())
                 .setModifiedDateEqualsToCurrentDate();
         return blogPostRepository.findBlogPostAndUpdate(newBlogPost);

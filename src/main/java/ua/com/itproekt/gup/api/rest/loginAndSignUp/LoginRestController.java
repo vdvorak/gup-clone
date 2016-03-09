@@ -7,36 +7,29 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.util.CookieUtil;
+import ua.com.itproekt.gup.util.LogUtil;
+import ua.com.itproekt.gup.util.Oauth2Util;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 
 @RestController
 public class LoginRestController {
-	private Logger logger = Logger.getLogger(LoginRestController.class);
-
-	private final int ACCESS_TOKEN_EXPIRES_IN_SECONDS = (int)TimeUnit.MINUTES.toSeconds(10);
-	private final int REFRESH_TOKEN_EXPIRES_IN_SECONDS = (int)TimeUnit.DAYS.toSeconds(30);
+	private final static Logger LOG = Logger.getLogger(LoginRestController.class);
 
 	@Autowired
 	ProfilesService profileService;
@@ -54,50 +47,32 @@ public class LoginRestController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<Void> login(@RequestParam String email, @RequestParam String password,
 									  HttpServletResponse response) {
-
-		Map<String, String> requestParameters = new HashMap<>();
-		String clientId = "7b5a38705d7b3562655925406a652e32";
-		Set<String> scope = new HashSet<>();
-		OAuth2Request oAuth2Request = new OAuth2Request(requestParameters, clientId, null, true,
-				scope, null, null, null, null);
-
-		LoggedUser loggedUser = null;
+		LoggedUser loggedUser;
 		try {
 			loggedUser = (LoggedUser)userDetailsService.loadUserByUsername(email);
 		} catch (UsernameNotFoundException ex) {
-			StringWriter stack = new StringWriter();
-			ex.printStackTrace(new PrintWriter(stack));
-			logger.debug(stack.toString());
-
+			LOG.debug("Incorrect email: " + LogUtil.getExceptionStackTrace(ex));
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
 		if (!passwordEncoder.matches(password, loggedUser.getPassword())) {
-			logger.debug("Password doesn't match: email [" + email + "]");
+			LOG.debug("Password doesn't match: email [" + email + "]");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
-		Authentication userAuthentication = new UsernamePasswordAuthenticationToken(loggedUser,
-				loggedUser.getPassword(), loggedUser.getAuthorities());
-		OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, userAuthentication);
-		OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
-
-		System.err.println("oAuth2AccessToken.getExpiration()" + oAuth2AccessToken.getExpiration());
-
-
-		Cookie cookieAuthToken = new Cookie("authToken", oAuth2AccessToken.getValue());
-		cookieAuthToken.setMaxAge(ACCESS_TOKEN_EXPIRES_IN_SECONDS);
-		cookieAuthToken.setPath("/");
-		response.addCookie(cookieAuthToken);
-
-		Cookie cookieRefreshToken = new Cookie("refreshToken", oAuth2AccessToken.getRefreshToken().getValue());
-		cookieRefreshToken.setMaxAge(REFRESH_TOKEN_EXPIRES_IN_SECONDS);
-		cookieRefreshToken.setPath("/");
-		response.addCookie(cookieRefreshToken);
-
-		logger.debug("Login: profile {email : " + email + "}");
+		authenticateByEmailAndPassword(loggedUser, response);
+		LOG.debug("Login profile email : [" + email + "]");
 
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
+		Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
+		OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
+		OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
+
+		CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+		CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
 	}
 
 //		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
@@ -120,20 +95,10 @@ public class LoginRestController {
 		try {
 			email = URLDecoder.decode(email, "UTF-8");
 		} catch (UnsupportedEncodingException ex) {
-			StringWriter stack = new StringWriter();
-			ex.printStackTrace(new PrintWriter(stack));
-
-			logger.error(stack.toString());
+			LOG.error(LogUtil.getExceptionStackTrace(ex));
 		}
 
-//		System.err.println(email);
-//		System.err.println(profileService.profileExistsWithEmail(email));
-
-		if (profileService.profileExistsWithEmail(email)) {
-			return "true";
-		} else {
-			return "false";
-		}
+		return (profileService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
 	}
 
 }

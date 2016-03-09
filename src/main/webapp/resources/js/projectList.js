@@ -1,5 +1,6 @@
 var projectType = (getUrlParam('type') != null ? getUrlParam('type').toUpperCase() : null);
-var projectFO = {type : projectType, searchField : getUrlParam('name'), skip: 0, limit: 10};
+var projectFO = {type: projectType, searchField: getUrlParam('name'), skip: 0, limit: 10};
+var projectIdForInvest;
 
 $('[name="' + projectType + '"]').addClass('selected');
 appendProjects(projectFO);
@@ -8,13 +9,21 @@ function appendProjects(projectFO) {
     loadProjectsWithFO(projectFO).statusCode({
         200: function (responseEntity) {
             responseEntity.entities.forEach(function (project) {
-                appendProjectBlock(project);
+                var score = checkProjectBalance(project.id);
+                var balance;
+                $.when(score).done(function (response) {
+                    balance = response;
+                    appendProjectBlock(project, balance);
+                }).fail(function (response) {
+                    balance = 0;
+                    appendProjectBlock(project, balance);
+                });
             });
         }
     });
 }
 
-function appendProjectBlock(project) {
+function appendProjectBlock(project, balance) {
     $('#projectsBlock').append(
         '<div class="feedItem">' +
             <!--Add class "vip" to vip-tialize project-->
@@ -26,7 +35,7 @@ function appendProjectBlock(project) {
         '<div class="hearthPlace">' +
         '<div class="hearth"></div>' +
         '</div>' +
-        '<div class="number">' + project.totalScore + '</div>' +
+        '<div class="number">' + getProjectScore(project.totalScore, project.totalVoters) + '</div>' +
         '</div>' +
         '</div>' +
         '<div class="content">' +
@@ -37,13 +46,13 @@ function appendProjectBlock(project) {
         '<div class="text">' + project.description + '</div>' +
         '</div>' +
         '<div class="bottomContent">' +
-        '<button type="button" class="abutton invest">Инвестировать</button>' +
+        '<button id="' + project.id + '" class="abutton invest make-invest">Инвестировать</button>' +
         '<div class="projectProgressBlock">' +
-        '<div class="current elem cash">' + project.investedAmount + ' ₴ </div>' +
+        '<div class="current elem cash">' + balance + ' ₴ </div>' +
         '<div class="bar elem">' +
         '<div class="colored"></div>' +
         '<div class="empty" style="width: ' +
-        getInvertedProgressNum(project.investedAmount, project.amountRequested) + '%;"></div>' +
+        getInvertedProgressNum(balance, project.amountRequested) + '%;"></div>' +
             <!--Change style width percentage to vizualize progress (INVERTED). Допускаються значення квантовані по 5 процентів, тобто типу такі: 0, 5, 10, 15, 20, ...-->
         '</div>' +
         '<div class="todo elem cash">' + project.amountRequested + ' ₴ </div>' +
@@ -52,7 +61,7 @@ function appendProjectBlock(project) {
         '</div>');
 }
 
-$('.catContainer').on('click',function () {
+$('.catContainer').on('click', function () {
     $('.catContainer').removeClass('selected');
     $(this).addClass('selected');
     $('#projectsBlock').empty();
@@ -60,10 +69,53 @@ $('.catContainer').on('click',function () {
     appendProjects(projectFO);
 });
 
-$('#createProject').on('click',function () {
+$('#createProject').on('click', function () {
     window.location.href = "/project/create"
 });
 
-$('#createInvestorPost').on('click',function () {
+$('#createInvestorPost').on('click', function () {
     window.location.href = "/investorPost/create"
 });
+
+
+// ---------------------------------------------------- Invest in project modal window -------------------------------
+
+$(".cropper-btn-cancel").click(function () {
+    $('#cropperModal').css('display', "none");
+});
+
+$(window).click(function (event) {
+    var modal = document.getElementById('cropperModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+});
+
+$(document).on("click", '.make-invest', function () {
+    projectIdForInvest = $(this).attr('id');
+    $('#cropperModal').css('display', "block");
+});
+
+$('#confirmInvest').on('click', function () {
+
+    var investAmount = $('#investInput').val();
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/projectsAndInvestmentsService/make-invest",
+        data: {"projectId": projectIdForInvest, "investAmount": investAmount},
+        cache: false,
+        statusCode: {
+            200: function (response) {
+                alert("Операция прошла успешно");
+                $('#cropperModal').css('display', "none");
+            },
+            403: function (response) {
+                alert("Недостаточно денег на счету для совершения операции")
+            },
+            404: function (response) {
+                alert("Внутрення ошибка серера - обратитесь к администратору!")
+            }
+        }
+    });
+});
+

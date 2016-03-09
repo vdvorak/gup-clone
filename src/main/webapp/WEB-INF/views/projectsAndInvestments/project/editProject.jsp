@@ -22,8 +22,8 @@
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
-    <link rel="stylesheet" href="/resources/css/confirmAlert.css">
-
+    <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
+    <link rel="stylesheet" href="/resources/css/mini.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
 <body>
@@ -83,15 +83,6 @@
                     </div>
                 </div>
 
-                <div class="field IMGUploader">
-                    <label for="addProjPhoto" class="editorLabel">Изображения</label>
-                    <div class="titleFile" data-title="Добавить изображение">
-                        <button id="addProjPhoto" class="blogCreationSubmit"></button>
-                    </div>
-                    <div class="IMGBlock" id="IMGBlock"></div>
-                </div>
-
-
                 <div class="field required">
                     <label for="sum" class="editorLabel">Нужная сумма</label>
                     <input id="sum" type="number" name='sum' class="editorInput" style="width: 291px;">
@@ -101,6 +92,30 @@
                     <label for="description" class="editorLabel">Описание</label>
                     <textarea id="description" name='description' class="editorInput"></textarea>
                 </div>
+
+                <div class="field IMGUploader">
+                    <label for="addProjPhoto" class="editorLabel">Изображения</label>
+                    <div class="titleFile" data-title="Добавить изображение">
+                        <button id="addProjPhoto" class="blogCreationSubmit"></button>
+                    </div>
+                </div>
+
+                <div id="drop_zone">
+                    <ul id="project-img-block" class="ul-img-container ul-img-container-green">
+                        <li class="li-containerIMG li-defaultIMG">
+                            <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+                            <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                        </li>
+                    </ul>
+                    <ul id="project-doc-block" class="ul-img-container ul-img-container-green">
+                        <li class="li-containerIMG li-defaultIMG">
+                            <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
+                            <img src="http://www.uzscience.uz/upload/userfiles/images/doc.png" alt="defaultIMG">
+                            <div style="width: 100%; text-align: center; font-weight: bold"></div>
+                        </li>
+                    </ul>
+                </div>
+
                 <div class="field">
                     <button id="deleteProjectBtn" class="delete-btn">Удалить проект</button>
                     <button id="editProjectBtn" class="info-submit">Сохранить</button>
@@ -125,6 +140,7 @@
     <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
     <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
+    <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
     <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 

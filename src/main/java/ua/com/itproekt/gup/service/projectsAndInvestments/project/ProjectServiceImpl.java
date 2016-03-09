@@ -38,7 +38,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .setTotalVoters(0)
                 .setTotalComments(0)
                 .setCreatedDateEqualsToCurrentDate()
-                .setModerationStatus(ModerationStatus.NO)
+                .setModerationStatus(ModerationStatus.COMPLETE)
                 .setStatus(ProjectStatus.ACTIVE)
                 .setLastInvestmentDateEqualsToCurrentDate()
                 .updateExpirationDateAt20Days()
@@ -54,7 +54,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         projectRepository.create(newProject);
 
-        project.setId(newProject.getId()); // ***
+        project.setId(newProject.getId());
     }
 
     @Override
@@ -138,13 +138,19 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public boolean userHasVoted(String projectId, String userId) {
-        return projectRepository.userHasVoted(projectId, userId);
+    public boolean userHasVoted(String projectId, String profileId) {
+        return projectRepository.userHasVoted(projectId, profileId);
+    }
+
+    @Override
+    public boolean userHasCommentedProject(String projectId, String profileId) {
+        return projectRepository.userHasCommentedProject(projectId, profileId);
     }
 
     @Override
     public void bringBackMoneyToInvestors() {
         Set<String> expiredProjectsIds = projectRepository.getExpiredProjectsIds();
+
         expiredProjectsIds.parallelStream().unordered().forEach(projectId -> {
             List<Pair<String, Long>> projectInvestments = null;
             try {
@@ -163,14 +169,25 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.getMatchedNames(name);
     }
 
+    //TODO: create method for send notifications
+    //TODO: refactoring
     public void sendNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {
         projectInvestments.parallelStream().unordered().forEach(pair -> {
             String uId = pair.getKey();
             Long moneyAmount = pair.getValue();
             activityFeedService.createEvent(new Event(uId, EventType.PROJECT_BRING_BACK_MONEY,
-                    moneyAmount.toString(), projectId));
+                    projectId, moneyAmount.toString(), null));
         });
-
     }
+
+    //TODO: create implementation
+    //TODO: create shcedule for autostart (mongoTask.xml)
+    @Override
+    public void sendNotificationsToInvestorsOfCompletedProjects() {
+        throw new UnsupportedOperationException();
+    }
+
+
+
 
 }

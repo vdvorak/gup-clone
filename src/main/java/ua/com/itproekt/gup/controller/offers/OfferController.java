@@ -104,7 +104,9 @@ public class OfferController {
     }
 
     //----------------------------------- one certain offer  ------
-    @RequestMapping(value = "/offer/{id}", method = RequestMethod.GET)
+
+    // ToDo delete this in the future
+    @RequestMapping(value = "/offer-new/{id}", method = RequestMethod.GET)
     public String offer(Model model, @PathVariable("id") String id) {
 
         Offer offer = new Offer();
@@ -122,13 +124,27 @@ public class OfferController {
         }
         model.addAttribute("offer", offer);
         model.addAttribute("properties", properties);
+        return "offer/offer-OLD";
+    }
+
+
+    @RequestMapping(value = "/offer/{id}", method = RequestMethod.GET)
+    public String offerNew(Model model, @PathVariable("id") String id) {
+        model.addAttribute("offerId", id);
         return "offer/offer";
     }
 
 
     //----------------------------------- create offer  ------
-    @RequestMapping(value = "/create-offer", method = RequestMethod.GET)
+    @RequestMapping(value = "/create-offer-old", method = RequestMethod.GET)
     public String createOffer(Model model) {
+        return "offer/create-offer-OLD";
+    }
+
+
+    // ToDo Delete in the future
+    @RequestMapping(value = "/create-offer", method = RequestMethod.GET)
+    public String createOldOffer(Model model) {
         return "offer/create-offer";
     }
 

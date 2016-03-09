@@ -37,7 +37,11 @@ public interface ProjectService {
 
     boolean userHasVoted(String projectId, String userId);
 
+    boolean userHasCommentedProject(String projectId, String profileId);
+
     void bringBackMoneyToInvestors();
 
     Set<String> getMatchedNames(String name);
+
+    void sendNotificationsToInvestorsOfCompletedProjects();
 }

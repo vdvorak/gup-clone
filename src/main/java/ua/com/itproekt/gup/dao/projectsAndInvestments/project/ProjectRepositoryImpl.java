@@ -74,10 +74,10 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             query.addCriteria(Criteria.where("status").is(projectFO.getStatus()));
         }
 
-        if (projectFO.getSimpleUserRestrictions() != null) {
+        if (projectFO.getSimpleUserRestrictionsForProfileId() != null) {
             query.addCriteria(new Criteria().orOperator(
                     Criteria.where("moderationStatus").is(ModerationStatus.COMPLETE),
-                    Criteria.where("authorId").is(projectFO.getSimpleUserRestrictions())));
+                    Criteria.where("authorId").is(projectFO.getSimpleUserRestrictionsForProfileId())));
         }
 
         if (projectFO.getModerationStatus() != null) {
@@ -165,6 +165,14 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     }
 
     @Override
+    public boolean userHasCommentedProject(String projectId, String profileId) {
+        Query query = new Query()
+                .addCriteria(Criteria.where("id").is(projectId))
+                .addCriteria(Criteria.where("comments.fromId").is(profileId));
+        return mongoTemplate.exists(query, Project.class);
+    }
+
+    @Override
     public void vote(String projectId, ProjectVote projectVote) {
         Update update = new Update()
                 .push("votes", projectVote)
@@ -191,12 +199,11 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 .set("votes.$.score", projectVote.getScore())
                 .inc("totalScore", projectVote.getScore() - oldUserScore);
 
-        mongoTemplate.updateFirst(
-                query,
-                update,
-                Project.class);
+        mongoTemplate.updateFirst(query, update, Project.class);
     }
 
+    //TODO: delete investedAmount ???
+    //TODO: add criteria to query "if status ia Active"
     @Override
     public Set<String> getExpiredProjectsIds() {
         Long currentDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -206,6 +213,12 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         queryObj.put( "$where", "this.investedAmount < this.amountRequested");
         List<Project> expiredProjects = mongoTemplate.find(new BasicQuery(queryObj), Project.class);
         return expiredProjects.stream().map(Project::getId).collect(Collectors.toSet());
+    }
+
+    //TODO: create implementation
+    @Override
+    public Set<String> getCompletedAmountRequestedProjectsIds() {
+        throw new UnsupportedOperationException();
     }
 
     @Override

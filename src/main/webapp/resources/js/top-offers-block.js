@@ -5,7 +5,7 @@ offerFO.limit = 3;
 
 loadAndAppendTopOffers(offerFO);
 
-$("#ad-caret").click(function(){
+$("#ad-caret").click(function () {
     loadAndAppendNextOffers(offerFO);
 });
 
@@ -16,24 +16,19 @@ function getOfferUrl(offer) {
 function getOfferImageUrl(imagesIds) {
     if (imagesIds) {
         for (var imgId in imagesIds) {
-            if (imagesIds[imgId] === "1") {
+            if (imagesIds[imgId] === "pic1") {
                 return "/api/rest/fileStorage/OFFERS/file/read/id/" + imgId;
             }
         }
     }
-
     return "/resources/images/no_photo.jpg";
 }
 
-function appendOffer(elementId, offerURL, imageUrl, title) {
-    $('#' + elementId).append(
-    '<div class="add-top1">' +
-        '<a href="' + offerURL + '" class="ad-a1">' + title + '</a>' +
-    '</div>');
-
-    $('.add-top1').last()
-        .css('background', 'url(' + imageUrl + ')  no-repeat center center')
-        .css('background-size', 'cover');
+function appendOffer(offerURL, imageUrl, title) {
+    $('#topOffersBlock').append($('.offer-item-wrapper').last().clone());
+    $('.add-top1').last().css('background', 'url(' + imageUrl + ')  no-repeat center center').css('background-size', 'cover');
+    $('.add-top1 span').last().text(title);
+    $('.offer-item-wrapper').last().attr('href', offerURL).show();
 }
 
 function loadAndAppendTopOffers() {
@@ -43,13 +38,12 @@ function loadAndAppendTopOffers() {
         url: "/api/rest/offersService/offer/read/all",
         data: JSON.stringify(offerFO),
         statusCode: {
-            200: function(data) {
+            200: function (data) {
                 var offers = data.entities;
 
                 for (var i = 0; i < offers.length; i++) {
                     var offerURl = getOfferUrl(offers[i]);
-
-                    appendOffer('topOffersBlock', offerURl, getOfferImageUrl(offers[i].imagesIds), offers[i].title);
+                    appendOffer(offerURl, getOfferImageUrl(offers[i].imagesIds), offers[i].title);
                 }
             }
             //,

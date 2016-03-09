@@ -155,7 +155,7 @@ public class DoerRestController {
             client.setDoerConfirm(true);
             doer.getClients().add(client);
             //create an notice(activityFeed) for user who was just add to list of clients
-            activityFeedService.createEvent(new Event(clientId, EventType.USER_ADD_TO_DOER_CLIENT_LIST, doer.getId(), doer.getAuthorId()));
+            activityFeedService.createEvent(new Event(clientId, EventType.USER_ADD_TO_DOER_CLIENT_LIST, doer.getId(), null, doer.getAuthorId()));
 
         // handling situation when client adds to doer clientsList
         } else if(clientId == null || getCurrentUserId().equals(clientId)){
@@ -164,7 +164,7 @@ public class DoerRestController {
             client.setClientConfirm(true);
             doer.getClients().add(client);
             //create an notice(activityFeed)for doer about new client was added.
-            activityFeedService.createEvent(new Event(doer.getAuthorId(), EventType.NEW_CLIENT_WANT_CONFIRM, doer.getId(), clientId));
+            activityFeedService.createEvent(new Event(doer.getAuthorId(), EventType.NEW_CLIENT_WANT_CONFIRM, doer.getId(), null, clientId));
 
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

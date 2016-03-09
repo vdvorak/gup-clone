@@ -13,15 +13,20 @@ import java.util.Set;
 public class InvestorPost {
     @Id
     private String id;
+
     private String uId;
     @Size(min = 50, max = 5000)
     private String description;
     @Min(1)
-    private Integer amountOfMoney;
+    private Integer minInvestAmount;
+    @Min(1)
+    private Integer maxInvestAmount;
     @Size(min = 1)
     private Set<String> categoriesOfIndustry;
+
     private Integer totalThoseInNeed;
     private Set<ApplicationForInvestment> thoseInNeed;
+
     private Long createdDate;
 
     public InvestorPost setCreatedDateEqualsToCurrentDate() {
@@ -31,12 +36,21 @@ public class InvestorPost {
 
     //=======================================================================================================
 
-    public Integer getAmountOfMoney() {
-        return amountOfMoney;
+    public Integer getMaxInvestAmount() {
+        return maxInvestAmount;
     }
 
-    public InvestorPost setAmountOfMoney(Integer amountOfMoney) {
-        this.amountOfMoney = amountOfMoney;
+    public InvestorPost setMaxInvestAmount(Integer maxInvestAmount) {
+        this.maxInvestAmount = maxInvestAmount;
+        return this;
+    }
+
+    public Integer getMinInvestAmount() {
+        return minInvestAmount;
+    }
+
+    public InvestorPost setMinInvestAmount(Integer minInvestAmount) {
+        this.minInvestAmount = minInvestAmount;
         return this;
     }
 

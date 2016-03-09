@@ -117,7 +117,7 @@
                     <button type="button" class="SubmitArticles">Редактировать блог</button>
                 </a>
             </c:if>
-            <a href="/blog-post/view-all/${blog.id}">
+            <a href="/blog-post/view-all/blogId/${blog.id}">
                 <button type="button" class="SubmitArticles">Все новости блога</button>
             </a>
         </div>

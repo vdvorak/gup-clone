@@ -22,8 +22,11 @@
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
+    <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
+    <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
 </head>
 <body>
     <!--[if lt IE 8]>
@@ -42,6 +45,11 @@
     <!--PAGE CONTENT START-->
 
     <div class="container2">
+        <div class="contentContainer" style="padding: 5px; margin-bottom: 10px;">
+            <button type="button" id="createProject" class="abutton">Создать свой проект</button>
+            <button type="button" id="createInvestorPost" class="abutton">Сделать инвестицию</button>
+        </div>
+
         <!-- Add "vip" class for "vip" users :3 -->
         <div class="contentContainer">
             <div class="projectContent">
@@ -62,7 +70,8 @@
                     </div>
                 </div>
                 <div id="investBlock" class="bottomSection">
-                    <button type="button" class="abutton blue invest">Инвестировать</button>
+                    <button id="editProjectBtn" type="button" class="abutton" style="display: none">Редактировать</button>
+                    <button id="makeInvest" type="button" class="abutton blue invest">Инвестировать</button>
                     <div class="projectProgressBlock">
                         <div class="current elem cash" id="investedAmount"></div>
                         <div class="bar elem">
@@ -72,6 +81,7 @@
                         </div>
                         <div class="todo elem cash" id ="requestedAmount"></div>
                     </div>
+
                     <div class="clearfix"></div>
                 </div>
                 <div class="description">
@@ -90,21 +100,24 @@
                         <div class="hearthPlace">
                             <div class="hearth"></div>
                         </div>
-                        <div class="number">22 000</div>
+                        <div class="number" id="totalScore"></div>
                     </div>
-                    <button type="button" class="abutton blue vote">Проголосовать</button>
-                    <select class="ratingSelector">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                    </select>
+
+                    <sec:authorize access="isAuthenticated()">
+                        <button id="voteBtn" type="button" class="abutton blue vote">Проголосовать</button>
+                        <select id="projVoteSelect" class="ratingSelector">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10" selected>10</option>
+                        </select>
+                    </sec:authorize>
                 </div>
 
                 <div class="clearfix"></div>
@@ -126,6 +139,27 @@
             </div>
         </div>
     </div>
+
+    <!-- The Modal -->
+    <div id="cropperModal" class="cropper-modal">
+
+        <!-- Modal content -->
+        <div class="cropper-modal-content">
+            <div class="cropper-modal-header">
+                <span>ИНВЕСТИРОВАНИЕ В ПРОЕКТ</span>
+            </div>
+            <input id="investInput" placeholder="Сумма инвестирования">
+            <%--<div class="cropper-modal-body drop_zone">--%>
+                <%--<img id="cropper-image" src="/resources/images/no_photo.jpg" style="max-width: 100%">--%>
+            <%--</div>--%>
+            <div class="cropper-modal-footer">
+                <button id="confirmInvest" class="cropper-btn cropper-btn-success">Ок</button>
+                <button class="cropper-btn cropper-btn-cancel">Отмена</button>
+            </div>
+        </div>
+
+    </div>
+    <!-- End of the Modal -->
 
     <!--PAGE CONTENT END-->
 

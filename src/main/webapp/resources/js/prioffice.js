@@ -1,64 +1,3 @@
-(function($){				
-	jQuery.fn.lightTabs = function(options){
-
-		var createTabs = function(){
-			tabs = this;
-			i = 0;
-			
-			showPage = function(i){
-				$(tabs).children("div").children("div").hide();
-				$(tabs).children("div").children("div").eq(i).show();
-				$(tabs).children("ul").children("li").removeClass("active");
-				$(tabs).children("ul").children("li").eq(i).addClass("active");
-			}
-								
-			showPage(0);				
-			
-			$(tabs).children("ul").children("li").each(function(index, element){
-				$(element).attr("data-page", i);
-				i++;                        
-			});
-			
-			$(tabs).children("ul").children("li").click(function(){
-				showPage(parseInt($(this).attr("data-page")));
-			});				
-		};		
-		return this.each(createTabs);
-	};	
-})(jQuery);
-
-
-
-/*$(document).ready(function(){
-	$(".tabs").lightTabs();
-});
-$(function () {
-	$("#accordion").accordion({
-		collapsible: true
-	});
-});
-$(document).on('click', '.prioffice-close-tenders-ico', function(e){
-	e.preventDefault();
-	$('.myitems-tenders ').css('display', 'none');
-});
-$(document).on('click', '.prioffice-close-projects-ico', function(e){
-	e.preventDefault();
-	$('.myitems-projects ').css('display', 'none');
-});
-$(document).on('click', '.prioffice-close-news-ico', function(e){
-	e.preventDefault();
-	$('.myitems-news ').css('display', 'none');
-});
-$(document).on('click', '.prioffice-close-founds1-ico', function(e){
-	e.preventDefault();
-	$('.myitems-founds ').css('display', 'none');
-});*/
-
-
-
-
-
-
 /**
  * Created by Андрій on 26.02.2016.
  */
@@ -82,93 +21,147 @@ $(document).ready(function () {
 })
 
 Nots = {}
+Nots.images = {
+	offer: "/resources/css/images/rupor.png",
+	blog: "/resources/css/images/newspaper.png",
+	tender: "/resources/css/images/hammer.png",
+	project: "/resources/css/images/compass.png",
+	investments: "/resources/css/images/dollarUp.png",
+	balance: "/resources/css/images/balance.png"
+}
+Nots.NType = (function () {
+	function NType(settings) {
+		this.text = 'No description'
+		this.image = Nots.images.offer
+		this.href = ''
+		this.addition = ''
+		$.extend(this, settings)
+	}
+	return NType
+})()
+Nots.NType.prototype.getText = function(data){
+	var self = this
+	return Nots.NType.processData(self.text, data).replace(/(\[)(.+)(\[)(.+)(]])/, function(a, b1, b2, b3, b4, b5){
+		if (!self.hasOwnProperty(b2)){
+			console.error('Type not have command "' + b2 + '"')
+			self[b2] = ''
+		}
+		return '<a href="'+Nots.NType.processData(self[b2], data)+'">' + b4 + '</a>'
+	})
+}
+Nots.NType.prototype.getHref = function(data){
+	return Nots.NType.processData(
+		this.href, data
+	)
+}
+Nots.NType.processData = function(href, data){
+	return href.replace(/({{)(.+)(}})/, function(a, b1, b2, b3){
+		if (!data.hasOwnProperty(b2)){
+			console.error('Data not have field "' + b2 + '"')
+			data[b2] = ''
+		}
+		return data[b2]
+	})
+}
 Nots.types = {
-	BLOG_SUBSCRIPTION: {
-		img: "",
-		text: "Новый подписчик"
-	},
+	BLOG_SUBSCRIPTION: new Nots.NType({
+		text: "У Вашего блога [a1[новый подписчик]]",
+		image: Nots.images.blog,
+		href: '/blog/{{contentId}}',
+		a1: '/profile/{{creatorEventId}}'
+	}),
 
-	BLOG_POST_LIKE: {
-		img: "",
-		text: "Лайк записи блога"
-	},
-	BLOG_POST_DISLIKE: {
-		img: "",
-		text: "Дизлайк записи блога"
-	},
+	BLOG_POST_LIKE: new Nots.NType({
+		text: "[a1[Пользователю]] понравилась Ваша запись",
+		image: Nots.images.blog,
+		href: '/blog/{{contentId}}',
+		a1: '/profile/{{creatorEventId}}'
+	}),
+	BLOG_POST_DISLIKE: new Nots.NType({
+		text: "[a1[Пользователю]] не нравится Ваша запись",
+		image: Nots.images.blog,
+		href: '/blog/{{contentId}}',
+		a1: '/profile/{{creatorEventId}}'
+	}),
 
-	BLOG_POST_COMMENT: {
-		img: "",
-		text: "Новый комментарий"
-	},
-	BLOG_POST_COMMENT_REPLY: {
-		img: "",
-		text: "На ваш комментарий ответили"
-	},
-	BLOG_POST_COMMENT_LIKE: {
-		img: "",
-		text: "Лайк Вашего комментария"
-	},
+	BLOG_POST_COMMENT: new Nots.NType({
+		text: "Новый комментарий",
+		image: Nots.images.blog
+	}),
+	BLOG_POST_COMMENT_REPLY: new Nots.NType({
+		text: "На ваш комментарий ответили",
+		image: Nots.images.blog
+	}),
+	BLOG_POST_COMMENT_LIKE: new Nots.NType({
+		text: "Лайк Вашего комментария",
+		image: Nots.images.blog
+	}),
 
-	PROJECT_COMMENT: {
-		img: "",
-		text: "Новый комментарий к проекту"
-	},
-	PROJECT_COMMENT_REPLY: {
-		img: "",
-		text: "На ваш комментарий ответили"
-	},
+	PROJECT_COMMENT: new Nots.NType({
+		text: "Новый комментарий к проекту",
+		image: Nots.images.project
+	}),
+	PROJECT_COMMENT_REPLY: new Nots.NType({
+		text: "На ваш комментарий ответили",
+		image: Nots.images.project
+	}),
 
-	MONEY_TRANSFER_TO_USER: {
-		img: "",
-		text: "Вам зачислены средства"
-	},
-	MONEY_TRANSFER_TO_PROJECT: {
-		img: "",
-		text: "Вы инвестировали в проект"
-	},
-	PROJECT_BRING_BACK_MONEY: {
-		img: "",
-		text: "Вы вернули деньги"
-	},
+	MONEY_TRANSFER_TO_USER: new Nots.NType({
+		text: "Вам зачислены средства",
+		image: Nots.images.balance
+	}),
+	MONEY_TRANSFER_TO_PROJECT: new Nots.NType({
+		text: "Вы инвестировали в проект",
+		image: Nots.images.balance
+	}),
+	PROJECT_BRING_BACK_MONEY: new Nots.NType({
+		text: "Проект вернул {{contentId}} грн",
+		image: Nots.images.balance,
+		href: '/project?id={{creatorEventId}}'
+	}),
 
 
 //for doerService
-	NEW_CLIENT_WANT_CONFIRM: {
-		img: "",
-		text: "NEW_CLIENT_WANT_CONFIRM"
-	},
-	USER_ADD_TO_DOER_CLIENT_LIST: {
-		img: "",
-		text: "USER_ADD_TO_DOER_CLIENT_LIST"
-	},
+	NEW_CLIENT_WANT_CONFIRM: new Nots.NType({
+		text: "NEW_CLIENT_WANT_CONFIRM",
+		image: Nots.images.investments
+	}),
+	USER_ADD_TO_DOER_CLIENT_LIST: new Nots.NType({
+		text: "USER_ADD_TO_DOER_CLIENT_LIST",
+		image: Nots.images.investments
+	}),
 
 //for tenderService
-	TENDER_END_DAY_NEED_CHOOSE_WINNER: {
-		img: "",
-		text: "Тендер закончился. Выберите победителя."
-	},
-	YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER: {
-		img: "",
-		text: "YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER"
-	},
-	NEW_PROPOSE_IN_YOUR_TENDER: {
-		img: "",
-		text: "NEW_PROPOSE_IN_YOUR_TENDER"
-	},
-	YOU_WON_IN_TENDER: {
-		img: "",
-		text: "YOU_WON_IN_TENDER"
-	},
+	TENDER_END_DAY_NEED_CHOOSE_WINNER: new Nots.NType({
+		text: "Тендер закончился, выберите победителя.",
+		image: Nots.images.tender,
+		href: '/tender/{{contentId}}'
+	}),
+	YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER: new Nots.NType({
+		text: "Вас добавили в закрытый тендер",
+		image: Nots.images.tender,
+		href: '/tender/{{contentId}}'
+	}),
+	NEW_PROPOSE_IN_YOUR_TENDER: new Nots.NType({
+		text: "NEW_PROPOSE_IN_YOUR_TENDER",
+		image: Nots.images.tender
+	}),
+	YOU_WON_IN_TENDER: new Nots.NType({
+		text: "Вы выиграли в тендере!",
+		image: Nots.images.tender,
+		href: '/tender/{{contentId}}'
+	}),
 
-	OFFER_RESERVATION: {
-		img: "",
-		text: "OFFER_RESERVATION"
-	},
-	OFFER_RENT: {
-		img: "",
-		text: "OFFER_RENT"
-	}
+	OFFER_RESERVATION: new Nots.NType({
+		text: "Обьявление [a1[забронировано пользователем]]",
+		image: Nots.images.offer,
+		href: '/offer/{{contentId}}',
+		a1: '/profile/{{creatorEventId}}'
+	}),
+	OFFER_RENT: new Nots.NType({
+		text: "OFFER_RENT",
+		image: Nots.images.offer
+	})
 }
 Nots.scope = null
 /*routerApp.controller('notifications', function($scope, $http, $window){
@@ -180,8 +173,20 @@ loadingQueue.push(function(){
 		temp.text(localDateTime(temp.text()))
 	})
 	$('.notifications .notify').each(function (num, e) {
-		var temp = $(e).find('.text')
-		temp.text(Nots.types[temp.text()].text)
+		var handle = $(e)
+		var temp = handle.find('.text')
+		var type = Nots.types[temp.html()]
+		if (!type){
+			return console.error('Undefined event type: ' + temp.html())
+		}
+		var data = {
+			uid: handle.attr('data-uid'),
+			contentId: handle.attr('data-contentId'),
+			creatorEventId: handle.attr('data-creatorEventId')
+		}
+		temp.html(type.getText(data))
+		handle.find('.avatar').attr('src', type.image)
+		handle.attr('href', type.getHref(data))
 	})
 	/*Nots.scope.getText = function (type) {
 		return Nots.types[type].text
@@ -205,7 +210,7 @@ User.get = function (id, callback) {
 	else {
 		R.Libra().profilesService().profile().read().id(id, null, function (res) {
 			res.getPic = function () {
-				return res.contact.pic ? '/api/rest/fileStorage/PROFILE/file/read/id/' + res.contact.pic : '/resources/images/no_photo.jpg'
+				return res.imgId ? '/api/rest/fileStorage/PROFILE/file/read/id/' + res.imgId : '/resources/images/no_photo.jpg'
 			}
 			res.getPage = function () {
 				return '/profile/id/' + id

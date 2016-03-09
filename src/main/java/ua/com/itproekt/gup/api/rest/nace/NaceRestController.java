@@ -14,6 +14,7 @@ import ua.com.itproekt.gup.model.nace.NACE;
 import ua.com.itproekt.gup.service.nace.NaceService;
 
 import java.beans.PropertyEditorSupport;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -46,6 +47,22 @@ public class NaceRestController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
+    @RequestMapping(
+            value = "/nace/create/all",
+            method = RequestMethod.POST,
+            headers = "Content-Type=application/json")
+    public ResponseEntity<Void> addNaces (@RequestBody ArrayList<NACE> naces) {
+        log.log(Level.INFO, LOGGED_TITLE + "nace/create/all Hello =)");
+
+        System.err.println("______________ naces.size() = " + naces.size());
+        for(NACE nace : naces){
+            naceService.addNace(nace);
+            log.log(Level.INFO, LOGGED_TITLE + "nace/create - nace was created successfully");
+        }
+        System.err.println("______________ naces.size() = " + naces.size());
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
     // this method provide getting all message from existing dialogue.
     @RequestMapping(value="/read/id/{id}",
             method=RequestMethod.POST)

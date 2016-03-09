@@ -159,8 +159,8 @@ public class DialogueRestController {
                     //Look out! GOVNOCOD
                     //Change AuthorId in messages to UserPicId
                     Profile p = profileService.findById(msg.getAuthorId());
-                    if(p != null && p.getContact() != null && p.getContact().getPic() != null){
-                        msg.setAuthorId(p.getContact().getPic());
+                    if(p != null && p.getImgId() != null){
+                        msg.setAuthorId(p.getImgId());
                     }else {
                         msg.setAuthorId("");
                     }
@@ -186,7 +186,7 @@ public class DialogueRestController {
             method=RequestMethod.POST
             )
     public ResponseEntity<List<Dialogue>> getAllDialogues(){
-        List<Dialogue> dialogues = dialogueService.findDialogsForUser(getCurrentUserId());
+        List<Dialogue> dialogues = dialogueService.findDialogsForUserSimple(getCurrentUserId());
         for(Dialogue d: dialogues){
             dialogueService.completeMembers(d);
         }

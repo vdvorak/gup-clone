@@ -38,5 +38,9 @@ public interface ProjectRepository {
 
     Set<String> getExpiredProjectsIds();
 
+    Set<String> getCompletedAmountRequestedProjectsIds();
+
     Set<String> getMatchedNames(String name);
+
+    boolean userHasCommentedProject(String projectId, String profileId);
 }

@@ -42,7 +42,7 @@
                 <p class="newsVisits" id="bpViewsNum">Просмотров: </p>
                 <p class="newsPublished" id="bpCreatedDate">Опубликовано: </p>
                 <p class="newsName" id="bpTitle"></p> <!-- когда чувак вип надо добавить класс vip-color -->
-                <div id="bpText">
+                <div id="bpText" class="descriptionNormalNews2">
                     <%--<img class="newsIMG1" src="/resources/images/newsImages.png" alt="images">--%>
                     <%--<p class="newsText">Перед выборами забота о гражданах максимально зашкаливает. Чинятся подъезды, ремонтируются дороги, ну в общем кому как повезет. Жителям одного из дворов на Березняках повезло не особо: не хватило асфальта. Но хоть что-то ради электората сделать надо. И коммунальщики оторвали от сердца дорогое: лежачего полицейского.--%>
                         <%--Уложили его аккуратно между ямами, чтоб водитель уж точно никуда не делся.--%>
@@ -134,8 +134,8 @@
                                 statusCode: {
                                     200: function (profile) {
                                         var profileImgTag = '<img ';
-                                        if (profile.contact.pic != null && profile.contact.pic != '') {
-                                            profileImgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.contact.pic + '?cachedImage=1"';
+                                        if (profile.imgId) {
+                                            profileImgTag += 'src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '?cachedImage=1"';
                                         } else {
                                             profileImgTag += 'src="/resources/images/no_photo.jpg"';
                                         }
@@ -158,7 +158,7 @@
             $('#newsLike').on('click', function () {
                 if (typeof loggedInProfile != 'undefined') {
                     if($.inArray(loggedInProfile.id, loadedBlogPost.likedIds) == -1) {
-                        if($.inArray(loggedInProfile.id, loadedBlogPost.dislikedIds) != -1) {
+                        if($.inArray(loggedInProfile.id, loadedBlogPost.dislikedIds) != -1 && loadedBlogPost.totalDislikes > 0) {
                             $('#bpDislikeNum').text(--loadedBlogPost.totalDislikes);
                             loadedBlogPost.dislikedIds = $.grep(loadedBlogPost.dislikedIds, function(value) {
                                 return value != loggedInProfile.id;
@@ -185,7 +185,7 @@
             $('#newsDislike').on('click', function () {
                 if (typeof loggedInProfile != 'undefined') {
                     if($.inArray(loggedInProfile.id, loadedBlogPost.dislikedIds) == -1) {
-                        if($.inArray(loggedInProfile.id, loadedBlogPost.likedIds) != 1) {
+                        if($.inArray(loggedInProfile.id, loadedBlogPost.likedIds) != 1 && loadedBlogPost.totalLikes > 0) {
                             $('#bpLikeNum').text(--loadedBlogPost.totalLikes);
                             loadedBlogPost.likedIds = $.grep(loadedBlogPost.likedIds, function(value) {
                                 return value != loggedInProfile.id;

@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="/resources/css/mini.css">
 </head>
 <body>
 
@@ -38,10 +39,12 @@
 <div class="container2">
     <div class="tenderMake">
         <h1>СОЗДАНИЕ ТЕНДЕРА</h1>
-        <form action="#">
+        <form id="tender-make-form" action="#">
             <label for="EnterTheTitle">Введите название</label>
             <input type="text" id="EnterTheTitle" required>
             <label>Выберете отрасль</label>
+            <input type="text" id="searchInputKved" class="form-control sear" name="search" placeholder="Поиск">
+
             <div id="selectBox-info-type">
                 <select id="select-type">
                     <option>Выберите тип</option>
@@ -93,19 +96,19 @@
                 <textarea name="Description" id="Description"></textarea>
             </div>
 
-            <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
+            <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit" form="photoForm"></button></div>
             <img id="tender-btn-addDoc" src="/resources/images/clip.png" alt="clip">
 
             <div class="clearfix"></div>
 
-            <div id="drop_zone" class="defaultIMG">
-                <ul id="tender-img-block">
+            <div id="drop_zone">
+                <ul id="tender-img-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
                     </li>
                 </ul>
-                <ul id="tender-doc-block">
+                <ul id="tender-doc-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="http://www.uzscience.uz/upload/userfiles/images/doc.png" alt="defaultIMG">
@@ -119,11 +122,12 @@
             <img src="/resources/images/doerLogo.png" alt="doerLogo">
             <img src="/resources/images/doerLogo.png" alt="doerLogo">
             <img src="/resources/images/doerLogo.png" alt="doerLogo">--%>
-            <button id="tender-btn-save" type="submit">Сохранить</button>
-        </form>
+            <button id="tender-btn-save" type="submit" form="tender-make-form">Сохранить</button>
 
-        <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
-            <input id="photoInput" type="file" style="display: none;" multiple="multiple">
+            <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
+                <input id="photoInput" type="file" style="display: none;" multiple="multiple">
+            </form>
+
         </form>
 
     </div>
@@ -585,7 +589,7 @@
         var block = $(event.currentTarget).parent().parent();
         $.ajax({
             type: "POST",
-            url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
+            url: "/api/rest/fileStorage/TENDER/file/delete/id/" + idImg,
             success: function (data, textStatus, request) {
                 $('#' + idImg).parent().remove();
 
@@ -618,6 +622,24 @@
 
         if(img.hasClass("mainImg")) {
             imgsArr[id] = "pic1";
+        }
+    }
+
+    function checkMainImg() {
+        var hasMainImg = false;
+
+        for(var key in imgsArr) {
+            if(imgsArr[key] === 'pic1') {
+                hasMainImg = true;
+                break;
+            }
+        }
+
+        if(!hasMainImg) {
+            for(var key in imgsArr) {
+                imgsArr[key] = 'pic1';
+                break;
+            }
         }
     }
 
@@ -658,15 +680,17 @@
 
 
     //---------------------------- SUBMIT -----------------------------------------------------//
-    $('#tender-btn-save').click(function (event) {
 
+    $('#tender-make-form').submit(function (event) {
         var body = tinymce.activeEditor.getContent();
-        if(!body) return;
+        if(!body) return false;
+
+        checkMainImg();
 
         var tender = {};
         tender.uploadFilesIds = imgsArr;
         tender.title = $('#EnterTheTitle').val();
-        tender.body = body;
+        tender.body = tinymce.activeEditor.getContent();
         tender.tenderNumber = $('#TenderNumber').val();
 //        tender.begin = new Date($('#datepicker').val()).getTime();
 //        tender.end = new Date($('#datepicker2').val()).getTime();
@@ -753,5 +777,10 @@
 </script>
 <%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"--%>
         <%--async defer></script>--%>
+
+
+<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script src="/resources/js/kved_autocomplete.js"></script>
+
 </body>
 </html>

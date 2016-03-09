@@ -1,6 +1,8 @@
 var imagesIds = {};
 
 $(document).ready(function () {
+    $(".chosen").chosen();
+
     // Setup the dnd listeners.
     var dropZone = document.getElementById('drop_zone');
     dropZone.addEventListener('dragover', handleDragOver, false);
@@ -24,24 +26,16 @@ $(document).ready(function () {
                 cache: false,
                 contentType: false,
                 processData: false,
-
-                success: function (data, textStatus, request) {
-                    var id = data.id;
-                    var isImage = f.type.substring(0, 5) === 'image';
-                    if (isImage) {
-                        imagesIds[id] = "image";
-                        $(".li-defaultIMG").css("display", "none");
-                        var cloneImg = $(".li-defaultIMG").clone()
-                            .removeClass('li-defaultIMG')
-                            .css("display", "inline-block");
-                        cloneImg.find('img')
-                            .attr("alt", "")
-                            .attr("src", '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + id)
-                            .attr("id", id);
-                        cloneImg.find('span')
-                            .click(deleteImgFromDB);
-                        cloneImg.appendTo('.defaultIMG ul');
-
+                statusCode: {
+                    201: function (data, textStatus, request) {
+                        var id = data.id;
+                        if (f.type.substring(0, 5) === 'image') {
+                            imagesIds[id] = "image";
+                            appendImg(id);
+                        } else {
+                            imagesIds[id] = "doc";
+                            appendDoc(id, f.name);
+                        }
                     }
                 }
             });
@@ -77,23 +71,16 @@ $('#photoInput').change(function (event) {
             cache: false,
             contentType: false,
             processData: false,
-
-            success: function (data, textStatus, request) {
-                var id = data.id;
-                var isImage = f.type.substring(0, 5) === 'image';
-                if (isImage) {
-                    imagesIds[id] = "image";
-                    $(".li-defaultIMG").css("display", "none");
-                    var cloneImg = $(".li-defaultIMG").clone()
-                        .removeClass('li-defaultIMG')
-                        .css("display", "inline-block");
-                    cloneImg.find('img')
-                        .attr("alt", "")
-                        .attr("src", '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + id)
-                        .attr("id", id);
-                    cloneImg.find('span')
-                        .click(deleteImgFromDB);
-                    cloneImg.appendTo('.defaultIMG ul');
+            statusCode: {
+                201: function (data, textStatus, request) {
+                    var id = data.id;
+                    if (f.type.substring(0, 5) === 'image') {
+                        imagesIds[id] = "image";
+                        appendImg(id);
+                    } else {
+                        imagesIds[id] = "doc";
+                        appendDoc(id, f.name);
+                    }
                 }
             }
         });
@@ -101,21 +88,95 @@ $('#photoInput').change(function (event) {
     event.currentTarget.form.reset();
 });
 
+function appendImg(id) {
+    $("#project-img-block > .li-defaultIMG").css("display", "none");
+    var cloneImg = $("#project-img-block > .li-defaultIMG").clone()
+        .removeClass('li-defaultIMG')
+        .css("display", "inline-block");
+    cloneImg.find('img')
+        .attr("alt", "")
+        .attr("src", '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/' + id)
+        .attr("id", id)
+        .click(onClickSetMainImg);
+    cloneImg.find('span')
+        .click(deleteImgFromDB);
+    cloneImg.appendTo('#project-img-block');
+}
+
+function appendDoc(id, name) {
+    $("#project-doc-block > .li-defaultIMG").css("display", "none");
+    var cloneDoc = $("#project-doc-block > .li-defaultIMG").clone()
+        .removeClass('li-defaultIMG')
+        .css("display", "inline-block");
+    cloneDoc.find('img')
+        .attr("id", id);
+    cloneDoc.find('div')
+        .text(name);
+    cloneDoc.find('span')
+        .click(deleteImgFromDB);
+    cloneDoc.appendTo('#project-doc-block');
+}
+
+function onClickSetMainImg() {
+    var img = $(event.currentTarget);
+    var id = img.attr("id");
+    var isMain = img.hasClass("mainImg");
+    var allImgs = $("#project-img-block").find("img");
+    for (var i = 0; i < allImgs.length; i++) {
+        var curImg = $(allImgs[i]);
+        if (curImg.hasClass("mainImg")) {
+            curImg.removeClass("mainImg");
+        }
+    }
+    if (!isMain) img.addClass("mainImg");
+
+    for (var key in imagesIds) {
+        if (imagesIds[key] === "pic1") {
+            imagesIds[key] = "image";
+        }
+    }
+
+    if (img.hasClass("mainImg")) {
+        imagesIds[id] = "pic1";
+    }
+}
+
+function checkMainImg() {
+    var hasMainImg = false;
+
+    for(var key in imagesIds) {
+        if(imagesIds[key] === 'pic1') {
+            hasMainImg = true;
+            break;
+        }
+    }
+
+    if(!hasMainImg) {
+        for(var key in imagesIds) {
+            imagesIds[key] = 'pic1';
+            break;
+        }
+    }
+}
+
 function deleteImgFromDB(event) {
 
-    var picId = $(event.currentTarget).parent()
+    var idImg = $(event.currentTarget).parent()
         .find('img')
         .attr('id');
-    delete imagesIds[picId];
+    delete imagesIds[idImg];
+
+    var block = $(event.currentTarget).parent().parent();
+
     $.ajax({
         url: '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/delete/id/' + picId,
         method: 'POST',
         success: function (response) {
-            $('#' + picId).parent().remove();
+            $('#' + idImg).parent().remove();
 
-            var numberImg = $(".defaultIMG").find('img').length;
+            var numberImg = block.find('img').length;
             if(numberImg < 2) {
-                $(".li-defaultIMG").css("display", "inline-block");
+                block.find(".li-defaultIMG").css("display", "inline-block");
             }
         },
         error: function (response) {
@@ -124,38 +185,26 @@ function deleteImgFromDB(event) {
 }
 
 $(document).on('click', 'button.info-submit', function (event) {
-    //var type = "";
-    //if($('input[class="greenCheckbox"]:checked').length) type =
-    //var title =
-    //var description =
-    //var amountRequested =
-    //var categoriesOfIndustry = "";
-    //if($('#categoriesOfIndustry').length) categoriesOfIndustry =
-
     var incorrectValuesMsg = '';
     var newProject = {};
-    newProject.moderationStatus = "COMPLETE";
 
     newProject.type =  $('input[class="greenCheckbox"]:checked').val();
-    if (!newProject.type) { incorrectValuesMsg += "Выбрете тип проекта \n";}
-
     newProject.title = $('#main-title-info').val();
-    if (newProject.title.length < 4 || newProject.title.length > 70) {incorrectValuesMsg += "Введите заголовок \n";}
-
     newProject.description = tinymce.activeEditor.getContent({format : 'raw'});
-    alert("[" + newProject.description + "]");
-    if (newProject.description.length < 50 || newProject.description.length > 5000) {incorrectValuesMsg += "Добавьте описание \n";}
-
     newProject.amountRequested = +$('#sum').val();
+
+    if (!newProject.type) { incorrectValuesMsg += "Выбрете тип проекта \n";}
+    if (newProject.title.length < 4 || newProject.title.length > 70) {incorrectValuesMsg += "Введите заголовок \n";}
+    if (newProject.description.length < 50 || newProject.description.length > 5000) {incorrectValuesMsg += "Добавьте описание \n";}
     if (newProject.amountRequested < 1) {incorrectValuesMsg += "Укажите нужную сумму \n";}
 
+    $('#categoriesOfIndustry').find('option:selected').each(function() {
+        alert($(this).val());
+    });
     //newProject.categoriesOfIndustry = $('#categoriesOfIndustry').val();
     //if (!categoriesOfIndustry) {incorrectValues += "Добавьте категории индустрии<br>";}
 
-    for(var key in imagesIds) {
-        imagesIds[key] = '1';
-        break;
-    }
+    checkMainImg();
     newProject.imagesIds = imagesIds;
 
     if (!incorrectValuesMsg.length) {

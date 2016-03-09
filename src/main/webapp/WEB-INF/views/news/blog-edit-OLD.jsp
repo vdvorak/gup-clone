@@ -19,13 +19,17 @@
     <link rel="stylesheet" href="/resources/css/media-queries.css">
 
     <%-- Cropper style --%>
-    <link  href="/resources/css/cropper.css" rel="stylesheet">
-    <link rel="stylesheet" href="/resources/css/cropper-modal-window.css">
+    <link href="/resources/css/cropper.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
+    <link rel="stylesheet" href="/resources/css/mini.css">
+    <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
 </head>
 <body>
 
 <!--[if lt IE 8]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
@@ -39,48 +43,35 @@
 <div class="container2">
     <div class="blogCreation">
         <p class="blogCreationHeader">Редактирование новостного блога</p>
+
         <form id="blogCreationForm" action="#" role="form">
             <label for="blogTitle" class="blogCreationLabel">Заголовок блога</label>
-            <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput" value="${blog.title}">
+            <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput" value="${blog.title}" placeholder="Длина заголовка от 2 до 70 символов">
+
             <div class="clearfix"></div>
 
             <label for="blogCreationDescription" class="blogCreationLabel">Описание</label>
-            <textarea name="blogCreationDescription" id="blogCreationDescription" class="blogCreationDescription">${blog.description}</textarea>
+            <textarea name="blogCreationDescription" id="blogCreationDescription"
+                      class="blogCreationDescription" placeholder="Длина описания от 50 до 5000 символов">${blog.description}</textarea>
 
             <div class="group-info">
                 <label for="blogCreationSocial" class="blogCreationLabel">Социальные сети</label>
-                <input type="text" name="blogCreationSocial" id="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку на Facebook" name="FACEBOOK">
+                <input type="text" id="blogCreationSocial" class="blogCreationSocial"
+                       placeholder="Добавить ссылку на Facebook" name="FACEBOOK">
+
                 <div class="socialIconBlog">
                     <a href="#"><img class="img-responsive" src="/resources/images/twitter-info.png" alt="TWITTER"></a>
-                    <a href="#"><img class="img-responsive" src="/resources/images/facebook-info.png" alt="FACEBOOK"></a>
+                    <a href="#"><img class="img-responsive" src="/resources/images/facebook-info.png"
+                                     alt="FACEBOOK"></a>
                     <a href="#"><img class="img-responsive" src="/resources/images/skype-info.png" alt="SKYPE"></a>
                     <a href="#"><img class="img-responsive" src="/resources/images/vk-info.png" alt="VKONTAKTE"></a>
                     <a href="#"><img class="img-responsive" src="/resources/images/g+info.png" alt="GOOGLEPLUS"></a>
                     <a href="#"><img class="img-responsive" src="/resources/images/in-info.png" alt="LINKEDIN"></a>
                 </div>
-
-                <c:forEach var="socLink" items="${blog.socLinks.entrySet()}">
-                    <c:choose>
-                        <c:when test="${socLink.getKey() == 'FACEBOOK'}">
-                            <input type="text" name="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку на Facebook" name="FACEBOOK" value="${socLink.getValue()}">
-                        </c:when>
-                        <c:when test="${socLink.getKey() == 'VKONTAKTE'}">
-                            <input type="text" name="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку на Vkontakte" name="VKONTAKTE" value="${socLink.getValue()}">
-                        </c:when>
-                        <c:when test="${socLink.getKey() == 'LINKEDIN'}">
-                            <input type="text" name="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку на LinkedIn" name="LINKEDIN" value="${socLink.getValue()}">
-                        </c:when>
-                        <c:when test="${socLink.getKey() == 'GOOGLEPLUS'}">
-                            <input type="text" name="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку на Google +" name="GOOGLEPLUS" value="${socLink.getValue()}">
-                        </c:when>
-                        <c:when test="${socLink.getKey() == 'TWITTER'}">
-                            <input type="text" name="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку на Twitter" name="TWITTER" value="${socLink.getValue()}">
-                        </c:when>
-                        <c:when test="${socLink.getKey() == 'SKYPE'}">
-                            <input type="text" name="blogCreationSocial" class="blogCreationSocial" placeholder="Добавить ссылку на Skype" name="SKYPE" value="${socLink.getValue()}">
-                        </c:when>
-                    </c:choose>
-                </c:forEach>
+                <div class="blog-social-container" style="display: none;"><input type="text" class="blog-social-input"
+                                                                                 placeholder="Добавить ссылку на Facebook"
+                                                                                 name="FACEBOOK"
+                        ><img src="/resources/img/minus.png" class="blog-btn-removeSocial"></div>
 
             </div>
 
@@ -90,9 +81,9 @@
             <div class="drop_zone">
                 <c:choose>
                     <c:when test="${not empty blog.imageId}">
-                        <div class="defaultIMG">
+                    <div class="blog-img">
                             <ul>
-                                <li>
+                                <li class="li-defaultIMG">
                                     <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImg()"></i></span>
                                     <img src="/api/rest/fileStorage/NEWS/file/read/id/${blog.imageId}" alt="">
                                 </li>
@@ -100,9 +91,9 @@
                         </div>
                     </c:when>
                     <c:otherwise>
-                        <div class="defaultIMG">
+                        <div class="blog-img">
                             <ul>
-                                <li>
+                                <li class="li-defaultIMG">
                                     <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImg()"></i></span>
                                     <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
                                 </li>
@@ -111,15 +102,26 @@
                     </c:otherwise>
                 </c:choose>
             </div>
-            <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
+            <div class="titleFile" data-title="Добавить изображение">
+                <button type="submit" class="blogCreationSubmit"></button>
+            </div>
             <label class="blogCreationLabel">Фотографии</label>
         </form>
 
+        <div class="clearfix"></div>
 
         <button type="button" class="SendEdition">Отправить редакции</button>
+        <button id="btn-blog-delete" type="button">Удалить блог</button>
 
         <div class="clearfix"></div>
     </div>
+</div>
+
+<div class="confirm" id="confirmBlogDelete" style="display: none">
+    <h1>Подтвердите удаление</h1>
+    <p>Объявление будет навсегда удалено</p>
+    <button id="cancelBlogDelBtn" autofocus>Отмена</button>
+    <button id="confirmBlogDelBtn">Удалить</button>
 </div>
 
 <!-- The Modal -->
@@ -156,9 +158,10 @@
 <script src="/resources/js/cropper.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/jquery.bxslider.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
 
-<sec:authorize var="loggedIn" access="isAuthenticated()" />
+<sec:authorize var="loggedIn" access="isAuthenticated()"/>
 <c:choose>
     <c:when test="${loggedIn}">
         <script src="/resources/js/autorizedHeader.js"></script>
@@ -180,18 +183,21 @@
     var blog = {};
     var blogId = '${blog.id}';
     var socialSizeOld = ${blog.socLinks.size()} +0;
-
+    var socialLinks = {};
     if ('${blog.imageId}'.length > 2) {
         oldImgId = '${blog.imageId}';
         imgId = oldImgId;
     }
 
+    if ('${blog.socLinks}'.length > 5) {
+        socialLinks = JSON.parse('${blog.socLinks}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
+    }
 
     // --------------------------------------  BEGIN cropper  ----------------------------------------------
     var image = document.getElementById('cropper-image');
     var cropper = new Cropper(image, {
         aspectRatio: 1 / 1,
-        crop: function(data) {
+        crop: function (data) {
             console.log(data.x);
             console.log(data.y);
             console.log(data.width);
@@ -202,19 +208,19 @@
         }
     });
 
-    $(".cropper-btn-cancel").click(function() {
-        $('#cropperModal').css('display',"none");
+    $(".cropper-btn-cancel").click(function () {
+        $('#cropperModal').css('display', "none");
     });
 
-    $(window).click(function(event) {
+    $(window).click(function (event) {
         var modal = document.getElementById('cropperModal');
         if (event.target == modal) {
             modal.style.display = "none";
         }
     });
 
-    $(".cropper-btn-success").click(function() {
-        $('#cropperModal').css('display',"none");
+    $(".cropper-btn-success").click(function () {
+        $('#cropperModal').css('display', "none");
 
         var canvas = cropper.getCroppedCanvas();
         var dataURL = canvas.toDataURL('image/jpeg', 0.5);
@@ -232,14 +238,14 @@
         $.ajax({
             type: "POST",
             url: "/api/rest/fileStorage/NEWS/file/upload/",
-            data:  formData,
+            data: formData,
             async: false,
             cache: false,
             contentType: false,
             processData: false,
             success: function (data, textStatus, request) {
                 imgId = data.id;
-                $('.defaultIMG').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                $('.blog-img ul').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
                 cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
             }
         });
@@ -248,7 +254,7 @@
     function dataURItoBlob(dataURI) {
         var binary = atob(dataURI.split(',')[1]);
         var array = [];
-        for(var i = 0; i < binary.length; i++) {
+        for (var i = 0; i < binary.length; i++) {
             array.push(binary.charCodeAt(i));
         }
         return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
@@ -256,61 +262,72 @@
     // --------------------------------------  END cropper  ----------------------------------------------
 
     // -------------------------------------------------------BEGIN soc network links --------------------------------------------
-
     // Add/Remove social Input Fields Dynamically with jQuery
-    $(document).ready(function () {
-        var max_fields =6;//maximum input boxes allowed
+    var max_fields = 6;//maximum input boxes allowed
 
-        var cur_fields = 1;
+    var cur_fields = 1;
 
-        if (socialSizeOld < 1) {
-            cur_fields = socialSizeOld;
+    if (socialSizeOld < 1) {
+        cur_fields = socialSizeOld;
+    }
+
+    var firstFacebookLink = "";
+    for (var key in socialLinks) {
+        var socNetwork = socialLinks[key];
+        if (!firstFacebookLink && socNetwork === 'FACEBOOK') {
+            firstFacebookLink = key;
+            $('#blogCreationSocial').val(key);
+        } else {
+            var newSocLink = addSocialLink(socNetwork);
+            newSocLink.val(key);
         }
+    }
 
-        $(".img-responsive").click(function (e) {
-            e.preventDefault();
-            var el = e.currentTarget;
+    function addSocialLink(socName) {
+        var placeholder = (socName === "TWITTER") ? "Добавить ссылку на Twitter" :
+                (socName === "FACEBOOK") ? "Добавить ссылку на Facebook" :
+                        (socName === "SKYPE") ? "Добавить ссылку на Skype" :
+                                (socName === "VKONTAKTE") ? "Добавить ссылку на Vkontakte" :
+                                        (socName === "GOOGLEPLUS") ? "Добавить ссылку на Google +" :
+                                                (socName === "LINKEDIN") ? "Добавить ссылку на LinkedIn" : "Добавить ссылку";
+
+
+        var social = $(".blog-social-container:first").clone();
+        social.css('display', 'block')
+                .children('.blog-social-input')
+                .attr("placeholder", placeholder)
+                .removeAttr("id")
+                .attr("name", socName);
+        social.children('img')
+                .click(deleteSocialLink);
+        social.appendTo(".group-info");
+        cur_fields++;
+
+        return social;
+    }
+
+    function deleteSocialLink(event) {
+        event.preventDefault();
+        var soc = $(event.currentTarget).parent().remove();
+        cur_fields--;
+    }
+
+    $(".img-responsive").click(function (e) {
+        e.preventDefault();
+        var el = e.currentTarget;
+        if (cur_fields < max_fields) {
+
             var socName = $(el).attr("alt");
-            var placeholder = (socName === "TWITTER") ? "Добавить ссылку на Twitter" :
-                    (socName === "FACEBOOK") ? "Добавить ссылку на Facebook" :
-                            (socName === "SKYPE") ? "Добавить ссылку на Skype" :
-                                    (socName === "VKONTAKTE") ? "Добавить ссылку на Vkontakte" :
-                                            (socName === "GOOGLEPLUS") ? "Добавить ссылку на Google +" :
-                                                    (socName === "LINKEDIN") ? "Добавить ссылку на LinkedIn" : "Добавить ссылку";
-
-
-            if(cur_fields < max_fields)
-                $("#blogCreationSocial").clone()
-                        .attr("placeholder", placeholder)
-                        .removeAttr("id")
-                        .attr("name", socName)
-                        .appendTo(".group-info");
-            cur_fields++;
-        });
-
-        /*$(".input_soc_wrap a").click(function (e) {
-            e.preventDefault();
-            var socName = $(this).attr("class");
-
-            if (x < max_fields) { //max input box allowed
-                x++; //text box increment
-                $(wrapper).append('<div><input name="' + socName + '" type="text" placeholder = "Страница ' + socName + '"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="15" height="15"></a></div>');
-            }
-        });
-
-        $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
-            e.preventDefault();
-            $(this).parent('div').remove();
-            x--;
-        })*/
-
+            addSocialLink(socName);
+        }
+    });
 
         // ---------------------------------------------------- END Soc network links --------------------------------
 
         // -------------------------------------------------------BEGIN drop zone ------------------------------------------
 
         var dropZone = document.getElementsByClassName('drop_zone');
-        for(var i = 0; i < dropZone.length; i++) {
+        for (var i = 0; i < dropZone.length; i++) {
             dropZone[i].addEventListener('dragover', handleDragOver, false);
             dropZone[i].addEventListener('drop', handleFileSelect, false);
         }
@@ -320,7 +337,7 @@
 
             var files = evt.dataTransfer.files; // FileList object.
 
-            var reader  = new FileReader();
+            var reader = new FileReader();
 
             reader.addEventListener("load", function () {
                 cropper.replace(reader.result);
@@ -329,7 +346,7 @@
             if (files[0]) {
                 reader.readAsDataURL(files[0]);
             }
-            $('#cropperModal').css('display',"block");
+            $('#cropperModal').css('display', "block");
 
         }
 
@@ -340,13 +357,11 @@
         }
 
         // ---------------------------------------------------- END Drop zone --------------------------------------
-    });
-
 
 
     //----------------------------------------------------- Image form -----------------------------------------------
 
-    $('.blogCreationSubmit').click(function(){
+    $('.blogCreationSubmit').click(function () {
         $('#photoInput').trigger('click');
     });
 
@@ -355,7 +370,7 @@
 
         var files = event.currentTarget.files;
 
-        var reader  = new FileReader();
+        var reader = new FileReader();
 
         reader.addEventListener("load", function () {
             cropper.replace(reader.result);
@@ -364,61 +379,79 @@
         if (files[0]) {
             reader.readAsDataURL(files[0]);
         }
-        $('#cropperModal').css('display',"block");
+        $('#cropperModal').css('display', "block");
     });
 
-        //----------------------------------------------------- Image form -----------------------------------------------
+    //----------------------------------------------------- Image form -----------------------------------------------
 
 
-        ///----------------------Delete photo from  DB-----------------------------------------
-        function deleteImgFromDB(picId) {
-            $.ajax({
-                url: '/api/rest/fileStorage/NEWS/file/delete/id/' + picId,
-                method: 'POST',
-                success: function (response) {
-                },
-                error: function (response) {
-                }
-            });
-        }
+    ///----------------------Delete photo from  DB-----------------------------------------
+    function deleteImgFromDB(picId) {
+        $.ajax({
+            url: '/api/rest/fileStorage/NEWS/file/delete/id/' + picId,
+            method: 'POST',
+            success: function (response) {
+            },
+            error: function (response) {
+            }
+        });
+    }
 
     function deleteImg() {
         imgId = '';
-        $('.defaultIMG').find('img').attr("src", "/resources/images/no_photo.jpg");
+        $('.blog-img ul').find('img').attr("src", "/resources/images/no_photo.jpg");
     }
 
-        ///----------------------Delete photo from  DB-----------------------------------------
+    ///----------------------Delete photo from  DB-----------------------------------------
 
-        ///------------------------- Upload Blog -----------------------------------------------//
+    ///------------------------- Upload Blog -----------------------------------------------//
     function isMatchPatternSocialLinks(socName, url) {
-        if(socName === "FACEBOOK") {
+        if (socName === "FACEBOOK") {
             return /^(https?:\/\/)?(www\.)?facebook.com\/[a-zA-Z0-9(\.\?)?]/.test(url);
-        } else if(socName === "TWITTER") {
+        } else if (socName === "TWITTER") {
             return /(?:http:\/\/)?(?:www\.)?twitter\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)/.test(url);
-        } else if(socName === "LINKEDIN") {
+        } else if (socName === "LINKEDIN") {
             return /(http|https):\/\/?(?:www\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(url);
-        } else if(socName === "GOOGLEPLUS") {
+        } else if (socName === "GOOGLEPLUS") {
             return /((http|https):\/\/)?(www[.])?plus\.google\.com\/.?\/?.?\/?([0-9]*)/.test(url);
-        } else if(socName === "VKONTAKTE") {
+        } else if (socName === "VKONTAKTE") {
             return /^(http:\/\/|https:\/\/)?(www\.)?vk\.com\/(\w|\d)+?\/?$/.test(url);
-        } else if(socName === "SKYPE") {
+        } else if (socName === "SKYPE") {
             /[a-zA-Z][a-zA-Z0-9\.,\-_]{5,31}/.test(url);
         } else {
             return false;
         }
     }
 
-        $(document).on('click', 'button.SendEdition', function (event) {
-            event.preventDefault();
+    function validateBlog() {
+        $('.error-validation').removeClass('error-validation');
 
-            var title = $('#blogTitle').val();
-            var description = $('#blogCreationDescription').val();
-            if (title.length > 70 || title.length < 2) return;
-            if (description.length > 5000 || description.length < 50) return;
+        var arrValidate = [];
+
+        var title = $('#blogTitle').val();
+        var description = $('#blogCreationDescription').val();
+
+        if (title.length > 70 || title.length < 2)  arrValidate.push($('#blogTitle'));
+        if (description.length > 5000 || description.length < 50)  arrValidate.push($('#blogCreationDescription'));
+
+        for(var i = 0; i < arrValidate.length; i++) {
+            arrValidate[i].addClass('error-validation');
+        }
+        if(arrValidate.length) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    $(document).on('click', 'button.SendEdition', function (event) {
+        event.preventDefault();
+
+        if (validateBlog()) {
 
             blog.id = blogId;
-            blog.title = title;
-            blog.description = description;
+            blog.title = $('#blogTitle').val();
+            blog.description = $('#blogCreationDescription').val();
 
             blog.imageId = imgId;
 
@@ -427,11 +460,11 @@
             }
 
             var socArr = {};
-            $(".group-info > input").each(function (index) {
+            $(".group-info").find('input').each(function (index) {
                 var socName = $(this).attr("name");
                 var url = $(this).val();
                 if (isMatchPatternSocialLinks(socName, url) && url.length) {
-                    socArr[socName] = url;
+                    socArr[url] = socName;
                 }
             });
 
@@ -453,8 +486,32 @@
                     }
                 }
             });
-        });
+        }
+    });
     ///------------------------- Upload Blog -----------------------------------------------
+
+    //------------------ BEGIN DELETE BLOG ------------------------------------//
+    $('#btn-blog-delete').on('click', function () {
+        $("#confirmBlogDelete").show();
+    });
+
+    $('#cancelBlogDelBtn').on('click', function () {
+        $("#confirmBlogDelete").hide();
+    });
+
+    $('#confirmBlogDelBtn').on('click', function () {
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/newsService/blog/id/" + blogId + "/delete",
+            statusCode: {
+                204: function () {
+                    window.location.href = '/blogs-and-news';
+                }
+            }
+        });
+    });
+    //------------------ END DELETE BLOG ------------------------------------//
+
 </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 function loadProjectById(projectId) {
     return $.ajax({
         type: "GET",
-        url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/read",
+        url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/read"
     });
 }
 
@@ -28,9 +28,16 @@ function getReadableDate(timestamp) {
     return createdDate.getDate() + '.' + (createdDate.getMonth() + 1) + '.' + createdDate.getFullYear();
 }
 
+function getProjectScore(totalScore, totalVoters) {
+    if (totalScore && totalVoters) {
+        return Math.ceil((totalScore / totalVoters) * 10) / 10;
+    }
+    return 0;
+}
+
 function getUrlForProjectMainPic(imagesIds) {
     for (var id in imagesIds) {
-        if (imagesIds[id] === "1") {
+        if (imagesIds[id] === "pic1") {
             return "/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/read/id/" + id;
         }
     }
@@ -41,15 +48,19 @@ function getProjectUrl(id) {
     return "/project?id=" + id;
 }
 
-function getInvertedProgressNum(investedAmount, amountRequested) {
-    var invertedProgressNum = (1 -(investedAmount/amountRequested))*100;
-    return 5 * Math.ceil(invertedProgressNum/5);
+function getProjectEditUrl(id) {
+    return "/project/edit?id=" + id;
 }
 
-$("#selectedService option[value='project']").attr("selected","selected");
+function getInvertedProgressNum(investedAmount, amountRequested) {
+    var invertedProgressNum = (1 - (investedAmount / amountRequested)) * 100;
+    return 5 * Math.ceil(invertedProgressNum / 5);
+}
 
-$('#showNext').on('click',function () {
-    if($('#projectsTab').hasClass('active')) {
+$("#selectedService option[value='project']").attr("selected", "selected");
+
+$('#showNext').on('click', function () {
+    if ($('#projectsTab').hasClass('active')) {
         projectFO.skip += projectFO.limit;
         appendProjects(projectFO);
     } else {
@@ -58,7 +69,7 @@ $('#showNext').on('click',function () {
     }
 });
 
-$('#projectsTab').on('click',function () {
+$('#projectsTab').on('click', function () {
     $('#investmentsContainer').hide();
     $('#projectsContainer').show();
     $('.catContainer').removeClass('selected');
@@ -69,7 +80,7 @@ $('#projectsTab').on('click',function () {
     appendProjects(projectFO);
 });
 
-$('#investmentsTab').on('click',function () {
+$('#investmentsTab').on('click', function () {
     $('#projectsContainer').hide();
     $('#investorPostsBlock').empty();
     $('#investmentsContainer').show();
@@ -78,7 +89,25 @@ $('#investmentsTab').on('click',function () {
     appendInvestorPosts(investorPostFO);
 });
 
-$('.projectsVSInvestments-btn').on('click',function () {
+$('.projectsVSInvestments-btn').on('click', function () {
     $('.projectsVSInvestments-btn').removeClass('active');
     $(this).addClass('active');
 });
+
+function checkProjectBalance(projectId) {
+    return $.ajax({
+        type: "POST",
+        url: "/api/rest/projectsAndInvestmentsService/check-project-balance",
+        data: {"projectId": projectId},
+        cache: false
+    });
+}
+
+function checkInvestorBalance(investorId) {
+    return $.ajax({
+        type: "POST",
+        url: "/api/rest/profilesService/check-user-balance-by-id",
+        data: {"userId": investorId},
+        cache: false
+    });
+}

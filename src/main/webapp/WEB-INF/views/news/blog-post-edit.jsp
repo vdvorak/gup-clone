@@ -14,17 +14,20 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <title>Редактирование новости</title>
-    <meta name="generator" content="Bootply"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/alster.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
-    <link rel="stylesheet" href="/resources/css/bootstrap.css">
-    <link href="/resources/css/com.css" rel="stylesheet">
-
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
+    <link rel="stylesheet" href="/resources/css/mini.css">
+    <link href="/resources/css/com.css" rel="stylesheet">
 
 </head>
 <body>
@@ -43,12 +46,11 @@
 
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
-
 <div class="container2">
     <div class="blogCreation">
         <p class="blogCreationHeader blueColor">Редактирование новости</p>
 
-        <form action="#" role="form">
+        <div>
             <label for="newsTitle" class="blogCreationLabel">Заголовок новости</label>
             <input type="text" name="newsTitle" id="newsTitle" class="blogCreationInput blueBorder" value="${blogPost.title}">
 
@@ -163,8 +165,8 @@
             </div>
             <label class="blogCreationLabel">Фотографии</label>
 
-            <div id="drop_zone" class="defaultIMG">
-                <ul>
+            <div id="drop_zone">
+                <ul class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImg()"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
@@ -176,13 +178,27 @@
             <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput blueBorder"
                    placeholder="Youtube"
                    pattern="(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?">
-        </form>
-        <button type="button" class="SendEdition">Отправить редакции</button>
+        </div>
 
+
+        <div class="editor">
+            <div class="field">
+                <button id="deleteBpBtn" class="delete-btn">Удалить новость</button>
+                <button id="sendBpToEdition" class="info-submit">Отправить редакции</button>
+            </div>
+
+            <div class="confirm" id="confirmBpDelete" style="display: none">
+                <h1>Подтвердите удаление</h1>
+                <p>Статья будет навсегда удалена</p>
+                <button id="cancelBpDelBtn" autofocus>Отмена</button>
+                <button id="confirmBpDelBtn">Удалить</button>
+            </div>
+        </div>
         <div class="clearfix"></div>
 
     </div>
 </div>
+
 
 <!-- script references -->
 <sec:authorize access="isAuthenticated()">
@@ -191,48 +207,30 @@
 
 <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
-<script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
-<script src="/resources/js/vendor/bootstrap.js"></script>
-<script src="/resources/js/jquery.bxslider.js"></script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
+<script src="/resources/js/jquery.maskedinput.min.js"></script>
+<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
-<sec:authorize var="loggedIn" access="isAuthenticated()"/>
-<c:choose>
-<c:when test="${loggedIn}">
-<script src="/resources/js/autorizedHeader.js"></script>
-</c:when>
-<c:otherwise>
-<script src="/resources/js/anonymHeader.js"></script>
-</c:otherwise>
-</c:choose>
+<jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
-
-<script src="/resources/js/top-news-block.js"></script>
-<script src="/resources/js/top-offers-block.js"></script>
-<script src="/resources/js/top-tenders-block.js"></script>
-<script src="/resources/js/top-projects-block.js"></script>
-
-
-<script src="/resources/js/jquery.maskedinput.min.js"></script>
-<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
 <script>
 
     var imgsArr = {};
     var cities;
     var inpCategories = [];
-    var oldCategories = ('${blogPost.categories}') ? '${blogPost.categories}'.replace('[', '').replace(']', '').replace(' ', '').split(',') : []; // make array from string
+    var oldCategories = []; // make array from string
     var oldImgArr = {};
     var imgsArrResult = {};
     var picArrDel = [];
     var picArrNew = [];
 
+    if ('${blogPost.categories}'.length > 5) {
+        oldCategories = JSON.parse('${blogPost.categories}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
+    }
     // ---------------    LOAD RESOURCES    --------------------------//
     $.ajax({
         type: "GET",
@@ -327,7 +325,7 @@
 
 
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
-    $('button.SendEdition').click(function (event) {
+    $('#sendBpToEdition').click(function (event) {
         event.preventDefault();
 
         var title = $('#newsTitle').val();
@@ -348,6 +346,8 @@
             deleteImgFromDB(picArrDel[i]);
         }
 
+        checkMainImg();
+        
         var blogPost = {};
         blogPost.id = '${blogPost.id}';
         blogPost.blogId = '${blogPost.blogId}';
@@ -402,12 +402,33 @@
         cloneImg.find('img')
                 .attr("alt", "")
                 .attr("src", '/api/rest/fileStorage/NEWS/file/read/id/' + id)
-                .attr("id", id);
+                .attr("id", id)
+                .click(onClickSetMainImg);
         cloneImg.find('span')
                 .click(deleteImg);
-        cloneImg.appendTo('.defaultIMG ul');
+
+        if(imgsArr[key] === "pic1") cloneImg.find('img').addClass('mainImg');
+
+        cloneImg.appendTo('.ul-img-container');
     }
 
+    function checkMainImg() {
+        var hasMainImg = false;
+
+        for(var key in imgsArrResult) {
+            if(imgsArrResult[key] === 'pic1') {
+                hasMainImg = true;
+                break;
+            }
+        }
+
+        if(!hasMainImg) {
+            for(var key in imgsArrResult) {
+                imgsArrResult[key] = 'pic1';
+                break;
+            }
+        }
+    }
     // -------------------------- PHOTO SUBMIT AND DELETE ------------------------------//
     $('#photoInput').change(function (event) {
         event.preventDefault();
@@ -438,6 +459,27 @@
         }
     });
 
+    $('#deleteBpBtn').click(function(){
+        $("#confirmBpDelete").show();
+    });
+
+
+    $('#cancelBpDelBtn').on('click', function () {
+        $("#confirmBpDelete").hide();
+    });
+
+    $('#confirmBpDelBtn').on('click', function () {
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/newsService/blogPost/id/" + '${blogPost.id}' + "/delete",
+            statusCode: {
+                204: function () {
+                    window.location.href = '/news/list';
+                }
+            }
+        });
+    });
+
     $('button.blogCreationSubmit').click(function(){
         $('#photoInput').trigger('click');
     });
@@ -451,10 +493,13 @@
         });
     }
 
-    function deleteImg(idImg) {
+    function deleteImg() {
+        var idImg = $(event.currentTarget).parent()
+                .find('img')
+                .attr('id');
         $('#' + idImg).parent().remove();
 
-        var numberImg = $(".defaultIMG").find('img').length;
+        var numberImg = $(".ul-img-container").find('img').length;
         if(numberImg < 2) {
             $(".li-defaultIMG").css("display", "inline-block");
         }
@@ -510,5 +555,8 @@
         );
     });
     //--------------------------- END REGIONS LIST --------------------------------------------//
+
 </script>
+
+</body>
 </html>

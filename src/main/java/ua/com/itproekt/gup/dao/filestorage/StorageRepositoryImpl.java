@@ -30,30 +30,35 @@ public class StorageRepositoryImpl implements StorageRepository {
 
     @Override
     public String save(String serviceName, InputStream inputStream, String contentType, String filename) {
-        this.gridFs =  new GridFS(mongoTemplate.getDb(), serviceName + FILE_STORAGE_PATH);
-        GridFSInputFile input = gridFs.createFile(inputStream, filename, true);
+        this.gridFs = new GridFS(mongoTemplate.getDb(), serviceName + FILE_STORAGE_PATH);
+        GridFSInputFile input = gridFs.createFile(inputStream, true);
         input.setContentType(contentType);
+        input.setFilename(filename);
         input.save();
         return input.getId().toString();
     }
 
     @Override
     public GridFSDBFile get(String serviceName, String fileId) {
-        this.gridFs =  new GridFS(mongoTemplate.getDb(), serviceName + FILE_STORAGE_PATH);
+        this.gridFs = new GridFS(mongoTemplate.getDb(), serviceName + FILE_STORAGE_PATH);
         return gridFs.findOne(new ObjectId(fileId));
     }
 
     @Override
     public void delete(String serviceName, String fileId) {
         this.gridFs =  new GridFS(mongoTemplate.getDb(), serviceName + FILE_STORAGE_PATH);
-        gridFs.remove(new ObjectId(fileId));
+        if (ObjectId.isValid(fileId)) {
+            gridFs.remove(new ObjectId(fileId));
+        }
     }
 
     @Override
     public void delete(String serviceName, Set<String> fileIds) {
         this.gridFs =  new GridFS(mongoTemplate.getDb(), serviceName + FILE_STORAGE_PATH);
         for (String fileId : fileIds) {
-            gridFs.remove(new ObjectId(fileId));
+            if (ObjectId.isValid(fileId)) {
+                gridFs.remove(new ObjectId(fileId));
+            }
         }
     }
 

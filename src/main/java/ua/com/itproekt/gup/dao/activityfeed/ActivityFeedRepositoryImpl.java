@@ -33,11 +33,11 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
     @Override
     public void setFeedsViewed(EventFilterOptions eventFO) {
         Query query = new Query()
-                .addCriteria(Criteria.where("uId").is(eventFO.getuId()))
-                .addCriteria(Criteria.where("viewed").ne(Boolean.TRUE));
+                .addCriteria(Criteria.where("targetUId").is(eventFO.getTargetUId()))
+                .addCriteria(Criteria.where("isViewed").ne(Boolean.TRUE));
 
         Update update = new Update()
-                .set("viewed", Boolean.TRUE);
+                .set("isViewed", Boolean.TRUE);
 
         mongoTemplate.updateMulti(query, update, Event.class);
     }
@@ -47,7 +47,7 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
         Query query = new Query();
 
         //should not be == null
-        query.addCriteria(Criteria.where("uId").is(eventFO.getuId()));
+        query.addCriteria(Criteria.where("targetUId").is(eventFO.getTargetUId()));
 
         if (eventFO.getAfterDate() != null) {
             query.addCriteria(Criteria.where("createdDate").gte(eventFO.getAfterDate()));
@@ -58,13 +58,12 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
 //        }
 
         if (eventFO.isHideViewed()) {
-            query.addCriteria(Criteria.where("viewed").ne(Boolean.TRUE));
+            query.addCriteria(Criteria.where("isViewed").ne(Boolean.TRUE));
         }
 
 
         query.skip(eventFO.getSkip());
         query.limit(eventFO.getLimit());
-
         return new EntityPage<>(mongoTemplate.count(query, Event.class),
                                 mongoTemplate.find(query, Event.class));
     }

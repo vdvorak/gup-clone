@@ -121,7 +121,7 @@
 //                .andExpect(status().isBadRequest());
 //
 //        investorService.create(investorPost);
-//        investorPost.setuId("***");
+//        investorPost.setTargetUId("***");
 //        investorJson = Util.ow.writeValueAsString(investorPost);
 //        this.mockMvc.perform(post(url)
 //                .contentType(Util.contentType)

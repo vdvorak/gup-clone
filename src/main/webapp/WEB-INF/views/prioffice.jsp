@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
+    <link rel="stylesheet" href="/resources/css/prioffice.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
 
@@ -39,13 +40,13 @@
 
 <div class="container2" ng-app="routerApp">
     <div class="sideBlock">
-        <a href="#" class="buttonBack">&lt; Назад</a>
+        <a href="#" class="buttonBack" onclick="window.history.back()">&lt; Назад</a>
         <div class="mainInfo" data-id="${profile.id}">
             <div class="name">${profile.username}</div>
             <div class="photo greenBox">
                 <c:choose>
-                    <c:when test="${not empty profile.contact.pic}">
-                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.contact.pic}">
+                    <c:when test="${not empty profile.imgId}">
+                        <img src="/api/rest/fileStorage/PROFILE/file/read/id/${profile.imgId}">
                     </c:when>
                     <c:otherwise>
                         <img src="/resources/images/no_photo.jpg">
@@ -144,9 +145,9 @@
                 <div class="_contact" data-id="${contact}"></div>
             </c:forEach>
             <div class="contactsContainer greenBox" toggler="" ng-controller="contacts">
-                <div class="persona {{vip}}" ng-repeat="contact in contacts" data-id="{{contact.id}}">
+                <div class="persona {{vip}}" ng-repeat="contact in contacts" data-id="{{imgId}}">
                     <a href="{{contact.homepage}}" class="photo border-color">
-                        <img src="{{contact.pic}}" alt="profile avatar">
+                        <img src="{{imgId}}" alt="profile avatar">
                         <span class="sendMessage"></span>
                         <span class="name">{{contact.name}}</span>
                     </a>
@@ -175,6 +176,7 @@
                     <div class="clearfix"></div>
                     <div class="arrowHide"></div>
                 </form>
+                <%--<div class="scrollPreffered"></div>--%>
             </div>
             <div class="notifications" id="tab-notifications">
                 <%--<a href="#" class="notify" ng-repeat="notify in notifies">--%>
@@ -187,9 +189,9 @@
                 <%--</a>--%>
                 <c:if test="${not empty events}">
                     <c:forEach items="${events}" var="event">
-                        <a href="#" class="notify">
+                        <a href="#" class="notify" data-uid="${event.uId}" data-contentId="${event.contentId}" data-creatorEventId="${event.creatorEventId}">
                             <div class="persona">
-                                <img src="/resources/css/images/rupor.png" alt="" class="avatar">
+                                <img src="" alt="" class="avatar">
                                 <%--<div class="date">${event.createdDate}</div>--%>
                             </div>
                             <div class="text">${event.type.toString()}</div>

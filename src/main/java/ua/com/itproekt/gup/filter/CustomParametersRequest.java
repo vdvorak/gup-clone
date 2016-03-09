@@ -6,7 +6,7 @@ import java.util.*;
 
 public class CustomParametersRequest extends HttpServletRequestWrapper {
     private Map<String, String[]> modifiableParameters;
-    private Map<String, String[]> allParameters = null;
+    private Map<String, String[]> allParameters;
 
     public CustomParametersRequest(HttpServletRequest request) {
         super(request);

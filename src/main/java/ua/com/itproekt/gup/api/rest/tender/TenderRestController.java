@@ -178,7 +178,7 @@ public class TenderRestController {
         newTender.setMembers(tender.getMembers());
         newTender.setProposes(tender.getProposes());
 
-        activityFeedService.createEvent(new Event(tender.getId(), EventType.NEW_PROPOSE_IN_YOUR_TENDER, propose.getAuthorId(), propose.getAuthorId()));
+        activityFeedService.createEvent(new Event(tender.getAuthorId(), EventType.NEW_PROPOSE_IN_YOUR_TENDER, tender.getId(), propose.getAuthorId()));
 
         tenderService.updateTender(newTender);
         HttpHeaders headers = new HttpHeaders();
@@ -227,13 +227,30 @@ public class TenderRestController {
             newTender.getUploadFilesIds().putAll(files);
         }
         if(newTender.getWinnerId() != null && newTender.getWinnerId().length() > 0){
-            activityFeedService.createEvent(new Event(newTender.getWinnerId(), EventType.YOU_WON_IN_TENDER, tender.getId(), tender.getAuthorId()));
+            activityFeedService.createEvent(new Event(newTender.getWinnerId(), EventType.YOU_WON_IN_TENDER, tender.getId(), null, tender.getAuthorId()));
+            tender.setEnd(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+        }
+        if(tender.getType() == TenderType.CLOSE && !newTender.getMembers().isEmpty()){
+            newTender.getMembers().stream().forEach(m -> activityFeedService.createEvent(new Event(m.getId(), EventType.YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER, tender.getId(), null, tender.getAuthorId())));
         }
         tenderService.updateTender(newTender);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/tender/read/id/{id}").buildAndExpand(newTender.getId()).toUri());
         return new ResponseEntity<>(newTender, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/tender/chooseWinner",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Tender> winnerChoose (@RequestBody Tender tender) {
+        String id = tenderService.findById(tender.getId()).getAuthorId();
+        if (SecurityOperations.getLoggedUserId() == null || !SecurityOperations.getLoggedUserId().equals(id)) {
+            return new ResponseEntity<Tender>(HttpStatus.FORBIDDEN);
+        }
+        tender.setEnd(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+        activityFeedService.createEvent(new Event(tender.getWinnerId(), EventType.YOU_WON_IN_TENDER, tender.getId(), tender.getAuthorId()));
+        return new ResponseEntity<>(tenderService.updateTender(tender), HttpStatus.OK);
     }
 
     //------------------------------------------ Delete -----------------------------------------------------------------
@@ -278,20 +295,6 @@ public class TenderRestController {
         return true;
     }
 
-    @RequestMapping(value = "/tender/chooseWinner",
-            method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Tender> winnerChoose (@RequestBody Tender tender) {
-        String id = tenderService.findById(tender.getId()).getAuthorId();
-        if(SecurityOperations.getLoggedUserId().equals(id)){
-            return new ResponseEntity<Tender>(HttpStatus.FORBIDDEN);
-        }
-        tender.setEnd(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
-        tender.setProposes(null);
-        tender.setMembers(null);
-        activityFeedService.createEvent(new Event(tender.getWinnerId(), EventType.YOU_WON_IN_TENDER, tender.getId(), tender.getAuthorId()));
-        return new ResponseEntity<Tender>(tenderService.updateTender(tender), HttpStatus.OK);
-    }
 
     private String getCurrentUserId() {
         Profile user = getCurrentUser();

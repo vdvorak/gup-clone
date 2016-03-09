@@ -1,23 +1,21 @@
 package ua.com.itproekt.gup.controller.blogsAndNews;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.itproekt.gup.exception.ResourceNotFoundException;
+import ua.com.itproekt.gup.model.news.Blog;
 import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.news.BlogPostService;
+import ua.com.itproekt.gup.service.news.BlogService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
-
-import java.util.ArrayList;
-import java.util.List;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 /**
  * Created by RAYANT on 13.01.2016.
@@ -33,22 +31,11 @@ public class BlogPostController {
     @Autowired
     BlogPostService blogPostService;
 
+    @Autowired
+    BlogService blogService;
+
     @RequestMapping("/view/id/{blogPostId}")
     public String blogPostView(Model model, @PathVariable String blogPostId) {
-
-//        boolean check = false;
-//
-//        BlogPost blogPost = blogPostService.findBlogPostAndIncViews(id);
-//
-//        if (SecurityOperations.isUserLoggedIn()) {
-//            String userId = SecurityOperations.getLoggedUserId();
-//            check = userId.equals(blogPost.getAuthorId());
-//            model.addAttribute("check", check);
-//        }
-//
-//        model.addAttribute("check", check);
-//        model.addAttribute("blogPost", blogPost);
-
         if (!blogPostService.blogPostExists(blogPostId)) {
             throw new ResourceNotFoundException();
         }
@@ -58,47 +45,45 @@ public class BlogPostController {
     }
 
     @RequestMapping("/news")
-    public String newsView(@RequestParam int pageNumber, Model model) {
-//        BlogPostFilterOptions blogPostFO = new BlogPostFilterOptions();
-//        EntityPage<BlogPost> blogPostPages = blogPostService.findBlogPostsWihOptions(blogPostFO);
-//        model.addAttribute("news", blogPostPages);
-        model.addAttribute("pageNumber", pageNumber);
+    public String newsView() {
         return "news/blogs-and-news";
     }
 
-    @RequestMapping("/view-all/{blogId}")
-    public String blogPostViewAll(Model model, @PathVariable("blogId") String blogId) {
+    @RequestMapping("/view-all/blogId/{blogId}")
+    public String blogPostViewAll(Model model, @PathVariable String blogId) {
+        if (!blogService.blogExists(blogId)) {
+            throw new ResourceNotFoundException();
+        }
+
         BlogPostFilterOptions blogPostFO = new BlogPostFilterOptions();
         blogPostFO.setBlogId(blogId);
 
         EntityPage<BlogPost> blogPostPages = blogPostService.findBlogPostsWihOptions(blogPostFO);
-        //TODO убрать когда заработает фильтр по ид блога
-        List<BlogPost> filteredPosts = new ArrayList<>();
-        for (BlogPost blogPost : blogPostPages.getEntities()) {
-            if(blogPost.getBlogId().equals(blogId)){
-                filteredPosts.add(blogPost);
-            }
-        }
 
-        model.addAttribute("blogPostPages", filteredPosts);
+        model.addAttribute("blogPostPages", blogPostPages);
         return "";
     }
 
-    //ToDo Проверять "А ты ли владелец этого блога, чтобы в неём создовать новость?"
     @RequestMapping("/create/{blogId}")
-    public String blogPostCreate(Model model, @PathVariable("blogId") String blogId) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        Profile profile = profilesService.findProfileByEmail(email);
-        model.addAttribute("profileId", profile.getId());
+    public String blogPostCreate(Model model, @PathVariable String blogId) {
+        String loggedProfileId = SecurityOperations.getLoggedUserId();
+        Blog blog = blogService.findBlog(blogId);
+
+        if (!(loggedProfileId.equals(blog.getAuthorId()) || blog.getEditorsIds().containsValue(loggedProfileId))) {
+            throw new AccessDeniedException("You don't have the appropriate privileges to create posts in this blog.");
+        }
+
+        model.addAttribute("profileId", loggedProfileId);
         model.addAttribute("blogId", blogId);
-        return "news/blog-post-create-OLD";
+        return "news/blog-post-create";
     }
 
     @RequestMapping("/edit/{blogPostId}")
-    public String blogPostEdit(Model model, @PathVariable("blogPostId") String blogPostId) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
+    public String blogPostEdit(Model model, @PathVariable String blogPostId) {
+        if (!blogPostService.blogPostExists(blogPostId)) {
+            throw new ResourceNotFoundException();
+        }
+        String email = SecurityOperations.getCurrentUserEmail();
         Profile profile = profilesService.findProfileByEmail(email);
         BlogPost blogPost = blogPostService.findById(blogPostId);
         model.addAttribute("blogPost", blogPost);

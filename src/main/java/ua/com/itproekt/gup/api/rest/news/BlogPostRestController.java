@@ -68,19 +68,12 @@ public class BlogPostRestController {
         // Проверка на права создавать посты от блога{userId, blogId} !!!!!!!!
         // .........
 
-        CreatedObjResp createdObjResp = null;
-        try {
-            String userId = SecurityOperations.getLoggedUserId();
-            blogPost.setAuthorId(userId);
-            blogPost.setCreatedDate(new Date().getTime());
+        String userId = SecurityOperations.getLoggedUserId();
+        blogPost.setAuthorId(userId);
 
-            blogPostService.create(blogPost);
+        blogPostService.create(blogPost);
 
-            createdObjResp = new CreatedObjResp(blogPost.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
+        return new ResponseEntity<>(new CreatedObjResp(blogPost.getId()), HttpStatus.CREATED);
     }
 
     //------------------------------------------ Update -----------------------------------------------------------------
@@ -98,7 +91,7 @@ public class BlogPostRestController {
 
         // editor = authorId
         String userId = SecurityOperations.getLoggedUserId();
-        if (!userId.equals(blogPostService.findById(blogPost.getId()).getAuthorId())) {
+        if (!blogPostService.findById(blogPost.getId()).getAuthorId().equals(userId)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
@@ -124,7 +117,6 @@ public class BlogPostRestController {
         }
 
         blogPostService.likeBlogPost(blogPostId, userId);
-
         activityFeedService.createEvent(new Event(blogPost.getAuthorId(), EventType.BLOG_POST_LIKE, blogPostId, userId));
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -162,6 +154,4 @@ public class BlogPostRestController {
         blogPostService.delete(blogPostId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
 }

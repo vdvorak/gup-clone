@@ -30,7 +30,7 @@ function getBlogPostUrl(blogPost) {
 function getBlogPostImagePreviewTag(blogPost) {
     if (blogPost.imagesIds !== null) {
         for (var key in blogPost.imagesIds) {
-            if (blogPost.imagesIds[key] === "1") {
+            if (blogPost.imagesIds[key] === "pic1") {
                 return '<img src="/api/rest/fileStorage/NEWS/file/read/id/' + key + '" alt="tidi"  width="169" height="126">';
             }
         }

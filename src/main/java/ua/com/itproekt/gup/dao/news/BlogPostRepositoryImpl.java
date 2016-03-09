@@ -80,9 +80,9 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
             query.addCriteria(Criteria.where("categories").all(blogPostFO.getCategories()));
         }
 
-        if (blogPostFO.getTags() != null) {
-            query.addCriteria(Criteria.where("tags").all(blogPostFO.getTags()));
-        }
+//        if (blogPostFO.getTags() != null) {
+//            query.addCriteria(Criteria.where("tags").all(blogPostFO.getTags()));
+//        }
 
         if (blogPostFO.getAddress() != null) {
             if (blogPostFO.getAddress().getCountry() != null) {
@@ -197,12 +197,13 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
     }
 
     @Override
-    public BlogPost findComment(String blogPostId, String commentId) {
+    public Comment findComment(String blogPostId, String commentId) {
         Query query = new Query()
             .addCriteria(Criteria.where("id").is(blogPostId))
             .addCriteria(Criteria.where("comments.cId").is(commentId));
         query.fields().slice("comments", 1);
-        return mongoTemplate.findOne(query, BlogPost.class);
+
+        return mongoTemplate.findOne(query, BlogPost.class).getComments().iterator().next();
     }
 
     @Override

@@ -2,42 +2,91 @@ package ua.com.itproekt.gup.model.profiles;
 
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Document(collection = "users")
 public class Profile {
-
     @Id
     private String id;
-    private Boolean confirmModerator;
     private String idWord;
-    private String mainPhoneNumber;
-    private String username;
+    @Indexed
     private String email;
     private String password;
+    private String mainPhoneNumber;
     private Set<UserRole> userRoles;
-    private UserProfile userProfile;
-    private Contact contact;
-    private Integer point;
-    private Set<ProfileRating> profileRating;
-    private Set<String> contactList;
-    private Long createdDate;
+    private Boolean confirmModerator;
+
+    private String imgId;
+    @Indexed
+    private String username;
     private Integer unreadMessages;
+
+    private Integer point;
+    private Contact contact;
+    private UserProfile userProfile;
+    private Set<String> contactList;
+    private Set<ProfileRating> profileRating;
+
+    private Long birthDate;
+    private Long createdDate;
+    private Long lastLoginDate;
+    private Set<PriOfficeSetting> priofficeSets;
 
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
     }
 
-    //*********************************************************************
+    public Profile setLastLoginDateEqualsToCurrentDate() {
+        this.lastLoginDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        return this;
+    }
 
     public Profile setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
+    }
+
+    //*********************************************************************
+
+    public Set<PriOfficeSetting> getPriofficeSets() {
+        return priofficeSets;
+    }
+
+    public Profile setPriofficeSets(Set<PriOfficeSetting> priofficeSets) {
+        this.priofficeSets = priofficeSets;
+        return this;
+    }
+
+    public String getImgId() {
+        return imgId;
+    }
+
+    public Profile setImgId(String imgId) {
+        this.imgId = imgId;
+        return this;
+    }
+
+    public Long getBirthDate() {
+        return birthDate;
+    }
+
+    public Profile setBirthDate(Long birthDate) {
+        this.birthDate = birthDate;
+        return this;
+    }
+
+    public Profile setLastLoginDate(Long lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
+        return this;
+    }
+
+    public Long getLastLoginDate() {
+        return lastLoginDate;
     }
 
     public Boolean getConfirmModerator() {

@@ -21,6 +21,8 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <link rel="stylesheet" href="/resources/css/main.css">
   <link rel="stylesheet" href="/resources/css/font-awesome.css">
+  <link rel="stylesheet" href="/resources/css/mini.css">
+  <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
 </head>
 <body>
 
@@ -39,7 +41,7 @@
 <div class="container2">
   <div class="tenderMake">
     <h1>РЕДАКТИРОВАНИЕ ТЕНДЕРА</h1>
-    <form action="#">
+    <form id="tender-make-form" action="#">
       <label for="EnterTheTitle">Введите название</label>
       <input type="text" id="EnterTheTitle" required value="${tender.title}">
       <label>Выберете отрасль</label>
@@ -94,19 +96,19 @@
         <textarea name="Description" id="Description"></textarea>
       </div>
 
-      <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit"></button></div>
+      <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit" form="photoForm"></button></div>
       <img id="tender-btn-addDoc" src="/resources/images/clip.png" alt="clip">
 
       <div class="clearfix"></div>
 
-      <div id="drop_zone" class="defaultIMG">
-        <ul id="tender-img-block">
+      <div id="drop_zone">
+        <ul id="tender-img-block" class="ul-img-container ul-img-container-green">
           <li class="li-containerIMG li-defaultIMG">
             <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
             <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
           </li>
         </ul>
-        <ul id="tender-doc-block">
+        <ul id="tender-doc-block" class="ul-img-container ul-img-container-green">
           <li class="li-containerIMG li-defaultIMG">
             <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
             <img src="http://www.uzscience.uz/upload/userfiles/images/doc.png" alt="defaultIMG">
@@ -115,11 +117,20 @@
         </ul>
       </div>
 
-      <button id="tender-btn-save" type="submit">Сохранить</button>
-    </form>
+      <button id="tender-btn-save" type="submit" form="tender-make-form">Сохранить</button>
+      <button id="tender-btn-delete" type="button">Удалить</button>
 
-    <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
-      <input id="photoInput" type="file" style="display: none;" multiple="multiple">
+      <div class="confirm" id="confirmTenderDelete" style="display: none">
+        <h1>Подтвердите удаление</h1>
+        <p>Объявление будет навсегда удалено</p>
+        <button id="cancelTenderDelBtn" autofocus>Отмена</button>
+        <button id="confirmTenderDelBtn">Удалить</button>
+      </div>
+
+      <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
+        <input id="photoInput" type="file" style="display: none;" multiple="multiple">
+      </form>
+
     </form>
 
   </div>
@@ -352,7 +363,6 @@
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>--%>
 
 <script>
-  var imgsArr = {};
   var cities;
   var members = [];
   var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
@@ -360,7 +370,7 @@
   var imgsArrResult = {};
   var picArrDel = [];
   var picArrNew = [];
-  var picArrIn = {};
+  var imgsArr = {};
 
 
   if ('${tender.uploadFilesIds}'.length > 5 ){
@@ -380,7 +390,7 @@
 
     // place photo from received model on the page
     for (var id in picMapObj) {
-      picArrIn[id] = picMapObj[id];
+      imgsArr[id] = picMapObj[id];
       if (picMapObj[id] === "image" || picMapObj[id] === "pic1") {
         appendImg(id);
       } else {
@@ -416,10 +426,10 @@
           success: function (data, textStatus, request) {
             var id = data.id;
             if (f.type.substring(0, 5) === 'image') {
-              picArrIn[id] = "image";
+              imgsArr[id] = "image";
               appendImg(id);
             } else {
-              picArrIn[id] = "doc";
+              imgsArr[id] = "doc";
               appendDoc(id, f.name);
             }
           }
@@ -443,8 +453,6 @@
   });
 
   function appendImg(id) {
-    var isMain = picArrIn[id] === 'pic1';
-
     $("#tender-img-block > .li-defaultIMG").css("display", "none");
     var cloneImg = $("#tender-img-block > .li-defaultIMG").clone()
             .removeClass('li-defaultIMG')
@@ -456,7 +464,9 @@
             .click(onClickSetMainImg);
     cloneImg.find('span')
             .click(deleteImg);
-    if(isMain) cloneImg.find('img').addClass("mainImg");
+
+    if(imgsArr[id] === 'pic1') cloneImg.find('img').addClass("mainImg");
+
     cloneImg.appendTo('#tender-img-block');
   }
 
@@ -640,10 +650,10 @@
         success: function (data, textStatus, request) {
           var id = data.id;
           if (f.type.substring(0, 5) === 'image') {
-            picArrIn[id] = "image";
+            imgsArr[id] = "image";
             appendImg(id);
           } else {
-            picArrIn[id] = "doc";
+            imgsArr[id] = "doc";
             appendDoc(id, f.name);
           }
         }
@@ -654,7 +664,7 @@
   function deleteImgFromDB(idImg) {
     $.ajax({
       type: "POST",
-      url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
+      url: "/api/rest/fileStorage/TENDER/file/delete/id/" + idImg,
       success: function (data, textStatus, request) {
       }
     });
@@ -689,13 +699,31 @@
     if(!isMain) img.addClass("mainImg");
 
     for(var key in imgsArr) {
-      if(picArrIn[key] === "pic1") {
-        picArrIn[key] = "image";
+      if(imgsArr[key] === "pic1") {
+        imgsArr[key] = "image";
       }
     }
 
     if(img.hasClass("mainImg")) {
-      picArrIn[id] = "pic1";
+      imgsArr[id] = "pic1";
+    }
+  }
+
+  function checkMainImg() {
+    var hasMainImg = false;
+
+    for(var key in imgsArrResult) {
+      if(imgsArrResult[key] === 'pic1') {
+        hasMainImg = true;
+        break;
+      }
+    }
+
+    if(!hasMainImg) {
+      for(var key in imgsArrResult) {
+        imgsArrResult[key] = 'pic1';
+        break;
+      }
     }
   }
 
@@ -743,9 +771,12 @@
   //--------------------------- End Take Value Cities -----------------------------------//
 
   //---------------------------- SUBMIT -----------------------------------------------------//
-  $('#tender-btn-save').click(function (event) {
+
+  $('#tender-make-form').submit(function (event) {
     var body = tinymce.activeEditor.getContent();
-    if(!body) return;
+    if(!body) {
+      return false;
+    }
 
     for(var key in imgsArr) {
       if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
@@ -758,6 +789,8 @@
     for(var i = 0; i < picArrDel.length; i++) {
       deleteImgFromDB(picArrDel[i]);
     }
+
+    checkMainImg();
 
     var tender = {};
     tender.uploadFilesIds = imgsArrResult;
@@ -797,8 +830,29 @@
     });
   });
   //---------------------------- END SUBMIT -------------------------------------------------//
+  //------------------ BEGIN DELETE TENDER ------------------------------------//
+  $('#tender-btn-delete').on('click', function () {
+    $("#confirmTenderDelete").show();
+  });
 
+  $('#cancelTenderDelBtn').on('click', function () {
+    $("#confirmTenderDelete").hide();
+  });
 
+  $('#confirmTenderDelBtn').on('click', function (event) {
+    event.preventDefault();
+
+    $.ajax({
+      type: "POST",
+      url: "/api/rest/tenderService/tender/" + "${tender.id}" + "/delete",
+      statusCode: {
+        200: function () {
+          window.location.href = '/tenders';
+        }
+      }
+    });
+  });
+  //------------------ END DELETE TENDER ------------------------------------//
 
 </script>
 <%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"--%>

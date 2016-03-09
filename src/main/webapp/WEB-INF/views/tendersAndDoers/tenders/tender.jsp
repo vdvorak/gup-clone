@@ -12,8 +12,15 @@
 <html lang="ru-RU">
 <head>
     <title>Тендер | GUP</title>
-    <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
+
+    <link rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/css/alster.css">
 
     <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
 </head>
@@ -36,126 +43,142 @@
 <!--END 2nd section -->
 
 
-<section>
-    <div class="tender-wrap">
-        <div class="tender-tabs-wrap">
-            <div class="tabs">
+<!--PAGE CONTENT START-->
+<div class="container2">
+    <div class="contentContainer" style="margin-top: 100px;"> <!-- Add "vip" class for "vip" users :3 -->
+        <div class="tenderContent">
+            <div class="topSection">
+                <div class="statInfo">
+                    <div class="publishDate tender-publish-date">Опубликовано: <span></span></div>
 
-                <div>
 
-                    <!-- Repeated section with tender -->
+                    <!--Need fix-->
+                    <br>
 
-                    <div class="tender-tabs-items-wrap">
+                    <div class="tender-veiws">Просмотров: <span></span></div>
+                    <br>
 
-                        <div class="tender-item-wrapper">
-                            <div class="tender-item-leftside">
-                                <%--<div class="tender-pic-wrap">--%>
-                                <%--<img src="#">--%>
-                                <%--</div>--%>
-                                <div class="tender-subpic-stuff">
-                                    <p style="margin-top: 0px; display: inline-block;">Предложений:<span
-                                            class="tender-proposal-count"></span></p>
+                    <div class="tender-proposal-count">Предложений: <span></span></div>
+                    <br>
+                    <!--Need fix-->
 
-                                    <p style="margin-top: 0px; display: inline-block; float: right;">
-                                        Просмотров:<span
-                                            class="tender-veiws"></span></p>
-                                </div>
-                            </div>
-                            <div class="tender-item-rightside">
-                                <div class="tender-item-header-wrap">
-                                    <div class="tender-name">
-                                        <p></p>
-                                    </div>
-                                    <div class="tender-item-info">
-                                        <p class="tender-publish-date">Опубликовано:<span
-                                                class="date-create"></span></p>
+                    <span class="number visible">№<span class="tender-number"></span></span>
 
-                                        <p class="tender-number">№<span></span></p>
-                                    </div>
-                                </div>
-                                <div class="tender-item-text">
-                                    <p></p>
-                                </div>
-                                <div class="tender-item-subtext-stuff">
-                                    <div class="tender-time-remain">
-                                        <img src="/resources/img/alarm.png">
-
-                                        <p class="tender-time date-create"></p>
-
-                                        <div class="tender-cost-wrap">
-                                            <p><span class="tender-cost"></span>$</p>
-                                            <button class="tender-apply-for">Участвовать</button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="imgGal"></div>
-
-                                <div class="map">
-                                </div>
-
-                                <sec:authorize access="isAuthenticated()">
-                                    <div id="no-propose" style="display: none">Нет предложений. Будье первыми!
-                                    </div>
-
-                                    <div id="start">
-                                        <div class="proposes-wraper" style="outline: 2px solid #000;">
-                                            <div class="propose-author">Вася</div>
-                                            <img class="member-pic" src="#" width="50" height="50">
-
-                                            <div class="propose-date"> 1 февраля</div>
-                                            <button class="chooseWinner">Выбрать победителем</button>
-                                            <div class="poropse-text">Азазаз</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="offer-wraper" style="height: 200px; background-color: #006dcc">
-                                        <div class="offer-input-group">
-                                            <textarea id="tenderPropose"></textarea>
-
-                                            <div id="textLength"></div>
-                                        </div>
-
-                                        <input id="visionSelect" type="checkbox"><label for="visionSelect">Скрыть
-                                        предложение от других участников</label>
-
-                                        <button id="makePropose" disabled>Отправить</button>
-                                    </div>
-                                </sec:authorize>
-
-                            </div>
+                    <div class="sum tender-expectedPrice"><span></span>₴</div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="tenderButtons">
+                    <div class="participate">
+                        <div class="clock">
+                            <div class="time date-finish"></div>
                         </div>
+                        <button type="button" class="abutton blue">Участвовать</button>
                     </div>
-                    <%--<!-- End of repeated section with tender -->--%>
-
+                    <button type="button" class="abutton leaveProposal">Оставить предложение</button>
                 </div>
             </div>
+            <div class="clearfix"></div>
+            <div class="title tender-name">Название тендера</div>
+            <%--<img src="/resources/css/images/sample/tender1.png" alt="" class="mainPhoto">--%>
+            <p class="text tender-item-text">
+
+            </p>
+
+            <div class="bottomSection">
+
+            </div>
+
+        </div>
+        <div class="sliderTender">
+            <ul class="bxsliderTender">
+                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider"/></li>
+                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider"/></li>
+            </ul>
+        </div>
+        <div class="tenderFils">
+            <a href="#">doc.exel</a>
+            <a href="#">system.docx</a>
+            <a href="#">doc.exel</a>
+            <a href="#">system.docx</a>
+            <a href="#">doc.exel</a>
+            <a href="#">system.docx</a>
+            <a href="#">doc.exel</a>
+            <a href="#">system.docx</a>
+        </div>
+        <div class="tenderMap">
+        </div>
+        <div class="downComments"><p>КОММЕНТАРИИ</p></div>
+    </div>
+
+    <div class="colNewsComments">
+        <div class="newsComments">
+            <div class="clearfix"></div>
+            <p class="newsCommentsHeader">ПРЕДЛОЖЕНИЯ</p>
+
+            <form action="#" role="form" id="newsCommentsForm">
+                <textarea name="newsFormComments" id="newsFormComments" placeholder="Введите свой комментарий"
+                          maxlength="2000" required></textarea>
+                <input id="visionSelect" type="checkbox"><label for="visionSelect">Скрыть
+                предложение от других участников</label>
+                <button id="makePropose" class="newsFormSubmit">Отправить</button>
+            </form>
+            <p id="chars">2000 символов осталось</p>
         </div>
     </div>
-</section>
-<!-- libs starts here-->
-<script src="/resources/libs/jquery-1.11.3.min.js"></script>
+    <div class="colComments" id="commentStart">
+
+
+
+        <div class="comments">
+            <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
+            <a class="NameUser propose-author" href="#">Вася Петров</a>
+            <p class="propose-date">Дата публикации: <span></span></p>
+            <p class="commentUser poropse-text">Lorem </p>
+            <button class="chooseWinner">Выбрать победителем</button>
+        </div>
+
+
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!--PAGE CONTENT END-->
+
+
+<sec:authorize access="isAuthenticated()">
+    <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
+
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
+<script>window.jQuery || document.write('<script src="/resources/js/vendor/jquery-1.11.2.js"><\/script>')</script>
+<script src="/resources/js/vendor/bootstrap.js"></script>
+
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-<script src="/resources/js/prioffice.js"></script>
-<script src="/resources/libs/bxslider/jquery.bxslider.min.js"></script>
-<script src="/resources/js/common.js"></script>
+
+<sec:authorize var="loggedIn" access="isAuthenticated()"/>
+<c:choose>
+    <c:when test="${loggedIn}">
+        <script src="/resources/js/autorizedHeader.js"></script>
+    </c:when>
+    <c:otherwise>
+        <script src="/resources/js/anonymHeader.js"></script>
+    </c:otherwise>
+</c:choose>
+
+<script src="/resources/js/main.js"></script>
+<script src="/resources/js/logo-section.js"></script>
+<script src="/resources/js/search-bar.js"></script>
+
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/js/service.js"></script>
 
-<sec:authorize access="isAuthenticated()">
-    <script src="/resources/js/autorizedHeader.js"></script>
-</sec:authorize>
-<!--END of libs-->
 <script>
 
     var proposes;
-
     var firstBlock = $('#start').html();
-
-
-
-
-
     // ----------------------- Begin Tender propose text length counter ------------------------------
     $("#tenderPropose").on('keyup', function (event) {
         var button = $('#makePropose');
@@ -189,8 +212,8 @@
                 imgId = i;
                 url = '/api/rest/fileStorage/TENDER/file/read/id/' + imgId;
 
-                var element = '<img src="' + url + '" width="200" height="200"/>';
-                $('.imgGal').append(element)
+                var element = '<li><img src="' + url + '" /></li>';
+                $('.bxsliderTender').append(element)
             }
         }
     }
@@ -209,42 +232,42 @@
             var data = response;
 
             sliderImg(data.uploadFilesIds);
-            $(".tender-item-text p").last().html(data.body);
+            $(".tender-item-text").last().html(data.body);
             $(".tender-number").last().text(data.tenderNumber);
             $(".tender-publish-date span").last().text(localDateTime(data.begin));
-            $(".tender-veiws").last().text(data.visited);
-            $(".tender-proposal-count").last().text(data.proposeNumber);
-            $(".tender-name p").last().text(data.title);
-            $(".date-create").last().text(localDateTime(data.end));
+            $(".tender-veiws span").last().text(data.visited);
+            $(".tender-proposal-count span").last().text(data.proposeNumber);
+            $(".tender-expectedPrice span").last().text(data.expectedPrice);
+            $(".tender-name").last().text(data.title);
 
 
-            var map = '<iframe width="500" height="400" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + data.address.googleMapKey + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>';
-            $('.map').append(map);
+            $(".date-finish").last().text(localDateTime(data.end));
 
 
-            if (data.proposes === undefined) {
-                if (data.proposes.length < 1) {
-                    $('#no-propose').attr('style', 'display: ');
-                    $('#start').attr('style', 'display: none')
-                }
-            }
+            var map = '<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + data.address.googleMapKey + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>';
+            $('.tenderMap').append(map);
 
-
+// ------------------------- Propose bulid block ---------------------------------------------------------------------
             for (var i in data.proposes) {
+                $('#commentStart').append($('.comments').last().clone());
                 $(".propose-author").last().text(data.proposes[i].authorId);
-                $(".propose-date").last().text(localDateTime(data.proposes[i].time));
+                $(".propose-date span").last().text(localDateTime(data.proposes[i].time));
                 $(".poropse-text").last().text(data.proposes[i].body);
                 $(".chooseWinner").last().attr('id', data.proposes[i].authorId);
-                $('#start').append(firstBlock);
             }
+            $('.comments').first().remove();
+// ------------------------- Propose bulid block ---------------------------------------------------------------------
+
+
+
 
             $(".chooseWinner").on('click', function () {
-                alert("Азазаз");
+                alert($(this).attr('id'));
 
                 var Tender = {};
                 Tender.winnerId = $(this).attr('id');
                 Tender.id = tenderId;
-
+                alert(Tender.winnerId);
                 $.ajax({
                     type: "POST",
                     url: "/api/rest/tenderService/tender/chooseWinner",
@@ -257,7 +280,6 @@
                         }
                     }
                 });
-
             });
 
 
@@ -281,9 +303,6 @@
     });
 
 
-
-
-
     $(document).ready(function () {
         $('.slider1').bxSlider({
             slideWidth: 200,
@@ -296,7 +315,7 @@
     // ----------------- BEGIN Propose sent -------------------------------------------------
     $('#makePropose').on('click', function () {
         var Propose = {};
-        Propose.body = $('#tenderPropose').val();
+        Propose.body = $('#comment').val();
         Propose.hidden = $('#visionSelect').prop('checked');
 
 
@@ -316,5 +335,6 @@
 
     // ----------------- END Propose sent -------------------------------------------------
 </script>
+<script src="/resources/js/jquery.bxslider.js"></script>
 </body>
 </html>

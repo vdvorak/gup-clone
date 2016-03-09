@@ -22,9 +22,6 @@ public class OfferReservationRestController {
     @Autowired
     OffersService offersService;
 
-    @Autowired
-    ActivityFeedService activityFeedService;
-
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/id/{offerId}/reserve", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -36,15 +33,12 @@ public class OfferReservationRestController {
 
         Offer offer = offersService.findById(offerId);
         if (!offer.getCanBeReserved() || (offer.getReservation() != null)) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // HttpStatus.CONFLICT
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        String authorId = offer.getAuthorId();
         String userId = SecurityOperations.getLoggedUserId();
         reservation.setProfileId(userId);
         offersService.reserveOffer(offerId, reservation);
-
-        activityFeedService.createEvent(new Event(authorId, EventType.OFFER_RESERVATION, offerId, userId));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
