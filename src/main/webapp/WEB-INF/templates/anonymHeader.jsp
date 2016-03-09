@@ -2,8 +2,7 @@
 
 <!-- не залогиненный -->
 <div class="notLogged">
-  ************
-  <ul class="notLogged-ul">
+  <ul>
     <li class="notLogged-li"><a id='go' href="#">Регистрация</a></li>
     <li class="notLogged-li"><p>&nbsp;/&nbsp;</p></li>
     <li class="notLogged-li"><a id='goo' href="#">Вход</a></li>

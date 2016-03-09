@@ -1,10 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!-- залогиненный -->
-
-<header class="menu">
-    <div class="container2">
-        <!-- залогиненный -->
         <div class="Logged">
             <div id="overlay"></div><!-- Пoдлoжкa -->
             <div class="user">
@@ -85,8 +81,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</header>
 
 <%--<div class="menu">--%>
 <%--<div class="container2">--%>
