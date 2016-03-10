@@ -68,8 +68,10 @@ public class DoerController {
         else model.addAttribute("username", "Anonimous");
         model.addAttribute("check", check);
         model.addAttribute("doer", doer);
-        model.addAttribute("like", doer.getRecalls().stream().filter(r -> r.getMark().equals(Recall.Mark.LIKE)));
-        model.addAttribute("dislike", doer.getRecalls().stream().filter(r -> r.getMark().equals(Recall.Mark.DISLIKE)));
+        if(doer.getRecalls() != null) {
+            model.addAttribute("like", doer.getRecalls().stream().filter(r -> r.getMark().equals(Recall.Mark.LIKE)));
+            model.addAttribute("dislike", doer.getRecalls().stream().filter(r -> r.getMark().equals(Recall.Mark.DISLIKE)));
+        }
         return "tendersAndDoers/doers/doer";
     }
 }
