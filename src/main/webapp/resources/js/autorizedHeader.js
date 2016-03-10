@@ -307,7 +307,7 @@ $(".mailMessage, .answer").mouseleave(function() {
 //dropDownMail=dialogStart
 //alert("zazaza");
 var dialogInit = $('#dropDownMail').html();
-$('.mailMessage').last().hide();
+//$('.mailMessage').last().hide();
 $.ajax({
     type: "POST",
     url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
@@ -316,10 +316,12 @@ $.ajax({
         var data = JSON.parse(response)
         for (var i in data) {
             $('#dropDownMail').append($('.mailMessage').last().clone());
+            alert("data[i]['message'] = " + data[i]['message']);
+            alert("data[i]['authorId'] = " + data[i]['authorId']);
             $('.mailMessage p').last().text(data[i]['message']);
             $('.mailMessage img').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + data[i]['authorId']).attr('width', '44').attr('height', '44');
         }
-        $('.mailMessage').first().remove();
+        //$('.mailMessage').first().remove();
     }
 });
 
