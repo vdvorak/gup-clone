@@ -208,15 +208,13 @@
     var imgsArr = {};
     var cities;
     var inpCategories = [];
-    var oldCategories = []; // make array from string
+    var oldCategories = JSON.parse('${blogPost.categories}'); // make array from string
     var oldImgArr = {};
     var imgsArrResult = {};
     var picArrDel = [];
     var picArrNew = [];
 
-    if ('${blogPost.categories}'.length > 5) {
-        oldCategories = JSON.parse('${blogPost.categories}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
-    }
+
     // ---------------    LOAD RESOURCES    --------------------------//
     var area = '${blogPost.address.area}';
     if (area) $('#text-region').text(area);
@@ -351,8 +349,15 @@
         blogPost.text = text;
         blogPost.address = {};
         blogPost.address.country = 'Украина';
-        blogPost.address.area = $('#areaInp').val();
-        blogPost.address.city = $('#cityInp').val();
+        var city = $('#text-city').text();
+        if (city !== 'Выберите город' && city !== 'Все города') {
+            blogPost.address.city = city;
+        }
+
+        var area = $('#text-region').text();
+        if (area !== 'Выберите область') {
+            blogPost.address.area = area;
+        }
         blogPost.imagesIds = imgsArrResult;
         blogPost.categories = [];
 

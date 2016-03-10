@@ -242,8 +242,15 @@
         blogPost.text = text;
         blogPost.address = {};
         blogPost.address.country = 'Украина';
-        blogPost.address.area = $('#areaInp').val();
-        blogPost.address.city = $('#cityInp').val();
+        var city = $('#text-city').text();
+        if (city !== 'Выберите город' && city !== 'Все города') {
+            blogPost.address.city = city;
+        }
+
+        var area = $('#text-region').text();
+        if (area !== 'Выберите область') {
+            blogPost.address.area = area;
+        }
         blogPost.imagesIds = imgsArr;
         blogPost.categories = [];
 
