@@ -158,6 +158,7 @@
 <jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
 <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
+<script src="/resources/js/cropper.js"></script>
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 <script src="/resources/js/main.js"></script>
@@ -262,13 +263,12 @@
 
     var firstFacebookLink = "";
     for (var key in socialLinks) {
-        var socNetwork = socialLinks[key];
-        if (!firstFacebookLink && socNetwork === 'FACEBOOK') {
-            firstFacebookLink = key;
-            $('#blogCreationSocial').val(key);
+        if (!firstFacebookLink && key === 'FACEBOOK') {
+            firstFacebookLink = socialLinks[key];
+            $('#blogCreationSocial').val(firstFacebookLink);
         } else {
-            var newSocLink = addSocialLink(socNetwork);
-            newSocLink.val(key);
+            var newSocLink = addSocialLink(key);
+            newSocLink.val(socialLinks[key]);
         }
     }
 
@@ -453,7 +453,7 @@
                 var socName = $(this).attr("name");
                 var url = $(this).val();
                 if (isMatchPatternSocialLinks(socName, url) && url.length) {
-                    socArr[url] = socName;
+                    socArr[socName] = url;
                 }
             });
 
