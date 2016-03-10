@@ -435,7 +435,7 @@
                 var socName = $(this).attr("name");
                 var url = $(this).val();
                 if (isMatchPatternSocialLinks(socName, url) && url.length) {
-                    socArr[url] = socName;
+                    socArr[socName] = url;
                 }
             });
 

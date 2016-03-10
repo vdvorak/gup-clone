@@ -263,10 +263,10 @@
             </div>
             <div class="col-xs-8">
                 <div id="floating-panel">
-                    <input id="address" type="textbox" value="">
-                    <input id="btn-save-adress" type="button" value="Сохранить">
+                    <input id="address" type="text">
+                    <button id="btn-save-adress">Сохранить</button>
                 </div>
-                <div id="map" style="height: 300px"></div>
+                <div id="map" class="offer-map"></div>
             </div>
 
         </div>
@@ -355,7 +355,7 @@
 
 <script>
 
-    var placeKey = '';
+    var placeKey = '${offer.address.coordinates}';
     var jsonCategory;
     var jsonSubcategory;
     var options;
@@ -835,14 +835,20 @@
             center: {lat: 50.4501, lng: 30.523400000000038}
         });
 
+
         var geocoder = new google.maps.Geocoder();
+        var infowindow = new google.maps.InfoWindow();
 
         document.getElementById('btn-save-adress').addEventListener('click', function () {
-            geocodeAddress(geocoder, map);
+            geocodeAddress(geocoder, map, infowindow);
         });
+
+        if(placeKey) {
+            geocodePlaceId(geocoder, map, infowindow);
+        }
     }
 
-    function geocodeAddress(geocoder, resultsMap) {
+    function geocodeAddress(geocoder, resultsMap, infowindow) {
         var address = document.getElementById('address').value;
         geocoder.geocode({'address': address}, function (results, status) {
             placeKey = results[0].place_id;
@@ -852,8 +858,35 @@
                     map: resultsMap,
                     position: results[0].geometry.location
                 });
+                infowindow.setContent(results[0].formatted_address);
+                infowindow.open(map, marker);
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+
+    function geocodePlaceId(geocoder, map, infowindow) {
+        var placeId = placeKey;
+        console.log(placeId);
+        geocoder.geocode({'placeId': placeId}, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+                if (results[0]) {
+                    map.setZoom(11);
+                    map.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location
+                    });
+                    infowindow.setContent(results[0].formatted_address);
+                    infowindow.open(map, marker);
+
+                    document.getElementById('address').value = results[0].formatted_address;
+                } else {
+                    window.alert('No results found');
+                }
+            } else {
+                window.alert('Geocoder failed due to: ' + status);
             }
         });
     }
