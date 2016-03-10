@@ -30,17 +30,21 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public void createProfile(Profile profile) {
-        profile.setCreatedDateEqualsToCurrentDate();
-
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
-        profile.setPassword(hashedPassword);
-        HashSet<UserRole> userRoles = new HashSet<>();
-        if (profile.getUserRoles() == null || profile.getUserRoles().size() == 0) {
-            userRoles.add(UserRole.ROLE_USER);
-            profile.setUserRoles(userRoles);
-        }
-        profileRepository.createProfile(profile);
-        bankSession.createBalanceRecord(profile.getId(), 0);
+        HashSet<UserRole> userRoles = new HashSet<UserRole>(){{
+                add(UserRole.ROLE_USER);
+        }};
+
+        Profile newProfile = new Profile()
+                .setEmail(profile.getEmail())
+                .setPassword(hashedPassword)
+                .setUserRoles(userRoles)
+                .setCreatedDateEqualsToCurrentDate();
+
+        profileRepository.createProfile(newProfile);
+        bankSession.createBalanceRecord(newProfile.getId(), 0);
+
+        profile.setId(newProfile.getId());
     }
 
     @Override
