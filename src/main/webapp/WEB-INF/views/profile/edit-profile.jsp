@@ -38,10 +38,6 @@
 
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
-<sec:authorize access="isAuthenticated()">
-    <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
-</sec:authorize>
-
 <div class="container2">
     <div class="moreInformation">
         <p class="info-p">Редактирование профиля</p>

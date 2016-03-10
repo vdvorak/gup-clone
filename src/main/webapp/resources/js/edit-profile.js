@@ -266,7 +266,7 @@ $('#addProfileImg').on('click', function () {
 $('#uploadProfilePhotoInput').on('change', function () {
     $.ajax({
         type: "POST",
-        url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1", //
+        url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1",
         data: new FormData($("#uploadProfilePhotoForm")[0]),
         enctype: 'multipart/form-data',
 //                async: false,
@@ -275,7 +275,6 @@ $('#uploadProfilePhotoInput').on('change', function () {
         processData: false,
         statusCode: {
             201: function (data) {
-//                        alert('201');
                 updatedProfile.contact.pic = data.id;
                 $('.moreInformation-img').css('background',
                     'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');
