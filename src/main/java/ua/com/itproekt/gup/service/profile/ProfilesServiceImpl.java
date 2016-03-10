@@ -59,6 +59,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.findById(id);
     }
 
+    //TODO: add sec. restrictions !!!
     @Override
     public Profile editProfile(Profile currentProfile) {
         return profileRepository.findProfileAndUpdate(currentProfile);
