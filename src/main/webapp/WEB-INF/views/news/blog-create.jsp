@@ -11,6 +11,8 @@
 <html>
 <head>
     <title>Создание блога</title>
+    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
+
     <link rel="stylesheet" href="resources/css/bootstrap.css">
     <link rel="stylesheet" href="resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="resources/css/jquery.bxslider.css">
