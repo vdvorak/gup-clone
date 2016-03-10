@@ -394,7 +394,7 @@
         } else if (socName === "VKONTAKTE") {
             return /^(http:\/\/|https:\/\/)?(www\.)?vk\.com\/(\w|\d)+?\/?$/.test(url);
         } else if (socName === "SKYPE") {
-            /[a-zA-Z][a-zA-Z0-9\.,\-_]{5,31}/.test(url);
+            return /[a-zA-Z][a-zA-Z0-9\.,\-_]{5,31}/.test(url);
         } else {
             return false;
         }
