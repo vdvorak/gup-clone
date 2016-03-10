@@ -213,18 +213,18 @@ function checkProjectBalance(projectId) {
 //        cache: false
 //    });
 $(".cropper-btn-cancel").click(function () {
-    $('#cropperModal').css('display', "none");
+    $('#cropperModal').fadeOut(400);
 });
 
 $(window).click(function (event) {
     var modal = document.getElementById('cropperModal');
     if (event.target == modal) {
-        modal.style.display = "none";
+        $('#cropperModal').fadeOut(400);
     }
 });
 
 $('#makeInvest').on('click', function () {
-    $('#cropperModal').css('display', "block");
+    $('#cropperModal').fadeIn(400);
 });
 
 $('#confirmInvest').on('click', function () {
@@ -237,7 +237,7 @@ $('#confirmInvest').on('click', function () {
         statusCode: {
             200: function (response) {
                 alert("Операция прошла успешно");
-                $('#cropperModal').css('display', "none");
+                $('#cropperModal').fadeOut(400);
             },
             403: function (response) {
                 alert("Недостаточно денег на счету для совершения операции")

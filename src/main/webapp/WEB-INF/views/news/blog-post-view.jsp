@@ -36,6 +36,12 @@
 
 <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
 
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+
+<sec:authorize access="isAuthenticated()">
+    <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
+
 <div class="container2">
 
     <div class="news"> <!-- когда чувак вип надо добавить класс vip-color-border -->

@@ -1,4 +1,3 @@
-
 var loadedProfile = {};
 var updatedProfile = {};
 
@@ -139,7 +138,7 @@ $(document).ready(function () {
 
                     if (x < max_fields) { //max input box allowed
                         x++; //text box increment
-                        $(wrapper).append('<div class="soc-input-wrap show-inp"><input class="soc-input" name="' + socName + '" type="text" placeholder = "Страница ' + socName + '"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="15" height="15"></a></div>');
+                        $(wrapper).append('<div class="soc-input-wrap show-inp"><input class="soc-input input-info-min" name="' + socName + '" type="text" placeholder = "Страница ' + socName + '"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="15" height="15"></a></div>');
                     }
                 });
 
@@ -148,10 +147,10 @@ $(document).ready(function () {
                     $(this).parent('div').remove();
                     x--;
                 });
-                // ---------------------------------------------------- END Soc network links --------------------------------
+// ---------------------------------------------------- END Soc network links --------------------------------
 
 
-                // ----------------------------------------------------- Multiply phone numbers -----------------------------------
+// ----------------------------------------------------- Multiply phone numbers -----------------------------------
                 // Add/Remove phone Input Fields Dynamically with jQuery
 
                 var max_fields_tel = 6; //maximum input boxes allowed + 1
@@ -163,7 +162,7 @@ $(document).ready(function () {
                     e.preventDefault();
                     if (x_tel < max_fields_tel) { //max input box allowed
                         x_tel++; //text box increment
-                        $(tel_wrapper).append('<div><input type="text" name="mytel"/><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div>'); //add input box
+                        $(tel_wrapper).append('<div class="tel-wrapper-1 tel-input-unit"><input type="tel" name="mytel" class="input-info-min"><a href="#" class="remove_field"><img class="remove_phone" src="/resources/img/minus.png" with="20" height="20"></a><div class="clearfix"></div></div>'); //add input box
                     } else {
                         alert('Максимум 5 контактных телефоноов');
                     }
@@ -179,7 +178,6 @@ $(document).ready(function () {
 
 // ----------------------------------------------------- Multiply emails -----------------------------------
                 // Add/Remove phone Input Fields Dynamically with jQuery
-
                 var max_fields_email = 6; //maximum input boxes allowed + 1
                 var email_wrapper = $(".input_email_fields_wrap"); //Fields wrapper
                 var add_button_email = $(".add_email_field_button"); //Add button ID
@@ -189,7 +187,7 @@ $(document).ready(function () {
                     e.preventDefault();
                     if (x_email < max_fields_email) { //max input box allowed
                         x_email++; //text box increment
-                        $(email_wrapper).append('<div><input type="text" name="myemail"/><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div>'); //add input box
+                        $(email_wrapper).append('<div class="email-input-unit"><input type="text" name="myemail" class="form-info-input"><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div>'); //add input box
                     } else {
                         alert('Максимум 5 контактных email-ов');
                     }
@@ -268,7 +266,7 @@ $('#addProfileImg').on('click', function () {
 $('#uploadProfilePhotoInput').on('change', function () {
     $.ajax({
         type: "POST",
-        url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1", //
+        url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1",
         data: new FormData($("#uploadProfilePhotoForm")[0]),
         enctype: 'multipart/form-data',
 //                async: false,
@@ -277,7 +275,6 @@ $('#uploadProfilePhotoInput').on('change', function () {
         processData: false,
         statusCode: {
             201: function (data) {
-//                        alert('201');
                 updatedProfile.contact.pic = data.id;
                 $('.moreInformation-img').css('background',
                     'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');
@@ -290,16 +287,6 @@ $('#uploadProfilePhotoInput').on('change', function () {
     });
 });
 // ------------------------------------------- End photo upload block ---------------------------------
-
-
-
-
-
-
-
-
-
-
 
 
 //var loadedProfile = {};
