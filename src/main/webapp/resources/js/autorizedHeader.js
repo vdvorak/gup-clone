@@ -305,14 +305,14 @@ $(".mailMessage, .answer").mouseleave(function() {
 
 //mailMessage=mailDrop-message
 //dropDownMail=dialogStart
-alert("zazaza");
+//alert("zazaza");
 var dialogInit = $('#dropDownMail').html();
 $('.mailMessage').last().hide();
 $.ajax({
     type: "POST",
     url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
     success: function (response) {
-        alert("ololo = " + response);
+        //alert("ololo = " + response);
         var data = JSON.parse(response)
         for (var i in data) {
             $('#dropDownMail').append($('.mailMessage').last().clone());
