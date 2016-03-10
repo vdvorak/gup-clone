@@ -374,11 +374,10 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(blogPost),
-            success: function (response) {
-                window.location.href = '/blog-post/view/id/' + response.id;
-            },
-            error: function (response) {
-                alert("Внутренняя ошибка сервера");
+            statusCode: {
+                200: function (response) {
+                    window.location.href = '/blog-post/view/id/' + '${blogPost.id}';
+                }
             }
         });
     });
