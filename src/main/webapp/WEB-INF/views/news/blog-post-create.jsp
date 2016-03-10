@@ -270,7 +270,7 @@
             data: JSON.stringify(blogPost),
             statusCode: {
                 200: function (response) {
-                    window.location.href = '/blog-post/view/id/' + '${blogPost.id}';
+                    window.location.href = '/blog-post/view/id/' + blogPost.id;
                 }
             }
         });
