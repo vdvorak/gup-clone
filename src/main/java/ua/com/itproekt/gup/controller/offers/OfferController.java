@@ -43,10 +43,10 @@ public class OfferController {
 
 
     //ToDo turn on this controller when it will be created offers.jsp
-//    @RequestMapping(value = "/offers", method = RequestMethod.GET)
-//    public String getAllOffers() {
-//        return "offers";
-//    }
+    @RequestMapping(value = "/offers-anton", method = RequestMethod.GET)
+    public String getAllOffers() {
+        return "offer/offers-OLD-2";
+    }
 
     @RequestMapping(value = "/offers-old/{page}", method = RequestMethod.GET)
     public String getOffersPerPage(Model model, HttpServletRequest request,

@@ -1,12 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Optical Illusion
-  Date: 02.11.2015
-  Time: 10:06
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ru">
 <head>
@@ -56,6 +49,8 @@
     <div class="offer-info-wrap">
         <div class="offer-info-box">
             <div>Колличество просмотров: <span class="view-counter"></span></div>
+            <div>Дата создания: <span id="create-date" class="date-create"></span></div>
+            <div id="urgent" style="color: red;"></div>
             <div class="reservation">
                 <div id="make-reserve" class="col-xs-6">ЗАБРОНИРОВАТЬ</div>
                 <div class="col-xs-6 text-right"><span class="offer-price"></span><span class="currency"></span> <i
@@ -100,10 +95,10 @@
         </div>
         <div class="offer-info-slider">
             
-            <ul class="bxslider">
-              <li><img src="/resources/images/slider.jpg" /></li>
-              <li><img src="/resources/images/slider.jpg" /></li>
-              <li><img src="/resources/images/slider.jpg" /></li>
+            <ul class="bxslider" id="offer-slider">
+              <%--<li><img src="/resources/images/slider.jpg" /></li>--%>
+              <%--<li><img src="/resources/images/slider.jpg" /></li>--%>
+              <%--<li><img src="/resources/images/logo.png" /></li>--%>
             </ul>
 
             <div id="bx-pager" class="hide">
@@ -198,6 +193,9 @@
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
+
+<script src="/resources/js/moment-with-locales.js"></script>
+<script src="/resources/js/service.js"></script>
 
 <script>
     var offerId = "${offerId}";

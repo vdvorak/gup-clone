@@ -214,4 +214,10 @@ $(document).ready(function () {
             $('.modal').fadeOut(400);
         }
     }
+
+    $('.contactA').click( function() {
+        $('.contactA').hide(500);
+        $('.restore').fadeIn(1000);
+        return false;
+    });
 });

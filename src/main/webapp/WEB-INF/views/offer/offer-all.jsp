@@ -12,7 +12,7 @@
 <head>
     <title>Объявления | Портал GUP</title>
 
-    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
+    <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
@@ -80,10 +80,12 @@
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
 <script src="/resources/js/enscroll-0.6.1.min.js"></script>
+<script src="/resources/js/offerFilter.js"></script>
 
 <script>
 
-    var filter = {skip: 0, limit: 10};
+    //    var filter = {skip: 0, limit: 10};
+    var filter = new Offer.OfferFilter();
     var cities;
     var category1Id = '';
     var category2Id = '';
@@ -98,8 +100,8 @@
 
     // ---------------    LOAD RESOURCES    --------------------------//
     $(document).ready(function () {
-        setFilterProperties();
-        readAllByFilter();
+        filter.setFilterProperties()
+                .readAllByFilter();
     });
 
     $.ajax({
@@ -117,6 +119,7 @@
         dataType: "json",
         success: function (response) {
             jsonCategory = response;
+            drawSubcategories();
         }
     });
 
@@ -149,107 +152,60 @@
 
     // ---------------   END LOAD RESOURCES    --------------------------//
 
-    // ---------------    BEGIN DRAW OFFERS    --------------------------//
-    function readAllByFilter() {
+    $('#btn-offers-more').click(function () {
+        filter.skip += skip;
+        filter.readAllByFilter();
+    });
 
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/offersService/offer/read/all",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(filter),
-            success: function (response) {
-                if (response) {
-                    var offersArr = response.entities;
-                    var count = 0;
-                    var maxCount = 5;
+    $('#btn-offers-search').click(function () {
+        filter = new Offer.OfferFilter();
+        filter.cleanResult()
+                .setFilterProperties()
+                .readAllByFilter();
+    });
 
-                    for (var i = 0; i < offersArr.length; i++) {
-                        var offerObj = offersArr[i];
+    // ---------------   BEGIN DRAW CATEGORIES    --------------------------//
 
-                        var imagesIds = offerObj.imagesIds;
-                        var imgSrc = "";
-                        var arrKeys = Object.keys(imagesIds);
-                        if (arrKeys.length) {
-                            for (var key in imagesIds) {
-                                if (imagesIds[key] === 'pic1') {
-                                    imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + key;
-                                    break;
-                                }
-                            }
-                            if (imgSrc === '') imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + arrKeys[0];
-                        } else {
-                            imgSrc = "/resources/images/no_photo.jpg";
-                        }
+    function onClickCategory1lvl() {
 
-                        var priceStr = "Нет цены";
-                        if (offerObj.price) {
-                            priceStr = offerObj.price.toString();
-                            if (offerObj.currency) {
-                                priceStr = priceStr + offerObj.currency;
-                            }
-                        }
+    }
 
-                        var newLi = $('#li-offer-basic').clone()
-                                .attr('id', "")
-                                .css("display", "inline-block");
-                        newLi.find('p').text(offerObj.title);
-                        newLi.find('.image').attr("href", '/offer/' + offerObj.id + '');
-                        newLi.find('img').attr("src", imgSrc);
+    function onClickCategory2lvl() {
 
+    }
 
-                        newLi.children('span').text("Просмотров: " + offerObj.views);
-                        newLi.find('a.btn').text(priceStr).attr("href", '/offer/' + offerObj.id + '');
+    $('.ItemADS').children('a:first').click(onClickCategory1lvl);
 
-                        if (count === maxCount) {
-                            count = 0;
-                            var newBox = $('ul.notice-box').last()
-                                    .clone()
-                                    .text("")
-                                    .insertAfter($('ul.notice-box').last());
-                        }
-                        newLi.appendTo($('ul.notice-box').last());
-                        count++;
-                    }
+    function drawSubcategories() {
+        $('.ItemADS div').children('a').remove();
+
+        $('.ItemADS').each(function() {
+            var elem = $(this).children('a:first');
+            var category1Id = elem.attr('id');
+            var subcategoriesBox = elem.parent().find('div');
+
+            var child1 = {};
+            var childArr = jsonCategory.filter(function (obj) {
+                return obj.id === +category1Id;
+            });
+            if (childArr[0]) {
+                child1 = childArr[0].children;
+
+                for (var key in child1) {
+                    var newA = $('<a id="' + child1[key].id + '" href="#">' + child1[key].name + '</a>')
+                            .click(onClickCategory2lvl);
+                    $(subcategoriesBox).append(newA);
                 }
-            },
-            error: function (response) {
-                alert("Внутренняя ошибка сервера");
+
+                var newA = $('<a href="$">Cмотреть все обьявления</a>')
+                        .click(onClickCategory2lvl);
+                $(subcategoriesBox).append(newA);
+
             }
         });
     }
 
-    function setFilterProperties() {
-
-    }
-
-    function cleanResult() {
-        var offerBoxArr = $('ul.notice-box:not(:first)');
-        for (var i = 0; i < offerBoxArr.length; i++) {
-            offerBoxArr[i].remove();
-        }
-        $('ul.notice-box:first').text("");
-    }
-
-    $('#btn-offers-more').click(function () {
-        filter.skip += skip;
-        readAllByFilter();
-    });
-
-    /*  $('#btn-offers-search').click(function () {
-     filter = {};
-     filter.skip = 0;
-     filter.limit = 10;
-
-     cleanResult();
-
-     setFilterProperties();
-     readAllByFilter();
-     });*/
-
-
-    // ---------------    END DRAW OFFERS    --------------------------//
-
+    // ---------------   END DRAW CATEGORIES    --------------------------//
 </script>
 </body>
 </html>

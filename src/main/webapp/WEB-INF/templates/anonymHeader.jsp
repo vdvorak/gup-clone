@@ -55,6 +55,14 @@
           <button class="submit" id="loginBtn">Войти</button>
         </div>
         <a class="contactA" href="/restore">Забыли пароль?</a>
+        <div class="restore">
+          <form action="${pageContext.request.contextPath}/resetPassword" method="post">
+            <input type="text" value="${token}" style="display: none;" name="token"/>
+              <label for="newPassword">Введите новый пароль:</label>
+              <input type="password" id="newPassword" name="newPassword"/>
+              <button type="submit">Изменить пароль</button>
+          </form>
+        </div>
       </div>
 
     </div>

@@ -1,4 +1,3 @@
-
 var firstBlockBlog = $('#startBlockOfBlogs').html();
 var firstBlockNews = $('#startBlockOfNews').html();
 
@@ -57,12 +56,13 @@ $(document).ready(function () {
             url: url,
             data: JSON.stringify(filterOptions),
             success: function (response) {
-                if (whatDraw === 'blogs') {
-                    drawBlog(response.entities);
-                }
-                if (whatDraw === 'news') {
-                    drawNews(response.entities);
-                    console.log(response);
+                if (response) {
+                    if (whatDraw === 'blogs') {
+                        drawBlog(response.entities);
+                    }
+                    if (whatDraw === 'news') {
+                        drawNews(response.entities);
+                    }
                 }
             }
         });
@@ -95,9 +95,9 @@ $(document).ready(function () {
     var newsFO = {};
     var address = {};
     newsFO.skip = 0;
-    newsFO.limit = 2;
+    newsFO.limit = 5;
 
-    $(".NewsTabsFilterItem").on('click', function(){
+    $(".NewsTabsFilterItem").on('click', function () {
         $('.intro').removeClass("intro");
         $(this).addClass("intro");
         address.city = $('.intro').text();
@@ -110,9 +110,9 @@ $(document).ready(function () {
     });
 
     function drawNews(data) {
-        for (var i = 0; i<data.length; i++ ) {
+        for (var i = 0; i < data.length; i++) {
             data[i].text = data[i].text.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', "");
-            if($('.normalNews').length == 0){
+            if ($('.normalNews').length == 0) {
                 $('#startBlockOfNews').append(firstBlockNews);
             }
             $('.normalNews').last().attr('style', 'display:;');

@@ -59,7 +59,34 @@ $.ajax({
 
 // ----------- Draw offer -------------------------------------------------------------------------------------------
 $('.offer-title').text(offer.title);
-$('.offer-price').text(offer.price);
+
+if (offer.price) {
+    $('.offer-price').text(offer.price);
+    var currency = $('.currency');
+    switch (offer.currency) {
+        case 'UAH':
+            currency.text(' грн.');
+            break;
+        case 'USD':
+            currency.text(' дол.');
+            break;
+        case 'EUR':
+            currency.text(' евро');
+            break;
+        default:
+            currency.text(' грн.')
+    }
+} else {
+    $('.offer-price').text("Нет цены")
+}
+
+$('#create-date').text(offer.createdDate);
+
+if (offer.urgent){
+    if (offer.urgent == true) {
+       $('#urgent').text('СРОЧНО')
+    }
+}
 
 $('.view-counter').text(offer.views);
 
@@ -69,6 +96,8 @@ if (offer.videoUrl) {
 
 if (offer.address.coordinates) {
     $('.offer-map').append('<iframe width="100%" height="auto" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + offer.address.coordinates + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>');
+} else {
+    $('.offer-map').remove();
 }
 
 if (offer.userInfo.skypeLogin) {
@@ -85,20 +114,19 @@ if (offer.userInfo.contactName) {
 
 $('.offer-description').text(offer.description);
 
-var currency = $('.currency');
-switch (offer.currency) {
-    case 'UAH':
-        currency.text(' грн.');
-        break;
-    case 'USD':
-        currency.text(' дол.');
-        break;
-    case 'EUR':
-        currency.text(' евро');
-        break;
-    default:
-        currency.text(' грн.')
+
+// ------ Slider with photo
+if (offer.imagesIds) {
+    if (Object.keys(offer.imagesIds).length > 0) {
+        for (var i in offer.imagesIds) {
+            $('#offer-slider').append('<li><img src="/api/rest/fileStorage/OFFERS/file/read/id/' + i + '" /></li>');
+        }
+    } else {
+        $('#offer-slider').append('<li><img src="/resources/images/no_photo.jpg" /></li>');
+    }
 }
+// ------ Slider with photo
+
 
 if (offer.address) {
     if (offer.address.country) {
