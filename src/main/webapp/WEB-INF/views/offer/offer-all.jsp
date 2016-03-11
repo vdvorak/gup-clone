@@ -119,6 +119,7 @@
         dataType: "json",
         success: function (response) {
             jsonCategory = response;
+            drawSubcategories();
         }
     });
 
@@ -163,9 +164,48 @@
                 .readAllByFilter();
     });
 
+    // ---------------   BEGIN DRAW CATEGORIES    --------------------------//
 
-    // ---------------    END DRAW OFFERS    --------------------------//
+    function onClickCategory1lvl() {
 
+    }
+
+    function onClickCategory2lvl() {
+
+    }
+
+    $('.ItemADS').children('a:first').click(onClickCategory1lvl);
+
+    function drawSubcategories() {
+        $('.ItemADS div').children('a').remove();
+
+        $('.ItemADS').each(function() {
+            var elem = $(this).children('a:first');
+            var category1Id = elem.attr('id');
+            var subcategoriesBox = elem.parent().find('div');
+
+            var child1 = {};
+            var childArr = jsonCategory.filter(function (obj) {
+                return obj.id === +category1Id;
+            });
+            if (childArr[0]) {
+                child1 = childArr[0].children;
+
+                for (var key in child1) {
+                    var newA = $('<a id="' + child1[key].id + '" href="#">' + child1[key].name + '</a>')
+                            .click(onClickCategory2lvl);
+                    $(subcategoriesBox).append(newA);
+                }
+
+                var newA = $('<a href="$">Cмотреть все обьявления</a>')
+                        .click(onClickCategory2lvl);
+                $(subcategoriesBox).append(newA);
+
+            }
+        });
+    }
+
+    // ---------------   END DRAW CATEGORIES    --------------------------//
 </script>
 </body>
 </html>
