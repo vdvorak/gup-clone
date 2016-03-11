@@ -689,6 +689,7 @@
     //---------------------------- SUBMIT -----------------------------------------------------//
 
     $('#tender-make-form').submit(function (event) {
+
         var body = tinymce.activeEditor.getContent();
         if(!body) return false;
 
@@ -726,10 +727,14 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(tender),
             dataType: "json",
-            success: function (response) {
-                window.location.href = '/tender/' + response.id;
+            statusCode: {
+                201: function (data, textStatus, request) {
+                    alert(data.id);
+                    window.location.href = '/tender/' + data.id;
+                }
             }
         });
+        event.preventDefault();
     });
     //---------------------------- END SUBMIT -------------------------------------------------//
 

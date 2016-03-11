@@ -835,6 +835,9 @@
         window.location.href = '/tender/' + response.id;
       }
     });
+
+    event.preventDefault();
+    
   });
   //---------------------------- END SUBMIT -------------------------------------------------//
   //------------------ BEGIN DELETE TENDER ------------------------------------//

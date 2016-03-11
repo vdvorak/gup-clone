@@ -3,6 +3,7 @@
     position: fixed;
     z-index: 20;
     padding-top: 100px;
+    opacity: 1;
     left: 0;
     top: 0;
     width: 100%;
