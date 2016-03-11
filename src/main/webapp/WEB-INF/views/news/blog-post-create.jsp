@@ -242,8 +242,15 @@
         blogPost.text = text;
         blogPost.address = {};
         blogPost.address.country = 'Украина';
-        blogPost.address.area = $('#areaInp').val();
-        blogPost.address.city = $('#cityInp').val();
+        var city = $('#text-city').text();
+        if (city !== 'Выберите город' && city !== 'Все города') {
+            blogPost.address.city = city;
+        }
+
+        var area = $('#text-region').text();
+        if (area !== 'Выберите область') {
+            blogPost.address.area = area;
+        }
         blogPost.imagesIds = imgsArr;
         blogPost.categories = [];
 
@@ -261,11 +268,10 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(blogPost),
-            success: function (response) {
-                window.location.href = '/blog-post/view/id/' + response.id;
-            },
-            error: function (response) {
-                alert("Внутренняя ошибка сервера");
+            statusCode: {
+                201: function (data, textStatus, request) {
+                    window.location.href = '/blog-post/view/id/' + data.id;
+                }
             }
         });
     });
