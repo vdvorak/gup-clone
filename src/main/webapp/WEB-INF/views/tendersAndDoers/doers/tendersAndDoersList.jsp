@@ -85,7 +85,9 @@
                             <div class="clock">
                                 <div class="time build-end"></div>
                             </div>
+                            <a href="#" class="build-link-wrap">
                             <button type="button" class="abutton blue">Участвовать</button>
+                            </a>
                         </div>
                         <div class="sum"><span class="build-sum"></span>₴</div>
                     </div>
