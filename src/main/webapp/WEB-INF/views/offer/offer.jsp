@@ -69,24 +69,34 @@
                     <div class="clearfix"></div>
                     <div class="contact skype-block"><span class="offer-skype"></span> <i class="fa fa-lg fa-skype"></i></div>
                 </div>
-                <div class="col-xs-7">
-                    Автор: <a class="author-link"><span class="author-name"></span></a>
-                    <br>
-                    <span class="contact-name-block">Контактное лицо: <span
-                            class="contact-name-block-unit"></span></span>
+                <div class="col-xs-7 no-padd-left">
 
-                    <div class="clearfix"></div>
-                    <span class="author-rating"></span>
+                    <div class="col-xs-5 no-padd-left">
+                        <span class="foto"><img src="/resources/images/doersLogo.png" alt=""></span>
+                    </div>
+                    <div class="col-xs-7 no-padd">
+                        Автор: <a class="author-link"><span class="author-name"></span></a>
+                        <br>
+                        <span class="contact-name-block">Контактное лицо: <span
+                                class="contact-name-block-unit"></span></span>
 
-                    <div class="clearfix"></div>
-                    <a href="#">Все обьявления автора</a>
+                        <div class="clearfix"></div>
+                        <span class="author-rating"></span>
 
-                    <div class="clearfix"></div>
-                    <br>
+                        <div class="clearfix"></div>
+                        <a href="#">Все обьявления автора</a>
 
-                    <div id="options" class="row panel"></div>
+                        <div class="clearfix"></div>
+                        <br>
+                        
+                    </div>
+
+                     <div class="clearfix"></div>
+                    <div id="options" class="row p--------anel"></div>
+                    
                 </div>
             </div>
+           
             <div class="clearfix"></div>
             <section class="offer-map">
             </section>
