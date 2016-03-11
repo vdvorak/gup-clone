@@ -14,7 +14,7 @@
             </select>
         </div>
         <button id="searchButton" class="submit-search">Найти <i class="fa fa-search fa-flip-horizontal"></i></button>
-        <button class="users" id="userListBtn">Пользователи</button>
+        <button class="users" id="userListBtn">Все пользователи</button>
         <div class="clearfix"></div>
 
             <div id="profileFilterBlock" class="hidefilter" style="display: none">

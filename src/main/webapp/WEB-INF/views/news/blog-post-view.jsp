@@ -129,6 +129,12 @@
                 $('#bpDislikeNum').append(blogPost.totalDislikes);
                 $('#bpText').append(blogPost.text);
 
+                if(loggedInProfile){
+                    if (loggedInProfile.id === blogPost.authorId){
+                        $("<a href='/blog-post/edit/" + blogPost.id +"'><button>Редактировать статью</button></a>").insertAfter($('.newsRating'))
+                    }
+                }
+
                 blogPost.comments.forEach(function (comment) {
                     $.ajax({
                         type: "POST",
