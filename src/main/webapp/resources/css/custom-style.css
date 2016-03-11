@@ -1,4 +1,6 @@
 /*Default styles*/
+@import url(https://fonts.googleapis.com/css?family=Droid+Sans);
+
 
 body {
     padding: 0;
@@ -22,7 +24,7 @@ body {
 /*Titles*/
 
 .title-h1-blue {
-    padding: 15px 0 20px;
+    padding: 25px 0 20px;
     margin: 0;
     color: #1269a7;
     font: 32px/35px 'Droid Sans', sans-serif;
@@ -121,6 +123,12 @@ body {
     overflow: hidden;
 }
 
+.offer-info-wrap div,
+.offer-info-wrap span,
+.offer-info-wrap h2 {
+    font-family: 'Droid Sans', sans-serif;
+}
+
 .offer-info-box {
     width: 420px;
     float: left;
@@ -128,6 +136,7 @@ body {
 
 .offer-info-box .reservation {
     padding: 5px 0px 5px 5px;
+    margin-top: 15px;
     overflow: hidden;
     background: #8bd0ea;
     font-size: 22px;
@@ -135,13 +144,35 @@ body {
     border-radius: 5px;
 }
 
+.offer-info-box .reservation #make-reserve {
+    color: #fff;
+}
+
+.offer-info-box .reservation i.fa-lock {
+    color: #fff;
+}
+
 .offer-info-box .contact {
-    padding: 5px 0px 5px 5px;
+    padding: 5px 30px 5px 5px;
     background: #99cc66;
     color: #fff;
     font-size: 17px;
     line-height: 32px;
     border-radius: 5px;
+    position: relative;
+}
+
+.offer-info-box .contact i.fa-skype {
+    top: 12px;
+    right: 10px;
+    position: absolute;
+}
+
+.offer-info-box .contact i.fa-phone {
+    top: 50%;
+    right: 10px;
+    position: absolute;
+    margin-top: -17px;
 }
 
 .offer-info-box .clearfix {
@@ -174,7 +205,7 @@ body {
 /* Page navigation */
 
 .page-navigation {
-    padding: 40px 0 0;
+    padding: 0px 0 30px;
     margin: 0;
     overflow: hidden;
     list-style: none;
@@ -266,4 +297,30 @@ body {
 .new-ad-btn {
     padding: 40px 0 0;
     text-align: right;
+}
+
+.offer-map {
+    border: 3px solid #9c6;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.offer-info-slider .bx-wrapper .bx-controls-direction a {
+    width: 32px;
+    height: 32px;
+}
+
+.offer-info-slider .bx-wrapper img {
+    margin: 0 auto;
+}
+
+.offer-info-slider .bx-wrapper .bx-viewport {
+    box-shadow: 0;
+    border: 4px solid #9c6;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.offer-info-slider .bx-wrapper .bx-next {
+    right: 20px;
 }
