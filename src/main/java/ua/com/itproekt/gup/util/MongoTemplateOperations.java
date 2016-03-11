@@ -14,8 +14,11 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.IllegalFormatFlagsException;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public final class MongoTemplateOperations {
@@ -40,19 +43,20 @@ public final class MongoTemplateOperations {
         Query query = new Query();
         Update update = new Update();
 
-        for (Method method : objWithNewValues.getClass().getDeclaredMethods()) {
-            if (Modifier.isPublic(method.getModifiers())
-                    && (method.getName().startsWith(getPrefix)
-                    || method.getName().startsWith(isPrefix))) {
+        for (Method method : objWithNewValues.getClass().getMethods()) {
+            String methodName = method.getName();
+            if (methodName.startsWith(getPrefix) || methodName.startsWith(isPrefix)) {
+                Object value = null;
                 try {
-                    Object value = method.invoke(objWithNewValues);
-                    if (method.getName().equals("getId")) {
-                        query.addCriteria(Criteria.where("_id").is(value));
-                    } else {
-                        update.set(getFieldNameFromGetter(method.getName()), value);
-                    }
+                    value = method.invoke(objWithNewValues);
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     LOG.error(LogUtil.getExceptionStackTrace(e));
+                }
+
+                if (methodName.equals("getId")) {
+                    query.addCriteria(Criteria.where("_id").is(value));
+                } else {
+                    update.set(getFieldNameFromGetter(methodName), value);
                 }
             }
         }
@@ -66,12 +70,16 @@ public final class MongoTemplateOperations {
                 objWithNewValues.getClass());
     }
 
+    private static String getFieldNameFromGetter(int getterPrefixLength, String getterName) {
+        return Character.toLowerCase(getterName.charAt(getterPrefixLength)) + getterName.substring(getterPrefixLength + 1);
+    }
+
     private static String getFieldNameFromGetter(String getterName) {
         int getterPrefixLength = -1;
         if (getterName.startsWith(getPrefix)) {
-            getterPrefixLength = 3;
+            getterPrefixLength = getPrefix.length();
         } else if (getterName.startsWith(isPrefix)){
-            getterPrefixLength = 2;
+            getterPrefixLength = isPrefix.length();
         } else {
             throw new IllegalArgumentException();
         }
