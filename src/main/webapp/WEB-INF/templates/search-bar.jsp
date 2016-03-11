@@ -269,20 +269,16 @@
 
                     <div class="superFilter">
                         <form action="#">
-                            <select>
-                                <option>Подкатегория</option>
-                                <option>Подкатегория2</option>
-                                <option>Подкатегория3</option>
-                                <option>Подкатегория4</option>
-                                <option>Подкатегория5</option>
+                            <select id="select-categories-3lvl" value="Выберите подкатегорию">
+
                             </select>
-                            <select>
+<%--                            <select>
                                 <option>Вид категории</option>
                                 <option>Вид категории2</option>
                                 <option>Вид категории3</option>
                                 <option>Вид категории4</option>
                                 <option>Вид категории5</option>
-                            </select>
+                            </select>--%>
 
                             <div class="clearfix"></div>
 
@@ -292,7 +288,7 @@
                                 <input type="text" placeholder="до">
                                 <p>грн.<i class="fa fa-caret-down"></i></p>
                             </div>
-                            <div class="price">
+<%--                            <div class="price">
                                 <p>Цена:</p>
                                 <input type="text" placeholder="от">
                                 <input type="text" placeholder="до">
@@ -303,10 +299,11 @@
                                 <input type="text" placeholder="от">
                                 <input type="text" placeholder="до">
                                 <p>грн.<i class="fa fa-caret-down"></i></p>
-                            </div>
+                            </div>--%>
 
                             <div class="clearfix"></div>
 
+<%--                            <input type="text">
                             <input type="text">
                             <input type="text">
                             <input type="text">
@@ -315,8 +312,7 @@
                             <input type="text">
                             <input type="text">
                             <input type="text">
-                            <input type="text">
-                            <input type="text">
+                            <input type="text">--%>
 
                             <div class="clearfix"></div>
 
