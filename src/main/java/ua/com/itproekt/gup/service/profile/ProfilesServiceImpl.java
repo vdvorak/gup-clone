@@ -14,9 +14,6 @@ import ua.com.itproekt.gup.util.EntityPage;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * The type Profiles service.
- */
 @Service
 public class ProfilesServiceImpl implements ProfilesService {
 
@@ -59,10 +56,18 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.findById(id);
     }
 
-    //TODO: add sec. restrictions !!!
     @Override
-    public Profile editProfile(Profile currentProfile) {
-        return profileRepository.findProfileAndUpdate(currentProfile);
+    public Profile editProfile(Profile profile) {
+        profile.setPoint(null)
+                .setPassword(null)
+                .setUnreadMessages(null)
+                .setProfileRating(null)
+                .setConfirmModerator(null)
+                .setUserRoles(null)
+                .setCreatedDate(null)
+                .setLastLoginDate(null);
+
+        return profileRepository.findProfileAndUpdate(profile);
     }
 
     @Override
