@@ -157,7 +157,7 @@
     });
 
     $('#btn-offers-search').click(function () {
-        filter = new Offer.OfferFilter();
+        console.log(filter.categories);
         filter.cleanResult()
                 .readAllByFilter();
     });
@@ -166,27 +166,34 @@
     $('#select-categories-3lvl').change(selectCategoryLvl3);
 
     function drawCategories3lvl(id) {
+        $('#select-categories-3lvl option').remove();
+
+        var select = $('#select-categories-3lvl');
+        select.append($('<option>Выберите подкатегорию</option>'));
 
         var child2 = {};
         if (jsonSubcategory[id]) {
             child2 = jsonSubcategory[id].children;
             for (var key in child2) {
-                var option = $('<option id="' + key + '">' + child2[key].label + '</option>');
+                var option = $('<option id="' + key + '" value="' + key + '">' + child2[key].label + '</option>');
                 $('#select-categories-3lvl').append(option);
             }
         }
+        if(select.children().length > 1) select.css('display', 'block');
     }
+
     function selectCategoryLvl3(event) {
+        if(categories.length > 2) categories.pop();
         categories.push($(event.currentTarget).val());
         filter.categories = categories;
-        filter.cleanResult()
-                .readAllByFilter();
     }
 
     function onClickCategory1lvl(event) {
         var id1 = $(event.currentTarget).attr('id');
         properties = [];
         categories = [];
+
+        $('div.price').css('display', 'block');
 
         if(id1 !== 'free' && id1 !== 'exchange') {
             categories.push(id1);
@@ -197,9 +204,12 @@
                 value: id1
             });
             filter.properties = properties;
+            $('div.price').css('display', 'none');
         }
         filter.cleanResult()
                 .readAllByFilter();
+
+        $('#select-categories-3lvl').css('display', 'none');
     }
 
     function onClickCategory2lvl(event) {
@@ -214,6 +224,8 @@
                 .readAllByFilter();
 
         drawCategories3lvl(categories[1]);
+
+        $('div.price').css('display', 'block');
     }
 
     $('.ItemADS').each(function () {

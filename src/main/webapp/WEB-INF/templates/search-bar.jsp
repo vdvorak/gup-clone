@@ -269,8 +269,8 @@
 
                     <div class="superFilter">
                         <form action="#">
-                            <select id="select-categories-3lvl" value="Выберите подкатегорию">
-
+                            <select id="select-categories-3lvl" style="display: none">
+                                <option>Выберите подкатегорию</option>
                             </select>
 <%--                            <select>
                                 <option>Вид категории</option>
