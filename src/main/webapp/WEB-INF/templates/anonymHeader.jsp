@@ -34,7 +34,7 @@
 
           <div class="conditions">
             <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkbox-registration" value="1" name="k"/><span></span></label>
-            <label for="checkbox-registration"><a href="#">Мною были прочитаны все условия</a></label>
+            <a href="#">Мною были прочитаны все условия</a>
           </div>
           <button class="registration-submit" id="registrationBtn">Зарегистрироваться</button>
         </div>
