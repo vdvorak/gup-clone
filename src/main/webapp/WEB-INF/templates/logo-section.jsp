@@ -4,7 +4,7 @@
         <a href="/index">
             <div class="logo">
                 <a href="/index"><img src="/resources/css/images/brand.png" alt="brand"></a>
-                <p>Global Ukranian Portal</p>
+                <p>Global Ukrainian Portal</p>
             </div>
         </a>
 
@@ -31,10 +31,9 @@
                         <div class="socialBankIcons">
                             <a href="#"><img src="/resources/images/visa.png" alt="visa"></a>
                             <a href="#"><img src="/resources/images/mastercard.png" alt="mastercard"></a>
-                            <a href="#"><img src="/resources/images/payPal.png" alt="payPal"></a>
+                            <a href="#"><img src="/resources/images/privat24.png" alt="privat24"></a>
                             <a href="#"><img src="/resources/images/box.png" alt="box"></a>
                         </div>
-                        <a href="#"><img src="/resources/images/privat24.png" alt="privat24"></a>
                         <button type="button">Отмена</button>
                     </div>
                     <div class="richAss">

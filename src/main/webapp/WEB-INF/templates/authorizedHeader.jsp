@@ -119,7 +119,12 @@
                     <p>Пополните счет, с помощью этих банк-систем:</p>
 
                     <div class="clearfix"></div>
-                    <img src="/resources/images/logo-liqpay.png" alt="logo-liqpay">
+                    <div class="socialBankIcons">
+                        <a href="#"><img src="/resources/images/visa.png" alt="visa"></a>
+                        <a href="#"><img src="/resources/images/mastercard.png" alt="mastercard"></a>
+                        <a href="#"><img src="/resources/images/privat24.png" alt="privat24"></a>
+                        <a href="#"><img src="/resources/images/box.png" alt="box"></a>
+                    </div>
                 </div>
             </div>
         </div>
