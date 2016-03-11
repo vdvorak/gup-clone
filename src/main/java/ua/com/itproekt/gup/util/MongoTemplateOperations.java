@@ -2,6 +2,7 @@ package ua.com.itproekt.gup.util;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -13,10 +14,14 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.IllegalFormatFlagsException;
 import java.util.Map;
 
 @Component
 public final class MongoTemplateOperations {
+    private static final Logger LOG = Logger.getLogger(MongoTemplateOperations.class);
+    private static final String isPrefix = "is";
+    private static final String getPrefix = "get";
 
     private static MongoTemplate staticMongoTemplate;
 
@@ -32,32 +37,22 @@ public final class MongoTemplateOperations {
      * Updates only those fields that != null
      */
     public static <T> T updateFieldsAndReturnUpdatedObj(T objWithNewValues) {
-
         Query query = new Query();
         Update update = new Update();
 
         for (Method method : objWithNewValues.getClass().getDeclaredMethods()) {
             if (Modifier.isPublic(method.getModifiers())
-                    && (method.getName().startsWith("get")
-                    || method.getName().startsWith("is"))) {
-                Object value = null;
+                    && (method.getName().startsWith(getPrefix)
+                    || method.getName().startsWith(isPrefix))) {
                 try {
-                    value = method.invoke(objWithNewValues);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-                if (value != null) {
+                    Object value = method.invoke(objWithNewValues);
                     if (method.getName().equals("getId")) {
                         query.addCriteria(Criteria.where("_id").is(value));
-                    } else if (method.getName().startsWith("get")) {
-                        String fieldName = method.getName().substring(3, 4).toLowerCase();
-                        fieldName += method.getName().substring(4);
-                        update.set(fieldName, value);
-                    } else if (method.getName().startsWith("is")){
-                        String fieldName = method.getName().substring(2, 3).toLowerCase();
-                        fieldName += method.getName().substring(3);
-                        update.set(fieldName, value);
+                    } else {
+                        update.set(getFieldNameFromGetter(method.getName()), value);
                     }
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    LOG.error(LogUtil.getExceptionStackTrace(e));
                 }
             }
         }
@@ -69,6 +64,19 @@ public final class MongoTemplateOperations {
                 update,
                 new FindAndModifyOptions().returnNew(true),
                 objWithNewValues.getClass());
+    }
+
+    private static String getFieldNameFromGetter(String getterName) {
+        int getterPrefixLength = -1;
+        if (getterName.startsWith(getPrefix)) {
+            getterPrefixLength = 3;
+        } else if (getterName.startsWith(isPrefix)){
+            getterPrefixLength = 2;
+        } else {
+            throw new IllegalArgumentException();
+        }
+
+        return Character.toLowerCase(getterName.charAt(getterPrefixLength)) + getterName.substring(getterPrefixLength + 1);
     }
 
     public static <T> Map explainQuery(String collectionName, Query query) {
