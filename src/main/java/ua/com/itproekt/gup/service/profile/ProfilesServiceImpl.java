@@ -58,14 +58,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public Profile editProfile(Profile profile) {
-        profile.setPoint(null)
-                .setPassword(null)
-                .setUnreadMessages(null)
-                .setProfileRating(null)
-                .setConfirmModerator(null)
-                .setUserRoles(null)
-                .setCreatedDate(null)
-                .setLastLoginDate(null);
+        removeAdministrativeFieldsForEdit(profile);
 
         return profileRepository.findProfileAndUpdate(profile);
     }
@@ -152,8 +145,19 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     private void removeAdministrativeFields(Profile profile){
-        profile.setEmail(null);
-        profile.setPassword(null);
-        profile.setMainPhoneNumber(null);
+        profile.setEmail(null)
+                .setPassword(null)
+                .setMainPhoneNumber(null);
+    }
+
+    private void removeAdministrativeFieldsForEdit(Profile profile) {
+        profile.setPoint(null)
+                .setPassword(null)
+                .setUnreadMessages(null)
+                .setProfileRating(null)
+                .setConfirmModerator(null)
+                .setUserRoles(null)
+                .setCreatedDate(null)
+                .setLastLoginDate(null);
     }
 }
