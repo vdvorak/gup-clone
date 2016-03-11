@@ -20,6 +20,13 @@ $(".fadeScreen").click(function() {
 
 $(".user").click(function() {
     $('.user > div').slideToggle('fast', function() {
+        $('.selecionado').removeClass( "selecionado" );
+        $(".dropDownMail").slideUp("fast");
+        $(".answer").slideUp('fast');
+        $(".mailMessage").slideDown('fast');
+        $(".dropDownBell").slideUp('fast');
+        $(".book div").slideUp('fast');
+        $(".dropDownMoney").slideUp('fast');
         $(this).toggleClass('selecionado');
         if( $('.selecionado').is(':visible') ) {
             $(".fadeScreen").show()
@@ -69,6 +76,13 @@ $(".mailMessage, .answer").mouseleave(function() {
 
 $(".bell").click(function() {
     $('.dropDownBell').slideToggle('fast', function() {
+        $('.selecionado').removeClass( "selecionado" );
+        $(".user > div").slideUp("fast");
+        $(".dropDownMail").slideUp("fast");
+        $(".answer").slideUp('fast');
+        $(".mailMessage").slideDown('fast');
+        $(".book div").slideUp('fast');
+        $(".dropDownMoney").slideUp('fast');
         $(this).toggleClass('selecionado');
         if( $('.selecionado').is(':visible') ) {
             $(".fadeScreen").show()
@@ -96,6 +110,13 @@ $(".dropDownBell").click(function(event) {
 
 $(".book").click(function() {
     $('.book div').slideToggle('fast', function() {
+        $('.selecionado').removeClass( "selecionado" );
+        $(".user > div").slideUp("fast");
+        $(".dropDownMail").slideUp("fast");
+        $(".answer").slideUp('fast');
+        $(".mailMessage").slideDown('fast');
+        $(".dropDownBell").slideUp('fast');
+        $(".dropDownMoney").slideUp('fast');
         $(this).toggleClass('selecionado');
         if( $('.selecionado').is(':visible') ) {
             $(".fadeScreen").show()
@@ -123,6 +144,13 @@ $(".book div").click(function(event) {
 
 $(".money").click(function() {
     $('.dropDownMoney').slideToggle('fast', function() {
+        $('.selecionado').removeClass( "selecionado" );
+        $(".user > div").slideUp("fast");
+        $(".dropDownMail").slideUp("fast");
+        $(".answer").slideUp('fast');
+        $(".mailMessage").slideDown('fast');
+        $(".dropDownBell").slideUp('fast');
+        $(".book div").slideUp('fast');
         $(this).toggleClass('selecionado');
         if( $('.selecionado').is(':visible') ) {
             $(".fadeScreen").show()
@@ -269,6 +297,11 @@ $('.dropDownBook').enscroll({
 
     $(".mail").click(function(){
         $('.dropDownMail').slideToggle('fast', function() {
+            $('.selecionado').removeClass( "selecionado" );
+            $(".user > div").slideUp("fast");
+            $(".dropDownBell").slideUp('fast');
+            $(".book div").slideUp('fast');
+            $(".dropDownMoney").slideUp('fast');
             $(this).toggleClass('selecionado');
             if( $('.selecionado').is(':visible') ) {
                 $(".fadeScreen").show()
