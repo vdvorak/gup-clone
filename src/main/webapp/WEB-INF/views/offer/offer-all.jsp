@@ -85,7 +85,7 @@
 <script>
 
     //    var filter = {skip: 0, limit: 10};
-    var filter = new OfferFilter();
+    var filter = new Offer.OfferFilter();
     var cities;
     var category1Id = '';
     var category2Id = '';
@@ -157,7 +157,7 @@
     });
 
     $('#btn-offers-search').click(function () {
-        filter = new OfferFilter();
+        filter = new Offer.OfferFilter();
         filter.cleanResult()
                 .setFilterProperties()
                 .readAllByFilter();

@@ -1,4 +1,5 @@
-var OfferFilter = (function($) {
+
+(function(namespace) {
 
     'use strict';
 
@@ -108,19 +109,8 @@ var OfferFilter = (function($) {
     OfferFilter.prototype.setFilterProperties = function () {
         return this;
     }
-    return OfferFilter;
 
-})(jQuery);
+    namespace.OfferFilter = OfferFilter;
 
-var OfferFilter = (function($) {
+})(window.Offer = window.Offer || {});
 
-    'use strict';
-
-    function OfferFilter() {
-        this.skip = 0;
-        this.limit = 10;
-    }
-
-    return OfferFilter;
-
-})(jQuery);
