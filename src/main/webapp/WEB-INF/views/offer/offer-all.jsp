@@ -90,7 +90,7 @@
     var category1Id = '';
     var category2Id = '';
     var category3Id = '';
-    var categoryResult = [];
+    var categories = [];
     var parameters = [];
     var properties = [];
     var options;
@@ -100,8 +100,7 @@
 
     // ---------------    LOAD RESOURCES    --------------------------//
     $(document).ready(function () {
-        filter.setFilterProperties()
-                .readAllByFilter();
+        filter.readAllByFilter();
     });
 
     $.ajax({
@@ -158,28 +157,84 @@
     });
 
     $('#btn-offers-search').click(function () {
-        filter = new Offer.OfferFilter();
         filter.cleanResult()
-                .setFilterProperties()
                 .readAllByFilter();
     });
 
     // ---------------   BEGIN DRAW CATEGORIES    --------------------------//
+    // Начало Переписать этот код
+    $('#select-categories-3lvl').change(selectCategoryLvl3);
 
-    function onClickCategory1lvl() {
+    function drawCategories3lvl(id) {
+        $('#select-categories-3lvl option').remove();
 
+        var select = $('#select-categories-3lvl');
+        select.append($('<option>Выберите подкатегорию</option>'));
+
+        var child2 = {};
+        if (jsonSubcategory[id]) {
+            child2 = jsonSubcategory[id].children;
+            for (var key in child2) {
+                var option = $('<option id="' + key + '" value="' + key + '">' + child2[key].label + '</option>');
+                $('#select-categories-3lvl').append(option);
+            }
+        }
+        if(select.children().length > 1) select.css('display', 'block');
     }
 
-    function onClickCategory2lvl() {
-
+    function selectCategoryLvl3(event) {
+        if(filter.categories.length > 2) filter.categories.pop();
+        filter.categories.push($(event.currentTarget).val());
     }
 
-    $('.ItemADS').children('a:first').click(onClickCategory1lvl);
+    function onClickCategory1lvl(event) {
+        var id1 = $(event.currentTarget).attr('id');
+        delete filter.properties;
+        delete filter.categories;
+
+        $('div.price').css('display', 'block');
+
+        if(id1 !== 'free' && id1 !== 'exchange') {
+            filter.categories = [];
+            filter.categories.push(id1);
+        } else {
+            filter.properties = [];
+            filter.properties.push({
+                key: 'price',
+                value: id1
+            });
+            $('div.price').css('display', 'none');
+        }
+        filter.cleanResult()
+                .readAllByFilter();
+
+        $('#select-categories-3lvl').css('display', 'none');
+    }
+
+    function onClickCategory2lvl(event) {
+        var elem = $(event.currentTarget);
+        delete filter.properties;
+        filter.categories  = [
+            elem.parent().parent().children('a:first').attr('id'),
+            elem.attr('id')
+        ];
+        filter.cleanResult()
+                .readAllByFilter();
+
+        drawCategories3lvl(filter.categories[1]);
+
+        $('div.price').css('display', 'block');
+    }
+
+    $('.ItemADS').each(function () {
+        $(this).children('a:first').click(onClickCategory1lvl);
+    })
+
+    $('.ItemADS div').children('a').remove();
 
     function drawSubcategories() {
-        $('.ItemADS div').children('a').remove();
 
-        $('.ItemADS').each(function() {
+        $('.ItemADS').each(function () {
             var elem = $(this).children('a:first');
             var category1Id = elem.attr('id');
             var subcategoriesBox = elem.parent().find('div');
@@ -197,14 +252,15 @@
                     $(subcategoriesBox).append(newA);
                 }
 
-                var newA = $('<a href="$">Cмотреть все обьявления</a>')
-                        .click(onClickCategory2lvl);
-                $(subcategoriesBox).append(newA);
-
+                if(Object.keys(child1).length) {
+                    var newA = $('<a href="$">Cмотреть все обьявления</a>')
+                            .click(onClickCategory2lvl);
+                    $(subcategoriesBox).append(newA);
+                }
             }
         });
     }
-
+// Конец Переписать этот код
     // ---------------   END DRAW CATEGORIES    --------------------------//
 </script>
 </body>
