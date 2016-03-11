@@ -375,9 +375,8 @@
             dataType: "json",
             data: JSON.stringify(blogPost),
             statusCode: {
-                200: function (response) {
-                    console.log(response);
-                    window.location.href = '/blog-post/view/id/' + blogPost.id;
+                200: function (data, textStatus, request) {
+                    window.location.href = '/blog-post/view/id/' + '${blogPost.id}';
                 }
             }
         });
