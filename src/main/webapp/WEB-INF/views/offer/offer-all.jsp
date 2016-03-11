@@ -157,12 +157,12 @@
     });
 
     $('#btn-offers-search').click(function () {
-        console.log(filter.categories);
         filter.cleanResult()
                 .readAllByFilter();
     });
 
     // ---------------   BEGIN DRAW CATEGORIES    --------------------------//
+    // Начало Переписать этот код
     $('#select-categories-3lvl').change(selectCategoryLvl3);
 
     function drawCategories3lvl(id) {
@@ -183,27 +183,26 @@
     }
 
     function selectCategoryLvl3(event) {
-        if(categories.length > 2) categories.pop();
-        categories.push($(event.currentTarget).val());
-        filter.categories = categories;
+        if(filter.categories.length > 2) filter.categories.pop();
+        filter.categories.push($(event.currentTarget).val());
     }
 
     function onClickCategory1lvl(event) {
         var id1 = $(event.currentTarget).attr('id');
-        properties = [];
-        categories = [];
+        delete filter.properties;
+        delete filter.categories;
 
         $('div.price').css('display', 'block');
 
         if(id1 !== 'free' && id1 !== 'exchange') {
-            categories.push(id1);
-            filter.categories = categories;
+            filter.categories = [];
+            filter.categories.push(id1);
         } else {
-            properties.push({
+            filter.properties = [];
+            filter.properties.push({
                 key: 'price',
                 value: id1
             });
-            filter.properties = properties;
             $('div.price').css('display', 'none');
         }
         filter.cleanResult()
@@ -214,16 +213,15 @@
 
     function onClickCategory2lvl(event) {
         var elem = $(event.currentTarget);
-
-        categories = [
+        delete filter.properties;
+        filter.categories  = [
             elem.parent().parent().children('a:first').attr('id'),
             elem.attr('id')
         ];
-        filter.categories = categories;
         filter.cleanResult()
                 .readAllByFilter();
 
-        drawCategories3lvl(categories[1]);
+        drawCategories3lvl(filter.categories[1]);
 
         $('div.price').css('display', 'block');
     }
@@ -262,7 +260,7 @@
             }
         });
     }
-
+// Конец Переписать этот код
     // ---------------   END DRAW CATEGORIES    --------------------------//
 </script>
 </body>

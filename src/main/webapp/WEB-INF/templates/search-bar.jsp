@@ -282,12 +282,12 @@
 
                             <div class="clearfix"></div>
 
-                            <div class="price">
+                           <%-- <div class="price">
                                 <p>Цена:</p>
-                                <input type="text" placeholder="от">
-                                <input type="text" placeholder="до">
+                                <input id="priceMin" type="number" placeholder="от">
+                                <input id="priceMax" type="number" placeholder="до">
                                 <p>грн.<i class="fa fa-caret-down"></i></p>
-                            </div>
+                            </div>--%>
 <%--                            <div class="price">
                                 <p>Цена:</p>
                                 <input type="text" placeholder="от">
