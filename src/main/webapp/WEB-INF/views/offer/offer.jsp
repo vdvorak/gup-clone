@@ -46,7 +46,7 @@
     </ul>
 
     <a href="#" id="edit-offer-link" style="display: none">
-        <button>Редактировать объявление</button>
+        <button class="btn btn-warning">Редактировать объявление</button>
     </a>
 
     <h1 class="title-h1-blue offer-title"></h1>
@@ -67,10 +67,10 @@
                     <div class="clearfix"></div>
                     <div class="contact phone-numbers">
                         <span class="show-number">Показать номера телефонов</span>
-
+                        <i class="fa fa-2x fa-phone"></i>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="contact skype-block"><span class="offer-skype"></span> <i class="fa fa-skype"></i></div>
+                    <div class="contact skype-block"><span class="offer-skype"></span> <i class="fa fa-lg fa-skype"></i></div>
                 </div>
                 <div class="col-xs-7">
                     Автор: <a class="author-link"><span class="author-name"></span></a>
@@ -96,7 +96,22 @@
             <section class="offer-video">
             </section>
         </div>
-        <div class="offer-info-slider"><img src="images/slider.jpg" width="450" alt=""></div>
+        <div class="offer-info-slider">
+            
+            <ul class="bxslider">
+              <li><img src="/resources/images/slider.jpg" /></li>
+              <li><img src="/resources/images/slider.jpg" /></li>
+              <li><img src="/resources/images/slider.jpg" /></li>
+            </ul>
+
+            <div id="bx-pager" class="hide">
+              <a data-slide-index="0" href=""><img src="/resources/images/slider.jpg" /></a>
+              <a data-slide-index="1" href=""><img src="/resources/images/slider.jpg" /></a>
+              <a data-slide-index="2" href=""><img src="/resources/images/slider.jpg" /></a>
+            </div>
+
+            <!-- <img src="/resources/images/slider.jpg" width="450" alt=""> -->
+        </div>
     </div>
 
 
