@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>Редактирование исполнителя</title>
+    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
 </head>
 <body>
     <div>

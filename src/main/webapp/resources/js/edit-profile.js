@@ -1,4 +1,3 @@
-
 var loadedProfile = {};
 var updatedProfile = {};
 
@@ -139,7 +138,7 @@ $(document).ready(function () {
 
                     if (x < max_fields) { //max input box allowed
                         x++; //text box increment
-                        $(wrapper).append('<div class="soc-input-wrap show-inp"><input class="soc-input" name="' + socName + '" type="text" placeholder = "Страница ' + socName + '"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="15" height="15"></a></div>');
+                        $(wrapper).append('<div class="soc-input-wrap show-inp"><input class="soc-input input-info-min" name="' + socName + '" type="text" placeholder = "Страница ' + socName + '"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="15" height="15"></a></div>');
                     }
                 });
 
@@ -148,10 +147,10 @@ $(document).ready(function () {
                     $(this).parent('div').remove();
                     x--;
                 });
-                // ---------------------------------------------------- END Soc network links --------------------------------
+// ---------------------------------------------------- END Soc network links --------------------------------
 
 
-                // ----------------------------------------------------- Multiply phone numbers -----------------------------------
+// ----------------------------------------------------- Multiply phone numbers -----------------------------------
                 // Add/Remove phone Input Fields Dynamically with jQuery
 
                 var max_fields_tel = 6; //maximum input boxes allowed + 1
@@ -163,7 +162,7 @@ $(document).ready(function () {
                     e.preventDefault();
                     if (x_tel < max_fields_tel) { //max input box allowed
                         x_tel++; //text box increment
-                        $(tel_wrapper).append('<div><input type="text" name="mytel"/><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div>'); //add input box
+                        $(tel_wrapper).append('<div class="tel-wrapper-1 tel-input-unit"><input type="tel" name="mytel" class="input-info-min"><a href="#" class="remove_field"><img class="remove_phone" src="/resources/img/minus.png" with="20" height="20"></a><div class="clearfix"></div></div>'); //add input box
                     } else {
                         alert('Максимум 5 контактных телефоноов');
                     }
@@ -179,7 +178,6 @@ $(document).ready(function () {
 
 // ----------------------------------------------------- Multiply emails -----------------------------------
                 // Add/Remove phone Input Fields Dynamically with jQuery
-
                 var max_fields_email = 6; //maximum input boxes allowed + 1
                 var email_wrapper = $(".input_email_fields_wrap"); //Fields wrapper
                 var add_button_email = $(".add_email_field_button"); //Add button ID
@@ -189,7 +187,7 @@ $(document).ready(function () {
                     e.preventDefault();
                     if (x_email < max_fields_email) { //max input box allowed
                         x_email++; //text box increment
-                        $(email_wrapper).append('<div><input type="text" name="myemail"/><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div>'); //add input box
+                        $(email_wrapper).append('<div class="email-input-unit"><input type="text" name="myemail" class="form-info-input"><a href="#" class="remove_field"><img src="/resources/img/minus.png" with="20" height="20"></a></div>'); //add input box
                     } else {
                         alert('Максимум 5 контактных email-ов');
                     }
@@ -265,91 +263,11 @@ $('#addProfileImg').on('click', function () {
 });
 
 // ------------------------------------------- Photo upload block ---------------------------------
-$('#uploadProfilePhotoInput').on('change', function () {
-    $.ajax({
-        type: "POST",
-        url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1", //
-        data: new FormData($("#uploadProfilePhotoForm")[0]),
-        enctype: 'multipart/form-data',
-//                async: false,
-        cache: false,
-        contentType: false,
-        processData: false,
-        statusCode: {
-            201: function (data) {
-//                        alert('201');
-                updatedProfile.contact.pic = data.id;
-                $('.moreInformation-img').css('background',
-                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');
-
-            },
-            400: function () {
-                alert('400');
-            }
-        }
-    });
-});
-// ------------------------------------------- End photo upload block ---------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-//var loadedProfile = {};
-//var updatedProfile = {};
-//
-//var socInputTemplate = $('.soc-input-group').html();
-//var contactTelTagHtml = '<input type="tel" name="contactTel" class="input-info-min contactTel">';
-//var contactEmailTagHtml = '<input type="email" name="contactEmail" class="form-info-input contactEmail">';
-//// --------------------------------------  BEGIN cropper  ----------------------------------------------
-//var image = document.getElementById('cropper-image');
-//var cropper = new Cropper(image, {
-//    aspectRatio: 1 / 1,
-//    crop: function(data) {
-//        console.log(data.x);
-//        console.log(data.y);
-//        console.log(data.width);
-//        console.log(data.height);
-//        console.log(data.rotate);
-//        console.log(data.scaleX);
-//        console.log(data.scaleY);
-//    }
-//});
-//
-//$(".cropper-btn-cancel").click(function() {
-//    $('#cropperModal').css('display',"none");
-//});
-//
-//$(window).click(function(event) {
-//    var modal = document.getElementById('cropperModal');
-//    if (event.target == modal) {
-//        modal.style.display = "none";
-//    }
-//});
-//
-//$(".cropper-btn-success").click(function() {
-//    $('#cropperModal').css('display',"none");
-//
-//    var canvas = cropper.getCroppedCanvas();
-//    var dataURL = canvas.toDataURL('image/jpeg', 0.5);
-//    var blob = dataURItoBlob(dataURL);
-//
-//    cropper.replace(dataURL);
-//
-//    var formData = new FormData();
-//    formData.append('file', blob);
-//
+//$('#uploadProfilePhotoInput').on('change', function () {
 //    $.ajax({
 //        type: "POST",
-//        url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1", //
-//        data: formData,
+//        url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1",
+//        data: new FormData($("#uploadProfilePhotoForm")[0]),
 //        enctype: 'multipart/form-data',
 ////                async: false,
 //        cache: false,
@@ -357,11 +275,9 @@ $('#uploadProfilePhotoInput').on('change', function () {
 //        processData: false,
 //        statusCode: {
 //            201: function (data) {
-//                updatedProfile.imgId = data.id;
+//                updatedProfile.contact.pic = data.id;
 //                $('.moreInformation-img').css('background',
-//                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId + ') no-repeat center center')
-//                    .css("background-size","cover");
-//                cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId);
+//                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center');
 //
 //            },
 //            400: function () {
@@ -370,16 +286,94 @@ $('#uploadProfilePhotoInput').on('change', function () {
 //        }
 //    });
 //});
+
+$('#uploadProfilePhotoInput').on('change', function () {
+    var files = event.currentTarget.files;
+    var reader  = new FileReader();
+
+    reader.addEventListener("load", function () {
+        cropper.replace(reader.result);
+    }, false);
+
+    if (files[0]) {
+        reader.readAsDataURL(files[0]);
+    }
+
+    $('#cropperModal').css('display',"block");
+});
+// ------------------------------------------- End photo upload block ---------------------------------
+
+
+//var loadedProfile = {};
+//var updatedProfile = {};
 //
-//function dataURItoBlob(dataURI) {
-//    var binary = atob(dataURI.split(',')[1]);
-//    var array = [];
-//    for(var i = 0; i < binary.length; i++) {
-//        array.push(binary.charCodeAt(i));
-//    }
-//    return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
-//}
-//// --------------------------------------  END cropper  ----------------------------------------------
+//var socInputTemplate = $('.soc-input-group').html();
+//var contactTelTagHtml = '<input type="tel" name="contactTel" class="input-info-min contactTel">';
+//var contactEmailTagHtml = '<input type="email" name="contactEmail" class="form-info-input contactEmail">';
+// --------------------------------------  BEGIN cropper  ----------------------------------------------
+var image = document.getElementById('cropper-image');
+var cropper = new Cropper(image, {
+    aspectRatio: 1 / 1,
+    crop: function(data) {
+    }
+});
+
+$(".cropper-btn-cancel").click(function() {
+    $('#cropperModal').css('display',"none");
+});
+
+$(window).click(function(event) {
+    var modal = document.getElementById('cropperModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+});
+
+$(".cropper-btn-success").click(function() {
+    $('#cropperModal').css('display',"none");
+
+    var canvas = cropper.getCroppedCanvas();
+    var dataURL = canvas.toDataURL('image/jpeg', 0.5);
+    var blob = dataURItoBlob(dataURL);
+
+    cropper.replace(dataURL);
+
+    var formData = new FormData();
+    formData.append('file', blob);
+
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1", //
+        data: formData,
+        enctype: 'multipart/form-data',
+//                async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        statusCode: {
+            201: function (data) {
+                updatedProfile.contact.pic = data.id;
+                $('.moreInformation-img').css('background',
+                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center')
+                    .css("background-size","cover");
+                cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic);
+            },
+            400: function () {
+                alert('400');
+            }
+        }
+    });
+});
+
+function dataURItoBlob(dataURI) {
+    var binary = atob(dataURI.split(',')[1]);
+    var array = [];
+    for(var i = 0; i < binary.length; i++) {
+        array.push(binary.charCodeAt(i));
+    }
+    return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+}
+// --------------------------------------  END cropper  ----------------------------------------------
 //
 //function setValuesForFieldsFromProfile(profile) {
 ////            alert('loadedProfile: ' + JSON.stringify(loadedProfile));

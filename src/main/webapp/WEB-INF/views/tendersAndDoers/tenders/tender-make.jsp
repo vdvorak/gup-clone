@@ -14,6 +14,7 @@
     <title>Создание тендера</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
 
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
@@ -688,6 +689,7 @@
     //---------------------------- SUBMIT -----------------------------------------------------//
 
     $('#tender-make-form').submit(function (event) {
+
         var body = tinymce.activeEditor.getContent();
         if(!body) return false;
 
@@ -725,10 +727,14 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(tender),
             dataType: "json",
-            success: function (response) {
-                window.location.href = '/tender/' + response.id;
+            statusCode: {
+                201: function (data, textStatus, request) {
+                    alert(data.id);
+                    window.location.href = '/tender/' + data.id;
+                }
             }
         });
+        event.preventDefault();
     });
     //---------------------------- END SUBMIT -------------------------------------------------//
 

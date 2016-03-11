@@ -15,6 +15,8 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,26 +72,30 @@ public class MailSenderServiceImpl implements MailSenderService {
         messageHelper.addInline(resourceIdentifier, resource);
     }
 
+    //TODO: fix subject encoding (cp1251 -> UTF-8)
     private EmailServiceTokenModel sendVerificationEmail(final EmailServiceTokenModel emailVerificationModel,
                                                          final String emailSubject,
                                                          final String velocityModel,
                                                          final Map<String, String> resources) {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
-                MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_RELATED, "UTF-8");
+                MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,
+                        MimeMessageHelper.MULTIPART_MODE_RELATED, "UTF-8");
                 messageHelper.setTo(emailVerificationModel.getEmail());
                 messageHelper.setFrom(emailFromAddress);
                 messageHelper.setReplyTo(emailReplyToAddress);
-                messageHelper.setSubject(emailSubject);
-                Map model = new HashMap();
+                messageHelper.setSubject(MimeUtility.encodeText(emailSubject, "utf-8", "B"));
+                Map<String, Object> model = new HashMap<>();
                 model.put("model", emailVerificationModel);
                 String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityModel, "UTF-8", model);
-                messageHelper.setText(new String(text.getBytes(), "UTF-8"), true);
-                      for(String resourceIdentifier: resources.keySet()) {
+                messageHelper.setText(text, true);
+
+                for(String resourceIdentifier: resources.keySet()) {
                    addInlineResource(messageHelper, resources.get(resourceIdentifier), resourceIdentifier);
                 }
             }
         };
+
         LOG.debug("Sending {} token to : {}", emailVerificationModel.getTokenType().toString(), emailVerificationModel.getEmail());
         this.mailSender.send(preparator);
         return emailVerificationModel;
