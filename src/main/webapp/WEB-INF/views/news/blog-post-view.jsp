@@ -72,6 +72,8 @@
             <p class="newsDislikeNum" id="bpDislikeNum"></p>
         </div>
 
+
+
         <div class="downComments"><p>Комментировать</p></div>
 
         <div class="clearfix"></div>
@@ -255,7 +257,6 @@
     $(".comments").click(function () {
         if ($('.backgroundColorComment').is(':visible')) {
             return $('.backgroundColorComment').removeClass("backgroundColorComment");
-            ;
         } else {
             $(this).addClass("backgroundColorComment");
         }
