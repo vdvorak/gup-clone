@@ -303,6 +303,7 @@ body {
     border: 3px solid #9c6;
     overflow: hidden;
     border-radius: 10px;
+    margin-bottom: 15px;
 }
 
 .offer-info-slider .bx-wrapper .bx-controls-direction a {
