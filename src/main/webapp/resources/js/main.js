@@ -220,4 +220,9 @@ $(document).ready(function () {
         $('.restore').fadeIn(1000);
         return false;
     });
+
+    $('.dropDownMail .answer textarea').click(function() {
+        return false;
+    });
+
 });
