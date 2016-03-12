@@ -26,15 +26,7 @@
             <div class="mailMessage">
                 <img src="/resources/images/logo.png" alt="logo">
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat cupiditate architecto autem
-                    officiis ratione, praesentium laborum illum culpa veniam iste commodi aliquam libero quod ducimus,
-                    corporis, ipsa inventore earum sint!</p>
-            </div>
-            <div class="mailMessage">
-                <img src="/resources/images/logo.png" alt="logo">
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat cupiditate architecto autem
-                    officiis ratione</p>
+                <p>У вас нет непрочитанных сообщений.</p>
             </div>
             <div class="answer">
                 <img src="/resources/images/logo.png" alt="logo">
