@@ -35,12 +35,11 @@ public class TenderController {
     @Autowired
     StorageService storageService;
 
-// ToDo Delete in the future
+    // ToDo Delete in the future
     @RequestMapping("/tenders-OLD")
     public String getAllTenders() {
         return "tendersAndDoers/tenders/tenders";
     }
-
 
     // ToDo Delete in the future   // ToDo Delete in the future
     @RequestMapping("/tender-old/{id}")
@@ -49,8 +48,6 @@ public class TenderController {
         return "tendersAndDoers/tenders/tender-OLD";
     }
 
-
-
     @RequestMapping("/tender/{id}")
     public String getTender(@PathVariable String id, Model model) {
         model.addAttribute("id", id);
@@ -58,10 +55,11 @@ public class TenderController {
     }
 
     @RequestMapping("/tenders")
-    public String getDoersRead() {
+    public String getDoersRead(Model model) {
+        String flag = "tender";
+        model.addAttribute("flag", flag);
         return "tendersAndDoers/doers/tendersAndDoersList";
     }
-
 
     @RequestMapping("/tender-make")
     public String thenderMake() {
@@ -71,12 +69,12 @@ public class TenderController {
     @RequestMapping("/tender/id/{id}/update")
     public String updateTender(@PathVariable String id, Model model) {
         Tender tender = tenderService.findById(id);
-        if(SecurityOperations.getLoggedUserId() == null){
+        if (SecurityOperations.getLoggedUserId() == null) {
             return "redirect:/";
         }
         Profile loggedUser = profileService.findWholeProfileById(SecurityOperations.getLoggedUserId());
         boolean admin = loggedUser.getUserRoles().contains(UserRole.ROLE_ADMIN);
-        if(tender == null || (!tender.getAuthorId().equals(loggedUser.getId()) && !admin) ){
+        if (tender == null || (!tender.getAuthorId().equals(loggedUser.getId()) && !admin)) {
             System.out.println("!!!!!!!!!!!!!!!! tender.getAuthorId=" + tender.getAuthorId() + "SecurityOperations.getLoggedUserId() = " + SecurityOperations.getLoggedUserId());
             return "redirect:/tenders";
         }

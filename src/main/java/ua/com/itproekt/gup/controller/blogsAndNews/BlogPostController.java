@@ -42,7 +42,9 @@ public class BlogPostController {
     }
 
     @RequestMapping("/news")
-    public String newsView() {
+    public String newsView(Model model) {
+        String flag = "news";
+        model.addAttribute("flag", flag);
         return "news/blogs-and-news";
     }
 
