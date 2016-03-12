@@ -45,14 +45,14 @@ public class DialogueRestController {
             value = "dialogue/create",
             method = RequestMethod.POST,
             headers = "Content-Type=application/json")
-    public ResponseEntity<Dialogue> addDialogue (@RequestBody Dialogue dialogue,
+    public ResponseEntity<Dialogue> addDialogue(@RequestBody Dialogue dialogue,
                                                 UriComponentsBuilder builder) {
         log.log(Level.INFO, LOGGED_TITLE + "dialogue/create Hello =)");
         // To create new it must content one message and at least one member.
         HttpHeaders headers = null;
         try {
-            if(dialogue.getMembers() == null || dialogue.getMembers().isEmpty()
-                    || dialogue.getMessages() == null || dialogue.getMessages().isEmpty()){
+            if (dialogue.getMembers() == null || dialogue.getMembers().isEmpty()
+                    || dialogue.getMessages() == null || dialogue.getMessages().isEmpty()) {
                 log.log(Level.ERROR, LOGGED_TITLE + "dialogue/create - bad json was sent");
                 return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
             }
@@ -66,7 +66,7 @@ public class DialogueRestController {
             //asking if current dialog already exist
             Dialogue d = dialogueService.findByMembersAndSubject(dialogue);
 
-            if(d != null) {
+            if (d != null) {
                 d.getMessages().add(msg);
                 dialogue = dialogueService.addDialogue(d);
                 log.log(Level.INFO, LOGGED_TITLE + "dialogue/create - dialogue was find and update with new massage ");
@@ -93,8 +93,8 @@ public class DialogueRestController {
             value = "dialogue/id/{id}/message/create",
             method = RequestMethod.POST,
             headers = "Content-Type=application/json")
-    public ResponseEntity<Dialogue> addMessage (@PathVariable String id, @RequestBody PrivateMessage message,
-                                                 UriComponentsBuilder builder) {
+    public ResponseEntity<Dialogue> addMessage(@PathVariable String id, @RequestBody PrivateMessage message,
+                                               UriComponentsBuilder builder) {
         log.log(Level.INFO, LOGGED_TITLE + "message/create Hello =)");
         Dialogue dialogue = dialogueService.findById(id);
         if (dialogue == null || dialogue.getId() == null) {
@@ -103,7 +103,7 @@ public class DialogueRestController {
         }
 
         // check if current user have access to existing dialogue
-        if(!dialogueService.isUserInDialogue(dialogue, getCurrentUserId())){
+        if (!dialogueService.isUserInDialogue(dialogue, getCurrentUserId())) {
             log.log(Level.ERROR, LOGGED_TITLE + "dialogue/id/{id}/message/create - user id=" + getCurrentUserId()
                     + " who is NOT IN LIST OF MEMBERS try to add new massage to dialogue id= " + id);
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -118,8 +118,8 @@ public class DialogueRestController {
     }
 
     // this method provide getting all message from existing dialogue.
-    @RequestMapping(value="/dialogue/read/id/{id}",
-            method=RequestMethod.POST)
+    @RequestMapping(value = "/dialogue/read/id/{id}",
+            method = RequestMethod.POST)
     public ResponseEntity<Dialogue> getMessagesForDialogue(@PathVariable("id") Dialogue dialogue) {
         log.log(Level.INFO, LOGGED_TITLE + "dialogue/read/id/{id} Hello =)");
         if (dialogue == null) {
@@ -127,7 +127,7 @@ public class DialogueRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         // check if current user have access to existing dialogue
-        if(!dialogueService.isUserInDialogue(dialogue, getCurrentUserId())){
+        if (!dialogueService.isUserInDialogue(dialogue, getCurrentUserId())) {
             log.log(Level.ERROR, LOGGED_TITLE + "/dialogue/read/id/{id} - user id=" + getCurrentUserId()
                     + " who is NOT IN LIST OF MEMBERS try to read dialogue id=" + dialogue.getId());
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -139,35 +139,51 @@ public class DialogueRestController {
     }
 
     //
-    @RequestMapping(value="/unread-msg/for-user-id/{id}",
-            method=RequestMethod.POST)
+    @RequestMapping(value = "/unread-msg/for-user-id/{id}",
+            method = RequestMethod.POST)
     public String getUnreadMessagesForUser(@PathVariable("id") String userId) {
         List<Dialogue> dialogues = dialogueService.findDialogsForUserSimple(userId);
         String result = "";
-        if(dialogues == null){
+        if (dialogues == null) {
             return result;
         }
         Map<String, PrivateMessage> msgs = new HashMap<>();
-        dialogues.stream().filter(d -> (d.getUnreadMsgCounter().get(userId) > 0))
-                .forEach(dialogue -> {
-                    //find last msg (with latest date);
-                    PrivateMessage msg = dialogue.getMessages().
-                            stream().
-                            filter(m -> m.getDate().equals(dialogue.getLustMsgTime())).
-                            findFirst().get();
 
-                    //Look out! GOVNOCOD
-                    //Change AuthorId in messages to UserPicId
-                    Profile p = profileService.findById(msg.getAuthorId());
-                    if(p != null && p.getImgId() != null){
-                        msg.setAuthorId(p.getImgId());
-                    }else {
-                        msg.setAuthorId("");
+        for (Dialogue d : dialogues) {
+            for (PrivateMessage pm : d.getMessages()) {
+                boolean isUnread = true;
+                for (String reader : pm.getWhoRead()) {
+                    if (reader.equals(userId)) {
+                        isUnread = false;
                     }
+                    if (isUnread) {
+                        pm.setAuthorId(profileService.findById(pm.getAuthorId()).getImgId());
+                        msgs.put(d.getId(), pm);
+                    }
+                }
+            }
+        }
 
-                    //put into map
-                    msgs.put(dialogue.getId(), msg);
-                });
+//        dialogues.stream().filter(d -> (d.getUnreadMsgCounter().get(userId) > 0))
+//                .forEach(dialogue -> {
+//                    //find last msg (with latest date);
+//                    PrivateMessage msg = dialogue.getMessages().
+//                            stream().
+//                            filter(m -> m.getDate().equals(dialogue.getLustMsgTime())).
+//                            findFirst().get();
+//
+//                    //Look out! GOVNOCOD
+//                    //Change AuthorId in messages to UserPicId
+//                    Profile p = profileService.findById(msg.getAuthorId());
+//                    if (p != null && p.getImgId() != null) {
+//                        msg.setAuthorId(p.getImgId());
+//                    } else {
+//                        msg.setAuthorId("");
+//                    }
+//
+//                    //put into map
+//                    msgs.put(dialogue.getId(), msg);
+//                });
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -182,12 +198,12 @@ public class DialogueRestController {
     }
 
     // this method provide getting all dialogs for current user.
-    @RequestMapping(value="/dialogue/read/all",
-            method=RequestMethod.POST
-            )
-    public ResponseEntity<List<Dialogue>> getAllDialogues(){
+    @RequestMapping(value = "/dialogue/read/all",
+            method = RequestMethod.POST
+    )
+    public ResponseEntity<List<Dialogue>> getAllDialogues() {
         List<Dialogue> dialogues = dialogueService.findDialogsForUserSimple(getCurrentUserId());
-        for(Dialogue d: dialogues){
+        for (Dialogue d : dialogues) {
             dialogueService.completeMembers(d);
         }
         log.log(Level.INFO, LOGGED_TITLE + "/dialogue/read/all - all dialogues was find successfully for user id=" + getCurrentUserId());
@@ -195,18 +211,18 @@ public class DialogueRestController {
     }
 
     // this method providing to updateInvestor dialog.
-    @RequestMapping(value="/dialogue/update/id/{id}",
-            method=RequestMethod.POST
+    @RequestMapping(value = "/dialogue/update/id/{id}",
+            method = RequestMethod.POST
     )
-    public ResponseEntity<Dialogue> updateDialogue(@PathVariable("id") String id, @RequestBody Dialogue dialogue){
-        if(dialogue == null || dialogueService.findById(id) == null){
+    public ResponseEntity<Dialogue> updateDialogue(@PathVariable("id") String id, @RequestBody Dialogue dialogue) {
+        if (dialogue == null || dialogueService.findById(id) == null) {
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
-        if(dialogue.getId()== null) {
+        if (dialogue.getId() == null) {
             dialogue.setId(id);
         }
         //check if current user in dialogue.
-        if(!dialogueService.isUserInDialogue(dialogue,getCurrentUserId())){
+        if (!dialogueService.isUserInDialogue(dialogue, getCurrentUserId())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         dialogue = dialogueService.updateDialogue(dialogue);
@@ -222,7 +238,7 @@ public class DialogueRestController {
                         Dialogue dialogue = null;
                         if (id != null && !id.trim().isEmpty()) {
                             dialogue = dialogueService.findById(id);
-                        }else {
+                        } else {
                             log.log(Level.ERROR, "CAN'T FOUND DIALOGUE WITH id = " + id);
                         }
                         setValue(dialogue);
@@ -231,20 +247,20 @@ public class DialogueRestController {
         );
     }
 
-    private String getCurrentUserId(){
+    private String getCurrentUserId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName(); //get logged in username
         return profileService.findProfileByEmail(email).getId();
     }
 
-    private void addLoggedUserToMembers(Dialogue dialogue){
+    private void addLoggedUserToMembers(Dialogue dialogue) {
         boolean alreadyIn = false;
-        for(Member m : dialogue.getMembers()){
-            if(getCurrentUserId().equals(m.getId())) {
+        for (Member m : dialogue.getMembers()) {
+            if (getCurrentUserId().equals(m.getId())) {
                 alreadyIn = true;
             }
         }
-        if(!alreadyIn) {
+        if (!alreadyIn) {
             Member member = new Member();
             member.setId(getCurrentUserId());
             dialogue.getMembers().add(member);

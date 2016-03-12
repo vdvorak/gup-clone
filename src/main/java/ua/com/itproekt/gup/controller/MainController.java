@@ -23,7 +23,9 @@ public class MainController {
     BankSession bankSession;
 
     @RequestMapping(value = {"/", "/index"})
-    public String index() {
+    public String index(Model model) {
+        String flag = "default";
+        model.addAttribute("flag", flag);
         return "index";
     }
 
