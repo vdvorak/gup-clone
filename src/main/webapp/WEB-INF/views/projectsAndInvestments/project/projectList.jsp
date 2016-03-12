@@ -14,7 +14,7 @@
     <title>Проекты | GUP</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
+    <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
 
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
@@ -29,110 +29,118 @@
 </head>
 
 <body>
-    <!--[if lt IE 8]>
-    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-        your browser</a> to improve your experience.</p>
-    <![endif]-->
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
 
-    <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
 
-    <jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
 
-    <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
 
-    <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
-        <!--PAGE CONTENT START-->
-        <div class="container2">
-            <div class="contentContainer" style="padding: 5px;">
-                <button type="button" id="createProject" class="abutton">Создать свой проект</button>
-                <button type="button" id="createInvestorPost" class="abutton">Сделать инвестицию</button>
-            </div>
-
-            <ul class="projectsVSInvestments-block">
-                <li class="projectsVSInvestments-btn projects active" data-atab="projects" id="projectsTab"><a href="#tabs1-project">ПРОЕКТЫ</a></li>
-                <!--Add "active" class to show this element as selected-->
-                <li class="projectsVSInvestments-btn investments" data-atab="investments" id="investmentsTab"><a href="#tabs1-investment">ИНВЕСТИЦИИ</a></li>
-            </ul>
-
-            <div class="projectFeedContainer feedContainer contentContainer" id="projectsContainer">
-                <div class="projectsVSInvestmentsCats" id="projectTypeBlock">
-                    <div class="catContainer" name="RENOVATION">
-                        <!--Add "selected" class to show this element as selected-->
-                        <div class="catLogo restruct"></div>
-                        <div class="catName">Реструктуризация</div>
-                    </div>
-                    <div class="catContainer" name="PROTOTYPE">
-                        <div class="catLogo prototype"></div>
-                        <div class="catName">Готовый прототип</div>
-                    </div>
-                    <div class="catContainer" name="PROJECT_ON_PAPER">
-                        <div class="catLogo paper"></div>
-                        <div class="catName">Проект на бумаге</div>
-                    </div>
-                    <div class="catContainer" name="KNOW_HOW">
-                        <div class="catLogo nouHau"></div>
-                        <div class="catName">Ноу-Хау</div>
-                    </div>
-                </div>
-
-                <div id="projectsBlock">
-
-                </div>
-            </div>
-
-            <div class="feedContainer investmentsFeedContainer contentContainer" id="investmentsContainer" style="display: none">
-                <div id="investorPostsBlock">
-                </div>
-            </div>
-            <div class="contentContainer" style="margin-top: 5px">
-                <img class="projAndInvestCaretDown" id="showNext" src="/resources/images/caret.png" alt="caret">
-            </div>
-
-            <div class="feedFooter"></div>
-
-        </div>
-
-
-    <!-- The Modal -->
-    <div id="cropperModal" class="cropper-modal">
-
-        <!-- Modal content -->
-        <div class="cropper-modal-content">
-            <div class="cropper-modal-header">
-                <span>ИНВЕСТИРОВАНИЕ В ПРОЕКТ</span>
-            </div>
-            <input id="investInput" placeholder="Сумма инвестирования">
-            <%--<div class="cropper-modal-body drop_zone">--%>
-            <%--<img id="cropper-image" src="/resources/images/no_photo.jpg" style="max-width: 100%">--%>
-            <%--</div>--%>
-            <div class="cropper-modal-footer">
-                <button id="confirmInvest" class="cropper-btn cropper-btn-success">Ок</button>
-                <button class="cropper-btn cropper-btn-cancel">Отмена</button>
-            </div>
-        </div>
-
+<!--PAGE CONTENT START-->
+<div class="container2">
+    <div class="contentContainer" style="padding: 5px;">
+        <button type="button" id="createProject" class="abutton">Создать свой проект</button>
+        <button type="button" id="createInvestorPost" class="abutton">Сделать инвестицию</button>
     </div>
-    <!-- End of the Modal -->
 
-        <!--PAGE CONTENT END-->
+    <ul class="projectsVSInvestments-block">
+        <li class="projectsVSInvestments-btn projects active" data-atab="projects" id="projectsTab"><a
+                href="#tabs1-project">ПРОЕКТЫ</a></li>
+        <!--Add "active" class to show this element as selected-->
+        <li class="projectsVSInvestments-btn investments" data-atab="investments" id="investmentsTab"><a
+                href="#tabs1-investment">ИНВЕСТИЦИИ</a></li>
+    </ul>
 
-        <sec:authorize access="isAuthenticated()">
-            <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
-        </sec:authorize>
+    <div class="projectFeedContainer feedContainer contentContainer" id="projectsContainer">
+        <div class="projectsVSInvestmentsCats" id="projectTypeBlock">
+            <div class="catContainer" name="RENOVATION">
+                <!--Add "selected" class to show this element as selected-->
+                <div class="catLogo restruct"></div>
+                <div class="catName">Реструктуризация</div>
+            </div>
+            <div class="catContainer" name="PROTOTYPE">
+                <div class="catLogo prototype"></div>
+                <div class="catName">Готовый прототип</div>
+            </div>
+            <div class="catContainer" name="PROJECT_ON_PAPER">
+                <div class="catLogo paper"></div>
+                <div class="catName">Проект на бумаге</div>
+            </div>
+            <div class="catContainer" name="KNOW_HOW">
+                <div class="catLogo nouHau"></div>
+                <div class="catName">Ноу-Хау</div>
+            </div>
+        </div>
 
-        <jsp:include page="/WEB-INF/templates/footer.jsp"/>
+        <div id="projectsBlock">
 
-        <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
+        </div>
+    </div>
 
-        <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
-        <script src="/resources/js/main.js"></script>
-        <script src="/resources/js/logo-section.js"></script>
-        <script src="/resources/js/search-bar.js"></script>
+    <div class="feedContainer investmentsFeedContainer contentContainer" id="investmentsContainer"
+         style="display: none">
+        <div id="investorPostsBlock">
+        </div>
+    </div>
+    <div class="contentContainer" style="margin-top: 5px">
+        <img class="projAndInvestCaretDown" id="showNext" src="/resources/images/caret.png" alt="caret">
+    </div>
 
-        <script src="/resources/js/profileUtil.js"></script>
-        <script src="/resources/js/projectsAndInvestmentsUtil.js"></script>
-        <script src="/resources/js/projectList.js"></script>
-        <script src="/resources/js/investorList.js"></script>
+    <div class="feedFooter"></div>
+
+</div>
+
+
+<!-- The Modal -->
+<div id="cropperModal" class="cropper-modal">
+
+    <!-- Modal content -->
+    <div class="cropper-modal-content">
+        <div class="cropper-modal-header">
+            <span>ИНВЕСТИРОВАНИЕ В ПРОЕКТ</span>
+        </div>
+        <input id="investInput" placeholder="Сумма инвестирования">
+        <%--<div class="cropper-modal-body drop_zone">--%>
+        <%--<img id="cropper-image" src="/resources/images/no_photo.jpg" style="max-width: 100%">--%>
+        <%--</div>--%>
+        <div class="cropper-modal-footer">
+            <button id="confirmInvest" class="cropper-btn cropper-btn-success">Ок</button>
+            <button class="cropper-btn cropper-btn-cancel">Отмена</button>
+        </div>
+    </div>
+
+</div>
+<!-- End of the Modal -->
+
+<!--PAGE CONTENT END-->
+
+<sec:authorize access="isAuthenticated()">
+    <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
+
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
+
+<script>
+    var flag = '${flag}';
+</script>
+
+<script src="/resources/js/main.js"></script>
+<script src="/resources/js/logo-section.js"></script>
+<script src="/resources/js/search-bar.js"></script>
+
+<script src="/resources/js/profileUtil.js"></script>
+<script src="/resources/js/projectsAndInvestmentsUtil.js"></script>
+<script src="/resources/js/projectList.js"></script>
+<script src="/resources/js/investorList.js"></script>
 </body>
 </html>

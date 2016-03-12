@@ -37,7 +37,9 @@ public class OfferController {
 
     //----------------------------------- all offers  ------
     @RequestMapping(value = "/offers", method = RequestMethod.GET)
-    public String getOffers() {
+    public String getOffers(Model model) {
+        String flag = "offer";
+        model.addAttribute("flag", flag);
         return "offer/offer-all";
     }
 

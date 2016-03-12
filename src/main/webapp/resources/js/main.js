@@ -15,6 +15,11 @@ function getUrlParam(sParam) {
 
 $(document).ready(function () {
 
+    if (flag){
+        alert(flag);
+    }
+
+
     $('#socialBtn').click(function (event) {
         event.preventDefault();
         $('#overlay').fadeIn(400,
