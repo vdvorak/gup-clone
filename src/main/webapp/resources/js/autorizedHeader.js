@@ -317,17 +317,17 @@ $(".mailMessage").click(function(event){
     $(".answer").show('slow');
 });
 
-$(".mailMessage, .answer").mouseleave(function() {
-    setTimeout( function () {
-        if ( !$('.mailMessage:hover, .answer:hover').length ) {
-            $('.selecionado').removeClass('selecionado');
-            $('.dropDownMail').slideUp('fast');
-            $('.answer').slideUp('fast');
-            $('.mailMessage').slideDown('fast');
-            $('.fadeScreen').hide('fast');
-        }
-    }, 1000);
-});
+//$(".mailMessage, .answer").mouseleave(function() {
+//    setTimeout( function () {
+//        if ( !$('.mailMessage:hover, .answer:hover').length ) {
+//            $('.selecionado').removeClass('selecionado');
+//            $('.dropDownMail').slideUp('fast');
+//            $('.answer').slideUp('fast');
+//            $('.mailMessage').slideDown('fast');
+//            $('.fadeScreen').hide('fast');
+//        }
+//    }, 1000);
+//});
 
     //$("#overlay").click(function(){
     //    $(".mailMessage").show('slow');
@@ -346,6 +346,7 @@ $.ajax({
     url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
     success: function (response) {
         //alert("ololo = " + response);
+        alert(response)
         var data = JSON.parse(response)
         for (var i in data) {
             $('#dropDownMail').append($('.mailMessage').last().clone());
