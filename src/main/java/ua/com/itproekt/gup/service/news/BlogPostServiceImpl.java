@@ -48,6 +48,7 @@ public class BlogPostServiceImpl implements BlogPostService {
                 .setBlogId(blogPost.getBlogId())
                 .setViews(0)
                 .setTotalComments(0)
+                .setComments(new HashSet<>())
                 .setTotalLikes(0)
                 .setLikedIds(new HashSet<>())
                 .setTotalDislikes(0)

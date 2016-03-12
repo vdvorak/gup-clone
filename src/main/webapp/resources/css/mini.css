@@ -166,9 +166,6 @@ a.explanation-point-tooltip img {
      padding-right: 18px !important;
  }
 
-#categories-row div, #region-row div {
-    margin-right: 10px;
-}
 #categories-row, #region-row{
     display: inline-block;
 }
@@ -219,5 +216,37 @@ textarea {
     -webkit-transition: all .25s;
     transition: all .25s;
 }
+#address {
+    width: 75%;
+}
+
+#btn-save-adress {
+    float:right;
+    color: #ffffff;
+    font: 400 16px ArianAMU;
+    height: 30px;
+    width: 120px;
+    border-radius: 5px;
+    border: 2px solid rgb(153, 204, 102);
+    background-color: rgb(153, 204, 102);
+}
+
+#btn-save-adress:after {
+    content: '';
+    clear: both;
+    display: table;
+}
+
+.offer-map {
+    height: 300px;
+    width: 100%;
+    margin-top: 10px;
+}
+#blog-region-wrapper {
+    display: inline-block;
+    margin-bottom:15px;
+    margin-left: 100px;
+}
+
 
 

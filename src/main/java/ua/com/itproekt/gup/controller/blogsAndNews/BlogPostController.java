@@ -17,9 +17,6 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
-/**
- * Created by RAYANT on 13.01.2016.
- */
 
 @Controller
 @RequestMapping("/blog-post")
@@ -45,7 +42,9 @@ public class BlogPostController {
     }
 
     @RequestMapping("/news")
-    public String newsView() {
+    public String newsView(Model model) {
+        String flag = "news";
+        model.addAttribute("flag", flag);
         return "news/blogs-and-news";
     }
 
@@ -61,6 +60,8 @@ public class BlogPostController {
         EntityPage<BlogPost> blogPostPages = blogPostService.findBlogPostsWihOptions(blogPostFO);
 
         model.addAttribute("blogPostPages", blogPostPages);
+
+        //TODO сверстать страницу для вывода всех постов одного блога
         return "";
     }
 
@@ -90,6 +91,4 @@ public class BlogPostController {
         model.addAttribute("profileId", profile.getId());
         return "news/blog-post-edit";
     }
-
-
 }

@@ -12,6 +12,7 @@
 <html lang="ru-RU">
 <head>
     <title>Тендер | GUP</title>
+    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
 
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
@@ -158,167 +159,13 @@
 
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/js/service.js"></script>
-
 <script>
-
-    var proposes;
-    var firstBlock = $('#start').html();
-    // ----------------------- Begin Tender propose text length counter ------------------------------
-    $("#tenderPropose").on('keyup', function (event) {
-        var button = $('#makePropose');
-        var counter = $("#textLength");
-
-        var currentString = $("#tenderPropose").val();
-        counter.html(currentString.length);
-        if (currentString.length <= 50) {  /*or whatever your number is*/
-            button.attr("disabled", true);
-            counter.css("color", "red");
-        } else {
-            if (currentString.length > 500) {
-                button.attr("disabled", true);
-                counter.css("color", "red");
-            } else {
-                button.attr("disabled", false);
-                counter.css("color", "green");
-            }
-        }
-    });
-    // ----------------------- End Tender propose text length counter ------------------------------
-
-
     var tenderId = '${id}';
-
-    function sliderImg(arr) {
-        var url = '';
-        var imgId = '';
-        for (var i in arr) {
-            if (arr[i] === 'image') {
-                imgId = i;
-                url = '/api/rest/fileStorage/TENDER/file/read/id/' + imgId;
-
-                var element = '<li><img src="' + url + '" /></li>';
-                $('.bxsliderTender').append(element)
-            }
-        }
-    }
-
-    function localDateTime(long) {
-        long = new Date(parseInt(long));
-        long = moment(long).locale("ru").format('LLL');
-        return long;
-    }
-
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        url: "/api/rest/tenderService/tender/read/id/" + tenderId,
-        success: function (response) {
-            var data = response;
-
-            sliderImg(data.uploadFilesIds);
-            $(".tender-item-text").last().html(data.body);
-            $(".tender-number").last().text(data.tenderNumber);
-            $(".tender-publish-date span").last().text(localDateTime(data.begin));
-            $(".tender-veiws span").last().text(data.visited);
-            $(".tender-proposal-count span").last().text(data.proposeNumber);
-            $(".tender-expectedPrice span").last().text(data.expectedPrice);
-            $(".tender-name").last().text(data.title);
-
-
-            $(".date-finish").last().text(localDateTime(data.end));
-
-
-            var map = '<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + data.address.googleMapKey + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>';
-            $('.tenderMap').append(map);
-
-// ------------------------- Propose bulid block ---------------------------------------------------------------------
-            for (var i in data.proposes) {
-                $('#commentStart').append($('.comments').last().clone());
-                $(".propose-author").last().text(data.proposes[i].authorId);
-                $(".propose-date span").last().text(localDateTime(data.proposes[i].time));
-                $(".poropse-text").last().text(data.proposes[i].body);
-                $(".chooseWinner").last().attr('id', data.proposes[i].authorId);
-            }
-            $('.comments').first().remove();
-// ------------------------- Propose bulid block ---------------------------------------------------------------------
-
-
-
-
-            $(".chooseWinner").on('click', function () {
-                alert($(this).attr('id'));
-
-                var Tender = {};
-                Tender.winnerId = $(this).attr('id');
-                Tender.id = tenderId;
-                alert(Tender.winnerId);
-                $.ajax({
-                    type: "POST",
-                    url: "/api/rest/tenderService/tender/chooseWinner",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify(Tender),
-                    statusCode: {
-                        200: function () {
-                            alert("Победитель выбран!")
-                        }
-                    }
-                });
-            });
-
-
-            $('.proposes-wraper').last().attr('style', 'display: none;');
-
-            for (var j in data.members) {
-                $('.propose-author').each(function (index) {
-                    if ($(this).text() === data.members[j].id) {
-                        $(this).text(data.members[j].name);
-                        $(this).next('.member-pic').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + data.members[j].userPic)
-                    }
-                });
-            }
-        },
-        statusCode: {
-            403: function () {
-                $('.tender-tabs-items-wrap').detach();
-                $('.tender-wrap').text("Войдите в систему, чтобы просмотреть информацию о тендере.");
-            }
-        }
-    });
-
-
-    $(document).ready(function () {
-        $('.slider1').bxSlider({
-            slideWidth: 200,
-            minSlides: 2,
-            maxSlides: 3,
-            slideMargin: 5
-        });
-    });
-
-    // ----------------- BEGIN Propose sent -------------------------------------------------
-    $('#makePropose').on('click', function () {
-        var Propose = {};
-        Propose.body = $('#comment').val();
-        Propose.hidden = $('#visionSelect').prop('checked');
-
-
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/tenderService/tender/id/" + tenderId + "/propose/create/",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(Propose),
-            statusCode: {
-                201: function () {
-                    window.location.href = '/tender/' + tenderId;
-                }
-            }
-        });
-    });
-
-    // ----------------- END Propose sent -------------------------------------------------
 </script>
+
+<script src="/resources/js/tender.js"></script>
 <script src="/resources/js/jquery.bxslider.js"></script>
+
+
 </body>
 </html>

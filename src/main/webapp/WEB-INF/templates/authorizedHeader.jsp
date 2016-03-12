@@ -26,20 +26,12 @@
             <div class="mailMessage">
                 <img src="/resources/images/logo.png" alt="logo">
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat cupiditate architecto autem
-                    officiis ratione, praesentium laborum illum culpa veniam iste commodi aliquam libero quod ducimus,
-                    corporis, ipsa inventore earum sint!</p>
-            </div>
-            <div class="mailMessage">
-                <img src="/resources/images/logo.png" alt="logo">
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat cupiditate architecto autem
-                    officiis ratione</p>
+                <p>У вас нет непрочитанных сообщений.</p>
             </div>
             <div class="answer">
                 <img src="/resources/images/logo.png" alt="logo">
-                <textarea required></textarea>
-                <button>Ответить</button>
+                <textarea required id="text-message-answer"></textarea>
+                <button id="dialogue-answer-btn">Ответить</button>
             </div>
         </div>
     </div>
@@ -119,7 +111,12 @@
                     <p>Пополните счет, с помощью этих банк-систем:</p>
 
                     <div class="clearfix"></div>
-                    <img src="/resources/images/logo-liqpay.png" alt="logo-liqpay">
+                    <div class="socialBankIcons">
+                        <a href="#"><img src="/resources/images/visa.png" alt="visa"></a>
+                        <a href="#"><img src="/resources/images/mastercard.png" alt="mastercard"></a>
+                        <a href="#"><img src="/resources/images/privat24.png" alt="privat24"></a>
+                        <a href="#"><img src="/resources/images/box.png" alt="box"></a>
+                    </div>
                 </div>
             </div>
         </div>

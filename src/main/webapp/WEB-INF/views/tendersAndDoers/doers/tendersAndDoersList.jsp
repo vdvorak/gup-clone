@@ -9,7 +9,7 @@
     <title>Исполнители | Портал GUP</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
 
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
@@ -85,7 +85,9 @@
                             <div class="clock">
                                 <div class="time build-end"></div>
                             </div>
+                            <a href="#" class="build-link-wrap">
                             <button type="button" class="abutton blue">Участвовать</button>
+                            </a>
                         </div>
                         <div class="sum"><span class="build-sum"></span>₴</div>
                     </div>
@@ -246,6 +248,11 @@
 <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
+
+<script>
+    var flag = '${flag}';
+</script>
+
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>

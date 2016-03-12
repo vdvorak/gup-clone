@@ -10,7 +10,7 @@
 <html>
 <head>
     <title>${blog.title} | Портал GUP</title>
-
+    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
 
 
     <link href="/resources/css/bootstrap.css" rel="stylesheet">

@@ -15,6 +15,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <link rel="shortcut icon" href="/resources/images/favicon.ico" />
         <link rel="stylesheet" href="/resources/css/bootstrap.css">
         <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
         <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
@@ -56,6 +57,10 @@
 
         <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
+        <script>
+            var flag = '${flag}';
+        </script>
+
         <script src="/resources/js/main.js"></script>
         <script src="/resources/js/logo-section.js"></script>
 		<script src="/resources/js/search-bar.js"></script>
@@ -64,6 +69,6 @@
         <script src="/resources/js/top-offers-block.js"></script>
         <script src="/resources/js/top-tenders-block.js"></script>
         <script src="/resources/js/top-projects-block.js"></script>
-        <script src="resources/js/enscroll-0.6.1.min.js"></script>
+
     </body>
 </html>

@@ -14,6 +14,7 @@
     <title>Создание тендера</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
 
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
@@ -688,6 +689,7 @@
     //---------------------------- SUBMIT -----------------------------------------------------//
 
     $('#tender-make-form').submit(function (event) {
+
         var body = tinymce.activeEditor.getContent();
         if(!body) return false;
 
@@ -698,8 +700,8 @@
         tender.title = $('#EnterTheTitle').val();
         tender.body = tinymce.activeEditor.getContent();
         tender.tenderNumber = $('#TenderNumber').val();
-//        tender.begin = new Date($('#datepicker').val()).getTime();
-//        tender.end = new Date($('#datepicker2').val()).getTime();
+        tender.begin = $('#datepicker').datepicker( 'getDate' );
+        tender.end = $('#datepicker2').datepicker( 'getDate' );
         tender.type = $('.input-tenderRadio:checked').attr("data-type");
         tender.expectedPrice = $('#ExpectedValue').val();
         tender.hidePropose =  $('#HideBidders').prop('checked');
@@ -725,10 +727,14 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(tender),
             dataType: "json",
-            success: function (response) {
-                window.location.href = '/tender/' + response.id;
+            statusCode: {
+                201: function (data, textStatus, request) {
+                    alert(data.id);
+                    window.location.href = '/tender/' + data.id;
+                }
             }
         });
+        event.preventDefault();
     });
     //---------------------------- END SUBMIT -------------------------------------------------//
 
@@ -784,8 +790,6 @@
 <%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"--%>
         <%--async defer></script>--%>
 
-
-<script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 <script src="/resources/js/kved_autocomplete.js"></script>
 
 </body>

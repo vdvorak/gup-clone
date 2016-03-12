@@ -14,9 +14,6 @@ import ua.com.itproekt.gup.util.EntityPage;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * The type Profiles service.
- */
 @Service
 public class ProfilesServiceImpl implements ProfilesService {
 
@@ -30,17 +27,34 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public void createProfile(Profile profile) {
-        profile.setCreatedDateEqualsToCurrentDate();
+//        String hashedPassword = passwordEncoder.encode(profile.getPassword());
+//        HashSet<UserRole> userRoles = new HashSet<UserRole>(){{
+//                add(UserRole.ROLE_USER);
+//        }};
+//
+//        Profile newProfile = new Profile()
+//                .setEmail(profile.getEmail())
+//                .setPassword(hashedPassword)
+//                .setUserRoles(userRoles)
+//                .setCreatedDateEqualsToCurrentDate();
+//
+//        profileRepository.createProfile(newProfile);
+//        bankSession.createBalanceRecord(newProfile.getId(), 0);
+//
+//        profile.setId(newProfile.getId());
+
 
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
+        HashSet<UserRole> userRoles = new HashSet<UserRole>() {{
+            add(UserRole.ROLE_USER);
+        }};
+
         profile.setPassword(hashedPassword);
-        HashSet<UserRole> userRoles = new HashSet<>();
-        if (profile.getUserRoles() == null || profile.getUserRoles().size() == 0) {
-            userRoles.add(UserRole.ROLE_USER);
-            profile.setUserRoles(userRoles);
-        }
+        profile.setUserRoles(userRoles);
+
         profileRepository.createProfile(profile);
         bankSession.createBalanceRecord(profile.getId(), 0);
+
     }
 
     @Override
@@ -56,8 +70,10 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public Profile editProfile(Profile currentProfile) {
-        return profileRepository.findProfileAndUpdate(currentProfile);
+    public Profile editProfile(Profile profile) {
+//        removeAdministrativeFieldsForEdit(profile);
+
+        return profileRepository.findProfileAndUpdate(profile);
     }
 
     @Override
@@ -141,9 +157,20 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileRepository.addContactToContactList(profileOwnerContactListId, contactId);
     }
 
-    private void removeAdministrativeFields(Profile profile){
-        profile.setEmail(null);
-        profile.setPassword(null);
-        profile.setMainPhoneNumber(null);
+    private void removeAdministrativeFields(Profile profile) {
+        profile.setEmail(null)
+                .setPassword(null)
+                .setMainPhoneNumber(null);
+    }
+
+    private void removeAdministrativeFieldsForEdit(Profile profile) {
+        profile.setPoint(null)
+                .setPassword(null)
+                .setUnreadMessages(null)
+                .setProfileRating(null)
+                .setConfirmModerator(null)
+                .setUserRoles(null)
+                .setCreatedDate(null)
+                .setLastLoginDate(null);
     }
 }

@@ -12,6 +12,7 @@
 <head>
     <title>Объявления | Портал GUP</title>
 
+    <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
@@ -75,19 +76,27 @@
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
+
+<script>
+    var flag = '${flag}';
+</script>
+
+
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
 <script src="/resources/js/enscroll-0.6.1.min.js"></script>
+<script src="/resources/js/offerFilter.js"></script>
 
 <script>
 
-    var filter = {skip: 0, limit: 10};
+    //    var filter = {skip: 0, limit: 10};
+    var filter = new Offer.OfferFilter();
     var cities;
     var category1Id = '';
     var category2Id = '';
     var category3Id = '';
-    var categoryResult = [];
+    var categories = [];
     var parameters = [];
     var properties = [];
     var options;
@@ -97,8 +106,7 @@
 
     // ---------------    LOAD RESOURCES    --------------------------//
     $(document).ready(function () {
-        setFilterProperties();
-        readAllByFilter();
+        filter.readAllByFilter();
     });
 
     $.ajax({
@@ -116,6 +124,7 @@
         dataType: "json",
         success: function (response) {
             jsonCategory = response;
+            drawSubcategories();
         }
     });
 
@@ -148,107 +157,117 @@
 
     // ---------------   END LOAD RESOURCES    --------------------------//
 
-    // ---------------    BEGIN DRAW OFFERS    --------------------------//
-    function readAllByFilter() {
+    $('#btn-offers-more').click(function () {
+        filter.skip += skip;
+        filter.readAllByFilter();
+    });
 
-        $.ajax({
-            type: "POST",
-            url: "/api/rest/offersService/offer/read/all",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(filter),
-            success: function (response) {
-                if (response) {
-                    var offersArr = response.entities;
-                    var count = 0;
-                    var maxCount = 5;
+    $('#btn-offers-search').click(function () {
+        filter.cleanResult()
+                .readAllByFilter();
+    });
 
-                    for (var i = 0; i < offersArr.length; i++) {
-                        var offerObj = offersArr[i];
+    // ---------------   BEGIN DRAW CATEGORIES    --------------------------//
+    // Начало Переписать этот код
+    $('#select-categories-3lvl').change(selectCategoryLvl3);
 
-                        var imagesIds = offerObj.imagesIds;
-                        var imgSrc = "";
-                        var arrKeys = Object.keys(imagesIds);
-                        if (arrKeys.length) {
-                            for (var key in imagesIds) {
-                                if (imagesIds[key] === 'pic1') {
-                                    imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + key;
-                                    break;
-                                }
-                            }
-                            if (imgSrc === '') imgSrc = '/api/rest/fileStorage/OFFERS/file/read/id/' + arrKeys[0];
-                        } else {
-                            imgSrc = "/resources/images/no_photo.jpg";
-                        }
+    function drawCategories3lvl(id) {
+        $('#select-categories-3lvl option').remove();
 
-                        var priceStr = "Нет цены";
-                        if (offerObj.price) {
-                            priceStr = offerObj.price.toString();
-                            if (offerObj.currency) {
-                                priceStr = priceStr + offerObj.currency;
-                            }
-                        }
+        var select = $('#select-categories-3lvl');
+        select.append($('<option>Выберите подкатегорию</option>'));
 
-                        var newLi = $('#li-offer-basic').clone()
-                                .attr('id', "")
-                                .css("display", "inline-block");
-                        newLi.find('p').text(offerObj.title);
-                        newLi.find('.image').attr("href", '/offer/' + offerObj.id + '');
-                        newLi.find('img').attr("src", imgSrc);
+        var child2 = {};
+        if (jsonSubcategory[id]) {
+            child2 = jsonSubcategory[id].children;
+            for (var key in child2) {
+                var option = $('<option id="' + key + '" value="' + key + '">' + child2[key].label + '</option>');
+                $('#select-categories-3lvl').append(option);
+            }
+        }
+        if(select.children().length > 1) select.css('display', 'block');
+    }
 
+    function selectCategoryLvl3(event) {
+        if(filter.categories.length > 2) filter.categories.pop();
+        filter.categories.push($(event.currentTarget).val());
+    }
 
-                        newLi.children('span').text("Просмотров: " + offerObj.views);
-                        newLi.find('a.btn').text(priceStr).attr("href", '/offer/' + offerObj.id + '');
+    function onClickCategory1lvl(event) {
+        var id1 = $(event.currentTarget).attr('id');
+        delete filter.properties;
+        delete filter.categories;
 
-                        if (count === maxCount) {
-                            count = 0;
-                            var newBox = $('ul.notice-box').last()
-                                    .clone()
-                                    .text("")
-                                    .insertAfter($('ul.notice-box').last());
-                        }
-                        newLi.appendTo($('ul.notice-box').last());
-                        count++;
-                    }
+        $('div.price').css('display', 'block');
+
+        if(id1 !== 'free' && id1 !== 'exchange') {
+            filter.categories = [];
+            filter.categories.push(id1);
+        } else {
+            filter.properties = [];
+            filter.properties.push({
+                key: 'price',
+                value: id1
+            });
+            $('div.price').css('display', 'none');
+        }
+        filter.cleanResult()
+                .readAllByFilter();
+
+        $('#select-categories-3lvl').css('display', 'none');
+    }
+
+    function onClickCategory2lvl(event) {
+        var elem = $(event.currentTarget);
+        delete filter.properties;
+        filter.categories  = [
+            elem.parent().parent().children('a:first').attr('id'),
+            elem.attr('id')
+        ];
+        filter.cleanResult()
+                .readAllByFilter();
+
+        drawCategories3lvl(filter.categories[1]);
+
+        $('div.price').css('display', 'block');
+    }
+
+    $('.ItemADS').each(function () {
+        $(this).children('a:first').click(onClickCategory1lvl);
+    })
+
+    $('.ItemADS div').children('a').remove();
+
+    function drawSubcategories() {
+
+        $('.ItemADS').each(function () {
+            var elem = $(this).children('a:first');
+            var category1Id = elem.attr('id');
+            var subcategoriesBox = elem.parent().find('div');
+
+            var child1 = {};
+            var childArr = jsonCategory.filter(function (obj) {
+                return obj.id === +category1Id;
+            });
+            if (childArr[0]) {
+                child1 = childArr[0].children;
+
+                for (var key in child1) {
+                    var newA = $('<a id="' + child1[key].id + '" href="#">' + child1[key].name + '</a>')
+                            .click(onClickCategory2lvl);
+                    $(subcategoriesBox).append(newA);
                 }
-            },
-            error: function (response) {
-                alert("Внутренняя ошибка сервера");
+
+                if(Object.keys(child1).length) {
+                    var newA = $('<a href="$">Cмотреть все обьявления</a>')
+                            .click(onClickCategory2lvl);
+                    $(subcategoriesBox).append(newA);
+                }
             }
         });
     }
-
-    function setFilterProperties() {
-
-    }
-
-    function cleanResult() {
-        var offerBoxArr = $('ul.notice-box:not(:first)');
-        for (var i = 0; i < offerBoxArr.length; i++) {
-            offerBoxArr[i].remove();
-        }
-        $('ul.notice-box:first').text("");
-    }
-
-    $('#btn-offers-more').click(function () {
-        filter.skip += skip;
-        readAllByFilter();
-    });
-
-    /*  $('#btn-offers-search').click(function () {
-     filter = {};
-     filter.skip = 0;
-     filter.limit = 10;
-
-     cleanResult();
-
-     setFilterProperties();
-     readAllByFilter();
-     });*/
-
-
-    // ---------------    END DRAW OFFERS    --------------------------//
-
+// Конец Переписать этот код
+    // ---------------   END DRAW CATEGORIES    --------------------------//
 </script>
 </body>
 </html>

@@ -18,6 +18,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
@@ -283,10 +284,10 @@
             </div>
             <div class="col-xs-8">
                 <div id="floating-panel">
-                    <input id="address" type="textbox" value="">
-                    <input id="btn-save-adress" type="button" value="Сохранить">
+                    <input id="address" type="text">
+                    <button id="btn-save-adress">Сохранить</button>
                 </div>
-                <div id="map" style="height: 300px"></div>
+                <div id="map" class="offer-map"></div>
             </div>
 
         </div>
@@ -786,6 +787,7 @@
         });
 
         var geocoder = new google.maps.Geocoder();
+        var infowindow = new google.maps.InfoWindow();
 
         document.getElementById('btn-save-adress').addEventListener('click', function () {
             geocodeAddress(geocoder, map);
@@ -802,6 +804,8 @@
                     map: resultsMap,
                     position: results[0].geometry.location
                 });
+                infowindow.setContent(results[0].formatted_address);
+                infowindow.open(map, marker);
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
             }

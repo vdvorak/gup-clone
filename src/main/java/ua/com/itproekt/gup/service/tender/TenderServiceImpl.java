@@ -79,19 +79,28 @@ public class TenderServiceImpl implements TenderService {
     }
 
     public Tender setLegalEntityVision(Tender tender, String userId) {
-        if (!isAuthorOrWinner(tender, userId) && tender.isHideContact()) tender.setAuthorId(null);
         tender = setProposeVision(tender, userId);
+        if (!isAuthorOrWinner(tender, userId) && tender.isHideContact()) tender.setAuthorId(null);
         return tender;
     }
 
     public Tender setProposeVision(Tender tender, String idUserWhoReed) {
+        // for not logged user delete all propose
         if (idUserWhoReed == null) {
             tender.setProposes(null);
-        } else if (!tender.getAuthorId().equals(idUserWhoReed)) {
+        }
+
+        //for not tender author
+        //check if Propose are hidden
+        //and if so, hide all propose where current user is not author
+        else if (tender.getAuthorId() != null && !tender.getAuthorId().equals(idUserWhoReed)) {
             if (tender.isHidePropose()) {
-                tender.setProposes(null);
+                tender.getProposes().stream().filter(p -> !p.getAuthorId().equals(idUserWhoReed)).forEach(p -> {
+                    tender.getProposes().remove(p);
+                });
+            // if propose are not hidden by tender author, set visibility chosen by propose author
             } else {
-                tender.getProposes().stream().filter(p -> p.getHidden() && p.getAuthorId().equals(idUserWhoReed)).forEach(p -> {
+                tender.getProposes().stream().filter(p -> p.getHidden() && !p.getAuthorId().equals(idUserWhoReed)).forEach(p -> {
                     tender.getProposes().remove(p);
                 });
             }

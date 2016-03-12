@@ -14,6 +14,7 @@
     <title>Главная страница | GUP</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
 
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
@@ -35,6 +36,12 @@
 <jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
 
 <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+
+<sec:authorize access="isAuthenticated()">
+    <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
 
 <div class="container2">
 
@@ -64,6 +71,8 @@
 
             <p class="newsDislikeNum" id="bpDislikeNum"></p>
         </div>
+
+
 
         <div class="downComments"><p>Комментировать</p></div>
 
@@ -119,6 +128,12 @@
                 $('#bpLikeNum').append(blogPost.totalLikes);
                 $('#bpDislikeNum').append(blogPost.totalDislikes);
                 $('#bpText').append(blogPost.text);
+
+                if(loggedInProfile){
+                    if (loggedInProfile.id === blogPost.authorId){
+                        $("<a href='/blog-post/edit/" + blogPost.id +"'><button>Редактировать статью</button></a>").insertAfter($('.newsRating'))
+                    }
+                }
 
                 blogPost.comments.forEach(function (comment) {
                     $.ajax({
@@ -248,7 +263,6 @@
     $(".comments").click(function () {
         if ($('.backgroundColorComment').is(':visible')) {
             return $('.backgroundColorComment').removeClass("backgroundColorComment");
-            ;
         } else {
             $(this).addClass("backgroundColorComment");
         }
