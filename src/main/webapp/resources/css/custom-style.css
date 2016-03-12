@@ -129,6 +129,10 @@ body {
     font-family: 'Droid Sans', sans-serif;
 }
 
+.offer-info-wrap .clearfix {
+    clear: both;
+}
+
 .offer-info-box {
     width: 420px;
     float: left;
@@ -366,3 +370,16 @@ body {
 .normalNews-p3 {
     bottom: 5px;
 }
+
+.blogCreation .input-group.cat {
+    padding: 20px 0 0 50px;
+}
+
+.blogCreation .input-group.cat > label {
+    padding-left: 10px;
+}
+
+.tttttt {
+    padding: 0;
+}
+

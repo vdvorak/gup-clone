@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/dropdown-multicolumn.css">
     <link rel="stylesheet" href="/resources/css/mini.css">
+    <link rel="stylesheet" href="/resources/css/custom-style.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 

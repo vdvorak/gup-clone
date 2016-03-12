@@ -84,7 +84,9 @@
                         <span class="author-rating"></span>
 
                         <div class="clearfix"></div>
-                        <a href="#">Все обьявления автора</a>
+                        <p>
+                            <a href="#">Все обьявления автора</a>
+                        </p>
 
                         <div class="clearfix"></div>
                         <br>
