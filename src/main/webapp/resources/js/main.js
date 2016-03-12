@@ -15,7 +15,6 @@ function getUrlParam(sParam) {
 
 $(document).ready(function () {
     if (typeof flag != 'undefined'){
-        alert(flag);
     }
 
 

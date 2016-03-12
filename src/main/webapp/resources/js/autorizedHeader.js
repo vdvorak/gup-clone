@@ -311,10 +311,15 @@ $(".mail > img").click(function () {
 
 
 $(document).on('click', '.mailMessage', function () {
+    var dialogueId = $(this).attr('id');
     event.stopPropagation();
     $(".mailMessage").hide('slow');
     //$('.dropDownMail').show('fast')
+    $(".answer img").attr('src', $(this).find('img').attr('src'));
+
+
     $(".answer").show('slow');
+    $('#dialogue-answer-btn').addClass(dialogueId);
 });
 
 //$(".mailMessage").click(function (event) {
@@ -355,17 +360,15 @@ $.ajax({
     type: "POST",
     url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
     success: function (response) {
-        //alert(response)
 
         if (response) {
             var data = JSON.parse(response);
             for (var i in data) {
                 $('.dropDownMail').append($('.mailMessage').last().clone());
                 $('.mailMessage p').last().text(data[i]['message']);
-
                 $('.mailMessage img').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + data[i]['authorId']).attr('width', '44').attr('height', '44');
+                $('.mailMessage').last().attr('id', i);
             }
-
             if (Object.keys(data).length > 0) {
                 $('.mailMessage').first().remove();
             }
@@ -374,6 +377,23 @@ $.ajax({
 
     }
 });
+
+
+$('#dialogue-answer-btn').on('click', function () {
+    var dialogueId = $(this).attr('class');
+    var privateMessage = {};
+    privateMessage.message = $('#text-message-answer').val();
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "/api/rest/dialogueService/dialogue/id/" + dialogueId + "/message/create",
+        data: JSON.stringify(privateMessage),
+        success: function (response) {
+            $('#text-message-answer').val('');
+            $(".dropDownMail").slideUp("fast");
+        }
+    });
+})
 
 
 //$("#notificationBellImg").click(function () {

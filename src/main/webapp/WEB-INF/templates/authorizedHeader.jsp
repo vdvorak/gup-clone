@@ -30,8 +30,8 @@
             </div>
             <div class="answer">
                 <img src="/resources/images/logo.png" alt="logo">
-                <textarea required></textarea>
-                <button>Ответить</button>
+                <textarea required id="text-message-answer"></textarea>
+                <button id="dialogue-answer-btn">Ответить</button>
             </div>
         </div>
     </div>
