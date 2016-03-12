@@ -41,7 +41,16 @@ $(document).ready(function () {
     });
 
     $(".question-img").click(function () {
-        $(".questionForm").slideToggle(1);
+        $('.questionForm').animate({
+            marginLeft: 0
+        }, 'fast');
+        if ( $('.questionForm').hasClass('uuu')) {
+            $('.questionForm').animate({
+                marginLeft: '-250px'
+            }, 'fast');
+        };
+        $('.questionForm').toggleClass('uuu');
+
     });
 
     $(".caretContact").click(function () {
