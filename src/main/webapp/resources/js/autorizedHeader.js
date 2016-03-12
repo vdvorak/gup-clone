@@ -329,6 +329,10 @@ $(".mailMessage, .answer").mouseleave(function() {
     }, 1000);
 });
 
+$(".answer").click(function() {
+
+});
+
     //$("#overlay").click(function(){
     //    $(".mailMessage").show('slow');
     //    $(".answer").hide('slow');
