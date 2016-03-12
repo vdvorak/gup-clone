@@ -379,7 +379,8 @@ body {
     padding-left: 10px;
 }
 
-.tttttt {
-    padding: 0;
+.slider {
+    height: 220px;
+    overflow: hidden;
 }
 
