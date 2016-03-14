@@ -916,7 +916,7 @@
             }
         }
         if (Object.keys(child1).length) {
-            erase(category1Id);
+            erase();
         } else {
             isComplete = 1;
             drawOptions(category1Id);
@@ -948,7 +948,7 @@
             }
         }
         if (Object.keys(child2).length) {
-            erase(category2Id);
+            erase();
         } else {
             isComplete = 1;
             drawOptions(category2Id);
@@ -964,7 +964,7 @@
         var a3 = $(event.currentTarget).children('a');
         category3Id = a3.attr("id");
         $('#text-category3').text(a3.text());
-        erase(category2Id);
+        erase();
         drawOptions(category3Id);
         $('select[name="price"]').change();
     }
@@ -987,7 +987,7 @@
     }
 
     function drawOptions(id) {
-        erase(id);
+        erase();
 
         for (var i in options) {
             if (options[i]['c'][id]) {
@@ -1036,7 +1036,7 @@
     //---------------------------- END DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
 
     //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
-    function erase(id) {
+    function erase() {
         $('#offer-price-row').css('display', 'none');
         $('#offer-options-row').css('display', 'none');
         $('select[name="price"]').empty();

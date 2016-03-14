@@ -269,41 +269,30 @@
 
                     <div class="superFilter">
                         <form action="#">
+
+                            <label for="select-categories-3lvl" style="display: none">Выберите подкатегорию:</label>
                             <select id="select-categories-3lvl" style="display: none">
-                                <option>Выберите подкатегорию</option>
+                                <option>Все объявления</option>
                             </select>
-<%--                            <select>
-                                <option>Вид категории</option>
-                                <option>Вид категории2</option>
-                                <option>Вид категории3</option>
-                                <option>Вид категории4</option>
-                                <option>Вид категории5</option>
-                            </select>--%>
 
                             <div class="clearfix"></div>
 
-                           <%-- <div class="price">
+                            <div class="price" style="display: none">
                                 <p>Цена:</p>
+                                <select class="prop" name="price">
+
+                                </select>
                                 <input id="priceMin" type="number" placeholder="от">
                                 <input id="priceMax" type="number" placeholder="до">
                                 <p>грн.<i class="fa fa-caret-down"></i></p>
-                            </div>--%>
-<%--                            <div class="price">
-                                <p>Цена:</p>
-                                <input type="text" placeholder="от">
-                                <input type="text" placeholder="до">
-                                <p>грн.<i class="fa fa-caret-down"></i></p>
                             </div>
-                            <div class="price">
-                                <p>Цена:</p>
-                                <input type="text" placeholder="от">
-                                <input type="text" placeholder="до">
-                                <p>грн.<i class="fa fa-caret-down"></i></p>
-                            </div>--%>
 
                             <div class="clearfix"></div>
 
-<%--                            <input type="text">
+                            <div class="parameters">
+
+                            </div>
+<%--                        <input type="text">
                             <input type="text">
                             <input type="text">
                             <input type="text">
