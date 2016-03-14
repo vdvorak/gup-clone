@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.model.profiles;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import ua.com.itproekt.gup.util.SocialNetwork;
 
 import java.util.List;
@@ -67,14 +68,6 @@ public class Contact {
 
     public void setContactPhones(Set<String> contactPhones) {
         this.contactPhones = contactPhones;
-    }
-
-    public Map<SocialNetwork, String> getSocNetLink() {
-        return socNetLink;
-    }
-
-    public void setSocNetLink(Map<SocialNetwork, String> socNetLink) {
-        this.socNetLink = socNetLink;
     }
 
     public String getSkypeUserName() {

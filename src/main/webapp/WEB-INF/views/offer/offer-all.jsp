@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
     <link href="/resources/css/custom-new.css" rel="stylesheet" type="text/css">
+    <link href="/resources/css/dropdown-multicolumn.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <!-- BEGIN Common general header-->
@@ -118,7 +119,8 @@
         dataType: "json",
         success: function (response) {
             jsonCategory = response;
-            drawSubcategories();
+            filter.drawSubcategories();
+            $('.ItemADS div a').click(onClickCategory2lvl);
         }
     });
 
@@ -153,11 +155,14 @@
 
     $('#btn-offers-more').click(function () {
         filter.skip += 10;
-        filter.readAllByFilter();
+        filter.setFilterOptions()
+                .readAllByFilter();
     });
 
-    $('#btn-offers-search').click(function () {
+    $('#btn-offers-search').click(function (event) {
+        event.preventDefault();
         filter.cleanResult()
+                .setFilterOptions()
                 .readAllByFilter();
     });
 
@@ -173,44 +178,45 @@
             filter.deleteFilterOptions()
             .drawFilterOptions(cat3);
         }
+        $('#filter-price').change();
     }
 
     function onClickCategory1lvl(event) {
         var id1 = $(event.currentTarget).attr('id');
         filter.categories = [];
-        filter.properties = [];
+        filter.deleteFilterOptions();
 
         if(id1 !== 'free' && id1 !== 'exchange') {
             filter.categories.push(id1);
         } else {
-            filter.properties.push({
-                key: 'price',
-                value: id1
-            });
+            $('#filter-price').append('<option selected value="'+ id1 +'" id="'+ id1 +'"></option>');
         }
         filter.cleanResult()
-                .deleteFilterOptions()
                 .drawFilterOptions(filter.categories[0])
+                .setFilterOptions()
                 .readAllByFilter();
 
         $('#select-categories-3lvl').css('display', 'none');
         $('label[for="select-categories-3lvl"]').css('display', 'none');
+        $('#filter-price').change();
 
     }
 
     function onClickCategory2lvl(event) {
         var elem = $(event.currentTarget);
+        var id2 = elem.attr('id');
+        filter.categories  = [];
+        filter.categories.push(elem.parent().parent().children('a:first').attr('id'));
+        if(id2) filter.categories.push(id2);
 
-        filter.properties = [];
-        filter.categories  = [
-            elem.parent().parent().children('a:first').attr('id'),
-            elem.attr('id')
-        ];
         filter.cleanResult()
                 .deleteFilterOptions()
-                .drawFilterOptions(filter.categories[1])
+                .drawFilterOptions((id2) ? filter.categories[1] : filter.categories[0])
                 .drawCategories3lvl()
+                .setFilterOptions()
                 .readAllByFilter();
+
+        $('#filter-price').change();
     }
 
     $('.ItemADS').each(function () {
@@ -219,36 +225,62 @@
 
     $('.ItemADS div').children('a').remove();
 
-   function drawSubcategories() {
+    $('#filter-price').change(selectFilterPrice);
 
-        $('.ItemADS').each(function () {
-            var elem = $(this).children('a:first');
-            var category1Id = elem.attr('id');
-            var subcategoriesBox = elem.parent().find('div');
-
-            var child1 = {};
-            var childArr = jsonCategory.filter(function (obj) {
-                return obj.id === +category1Id;
-            });
-            if (childArr[0]) {
-                child1 = childArr[0].children;
-
-                for (var key in child1) {
-                    var newA = $('<a id="' + child1[key].id + '" href="#">' + child1[key].name + '</a>')
-                            .click(onClickCategory2lvl);
-                    $(subcategoriesBox).append(newA);
-                }
-
-                if (Object.keys(child1).length) {
-                    var newA = $('<a href="$">Cмотреть все обьявления</a>')
-                            .click(onClickCategory2lvl);
-                    $(subcategoriesBox).append(newA);
-                }
-            }
-        });
+    function selectFilterPrice(event) {
+        var selectVal = $(event.currentTarget).val();
+        if (selectVal === 'price') {
+            $('#price-wrapper').css('display', 'inline-block');
+        } else {
+            $('#price-wrapper').css('display', 'none');
+        }
     }
 
     // ---------------   END DRAW CATEGORIES    --------------------------//
+
+    //--------------------------- REGIONS LIST --------------------------------------------//
+
+    $('#filter-region-container').find('li').click(selectRegionInFilter);
+
+    function selectRegionInFilter(event) {
+        event.preventDefault();
+
+        var region = $(event.currentTarget).children('a').text();
+
+        $('#filter-text-region').text(region);
+        $('#filter-city-container').find('li').remove();
+        $('#filter-text-city').text('Выберите город');
+
+        if (region === 'Вся Украина') {
+            $('#filter-city-container').css('display', 'none');
+        } else {
+            drawCitiesInFilter(region);
+        }
+    }
+
+    function drawCitiesInFilter(area) {
+        var citiesArr = cities[area];
+
+        var parentBlock = $('#filter-city-container').find('.multi-column-dropdown').first();
+        var li = $('<li><a href="#" style="font-weight: bold">Все города</a></li>').click(selectCityInFilter);
+        parentBlock.append(li);
+
+        var numInColumn = citiesArr.length / 2 + (citiesArr.length % 2);
+        for (var i = 0; i < citiesArr.length; i++) {
+            parentBlock = (i + 2 <= numInColumn) ? $('#filter-city-container').find('.multi-column-dropdown').first() : $('#filter-city-container').find('.multi-column-dropdown').last();
+            li = $('<li><a href="#">' + citiesArr[i] + '</a></li>').click(selectCityInFilter);
+            parentBlock.append(li);
+        }
+
+        $('#filter-city-container').css('display', 'inline-block');
+    }
+
+    function selectCityInFilter(event) {
+        event.preventDefault();
+        var city = $(event.currentTarget).children('a').text();
+        $('#filter-text-city').text(city);
+    }
+
 </script>
 </body>
 </html>

@@ -30,8 +30,7 @@
     OfferFilter.prototype.readAllByFilter = function () {
         if (this.categories && !this.categories.length) delete this.categories;
         if (this.properties && !this.properties.length) delete this.properties;
-        /*        console.log(this.properties);
-         console.log(this.categories);*/
+        console.log(this);
         $.ajax({
             type: "POST",
             url: "/api/rest/offersService/offer/read/all",
@@ -119,6 +118,48 @@
     }
 
     OfferFilter.prototype.setFilterOptions = function () {
+/*
+        var keyWords = $('#searchInput').val();
+        if (keyWords !== "")  this.searchField = keyWords;
+*/
+        this.address = {
+            country: 'Украина'
+        };
+        var city = $('#filter-text-city').text();
+        var area = $('#filter-text-region').text();
+        if (city !== 'Выберите город' && city !== '' && city !== 'Все города') {
+            filter.address.city = city;
+        }
+        if (area !== 'Вся Украина' && area !== 'Выберите область' && area !== '') {
+            filter.address.area = area;
+        }
+
+        this.properties = [];
+        var typeOfPrice = $('#filter-price').val();
+        if(typeOfPrice) this.properties.push({
+            key: 'price',
+            value: typeOfPrice
+        });
+
+        var param = $('.parameters').children();
+        for(var i = 0; i < param.length; i++) {
+            var prop = {};
+            prop.key = param[i].name;
+            prop.value = param[i].value;
+            this.properties.push(prop);
+        }
+
+        if ($('#price-wrapper').css('display') !== "none") {
+            this.fromPrice = $('#priceMin').val();
+            this.toPrice = $('#priceMax').val();
+            /*this.properties.push({
+             key: 'currency',
+             value: $('#filter-currency').val()
+             });*/
+        } else {
+            delete filter.fromPrice;
+            delete filter.toPrice;
+        }
 
         return this;
     }
@@ -134,7 +175,7 @@
 
                 for (var j = 0; j < parameters.length; j++) {
                     if (name !== 'price') {
-                        var select = $('<select class="prop" name="' + name + '" id="00' + i + '">' + '</select>');
+                        var select = $('<select name="' + name + '" id="00' + i + '">' + '</select>');
                         if (parameters[j]['parameter']['key'] === name && parameters[j]['parameter']['validators']['required'] === 1) {
                             select.prop("required", true);
                         }
@@ -146,7 +187,7 @@
                 for (var j in options[i]['v']) {
                     var option = $('<option value = "' + j + '"  id ="' + j + '">' + options[i]['v'][j] + '</option>');
                     if (name === 'price') {
-                        $('select[name="price"]').append(option);
+                        $('#filter-price').append(option);
                     } else {
                         $('#00' + i).append(option);
                     }
@@ -170,17 +211,16 @@
 
         $('.price').css('display', 'none');
         $('.parameters').empty();
-        $('select[name="price"]').empty();
-        $('#select-categories-3lvl option:not(:first)').remove();
+        $('#filter-price').empty();
 
         return this;
     }
 
     OfferFilter.prototype.drawCategories3lvl = function() {
+        $('#select-categories-3lvl option:not(:first)').remove();
+
         var id = this.categories[1];
-
         var select = $('#select-categories-3lvl');
-
         var child2 = {};
         if (jsonSubcategory[id]) {
             child2 = jsonSubcategory[id].children;
@@ -194,6 +234,33 @@
             $('label[for="select-categories-3lvl"]').css('display', 'inline');
         }
         return this;
+    }
+
+    OfferFilter.prototype.drawSubcategories = function() {
+
+        $('.ItemADS').each(function () {
+            var elem = $(this).children('a:first');
+            var category1Id = elem.attr('id');
+            var subcategoriesBox = elem.parent().find('div');
+
+            var child1 = {};
+            var childArr = jsonCategory.filter(function (obj) {
+                return obj.id === +category1Id;
+            });
+            if (childArr[0]) {
+                child1 = childArr[0].children;
+
+                for (var key in child1) {
+                    var newA = $('<a id="' + child1[key].id + '" href="#">' + child1[key].name + '</a>');
+                    $(subcategoriesBox).append(newA);
+                }
+
+                if (Object.keys(child1).length) {
+                    var newA = $('<a href="#">Cмотреть все обьявления</a>');
+                    $(subcategoriesBox).append(newA);
+                }
+            }
+        });
     }
 
     namespace.OfferFilter = OfferFilter;

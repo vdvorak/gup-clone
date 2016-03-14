@@ -500,6 +500,7 @@
 
     if (categoryResult.length > 0) filter.categories = categoryResult;
     if (properties.length > 0) filter.properties = properties;
+    console.log(filter);
   }
 
   function readAllByFilter() {
