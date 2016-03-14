@@ -5,12 +5,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
-import ua.com.itproekt.gup.model.profiles.ProfileRating;
-import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.model.profiles.*;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,34 +26,37 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public void createProfile(Profile profile) {
-//        String hashedPassword = passwordEncoder.encode(profile.getPassword());
-//        HashSet<UserRole> userRoles = new HashSet<UserRole>(){{
-//                add(UserRole.ROLE_USER);
-//        }};
-//
-//        Profile newProfile = new Profile()
-//                .setEmail(profile.getEmail())
-//                .setPassword(hashedPassword)
-//                .setUserRoles(userRoles)
-//                .setCreatedDateEqualsToCurrentDate();
-//
-//        profileRepository.createProfile(newProfile);
-//        bankSession.createBalanceRecord(newProfile.getId(), 0);
-//
-//        profile.setId(newProfile.getId());
-
-
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
         HashSet<UserRole> userRoles = new HashSet<UserRole>() {{
             add(UserRole.ROLE_USER);
         }};
 
-        profile.setPassword(hashedPassword);
-        profile.setUserRoles(userRoles);
+        Profile newProfile = new Profile()
+                .setEmail(profile.getEmail())
+                .setPassword(hashedPassword)
+                .setUserRoles(userRoles);
 
-        profileRepository.createProfile(profile);
-        bankSession.createBalanceRecord(profile.getId(), 0);
+        setEmptyFieldsForNewUser(newProfile);
 
+        profileRepository.createProfile(newProfile);
+        bankSession.createBalanceRecord(newProfile.getId(), 0);
+
+       profile.setId(newProfile.getId());
+    }
+
+    private void setEmptyFieldsForNewUser(Profile newProfile) {
+        Contact contact = new Contact();
+        contact.setType(UserType.INDIVIDUAL);
+        contact.setContactEmails(new HashSet<>());
+        contact.setContactPhones(new HashSet<>());
+        contact.setNaceId(new ArrayList<>());
+        contact.setSocNetLink(new HashMap<>());
+
+        newProfile.setPoint(0)
+                .setProfileRating(new HashSet<>())
+                .setContactList(new HashSet<>())
+                .setUserProfile(new UserProfile())
+                .setContact(contact);
     }
 
     @Override
@@ -71,8 +73,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public Profile editProfile(Profile profile) {
-//        removeAdministrativeFieldsForEdit(profile);
-
         return profileRepository.findProfileAndUpdate(profile);
     }
 
@@ -161,16 +161,5 @@ public class ProfilesServiceImpl implements ProfilesService {
         profile.setEmail(null)
                 .setPassword(null)
                 .setMainPhoneNumber(null);
-    }
-
-    private void removeAdministrativeFieldsForEdit(Profile profile) {
-        profile.setPoint(null)
-                .setPassword(null)
-                .setUnreadMessages(null)
-                .setProfileRating(null)
-                .setConfirmModerator(null)
-                .setUserRoles(null)
-                .setCreatedDate(null)
-                .setLastLoginDate(null);
     }
 }
