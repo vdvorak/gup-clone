@@ -63,7 +63,6 @@
                 <hr>
             </div>
 
-
             <label for="region-row" class="blogCreationLabel">Регион</label>
             <div id="blog-region-wrapper">
                 <div id="region-row">
@@ -352,7 +351,7 @@
                     var id = data.id;
                     var isImage = f.type.substring(0, 5) === 'image';
                     if (isImage) {
-                        imgsArr[id] = "image";
+                        imgsArr[id] = "1";
                         appendImg(id);
                     }
                 }

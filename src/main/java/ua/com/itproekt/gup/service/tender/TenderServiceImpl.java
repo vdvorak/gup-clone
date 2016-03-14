@@ -13,6 +13,7 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
@@ -75,6 +76,7 @@ public class TenderServiceImpl implements TenderService {
     public Tender setIndividualVision(Tender tender) {
         tender.setAuthorId(null);
         tender.setProposes(null);
+        tender.setUploadFilesIds(null);
         return tender;
     }
 
@@ -95,14 +97,14 @@ public class TenderServiceImpl implements TenderService {
         //and if so, hide all propose where current user is not author
         else if (tender.getAuthorId() != null && !tender.getAuthorId().equals(idUserWhoReed)) {
             if (tender.isHidePropose()) {
-                tender.getProposes().stream().filter(p -> !p.getAuthorId().equals(idUserWhoReed)).forEach(p -> {
-                    tender.getProposes().remove(p);
-                });
+                tender.setProposes(tender.getProposes().stream()
+                        .filter(p -> p.getAuthorId().equals(idUserWhoReed))
+                        .collect(Collectors.toList()));
             // if propose are not hidden by tender author, set visibility chosen by propose author
             } else {
-                tender.getProposes().stream().filter(p -> p.getHidden() && !p.getAuthorId().equals(idUserWhoReed)).forEach(p -> {
-                    tender.getProposes().remove(p);
-                });
+                tender.setProposes(tender.getProposes().stream()
+                        .filter(p -> !p.getHidden() || p.getAuthorId().equals(idUserWhoReed))
+                        .collect(Collectors.toList()));
             }
         }
         return tender;
@@ -120,6 +122,7 @@ public class TenderServiceImpl implements TenderService {
         return tender.getProposes().stream().map(Propose::getAuthorId).collect(Collectors.toList()).contains(user) ;
     }
 
+    @Override
     public boolean isAuthorOrWinner(Tender tender, String user) {
         if (user == null) {
             return false;
@@ -132,6 +135,10 @@ public class TenderServiceImpl implements TenderService {
 
     @Override
     public Tender setVision(Tender tender, Profile userWhoReed) {
+        if (userWhoReed != null && isAuthorOrWinner(tender, userWhoReed.getId())) {
+            return tender;
+        }
+
         if (tender.getType() == TenderType.CLOSE) {
             if (userWhoReed == null || userWhoReed.getContact() == null
                     || (userWhoReed.getContact().getType() != UserType.LEGAL_ENTITY
@@ -140,16 +147,12 @@ public class TenderServiceImpl implements TenderService {
                 return null;
             }
             return setLegalEntityVision(tender, userWhoReed.getId());
-        } else {
-            if (userWhoReed != null && isAuthorOrWinner(tender, userWhoReed.getId())) {
-                return tender;
-            } else if (userWhoReed != null && userWhoReed.getContact() != null &&
+        } else if (userWhoReed != null && userWhoReed.getContact() != null &&
                     (userWhoReed.getContact().getType() == UserType.LEGAL_ENTITY
                     || userWhoReed.getContact().getType() == UserType.ENTREPRENEUR)) {
                 return setLegalEntityVision(tender, userWhoReed.getId());
-            } else {
-                return setIndividualVision(tender);
-            }
+        } else {
+            return setIndividualVision(tender);
         }
     }
 
@@ -158,9 +161,11 @@ public class TenderServiceImpl implements TenderService {
         if(t != null && t.getMembers() != null) {
             for (Member m : t.getMembers()) {
                 Profile p = profilesService.findWholeProfileById(m.getId());
-                m.setName(p.getUsername());
-                if (p.getContact() != null) {
-                    m.setUserPic(p.getImgId());
+                if(p != null) {
+                    m.setName(p.getUsername());
+                    if (p.getContact() != null) {
+                        m.setUserPic(p.getImgId());
+                    }
                 }
             }
         }

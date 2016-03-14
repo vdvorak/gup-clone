@@ -71,12 +71,10 @@ public class TenderRestController {
         if (tender == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        if(getCurrentUser() == null){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        } else {
-            System.err.println("OLOLOLO!!!!!!!!!!!!!!!!!!!!");
-        }
+//          временно закоментировано. Незалогиненый будет видеть всё то же самое, что и юр.лицо
+//        if(getCurrentUser() == null){
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
 
         if(tender != null){
             // incrementing Visited field
