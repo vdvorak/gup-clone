@@ -113,7 +113,7 @@
                 <div class="email-input-unit">
                     <input type="text" name="myemail" class="form-info-input">
                     <a href="#" class="remove_field">
-                        <img src="/resources/img/minus.png" with="20" height="20">
+                        <img src="/resources/img/minus.png" alt="minus">
                     </a>
                 </div>
             </div>
@@ -132,7 +132,7 @@
 
                 <div class="tel-wrapper-1 tel-input-unit">
                     <input type="tel" name="mytel" class="input-info-min">
-                    <a href="#" class="remove_field"><img class="remove_phone" src="/resources/img/minus.png" with="20" height="20"></a>
+                    <a href="#" class="remove_field"><img class="remove_phone" src="/resources/img/minus.png" alt="minus"></a>
                 </div>
 
             </div>
@@ -148,18 +148,20 @@
                         <p>Социальные сети</p>
                     </div>
                     <div class="right-tag">
-                        <a class="FACEBOOK"><img src="/resources/images/faceb-icon.png"></a>
-                        <a class="TWITTER"><img src="/resources/images/twit-icon.png"> </a>
-                        <a class="VKONTAKTE"><img src="/resources/images/vk-icon.png"></a>
-                        <a class="GOOGLEPLUS"><img src="/resources/images/goo-icon.png"></a>
-                        <a class="LINKEDIN"><img src="/resources/images/link-icon.png"></a>
+                        <div class="socialSprite">
+                            <a class="FACEBOOK"><img src="/resources/images/faceb-icon.png"></a>
+                            <a class="TWITTER"><img src="/resources/images/twit-icon.png"> </a>
+                            <a class="VKONTAKTE"><img src="/resources/images/vk-icon.png"></a>
+                            <a class="GOOGLEPLUS"><img src="/resources/images/goo-icon.png"></a>
+                            <a class="LINKEDIN"><img src="/resources/images/link-icon.png"></a>
+                        </div>
 
                         <div class="soc-input-group">
                             <div class="soc-input-wrap show-inp"><input class="soc-input input-info-min" type="text" name="FACEBOOK"
                                                                         value=""
                                                                         placeholder="Ссылка на FACEBOOK"><span
                                     class="remove_field"><img
-                                    src="/resources/img/minus.png" width="15" height="15"></span>
+                                    src="/resources/img/minus.png" alt="minus"></span>
                             </div>
                         </div>
                     </div>
