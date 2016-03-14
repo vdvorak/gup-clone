@@ -118,15 +118,29 @@
     }
 
     OfferFilter.prototype.setFilterOptions = function () {
+/*
+        var keyWords = $('#searchInput').val();
+        if (keyWords !== "")  this.searchField = keyWords;
+*/
         this.address = {
             country: 'Украина'
         };
+        var city = $('#filter-text-city').text();
+        var area = $('#filter-text-region').text();
+        if (city !== 'Выберите город' && city !== '' && city !== 'Все города') {
+            filter.address.city = city;
+        }
+        if (area !== 'Вся Украина' && area !== 'Выберите область' && area !== '') {
+            filter.address.area = area;
+        }
 
         this.properties = [];
-        this.properties.push({
+        var typeOfPrice = $('#filter-price').val();
+        if(typeOfPrice) this.properties.push({
             key: 'price',
-            value: $('#filter-price').val()
+            value: typeOfPrice
         });
+
         var param = $('.parameters').children();
         for(var i = 0; i < param.length; i++) {
             var prop = {};

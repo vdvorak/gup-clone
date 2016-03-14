@@ -90,6 +90,11 @@
                 </form>
                 <p id="chars"></p>
             </div>
+            <div class="replyToComment">
+                <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
+                <a class="NameUser" href="#">Вася Петров</a>
+                <p class="commentUser">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam repellat earum aliquid explicabo nesciunt! Quidem sit facilis sunt odit quis repellendus quasi consectetur maiores, blanditiis omnis hic labore, veritatis atque?</p>
+            </div>
         </div>
         <div class="colComments" id="commentsBlock">
 
