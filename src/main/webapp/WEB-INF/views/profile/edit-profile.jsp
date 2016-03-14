@@ -69,8 +69,6 @@
             <div id="nameCompanyBlock">
                 <label class="label-form-info" for="nameCompany">Название компании</label>
                 <input id="nameCompany" class="form-info-input" name='name' type="text">
-
-                <div class="clearfix"></div>
             </div>
 
             <div id="scopeOfActivityBlock">
@@ -85,28 +83,21 @@
                         <option>5</option>
                     </select>
                 </div>
-                <div class="clearfix"></div>
             </div>
 
             <div id="companyAddressBlock">
                 <label for="address" class="label-form-info">Адрес компании</label>
                 <input type="text" name="address" id="address" class="input-info-normal" placeholder="Добавить ссылку">
-
-                <div class="clearfix"></div>
             </div>
 
             <div id="positionBlock">
                 <label for="position" class="label-form-info">Должность</label>
                 <input id="position" type="text" name='position' class="form-info-input">
-
-                <div class="clearfix"></div>
             </div>
 
             <div id="userNameBlock">
                 <label class="label-form-info" for="userName">ФИО</label>
                 <input id="userName" class="form-info-input" name='name' type="text">
-
-                <div class="clearfix"></div>
             </div>
 
             <label for="main-email-info" class="label-form-info">Основной E-mail</label>
@@ -125,11 +116,11 @@
                         <img src="/resources/img/minus.png" with="20" height="20">
                     </a>
                 </div>
-                <div class="clearfix"></div>
             </div>
 
             <label for="main-tel-info" class="label-form-info">Основной Телефон</label>
             <input type="tel" name="tel" id="main-tel-info" class="input-info-min">
+
             <div class="clearfix"></div>
 
             <div id="contactPhonesBlock" class="input_tel_fields_wrap">
@@ -142,13 +133,14 @@
                 <div class="tel-wrapper-1 tel-input-unit">
                     <input type="tel" name="mytel" class="input-info-min">
                     <a href="#" class="remove_field"><img class="remove_phone" src="/resources/img/minus.png" with="20" height="20"></a>
-                    <div class="clearfix"></div>
                 </div>
 
             </div>
 
             <label for="skype-info" class="label-form-info">Skype</label>
             <input type="text" name="skype" id="skype-info" class="input-info-min">
+
+            <div class="clearfix"></div>
 
             <div class="input-group">
                 <div id="socLinkGroup" class="input_soc_wrap">
