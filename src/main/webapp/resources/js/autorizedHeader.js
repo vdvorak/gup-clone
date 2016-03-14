@@ -1,4 +1,5 @@
 var loggedInProfile = {};
+var isNeedDrawAllHeader = true;
 
 //  <js for header>
 
@@ -184,40 +185,87 @@ $('.dropDownBook').enscroll({
 
 //  </js for header>
 
-$.ajax({
-    type: "POST",
-    url: "/api/rest/profilesService/profile/read/loggedInProfile",
-    async: false,
-    success: function (profile) {
-        loggedInProfile = profile;
 
-        if (profile.imgId) {
-            $('#headerProfileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '?cachedImage=1');
-        } else {
-            $('#headerProfileImg').attr('src', '/resources/images/no_avatar.jpg');
+var mailMessage = $('.mailMessage').first()
+
+
+
+getLoggedInProfileAjax();
+
+
+setTimeout(function run() {
+    getLoggedInProfileAjax();
+    setTimeout(run, 10000);
+}, 10000);
+
+
+function getLoggedInProfileAjax(){
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/profilesService/profile/read/loggedInProfile",
+        async: false,
+        success: function (profile) {
+            loggedInProfile = profile;
+
+            if (isNeedDrawAllHeader) { // - do it only after first page loading
+                if (profile.imgId) {
+                    $('#headerProfileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '?cachedImage=1');
+                } else {
+                    $('#headerProfileImg').attr('src', '/resources/images/no_avatar.jpg');
+                }
+
+                if (profile.username) {
+                    $('#headerProfileName').text(profile.username);
+                } else {
+                    $('#headerProfileName').text("Безымянный");
+                }
+
+                fillNotificationListBlock();
+                fillContactListBlock(profile.contactList);
+
+                if (profile.contact.member == true) {
+                    $('#socialBtn').hide();
+                }
+            }
+
+            if (profile.unreadMessages > 0) {
+                $('#unreadMessagesNum').show();
+                $('#unreadMessagesNum').text(profile.unreadMessages);
+            } else {
+                $('#unreadMessagesNum').hide();
+            }
         }
+    });
 
-        if (profile.username) {
-            $('#headerProfileName').text(profile.username);
-        } else {
-            $('#headerProfileName').text("Безымянный");
+
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
+        success: function (response) {
+            if (response) {
+                var data = JSON.parse(response);
+
+                for (var i in data) {
+                    $('.dropDownMail').append($('.mailMessage').last().clone());
+                    $('.mailMessage p').last().text(data[i]['message']);
+                    $('.mailMessage img').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + data[i]['authorId']).attr('width', '44').attr('height', '44').show();
+                    $('.mailMessage').last().attr('id', i);
+                }
+                if (Object.keys(data).length > 0) {
+                    $('.mailMessage').first().remove();
+                }
+            }
         }
+    });
 
-        if (profile.unreadMessages > 0) {
-            $('#unreadMessagesNum').show();
-            $('#unreadMessagesNum').text(profile.unreadMessages);
-        }else{
-            $('#unreadMessagesNum').hide();
-        }
+}
 
-        fillNotificationListBlock();
-        fillContactListBlock(profile.contactList);
 
-        if (profile.contact.member == true) {
-            $('#socialBtn').hide();
-        }
-    }
-});
+
+
+
+
+
 
 function fillNotificationListBlock() {
     var eventFO = {};
@@ -346,31 +394,6 @@ $(document).on('click', '.mailMessage', function () {
 $(".answer").click(function () {
 
 });
-
-
-var dialogInit = $('#dropDownMail').html();
-$.ajax({
-    type: "POST",
-    url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
-    success: function (response) {
-
-        if (response) {
-            var data = JSON.parse(response);
-            for (var i in data) {
-                $('.dropDownMail').append($('.mailMessage').last().clone());
-                $('.mailMessage p').last().text(data[i]['message']);
-                $('.mailMessage img').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + data[i]['authorId']).attr('width', '44').attr('height', '44').show();
-                $('.mailMessage').last().attr('id', i);
-            }
-            if (Object.keys(data).length > 0) {
-                $('.mailMessage').first().remove();
-            }
-        }
-
-
-    }
-});
-
 
 function sendMessageAjax(privateMessage, dialogueId) {
     $.ajax({

@@ -1,7 +1,8 @@
-
-(function(namespace) {
+(function (namespace) {
 
     'use strict';
+
+    var isComplete = false;
 
     function OfferFilter() {
         this.skip = 0;
@@ -18,8 +19,19 @@
         return this;
     }
 
-    OfferFilter.prototype.readAllByFilter = function () {
+    OfferFilter.prototype.completeCategories = function (bool) {
+        if (arguments.length) {
+            return isComplete;
+        } else {
+            return bool;
+        }
+    }
 
+    OfferFilter.prototype.readAllByFilter = function () {
+        if (this.categories && !this.categories.length) delete this.categories;
+        if (this.properties && !this.properties.length) delete this.properties;
+        /*        console.log(this.properties);
+         console.log(this.categories);*/
         $.ajax({
             type: "POST",
             url: "/api/rest/offersService/offer/read/all",
@@ -106,7 +118,81 @@
         }
     }
 
-    OfferFilter.prototype.setFilterProperties = function () {
+    OfferFilter.prototype.setFilterOptions = function () {
+
+        return this;
+    }
+
+    OfferFilter.prototype.drawFilterOptions = function (id) {
+
+        for (var i = 0; i < options.length; i++) {
+            if (options[i]['c'][id]) {
+                var name = "";
+                for (j in options[i]['k']) {
+                    name = j;
+                }
+
+                for (var j = 0; j < parameters.length; j++) {
+                    if (name !== 'price') {
+                        var select = $('<select class="prop" name="' + name + '" id="00' + i + '">' + '</select>');
+                        if (parameters[j]['parameter']['key'] === name && parameters[j]['parameter']['validators']['required'] === 1) {
+                            select.prop("required", true);
+                        }
+                        $('.parameters').append(select);
+                        break;
+                    }
+                }
+
+                for (var j in options[i]['v']) {
+                    var option = $('<option value = "' + j + '"  id ="' + j + '">' + options[i]['v'][j] + '</option>');
+                    if (name === 'price') {
+                        $('select[name="price"]').append(option);
+                    } else {
+                        $('#00' + i).append(option);
+                    }
+                }
+                if (name === 'price') $('.price').css('display', 'inline-block');
+            }
+        }
+
+        for (var j = 0; j < parameters.length; j++) {
+            if (parameters[j]['parameter']['type'] === "input" && parameters[j]['categories'][id] && parameters[j]['parameter']['key'] !== 'price') {
+
+                var inp = $('<input id="' + parameters[j]['parameter']['key'] + '" type="text"  name="' + parameters[j]['parameter']['key'] + '" placeholder="' + parameters[j]['parameter']['label'] + '"/>');
+                $('.parameters').append(inp);
+            }
+        }
+        if ($('.parameters').children().length) $('.parameters').css('display', 'block');
+        return this;
+    }
+
+    OfferFilter.prototype.deleteFilterOptions = function () {
+
+        $('.price').css('display', 'none');
+        $('.parameters').empty();
+        $('select[name="price"]').empty();
+        $('#select-categories-3lvl option:not(:first)').remove();
+
+        return this;
+    }
+
+    OfferFilter.prototype.drawCategories3lvl = function() {
+        var id = this.categories[1];
+
+        var select = $('#select-categories-3lvl');
+
+        var child2 = {};
+        if (jsonSubcategory[id]) {
+            child2 = jsonSubcategory[id].children;
+            for (var key in child2) {
+                var option = $('<option id="' + key + '" value="' + key + '">' + child2[key].label + '</option>');
+                select.append(option);
+            }
+        }
+        if(select.children().length > 1) {
+            select.css('display', 'inline-block');
+            $('label[for="select-categories-3lvl"]').css('display', 'inline');
+        }
         return this;
     }
 

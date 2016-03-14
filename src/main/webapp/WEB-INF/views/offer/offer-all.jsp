@@ -92,17 +92,11 @@
 
     //    var filter = {skip: 0, limit: 10};
     var filter = new Offer.OfferFilter();
-    var cities;
-    var category1Id = '';
-    var category2Id = '';
-    var category3Id = '';
-    var categories = [];
+    var cities = {};
     var parameters = [];
-    var properties = [];
-    var options;
-    var jsonCategory;
-    var jsonSubcategory;
-    var skip = 10;
+    var options = [];
+    var jsonCategory = [];
+    var jsonSubcategory = {};
 
     // ---------------    LOAD RESOURCES    --------------------------//
     $(document).ready(function () {
@@ -158,7 +152,7 @@
     // ---------------   END LOAD RESOURCES    --------------------------//
 
     $('#btn-offers-more').click(function () {
-        filter.skip += skip;
+        filter.skip += 10;
         filter.readAllByFilter();
     });
 
@@ -168,68 +162,55 @@
     });
 
     // ---------------   BEGIN DRAW CATEGORIES    --------------------------//
-    // Начало Переписать этот код
+
     $('#select-categories-3lvl').change(selectCategoryLvl3);
 
-    function drawCategories3lvl(id) {
-        $('#select-categories-3lvl option').remove();
-
-        var select = $('#select-categories-3lvl');
-        select.append($('<option>Выберите подкатегорию</option>'));
-
-        var child2 = {};
-        if (jsonSubcategory[id]) {
-            child2 = jsonSubcategory[id].children;
-            for (var key in child2) {
-                var option = $('<option id="' + key + '" value="' + key + '">' + child2[key].label + '</option>');
-                $('#select-categories-3lvl').append(option);
-            }
-        }
-        if(select.children().length > 1) select.css('display', 'block');
-    }
-
     function selectCategoryLvl3(event) {
-        if(filter.categories.length > 2) filter.categories.pop();
-        filter.categories.push($(event.currentTarget).val());
+        if (filter.categories.length > 2) filter.categories.pop();
+        var cat3 = $(event.currentTarget).val();
+        if (cat3) {
+            filter.categories.push(cat3);
+            filter.deleteFilterOptions()
+            .drawFilterOptions(cat3);
+        }
     }
 
     function onClickCategory1lvl(event) {
         var id1 = $(event.currentTarget).attr('id');
-        delete filter.properties;
-        delete filter.categories;
-
-        $('div.price').css('display', 'block');
+        filter.categories = [];
+        filter.properties = [];
 
         if(id1 !== 'free' && id1 !== 'exchange') {
-            filter.categories = [];
             filter.categories.push(id1);
         } else {
-            filter.properties = [];
             filter.properties.push({
                 key: 'price',
                 value: id1
             });
-            $('div.price').css('display', 'none');
         }
         filter.cleanResult()
+                .deleteFilterOptions()
+                .drawFilterOptions(filter.categories[0])
                 .readAllByFilter();
 
         $('#select-categories-3lvl').css('display', 'none');
+        $('label[for="select-categories-3lvl"]').css('display', 'none');
+
     }
 
     function onClickCategory2lvl(event) {
         var elem = $(event.currentTarget);
-        delete filter.properties;
+
+        filter.properties = [];
         filter.categories  = [
             elem.parent().parent().children('a:first').attr('id'),
             elem.attr('id')
         ];
         filter.cleanResult()
+                .deleteFilterOptions()
+                .drawFilterOptions(filter.categories[1])
+                .drawCategories3lvl()
                 .readAllByFilter();
-
-        drawCategories3lvl(filter.categories[1]);
-
-        $('div.price').css('display', 'block');
     }
 
     $('.ItemADS').each(function () {
@@ -238,7 +219,7 @@
 
     $('.ItemADS div').children('a').remove();
 
-    function drawSubcategories() {
+   function drawSubcategories() {
 
         $('.ItemADS').each(function () {
             var elem = $(this).children('a:first');
@@ -258,7 +239,7 @@
                     $(subcategoriesBox).append(newA);
                 }
 
-                if(Object.keys(child1).length) {
+                if (Object.keys(child1).length) {
                     var newA = $('<a href="$">Cмотреть все обьявления</a>')
                             .click(onClickCategory2lvl);
                     $(subcategoriesBox).append(newA);
@@ -266,7 +247,7 @@
             }
         });
     }
-// Конец Переписать этот код
+
     // ---------------   END DRAW CATEGORIES    --------------------------//
 </script>
 </body>
