@@ -1,16 +1,12 @@
 package ua.com.itproekt.gup.model.profiles;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import ua.com.itproekt.gup.util.SocialNetwork;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class Contact {
-    private Nace nace;
     private boolean member;
     private List<String> naceId;
 
@@ -97,14 +93,6 @@ public class Contact {
         this.aboutUs = aboutUs;
     }
 
-    public Nace getNace() {
-        return nace;
-    }
-
-    public void setNace(Nace nace) {
-        this.nace = nace;
-    }
-
     public boolean isMember() {
         return member;
     }
@@ -132,7 +120,6 @@ public class Contact {
                 ", skypeUserName='" + skypeUserName + '\'' +
                 ", linkToWebSite=" + linkToWebSite +
                 ", aboutUs='" + aboutUs + '\'' +
-                ", nace=" + nace +
                 ", member=" + member +
                 ", naceId=" + naceId +
                 '}';
