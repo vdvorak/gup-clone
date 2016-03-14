@@ -36,10 +36,7 @@ public class Tender {
 
     public Tender(){
         begin = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        hidePropose = true;
-        hideContact = true;
         visited = 0l;
-        hidePropose = true;
         proposes = new ArrayList<Propose>();
         members = new ArrayList<Member>();
     }
