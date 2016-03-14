@@ -54,7 +54,8 @@ public class Member {
 
         if (getId() != null && !getId().equals(member.getId())) return false;
         if (getName() != null && !getName().equals(member.getName())) return false;
-        return getUserPic().equals(member.getUserPic());
+        if (getUserPic() != null && !getUserPic().equals(member.getUserPic())) return false;
+        return true;
 
     }
 
