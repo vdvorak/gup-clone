@@ -18,26 +18,20 @@
     });
 
     $("#registrationBtn").click(function(){
-        var pass1 = $('#registration-password').val();
-        var pass2 = $('#repeat-registration-password').val();
-        var isMatch = isMatchRegEx(pass1);
-        if(!isMatch || pass1 !== pass2) return;
+        var pass = $('#registration-password').val();
+        var repeatPass = $('#repeat-registration-password').val();
+
+        var badPassMsg = '';
+        if (!isMatchRegEx(pass)) { badPassMsg += 'Пароль не соответствует требованиям.'}
+        if (pass !== repeatPass) { badPassMsg += 'Пароли не совпадают'}
+        if (badPassMsg.length) {
+            alert(badPassMsg);
+            return;
+        }
 
         var profile = {
             'email' : $('#registration-email').val(),
-            'password' : $('#registration-password').val(),
-            'point' : 0,
-            'profileRating' : [],
-            'contactList' : [],
-            'userProfile' : {},
-            'contact' : {
-                'type' : 'INDIVIDUAL',
-                'contactEmails' : [],
-                'contactPhones' : [],
-                //'linkToWebSite' : [],
-                'socNetLink' : {},
-                'naceId' : []
-            }
+            'password' : pass
         };
 
         $.ajax({

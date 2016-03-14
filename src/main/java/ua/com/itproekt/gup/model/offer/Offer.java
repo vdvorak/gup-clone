@@ -41,13 +41,13 @@ public class Offer {
     private String description;
     @Min(1)
     private Integer price;
+    private Currency currency;
     private Boolean priceCanBeNegotiated;
     private Boolean urgent;
     private Boolean used; // б/y
     private Boolean canBeReserved;
     private Boolean canBeRented;
     private Address address;
-    private Currency currency;
 
     public Offer setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
