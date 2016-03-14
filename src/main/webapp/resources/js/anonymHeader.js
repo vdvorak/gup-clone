@@ -124,6 +124,8 @@
             function(){ // пoсле aнимaции
                 $(this).css('display', 'none'); // делaем ему display: none;
                 $('#overlay').fadeOut(400); // скрывaем пoдлoжку
+                $('.contactA').show();
+                $('.restore').hide();
             }
         );
     });
@@ -136,15 +138,5 @@
                     .css('display', 'block')
                     .animate({opacity: 1}, 200);
             });
-    });
-
-    $('#modal_close, #overlay').click( function(){
-        $('#modal_form')
-            .animate({opacity: 0}, 200,
-            function(){
-                $(this).css('display', 'none');
-                $('#overlay').fadeOut(400);
-            }
-        );
     });
 //});

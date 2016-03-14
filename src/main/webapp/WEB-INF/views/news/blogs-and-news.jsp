@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
-
+    <link rel="stylesheet" href="/resources/css/custom-style.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
 <body>
@@ -125,6 +125,10 @@
 <script src="/resources/js/moment-with-locales.js"></script>
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
+
+<script>
+    var flag = '${flag}';
+</script>
 
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>

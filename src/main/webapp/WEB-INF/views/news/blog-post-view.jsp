@@ -72,6 +72,8 @@
             <p class="newsDislikeNum" id="bpDislikeNum"></p>
         </div>
 
+
+
         <div class="downComments"><p>Комментировать</p></div>
 
         <div class="clearfix"></div>
@@ -126,6 +128,12 @@
                 $('#bpLikeNum').append(blogPost.totalLikes);
                 $('#bpDislikeNum').append(blogPost.totalDislikes);
                 $('#bpText').append(blogPost.text);
+
+                if(loggedInProfile){
+                    if (loggedInProfile.id === blogPost.authorId){
+                        $("<a href='/blog-post/edit/" + blogPost.id +"'><button>Редактировать статью</button></a>").insertAfter($('.newsRating'))
+                    }
+                }
 
                 blogPost.comments.forEach(function (comment) {
                     $.ajax({
@@ -255,7 +263,6 @@
     $(".comments").click(function () {
         if ($('.backgroundColorComment').is(':visible')) {
             return $('.backgroundColorComment').removeClass("backgroundColorComment");
-            ;
         } else {
             $(this).addClass("backgroundColorComment");
         }

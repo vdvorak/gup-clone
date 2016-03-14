@@ -1,12 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Optical Illusion
-  Date: 02.11.2015
-  Time: 10:06
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ru">
 <head>
@@ -48,7 +41,7 @@
     </ul>
 
     <a href="#" id="edit-offer-link" style="display: none">
-        <button>Редактировать объявление</button>
+        <button class="btn btn-warning">Редактировать объявление</button>
     </a>
 
     <h1 class="title-h1-blue offer-title"></h1>
@@ -56,6 +49,8 @@
     <div class="offer-info-wrap">
         <div class="offer-info-box">
             <div>Колличество просмотров: <span class="view-counter"></span></div>
+            <div>Дата создания: <span id="create-date" class="date-create"></span></div>
+            <div id="urgent" style="color: red;"></div>
             <div class="reservation">
                 <div id="make-reserve" class="col-xs-6">ЗАБРОНИРОВАТЬ</div>
                 <div class="col-xs-6 text-right"><span class="offer-price"></span><span class="currency"></span> <i
@@ -69,36 +64,63 @@
                     <div class="clearfix"></div>
                     <div class="contact phone-numbers">
                         <span class="show-number">Показать номера телефонов</span>
-
+                        <i class="fa fa-2x fa-phone"></i>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="contact skype-block"><span class="offer-skype"></span> <i class="fa fa-skype"></i></div>
+                    <div class="contact skype-block"><span class="offer-skype"></span> <i class="fa fa-lg fa-skype"></i></div>
                 </div>
-                <div class="col-xs-7">
-                    Автор: <a class="author-link"><span class="author-name"></span></a>
-                    <br>
-                    <span class="contact-name-block">Контактное лицо: <span
-                            class="contact-name-block-unit"></span></span>
+                <div class="col-xs-7 no-padd-left">
 
-                    <div class="clearfix"></div>
-                    <span class="author-rating"></span>
+                    <div class="col-xs-5 no-padd-left">
+                        <span class="foto"><img src="/resources/images/doersLogo.png" alt=""></span>
+                    </div>
+                    <div class="col-xs-7 no-padd">
+                        Автор: <a class="author-link"><span class="author-name"></span></a>
+                        <br>
+                        <span class="contact-name-block">Контактное лицо: <span
+                                class="contact-name-block-unit"></span></span>
 
-                    <div class="clearfix"></div>
-                    <a href="#">Все обьявления автора</a>
+                        <div class="clearfix"></div>
+                        <span class="author-rating"></span>
 
-                    <div class="clearfix"></div>
-                    <br>
+                        <div class="clearfix"></div>
+                        <p>
+                            <a href="#">Все обьявления автора</a>
+                        </p>
 
-                    <div id="options" class="row panel"></div>
+                        <div class="clearfix"></div>
+                        <br>
+                        
+                    </div>
+
+                     <div class="clearfix"></div>
+                    <div id="options" class="row p--------anel"></div>
+                    
                 </div>
             </div>
+           
             <div class="clearfix"></div>
             <section class="offer-map">
             </section>
             <section class="offer-video">
             </section>
         </div>
-        <div class="offer-info-slider"><img src="images/slider.jpg" width="450" alt=""></div>
+        <div class="offer-info-slider">
+            
+            <ul class="bxslider" id="offer-slider">
+              <%--<li><img src="/resources/images/slider.jpg" /></li>--%>
+              <%--<li><img src="/resources/images/slider.jpg" /></li>--%>
+              <%--<li><img src="/resources/images/logo.png" /></li>--%>
+            </ul>
+
+            <div id="bx-pager" class="hide">
+              <a data-slide-index="0" href=""><img src="/resources/images/slider.jpg" /></a>
+              <a data-slide-index="1" href=""><img src="/resources/images/slider.jpg" /></a>
+              <a data-slide-index="2" href=""><img src="/resources/images/slider.jpg" /></a>
+            </div>
+
+            <!-- <img src="/resources/images/slider.jpg" width="450" alt=""> -->
+        </div>
     </div>
 
 
@@ -183,6 +205,9 @@
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
+
+<script src="/resources/js/moment-with-locales.js"></script>
+<script src="/resources/js/service.js"></script>
 
 <script>
     var offerId = "${offerId}";

@@ -85,7 +85,9 @@
                             <div class="clock">
                                 <div class="time build-end"></div>
                             </div>
+                            <a href="#" class="build-link-wrap">
                             <button type="button" class="abutton blue">Участвовать</button>
+                            </a>
                         </div>
                         <div class="sum"><span class="build-sum"></span>₴</div>
                     </div>
@@ -246,6 +248,11 @@
 <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
+
+<script>
+    var flag = '${flag}';
+</script>
+
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>

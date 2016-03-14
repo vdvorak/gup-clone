@@ -14,6 +14,9 @@ function getUrlParam(sParam) {
 }
 
 $(document).ready(function () {
+    if (typeof flag != 'undefined'){
+    }
+
 
     $('#socialBtn').click(function (event) {
         event.preventDefault();
@@ -36,7 +39,16 @@ $(document).ready(function () {
     });
 
     $(".question-img").click(function () {
-        $(".questionForm").slideToggle(1);
+        $('.questionForm').animate({
+            marginLeft: 0
+        }, 'fast');
+        if ( $('.questionForm').hasClass('uuu')) {
+            $('.questionForm').animate({
+                marginLeft: '-250px'
+            }, 'fast');
+        };
+        $('.questionForm').toggleClass('uuu');
+
     });
 
     $(".caretContact").click(function () {
@@ -48,7 +60,9 @@ $(document).ready(function () {
         animate: false
     });
 
-    $('.bxslider').bxSlider();
+    $('.bxslider').bxSlider({
+        // pagerCustom: '#bx-pager'
+    });
 
     $('#tab-container-news').easytabs({
         animate: false
@@ -183,6 +197,12 @@ $(document).ready(function () {
         }
     });
 
+    $('.bxsliderTender').bxSlider({
+        slideWidth: 141,
+        minSlides: 5,
+        maxSlides: 5,
+        slideMargin: 20
+    });
 
     $('#noMoneyStartRich').on('click', function () {
         $.ajax({
@@ -212,4 +232,15 @@ $(document).ready(function () {
             $('.modal').fadeOut(400);
         }
     }
+
+    $('.contactA').click( function() {
+        $('.contactA').hide(500);
+        $('.restore').fadeIn(1000);
+        return false;
+    });
+
+    $('.dropDownMail .answer textarea').click(function() {
+        return false;
+    });
+
 });

@@ -13,29 +13,34 @@ import java.util.Set;
 public class Profile {
     @Id
     private String id;
+    @Indexed
     private String idWord;
+
     @Indexed
     private String email;
     private String password;
     private String mainPhoneNumber;
-    private Set<UserRole> userRoles;
-    private Boolean confirmModerator;
 
-    private String imgId;
     @Indexed
     private String username;
-    private Integer unreadMessages;
+    private String imgId;
+    private Long birthDate;
+    private Contact contact;
+    private Set<String> contactList;
+    private UserProfile userProfile;
+
+    private Set<PriOfficeSetting> priofficeSets;
 
     private Integer point;
-    private Contact contact;
-    private UserProfile userProfile;
-    private Set<String> contactList;
+    private Integer unreadMessages;
     private Set<ProfileRating> profileRating;
 
-    private Long birthDate;
+    private Boolean confirmModerator;
+    private Set<UserRole> userRoles;
+
     private Long createdDate;
     private Long lastLoginDate;
-    private Set<PriOfficeSetting> priofficeSets;
+
 
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);

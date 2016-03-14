@@ -41,17 +41,19 @@ $(document).ready(function () {
 
     function draw(data) {
         for (var i in data) {
+            var url = '/tender/' + data[i].id;
             data[i].body = data[i].body.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', ""); // Clear description from HTML tags
             $('.build-item-wrap').last().attr('style', 'display:;');
             $(".build-pic-wrap img").last().attr('src', findFirstImg(data[i].uploadFilesIds));
-            $(".build-pic-wrap").last().attr('href', '/tender/' + data[i].id);
+            $(".build-pic-wrap").last().attr('href', url);
+            $(".build-link-wrap").last().attr('href', url);
             $(".build-item-text").last().html(data[i].body);
             $(".build-number").last().text(data[i].tenderNumber);
             $(".build-publish-date span").last().text(localDateTime(data[i].begin));
             $(".build-veiws span").last().text(data[i].visited);
             $(".build-proposal-count span").last().text(data[i].proposeNumber);
             $(".build-sum").last().text(data[i].expectedPrice);
-            $(".build-name-wrap").last().attr('href', '/tender/' + data[i].id);
+            $(".build-name-wrap").last().attr('href', url);
             $(".build-name").last().text(data[i].title);
             $(".build-end").last().text(localDateTime(data[i].end));
             $('#tenders-start-block').append(firstTenderBlock);
