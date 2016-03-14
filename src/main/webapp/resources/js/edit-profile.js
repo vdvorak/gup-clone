@@ -1,8 +1,8 @@
 var loadedProfile = {};
 var updatedProfile = {};
 
-var emailCloneCount = 1;
-var contactPhoneCloneCount = 1;
+var emailCloneCount = 0;
+var contactPhoneCloneCount = 0;
 var socInputTemplate = $('.soc-input-group').html();
 
 function setValuesForFieldsFromProfile(profile) {
@@ -31,17 +31,20 @@ function setValuesForFieldsFromProfile(profile) {
         $('.email-input-unit input').last().val(profile.contact.contactEmails[i]);
         emailCloneCount++;
     }
-    $('.email-input-unit').first().remove();
-
+    if (profile.contact.contactEmails.length > 0) {
+        $('.email-input-unit').first().remove();
+    }
 
     for (var i = 0; i < profile.contact.contactPhones.length; i++) {
         $('.input_tel_fields_wrap').append($('.tel-input-unit').last().clone())
         $('.tel-input-unit input').last().val(profile.contact.contactPhones[i]);
         contactPhoneCloneCount++;
     }
-    $('.tel-input-unit').first().remove();
 
-//                    $('#tel-info').attr("placeholder", profile.contact.O);
+    if (profile.contact.contactPhones.length > 0) {
+        $('.tel-input-unit').first().remove();
+    }
+
 }
 
 function initializeProfileEntityForUpdate() {
@@ -153,13 +156,18 @@ $(document).ready(function () {
 // ----------------------------------------------------- Multiply phone numbers -----------------------------------
                 // Add/Remove phone Input Fields Dynamically with jQuery
 
-                var max_fields_tel = 6; //maximum input boxes allowed + 1
+                var max_fields_tel = 5; //maximum input boxes allowed + 1
                 var tel_wrapper = $(".input_tel_fields_wrap"); //Fields wrapper
                 var add_button_tel = $(".add_tel_field_button"); //Add button ID
+                var x_tel = 1;
 
-                var x_tel = contactPhoneCloneCount; //initial text box count
+                if (contactPhoneCloneCount > 0) {
+                    x_tel = contactPhoneCloneCount; //initial text box count
+                }
+
                 $(add_button_tel).click(function (e) { //on add input button click
                     e.preventDefault();
+
                     if (x_tel < max_fields_tel) { //max input box allowed
                         x_tel++; //text box increment
                         $(tel_wrapper).append('<div class="tel-wrapper-1 tel-input-unit"><input type="tel" name="mytel" class="input-info-min"><a href="#" class="remove_field"><img class="remove_phone" src="/resources/img/minus.png" with="20" height="20"></a><div class="clearfix"></div></div>'); //add input box
@@ -178,11 +186,15 @@ $(document).ready(function () {
 
 // ----------------------------------------------------- Multiply emails -----------------------------------
                 // Add/Remove phone Input Fields Dynamically with jQuery
-                var max_fields_email = 6; //maximum input boxes allowed + 1
+                var max_fields_email = 5; //maximum input boxes allowed + 1
                 var email_wrapper = $(".input_email_fields_wrap"); //Fields wrapper
                 var add_button_email = $(".add_email_field_button"); //Add button ID
+                var x_email = 1; // because we have empty default input
 
-                var x_email = emailCloneCount; //initial text box count
+                if (emailCloneCount > 0) {
+                    x_email = emailCloneCount; //initial text box count
+                }
+
                 $(add_button_email).click(function (e) { //on add input button click
                     e.preventDefault();
                     if (x_email < max_fields_email) { //max input box allowed
@@ -289,7 +301,7 @@ $('#addProfileImg').on('click', function () {
 
 $('#uploadProfilePhotoInput').on('change', function () {
     var files = event.currentTarget.files;
-    var reader  = new FileReader();
+    var reader = new FileReader();
 
     reader.addEventListener("load", function () {
         cropper.replace(reader.result);
@@ -299,7 +311,7 @@ $('#uploadProfilePhotoInput').on('change', function () {
         reader.readAsDataURL(files[0]);
     }
 
-    $('#cropperModal').css('display',"block");
+    $('#cropperModal').css('display', "block");
 });
 // ------------------------------------------- End photo upload block ---------------------------------
 
@@ -314,23 +326,23 @@ $('#uploadProfilePhotoInput').on('change', function () {
 var image = document.getElementById('cropper-image');
 var cropper = new Cropper(image, {
     aspectRatio: 1 / 1,
-    crop: function(data) {
+    crop: function (data) {
     }
 });
 
-$(".cropper-btn-cancel").click(function() {
-    $('#cropperModal').css('display',"none");
+$(".cropper-btn-cancel").click(function () {
+    $('#cropperModal').css('display', "none");
 });
 
-$(window).click(function(event) {
+$(window).click(function (event) {
     var modal = document.getElementById('cropperModal');
     if (event.target == modal) {
         modal.style.display = "none";
     }
 });
 
-$(".cropper-btn-success").click(function() {
-    $('#cropperModal').css('display',"none");
+$(".cropper-btn-success").click(function () {
+    $('#cropperModal').css('display', "none");
 
     var canvas = cropper.getCroppedCanvas();
     var dataURL = canvas.toDataURL('image/jpeg', 0.5);
@@ -355,11 +367,11 @@ $(".cropper-btn-success").click(function() {
                 updatedProfile.contact.pic = data.id;
                 $('.moreInformation-img').css('background',
                     'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center')
-                    .css("background-size","cover");
+                    .css("background-size", "cover");
                 cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic);
             },
             400: function () {
-                alert('400');
+                alert('Ошибка сервера: 400');
             }
         }
     });
@@ -368,7 +380,7 @@ $(".cropper-btn-success").click(function() {
 function dataURItoBlob(dataURI) {
     var binary = atob(dataURI.split(',')[1]);
     var array = [];
-    for(var i = 0; i < binary.length; i++) {
+    for (var i = 0; i < binary.length; i++) {
         array.push(binary.charCodeAt(i));
     }
     return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
