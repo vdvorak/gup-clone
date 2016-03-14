@@ -352,11 +352,11 @@ $(".cropper-btn-success").click(function() {
         processData: false,
         statusCode: {
             201: function (data) {
-                updatedProfile.contact.pic = data.id;
+                updatedProfile.imgId = data.id;
                 $('.moreInformation-img').css('background',
-                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic + ') no-repeat center center')
+                    'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId + ') no-repeat center center')
                     .css("background-size","cover");
-                cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.contact.pic);
+                cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId);
             },
             400: function () {
                 alert('400');
