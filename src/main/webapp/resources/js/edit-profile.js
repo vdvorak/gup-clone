@@ -10,7 +10,7 @@ function setValuesForFieldsFromProfile(profile) {
 
     if (profile.imgId != null) {
         $('.moreInformation-img').css('background',
-            'url(/api/rest/fileStorage/profile/file/read/id/' + profile.imgId + ') no-repeat center center');
+            'url(/api/rest/fileStorage/profile/file/read/id/' + profile.imgId + ') no-repeat center center').css('background-size', 'cover');
     }
 
     $('#select-type').val(profile.contact.type);
@@ -338,7 +338,7 @@ $(".cropper-btn-success").click(function() {
                 updatedProfile.imgId = data.id;
                 $('.moreInformation-img').css('background',
                     'url(/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId + ') no-repeat center center')
-                    .css("background-size","cover");
+                    .css('background-size','cover');
                 cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + updatedProfile.imgId);
             },
             400: function () {
