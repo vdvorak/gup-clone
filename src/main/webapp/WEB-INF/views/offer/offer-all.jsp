@@ -211,7 +211,7 @@
 
         filter.cleanResult()
                 .deleteFilterOptions()
-                .drawFilterOptions(filter.categories[1])
+                .drawFilterOptions((id2) ? filter.categories[1] : filter.categories[0])
                 .drawCategories3lvl()
                 .setFilterOptions()
                 .readAllByFilter();
