@@ -157,7 +157,9 @@ public class DialogueRestController {
                         isUnread = false;
                     }
                     if (isUnread) {
-                        pm.setAuthorId(profileService.findById(pm.getAuthorId()).getImgId());
+                        String imgId = profileService.findById(pm.getAuthorId()).getImgId();
+                        pm.setAuthorId(imgId);
+                        pm.getWhoRead().remove(imgId);
                         msgs.put(d.getId(), pm);
                     }
                 }
