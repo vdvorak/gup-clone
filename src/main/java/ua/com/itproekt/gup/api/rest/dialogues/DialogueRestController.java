@@ -56,24 +56,23 @@ public class DialogueRestController {
                 log.log(Level.ERROR, LOGGED_TITLE + "dialogue/create - bad json was sent");
                 return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
             }
-            // hear we always expect exactly one massage.
-            // If we work with new dialogue it will be first message,
-            // if we work with existing dialogue, message will be added to message list of this dialogue.
-            PrivateMessage msg = dialogueService.completeMessage(dialogue.getMessages().get(0), getCurrentUserId());
 
             addLoggedUserToMembers(dialogue);
 
             //asking if current dialog already exist
             Dialogue d = dialogueService.findByMembersAndSubject(dialogue);
 
-            if (d != null) {
-                d.getMessages().add(msg);
+            if (d != null && dialogue.getMessages() != null && !dialogue.getMessages().isEmpty()) {
+                PrivateMessage msg = dialogueService.completeMessage(dialogue.getMessages().get(0), getCurrentUserId());
+                d.addMessage(msg);
                 dialogue = dialogueService.addDialogue(d);
                 log.log(Level.INFO, LOGGED_TITLE + "dialogue/create - dialogue was find and update with new massage ");
             } else {
-                List<PrivateMessage> messages = new ArrayList<>();
-                messages.add(msg);
-                dialogue.setMessages(messages);
+                dialogue.setMessages(new ArrayList<>());
+                if(dialogue.getMessages() != null && !dialogue.getMessages().isEmpty()) {
+                    PrivateMessage msg = dialogueService.completeMessage(dialogue.getMessages().get(0), getCurrentUserId());
+                    dialogue.addMessage(msg);
+                }
                 dialogue = dialogueService.addDialogue(dialogue);
                 log.log(Level.INFO, LOGGED_TITLE + "dialogue/create - dialogue was created successfully");
             }
@@ -110,7 +109,7 @@ public class DialogueRestController {
         }
 
         message = dialogueService.completeMessage(message, getCurrentUserId());
-        dialogue.getMessages().add(message);
+        dialogue.addMessage(message);
         dialogue = dialogueService.updateDialogueWhenAddMsg(dialogue);
 
         log.log(Level.INFO, LOGGED_TITLE + "dialogue/id/{id}/message/create - new message was successfully add to dialogue");
@@ -149,41 +148,46 @@ public class DialogueRestController {
         }
         Map<String, PrivateMessage> msgs = new HashMap<>();
 
-        for (Dialogue d : dialogues) {
-            for (PrivateMessage pm : d.getMessages()) {
-                boolean isUnread = true;
-                for (String reader : pm.getWhoRead()) {
-                    if (reader.equals(userId)) {
-                        isUnread = false;
-                    }
-                    if (isUnread) {
-                        pm.setAuthorId(profileService.findById(pm.getAuthorId()).getImgId());
-                        msgs.put(d.getId(), pm);
-                    }
-                }
-            }
-        }
-
-//        dialogues.stream().filter(d -> (d.getUnreadMsgCounter().get(userId) > 0))
-//                .forEach(dialogue -> {
-//                    //find last msg (with latest date);
-//                    PrivateMessage msg = dialogue.getMessages().
-//                            stream().
-//                            filter(m -> m.getDate().equals(dialogue.getLustMsgTime())).
-//                            findFirst().get();
-//
-//                    //Look out! GOVNOCOD
-//                    //Change AuthorId in messages to UserPicId
-//                    Profile p = profileService.findById(msg.getAuthorId());
-//                    if (p != null && p.getImgId() != null) {
-//                        msg.setAuthorId(p.getImgId());
-//                    } else {
-//                        msg.setAuthorId("");
+//        for (Dialogue d : dialogues) {
+//            for (PrivateMessage pm : d.getMessages()) {
+//                boolean isUnread = true;
+//                for (String reader : pm.getWhoRead()) {
+//                    if (reader.equals(userId)) {
+//                        isUnread = false;
 //                    }
-//
-//                    //put into map
-//                    msgs.put(dialogue.getId(), msg);
-//                });
+//                    if (isUnread) {
+//                        String imgId = profileService.findById(pm.getAuthorId()).getImgId();
+//                        pm.setAuthorId(imgId);
+//                        pm.getWhoRead().remove(imgId);
+//                        msgs.put(d.getId(), pm);
+//                    }
+//                }
+//            }
+//        }
+
+        dialogues.stream().filter(d -> (d.getUnreadMsgCounter().get(userId) > 0))
+                .forEach(dialogue -> {
+                    //find last msg (with latest date);
+                    PrivateMessage msg = dialogue.getMessages().
+                            stream().
+                            filter(m -> m.getDate().equals(dialogue.getLustMsgTime())).
+                            findFirst().get();
+
+                    //Look out! GOVNOCOD
+                    //Change AuthorId in messages to UserPicId
+                    Profile p = profileService.findById(msg.getAuthorId());
+                    if (p != null && p.getImgId() != null) {
+                        if(p.getImgId() != null) {
+                            msg.setAuthorId(p.getImgId());
+                            msg.getWhoRead().remove(p.getImgId());
+                        }
+                    } else {
+                        msg.setAuthorId("noImg");
+                    }
+
+                    //put into map
+                    msgs.put(dialogue.getId(), msg);
+                });
 
         ObjectMapper mapper = new ObjectMapper();
 

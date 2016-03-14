@@ -11,7 +11,7 @@
 .contentContainer {
     position: relative;
     border-radius: 10px;
-    border: 4px #99cc66 solid;
+    border: 4px transparent solid;
 }
 
 .feedContainer .feedFooter {
@@ -856,18 +856,19 @@ color: white;
     background-color: red;
     width: 36px;
     height: 40px;
-    right: 50px;
+    right: 160px;
     top: -28px;
     background: url(images/tenderClock.png) no-repeat;
+    z-index: -1;
 }
 .tenders .participate .clock .time,
 .tenderContent .participate .clock .time {
     position: absolute;
     background-color: #99cc66;
     border-radius: 4px;
-    width: 38px;
+    width: 150px;
     height: 17px;
-    right: -39px;
+    right: -160px;
     top: 7px;
     color: #1269a7;
     font: 12px DroidSans;

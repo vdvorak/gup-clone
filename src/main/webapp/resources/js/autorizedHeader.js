@@ -1,4 +1,5 @@
 var loggedInProfile = {};
+var isNeedDrawAllHeader = true;
 
 //  <js for header>
 
@@ -67,6 +68,7 @@ $(".mailMessage, .answer").mouseleave(function () {
             $('.answer').slideUp('fast');
             $('.mailMessage').slideDown('fast');
             $('.fadeScreen').hide('fast');
+            $('#text-message-answer').val('');
         }
     }, 1000);
 });
@@ -183,37 +185,90 @@ $('.dropDownBook').enscroll({
 
 //  </js for header>
 
-$.ajax({
-    type: "POST",
-    url: "/api/rest/profilesService/profile/read/loggedInProfile",
-    async: false,
-    success: function (profile) {
-        loggedInProfile = profile;
 
-        if (profile.imgId) {
-            $('#headerProfileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '?cachedImage=1');
-        } else {
-            $('#headerProfileImg').attr('src', '/resources/images/no_avatar.jpg');
+var mailMessage = $('.mailMessage').first();
+
+
+
+getLoggedInProfileAjax();
+
+
+setTimeout(function run() {
+    getLoggedInProfileAjax();
+    setTimeout(run, 2000);
+}, 2000);
+
+
+function getLoggedInProfileAjax() {
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/profilesService/profile/read/loggedInProfile",
+        async: false,
+        success: function (profile) {
+            loggedInProfile = profile;
+
+            if (isNeedDrawAllHeader) { // - do it only after first page loading
+                if (profile.imgId) {
+                    $('#headerProfileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '?cachedImage=1');
+                } else {
+                    $('#headerProfileImg').attr('src', '/resources/images/no_avatar.jpg');
+                }
+
+                if (profile.username) {
+                    $('#headerProfileName').text(profile.username);
+                } else {
+                    $('#headerProfileName').text("Безымянный");
+                }
+
+                fillNotificationListBlock();
+                fillContactListBlock(profile.contactList);
+
+                if (profile.contact.member == true) {
+                    $('#socialBtn').hide();
+                }
+            }
+
+            if (profile.unreadMessages > 0) {
+                $('#unreadMessagesNum').show();
+                $('#unreadMessagesNum').text(profile.unreadMessages);
+            } else {
+                $('#unreadMessagesNum').hide();
+            }
         }
+    });
 
-        if (profile.username) {
-            $('#headerProfileName').text(profile.username);
-        } else {
-            $('#headerProfileName').text("Безымянный");
+
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
+        success: function (response) {
+
+            if (!isNeedDrawAllHeader){
+                $('.mailMessage').remove(); // delete old messages - prepare for adding new
+                $('.dropDownMail').prepend(mailMessage.clone())
+            }
+
+            if (response) {
+                var data = JSON.parse(response);
+
+                if ($(".answer").css('display')=='none'){
+                    for (var i in data) {
+                        $('.dropDownMail').append($('.mailMessage').last().clone());
+                        $('.mailMessage p').last().text(data[i]['message']);
+                        $('.mailMessage img').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + data[i]['authorId']).attr('width', '44').attr('height', '44').show();
+                        $('.mailMessage').last().attr('id', i);
+                    }
+                }
+
+                if (Object.keys(data).length > 0) {
+                    $('.mailMessage').first().remove();
+                }
+            }
         }
+    });
+    isNeedDrawAllHeader = false;
+}
 
-        if (profile.unreadMessages > 0) {
-            $('#unreadMessagesNum').text(profile.unreadMessages);
-        }
-
-        fillNotificationListBlock();
-        fillContactListBlock(profile.contactList);
-
-        if (profile.contact.member == true) {
-            $('#socialBtn').hide();
-        }
-    }
-});
 
 function fillNotificationListBlock() {
     var eventFO = {};
@@ -311,89 +366,58 @@ $(".mail > img").click(function () {
 
 
 $(document).on('click', '.mailMessage', function () {
-    var dialogueId = $(this).attr('id');
-    event.stopPropagation();
-    $(".mailMessage").hide('slow');
-    //$('.dropDownMail').show('fast')
-    $(".answer img").attr('src', $(this).find('img').attr('src'));
-
-
-    $(".answer").show('slow');
-    $('#dialogue-answer-btn').addClass(dialogueId);
+    if ($(this).attr('id')) {
+        var dialogueId = $(this).attr('id');
+        event.stopPropagation();
+        $(".mailMessage").hide('slow');
+        $(".answer img").attr('src', $(this).find('img').attr('src'));
+        $(".answer").show('slow');
+        $('#dialogue-answer-btn').addClass(dialogueId);
+    }
 });
-
-//$(".mailMessage").click(function (event) {
-//    event.stopPropagation();
-//    $(".mailMessage").hide('slow');
-//    $(".answer").show('slow');
-//});
-
-//$(".mailMessage, .answer").mouseleave(function() {
-//    setTimeout( function () {
-//        if ( !$('.mailMessage:hover, .answer:hover').length ) {
-//            $('.selecionado').removeClass('selecionado');
-//            $('.dropDownMail').slideUp('fast');
-//            $('.answer').slideUp('fast');
-//            $('.mailMessage').slideDown('fast');
-//            $('.fadeScreen').hide('fast');
-//        }
-//    }, 1000);
-//});
 
 $(".answer").click(function () {
 
 });
 
-//$("#overlay").click(function(){
-//    $(".mailMessage").show('slow');
-//    $(".answer").hide('slow');
-//    $("#overlay").hide();
-//    $(".mailDrop").hide();
-//});
-
-//mailMessage=mailDrop-message
-//dropDownMail=dialogStart
-//alert("zazaza");
-var dialogInit = $('#dropDownMail').html();
-//$('.mailMessage').last().hide();
-$.ajax({
-    type: "POST",
-    url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
-    success: function (response) {
-
-        if (response) {
-            var data = JSON.parse(response);
-            for (var i in data) {
-                $('.dropDownMail').append($('.mailMessage').last().clone());
-                $('.mailMessage p').last().text(data[i]['message']);
-                $('.mailMessage img').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + data[i]['authorId']).attr('width', '44').attr('height', '44');
-                $('.mailMessage').last().attr('id', i);
-            }
-            if (Object.keys(data).length > 0) {
-                $('.mailMessage').first().remove();
-            }
-        }
-
-
-    }
-});
-
-
-$('#dialogue-answer-btn').on('click', function () {
-    var dialogueId = $(this).attr('class');
-    var privateMessage = {};
-    privateMessage.message = $('#text-message-answer').val();
+function sendMessageAjax(privateMessage, dialogueId) {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "/api/rest/dialogueService/dialogue/id/" + dialogueId + "/message/create",
         data: JSON.stringify(privateMessage),
         success: function (response) {
-            $('#text-message-answer').val('');
-            $(".dropDownMail").slideUp("fast");
         }
     });
-})
+}
+
+$('#dialogue-answer-btn').on('click', function () {
+    var dialogueId = $(this).attr('class');
+    var privateMessage = {};
+    privateMessage.message = $('#text-message-answer').val();
+    sendMessageAjax(privateMessage, dialogueId);
+
+    $('#text-message-answer').val('');
+    $('.msg-avatar').first().hide();
+    $('#' + dialogueId).remove();
+    $(".dropDownMail").slideUp("fast");
+
+});
+
+$(window).keypress(function (e) {
+    var textarea = document.getElementById('text-message-answer');
+    if ((e.target == textarea) && (e.which == 13)) {
+        var dialogueId = $('#dialogue-answer-btn').attr('class');
+        var privateMessage = {};
+        privateMessage.message = $('#text-message-answer').val();
+        sendMessageAjax(privateMessage, dialogueId);
+
+        $('#text-message-answer').val('');
+        $('.msg-avatar').first().hide();
+        $('#' + dialogueId).remove();
+        $(".dropDownMail").slideUp("fast");
+    }
+});
 
 
 //$("#notificationBellImg").click(function () {

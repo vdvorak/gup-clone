@@ -51,6 +51,8 @@ public class TenderController {
     @RequestMapping("/tender/{id}")
     public String getTender(@PathVariable String id, Model model) {
         model.addAttribute("id", id);
+        model.addAttribute("isAuthor",
+                tenderService.isAuthorOrWinner(tenderService.findById(id), SecurityOperations.getLoggedUserId()));
         return "tendersAndDoers/tenders/tender";
     }
 

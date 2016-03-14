@@ -41,7 +41,7 @@
 
 <div class="container2">
     <div class="profile"> <!-- если профиль вип то сюда надо добавлять класс vip-color-border -->
-        <p class="online">Online</p>
+        <%--<p class="online">Online</p>--%>
 
         <div class="profile-img">
             <!-- если профиль вип то сюда надо добавлять класс vip-color-border, а если организации то organization-color-border -->
@@ -84,7 +84,6 @@
             <div class="emailContact" style="display:none">
             </div>
         </div>
-
 
         <sec:authorize access="isAuthenticated()">
             <div class="contact-btn-group">
@@ -166,8 +165,7 @@
 //                            $('#birthDate').hide();
 //                        }
 
-                if (profile.contact.aboutUs != null) {
-
+                if (profile.contact.aboutUs) {
                     $('.AboutMe-p').append(profile.contact.aboutUs);
                 } else {
                     $('.AboutMe-p').append("Пользователь еще ничего на рассказал о себе.");
