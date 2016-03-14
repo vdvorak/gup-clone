@@ -8,9 +8,9 @@ var socInputTemplate = $('.soc-input-group').html();
 function setValuesForFieldsFromProfile(profile) {
 //            alert('loadedProfile: ' + JSON.stringify(loadedProfile));
 
-    if (profile.contact.pic != null) {
+    if (profile.imgId != null) {
         $('.moreInformation-img').css('background',
-            'url(/api/rest/fileStorage/profile/file/read/id/' + profile.contact.pic + ') no-repeat center center');
+            'url(/api/rest/fileStorage/profile/file/read/id/' + profile.imgId + ') no-repeat center center');
     }
 
     $('#select-type').val(profile.contact.type);
