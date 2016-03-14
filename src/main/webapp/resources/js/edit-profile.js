@@ -1,8 +1,8 @@
 var loadedProfile = {};
 var updatedProfile = {};
 
-var emailCloneCount = 1;
-var contactPhoneCloneCount = 1;
+var emailCloneCount = 0;
+var contactPhoneCloneCount = 0;
 var socInputTemplate = $('.soc-input-group').html();
 
 function setValuesForFieldsFromProfile(profile) {
@@ -31,17 +31,19 @@ function setValuesForFieldsFromProfile(profile) {
         $('.email-input-unit input').last().val(profile.contact.contactEmails[i]);
         emailCloneCount++;
     }
-    $('.email-input-unit').first().remove();
-
+    if (profile.contact.contactEmails.length > 0) {
+        $('.email-input-unit').first().remove();
+    }
 
     for (var i = 0; i < profile.contact.contactPhones.length; i++) {
         $('.input_tel_fields_wrap').append($('.tel-input-unit').last().clone())
         $('.tel-input-unit input').last().val(profile.contact.contactPhones[i]);
         contactPhoneCloneCount++;
     }
-    $('.tel-input-unit').first().remove();
 
-//                    $('#tel-info').attr("placeholder", profile.contact.O);
+    if (profile.contact.contactPhones.length > 0) {
+        $('.tel-input-unit').first().remove();
+    }
 }
 
 function initializeProfileEntityForUpdate() {
@@ -153,11 +155,14 @@ $(document).ready(function () {
 // ----------------------------------------------------- Multiply phone numbers -----------------------------------
                 // Add/Remove phone Input Fields Dynamically with jQuery
 
-                var max_fields_tel = 6; //maximum input boxes allowed + 1
+                var max_fields_tel = 5; //maximum input boxes allowed + 1
                 var tel_wrapper = $(".input_tel_fields_wrap"); //Fields wrapper
                 var add_button_tel = $(".add_tel_field_button"); //Add button ID
+                var x_tel = 1;
 
-                var x_tel = contactPhoneCloneCount; //initial text box count
+                if (contactPhoneCloneCount > 0) {
+                    x_tel = contactPhoneCloneCount; //initial text box count
+                }
                 $(add_button_tel).click(function (e) { //on add input button click
                     e.preventDefault();
                     if (x_tel < max_fields_tel) { //max input box allowed
@@ -178,11 +183,14 @@ $(document).ready(function () {
 
 // ----------------------------------------------------- Multiply emails -----------------------------------
                 // Add/Remove phone Input Fields Dynamically with jQuery
-                var max_fields_email = 6; //maximum input boxes allowed + 1
+                var max_fields_email = 5; //maximum input boxes allowed + 1
                 var email_wrapper = $(".input_email_fields_wrap"); //Fields wrapper
                 var add_button_email = $(".add_email_field_button"); //Add button ID
+                var x_email = 1; // because we have empty default input
 
-                var x_email = emailCloneCount; //initial text box count
+                if (emailCloneCount > 0) {
+                    x_email = emailCloneCount; //initial text box count
+                }
                 $(add_button_email).click(function (e) { //on add input button click
                     e.preventDefault();
                     if (x_email < max_fields_email) { //max input box allowed
