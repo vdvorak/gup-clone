@@ -28,17 +28,13 @@ function getBlogPostUrl(blogPost) {
 }
 
 function getBlogPostImagePreviewTag(blogPost) {
-   var img = '<img src="/resources/images/no_photo.jpg" alt="tidi"  width="169" height="126">';
-    if (Object.keys(blogPost.imagesIds).length > 0) {
-        for (var key in blogPost.imagesIds) {
-            if (blogPost.imagesIds[key] === "pic1") {
-                img = '<img src="/api/rest/fileStorage/NEWS/file/read/id/' + key + '" alt="tidi"  width="169" height="126">'
-                return img;
-            }
-        }
-    } else {
-        return '<img src="/resources/images/no_photo.jpg" alt="tidi" width="169" height="126">';
-    }
+   for (var imgId in blogPost.imagesIds) {
+       if (blogPost.imagesIds[imgId] === "1") {
+           return '<img src="/api/rest/fileStorage/NEWS/file/read/id/' + imgId + '"  width="169" height="126">'
+       }
+   }
+
+   return '<img src="/resources/images/no_photo.jpg" width="169" height="126">';
 }
 
 function getReadableDate(blogPost) {
@@ -125,7 +121,5 @@ function loadAndAppendNextUserNews() {
 }
 
 function loadAndAppendAdNews() {
-    //oskdskdkkk
-    //oskdskdkkk
-    //oskdskdkkk
+    //TODO: create implementation
 }
