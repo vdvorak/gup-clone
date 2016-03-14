@@ -236,6 +236,33 @@
         return this;
     }
 
+    OfferFilter.prototype.drawSubcategories = function() {
+
+        $('.ItemADS').each(function () {
+            var elem = $(this).children('a:first');
+            var category1Id = elem.attr('id');
+            var subcategoriesBox = elem.parent().find('div');
+
+            var child1 = {};
+            var childArr = jsonCategory.filter(function (obj) {
+                return obj.id === +category1Id;
+            });
+            if (childArr[0]) {
+                child1 = childArr[0].children;
+
+                for (var key in child1) {
+                    var newA = $('<a id="' + child1[key].id + '" href="#">' + child1[key].name + '</a>');
+                    $(subcategoriesBox).append(newA);
+                }
+
+                if (Object.keys(child1).length) {
+                    var newA = $('<a href="#">Cмотреть все обьявления</a>');
+                    $(subcategoriesBox).append(newA);
+                }
+            }
+        });
+    }
+
     namespace.OfferFilter = OfferFilter;
 
 })(window.Offer = window.Offer || {});

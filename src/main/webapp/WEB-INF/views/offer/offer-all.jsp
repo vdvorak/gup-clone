@@ -119,7 +119,8 @@
         dataType: "json",
         success: function (response) {
             jsonCategory = response;
-            drawSubcategories();
+            filter.drawSubcategories();
+            $('.ItemADS div a').click(onClickCategory2lvl);
         }
     });
 
@@ -203,11 +204,11 @@
 
     function onClickCategory2lvl(event) {
         var elem = $(event.currentTarget);
+        var id2 = elem.attr('id');
+        filter.categories  = [];
+        filter.categories.push(elem.parent().parent().children('a:first').attr('id'));
+        if(id2) filter.categories.push(id2);
 
-        filter.categories  = [
-            elem.parent().parent().children('a:first').attr('id'),
-            elem.attr('id')
-        ];
         filter.cleanResult()
                 .deleteFilterOptions()
                 .drawFilterOptions(filter.categories[1])
@@ -233,35 +234,6 @@
         } else {
             $('#price-wrapper').css('display', 'none');
         }
-    }
-
-        function drawSubcategories() {
-
-        $('.ItemADS').each(function () {
-            var elem = $(this).children('a:first');
-            var category1Id = elem.attr('id');
-            var subcategoriesBox = elem.parent().find('div');
-
-            var child1 = {};
-            var childArr = jsonCategory.filter(function (obj) {
-                return obj.id === +category1Id;
-            });
-            if (childArr[0]) {
-                child1 = childArr[0].children;
-
-                for (var key in child1) {
-                    var newA = $('<a id="' + child1[key].id + '" href="#">' + child1[key].name + '</a>')
-                            .click(onClickCategory2lvl);
-                    $(subcategoriesBox).append(newA);
-                }
-
-                if (Object.keys(child1).length) {
-                    var newA = $('<a href="$">Cмотреть все обьявления</a>')
-                            .click(onClickCategory2lvl);
-                    $(subcategoriesBox).append(newA);
-                }
-            }
-        });
     }
 
     // ---------------   END DRAW CATEGORIES    --------------------------//
