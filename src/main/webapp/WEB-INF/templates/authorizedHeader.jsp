@@ -20,11 +20,11 @@
     <div class="mail">
         <img src="/resources/images/mail.png" alt="mail">
 
-        <p id="unreadMessagesNum"></p>
+        <p id="unreadMessagesNum" style="display: none;"></p>
 
         <div class="dropDownMail">
             <div class="mailMessage">
-                <img src="/resources/images/logo.png" alt="logo">
+                <img class="msg-avatar" src="#" alt="logo" style="display: none">
 
                 <p>У вас нет непрочитанных сообщений.</p>
             </div>

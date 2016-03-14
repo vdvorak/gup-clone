@@ -122,6 +122,7 @@ public class TenderServiceImpl implements TenderService {
         return tender.getProposes().stream().map(Propose::getAuthorId).collect(Collectors.toList()).contains(user) ;
     }
 
+    @Override
     public boolean isAuthorOrWinner(Tender tender, String user) {
         if (user == null) {
             return false;
