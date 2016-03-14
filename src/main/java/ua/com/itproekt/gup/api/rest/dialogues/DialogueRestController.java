@@ -56,24 +56,23 @@ public class DialogueRestController {
                 log.log(Level.ERROR, LOGGED_TITLE + "dialogue/create - bad json was sent");
                 return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
             }
-            // hear we always expect exactly one massage.
-            // If we work with new dialogue it will be first message,
-            // if we work with existing dialogue, message will be added to message list of this dialogue.
-            PrivateMessage msg = dialogueService.completeMessage(dialogue.getMessages().get(0), getCurrentUserId());
 
             addLoggedUserToMembers(dialogue);
 
             //asking if current dialog already exist
             Dialogue d = dialogueService.findByMembersAndSubject(dialogue);
 
-            if (d != null) {
-                d.getMessages().add(msg);
+            if (d != null && dialogue.getMessages() != null && !dialogue.getMessages().isEmpty()) {
+                PrivateMessage msg = dialogueService.completeMessage(dialogue.getMessages().get(0), getCurrentUserId());
+                d.addMessage(msg);
                 dialogue = dialogueService.addDialogue(d);
                 log.log(Level.INFO, LOGGED_TITLE + "dialogue/create - dialogue was find and update with new massage ");
             } else {
-                List<PrivateMessage> messages = new ArrayList<>();
-                messages.add(msg);
-                dialogue.setMessages(messages);
+                dialogue.setMessages(new ArrayList<>());
+                if(dialogue.getMessages() != null && !dialogue.getMessages().isEmpty()) {
+                    PrivateMessage msg = dialogueService.completeMessage(dialogue.getMessages().get(0), getCurrentUserId());
+                    dialogue.addMessage(msg);
+                }
                 dialogue = dialogueService.addDialogue(dialogue);
                 log.log(Level.INFO, LOGGED_TITLE + "dialogue/create - dialogue was created successfully");
             }
