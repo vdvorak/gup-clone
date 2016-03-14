@@ -1,9 +1,10 @@
 package ua.com.itproekt.gup.model.privatemessages;
 
-import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 
@@ -13,12 +14,12 @@ public class PrivateMessage {
     private String authorId;
     private Long date;
     private String message;
-    private ConcurrentSkipListSet<String> whoRead;
+    private Set<String> whoRead;
 
 
     public PrivateMessage() {
         this.date = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        whoRead = new ConcurrentSkipListSet<>();
+        whoRead = new HashSet<>();
     }
 
     public PrivateMessage(String msg, String authorId) {
@@ -48,15 +49,17 @@ public class PrivateMessage {
     }
 
     public void setAuthorId(String authorId) {
-        whoRead.add(authorId);
-        this.authorId = authorId;
+        if(authorId != null) {
+            whoRead.add(authorId);
+            this.authorId = authorId;
+        }
     }
 
-    public ConcurrentSkipListSet<String> getWhoRead() {
+    public Set<String> getWhoRead() {
         return whoRead;
     }
 
-    public void setWhoRead(ConcurrentSkipListSet<String> whoRead) {
+    public void setWhoRead(Set<String> whoRead) {
         this.whoRead = whoRead;
     }
 
