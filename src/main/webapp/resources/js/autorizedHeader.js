@@ -195,8 +195,8 @@ getLoggedInProfileAjax();
 
 setTimeout(function run() {
     getLoggedInProfileAjax();
-    setTimeout(run, 2000);
-}, 2000);
+    setTimeout(run, 3000);
+}, 3000);
 
 
 function getLoggedInProfileAjax() {
@@ -237,12 +237,10 @@ function getLoggedInProfileAjax() {
         }
     });
 
-
     $.ajax({
         type: "POST",
         url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
         success: function (response) {
-
             if (!isNeedDrawAllHeader){
                 $('.mailMessage').remove(); // delete old messages - prepare for adding new
                 $('.dropDownMail').prepend(mailMessage.clone())
@@ -255,7 +253,7 @@ function getLoggedInProfileAjax() {
                     for (var i in data) {
                         $('.dropDownMail').append($('.mailMessage').last().clone());
                         $('.mailMessage p').last().text(data[i]['message']);
-                        $('.mailMessage img').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + data[i]['authorId']).attr('width', '44').attr('height', '44').show();
+                        $('.mailMessage img').last().attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + data[i]['authorId']).attr('width', '44').attr('height', '44').show();
                         $('.mailMessage').last().attr('id', i);
                     }
                 }
