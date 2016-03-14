@@ -153,11 +153,14 @@
 
     $('#btn-offers-more').click(function () {
         filter.skip += 10;
-        filter.readAllByFilter();
+        filter.setFilterOptions()
+                .readAllByFilter();
     });
 
-    $('#btn-offers-search').click(function () {
+    $('#btn-offers-search').click(function (event) {
+        event.preventDefault();
         filter.cleanResult()
+                .setFilterOptions()
                 .readAllByFilter();
     });
 
@@ -173,35 +176,33 @@
             filter.deleteFilterOptions()
             .drawFilterOptions(cat3);
         }
+        $('#filter-price').change();
     }
 
     function onClickCategory1lvl(event) {
         var id1 = $(event.currentTarget).attr('id');
         filter.categories = [];
-        filter.properties = [];
+        filter.deleteFilterOptions();
 
         if(id1 !== 'free' && id1 !== 'exchange') {
             filter.categories.push(id1);
         } else {
-            filter.properties.push({
-                key: 'price',
-                value: id1
-            });
+            $('#filter-price').append('<option selected value="'+ id1 +'" id="'+ id1 +'"></option>');
         }
         filter.cleanResult()
-                .deleteFilterOptions()
                 .drawFilterOptions(filter.categories[0])
+                .setFilterOptions()
                 .readAllByFilter();
 
         $('#select-categories-3lvl').css('display', 'none');
         $('label[for="select-categories-3lvl"]').css('display', 'none');
+        $('#filter-price').change();
 
     }
 
     function onClickCategory2lvl(event) {
         var elem = $(event.currentTarget);
 
-        filter.properties = [];
         filter.categories  = [
             elem.parent().parent().children('a:first').attr('id'),
             elem.attr('id')
@@ -210,7 +211,10 @@
                 .deleteFilterOptions()
                 .drawFilterOptions(filter.categories[1])
                 .drawCategories3lvl()
+                .setFilterOptions()
                 .readAllByFilter();
+
+        $('#filter-price').change();
     }
 
     $('.ItemADS').each(function () {
@@ -219,7 +223,18 @@
 
     $('.ItemADS div').children('a').remove();
 
-   function drawSubcategories() {
+    $('#filter-price').change(selectFilterPrice);
+
+    function selectFilterPrice(event) {
+        var selectVal = $(event.currentTarget).val();
+        if (selectVal === 'price') {
+            $('#price-wrapper').css('display', 'inline-block');
+        } else {
+            $('#price-wrapper').css('display', 'none');
+        }
+    }
+
+        function drawSubcategories() {
 
         $('.ItemADS').each(function () {
             var elem = $(this).children('a:first');

@@ -30,8 +30,7 @@
     OfferFilter.prototype.readAllByFilter = function () {
         if (this.categories && !this.categories.length) delete this.categories;
         if (this.properties && !this.properties.length) delete this.properties;
-        /*        console.log(this.properties);
-         console.log(this.categories);*/
+        console.log(this);
         $.ajax({
             type: "POST",
             url: "/api/rest/offersService/offer/read/all",
@@ -119,6 +118,34 @@
     }
 
     OfferFilter.prototype.setFilterOptions = function () {
+        this.address = {
+            country: 'Украина'
+        };
+
+        this.properties = [];
+        this.properties.push({
+            key: 'price',
+            value: $('#filter-price').val()
+        });
+        var param = $('.parameters').children();
+        for(var i = 0; i < param.length; i++) {
+            var prop = {};
+            prop.key = param[i].name;
+            prop.value = param[i].value;
+            this.properties.push(prop);
+        }
+
+        if ($('#price-wrapper').css('display') !== "none") {
+            this.fromPrice = $('#priceMin').val();
+            this.toPrice = $('#priceMax').val();
+            /*this.properties.push({
+             key: 'currency',
+             value: $('#filter-currency').val()
+             });*/
+        } else {
+            delete filter.fromPrice;
+            delete filter.toPrice;
+        }
 
         return this;
     }
@@ -134,7 +161,7 @@
 
                 for (var j = 0; j < parameters.length; j++) {
                     if (name !== 'price') {
-                        var select = $('<select class="prop" name="' + name + '" id="00' + i + '">' + '</select>');
+                        var select = $('<select name="' + name + '" id="00' + i + '">' + '</select>');
                         if (parameters[j]['parameter']['key'] === name && parameters[j]['parameter']['validators']['required'] === 1) {
                             select.prop("required", true);
                         }
@@ -146,7 +173,7 @@
                 for (var j in options[i]['v']) {
                     var option = $('<option value = "' + j + '"  id ="' + j + '">' + options[i]['v'][j] + '</option>');
                     if (name === 'price') {
-                        $('select[name="price"]').append(option);
+                        $('#filter-price').append(option);
                     } else {
                         $('#00' + i).append(option);
                     }
@@ -170,17 +197,16 @@
 
         $('.price').css('display', 'none');
         $('.parameters').empty();
-        $('select[name="price"]').empty();
-        $('#select-categories-3lvl option:not(:first)').remove();
+        $('#filter-price').empty();
 
         return this;
     }
 
     OfferFilter.prototype.drawCategories3lvl = function() {
+        $('#select-categories-3lvl option:not(:first)').remove();
+
         var id = this.categories[1];
-
         var select = $('#select-categories-3lvl');
-
         var child2 = {};
         if (jsonSubcategory[id]) {
             child2 = jsonSubcategory[id].children;

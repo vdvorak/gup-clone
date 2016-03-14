@@ -279,12 +279,18 @@
 
                             <div class="price" style="display: none">
                                 <p>Цена:</p>
-                                <select class="prop" name="price">
+                                <select id="filter-price" name="price" value="">
 
                                 </select>
-                                <input id="priceMin" type="number" placeholder="от">
-                                <input id="priceMax" type="number" placeholder="до">
-                                <p>грн.<i class="fa fa-caret-down"></i></p>
+                                <div id="price-wrapper" style="display: none">
+                                    <input id="priceMin" type="number" placeholder="от">
+                                    <input id="priceMax" type="number" placeholder="до">
+                                    <select id="filter-currency" name="currency">
+                                        <option>UAH</option>
+                                        <option>USD</option>
+                                        <option>EUR</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="clearfix"></div>
