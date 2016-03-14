@@ -110,7 +110,7 @@ public class DialogueRestController {
         }
 
         message = dialogueService.completeMessage(message, getCurrentUserId());
-        dialogue.getMessages().add(message);
+        dialogue.addMessage(message);
         dialogue = dialogueService.updateDialogueWhenAddMsg(dialogue);
 
         log.log(Level.INFO, LOGGED_TITLE + "dialogue/id/{id}/message/create - new message was successfully add to dialogue");

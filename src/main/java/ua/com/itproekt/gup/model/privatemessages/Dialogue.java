@@ -80,6 +80,12 @@ public class Dialogue {
         if(time > lustMsgTime) lustMsgTime = time;
     }
 
+    public void addMessage(PrivateMessage msg){
+        messages.add(msg);
+        Long time = msg.getDate();
+        if(time > lustMsgTime) lustMsgTime = time;
+    }
+
     @Override
     public String toString() {
         return "Dialogue{" +
