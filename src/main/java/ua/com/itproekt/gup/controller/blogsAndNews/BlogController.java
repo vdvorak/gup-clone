@@ -46,6 +46,8 @@ public class BlogController {
         Blog blog = blogService.findBlog(id);
 
         if (blog.getAuthorId().equals(userId)) {
+            String flag = "news";
+            model.addAttribute("flag", flag);
             model.addAttribute("blog", blog);
             return "news/blog-edit-OLD";
         } else {
@@ -68,6 +70,8 @@ public class BlogController {
         Profile profile = profilesService.findWholeProfileById(blog.getAuthorId());
         String userName = profile.getUsername();
 
+        String flag = "news";
+        model.addAttribute("flag", flag);
         model.addAttribute("username", userName);
         model.addAttribute("check", check);
         model.addAttribute("blog", blog);

@@ -124,6 +124,13 @@ if (offer.imagesIds) {
     } else {
         $('#offer-slider').append('<li><img src="/resources/images/no_photo.jpg" /></li>');
     }
+    $('#offer-slider').bxSlider({
+        // pagerCustom: '#bx-pager'
+        buildPager: function(slideIndex){
+            var sourceAttribute = $('#offer-slider li img').eq(slideIndex + 1).attr('src');
+            return '<div style="background-image: url(\''+sourceAttribute+'\');"></div>';
+        }
+    });
 }
 // ------ Slider with photo
 

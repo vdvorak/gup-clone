@@ -72,11 +72,9 @@
                     <section class="content">
                         <div class="publishDate build-publish-date">Опубликовано: <span></span></div>
                         <!-- Добавь класс "visible" и ты узреешь номер -->
-                        <span class="number visible">Номер тендера: <span class="build-number"></span> </span>
+                        <span class="number visible">№ <span class="build-number"></span> </span>
 
-                        <a class="build-name-wrap" href="#">
-                        <div class="title build-name"></div>
-                        </a>
+                        <a class="build-name-wrap" href="#"><div class="title build-name"></div></a>
 
                         <div class="text build-item-text"></div>
                     </section>

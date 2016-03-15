@@ -82,76 +82,20 @@
     var flag = '${flag}';
 </script>
 
-
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/logo-section.js"></script>
-<script src="/resources/js/search-bar.js"></script>
-<script src="/resources/js/enscroll-0.6.1.min.js"></script>
-<script src="/resources/js/offerFilter.js"></script>
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script>
 
     //    var filter = {skip: 0, limit: 10};
-    var filter = new Offer.OfferFilter();
-    var cities = {};
-    var parameters = [];
-    var options = [];
-    var jsonCategory = [];
-    var jsonSubcategory = {};
+    var filter = new OfferFilterModule.OfferFilter();
 
-    // ---------------    LOAD RESOURCES    --------------------------//
+    $.when(loadCategories).done(function() {
+        $('.ItemADS div a').click(onClickCategory2lvl);
+    });
+
     $(document).ready(function () {
         filter.readAllByFilter();
     });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/cities.json",
-        dataType: "json",
-        success: function (response) {
-            cities = response;
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/searchCategories.json",
-        dataType: "json",
-        success: function (response) {
-            jsonCategory = response;
-            filter.drawSubcategories();
-            $('.ItemADS div a').click(onClickCategory2lvl);
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/searchSubcategories.json",
-        dataType: "json",
-        success: function (response) {
-            jsonSubcategory = response;
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/searchValues.json",
-        dataType: "json",
-        success: function (response) {
-            options = response;
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/parameters.json",
-        dataType: "json",
-        success: function (response) {
-            parameters = response;
-        }
-    });
-
-    // ---------------   END LOAD RESOURCES    --------------------------//
 
     $('#btn-offers-more').click(function () {
         filter.skip += 10;
@@ -165,8 +109,6 @@
                 .setFilterOptions()
                 .readAllByFilter();
     });
-
-    // ---------------   BEGIN DRAW CATEGORIES    --------------------------//
 
     $('#select-categories-3lvl').change(selectCategoryLvl3);
 
@@ -223,63 +165,10 @@
         $(this).children('a:first').click(onClickCategory1lvl);
     })
 
-    $('.ItemADS div').children('a').remove();
+    $('#filter-price').change(filter.selectFilterPrice);
 
-    $('#filter-price').change(selectFilterPrice);
+    $('#filter-region-container').find('li').click(filter.selectRegionInFilter);
 
-    function selectFilterPrice(event) {
-        var selectVal = $(event.currentTarget).val();
-        if (selectVal === 'price') {
-            $('#price-wrapper').css('display', 'inline-block');
-        } else {
-            $('#price-wrapper').css('display', 'none');
-        }
-    }
-
-    // ---------------   END DRAW CATEGORIES    --------------------------//
-
-    //--------------------------- REGIONS LIST --------------------------------------------//
-
-    $('#filter-region-container').find('li').click(selectRegionInFilter);
-
-    function selectRegionInFilter(event) {
-        event.preventDefault();
-
-        var region = $(event.currentTarget).children('a').text();
-
-        $('#filter-text-region').text(region);
-        $('#filter-city-container').find('li').remove();
-        $('#filter-text-city').text('Выберите город');
-
-        if (region === 'Вся Украина') {
-            $('#filter-city-container').css('display', 'none');
-        } else {
-            drawCitiesInFilter(region);
-        }
-    }
-
-    function drawCitiesInFilter(area) {
-        var citiesArr = cities[area];
-
-        var parentBlock = $('#filter-city-container').find('.multi-column-dropdown').first();
-        var li = $('<li><a href="#" style="font-weight: bold">Все города</a></li>').click(selectCityInFilter);
-        parentBlock.append(li);
-
-        var numInColumn = citiesArr.length / 2 + (citiesArr.length % 2);
-        for (var i = 0; i < citiesArr.length; i++) {
-            parentBlock = (i + 2 <= numInColumn) ? $('#filter-city-container').find('.multi-column-dropdown').first() : $('#filter-city-container').find('.multi-column-dropdown').last();
-            li = $('<li><a href="#">' + citiesArr[i] + '</a></li>').click(selectCityInFilter);
-            parentBlock.append(li);
-        }
-
-        $('#filter-city-container').css('display', 'inline-block');
-    }
-
-    function selectCityInFilter(event) {
-        event.preventDefault();
-        var city = $(event.currentTarget).children('a').text();
-        $('#filter-text-city').text(city);
-    }
 
 </script>
 </body>

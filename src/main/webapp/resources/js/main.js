@@ -14,9 +14,31 @@ function getUrlParam(sParam) {
 }
 
 $(document).ready(function () {
-    if (typeof flag != 'undefined'){
-    }
 
+    if (typeof flag != 'undefined') {
+        var selectedService = $('#selectedService');
+
+        switch (flag) {
+            case 'default':
+                selectedService.val('profile');
+                break;
+            case 'offer':
+                selectedService.val('offer');
+                break;
+            case 'offer-all':
+                selectedService.val('offer');
+                break;
+            case 'tender':
+                selectedService.val('tender');
+                break;
+            case 'project':
+                selectedService.val('project');
+                break;
+            case 'news':
+                selectedService.val('news');
+                break;
+        }
+    }
 
     $('#socialBtn').click(function (event) {
         event.preventDefault();
@@ -31,23 +53,24 @@ $(document).ready(function () {
     $('.brokeAss > button, #overlay, .richAss > form > #close').click(function () {
         $('#refill')
             .animate({opacity: 0, top: '45%'}, 200,
-                function () {
-                    $(this).css('display', 'none');
-                    $('#overlay').fadeOut(400);
-                }
-            );
+            function () {
+                $(this).css('display', 'none');
+                $('#overlay').fadeOut(400);
+            }
+        );
     });
 
     $(".question-img").click(function () {
-        $('.questionForm').animate({
+       var questionForm = $('.questionForm');
+        questionForm.animate({
             marginLeft: 0
         }, 'fast');
-        if ( $('.questionForm').hasClass('uuu')) {
+        if (questionForm.hasClass('uuu')) {
             $('.questionForm').animate({
                 marginLeft: '-250px'
             }, 'fast');
-        };
-        $('.questionForm').toggleClass('uuu');
+        }
+        questionForm.toggleClass('uuu');
 
     });
 
@@ -60,7 +83,7 @@ $(document).ready(function () {
         animate: false
     });
 
-    $('.bxslider').bxSlider({
+    $('#services-menu-bxslider').bxSlider({
         // pagerCustom: '#bx-pager'
     });
 
@@ -114,12 +137,12 @@ $(document).ready(function () {
     }));
 
     $('input#datepicker').datepicker({
-        onSelect: function(date) {
+        onSelect: function (date) {
             $('input#datepicker').val(date);
         }
     });
     $('input#datepicker2').datepicker({
-        onSelect: function(date) {
+        onSelect: function (date) {
             $('input#datepicker2').val(date);
         }
     });
@@ -141,12 +164,12 @@ $(document).ready(function () {
 
     //
 
-    $(".descriptionTitleRight a").click(function(event){
+    $(".descriptionTitleRight a").click(function (event) {
         event.preventDefault();
         $(".superFilter").show('slow');
     });
 
-    $(".descriptionTitleLeft a").click(function(event){
+    $(".descriptionTitleLeft a").click(function (event) {
         event.preventDefault();
         $(".superFilter").show('slow');
     });
@@ -218,28 +241,28 @@ $(document).ready(function () {
         });
     });
 
-    $('.money > .dropDownMoney > button').click( function() {
+    $('.money > .dropDownMoney > button').click(function () {
         $('.modal').fadeIn(400);
     });
 
-    $('.modal > .FillUpBalance > i').click(function() {
+    $('.modal > .FillUpBalance > i').click(function () {
         $('.modal').fadeOut(400);
     });
 
     var modal = document.getElementsByClassName('modal');
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target == modal[0]) {
             $('.modal').fadeOut(400);
         }
     }
 
-    $('.contactA').click( function() {
+    $('.contactA').click(function () {
         $('.contactA').hide(500);
         $('.restore').fadeIn(1000);
         return false;
     });
 
-    $('.dropDownMail .answer textarea').click(function() {
+    $('.dropDownMail .answer textarea').click(function () {
         return false;
     });
 
