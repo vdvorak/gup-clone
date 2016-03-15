@@ -214,11 +214,21 @@ function getLoggedInProfileAjax() {
                     $('#headerProfileImg').attr('src', '/resources/images/no_avatar.jpg');
                 }
 
-                if (profile.username) {
-                    $('#headerProfileName').text(profile.username);
+                var profileName = '';
+                if (profile.contact.type === 'LEGAL_ENTITY' ) {
+                    profileName = profile.contact.companyName;
+                } else if (profile.username) {
+                    profileName =  profile.username;
                 } else {
-                    $('#headerProfileName').text("Безымянный");
+                    profileName = 'Безымянный';
                 }
+                $('#headerProfileName').text(profileName);
+
+                //if (profile.username) {
+                //    $('#headerProfileName').text(profile.username);
+                //} else {
+                //    $('#headerProfileName').text("Безымянный");
+                //}
 
                 fillNotificationListBlock();
                 fillContactListBlock(profile.contactList);
