@@ -57,7 +57,7 @@
         <a href="#" class="image"><img src="/resources/images/no_photo.jpg" alt="">
 
             <p>Заголовок обьявления</p></a>
-        <a href="#" class="btn btn-xs btn-warning">1 000 грн.</a>
+        <div class="priceButton">1 000 грн.</div>
         <span>Просмотров: 222</span>
     </li>
     <!-- li pattern for clone -->
