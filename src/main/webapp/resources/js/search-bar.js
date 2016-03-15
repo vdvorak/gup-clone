@@ -67,3 +67,4 @@ $("#selectedService").change(function(){
         $("#" + selectedService + "FilterBlock").show("slow");
     }
 });
+
