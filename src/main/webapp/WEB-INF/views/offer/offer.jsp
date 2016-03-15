@@ -17,6 +17,49 @@
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/custom-style.css">
+    <style type="text/css">
+        .offer-info-slider {
+        }
+        .offer-info-slider .bx-wrapper {
+            height: 270px;
+        }
+        .offer-info-slider .bx-wrapper img {
+            object-fit: cover;
+            height: 100%;
+        }
+        .offer-info-slider .bx-wrapper {
+            margin: 0 auto 160px;
+        }
+        .offer-info-slider .bx-custom-pager {
+            position: absolute;
+            font-size: 0px;
+            bottom: -80px;
+        }
+        .offer-info-slider .bx-custom-pager .bx-pager-item {
+            position: relative;
+            display: inline-block;
+            border: 3px solid #9c6;
+            border-radius: 5px;
+            margin: 4px;
+        }
+        .offer-info-slider .bx-custom-pager .bx-pager-item a {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            overflow: hidden;
+        }
+        .offer-info-slider .bx-custom-pager .bx-pager-item a div {
+            position: relative;
+            max-width: 90px;
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-origin: content-box;
+            background-size: cover;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
 

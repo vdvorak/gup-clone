@@ -60,9 +60,9 @@ $(document).ready(function () {
         animate: false
     });
 
-    $('.bxslider').bxSlider({
-        // pagerCustom: '#bx-pager'
-    });
+    //$('.bxslider').bxSlider({KILL ME
+    //    // pagerCustom: '#bx-pager'
+    //});
 
     $('#tab-container-news').easytabs({
         animate: false
