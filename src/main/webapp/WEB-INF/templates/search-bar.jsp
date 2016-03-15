@@ -78,7 +78,7 @@
         <div id="offerFilterBlock" class="hidefilter" style="display: none">
             <div class="filterADS">
                 <div class="ItemADS">
-                    <a id="36" href="#"><img src="/resources/images/kids.png" alt="kids"></a>
+                    <a id="36" href="#" data-url-param="category1lvl"><img src="/resources/images/kids.png" alt="kids"></a>
                     <a href="#">Малыши</a>
 
                     <div class="descriptionTitleLeft">
@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="35" href="#"><img src="/resources/images/Zoo.png" alt="Zoo"></a>
+                    <a id="35" href="#" data-url-param="category1lvl"><img src="/resources/images/Zoo.png" alt="Zoo"></a>
                     <a href="#">Zoo</a>
 
                     <div class="descriptionTitleLeft">
@@ -94,7 +94,7 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="891" href="#"><img src="/resources/images/StyleAndFashion.png" alt="StyleAndFashion"></a>
+                    <a id="891" href="#" data-url-param="category1lvl"><img src="/resources/images/StyleAndFashion.png" alt="StyleAndFashion"></a>
                     <a href="#">Стиль и мода</a>
 
                     <div class="descriptionTitleRight">
@@ -102,7 +102,7 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="903" href="#"><img src="/resources/images/SportAndHobby.png" alt="SportAndHobby"></a>
+                    <a id="903" href="#" data-url-param="category1lvl"><img src="/resources/images/SportAndHobby.png" alt="SportAndHobby"></a>
                     <a href="#">Спорт и хобби</a>
 
                     <div class="descriptionTitleRight">
@@ -110,7 +110,7 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="37" href="#"><img src="/resources/images/Equipment.png" alt="Equipment"></a>
+                    <a id="37" href="#" data-url-param="category1lvl"><img src="/resources/images/Equipment.png" alt="Equipment"></a>
                     <a href="#">Техника</a>
 
                     <div class="descriptionTitleLeft">
@@ -118,7 +118,7 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="899" href="#"><img src="/resources/images/HouseAndCottage.png" alt="HouseAndCottage"></a>
+                    <a id="899" href="#" data-url-param="category1lvl"><img src="/resources/images/HouseAndCottage.png" alt="HouseAndCottage"></a>
                     <a href="#">Дома и дача</a>
 
                     <div class="descriptionTitleLeft">
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="exchange" href="#"><img src="/resources/images/Barter.png" alt="Barter"></a>
+                    <a id="exchange" href="#" data-url-param="category1lvl"><img src="/resources/images/Barter.png" alt="Barter"></a>
                     <a href="#">Бартер</a>
 
                     <div class="descriptionTitleRight">
@@ -134,7 +134,7 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="1" href="#"><img src="/resources/images/TheProperty.png" alt="TheProperty"></a>
+                    <a id="1" href="#" data-url-param="category1lvl"><img src="/resources/images/TheProperty.png" alt="TheProperty"></a>
                     <a href="#">Недвижимость</a>
 
                     <div class="descriptionTitleRight">
@@ -142,7 +142,7 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="3" href="#"><img src="/resources/images/Transport.png" alt="Transport"></a>
+                    <a id="3" href="#" data-url-param="category1lvl"><img src="/resources/images/Transport.png" alt="Transport"></a>
                     <a href="#">Транспорт</a>
 
                     <div class="descriptionTitleLeft">
@@ -150,7 +150,7 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="7" href="#"><img src="/resources/images/BusinessAndServices.png"
+                    <a id="7" href="#" data-url-param="category1lvl"><img src="/resources/images/BusinessAndServices.png"
                                             alt="BusinessAndServices"></a>
                     <a href="#">Бизнес и услуги</a>
 
@@ -159,7 +159,7 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="1435" href="#"><img src="/resources/images/Volunteering.png" alt="Volunteering"></a>
+                    <a id="1435" href="#" data-url-param="category1lvl"><img src="/resources/images/Volunteering.png" alt="Volunteering"></a>
                     <a href="#">Волонтерство</a>
 
                     <div class="descriptionTitleRight">
@@ -167,7 +167,7 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="free" href="#"><img src="/resources/images/IsFree.png" alt="IsFree"></a>
+                    <a id="free" href="#" data-url-param="category1lvl"><img src="/resources/images/IsFree.png" alt="IsFree"></a>
                     <a href="#">Бесплатно</a>
 
                     <div class="descriptionTitleRight">
