@@ -156,8 +156,8 @@
 
                                 $('#commentsBlock').append(
                                         '<div class="comments">' +
-                                        '<a href="/profile/id/' + profile.id + '">' + profileImgTag + '</a>' +
-                                        '<a class="NameUser" href="/profile/id/' + profile.id + '">' + profile.username + '</a>' +
+                                        '<a href="/profile?id=' + profile.id + '">' + profileImgTag + '</a>' +
+                                        '<a class="NameUser" href="/profile?id=' + profile.id + '">' + profile.username + '</a>' +
                                         '<p class="commentUser">' + comment.comment + '</p>' +
                                         '</div>');
                             }

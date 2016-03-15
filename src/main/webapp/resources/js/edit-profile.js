@@ -226,7 +226,7 @@ $('#updateProfileBtn').on('click', function () {
         data: JSON.stringify(updatedProfile),
         statusCode: {
             200: function () {
-                window.location.href = '/profile/id/' + updatedProfile.id;
+                window.location.href = '/profile?id=' + updatedProfile.id;
             }
         }
     });
