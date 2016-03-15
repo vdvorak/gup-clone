@@ -164,12 +164,29 @@ $('#makePropose').on('click', function () {
 
 // --------------------------------------------- Propose -------------------------------------------
 
+var canBeMember;
+
+function canBeMemberAjax() {
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/tenderService/tender/" + tenderId + "/user-check",
+        async: false,
+        success: function (data) {
+            canBeMember = data;
+        }
+    });
+}
+
 $(".downComments").click(function () {
-    if (typeof loggedInProfile != 'undefined') {
+    canBeMemberAjax();
+    if (canBeMember == true) {
         $(".downComments").hide('slow');
         $(".colNewsComments").show('slow');
         $(".colComments").css("width", "50%");
     } else {
-        alert("Чтобы оставить комментарий сначала нужно авторизироваться.")
+        alert("Оставить предложение может только подтверждённы администратором пользователь типа 'юридическое лицо', у которого совпадает хотябы один КВЕД")
     }
 });
+
+
+

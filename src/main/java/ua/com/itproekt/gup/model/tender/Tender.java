@@ -5,10 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 @Document(collection = "tender")
@@ -20,7 +17,7 @@ public class Tender {
     private Set<String> naceIds;
     private String body;
     private TenderType type;
-    private List<Member> members;
+    private Set<Member> members;
     private List<Propose> proposes;
     private Long begin;
     private Long end;
@@ -37,8 +34,17 @@ public class Tender {
     public Tender(){
         begin = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         visited = 0l;
-        proposes = new ArrayList<Propose>();
-        members = new ArrayList<Member>();
+        proposes = new ArrayList<>();
+        members = new HashSet<>();
+    }
+
+    public static Tender getEmpty(){
+        Tender t = new Tender();
+        t.setProposes(null);
+        t.setMembers(null);
+        t.setBegin(null);
+        t.setVisited(null);
+        return t;
     }
 
     public Boolean getHidePropose() {
@@ -136,11 +142,11 @@ public class Tender {
         this.end = time.toInstant(ZoneOffset.UTC).toEpochMilli();
     }
 
-    public List<Member> getMembers() {
+    public Set<Member> getMembers() {
         return members;
     }
 
-    public void setMembers(List<Member> members) {
+    public void setMembers(Set<Member> members) {
         this.members = members;
     }
 

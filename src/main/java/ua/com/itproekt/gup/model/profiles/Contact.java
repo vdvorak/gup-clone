@@ -3,14 +3,11 @@ package ua.com.itproekt.gup.model.profiles;
 import org.springframework.format.annotation.DateTimeFormat;
 import ua.com.itproekt.gup.util.SocialNetwork;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class Contact {
-    private Nace nace;
     private boolean member;
     private List<String> naceId;
 
@@ -24,6 +21,14 @@ public class Contact {
     private Set<String> contactEmails;
     private Set<String> contactPhones;
     private Map<SocialNetwork, String> socNetLink;
+
+    public Map<SocialNetwork, String> getSocNetLink() {
+        return socNetLink;
+    }
+
+    public void setSocNetLink(Map<SocialNetwork, String> socNetLink) {
+        this.socNetLink = socNetLink;
+    }
 
     public String getCompanyName() {
         return companyName;
@@ -73,14 +78,6 @@ public class Contact {
         this.contactPhones = contactPhones;
     }
 
-    public Map<SocialNetwork, String> getSocNetLink() {
-        return socNetLink;
-    }
-
-    public void setSocNetLink(Map<SocialNetwork, String> socNetLink) {
-        this.socNetLink = socNetLink;
-    }
-
     public String getSkypeUserName() {
         return skypeUserName;
     }
@@ -95,14 +92,6 @@ public class Contact {
 
     public void setAboutUs(String aboutUs) {
         this.aboutUs = aboutUs;
-    }
-
-    public Nace getNace() {
-        return nace;
-    }
-
-    public void setNace(Nace nace) {
-        this.nace = nace;
     }
 
     public boolean isMember() {
@@ -132,7 +121,6 @@ public class Contact {
                 ", skypeUserName='" + skypeUserName + '\'' +
                 ", linkToWebSite=" + linkToWebSite +
                 ", aboutUs='" + aboutUs + '\'' +
-                ", nace=" + nace +
                 ", member=" + member +
                 ", naceId=" + naceId +
                 '}';

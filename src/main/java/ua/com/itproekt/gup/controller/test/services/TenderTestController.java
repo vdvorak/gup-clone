@@ -30,7 +30,6 @@ public class TenderTestController {
         Member member = new Member();
         member.setId("5613d146fa12fded9736f671");
         member.setName("roro");
-        tender.setMembers(new ArrayList<>());
         tender.getMembers().add(member);
         tender.setTenderNumber("947528");
 
