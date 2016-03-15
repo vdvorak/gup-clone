@@ -22,10 +22,15 @@
 	font: 12px DroidSans;
 }
 
-.notice-box .btn.btn-xs.btn-warning {
+.notice-box .priceButton {
 	position: absolute;
 	left: 5px;
 	bottom: 5px;
+	background-color: #faaf3a;
+	color: #fff;
+	font-size: 14px;
+	border-radius: 5px;
+	padding: 2px 5px;
 }
 
 .notice-box li a.image {	
