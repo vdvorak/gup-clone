@@ -195,8 +195,8 @@ getLoggedInProfileAjax();
 
 setTimeout(function run() {
     getLoggedInProfileAjax();
-    setTimeout(run, 3000);
-}, 3000);
+    setTimeout(run, 300000);
+}, 300000);
 
 
 function getLoggedInProfileAjax() {
@@ -366,6 +366,7 @@ $(".mail > img").click(function () {
 $(document).on('click', '.mailMessage', function () {
     if ($(this).attr('id')) {
         var dialogueId = $(this).attr('id');
+        $('#unread-msg-in-answer').text($(this).find('p').text());
         event.stopPropagation();
         $(".mailMessage").hide('slow');
         $(".answer img").attr('src', $(this).find('img').attr('src'));
