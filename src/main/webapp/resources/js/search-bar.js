@@ -67,3 +67,16 @@ $("#selectedService").change(function(){
         $("#" + selectedService + "FilterBlock").show("slow");
     }
 });
+
+if(flag === "default") {
+    var func = OfferFilterModule.OfferFilter.prototype.redirectToOfferAll;
+    $('.ItemADS').each(function () {
+        $(this).children('a:first').click(func);
+    })
+    $.when(loadCategories).done(function(){
+        $('.ItemADS div a').click(func);
+    })
+    $('#btn-offers-search').click(func);
+
+    $('#filter-region-container').find('li').click(OfferFilterModule.OfferFilter.prototype.selectRegionInFilter);
+}
