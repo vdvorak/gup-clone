@@ -256,7 +256,7 @@
                 child1 = childArr[0].children;
 
                 for (var key in child1) {
-                    var newA = $('<a id="' + child1[key].id + '" href="#" data-url-param="category2lvl">' + child1[key].name + '</a>');
+                    var newA = $('<a id="' + child1[key].id + '" href="#" data-url-param="category2lvl" data-parent-category="'+ category1Id +'">' + child1[key].name + '</a>');
                     $(subcategoriesBox).append(newA);
                 }
 
@@ -318,7 +318,7 @@
         $('#filter-text-city').text(city);
     }
 
-    OfferFilter.prototype.getIdCategory1Lvl = function(id2lvl) {
+    function getIdCategory1Lvl(id2lvl) {
         var id = $('#' + id2lvl).parent().parent().children('a:first').attr('id');
         return (id) ? id : "";
     }
@@ -329,10 +329,28 @@
 
         var elem = $(event.currentTarget);
         var id = elem.attr('id');
-        if(id) {
-
+        if(!id) {
+            id = elem.attr('data-parent-category');
+            elem = $('#' + id);
         }
-
+        if(id === "btn-offers-search") {
+            var city = $('#filter-text-city').text();
+            var area = $('#filter-text-region').text();
+            if (city !== 'Выберите город' && city !== '' && city !== 'Все города') {
+                url += "city=" + city + "&";
+            }
+            if (area !== 'Вся Украина' && area !== 'Выберите область' && area !== '') {
+                url += "area=" + area + "&";
+            }
+        } else if(id === "free" || id === "exchange"){
+            url += "price=" + id + "&";
+        } else {
+            var parentId = elem.attr('data-parent-category');
+            if(parentId) {
+                url += $('#' + parentId).attr('data-url-param') + "=" + parentId + "&";
+            }
+            url += elem.attr('data-url-param') + "=" + id + "&";
+        }
         $.get(url, function() {
             window.location.href = (url !== "/offers?") ? url : "/offers";
         });
@@ -358,6 +376,11 @@
             if(area) this.address.area = area;
             var city = getUrlParam("city");
             if(city) this.address.city = city;
+
+            this.properties = [];
+            var price = getUrlParam("price");
+            if(price) this.properties.push({key: 'price',value: price});
+
         }
         return this;
     }
