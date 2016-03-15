@@ -1,0 +1,114 @@
+var profileId = getUrlParam('id');
+
+$.ajax({
+    type: "POST",
+    url: "/api/rest/profilesService/profile/read/id/" + profileId,
+    statusCode: {
+        200: function (profile) {
+            if (profile.imgId) {
+                $('#profileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId);
+            } else {
+                $('#profileImg').attr('src', '/resources/images/no_photo.jpg');
+            }
+
+            if (profile.contact.member == true) {
+                $('.organization-profile-img').show();
+                $('.rating-organization').append('<p>' + profile.point + '</p>');
+            }
+
+
+            $('#profileName').text(getProfileName(profile));
+
+            // Leave it until extended version of userprofile will be -----------------
+
+//                        if (profile.userProfile && profile.userProfile.birthDate) {
+//                            var birthDate = new Date(profile.userProfile.birthDate);
+//                            var readableBirthDate = birthDate.getDate() + '.' + (birthDate.getMonth() + 1) + '.' + birthDate.getFullYear();
+//                            $('#birthDate').append(
+//                                    '<ul class="DateOfBirth">' +
+//                                        '<li>' +
+//                                            '<p>Дата рождения:</p>' +
+//                                        '</li>' +
+//                                        '<li>' +
+//                                            '<p>&nbsp;' + readableBirthDate + '</p>' +
+//                                        '</li>' +
+//                                    '</ul>'
+//                            );
+//                        }
+//                        else {
+//                            $('#birthDate').hide();
+//                        }
+
+            if (profile.contact.aboutUs) {
+                $('.AboutMe-p').append(profile.contact.aboutUs);
+            } else {
+                $('.AboutMe-p').append("Пользователь еще ничего на рассказал о себе.");
+            }
+
+
+            if (profile.contact.contactPhones.length > 0) {
+                profile.contact.contactPhones.forEach(function (phoneNumber) {
+
+                    $('.phone').append('<p class="phoneNumber">' + phoneNumber + '</p>');
+                });
+                $('.phone').show();
+            }
+
+            if (profile.contact.skypeUserName != null) {
+                $('.skypeContact').append('<p class="skype">Skype: ' + profile.contact.skypeUserName + '</p>');
+                $('.skypeContact').show();
+            }
+
+            if (profile.contact.contactEmails.length > 0) {
+                profile.contact.contactEmails.forEach(function (email) {
+                    $('.emailContact').append('<p class="email">' + email + '</p>');
+                });
+                $('.emailContact').show();
+            }
+
+            // Draw social networks input ----------------------------------
+            if (profile.contact.socNetLink) {
+                for (var soc in profile.contact.socNetLink) {
+                    key = profile.contact.socNetLink[soc];
+                    if (soc === "FACEBOOK") {
+                        $('.social-icon').append('<a href="' + key + '"><img class="img-responsive" src="/resources/images/facebook.png" alt="Facebook"></a>')
+                    }
+                    if (soc === "VKONTAKTE") {
+                        $('.social-icon').append('<a href="' + key + '"><img class="img-responsive" src="/resources/images/B.png" alt="Vk"></a>')
+                    }
+                    if (soc === "LINKEDIN") {
+                        $('.social-icon').append('<a href="' + key + '"><img class="img-responsive" src="/resources/images/in.png" alt="LinkedIn"></a>')
+                    }
+                    if (soc === "GOOGLEPLUS") {
+                        $('.social-icon').append('<a href="' + key + '"><img class="img-responsive" src="/resources/images/g+.png" alt="Google+"></a>')
+                    }
+                    if (soc === "TWITTER") {
+                        $('.social-icon').append('<a href="' + key + '"><img class="img-responsive" src="/resources/images/twitter.png" alt="Twitter"></a>')
+                    }
+                }
+            }
+            // End draw social networks input ----------------------------------
+        },
+        404: function () {
+//                        alert('Такого пользователя нет');
+            window.location.href = "/profileList";
+        }
+    }
+});
+
+$('#writeMessageToProfile').on('click', function () {
+    window.location.href = "/dialogue/create/with/" + profileId;
+});
+
+$('#addProfileToContact').on('click', function () {
+    $.ajax({
+        type: "POST",
+        url: '/api/rest/profilesService/profile/id/' + profileId + '/myContactList/add',
+        statusCode: {
+            200: function () {
+                $('#addProfileToContact').hide();
+                alert('Профиль добавлен в контакты.')
+            }
+        }
+    });
+});
