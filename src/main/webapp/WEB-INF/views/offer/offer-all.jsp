@@ -82,76 +82,20 @@
     var flag = '${flag}';
 </script>
 
-
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/logo-section.js"></script>
-<script src="/resources/js/search-bar.js"></script>
-<script src="/resources/js/enscroll-0.6.1.min.js"></script>
-<script src="/resources/js/offerFilter.js"></script>
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script>
 
     //    var filter = {skip: 0, limit: 10};
     var filter = new OfferFilterModule.OfferFilter();
-    var cities = {};
-    var parameters = [];
-    var options = [];
-    var jsonCategory = [];
-    var jsonSubcategory = {};
 
-    // ---------------    LOAD RESOURCES    --------------------------//
+    $.when(loadCategories).done(function() {
+        $('.ItemADS div a').click(onClickCategory2lvl);
+    });
+
     $(document).ready(function () {
         filter.readAllByFilter();
     });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/cities.json",
-        dataType: "json",
-        success: function (response) {
-            cities = response;
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/searchCategories.json",
-        dataType: "json",
-        success: function (response) {
-            jsonCategory = response;
-            filter.drawSubcategories();
-            $('.ItemADS div a').click(onClickCategory2lvl);
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/searchSubcategories.json",
-        dataType: "json",
-        success: function (response) {
-            jsonSubcategory = response;
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/searchValues.json",
-        dataType: "json",
-        success: function (response) {
-            options = response;
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/parameters.json",
-        dataType: "json",
-        success: function (response) {
-            parameters = response;
-        }
-    });
-
-    // ---------------   END LOAD RESOURCES    --------------------------//
 
     $('#btn-offers-more').click(function () {
         filter.skip += 10;
