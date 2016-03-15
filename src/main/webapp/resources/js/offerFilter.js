@@ -327,6 +327,29 @@
         });
     }
 
+    OfferFilter.prototype.parseUrlToFilter = function() {
+        var url = window.location.href;
+        if(url !== "/offers") {
+            this.categories = [];
+            var cat1 = getUrlParam("category1lvl");
+            if (cat1) {
+                this.categories.push(cat1);
+                var cat2 = getUrlParam("category2lvl");
+                if(cat2) this.categories.push(cat2);
+            }
+
+            this.address = {
+                country: 'Украина'
+            };
+
+            var area = getUrlParam("area");
+            if(area) this.address.area = area;
+            var city = getUrlParam("city");
+            if(city) this.address.city = city;
+        }
+        return this;
+    }
+
     namespace.OfferFilter = OfferFilter;
 
 })(window.OfferFilterModule = window.OfferFilterModule || {});

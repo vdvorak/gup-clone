@@ -49,7 +49,7 @@
         </li>
         <li>
             <div class="slider">
-                <ul class="bxslider">
+                <ul id="services-menu-bxslider" class="bxslider">
                     <li><img src="/resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>
                     <li><img src="/resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>
                     <li><img src="/resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>

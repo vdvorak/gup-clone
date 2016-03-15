@@ -83,7 +83,7 @@ $(document).ready(function () {
         animate: false
     });
 
-    $('.bxslider').bxSlider({
+    $('#services-menu-bxslider').bxSlider({
         // pagerCustom: '#bx-pager'
     });
 
