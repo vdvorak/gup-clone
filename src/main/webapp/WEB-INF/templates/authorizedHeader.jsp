@@ -29,6 +29,7 @@
                 <p>У вас нет непрочитанных сообщений.</p>
             </div>
             <div class="answer">
+                <p id="unread-msg-in-answer"></p>
                 <img src="/resources/images/logo.png" alt="logo">
                 <textarea required id="text-message-answer"></textarea>
                 <button id="dialogue-answer-btn">Ответить</button>

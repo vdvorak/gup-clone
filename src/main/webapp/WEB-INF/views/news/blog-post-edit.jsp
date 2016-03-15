@@ -53,20 +53,28 @@
         <div>
             <label for="newsTitle" class="blogCreationLabel">Заголовок новости</label>
             <input type="text" name="newsTitle" id="newsTitle" class="blogCreationInput blueBorder" value="${blogPost.title}">
+            <div class="clearfix"></div>
 
-            <div class="input-group cat">Категория
+            <p class="blogCreationHeader blueColor">Категория</p>
+            <div class="input-group cat">
                 <hr>
-                <input id="sciCategory" type="checkbox" name="sci"><label for="sciCategory">Наука и техника</label><br>
-                <input id="artCategory" type="checkbox" name="art"><label for="artCategory">Искусство</label><br>
-                <input id="savorCategory" type="checkbox" name="savor"><label for="savorCategory">Светская жизнь</label><br>
-                <input id="policyCategory" type="checkbox" name="policy"><label
-                        for="policyCategory">Политика</label><br>
-                <input id="worldCategory" type="checkbox" name="world"><label for="worldCategory">Мир и общество</label><br>
-                <input id="economyCategory" type="checkbox" name="economy"><label
-                        for="economyCategory">Экономика</label><br>
-                <input id="sportCategory" type="checkbox" name="sport"><label for="sportCategory">Спорт,
-                    хобби</label><br>
-                <input id="socialCategory" type="checkbox" name="social"><label for="socialCategory">Соц. сети</label>
+                <label class="labelLookGood" for="sciCategory"><input id="sciCategory" type="checkbox" name="sci"><span></span></label>
+                <label class="LabelForLabel" for="sciCategory">Наука и техника</label>
+                <label class="labelLookGood" for="artCategory"><input id="artCategory" type="checkbox" name="art"><span></span></label>
+                <label class="LabelForLabel" for="artCategory">Искусство</label>
+                <label class="labelLookGood" for="savorCategory"><input id="savorCategory" type="checkbox" name="savor"><span></span></label>
+                <label class="LabelForLabel" for="savorCategory">Светская жизнь</label>
+                <label class="labelLookGood" for="policyCategory"><input id="policyCategory" type="checkbox" name="policy"><span></span></label>
+                <label class="LabelForLabel" for="policyCategory">Политика</label>
+                <label class="labelLookGood" for="worldCategory"><input id="worldCategory" type="checkbox" name="world"><span></span></label>
+                <label class="LabelForLabel" for="worldCategory">Мир и общество</label>
+                <label class="labelLookGood" for="economyCategory"><input id="economyCategory" type="checkbox" name="economy"><span></span></label>
+                <label class="LabelForLabel" for="economyCategory">Экономика</label>
+                <label class="labelLookGood" for="sportCategory"><input id="sportCategory" type="checkbox" name="sport"><span></span></label>
+                <label class="LabelForLabel" for="sportCategory">Спорт,хобби</label>
+                <label class="labelLookGood" for="socialCategory"><input id="socialCategory" type="checkbox" name="social"><span></span></label>
+                <label class="LabelForLabel" for="socialCategory">Соц. сети</label>
+                <div class="clearfix"></div>
                 <hr>
             </div>
 

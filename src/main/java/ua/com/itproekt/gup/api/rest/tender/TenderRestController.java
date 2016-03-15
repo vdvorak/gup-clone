@@ -169,7 +169,7 @@ public class TenderRestController {
     public ResponseEntity<Tender> addPropose(@PathVariable("id") Tender tender, @RequestBody Propose propose) {
 
         propose.setAuthorId(SecurityOperations.getLoggedUserId());
-        Tender newTender = new Tender();
+        Tender newTender = Tender.getEmpty();
         newTender.setId(tender.getId());
         tender.getProposes().add(propose);
         tender.getMembers().add(new Member(propose.getAuthorId()));
@@ -290,6 +290,36 @@ public class TenderRestController {
         if (userType == null || userType == UserType.INDIVIDUAL) {
             return false;
         }
+        return true;
+    }
+
+    @RequestMapping(value = "/tender/{id}/user-check",
+            method = RequestMethod.POST)
+    public Boolean canBeMember (@PathVariable("id")String id) {
+        // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an member;
+        Profile p = profileService.findById(SecurityOperations.getLoggedUserId());
+        if(p == null || p.getContact() == null){
+            return false;
+        }
+        UserType userType = p.getContact().getType();
+        if (userType == null || userType == UserType.INDIVIDUAL) {
+            return false;
+        }
+        // TODO должен быть проверенным
+//        if(!p.isConfirmModerator()){
+//            return false;
+//        }
+        // TODO сравнивать кведы
+//        if (p.getContact().getNaceId() == null || p.getContact().getNaceId().isEmpty()) {
+//            return false;
+//        }
+//        Tender t = tenderService.findById(id);
+//        for(String s : t.getNaceIds()){
+//            if (p.getContact().getNaceId().contains(s)){
+//                return true;
+//            }
+//        }
+//        return false;
         return true;
     }
 

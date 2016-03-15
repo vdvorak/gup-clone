@@ -30,7 +30,7 @@
     OfferFilter.prototype.readAllByFilter = function () {
         if (this.categories && !this.categories.length) delete this.categories;
         if (this.properties && !this.properties.length) delete this.properties;
-        console.log(this);
+
         $.ajax({
             type: "POST",
             url: "/api/rest/offersService/offer/read/all",
@@ -165,6 +165,8 @@
     }
 
     OfferFilter.prototype.drawFilterOptions = function (id) {
+        var parameters = window.parameters || [];
+        var options = window.options || [];
 
         for (var i = 0; i < options.length; i++) {
             if (options[i]['c'][id]) {
@@ -217,6 +219,8 @@
     }
 
     OfferFilter.prototype.drawCategories3lvl = function() {
+        var jsonSubcategory = window.jsonSubcategory || {};
+
         $('#select-categories-3lvl option:not(:first)').remove();
 
         var id = this.categories[1];
@@ -237,6 +241,7 @@
     }
 
     OfferFilter.prototype.drawSubcategories = function() {
+        var jsonCategory = window.jsonCategory || [];
 
         $('.ItemADS').each(function () {
             var elem = $(this).children('a:first');
@@ -263,7 +268,57 @@
         });
     }
 
+    OfferFilter.prototype.selectFilterPrice = function (event) {
+        var selectVal = $(event.currentTarget).val();
+        if (selectVal === 'price') {
+            $('#price-wrapper').css('display', 'inline-block');
+        } else {
+            $('#price-wrapper').css('display', 'none');
+        }
+    }
+
+    OfferFilter.prototype.selectRegionInFilter = function(event) {
+        event.preventDefault();
+
+        var region = $(event.currentTarget).children('a').text();
+
+        $('#filter-text-region').text(region);
+        $('#filter-city-container').find('li').remove();
+        $('#filter-text-city').text('Выберите город');
+
+        if (region === 'Вся Украина') {
+            $('#filter-city-container').css('display', 'none');
+        } else {
+            drawCitiesInFilter(region);
+        }
+    }
+
+    function drawCitiesInFilter(area) {
+        var cities = window.cities || {};
+
+        var citiesArr = cities[area];
+
+        var parentBlock = $('#filter-city-container').find('.multi-column-dropdown').first();
+        var li = $('<li><a href="#" style="font-weight: bold">Все города</a></li>').click(selectCityInFilter);
+        parentBlock.append(li);
+
+        var numInColumn = citiesArr.length / 2 + (citiesArr.length % 2);
+        for (var i = 0; i < citiesArr.length; i++) {
+            parentBlock = (i + 2 <= numInColumn) ? $('#filter-city-container').find('.multi-column-dropdown').first() : $('#filter-city-container').find('.multi-column-dropdown').last();
+            li = $('<li><a href="#">' + citiesArr[i] + '</a></li>').click(selectCityInFilter);
+            parentBlock.append(li);
+        }
+
+        $('#filter-city-container').css('display', 'inline-block');
+    }
+
+    function selectCityInFilter(event) {
+        event.preventDefault();
+        var city = $(event.currentTarget).children('a').text();
+        $('#filter-text-city').text(city);
+    }
+
     namespace.OfferFilter = OfferFilter;
 
-})(window.Offer = window.Offer || {});
+})(window.OfferFilterModule = window.OfferFilterModule || {});
 

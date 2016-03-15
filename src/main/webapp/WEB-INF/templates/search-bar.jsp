@@ -82,16 +82,7 @@
                     <a href="#">Малыши</a>
 
                     <div class="descriptionTitleLeft">
-                        <a href="#">Earthshaker</a>
-                        <a href="#">Axe</a>
-                        <a href="#">Sven</a>
-                        <a href="#">Pudge</a>
-                        <a href="#">Tiny</a>
-                        <a href="#">Sand King</a>
-                        <a href="#">Kunkka</a>
-                        <a href="#">Slardar</a>
-                        <a href="#">Beastmaster</a>
-                        <a href="$">Cмотреть все обьявления</a>
+
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -99,16 +90,7 @@
                     <a href="#">Zoo</a>
 
                     <div class="descriptionTitleLeft">
-                        <a href="#">Tidehunter</a>
-                        <a href="#">Dragon Knight</a>
-                        <a href="#">Wraith King</a>
-                        <a href="#">Clockwerk</a>
-                        <a href="#">Lifestealer</a>
-                        <a href="#">Omniknight</a>
-                        <a href="#">Night Stalker</a>
-                        <a href="#">Huskar</a>
-                        <a href="#">Doom</a>
-                        <a href="$">Cмотреть все обьявления</a>
+
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -116,16 +98,7 @@
                     <a href="#">Стиль и мода</a>
 
                     <div class="descriptionTitleRight">
-                        <a href="#">Alchemist</a>
-                        <a href="#">Spirit Breaker</a>
-                        <a href="#">Brewmaster</a>
-                        <a href="#">Lycan</a>
-                        <a href="#">Treant Protector</a>
-                        <a href="#">Chaos Knight</a>
-                        <a href="#">Io</a>
-                        <a href="#">Undying</a>
-                        <a href="#">Centaur Warrunner</a>
-                        <a href="$">Cмотреть все обьявления</a>
+
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -133,16 +106,7 @@
                     <a href="#">Спорт и хобби</a>
 
                     <div class="descriptionTitleRight">
-                        <a href="#">Magnus</a>
-                        <a href="#">Timbersaw</a>
-                        <a href="#">Abaddon</a>
-                        <a href="#">Bristleback</a>
-                        <a href="#">Tusk</a>
-                        <a href="#">Elder Titan</a>
-                        <a href="#">Legion Commander</a>
-                        <a href="#">Earth Spirit</a>
-                        <a href="#">Phoenix</a>
-                        <a href="$">Cмотреть все обьявления</a>
+
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -150,16 +114,7 @@
                     <a href="#">Техника</a>
 
                     <div class="descriptionTitleLeft">
-                        <a href="#">Anti-Mage</a>
-                        <a href="#">Bloodseeker</a>
-                        <a href="#">Drow Ranger</a>
-                        <a href="#">Shadow Fiend</a>
-                        <a href="#">Juggernaut</a>
-                        <a href="#">Razor</a>
-                        <a href="#">Mirana</a>
-                        <a href="#">Venomancer</a>
-                        <a href="#">Morphling</a>
-                        <a href="$">Cмотреть все обьявления</a>
+
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -167,16 +122,7 @@
                     <a href="#">Дома и дача</a>
 
                     <div class="descriptionTitleLeft">
-                        <a href="#">Faceless Void</a>
-                        <a href="#">Phantom Lancer</a>
-                        <a href="#">Phantom Assassin</a>
-                        <a href="#">Vengeful Spirit</a>
-                        <a href="#">Viper</a>
-                        <a href="#">Riki</a>
-                        <a href="#">Clinkz</a>
-                        <a href="#">Sniper</a>
-                        <a href="#">Broodmother</a>
-                        <a href="$">Cмотреть все обьявления</a>
+
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -184,16 +130,7 @@
                     <a href="#">Бартер</a>
 
                     <div class="descriptionTitleRight">
-                        <a href="#">Templar Assassin</a>
-                        <a href="#">Weaver</a>
-                        <a href="#">Luna</a>
-                        <a href="#">Spectre</a>
-                        <a href="#">Bounty Hunter</a>
-                        <a href="#">Nyx Assassin</a>
-                        <a href="#">Ursa</a>
-                        <a href="#">Meepo</a>
-                        <a href="#">Gyrocopter</a>
-                        <a href="$">Cмотреть все обьявления</a>
+
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -201,16 +138,7 @@
                     <a href="#">Недвижимость</a>
 
                     <div class="descriptionTitleRight">
-                        <a href="#">Slark</a>
-                        <a href="#">Lone Druid</a>
-                        <a href="#">Medusa</a>
-                        <a href="#">Naga Siren</a>
-                        <a href="#">Terrorblade</a>
-                        <a href="#">Troll Warlord</a>
-                        <a href="#">Arc Warden</a>
-                        <a href="#">Ember Spirit</a>
-                        <a href="#">Crystal Maiden</a>
-                        <a href="$">Cмотреть все обьявления</a>
+
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -218,16 +146,7 @@
                     <a href="#">Транспорт</a>
 
                     <div class="descriptionTitleLeft">
-                        <a href="#">Bane</a>
-                        <a href="#">Puck</a>
-                        <a href="#">Lich</a>
-                        <a href="#">Storm Spirit</a>
-                        <a href="#">Lion</a>
-                        <a href="#">Windranger</a>
-                        <a href="#">Witch Doctor</a>
-                        <a href="#">Zeus</a>
-                        <a href="#">Enigma</a>
-                        <a href="$">Cмотреть все обьявления</a>
+
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -236,16 +155,7 @@
                     <a href="#">Бизнес и услуги</a>
 
                     <div class="descriptionTitleLeft">
-                        <a href="#">Lina</a>
-                        <a href="#">Necrophos</a>
-                        <a href="#">Shadow Shaman</a>
-                        <a href="#">Warlock</a>
-                        <a href="#">Tinker</a>
-                        <a href="#">Queen of Pain</a>
-                        <a href="#">Nature's Prophet</a>
-                        <a href="#">Death Prophet</a>
-                        <a href="#">Enchantress</a>
-                        <a href="$">Cмотреть все обьявления</a>
+
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -253,16 +163,7 @@
                     <a href="#">Волонтерство</a>
 
                     <div class="descriptionTitleRight">
-                        <a href="#">Pugna</a>
-                        <a href="#">Jakiro</a>
-                        <a href="#">Dazzle</a>
-                        <a href="#">Chen</a>
-                        <a href="#">Leshrac</a>
-                        <a href="#">Silencer</a>
-                        <a href="#">Dark Seer</a>
-                        <a href="#">Ogre Magi</a>
-                        <a href="#">Batrider</a>
-                        <a href="$">Cмотреть все обьявления</a>
+
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -270,16 +171,7 @@
                     <a href="#">Бесплатно</a>
 
                     <div class="descriptionTitleRight">
-                        <a href="#">Rubick</a>
-                        <a href="#">Ancient Apparition</a>
-                        <a href="#">Disruptor</a>
-                        <a href="#">Invoker</a>
-                        <a href="#">Keeper of the Light</a>
-                        <a href="#">Outworld Devourer</a>
-                        <a href="#">Skywrath Mage</a>
-                        <a href="#">Shadow Demon</a>
-                        <a href="#">Techies</a>
-                        <a href="$">Cмотреть все обьявления</a>
+
                     </div>
                 </div>
 

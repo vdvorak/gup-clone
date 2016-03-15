@@ -92,7 +92,7 @@
 <script>
 
     //    var filter = {skip: 0, limit: 10};
-    var filter = new Offer.OfferFilter();
+    var filter = new OfferFilterModule.OfferFilter();
     var cities = {};
     var parameters = [];
     var options = [];
@@ -166,8 +166,6 @@
                 .readAllByFilter();
     });
 
-    // ---------------   BEGIN DRAW CATEGORIES    --------------------------//
-
     $('#select-categories-3lvl').change(selectCategoryLvl3);
 
     function selectCategoryLvl3(event) {
@@ -223,63 +221,10 @@
         $(this).children('a:first').click(onClickCategory1lvl);
     })
 
-    $('.ItemADS div').children('a').remove();
+    $('#filter-price').change(filter.selectFilterPrice);
 
-    $('#filter-price').change(selectFilterPrice);
+    $('#filter-region-container').find('li').click(filter.selectRegionInFilter);
 
-    function selectFilterPrice(event) {
-        var selectVal = $(event.currentTarget).val();
-        if (selectVal === 'price') {
-            $('#price-wrapper').css('display', 'inline-block');
-        } else {
-            $('#price-wrapper').css('display', 'none');
-        }
-    }
-
-    // ---------------   END DRAW CATEGORIES    --------------------------//
-
-    //--------------------------- REGIONS LIST --------------------------------------------//
-
-    $('#filter-region-container').find('li').click(selectRegionInFilter);
-
-    function selectRegionInFilter(event) {
-        event.preventDefault();
-
-        var region = $(event.currentTarget).children('a').text();
-
-        $('#filter-text-region').text(region);
-        $('#filter-city-container').find('li').remove();
-        $('#filter-text-city').text('Выберите город');
-
-        if (region === 'Вся Украина') {
-            $('#filter-city-container').css('display', 'none');
-        } else {
-            drawCitiesInFilter(region);
-        }
-    }
-
-    function drawCitiesInFilter(area) {
-        var citiesArr = cities[area];
-
-        var parentBlock = $('#filter-city-container').find('.multi-column-dropdown').first();
-        var li = $('<li><a href="#" style="font-weight: bold">Все города</a></li>').click(selectCityInFilter);
-        parentBlock.append(li);
-
-        var numInColumn = citiesArr.length / 2 + (citiesArr.length % 2);
-        for (var i = 0; i < citiesArr.length; i++) {
-            parentBlock = (i + 2 <= numInColumn) ? $('#filter-city-container').find('.multi-column-dropdown').first() : $('#filter-city-container').find('.multi-column-dropdown').last();
-            li = $('<li><a href="#">' + citiesArr[i] + '</a></li>').click(selectCityInFilter);
-            parentBlock.append(li);
-        }
-
-        $('#filter-city-container').css('display', 'inline-block');
-    }
-
-    function selectCityInFilter(event) {
-        event.preventDefault();
-        var city = $(event.currentTarget).children('a').text();
-        $('#filter-text-city').text(city);
-    }
 
 </script>
 </body>

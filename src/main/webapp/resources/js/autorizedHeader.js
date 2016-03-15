@@ -195,8 +195,8 @@ getLoggedInProfileAjax();
 
 setTimeout(function run() {
     getLoggedInProfileAjax();
-    setTimeout(run, 3000);
-}, 3000);
+    setTimeout(run, 300000);
+}, 300000);
 
 
 function getLoggedInProfileAjax() {
@@ -239,8 +239,10 @@ function getLoggedInProfileAjax() {
 
     $.ajax({
         type: "POST",
+        contentType: "text/plain; charset=utf-8",
         url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
         success: function (response) {
+
             if (!isNeedDrawAllHeader){
                 $('.mailMessage').remove(); // delete old messages - prepare for adding new
                 $('.dropDownMail').prepend(mailMessage.clone())
@@ -366,6 +368,7 @@ $(".mail > img").click(function () {
 $(document).on('click', '.mailMessage', function () {
     if ($(this).attr('id')) {
         var dialogueId = $(this).attr('id');
+        $('#unread-msg-in-answer').text($(this).find('p').text());
         event.stopPropagation();
         $(".mailMessage").hide('slow');
         $(".answer img").attr('src', $(this).find('img').attr('src'));
