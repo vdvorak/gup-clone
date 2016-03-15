@@ -38,7 +38,7 @@ public class OfferController {
     //----------------------------------- all offers  ------
     @RequestMapping(value = "/offers", method = RequestMethod.GET)
     public String getOffers(Model model) {
-        String flag = "offer";
+        String flag = "offer-all";
         model.addAttribute("flag", flag);
         return "offer/offer-all";
     }
@@ -132,21 +132,26 @@ public class OfferController {
 
     @RequestMapping(value = "/offer/{id}", method = RequestMethod.GET)
     public String offerNew(Model model, @PathVariable("id") String id) {
+        String flag = "offer";
+        model.addAttribute("flag", flag);
         model.addAttribute("offerId", id);
         return "offer/offer";
     }
 
 
     //----------------------------------- create offer  ------
-    @RequestMapping(value = "/create-offer-old", method = RequestMethod.GET)
-    public String createOffer(Model model) {
-        return "offer/create-offer-OLD";
-    }
-
-
     // ToDo Delete in the future
+//    @RequestMapping(value = "/create-offer-old", method = RequestMethod.GET)
+//    public String createOffer(Model model) {
+//        return "offer/create-offer-OLD";
+//    }
+
+
+
     @RequestMapping(value = "/create-offer", method = RequestMethod.GET)
     public String createOldOffer(Model model) {
+        String flag = "offer";
+        model.addAttribute("flag", flag);
         return "offer/create-offer";
     }
 
@@ -198,7 +203,8 @@ public class OfferController {
             e.printStackTrace();
         }
 
-
+        String flag = "offer";
+        model.addAttribute("flag", flag);
         model.addAttribute("imagesIds", imagesIds);
         model.addAttribute("properties", properties);
         model.addAttribute("categories", categories);

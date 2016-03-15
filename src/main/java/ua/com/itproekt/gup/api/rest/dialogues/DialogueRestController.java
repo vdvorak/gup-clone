@@ -69,7 +69,7 @@ public class DialogueRestController {
                 log.log(Level.INFO, LOGGED_TITLE + "dialogue/create - dialogue was find and update with new massage ");
             } else {
                 dialogue.setMessages(new ArrayList<>());
-                if(dialogue.getMessages() != null && !dialogue.getMessages().isEmpty()) {
+                if (dialogue.getMessages() != null && !dialogue.getMessages().isEmpty()) {
                     PrivateMessage msg = dialogueService.completeMessage(dialogue.getMessages().get(0), getCurrentUserId());
                     dialogue.addMessage(msg);
                 }
@@ -139,7 +139,7 @@ public class DialogueRestController {
 
     //
     @RequestMapping(value = "/unread-msg/for-user-id/{id}",
-            method = RequestMethod.POST)
+            method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
     public String getUnreadMessagesForUser(@PathVariable("id") String userId) {
         List<Dialogue> dialogues = dialogueService.findDialogsForUserSimple(userId);
         String result = "";
@@ -177,7 +177,7 @@ public class DialogueRestController {
                     //Change AuthorId in messages to UserPicId
                     Profile p = profileService.findById(msg.getAuthorId());
                     if (p != null && p.getImgId() != null) {
-                        if(p.getImgId() != null) {
+                        if (p.getImgId() != null) {
                             msg.setAuthorId(p.getImgId());
                             msg.getWhoRead().remove(p.getImgId());
                         }
@@ -197,7 +197,6 @@ public class DialogueRestController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return result;
     }
 

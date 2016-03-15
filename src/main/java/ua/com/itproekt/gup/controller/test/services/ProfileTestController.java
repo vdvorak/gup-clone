@@ -64,7 +64,6 @@ public class ProfileTestController {
         String linkToWebSite = "https://www.whitehouse.gov/";
         contact.setLinkToWebSite(linkToWebSite);
         contact.setAboutUs("In the morning, the President will depart Chicago en route Washington, DC. ");
-        contact.setNace(Nace.E);
         HashMap<SocialNetwork, String> socNetLink = new HashMap<>();
         socNetLink.put(SocialNetwork.SKYPE, "SkypeAdm");
         socNetLink.put(SocialNetwork.FACEBOOK, "https://www.facebook.com/zuck");

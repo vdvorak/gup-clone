@@ -27,12 +27,16 @@ public class DoerController {
     ProfilesService profilesService;
 
     @RequestMapping("/doer/list")
-    public String getDoersList() {
+    public String getDoersList(Model model) {
+        String flag = "tender";
+        model.addAttribute("flag", flag);
         return "tendersAndDoers/doers/tendersAndDoersList";
     }
 
     @RequestMapping("/doer-create")
-    public String getDoerCreatePage() {
+    public String getDoerCreatePage(Model model) {
+        String flag = "tender";
+        model.addAttribute("flag", flag);
         return "tendersAndDoers/doers/doer-create";
     }
 
@@ -45,6 +49,8 @@ public class DoerController {
                 // todo FORBIDDEN
             }
         }
+        String flag = "tender";
+        model.addAttribute("flag", flag);
         model.addAttribute("doer", doer);
         return "tendersAndDoers/doers/doer-edit";
     }
@@ -66,6 +72,8 @@ public class DoerController {
 
         if(userName != null && userName.length() > 0) model.addAttribute("username", userName);
         else model.addAttribute("username", "Anonimous");
+        String flag = "tender";
+        model.addAttribute("flag", flag);
         model.addAttribute("check", check);
         model.addAttribute("doer", doer);
         if(doer.getRecalls() != null) {

@@ -44,4 +44,28 @@ public class Member {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Member)) return false;
+
+        Member member = (Member) o;
+
+        if (getId() != null && !getId().equals(member.getId())) return false;
+        if (getName() != null && !getName().equals(member.getName())) return false;
+        if (getUserPic() != null && !getUserPic().equals(member.getUserPic())) return false;
+        return true;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        if(getName() != null)
+        result = 31 * result + getName().hashCode();
+        if(getUserPic() != null)
+        result = 31 * result + getUserPic().hashCode();
+        return result;
+    }
 }

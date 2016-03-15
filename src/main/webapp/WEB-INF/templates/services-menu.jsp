@@ -9,10 +9,8 @@
             <div class="ads-img"></div>
             </a>
             <ul class="dropUl">
-                <li><a class="ads-a1" href="#">Топ обьявлений</a></li>
-                <li><a class="ads-a1" href="#">Новые</a></li>
-                <li><a class="ads-a1" href="#">Новые2</a></li>
-                <li><a class="ads-drop" href="#">Новые3</a></li>
+                <li><a class="ads-a1" href="/offers">Топ объявлений</a></li>
+                <li><a class="ads-drop" href="/create-offer">Создать объявление</a></li>
             </ul>
         </li>
         <li>
@@ -21,10 +19,8 @@
             <div class="ads-img2"></div>
             </a>
             <ul class="dropUl">
-                <li><a class="ads-a1" href="#">Участвовать</a></li>
-                <li><a class="ads-a1" href="#">Исполнители</a></li>
-                <li><a class="ads-a1" href="#">Исполнители2</a></li>
-                <li><a class="ads-drop" href="#">Исполнители3</a></li>
+                <li><a class="ads-a1" href="/tender-make">Создать тендер</a></li>
+                <li><a class="ads-drop" href="/doer-create">Стать исполнителем</a></li>
             </ul>
         </li>
         <li>
@@ -47,15 +43,13 @@
             </a>
 
             <ul class="dropUl">
-                <li><a class="ads-a1" href="#">Киев</a></li>
-                <li><a class="ads-a1" href="#">Львов</a></li>
-                <li><a class="ads-a1" href="#">Харьков</a></li>
-                <li><a class="ads-drop" href="#">Запорожье</a></li>
+                <li><a class="ads-a1" href="/blog-post/news?pageNumber=0">Топ новостей</a></li>
+                <li><a class="ads-drop" href="/blog-create">Создать новостной блог</a></li>
             </ul>
         </li>
         <li>
             <div class="slider">
-                <ul class="bxslider">
+                <ul id="services-menu-bxslider" class="bxslider">
                     <li><img src="/resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>
                     <li><img src="/resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>
                     <li><img src="/resources/images/elektronnye-torgi-kto-30-04-2015.png" /></li>
