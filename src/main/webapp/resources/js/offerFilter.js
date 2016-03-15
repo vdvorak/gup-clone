@@ -256,12 +256,12 @@
                 child1 = childArr[0].children;
 
                 for (var key in child1) {
-                    var newA = $('<a id="' + child1[key].id + '" href="#">' + child1[key].name + '</a>');
+                    var newA = $('<a id="' + child1[key].id + '" href="#" data-url-param="category2lvl">' + child1[key].name + '</a>');
                     $(subcategoriesBox).append(newA);
                 }
 
                 if (Object.keys(child1).length) {
-                    var newA = $('<a href="#">Cмотреть все обьявления</a>');
+                    var newA = $('<a href="#" data-parent-category="'+ category1Id +'">Cмотреть все обьявления</a>');
                     $(subcategoriesBox).append(newA);
                 }
             }
@@ -318,14 +318,26 @@
         $('#filter-text-city').text(city);
     }
 
+    OfferFilter.prototype.getIdCategory1Lvl = function(id2lvl) {
+        var id = $('#' + id2lvl).parent().parent().children('a:first').attr('id');
+        return (id) ? id : "";
+    }
+
     OfferFilter.prototype.redirectToOfferAll = function(event) {
         event.preventDefault();
+        var url = "/offers?";
 
-        var url = "/offers";
+        var elem = $(event.currentTarget);
+        var id = elem.attr('id');
+        if(id) {
+
+        }
+
         $.get(url, function() {
-            window.location.href = url;
+            window.location.href = (url !== "/offers?") ? url : "/offers";
         });
     }
+
 
     OfferFilter.prototype.parseUrlToFilter = function() {
         var url = window.location.href;
