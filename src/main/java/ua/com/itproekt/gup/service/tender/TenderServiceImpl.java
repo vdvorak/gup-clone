@@ -12,7 +12,9 @@ import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -76,7 +78,13 @@ public class TenderServiceImpl implements TenderService {
     public Tender setIndividualVision(Tender tender) {
         tender.setAuthorId(null);
         tender.setProposes(null);
-        tender.setUploadFilesIds(null);
+        if(tender.getUploadFilesIds() != null && tender.getUploadFilesIds().containsKey("pic1")) {
+            String docId = tender.getUploadFilesIds().get("pic1");
+            tender.getUploadFilesIds().clear();
+            tender.getUploadFilesIds().put("pic1", docId);
+        } else {
+            tender.setUploadFilesIds(null);
+        }
         return tender;
     }
 

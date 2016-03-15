@@ -199,7 +199,7 @@ $.ajax({
         } else {
             $('.author-name').text("Имя автора не указано")
         }
-        $('.author-link').attr('href', '/profile/id/' + offer.authorId);
+        $('.author-link').attr('href', '/profile?id=' + offer.authorId);
         $('.author-rating').text(profile.point);
     }
 });

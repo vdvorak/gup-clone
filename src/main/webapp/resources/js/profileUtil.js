@@ -13,3 +13,13 @@ function getProfileImgUrl(pic) {
     }
 }
 
+function getProfileName(profile) {
+    if (profile.contact.type === 'LEGAL_ENTITY' ) {
+        return profile.contact.companyName;
+    } else if (profile.username) {
+        return  profile.username;
+    } else {
+        return 'Безымянный';
+    }
+}
+
