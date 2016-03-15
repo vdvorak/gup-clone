@@ -239,8 +239,10 @@ function getLoggedInProfileAjax() {
 
     $.ajax({
         type: "POST",
+        contentType: "text/plain; charset=utf-8",
         url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
         success: function (response) {
+
             if (!isNeedDrawAllHeader){
                 $('.mailMessage').remove(); // delete old messages - prepare for adding new
                 $('.dropDownMail').prepend(mailMessage.clone())

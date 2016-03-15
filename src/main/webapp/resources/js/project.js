@@ -1,5 +1,14 @@
 $("#selectedService option[value='project']").attr("selected", "selected");
 
+
+$('#createProject').on('click', function () {
+    window.location.href = "/project/create"
+});
+
+$('#createInvestorPost').on('click', function () {
+    window.location.href = "/investorPost/create"
+});
+
 $(document).ready(function () {
     var selector = '.projectContent .contentHeader .additionalPhotos .photo';
     $(selector).on('click', function () {
