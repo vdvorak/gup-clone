@@ -22,6 +22,14 @@ public class Contact {
     private Set<String> contactPhones;
     private Map<SocialNetwork, String> socNetLink;
 
+    public Map<SocialNetwork, String> getSocNetLink() {
+        return socNetLink;
+    }
+
+    public void setSocNetLink(Map<SocialNetwork, String> socNetLink) {
+        this.socNetLink = socNetLink;
+    }
+
     public String getCompanyName() {
         return companyName;
     }
