@@ -202,6 +202,10 @@
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
+<script>
+    var flag = '${flag}';
+</script>
+
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
