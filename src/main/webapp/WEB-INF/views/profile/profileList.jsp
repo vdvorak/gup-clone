@@ -102,7 +102,7 @@
         $('#profileListContainer').append(
                 '<div class="profileList <%-- vip-color-border --%>">' +
                 '<div class="profileListLogo <%-- vip-color-border --%>" style="background: url(' + getUrlForProfilePic(profile.imgId) + ') no-repeat center center; background-size: cover;"></div>' +
-                '<a href="/profile/id/' + profile.id + '" class="profileListName">' + profile.username + '</a>' +
+                '<a href="/profile?id=' + profile.id + '" class="profileListName">' + profile.username + '</a>' +
                 '<p class="profileListDescription">' + profile.contact.aboutUs + '</p>' +
                 '</div>');
     }

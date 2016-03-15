@@ -51,7 +51,7 @@ function appendInvestorPostBlock(investorPost, balance) {
                 '</div>' +
 
                 '<div class="details">' +
-                '<a href="/profile/id/' + profile.id + '">' +
+                '<a href="/profile?id=' + profile.id + '">' +
                 '<div class="title"> Инвестор: ' + profile.username + '</div>' +
                 '</a>' +
                 '<div class="alreadyInvested">' +

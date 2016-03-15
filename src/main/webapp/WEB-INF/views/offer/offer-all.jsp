@@ -94,7 +94,8 @@
     });
 
     $(document).ready(function () {
-        filter.readAllByFilter();
+        filter.parseUrlToFilter()
+                .readAllByFilter();
     });
 
     $('#btn-offers-more').click(function () {

@@ -22,6 +22,9 @@ public class Contact {
     private Set<String> contactPhones;
     private Map<SocialNetwork, String> socNetLink;
 
+    public Contact() {
+    }
+
     public Map<SocialNetwork, String> getSocNetLink() {
         return socNetLink;
     }

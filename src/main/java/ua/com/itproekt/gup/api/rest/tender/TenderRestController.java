@@ -81,7 +81,7 @@ public class TenderRestController {
             HashSet<String> visit = (HashSet<String>) req.getSession().getAttribute("tenderVisit");
             if (visit == null) visit = new HashSet<>();
             if (!visit.contains(id)) {
-                Tender tenderForCountVisited = new Tender();
+                Tender tenderForCountVisited = Tender.getEmpty();
                 tenderForCountVisited.setId(tender.getId());
 
                 tenderForCountVisited.setVisited(tender.getVisited() + 1);
