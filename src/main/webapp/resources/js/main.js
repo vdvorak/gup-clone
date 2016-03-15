@@ -83,9 +83,9 @@ $(document).ready(function () {
         animate: false
     });
 
-    //$('.bxslider').bxSlider({KILL ME
-    //    // pagerCustom: '#bx-pager'
-    //});
+    $('#services-menu-bxslider').bxSlider({
+        // pagerCustom: '#bx-pager'
+    });
 
     $('#tab-container-news').easytabs({
         animate: false
