@@ -26,7 +26,7 @@
             <div class="mailMessage">
                 <img class="msg-avatar" src="#" alt="logo" style="display: none">
 
-                <p>У вас нет непрочитанных сообщений.</p>
+                <p class="defaultP">У вас нет непрочитанных сообщений.</p>
             </div>
             <div class="answer">
                 <p id="unread-msg-in-answer"></p>
@@ -63,6 +63,7 @@
         <img src="/resources/images/book.png" alt="book">
 
         <div class="dropDownBook">
+            <p class="defaultP">У вас нет контактов</p>
             <%--<div class="friend">--%>
             <%--<img src="/resources/images/userBook.png" alt="user">--%>
             <%--<a href="#">Contact Name</a>--%>
