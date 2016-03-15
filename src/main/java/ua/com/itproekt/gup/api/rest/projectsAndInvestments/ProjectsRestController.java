@@ -73,6 +73,7 @@ public class ProjectsRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
         project.setAuthorId(userId);
+        project.setModerationStatus(ModerationStatus.COMPLETE);
         projectService.create(project);
 
         // "5" - is a user_balance_type in Bank. It is mean, that it is project.

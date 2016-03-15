@@ -41,8 +41,10 @@ public class ProjectController {
     }
 
     @RequestMapping("/project/list")
-    public String getProjects(@RequestParam(required = false) String type,
-                              @RequestParam(required = false) String name, Model model) {
+    public String getProjects(Model model) {
+//                              @RequestParam(required = false) String type,
+//                              @RequestParam(required = false) String name,
+
         String flag = "project";
         model.addAttribute("flag", flag);
         return "projectsAndInvestments/project/projectList";
