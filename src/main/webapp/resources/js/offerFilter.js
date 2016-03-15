@@ -318,6 +318,15 @@
         $('#filter-text-city').text(city);
     }
 
+    OfferFilter.prototype.redirectToOfferAll = function(event) {
+        event.preventDefault();
+
+        var url = "/offers";
+        $.get(url, function() {
+            window.location.href = url;
+        });
+    }
+
     namespace.OfferFilter = OfferFilter;
 
 })(window.OfferFilterModule = window.OfferFilterModule || {});
