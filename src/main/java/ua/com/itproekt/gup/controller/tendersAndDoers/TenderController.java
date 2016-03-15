@@ -50,6 +50,8 @@ public class TenderController {
 
     @RequestMapping("/tender/{id}")
     public String getTender(@PathVariable String id, Model model) {
+        String flag = "tender";
+        model.addAttribute("flag", flag);
         model.addAttribute("id", id);
         model.addAttribute("isAuthor",
                 tenderService.isAuthorOrWinner(tenderService.findById(id), SecurityOperations.getLoggedUserId()));
@@ -64,7 +66,9 @@ public class TenderController {
     }
 
     @RequestMapping("/tender-make")
-    public String thenderMake() {
+    public String thenderMake(Model model) {
+        String flag = "tender";
+        model.addAttribute("flag", flag);
         return "tendersAndDoers/tenders/tender-make";
     }
 
@@ -80,6 +84,8 @@ public class TenderController {
             System.out.println("!!!!!!!!!!!!!!!! tender.getAuthorId=" + tender.getAuthorId() + "SecurityOperations.getLoggedUserId() = " + SecurityOperations.getLoggedUserId());
             return "redirect:/tenders";
         }
+        String flag = "tender";
+        model.addAttribute("flag", flag);
         model.addAttribute("tender", tender);
         return "tendersAndDoers/tenders/tender-edit";
     }

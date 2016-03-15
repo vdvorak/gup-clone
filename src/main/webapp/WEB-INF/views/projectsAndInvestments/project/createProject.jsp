@@ -94,17 +94,17 @@
             <div class="field required">
                 <label for="categoriesOfIndustry" class="editorLabel">Категории индустрии</label>
                 <select  id="categoriesOfIndustry" class="chosen" multiple="true" data-placeholder="Выберите категории" style="width: 550px;">
-                    <optgroup label="Инженерно-строительные услуги">
-                        <option>Строительство коттеджей, домов</option>
-                        <option>Монтаж наладка и ремонт инженерных систем</option>
-                        <option>Категория 3</option>
-                        <option>Категория 4</option>
-                    </optgroup>
-                    <optgroup label="Swedish Cars">
-                        <option>Категория 5</option>
-                        <option>Категория 7</option>
-                        <option>Категория 10</option>
-                    </optgroup>
+                    <option>Инженерно-строительные услуги</option>
+                    <option>Ремонт и обслуживание техники и оборудования</option>
+                    <option>Услуги проката и аренды</option>
+                    <option>Ремонт и техническое обслуживание автотранспорта</option>
+                    <option>Логистические и складские услуги</option>
+                    <option>Услуги в сфере медицины, здоровья и красоты</option>
+                    <option>Услуги досуга, отдыха, культуры</option>
+                    <option>Услуги в сфере образования, тренинги</option>
+                    <%--<optgroup label="Swedish Cars">--%>
+                        <%--<option>Электромонтажные работы</option>--%>
+                    <%--</optgroup>--%>
                 </select>
             </div>
 
@@ -154,6 +154,10 @@
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
+
+<script>
+    var flag = '${flag}';
+</script>
 
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>

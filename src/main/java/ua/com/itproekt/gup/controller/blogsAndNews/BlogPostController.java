@@ -36,7 +36,8 @@ public class BlogPostController {
         if (!blogPostService.blogPostExists(blogPostId)) {
             throw new ResourceNotFoundException();
         }
-
+        String flag = "news";
+        model.addAttribute("flag", flag);
         model.addAttribute("blogPostId", blogPostId);
         return "news/blog-post-view";
     }
@@ -74,6 +75,8 @@ public class BlogPostController {
             throw new AccessDeniedException("You don't have the appropriate privileges to create posts in this blog.");
         }
 
+        String flag = "news";
+        model.addAttribute("flag", flag);
         model.addAttribute("profileId", loggedProfileId);
         model.addAttribute("blogId", blogId);
         return "news/blog-post-create";
@@ -87,6 +90,8 @@ public class BlogPostController {
         String email = SecurityOperations.getCurrentUserEmail();
         Profile profile = profilesService.findProfileByEmail(email);
         BlogPost blogPost = blogPostService.findById(blogPostId);
+        String flag = "news";
+        model.addAttribute("flag", flag);
         model.addAttribute("blogPost", blogPost);
         model.addAttribute("profileId", profile.getId());
         return "news/blog-post-edit";

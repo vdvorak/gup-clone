@@ -24,7 +24,7 @@ public class ProjectController {
     ProjectService projectService;
 
     @RequestMapping("/project")
-    public String getProjectById(@RequestParam String id, HttpServletRequest request) {
+    public String getProjectById(@RequestParam String id, HttpServletRequest request, Model model) {
         Project project = projectService.findById(id);
         if (project == null) {
             throw new ResourceNotFoundException();
@@ -33,7 +33,8 @@ public class ProjectController {
         if (ModerationStatus.COMPLETE.equals(project.getModerationStatus()) ||
                 project.getAuthorId().equals(SecurityOperations.getLoggedUserId()) ||
                 request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
-
+            String flag = "project";
+            model.addAttribute("flag", flag);
             return "projectsAndInvestments/project/project";
         } else {
             throw new AccessDeniedException("The project is not moderated by admin");
@@ -41,8 +42,10 @@ public class ProjectController {
     }
 
     @RequestMapping("/project/list")
-    public String getProjects(@RequestParam(required = false) String type,
-                              @RequestParam(required = false) String name, Model model) {
+    public String getProjects(Model model) {
+//                              @RequestParam(required = false) String type,
+//                              @RequestParam(required = false) String name,
+
         String flag = "project";
         model.addAttribute("flag", flag);
         return "projectsAndInvestments/project/projectList";
@@ -50,19 +53,23 @@ public class ProjectController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping("/project/create")
-    public String createProject() {
+    public String createProject(Model model) {
+        String flag = "project";
+        model.addAttribute("flag", flag);
         return "projectsAndInvestments/project/createProject";
     }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping("/project/edit")
-    public String editProject(@RequestParam String id, HttpServletRequest request) {
+    public String editProject(@RequestParam String id, HttpServletRequest request, Model model) {
         if (!projectService.projectExists(id)) {
             throw new ResourceNotFoundException();
         }
 
         String userId = SecurityOperations.getLoggedUserId();
         if (projectService.findById(id).getAuthorId().equals(userId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+            String flag = "project";
+            model.addAttribute("flag", flag);
             return "projectsAndInvestments/project/editProject";
         } else {
             throw new AccessDeniedException("Editing of project is allowed only for owner or admin");
