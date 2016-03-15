@@ -84,7 +84,7 @@
             </c:if>
             <c:if test="${not empty doer.email}">
                 <div class="emailContact">
-                    <p class="email">E-mail: ${doer.email}</p>
+                    <p class="email" title="${doer.email}">E-mail: ${doer.email}</p>
                 </div>
             </c:if>
         </div>
