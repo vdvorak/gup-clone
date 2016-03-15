@@ -214,11 +214,21 @@ function getLoggedInProfileAjax() {
                     $('#headerProfileImg').attr('src', '/resources/images/no_avatar.jpg');
                 }
 
-                if (profile.username) {
-                    $('#headerProfileName').text(profile.username);
+                var profileName = '';
+                if (profile.contact.type === 'LEGAL_ENTITY' ) {
+                    profileName = profile.contact.companyName;
+                } else if (profile.username) {
+                    profileName =  profile.username;
                 } else {
-                    $('#headerProfileName').text("Безымянный");
+                    profileName = 'Безымянный';
                 }
+                $('#headerProfileName').text(profileName);
+
+                //if (profile.username) {
+                //    $('#headerProfileName').text(profile.username);
+                //} else {
+                //    $('#headerProfileName').text("Безымянный");
+                //}
 
                 fillNotificationListBlock();
                 fillContactListBlock(profile.contactList);
@@ -284,7 +294,7 @@ function fillNotificationListBlock() {
                     $('.dropDownBell').append('<div class="bellMessage">' +
                     '<img src="' + getImgSrcForNotification(event.makerImgId) + '" alt="logo">' +
                     '<p>' +
-                    '<a href="/profile/id/' + event.makerId + '">' + event.makerName + '</a> ' + event.type + ' ' +
+                    '<a href="/profile?id=' + event.makerId + '">' + event.makerName + '</a> ' + event.type + ' ' +
                     '<a href="">' + event.contentStoreId + '</a> ' +
                     '</p>' +
                     '</div>');
@@ -318,7 +328,7 @@ function fillContactListBlock(contactList) {
                     $('.dropDownBook').append(
                         '<div class="friend">' +
                         getContactProfileImgTagHtml(profile.imgId) +
-                        '<a href="/profile/id/' + contactId + '">' + profile.username + '</a>' +
+                        '<a href="/profile?id=' + contactId + '">' + profile.username + '</a>' +
                         '<a href="/dialogue/create/with/' + contactId + '">' +
                         '<img src="/resources/images/userMessage.png" alt="Message">' +
                         '</a>' +
@@ -440,7 +450,7 @@ $(window).keypress(function (e) {
 //                        type: "POST",
 //                        url: "/api/rest/profilesService/profile/read/id/" + event.creatorEventId,
 //                        success: function (profile) {
-//                            var imgLinkTag = '<a href="/profile/id/'+ profile.id +'">';
+//                            var imgLinkTag = '<a href="/profile?id='+ profile.id +'">';
 //                            if (profile.contact != null && profile.contact.imgId != null && profile.imgId != '') {
 //                                imgLinkTag +=  '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '" class="notifimage"/>';
 //                            } else {

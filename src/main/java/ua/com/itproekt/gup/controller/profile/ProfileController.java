@@ -32,9 +32,9 @@ public class ProfileController {
     @Autowired
     ActivityFeedService activityFeedService;
 
-    @RequestMapping("/profile/id/{profileId}")
-    public String getProfileById(@PathVariable String profileId, Model model) {
-        if (!profilesService.profileExists(profileId)) {
+    @RequestMapping("/profile")
+    public String getProfileById(@RequestParam String id) {
+        if (!profilesService.profileExists(id)) {
             throw new ResourceNotFoundException();
         }
 
@@ -46,7 +46,7 @@ public class ProfileController {
 //
 //        }
 
-        model.addAttribute("profileId", profileId);
+//        model.addAttribute("profileId", profileId);
         return "profile/profile";
     }
 
