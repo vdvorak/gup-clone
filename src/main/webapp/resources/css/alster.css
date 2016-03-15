@@ -956,10 +956,15 @@ color: white;
 }
 .tenderContent .title {
     color: #1269a7;
-    font: 28px DroidSans;
+    font: 27px DroidSans;
     position: absolute;
     top: -40px;
     left: 56px;
+    width: 600px;
+    line-height: 35px;
+    height: 70px;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 .tenderContent .mainPhoto {
     border-radius: 5px;
