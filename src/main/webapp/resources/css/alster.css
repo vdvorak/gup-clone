@@ -371,6 +371,7 @@ color: white;
     top: 10px;
     left: 260px;
     width: 610px;
+    height: 100px;
 }
 
 .investmentsFeedContainer .feedItem .content .desc {
@@ -388,7 +389,7 @@ color: white;
     overflow: hidden;
 }
 .tenders .feedItem .content .text {
-    max-height: 78px;
+    max-height: 71px;
 }
 
 .investmentsFeedContainer .feedItem .cats {
@@ -818,8 +819,7 @@ color: white;
 }
 .tenders .feedItem .content .number {
     position: absolute;
-    top: 5px;
-    right: 3px;
+    right: 2px;
     display: none;
 }
 .tenders .feedItem .content .number.visible {
@@ -1034,3 +1034,10 @@ color: #36aae0;
     background-color: #faaf3a;
 }
 
+.build-name-wrap > .title.build-name {
+    color: #1269a7;
+    font: 19px ArianAMU;
+    width: 440px;
+    height: 25px;
+    overflow: hidden;
+}
