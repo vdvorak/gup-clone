@@ -38,7 +38,7 @@
                   <c:forEach items="${dialogue.members}" var="member" varStatus="status">
 
                     <a rel="example_group"
-                       href="/profile/id/${member.id}">
+                       href="/profile?id=${member.id}">
                       <c:choose>
                         <c:when test="${not empty member.userPicId}">
                           <img id="imgPreview" src="/api/rest/fileStorage/PROFILE/file/read/id/${member.userPicId}" width="200"

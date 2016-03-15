@@ -217,7 +217,7 @@ User.get = function (id, callback) {
                 return res.imgId ? '/api/rest/fileStorage/PROFILE/file/read/id/' + res.imgId : '/resources/images/no_photo.jpg'
             }
             res.getPage = function () {
-                return '/profile/id/' + id
+                return '/profile?id=' + id
             }
             User.bank[id] = res
             return callback(null, User.bank[id])
