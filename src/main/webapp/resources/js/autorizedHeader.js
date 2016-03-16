@@ -177,10 +177,11 @@ $(".dropDownMoney").click(function (event) {
 
 //
 
-$('.dropDownBook').enscroll({
+$('.dropDownBook, .dropDownBell').enscroll({
     verticalTrackClass: 'track4',
     verticalHandleClass: 'handle4',
-    minScrollbarLength: 28
+    minScrollbarLength: 28,
+    zIndex: 10
 });
 
 //  </js for header>
