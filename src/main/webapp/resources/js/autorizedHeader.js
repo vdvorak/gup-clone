@@ -189,7 +189,6 @@ $('.dropDownBook').enscroll({
 var mailMessage = $('.mailMessage').first();
 
 
-
 getLoggedInProfileAjax();
 
 
@@ -215,10 +214,10 @@ function getLoggedInProfileAjax() {
                 }
 
                 var profileName = '';
-                if (profile.contact.type === 'LEGAL_ENTITY' ) {
+                if (profile.contact.type === 'LEGAL_ENTITY') {
                     profileName = profile.contact.companyName;
                 } else if (profile.username) {
-                    profileName =  profile.username;
+                    profileName = profile.username;
                 } else {
                     profileName = 'Безымянный';
                 }
@@ -253,7 +252,7 @@ function getLoggedInProfileAjax() {
         url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
         success: function (response) {
 
-            if (!isNeedDrawAllHeader){
+            if (!isNeedDrawAllHeader) {
                 $('.mailMessage').remove(); // delete old messages - prepare for adding new
                 $('.dropDownMail').prepend(mailMessage.clone())
             }
@@ -261,7 +260,7 @@ function getLoggedInProfileAjax() {
             if (response) {
                 var data = JSON.parse(response);
 
-                if ($(".answer").css('display')=='none'){
+                if ($(".answer").css('display') == 'none') {
                     for (var i in data) {
                         $('.dropDownMail').append($('.mailMessage').last().clone());
                         $('.mailMessage p').last().text(data[i]['message']);
@@ -281,7 +280,80 @@ function getLoggedInProfileAjax() {
 
 
 function fillNotificationListBlock() {
+    var notification = {};
     var eventFO = {};
+
+
+    function getNotificationTypeTranslate(type, content) {
+        var b = '';
+        switch (type) {
+            case 'BLOG_SUBSCRIPTION':
+                b = 'У вашего блога новый подписчик';
+                break;
+            case 'BLOG_POST_LIKE':
+                b = 'Пользователю понравилась ваша запись';
+                break;
+            case 'BLOG_POST_DISLIKE':
+                b = 'Пользователю не нравится ваша запись';
+                break;
+            case 'BLOG_POST_COMMENTE':
+                b = 'Новый комментарий';
+                break;
+            case 'BLOG_POST_COMMENT_REPLY':
+                b = 'На ваш комментарий ответили';
+                break;
+            case 'BLOG_POST_COMMENT_LIKE':
+                b = 'Лайк вашего комментария';
+                break;
+            case 'PROJECT_COMMENT':
+                b = 'Новый комментарий к проекту';
+                break;
+            case 'PROJECT_COMMENT_REPLY':
+                b = 'На ваш комментарий ответили';
+                break;
+            case 'MONEY_TRANSFER_TO_USER':
+                b = 'Вам зачислены средства';
+                break;
+            case 'MONEY_TRANSFER_TO_PROJECT':
+                b = 'Вы инвестировали в проект';
+                break;
+            case 'PROJECT_BRING_BACK_MONEY':
+                b = 'Проект вернул' + content + ' грн.';
+                break;
+            case 'NEW_CLIENT_WANT_CONFIRM':
+                b = 'Новый клиент ожидает подтверждения';
+                break;
+            case 'USER_ADD_TO_DOER_CLIENT_LIST':
+                b = 'Пользователь добавил исполнителя';
+                break;
+            case 'TENDER_END_DAY_NEED_CHOOSE_WINNER':
+                b = 'Тендер закончился, выберите победителя';
+                break;
+            case 'YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER':
+                b = 'Вас добавили в закрытый тендер';
+                break;
+            case 'NEW_PROPOSE_IN_YOUR_TENDER':
+                b = 'Новое предложение в тендере';
+                break;
+            case 'YOU_WON_IN_TENDER':
+                b = 'Вы выиграли в тендере!';
+                break;
+            case 'OFFER_RESERVATION':
+                b = 'Объявление забронировано';
+                break;
+            case 'OFFER_RENT':
+                b = 'OFFER_RENT';
+                break;
+            default:
+                b = type;
+        }
+        return b;
+    }
+
+
+    function getWholeNotification(event) {
+        notification.type = getNotificationTypeTranslate(event.type)
+    }
 
     $.ajax({
         type: "POST",
@@ -291,10 +363,11 @@ function fillNotificationListBlock() {
         statusCode: {
             200: function (responseEntity) {
                 responseEntity.entities.forEach(function (event) {
+                    getWholeNotification(event);
                     $('.dropDownBell').append('<div class="bellMessage">' +
                     '<img src="' + getImgSrcForNotification(event.makerImgId) + '" alt="logo">' +
                     '<p>' +
-                    '<a href="/profile?id=' + event.makerId + '">' + event.makerName + '</a> ' + event.type + ' ' +
+                    '<a href="/profile?id=' + event.makerId + '">' + event.makerName + '</a> ' + notification.type + ' ' +
                     '<a href="">' + event.contentStoreId + '</a> ' +
                     '</p>' +
                     '</div>');
