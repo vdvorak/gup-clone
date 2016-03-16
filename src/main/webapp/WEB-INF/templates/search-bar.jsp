@@ -198,76 +198,6 @@
 
                         <div class="clearfix"></div>
 
-                        <label for="filter-region-row">Регион</label>
-
-                        <div id="filter-region-row">
-                            <div id="filter-region-container" class="dropdown" style="display: inline-block">
-                                <button class="btn btn-success dropdown-toggle" type="button"
-                                        data-toggle="dropdown"><span
-                                        id="filter-text-region">Выберите область</span>
-                                    <span class="caret"></span></button>
-                                <ul class="dropdown-menu  multi-column columns-2">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <ul class="multi-column-dropdown">
-                                                <li><a href="#" style="font-weight: bold">Вся Украина</a></li>
-                                                <li><a href="#">Винницкая область</a></li>
-                                                <li><a href="#">Волынская область</a></li>
-                                                <li><a href="#">Донецкая область</a></li>
-                                                <li><a href="#">Житомирская область</a></li>
-                                                <li><a href="#">Закарпатская область</a></li>
-                                                <li><a href="#">Ивано‑Франковская область</a></li>
-                                                <li><a href="#">Киевская область</a></li>
-                                                <li><a href="#">Кировоградская область</a></li>
-                                                <li><a href="#">Крым</a></li>
-                                                <li><a href="#">Луганская область</a></li>
-                                                <li><a href="#">Львовская область</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <ul class="multi-column-dropdown">
-                                                <li><a href="#">Николаевская область</a></li>
-                                                <li><a href="#">Одесская область</a></li>
-                                                <li><a href="#">Полтавская область</a></li>
-                                                <li><a href="#">Ровенская область</a></li>
-                                                <li><a href="#">Сумская область</a></li>
-                                                <li><a href="#">Тернопольская область</a></li>
-                                                <li><a href="#">Харьковская область</a></li>
-                                                <li><a href="#">Херсонская область</a></li>
-                                                <li><a href="#">Хмельницкая область</a></li>
-                                                <li><a href="#">Черкасская область</a></li>
-                                                <li><a href="#">Черниговская область</a></li>
-                                                <li><a href="#">Черновицкая область</a>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </ul>
-                            </div>
-                            <div id="filter-city-container" class="dropdown" style="display: none">
-                                <button class="btn btn-success dropdown-toggle" type="button"
-                                        data-toggle="dropdown"><span
-                                        id="filter-text-city">Выберите город</span>
-                                    <span class="caret"></span></button>
-                                <ul class="dropdown-menu  multi-column columns-2">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <ul class="multi-column-dropdown">
-
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <ul class="multi-column-dropdown">
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
-
-
-                        <div class="clearfix"></div>
-
                         <div class="price" style="display: none">
                             <p>Цена:</p>
                             <select id="filter-price" name="price" value="">
@@ -287,7 +217,7 @@
 
                         <div class="clearfix"></div>
 
-<%--                        <label for="input-region-search">Регион</label>
+                        <label for="input-region-search">Регион</label>
 
                         <div id="filter-container-region-search">
                             <i id="filter-icon-gps" class="fa fa-map-marker"></i>
@@ -409,7 +339,7 @@
                             </ul>
                         </div>
 
-                        <div class="clearfix"></div>--%>
+                        <div class="clearfix"></div>
 
                         <div class="parameters">
 
