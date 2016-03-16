@@ -68,7 +68,7 @@ $("#selectedService").change(function(){
     }
 });
 
-flag = window.flag || "";
+var flag = window.flag || "";
 if(flag === "default") {
     var func = OfferFilterModule.OfferFilter.prototype.redirectToOfferAll;
     $('.ItemADS').each(function () {
