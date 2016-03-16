@@ -47,10 +47,10 @@ public class TenderServiceImpl implements TenderService {
 
     @Override
     public Tender updateTender(Tender tender) {
-        if (tender.getMembers().size() < 1){
+        if (tender.getMembers() != null && tender.getMembers().size() < 1){
             tender.setMembers(null);
         }
-        if (tender.getProposes().size() < 1){
+        if (tender.getProposes() != null && tender.getProposes().size() < 1){
             tender.setProposes(null);
         }
         return tenderRepository.findTenderAndUpdate(tender);
