@@ -360,9 +360,6 @@ function fillNotificationListBlock() {
         }
     }
 
-
-
-
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -371,7 +368,7 @@ function fillNotificationListBlock() {
         statusCode: {
             200: function (responseEntity) {
                 responseEntity.entities.forEach(function (event) {
-                    alert(JSON.stringify(event));
+                    //alert(JSON.stringify(event));
                     getNotification(event);
                     $('.dropDownBell').append('<div class="bellMessage">' +
                     '<img src="' + getImgSrcForNotification(event.makerImgId) + '" alt="logo">' +
