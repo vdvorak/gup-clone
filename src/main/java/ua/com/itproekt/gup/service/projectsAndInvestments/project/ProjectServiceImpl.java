@@ -157,7 +157,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void bringBackMoneyToInvestors() {
         List<Project> activeAndExpiredProjects = projectRepository.getActiveAndExpiredProjects();
-        Set<String> notCollectedAmountRequestedProjectIds = getNotCollectedAmountRequestedProjectIds(activeAndExpiredProjects);
+        Set<String> notCollectedAmountRequestedProjectIds = getNotCollectedRequestedAmountProjectIds(activeAndExpiredProjects);
         notCollectedAmountRequestedProjectIds.parallelStream().unordered()
                 .forEach(projectId-> {
                     try {
@@ -170,7 +170,14 @@ public class ProjectServiceImpl implements ProjectService {
                 });
     }
 
-    private Set<String> getNotCollectedAmountRequestedProjectIds(List<Project> activeAndExpiredProjects) {
+    private Set<String> getCollectedRequestedAmountProjectIds(List<Project> activeAndExpiredProjects) {
+        return activeAndExpiredProjects.parallelStream().unordered()
+                .filter(project -> project.getAmountRequested() >= bankSession.getUserBalance(project.getId()))
+                .map(Project::getId)
+                .collect(Collectors.toSet());
+    }
+
+    private Set<String> getNotCollectedRequestedAmountProjectIds(List<Project> activeAndExpiredProjects) {
         return activeAndExpiredProjects.parallelStream().unordered()
                 .filter(project -> project.getAmountRequested() < bankSession.getUserBalance(project.getId()))
                 .map(Project::getId)
