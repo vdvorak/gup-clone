@@ -111,6 +111,11 @@
 <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
+
+<script>
+    var flag = '${flag}';
+</script>
+
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
@@ -136,7 +141,7 @@
 
                 if(loggedInProfile){
                     if (loggedInProfile.id === blogPost.authorId){
-                        $("<a href='/blog-post/edit/" + blogPost.id +"'><button>Редактировать статью</button></a>").insertAfter($('.newsRating'))
+                        $("<a class='editBlogPost' href='/blog-post/edit/" + blogPost.id +"'><span>Редактировать статью </span></a>").insertAfter($('.newsRating'))
                     }
                 }
 

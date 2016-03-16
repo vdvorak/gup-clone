@@ -177,10 +177,11 @@ $(".dropDownMoney").click(function (event) {
 
 //
 
-$('.dropDownBook').enscroll({
+$('.dropDownBook, .dropDownBell').enscroll({
     verticalTrackClass: 'track4',
     verticalHandleClass: 'handle4',
-    minScrollbarLength: 28
+    minScrollbarLength: 28,
+    zIndex: 10
 });
 
 //  </js for header>
@@ -189,14 +190,13 @@ $('.dropDownBook').enscroll({
 var mailMessage = $('.mailMessage').first();
 
 
-
 getLoggedInProfileAjax();
 
 
 setTimeout(function run() {
     getLoggedInProfileAjax();
-    setTimeout(run, 300000);
-}, 300000);
+    setTimeout(run, 500000);
+}, 500000);
 
 
 function getLoggedInProfileAjax() {
@@ -215,10 +215,10 @@ function getLoggedInProfileAjax() {
                 }
 
                 var profileName = '';
-                if (profile.contact.type === 'LEGAL_ENTITY' ) {
+                if (profile.contact.type === 'LEGAL_ENTITY') {
                     profileName = profile.contact.companyName;
                 } else if (profile.username) {
-                    profileName =  profile.username;
+                    profileName = profile.username;
                 } else {
                     profileName = 'Безымянный';
                 }
@@ -253,7 +253,7 @@ function getLoggedInProfileAjax() {
         url: "/api/rest/dialogueService/unread-msg/for-user-id/" + loggedInProfile.id,
         success: function (response) {
 
-            if (!isNeedDrawAllHeader){
+            if (!isNeedDrawAllHeader) {
                 $('.mailMessage').remove(); // delete old messages - prepare for adding new
                 $('.dropDownMail').prepend(mailMessage.clone())
             }
@@ -261,7 +261,7 @@ function getLoggedInProfileAjax() {
             if (response) {
                 var data = JSON.parse(response);
 
-                if ($(".answer").css('display')=='none'){
+                if ($(".answer").css('display') == 'none') {
                     for (var i in data) {
                         $('.dropDownMail').append($('.mailMessage').last().clone());
                         $('.mailMessage p').last().text(data[i]['message']);
@@ -281,7 +281,85 @@ function getLoggedInProfileAjax() {
 
 
 function fillNotificationListBlock() {
+    var notification = {};
     var eventFO = {};
+
+
+    function getNotification(event) {
+        notification.targetText = '';
+
+        switch (event.type) {
+            case 'BLOG_SUBSCRIPTION':
+                notification.type = 'У вашего блога новый подписчик';
+                break;
+            case 'BLOG_POST_LIKE':
+                notification.type = 'Пользователю понравилась ваша запись';
+                notification.contentStoreId = '/blog-post/view/id/' + event.contentStoreId;
+                notification.targetText = 'Посмотреть новость';
+                break;
+            case 'BLOG_POST_DISLIKE':
+                notification.type = 'Пользователю не нравится ваша запись';
+                break;
+            case 'BLOG_POST_COMMENTE':
+                notification.type = 'Новый комментарий';
+                break;
+            case 'BLOG_POST_COMMENT_REPLY':
+                notification.type = 'На ваш комментарий ответили';
+                break;
+            case 'BLOG_POST_COMMENT_LIKE':
+                notification.type = 'Лайк вашего комментария';
+                break;
+            case 'PROJECT_COMMENT':
+                notification.type = 'Новый комментарий к проекту';
+                break;
+            case 'PROJECT_COMMENT_REPLY':
+                notification.type = 'На ваш комментарий ответили';
+                break;
+            case 'MONEY_TRANSFER_TO_USER':
+                notification.type = 'Вам зачислены средства';
+                break;
+            case 'MONEY_TRANSFER_TO_PROJECT':
+                notification.type = 'Вы инвестировали в проект';
+                break;
+            case 'PROJECT_BRING_BACK_MONEY':
+                notification.type = 'Проект вернул' + content + ' грн.';
+                break;
+            case 'NEW_CLIENT_WANT_CONFIRM':
+                notification.type = 'Новый клиент ожидает подтверждения';
+                break;
+            case 'USER_ADD_TO_DOER_CLIENT_LIST':
+                notification.type = 'Пользователь добавил исполнителя';
+                break;
+            case 'TENDER_END_DAY_NEED_CHOOSE_WINNER':
+                notification.type = 'Тендер закончился, выберите победителя';
+                notification.contentStoreId = '/tender/' + event.contentStoreId;
+                notification.targetText = 'Посмотреть тендер';
+                break;
+            case 'YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER':
+                notification.type = 'Вас добавили в закрытый тендер';
+                notification.contentStoreId = '/tender/' + event.contentStoreId;
+                notification.targetText = 'Посмотреть тендер';
+                break;
+            case 'NEW_PROPOSE_IN_YOUR_TENDER':
+                notification.type = 'Новое предложение в тендере';
+                notification.contentStoreId = '/tender/' + event.contentStoreId;
+                notification.targetText = 'Посмотреть тендер';
+                break;
+            case 'YOU_WON_IN_TENDER':
+                notification.type = 'Вы выиграли в тендере!';
+                notification.contentStoreId = '/tender/' + event.contentStoreId;
+                notification.targetText = 'Посмотреть тендер';
+                break;
+            case 'OFFER_RESERVATION':
+                notification.type = 'Объявление забронировано';
+                break;
+            case 'OFFER_RENT':
+                notification.type = 'OFFER_RENT';
+                break;
+            default:
+                notification.type = type;
+        }
+    }
 
     $.ajax({
         type: "POST",
@@ -291,11 +369,13 @@ function fillNotificationListBlock() {
         statusCode: {
             200: function (responseEntity) {
                 responseEntity.entities.forEach(function (event) {
+                    //alert(JSON.stringify(event));
+                    getNotification(event);
                     $('.dropDownBell').append('<div class="bellMessage">' +
                     '<img src="' + getImgSrcForNotification(event.makerImgId) + '" alt="logo">' +
                     '<p>' +
-                    '<a href="/profile?id=' + event.makerId + '">' + event.makerName + '</a> ' + event.type + ' ' +
-                    '<a href="">' + event.contentStoreId + '</a> ' +
+                    '<a href="/profile?id=' + event.makerId + '">' + event.makerName + '</a> ' + notification.type + ' ' +
+                    '<a href="' + notification.contentStoreId +'">' + notification.targetText + '</a> ' +
                     '</p>' +
                     '</div>');
                 });
@@ -409,8 +489,8 @@ $('#dialogue-answer-btn').on('click', function () {
     sendMessageAjax(privateMessage, dialogueId);
 
     $('#text-message-answer').val('');
-    $('.msg-avatar').first().hide();
     $('#' + dialogueId).remove();
+    $('#dialogue-answer-btn').removeClass();
     $(".dropDownMail").slideUp("fast");
 
 });
@@ -424,8 +504,8 @@ $(window).keypress(function (e) {
         sendMessageAjax(privateMessage, dialogueId);
 
         $('#text-message-answer').val('');
-        $('.msg-avatar').first().hide();
         $('#' + dialogueId).remove();
+        $('#dialogue-answer-btn').removeClass();
         $(".dropDownMail").slideUp("fast");
     }
 });
