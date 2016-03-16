@@ -173,6 +173,13 @@ public class ProjectServiceImpl implements ProjectService {
                 });
     }
 
+    private Set<String> getNotCollectedAmountRequestedProjectIds(List<Project> activeAndExpiredProjects) {
+        return activeAndExpiredProjects.parallelStream().unordered()
+                .filter(project -> project.getAmountRequested() < bankSession.getUserBalance(project.getId()))
+                .map(Project::getId)
+                .collect(Collectors.toSet());
+    }
+
     public void sendBringBackNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {
         projectInvestments.parallelStream().unordered()
                 .forEach(pair -> {
