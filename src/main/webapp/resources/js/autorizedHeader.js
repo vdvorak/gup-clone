@@ -194,8 +194,8 @@ getLoggedInProfileAjax();
 
 setTimeout(function run() {
     getLoggedInProfileAjax();
-    setTimeout(run, 300000);
-}, 300000);
+    setTimeout(run, 500000);
+}, 500000);
 
 
 function getLoggedInProfileAjax() {
@@ -488,8 +488,8 @@ $('#dialogue-answer-btn').on('click', function () {
     sendMessageAjax(privateMessage, dialogueId);
 
     $('#text-message-answer').val('');
-    $('.msg-avatar').first().hide();
     $('#' + dialogueId).remove();
+    $('#dialogue-answer-btn').removeClass();
     $(".dropDownMail").slideUp("fast");
 
 });
@@ -503,8 +503,8 @@ $(window).keypress(function (e) {
         sendMessageAjax(privateMessage, dialogueId);
 
         $('#text-message-answer').val('');
-        $('.msg-avatar').first().hide();
         $('#' + dialogueId).remove();
+        $('#dialogue-answer-btn').removeClass();
         $(".dropDownMail").slideUp("fast");
     }
 });

@@ -89,7 +89,6 @@
         <sec:authorize access="isAuthenticated()">
             <div class="contact-btn-group">
                 <button class="writeMessage" id="writeMessageToProfile">Написать сообщение</button>
-                <button class="addToContact" id="addProfileToContact">Добавить в контакты</button>
                 <!-- если профиль вип то сюда надо добавлять класс vip-color-background -->
             </div>
         </sec:authorize>
