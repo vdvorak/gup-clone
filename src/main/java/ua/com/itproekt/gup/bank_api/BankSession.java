@@ -191,11 +191,19 @@ public class BankSession {
         internalTransactionRepository.accountantCancelRequest(internalTransactionId);
     }
 
-    public List<Pair<String, Long>> projectPayback(String projectId) throws ParseException {
+    public List<Pair<String, Long>> projectPayback(String projectId){
         String jsonResponse = internalTransactionRepository.projectPayback(projectId);
         System.out.println(jsonResponse);
         JSONParser parser = new JSONParser();
-        Object obj = parser.parse(jsonResponse);
+
+        Object obj = null;
+        try {
+            obj = parser.parse(jsonResponse);
+        } catch (ParseException e) {
+            System.out.println("EXCEPTION IN projectPayback method - could not parse");
+            e.printStackTrace();
+        }
+
         JSONArray response = (JSONArray) obj;
         ArrayList<Pair<String, Long>> result = new ArrayList<>();
         for (Object pairBeforeParse : response) {

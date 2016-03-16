@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
@@ -161,6 +162,11 @@
 <script src="/resources/js/cropper.js"></script>
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
+
+<script>
+    var flag = '${flag}';
+</script>
+
 <script src="/resources/js/main.js"></script>
 <script src="/resources/js/logo-section.js"></script>
 <script src="/resources/js/search-bar.js"></script>
@@ -267,7 +273,7 @@
             firstFacebookLink = socialLinks[key];
             $('#blogCreationSocial').val(firstFacebookLink);
         } else {
-            var newSocLink = addSocialLink(key);
+            var newSocLink = addSocialLink(key)
             newSocLink.val(socialLinks[key]);
         }
     }
@@ -311,41 +317,41 @@
         }
     });
 
-        // ---------------------------------------------------- END Soc network links --------------------------------
+    // ---------------------------------------------------- END Soc network links --------------------------------
 
-        // -------------------------------------------------------BEGIN drop zone ------------------------------------------
+    // -------------------------------------------------------BEGIN drop zone ------------------------------------------
 
-        var dropZone = document.getElementsByClassName('drop_zone');
-        for (var i = 0; i < dropZone.length; i++) {
-            dropZone[i].addEventListener('dragover', handleDragOver, false);
-            dropZone[i].addEventListener('drop', handleFileSelect, false);
+    var dropZone = document.getElementsByClassName('drop_zone');
+    for (var i = 0; i < dropZone.length; i++) {
+        dropZone[i].addEventListener('dragover', handleDragOver, false);
+        dropZone[i].addEventListener('drop', handleFileSelect, false);
+    }
+    function handleFileSelect(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+
+        var files = evt.dataTransfer.files; // FileList object.
+
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            cropper.replace(reader.result);
+        }, false);
+
+        if (files[0]) {
+            reader.readAsDataURL(files[0]);
         }
-        function handleFileSelect(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
+        $('#cropperModal').css('display', "block");
 
-            var files = evt.dataTransfer.files; // FileList object.
+    }
 
-            var reader = new FileReader();
+    function handleDragOver(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+    }
 
-            reader.addEventListener("load", function () {
-                cropper.replace(reader.result);
-            }, false);
-
-            if (files[0]) {
-                reader.readAsDataURL(files[0]);
-            }
-            $('#cropperModal').css('display', "block");
-
-        }
-
-        function handleDragOver(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
-            evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-        }
-
-        // ---------------------------------------------------- END Drop zone --------------------------------------
+    // ---------------------------------------------------- END Drop zone --------------------------------------
 
 
     //----------------------------------------------------- Image form -----------------------------------------------
@@ -404,7 +410,7 @@
         } else if (socName === "GOOGLEPLUS") {
             return /((http|https):\/\/)?(www[.])?plus\.google\.com\/.?\/?.?\/?([0-9]*)/.test(url);
         } else if (socName === "VKONTAKTE") {
-            return /^(http:\/\/|https:\/\/)?(www\.)?vk\.com\/(\w|\d)+?\/?$/.test(url);
+            return /^(http:\/\/|https:\/\/)?(www\.)?vk\.com\/(\w|\d|.)+?\/?$/.test(url);
         } else if (socName === "SKYPE") {
             return /[a-zA-Z][a-zA-Z0-9\.,\-_]{5,31}/.test(url);
         } else {
