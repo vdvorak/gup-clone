@@ -284,76 +284,84 @@ function fillNotificationListBlock() {
     var eventFO = {};
 
 
-    function getNotificationTypeTranslate(type, content) {
-        var b = '';
-        switch (type) {
+    function getNotification(event) {
+        notification.targetText = '';
+
+        switch (event.type) {
             case 'BLOG_SUBSCRIPTION':
-                b = 'У вашего блога новый подписчик';
+                notification.type = 'У вашего блога новый подписчик';
                 break;
             case 'BLOG_POST_LIKE':
-                b = 'Пользователю понравилась ваша запись';
+                notification.type = 'Пользователю понравилась ваша запись';
+                notification.contentStoreId = '/blog-post/view/id/' + event.contentStoreId;
+                notification.targetText = 'Посмотреть новость';
                 break;
             case 'BLOG_POST_DISLIKE':
-                b = 'Пользователю не нравится ваша запись';
+                notification.type = 'Пользователю не нравится ваша запись';
                 break;
             case 'BLOG_POST_COMMENTE':
-                b = 'Новый комментарий';
+                notification.type = 'Новый комментарий';
                 break;
             case 'BLOG_POST_COMMENT_REPLY':
-                b = 'На ваш комментарий ответили';
+                notification.type = 'На ваш комментарий ответили';
                 break;
             case 'BLOG_POST_COMMENT_LIKE':
-                b = 'Лайк вашего комментария';
+                notification.type = 'Лайк вашего комментария';
                 break;
             case 'PROJECT_COMMENT':
-                b = 'Новый комментарий к проекту';
+                notification.type = 'Новый комментарий к проекту';
                 break;
             case 'PROJECT_COMMENT_REPLY':
-                b = 'На ваш комментарий ответили';
+                notification.type = 'На ваш комментарий ответили';
                 break;
             case 'MONEY_TRANSFER_TO_USER':
-                b = 'Вам зачислены средства';
+                notification.type = 'Вам зачислены средства';
                 break;
             case 'MONEY_TRANSFER_TO_PROJECT':
-                b = 'Вы инвестировали в проект';
+                notification.type = 'Вы инвестировали в проект';
                 break;
             case 'PROJECT_BRING_BACK_MONEY':
-                b = 'Проект вернул' + content + ' грн.';
+                notification.type = 'Проект вернул' + content + ' грн.';
                 break;
             case 'NEW_CLIENT_WANT_CONFIRM':
-                b = 'Новый клиент ожидает подтверждения';
+                notification.type = 'Новый клиент ожидает подтверждения';
                 break;
             case 'USER_ADD_TO_DOER_CLIENT_LIST':
-                b = 'Пользователь добавил исполнителя';
+                notification.type = 'Пользователь добавил исполнителя';
                 break;
             case 'TENDER_END_DAY_NEED_CHOOSE_WINNER':
-                b = 'Тендер закончился, выберите победителя';
+                notification.type = 'Тендер закончился, выберите победителя';
+                notification.contentStoreId = '/tender/' + event.contentStoreId;
+                notification.targetText = 'Посмотреть тендер';
                 break;
             case 'YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER':
-                b = 'Вас добавили в закрытый тендер';
+                notification.type = 'Вас добавили в закрытый тендер';
+                notification.contentStoreId = '/tender/' + event.contentStoreId;
+                notification.targetText = 'Посмотреть тендер';
                 break;
             case 'NEW_PROPOSE_IN_YOUR_TENDER':
-                b = 'Новое предложение в тендере';
+                notification.type = 'Новое предложение в тендере';
+                notification.contentStoreId = '/tender/' + event.contentStoreId;
+                notification.targetText = 'Посмотреть тендер';
                 break;
             case 'YOU_WON_IN_TENDER':
-                b = 'Вы выиграли в тендере!';
+                notification.type = 'Вы выиграли в тендере!';
+                notification.contentStoreId = '/tender/' + event.contentStoreId;
+                notification.targetText = 'Посмотреть тендер';
                 break;
             case 'OFFER_RESERVATION':
-                b = 'Объявление забронировано';
+                notification.type = 'Объявление забронировано';
                 break;
             case 'OFFER_RENT':
-                b = 'OFFER_RENT';
+                notification.type = 'OFFER_RENT';
                 break;
             default:
-                b = type;
+                notification.type = type;
         }
-        return b;
     }
 
 
-    function getWholeNotification(event) {
-        notification.type = getNotificationTypeTranslate(event.type)
-    }
+
 
     $.ajax({
         type: "POST",
@@ -363,12 +371,13 @@ function fillNotificationListBlock() {
         statusCode: {
             200: function (responseEntity) {
                 responseEntity.entities.forEach(function (event) {
-                    getWholeNotification(event);
+                    alert(JSON.stringify(event));
+                    getNotification(event);
                     $('.dropDownBell').append('<div class="bellMessage">' +
                     '<img src="' + getImgSrcForNotification(event.makerImgId) + '" alt="logo">' +
                     '<p>' +
                     '<a href="/profile?id=' + event.makerId + '">' + event.makerName + '</a> ' + notification.type + ' ' +
-                    '<a href="">' + event.contentStoreId + '</a> ' +
+                    '<a href="' + notification.contentStoreId +'">' + notification.targetText + '</a> ' +
                     '</p>' +
                     '</div>');
                 });
