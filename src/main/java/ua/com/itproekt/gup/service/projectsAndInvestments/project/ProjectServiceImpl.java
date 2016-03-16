@@ -154,21 +154,18 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     //TODO: remove try-catch
-    //TODO: refactoring
     @Override
     public void bringBackMoneyToInvestors() {
         List<Project> activeAndExpiredProjects = projectRepository.getActiveAndExpiredProjects();
-        activeAndExpiredProjects.parallelStream().unordered()
-                .forEach(project-> {
-                    int investedProjectAmount = bankSession.getUserBalance(project.getId());
-                    if (investedProjectAmount < project.getAmountRequested()) {
-                        try {
-                            List<Pair<String, Long>> projectInvestments = bankSession.projectPayback(project.getId());
-                            projectRepository.updateProjectStatus(project.getId(), ProjectStatus.EXPIRED_AND_RETURNED_MONEY);
-                            sendBringBackNotificationsToInvestors(projectInvestments, project.getId());
-                        } catch (ParseException e) {
-                            throw new RuntimeException(Arrays.toString(e.getStackTrace()));
-                        }
+        Set<String> notCollectedAmountRequestedProjectIds = getNotCollectedAmountRequestedProjectIds(activeAndExpiredProjects);
+        notCollectedAmountRequestedProjectIds.parallelStream().unordered()
+                .forEach(projectId-> {
+                    try {
+                        List<Pair<String, Long>> projectInvestments = bankSession.projectPayback(projectId);
+                        projectRepository.updateProjectStatus(projectId, ProjectStatus.EXPIRED_AND_RETURNED_MONEY);
+                        sendBringBackNotificationsToInvestors(projectInvestments, projectId);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(Arrays.toString(e.getStackTrace()));
                     }
                 });
     }
