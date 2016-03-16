@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="/resources/css/alster.css">
     <link href="/resources/css/custom-new.css" rel="stylesheet" type="text/css">
     <link href="/resources/css/dropdown-multicolumn.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 </head>
 <body>
 <!-- BEGIN Common general header-->
@@ -87,11 +88,11 @@
 <script>
 
     //    var filter = {skip: 0, limit: 10};
-    var filter = new OfferFilterModule.OfferFilter();
-
+    var filter = window.filter || new OfferFilterModule.OfferFilter();
+/*
     $.when(loadCategories).done(function() {
         $('.ItemADS div a').click(onClickCategory2lvl);
-    });
+    });*/
 
     $(document).ready(function () {
         filter.parseUrlToFilter()
@@ -104,16 +105,16 @@
                 .readAllByFilter();
     });
 
-    $('#btn-offers-search').click(function (event) {
+    /*$('#btn-offers-search').click(function (event) {
         event.preventDefault();
         filter.cleanResult()
                 .setFilterOptions()
                 .readAllByFilter();
-    });
+    });*/
 
-    $('#select-categories-3lvl').change(selectCategoryLvl3);
+    $('#select-categories-3lvl').change(filter.selectCategoryLvl3);
 
-    function selectCategoryLvl3(event) {
+ /*   function selectCategoryLvl3(event) {
         if (filter.categories.length > 2) filter.categories.pop();
         var cat3 = $(event.currentTarget).val();
         if (cat3) {
@@ -122,9 +123,9 @@
             .drawFilterOptions(cat3);
         }
         $('#filter-price').change();
-    }
+    }*/
 
-    function onClickCategory1lvl(event) {
+ /*   function onClickCategory1lvl(event) {
         var id1 = $(event.currentTarget).attr('id');
         filter.categories = [];
         filter.deleteFilterOptions();
@@ -160,15 +161,15 @@
                 .readAllByFilter();
 
         $('#filter-price').change();
-    }
+    }*/
 
-    $('.ItemADS').each(function () {
+    /*$('.ItemADS').each(function () {
         $(this).children('a:first').click(onClickCategory1lvl);
     })
-
+*/
     $('#filter-price').change(filter.selectFilterPrice);
 
-    $('#filter-region-container').find('li').click(filter.selectRegionInFilter);
+/*    $('#filter-region-container').find('li').click(filter.selectRegionInFilter);*/
 
 
 </script>

@@ -3,10 +3,13 @@
     'use strict';
 
     var isComplete = false;
+    var flag = window.flag || "";
+    var filterObj = {};
 
     function OfferFilter() {
         this.skip = 0;
         this.limit = 10;
+        filterObj = this;
     }
 
     OfferFilter.prototype.cleanResult = function () {
@@ -16,7 +19,7 @@
         }
         $('ul.notice-box:first').text("");
 
-        return this;
+        return filterObj;
     }
 
     OfferFilter.prototype.completeCategories = function (bool) {
@@ -28,22 +31,22 @@
     }
 
     OfferFilter.prototype.readAllByFilter = function () {
-        if (this.categories && !this.categories.length) delete this.categories;
-        if (this.properties && !this.properties.length) delete this.properties;
-
+        if (filterObj.categories && !filterObj.categories.length) delete filterObj.categories;
+        if (filterObj.properties && !filterObj.properties.length) delete filterObj.properties;
+        console.log();
         $.ajax({
             type: "POST",
             url: "/api/rest/offersService/offer/read/all",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            data: JSON.stringify(this),
+            data: JSON.stringify(filterObj),
             statusCode: {
                 200: function (data, textStatus, request) {
                     drawOffers(data.entities);
                 }
             }
         });
-        return this;
+        return filterObj;
     }
 
     function createNewBox() {
@@ -122,21 +125,21 @@
         var keyWords = $('#searchInput').val();
         if (keyWords !== "")  this.searchField = keyWords;
 */
-        this.address = {
+        filterObj.address = {
             country: 'Украина'
         };
         var city = $('#filter-text-city').text();
         var area = $('#filter-text-region').text();
         if (city !== 'Выберите город' && city !== '' && city !== 'Все города') {
-            filter.address.city = city;
+            filterObj.address.city = city;
         }
         if (area !== 'Вся Украина' && area !== 'Выберите область' && area !== '') {
-            filter.address.area = area;
+            filterObj.address.area = area;
         }
 
-        this.properties = [];
+        filterObj.properties = [];
         var typeOfPrice = $('#filter-price').val();
-        if(typeOfPrice) this.properties.push({
+        if(typeOfPrice) filterObj.properties.push({
             key: 'price',
             value: typeOfPrice
         });
@@ -146,22 +149,22 @@
             var prop = {};
             prop.key = param[i].name;
             prop.value = param[i].value;
-            this.properties.push(prop);
+            filterObj.properties.push(prop);
         }
 
         if ($('#price-wrapper').css('display') !== "none") {
-            this.fromPrice = $('#priceMin').val();
-            this.toPrice = $('#priceMax').val();
+            filterObj.fromPrice = $('#priceMin').val();
+            filterObj.toPrice = $('#priceMax').val();
             /*this.properties.push({
              key: 'currency',
              value: $('#filter-currency').val()
              });*/
         } else {
-            delete filter.fromPrice;
-            delete filter.toPrice;
+            delete filterObj.fromPrice;
+            delete filterObj.toPrice;
         }
 
-        return this;
+        return filterObj;
     }
 
     OfferFilter.prototype.drawFilterOptions = function (id) {
@@ -206,7 +209,7 @@
             }
         }
         if ($('.parameters').children().length) $('.parameters').css('display', 'block');
-        return this;
+        return filterObj;
     }
 
     OfferFilter.prototype.deleteFilterOptions = function () {
@@ -215,7 +218,7 @@
         $('.parameters').empty();
         $('#filter-price').empty();
 
-        return this;
+        return filterObj;
     }
 
     OfferFilter.prototype.drawCategories3lvl = function() {
@@ -223,7 +226,7 @@
 
         $('#select-categories-3lvl option:not(:first)').remove();
 
-        var id = this.categories[1];
+        var id = filterObj.categories[1];
         var select = $('#select-categories-3lvl');
         var child2 = {};
         if (jsonSubcategory[id]) {
@@ -237,7 +240,7 @@
             select.css('display', 'inline-block');
             $('label[for="select-categories-3lvl"]').css('display', 'inline');
         }
-        return this;
+        return filterObj;
     }
 
     OfferFilter.prototype.drawSubcategories = function() {
@@ -266,6 +269,64 @@
                 }
             }
         });
+        return filterObj;
+    }
+
+    OfferFilter.prototype.onClickCategory1lvl = function(event) {
+        if(flag !== "offer-all") {
+            filterObj.redirectToOfferAll(event);
+        } else {
+            var id1 = $(event.currentTarget).attr('id');
+            filterObj.categories = [];
+            filterObj.deleteFilterOptions();
+
+            if (id1 !== 'free' && id1 !== 'exchange') {
+                filterObj.categories.push(id1);
+            } else {
+                $('#filter-price').append('<option selected value="' + id1 + '" id="' + id1 + '"></option>');
+            }
+            filterObj.cleanResult()
+                .drawFilterOptions(filterObj.categories[0])
+                .setFilterOptions()
+                .readAllByFilter();
+
+            $('#select-categories-3lvl').css('display', 'none');
+            $('label[for="select-categories-3lvl"]').css('display', 'none');
+            $('#filter-price').change();
+        }
+
+    }
+
+    OfferFilter.prototype.onClickCategory2lvl = function(event) {
+        if(flag !== "offer-all") {
+            filterObj.redirectToOfferAll(event);
+        } else {
+            var elem = $(event.currentTarget);
+            var id2 = elem.attr('id');
+            filterObj.categories = [];
+            filterObj.categories.push(elem.parent().parent().children('a:first').attr('id'));
+            if (id2) filterObj.categories.push(id2);
+
+            filterObj.cleanResult()
+                .deleteFilterOptions()
+                .drawFilterOptions((id2) ? filterObj.categories[1] : filterObj.categories[0])
+                .drawCategories3lvl()
+                .setFilterOptions()
+                .readAllByFilter();
+
+            $('#filter-price').change();
+        }
+    }
+
+    OfferFilter.prototype.selectCategoryLvl3 = function(event) {
+        if (filterObj.categories.length > 2) filterObj.categories.pop();
+        var cat3 = $(event.currentTarget).val();
+        if (cat3) {
+            filterObj.categories.push(cat3);
+            filterObj.deleteFilterOptions()
+                .drawFilterOptions(cat3);
+        }
+        $('#filter-price').change();
     }
 
     OfferFilter.prototype.selectFilterPrice = function (event) {
@@ -277,7 +338,7 @@
         }
     }
 
-    OfferFilter.prototype.selectRegionInFilter = function(event) {
+/*    OfferFilter.prototype.selectRegionInFilter = function(event) {
         event.preventDefault();
 
         var region = $(event.currentTarget).children('a').text();
@@ -316,7 +377,7 @@
         event.preventDefault();
         var city = $(event.currentTarget).children('a').text();
         $('#filter-text-city').text(city);
-    }
+    }*/
 
     function getIdCategory1Lvl(id2lvl) {
         var id = $('#' + id2lvl).parent().parent().children('a:first').attr('id');
@@ -328,7 +389,7 @@
         var url = "/offers?";
 
         var elem = $(event.currentTarget);
-        var id = elem.attr('id');
+        /*var id = elem.attr('id');
         if(!id) {
             id = elem.attr('data-parent-category');
             elem = $('#' + id);
@@ -350,7 +411,7 @@
                 url += $('#' + parentId).attr('data-url-param') + "=" + parentId + "&";
             }
             url += elem.attr('data-url-param') + "=" + id + "&";
-        }
+        }*/
         $.get(url, function() {
             window.location.href = (url !== "/offers?") ? url : "/offers";
         });
@@ -360,29 +421,128 @@
     OfferFilter.prototype.parseUrlToFilter = function() {
         var url = window.location.href;
         if(url !== "/offers") {
-            this.categories = [];
+            filterObj.categories = [];
             var cat1 = getUrlParam("category1lvl");
             if (cat1) {
-                this.categories.push(cat1);
+                filterObj.categories.push(cat1);
                 var cat2 = getUrlParam("category2lvl");
-                if(cat2) this.categories.push(cat2);
+                if(cat2) filterObj.categories.push(cat2);
             }
 
-            this.address = {
+            filterObj.address = {
                 country: 'Украина'
             };
 
             var area = getUrlParam("area");
-            if(area) this.address.area = area;
+            if(area) filterObj.address.area = area;
             var city = getUrlParam("city");
-            if(city) this.address.city = city;
+            if(city) filterObj.address.city = city;
 
-            this.properties = [];
+            filterObj.properties = [];
             var price = getUrlParam("price");
-            if(price) this.properties.push({key: 'price',value: price});
+            if(price) filterObj.properties.push({key: 'price',value: price});
 
         }
-        return this;
+        return filterObj;
+    }
+
+    OfferFilter.prototype.generateFilterRegionString = function() {
+        var area = $('#input-selected-area').val();
+        var city = $('#input-selected-city').val();
+        var str = "";
+        if(area) {
+            str += area;
+            if(city) str += ", " + city;
+        }
+        $('#input-region-search').val(str);
+    }
+
+    OfferFilter.prototype.initFilterRegionMenu = function() {
+        $('#filter-city-box').addClass('filter-elem-hidden');
+        $('#filter-city-box div.div-region').empty();
+        $('#filter-area-box').removeClass('filter-elem-hidden');
+        $('#filter-region-nav a:first').removeClass('filter-elem-hidden');
+        $('#filter-region-nav a:not(:first)').addClass('filter-elem-hidden');
+    }
+
+    OfferFilter.prototype.showFilterRegionMenu = function() {
+        $('#filter-region-menu').toggleClass('filter-elem-hidden');
+    }
+
+    OfferFilter.prototype.selectFilterArea = function(event) {
+        event.preventDefault();
+
+        var area = $(event.currentTarget).find('a').text();
+        $('#input-selected-area').val(area);
+        $('#filter-area-box').addClass('filter-elem-hidden');
+        filterObj.drawCitiesInFilter(area);
+        $('#filter-city-box').removeClass('filter-elem-hidden');
+        $('#filter-region-nav a:first').addClass('filter-elem-hidden');
+        $('#filter-region-nav a:not(:first)').removeClass('filter-elem-hidden');
+        filterObj.generateFilterRegionString();
+    }
+
+    OfferFilter.prototype.drawCitiesInFilter = function(area) {
+
+        var cities = window.cities || {};
+        var citiesArr = cities[area];
+
+        var numInColumn = citiesArr.length / 2 + (citiesArr.length % 2);
+        for (var i = 0; i < citiesArr.length; i++) {
+            var parentBlock = (i + 1 <= numInColumn) ? $('#filter-city-box div.div-region-left') : $('#filter-city-box div.div-region-right');
+            var li = $('<li class="filter-region-elem li-city"><a class="filter-region-a" href="#">' + citiesArr[i] + '</a></li>').click(filterObj.selectFilterCity);
+            parentBlock.append(li);
+        }
+    }
+
+    OfferFilter.prototype.allUkraineRegionClick = function(event) {
+        event.preventDefault();
+
+        $('#input-selected-area').val("");
+        $('#input-selected-city').val("");
+        filterObj.showFilterRegionMenu();
+        filterObj.generateFilterRegionString();
+        if(flag !== "offer-all") filterObj.redirectToOfferAll(event);
+    }
+
+    OfferFilter.prototype.selectAllCities = function(event) {
+        event.preventDefault();
+
+        filterObj.showFilterRegionMenu();
+        $('#input-selected-city').val("");
+        filterObj.generateFilterRegionString();
+        if(flag !== "offer-all") filterObj.redirectToOfferAll(event);
+    }
+
+    OfferFilter.prototype.selectFilterCity = function(event) {
+        event.preventDefault();
+
+        var city = $(event.currentTarget).children('a').text();
+        $('#input-selected-city').val(city);
+        filterObj.showFilterRegionMenu();
+        filterObj.initFilterRegionMenu();
+        filterObj.generateFilterRegionString();
+        if(flag !== "offer-all") filterObj.redirectToOfferAll(event);
+    }
+
+    OfferFilter.prototype.deleteFilterRegion = function(event) {
+        $('#input-selected-area').val("");
+        $('#input-selected-city').val("");
+        $('#filter-region-menu').addClass('filter-elem-hidden');
+        filterObj.initFilterRegionMenu();
+        filterObj.generateFilterRegionString();
+        if(flag !== "offer-all") filterObj.redirectToOfferAll(event);
+    }
+
+    OfferFilter.prototype.submitFilter = function (event) {
+        event.preventDefault();
+        if(flag !== "offer-all") {
+            filterObj.redirectToOfferAll(event);
+        } else {
+            filterObj.cleanResult()
+                .setFilterOptions()
+                .readAllByFilter();
+        }
     }
 
     namespace.OfferFilter = OfferFilter;
