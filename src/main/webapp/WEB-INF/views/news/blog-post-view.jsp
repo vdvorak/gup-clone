@@ -141,7 +141,7 @@
 
                 if(loggedInProfile){
                     if (loggedInProfile.id === blogPost.authorId){
-                        $("<a href='/blog-post/edit/" + blogPost.id +"'><button>Редактировать статью</button></a>").insertAfter($('.newsRating'))
+                        $("<a class='editBlogPost' href='/blog-post/edit/" + blogPost.id +"'><span>Редактировать статью </span></a>").insertAfter($('.newsRating'))
                     }
                 }
 
