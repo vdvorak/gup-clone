@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.bank_api;
 
 
+import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -14,6 +15,7 @@ import ua.com.itproekt.gup.bank_api.repository.InternalTransactionRepository;
 import ua.com.itproekt.gup.bank_api.repository.UserRepository;
 import ua.com.itproekt.gup.bank_api.services.BankService;
 import ua.com.itproekt.gup.bank_api.services.Pair;
+import ua.com.itproekt.gup.util.LogUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import java.util.Map;
 
 @Service
 public class BankSession {
+    private static final Logger LOG = Logger.getLogger(BankSession.class);
 
     private final String URL = "e-otg-gup-bank.herokuapp.com";
     private BalanceRepository balanceRepository = new BalanceRepository(this);
@@ -200,8 +203,7 @@ public class BankSession {
         try {
             obj = parser.parse(jsonResponse);
         } catch (ParseException e) {
-            System.out.println("EXCEPTION IN projectPayback method - could not parse");
-            e.printStackTrace();
+            LOG.error("EXCEPTION IN projectPayback method - could not parse" + LogUtil.getExceptionStackTrace(e));
         }
 
         JSONArray response = (JSONArray) obj;

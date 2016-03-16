@@ -153,20 +153,15 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.getMatchedNames(name);
     }
 
-    //TODO: remove try-catch
     @Override
     public void bringBackMoneyToInvestors() {
         List<Project> activeAndExpiredProjects = projectRepository.getActiveAndExpiredProjects();
         Set<String> notCollectedAmountRequestedProjectIds = getNotCollectedRequestedAmountProjectIds(activeAndExpiredProjects);
         notCollectedAmountRequestedProjectIds.parallelStream().unordered()
                 .forEach(projectId-> {
-                    try {
-                        List<Pair<String, Long>> projectInvestments = bankSession.projectPayback(projectId);
-                        projectRepository.updateProjectStatus(projectId, ProjectStatus.EXPIRED_AND_RETURNED_MONEY);
-                        sendBringBackNotificationsToInvestors(projectInvestments, projectId);
-                    } catch (ParseException e) {
-                        throw new RuntimeException(Arrays.toString(e.getStackTrace()));
-                    }
+                    List<Pair<String, Long>> projectInvestments = bankSession.projectPayback(projectId);
+                    projectRepository.updateProjectStatus(projectId, ProjectStatus.EXPIRED_AND_RETURNED_MONEY);
+                    sendBringBackNotificationsToInvestors(projectInvestments, projectId);
                 });
     }
 
