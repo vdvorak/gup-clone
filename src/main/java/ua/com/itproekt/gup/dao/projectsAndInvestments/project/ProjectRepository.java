@@ -3,6 +3,7 @@ package ua.com.itproekt.gup.dao.projectsAndInvestments.project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.*;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.List;
 import java.util.Set;
 
 public interface ProjectRepository {
@@ -36,7 +37,7 @@ public interface ProjectRepository {
 
     void updateProjectStatus(String projectId, ProjectStatus status);
 
-    Set<String> getExpiredProjectsIds();
+    List<Project> getActiveAndExpiredProjects();
 
     Set<String> getCompletedAmountRequestedProjectsIds();
 

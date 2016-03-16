@@ -15,6 +15,7 @@ import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.ServiceNames;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -148,36 +149,38 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void bringBackMoneyToInvestors() {
-        Set<String> expiredProjectsIds = projectRepository.getExpiredProjectsIds();
-
-        expiredProjectsIds.parallelStream().unordered().forEach(projectId -> {
-            List<Pair<String, Long>> projectInvestments = null;
-            try {
-                projectInvestments = bankSession.projectPayback(projectId);
-            } catch (ParseException e) {
-                throw new RuntimeException(Arrays.toString(e.getStackTrace()));
-            }
-
-            sendNotificationsToInvestors(projectInvestments, projectId);
-            projectRepository.updateProjectStatus(projectId, ProjectStatus.EXPIRED_AND_RETURNED_MONEY);
-        });
-    }
-
-    @Override
     public Set<String> getMatchedNames(String name) {
         return projectRepository.getMatchedNames(name);
     }
 
-    //TODO: create method for send notifications
+    //TODO: remove try-catch
     //TODO: refactoring
-    public void sendNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {
-        projectInvestments.parallelStream().unordered().forEach(pair -> {
-            String uId = pair.getKey();
-            Long moneyAmount = pair.getValue();
-            activityFeedService.createEvent(new Event(uId, EventType.PROJECT_BRING_BACK_MONEY,
-                    projectId, moneyAmount.toString(), null));
-        });
+    @Override
+    public void bringBackMoneyToInvestors() {
+        List<Project> activeAndExpiredProjects = projectRepository.getActiveAndExpiredProjects();
+        activeAndExpiredProjects.parallelStream().unordered()
+                .forEach(project-> {
+                    int investedProjectAmount = bankSession.getUserBalance(project.getId());
+                    if (investedProjectAmount < project.getAmountRequested()) {
+                        try {
+                            List<Pair<String, Long>> projectInvestments = bankSession.projectPayback(project.getId());
+                            projectRepository.updateProjectStatus(project.getId(), ProjectStatus.EXPIRED_AND_RETURNED_MONEY);
+                            sendBringBackNotificationsToInvestors(projectInvestments, project.getId());
+                        } catch (ParseException e) {
+                            throw new RuntimeException(Arrays.toString(e.getStackTrace()));
+                        }
+                    }
+                });
+    }
+
+    public void sendBringBackNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {
+        projectInvestments.parallelStream().unordered()
+                .forEach(pair -> {
+                    String uId = pair.getKey();
+                    Long investedMoneyAmount = pair.getValue();
+                    activityFeedService.createEvent(new Event(uId, EventType.PROJECT_BRING_BACK_MONEY,
+                            projectId, investedMoneyAmount.toString(), null));
+                });
     }
 
     //TODO: create implementation
