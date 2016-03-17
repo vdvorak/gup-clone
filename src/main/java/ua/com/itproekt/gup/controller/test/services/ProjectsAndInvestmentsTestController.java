@@ -38,7 +38,6 @@ public class ProjectsAndInvestmentsTestController {
                             " описание описание описание описание описание описание описание описание описание описание" +
                             " описание описание описание описание описание описание описание описание описание описание")
                     .setAmountRequested(i * 1000 + 1)
-                    .setInvestedAmount(i * new Random().nextInt(i * 1000))
                     .setTotalComments(0)
                     .setModerationStatus(ModerationStatus.COMPLETE)
                     .setViews(i);

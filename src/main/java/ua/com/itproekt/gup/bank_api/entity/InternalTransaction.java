@@ -12,22 +12,22 @@ public class InternalTransaction {
 
     private int type;
 
-    private String sender;
+    private String senderId;
 
     private String recipient;
 
     private Integer code;
 
-public InternalTransaction(){
+    public InternalTransaction(){
 
-}
+    }
 
-    public InternalTransaction(Long dateTime, long amount, String status, int type, String sender, String recipient, Integer code) {
+    public InternalTransaction(Long dateTime, long amount, String status, int type, String senderId, String recipient, Integer code) {
         this.dateTime = dateTime;
         this.amount = amount;
         this.status = status;
         this.type = type;
-        this.sender = sender;
+        this.senderId = senderId;
         this.recipient = recipient;
         this.code = code;
     }
@@ -72,15 +72,15 @@ public InternalTransaction(){
         this.type = type;
     }
 
-    public String getSender() {
-        return sender;
+    public String getSenderId() {
+        return senderId;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
     }
 
-    public String getRecipient() {
+    public String getRecipientId() {
         return recipient;
     }
 
@@ -104,7 +104,7 @@ public InternalTransaction(){
                 ", amount=" + amount +
                 ", status='" + status + '\'' +
                 ", type=" + type +
-                ", sender='" + sender + '\'' +
+                ", senderId='" + senderId + '\'' +
                 ", recipient='" + recipient + '\'' +
                 ", code=" + code +
                 '}';

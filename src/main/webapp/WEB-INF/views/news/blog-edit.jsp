@@ -193,13 +193,6 @@
     var cropper = new Cropper(image, {
         aspectRatio: 1 / 1,
         crop: function (data) {
-            console.log(data.x);
-            console.log(data.y);
-            console.log(data.width);
-            console.log(data.height);
-            console.log(data.rotate);
-            console.log(data.scaleX);
-            console.log(data.scaleY);
         }
     });
 
@@ -449,7 +442,7 @@
 
             blog.imageId = imgId;
 
-            if (oldImgId !== '' || oldImgId !== imgId) {
+            if (oldImgId !== imgId) {
                 deleteImgFromDB(oldImgId);
             }
 

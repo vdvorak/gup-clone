@@ -1,9 +1,9 @@
 package ua.com.itproekt.gup.service.projectsAndInvestments.project;
 
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.BankSession;
+import ua.com.itproekt.gup.bank_api.entity.InternalTransaction;
 import ua.com.itproekt.gup.bank_api.services.Pair;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.projectsAndInvestments.project.ProjectRepository;
@@ -32,30 +32,19 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void create(Project project) {
-        Project newProject = new Project()
-                .setAuthorId(project.getAuthorId())
-                .setViews(0)
+        project.setViews(0)
                 .setTotalScore(0L)
                 .setTotalVoters(0)
                 .setTotalComments(0)
-                .setCreatedDateEqualsToCurrentDate()
-                .setModerationStatus(ModerationStatus.COMPLETE)
                 .setStatus(ProjectStatus.ACTIVE)
-                .setLastInvestmentDateEqualsToCurrentDate()
-                .updateExpirationDateAt20Days()
-                .setInvestedAmount(0)
-                .setAmountRequested(project.getAmountRequested())
-                .setTitle(project.getTitle())
-                .setDescription(project.getDescription())
-                .setType(project.getType())
-                .setCategoriesOfIndustry(project.getCategoriesOfIndustry())
-                .setImagesIds(project.getImagesIds())
+                .setModerationStatus(ModerationStatus.COMPLETE)
                 .setComments(new HashSet<>())
-                .setVotes(new HashSet<>());
+                .setVotes(new HashSet<>())
+                .updateExpirationDateAt20Days()
+                .setCreatedDateEqualsToCurrentDate()
+                .setLastInvestmentDateEqualsToCurrentDate();
 
-        projectRepository.create(newProject);
-
-        project.setId(newProject.getId());
+        projectRepository.create(project);
     }
 
     @Override
@@ -84,21 +73,14 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void addComment(String projectId, Comment comment) {
-        Comment newComment = new Comment()
-                .setComment(comment.getComment())
-                .setFromId(comment.getFromId())
-                .setToId(comment.getToId())
-                .setCreatedDateEqualsToCurrentDate();
-
-        projectRepository.createComment(projectId, newComment);
-
-        comment.setId(newComment.getcId());
+        comment.setCreatedDateEqualsToCurrentDate();
+        projectRepository.createComment(projectId, comment);
     }
 
     @Override
     public void deleteComment(String projectId, String commentId) {
         projectRepository.deleteComment(projectId, commentId);
-    }
+     }
 
     @Override
     public Project findComment(String projectId, String commentId) {
@@ -161,7 +143,18 @@ public class ProjectServiceImpl implements ProjectService {
                 .forEach(projectId-> {
                     List<Pair<String, Long>> projectInvestments = bankSession.projectPayback(projectId);
                     projectRepository.updateProjectStatus(projectId, ProjectStatus.EXPIRED_AND_RETURNED_MONEY);
-                    sendBringBackNotificationsToInvestors(projectInvestments, projectId);
+                    sendProjectBringBackNotificationsToInvestors(projectInvestments, projectId);
+                });
+    }
+
+    @Override
+    public void findAndUpdateCollectedRequestedAmountProjects() {
+        List<Project> activeAndExpiredProjects = projectRepository.getActiveAndExpiredProjects();
+        Set<String> collectedAmountRequestedProjectIds = getCollectedRequestedAmountProjectIds(activeAndExpiredProjects);
+        collectedAmountRequestedProjectIds.parallelStream().unordered()
+                .forEach(projectId-> {
+                    projectRepository.updateProjectStatus(projectId, ProjectStatus.COLLECTED_MONEY);
+                    sendProjectCollectedMoneyNotificationsToInvestors(projectId);
                 });
     }
 
@@ -179,7 +172,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .collect(Collectors.toSet());
     }
 
-    public void sendBringBackNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {
+    public void sendProjectBringBackNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {
         projectInvestments.parallelStream().unordered()
                 .forEach(pair -> {
                     String uId = pair.getKey();
@@ -189,14 +182,12 @@ public class ProjectServiceImpl implements ProjectService {
                 });
     }
 
-    //TODO: create implementation
-    //TODO: create shcedule for autostart (mongoTask.xml)
-    @Override
-    public void sendNotificationsToInvestorsOfCompletedProjects() {
-        throw new UnsupportedOperationException();
+    public void sendProjectCollectedMoneyNotificationsToInvestors(String projectId) {
+        List<InternalTransaction> depositors = bankSession.getAllRecipientInternalTransactionsJson(projectId);
+        depositors.parallelStream().unordered()
+                .forEach(depositor -> {
+                    String uId = depositor.getSenderId();
+                    activityFeedService.createEvent(new Event(uId, EventType.PROJECT_COLLECTED_REQUESTED_AMOUNT, projectId, null));
+                });
     }
-
-
-
-
 }
