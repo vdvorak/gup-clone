@@ -170,7 +170,7 @@
                         {"data": "id"},
                         {"data": "code"},
                         {"data": "type"},
-                        {"data": "sender"},
+                        {"data": "senderId"},
                         {"data": "recipient"},
                         {"data": "dateTime"},
                         {"data": "amount"},

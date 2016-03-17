@@ -1,9 +1,9 @@
 package ua.com.itproekt.gup.service.projectsAndInvestments.project;
 
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.BankSession;
+import ua.com.itproekt.gup.bank_api.entity.InternalTransaction;
 import ua.com.itproekt.gup.bank_api.services.Pair;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.projectsAndInvestments.project.ProjectRepository;
@@ -98,7 +98,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void deleteComment(String projectId, String commentId) {
         projectRepository.deleteComment(projectId, commentId);
-    }
+     }
 
     @Override
     public Project findComment(String projectId, String commentId) {
@@ -161,7 +161,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .forEach(projectId-> {
                     List<Pair<String, Long>> projectInvestments = bankSession.projectPayback(projectId);
                     projectRepository.updateProjectStatus(projectId, ProjectStatus.EXPIRED_AND_RETURNED_MONEY);
-                    sendBringBackNotificationsToInvestors(projectInvestments, projectId);
+                    sendProjectBringBackNotificationsToInvestors(projectInvestments, projectId);
                 });
     }
 
@@ -179,7 +179,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .collect(Collectors.toSet());
     }
 
-    public void sendBringBackNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {
+    public void sendProjectBringBackNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {
         projectInvestments.parallelStream().unordered()
                 .forEach(pair -> {
                     String uId = pair.getKey();
@@ -189,14 +189,24 @@ public class ProjectServiceImpl implements ProjectService {
                 });
     }
 
-    //TODO: create implementation
-    //TODO: create shcedule for autostart (mongoTask.xml)
-    @Override
-    public void sendNotificationsToInvestorsOfCompletedProjects() {
-        throw new UnsupportedOperationException();
+    public void sendProjectCollectedMoneyNotificationsToInvestors(String projectId) {
+        List<InternalTransaction> depositors = bankSession.getAllRecipientInternalTransactionsJson(projectId);
+        depositors.parallelStream().unordered()
+                .forEach(depositor -> {
+                    String uId = depositor.getSenderId();
+                    activityFeedService.createEvent(new Event(uId, EventType.PROJECT_COLLECTED_REQUESTED_AMOUNT,
+                            projectId, null));
+                });
     }
 
-
-
-
+    @Override
+    public void sendNotificationsToInvestorsOfCompletedProjects() {
+        List<Project> activeAndExpiredProjects = projectRepository.getActiveAndExpiredProjects();
+        Set<String> collectedAmountRequestedProjectIds = getCollectedRequestedAmountProjectIds(activeAndExpiredProjects);
+        collectedAmountRequestedProjectIds.parallelStream().unordered()
+                .forEach(projectId-> {
+                    projectRepository.updateProjectStatus(projectId, ProjectStatus.COLLECTED_MONEY);
+                    sendProjectCollectedMoneyNotificationsToInvestors(projectId);
+                });
+    }
 }
