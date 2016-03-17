@@ -200,7 +200,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void sendNotificationsToInvestorsOfCompletedProjects() {
+    public void findAndUpdateCollectedRequestedAmountProjects() {
         List<Project> activeAndExpiredProjects = projectRepository.getActiveAndExpiredProjects();
         Set<String> collectedAmountRequestedProjectIds = getCollectedRequestedAmountProjectIds(activeAndExpiredProjects);
         collectedAmountRequestedProjectIds.parallelStream().unordered()

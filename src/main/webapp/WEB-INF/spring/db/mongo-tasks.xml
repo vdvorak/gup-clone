@@ -7,7 +7,7 @@
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <task:scheduler id="sendNotificationsToInvestorsOfCompletedProjects"/>
+    <task:scheduler id="findAndUpdateCollectedRequestedAmountProjects"/>
     <task:scheduler id="bringBackMoneyToInvestorsOfExpiredProjects"/>
     <task:scheduler id="checkClosedTenders"/>
 
@@ -23,8 +23,8 @@
         <task:scheduled ref="projectServiceImpl" method="bringBackMoneyToInvestors" cron="0 0 4 * * *"/>
     </task:scheduled-tasks>
 
-    <task:scheduled-tasks scheduler="sendNotificationsToInvestorsOfCompletedProjects">
-        <task:scheduled ref="projectServiceImpl" method="sendNotificationsToInvestorsOfCompletedProjects" cron="0 0 3 * * *"/>
+    <task:scheduled-tasks scheduler="findAndUpdateCollectedRequestedAmountProjects">
+        <task:scheduled ref="projectServiceImpl" method="findAndUpdateCollectedRequestedAmountProjects" cron="0 0 3 * * *"/>
     </task:scheduled-tasks>
 
     <task:scheduled-tasks scheduler="checkClosedTenders">
