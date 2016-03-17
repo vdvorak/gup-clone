@@ -233,7 +233,7 @@
         var jsonCategory = window.jsonCategory || [];
 
         $('.ItemADS').each(function () {
-            var elem = $(utils).children('a:first');
+            var elem = $(this).children('a:first');
             var category1Id = elem.attr('id');
             var subcategoriesBox = elem.parent().find('div');
 
