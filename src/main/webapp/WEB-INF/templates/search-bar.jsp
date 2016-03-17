@@ -212,23 +212,19 @@
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Волынская область</a>
-                                </li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Волынская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Донецкая область</a>
-                                </li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Донецкая область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Житомирская
-                                    область</a></li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Житомирская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Закарпатская
-                                    область</a></li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Закарпатская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
@@ -236,13 +232,11 @@
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Киевская область</a>
-                                </li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Киевская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Кировоградская
-                                    область</a></li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Кировоградская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
@@ -250,70 +244,57 @@
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Луганская область</a>
-                                </li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Луганская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Львовская область</a>
-                                </li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Львовская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                         </div>
                         <div class="div-region div-region-right">
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Николаевская
-                                    область</a></li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Николаевская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Одесская область</a>
-                                </li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Одесская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Ровенская область</a>
-                                </li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Ровенская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Сумская область</a>
-                                </li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Сумская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Тернопольская
-                                    область</a></li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Тернопольская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Харьковская
-                                    область</a></li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Харьковская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Херсонская область</a>
-                                </li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Херсонская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Хмельницкая
-                                    область</a></li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Хмельницкая область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Черкасская область</a>
-                                </li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Черкасская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Черниговская
-                                    область</a></li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Черниговская область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                             <div class="filter-region-elem">
-                                <li class="region-li li-area"><a class="filter-region-a" href="#">Черновицкая
-                                    область</a></li>
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Черновицкая область</a></li>
                                 <i class="fa fa-angle-right li-angle"></i>
                             </div>
                         </div>
