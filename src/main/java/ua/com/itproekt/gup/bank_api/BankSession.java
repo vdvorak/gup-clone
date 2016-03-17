@@ -1,6 +1,8 @@
 package ua.com.itproekt.gup.bank_api;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -8,6 +10,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.entity.BankUser;
+import ua.com.itproekt.gup.bank_api.entity.InternalTransaction;
 import ua.com.itproekt.gup.bank_api.liqpay.LiqPay;
 import ua.com.itproekt.gup.bank_api.repository.BalanceRepository;
 import ua.com.itproekt.gup.bank_api.repository.ExternalTransactionRepository;
@@ -90,8 +93,11 @@ public class BankSession {
         return internalTransactionRepository.getInternalTransactionsJsonByUserId(id);
     }
 
-    public String getAllRecipientInternalTransactionsJson(String id) {
-        return internalTransactionRepository.getAllRecipientTransactionsJson(id);
+    public List<InternalTransaction> getAllRecipientInternalTransactionsJson(String id) {
+        Gson gson = new Gson();
+        String jsonInternalTransactions = internalTransactionRepository.getAllRecipientTransactionsJson(id);
+        return gson.fromJson(jsonInternalTransactions, new TypeToken<List<InternalTransaction>>() {
+        }.getType());
     }
 
     public boolean isInternalTransactionExist(String sender, String recipient) {
@@ -131,7 +137,7 @@ public class BankSession {
     }
 
     public BankUser getUserByLogin(String login) {
-      return BankService.getUserFromJsonString(userRepository.getUserJson(login));
+        return BankService.getUserFromJsonString(userRepository.getUserJson(login));
     }
 
     public String liqPayRenderHtmlForm(String id, Long amount) throws UnsupportedEncodingException {
@@ -139,8 +145,8 @@ public class BankSession {
         params.put("version", "3");
         params.put("amount", amount);
         params.put("currency", "UAH");
-        params.put("description", new String("Пополнение баланса".getBytes("UTF-8"),"cp1251") );
-        params.put("order_id",BankService.getRandomPassword()+id);
+        params.put("description", new String("Пополнение баланса".getBytes("UTF-8"), "cp1251"));
+        params.put("order_id", BankService.getRandomPassword() + id);
         params.put("server_url", "http://e-otg-gup-bank.herokuapp.com/callback");
         params.put("public_key", "i74044182839");
         params.put("sandbox", "1");
@@ -149,28 +155,28 @@ public class BankSession {
         return html;
     }
 
-    public Map<String, String> liqPayGenerateParamForHtmlForm(String id, Long amount){
+    public Map<String, String> liqPayGenerateParamForHtmlForm(String id, Long amount) {
         HashMap params = new HashMap();
         params.put("version", "3");
         params.put("amount", amount);
         params.put("currency", "UAH");
         try {
-            params.put("description", new String("Пополнение баланса".getBytes("UTF-8"),"cp1251"));
+            params.put("description", new String("Пополнение баланса".getBytes("UTF-8"), "cp1251"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        params.put("order_id", BankService.getRandomPassword()+id);
+        params.put("order_id", BankService.getRandomPassword() + id);
         params.put("server_url", "http://e-otg-gup-bank.herokuapp.com/callback");
         params.put("public_key", "i74044182839");
         params.put("sandbox", "1");
         return new LiqPay("i74044182839", "psMQcCR32o4TZRZTKI0Yoe4UDNyFHNFHf76Pyedr").generateData(params);
     }
 
-    public void accountantRequest(String accountantLogin, String userId, Long amount, String comment){
+    public void accountantRequest(String accountantLogin, String userId, Long amount, String comment) {
         internalTransactionRepository.accountantRequest(accountantLogin, userId, amount, comment);
     }
 
-    public void adminConfirm(Long internalTransactionId, String adminLogin){
+    public void adminConfirm(Long internalTransactionId, String adminLogin) {
         internalTransactionRepository.adminConfirm(internalTransactionId, adminLogin);
     }
 
@@ -178,23 +184,23 @@ public class BankSession {
         balanceRepository.createBalanceRecord(userId, typeEntity);
     }
 
-    public String getAllPendingTransactionsJson(){
-       return internalTransactionRepository.getAllPendingTransactionsJson();
+    public String getAllPendingTransactionsJson() {
+        return internalTransactionRepository.getAllPendingTransactionsJson();
     }
 
-    public String getAllAccountantPendingTransactionsJson(String login){
+    public String getAllAccountantPendingTransactionsJson(String login) {
         return internalTransactionRepository.getAllAccountantPendingTransactionsJson(login);
     }
 
-    public void adminReject(Long internalTransactionId, String adminLogin, String comment){
+    public void adminReject(Long internalTransactionId, String adminLogin, String comment) {
         internalTransactionRepository.adminReject(internalTransactionId, adminLogin, comment);
     }
 
-    public void accountantCancelRequest(Long internalTransactionId){
+    public void accountantCancelRequest(Long internalTransactionId) {
         internalTransactionRepository.accountantCancelRequest(internalTransactionId);
     }
 
-    public List<Pair<String, Long>> projectPayback(String projectId){
+    public List<Pair<String, Long>> projectPayback(String projectId) {
         String jsonResponse = internalTransactionRepository.projectPayback(projectId);
         System.out.println(jsonResponse);
         JSONParser parser = new JSONParser();
@@ -212,7 +218,7 @@ public class BankSession {
             JSONObject jsonObj = (JSONObject) pairBeforeParse;
             String key = (String) jsonObj.get("key");
             Long value = (Long) jsonObj.get("value");
-            Pair<String, Long> pair  = new Pair<>(key,value);
+            Pair<String, Long> pair = new Pair<>(key, value);
             result.add(pair);
         }
         return result;
