@@ -68,24 +68,22 @@ $("#selectedService").change(function(){
     }
 });
 // ------------------------------------ OFFER FILTER BEGIN ---------------------------------------------------//
-    var filter = new OfferFilterModule.OfferFilter();
+    var offerFilter = window.OfferFilter;
 
     $('.ItemADS').each(function () {
-        $(this).children('a:first').click(filter.onClickCategory1lvl);
+        $(this).children('a:first').click(offerFilter.onClickCategory1lvl);
     })
-    $.when(loadCategories).done(function(){
-        $('.ItemADS div a').click(filter.onClickCategory2lvl);
+    $.when(window.loadCategories).done(function(){
+        $('.ItemADS div a').click(offerFilter.onClickCategory2lvl);
     })
 
-    //$('#filter-region-container').find('li').click(OfferFilterModule.OfferFilter.prototype.selectRegionInFilter);
-
-    $('#input-region-search').click(filter.showFilterRegionMenu);
-    $('#filter-area-box').find('div.filter-region-elem').click(filter.selectFilterArea);
-    $('#filter-region-nav a:eq(0)').click(filter.allUkraineRegionClick);
-    $('#filter-region-nav a:eq(1)').click(filter.initFilterRegionMenu);
-    $('#filter-region-nav a:eq(2)').click(filter.selectAllCities);
-    $('#filter-icon-close').click(filter.deleteFilterRegion);
-    $('#btn-offers-search').click(filter.submitFilter);
+    $('#input-region-search').click(offerFilter.showFilterRegionMenu);
+    $('#filter-area-box').find('div.filter-region-elem').click(offerFilter.selectFilterArea);
+    $('#filter-region-nav a:eq(0)').click(offerFilter.allUkraineRegionClick);
+    $('#filter-region-nav a:eq(1)').click(offerFilter.initFilterRegionMenu);
+    $('#filter-region-nav a:eq(2)').click(offerFilter.selectAllCities);
+    $('#filter-icon-close').click(offerFilter.deleteFilterRegion);
+    $('#btn-offers-search').click(offerFilter.submitFilter);
 
 // ------------------------------------ OFFER FILTER END ---------------------------------------------------//
 

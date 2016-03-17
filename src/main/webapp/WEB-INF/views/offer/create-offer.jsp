@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/dropdown-multicolumn.css">
     <link rel="stylesheet" href="/resources/css/mini.css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 
 </head>
 <body>
@@ -355,9 +356,7 @@
     var flag = '${flag}';
 </script>
 
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/logo-section.js"></script>
-<script src="/resources/js/search-bar.js"></script>
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script>
     $(document).ready(function () {
@@ -370,11 +369,6 @@
 <script>
     var imgsArr = {};
     var placeKey = '';
-    var jsonCategory;
-    var jsonSubcategory;
-    var options;
-    var parameters = [];
-    var cities;
     var category1Id = '';
     var category2Id = '';
     var category3Id = '';
@@ -446,64 +440,13 @@
     countTextLength();
     $("textarea").on('keyup', countTextLength);
 
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/cities.json",
-        async: false,
-        dataType: 'json',
-        success: function (response) {
-            cities = response;
+    $.when(window.loadCategories).done(function(){
+        for (var i in jsonCategory) {
+            var li = $('<li><a id="' + jsonCategory[i].id + '" href="#">' + jsonCategory[i].name + '</a></li>')
+                    .click(selectCategoryLvl1);
+            $('#ul-category1').append(li);
         }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/searchCategories.json",
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-            jsonCategory = response;
-
-            for (var i in jsonCategory) {
-                var li = $('<li><a id="' + jsonCategory[i].id + '" href="#">' + jsonCategory[i].name + '</a></li>')
-                        .click(selectCategoryLvl1);
-                $('#ul-category1').append(li);
-            }
-
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/searchSubcategories.json",
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-            jsonSubcategory = response;
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/searchValues.json",
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-            options = response;
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/parameters.json",
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-            parameters = response;
-        }
-    });
-
-    // ---------------   END LOAD RESOURCES    --------------------------//
+    })
 
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
 

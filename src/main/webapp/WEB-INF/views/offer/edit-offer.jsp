@@ -346,9 +346,7 @@
     var flag = '${flag}';
 </script>
 
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/logo-section.js"></script>
-<script src="/resources/js/search-bar.js"></script>
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script>
     $(document).ready(function () {
@@ -361,11 +359,6 @@
 <script>
 
     var placeKey = '${offer.address.coordinates}';
-    var jsonCategory;
-    var jsonSubcategory;
-    var options;
-    var parameters = [];
-    var cities;
 
     var categories = ${categories};
     var category1Id = '';
@@ -454,72 +447,22 @@
     var area = '${offer.address.area}';
     if (area) $('#text-region').text(area);
 
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/cities.json",
-        async: false,
-        dataType: 'json',
-        success: function (response) {
-            cities = response;
+    $.when(window.loadCities).done(function(){
+        var city = '${offer.address.city}';
 
-            var city = '${offer.address.city}';
-
-            if (area && area !== 'Вся Украина') {
-                if (city) $('#text-city').text(city);
-                drawCities(area);
-            }
+        if (area && area !== 'Вся Украина') {
+            if (city) $('#text-city').text(city);
+            drawCities(area);
         }
-    });
+    })
 
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/searchCategories.json",
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-            jsonCategory = response;
-
-            for (var i in jsonCategory) {
-                var li = $('<li><a id="' + jsonCategory[i].id + '" href="#">' + jsonCategory[i].name + '</a></li>')
-                        .click(selectCategoryLvl1);
-                $('#ul-category1').append(li);
-            }
-
+    $.when(window.loadCategories).done(function(){
+        for (var i in jsonCategory) {
+            var li = $('<li><a id="' + jsonCategory[i].id + '" href="#">' + jsonCategory[i].name + '</a></li>')
+                    .click(selectCategoryLvl1);
+            $('#ul-category1').append(li);
         }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/searchSubcategories.json",
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-            jsonSubcategory = response;
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/searchValues.json",
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-            options = response;
-        }
-    });
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/parameters.json",
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-            parameters = response;
-        }
-    });
-
-    // ---------------   END LOAD RESOURCES    --------------------------//
-
+    })
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
     function validateOffer() {
         $('.error-validation').removeClass('error-validation');

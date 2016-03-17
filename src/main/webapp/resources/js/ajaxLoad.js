@@ -1,6 +1,8 @@
 /**
  * Created by Юля on 15.03.2016.
  */
+var offerFilter = window.OfferFilter;
+
 var cities = {};
 var parameters = [];
 var options = [];
@@ -25,7 +27,7 @@ var loadCategories =
         dataType: "json",
         success: function (response) {
             jsonCategory = response;
-            OfferFilterModule.OfferFilter.prototype.drawSubcategories();
+            offerFilter.drawSubcategories();
         }
     })
 
