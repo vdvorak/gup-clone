@@ -24,6 +24,8 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link href="/resources/css/main.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
+
 </head>
 <body>
 <!-- BEGIN Common general header-->
@@ -139,9 +141,7 @@
     var flag = '${flag}';
 </script>
 
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/logo-section.js"></script>
-<script src="/resources/js/search-bar.js"></script>
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script src="/resources/js/common.js"></script>
 </body>
