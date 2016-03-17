@@ -32,30 +32,20 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void create(Project project) {
-        Project newProject = new Project()
-                .setAuthorId(project.getAuthorId())
-                .setViews(0)
+        project.setViews(0)
                 .setTotalScore(0L)
                 .setTotalVoters(0)
                 .setTotalComments(0)
-                .setCreatedDateEqualsToCurrentDate()
-                .setModerationStatus(ModerationStatus.COMPLETE)
-                .setStatus(ProjectStatus.ACTIVE)
-                .setLastInvestmentDateEqualsToCurrentDate()
-                .updateExpirationDateAt20Days()
                 .setInvestedAmount(0)
-                .setAmountRequested(project.getAmountRequested())
-                .setTitle(project.getTitle())
-                .setDescription(project.getDescription())
-                .setType(project.getType())
-                .setCategoriesOfIndustry(project.getCategoriesOfIndustry())
-                .setImagesIds(project.getImagesIds())
+                .setStatus(ProjectStatus.ACTIVE)
+                .setModerationStatus(ModerationStatus.COMPLETE)
                 .setComments(new HashSet<>())
-                .setVotes(new HashSet<>());
+                .setVotes(new HashSet<>())
+                .updateExpirationDateAt20Days()
+                .setCreatedDateEqualsToCurrentDate()
+                .setLastInvestmentDateEqualsToCurrentDate();
 
-        projectRepository.create(newProject);
-
-        project.setId(newProject.getId());
+        projectRepository.create(project);
     }
 
     @Override
@@ -84,15 +74,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void addComment(String projectId, Comment comment) {
-        Comment newComment = new Comment()
-                .setComment(comment.getComment())
-                .setFromId(comment.getFromId())
-                .setToId(comment.getToId())
-                .setCreatedDateEqualsToCurrentDate();
-
-        projectRepository.createComment(projectId, newComment);
-
-        comment.setId(newComment.getcId());
+        comment.setCreatedDateEqualsToCurrentDate();
+        projectRepository.createComment(projectId, comment);
     }
 
     @Override
@@ -165,6 +148,17 @@ public class ProjectServiceImpl implements ProjectService {
                 });
     }
 
+    @Override
+    public void findAndUpdateCollectedRequestedAmountProjects() {
+        List<Project> activeAndExpiredProjects = projectRepository.getActiveAndExpiredProjects();
+        Set<String> collectedAmountRequestedProjectIds = getCollectedRequestedAmountProjectIds(activeAndExpiredProjects);
+        collectedAmountRequestedProjectIds.parallelStream().unordered()
+                .forEach(projectId-> {
+                    projectRepository.updateProjectStatus(projectId, ProjectStatus.COLLECTED_MONEY);
+                    sendProjectCollectedMoneyNotificationsToInvestors(projectId);
+                });
+    }
+
     private Set<String> getCollectedRequestedAmountProjectIds(List<Project> activeAndExpiredProjects) {
         return activeAndExpiredProjects.parallelStream().unordered()
                 .filter(project -> project.getAmountRequested() >= bankSession.getUserBalance(project.getId()))
@@ -194,19 +188,7 @@ public class ProjectServiceImpl implements ProjectService {
         depositors.parallelStream().unordered()
                 .forEach(depositor -> {
                     String uId = depositor.getSenderId();
-                    activityFeedService.createEvent(new Event(uId, EventType.PROJECT_COLLECTED_REQUESTED_AMOUNT,
-                            projectId, null));
-                });
-    }
-
-    @Override
-    public void findAndUpdateCollectedRequestedAmountProjects() {
-        List<Project> activeAndExpiredProjects = projectRepository.getActiveAndExpiredProjects();
-        Set<String> collectedAmountRequestedProjectIds = getCollectedRequestedAmountProjectIds(activeAndExpiredProjects);
-        collectedAmountRequestedProjectIds.parallelStream().unordered()
-                .forEach(projectId-> {
-                    projectRepository.updateProjectStatus(projectId, ProjectStatus.COLLECTED_MONEY);
-                    sendProjectCollectedMoneyNotificationsToInvestors(projectId);
+                    activityFeedService.createEvent(new Event(uId, EventType.PROJECT_COLLECTED_REQUESTED_AMOUNT, projectId, null));
                 });
     }
 }
