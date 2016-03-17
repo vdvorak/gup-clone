@@ -219,7 +219,7 @@
     var imgsArr = {};
     var cities;
     var inpCategories = [];
-    var oldCategories = JSON.parse('${blogPost.categories}'); // make array from string
+    var oldCategories = '${blogPost.categories}'.slice(1, -1).split(","); // make array from string
     var oldImgArr = {};
     var imgsArrResult = {};
     var picArrDel = [];
@@ -404,6 +404,29 @@
         appendImg(key);
     }
 
+    function onClickSetMainImg() {
+        var img = $(event.currentTarget);
+        var id = img.attr("id");
+        var isMain = img.hasClass("mainImg");
+        var allImgs = $(".ul-img-container").find("img");
+        for (var i = 0; i < allImgs.length; i++) {
+            var curImg = $(allImgs[i]);
+            if (curImg.hasClass("mainImg")) {
+                curImg.removeClass("mainImg");
+            }
+        }
+        if (!isMain) img.addClass("mainImg");
+
+        for (var key in imgsArr) {
+            if (imgsArr[key] === "pic1") {
+                imgsArr[key] = "image";
+            }
+        }
+
+        if (img.hasClass("mainImg")) {
+            imgsArr[id] = "pic1";
+        }
+    }
 
     function appendImg(id) {
         $(".li-defaultIMG").css("display", "none");
