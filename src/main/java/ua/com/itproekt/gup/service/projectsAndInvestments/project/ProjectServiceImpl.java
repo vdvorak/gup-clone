@@ -32,18 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void create(Project project) {
-        project.setViews(0)
-                .setTotalScore(0L)
-                .setTotalVoters(0)
-                .setTotalComments(0)
-                .setStatus(ProjectStatus.ACTIVE)
-                .setModerationStatus(ModerationStatus.COMPLETE)
-                .setComments(new HashSet<>())
-                .setVotes(new HashSet<>())
-                .updateExpirationDateAt20Days()
-                .setCreatedDateEqualsToCurrentDate()
-                .setLastInvestmentDateEqualsToCurrentDate();
-
+        Project.prepareProjectForCreateOperation(project);
         projectRepository.create(project);
     }
 
@@ -80,7 +69,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void deleteComment(String projectId, String commentId) {
         projectRepository.deleteComment(projectId, commentId);
-     }
+    }
 
     @Override
     public Project findComment(String projectId, String commentId) {
@@ -98,16 +87,11 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.commentExists(projectId, commentId);
     }
 
+    //TODO: fix
     @Override
     public Project edit(Project project) {
-        Project newProject = new Project()
-                .setId(project.getId())
-                .setTitle(project.getTitle())
-                .setDescription(project.getDescription())
-                .setType(project.getType())
-                .setCategoriesOfIndustry(project.getCategoriesOfIndustry())
-                .setImagesIds(project.getImagesIds());
-        return projectRepository.findProjectAndUpdate(newProject);
+//        Project preparedProjectForEditOperation = Project.getPreparedProjectForEditOperation(project);
+        return projectRepository.findProjectAndUpdate(project);
     }
 
     @Override
@@ -140,7 +124,7 @@ public class ProjectServiceImpl implements ProjectService {
         List<Project> activeAndExpiredProjects = projectRepository.getActiveAndExpiredProjects();
         Set<String> notCollectedAmountRequestedProjectIds = getNotCollectedRequestedAmountProjectIds(activeAndExpiredProjects);
         notCollectedAmountRequestedProjectIds.parallelStream().unordered()
-                .forEach(projectId-> {
+                .forEach(projectId -> {
                     List<Pair<String, Long>> projectInvestments = bankSession.projectPayback(projectId);
                     projectRepository.updateProjectStatus(projectId, ProjectStatus.EXPIRED_AND_RETURNED_MONEY);
                     sendProjectBringBackNotificationsToInvestors(projectInvestments, projectId);
@@ -152,7 +136,7 @@ public class ProjectServiceImpl implements ProjectService {
         List<Project> activeAndExpiredProjects = projectRepository.getActiveAndExpiredProjects();
         Set<String> collectedAmountRequestedProjectIds = getCollectedRequestedAmountProjectIds(activeAndExpiredProjects);
         collectedAmountRequestedProjectIds.parallelStream().unordered()
-                .forEach(projectId-> {
+                .forEach(projectId -> {
                     projectRepository.updateProjectStatus(projectId, ProjectStatus.COLLECTED_MONEY);
                     sendProjectCollectedMoneyNotificationsToInvestors(projectId);
                 });

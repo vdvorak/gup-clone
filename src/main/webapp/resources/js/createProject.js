@@ -186,23 +186,24 @@ function deleteImgFromDB(event) {
 
 $(document).on('click', 'button.info-submit', function (event) {
     var incorrectValuesMsg = '';
-    var newProject = {};
+    var newProject = {
+        'categoriesOfIndustry' : []
+    };
 
     newProject.type =  $('input[class="greenCheckbox"]:checked').val();
     newProject.title = $('#main-title-info').val();
     newProject.description = tinymce.activeEditor.getContent({format : 'raw'});
     newProject.amountRequested = +$('#sum').val();
 
+    $('#categoriesOfIndustry').find('option:selected').each(function() {
+        newProject.categoriesOfIndustry.push($(this).val());
+    });
+
     if (!newProject.type) { incorrectValuesMsg += "Выбрете тип проекта \n";}
     if (newProject.title.length < 4 || newProject.title.length > 70) {incorrectValuesMsg += "Введите заголовок \n";}
     if (newProject.description.length < 50 || newProject.description.length > 5000) {incorrectValuesMsg += "Добавьте описание \n";}
     if (newProject.amountRequested < 1) {incorrectValuesMsg += "Укажите нужную сумму \n";}
-
-    $('#categoriesOfIndustry').find('option:selected').each(function() {
-        alert($(this).val());
-    });
-    //newProject.categoriesOfIndustry = $('#categoriesOfIndustry').val();
-    //if (!categoriesOfIndustry) {incorrectValues += "Добавьте категории индустрии<br>";}
+    if (newProject.categoriesOfIndustry.length < 1) {incorrectValuesMsg += "Добавьте категории индустрии \n";}
 
     checkMainImg();
     newProject.imagesIds = imagesIds;

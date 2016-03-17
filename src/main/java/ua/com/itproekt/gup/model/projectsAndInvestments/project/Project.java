@@ -7,6 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -64,6 +65,33 @@ public class Project {
                 ", imagesIds=" + imagesIds +
                 '}';
     }
+
+    public static void prepareProjectForCreateOperation(Project project) {
+        project.setViews(0)
+                .setTotalScore(0L)
+                .setTotalVoters(0)
+                .setTotalComments(0)
+                .setStatus(ProjectStatus.ACTIVE)
+                .setModerationStatus(ModerationStatus.COMPLETE)
+                .setComments(new HashSet<>())
+                .setVotes(new HashSet<>())
+                .setCreatedDateEqualsToCurrentDate()
+                .setLastInvestmentDateEqualsToCurrentDate()
+                .updateExpirationDateAt20Days();
+    }
+
+    public static Project getPreparedProjectForEditOperation(Project project) {
+        Project newProject = new Project()
+                .setId(project.getId())
+                .setTitle(project.getTitle())
+                .setDescription(project.getDescription())
+                .setType(project.getType())
+                .setCategoriesOfIndustry(project.getCategoriesOfIndustry())
+                .setImagesIds(project.getImagesIds());
+
+        return newProject;
+    }
+
 
     public Project setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
