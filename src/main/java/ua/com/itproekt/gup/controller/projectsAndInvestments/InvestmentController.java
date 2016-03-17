@@ -25,7 +25,7 @@ public class InvestmentController {
     public String getInvestorPostById(@RequestParam String id, HttpServletRequest request) {
         //..
         //..
-        return "projectsAndInvestments/investment/investorPost-OLD";
+        return "projectsAndInvestments/investment/investorPost";
     }
 
 //    @RequestMapping("/investorPost/list")

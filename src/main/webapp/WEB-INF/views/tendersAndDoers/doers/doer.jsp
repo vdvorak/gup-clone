@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
@@ -335,9 +336,7 @@
 </script>
 
 
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/logo-section.js"></script>
-<script src="/resources/js/search-bar.js"></script>
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/js/service.js"></script>
