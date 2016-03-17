@@ -108,7 +108,7 @@
                 </c:forEach>
             </div>
 
-            <p class="authorblog">Автор: ${username}</p>
+            <p class="authorblog">Автор:  <a href="/profile?id=${blog.authorId}">${username}</a></p>
 
             <c:if test="${check}">
                 <a href="/blog-post/create/${blog.id}">
