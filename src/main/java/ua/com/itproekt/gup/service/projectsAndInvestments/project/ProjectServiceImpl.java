@@ -36,7 +36,6 @@ public class ProjectServiceImpl implements ProjectService {
                 .setTotalScore(0L)
                 .setTotalVoters(0)
                 .setTotalComments(0)
-                .setInvestedAmount(0)
                 .setStatus(ProjectStatus.ACTIVE)
                 .setModerationStatus(ModerationStatus.COMPLETE)
                 .setComments(new HashSet<>())

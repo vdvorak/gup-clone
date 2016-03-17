@@ -30,8 +30,6 @@ public class Project {
     private Long lastInvestmentDate;
     @Min(1)
     private Integer amountRequested;
-    @Min(0)
-    private Integer investedAmount; // TODO delete investedAmount?
     private ProjectType type;
     @Size(min = 4, max = 70)
     private String title;
@@ -59,7 +57,6 @@ public class Project {
                 ", expirationDate=" + expirationDate +
                 ", lastInvestmentDate=" + lastInvestmentDate +
                 ", amountRequested=" + amountRequested +
-                ", investedAmount=" + investedAmount +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", type=" + type +
@@ -200,15 +197,6 @@ public class Project {
 
     public Project setAmountRequested(Integer amountRequested) {
         this.amountRequested = amountRequested;
-        return this;
-    }
-
-    public Integer getInvestedAmount() {
-        return investedAmount;
-    }
-
-    public Project setInvestedAmount(Integer investedAmount) {
-        this.investedAmount = investedAmount;
         return this;
     }
 
