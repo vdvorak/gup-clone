@@ -49,7 +49,13 @@
         </a>
     </div>
 
-    <h2>ТОП обьявлений</h2>
+    <h2 id="h2-top-offers">ТОП обьявлений</h2>
+
+    <!-- offers not found -->
+    <div id="offers-notFound" class="offers-notFound-hidden">
+        <span>По Вашему запросу ничего не найдено.</span>
+    </div>
+    <!-- offers not found -->
 
     <ul class="notice-box">
     </ul>
@@ -62,6 +68,7 @@
         <span>Просмотров: 222</span>
     </li>
     <!-- li pattern for clone -->
+
     <div class="contentContainer" style="margin-top: 5px">
         <img class="projAndInvestCaretDown" id="btn-offers-more" src="/resources/images/caret.png" alt="caret">
     </div>

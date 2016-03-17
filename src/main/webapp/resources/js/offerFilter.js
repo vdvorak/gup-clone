@@ -8,6 +8,7 @@
     function OfferFilter() {
         this.skip = 0;
         this.limit = 10;
+        this.createdDateSortDirection = "DESC";
     }
 
     function cleanResult() {
@@ -32,10 +33,18 @@
             statusCode: {
                 200: function (data, textStatus, request) {
                     drawOffers(data.entities);
+                },
+                204:function (data, textStatus, request) {
+                   drawNoFoundOffers();
                 }
             }
         });
         return namespace;
+    }
+
+    function drawNoFoundOffers() {
+        $('#offers-notFound').removeClass('offers-display-none');
+        $('#h2-top-offers').addClass('offers-display-none');
     }
 
     function createNewBox() {
@@ -93,6 +102,8 @@
     }
 
     function drawOffers(offersArr) {
+        $('#offers-notFound').addClass('offers-display-none');
+        $('#h2-top-offers').removeClass('offers-display-none');
 
         var count = 0;
         var maxCount = 5;
@@ -528,7 +539,7 @@
     function redirectToOfferAllByCategories(event) {
         event.preventDefault();
         var url = "/offers?";
-        var elem = event.currentTarget;
+        var elem = $(event.currentTarget);
 
         var id = elem.attr('id');
         var categoryLevel = elem.attr('data-level');

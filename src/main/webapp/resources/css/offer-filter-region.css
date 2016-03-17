@@ -157,3 +157,13 @@ label[for="input-region-search"] {
     font-weight: bold;
     font-size: 18px;
 }
+
+#offers-notFound{
+    font: 400 19px ArianAMU;
+    text-align: center;
+    margin-top:25px;
+}
+
+.offers-display-none {
+    display: none;
+}
