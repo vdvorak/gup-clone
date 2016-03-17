@@ -198,7 +198,7 @@ $(document).ready(function () {
         });
     });
 
-    $('.modal-pay-liq-pay').on('click', function () {
+    $('#modal-pay-liq-pay').on('click', function () {
         $('#modal-bill-submit').click()
 
     });

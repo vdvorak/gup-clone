@@ -4,47 +4,68 @@
         <a href="/index">
             <div class="logo">
                 <a href="/index"><img src="/resources/css/images/brand.png" alt="brand"></a>
+
                 <p>Global Ukrainian Portal</p>
             </div>
         </a>
 
         <div class="social">
             <ul class="store">
-                <li><a href="https://www.microsoft.com/ru-ru/store/apps"><img src="/resources/images/windowsStore.png" alt="Windows Store"></a></li>
-                <li><a href="https://play.google.com/store/apps"><img src="/resources/images/GooglePlay.png" alt="Google Play"></a></li>
-                <li><a href="https://itunes.apple.com"><img src="/resources/images/appStore.png" alt="App Store"></a></li>
+                <li><a href="https://www.microsoft.com/ru-ru/store/apps"><img src="/resources/images/windowsStore.png"
+                                                                              alt="Windows Store"></a></li>
+                <li><a href="https://play.google.com/store/apps"><img src="/resources/images/GooglePlay.png"
+                                                                      alt="Google Play"></a></li>
+                <li><a href="https://itunes.apple.com"><img src="/resources/images/appStore.png" alt="App Store"></a>
+                </li>
             </ul>
             <button class="socialBtn" id="socialBtn">ВСТУПИТЬ В ОРГАНИЗАЦИЮ <i class="fa fa-plus"></i></button>
 
             <div id="refill">
                 <h2>Вступить в организацию</h2>
+
                 <div class="whichBankYouChoose">
                     <div class="brokeAss">
                         <!-- когда чувак нищеброд -->
                         <h2>НА ВАШЕМ СЧЕТУ НЕТ ДЕНЕГ</h2>
+
                         <p>Введите сумму:</p>
+
                         <form action="#" role="form">
-                            <input type="text" name="bill" placeholder="350, 000">
+                            <input id="modal_money_amount" type="text" name="bill" placeholder="350, 000">
+
                             <p>$</p>
                         </form>
                         <p>Пополните счет, с помощью этих банк-систем:</p>
+
                         <div class="socialBankIcons">
                             <a href="#"><img src="/resources/images/visa.png" alt="visa"></a>
                             <a href="#"><img src="/resources/images/mastercard.png" alt="mastercard"></a>
-                            <a href="#"><img src="/resources/images/privat24.png" alt="privat24"></a>
+                            <a href="#" id="modal-pay-liq-pay"><img src="/resources/images/privat24.png" alt="privat24"></a>
                             <a href="#"><img src="/resources/images/box.png" alt="box"></a>
                         </div>
+
+                        <form method="post" action="https://www.liqpay.com/api/checkout"
+                              accept-charset="utf-8">
+                            <input id="modal_liq-pay-data" type="hidden" name="data"
+                                   value="eyJhbW91bnQiOjEwMCwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6ItCf0L7Qv9C+0LvQvdC10L3QuNC1INCx0LDQu9Cw0L3RgdCwIiwib3JkZXJfaWQiOiJsM2Q2d1VvR3Rlc3QiLCJwdWJsaWNfa2V5IjoiaTc0MDQ0MTgyODM5Iiwic2FuZGJveCI6IjEiLCJzZXJ2ZXJfdXJsIjoiaHR0cDpcL1wvYmFuay10a2FuaS5yaGNsb3VkLmNvbVwvY2FsbGJhY2siLCJ2ZXJzaW9uIjoiMyJ9"/>
+                            <input id="modal_liq-pay-signature" type="hidden" name="signature"
+                                   value="DxXg8vXCVuw39G1Qvk8hmLyad6o="/>
+                            <button id="modal-bill-submit" type="submit" class="submit" style="display: none;">Пополнить</button>
+                        </form>
+
                         <button type="button">Отмена</button>
                     </div>
                     <div class="richAss">
                         <!-- когда чувак не нищеброд -->
                         <p class="message-payment-accept">С вашего счета будет снято 50. 00 грн</p>
+
                         <p class="message-for-offer-reservation"></p>
+
                         <form role="form" action="#">
                             <div class="richAssCheck">
                                 <label for="hustle">Согласен с правилами Портала</label>
                                 <label class="label-checkbox-rich">
-                                    <input type="checkbox" id="hustle" value="1" name="k" /><span></span>
+                                    <input type="checkbox" id="hustle" value="1" name="k"/><span></span>
                                 </label>
                             </div>
                             <div class="clearfix"></div>
@@ -74,12 +95,12 @@
             <%--</form>--%>
 
             <%--<form method="post" action="https://www.liqpay.com/api/checkout"--%>
-            <%--accept-charset="utf-8">--%>
-            <%--<input id="modal_liq-pay-data" type="hidden" name="data"--%>
-            <%--value="eyJhbW91bnQiOjEwMCwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6ItCf0L7Qv9C+0LvQvdC10L3QuNC1INCx0LDQu9Cw0L3RgdCwIiwib3JkZXJfaWQiOiJsM2Q2d1VvR3Rlc3QiLCJwdWJsaWNfa2V5IjoiaTc0MDQ0MTgyODM5Iiwic2FuZGJveCI6IjEiLCJzZXJ2ZXJfdXJsIjoiaHR0cDpcL1wvYmFuay10a2FuaS5yaGNsb3VkLmNvbVwvY2FsbGJhY2siLCJ2ZXJzaW9uIjoiMyJ9"/>--%>
-            <%--<input id="modal_liq-pay-signature" type="hidden" name="signature"--%>
-            <%--value="DxXg8vXCVuw39G1Qvk8hmLyad6o="/>--%>
-            <%--<button id="modal-bill-submit" type="submit" class="submit" style="display: none;">Пополнить</button>--%>
+                  <%--accept-charset="utf-8">--%>
+                <%--<input id="modal_liq-pay-data" type="hidden" name="data"--%>
+                       <%--value="eyJhbW91bnQiOjEwMCwiY3VycmVuY3kiOiJVQUgiLCJkZXNjcmlwdGlvbiI6ItCf0L7Qv9C+0LvQvdC10L3QuNC1INCx0LDQu9Cw0L3RgdCwIiwib3JkZXJfaWQiOiJsM2Q2d1VvR3Rlc3QiLCJwdWJsaWNfa2V5IjoiaTc0MDQ0MTgyODM5Iiwic2FuZGJveCI6IjEiLCJzZXJ2ZXJfdXJsIjoiaHR0cDpcL1wvYmFuay10a2FuaS5yaGNsb3VkLmNvbVwvY2FsbGJhY2siLCJ2ZXJzaW9uIjoiMyJ9"/>--%>
+                <%--<input id="modal_liq-pay-signature" type="hidden" name="signature"--%>
+                       <%--value="DxXg8vXCVuw39G1Qvk8hmLyad6o="/>--%>
+                <%--<button id="modal-bill-submit" type="submit" class="submit" style="display: none;">Пополнить</button>--%>
             <%--</form>--%>
 
             <%--<p class="noMoney-p2">Пополните счет, с помощью этих банк-систем:</p>--%>
