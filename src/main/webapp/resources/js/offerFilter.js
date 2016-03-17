@@ -1,52 +1,41 @@
 (function (namespace) {
 
     'use strict';
-
-    var isComplete = false;
+    
     var flag = window.flag || "";
-    var filterObj = {};
-
+    var utils = new OfferFilter();
+    
     function OfferFilter() {
         this.skip = 0;
         this.limit = 10;
-        filterObj = this;
     }
 
-    OfferFilter.prototype.cleanResult = function () {
+    function cleanResult() {
         var offerBoxArr = $('ul.notice-box:not(:first)');
         for (var i = 0; i < offerBoxArr.length; i++) {
             offerBoxArr[i].remove();
         }
         $('ul.notice-box:first').text("");
 
-        return filterObj;
+        return namespace;
     }
 
-    OfferFilter.prototype.completeCategories = function (bool) {
-        if (arguments.length) {
-            return isComplete;
-        } else {
-            return bool;
-        }
-    }
-
-    OfferFilter.prototype.readAllByFilter = function () {
-        if (filterObj.categories && !filterObj.categories.length) delete filterObj.categories;
-        if (filterObj.properties && !filterObj.properties.length) delete filterObj.properties;
-        console.log();
+    function readAllByFilter() {
+        if (utils.categories && !utils.categories.length) delete utils.categories;
+        if (utils.properties && !utils.properties.length) delete utils.properties;
         $.ajax({
             type: "POST",
             url: "/api/rest/offersService/offer/read/all",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            data: JSON.stringify(filterObj),
+            data: JSON.stringify(utils),
             statusCode: {
                 200: function (data, textStatus, request) {
                     drawOffers(data.entities);
                 }
             }
         });
-        return filterObj;
+        return namespace;
     }
 
     function createNewBox() {
@@ -120,26 +109,22 @@
         }
     }
 
-    OfferFilter.prototype.setFilterOptions = function () {
+    function setFilterOptions() {
 /*
         var keyWords = $('#searchInput').val();
         if (keyWords !== "")  this.searchField = keyWords;
 */
-        filterObj.address = {
+        utils.address = {
             country: 'Украина'
         };
-        var city = $('#filter-text-city').text();
-        var area = $('#filter-text-region').text();
-        if (city !== 'Выберите город' && city !== '' && city !== 'Все города') {
-            filterObj.address.city = city;
-        }
-        if (area !== 'Вся Украина' && area !== 'Выберите область' && area !== '') {
-            filterObj.address.area = area;
-        }
+        var city = $('#input-selected-city').val();
+        var area = $('#input-selected-area').val();
+        if (city) utils.address.city = city;
+        if (area) utils.address.area = area;
 
-        filterObj.properties = [];
+        utils.properties = [];
         var typeOfPrice = $('#filter-price').val();
-        if(typeOfPrice) filterObj.properties.push({
+        if(typeOfPrice) utils.properties.push({
             key: 'price',
             value: typeOfPrice
         });
@@ -149,25 +134,25 @@
             var prop = {};
             prop.key = param[i].name;
             prop.value = param[i].value;
-            filterObj.properties.push(prop);
+            utils.properties.push(prop);
         }
 
         if ($('#price-wrapper').css('display') !== "none") {
-            filterObj.fromPrice = $('#priceMin').val();
-            filterObj.toPrice = $('#priceMax').val();
-            /*this.properties.push({
+            utils.fromPrice = $('#priceMin').val();
+            utils.toPrice = $('#priceMax').val();
+            /*utils.properties.push({
              key: 'currency',
              value: $('#filter-currency').val()
              });*/
         } else {
-            delete filterObj.fromPrice;
-            delete filterObj.toPrice;
+            delete utils.fromPrice;
+            delete utils.toPrice;
         }
 
-        return filterObj;
+        return namespace;
     }
 
-    OfferFilter.prototype.drawFilterOptions = function (id) {
+   function drawFilterOptions(id) {
         var parameters = window.parameters || [];
         var options = window.options || [];
 
@@ -209,24 +194,25 @@
             }
         }
         if ($('.parameters').children().length) $('.parameters').css('display', 'block');
-        return filterObj;
+
+        return namespace;
     }
 
-    OfferFilter.prototype.deleteFilterOptions = function () {
+    function deleteFilterOptions() {
 
         $('.price').css('display', 'none');
         $('.parameters').empty();
         $('#filter-price').empty();
 
-        return filterObj;
+        return namespace;
     }
 
-    OfferFilter.prototype.drawCategories3lvl = function() {
+    function drawCategories3lvl() {
         var jsonSubcategory = window.jsonSubcategory || {};
 
         $('#select-categories-3lvl option:not(:first)').remove();
 
-        var id = filterObj.categories[1];
+        var id = utils.categories[1];
         var select = $('#select-categories-3lvl');
         var child2 = {};
         if (jsonSubcategory[id]) {
@@ -240,14 +226,14 @@
             select.css('display', 'inline-block');
             $('label[for="select-categories-3lvl"]').css('display', 'inline');
         }
-        return filterObj;
+        return namespace;
     }
 
-    OfferFilter.prototype.drawSubcategories = function() {
+   function drawSubcategories() {
         var jsonCategory = window.jsonCategory || [];
 
         $('.ItemADS').each(function () {
-            var elem = $(this).children('a:first');
+            var elem = $(utils).children('a:first');
             var category1Id = elem.attr('id');
             var subcategoriesBox = elem.parent().find('div');
 
@@ -259,36 +245,36 @@
                 child1 = childArr[0].children;
 
                 for (var key in child1) {
-                    var newA = $('<a id="' + child1[key].id + '" href="#" data-url-param="category2lvl" data-parent-category="'+ category1Id +'">' + child1[key].name + '</a>');
+                    var newA = $('<a id="' + child1[key].id + '" href="#" data-level="2">' + child1[key].name + '</a>');
                     $(subcategoriesBox).append(newA);
                 }
 
                 if (Object.keys(child1).length) {
-                    var newA = $('<a href="#" data-parent-category="'+ category1Id +'">Cмотреть все обьявления</a>');
+                    var newA = $('<a href="#">Cмотреть все обьявления</a>');
                     $(subcategoriesBox).append(newA);
                 }
             }
         });
-        return filterObj;
+        return namespace;
     }
 
-    OfferFilter.prototype.onClickCategory1lvl = function(event) {
+   function onClickCategory1lvl (event) {
         if(flag !== "offer-all") {
-            filterObj.redirectToOfferAll(event);
+            redirectToOfferAllByCategories(event);
         } else {
             var id1 = $(event.currentTarget).attr('id');
-            filterObj.categories = [];
-            filterObj.deleteFilterOptions();
+            utils.categories = [];
+            deleteFilterOptions();
 
             if (id1 !== 'free' && id1 !== 'exchange') {
-                filterObj.categories.push(id1);
+                utils.categories.push(id1);
             } else {
                 $('#filter-price').append('<option selected value="' + id1 + '" id="' + id1 + '"></option>');
             }
-            filterObj.cleanResult()
-                .drawFilterOptions(filterObj.categories[0])
-                .setFilterOptions()
-                .readAllByFilter();
+            cleanResult();
+            drawFilterOptions(utils.categories[0]);
+            setFilterOptions();
+            readAllByFilter();
 
             $('#select-categories-3lvl').css('display', 'none');
             $('label[for="select-categories-3lvl"]').css('display', 'none');
@@ -297,39 +283,39 @@
 
     }
 
-    OfferFilter.prototype.onClickCategory2lvl = function(event) {
+    function onClickCategory2lvl(event) {
         if(flag !== "offer-all") {
-            filterObj.redirectToOfferAll(event);
+            redirectToOfferAllByCategories(event);
         } else {
             var elem = $(event.currentTarget);
             var id2 = elem.attr('id');
-            filterObj.categories = [];
-            filterObj.categories.push(elem.parent().parent().children('a:first').attr('id'));
-            if (id2) filterObj.categories.push(id2);
+            utils.categories = [];
+            utils.categories.push(elem.parent().parent().children('a:first').attr('id'));
+            if (id2) utils.categories.push(id2);
 
-            filterObj.cleanResult()
-                .deleteFilterOptions()
-                .drawFilterOptions((id2) ? filterObj.categories[1] : filterObj.categories[0])
-                .drawCategories3lvl()
-                .setFilterOptions()
-                .readAllByFilter();
+            cleanResult();
+            deleteFilterOptions();
+            drawFilterOptions((id2) ? utils.categories[1] : utils.categories[0]);
+            drawCategories3lvl();
+            setFilterOptions();
+            readAllByFilter();
 
             $('#filter-price').change();
         }
     }
 
-    OfferFilter.prototype.selectCategoryLvl3 = function(event) {
-        if (filterObj.categories.length > 2) filterObj.categories.pop();
+   function selectCategoryLvl3(event) {
+        if (utils.categories.length > 2) utils.categories.pop();
         var cat3 = $(event.currentTarget).val();
         if (cat3) {
-            filterObj.categories.push(cat3);
-            filterObj.deleteFilterOptions()
-                .drawFilterOptions(cat3);
+            utils.categories.push(cat3);
+            deleteFilterOptions();
+            drawFilterOptions(cat3);
         }
         $('#filter-price').change();
     }
 
-    OfferFilter.prototype.selectFilterPrice = function (event) {
+    function selectFilterPrice (event) {
         var selectVal = $(event.currentTarget).val();
         if (selectVal === 'price') {
             $('#price-wrapper').css('display', 'inline-block');
@@ -384,69 +370,34 @@
         return (id) ? id : "";
     }
 
-    OfferFilter.prototype.redirectToOfferAll = function(event) {
-        event.preventDefault();
-        var url = "/offers?";
-
-        var elem = $(event.currentTarget);
-        /*var id = elem.attr('id');
-        if(!id) {
-            id = elem.attr('data-parent-category');
-            elem = $('#' + id);
-        }
-        if(id === "btn-offers-search") {
-            var city = $('#filter-text-city').text();
-            var area = $('#filter-text-region').text();
-            if (city !== 'Выберите город' && city !== '' && city !== 'Все города') {
-                url += "city=" + city + "&";
-            }
-            if (area !== 'Вся Украина' && area !== 'Выберите область' && area !== '') {
-                url += "area=" + area + "&";
-            }
-        } else if(id === "free" || id === "exchange"){
-            url += "price=" + id + "&";
-        } else {
-            var parentId = elem.attr('data-parent-category');
-            if(parentId) {
-                url += $('#' + parentId).attr('data-url-param') + "=" + parentId + "&";
-            }
-            url += elem.attr('data-url-param') + "=" + id + "&";
-        }*/
-        $.get(url, function() {
-            window.location.href = (url !== "/offers?") ? url : "/offers";
-        });
-    }
-
-
-    OfferFilter.prototype.parseUrlToFilter = function() {
+   function parseUrlToFilter () {
         var url = window.location.href;
         if(url !== "/offers") {
-            filterObj.categories = [];
+            utils.categories = [];
             var cat1 = getUrlParam("category1lvl");
             if (cat1) {
-                filterObj.categories.push(cat1);
+                utils.categories.push(cat1);
                 var cat2 = getUrlParam("category2lvl");
-                if(cat2) filterObj.categories.push(cat2);
+                if(cat2) utils.categories.push(cat2);
             }
 
-            filterObj.address = {
+            utils.address = {
                 country: 'Украина'
             };
-
             var area = getUrlParam("area");
-            if(area) filterObj.address.area = area;
+            if(area) utils.address.area = area;
             var city = getUrlParam("city");
-            if(city) filterObj.address.city = city;
+            if(city) utils.address.city = city;
 
-            filterObj.properties = [];
+            utils.properties = [];
             var price = getUrlParam("price");
-            if(price) filterObj.properties.push({key: 'price',value: price});
+            if(price) utils.properties.push({key: 'price',value: price});
 
         }
-        return filterObj;
+        return namespace;
     }
 
-    OfferFilter.prototype.generateFilterRegionString = function() {
+   function generateFilterRegionString() {
         var area = $('#input-selected-area').val();
         var city = $('#input-selected-city').val();
         var str = "";
@@ -457,7 +408,7 @@
         $('#input-region-search').val(str);
     }
 
-    OfferFilter.prototype.initFilterRegionMenu = function() {
+    function initFilterRegionMenu() {
         $('#filter-city-box').addClass('filter-elem-hidden');
         $('#filter-city-box div.div-region').empty();
         $('#filter-area-box').removeClass('filter-elem-hidden');
@@ -465,24 +416,24 @@
         $('#filter-region-nav a:not(:first)').addClass('filter-elem-hidden');
     }
 
-    OfferFilter.prototype.showFilterRegionMenu = function() {
+    function showFilterRegionMenu() {
         $('#filter-region-menu').toggleClass('filter-elem-hidden');
     }
 
-    OfferFilter.prototype.selectFilterArea = function(event) {
+    function selectFilterArea(event) {
         event.preventDefault();
 
         var area = $(event.currentTarget).find('a').text();
         $('#input-selected-area').val(area);
         $('#filter-area-box').addClass('filter-elem-hidden');
-        filterObj.drawCitiesInFilter(area);
+        drawCitiesInFilter(area);
         $('#filter-city-box').removeClass('filter-elem-hidden');
         $('#filter-region-nav a:first').addClass('filter-elem-hidden');
         $('#filter-region-nav a:not(:first)').removeClass('filter-elem-hidden');
-        filterObj.generateFilterRegionString();
+        generateFilterRegionString();
     }
 
-    OfferFilter.prototype.drawCitiesInFilter = function(area) {
+   function drawCitiesInFilter (area) {
 
         var cities = window.cities || {};
         var citiesArr = cities[area];
@@ -490,62 +441,147 @@
         var numInColumn = citiesArr.length / 2 + (citiesArr.length % 2);
         for (var i = 0; i < citiesArr.length; i++) {
             var parentBlock = (i + 1 <= numInColumn) ? $('#filter-city-box div.div-region-left') : $('#filter-city-box div.div-region-right');
-            var li = $('<li class="filter-region-elem li-city"><a class="filter-region-a" href="#">' + citiesArr[i] + '</a></li>').click(filterObj.selectFilterCity);
+            var li = $('<li class="filter-region-elem li-city"><a class="filter-region-a" href="#">' + citiesArr[i] + '</a></li>').click(selectFilterCity);
             parentBlock.append(li);
         }
     }
 
-    OfferFilter.prototype.allUkraineRegionClick = function(event) {
+    function allUkraineRegionClick(event) {
         event.preventDefault();
 
         $('#input-selected-area').val("");
         $('#input-selected-city').val("");
-        filterObj.showFilterRegionMenu();
-        filterObj.generateFilterRegionString();
-        if(flag !== "offer-all") filterObj.redirectToOfferAll(event);
+        showFilterRegionMenu();
+        generateFilterRegionString();
+        if(flag !== "offer-all") redirectToOfferAllByRegion(event);
     }
 
-    OfferFilter.prototype.selectAllCities = function(event) {
+   function selectAllCities(event) {
         event.preventDefault();
 
-        filterObj.showFilterRegionMenu();
+        showFilterRegionMenu();
         $('#input-selected-city').val("");
-        filterObj.generateFilterRegionString();
-        if(flag !== "offer-all") filterObj.redirectToOfferAll(event);
+        generateFilterRegionString();
+        if(flag !== "offer-all") {
+            redirectToOfferAllByRegion(event);
+        } else {
+            cleanResult();
+            setFilterOptions();
+            readAllByFilter();
+        }
     }
 
-    OfferFilter.prototype.selectFilterCity = function(event) {
+    function selectFilterCity(event) {
         event.preventDefault();
 
         var city = $(event.currentTarget).children('a').text();
         $('#input-selected-city').val(city);
-        filterObj.showFilterRegionMenu();
-        filterObj.initFilterRegionMenu();
-        filterObj.generateFilterRegionString();
-        if(flag !== "offer-all") filterObj.redirectToOfferAll(event);
-    }
-
-    OfferFilter.prototype.deleteFilterRegion = function(event) {
-        $('#input-selected-area').val("");
-        $('#input-selected-city').val("");
-        $('#filter-region-menu').addClass('filter-elem-hidden');
-        filterObj.initFilterRegionMenu();
-        filterObj.generateFilterRegionString();
-        if(flag !== "offer-all") filterObj.redirectToOfferAll(event);
-    }
-
-    OfferFilter.prototype.submitFilter = function (event) {
-        event.preventDefault();
+        showFilterRegionMenu();
+        initFilterRegionMenu();
+        generateFilterRegionString();
         if(flag !== "offer-all") {
-            filterObj.redirectToOfferAll(event);
+            redirectToOfferAllByRegion(event);
         } else {
-            filterObj.cleanResult()
-                .setFilterOptions()
-                .readAllByFilter();
+            cleanResult();
+            setFilterOptions();
+            readAllByFilter();
         }
     }
 
-    namespace.OfferFilter = OfferFilter;
+    function deleteFilterRegion (event) {
+        $('#input-selected-area').val("");
+        $('#input-selected-city').val("");
+        $('#filter-region-menu').addClass('filter-elem-hidden');
+        initFilterRegionMenu();
+        generateFilterRegionString();
+        if(flag !== "offer-all") {
+            redirectToOfferAllByRegion(event);
+        } else {
+            cleanResult();
+            setFilterOptions();
+            readAllByFilter();
+        }
+    }
 
-})(window.OfferFilterModule = window.OfferFilterModule || {});
+    function submitFilter (event) {
+        event.preventDefault();
+        if(flag !== "offer-all") {
+            redirectToOfferAll();
+        } else {
+            cleanResult();
+            setFilterOptions();
+            readAllByFilter();
+        }
+    }
+
+    function redirectToOfferAllByRegion(event) {
+        event.preventDefault();
+        var area = $('#input-selected-area').val();
+        var city = $('#input-selected-city').val();
+
+        var url = "/offers?";
+        if(area) url += "area=" + area + "&";
+        if(city) url += "area=" + city + "&";
+        redirectToOfferAll(url);
+    }
+
+    function redirectToOfferAllByCategories(event) {
+        event.preventDefault();
+        var url = "/offers?";
+        var elem = event.currentTarget;
+
+        var id = elem.attr('id');
+        var categoryLevel = elem.attr('data-level');
+        if(id) {
+            url += "category" + categoryLevel + "lvl=" + id + "&";
+            if (categoryLevel === "2") {
+                url += "category1lvl=" + getIdCategory1Lvl(id) + "&";
+            }
+        } else {
+            id = elem.parent().parent().children('a:first').attr('id');
+            url += "category1lvl=" + id + "&";
+        }
+
+        redirectToOfferAll(url);
+    }
+
+    function redirectToOfferAll(url) {
+        $.get(url, function() {
+            window.location.href = (url !== "/offers?" && url) ? url : "/offers";
+        });
+    }
+
+    namespace.utils = utils;
+
+    namespace.submitFilter = submitFilter;
+
+    namespace.deleteFilterRegion = deleteFilterRegion;
+    namespace.selectFilterCity = selectFilterCity;
+    namespace.selectAllCities = selectAllCities;
+    namespace.allUkraineRegionClick = allUkraineRegionClick;
+    namespace.drawCitiesInFilter = drawCitiesInFilter;
+    namespace.selectFilterArea = selectFilterArea;
+    namespace.showFilterRegionMenu = showFilterRegionMenu;
+    namespace.initFilterRegionMenu = initFilterRegionMenu;
+    namespace.generateFilterRegionString = generateFilterRegionString;
+
+    namespace.parseUrlToFilter = parseUrlToFilter;
+    namespace.redirectToOfferAll = redirectToOfferAll;
+    namespace.redirectToOfferAllByCategories = redirectToOfferAllByCategories;
+    namespace.redirectToOfferAllByRegion = redirectToOfferAllByRegion;
+
+    namespace.getIdCategory1Lvl = getIdCategory1Lvl;
+    namespace.selectFilterPrice = selectFilterPrice;
+    namespace.selectCategoryLvl3 = selectCategoryLvl3;
+    namespace.onClickCategory2lvl = onClickCategory2lvl;
+    namespace.onClickCategory1lvl = onClickCategory1lvl;
+    namespace.drawSubcategories = drawSubcategories;
+    namespace.drawCategories3lvl = drawCategories3lvl;
+    namespace.deleteFilterOptions = deleteFilterOptions;
+    namespace.drawFilterOptions = drawFilterOptions;
+    namespace.setFilterOptions = setFilterOptions;
+    namespace.readAllByFilter = readAllByFilter;
+    namespace.cleanResult = cleanResult;
+
+})(window.OfferFilter = window.OfferFilter || {});
 

@@ -25,7 +25,7 @@ var loadCategories =
         dataType: "json",
         success: function (response) {
             jsonCategory = response;
-            OfferFilterModule.OfferFilter.prototype.drawSubcategories();
+            OfferFilter.drawSubcategories();
         }
     })
 
