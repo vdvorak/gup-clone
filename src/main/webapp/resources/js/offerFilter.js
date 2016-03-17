@@ -371,7 +371,7 @@
     }
 
    function parseUrlToFilter () {
-        var url = window.location.href;
+        var url = decodeURI(window.location.href);
         if(url !== "/offers") {
             utils.categories = [];
             var cat1 = getUrlParam("category1lvl");
@@ -521,7 +521,7 @@
 
         var url = "/offers?";
         if(area) url += "area=" + area + "&";
-        if(city) url += "area=" + city + "&";
+        if(city) url += "city=" + city + "&";
         redirectToOfferAll(url);
     }
 
