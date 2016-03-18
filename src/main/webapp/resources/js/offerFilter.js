@@ -96,7 +96,7 @@
         newLi.find('img').attr("src", imgSrc);
 
         newLi.children('span').text("Просмотров: " + offerObj.views);
-        newLi.find('a.btn').text(priceStr).attr("href", '/offer/' + offerObj.id + '');
+        newLi.children('.priceButton').text(priceStr);
 
         return newLi;
     }
@@ -283,9 +283,9 @@
                 $('#filter-price').append('<option selected value="' + id1 + '" id="' + id1 + '"></option>');
             }
             cleanResult();
-            drawFilterOptions(utils.categories[0]);
             setFilterOptions();
             readAllByFilter();
+            drawFilterOptions(utils.categories[0]);
 
             $('#select-categories-3lvl').css('display', 'none');
             $('label[for="select-categories-3lvl"]').css('display', 'none');
@@ -306,10 +306,10 @@
 
             cleanResult();
             deleteFilterOptions();
-            drawFilterOptions((id2) ? utils.categories[1] : utils.categories[0]);
-            drawCategories3lvl();
             setFilterOptions();
             readAllByFilter();
+            drawFilterOptions((id2) ? utils.categories[1] : utils.categories[0]);
+            drawCategories3lvl();
 
             $('#filter-price').change();
         }
@@ -561,6 +561,7 @@
             window.location.href = (url !== "/offers?" && url) ? url : "/offers";
         });
     }
+
 
     namespace.utils = utils;
 

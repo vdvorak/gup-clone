@@ -85,7 +85,7 @@
                     <c:when test="${not empty blog.imageId}">
                     <div class="blog-img">
                             <ul>
-                                <li class="li-defaultIMG">
+                                <li>
                                     <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImg()"></i></span>
                                     <img src="/api/rest/fileStorage/NEWS/file/read/id/${blog.imageId}" alt="">
                                 </li>
@@ -193,13 +193,6 @@
     var cropper = new Cropper(image, {
         aspectRatio: 1 / 1,
         crop: function (data) {
-            console.log(data.x);
-            console.log(data.y);
-            console.log(data.width);
-            console.log(data.height);
-            console.log(data.rotate);
-            console.log(data.scaleX);
-            console.log(data.scaleY);
         }
     });
 
@@ -241,6 +234,7 @@
             success: function (data, textStatus, request) {
                 imgId = data.id;
                 $('.blog-img ul').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                $('.blog-img ul li').removeClass('li-defaultIMG');
                 cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
             }
         });
@@ -273,7 +267,7 @@
             $('#blogCreationSocial').val(firstFacebookLink);
         } else {
             var newSocLink = addSocialLink(key)
-            newSocLink.val(socialLinks[key]);
+            newSocLink.children('input').val(socialLinks[key]);
         }
     }
 
@@ -309,9 +303,15 @@
     $(".img-responsive").click(function (e) {
         e.preventDefault();
         var el = e.currentTarget;
-        if (cur_fields < max_fields) {
-
-            var socName = $(el).attr("alt");
+        var socName = $(el).attr("alt");
+        var link = $('div.group-info').find('input[name="' + socName + '"]');
+        if(link.length) {
+            var linkParent = link.parent('div:not(.group-info)');
+            if (linkParent.length) {
+                linkParent.remove();
+                cur_fields--;
+            }
+        } else if (cur_fields < max_fields && !link.length) {
             addSocialLink(socName);
         }
     });
@@ -394,6 +394,7 @@
     function deleteImg() {
         imgId = '';
         $('.blog-img ul').find('img').attr("src", "/resources/images/no_photo.jpg");
+        $('.blog-img ul li').addClass('li-defaultIMG');
     }
 
     ///----------------------Delete photo from  DB-----------------------------------------
@@ -449,7 +450,7 @@
 
             blog.imageId = imgId;
 
-            if (oldImgId !== '' || oldImgId !== imgId) {
+            if (oldImgId !== imgId) {
                 deleteImgFromDB(oldImgId);
             }
 
