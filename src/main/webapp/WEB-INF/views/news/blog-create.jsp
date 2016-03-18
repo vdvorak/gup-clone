@@ -238,6 +238,7 @@
             success: function (data, textStatus, request) {
                 imgId = data.id;
                 $('.blog-img ul').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                $('.blog-img ul li').removeClass('li-defaultIMG');
                 cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
             }
         });
@@ -264,11 +265,16 @@
     $(".img-responsive").click(function (e) {
         e.preventDefault();
         var el = e.currentTarget;
-        if (cur_fields < max_fields) {
-
-            var socName = $(el).attr("alt");
+        var socName = $(el).attr("alt");
+        var link = $('div.group-info').find('input[name="' + socName + '"]');
+        if(link.length) {
+            var linkParent = link.parent('div:not(.group-info)');
+            if (linkParent.length) {
+                linkParent.remove();
+                cur_fields--;
+            }
+        } else if (cur_fields < max_fields && !link.length) {
             addSocialLink(socName);
-
         }
     });
 
@@ -363,6 +369,7 @@
 
     function deleteImgFromDB() {
         $('.blog-img ul').find('img').attr("src", "/resources/images/no_photo.jpg");
+        $('.blog-img ul li').addClass('li-defaultIMG');
         $.ajax({
             url: '/api/rest/fileStorage/NEWS/file/delete/id/' + imgId,
             method: 'POST',

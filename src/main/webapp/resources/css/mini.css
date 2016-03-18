@@ -151,7 +151,7 @@ a.explanation-point-tooltip img {
     display: block;
 }
 
-.blog-img ul li li:not(.li-defaultIMG):hover .descr {
+.blog-img ul li:not(.li-defaultIMG):hover .descr {
     opacity: 1;
     -webkit-transform: rotateZ(0deg);
     transform: rotateZ(0deg);
