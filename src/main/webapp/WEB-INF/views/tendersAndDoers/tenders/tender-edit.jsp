@@ -65,12 +65,12 @@
       <h2>Укажите адрес</h2>
       <div class="location">
         <label for="SelectArea">Выберете область</label>
-        <input type="text" id="SelectArea" required value="${tender.address.area}">
+        <input type="text" id="SelectArea" value="${tender.address.area}">
 
         <div class="clearfix"></div>
 
         <label for="SelectCity">Выберете город</label>
-        <input type="text" id="SelectCity" required value="${tender.address.area}">
+        <input type="text" id="SelectCity" value="${tender.address.area}">
       </div>
       <label>Тип</label>
       <div class="tenderRadio">

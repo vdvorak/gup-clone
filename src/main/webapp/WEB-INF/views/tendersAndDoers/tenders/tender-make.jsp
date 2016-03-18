@@ -65,12 +65,12 @@
             <h2>Укажите адрес</h2>
             <div class="location">
                 <label for="SelectArea">Выберете область</label>
-                <input type="text" id="SelectArea" required>
+                <input type="text" id="SelectArea">
 
                 <div class="clearfix"></div>
 
                 <label for="SelectCity">Выберете город</label>
-                <input type="text" id="SelectCity" required>
+                <input type="text" id="SelectCity">
             </div>
 
 <%--            <label for="map">Введите адрес</label>
