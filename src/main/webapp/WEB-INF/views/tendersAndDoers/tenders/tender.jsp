@@ -63,7 +63,7 @@
                         <div class="clock">
                             <div class="time date-finish"></div>
                         </div>
-                        <button type="button" class="abutton blue" title="Для участия в тендере необходимо оставить предлжение.">Участвовать</button>
+                        <button id="wantToComment" type="button" class="abutton blue" title="Для участия в тендере необходимо оставить предлжение.">Участвовать</button>
                     </div>
                 </div>
             </div>
@@ -93,9 +93,6 @@
             <a href="#">system.docx</a>
             <a href="#">doc.exel</a>
             <a href="#">system.docx</a>
-        </div>
-        <div class="tenderMap">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2534.961160242289!2d30.466304515735114!3d50.5534922794897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4d31f1b52061f%3A0x7e2e7b1a78ac5cb7!2z0LLRg9C7LiDQodCw0LTQvtCy0LAsINCa0LjRl9Cy!5e0!3m2!1sru!2sua!4v1456576844954" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
         </div>
         <div class="downComments" title="Для участия в тендере необходимо оставить предложение."><p>ПРЕДЛОЖЕНИЯ УЧАСТНИКОВ</p></div>
     </div>
@@ -150,9 +147,9 @@
     var tenderId = '${id}';
 </script>
 
-<script src="/resources/js/tender.js"></script>
 <script src="/resources/js/jquery.bxslider.js"></script>
-
+<script src="/resources/js/jquery.jscrollpane.js"></script>
+<script src="/resources/js/tender.js"></script>
 
 </body>
 </html>
