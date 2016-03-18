@@ -131,7 +131,7 @@ $('#modal_close, #overlay').click(function () { // лoвим клик пo кре
 
 $('#socialBtn').attr('id', 'goo');
 
-$(document).click('#goo', function (event) {
+$(document).on('click','#goo', function (event) {
     event.preventDefault();
     $('#overlay').fadeIn(400,
         function () {
