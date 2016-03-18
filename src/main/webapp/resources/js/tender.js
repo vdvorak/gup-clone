@@ -1,6 +1,4 @@
-
 var proposes;
-var firstBlock = $('#start').html();
 
 // ----------------------- Begin Tender propose text length counter ------------------------------
 $("#tenderPropose").on('keyup', function (event) {
@@ -28,13 +26,14 @@ function sliderImg(arr) {
     var url = '';
     var imgId = '';
     for (var i in arr) {
-        if (arr[i] === 'image') {
+        if (arr[i] === 'image' || arr[i] === 'pic1') {
             imgId = i;
             url = '/api/rest/fileStorage/TENDER/file/read/id/' + imgId;
-            var element = '<li><img src="' + url + '" /></li>';
+            var element = '<li><img class="test1" src="' + url + '" /></li>';
             $('.bxsliderTender').append(element)
         }
     }
+    sliderInit();
 }
 
 function localDateTime(long) {
@@ -62,6 +61,22 @@ $.ajax({
 
         $(".date-finish").last().text(localDateTime(data.end));
 
+
+        // delete button if user is not an author of tender
+        if (typeof loggedInProfile != 'undefined') {
+            if (data.authorId != loggedInProfile.id) {
+                $('.chooseWinner').remove();
+            }
+        }
+
+        if (typeof data.winnerId != 'undefined') {
+            if (data.winnerId.length > 0) {
+                $('.chooseWinner').remove();
+            }
+        }
+        // delete button if winner is already chosen
+
+
 // ------------------------- Propose bulid block ---------------------------------------------------------------------
         for (var i in data.proposes) {
             $('#commentStart').append($('.comments').last().clone());
@@ -75,15 +90,10 @@ $.ajax({
 // ------------------------- Propose bulid block ---------------------------------------------------------------------
 
 
-
-
         $(".chooseWinner").on('click', function () {
-            alert($(this).attr('id'));
-
             var Tender = {};
             Tender.winnerId = $(this).attr('id');
             Tender.id = tenderId;
-            alert(Tender.winnerId);
             $.ajax({
                 type: "POST",
                 url: "/api/rest/tenderService/tender/chooseWinner",
@@ -119,14 +129,15 @@ $.ajax({
 });
 
 
-$(document).ready(function () {
-    //$('.slider1').bxSlider({
-    //    slideWidth: 200,
-    //    minSlides: 2,
-    //    maxSlides: 3,
-    //    slideMargin: 5
-    //});
-});
+function sliderInit() {
+    $('.bxsliderTender').bxSlider({
+        slideWidth: 141,
+        minSlides: 5,
+        maxSlides: 5,
+        slideMargin: 20
+    });
+}
+
 
 // ----------------- BEGIN Propose sent -------------------------------------------------
 $('#makePropose').on('click', function () {
@@ -134,8 +145,7 @@ $('#makePropose').on('click', function () {
     Propose.body = $('#newsFormComments').val();
     Propose.hidden = $('#visionSelect').prop('checked');
 
-   alert(JSON.stringify(Propose));
-
+    alert(JSON.stringify(Propose));
 
 
     $.ajax({
@@ -153,7 +163,6 @@ $('#makePropose').on('click', function () {
 });
 
 // ----------------- END Propose sent -------------------------------------------------
-
 
 
 // --------------------------------------------- Propose -------------------------------------------
@@ -185,8 +194,8 @@ $(".downComments").click(function () {
 
 //----- scrolup ----
 
-$('#wantToComment').click(function(){
-    $("html, body").animate({ scrollTop: 900 }, 600);
+$('#wantToComment').click(function () {
+    $("html, body").animate({scrollTop: 900}, 600);
     return false;
 });
 

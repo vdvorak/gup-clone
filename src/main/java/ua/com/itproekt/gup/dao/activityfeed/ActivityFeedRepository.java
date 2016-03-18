@@ -16,4 +16,6 @@ public interface ActivityFeedRepository {
     void createEvent(Event event);
 
     void setFeedsViewed(EventFilterOptions eventFO);
+
+    void setViewed(String eventId);
 }

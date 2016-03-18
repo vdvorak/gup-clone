@@ -4,7 +4,7 @@ package ua.com.itproekt.gup.model.activityfeed;
 public final class EventFilterOptions extends Event {
     private int skip;
     private int limit;
-    private boolean hideViewed;
+    private boolean isShowViewed;
     private Long afterDate;
 
     public EventFilterOptions() {
@@ -12,12 +12,12 @@ public final class EventFilterOptions extends Event {
         this.limit = 20;
     }
 
-    public boolean isHideViewed() {
-        return hideViewed;
+    public boolean isShowViewed() {
+        return isShowViewed;
     }
 
-    public void setHideViewed(boolean hideViewed) {
-        this.hideViewed = hideViewed;
+    public void setShowViewed(boolean showViewed) {
+        isShowViewed = showViewed;
     }
 
     public int getSkip() {

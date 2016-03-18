@@ -70,18 +70,11 @@
             <div class="clearfix"></div>
             <div class="title tender-name">Название тендера</div>
             <p class="text tender-item-text">
-                Lorem ipsum. Ня
             </p>
 
         </div>
         <div class="sliderTender">
             <ul class="bxsliderTender">
-                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider" /></li>
-                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider" /></li>
-                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider" /></li>
-                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider" /></li>
-                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider" /></li>
-                <li><img src="/resources/images/tenderSlider.png" alt="tenderSlider" /></li>
             </ul>
         </div>
         <div class="tenderFils">
