@@ -14,4 +14,6 @@ public interface ActivityFeedService {
     boolean eventExists(String eventId);
 
     EntityPage<Event> findEventsWithOptions(EventFilterOptions eventFO);
+
+    void setViewed(String eventId);
 }

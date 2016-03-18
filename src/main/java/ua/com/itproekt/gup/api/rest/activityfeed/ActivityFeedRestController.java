@@ -35,6 +35,15 @@ public class ActivityFeedRestController {
     }
 
     @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/event/id/{eventId}/setViewed", method = RequestMethod.GET)
+    public ResponseEntity<Void> setViewed(@PathVariable String eventId) {
+
+        activityFeedService.setViewed(eventId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/event/id/{eventId}/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteEvent(@PathVariable String eventId) {
 
