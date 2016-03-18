@@ -70,7 +70,6 @@
             <div class="clearfix"></div>
             <div class="title tender-name">Название тендера</div>
             <p class="text tender-item-text">
-                Lorem ipsum. Ня
             </p>
 
         </div>

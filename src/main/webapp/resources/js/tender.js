@@ -126,6 +126,15 @@ $(document).ready(function () {
     //    maxSlides: 3,
     //    slideMargin: 5
     //});
+
+    $('.bxsliderTender').bxSlider({
+        slideWidth: 141,
+        minSlides: 5,
+        maxSlides: 5,
+        slideMargin: 20
+    });
+
+
 });
 
 // ----------------- BEGIN Propose sent -------------------------------------------------
