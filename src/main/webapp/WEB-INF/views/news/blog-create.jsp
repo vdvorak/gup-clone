@@ -238,6 +238,7 @@
             success: function (data, textStatus, request) {
                 imgId = data.id;
                 $('.blog-img ul').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                $('.blog-img ul li').removeClass('li-defaultIMG');
                 cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
             }
         });
@@ -363,6 +364,7 @@
 
     function deleteImgFromDB() {
         $('.blog-img ul').find('img').attr("src", "/resources/images/no_photo.jpg");
+        $('.blog-img ul li').addClass('li-defaultIMG');
         $.ajax({
             url: '/api/rest/fileStorage/NEWS/file/delete/id/' + imgId,
             method: 'POST',
