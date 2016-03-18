@@ -151,6 +151,11 @@
                 <a data-slide-index="2" href=""><img src="/resources/images/slider.jpg"/></a>
             </div>
 
+            <div class="modalSlider">
+                <span>×</span>
+                <img>
+            </div>
+
             <div class='tableOffer'>
                 <div id="options" class="row p--------anel"></div>
             </div>
@@ -256,5 +261,15 @@
     var offerId = "${offerId}";
 </script>
 <script src="/resources/js/offer.js"></script>
+<script>
+    $('.offer-info-slider .bx-wrapper img').click(function(){
+        $('.modalSlider').css('display', 'block');
+        var src = $(this).attr('src');
+        $('.modalSlider > img').attr('src', src);
+    });
+    $('.modalSlider > span').click(function() {
+        $('.modalSlider').css('display', 'none');
+    });
+</script>
 </body>
 </html>
