@@ -17,7 +17,6 @@
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/custom-style.css">
-    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
     <style type="text/css">
         .offer-info-slider {
         }
@@ -92,8 +91,6 @@
 
     <div class="offer-info-wrap">
         <div class="offer-info-box">
-            <div>Колличество просмотров: <span class="view-counter"></span></div>
-            <div>Дата создания: <span id="create-date" class="date-create"></span></div>
             <div id="urgent" style="color: red;"></div>
             <div class="reservation">
                 <div id="make-reserve" class="col-xs-6">ЗАБРОНИРОВАТЬ</div>
@@ -111,7 +108,7 @@
                         <i class="fa fa-2x fa-phone"></i>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="contact skype-block"><span class="offer-skype"></span> <i class="fa fa-lg fa-skype"></i></div>
+                    <div class="contact skype-block"><p class="offer-skype"></p> <i class="fa fa-lg fa-skype"></i></div>
                 </div>
                 <div class="col-xs-7 no-padd-left">
 
@@ -121,46 +118,41 @@
                     <div class="col-xs-7 no-padd">
                         Автор: <a class="author-link"><span class="author-name"></span></a>
                         <br>
-                        <span class="contact-name-block">Контактное лицо: <span
-                                class="contact-name-block-unit"></span></span>
-
-                        <div class="clearfix"></div>
-                        <span class="author-rating"></span>
-
-                        <div class="clearfix"></div>
-                        <p>
-                            <a href="#">Все обьявления автора</a>
-                        </p>
-
-                        <div class="clearfix"></div>
-                        <br>
-                        
+                        <span class="contact-name-block">Контактное лицо: <span class="contact-name-block-unit"></span></span>
                     </div>
-
-                     <div class="clearfix"></div>
-                    <div id="options" class="row p--------anel"></div>
-                    
+                    <div class="clearfix"></div>
+                    <span class="author-rating"></span>
+                    <div class="clearfix"></div>
+                    <p>
+                        <a href="#">Все обьявления автора</a>
+                    </p>
+                    <div class="clearfix"></div>
                 </div>
             </div>
-           
+
             <div class="clearfix"></div>
             <section class="offer-map">
             </section>
-            <section class="offer-video">
+            <section class="offer-video" style="border: 2px solid rgb(153, 204, 102);">
             </section>
         </div>
         <div class="offer-info-slider">
-            
+            <div>Колличество просмотров: <span class="view-counter"></span></div>
+            <div>Дата создания: <span id="create-date" class="date-create"></span></div>
             <ul class="bxslider" id="offer-slider">
-              <%--<li><img src="/resources/images/slider.jpg" /></li>--%>
-              <%--<li><img src="/resources/images/slider.jpg" /></li>--%>
-              <%--<li><img src="/resources/images/logo.png" /></li>--%>
+                <%--<li><img src="/resources/images/slider.jpg" /></li>--%>
+                <%--<li><img src="/resources/images/slider.jpg" /></li>--%>
+                <%--<li><img src="/resources/images/logo.png" /></li>--%>
             </ul>
 
             <div id="bx-pager" class="hide">
-              <a data-slide-index="0" href=""><img src="/resources/images/slider.jpg" /></a>
-              <a data-slide-index="1" href=""><img src="/resources/images/slider.jpg" /></a>
-              <a data-slide-index="2" href=""><img src="/resources/images/slider.jpg" /></a>
+                <a data-slide-index="0" href=""><img src="/resources/images/slider.jpg"/></a>
+                <a data-slide-index="1" href=""><img src="/resources/images/slider.jpg"/></a>
+                <a data-slide-index="2" href=""><img src="/resources/images/slider.jpg"/></a>
+            </div>
+
+            <div class='tableOffer'>
+                <div id="options" class="row p--------anel"></div>
             </div>
 
             <!-- <img src="/resources/images/slider.jpg" width="450" alt=""> -->
@@ -193,6 +185,10 @@
         <div class="feedFooter"></div>
     </div>
 
+    <div class="anonymUser">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem blanditiis culpa, cupiditate eligendi, enim eum impedit quaerat repellendus rerum tenetur vero voluptate. Accusamus cum itaque iusto, obcaecati repellendus velit.<i class="fa fa-exclamation-circle"></i>
+        </p>
+    </div>
 </div>
 
 <!-- The Modal -->
@@ -236,7 +232,6 @@
 <%--</div>--%>
 <!-- End of the Modal -->
 
-
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
 </sec:authorize>
@@ -250,7 +245,9 @@
     var flag = '${flag}';
 </script>
 
-<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
+<script src="/resources/js/main.js"></script>
+<script src="/resources/js/logo-section.js"></script>
+<script src="/resources/js/search-bar.js"></script>
 
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/js/service.js"></script>

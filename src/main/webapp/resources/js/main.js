@@ -220,12 +220,12 @@ $(document).ready(function () {
         }
     });
 
-    $('.bxsliderTender').bxSlider({
-        slideWidth: 141,
-        minSlides: 5,
-        maxSlides: 5,
-        slideMargin: 20
-    });
+    //$('.bxsliderTender').bxSlider({
+    //    slideWidth: 141,
+    //    minSlides: 5,
+    //    maxSlides: 5,
+    //    slideMargin: 20
+    //});
 
     $('#noMoneyStartRich').on('click', function () {
         $.ajax({
