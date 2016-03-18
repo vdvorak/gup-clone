@@ -72,6 +72,14 @@
                 <label for="SelectCity">Выберете город</label>
                 <input type="text" id="SelectCity" required>
             </div>
+
+<%--            <label for="map">Введите адрес</label>
+            <div id="floating-panel">
+                <input id="address" class="tender-map-address" type="text">
+                <button id="btn-save-adress">Сохранить</button>
+            </div>
+            <div id="map" class="tender-map"></div>--%>
+
             <label>Тип</label>
             <div class="tenderRadio">
                 <label><input class="input-tenderRadio" type="radio" value="open" name="k" data-type="OPEN" checked/><span></span></label><p>открытый</p>
@@ -359,7 +367,7 @@
     var imgsArr = {};
     var cities;
     var members = []
-    var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
+    var placeKey = '';
 
     $(document).ready(function () {
         // Setup the dnd listeners.
@@ -721,7 +729,7 @@
         tender.naceIds = naceIds;*/
 
         tender.address = {};
-        //tender.address.googleMapKey = placeKey;
+//        tender.address.googleMapKey = placeKey;
         tender.address.area = $('#SelectArea').val();
         tender.address.city = $('#SelectCity').val();
 
@@ -742,57 +750,60 @@
     });
     //---------------------------- END SUBMIT -------------------------------------------------//
 
-    //    //--------------------------- GOOGLE MAP API ---------------------------------------//
-    //
-    //    function initMap() {
-    //
-    //        var input = document.getElementById('address');
-    //
-    //        var options = {
-    //            types: []
-    //        };
-    //
-    //        var autocomplete = new google.maps.places.Autocomplete(input, options);
-    //
-    //        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-    //            var place = autocomplete.getPlace(); //получаем место
-    //            console.log(place);
-    //            console.log(place.name);  //название места
-    //            console.log(place.id);  //уникальный идентификатор места
-    //        });
-    //
-    //        var map = new google.maps.Map(document.getElementById('map'), {
-    //            zoom: 17,
-    //            center: {lat: 50.4501, lng: 30.523400000000038}
-    //        });
-    //
-    //        var geocoder = new google.maps.Geocoder();
-    //
-    //        document.getElementById('submit').addEventListener('click', function () {
-    //            geocodeAddress(geocoder, map);
-    //        });
-    //    }
-    //
-    //    function geocodeAddress(geocoder, resultsMap) {
-    //        var address = document.getElementById('address').value;
-    //        geocoder.geocode({'address': address}, function (results, status) {
-    //            placeKey = results[0].place_id;
-    //            if (status === google.maps.GeocoderStatus.OK) {
-    //                resultsMap.setCenter(results[0].geometry.location);
-    //                var marker = new google.maps.Marker({
-    //                    map: resultsMap,
-    //                    position: results[0].geometry.location
-    //                });
-    //            } else {
-    //                alert('Geocode was not successful for the following reason: ' + status);
-    //            }
-    //        });
-    //    }
+   /* //--------------------------- GOOGLE MAP API ---------------------------------------//
 
-    //--------------------------- END GOOGLE MAP API ---------------------------------------//
+    function initMap() {
+
+        var input = document.getElementById('address');
+
+        var options = {
+            types: []
+        };
+
+        var autocomplete = new google.maps.places.Autocomplete(input, options);
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace(); //получаем место
+            console.log(place);
+            console.log(place.name);  //название места
+            console.log(place.id);  //уникальный идентификатор места
+        });
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 17,
+            center: {lat: 50.4501, lng: 30.523400000000038}
+        });
+
+        var geocoder = new google.maps.Geocoder();
+        var infowindow = new google.maps.InfoWindow();
+
+        document.getElementById('btn-save-adress').addEventListener('click', function () {
+            geocodeAddress(geocoder, map);
+        });
+    }
+
+    function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function (results, status) {
+            placeKey = results[0].place_id;
+            if (status === google.maps.GeocoderStatus.OK) {
+                resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+                infowindow.setContent(results[0].formatted_address);
+                infowindow.open(map, marker);
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+
+    //--------------------------- END GOOGLE MAP API ---------------------------------------//*/
 </script>
-<%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"--%>
-        <%--async defer></script>--%>
+<%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
+        async defer></script>--%>
 
 <script src="/resources/js/kved_autocomplete.js"></script>
 

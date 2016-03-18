@@ -237,16 +237,32 @@ textarea {
     display: table;
 }
 
-.offer-map {
+.offer-map, .tender-map {
     height: 300px;
     width: 100%;
     margin-top: 10px;
 }
+
+.tender-map {
+    border: 3px solid #9c6;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
 #blog-region-wrapper {
     display: inline-block;
     margin-bottom:15px;
     margin-left: 100px;
 }
-
+.tender-map-address {
+    height: 23px;
+    width: 65% !important;
+    border: 2px solid #9c6;
+    border-radius: 5px;
+    font: 400 13px DroidSans;
+    line-height: 23px;
+    margin-left: 100px;
+}
 
 
