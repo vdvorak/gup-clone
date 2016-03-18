@@ -267,7 +267,7 @@
             $('#blogCreationSocial').val(firstFacebookLink);
         } else {
             var newSocLink = addSocialLink(key)
-            newSocLink.val(socialLinks[key]);
+            newSocLink.children('input').val(socialLinks[key]);
         }
     }
 
