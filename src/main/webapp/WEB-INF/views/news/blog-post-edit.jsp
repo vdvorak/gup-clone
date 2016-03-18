@@ -323,8 +323,10 @@
 
 
     // ---------------    SET CATEGORIES    --------------------------//
-    for (var i = 0; i< oldCategories.length; i++){
-        $('input[name='+oldCategories[i]+']').prop('checked',true);
+    if(oldCategories.length > 2) {
+        for (var i = 0; i < oldCategories.length; i++) {
+            $('input[name=' + oldCategories[i] + ']').prop('checked', true);
+        }
     }
     // ---------------    END SET CATEGORIES  --------------------------//
 
