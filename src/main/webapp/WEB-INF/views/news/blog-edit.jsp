@@ -303,9 +303,15 @@
     $(".img-responsive").click(function (e) {
         e.preventDefault();
         var el = e.currentTarget;
-        if (cur_fields < max_fields) {
-
-            var socName = $(el).attr("alt");
+        var socName = $(el).attr("alt");
+        var link = $('div.group-info').find('input[name="' + socName + '"]');
+        if(link.length) {
+            var linkParent = link.parent('div:not(.group-info)');
+            if (linkParent.length) {
+                linkParent.remove();
+                cur_fields--;
+            }
+        } else if (cur_fields < max_fields && !link.length) {
             addSocialLink(socName);
         }
     });
