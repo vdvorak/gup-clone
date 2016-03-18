@@ -27,7 +27,7 @@ public class ActivityFeedRestController {
         String userId = SecurityOperations.getLoggedUserId();
         eventFO.setTargetUId(userId);
 
-        EntityPage<Event> events = activityFeedService.findEventsWithOptionsAndSetViewed(eventFO);
+        EntityPage<Event> events = activityFeedService.findEventsWithOptions(eventFO);
         if(events.getEntities().isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

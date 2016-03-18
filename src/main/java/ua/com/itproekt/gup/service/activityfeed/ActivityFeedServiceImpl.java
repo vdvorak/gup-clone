@@ -34,12 +34,6 @@ public class ActivityFeedServiceImpl implements ActivityFeedService {
     }
 
     @Override
-    public EntityPage<Event> findEventsWithOptionsAndSetViewed(EventFilterOptions eventFO) {
-        activityFeedRepository.setFeedsViewed(eventFO);
-        return activityFeedRepository.findEventsWihOptions(eventFO);
-    }
-
-    @Override
     public void deleteEvent(String eventId) {
         activityFeedRepository.deleteEvent(eventId);
     }

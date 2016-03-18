@@ -57,10 +57,13 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
 //            query.addCriteria(Criteria.where("type").is(eventFO.getType()));
 //        }
 
-        if (eventFO.isHideViewed()) {
+//      * if (eventFO.isHideViewed()) {
+//      *     query.addCriteria(Criteria.where("isViewed").ne(Boolean.TRUE));
+//      * }
+
+        if (!eventFO.isShowViewed()) {
             query.addCriteria(Criteria.where("isViewed").ne(Boolean.TRUE));
         }
-
 
         query.skip(eventFO.getSkip());
         query.limit(eventFO.getLimit());

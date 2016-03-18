@@ -122,7 +122,7 @@ public class AccountController {
         ef.setLimit(3);
         ef.setSkip(0);
         ef.setTargetUId(profile.getId());
-        EntityPage<Event> events = activityFeedService.findEventsWithOptionsAndSetViewed(ef);
+        EntityPage<Event> events = activityFeedService.findEventsWithOptions(ef);
         model.addAttribute("events", events.getEntities());
 
 
