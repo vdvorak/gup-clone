@@ -375,7 +375,7 @@ function fillNotificationListBlock() {
                     '<img src="' + getImgSrcForNotification(event.makerImgId) + '" alt="logo">' +
                     '<p>' +
                     '<a href="/profile?id=' + event.makerId + '">' + event.makerName + '</a> ' + notification.type + ' ' +
-                    '<a href="' + notification.contentStoreId +'">' + notification.targetText + '</a> ' +
+                    '<a href="' + notification.contentStoreId + '">' + notification.targetText + '</a> ' +
                     '</p>' +
                     '</div>');
                 });
@@ -458,6 +458,7 @@ $(".mail > img").click(function () {
 $(document).on('click', '.mailMessage', function () {
     if ($(this).attr('id')) {
         var dialogueId = $(this).attr('id');
+        dialogueMakeRead(dialogueId);
         $('#unread-msg-in-answer').text($(this).find('p').text());
         event.stopPropagation();
         $(".mailMessage").hide('slow');
@@ -466,6 +467,17 @@ $(document).on('click', '.mailMessage', function () {
         $('#dialogue-answer-btn').addClass(dialogueId);
     }
 });
+
+function dialogueMakeRead(id) {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: 'api/rest/dialogueService/dialogue/updateRead/' + id,
+        success: function (response) {
+            alert("Удалили")
+        }
+    });
+}
 
 $(".answer").click(function () {
 

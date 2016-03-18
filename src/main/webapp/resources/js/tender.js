@@ -62,12 +62,6 @@ $.ajax({
 
         $(".date-finish").last().text(localDateTime(data.end));
 
-
-        var map = '<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:' + data.address.googleMapKey + '&key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww" allowfullscreen></iframe>';
-        $('.tenderMap').append(map);
-
-
-
 // ------------------------- Propose bulid block ---------------------------------------------------------------------
         for (var i in data.proposes) {
             $('#commentStart').append($('.comments').last().clone());
@@ -126,12 +120,12 @@ $.ajax({
 
 
 $(document).ready(function () {
-    $('.slider1').bxSlider({
-        slideWidth: 200,
-        minSlides: 2,
-        maxSlides: 3,
-        slideMargin: 5
-    });
+    //$('.slider1').bxSlider({
+    //    slideWidth: 200,
+    //    minSlides: 2,
+    //    maxSlides: 3,
+    //    slideMargin: 5
+    //});
 });
 
 // ----------------- BEGIN Propose sent -------------------------------------------------
@@ -189,4 +183,11 @@ $(".downComments").click(function () {
 });
 
 
+//----- scrolup ----
 
+$('#wantToComment').click(function(){
+    $("html, body").animate({ scrollTop: 900 }, 600);
+    return false;
+});
+
+//----- scrolup ----

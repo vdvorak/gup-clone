@@ -527,7 +527,6 @@
             dataType: "json",
             statusCode: {
                 201: function (data, textStatus, request) {
-                    alert(data.id);
                     window.location.href = '/tender/' + data.id;
                 }
             }
