@@ -96,7 +96,7 @@
         newLi.find('img').attr("src", imgSrc);
 
         newLi.children('span').text("Просмотров: " + offerObj.views);
-        newLi.find('a.btn').text(priceStr).attr("href", '/offer/' + offerObj.id + '');
+        newLi.children('.priceButton').text(priceStr);
 
         return newLi;
     }
