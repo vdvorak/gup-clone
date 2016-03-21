@@ -2820,6 +2820,7 @@ label[for="checkbox-filter3"] {
 
 .blogCreationLabel > em {
     color: red;
+    margin: 0;
 }
 
 .blogCreationInput {
