@@ -1,4 +1,4 @@
-
+var offerFilter = window.OfferFilter;
 var offer = {};
 var phonesSet;
 
@@ -94,27 +94,28 @@ if (offer.imagesIds) {
 
 if (offer.address) {
     if (offer.address.country) {
-        $('#offer-cities').append('<li><a href="#">' + offer.address.country + '</a>' + '</li>')
+        $('#offer-cities').append('<li><a id="address-country" href="#">' + offer.address.country + '</a>' + '</li>')
     }
     if (offer.address.area) {
-        $('#offer-cities').append('<li><a href="#">' + " \ " + offer.address.area + '</a>' + '</li>')
+        $('#offer-cities').append('<li><a id="address-area" href="#">' + " \ " + offer.address.area + '</a>' + '</li>')
     }
     if (offer.address.city) {
-        $('#offer-cities').append('<li><a href="#">' + " \ " + offer.address.city + '</a>' + '</li>')
+        $('#offer-cities').append('<li><a id="address-city" href="#">' + " \ " + offer.address.city + '</a>' + '</li>')
     }
 }
+$('#offer-cities li a').click(offerFilter.redirectToOfferAllByBreadcrumbs);
 
 $.when(window.loadCategories, window.loadSubcategories).done(function(){
     var breadcrumbs = offer.categories;
     if (breadcrumbs[0]) {
         for (var i = 0; i < jsonCategory.length; i++) {
             if (jsonCategory[i].id === +breadcrumbs[0]) {
-                $('#breadcrumbs').append('<li><a href="#">' + jsonCategory[i].name + '</a>' + '</li>');
+                $('#breadcrumbs').append('<li><a href="#" id="'+ breadcrumbs[0] +'">' + jsonCategory[i].name + '</a>' + '</li>');
 
                 if (breadcrumbs[1]) {
                     for (var m in jsonCategory[i].children) {
                         if (jsonCategory[i].children[m].id == +breadcrumbs[1]) {
-                            $('#breadcrumbs').append('<li><a id="'+ jsonCategory[i].children[m].id +'" href="#">' + jsonCategory[i].children[m].name + '</a>' + '</li>');
+                            $('#breadcrumbs').append('<li><a id="'+ breadcrumbs[1] +'" href="#">' + jsonCategory[i].children[m].name + '</a>' + '</li>');
                         }
                     }
                 }
@@ -126,6 +127,7 @@ $.when(window.loadCategories, window.loadSubcategories).done(function(){
             }
         }
     }
+    $("#breadcrumbs li a").click(offerFilter.redirectToOfferAllByBreadcrumbs);
 })
 
 $('.show-number').on('click', function () {
@@ -277,7 +279,6 @@ $(document).ready(function () {
     }
 
 });
-
 
 // ---------------    END DRAW OFFERS    ---------------------------------------------------------------------------//
 
