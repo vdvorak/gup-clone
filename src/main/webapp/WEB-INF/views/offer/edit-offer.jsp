@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="/resources/css/dropdown-multicolumn.css">
     <link rel="stylesheet" href="/resources/css/mini.css">
     <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 </head>
 <body>
 <!--[if lt IE 8]>
