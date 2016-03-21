@@ -104,15 +104,16 @@ a.explanation-point-tooltip img {
 
 .blog-social-container {
     float: right;
-    margin-right: 450px;
+    margin-right: 470px;
     margin-bottom: 10px;
+    position: relative;
 }
 
 .blog-social-input {
     border: 2px solid rgb(153, 204, 102);
     border-radius: 4px;
     font: 400 11px DroidSans;
-    padding: 7px 7px;
+    padding: 0 7px;
     height: 22px;
     width: 230px;
 }
@@ -120,7 +121,10 @@ a.explanation-point-tooltip img {
 .blog-btn-removeSocial {
     width: 20px;
     height: 20px;
-    margin-bottom: -5px;
+    position: absolute;
+    top: 1px;
+    right: -32px;
+    cursor: pointer;
 }
 
 .blog-img {
