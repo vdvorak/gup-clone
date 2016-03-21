@@ -141,6 +141,7 @@ $(document).ready(function () {
         onClose: checkDateInDatepicker
     });
 
+
     function checkDateInDatepicker() {
         var dateFrom = $('#tender-datepicker1').datepicker('getDate');
         var dateTo = $('#tender-datepicker2').datepicker('getDate');
