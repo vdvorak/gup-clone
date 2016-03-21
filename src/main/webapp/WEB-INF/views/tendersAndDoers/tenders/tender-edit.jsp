@@ -370,7 +370,6 @@
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>--%>
 
 <script>
-  var cities;
   var members = [];
   var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
   var picMapObj = {};
@@ -736,47 +735,6 @@
 
   // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//
 
-
-  //--------------------------- Take Value Cities -----------------------------------//
-  $.ajax({
-    url: '/resources/json/cities.json',
-    dataType: 'json',
-    async: false,
-    success: function (response) {
-      cities = response;
-     /* var area = '${tender.address.area}';
-      var city = '${tender.address.city}';
-      if (area !== '') {
-        $('#chosenRegion').text(area);
-        $('#chosenCity').attr("style", "visibility: visible");
-
-        if (city !== '') {
-          $('#chosenCity').text(city);
-        } else {
-          $('#chosenCity').text("Выберите город");
-        }
-      }
-
-      $('#bs-example-navbar-collapse-2').find('#cities1, #cities2').empty();
-      $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#"><b>' + 'Все города' + '</b></a></li>');
-      for (var i = 0; i < Math.floor(cities[area].length / 2); i++) {
-        $('#bs-example-navbar-collapse-2').find('#cities1').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[area][i] + '</a></li>');
-      }
-      for (var j = Math.floor(cities[area].length / 2); j < cities[area].length; j++) {
-        $('#bs-example-navbar-collapse-2').find('#cities2').append('<li><a role="menuitem" tabindex="-1" href="#">' + cities[area][j] + '</a></li>');
-      }
-      $('#bs-example-navbar-collapse-2').attr("style", "visibility: visible");
-
-      $('#cities').find('li').click(function () {
-                var city = $(this).text();
-                $('#chosenCity').text(city);
-                $('#cityInp').val(city);
-              }
-      );*/
-    }
-  });
-  //--------------------------- End Take Value Cities -----------------------------------//
-
   //---------------------------- SUBMIT -----------------------------------------------------//
 
   $('#tender-make-form').submit(function (event) {
@@ -804,8 +762,8 @@
     tender.title = $('#EnterTheTitle').val();
     tender.body = body;
     tender.tenderNumber = $('#TenderNumber').val();
-    tender.begin = $('#datepicker').datepicker( 'getDate' );
-    tender.end = $('#datepicker2').datepicker( 'getDate' );
+    tender.begin = $('#datepicker').datepicker( 'getDate' ).getTime() / 1000;
+    tender.end = $('#datepicker2').datepicker( 'getDate' ).getTime() / 1000;
     tender.type = $('.input-tenderRadio:checked').attr("data-type");
     tender.expectedPrice = $('#ExpectedValue').val();
     tender.hidePropose =  $('#HideBidders').prop('checked');

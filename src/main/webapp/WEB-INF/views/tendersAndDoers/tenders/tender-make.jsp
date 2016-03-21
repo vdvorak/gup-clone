@@ -331,20 +331,6 @@
 
     //-------------------- END ADD MEMBER ------------------------------------------//
 
-
-    // ---------------    LOAD RESOURCES    --------------------------//
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/cities.json",
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-            cities = response;
-        }
-    });
-
-    // ---------------   END LOAD RESOURCES    --------------------------//
     $('#photoInput').change(function (event) {
         event.preventDefault();
 
