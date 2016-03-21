@@ -739,7 +739,7 @@
 
   $('#tender-make-form').submit(function (event) {
     if(!checkDateInDatepicker()) {
-      $(window).scrollTop(500);
+      $(window).scrollTop($('span.active-tooltip').offset().top);
       return false;
     }
 
