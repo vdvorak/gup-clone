@@ -1,49 +1,6 @@
+
 var offer = {};
-var options = '';
-var parameters = '';
 var phonesSet;
-var jsonCategory = '';
-var jsonSubcategory = '';
-
-$.ajax({
-    type: "GET",
-    url: "/resources/json/searchCategories.json",
-    dataType: "json",
-    async: false,
-    success: function (response) {
-        jsonCategory = response;
-    }
-});
-
-$.ajax({
-    type: "GET",
-    url: "/resources/json/searchSubcategories.json",
-    dataType: "json",
-    async: false,
-    success: function (response) {
-        jsonSubcategory = response;
-    }
-});
-
-$.ajax({
-    type: "GET",
-    url: "/resources/json/parameters.json",
-    dataType: "json",
-    async: false,
-    success: function (response) {
-        parameters = response;
-    }
-});
-
-$.ajax({
-    type: "GET",
-    url: "/resources/json/searchValues.json",
-    dataType: "json",
-    async: false,
-    success: function (response) {
-        options = response;
-    }
-});
 
 //    alert("Перед ажаксом: " + offerId);
 $.ajax({
@@ -147,28 +104,29 @@ if (offer.address) {
     }
 }
 
-var breadcrumbs = offer.categories;
-if (breadcrumbs[0]) {
-    for (var i = 0; i < jsonCategory.length; i++) {
-        if (jsonCategory[i].id === +breadcrumbs[0]) {
-            $('#breadcrumbs').append('<li><a href="#">' + jsonCategory[i].name + '</a>' + '</li>');
+$.when(window.loadCategories && window.loadSubcategories).done(function(){
+    var breadcrumbs = offer.categories;
+    if (breadcrumbs[0]) {
+        for (var i = 0; i < jsonCategory.length; i++) {
+            if (jsonCategory[i].id === +breadcrumbs[0]) {
+                $('#breadcrumbs').append('<li><a href="#">' + jsonCategory[i].name + '</a>' + '</li>');
 
-            if (breadcrumbs[1]) {
-                for (var m in jsonCategory[i].children) {
-                    if (jsonCategory[i].children[m].id == +breadcrumbs[1]) {
-                        $('#breadcrumbs').append('<li><a href="#">' + jsonCategory[i].children[m].name + '</a>' + '</li>');
+                if (breadcrumbs[1]) {
+                    for (var m in jsonCategory[i].children) {
+                        if (jsonCategory[i].children[m].id == +breadcrumbs[1]) {
+                            $('#breadcrumbs').append('<li><a href="#">' + jsonCategory[i].children[m].name + '</a>' + '</li>');
+                        }
                     }
                 }
-            }
-            if (breadcrumbs[2]) {
-                var obj1 = +breadcrumbs[1] + "";
-                var obj2 = +breadcrumbs[2] + "";
-                $('#breadcrumbs').append('<li><a href="#">' + jsonSubcategory[obj1].children[obj2].label + '</a>' + '</li>');
+                if (breadcrumbs[2]) {
+                    var obj1 = +breadcrumbs[1] + "";
+                    var obj2 = +breadcrumbs[2] + "";
+                    $('#breadcrumbs').append('<li><a href="#">' + jsonSubcategory[obj1].children[obj2].label + '</a>' + '</li>');
+                }
             }
         }
     }
-}
-
+})
 
 $('.show-number').on('click', function () {
     var phoneList = ' ';
