@@ -270,3 +270,35 @@ textarea {
 }
 
 
+p.datePickPi:last-of-type {
+    position: relative;
+    display: inline;
+}
+
+p.datePickPi:last-of-type span {
+    position: absolute;
+    width:175px;
+    color: #FFFFFF;
+    font: 400 13px DroidSans;
+    background: #9c6;
+    height: 38px;
+    text-align: center;
+    visibility: hidden;
+    border-radius: 6px;
+}
+p.datePickPi:last-of-type span:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 44%;
+    width: 0; height: 0;
+    border-top: 8px solid #9c6;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+}
+p.datePickPi:last-of-type span.active-tooltip {
+    visibility: visible;
+    top: -42px;
+    left: -79px;
+    z-index: 999;
+}

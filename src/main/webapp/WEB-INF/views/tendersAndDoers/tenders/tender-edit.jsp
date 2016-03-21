@@ -738,6 +738,11 @@
   //---------------------------- SUBMIT -----------------------------------------------------//
 
   $('#tender-make-form').submit(function (event) {
+    if(!checkDateInDatepicker()) {
+      $(window).scrollTop(500);
+      return false;
+    }
+
     var body = tinymce.activeEditor.getContent();
     if(!body) {
       return false;
@@ -762,8 +767,8 @@
     tender.title = $('#EnterTheTitle').val();
     tender.body = body;
     tender.tenderNumber = $('#TenderNumber').val();
-    tender.begin = $('#datepicker').datepicker( 'getDate' ).getTime() / 1000;
-    tender.end = $('#datepicker2').datepicker( 'getDate' ).getTime() / 1000;
+    tender.begin = $('#tender-datepicker1').datepicker( 'getDate' ).getTime() / 1000;
+    tender.end = $('#tender-datepicker2').datepicker( 'getDate' ).getTime() / 1000;
     tender.type = $('.input-tenderRadio:checked').attr("data-type");
     tender.expectedPrice = $('#ExpectedValue').val();
     tender.hidePropose =  $('#HideBidders').prop('checked');
