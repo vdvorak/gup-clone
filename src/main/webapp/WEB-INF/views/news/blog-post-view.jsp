@@ -113,6 +113,9 @@
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
+<script src="/resources/js/moment-with-locales.js"></script>
+
+
 <script>
     var flag = '${flag}';
 </script>
@@ -122,6 +125,12 @@
 <script>
     var blogPostId = "${blogPostId}";
     var loadedBlogPost = {};
+
+    function localDateTime(long) {
+        long = (new Date(parseInt(long)));
+        long = moment(long).locale("ru").format('LLL');
+        return long;
+    }
 
     $.ajax({
         type: "POST",
@@ -159,10 +168,11 @@
                                 profileImgTag += ' width="52px" height="52px" alt="logo">';
 
                                 $('#commentsBlock').append(
+
                                         '<div class="comments">' +
                                         '<a href="/profile?id=' + profile.id + '">' + profileImgTag + '</a>' +
                                         '<a class="NameUser" href="/profile?id=' + profile.id + '">' + profile.username + '</a>' +
-                                        '<p class="commentUser">' + comment.comment + '</p>' +
+                                        '<span> ' + localDateTime(comment.createdDate) + '</span> <p class="commentUser">' + comment.comment + '</p>' +
                                         '</div>');
                             }
                         }
