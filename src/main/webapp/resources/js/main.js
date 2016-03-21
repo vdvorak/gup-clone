@@ -136,16 +136,28 @@ $(document).ready(function () {
 
     }));
 
-    $('input#datepicker').datepicker({
-        onSelect: function (date) {
-            $('input#datepicker').val(date);
-        }
+    $('p input.datepicker-input').datepicker();
+    $.datepicker.setDefaults({
+        onClose: checkDateInDatepicker
     });
-    $('input#datepicker2').datepicker({
-        onSelect: function (date) {
-            $('input#datepicker2').val(date);
+
+
+    function checkDateInDatepicker() {
+        var dateFrom = $('#tender-datepicker1').datepicker('getDate');
+        var dateTo = $('#tender-datepicker2').datepicker('getDate');
+        if (dateFrom && dateTo) {
+            dateFrom = new Date(dateFrom).getTime() / 1000;
+            dateTo = new Date(dateTo).getTime() / 1000;
+            if (dateFrom > dateTo) {
+                $('p.datePickPi:last-of-type span').addClass('active-tooltip');
+                setTimeout(function () {
+                    $('p.datePickPi:last-of-type span').removeClass('active-tooltip');
+                }, 4000);
+                return false;
+            }
         }
-    });
+        return true;
+    }
 
     //
 

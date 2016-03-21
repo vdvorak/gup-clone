@@ -120,14 +120,12 @@ label[for="input-region-search"] {
 }
 
 .div-region {
-    height: 100%;
     width: 50%;
     border-collapse: collapse;
 }
 
 .div-region-right {
     float:right;
-    border-left: 1px solid #ccc;
 }
 
 .div-region-left {

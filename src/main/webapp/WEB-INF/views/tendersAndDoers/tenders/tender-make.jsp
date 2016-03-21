@@ -50,8 +50,9 @@
                     <option>5</option>
                 </select>
             </div>
-            <p class="datePickPi">Сроки <input type="text" id="datepicker"></p>
-            <p class="datePickPi">&nbsp;- <input type="text" id="datepicker2"></p>
+
+            <p class="datePickPi">Сроки <input type="text" id="tender-datepicker1" class="datepicker-input"></p>
+            <p class="datePickPi"><span>Дата начала не должна превышать дату окончания</span>&nbsp;- <input type="text" id="tender-datepicker2" class="datepicker-input"></p>
 
             <div class="clearfix"></div>
 
@@ -153,7 +154,6 @@
 
 <script>
     var imgsArr = {};
-    var cities;
     var members = []
     var placeKey = '';
 
@@ -271,7 +271,6 @@
 
     //---------------------- END  HTML EDITOR-------------------------------------//
 
-
     //--------------------  RADIO CHECK ------------------------------------//
 
     $('.input-tenderRadio').change(function () {
@@ -331,20 +330,6 @@
 
     //-------------------- END ADD MEMBER ------------------------------------------//
 
-
-    // ---------------    LOAD RESOURCES    --------------------------//
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/cities.json",
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-            cities = response;
-        }
-    });
-
-    // ---------------   END LOAD RESOURCES    --------------------------//
     $('#photoInput').change(function (event) {
         event.preventDefault();
 
@@ -486,7 +471,28 @@
 
     //---------------------------- SUBMIT -----------------------------------------------------//
 
+    function checkDateInDatepicker() {
+        var dateFrom = $('#tender-datepicker1').datepicker('getDate');
+        var dateTo = $('#tender-datepicker2').datepicker('getDate');
+        if (dateFrom && dateTo) {
+            dateFrom = new Date(dateFrom).getTime() / 1000;
+            dateTo = new Date(dateTo).getTime() / 1000;
+            if (dateFrom > dateTo) {
+                $('p.datePickPi:last-of-type span').addClass('active-tooltip');
+                setTimeout(function () {
+                    $('p.datePickPi:last-of-type span').removeClass('active-tooltip');
+                }, 6000);
+                return false;
+            }
+        }
+        return true;
+    }
+
     $('#tender-make-form').submit(function (event) {
+        if(!checkDateInDatepicker()) {
+            $(window).scrollTop(500);
+            return false;
+        }
 
         var body = tinymce.activeEditor.getContent();
         if(!body) return false;
@@ -498,8 +504,8 @@
         tender.title = $('#EnterTheTitle').val();
         tender.body = tinymce.activeEditor.getContent();
         tender.tenderNumber = $('#TenderNumber').val();
-        tender.begin = $('#datepicker').datepicker( 'getDate' ).getTime() / 1000;
-        tender.end = $('#datepicker2').datepicker( 'getDate' ).getTime() / 1000;
+        tender.begin = $('#tender-datepicker1').datepicker( 'getDate' ).getTime() / 1000;
+        tender.end = $('#tender-datepicker2').datepicker( 'getDate' ).getTime() / 1000;
         tender.type = $('.input-tenderRadio:checked').attr("data-type");
         tender.expectedPrice = $('#ExpectedValue').val();
         tender.hidePropose =  $('#HideBidders').prop('checked');

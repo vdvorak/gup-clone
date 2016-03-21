@@ -104,15 +104,16 @@ a.explanation-point-tooltip img {
 
 .blog-social-container {
     float: right;
-    margin-right: 450px;
+    margin-right: 470px;
     margin-bottom: 10px;
+    position: relative;
 }
 
 .blog-social-input {
     border: 2px solid rgb(153, 204, 102);
     border-radius: 4px;
     font: 400 11px DroidSans;
-    padding: 7px 7px;
+    padding: 0 7px;
     height: 22px;
     width: 230px;
 }
@@ -120,7 +121,10 @@ a.explanation-point-tooltip img {
 .blog-btn-removeSocial {
     width: 20px;
     height: 20px;
-    margin-bottom: -5px;
+    position: absolute;
+    top: 1px;
+    right: -32px;
+    cursor: pointer;
 }
 
 .blog-img {
@@ -266,3 +270,35 @@ textarea {
 }
 
 
+p.datePickPi:last-of-type {
+    position: relative;
+    display: inline;
+}
+
+p.datePickPi:last-of-type span {
+    position: absolute;
+    width:175px;
+    color: #FFFFFF;
+    font: 400 13px DroidSans;
+    background: #9c6;
+    height: 38px;
+    text-align: center;
+    visibility: hidden;
+    border-radius: 6px;
+}
+p.datePickPi:last-of-type span:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 44%;
+    width: 0; height: 0;
+    border-top: 8px solid #9c6;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+}
+p.datePickPi:last-of-type span.active-tooltip {
+    visibility: visible;
+    top: -42px;
+    left: -79px;
+    z-index: 999;
+}
