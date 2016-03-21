@@ -11,7 +11,7 @@
 .notice-box li {
 	position: relative;
 	width: 160px;
-	height: 160px;
+	height: 180px;
 	padding: 7px 10px;
 	margin-left: 15px;
 	float: left;
@@ -20,6 +20,9 @@
 }
 .notice-box li p {
 	font: 12px DroidSans;
+	word-wrap: break-word;
+	height: 50px;
+	overflow: hidden;
 }
 
 .notice-box .priceButton {

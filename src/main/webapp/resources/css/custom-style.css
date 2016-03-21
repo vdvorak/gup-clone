@@ -498,23 +498,6 @@ body {
     white-space:nowrap;
 }
 
-._Описание___Практичный_ноутбук_с_диагональю_экр {
-    font-size: 30px;
-    font-family: "ArianAMU";
-    color: rgb( 142, 51, 146 );
-    text-align: left;
-    -moz-transform: matrix( 0.74895833333333,0,0,0.749,0,0);
-    -webkit-transform: matrix( 0.74895833333333,0,0,0.749,0,0);
-    -ms-transform: matrix( 0.74895833333333,0,0,0.749,0,0);
-    position: absolute;
-    left: 177.085px;
-    top: 836.046px;
-    width: 1063.83px;
-    height: 357.771px;
-    z-index: 94;
-}
-
-
 .anonymUser {
     background-color: #9c6;
     border-radius: 3px;
