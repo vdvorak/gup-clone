@@ -114,14 +114,14 @@ $.when(window.loadCategories, window.loadSubcategories).done(function(){
                 if (breadcrumbs[1]) {
                     for (var m in jsonCategory[i].children) {
                         if (jsonCategory[i].children[m].id == +breadcrumbs[1]) {
-                            $('#breadcrumbs').append('<li><a href="#">' + jsonCategory[i].children[m].name + '</a>' + '</li>');
+                            $('#breadcrumbs').append('<li><a id="'+ jsonCategory[i].children[m].id +'" href="#">' + jsonCategory[i].children[m].name + '</a>' + '</li>');
                         }
                     }
                 }
                 if (breadcrumbs[2]) {
                     var obj1 = +breadcrumbs[1] + "";
                     var obj2 = +breadcrumbs[2] + "";
-                    $('#breadcrumbs').append('<li><a href="#">' + jsonSubcategory[obj1].children[obj2].label + '</a>' + '</li>');
+                    $('#breadcrumbs').append('<li><a id="'+ obj2 +'" href="#">' + jsonSubcategory[obj1].children[obj2].label + '</a>' + '</li>');
                 }
             }
         }
