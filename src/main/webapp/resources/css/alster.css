@@ -27,6 +27,7 @@
 .projAndInvestCaretDown {
     cursor: pointer;
     padding: 10px 408px;
+    border: 1px solid #99cc66;
 }
 
 .projectsVSInvestments-btn {
@@ -1045,4 +1046,14 @@ color: #36aae0;
     width: 440px;
     height: 25px;
     overflow: hidden;
+}
+
+.row.row-telephone {
+    position: relative;
+}
+
+.row.row-telephone > .col-xs-5.col-xs-offset-4 > a.remove_field > img {
+    position: absolute;
+    top: 20px;
+    right: 182px;
 }
