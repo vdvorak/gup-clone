@@ -28,6 +28,7 @@ body {
     margin: 0;
     color: #1269a7;
     font: 32px/35px 'Droid Sans', sans-serif;
+    word-wrap: break-word;
 }
 
 .title-h2-blue {
@@ -219,6 +220,7 @@ body {
 .descr-text-box p {
     padding: 20px 0 0;
     margin: 0;
+    word-wrap: break-word;
 }
 
 .descr-text-box p:first-letter {
@@ -352,7 +354,7 @@ body {
 .modalSlider {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 20;
     padding-top: 100px;
     left: 0;
     top: 0;
@@ -514,4 +516,22 @@ body {
 
 .offer-info-slider .bx-wrapper .bx-wrapper .bx-prev {
     background: url(/resources/images/controls.png) no-repeat 0 -32px
+}
+
+.row.row-telephone {
+    position: relative;
+}
+
+.row.row-telephone > a.remove_field > img {
+    position: absolute;
+    top: 20px;
+    right: 182px;
+}
+
+.contact-name-block > .contact-name-block-unit {
+    width: 145px;
+    float: left;
+    word-wrap: break-word;
+    height: 40px;
+    overflow: hidden;
 }
