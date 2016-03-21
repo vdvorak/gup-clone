@@ -165,33 +165,36 @@ $.ajax({
 
 
 // ---------------------------------------- Draw properties -------------------------------------------------------
-var offerProperties = offer.properties;
-for (var i in offerProperties) {
-    var key = offerProperties[i].key;
-    var value = offerProperties[i].value;
-    var key_ru = '';
-    var value_ru = '';
-    for (var j in parameters) {
-        if (parameters[j]["parameter"]["key"] === key) {
-            key_ru = parameters[j]["parameter"]["label"];
-            if (parameters[j]["parameter"]["type"] === 'input') {
-                value_ru = value;
-            }
-            break;
-        }
-    }
-    if (value_ru === '') {
-        for (var m in options) {
-            if (options[m]["k"][key] !== undefined && options[m]["v"][value] !== undefined) {
-                value_ru = options[m]["v"][value];
+$.when(window.loadOptions && window.loadParameters).done(function () {
+    var offerProperties = offer.properties;
+    for (var i in offerProperties) {
+        var key = offerProperties[i].key;
+        var value = offerProperties[i].value;
+        var key_ru = '';
+        var value_ru = '';
+        for (var j in parameters) {
+            if (parameters[j]["parameter"]["key"] === key) {
+                key_ru = parameters[j]["parameter"]["label"];
+                if (parameters[j]["parameter"]["type"] === 'input') {
+                    value_ru = value;
+                }
+                break;
             }
         }
-    }
-    if (value_ru !== 'Цена' && value_ru !== '') {
-        $('#options').append('<div class="col-xs-6">' + key_ru + '</div><div class="col-xs-6">' + value_ru + '</div>')
-    }
+        if (value_ru === '') {
+            for (var m in options) {
+                if (options[m]["k"][key] !== undefined && options[m]["v"][value] !== undefined) {
+                    value_ru = options[m]["v"][value];
+                }
+            }
+        }
+        if (value_ru !== 'Цена' && value_ru !== '') {
+            $('#options').append('<div class="col-xs-6">' + key_ru + '</div><div class="col-xs-6">' + value_ru + '</div>')
+        }
 
-}
+    }
+})
+
 // ---------------------------------------- Draw properties -------------------------------------------------------
 
 
