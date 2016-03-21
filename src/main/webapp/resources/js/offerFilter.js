@@ -405,7 +405,11 @@
             if (cat1) {
                 utils.categories.push(cat1);
                 var cat2 = getUrlParam("category2lvl");
-                if (cat2) utils.categories.push(cat2);
+                if (cat2) {
+                    utils.categories.push(cat2);
+                    var cat3 = getUrlParam("category3lvl");
+                    if(cat3) utils.categories.push(cat3);
+                }
             }
 
             utils.address = {
@@ -572,6 +576,43 @@
         redirectToOfferAll(url);
     }
 
+    function redirectToOfferAllByBreadcrumbs(event) {
+        event.preventDefault();
+
+        var elem = $(event.currentTarget);
+        var parentId = elem.parent().parent().attr('id');
+        var id = elem.attr('id');
+
+        var url = "/offers?";
+
+        if(parentId === "breadcrumbs") {
+            utils.category = [];
+            var childArr = $("#breadcrumbs li a");
+            for (var i = 0; i < childArr.length; i++) {
+                var thisID = $(childArr[i]).attr('id');
+                utils.category.push(thisID);
+                if (thisID === id) break;
+            }
+            for(var i = 0; i < utils.category.length; i++) {
+                var parameter = (i < 1) ? "category1lvl" :
+                    (i < 2) ? "category2lvl" : "category3lvl";
+                url += parameter + "=" + utils.category[i] + "&";
+            }
+        } else if(parentId === "offer-cities") {
+            utils.address = {};
+            var childArr = $("#offer-cities li a");
+            for (var i = 0; i < childArr.length; i++) {
+                var thisID = $(childArr[i]).attr('id');
+                utils.address[thisID.substring(thisID.indexOf("-") + 1)] = $.trim($(childArr[i]).text());
+                if (thisID === id) break;
+            }
+            if(utils.address.area) url += "area=" + utils.address.area + "&";
+            if(utils.address.city) url += "city=" + utils.address.city + "&";
+        }
+
+        redirectToOfferAll(url);
+    }
+
     function redirectToOfferAll(url) {
         $.get(url, function () {
             window.location.href = (url !== "/offers?" && url) ? url : "/offers";
@@ -597,6 +638,7 @@
     namespace.redirectToOfferAll = redirectToOfferAll;
     namespace.redirectToOfferAllByCategories = redirectToOfferAllByCategories;
     namespace.redirectToOfferAllByRegion = redirectToOfferAllByRegion;
+    namespace.redirectToOfferAllByBreadcrumbs = redirectToOfferAllByBreadcrumbs;
 
     namespace.getIdCategory1Lvl = getIdCategory1Lvl;
     namespace.selectFilterPrice = selectFilterPrice;
