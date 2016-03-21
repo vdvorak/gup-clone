@@ -104,7 +104,7 @@ if (offer.address) {
     }
 }
 
-$.when(window.loadCategories && window.loadSubcategories).done(function(){
+$.when(window.loadCategories, window.loadSubcategories).done(function(){
     var breadcrumbs = offer.categories;
     if (breadcrumbs[0]) {
         for (var i = 0; i < jsonCategory.length; i++) {
@@ -165,7 +165,7 @@ $.ajax({
 
 
 // ---------------------------------------- Draw properties -------------------------------------------------------
-$.when(window.loadOptions && window.loadParameters).done(function () {
+$.when(window.loadOptions, window.loadParameters).done(function () {
     var offerProperties = offer.properties;
     for (var i in offerProperties) {
         var key = offerProperties[i].key;
