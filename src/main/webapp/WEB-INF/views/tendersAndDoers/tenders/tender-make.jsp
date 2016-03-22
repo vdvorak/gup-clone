@@ -489,7 +489,7 @@
             dateTo = new Date(dateTo).getTime() / 1000;
             if (dateFrom > dateTo) {
                 $('#tender-date span').addClass('tender-active-tooltip');
-                $(window).scrollTop($('span.tender-active-tooltip').offset().top);
+                $("html,body").animate({ scrollTop: $('span.tender-active-tooltip').offset().top }, "fast");
                 setTimeout(function () {
                     $('#tender-date span').removeClass('tender-active-tooltip');
                 }, 6000);
@@ -500,12 +500,10 @@
     }
 
     $('#tender-make-form').submit(function (event) {
-        var naceIds = $('#selectKved').val();
-        if(!naceIds.length) return false;
-        if(!checkDateInDatepicker()) return false;
+        if(!checkDateInDatepicker()) return;
 
         var body = tinymce.activeEditor.getContent();
-        if(!body) return false;
+        if(!body) return;
 
         checkMainImg();
 
@@ -525,6 +523,7 @@
         if (tender.type === 'CLOSE') {
             tender.members = members;
         }
+        var naceIds = $('#selectKved').val();
         if(naceIds) tender.naceIds = naceIds;
 
         tender.address = {};

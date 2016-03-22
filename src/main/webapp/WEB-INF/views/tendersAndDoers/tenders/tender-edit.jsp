@@ -165,7 +165,6 @@
   var picArrNew = [];
   var imgsArr = {};
   var oldNace = '${tender.naceIds}'.slice(1, -1).split(", "); // make array from string
-  alert(JSON.stringify(oldNace));
 
   if ('${tender.uploadFilesIds}'.length > 5 ){
     picMapObj = JSON.parse('${tender.uploadFilesIds}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
@@ -546,7 +545,7 @@
       dateTo = new Date(dateTo).getTime() / 1000;
       if (dateFrom > dateTo) {
         $('#tender-date span').addClass('tender-active-tooltip');
-        $(window).scrollTop($('span.tender-active-tooltip').offset().top);
+        $("html,body").animate({ scrollTop: $('span.tender-active-tooltip').offset().top }, "fast");
         setTimeout(function () {
           $('#tender-date span').removeClass('tender-active-tooltip');
         }, 6000);
@@ -557,14 +556,11 @@
   }
 
   $('#tender-make-form').submit(function (event) {
-    var naceIds = $('#selectKved').val();
-    if(!naceIds.length) return false;
-
-    if(!checkDateInDatepicker()) return false;
+    if(!checkDateInDatepicker()) return;
 
     var body = tinymce.activeEditor.getContent();
     if(!body) {
-      return false;
+      return;
     }
 
     for(var key in imgsArr) {
@@ -597,6 +593,7 @@
     if (tender.type === 'CLOSE') {
       tender.members = members;
     }
+    var naceIds = $('#selectKved').val();
     if(naceIds) tender.naceIds = naceIds;
 
     tender.address = {};
