@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <link rel="stylesheet" href="/resources/css/main.css">
   <link rel="stylesheet" href="/resources/css/font-awesome.css">
+  <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
   <link rel="stylesheet" href="/resources/css/mini.css">
   <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
   <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
@@ -47,29 +48,31 @@
     <form id="tender-make-form" action="#">
       <label for="EnterTheTitle">Введите название</label>
       <input type="text" id="EnterTheTitle" required value="${tender.title}">
-      <label>Выберете отрасль</label>
-      <div id="selectBox-info-type">
-        <select id="select-type">
-          <option>Выберите тип</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
+
+      <label for="selectKved">Выберите отрасль</label>
+      <select id="selectKved" class="chosen" multiple data-placeholder="Выберите отрасль" style="width: 553px;">
+      </select>
+
+      <div class="clearfix"></div>
+
+      <label for="tender-date" class="label-notRequered">Сроки</label>
+      <div id="tender-date">
+        <input type="text" id="tender-datepicker1" class="datepicker-input" placeholder="Дата начала"> - <input type="text" id="tender-datepicker2" class="datepicker-input" placeholder="Дата окончания">
+        <span>Дата начала не должна превышать дату окончания</span>
       </div>
-      <p class="datePickPi">Сроки <input type="text" id="datepicker"></p>
-      <p class="datePickPi">&nbsp;- <input type="text" id="datepicker2"></p>
+      <%--<p class="datePickPi">Сроки <input type="text" id="datepicker"></p>
+      <p class="datePickPi">&nbsp;- <input type="text" id="datepicker2"></p>--%>
 
       <div class="clearfix"></div>
 
       <h2>Укажите адрес</h2>
       <div class="location">
-        <label for="SelectArea">Выберете область</label>
+        <label for="SelectArea" class="label-notRequered">Выберете область</label>
         <input type="text" id="SelectArea" value="${tender.address.area}">
 
         <div class="clearfix"></div>
 
-        <label for="SelectCity">Выберете город</label>
+        <label for="SelectCity" class="label-notRequered">Выберете город</label>
         <input type="text" id="SelectCity" value="${tender.address.area}">
       </div>
       <label>Тип</label>
@@ -383,6 +386,15 @@
     picMapObj = JSON.parse('${tender.uploadFilesIds}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
   }
 
+  $.when(loadNace).done(function(response){
+    var select = $('#selectKved');
+    for(var i = 0; i < response.length; i++) {
+      var option = $('<option id="'+ response[i].id +'" value="'+ response[i].id +'">'+ response[i].id + ": " +response[i].name +'</option>');
+      select.append(option);
+    }
+    $(".chosen").chosen();
+  });
+
   $(document).ready(function () {
 
     if('${tender.hidePropose}') $('#HideBidders').prop( "checked", true );
@@ -417,7 +429,6 @@
 
       // files is a FileList of File objects. List some properties.
       for (var i = 0, f; f = files[i]; i++) {
-        var formImg = new FormData($(this)[0]);
         var fd = new FormData();
         fd.append('file', f);
         $.ajax({
@@ -736,12 +747,26 @@
   // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//
 
   //---------------------------- SUBMIT -----------------------------------------------------//
+  function checkDateInDatepicker() {
+    var dateFrom = $('#tender-datepicker1').datepicker('getDate');
+    var dateTo = $('#tender-datepicker2').datepicker('getDate');
+    if (dateFrom && dateTo) {
+      dateFrom = new Date(dateFrom).getTime() / 1000;
+      dateTo = new Date(dateTo).getTime() / 1000;
+      if (dateFrom > dateTo) {
+        $('#tender-date span').addClass('active-tooltip');
+        $(window).scrollTop($('span.active-tooltip').offset().top);
+        setTimeout(function () {
+          $('#tender-date span').removeClass('active-tooltip');
+        }, 6000);
+        return false;
+      }
+    }
+    return true;
+  }
 
   $('#tender-make-form').submit(function (event) {
-    if(!checkDateInDatepicker()) {
-      $(window).scrollTop($('span.active-tooltip').offset().top);
-      return false;
-    }
+    if(!checkDateInDatepicker()) return false;
 
     var body = tinymce.activeEditor.getContent();
     if(!body) {
