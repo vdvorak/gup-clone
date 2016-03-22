@@ -68,7 +68,7 @@ var loadParameters =
 var loadNace =
     $.ajax({
         type: "GET",
-        url: "/resources/json/kved.json",
+        url: "/resources/json/kved-test.json",
         dataType: "json",
         success: function (response) {
             nace = response;
