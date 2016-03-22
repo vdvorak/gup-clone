@@ -42,7 +42,7 @@
 <%--        <label>Выберете отрасль</label>
             <input type="text" id="searchInputKved" class="form-control sear" name="search" placeholder="Поиск">--%>
             <label for="selectKved">Выберите отрасль</label>
-            <select id="selectKved" class="chosen" multiple data-placeholder="Выберите отрасль" style="width: 553px;">
+            <select id="selectKved" class="chosen" multiple data-placeholder="Выберите отрасль" required style="width: 553px;">
             </select>
 
             <div class="clearfix"></div>
@@ -500,8 +500,6 @@
     }
 
     $('#tender-make-form').submit(function (event) {
-        var naceIds = $('#selectKved').val();
-        if(!naceIds.length) return false;
         if(!checkDateInDatepicker()) return false;
 
         var body = tinymce.activeEditor.getContent();
@@ -525,6 +523,7 @@
         if (tender.type === 'CLOSE') {
             tender.members = members;
         }
+        var naceIds = $('#selectKved').val();
         if(naceIds) tender.naceIds = naceIds;
 
         tender.address = {};

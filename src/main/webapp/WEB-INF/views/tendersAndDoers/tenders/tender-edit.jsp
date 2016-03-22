@@ -50,7 +50,7 @@
       <input type="text" id="EnterTheTitle" required value="${tender.title}">
 
       <label for="selectKved">Выберите отрасль</label>
-      <select id="selectKved" class="chosen" multiple data-placeholder="Выберите отрасль" style="width: 553px;">
+      <select id="selectKved" class="chosen" multiple data-placeholder="Выберите отрасль" required style="width: 553px;">
       </select>
 
       <div class="clearfix"></div>
@@ -165,7 +165,6 @@
   var picArrNew = [];
   var imgsArr = {};
   var oldNace = '${tender.naceIds}'.slice(1, -1).split(", "); // make array from string
-  alert(JSON.stringify(oldNace));
 
   if ('${tender.uploadFilesIds}'.length > 5 ){
     picMapObj = JSON.parse('${tender.uploadFilesIds}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
@@ -557,14 +556,11 @@
   }
 
   $('#tender-make-form').submit(function (event) {
-    var naceIds = $('#selectKved').val();
-    if(!naceIds.length) return false;
-
-    if(!checkDateInDatepicker()) return false;
+    if(!checkDateInDatepicker()) return;
 
     var body = tinymce.activeEditor.getContent();
     if(!body) {
-      return false;
+      return;
     }
 
     for(var key in imgsArr) {
@@ -597,6 +593,7 @@
     if (tender.type === 'CLOSE') {
       tender.members = members;
     }
+    var naceIds = $('#selectKved').val();
     if(naceIds) tender.naceIds = naceIds;
 
     tender.address = {};
