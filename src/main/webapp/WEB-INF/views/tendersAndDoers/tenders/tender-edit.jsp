@@ -754,10 +754,10 @@
       dateFrom = new Date(dateFrom).getTime() / 1000;
       dateTo = new Date(dateTo).getTime() / 1000;
       if (dateFrom > dateTo) {
-        $('#tender-date span').addClass('active-tooltip');
-        $(window).scrollTop($('span.active-tooltip').offset().top);
+        $('#tender-date span').addClass('tender-active-tooltip');
+        $(window).scrollTop($('span.tender-active-tooltip').offset().top);
         setTimeout(function () {
-          $('#tender-date span').removeClass('active-tooltip');
+          $('#tender-date span').removeClass('tender-active-tooltip');
         }, 6000);
         return false;
       }

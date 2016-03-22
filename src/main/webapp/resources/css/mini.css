@@ -296,7 +296,7 @@ textarea {
     border-top: 8px solid transparent;
     border-bottom: 8px solid transparent;
 }
-#tender-date span.active-tooltip {
+#tender-date span.tender-active-tooltip {
     visibility: visible;
     left: 103%;
     top: -51%;
