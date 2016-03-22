@@ -1,6 +1,6 @@
 [
 {
-    "_id" : "01.11",
+    "id" : "01.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вирощування зернових культур (крім рису), бобових культур і насіння олійних культур",
     "transcript" : [ 
@@ -10,7 +10,7 @@
 
 ,
 {
-    "_id" : "01.12",
+    "id" : "01.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вирощування рису",
     "transcript" : [ 
@@ -20,7 +20,7 @@
 
 ,
 {
-    "_id" : "01.13",
+    "id" : "01.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вирощування овочів та баштанних культур, коренеплодів та бульбоплодів",
     "transcript" : [ 
@@ -33,7 +33,7 @@
 
 ,
 {
-    "_id" : "01.15",
+    "id" : "01.15",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вирощування тютюну",
     "transcript" : [ 
@@ -43,7 +43,7 @@
 
 ,
 {
-    "_id" : "01.16",
+    "id" : "01.16",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вирощування прядивних культур",
     "transcript" : [ 
@@ -54,7 +54,7 @@
 
 ,
 {
-    "_id" : "01.19",
+    "id" : "01.19",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вирощування інших однорічних і дворічних культур",
     "transcript" : [ 
@@ -64,7 +64,7 @@
 
 ,
 {
-    "_id" : "01.28",
+    "id" : "01.28",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вирощування пряних, ароматичних та лікарських культур",
     "transcript" : [ 
@@ -74,7 +74,7 @@
 
 ,
 {
-    "_id" : "01.64",
+    "id" : "01.64",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оброблення насіння для відтворення",
     "transcript" : [ 
@@ -84,7 +84,7 @@
 
 ,
 {
-    "_id" : "01.25",
+    "id" : "01.25",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вирощування ягід, горіхів, інших плодових дерев і чагарників",
     "transcript" : [ 
@@ -95,7 +95,7 @@
 
 ,
 {
-    "_id" : "01.30",
+    "id" : "01.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Відтворення рослин",
     "transcript" : [ 
@@ -105,7 +105,7 @@
 
 ,
 {
-    "_id" : "10.41",
+    "id" : "10.41",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво олії та тваринних жирів",
     "transcript" : [ 
@@ -115,7 +115,7 @@
 
 ,
 {
-    "_id" : "02.30",
+    "id" : "02.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Збирання дикорослих недеревних продуктів",
     "transcript" : [ 
@@ -125,7 +125,7 @@
 
 ,
 {
-    "_id" : "01.21",
+    "id" : "01.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вирощування винограду",
     "transcript" : [ 
@@ -135,7 +135,7 @@
 
 ,
 {
-    "_id" : "01.22",
+    "id" : "01.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вирощування тропічних і субтропічних фруктів",
     "transcript" : [ 
@@ -145,7 +145,7 @@
 
 ,
 {
-    "_id" : "01.23",
+    "id" : "01.23",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вирощування цитрусових",
     "transcript" : [ 
@@ -155,7 +155,7 @@
 
 ,
 {
-    "_id" : "01.24",
+    "id" : "01.24",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вирощування зерняткових та кісточкових фруктів",
     "transcript" : [ 
@@ -165,7 +165,7 @@
 
 ,
 {
-    "_id" : "01.41",
+    "id" : "01.41",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Розведення великої рогатої худоби молочних порід",
     "transcript" : [ 
@@ -176,7 +176,7 @@
 
 ,
 {
-    "_id" : "01.42",
+    "id" : "01.42",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Розведення іншої великої рогатої худоби та буйволів",
     "transcript" : [ 
@@ -187,7 +187,7 @@
 
 ,
 {
-    "_id" : "01.43",
+    "id" : "01.43",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Розведення коней та інших тварин родини конячих",
     "transcript" : [ 
@@ -199,7 +199,7 @@
 
 ,
 {
-    "_id" : "01.45",
+    "id" : "01.45",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Розведення овець і кіз",
     "transcript" : [ 
@@ -212,7 +212,7 @@
 
 ,
 {
-    "_id" : "01.46",
+    "id" : "01.46",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Розведення свиней",
     "transcript" : [ 
@@ -222,7 +222,7 @@
 
 ,
 {
-    "_id" : "01.47",
+    "id" : "01.47",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Розведення свійської птиці",
     "transcript" : [ 
@@ -232,7 +232,7 @@
 
 ,
 {
-    "_id" : "01.49",
+    "id" : "01.49",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Розведення інших тварин",
     "transcript" : [ 
@@ -250,7 +250,7 @@
 
 ,
 {
-    "_id" : "01.50",
+    "id" : "01.50",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Змішане сільське господарство",
     "transcript" : [ 
@@ -260,7 +260,7 @@
 
 ,
 {
-    "_id" : "01.61",
+    "id" : "01.61",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Допоміжна діяльність у рослинництві",
     "transcript" : [ 
@@ -273,7 +273,7 @@
 
 ,
 {
-    "_id" : "01.63",
+    "id" : "01.63",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Післяурожайна діяльність",
     "transcript" : [ 
@@ -283,7 +283,7 @@
 
 ,
 {
-    "_id" : "81.30",
+    "id" : "81.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання ландшафтних послуг",
     "transcript" : [ 
@@ -295,7 +295,7 @@
 
 ,
 {
-    "_id" : "01.62",
+    "id" : "01.62",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Допоміжна діяльність у тваринництві",
     "transcript" : [ 
@@ -305,7 +305,7 @@
 
 ,
 {
-    "_id" : "01.70",
+    "id" : "01.70",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Мисливство, відловлювання тварин і надання пов'язаних із ними послуг",
     "transcript" : [ 
@@ -315,7 +315,7 @@
 
 ,
 {
-    "_id" : "94.99",
+    "id" : "94.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність інших громадських організацій, н.в.і.у.",
     "transcript" : [ 
@@ -325,7 +325,7 @@
 
 ,
 {
-    "_id" : "01.29",
+    "id" : "01.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вирощування інших багаторічних культур",
     "transcript" : [ 
@@ -336,7 +336,7 @@
 
 ,
 {
-    "_id" : "02.10",
+    "id" : "02.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Лісівництво та інша діяльність у лісовому господарстві",
     "transcript" : [ 
@@ -348,7 +348,7 @@
 
 ,
 {
-    "_id" : "02.20",
+    "id" : "02.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Лісозаготівлі",
     "transcript" : [ 
@@ -359,7 +359,7 @@
 
 ,
 {
-    "_id" : "16.10",
+    "id" : "16.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Лісопильне та стругальне виробництво",
     "transcript" : [ 
@@ -369,7 +369,7 @@
 
 ,
 {
-    "_id" : "02.40",
+    "id" : "02.40",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання допоміжних послуг у лісовому господарстві",
     "transcript" : [ 
@@ -379,7 +379,7 @@
 
 ,
 {
-    "_id" : "03.11",
+    "id" : "03.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Морське рибальство",
     "transcript" : [ 
@@ -395,7 +395,7 @@
 
 ,
 {
-    "_id" : "03.12",
+    "id" : "03.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Прісноводне рибальство",
     "transcript" : [ 
@@ -410,7 +410,7 @@
 
 ,
 {
-    "_id" : "03.21",
+    "id" : "03.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Морське рибництво (аквакультура)",
     "transcript" : [ 
@@ -424,7 +424,7 @@
 
 ,
 {
-    "_id" : "03.22",
+    "id" : "03.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Прісноводне рибництво (аквакультура)",
     "transcript" : [ 
@@ -436,7 +436,7 @@
 
 ,
 {
-    "_id" : "05.10",
+    "id" : "05.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Добування кам'яного вугілля",
     "transcript" : [ 
@@ -450,7 +450,7 @@
 
 ,
 {
-    "_id" : "05.20",
+    "id" : "05.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Добування бурого вугілля",
     "transcript" : [ 
@@ -462,7 +462,7 @@
 
 ,
 {
-    "_id" : "08.92",
+    "id" : "08.92",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Добування торфу",
     "transcript" : [ 
@@ -473,7 +473,7 @@
 
 ,
 {
-    "_id" : "06.10",
+    "id" : "06.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Добування сирої нафти",
     "transcript" : [ 
@@ -484,7 +484,7 @@
 
 ,
 {
-    "_id" : "06.20",
+    "id" : "06.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Добування природного газу",
     "transcript" : [ 
@@ -499,7 +499,7 @@
 
 ,
 {
-    "_id" : "09.10",
+    "id" : "09.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання допоміжних послуг у сфері добування нафти та природного газу",
     "transcript" : [ 
@@ -509,7 +509,7 @@
 
 ,
 {
-    "_id" : "07.21",
+    "id" : "07.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Добування уранових і торієвих руд",
     "transcript" : [ 
@@ -520,7 +520,7 @@
 
 ,
 {
-    "_id" : "07.10",
+    "id" : "07.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Добування залізних руд",
     "transcript" : [ 
@@ -531,7 +531,7 @@
 
 ,
 {
-    "_id" : "07.29",
+    "id" : "07.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Добування руд інших кольорових металів",
     "transcript" : [ 
@@ -543,7 +543,7 @@
 
 ,
 {
-    "_id" : "09.90",
+    "id" : "09.90",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання допоміжних послуг у сфері добування інших корисних копалин та розроблення кар'єрів",
     "transcript" : [ 
@@ -553,7 +553,7 @@
 
 ,
 {
-    "_id" : "08.11",
+    "id" : "08.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Добування декоративного та будівельного каменю, вапняку, гіпсу, крейди та глинистого сланцю",
     "transcript" : [ 
@@ -564,7 +564,7 @@
 
 ,
 {
-    "_id" : "23.52",
+    "id" : "23.52",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво вапна та гіпсових сумішей",
     "transcript" : [ 
@@ -574,7 +574,7 @@
 
 ,
 {
-    "_id" : "08.12",
+    "id" : "08.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Добування піску, гравію, глин і каоліну",
     "transcript" : [ 
@@ -586,7 +586,7 @@
 
 ,
 {
-    "_id" : "20.13",
+    "id" : "20.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших основних неорганічних хімічних речовин",
     "transcript" : [ 
@@ -596,7 +596,7 @@
 
 ,
 {
-    "_id" : "24.10",
+    "id" : "24.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво чавуну, сталі та феросплавів",
     "transcript" : [ 
@@ -606,7 +606,7 @@
 
 ,
 {
-    "_id" : "08.91",
+    "id" : "08.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Добування мінеральної сировини для хімічної промисловості та виробництва мінеральних добрив",
     "transcript" : [ 
@@ -621,7 +621,7 @@
 
 ,
 {
-    "_id" : "20.15",
+    "id" : "20.15",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво добрив і азотних сполук",
     "transcript" : [ 
@@ -633,7 +633,7 @@
 
 ,
 {
-    "_id" : "08.93",
+    "id" : "08.93",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Добування солі",
     "transcript" : [ 
@@ -650,7 +650,7 @@
 
 ,
 {
-    "_id" : "10.84",
+    "id" : "10.84",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво прянощів і приправ",
     "transcript" : [ 
@@ -660,7 +660,7 @@
 
 ,
 {
-    "_id" : "08.99",
+    "id" : "08.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Добування інших корисних копалин та розроблення кар'єрів, н.в.і.у.",
     "transcript" : [ 
@@ -675,7 +675,7 @@
 
 ,
 {
-    "_id" : "38.21",
+    "id" : "38.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оброблення та видалення безпечних відходів",
     "transcript" : [ 
@@ -686,7 +686,7 @@
 
 ,
 {
-    "_id" : "10.11",
+    "id" : "10.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво м'яса",
     "transcript" : [ 
@@ -696,7 +696,7 @@
 
 ,
 {
-    "_id" : "10.12",
+    "id" : "10.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво м'яса свійської птиці",
     "transcript" : [ 
@@ -706,7 +706,7 @@
 
 ,
 {
-    "_id" : "10.13",
+    "id" : "10.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво м'ясних продуктів",
     "transcript" : [ 
@@ -716,7 +716,7 @@
 
 ,
 {
-    "_id" : "10.85",
+    "id" : "10.85",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво готової їжі та страв",
     "transcript" : [ 
@@ -726,7 +726,7 @@
 
 ,
 {
-    "_id" : "10.20",
+    "id" : "10.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Перероблення та консервування риби, ракоподібних і молюсків",
     "transcript" : [ 
@@ -736,7 +736,7 @@
 
 ,
 {
-    "_id" : "10.31",
+    "id" : "10.31",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Перероблення та консервування картоплі",
     "transcript" : [ 
@@ -746,7 +746,7 @@
 
 ,
 {
-    "_id" : "10.32",
+    "id" : "10.32",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво фруктових і овочевих соків",
     "transcript" : [ 
@@ -756,7 +756,7 @@
 
 ,
 {
-    "_id" : "10.39",
+    "id" : "10.39",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інші види перероблення та консервування фруктів та овочів",
     "transcript" : [ 
@@ -766,7 +766,7 @@
 
 ,
 {
-    "_id" : "10.42",
+    "id" : "10.42",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво маргарину і подібних харчових жирів",
     "transcript" : [ 
@@ -777,7 +777,7 @@
 
 ,
 {
-    "_id" : "10.51",
+    "id" : "10.51",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Перероблення молока, виробництво масла та сиру",
     "transcript" : [ 
@@ -787,7 +787,7 @@
 
 ,
 {
-    "_id" : "10.52",
+    "id" : "10.52",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво морозива",
     "transcript" : [ 
@@ -797,7 +797,7 @@
 
 ,
 {
-    "_id" : "10.61",
+    "id" : "10.61",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво продуктів борошномельно-круп’яної промисловості",
     "transcript" : [ 
@@ -808,7 +808,7 @@
 
 ,
 {
-    "_id" : "10.62",
+    "id" : "10.62",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво крохмалів та крохмальних продуктів",
     "transcript" : [ 
@@ -818,7 +818,7 @@
 
 ,
 {
-    "_id" : "10.91",
+    "id" : "10.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво готових кормів для тварин, що утримуються на фермах",
     "transcript" : [ 
@@ -828,7 +828,7 @@
 
 ,
 {
-    "_id" : "10.92",
+    "id" : "10.92",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво готових кормів для домашніх тварин",
     "transcript" : [ 
@@ -838,7 +838,7 @@
 
 ,
 {
-    "_id" : "10.71",
+    "id" : "10.71",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво хліба та хлібобулочних виробів; виробництво борошняних кондитерських виробів, тортів і тістечок нетривалого зберігання",
     "transcript" : [ 
@@ -848,7 +848,7 @@
 
 ,
 {
-    "_id" : "10.72",
+    "id" : "10.72",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво сухарів і сухого печива; виробництво борошняних кондитерських виробів, тортів та тістечок тривалого зберігання",
     "transcript" : [ 
@@ -859,7 +859,7 @@
 
 ,
 {
-    "_id" : "10.81",
+    "id" : "10.81",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво цукру",
     "transcript" : [ 
@@ -869,7 +869,7 @@
 
 ,
 {
-    "_id" : "10.82",
+    "id" : "10.82",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво какао, шоколаду та цукрових кондитерських виробів",
     "transcript" : [ 
@@ -879,7 +879,7 @@
 
 ,
 {
-    "_id" : "10.73",
+    "id" : "10.73",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво макаронних виробів та подібних борошняних виробів",
     "transcript" : [ 
@@ -889,7 +889,7 @@
 
 ,
 {
-    "_id" : "10.83",
+    "id" : "10.83",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво чаю та кави",
     "transcript" : [ 
@@ -899,7 +899,7 @@
 
 ,
 {
-    "_id" : "10.86",
+    "id" : "10.86",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво дитячого харчування та дієтичних харчових продуктів",
     "transcript" : [ 
@@ -909,7 +909,7 @@
 
 ,
 {
-    "_id" : "10.89",
+    "id" : "10.89",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших харчових продуктів, н.в.і.у.",
     "transcript" : [ 
@@ -922,7 +922,7 @@
 
 ,
 {
-    "_id" : "11.01",
+    "id" : "11.01",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Дистиляція, ректифікація та змішування спиртних напоїв",
     "transcript" : [ 
@@ -932,7 +932,7 @@
 
 ,
 {
-    "_id" : "11.02",
+    "id" : "11.02",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво виноградних вин",
     "transcript" : [ 
@@ -943,7 +943,7 @@
 
 ,
 {
-    "_id" : "11.03",
+    "id" : "11.03",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво сидру та інших плодово-ягідних вин",
     "transcript" : [ 
@@ -953,7 +953,7 @@
 
 ,
 {
-    "_id" : "11.04",
+    "id" : "11.04",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших недистильованих напоїв із зброджуваних продуктів",
     "transcript" : [ 
@@ -963,7 +963,7 @@
 
 ,
 {
-    "_id" : "11.05",
+    "id" : "11.05",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво пива",
     "transcript" : [ 
@@ -973,7 +973,7 @@
 
 ,
 {
-    "_id" : "11.06",
+    "id" : "11.06",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво солоду",
     "transcript" : [ 
@@ -983,7 +983,7 @@
 
 ,
 {
-    "_id" : "11.07",
+    "id" : "11.07",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво безалкогольних напоїв; виробництво мінеральних вод та інших вод, розлитих у пляшки",
     "transcript" : [ 
@@ -993,7 +993,7 @@
 
 ,
 {
-    "_id" : "12.00",
+    "id" : "12.00",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво тютюнових виробів",
     "transcript" : [ 
@@ -1003,7 +1003,7 @@
 
 ,
 {
-    "_id" : "13.10",
+    "id" : "13.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Підготування та прядіння текстильних волокон",
     "transcript" : [ 
@@ -1013,7 +1013,7 @@
 
 ,
 {
-    "_id" : "13.20",
+    "id" : "13.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ткацьке виробництво",
     "transcript" : [ 
@@ -1023,7 +1023,7 @@
 
 ,
 {
-    "_id" : "13.30",
+    "id" : "13.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оздоблення текстильних виробів",
     "transcript" : [ 
@@ -1033,7 +1033,7 @@
 
 ,
 {
-    "_id" : "13.92",
+    "id" : "13.92",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво готових текстильних виробів, крім одягу",
     "transcript" : [ 
@@ -1044,7 +1044,7 @@
 
 ,
 {
-    "_id" : "13.93",
+    "id" : "13.93",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво килимів і килимових виробів",
     "transcript" : [ 
@@ -1054,7 +1054,7 @@
 
 ,
 {
-    "_id" : "13.94",
+    "id" : "13.94",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво канатів, мотузок, шпагату та сіток",
     "transcript" : [ 
@@ -1064,7 +1064,7 @@
 
 ,
 {
-    "_id" : "13.95",
+    "id" : "13.95",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво нетканих текстильних матеріалів та виробів із них, крім одягу",
     "transcript" : [ 
@@ -1074,7 +1074,7 @@
 
 ,
 {
-    "_id" : "13.96",
+    "id" : "13.96",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших текстильних виробів технічного та промислового призначення",
     "transcript" : [ 
@@ -1089,7 +1089,7 @@
 
 ,
 {
-    "_id" : "13.99",
+    "id" : "13.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших текстильних виробів, н.в.і.у.",
     "transcript" : [ 
@@ -1099,7 +1099,7 @@
 
 ,
 {
-    "_id" : "13.91",
+    "id" : "13.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво трикотажного полотна",
     "transcript" : [ 
@@ -1109,7 +1109,7 @@
 
 ,
 {
-    "_id" : "14.31",
+    "id" : "14.31",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво панчішно-шкарпеткових виробів",
     "transcript" : [ 
@@ -1119,7 +1119,7 @@
 
 ,
 {
-    "_id" : "14.39",
+    "id" : "14.39",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво іншого трикотажного та в'язаного одягу",
     "transcript" : [ 
@@ -1129,7 +1129,7 @@
 
 ,
 {
-    "_id" : "14.11",
+    "id" : "14.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво одягу зі шкіри",
     "transcript" : [ 
@@ -1139,7 +1139,7 @@
 
 ,
 {
-    "_id" : "14.12",
+    "id" : "14.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво робочого одягу",
     "transcript" : [ 
@@ -1149,7 +1149,7 @@
 
 ,
 {
-    "_id" : "14.13",
+    "id" : "14.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво іншого верхнього одягу",
     "transcript" : [ 
@@ -1159,7 +1159,7 @@
 
 ,
 {
-    "_id" : "14.14",
+    "id" : "14.14",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво спіднього одягу",
     "transcript" : [ 
@@ -1169,7 +1169,7 @@
 
 ,
 {
-    "_id" : "14.19",
+    "id" : "14.19",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво іншого одягу й аксесуарів",
     "transcript" : [ 
@@ -1179,7 +1179,7 @@
 
 ,
 {
-    "_id" : "14.20",
+    "id" : "14.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виготовлення виробів із хутра",
     "transcript" : [ 
@@ -1189,7 +1189,7 @@
 
 ,
 {
-    "_id" : "15.11",
+    "id" : "15.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Дублення шкур та оздоблення шкіри; вичинка та фарбування хутра",
     "transcript" : [ 
@@ -1199,7 +1199,7 @@
 
 ,
 {
-    "_id" : "15.12",
+    "id" : "15.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво дорожніх виробів, сумок, лимарно-сідельних виробів зі шкіри та інших матеріалів",
     "transcript" : [ 
@@ -1209,7 +1209,7 @@
 
 ,
 {
-    "_id" : "15.20",
+    "id" : "15.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво взуття",
     "transcript" : [ 
@@ -1223,7 +1223,7 @@
 
 ,
 {
-    "_id" : "16.21",
+    "id" : "16.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво фанери, дерев'яних плит і панелей, шпону",
     "transcript" : [ 
@@ -1233,7 +1233,7 @@
 
 ,
 {
-    "_id" : "16.22",
+    "id" : "16.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво щитового паркету",
     "transcript" : [ 
@@ -1243,7 +1243,7 @@
 
 ,
 {
-    "_id" : "16.23",
+    "id" : "16.23",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших дерев'яних будівельних конструкцій і столярних виробів",
     "transcript" : [ 
@@ -1260,7 +1260,7 @@
 
 ,
 {
-    "_id" : "43.32",
+    "id" : "43.32",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Установлення столярних виробів",
     "transcript" : [ 
@@ -1270,7 +1270,7 @@
 
 ,
 {
-    "_id" : "16.24",
+    "id" : "16.24",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво дерев'яної тари",
     "transcript" : [ 
@@ -1280,7 +1280,7 @@
 
 ,
 {
-    "_id" : "16.29",
+    "id" : "16.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших виробів із деревини; виготовлення виробів з корка, соломки та рослинних матеріалів для плетіння",
     "transcript" : [ 
@@ -1291,7 +1291,7 @@
 
 ,
 {
-    "_id" : "17.11",
+    "id" : "17.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво паперової маси",
     "transcript" : [ 
@@ -1302,7 +1302,7 @@
 
 ,
 {
-    "_id" : "17.12",
+    "id" : "17.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво паперу та картону",
     "transcript" : [ 
@@ -1315,7 +1315,7 @@
 
 ,
 {
-    "_id" : "17.21",
+    "id" : "17.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво ґофрованого паперу та картону, паперової та картонної тари",
     "transcript" : [ 
@@ -1325,7 +1325,7 @@
 
 ,
 {
-    "_id" : "17.22",
+    "id" : "17.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво паперових виробів господарсько-побутового та санітарно-гігієнічного призначення",
     "transcript" : [ 
@@ -1335,7 +1335,7 @@
 
 ,
 {
-    "_id" : "18.12",
+    "id" : "18.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Друкування іншої продукції",
     "transcript" : [ 
@@ -1347,7 +1347,7 @@
 
 ,
 {
-    "_id" : "17.23",
+    "id" : "17.23",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво паперових канцелярських виробів",
     "transcript" : [ 
@@ -1357,7 +1357,7 @@
 
 ,
 {
-    "_id" : "17.24",
+    "id" : "17.24",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво шпалер",
     "transcript" : [ 
@@ -1367,7 +1367,7 @@
 
 ,
 {
-    "_id" : "17.29",
+    "id" : "17.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших виробів з паперу та картону",
     "transcript" : [ 
@@ -1377,7 +1377,7 @@
 
 ,
 {
-    "_id" : "58.11",
+    "id" : "58.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Видання книг",
     "transcript" : [ 
@@ -1387,7 +1387,7 @@
 
 ,
 {
-    "_id" : "58.12",
+    "id" : "58.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Видання довідників і каталогів",
     "transcript" : [ 
@@ -1397,7 +1397,7 @@
 
 ,
 {
-    "_id" : "58.13",
+    "id" : "58.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Видання газет",
     "transcript" : [ 
@@ -1407,7 +1407,7 @@
 
 ,
 {
-    "_id" : "58.14",
+    "id" : "58.14",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Видання журналів і періодичних видань",
     "transcript" : [ 
@@ -1417,7 +1417,7 @@
 
 ,
 {
-    "_id" : "59.20",
+    "id" : "59.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Видання звукозаписів",
     "transcript" : [ 
@@ -1427,7 +1427,7 @@
 
 ,
 {
-    "_id" : "58.19",
+    "id" : "58.19",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інші види видавничої діяльності",
     "transcript" : [ 
@@ -1437,7 +1437,7 @@
 
 ,
 {
-    "_id" : "18.11",
+    "id" : "18.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Друкування газет",
     "transcript" : [ 
@@ -1447,7 +1447,7 @@
 
 ,
 {
-    "_id" : "18.14",
+    "id" : "18.14",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Брошурувально-палітурна діяльність і надання пов'язаних з нею послуг",
     "transcript" : [ 
@@ -1457,7 +1457,7 @@
 
 ,
 {
-    "_id" : "18.13",
+    "id" : "18.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виготовлення друкарських форм і надання інших поліграфічних послуг",
     "transcript" : [ 
@@ -1467,7 +1467,7 @@
 
 ,
 {
-    "_id" : "18.20",
+    "id" : "18.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Тиражування звуко-, відеозаписів і програмного забезпечення",
     "transcript" : [ 
@@ -1477,7 +1477,7 @@
 
 ,
 {
-    "_id" : "19.10",
+    "id" : "19.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво коксу та коксопродуктів",
     "transcript" : [ 
@@ -1487,7 +1487,7 @@
 
 ,
 {
-    "_id" : "19.20",
+    "id" : "19.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво продуктів нафтоперероблення",
     "transcript" : [ 
@@ -1498,7 +1498,7 @@
 
 ,
 {
-    "_id" : "24.46",
+    "id" : "24.46",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво ядерних матеріалів",
     "transcript" : [ 
@@ -1513,7 +1513,7 @@
 
 ,
 {
-    "_id" : "38.12",
+    "id" : "38.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Збирання небезпечних відходів",
     "transcript" : [ 
@@ -1523,7 +1523,7 @@
 
 ,
 {
-    "_id" : "20.11",
+    "id" : "20.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво промислових газів",
     "transcript" : [ 
@@ -1533,7 +1533,7 @@
 
 ,
 {
-    "_id" : "20.12",
+    "id" : "20.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво барвників і пігментів",
     "transcript" : [ 
@@ -1543,7 +1543,7 @@
 
 ,
 {
-    "_id" : "20.14",
+    "id" : "20.14",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших основних органічних хімічних речовин",
     "transcript" : [ 
@@ -1555,7 +1555,7 @@
 
 ,
 {
-    "_id" : "20.16",
+    "id" : "20.16",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво пластмас у первинних формах",
     "transcript" : [ 
@@ -1565,7 +1565,7 @@
 
 ,
 {
-    "_id" : "20.17",
+    "id" : "20.17",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво синтетичного каучуку в первинних формах",
     "transcript" : [ 
@@ -1575,7 +1575,7 @@
 
 ,
 {
-    "_id" : "20.20",
+    "id" : "20.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво пестицидів та іншої агрохімічної продукції",
     "transcript" : [ 
@@ -1585,7 +1585,7 @@
 
 ,
 {
-    "_id" : "20.30",
+    "id" : "20.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво фарб, лаків і подібної продукції, друкарської фарби та мастик",
     "transcript" : [ 
@@ -1595,7 +1595,7 @@
 
 ,
 {
-    "_id" : "21.10",
+    "id" : "21.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво основних фармацевтичних продуктів",
     "transcript" : [ 
@@ -1605,7 +1605,7 @@
 
 ,
 {
-    "_id" : "21.20",
+    "id" : "21.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво фармацевтичних препаратів і матеріалів",
     "transcript" : [ 
@@ -1615,7 +1615,7 @@
 
 ,
 {
-    "_id" : "20.41",
+    "id" : "20.41",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво мила та мийних засобів, засобів для чищення та полірування",
     "transcript" : [ 
@@ -1626,7 +1626,7 @@
 
 ,
 {
-    "_id" : "20.42",
+    "id" : "20.42",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво парфумних і косметичних засобів",
     "transcript" : [ 
@@ -1637,7 +1637,7 @@
 
 ,
 {
-    "_id" : "20.51",
+    "id" : "20.51",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво вибухових речовин",
     "transcript" : [ 
@@ -1647,7 +1647,7 @@
 
 ,
 {
-    "_id" : "20.52",
+    "id" : "20.52",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво клеїв",
     "transcript" : [ 
@@ -1657,7 +1657,7 @@
 
 ,
 {
-    "_id" : "20.53",
+    "id" : "20.53",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво ефірних олій",
     "transcript" : [ 
@@ -1667,7 +1667,7 @@
 
 ,
 {
-    "_id" : "26.80",
+    "id" : "26.80",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво магнітних і оптичних носіїв даних",
     "transcript" : [ 
@@ -1677,7 +1677,7 @@
 
 ,
 {
-    "_id" : "20.59",
+    "id" : "20.59",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво іншої хімічної продукції, н.в.і.у.",
     "transcript" : [ 
@@ -1690,7 +1690,7 @@
 
 ,
 {
-    "_id" : "20.60",
+    "id" : "20.60",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво штучних і синтетичних волокон",
     "transcript" : [ 
@@ -1700,7 +1700,7 @@
 
 ,
 {
-    "_id" : "22.11",
+    "id" : "22.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво гумових шин, покришок і камер; відновлення протектора ґумових шин і покришок",
     "transcript" : [ 
@@ -1710,7 +1710,7 @@
 
 ,
 {
-    "_id" : "22.19",
+    "id" : "22.19",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших ґумових виробів",
     "transcript" : [ 
@@ -1720,7 +1720,7 @@
 
 ,
 {
-    "_id" : "22.21",
+    "id" : "22.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво плит, листів, труб і профілів із пластмас",
     "transcript" : [ 
@@ -1730,7 +1730,7 @@
 
 ,
 {
-    "_id" : "33.20",
+    "id" : "33.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Установлення та монтаж машин і устатковання",
     "transcript" : [ 
@@ -1740,7 +1740,7 @@
 
 ,
 {
-    "_id" : "22.22",
+    "id" : "22.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво тари з пластмас",
     "transcript" : [ 
@@ -1750,7 +1750,7 @@
 
 ,
 {
-    "_id" : "22.23",
+    "id" : "22.23",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво будівельних виробів із пластмас",
     "transcript" : [ 
@@ -1760,7 +1760,7 @@
 
 ,
 {
-    "_id" : "22.29",
+    "id" : "22.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших виробів із пластмас",
     "transcript" : [ 
@@ -1770,7 +1770,7 @@
 
 ,
 {
-    "_id" : "23.11",
+    "id" : "23.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво листового скла",
     "transcript" : [ 
@@ -1780,7 +1780,7 @@
 
 ,
 {
-    "_id" : "23.12",
+    "id" : "23.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Формування й оброблення листового скла",
     "transcript" : [ 
@@ -1790,7 +1790,7 @@
 
 ,
 {
-    "_id" : "23.13",
+    "id" : "23.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво порожнистого скла",
     "transcript" : [ 
@@ -1800,7 +1800,7 @@
 
 ,
 {
-    "_id" : "23.14",
+    "id" : "23.14",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво скловолокна",
     "transcript" : [ 
@@ -1810,7 +1810,7 @@
 
 ,
 {
-    "_id" : "23.19",
+    "id" : "23.19",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво й оброблення інших скляних виробів, у тому числі технічних",
     "transcript" : [ 
@@ -1820,7 +1820,7 @@
 
 ,
 {
-    "_id" : "23.41",
+    "id" : "23.41",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво господарських і декоративних керамічних виробів",
     "transcript" : [ 
@@ -1830,7 +1830,7 @@
 
 ,
 {
-    "_id" : "23.42",
+    "id" : "23.42",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво керамічних санітарно-технічних виробів",
     "transcript" : [ 
@@ -1840,7 +1840,7 @@
 
 ,
 {
-    "_id" : "23.43",
+    "id" : "23.43",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво керамічних електроізоляторів та ізоляційної арматури",
     "transcript" : [ 
@@ -1850,7 +1850,7 @@
 
 ,
 {
-    "_id" : "23.44",
+    "id" : "23.44",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших керамічних виробів технічного призначення",
     "transcript" : [ 
@@ -1860,7 +1860,7 @@
 
 ,
 {
-    "_id" : "23.49",
+    "id" : "23.49",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших керамічних виробів",
     "transcript" : [ 
@@ -1870,7 +1870,7 @@
 
 ,
 {
-    "_id" : "23.20",
+    "id" : "23.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво вогнетривких виробів",
     "transcript" : [ 
@@ -1880,7 +1880,7 @@
 
 ,
 {
-    "_id" : "23.31",
+    "id" : "23.31",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво керамічних плиток і плит",
     "transcript" : [ 
@@ -1890,7 +1890,7 @@
 
 ,
 {
-    "_id" : "23.32",
+    "id" : "23.32",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво цегли, черепиці та інших будівельних виробів із випаленої глини",
     "transcript" : [ 
@@ -1900,7 +1900,7 @@
 
 ,
 {
-    "_id" : "23.51",
+    "id" : "23.51",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво цементу",
     "transcript" : [ 
@@ -1910,7 +1910,7 @@
 
 ,
 {
-    "_id" : "23.61",
+    "id" : "23.61",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виготовлення виробів із бетону для будівництва",
     "transcript" : [ 
@@ -1920,7 +1920,7 @@
 
 ,
 {
-    "_id" : "23.69",
+    "id" : "23.69",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших виробів із бетону, гіпсу та цементу",
     "transcript" : [ 
@@ -1930,7 +1930,7 @@
 
 ,
 {
-    "_id" : "23.62",
+    "id" : "23.62",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виготовлення виробів із гіпсу для будівництва",
     "transcript" : [ 
@@ -1940,7 +1940,7 @@
 
 ,
 {
-    "_id" : "23.63",
+    "id" : "23.63",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво бетонних розчинів, готових для використання",
     "transcript" : [ 
@@ -1950,7 +1950,7 @@
 
 ,
 {
-    "_id" : "23.64",
+    "id" : "23.64",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво сухих будівельних сумішей",
     "transcript" : [ 
@@ -1960,7 +1960,7 @@
 
 ,
 {
-    "_id" : "23.65",
+    "id" : "23.65",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виготовлення виробів із волокнистого цементу",
     "transcript" : [ 
@@ -1970,7 +1970,7 @@
 
 ,
 {
-    "_id" : "23.70",
+    "id" : "23.70",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Різання, оброблення та оздоблення декоративного та будівельного каменю",
     "transcript" : [ 
@@ -1981,7 +1981,7 @@
 
 ,
 {
-    "_id" : "23.91",
+    "id" : "23.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво абразивних виробів",
     "transcript" : [ 
@@ -1991,7 +1991,7 @@
 
 ,
 {
-    "_id" : "23.99",
+    "id" : "23.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво неметалевих мінеральних виробів, н.в.і.у.",
     "transcript" : [ 
@@ -2004,7 +2004,7 @@
 
 ,
 {
-    "_id" : "24.51",
+    "id" : "24.51",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Лиття чавуну",
     "transcript" : [ 
@@ -2014,7 +2014,7 @@
 
 ,
 {
-    "_id" : "24.20",
+    "id" : "24.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво труб, порожнистих профілів і фітингів зі сталі",
     "transcript" : [ 
@@ -2024,7 +2024,7 @@
 
 ,
 {
-    "_id" : "24.31",
+    "id" : "24.31",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Холодне волочіння прутків і профілів",
     "transcript" : [ 
@@ -2034,7 +2034,7 @@
 
 ,
 {
-    "_id" : "24.32",
+    "id" : "24.32",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Холодний прокат вузької штаби",
     "transcript" : [ 
@@ -2044,7 +2044,7 @@
 
 ,
 {
-    "_id" : "24.33",
+    "id" : "24.33",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Холодне штампування та гнуття",
     "transcript" : [ 
@@ -2054,7 +2054,7 @@
 
 ,
 {
-    "_id" : "24.34",
+    "id" : "24.34",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Холодне волочіння дроту",
     "transcript" : [ 
@@ -2064,7 +2064,7 @@
 
 ,
 {
-    "_id" : "24.41",
+    "id" : "24.41",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво дорогоцінних металів",
     "transcript" : [ 
@@ -2074,7 +2074,7 @@
 
 ,
 {
-    "_id" : "24.42",
+    "id" : "24.42",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво алюмінію",
     "transcript" : [ 
@@ -2084,7 +2084,7 @@
 
 ,
 {
-    "_id" : "24.43",
+    "id" : "24.43",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво свинцю, цинку та олова",
     "transcript" : [ 
@@ -2097,7 +2097,7 @@
 
 ,
 {
-    "_id" : "24.44",
+    "id" : "24.44",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво міді",
     "transcript" : [ 
@@ -2107,7 +2107,7 @@
 
 ,
 {
-    "_id" : "24.45",
+    "id" : "24.45",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших кольорових металів",
     "transcript" : [ 
@@ -2117,7 +2117,7 @@
 
 ,
 {
-    "_id" : "24.52",
+    "id" : "24.52",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Лиття сталі",
     "transcript" : [ 
@@ -2127,7 +2127,7 @@
 
 ,
 {
-    "_id" : "24.53",
+    "id" : "24.53",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Лиття легких кольорових металів",
     "transcript" : [ 
@@ -2137,7 +2137,7 @@
 
 ,
 {
-    "_id" : "24.54",
+    "id" : "24.54",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Лиття інших кольорових металів",
     "transcript" : [ 
@@ -2148,7 +2148,7 @@
 
 ,
 {
-    "_id" : "25.11",
+    "id" : "25.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво будівельних металевих конструкцій і частин конструкцій",
     "transcript" : [ 
@@ -2162,7 +2162,7 @@
 
 ,
 {
-    "_id" : "25.12",
+    "id" : "25.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво металевих дверей і вікон",
     "transcript" : [ 
@@ -2173,7 +2173,7 @@
 
 ,
 {
-    "_id" : "25.29",
+    "id" : "25.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших металевих баків, резервуарів і контейнерів",
     "transcript" : [ 
@@ -2183,7 +2183,7 @@
 
 ,
 {
-    "_id" : "25.21",
+    "id" : "25.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво радіаторів і котлів центрального опалення",
     "transcript" : [ 
@@ -2193,7 +2193,7 @@
 
 ,
 {
-    "_id" : "25.30",
+    "id" : "25.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво парових котлів, крім котлів центрального опалення",
     "transcript" : [ 
@@ -2205,7 +2205,7 @@
 
 ,
 {
-    "_id" : "33.11",
+    "id" : "33.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт і технічне обслуговування готових металевих виробів",
     "transcript" : [ 
@@ -2215,7 +2215,7 @@
 
 ,
 {
-    "_id" : "25.50",
+    "id" : "25.50",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Кування, пресування, штампування, профілювання; порошкова металургія",
     "transcript" : [ 
@@ -2225,7 +2225,7 @@
 
 ,
 {
-    "_id" : "25.61",
+    "id" : "25.61",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оброблення металів та нанесення покриття на метали",
     "transcript" : [ 
@@ -2235,7 +2235,7 @@
 
 ,
 {
-    "_id" : "25.62",
+    "id" : "25.62",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Механічне оброблення металевих виробів",
     "transcript" : [ 
@@ -2247,7 +2247,7 @@
 
 ,
 {
-    "_id" : "25.71",
+    "id" : "25.71",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво столових приборів",
     "transcript" : [ 
@@ -2257,7 +2257,7 @@
 
 ,
 {
-    "_id" : "25.73",
+    "id" : "25.73",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інструментів",
     "transcript" : [ 
@@ -2267,7 +2267,7 @@
 
 ,
 {
-    "_id" : "28.41",
+    "id" : "28.41",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво металообробних машин",
     "transcript" : [ 
@@ -2277,7 +2277,7 @@
 
 ,
 {
-    "_id" : "28.49",
+    "id" : "28.49",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших верстатів",
     "transcript" : [ 
@@ -2287,7 +2287,7 @@
 
 ,
 {
-    "_id" : "25.91",
+    "id" : "25.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво сталевих бочок і подібних контейнерів",
     "transcript" : [ 
@@ -2297,7 +2297,7 @@
 
 ,
 {
-    "_id" : "25.92",
+    "id" : "25.92",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво легких металевих паковань",
     "transcript" : [ 
@@ -2307,7 +2307,7 @@
 
 ,
 {
-    "_id" : "25.93",
+    "id" : "25.93",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво виробів з дроту, ланцюгів і пружин",
     "transcript" : [ 
@@ -2317,7 +2317,7 @@
 
 ,
 {
-    "_id" : "25.94",
+    "id" : "25.94",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво кріпильних і ґвинтонарізних виробів",
     "transcript" : [ 
@@ -2327,7 +2327,7 @@
 
 ,
 {
-    "_id" : "25.72",
+    "id" : "25.72",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво замків і дверних петель",
     "transcript" : [ 
@@ -2337,7 +2337,7 @@
 
 ,
 {
-    "_id" : "25.99",
+    "id" : "25.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших готових металевих виробів, н.в.і.у.",
     "transcript" : [ 
@@ -2347,7 +2347,7 @@
 
 ,
 {
-    "_id" : "28.12",
+    "id" : "28.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво гідравлічного та пневматичного устатковання",
     "transcript" : [ 
@@ -2357,7 +2357,7 @@
 
 ,
 {
-    "_id" : "28.95",
+    "id" : "28.95",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво машин і устатковання для виготовлення паперу та картону",
     "transcript" : [ 
@@ -2367,7 +2367,7 @@
 
 ,
 {
-    "_id" : "62.09",
+    "id" : "62.09",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інша діяльність у сфері інформаційних технологій і комп'ютерних систем",
     "transcript" : [ 
@@ -2377,7 +2377,7 @@
 
 ,
 {
-    "_id" : "27.31",
+    "id" : "27.31",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво волоконно-оптичних кабелів",
     "transcript" : [ 
@@ -2387,7 +2387,7 @@
 
 ,
 {
-    "_id" : "27.32",
+    "id" : "27.32",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших видів електронних і електричних проводів та кабелів",
     "transcript" : [ 
@@ -2397,7 +2397,7 @@
 
 ,
 {
-    "_id" : "33.15",
+    "id" : "33.15",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт і технічне обслуговування суден і човнів",
     "transcript" : [ 
@@ -2407,7 +2407,7 @@
 
 ,
 {
-    "_id" : "32.91",
+    "id" : "32.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво мітел і щіток",
     "transcript" : [ 
@@ -2417,7 +2417,7 @@
 
 ,
 {
-    "_id" : "38.31",
+    "id" : "38.31",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Демонтаж (розбирання) машин і устатковання",
     "transcript" : [ 
@@ -2427,7 +2427,7 @@
 
 ,
 {
-    "_id" : "35.11",
+    "id" : "35.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво електроенергії",
     "transcript" : [ 
@@ -2437,7 +2437,7 @@
 
 ,
 {
-    "_id" : "43.11",
+    "id" : "43.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Знесення",
     "transcript" : [ 
@@ -2447,7 +2447,7 @@
 
 ,
 {
-    "_id" : "42.12",
+    "id" : "42.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Будівництво залізниць і метрополітену",
     "transcript" : [ 
@@ -2457,7 +2457,7 @@
 
 ,
 {
-    "_id" : "43.22",
+    "id" : "43.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Монтаж водопровідних мереж, систем опалення та кондиціонування",
     "transcript" : [ 
@@ -2468,7 +2468,7 @@
 
 ,
 {
-    "_id" : "43.31",
+    "id" : "43.31",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Штукатурні роботи",
     "transcript" : [ 
@@ -2478,7 +2478,7 @@
 
 ,
 {
-    "_id" : "55.10",
+    "id" : "55.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність готелів і подібних засобів тимчасового розміщування",
     "transcript" : [ 
@@ -2488,7 +2488,7 @@
 
 ,
 {
-    "_id" : "71.11",
+    "id" : "71.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері архітектури",
     "transcript" : [ 
@@ -2498,7 +2498,7 @@
 
 ,
 {
-    "_id" : "38.11",
+    "id" : "38.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Збирання безпечних відходів",
     "transcript" : [ 
@@ -2508,7 +2508,7 @@
 
 ,
 {
-    "_id" : "91.02",
+    "id" : "91.02",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Функціювання музеїв",
     "transcript" : [ 
@@ -2518,7 +2518,7 @@
 
 ,
 {
-    "_id" : "28.13",
+    "id" : "28.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших помп і компресорів",
     "transcript" : [ 
@@ -2530,7 +2530,7 @@
 
 ,
 {
-    "_id" : "28.14",
+    "id" : "28.14",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших кранів і клапанів",
     "transcript" : [ 
@@ -2541,7 +2541,7 @@
 
 ,
 {
-    "_id" : "33.12",
+    "id" : "33.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт і технічне обслуговування машин і устатковання промислового призначення",
     "transcript" : [ 
@@ -2551,7 +2551,7 @@
 
 ,
 {
-    "_id" : "28.15",
+    "id" : "28.15",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво підшипників, зубчастих передач, елементів механічних передач і приводів",
     "transcript" : [ 
@@ -2561,7 +2561,7 @@
 
 ,
 {
-    "_id" : "28.22",
+    "id" : "28.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво підіймального та вантажно-розвантажувального устатковання",
     "transcript" : [ 
@@ -2571,7 +2571,7 @@
 
 ,
 {
-    "_id" : "28.25",
+    "id" : "28.25",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво промислового холодильного та вентиляційного устатковання",
     "transcript" : [ 
@@ -2581,7 +2581,7 @@
 
 ,
 {
-    "_id" : "28.29",
+    "id" : "28.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших машин і устатковання загального призначення, н.в.і.у.",
     "transcript" : [ 
@@ -2591,7 +2591,7 @@
 
 ,
 {
-    "_id" : "28.30",
+    "id" : "28.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво машин і устатковання для сільського та лісового господарства",
     "transcript" : [ 
@@ -2601,7 +2601,7 @@
 
 ,
 {
-    "_id" : "28.24",
+    "id" : "28.24",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво ручних електромеханічних і пневматичних інструментів",
     "transcript" : [ 
@@ -2611,7 +2611,7 @@
 
 ,
 {
-    "_id" : "28.91",
+    "id" : "28.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво машин і устатковання для металургії",
     "transcript" : [ 
@@ -2621,7 +2621,7 @@
 
 ,
 {
-    "_id" : "28.92",
+    "id" : "28.92",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво машин і устатковання для добувної промисловості та будівництва",
     "transcript" : [ 
@@ -2631,7 +2631,7 @@
 
 ,
 {
-    "_id" : "28.93",
+    "id" : "28.93",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво машин і устатковання для виготовлення харчових продуктів і напоїв, перероблення тютюну",
     "transcript" : [ 
@@ -2650,7 +2650,7 @@
 
 ,
 {
-    "_id" : "28.94",
+    "id" : "28.94",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво машин і устатковання для виготовлення текстильних, швейних, хутряних і шкіряних виробів",
     "transcript" : [ 
@@ -2661,7 +2661,7 @@
 
 ,
 {
-    "_id" : "28.96",
+    "id" : "28.96",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво машин і устатковання для виготовлення пластмас і гуми",
     "transcript" : [ 
@@ -2671,7 +2671,7 @@
 
 ,
 {
-    "_id" : "28.99",
+    "id" : "28.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших машин і устатковання спеціального призначення, н.в.і.у.",
     "transcript" : [ 
@@ -2681,7 +2681,7 @@
 
 ,
 {
-    "_id" : "25.40",
+    "id" : "25.40",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво зброї та боєприпасів",
     "transcript" : [ 
@@ -2697,7 +2697,7 @@
 
 ,
 {
-    "_id" : "30.40",
+    "id" : "30.40",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво військових транспортних засобів",
     "transcript" : [ 
@@ -2707,7 +2707,7 @@
 
 ,
 {
-    "_id" : "27.51",
+    "id" : "27.51",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво електричних побутових приладів",
     "transcript" : [ 
@@ -2720,7 +2720,7 @@
 
 ,
 {
-    "_id" : "27.52",
+    "id" : "27.52",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво неелектричних побутових приладів",
     "transcript" : [ 
@@ -2731,7 +2731,7 @@
 
 ,
 {
-    "_id" : "28.21",
+    "id" : "28.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво духових шаф, печей і пічних пальників",
     "transcript" : [ 
@@ -2741,7 +2741,7 @@
 
 ,
 {
-    "_id" : "26.20",
+    "id" : "26.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво комп'ютерів і периферійного устатковання",
     "transcript" : [ 
@@ -2751,7 +2751,7 @@
 
 ,
 {
-    "_id" : "28.23",
+    "id" : "28.23",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво офісних машин і устатковання, крім комп'ютерів і периферійного устатковання",
     "transcript" : [ 
@@ -2761,7 +2761,7 @@
 
 ,
 {
-    "_id" : "27.11",
+    "id" : "27.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво електродвигунів, генераторів і трансформаторів",
     "transcript" : [ 
@@ -2771,7 +2771,7 @@
 
 ,
 {
-    "_id" : "26.11",
+    "id" : "26.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво електронних компонентів",
     "transcript" : [ 
@@ -2781,7 +2781,7 @@
 
 ,
 {
-    "_id" : "27.12",
+    "id" : "27.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво електророзподільчої та контрольної апаратури",
     "transcript" : [ 
@@ -2794,7 +2794,7 @@
 
 ,
 {
-    "_id" : "27.33",
+    "id" : "27.33",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво електромонтажних пристроїв",
     "transcript" : [ 
@@ -2805,7 +2805,7 @@
 
 ,
 {
-    "_id" : "33.14",
+    "id" : "33.14",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт і технічне обслуговування електричного устатковання",
     "transcript" : [ 
@@ -2815,7 +2815,7 @@
 
 ,
 {
-    "_id" : "27.20",
+    "id" : "27.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво батарей і акумуляторів",
     "transcript" : [ 
@@ -2828,7 +2828,7 @@
 
 ,
 {
-    "_id" : "27.40",
+    "id" : "27.40",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво електричного освітлювального устатковання",
     "transcript" : [ 
@@ -2838,7 +2838,7 @@
 
 ,
 {
-    "_id" : "29.31",
+    "id" : "29.31",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво електричного й електронного устатковання для автотранспортних засобів",
     "transcript" : [ 
@@ -2848,7 +2848,7 @@
 
 ,
 {
-    "_id" : "27.90",
+    "id" : "27.90",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво іншого електричного устатковання",
     "transcript" : [ 
@@ -2858,7 +2858,7 @@
 
 ,
 {
-    "_id" : "30.20",
+    "id" : "30.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво залізничних локомотивів та рухомого складу",
     "transcript" : [ 
@@ -2868,7 +2868,7 @@
 
 ,
 {
-    "_id" : "26.12",
+    "id" : "26.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво змонтованих електронних плат",
     "transcript" : [ 
@@ -2879,7 +2879,7 @@
 
 ,
 {
-    "_id" : "26.30",
+    "id" : "26.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво обладнання зв'язку",
     "transcript" : [ 
@@ -2892,7 +2892,7 @@
 
 ,
 {
-    "_id" : "95.12",
+    "id" : "95.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт обладнання зв'язку",
     "transcript" : [ 
@@ -2902,7 +2902,7 @@
 
 ,
 {
-    "_id" : "26.40",
+    "id" : "26.40",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво електронної апаратури побутового призначення для приймання, записування та відтворювання звуку й зображення",
     "transcript" : [ 
@@ -2912,7 +2912,7 @@
 
 ,
 {
-    "_id" : "26.60",
+    "id" : "26.60",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво радіологічного, електромедичного й електротерапевтичного устатковання",
     "transcript" : [ 
@@ -2922,7 +2922,7 @@
 
 ,
 {
-    "_id" : "32.50",
+    "id" : "32.50",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво медичних і стоматологічних інструментів і матеріалів",
     "transcript" : [ 
@@ -2932,7 +2932,7 @@
 
 ,
 {
-    "_id" : "26.51",
+    "id" : "26.51",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інструментів і обладнання для вимірювання, дослідження та навігації",
     "transcript" : [ 
@@ -2947,7 +2947,7 @@
 
 ,
 {
-    "_id" : "26.70",
+    "id" : "26.70",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво оптичних приладів і фотографічного устатковання",
     "transcript" : [ 
@@ -2960,7 +2960,7 @@
 
 ,
 {
-    "_id" : "33.13",
+    "id" : "33.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт і технічне обслуговування електронного й оптичного устатковання",
     "transcript" : [ 
@@ -2970,7 +2970,7 @@
 
 ,
 {
-    "_id" : "26.52",
+    "id" : "26.52",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво годинників",
     "transcript" : [ 
@@ -2981,7 +2981,7 @@
 
 ,
 {
-    "_id" : "32.13",
+    "id" : "32.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво біжутерії та подібних виробів",
     "transcript" : [ 
@@ -2991,7 +2991,7 @@
 
 ,
 {
-    "_id" : "29.10",
+    "id" : "29.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво автотранспортних засобів",
     "transcript" : [ 
@@ -3005,7 +3005,7 @@
 
 ,
 {
-    "_id" : "29.20",
+    "id" : "29.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво кузовів для автотранспортних засобів, причепів і напівпричепів",
     "transcript" : [ 
@@ -3017,7 +3017,7 @@
 
 ,
 {
-    "_id" : "28.11",
+    "id" : "28.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво двигунів і турбін, крім авіаційних, автотранспортних і мотоциклетних двигунів",
     "transcript" : [ 
@@ -3028,7 +3028,7 @@
 
 ,
 {
-    "_id" : "29.32",
+    "id" : "29.32",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших вузлів, деталей і приладдя для автотранспортних засобів",
     "transcript" : [ 
@@ -3038,7 +3038,7 @@
 
 ,
 {
-    "_id" : "30.11",
+    "id" : "30.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Будування суден і плавучих конструкцій",
     "transcript" : [ 
@@ -3048,7 +3048,7 @@
 
 ,
 {
-    "_id" : "30.12",
+    "id" : "30.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Будування прогулянкових і спортивних човнів",
     "transcript" : [ 
@@ -3060,7 +3060,7 @@
 
 ,
 {
-    "_id" : "33.17",
+    "id" : "33.17",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт і технічне обслуговування інших транспортних засобів",
     "transcript" : [ 
@@ -3070,7 +3070,7 @@
 
 ,
 {
-    "_id" : "30.30",
+    "id" : "30.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво повітряних і космічних літальних апаратів, супутнього устатковання",
     "transcript" : [ 
@@ -3080,7 +3080,7 @@
 
 ,
 {
-    "_id" : "33.16",
+    "id" : "33.16",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт і технічне обслуговування повітряних і космічних літальних апаратів",
     "transcript" : [ 
@@ -3090,7 +3090,7 @@
 
 ,
 {
-    "_id" : "30.91",
+    "id" : "30.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво мотоциклів",
     "transcript" : [ 
@@ -3100,7 +3100,7 @@
 
 ,
 {
-    "_id" : "30.92",
+    "id" : "30.92",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво велосипедів, дитячих та інвалідних колясок",
     "transcript" : [ 
@@ -3110,7 +3110,7 @@
 
 ,
 {
-    "_id" : "30.99",
+    "id" : "30.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших транспортних засобів і обладнання, н.в.і.у.",
     "transcript" : [ 
@@ -3123,7 +3123,7 @@
 
 ,
 {
-    "_id" : "31.01",
+    "id" : "31.01",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво меблів для офісів і підприємств торгівлі",
     "transcript" : [ 
@@ -3133,7 +3133,7 @@
 
 ,
 {
-    "_id" : "31.02",
+    "id" : "31.02",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво кухонних меблів",
     "transcript" : [ 
@@ -3143,7 +3143,7 @@
 
 ,
 {
-    "_id" : "31.09",
+    "id" : "31.09",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво інших меблів",
     "transcript" : [ 
@@ -3153,7 +3153,7 @@
 
 ,
 {
-    "_id" : "95.24",
+    "id" : "95.24",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт меблів і домашнього начиння",
     "transcript" : [ 
@@ -3163,7 +3163,7 @@
 
 ,
 {
-    "_id" : "31.03",
+    "id" : "31.03",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво матраців",
     "transcript" : [ 
@@ -3173,7 +3173,7 @@
 
 ,
 {
-    "_id" : "32.11",
+    "id" : "32.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Карбування монет",
     "transcript" : [ 
@@ -3183,7 +3183,7 @@
 
 ,
 {
-    "_id" : "32.12",
+    "id" : "32.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво ювелірних і подібних виробів",
     "transcript" : [ 
@@ -3196,7 +3196,7 @@
 
 ,
 {
-    "_id" : "32.20",
+    "id" : "32.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво музичних інструментів",
     "transcript" : [ 
@@ -3206,7 +3206,7 @@
 
 ,
 {
-    "_id" : "32.30",
+    "id" : "32.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво спортивних товарів",
     "transcript" : [ 
@@ -3217,7 +3217,7 @@
 
 ,
 {
-    "_id" : "32.40",
+    "id" : "32.40",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво ігор та іграшок",
     "transcript" : [ 
@@ -3231,7 +3231,7 @@
 
 ,
 {
-    "_id" : "33.19",
+    "id" : "33.19",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт і технічне обслуговування інших машин і устатковання",
     "transcript" : [ 
@@ -3241,7 +3241,7 @@
 
 ,
 {
-    "_id" : "32.99",
+    "id" : "32.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво іншої продукції, н.в.і.у.",
     "transcript" : [ 
@@ -3258,7 +3258,7 @@
 
 ,
 {
-    "_id" : "38.32",
+    "id" : "38.32",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Відновлення відсортованих відходів",
     "transcript" : [ 
@@ -3268,7 +3268,7 @@
 
 ,
 {
-    "_id" : "35.12",
+    "id" : "35.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Передача електроенергії",
     "transcript" : [ 
@@ -3278,7 +3278,7 @@
 
 ,
 {
-    "_id" : "35.13",
+    "id" : "35.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Розподілення електроенергії",
     "transcript" : [ 
@@ -3288,7 +3288,7 @@
 
 ,
 {
-    "_id" : "35.14",
+    "id" : "35.14",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Торгівля електроенергією",
     "transcript" : [ 
@@ -3299,7 +3299,7 @@
 
 ,
 {
-    "_id" : "35.21",
+    "id" : "35.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво газу",
     "transcript" : [ 
@@ -3309,7 +3309,7 @@
 
 ,
 {
-    "_id" : "35.22",
+    "id" : "35.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Розподілення газоподібного палива через місцеві (локальні) трубопроводи",
     "transcript" : [ 
@@ -3319,7 +3319,7 @@
 
 ,
 {
-    "_id" : "35.23",
+    "id" : "35.23",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Торгівля газом через місцеві (локальні) трубопроводи",
     "transcript" : [ 
@@ -3329,7 +3329,7 @@
 
 ,
 {
-    "_id" : "35.30",
+    "id" : "35.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Постачання пари, гарячої води та кондиційованого повітря",
     "transcript" : [ 
@@ -3340,7 +3340,7 @@
 
 ,
 {
-    "_id" : "36.00",
+    "id" : "36.00",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Забір, очищення та постачання води",
     "transcript" : [ 
@@ -3350,7 +3350,7 @@
 
 ,
 {
-    "_id" : "43.12",
+    "id" : "43.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Підготовчі роботи на будівельному майданчику",
     "transcript" : [ 
@@ -3364,7 +3364,7 @@
 
 ,
 {
-    "_id" : "43.13",
+    "id" : "43.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Розвідувальне буріння",
     "transcript" : [ 
@@ -3374,7 +3374,7 @@
 
 ,
 {
-    "_id" : "41.20",
+    "id" : "41.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Будівництво житлових і нежитлових будівель",
     "transcript" : [ 
@@ -3384,7 +3384,7 @@
 
 ,
 {
-    "_id" : "42.13",
+    "id" : "42.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Будівництво мостів і тунелів",
     "transcript" : [ 
@@ -3394,7 +3394,7 @@
 
 ,
 {
-    "_id" : "42.21",
+    "id" : "42.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Будівництво трубопроводів",
     "transcript" : [ 
@@ -3404,7 +3404,7 @@
 
 ,
 {
-    "_id" : "42.22",
+    "id" : "42.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Будівництво споруд електропостачання та телекомунікацій",
     "transcript" : [ 
@@ -3414,7 +3414,7 @@
 
 ,
 {
-    "_id" : "42.99",
+    "id" : "42.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Будівництво інших споруд, н.в.і.у.",
     "transcript" : [ 
@@ -3424,7 +3424,7 @@
 
 ,
 {
-    "_id" : "43.91",
+    "id" : "43.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Покрівельні роботи",
     "transcript" : [ 
@@ -3434,7 +3434,7 @@
 
 ,
 {
-    "_id" : "42.11",
+    "id" : "42.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Будівництво доріг і автострад",
     "transcript" : [ 
@@ -3444,7 +3444,7 @@
 
 ,
 {
-    "_id" : "42.91",
+    "id" : "42.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Будівництво водних споруд",
     "transcript" : [ 
@@ -3454,7 +3454,7 @@
 
 ,
 {
-    "_id" : "43.99",
+    "id" : "43.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інші спеціалізовані будівельні роботи н.в.і.у.",
     "transcript" : [ 
@@ -3464,7 +3464,7 @@
 
 ,
 {
-    "_id" : "43.21",
+    "id" : "43.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Електромонтажні роботи",
     "transcript" : [ 
@@ -3475,7 +3475,7 @@
 
 ,
 {
-    "_id" : "80.20",
+    "id" : "80.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Обслуговування систем безпеки",
     "transcript" : [ 
@@ -3485,7 +3485,7 @@
 
 ,
 {
-    "_id" : "43.29",
+    "id" : "43.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інші будівельно-монтажні роботи",
     "transcript" : [ 
@@ -3496,7 +3496,7 @@
 
 ,
 {
-    "_id" : "43.33",
+    "id" : "43.33",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Покриття підлоги й облицювання стін",
     "transcript" : [ 
@@ -3506,7 +3506,7 @@
 
 ,
 {
-    "_id" : "43.34",
+    "id" : "43.34",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Малярні роботи та скління",
     "transcript" : [ 
@@ -3516,7 +3516,7 @@
 
 ,
 {
-    "_id" : "43.39",
+    "id" : "43.39",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інші роботи із завершення будівництва",
     "transcript" : [ 
@@ -3526,7 +3526,7 @@
 
 ,
 {
-    "_id" : "45.11",
+    "id" : "45.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Торгівля автомобілями та легковими автотранспортними засобами",
     "transcript" : [ 
@@ -3537,7 +3537,7 @@
 
 ,
 {
-    "_id" : "45.19",
+    "id" : "45.19",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Торгівля іншими автотранспортними засобами",
     "transcript" : [ 
@@ -3549,7 +3549,7 @@
 
 ,
 {
-    "_id" : "45.20",
+    "id" : "45.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Технічне обслуговування та ремонт автотранспортних засобів",
     "transcript" : [ 
@@ -3564,7 +3564,7 @@
 
 ,
 {
-    "_id" : "45.31",
+    "id" : "45.31",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля деталями та приладдям для автотранспортних засобів",
     "transcript" : [ 
@@ -3574,7 +3574,7 @@
 
 ,
 {
-    "_id" : "45.32",
+    "id" : "45.32",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля деталями та приладдям для автотранспортних засобів",
     "transcript" : [ 
@@ -3584,7 +3584,7 @@
 
 ,
 {
-    "_id" : "45.40",
+    "id" : "45.40",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Торгівля мотоциклами, деталями та приладдям до них, технічне обслуговування і ремонт мотоциклів",
     "transcript" : [ 
@@ -3595,7 +3595,7 @@
 
 ,
 {
-    "_id" : "47.30",
+    "id" : "47.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля пальним",
     "transcript" : [ 
@@ -3607,7 +3607,7 @@
 
 ,
 {
-    "_id" : "46.11",
+    "id" : "46.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність посередників у торгівлі сільськогосподарською сировиною, живими тваринами, текстильною сировиною та напівфабрикатами",
     "transcript" : [ 
@@ -3617,7 +3617,7 @@
 
 ,
 {
-    "_id" : "46.12",
+    "id" : "46.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність посередників у торгівлі паливом, рудами, металами та промисловими хімічними речовинами",
     "transcript" : [ 
@@ -3627,7 +3627,7 @@
 
 ,
 {
-    "_id" : "46.13",
+    "id" : "46.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність посередників у торгівлі деревиною, будівельними матеріалами та санітарно-технічними виробами",
     "transcript" : [ 
@@ -3637,7 +3637,7 @@
 
 ,
 {
-    "_id" : "46.14",
+    "id" : "46.14",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність посередників у торгівлі машинами, промисловим устаткованням, суднами та літаками",
     "transcript" : [ 
@@ -3647,7 +3647,7 @@
 
 ,
 {
-    "_id" : "46.15",
+    "id" : "46.15",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність посередників у торгівлі меблями, господарськими товарами, залізними та іншими металевими виробами",
     "transcript" : [ 
@@ -3657,7 +3657,7 @@
 
 ,
 {
-    "_id" : "46.16",
+    "id" : "46.16",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність посередників у торгівлі текстильними виробами, одягом, хутром, взуттям і шкіряними виробами",
     "transcript" : [ 
@@ -3667,7 +3667,7 @@
 
 ,
 {
-    "_id" : "46.17",
+    "id" : "46.17",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність посередників у торгівлі продуктами харчування, напоями та тютюновими виробами",
     "transcript" : [ 
@@ -3677,7 +3677,7 @@
 
 ,
 {
-    "_id" : "46.18",
+    "id" : "46.18",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність посередників, що спеціалізуються в торгівлі іншими товарами",
     "transcript" : [ 
@@ -3687,7 +3687,7 @@
 
 ,
 {
-    "_id" : "46.19",
+    "id" : "46.19",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність посередників у торгівлі товарами широкого асортименту",
     "transcript" : [ 
@@ -3697,7 +3697,7 @@
 
 ,
 {
-    "_id" : "46.21",
+    "id" : "46.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля зерном, необробленим тютюном, насінням і кормами для тварин",
     "transcript" : [ 
@@ -3707,7 +3707,7 @@
 
 ,
 {
-    "_id" : "46.22",
+    "id" : "46.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля квітами та рослинами",
     "transcript" : [ 
@@ -3717,7 +3717,7 @@
 
 ,
 {
-    "_id" : "46.23",
+    "id" : "46.23",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля живими тваринами",
     "transcript" : [ 
@@ -3727,7 +3727,7 @@
 
 ,
 {
-    "_id" : "46.24",
+    "id" : "46.24",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля шкірсировиною, шкурами та шкірою",
     "transcript" : [ 
@@ -3737,7 +3737,7 @@
 
 ,
 {
-    "_id" : "46.31",
+    "id" : "46.31",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля фруктами й овочами",
     "transcript" : [ 
@@ -3747,7 +3747,7 @@
 
 ,
 {
-    "_id" : "46.32",
+    "id" : "46.32",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля м'ясом і м'ясними продуктами",
     "transcript" : [ 
@@ -3757,7 +3757,7 @@
 
 ,
 {
-    "_id" : "46.33",
+    "id" : "46.33",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля молочними продуктами, яйцями, харчовими оліями та жирами",
     "transcript" : [ 
@@ -3767,7 +3767,7 @@
 
 ,
 {
-    "_id" : "46.34",
+    "id" : "46.34",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля напоями",
     "transcript" : [ 
@@ -3778,7 +3778,7 @@
 
 ,
 {
-    "_id" : "46.35",
+    "id" : "46.35",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля тютюновими виробами",
     "transcript" : [ 
@@ -3788,7 +3788,7 @@
 
 ,
 {
-    "_id" : "46.36",
+    "id" : "46.36",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля цукром, шоколадом і кондитерськими виробами",
     "transcript" : [ 
@@ -3798,7 +3798,7 @@
 
 ,
 {
-    "_id" : "46.37",
+    "id" : "46.37",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля кавою, чаєм, какао та прянощами",
     "transcript" : [ 
@@ -3808,7 +3808,7 @@
 
 ,
 {
-    "_id" : "46.38",
+    "id" : "46.38",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля іншими продуктами харчування, у тому числі рибою, ракоподібними і молюсками",
     "transcript" : [ 
@@ -3818,7 +3818,7 @@
 
 ,
 {
-    "_id" : "46.39",
+    "id" : "46.39",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Неспеціалізована оптова торгівля продуктами харчування, напоями та тютюновими виробами",
     "transcript" : [ 
@@ -3828,7 +3828,7 @@
 
 ,
 {
-    "_id" : "46.41",
+    "id" : "46.41",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля текстильними товарами",
     "transcript" : [ 
@@ -3838,7 +3838,7 @@
 
 ,
 {
-    "_id" : "46.42",
+    "id" : "46.42",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля одягом і взуттям",
     "transcript" : [ 
@@ -3848,7 +3848,7 @@
 
 ,
 {
-    "_id" : "46.43",
+    "id" : "46.43",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля побутовими електротоварами й електронною апаратурою побутового призначення для приймання, записування, відтворювання звуку й зображення",
     "transcript" : [ 
@@ -3858,7 +3858,7 @@
 
 ,
 {
-    "_id" : "46.47",
+    "id" : "46.47",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля меблями, килимами й освітлювальним приладдям",
     "transcript" : [ 
@@ -3868,7 +3868,7 @@
 
 ,
 {
-    "_id" : "46.52",
+    "id" : "46.52",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля електронним і телекомунікаційним устаткованням, деталями до нього",
     "transcript" : [ 
@@ -3878,7 +3878,7 @@
 
 ,
 {
-    "_id" : "46.44",
+    "id" : "46.44",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля фарфором, скляним посудом і засобами для чищення",
     "transcript" : [ 
@@ -3888,7 +3888,7 @@
 
 ,
 {
-    "_id" : "46.73",
+    "id" : "46.73",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля деревиною, будівельними матеріалами та санітарно-технічним обладнанням",
     "transcript" : [ 
@@ -3898,7 +3898,7 @@
 
 ,
 {
-    "_id" : "46.45",
+    "id" : "46.45",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля парфумними та косметичними товарами",
     "transcript" : [ 
@@ -3908,7 +3908,7 @@
 
 ,
 {
-    "_id" : "46.46",
+    "id" : "46.46",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля фармацевтичними товарами",
     "transcript" : [ 
@@ -3918,7 +3918,7 @@
 
 ,
 {
-    "_id" : "46.49",
+    "id" : "46.49",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля іншими товарами господарського призначення",
     "transcript" : [ 
@@ -3928,7 +3928,7 @@
 
 ,
 {
-    "_id" : "46.48",
+    "id" : "46.48",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля годинниками та ювелірними виробами",
     "transcript" : [ 
@@ -3938,7 +3938,7 @@
 
 ,
 {
-    "_id" : "46.71",
+    "id" : "46.71",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля твердим, рідким, газоподібним паливом і подібними продуктами",
     "transcript" : [ 
@@ -3948,7 +3948,7 @@
 
 ,
 {
-    "_id" : "46.72",
+    "id" : "46.72",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля металами та металевими рудами",
     "transcript" : [ 
@@ -3958,7 +3958,7 @@
 
 ,
 {
-    "_id" : "46.74",
+    "id" : "46.74",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля залізними виробами, водопровідним і опалювальним устаткованням і приладдям до нього",
     "transcript" : [ 
@@ -3968,7 +3968,7 @@
 
 ,
 {
-    "_id" : "46.75",
+    "id" : "46.75",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля хімічними продуктами",
     "transcript" : [ 
@@ -3979,7 +3979,7 @@
 
 ,
 {
-    "_id" : "46.76",
+    "id" : "46.76",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля іншими проміжними продуктами",
     "transcript" : [ 
@@ -3989,7 +3989,7 @@
 
 ,
 {
-    "_id" : "46.77",
+    "id" : "46.77",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля відходами та брухтом",
     "transcript" : [ 
@@ -4001,7 +4001,7 @@
 
 ,
 {
-    "_id" : "46.62",
+    "id" : "46.62",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля верстатами",
     "transcript" : [ 
@@ -4011,7 +4011,7 @@
 
 ,
 {
-    "_id" : "46.63",
+    "id" : "46.63",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля машинами й устаткованням для добувної промисловості та будівництва",
     "transcript" : [ 
@@ -4021,7 +4021,7 @@
 
 ,
 {
-    "_id" : "46.64",
+    "id" : "46.64",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля машинами й устаткованням для текстильного, швейного та трикотажного виробництва",
     "transcript" : [ 
@@ -4031,7 +4031,7 @@
 
 ,
 {
-    "_id" : "46.51",
+    "id" : "46.51",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля комп'ютерами, периферійним устаткованням і програмним забезпеченням",
     "transcript" : [ 
@@ -4041,7 +4041,7 @@
 
 ,
 {
-    "_id" : "46.65",
+    "id" : "46.65",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля офісними меблями",
     "transcript" : [ 
@@ -4051,7 +4051,7 @@
 
 ,
 {
-    "_id" : "46.66",
+    "id" : "46.66",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля іншими офісними машинами й устаткованням",
     "transcript" : [ 
@@ -4061,7 +4061,7 @@
 
 ,
 {
-    "_id" : "46.69",
+    "id" : "46.69",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля іншими машинами й устаткованням",
     "transcript" : [ 
@@ -4071,7 +4071,7 @@
 
 ,
 {
-    "_id" : "46.61",
+    "id" : "46.61",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оптова торгівля сільськогосподарськими машинами й устаткованням",
     "transcript" : [ 
@@ -4081,7 +4081,7 @@
 
 ,
 {
-    "_id" : "46.90",
+    "id" : "46.90",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Неспеціалізована оптова торгівля",
     "transcript" : [ 
@@ -4091,7 +4091,7 @@
 
 ,
 {
-    "_id" : "47.11",
+    "id" : "47.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля в неспеціалізованих магазинах переважно продуктами харчування, напоями та тютюновими виробами",
     "transcript" : [ 
@@ -4101,7 +4101,7 @@
 
 ,
 {
-    "_id" : "47.19",
+    "id" : "47.19",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інші види роздрібної торгівлі в неспеціалізованих магазинах",
     "transcript" : [ 
@@ -4111,7 +4111,7 @@
 
 ,
 {
-    "_id" : "47.21",
+    "id" : "47.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля фруктами й овочами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4121,7 +4121,7 @@
 
 ,
 {
-    "_id" : "47.22",
+    "id" : "47.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля м'ясом і м'ясними продуктами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4131,7 +4131,7 @@
 
 ,
 {
-    "_id" : "47.23",
+    "id" : "47.23",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля рибою, ракоподібними та молюсками в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4141,7 +4141,7 @@
 
 ,
 {
-    "_id" : "47.24",
+    "id" : "47.24",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля хлібобулочними виробами, борошняними та цукровими кондитерськими виробами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4151,7 +4151,7 @@
 
 ,
 {
-    "_id" : "47.25",
+    "id" : "47.25",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля напоями в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4161,7 +4161,7 @@
 
 ,
 {
-    "_id" : "47.26",
+    "id" : "47.26",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля тютюновими виробами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4171,7 +4171,7 @@
 
 ,
 {
-    "_id" : "47.29",
+    "id" : "47.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля іншими продуктами харчування в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4181,7 +4181,7 @@
 
 ,
 {
-    "_id" : "47.73",
+    "id" : "47.73",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля фармацевтичними товарами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4191,7 +4191,7 @@
 
 ,
 {
-    "_id" : "47.74",
+    "id" : "47.74",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля медичними й ортопедичними товарами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4201,7 +4201,7 @@
 
 ,
 {
-    "_id" : "47.75",
+    "id" : "47.75",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля косметичними товарами та туалетними приналежностями в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4211,7 +4211,7 @@
 
 ,
 {
-    "_id" : "47.51",
+    "id" : "47.51",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля текстильними товарами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4221,7 +4221,7 @@
 
 ,
 {
-    "_id" : "47.71",
+    "id" : "47.71",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля одягом у спеціалізованих магазинах",
     "transcript" : [ 
@@ -4231,7 +4231,7 @@
 
 ,
 {
-    "_id" : "47.72",
+    "id" : "47.72",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля взуттям та шкіряними виробами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4241,7 +4241,7 @@
 
 ,
 {
-    "_id" : "47.59",
+    "id" : "47.59",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля меблями, освітлювальним приладдям та іншими товарами для дому в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4251,7 +4251,7 @@
 
 ,
 {
-    "_id" : "47.53",
+    "id" : "47.53",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля килимами, килимовими виробами, покриттям для стін і підлоги в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4261,7 +4261,7 @@
 
 ,
 {
-    "_id" : "47.43",
+    "id" : "47.43",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля в спеціалізованих магазинах електронною апаратурою побутового призначення для приймання, записува, відтворювання звуку й зображення",
     "transcript" : [ 
@@ -4272,7 +4272,7 @@
 
 ,
 {
-    "_id" : "47.54",
+    "id" : "47.54",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля побутовими електротоварами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4282,7 +4282,7 @@
 
 ,
 {
-    "_id" : "47.63",
+    "id" : "47.63",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля аудіо- та відеозаписами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4292,7 +4292,7 @@
 
 ,
 {
-    "_id" : "47.52",
+    "id" : "47.52",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля залізними виробами, будівельними матеріалами та санітарно-технічними виробами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4302,7 +4302,7 @@
 
 ,
 {
-    "_id" : "47.61",
+    "id" : "47.61",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля книгами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4312,7 +4312,7 @@
 
 ,
 {
-    "_id" : "47.62",
+    "id" : "47.62",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля газетами та канцелярськими товарами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4323,7 +4323,7 @@
 
 ,
 {
-    "_id" : "47.41",
+    "id" : "47.41",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля комп'ютерами, периферійним устаткованням і програмним забезпеченням у спеціалізованих магазинах",
     "transcript" : [ 
@@ -4333,7 +4333,7 @@
 
 ,
 {
-    "_id" : "47.77",
+    "id" : "47.77",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля годинниками та ювелірними виробами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4343,7 +4343,7 @@
 
 ,
 {
-    "_id" : "47.42",
+    "id" : "47.42",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля телекомунікаційним устаткованням у спеціалізованих магазинах",
     "transcript" : [ 
@@ -4354,7 +4354,7 @@
 
 ,
 {
-    "_id" : "47.64",
+    "id" : "47.64",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля спортивним інвентарем у спеціалізованих магазинах",
     "transcript" : [ 
@@ -4364,7 +4364,7 @@
 
 ,
 {
-    "_id" : "47.65",
+    "id" : "47.65",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля іграми та іграшками в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4374,7 +4374,7 @@
 
 ,
 {
-    "_id" : "47.76",
+    "id" : "47.76",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля квітами, рослинами, насінням, добривами, домашніми тваринами та кормами для них у спеціалізованих магазинах",
     "transcript" : [ 
@@ -4385,7 +4385,7 @@
 
 ,
 {
-    "_id" : "47.78",
+    "id" : "47.78",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля іншими невживаними товарами в спеціалізованих магазинах",
     "transcript" : [ 
@@ -4400,7 +4400,7 @@
 
 ,
 {
-    "_id" : "47.79",
+    "id" : "47.79",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля уживаними товарами в магазинах",
     "transcript" : [ 
@@ -4410,7 +4410,7 @@
 
 ,
 {
-    "_id" : "47.91",
+    "id" : "47.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля, що здійснюється фірмами поштового замовлення або через мережу Інтернет",
     "transcript" : [ 
@@ -4421,7 +4421,7 @@
 
 ,
 {
-    "_id" : "47.81",
+    "id" : "47.81",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля з лотків і на ринках харчовими продуктами, напоями та тютюновими виробами",
     "transcript" : [ 
@@ -4431,7 +4431,7 @@
 
 ,
 {
-    "_id" : "47.82",
+    "id" : "47.82",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля з лотків і на ринках текстильними виробами, одягом і взуттям",
     "transcript" : [ 
@@ -4441,7 +4441,7 @@
 
 ,
 {
-    "_id" : "47.89",
+    "id" : "47.89",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Роздрібна торгівля з лотків і на ринках іншими товарами",
     "transcript" : [ 
@@ -4451,7 +4451,7 @@
 
 ,
 {
-    "_id" : "47.99",
+    "id" : "47.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інші види роздрібної торгівлі поза магазинами",
     "transcript" : [ 
@@ -4463,7 +4463,7 @@
 
 ,
 {
-    "_id" : "95.23",
+    "id" : "95.23",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт взуття та шкіряних виробів",
     "transcript" : [ 
@@ -4473,7 +4473,7 @@
 
 ,
 {
-    "_id" : "95.21",
+    "id" : "95.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт електронної апаратури побутового призначення для приймання, записування, відтворювання звуку й зображення",
     "transcript" : [ 
@@ -4483,7 +4483,7 @@
 
 ,
 {
-    "_id" : "95.22",
+    "id" : "95.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт побутових приладів, домашнього та садового обладнання",
     "transcript" : [ 
@@ -4493,7 +4493,7 @@
 
 ,
 {
-    "_id" : "95.25",
+    "id" : "95.25",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт годинників і ювелірних виробів",
     "transcript" : [ 
@@ -4503,7 +4503,7 @@
 
 ,
 {
-    "_id" : "95.29",
+    "id" : "95.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт інших побутових виробів і предметів особистого вжитку",
     "transcript" : [ 
@@ -4520,7 +4520,7 @@
 
 ,
 {
-    "_id" : "55.30",
+    "id" : "55.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання місць кемпінгами та стоянками для житлових автофургонів і причепів",
     "transcript" : [ 
@@ -4530,7 +4530,7 @@
 
 ,
 {
-    "_id" : "55.20",
+    "id" : "55.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність засобів розміщування на період відпустки та іншого тимчасового проживання",
     "transcript" : [ 
@@ -4541,7 +4541,7 @@
 
 ,
 {
-    "_id" : "55.90",
+    "id" : "55.90",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність інших засобів тимчасового розміщування",
     "transcript" : [ 
@@ -4553,7 +4553,7 @@
 
 ,
 {
-    "_id" : "56.10",
+    "id" : "56.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність ресторанів, надання послуг мобільного харчування",
     "transcript" : [ 
@@ -4563,7 +4563,7 @@
 
 ,
 {
-    "_id" : "56.30",
+    "id" : "56.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Обслуговування напоями",
     "transcript" : [ 
@@ -4573,7 +4573,7 @@
 
 ,
 {
-    "_id" : "56.29",
+    "id" : "56.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Постачання інших готових страв",
     "transcript" : [ 
@@ -4583,7 +4583,7 @@
 
 ,
 {
-    "_id" : "56.21",
+    "id" : "56.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Постачання готових страв для подій",
     "transcript" : [ 
@@ -4593,7 +4593,7 @@
 
 ,
 {
-    "_id" : "49.10",
+    "id" : "49.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Пасажирський залізничний транспорт міжміського сполучення",
     "transcript" : [ 
@@ -4603,7 +4603,7 @@
 
 ,
 {
-    "_id" : "49.20",
+    "id" : "49.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вантажний залізничний транспорт",
     "transcript" : [ 
@@ -4614,7 +4614,7 @@
 
 ,
 {
-    "_id" : "49.39",
+    "id" : "49.39",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інший пасажирський наземний транспорт, н.в.і.у.",
     "transcript" : [ 
@@ -4624,7 +4624,7 @@
 
 ,
 {
-    "_id" : "49.31",
+    "id" : "49.31",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Пасажирський наземний транспорт міського та приміського сполучення",
     "transcript" : [ 
@@ -4635,7 +4635,7 @@
 
 ,
 {
-    "_id" : "49.32",
+    "id" : "49.32",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання послуг таксі",
     "transcript" : [ 
@@ -4645,7 +4645,7 @@
 
 ,
 {
-    "_id" : "49.41",
+    "id" : "49.41",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність вантажного автомобільного транспорту",
     "transcript" : [ 
@@ -4655,7 +4655,7 @@
 
 ,
 {
-    "_id" : "49.42",
+    "id" : "49.42",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання послуг перевезення речей (переїзду)",
     "transcript" : [ 
@@ -4665,7 +4665,7 @@
 
 ,
 {
-    "_id" : "49.50",
+    "id" : "49.50",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Трубопровідний транспорт",
     "transcript" : [ 
@@ -4675,7 +4675,7 @@
 
 ,
 {
-    "_id" : "50.10",
+    "id" : "50.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Пасажирський морський транспорт",
     "transcript" : [ 
@@ -4688,7 +4688,7 @@
 
 ,
 {
-    "_id" : "50.20",
+    "id" : "50.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вантажний морський транспорт",
     "transcript" : [ 
@@ -4699,7 +4699,7 @@
 
 ,
 {
-    "_id" : "50.30",
+    "id" : "50.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Пасажирський річковий транспорт",
     "transcript" : [ 
@@ -4710,7 +4710,7 @@
 
 ,
 {
-    "_id" : "50.40",
+    "id" : "50.40",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вантажний річковий транспорт",
     "transcript" : [ 
@@ -4721,7 +4721,7 @@
 
 ,
 {
-    "_id" : "51.10",
+    "id" : "51.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Пасажирський авіаційний транспорт",
     "transcript" : [ 
@@ -4731,7 +4731,7 @@
 
 ,
 {
-    "_id" : "51.21",
+    "id" : "51.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вантажний авіаційний транспорт",
     "transcript" : [ 
@@ -4741,7 +4741,7 @@
 
 ,
 {
-    "_id" : "51.22",
+    "id" : "51.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Космічний транспорт",
     "transcript" : [ 
@@ -4751,7 +4751,7 @@
 
 ,
 {
-    "_id" : "52.24",
+    "id" : "52.24",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Транспортне оброблення вантажів",
     "transcript" : [ 
@@ -4761,7 +4761,7 @@
 
 ,
 {
-    "_id" : "52.10",
+    "id" : "52.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Складське господарство",
     "transcript" : [ 
@@ -4771,7 +4771,7 @@
 
 ,
 {
-    "_id" : "52.21",
+    "id" : "52.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Допоміжне обслуговування наземного транспорту",
     "transcript" : [ 
@@ -4781,7 +4781,7 @@
 
 ,
 {
-    "_id" : "52.22",
+    "id" : "52.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Допоміжне обслуговування водного транспорту",
     "transcript" : [ 
@@ -4791,7 +4791,7 @@
 
 ,
 {
-    "_id" : "52.23",
+    "id" : "52.23",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Допоміжне обслуговування авіаційного транспорту",
     "transcript" : [ 
@@ -4801,7 +4801,7 @@
 
 ,
 {
-    "_id" : "79.11",
+    "id" : "79.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність туристичних агентств",
     "transcript" : [ 
@@ -4811,7 +4811,7 @@
 
 ,
 {
-    "_id" : "79.12",
+    "id" : "79.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність туристичних операторів",
     "transcript" : [ 
@@ -4821,7 +4821,7 @@
 
 ,
 {
-    "_id" : "79.90",
+    "id" : "79.90",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання інших послуг із бронювання та пов'язана з цим діяльність",
     "transcript" : [ 
@@ -4831,7 +4831,7 @@
 
 ,
 {
-    "_id" : "52.29",
+    "id" : "52.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інша допоміжна діяльність у галузі транспорту",
     "transcript" : [ 
@@ -4841,7 +4841,7 @@
 
 ,
 {
-    "_id" : "53.10",
+    "id" : "53.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність національної пошти",
     "transcript" : [ 
@@ -4852,7 +4852,7 @@
 
 ,
 {
-    "_id" : "53.20",
+    "id" : "53.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інша поштова та кур'єрська діяльність",
     "transcript" : [ 
@@ -4862,7 +4862,7 @@
 
 ,
 {
-    "_id" : "61.10",
+    "id" : "61.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері проводового електрозв'язку",
     "transcript" : [ 
@@ -4873,7 +4873,7 @@
 
 ,
 {
-    "_id" : "61.20",
+    "id" : "61.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері безпроводового електрозв'язку",
     "transcript" : [ 
@@ -4884,7 +4884,7 @@
 
 ,
 {
-    "_id" : "61.30",
+    "id" : "61.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері супутникового електрозв'язку",
     "transcript" : [ 
@@ -4895,7 +4895,7 @@
 
 ,
 {
-    "_id" : "61.90",
+    "id" : "61.90",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інша діяльність у сфері електрозв'язку",
     "transcript" : [ 
@@ -4905,7 +4905,7 @@
 
 ,
 {
-    "_id" : "64.11",
+    "id" : "64.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність центрального банку",
     "transcript" : [ 
@@ -4915,7 +4915,7 @@
 
 ,
 {
-    "_id" : "64.19",
+    "id" : "64.19",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інші види грошового посередництва",
     "transcript" : [ 
@@ -4926,7 +4926,7 @@
 
 ,
 {
-    "_id" : "64.91",
+    "id" : "64.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Фінансовий лізинг",
     "transcript" : [ 
@@ -4936,7 +4936,7 @@
 
 ,
 {
-    "_id" : "64.92",
+    "id" : "64.92",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інші види кредитування",
     "transcript" : [ 
@@ -4946,7 +4946,7 @@
 
 ,
 {
-    "_id" : "64.99",
+    "id" : "64.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання інших фінансових послуг (крім страхування та пенсійного забезпечення), н.в.і.у.",
     "transcript" : [ 
@@ -4956,7 +4956,7 @@
 
 ,
 {
-    "_id" : "64.20",
+    "id" : "64.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність холдингових компаній",
     "transcript" : [ 
@@ -4966,7 +4966,7 @@
 
 ,
 {
-    "_id" : "64.30",
+    "id" : "64.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Трасти, фонди та подібні фінансові суб'єкти",
     "transcript" : [ 
@@ -4976,7 +4976,7 @@
 
 ,
 {
-    "_id" : "65.11",
+    "id" : "65.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Страхування життя",
     "transcript" : [ 
@@ -4986,7 +4986,7 @@
 
 ,
 {
-    "_id" : "65.30",
+    "id" : "65.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Недержавне пенсійне забезпечення",
     "transcript" : [ 
@@ -4996,7 +4996,7 @@
 
 ,
 {
-    "_id" : "65.12",
+    "id" : "65.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інші види страхування, крім страхування життя",
     "transcript" : [ 
@@ -5006,7 +5006,7 @@
 
 ,
 {
-    "_id" : "66.11",
+    "id" : "66.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Управління фінансовими ринками",
     "transcript" : [ 
@@ -5016,7 +5016,7 @@
 
 ,
 {
-    "_id" : "66.12",
+    "id" : "66.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Посередництво за договорами по цінних паперах або товарах",
     "transcript" : [ 
@@ -5026,7 +5026,7 @@
 
 ,
 {
-    "_id" : "66.19",
+    "id" : "66.19",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інша допоміжна діяльність у сфері фінансових послуг, крім страхування та пенсійного забезпечення",
     "transcript" : [ 
@@ -5036,7 +5036,7 @@
 
 ,
 {
-    "_id" : "66.30",
+    "id" : "66.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Управління фондами",
     "transcript" : [ 
@@ -5046,7 +5046,7 @@
 
 ,
 {
-    "_id" : "66.21",
+    "id" : "66.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оцінювання ризиків та завданої шкоди",
     "transcript" : [ 
@@ -5056,7 +5056,7 @@
 
 ,
 {
-    "_id" : "66.22",
+    "id" : "66.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність страхових агентів і брокерів",
     "transcript" : [ 
@@ -5066,7 +5066,7 @@
 
 ,
 {
-    "_id" : "66.29",
+    "id" : "66.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інша допоміжна діяльність у сфері страхування та пенсійного забезпечення",
     "transcript" : [ 
@@ -5078,7 +5078,7 @@
 
 ,
 {
-    "_id" : "41.10",
+    "id" : "41.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Організація будівництва будівель",
     "transcript" : [ 
@@ -5088,7 +5088,7 @@
 
 ,
 {
-    "_id" : "68.10",
+    "id" : "68.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Купівля та продаж власного нерухомого майна",
     "transcript" : [ 
@@ -5098,7 +5098,7 @@
 
 ,
 {
-    "_id" : "68.20",
+    "id" : "68.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання в оренду й експлуатацію власного чи орендованого нерухомого майна",
     "transcript" : [ 
@@ -5109,7 +5109,7 @@
 
 ,
 {
-    "_id" : "68.31",
+    "id" : "68.31",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Агентства нерухомості",
     "transcript" : [ 
@@ -5120,7 +5120,7 @@
 
 ,
 {
-    "_id" : "68.32",
+    "id" : "68.32",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Управління нерухомим майном за винагороду або на основі контракту",
     "transcript" : [ 
@@ -5130,7 +5130,7 @@
 
 ,
 {
-    "_id" : "81.10",
+    "id" : "81.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Комплексне обслуговування об’єктів",
     "transcript" : [ 
@@ -5140,7 +5140,7 @@
 
 ,
 {
-    "_id" : "77.11",
+    "id" : "77.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання в оренду автомобілів і легкових автотранспортних засобів",
     "transcript" : [ 
@@ -5150,7 +5150,7 @@
 
 ,
 {
-    "_id" : "77.12",
+    "id" : "77.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання в оренду вантажних автомобілів",
     "transcript" : [ 
@@ -5161,7 +5161,7 @@
 
 ,
 {
-    "_id" : "77.39",
+    "id" : "77.39",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання в оренду інших машин, устатковання та товарів, н.в.і.у.",
     "transcript" : [ 
@@ -5171,7 +5171,7 @@
 
 ,
 {
-    "_id" : "77.34",
+    "id" : "77.34",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання в оренду водних транспортних засобів",
     "transcript" : [ 
@@ -5181,7 +5181,7 @@
 
 ,
 {
-    "_id" : "77.35",
+    "id" : "77.35",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання в оренду повітряних транспортних засобів",
     "transcript" : [ 
@@ -5191,7 +5191,7 @@
 
 ,
 {
-    "_id" : "77.31",
+    "id" : "77.31",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання в оренду сільськогосподарських машин і устатковання",
     "transcript" : [ 
@@ -5201,7 +5201,7 @@
 
 ,
 {
-    "_id" : "77.32",
+    "id" : "77.32",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання в оренду будівельних машин і устатковання",
     "transcript" : [ 
@@ -5212,7 +5212,7 @@
 
 ,
 {
-    "_id" : "77.33",
+    "id" : "77.33",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання в оренду офісних машин і устатковання, у тому числі комп'ютерів",
     "transcript" : [ 
@@ -5222,7 +5222,7 @@
 
 ,
 {
-    "_id" : "77.21",
+    "id" : "77.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Прокат товарів для спорту та відпочинку",
     "transcript" : [ 
@@ -5234,7 +5234,7 @@
 
 ,
 {
-    "_id" : "77.22",
+    "id" : "77.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Прокат відеозаписів і дисків",
     "transcript" : [ 
@@ -5244,7 +5244,7 @@
 
 ,
 {
-    "_id" : "77.29",
+    "id" : "77.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Прокат інших побутових виробів і предметів особистого вжитку",
     "transcript" : [ 
@@ -5257,7 +5257,7 @@
 
 ,
 {
-    "_id" : "62.02",
+    "id" : "62.02",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Консультування з питань інформатизації",
     "transcript" : [ 
@@ -5267,7 +5267,7 @@
 
 ,
 {
-    "_id" : "58.29",
+    "id" : "58.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Видання іншого програмного забезпечення",
     "transcript" : [ 
@@ -5277,7 +5277,7 @@
 
 ,
 {
-    "_id" : "62.01",
+    "id" : "62.01",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Комп'ютерне програмування",
     "transcript" : [ 
@@ -5287,7 +5287,7 @@
 
 ,
 {
-    "_id" : "62.03",
+    "id" : "62.03",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність із керування комп'ютерним устаткованням",
     "transcript" : [ 
@@ -5297,7 +5297,7 @@
 
 ,
 {
-    "_id" : "63.11",
+    "id" : "63.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оброблення даних, розміщення інформації на веб-вузлах і пов'язана з ними діяльність",
     "transcript" : [ 
@@ -5309,7 +5309,7 @@
 
 ,
 {
-    "_id" : "58.21",
+    "id" : "58.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Видання комп'ютерних ігор",
     "transcript" : [ 
@@ -5319,7 +5319,7 @@
 
 ,
 {
-    "_id" : "63.12",
+    "id" : "63.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Веб-портали",
     "transcript" : [ 
@@ -5329,7 +5329,7 @@
 
 ,
 {
-    "_id" : "95.11",
+    "id" : "95.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ремонт комп'ютерів і периферійного устатковання",
     "transcript" : [ 
@@ -5339,7 +5339,7 @@
 
 ,
 {
-    "_id" : "72.11",
+    "id" : "72.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Дослідження й експериментальні розробки в галузі біотехнологій",
     "transcript" : [ 
@@ -5349,7 +5349,7 @@
 
 ,
 {
-    "_id" : "72.19",
+    "id" : "72.19",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Дослідження й експериментальні розробки в галузі інших природничих і технічних наук",
     "transcript" : [ 
@@ -5360,7 +5360,7 @@
 
 ,
 {
-    "_id" : "72.20",
+    "id" : "72.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Дослідження й експериментальні розробки в галузі суспільних і гуманітарних наук",
     "transcript" : [ 
@@ -5371,7 +5371,7 @@
 
 ,
 {
-    "_id" : "69.10",
+    "id" : "69.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері права",
     "transcript" : [ 
@@ -5381,7 +5381,7 @@
 
 ,
 {
-    "_id" : "69.20",
+    "id" : "69.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері бухгалтерського обліку й аудиту; консультування з питань оподаткування",
     "transcript" : [ 
@@ -5391,7 +5391,7 @@
 
 ,
 {
-    "_id" : "73.20",
+    "id" : "73.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Дослідження кон'юнктури ринку та виявлення громадської думки",
     "transcript" : [ 
@@ -5401,7 +5401,7 @@
 
 ,
 {
-    "_id" : "70.21",
+    "id" : "70.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері зв'язків із громадськістю",
     "transcript" : [ 
@@ -5411,7 +5411,7 @@
 
 ,
 {
-    "_id" : "70.22",
+    "id" : "70.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Консультування з питань комерційної діяльності й керування",
     "transcript" : [ 
@@ -5425,7 +5425,7 @@
 
 ,
 {
-    "_id" : "70.10",
+    "id" : "70.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність головних управлінь (хед-офісів)",
     "transcript" : [ 
@@ -5436,7 +5436,7 @@
 
 ,
 {
-    "_id" : "71.12",
+    "id" : "71.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері інжинірингу, геології та геодезії, надання послуг технічного консультування в цих сферах",
     "transcript" : [ 
@@ -5447,7 +5447,7 @@
 
 ,
 {
-    "_id" : "71.20",
+    "id" : "71.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Технічні випробування та дослідження",
     "transcript" : [ 
@@ -5457,7 +5457,7 @@
 
 ,
 {
-    "_id" : "73.11",
+    "id" : "73.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Рекламні агентства",
     "transcript" : [ 
@@ -5467,7 +5467,7 @@
 
 ,
 {
-    "_id" : "73.12",
+    "id" : "73.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Посередництво в розміщенні реклами в засобах масової інформації",
     "transcript" : [ 
@@ -5477,7 +5477,7 @@
 
 ,
 {
-    "_id" : "78.10",
+    "id" : "78.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність агентств працевлаштування",
     "transcript" : [ 
@@ -5487,7 +5487,7 @@
 
 ,
 {
-    "_id" : "78.20",
+    "id" : "78.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність агентств тимчасового працевлаштування",
     "transcript" : [ 
@@ -5497,7 +5497,7 @@
 
 ,
 {
-    "_id" : "78.30",
+    "id" : "78.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інша діяльність із забезпечення трудовими ресурсами",
     "transcript" : [ 
@@ -5507,7 +5507,7 @@
 
 ,
 {
-    "_id" : "80.10",
+    "id" : "80.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність приватних охоронних служб",
     "transcript" : [ 
@@ -5520,7 +5520,7 @@
 
 ,
 {
-    "_id" : "80.30",
+    "id" : "80.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Проведення розслідувань",
     "transcript" : [ 
@@ -5530,7 +5530,7 @@
 
 ,
 {
-    "_id" : "81.21",
+    "id" : "81.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Загальне прибирання будинків",
     "transcript" : [ 
@@ -5540,7 +5540,7 @@
 
 ,
 {
-    "_id" : "81.22",
+    "id" : "81.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інша діяльність із прибирання будинків і промислових об'єктів",
     "transcript" : [ 
@@ -5551,7 +5551,7 @@
 
 ,
 {
-    "_id" : "81.29",
+    "id" : "81.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інші види діяльності з прибирання",
     "transcript" : [ 
@@ -5563,7 +5563,7 @@
 
 ,
 {
-    "_id" : "74.20",
+    "id" : "74.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері фотографії",
     "transcript" : [ 
@@ -5573,7 +5573,7 @@
 
 ,
 {
-    "_id" : "82.92",
+    "id" : "82.92",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Пакування",
     "transcript" : [ 
@@ -5583,7 +5583,7 @@
 
 ,
 {
-    "_id" : "74.30",
+    "id" : "74.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання послуг перекладу",
     "transcript" : [ 
@@ -5593,7 +5593,7 @@
 
 ,
 {
-    "_id" : "82.11",
+    "id" : "82.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання комбінованих офісних адміністративних послуг",
     "transcript" : [ 
@@ -5603,7 +5603,7 @@
 
 ,
 {
-    "_id" : "82.19",
+    "id" : "82.19",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Фотокопіювання, підготування документів та інша спеціалізована допоміжна офісна діяльність",
     "transcript" : [ 
@@ -5616,7 +5616,7 @@
 
 ,
 {
-    "_id" : "82.99",
+    "id" : "82.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання інших допоміжних комерційних послуг, н.в.і.у.",
     "transcript" : [ 
@@ -5629,7 +5629,7 @@
 
 ,
 {
-    "_id" : "82.20",
+    "id" : "82.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність телефонних центрів",
     "transcript" : [ 
@@ -5639,7 +5639,7 @@
 
 ,
 {
-    "_id" : "63.99",
+    "id" : "63.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання інших інформаційних послуг, н.в.і.у.",
     "transcript" : [ 
@@ -5651,7 +5651,7 @@
 
 ,
 {
-    "_id" : "74.10",
+    "id" : "74.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Спеціалізована діяльність із дизайну",
     "transcript" : [ 
@@ -5664,7 +5664,7 @@
 
 ,
 {
-    "_id" : "74.90",
+    "id" : "74.90",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інша професійна, наукова та технічна діяльність, н.в.і.у.",
     "transcript" : [ 
@@ -5678,7 +5678,7 @@
 
 ,
 {
-    "_id" : "77.40",
+    "id" : "77.40",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Лізинг інтелектуальної власності та подібних продуктів, крім творів, захищених авторськими правами",
     "transcript" : [ 
@@ -5689,7 +5689,7 @@
 
 ,
 {
-    "_id" : "82.30",
+    "id" : "82.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Організування конгресів і торговельних виставок",
     "transcript" : [ 
@@ -5699,7 +5699,7 @@
 
 ,
 {
-    "_id" : "82.91",
+    "id" : "82.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність агентств зі стягування платежів і бюро кредитних історій",
     "transcript" : [ 
@@ -5710,7 +5710,7 @@
 
 ,
 {
-    "_id" : "84.12",
+    "id" : "84.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Регулювання у сферах охорони здоров’я, освіти, культури та інших соціальних сферах, крім обов'язкового соціального страхування",
     "transcript" : [ 
@@ -5720,7 +5720,7 @@
 
 ,
 {
-    "_id" : "84.13",
+    "id" : "84.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Регулювання та сприяння ефективному веденню економічної діяльності",
     "transcript" : [ 
@@ -5730,7 +5730,7 @@
 
 ,
 {
-    "_id" : "84.11",
+    "id" : "84.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Державне управління загального характеру",
     "transcript" : [ 
@@ -5741,7 +5741,7 @@
 
 ,
 {
-    "_id" : "84.21",
+    "id" : "84.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Міжнародна діяльність",
     "transcript" : [ 
@@ -5751,7 +5751,7 @@
 
 ,
 {
-    "_id" : "88.99",
+    "id" : "88.99",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання іншої соціальної допомоги без забезпечення проживання, н.в.і.у.",
     "transcript" : [ 
@@ -5761,7 +5761,7 @@
 
 ,
 {
-    "_id" : "84.22",
+    "id" : "84.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері оборони",
     "transcript" : [ 
@@ -5771,7 +5771,7 @@
 
 ,
 {
-    "_id" : "84.23",
+    "id" : "84.23",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері юстиції та правосуддя",
     "transcript" : [ 
@@ -5781,7 +5781,7 @@
 
 ,
 {
-    "_id" : "84.24",
+    "id" : "84.24",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері охорони громадського порядку та безпеки",
     "transcript" : [ 
@@ -5791,7 +5791,7 @@
 
 ,
 {
-    "_id" : "84.25",
+    "id" : "84.25",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність пожежних служб",
     "transcript" : [ 
@@ -5801,7 +5801,7 @@
 
 ,
 {
-    "_id" : "84.30",
+    "id" : "84.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері обов'язкового соціального страхування",
     "transcript" : [ 
@@ -5811,7 +5811,7 @@
 
 ,
 {
-    "_id" : "85.10",
+    "id" : "85.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Дошкільна освіта",
     "transcript" : [ 
@@ -5821,7 +5821,7 @@
 
 ,
 {
-    "_id" : "85.20",
+    "id" : "85.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Початкова освіта",
     "transcript" : [ 
@@ -5831,7 +5831,7 @@
 
 ,
 {
-    "_id" : "85.31",
+    "id" : "85.31",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Загальна середня освіта",
     "transcript" : [ 
@@ -5841,7 +5841,7 @@
 
 ,
 {
-    "_id" : "85.52",
+    "id" : "85.52",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Освіта у сфері культури",
     "transcript" : [ 
@@ -5851,7 +5851,7 @@
 
 ,
 {
-    "_id" : "85.41",
+    "id" : "85.41",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Професійно-технічна освіта на рівні вищого професійно-технічного навчального закладу",
     "transcript" : [ 
@@ -5861,7 +5861,7 @@
 
 ,
 {
-    "_id" : "85.42",
+    "id" : "85.42",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Вища освіта",
     "transcript" : [ 
@@ -5872,7 +5872,7 @@
 
 ,
 {
-    "_id" : "85.32",
+    "id" : "85.32",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Професійно-технічна освіта",
     "transcript" : [ 
@@ -5883,7 +5883,7 @@
 
 ,
 {
-    "_id" : "85.53",
+    "id" : "85.53",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність шкіл підготовки водіїв транспортних засобів",
     "transcript" : [ 
@@ -5894,7 +5894,7 @@
 
 ,
 {
-    "_id" : "85.59",
+    "id" : "85.59",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інші види освіти, н.в.і.у.",
     "transcript" : [ 
@@ -5909,7 +5909,7 @@
 
 ,
 {
-    "_id" : "86.10",
+    "id" : "86.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність лікарняних закладів",
     "transcript" : [ 
@@ -5920,7 +5920,7 @@
 
 ,
 {
-    "_id" : "87.20",
+    "id" : "87.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання послуг догляду із забезпеченням проживання для осіб з розумовими вадами та хворих на наркоманію",
     "transcript" : [ 
@@ -5930,7 +5930,7 @@
 
 ,
 {
-    "_id" : "86.21",
+    "id" : "86.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Загальна медична практика",
     "transcript" : [ 
@@ -5940,7 +5940,7 @@
 
 ,
 {
-    "_id" : "86.22",
+    "id" : "86.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Спеціалізована медична практика",
     "transcript" : [ 
@@ -5950,7 +5950,7 @@
 
 ,
 {
-    "_id" : "86.23",
+    "id" : "86.23",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Стоматологічна практика",
     "transcript" : [ 
@@ -5960,7 +5960,7 @@
 
 ,
 {
-    "_id" : "86.90",
+    "id" : "86.90",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інша діяльність у сфері охорони здоров'я",
     "transcript" : [ 
@@ -5972,7 +5972,7 @@
 
 ,
 {
-    "_id" : "87.10",
+    "id" : "87.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність із догляду за хворими із забезпеченням проживання",
     "transcript" : [ 
@@ -5982,7 +5982,7 @@
 
 ,
 {
-    "_id" : "87.30",
+    "id" : "87.30",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання послуг догляду із забезпеченням проживання для осіб похилого віку та інвалідів",
     "transcript" : [ 
@@ -5992,7 +5992,7 @@
 
 ,
 {
-    "_id" : "75.00",
+    "id" : "75.00",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Ветеринарна діяльність",
     "transcript" : [ 
@@ -6002,7 +6002,7 @@
 
 ,
 {
-    "_id" : "87.90",
+    "id" : "87.90",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання інших послуг догляду із забезпеченням проживання",
     "transcript" : [ 
@@ -6012,7 +6012,7 @@
 
 ,
 {
-    "_id" : "88.10",
+    "id" : "88.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання соціальної допомоги без забезпечення проживання для осіб похилого віку та інвалідів",
     "transcript" : [ 
@@ -6022,7 +6022,7 @@
 
 ,
 {
-    "_id" : "88.91",
+    "id" : "88.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Денний догляд за дітьми",
     "transcript" : [ 
@@ -6032,7 +6032,7 @@
 
 ,
 {
-    "_id" : "37.00",
+    "id" : "37.00",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Каналізація, відведення й очищення стічних вод",
     "transcript" : [ 
@@ -6042,7 +6042,7 @@
 
 ,
 {
-    "_id" : "38.22",
+    "id" : "38.22",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Оброблення та видалення небезпечних відходів",
     "transcript" : [ 
@@ -6056,7 +6056,7 @@
 
 ,
 {
-    "_id" : "39.00",
+    "id" : "39.00",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інша діяльність щодо поводження з відходами",
     "transcript" : [ 
@@ -6070,7 +6070,7 @@
 
 ,
 {
-    "_id" : "94.11",
+    "id" : "94.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність організацій промисловців і підприємців",
     "transcript" : [ 
@@ -6080,7 +6080,7 @@
 
 ,
 {
-    "_id" : "94.12",
+    "id" : "94.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність професійних громадських організацій",
     "transcript" : [ 
@@ -6090,7 +6090,7 @@
 
 ,
 {
-    "_id" : "94.20",
+    "id" : "94.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність професійних спілок",
     "transcript" : [ 
@@ -6100,7 +6100,7 @@
 
 ,
 {
-    "_id" : "94.91",
+    "id" : "94.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність релігійних організацій",
     "transcript" : [ 
@@ -6110,7 +6110,7 @@
 
 ,
 {
-    "_id" : "94.92",
+    "id" : "94.92",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність політичних організацій",
     "transcript" : [ 
@@ -6120,7 +6120,7 @@
 
 ,
 {
-    "_id" : "59.11",
+    "id" : "59.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Виробництво кіно- та відеофільмів, телевізійних програм",
     "transcript" : [ 
@@ -6130,7 +6130,7 @@
 
 ,
 {
-    "_id" : "59.12",
+    "id" : "59.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Компонування кіно- та відеофільмів, телевізійних програм",
     "transcript" : [ 
@@ -6140,7 +6140,7 @@
 
 ,
 {
-    "_id" : "59.13",
+    "id" : "59.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Розповсюдження кіно- та відеофільмів, телевізійних програм",
     "transcript" : [ 
@@ -6150,7 +6150,7 @@
 
 ,
 {
-    "_id" : "59.14",
+    "id" : "59.14",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Демонстрація кінофільмів",
     "transcript" : [ 
@@ -6160,7 +6160,7 @@
 
 ,
 {
-    "_id" : "60.10",
+    "id" : "60.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері радіомовлення",
     "transcript" : [ 
@@ -6172,7 +6172,7 @@
 
 ,
 {
-    "_id" : "60.20",
+    "id" : "60.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність у сфері телевізійного мовлення",
     "transcript" : [ 
@@ -6184,7 +6184,7 @@
 
 ,
 {
-    "_id" : "90.01",
+    "id" : "90.01",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Театральна та концертна діяльність",
     "transcript" : [ 
@@ -6194,7 +6194,7 @@
 
 ,
 {
-    "_id" : "90.03",
+    "id" : "90.03",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Індивідуальна мистецька діяльність",
     "transcript" : [ 
@@ -6204,7 +6204,7 @@
 
 ,
 {
-    "_id" : "90.02",
+    "id" : "90.02",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність із підтримки театральних і концертних заходів",
     "transcript" : [ 
@@ -6216,7 +6216,7 @@
 
 ,
 {
-    "_id" : "90.04",
+    "id" : "90.04",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Функціювання театральних і концертних залів",
     "transcript" : [ 
@@ -6226,7 +6226,7 @@
 
 ,
 {
-    "_id" : "93.21",
+    "id" : "93.21",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Функціювання атракціонів і тематичних парків",
     "transcript" : [ 
@@ -6236,7 +6236,7 @@
 
 ,
 {
-    "_id" : "63.91",
+    "id" : "63.91",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність інформаційних агентств",
     "transcript" : [ 
@@ -6246,7 +6246,7 @@
 
 ,
 {
-    "_id" : "91.01",
+    "id" : "91.01",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Функціювання бібліотек і архівів",
     "transcript" : [ 
@@ -6256,7 +6256,7 @@
 
 ,
 {
-    "_id" : "91.03",
+    "id" : "91.03",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність із охорони та використання пам'яток історії, будівель та інших пам'яток культури",
     "transcript" : [ 
@@ -6266,7 +6266,7 @@
 
 ,
 {
-    "_id" : "91.04",
+    "id" : "91.04",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Функціювання ботанічних садів, зоопарків і природних заповідників",
     "transcript" : [ 
@@ -6276,7 +6276,7 @@
 
 ,
 {
-    "_id" : "85.51",
+    "id" : "85.51",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Освіта у сфері спорту та відпочинку",
     "transcript" : [ 
@@ -6286,7 +6286,7 @@
 
 ,
 {
-    "_id" : "93.11",
+    "id" : "93.11",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Функціювання спортивних споруд",
     "transcript" : [ 
@@ -6296,7 +6296,7 @@
 
 ,
 {
-    "_id" : "93.12",
+    "id" : "93.12",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність спортивних клубів",
     "transcript" : [ 
@@ -6306,7 +6306,7 @@
 
 ,
 {
-    "_id" : "93.19",
+    "id" : "93.19",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Інша діяльність у сфері спорту",
     "transcript" : [ 
@@ -6320,7 +6320,7 @@
 
 ,
 {
-    "_id" : "92.00",
+    "id" : "92.00",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Організування азартних ігор",
     "transcript" : [ 
@@ -6330,7 +6330,7 @@
 
 ,
 {
-    "_id" : "93.29",
+    "id" : "93.29",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Організування інших видів відпочинку та розваг",
     "transcript" : [ 
@@ -6341,7 +6341,7 @@
 
 ,
 {
-    "_id" : "96.01",
+    "id" : "96.01",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Прання та хімчистка текстильних і хутряних виробів",
     "transcript" : [ 
@@ -6351,7 +6351,7 @@
 
 ,
 {
-    "_id" : "96.02",
+    "id" : "96.02",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання послуг перукарнями та салонами краси",
     "transcript" : [ 
@@ -6361,7 +6361,7 @@
 
 ,
 {
-    "_id" : "96.03",
+    "id" : "96.03",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Організування поховань і надання суміжних послуг",
     "transcript" : [ 
@@ -6371,7 +6371,7 @@
 
 ,
 {
-    "_id" : "93.13",
+    "id" : "93.13",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність фітнес-центрів",
     "transcript" : [ 
@@ -6381,7 +6381,7 @@
 
 ,
 {
-    "_id" : "96.04",
+    "id" : "96.04",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність із забезпечення фізичного комфорту",
     "transcript" : [ 
@@ -6391,7 +6391,7 @@
 
 ,
 {
-    "_id" : "96.09",
+    "id" : "96.09",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Надання інших індивідуальних послуг, н.в.і.у.",
     "transcript" : [ 
@@ -6402,7 +6402,7 @@
 
 ,
 {
-    "_id" : "97.00",
+    "id" : "97.00",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність домашніх господарств як роботодавців для домашньої прислуги",
     "transcript" : [ 
@@ -6412,7 +6412,7 @@
 
 ,
 {
-    "_id" : "98.10",
+    "id" : "98.10",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність домашніх господарств як виробників товарів для власного споживання",
     "transcript" : [ 
@@ -6422,7 +6422,7 @@
 
 ,
 {
-    "_id" : "98.20",
+    "id" : "98.20",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність домашніх господарств як виробників послуг для власного споживання",
     "transcript" : [ 
@@ -6431,13 +6431,13 @@
 }
 ,
 {
-    "_id" : "99.00",
+    "id" : "99.00",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "Діяльність екстериторіальних організацій і органів"
 }
 ,
 {
-    "_id" : "000",
+    "id" : "000",
     "_class" : "ua.com.itproekt.gup.model.nace.NACE",
     "name" : "pew pew ololo",
     "transcript" : [ 
