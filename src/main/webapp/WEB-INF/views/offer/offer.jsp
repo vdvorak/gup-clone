@@ -266,7 +266,7 @@
         var src = $(this).attr('src');
         $('.modalSlider > img').attr('src', src);
     });
-    $('.modalSlider > span').click(function() {
+    $('.modalSlider > span, .modalSlider').click(function(event) {
         $('.modalSlider').css('display', 'none');
     });
 </script>

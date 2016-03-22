@@ -24,7 +24,7 @@ body {
 /*Titles*/
 
 .title-h1-blue {
-    padding: 25px 0;
+    padding: 20px 0;
     margin: 0;
     color: #1269a7;
     font: 32px/35px 'Droid Sans', sans-serif;
@@ -32,7 +32,7 @@ body {
 }
 
 .title-h2-blue {
-    padding: 40px 0 10px;
+    padding: 10px 0;
     margin: 0;
     color: #1269a7;
     font: 28px/30px 'Droid Sans', sans-serif;
@@ -232,7 +232,7 @@ body {
 
 .page-navigation {
     padding: 5px;
-    margin: 0px 0 20px;
+    margin: 0px 0 10px;
     overflow: hidden;
     list-style: none;
     background-color: #97ca65;
@@ -242,7 +242,7 @@ body {
 .page-navigation + .page-navigation {
     padding: 5px;
     background-color: #1269a7;
-    margin: 0 0 30px;
+    margin: 0 0 10px;
 }
 
 .page-navigation li {
@@ -341,9 +341,13 @@ body {
     margin-bottom: 15px;
 }
 
-.offer-info-slider .bx-wrapper .bx-controls-direction a {
-    width: 32px;
-    height: 32px;
+.offer-info-slider .bx-wrapper .bx-prev {
+    background: none;
+    width: 0; height: 0;
+    border-top: 20px solid transparent;
+    border-right: 10px solid #1168A7;
+    border-bottom: 20px solid transparent;
+    border-left: 1px solid transparent;
 }
 
 .offer-info-slider .bx-wrapper img {
@@ -420,6 +424,12 @@ body {
 }
 
 .offer-info-slider .bx-wrapper .bx-next {
+    background: none;
+    width: 0; height: 0;
+    border-top: 20px solid transparent;
+    border-right: 1px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 10px solid #1168A7;
     right: 20px;
 }
 
@@ -514,10 +524,6 @@ body {
     text-align: center;
 }
 
-.offer-info-slider .bx-wrapper .bx-wrapper .bx-prev {
-    background: url(/resources/images/controls.png) no-repeat 0 -32px
-}
-
 .row.row-telephone {
     position: relative;
 }
@@ -534,4 +540,8 @@ body {
     word-wrap: break-word;
     height: 40px;
     overflow: hidden;
+}
+
+.offer-info-slider .bx-wrapper {
+    margin: 0 auto 100px !important;
 }
