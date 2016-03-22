@@ -500,6 +500,8 @@
     }
 
     $('#tender-make-form').submit(function (event) {
+        var naceIds = $('#selectKved').val();
+        if(!naceIds.length) return false;
         if(!checkDateInDatepicker()) return false;
 
         var body = tinymce.activeEditor.getContent();
@@ -512,8 +514,10 @@
         tender.title = $('#EnterTheTitle').val();
         tender.body = tinymce.activeEditor.getContent();
         tender.tenderNumber = $('#TenderNumber').val();
-        tender.begin = $('#tender-datepicker1').datepicker( 'getDate' ).getTime() / 1000;
-        tender.end = $('#tender-datepicker2').datepicker( 'getDate' ).getTime() / 1000;
+        var dateBegin = $('#tender-datepicker1').datepicker( 'getDate' );
+        var dateEnd = $('#tender-datepicker1').datepicker( 'getDate' );
+        if(dateBegin) tender.begin = dateBegin.getTime() / 1000;
+        if(dateEnd) tender.end = dateEnd.getTime() / 1000;
         tender.type = $('.input-tenderRadio:checked').attr("data-type");
         tender.expectedPrice = $('#ExpectedValue').val();
         tender.hidePropose =  $('#HideBidders').prop('checked');
@@ -521,12 +525,7 @@
         if (tender.type === 'CLOSE') {
             tender.members = members;
         }
-        /*var naceIds = [];
-        var naceOptions = $('#select-type option:selected');
-        for(var i = 0; i < naceOptions.length; i++) {
-            naceIds.push(naceOptions[i]);
-        }
-        tender.naceIds = naceIds;*/
+        if(naceIds) tender.naceIds = naceIds;
 
         tender.address = {};
 //        tender.address.googleMapKey = placeKey;
