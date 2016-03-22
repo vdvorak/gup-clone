@@ -709,17 +709,17 @@ table {
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
     background: url(/resources/css/images/newspaper.png) no-repeat center center;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .ads-a1 {
     color: #2f3846;
-    font: 300 15px Helvetica;
+    font: 300 11px Helvetica;
     display: block;
     width: 100%;
     border: 2px solid #36aae0;
     border-bottom: 0;
-    padding: 0 5px
+    padding: 0 5px;
 }
 
 .ads-a1:hover {
@@ -727,16 +727,16 @@ table {
     color: #2f3846;
     display: block;
     width: 100%;
-    background-color: #9c6
+    background-color: #9c6;
 }
 
 .dropUl {
-    display: none
+    display: none;
 }
 
 .ads-drop {
     color: #2f3846;
-    font: 300 15px Helvetica;
+    font: 300 11px Helvetica;
     display: block;
     width: 144px;
     border: 2px solid #36aae0;

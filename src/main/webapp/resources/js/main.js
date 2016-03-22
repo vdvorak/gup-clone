@@ -136,7 +136,7 @@ $(document).ready(function () {
 
     }));
 
-    $('p input.datepicker-input').datepicker();
+    $('input.datepicker-input').datepicker();
     $.datepicker.setDefaults({
         onClose: checkDateInDatepicker
     });
@@ -149,9 +149,9 @@ $(document).ready(function () {
             dateFrom = new Date(dateFrom).getTime() / 1000;
             dateTo = new Date(dateTo).getTime() / 1000;
             if (dateFrom > dateTo) {
-                $('p.datePickPi:last-of-type span').addClass('active-tooltip');
+                $('#tender-date span').addClass('tender-active-tooltip');
                 setTimeout(function () {
-                    $('p.datePickPi:last-of-type span').removeClass('active-tooltip');
+                    $('#tender-date span').removeClass('tender-active-tooltip');
                 }, 4000);
                 return false;
             }

@@ -8,6 +8,7 @@ var parameters = [];
 var options = [];
 var jsonCategory = [];
 var jsonSubcategory = {};
+var nace = [];
 
 var loadCities =
     $.ajax({
@@ -61,6 +62,16 @@ var loadParameters =
         dataType: "json",
         success: function (response) {
             parameters = response;
+        }
+    });
+
+var loadNace =
+    $.ajax({
+        type: "GET",
+        url: "/resources/json/kved.json",
+        dataType: "json",
+        success: function (response) {
+            nace = response;
         }
     });
 

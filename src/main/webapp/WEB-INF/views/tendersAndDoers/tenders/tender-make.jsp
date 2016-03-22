@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
     <link rel="stylesheet" href="/resources/css/mini.css">
     <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 </head>
@@ -38,32 +39,33 @@
         <form id="tender-make-form" action="#">
             <label for="EnterTheTitle">Введите название</label>
             <input type="text" id="EnterTheTitle" required>
-            <label>Выберете отрасль</label>
-            <input type="text" id="searchInputKved" class="form-control sear" name="search" placeholder="Поиск">
+<%--        <label>Выберете отрасль</label>
+            <input type="text" id="searchInputKved" class="form-control sear" name="search" placeholder="Поиск">--%>
+            <label for="selectKved">Выберите отрасль</label>
+            <select id="selectKved" class="chosen" multiple data-placeholder="Выберите отрасль" style="width: 553px;">
+            </select>
 
-            <div id="selectBox-info-type">
-                <select id="select-type">
-                    <option>Выберите тип</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+            <div class="clearfix"></div>
+
+            <label for="tender-date" class="label-notRequered">Сроки</label>
+            <div id="tender-date">
+                <input type="text" id="tender-datepicker1" class="datepicker-input" placeholder="Дата начала"> - <input type="text" id="tender-datepicker2" class="datepicker-input" placeholder="Дата окончания">
+                <span>Дата начала не должна превышать дату окончания</span>
             </div>
 
-            <p class="datePickPi">Сроки <input type="text" id="tender-datepicker1" class="datepicker-input"></p>
+            <%--<p class="datePickPi"><input type="text" id="tender-datepicker1" class="datepicker-input"></p>
             <p class="datePickPi"><span>Дата начала не должна превышать дату окончания</span>&nbsp;- <input type="text" id="tender-datepicker2" class="datepicker-input"></p>
-
+--%>
             <div class="clearfix"></div>
 
             <h2>Укажите адрес</h2>
             <div class="location">
-                <label for="SelectArea">Выберете область</label>
+                <label for="SelectArea" class="label-notRequered">Выберете область</label>
                 <input type="text" id="SelectArea">
 
                 <div class="clearfix"></div>
 
-                <label for="SelectCity">Выберете город</label>
+                <label for="SelectCity" class="label-notRequered">Выберете город</label>
                 <input type="text" id="SelectCity">
             </div>
 
@@ -157,6 +159,15 @@
     var members = []
     var placeKey = '';
 
+    $.when(loadNace).done(function(response){
+        var select = $('#selectKved');
+        for(var i = 0; i < response.length; i++) {
+            var option = $('<option id="'+ response[i].id +'" value="'+ response[i].id +'">'+ response[i].id + ": " +response[i].name +'</option>');
+            select.append(option);
+        }
+        $(".chosen").chosen();
+    });
+
     $(document).ready(function () {
         // Setup the dnd listeners.
         var dropZone = document.getElementById('drop_zone');
@@ -171,7 +182,6 @@
 
             // files is a FileList of File objects. List some properties.
             for (var i = 0, f; f = files[i]; i++) {
-                var formImg = new FormData($(this)[0]);
                 var fd = new FormData();
                 fd.append('file', f);
                 $.ajax({
@@ -478,9 +488,10 @@
             dateFrom = new Date(dateFrom).getTime() / 1000;
             dateTo = new Date(dateTo).getTime() / 1000;
             if (dateFrom > dateTo) {
-                $('p.datePickPi:last-of-type span').addClass('active-tooltip');
+                $('#tender-date span').addClass('tender-active-tooltip');
+                $(window).scrollTop($('span.tender-active-tooltip').offset().top);
                 setTimeout(function () {
-                    $('p.datePickPi:last-of-type span').removeClass('active-tooltip');
+                    $('#tender-date span').removeClass('tender-active-tooltip');
                 }, 6000);
                 return false;
             }
@@ -489,10 +500,9 @@
     }
 
     $('#tender-make-form').submit(function (event) {
-        if(!checkDateInDatepicker()) {
-            $(window).scrollTop(500);
-            return false;
-        }
+        var naceIds = $('#selectKved').val();
+        if(!naceIds.length) return false;
+        if(!checkDateInDatepicker()) return false;
 
         var body = tinymce.activeEditor.getContent();
         if(!body) return false;
@@ -504,8 +514,10 @@
         tender.title = $('#EnterTheTitle').val();
         tender.body = tinymce.activeEditor.getContent();
         tender.tenderNumber = $('#TenderNumber').val();
-        tender.begin = $('#tender-datepicker1').datepicker( 'getDate' ).getTime() / 1000;
-        tender.end = $('#tender-datepicker2').datepicker( 'getDate' ).getTime() / 1000;
+        var dateBegin = $('#tender-datepicker1').datepicker( 'getDate' );
+        var dateEnd = $('#tender-datepicker1').datepicker( 'getDate' );
+        if(dateBegin) tender.begin = dateBegin.getTime() / 1000;
+        if(dateEnd) tender.end = dateEnd.getTime() / 1000;
         tender.type = $('.input-tenderRadio:checked').attr("data-type");
         tender.expectedPrice = $('#ExpectedValue').val();
         tender.hidePropose =  $('#HideBidders').prop('checked');
@@ -513,12 +525,7 @@
         if (tender.type === 'CLOSE') {
             tender.members = members;
         }
-        /*var naceIds = [];
-        var naceOptions = $('#select-type option:selected');
-        for(var i = 0; i < naceOptions.length; i++) {
-            naceIds.push(naceOptions[i]);
-        }
-        tender.naceIds = naceIds;*/
+        if(naceIds) tender.naceIds = naceIds;
 
         tender.address = {};
 //        tender.address.googleMapKey = placeKey;

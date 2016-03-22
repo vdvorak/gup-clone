@@ -269,13 +269,13 @@ textarea {
     margin-left: 100px;
 }
 
-
-p.datePickPi:last-of-type {
+#tender-date {
     position: relative;
+    margin-left: 113px;
     display: inline;
 }
 
-p.datePickPi:last-of-type span {
+#tender-date span {
     position: absolute;
     width:175px;
     color: #FFFFFF;
@@ -286,19 +286,47 @@ p.datePickPi:last-of-type span {
     visibility: hidden;
     border-radius: 6px;
 }
-p.datePickPi:last-of-type span:after {
+#tender-date span:after {
     content: '';
     position: absolute;
-    top: 100%;
-    left: 44%;
+    top: 28%;
+    right: 100%;
     width: 0; height: 0;
-    border-top: 8px solid #9c6;
-    border-right: 8px solid transparent;
-    border-left: 8px solid transparent;
+    border-right: 8px solid #9c6;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
 }
-p.datePickPi:last-of-type span.active-tooltip {
+#tender-date span.tender-active-tooltip {
     visibility: visible;
-    top: -42px;
-    left: -79px;
+    left: 103%;
+    top: -51%;
     z-index: 999;
+}
+
+#selectKved_chosen {
+    border: 2px solid #9c6;
+    border-radius: 5px;
+    font: 400 13px DroidSans !important;
+    margin-bottom: 40px;
+    margin-left: 10px;
+}
+
+.chosen-container .chosen-choices {
+     border: none !important;
+     box-shadow: none !important;
+}
+
+.chosen-container-multi .chosen-choices li.search-field input[type=text] {
+    height: 23px !important;
+    margin: 0px !important;
+    font: 400 13px DroidSans !important;
+}
+
+#tender-datepicker1, #tender-datepicker2 {
+    border: 2px solid #9c6;
+    border-radius: 5px;
+}
+
+.label-notRequered:after {
+    content: '' !important;
 }

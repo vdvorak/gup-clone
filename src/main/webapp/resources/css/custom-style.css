@@ -24,14 +24,15 @@ body {
 /*Titles*/
 
 .title-h1-blue {
-    padding: 25px 0;
+    padding: 20px 0;
     margin: 0;
     color: #1269a7;
     font: 32px/35px 'Droid Sans', sans-serif;
+    word-wrap: break-word;
 }
 
 .title-h2-blue {
-    padding: 40px 0 10px;
+    padding: 10px 0;
     margin: 0;
     color: #1269a7;
     font: 28px/30px 'Droid Sans', sans-serif;
@@ -219,6 +220,7 @@ body {
 .descr-text-box p {
     padding: 20px 0 0;
     margin: 0;
+    word-wrap: break-word;
 }
 
 .descr-text-box p:first-letter {
@@ -230,7 +232,7 @@ body {
 
 .page-navigation {
     padding: 5px;
-    margin: 0px 0 20px;
+    margin: 0px 0 10px;
     overflow: hidden;
     list-style: none;
     background-color: #97ca65;
@@ -240,7 +242,7 @@ body {
 .page-navigation + .page-navigation {
     padding: 5px;
     background-color: #1269a7;
-    margin: 0 0 30px;
+    margin: 0 0 10px;
 }
 
 .page-navigation li {
@@ -339,9 +341,13 @@ body {
     margin-bottom: 15px;
 }
 
-.offer-info-slider .bx-wrapper .bx-controls-direction a {
-    width: 32px;
-    height: 32px;
+.offer-info-slider .bx-wrapper .bx-prev {
+    background: none;
+    width: 0; height: 0;
+    border-top: 20px solid transparent;
+    border-right: 10px solid #1168A7;
+    border-bottom: 20px solid transparent;
+    border-left: 1px solid transparent;
 }
 
 .offer-info-slider .bx-wrapper img {
@@ -352,8 +358,7 @@ body {
 .modalSlider {
     display: none;
     position: fixed;
-    z-index: 1;
-    padding-top: 100px;
+    z-index: 20;
     left: 0;
     top: 0;
     width: 100%;
@@ -367,14 +372,18 @@ body {
     object-fit: contain;
     -o-object-fit: contain;
     margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
+    width: 700px;
     height: 525px;
     -webkit-animation-name: zoom;
     -webkit-animation-duration: 0.6s;
     animation-name: zoom;
     animation-duration: 0.6s;
+    background-color: #F7F6F6;
+    position: absolute;
+    top: 50%;
+    margin-top: -260px;
+    left: 50%;
+    margin-left: -350px;
 }
 
 @-webkit-keyframes zoom {
@@ -418,6 +427,12 @@ body {
 }
 
 .offer-info-slider .bx-wrapper .bx-next {
+    background: none;
+    width: 0; height: 0;
+    border-top: 20px solid transparent;
+    border-right: 1px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 10px solid #1168A7;
     right: 20px;
 }
 
@@ -512,6 +527,24 @@ body {
     text-align: center;
 }
 
-.offer-info-slider .bx-wrapper .bx-wrapper .bx-prev {
-    background: url(/resources/images/controls.png) no-repeat 0 -32px
+.row.row-telephone {
+    position: relative;
+}
+
+.row.row-telephone > a.remove_field > img {
+    position: absolute;
+    top: 20px;
+    right: 182px;
+}
+
+.contact-name-block > .contact-name-block-unit {
+    width: 145px;
+    float: left;
+    word-wrap: break-word;
+    height: 40px;
+    overflow: hidden;
+}
+
+.offer-info-slider .bx-wrapper {
+    margin: 0 auto 100px !important;
 }

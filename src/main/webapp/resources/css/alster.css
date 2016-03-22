@@ -1047,13 +1047,3 @@ color: #36aae0;
     height: 25px;
     overflow: hidden;
 }
-
-.row.row-telephone {
-    position: relative;
-}
-
-.row.row-telephone > .col-xs-5.col-xs-offset-4 > a.remove_field > img {
-    position: absolute;
-    top: 20px;
-    right: 182px;
-}
