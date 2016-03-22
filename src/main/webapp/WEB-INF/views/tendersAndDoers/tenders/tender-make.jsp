@@ -42,7 +42,7 @@
 <%--        <label>Выберете отрасль</label>
             <input type="text" id="searchInputKved" class="form-control sear" name="search" placeholder="Поиск">--%>
             <label for="selectKved">Выберите отрасль</label>
-            <select id="selectKved" class="chosen" multiple data-placeholder="Выберите отрасль" required style="width: 553px;">
+            <select id="selectKved" class="chosen" multiple data-placeholder="Выберите отрасль" style="width: 553px;">
             </select>
 
             <div class="clearfix"></div>
@@ -489,7 +489,7 @@
             dateTo = new Date(dateTo).getTime() / 1000;
             if (dateFrom > dateTo) {
                 $('#tender-date span').addClass('tender-active-tooltip');
-                $(window).scrollTop($('span.tender-active-tooltip').offset().top);
+                $(document).scrollTop($('span.tender-active-tooltip').offset().top);
                 setTimeout(function () {
                     $('#tender-date span').removeClass('tender-active-tooltip');
                 }, 6000);
@@ -500,10 +500,10 @@
     }
 
     $('#tender-make-form').submit(function (event) {
-        if(!checkDateInDatepicker()) return false;
+        if(!checkDateInDatepicker()) return;
 
         var body = tinymce.activeEditor.getContent();
-        if(!body) return false;
+        if(!body) return;
 
         checkMainImg();
 

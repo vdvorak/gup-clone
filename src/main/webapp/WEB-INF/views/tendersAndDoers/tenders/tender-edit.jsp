@@ -50,7 +50,7 @@
       <input type="text" id="EnterTheTitle" required value="${tender.title}">
 
       <label for="selectKved">Выберите отрасль</label>
-      <select id="selectKved" class="chosen" multiple data-placeholder="Выберите отрасль" required style="width: 553px;">
+      <select id="selectKved" class="chosen" multiple data-placeholder="Выберите отрасль" style="width: 553px;">
       </select>
 
       <div class="clearfix"></div>
@@ -545,7 +545,7 @@
       dateTo = new Date(dateTo).getTime() / 1000;
       if (dateFrom > dateTo) {
         $('#tender-date span').addClass('tender-active-tooltip');
-        $(window).scrollTop($('span.tender-active-tooltip').offset().top);
+        $(document).scrollTop($('span.tender-active-tooltip').offset().top);
         setTimeout(function () {
           $('#tender-date span').removeClass('tender-active-tooltip');
         }, 6000);
