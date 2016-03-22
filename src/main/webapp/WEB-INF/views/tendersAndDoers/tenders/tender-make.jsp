@@ -489,7 +489,7 @@
             dateTo = new Date(dateTo).getTime() / 1000;
             if (dateFrom > dateTo) {
                 $('#tender-date span').addClass('tender-active-tooltip');
-                $(document).scrollTop($('span.tender-active-tooltip').offset().top);
+                $("html,body").animate({ scrollTop: $('span.tender-active-tooltip').offset().top }, "fast");
                 setTimeout(function () {
                     $('#tender-date span').removeClass('tender-active-tooltip');
                 }, 6000);
