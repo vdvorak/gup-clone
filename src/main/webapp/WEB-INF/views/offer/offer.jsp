@@ -266,8 +266,11 @@
         var src = $(this).attr('src');
         $('.modalSlider > img').attr('src', src);
     });
-    $('.modalSlider > span, .modalSlider').click(function(event) {
+    $('.modalSlider > span, .modalSlider').click(function() {
         $('.modalSlider').css('display', 'none');
+    });
+    $( ".modalSlider > img" ).click(function( event ) {
+        event.stopPropagation();
     });
 </script>
 </body>
