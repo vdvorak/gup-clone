@@ -156,222 +156,6 @@
 
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-  <title>Создание тендера</title>
-  <link href="/resources/css/bootstrap.css" rel="stylesheet">
-  <link href="/resources/css/com.css" rel="stylesheet">
-  <link href="/resources/css/bootstrap-datetimepicker.css" rel="stylesheet">
-  <link href="/resources/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" rel="stylesheet"
-        type="text/css"/>
-  <link href="/resources/css/mini.css" rel="stylesheet">
-</head>
-<body>
-<h1>Создание тендера</h1>
-<input id="areaInp" type="text" name="area" style="display: none">
-<input id="cityInp" type="text" name="city" style="display: none">
-
-<div class="row">
-  <div class="col-xs-4">
-    <p> Название тендера </p>
-    <input id="title" type="text" class="form-control" value="${tender.title}">
-  </div>
-
-</div>
-<br>
-
-<div class="row">
-  <div class="col-xs-4">
-    <p>Введите номер тендера если он есть</p>
-    <input id="tenderNumber" type="text" class="form-control" value="${tender.tenderNumber}">
-  </div>
-</div>
-<br>
-
-<div class="row">
-  <div class="col-xs-4">
-    <p>Ожидаемая стоимость</p>
-    <input id="price" type="number" class="form-control" value="${tender.expectedPrice}">
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-2">
-    <div class="radio">
-      <label><input type="radio" id="open" name="optradio" checked>Открыйтый</label>
-    </div>
-  </div>
-  <div class="col-xs-2">
-    <div class="radio">
-      <label><input type="radio" id="close" name="optradio">Закрытый</label>
-    </div>
-  </div>
-</div>
-<div class="row" id="members" style="display: none">
-  <div class="col-xs-2">
-    <input name="memberId" type="text" class="form-control">
-  </div>
-  <div class="col-xs-2">
-    <button class="btn btn-default" id="add">Добавить участника</button>
-  </div>
-</div>
-<br>
-
-<div class="row">
-  <div class="col-xs-4">
-    <center id="membersList">
-    </center>
-  </div>
-</div>
-
-
-<!-- city chosen -->
-<input id="countryInp" type="text" name="country" style="visibility: hidden;">
-<input id="areaInp" type="text" name="area" style="visibility: hidden">
-<input id="cityInp" type="text" name="city" style="visibility: hidden">
-
-<div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">
-  <div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">
-    <div class="input-group">
-
-      <div class="col-xs-6" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li class="dropdown">
-            <a id="chosenRegion" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите область<b class="caret"></b></a>
-            <ul class="dropdown-menu multi-column columns-2">
-              <div id="regions" class="row">
-                <div class="col-sm-6">
-                  <ul class="multi-column-dropdown">
-                    <li><a role="menuitem" tabindex="-1" href="#"><b>Вся Украина</b></a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Винницкая область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Волынская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Донецкая область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Житомирская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Закарпатская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#" >Ивано‑Франковская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Киевская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Кировоградская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Крым</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Луганская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Львовская область</a></li>
-                  </ul>
-                </div>
-                <div class="col-sm-6">
-                  <ul class="multi-column-dropdown">
-                    <li><a role="menuitem" tabindex="-1" href="#">Николаевская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Одесская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Полтавская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Ровенская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Сумская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Тернопольская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Харьковская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Херсонская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Хмельницкая область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Черкасская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Черниговская область</a></li>
-                    <li><a role="menuitem" tabindex="-1" href="#">Черновицкая область</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </ul>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-xs-6" id="bs-example-navbar-collapse-2" style="visibility: hidden">
-        <ul class="nav navbar-nav">
-          <li class="dropdown">
-            <a id="chosenCity" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите город<b class="caret"></b></a>
-            <ul class="dropdown-menu multi-column columns-2">
-              <div id="cities" class="row">
-
-                <div class="col-sm-6">
-                  <ul id="cities1" class="multi-column-dropdown">
-                  </ul>
-                </div>
-
-                <div class="col-sm-6">
-                  <ul id="cities2" class="multi-column-dropdown">
-                  </ul>
-                </div>
-              </div>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- city chosen -->
-
-
-<div class="row">
-  <div class="col-xs-4">
-    <center>Выберите дату окончания тендера</center>
-    <input type='text' class="form-control" id='datetimepicker4'/>
-  </div>
-</div>
-
-<br>
-<br>
-
-<button id="addImg">Загрузить фото</button>
-<form id="uploadProfilePhotoForm" enctype="multipart/form-data"
-      method="post" style="display:none">
-  <p><input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" multiple></p>
-</form>
-
-<div class="imgBlock">
-  <!--uploaded images-->
-</div>
-<div class="docBlock">
-  <!--uploaded images-->
-</div>
-
-
-<div class="row">
-  <div class="col-xs-4">
-    <div class="panel panel-info">
-      <div class="panel-body" id="drop_zone"> Перетяните файлы сюда
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="col-xs-4">
-    <center>
-      <button class="btn btn-success" id="save">Сохранить</button>
-    </center>
-  </div>
-</div>
-
-<br>
-
-<div class="row">
-  <div class="col-xs-12">
-    <textarea id="textarea"></textarea>
-  </div>
-</div>
-
-
-<div id="floating-panel">
-  <input id="address" type="textbox" value="">
-  <input id="submit" type="button" value="Сохранить">
-</div>
-<div id="map" style="height: 50%"></div>
-
-<!-- script references -->
-<script src="/resources/js/jquery.min.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
-<script src="/resources/js/moment-with-locales.js"></script>
-<script src="/resources/js/bootstrap-datepicker.js"></script>
-
-<script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>--%>
-
 <script>
   var members = [];
   var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
@@ -380,11 +164,14 @@
   var picArrDel = [];
   var picArrNew = [];
   var imgsArr = {};
-
+  var oldNace = '${tender.naceIds}'.slice(1, -1).split(", "); // make array from string
 
   if ('${tender.uploadFilesIds}'.length > 5 ){
     picMapObj = JSON.parse('${tender.uploadFilesIds}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
   }
+
+  //--------------------   BEGIN NACE ---------------------------------//
+  if(!oldNace[0]) oldNace = [];
 
   $.when(loadNace).done(function(response){
     var select = $('#selectKved');
@@ -392,8 +179,11 @@
       var option = $('<option id="'+ response[i].id +'" value="'+ response[i].id +'">'+ response[i].id + ": " +response[i].name +'</option>');
       select.append(option);
     }
+    if(oldNace.length) select.val(oldNace);
     $(".chosen").chosen();
   });
+
+  //--------------------   END NACE ---------------------------------//
 
   $(document).ready(function () {
 
@@ -755,7 +545,7 @@
       dateTo = new Date(dateTo).getTime() / 1000;
       if (dateFrom > dateTo) {
         $('#tender-date span').addClass('tender-active-tooltip');
-        $(window).scrollTop($('span.tender-active-tooltip').offset().top);
+        $("html,body").animate({ scrollTop: $('span.tender-active-tooltip').offset().top }, "fast");
         setTimeout(function () {
           $('#tender-date span').removeClass('tender-active-tooltip');
         }, 6000);
@@ -792,8 +582,10 @@
     tender.title = $('#EnterTheTitle').val();
     tender.body = body;
     tender.tenderNumber = $('#TenderNumber').val();
-    tender.begin = $('#tender-datepicker1').datepicker( 'getDate' ).getTime() / 1000;
-    tender.end = $('#tender-datepicker2').datepicker( 'getDate' ).getTime() / 1000;
+    var dateBegin = $('#tender-datepicker1').datepicker( 'getDate' );
+    var dateEnd = $('#tender-datepicker1').datepicker( 'getDate' );
+    if(dateBegin) tender.begin = dateBegin.getTime() / 1000;
+    if(dateEnd) tender.end = dateEnd.getTime() / 1000;
     tender.type = $('.input-tenderRadio:checked').attr("data-type");
     tender.expectedPrice = $('#ExpectedValue').val();
     tender.hidePropose =  $('#HideBidders').prop('checked');
@@ -801,12 +593,8 @@
     if (tender.type === 'CLOSE') {
       tender.members = members;
     }
-    /*var naceIds = [];
-     var naceOptions = $('#select-type option:selected');
-     for(var i = 0; i < naceOptions.length; i++) {
-     naceIds.push(naceOptions[i]);
-     }
-     tender.naceIds = naceIds;*/
+    var naceIds = $('#selectKved').val();
+    if(naceIds) tender.naceIds = naceIds;
 
     tender.address = {};
     //tender.address.googleMapKey = placeKey;

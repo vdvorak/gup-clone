@@ -69,7 +69,7 @@ $.ajax({
             }
         }
 
-        if (typeof data.winnerId != 'undefined') {
+        if (typeof data.winnerId != 'undefined' && data.winnerId != null) {
             if (data.winnerId.length > 0) {
                 $('.chooseWinner').remove();
             }
