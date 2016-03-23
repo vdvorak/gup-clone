@@ -1454,7 +1454,7 @@ input[class="greenCheckbox"]:checked + span {
 
 #entry-form > .contact_form > input {
     float: right;
-    padding: 0 8px;
+    padding: 0 10px;
     margin-bottom: 15px;
     margin-right: 60px;
     width: 365px;
@@ -1462,7 +1462,7 @@ input[class="greenCheckbox"]:checked + span {
     background-color: white;
     border: 2px solid #9c6;
     border-radius: 4px;
-    font: 400 9px DroidSans
+    font: 400 13px DroidSans;
 }
 
 .rememberMe {

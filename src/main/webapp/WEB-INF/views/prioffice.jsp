@@ -162,7 +162,7 @@
                 </div>
 
                 <div class="arrow toggler"></div>
-                <div class="closeBox"></div>
+                <i class="fa fa-times-circle closeBox"></i>
             </div>
         </div>
         <div class="greenBox msAndNt" id="tab-container-msAndNt">
@@ -222,7 +222,7 @@
                         <p><a href="/tender-make">создать тендер</a></p>
                     </c:if>
                 </div>
-                <div class="closeBox"></div>
+                <i class="fa fa-times-circle closeBox"></i>
                 <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myProjects" toggler="" style="display: none;">
@@ -238,7 +238,7 @@
                         <p><a href="/createProject">создать проект</a></p>
                     </c:if>
                 </div>
-                <div class="closeBox"></div>
+                <i class="fa fa-times-circle closeBox"></i>
                 <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myNews" toggler="" style="display: none;">
@@ -254,7 +254,7 @@
                         <p><a href="/blog-create">создать новостной блог</a></p>
                     </c:if>
                 </div>
-                <div class="closeBox"></div>
+                <i class="fa fa-times-circle closeBox"></i>
                 <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myOffers" toggler="" style="display: none;">
@@ -270,7 +270,7 @@
                         <p><a href="/blog-create">создать новостной блог</a></p>
                     </c:if>
                 </div>
-                <div class="closeBox"></div>
+                <i class="fa fa-times-circle closeBox"></i>
                 <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myInvestments" toggler="" style="display: none;">
@@ -278,7 +278,7 @@
                 <div class="titleMain toggler">Мои инвестиции</div>
                 <div class="historyContent">
                 </div>
-                <div class="closeBox"></div>
+                <i class="fa fa-times-circle closeBox"></i>
                 <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myBalance" toggler="" style="display: none;">
@@ -289,7 +289,7 @@
                         <span class="historyItem"><span class="time">${b.dateTime}</span>: пополнено на ${b.amount} грн.</span>
                     </c:forEach>
                 </div>
-                <div class="closeBox"></div>
+                <i class="fa fa-times-circle closeBox"></i>
                 <div class="arrow toggler"></div>
             </div>
         </div>
