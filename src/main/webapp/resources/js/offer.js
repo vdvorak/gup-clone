@@ -81,13 +81,27 @@ if (offer.imagesIds) {
     } else {
         $('#offer-slider').append('<li><img src="/resources/images/no_photo.jpg" /></li>');
     }
-    $('#offer-slider').bxSlider({
-        // pagerCustom: '#bx-pager'
+    var SUKAA = $('#offer-slider').bxSlider({
+        doubleControls: true,
+        // pagerCustom`: '#bx-pager'
         buildPager: function(slideIndex){
             var sourceAttribute = $('#offer-slider li img').eq(slideIndex + 1).attr('src');
             return '<div style="background-image: url(\''+sourceAttribute+'\');"></div>';
+        },
+        onSlideAfter: function(elem){
+            var src = elem.find('img').attr('src');
+            $('.modalSlider > img').attr('src', src);
         }
+
     });
+    $('.super_netxt_knopka').on('click', function(){
+        SUKAA.goToNextSlide();
+        return false;
+    })
+    $('.super_prev_knopka').on('click', function(){
+        SUKAA.goToPrevSlide();
+        return false;
+    })
 }
 // ------ Slider with photo
 
