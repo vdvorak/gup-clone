@@ -500,10 +500,10 @@
     }
 
     $('#tender-make-form').submit(function (event) {
-        if(!checkDateInDatepicker()) return;
+        if(!checkDateInDatepicker()) return false;
 
         var body = tinymce.activeEditor.getContent();
-        if(!body) return;
+        if(!body) return false;
 
         checkMainImg();
 
