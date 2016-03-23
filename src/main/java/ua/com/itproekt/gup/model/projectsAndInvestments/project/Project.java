@@ -80,7 +80,7 @@ public class Project {
                 .updateExpirationDateAt20Days();
     }
 
-    public static Project getPreparedProjectForEditOperation(Project project) {
+    public static Project takePreparedProjectForEditOperation(Project project) {
         Project newProject = new Project()
                 .setId(project.getId())
                 .setTitle(project.getTitle())

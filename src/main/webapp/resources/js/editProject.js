@@ -82,6 +82,10 @@ function appendProjectInfo(project) {
             appendDoc(imgId, "");
         }
     }
+    if(project.categoriesOfIndustry) {
+        $('#categoriesOfIndustry').val(project.categoriesOfIndustry);
+    }
+    $(".chosen").chosen();
 }
 
 function appendProjectImage(imageId) {
@@ -265,12 +269,18 @@ function initializeProjectEntityForUpdate() {
 
     checkMainImg();
 
+    updatedProject.categoriesOfIndustry = [];
+    $('#categoriesOfIndustry').find('option:selected').each(function() {
+        updatedProject.categoriesOfIndustry.push($(this).val());
+    });
+    alert(JSON.stringify(updatedProject.categoriesOfIndustry));
     updatedProject.id = projectId;
     updatedProject.title = $('#main-title-info').val();
     updatedProject.type = $('input:radio[name="type"]:checked').val();
     updatedProject.description = $('#description').val();
     updatedProject.imagesIds = imagesIdsResult;
     updatedProject.amountRequested = $('#sum').val();
+
 }
 
 tinymce.init({
