@@ -55,6 +55,13 @@ $.ajax({
         $(".tender-publish-date span").last().text(localDateTime(data.begin));
         $(".tender-veiws span").last().text(data.visited);
         $(".tender-proposal-count span").last().text(data.proposeNumber);
+        if(!data.hideContact) {
+            var xhr =findUser(data.authorId);
+            $.when(xhr).done(function(resp){
+                alert(JSON.stringify(resp));
+                $(".tender-author-contact span").last().text(resp.username);
+            });
+        }
         $(".tender-expectedPrice span").last().text(data.expectedPrice);
         $(".tender-name").last().text(data.title);
 
