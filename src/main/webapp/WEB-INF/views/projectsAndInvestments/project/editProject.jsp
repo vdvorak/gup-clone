@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
     <link rel="stylesheet" href="/resources/css/mini.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
     <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 </head>
 <body>
@@ -90,6 +91,21 @@
                     <input id="sum" type="number" name='sum' class="editorInput" style="width: 291px;">
                     <span class="currency">₴</span>
                 </div>
+
+                <div class="field required">
+                    <label for="categoriesOfIndustry" class="editorLabel">Категории индустрии</label>
+                    <select  id="categoriesOfIndustry" class="chosen" multiple="true" data-placeholder="Выберите категории" style="width: 550px;">
+                        <option value="engineering">Инженерно-строительные услуги</option>
+                        <option value="repair">Ремонт и обслуживание техники и оборудования</option>
+                        <option value="rent">Услуги проката и аренды</option>
+                        <option value="vehicles">Ремонт и техническое обслуживание автотранспорта</option>
+                        <option value="logistics">Логистические и складские услуги</option>
+                        <option value="health">Услуги в сфере медицины, здоровья и красоты</option>
+                        <option value="recreation">Услуги досуга, отдыха, культуры</option>
+                        <option value="education">Услуги в сфере образования, тренинги</option>
+                    </select>
+                </div>
+
                 <div class="field description">
                     <label for="description" class="editorLabel">Описание</label>
                     <textarea id="description" name='description' class="editorInput"></textarea>

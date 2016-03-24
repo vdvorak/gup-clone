@@ -90,7 +90,7 @@ public class ProjectServiceImpl implements ProjectService {
     //TODO: fix
     @Override
     public Project edit(Project project) {
-//        Project preparedProjectForEditOperation = Project.getPreparedProjectForEditOperation(project);
+//        Project preparedProjectForEditOperation = Project.takePreparedProjectForEditOperation(project);
         return projectRepository.findProjectAndUpdate(project);
     }
 
