@@ -279,3 +279,10 @@ $(document).ready(function () {
     });
 
 });
+
+function findUser (userId) {
+    return $.ajax({
+        type: "POST",
+        url: "/api/rest/profilesService/profile/read/id/" + userId,
+    });
+}
