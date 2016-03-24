@@ -95,17 +95,14 @@
             <div class="field required">
                 <label for="categoriesOfIndustry" class="editorLabel">Категории индустрии</label>
                 <select  id="categoriesOfIndustry" class="chosen" multiple="true" data-placeholder="Выберите категории" style="width: 550px;">
-                    <option>Инженерно-строительные услуги</option>
-                    <option>Ремонт и обслуживание техники и оборудования</option>
-                    <option>Услуги проката и аренды</option>
-                    <option>Ремонт и техническое обслуживание автотранспорта</option>
-                    <option>Логистические и складские услуги</option>
-                    <option>Услуги в сфере медицины, здоровья и красоты</option>
-                    <option>Услуги досуга, отдыха, культуры</option>
-                    <option>Услуги в сфере образования, тренинги</option>
-                    <%--<optgroup label="Swedish Cars">--%>
-                        <%--<option>Электромонтажные работы</option>--%>
-                    <%--</optgroup>--%>
+                    <option value="engineering">Инженерно-строительные услуги</option>
+                    <option value="repair">Ремонт и обслуживание техники и оборудования</option>
+                    <option value="rent">Услуги проката и аренды</option>
+                    <option value="vehicles">Ремонт и техническое обслуживание автотранспорта</option>
+                    <option value="logistics">Логистические и складские услуги</option>
+                    <option value="health">Услуги в сфере медицины, здоровья и красоты</option>
+                    <option value="recreation">Услуги досуга, отдыха, культуры</option>
+                    <option value="education">Услуги в сфере образования, тренинги</option>
                 </select>
             </div>
 

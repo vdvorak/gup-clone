@@ -155,6 +155,8 @@
             <div class="modalSlider">
                 <span>×</span>
                 <img>
+                <a href="" class="super_prev_knopka"></a>
+                <a href="" class="super_netxt_knopka"></a>
             </div>
 
             <div class='tableOffer'>
@@ -164,7 +166,6 @@
             <!-- <img src="/resources/images/slider.jpg" width="450" alt=""> -->
         </div>
     </div>
-
 
     <h2 class="title-h2-blue">Описание</h2>
 
@@ -270,6 +271,12 @@
         $('.modalSlider').css('display', 'none');
     });
     $( ".modalSlider > img" ).click(function( event ) {
+        event.stopPropagation();
+    });
+    $( ".super_netxt_knopka" ).click(function( event ) {
+        event.stopPropagation();
+    });
+    $( ".super_prev_knopka" ).click(function( event ) {
         event.stopPropagation();
     });
 </script>

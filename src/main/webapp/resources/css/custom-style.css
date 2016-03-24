@@ -473,14 +473,6 @@ body {
     bottom: 5px;
 }
 
-.blogCreation .input-group.cat {
-    padding: 20px 0 0 50px;
-}
-
-.blogCreation .input-group.cat > label {
-    padding-left: 10px;
-}
-
 .tableOffer::after {
     content: '';
     clear: both;
@@ -547,4 +539,32 @@ body {
 
 .offer-info-slider .bx-wrapper {
     margin: 0 auto 100px !important;
+}
+
+.super_prev_knopka {
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-right: 10px solid #1168A7;
+    border-bottom: 20px solid transparent;
+    border-left: 1px solid transparent;
+    position: absolute;
+    top: 50%;
+    margin-top: -20px;
+    left: 50%;
+    margin-left: -370px;
+}
+
+.super_netxt_knopka {
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-right: 1px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 10px solid #1168A7;
+    position: absolute;
+    top: 50%;
+    margin-top: -20px;
+    right: 50%;
+    margin-right: -370px;
 }

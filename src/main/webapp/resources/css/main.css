@@ -3,7 +3,7 @@
     src: url("/resources/fonts/ArianAMURegular/ArianAMURegular.eot");
     src: url("/resources/fonts/ArianAMURegular/ArianAMURegular.eot?#iefix") format("embedded-opentype"), url("/resources/fonts/ArianAMURegular/ArianAMURegular.woff") format("woff"), url("/resources/fonts/ArianAMURegular/ArianAMURegular.ttf") format("truetype");
     font-style: normal;
-    font-weight: normal
+    font-weight: normal;
 }
 
 @font-face {
@@ -11,7 +11,7 @@
     src: url("/resources/fonts/ArianAMUBold/ArianAMUBold.eot");
     src: url("/resources/fonts/ArianAMUBold/ArianAMUBold.eot?#iefix") format("embedded-opentype"), url("/resources/fonts/ArianAMUBold/ArianAMUBold.woff") format("woff"), url("/resources/fonts/ArianAMUBold/ArianAMUBold.ttf") format("truetype");
     font-style: normal;
-    font-weight: normal
+    font-weight: normal;
 }
 
 @font-face {
@@ -19,7 +19,7 @@
     src: url("/resources/fonts/ArianAMUItalic/ArianAMUItalic.eot");
     src: url("/resources/fonts/ArianAMUItalic/ArianAMUItalic.eot?#iefix") format("embedded-opentype"), url("/resources/fonts/ArianAMUItalic/ArianAMUItalic.woff") format("woff"), url("/resources/fonts/ArianAMUItalic/ArianAMUItalic.ttf") format("truetype");
     font-style: normal;
-    font-weight: normal
+    font-weight: normal;
 }
 
 @font-face {
@@ -27,7 +27,7 @@
     src: url("/resources/fonts/ArianAMUBoldItalic/ArianAMUBoldItalic.eot");
     src: url("/resources/fonts/ArianAMUBoldItalic/ArianAMUBoldItalic.eot?#iefix") format("embedded-opentype"), url("/resources/fonts/ArianAMUBoldItalic/ArianAMUBoldItalic.woff") format("woff"), url("/resources/fonts/ArianAMUBoldItalic/ArianAMUBoldItalic.ttf") format("truetype");
     font-style: normal;
-    font-weight: normal
+    font-weight: normal;
 }
 
 @font-face {
@@ -35,7 +35,7 @@
     src: url("/resources/fonts/DroidSansRegular/DroidSansRegular.eot");
     src: url("/resources/fonts/DroidSansRegular/DroidSansRegular.eot?#iefix") format("embedded-opentype"), url("/resources/fonts/DroidSansRegular/DroidSansRegular.woff") format("woff"), url("/resources/fonts/DroidSansRegular/DroidSansRegular.ttf") format("truetype");
     font-style: normal;
-    font-weight: normal
+    font-weight: normal;
 }
 
 @font-face {
@@ -43,7 +43,7 @@
     src: url("/resources/fonts/DroidSansBold/DroidSansBold.eot");
     src: url("/resources/fonts/DroidSansBold/DroidSansBold.eot?#iefix") format("embedded-opentype"), url("/resources/fonts/DroidSansBold/DroidSansBold.woff") format("woff"), url("/resources/fonts/DroidSansBold/DroidSansBold.ttf") format("truetype");
     font-style: normal;
-    font-weight: normal
+    font-weight: normal;
 }
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, menu, nav, output, ruby, section, summary, time, mark, audio, video {
@@ -52,104 +52,104 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     border: 0;
     font-size: 100%;
     font: inherit;
-    vertical-align: baseline
+    vertical-align: baseline;
 }
 
 article, aside, details, figcaption, figure, footer, header, menu, nav, section {
-    display: block
+    display: block;
 }
 
 a:hover {
-    text-decoration: none
+    text-decoration: none;
 }
 
 body {
-    line-height: 1
+    line-height: 1;
 }
 
 *:focus {
-    outline: 0
+    outline: 0;
 }
 
 ol, ul {
-    list-style: none
+    list-style: none;
 }
 
 blockquote, q {
-    quotes: none
+    quotes: none;
 }
 
 blockquote:before, blockquote:after, q:before, q:after {
     content: '';
-    content: none
+    content: none;
 }
 
 table {
     border-collapse: collapse;
-    border-spacing: 0
+    border-spacing: 0;
 }
 
 @-webkit-keyframes swing {
     15% {
         -webkit-transform: translateX(5px);
-        transform: translateX(5px)
+        transform: translateX(5px);
     }
     30% {
         -webkit-transform: translateX(-5px);
-        transform: translateX(-5px)
+        transform: translateX(-5px);
     }
     50% {
         -webkit-transform: translateX(3px);
-        transform: translateX(3px)
+        transform: translateX(3px);
     }
     65% {
         -webkit-transform: translateX(-3px);
-        transform: translateX(-3px)
+        transform: translateX(-3px);
     }
     80% {
         -webkit-transform: translateX(2px);
-        transform: translateX(2px)
+        transform: translateX(2px);
     }
     100% {
         -webkit-transform: translateX(0);
-        transform: translateX(0)
+        transform: translateX(0);
     }
 }
 
 @keyframes swing {
     15% {
         -webkit-transform: translateX(5px);
-        transform: translateX(5px)
+        transform: translateX(5px);
     }
     30% {
         -webkit-transform: translateX(-5px);
-        transform: translateX(-5px)
+        transform: translateX(-5px);
     }
     50% {
         -webkit-transform: translateX(3px);
-        transform: translateX(3px)
+        transform: translateX(3px);
     }
     65% {
         -webkit-transform: translateX(-3px);
-        transform: translateX(-3px)
+        transform: translateX(-3px);
     }
     80% {
         -webkit-transform: translateX(2px);
-        transform: translateX(2px)
+        transform: translateX(2px);
     }
     100% {
         -webkit-transform: translateX(0);
-        transform: translateX(0)
+        transform: translateX(0);
     }
 }
 
 .menu {
     background-color: #97ca65;
-    height: 32px
+    height: 32px;
 }
 
 .groupLi li {
-    float: left
+    float: left;
 }
 
 .head .logo {
@@ -157,25 +157,19 @@ table {
     width: 402px;
     height: 98px;
     margin-top: 30px;
-    margin-bottom: 40px
+    margin-bottom: 40px;
 }
 
 .head .logo > a {
     margin-left: 21px;
     float: left;
-    border-top-left-radius: 90%;
-    border-top-right-radius: 60%;
-    border-bottom-left-radius: 15%;
-    border-bottom-right-radius: 60%
+    border-radius: 90% 60% 60% 15%;
 }
 
 .logo > a > img {
     height: 96px;
     width: 114px;
-    border-top-left-radius: 90%;
-    border-top-right-radius: 60%;
-    border-bottom-left-radius: 15%;
-    border-bottom-right-radius: 60%
+    border-radius: 90% 60% 60% 15%;
 }
 
 .head .logo > p {
@@ -183,21 +177,21 @@ table {
     font: 400 22px HelveticaNeue;
     line-height: 98px;
     display: inline-block;
-    margin-left: 18px
+    margin-left: 18px;
 }
 
 .store {
-    width: 380px
+    width: 380px;
 }
 
 .store li {
-    display: inline-block
+    display: inline-block;
 }
 
 .social {
     float: right;
     margin: 40px 0 23px 0;
-    width: 376px
+    width: 376px;
 }
 
 .socialBtn {
@@ -210,27 +204,27 @@ table {
     width: 309px;
     background-color: #35a8de;
     -webkit-transition: all ease .3s;
-    transition: all ease .3s
+    transition: all ease .3s;
 }
 
 .socialBtn:hover {
-    background-color: #9c6
+    background-color: #9c6;
 }
 
 .socialBtn:focus {
-    outline: none !important
+    outline: none !important;
 }
 
 .search {
     background-color: #1269a7;
     border-radius: 4px;
-    width: 100%
+    width: 100%;
 }
 
 .search:after {
     content: '';
     clear: both;
-    display: table
+    display: table;
 }
 
 .sear {
@@ -240,7 +234,7 @@ table {
     margin: 14px 5px 0 25px;
     border-radius: 3px;
     float: left;
-    padding: 0 8px
+    padding: 0 8px;
 }
 
 .selectBox select {
@@ -251,7 +245,7 @@ table {
     font: 400 13px DroidSans;
     background: transparent;
     padding: 0 5px 0 18px;
-    border: 0
+    border: 0;
 }
 
 .selectBox {
@@ -259,15 +253,14 @@ table {
     height: 32px;
     display: inline-block;
     overflow: hidden;
-    background: url(images/caret.png) no-repeat 95% 50%;
     border-radius: 2px;
-    background-color: #fff;
+    background: #fff url(images/caret.png) no-repeat 95% 50%;
     margin-top: 14px;
-    float: left
+    float: left;
 }
 
 .submit-search > i {
-    font-size: 25px
+    font-size: 25px;
 }
 
 .submit-search {
@@ -281,17 +274,17 @@ table {
     margin-top: 14px;
     margin-left: 11px;
     -webkit-transition: all .25s;
-    transition: all .25s
+    transition: all .25s;
 }
 
 .submit-search:hover {
     background: -webkit-linear-gradient(top, #9c6, #70ab35);
     background: -webkit-linear-gradient(top, #6cb52b, #538a1c);
-    background: linear-gradient(top, #6cb52b, #538a1c)
+    background: linear-gradient(top, #6cb52b, #538a1c);
 }
 
 .submit-search:focus {
-    outline: none !important
+    outline: none !important;
 }
 
 .users {
@@ -303,11 +296,11 @@ table {
     border: 4px solid #84cddd;
     border-radius: 4px;
     margin-left: 12px;
-    margin-top: 14px
+    margin-top: 14px;
 }
 
 .users:focus {
-    outline: none !important
+    outline: none !important;
 }
 
 .users:hover {
@@ -315,7 +308,7 @@ table {
     background: -webkit-linear-gradient(top, #9c6, #70ab35);
     background: -webkit-linear-gradient(top, #6cb52b, #538a1c);
     background: linear-gradient(top, #6cb52b, #538a1c);
-    color: white
+    color: white;
 }
 
 .search-img {
@@ -326,11 +319,11 @@ table {
     height: 12px;
     width: 39px;
     background: url(/resources/css/images/caretka.png) no-repeat center center;
-    background-size: cover
+    background-size: cover;
 }
 
 .slider {
-    margin: 20px 0 0 7px
+    margin: 20px 0 0 7px;
 }
 
 .ad-p {
@@ -345,7 +338,7 @@ table {
     position: absolute;
     top: -29px;
     left: 48px;
-    text-align: center
+    text-align: center;
 }
 
 .ad {
@@ -354,18 +347,18 @@ table {
     border: 4px solid #70ab35;
     border-radius: 4px;
     margin-top: 40px;
-    float: left
+    float: left;
 }
 
 .add-top1 {
     position: relative;
     width: 145px;
     height: 167px;
-    border: 3.745px solid #70ab35;
+    border: 4px solid #70ab35;
     border-radius: 4px;
     float: left;
     margin: 19px 7px;
-    background: url(/resources/css/images/motherboard.png) no-repeat center center
+    background: url(/resources/css/images/motherboard.png) no-repeat center center;
 }
 
 .ad-a1 {
@@ -378,19 +371,20 @@ table {
     bottom: 12px;
     text-align: center;
     overflow: hidden;
-    line-height: 22px
+    line-height: 22px;
+    word-wrap: break-word;
 }
 
 .ad-a1:hover {
     color: #fff;
     text-decoration: none;
-    background-color: rgba(0, 0, 0, 0.75)
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
 .caretDown {
     cursor: pointer;
     border-top: 4px solid #70ab35;
-    padding: 10px 203px
+    padding: 10px 203px;
 }
 
 .tend-p {
@@ -405,7 +399,7 @@ table {
     position: absolute;
     top: -29px;
     right: 15px;
-    text-align: center
+    text-align: center;
 }
 
 .proj-p {
@@ -420,7 +414,7 @@ table {
     position: absolute;
     top: -29px;
     left: 48px;
-    text-align: center
+    text-align: center;
 }
 
 .tidings {
@@ -429,14 +423,14 @@ table {
     border: 4px solid #70ab35;
     border-radius: 4px;
     float: right;
-    margin-top: 40px
+    margin-top: 40px;
 }
 
 .tidiDown {
     cursor: pointer;
     border-top: 4px solid #70ab35;
     padding: 10px 144px;
-    margin-top: 20px
+    margin-top: 20px;
 }
 
 .tidi1 {
@@ -446,7 +440,7 @@ table {
     height: 252px;
     width: 167px;
     background: url(/resources/css/images/tidi3.png) no-repeat center center;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .tidi1-a {
@@ -454,12 +448,12 @@ table {
     bottom: 3px;
     left: 13px;
     color: #fff;
-    font: 400 18px ArianAMU
+    font: 400 18px ArianAMU;
 }
 
 .tidi1-a:hover {
     text-decoration: none;
-    color: #fff
+    color: #fff;
 }
 
 .tidi2 {
@@ -469,7 +463,7 @@ table {
     width: 150px;
     display: inline-block;
     background: url(/resources/css/images/tidi1.png) no-repeat center center;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .tidi2-p {
@@ -477,7 +471,7 @@ table {
     font: 400 18px ArianAMU;
     position: absolute;
     bottom: 14px;
-    left: 12px
+    left: 12px;
 }
 
 .tidi3 {
@@ -487,7 +481,7 @@ table {
     position: relative;
     display: inline-block;
     background: url(/resources/css/images/tidi2.png) no-repeat center center;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .tidi3-a {
@@ -498,100 +492,108 @@ table {
     text-align: center;
     width: 100%;
     height: 77px;
-    background-color: rgba(0, 0, 0, 0.5)
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .tidi3-a:hover {
     background-color: rgba(0, 0, 0, 0.75);
     text-decoration: none;
-    color: #fff
+    color: #fff;
 }
 
 .tidi4 {
     width: 323px;
     height: 115px;
-    border: 3.745px solid #70ab35;
+    border: 4px solid #70ab35;
     border-radius: 4px;
     margin: 0 auto;
     margin-top: 20px;
     position: relative;
     padding: 7px 10px;
-    overflow: hidden
+    overflow: hidden;
 }
 
 .tidi4 img {
     float: left;
     height: 80px;
-    width: 107px
+    width: 107px;
 }
 
 .tidi4-a {
     color: #1269a7;
     font: 400 14px DroidSans;
-    margin-left: 10px
+    word-wrap: break-word;
+    width: 185px;
+    float: right;
+    height: 40px;
+    overflow: hidden;
 }
 
 .tidi4-a:hover {
     text-decoration: none;
-    color: #1269a7
+    color: #1269a7;
 }
 
 .tidi4-p {
     color: #868787;
     font: 400 12px DroidSans;
     line-height: 13px;
-    display: inline-block;
-    width: 180px;
-    margin-left: 10px;
-    height: 80px;
-    overflow: hidden
+    width: 188px;
+    height: 52px;
+    overflow: hidden;
+    float: right;
+    word-wrap: break-word;
 }
 
 .tidi4-a2 {
     display: inline-block;
     color: #70ab35;
     font: 400 12px DroidSans;
-    margin: 0
+    margin: 0;
 }
 
 .tidi4-a2:hover {
     text-decoration: none;
-    color: #70ab35
+    color: #70ab35;
 }
 
 .data-tidi5 {
     color: #626262;
-    font: 400 10px DroidSans;
+    font: 400 8px DroidSans;
     position: absolute;
     bottom: 5px;
-    right: 10px
+    right: 10px;
 }
 
 .tidi4-ar {
     color: #1269a7;
     font: 400 14px DroidSans;
-    display: inline-block
+    float: left;
+    width: 188px;
+    word-wrap: break-word;
+    height: 40px;
+    overflow: hidden;
 }
 
 .tidi4-pr {
     color: #868787;
     font: 400 12px DroidSans;
-    display: inline-block;
-    width: 180px;
+    width: 188px;
     line-height: 13px;
-    height: 80px;
-    overflow: hidden
+    height: 50px;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .tidi4-ar:hover {
     text-decoration: none;
-    color: #1269a7
+    color: #1269a7;
 }
 
 .footer {
     background-color: #9c6;
     height: 45px;
-    margin-top: 70px
+    margin-top: 70px;
 }
 
 .bookDrop ul {
@@ -612,25 +614,25 @@ table {
     align-items: flex-start;
     -webkit-align-content: space-around;
     -ms-flex-line-pack: distribute;
-    align-content: space-around
+    align-content: space-around;
 }
 
 .bookDrop a {
-    margin: 0 5px
+    margin: 0 5px;
 }
 
 .mid {
     margin-top: 16px;
-    display: table
+    display: table;
 }
 
 .mid li:hover .dropUl {
-    display: block
+    display: block;
 }
 
 .mid li:hover .ads-img {
     border-radius: 0;
-    border-bottom: 0
+    border-bottom: 0;
 }
 
 .mid li:hover .ads-p {
@@ -641,17 +643,17 @@ table {
     -webkit-transition: all ease .25s;
     transition: all ease .25s;
     text-decoration: none;
-    color: #fff
+    color: #fff;
 }
 
 .mid li {
     float: left;
     width: 144px;
-    margin-right: 1px
+    margin-right: 1px;
 }
 
 .mid li:last-child {
-    width: 319px
+    width: 319px;
 }
 
 .ads-p {
@@ -665,7 +667,7 @@ table {
     text-align: center;
     line-height: 25px;
     margin-top: 16px;
-    display: block
+    display: block;
 }
 
 .ads-img {
@@ -676,7 +678,7 @@ table {
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
     background: url(/resources/css/images/rupor.png) no-repeat center center;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .ads-img2 {
@@ -687,7 +689,7 @@ table {
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
     background: url(/resources/css/images/hammer.png) no-repeat center center;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .ads-img3 {
@@ -698,7 +700,7 @@ table {
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
     background: url(/resources/css/images/compass.png) no-repeat center center;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .ads-img4 {
@@ -742,59 +744,59 @@ table {
     border: 2px solid #36aae0;
     border-bottom-left-radius: 1px;
     border-bottom-right-radius: 1px;
-    padding: 0 5px
+    padding: 0 5px;
 }
 
 .ads-drop:hover {
     text-decoration: none;
     color: #2f3846;
-    background-color: #9c6
+    background-color: #9c6;
 }
 
 .data {
     color: #626262;
-    font: 400 10px DroidSans;
+    font: 400 8px DroidSans;
     position: absolute;
     bottom: 5px;
-    left: 10px
+    left: 10px;
 }
 
 .mailDrop a {
     display: table;
     margin: 10px 6px 0 10px;
-    float: left
+    float: left;
 }
 
 .dropFace ul {
-    float: left
+    float: left;
 }
 
 .dropFace ul li a {
     color: #fff;
     font: 300 18px Helvetica;
     -webkit-transition: all ease .25s;
-    transition: all ease .25s
+    transition: all ease .25s;
 }
 
 .dropFace ul li a:hover {
     color: #1269a7;
     text-decoration: none;
-    padding-left: 5px
+    padding-left: 5px;
 }
 
 .dropFace ul li {
-    float: none
+    float: none;
 }
 
 .tidi5-img {
-    float: right
+    float: right;
 }
 
 .question {
     position: fixed;
     top: 50%;
     margin-top: -110px;
-    z-index: 3
+    z-index: 3;
 }
 
 .question-img {
@@ -802,7 +804,7 @@ table {
     height: 56px;
     width: 68px;
     border-top-right-radius: 25%;
-    border-bottom-right-radius: 25%
+    border-bottom-right-radius: 25%;
 }
 
 .questionForm {
@@ -814,7 +816,7 @@ table {
     float: left;
     margin-left: -250px;
     -webkit-transition: all ease .25s;
-    transition: all ease .25s
+    transition: all ease .25s;
 }
 
 .quest-p {
@@ -822,7 +824,7 @@ table {
     font: 400 13px ArianAMU;
     text-align: center;
     margin-top: 10px;
-    margin-bottom: 32px
+    margin-bottom: 32px;
 }
 
 .inText {
@@ -832,7 +834,7 @@ table {
     font: 400 9px DroidSans;
     margin-left: 17px;
     padding-bottom: 0;
-    padding-top: 0
+    padding-top: 0;
 }
 
 #comment-quest {
@@ -843,11 +845,10 @@ table {
     border-radius: 4px;
     height: 97px;
     width: 209px;
-    margin-left: 17px
+    margin-left: 17px;
 }
 
 .btn-quest {
-    border: 0;
     margin: 8px 0 9px 159px;
     color: #fff;
     font: 400 11px ArianAMU;
@@ -855,26 +856,26 @@ table {
     border: 1px solid #9c6;
     border-radius: 4px;
     -webkit-transition: all ease .25s;
-    transition: all ease .25s
+    transition: all ease .25s;
 }
 
 .btn-quest:hover {
-    background-color: transparent
+    background-color: transparent;
 }
 
 .mod1 {
     max-width: 216px;
-    float: left
+    float: left;
 }
 
 .notLogged > ul > li {
     float: left;
     line-height: 32px;
-    color: #fff
+    color: #fff;
 }
 
 .notLogged > ul > li > a {
-    color: white
+    color: white;
 }
 
 .fadeScreen {
@@ -884,24 +885,24 @@ table {
     bottom: 0;
     position: fixed;
     background: rgba(0, 0, 0, 0);
-    display: none
+    display: none;
 }
 
 .Logged {
-    display: block
+    display: block;
 }
 
 .Logged:after {
     content: '';
     clear: both;
-    display: table
+    display: table;
 }
 
 .Logged > .user {
     float: left;
     height: 32px;
     position: relative;
-    z-index: 12
+    z-index: 12;
 }
 
 .Logged > .user > div {
@@ -914,18 +915,18 @@ table {
     top: 32px;
     left: 1px;
     padding: 15px 0 0 12px;
-    display: none
+    display: none;
 }
 
 .user > div > a {
     color: #fff;
     font: 300 12px Helvetica;
     -webkit-transition: all .25s;
-    transition: all .25s
+    transition: all .25s;
 }
 
 .user > div > a:hover {
-    color: #1269a7
+    color: #1269a7;
 }
 
 .user > div > a:last-child {
@@ -933,13 +934,13 @@ table {
     float: right;
     margin: 5px;
     text-decoration: underline;
-    font-style: italic
+    font-style: italic;
 }
 
 .user > div > a:after {
     content: '';
     clear: both;
-    display: table
+    display: table;
 }
 
 .Logged > .user > img {
@@ -948,7 +949,7 @@ table {
     margin-top: 3px;
     margin-left: 15px;
     float: left;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .Logged > .user > p {
@@ -958,7 +959,7 @@ table {
     float: left;
     margin-top: 0;
     margin-left: 7px;
-    cursor: pointer
+    cursor: pointer;
 }
 
 #modal_form {
@@ -972,7 +973,7 @@ table {
     z-index: 5;
     margin-top: 100px;
     left: 50%;
-    margin-left: -445px
+    margin-left: -445px;
 }
 
 #overlay {
@@ -984,25 +985,25 @@ table {
     top: 0;
     left: 0;
     cursor: pointer;
-    display: none
+    display: none;
 }
 
 .notLogged {
     display: block;
-    float: left
+    float: left;
 }
 
 .notLogged:after {
     content: '';
     clear: both;
-    display: table
+    display: table;
 }
 
 .label-checkbox {
     width: 22px;
     height: 22px;
     position: relative;
-    float: left
+    float: left;
 }
 
 input[class="greenCheckbox"] + span {
@@ -1013,12 +1014,12 @@ input[class="greenCheckbox"] + span {
     height: 100%;
     background: url(images/backgroundCheck.png) no-repeat center center;
     background-size: cover;
-    cursor: pointer
+    cursor: pointer;
 }
 
 input[class="greenCheckbox"]:checked + span {
     background: url(images/check.png) no-repeat center center;
-    background-size: cover
+    background-size: cover;
 }
 
 .submit {
@@ -1032,11 +1033,11 @@ input[class="greenCheckbox"]:checked + span {
     border-radius: 3px;
     -webkit-transition: all .2s;
     transition: all .2s;
-    display: block
+    display: block;
 }
 
 .submit:hover {
-    background-color: #1269a7
+    background-color: #1269a7;
 }
 
 .contactA {
@@ -1045,7 +1046,7 @@ input[class="greenCheckbox"]:checked + span {
     text-decoration: underline;
     text-align: center;
     display: block;
-    margin-top: 38px
+    margin-top: 38px;
 }
 
 .profile {
@@ -1054,7 +1055,7 @@ input[class="greenCheckbox"]:checked + span {
     width: 100%;
     position: relative;
     margin-top: 10px;
-    padding-bottom: 10px
+    padding-bottom: 10px;
 }
 
 .online {
@@ -1062,7 +1063,7 @@ input[class="greenCheckbox"]:checked + span {
     font: 400 18px DroidSans;
     top: 7px;
     right: 57px;
-    position: absolute
+    position: absolute;
 }
 
 .profile-img {
@@ -1072,13 +1073,13 @@ input[class="greenCheckbox"]:checked + span {
     float: left;
     position: relative;
     height: 258px;
-    width: 258px
+    width: 258px;
 }
 
 .profile-img img {
     width: 100%;
     height: 100%;
-    border-radius: 15px
+    border-radius: 15px;
 }
 
 .firstName {
@@ -1086,21 +1087,20 @@ input[class="greenCheckbox"]:checked + span {
     margin-bottom: 5px;
     display: inline-block;
     color: #1269a7;
-    font: 400 22px DroidSans
+    font: 400 22px DroidSans;
 }
 
 .phone {
-    background: url(/resources/css/images/phone.png) no-repeat 95% 50%;
-    background-color: #9c6;
+    background: #9c6 url(/resources/css/images/phone.png) no-repeat 95% 50%;
     border-radius: 7px;
     width: 280px;
-    padding-bottom: 15px
+    padding-bottom: 15px;
 }
 
 .contacts {
     width: 570px;
     display: inline-block;
-    margin: 20px 20px 20px 0
+    margin: 20px 20px 20px 0;
 }
 
 .phoneNumber {
@@ -1108,39 +1108,37 @@ input[class="greenCheckbox"]:checked + span {
     font: 400 20px DroidSans;
     margin: 15px 0 0 15px;
     display: inline-block;
-    width: 200px
+    width: 200px;
 }
 
 .phoneNumber2 {
     color: #fff;
     font: 400 30px DroidSans;
     margin: 19px 0 0 20px;
-    display: inline-block
+    display: inline-block;
 }
 
 .skypeContact {
-    background: url(/resources/css/images/skype.png) no-repeat 95% 50%;
-    background-color: #9c6;
+    background: #9c6 url(/resources/css/images/skype.png) no-repeat 95% 50%;
     width: 280px;
     margin-top: 20px;
     border-radius: 7px;
-    padding-bottom: 15px
+    padding-bottom: 15px;
 }
 
 .emailContact {
-    background: url(/resources/css/images/email.png) no-repeat 95% 50%;
-    background-color: #9c6;
+    background: #9c6 url(/resources/css/images/email.png) no-repeat 95% 50%;
     border-radius: 7px;
     width: 280px;
     margin-top: 20px;
-    padding-bottom: 15px
+    padding-bottom: 15px;
 }
 
 .skype {
     color: #fff;
     font: 400 20px DroidSans;
     display: inline-block;
-    margin: 15px 0 0 15px
+    margin: 15px 0 0 15px;
 }
 
 .email {
@@ -1152,28 +1150,27 @@ input[class="greenCheckbox"]:checked + span {
     width: 220px;
     white-space: nowrap;
     overflow: hidden;
-    cursor: help
+    cursor: help;
 }
 
 .map {
     width: 269px;
     border-radius: 13px;
     border: 2px solid #9c6;
-    float: right
+    float: right;
 }
 
 .map-p {
     color: #9c6;
     font: 400 15px DroidSans;
-    text-align: center
+    text-align: center;
 }
 
 .mapContact {
     height: 131px;
     width: 252px;
-    margin: 0 auto;
-    margin-top: 6px;
-    display: none
+    margin: 6px auto 0;
+    display: none;
 }
 
 .caretContact {
@@ -1182,11 +1179,11 @@ input[class="greenCheckbox"]:checked + span {
     margin: 10px auto;
     cursor: pointer;
     background: url(images/caretDown.png) no-repeat center center;
-    background-size: cover
+    background-size: cover;
 }
 
 .caretContact.lol {
-    background: url(/resources/css/images/caretUp.png)
+    background: url(/resources/css/images/caretUp.png);
 }
 
 .writeMessage {
@@ -1199,11 +1196,11 @@ input[class="greenCheckbox"]:checked + span {
     border: 0;
     margin: 0 10px 0 20px;
     -webkit-transition: all ease .25s;
-    transition: all ease .25s
+    transition: all ease .25s;
 }
 
 .writeMessage:hover {
-    background-color: #9c6
+    background-color: #9c6;
 }
 
 .addToContact {
@@ -1215,16 +1212,16 @@ input[class="greenCheckbox"]:checked + span {
     border: 0;
     height: 39px;
     -webkit-transition: all ease .25s;
-    transition: all ease .25s
+    transition: all ease .25s;
 }
 
 .addToContact:hover {
-    background-color: #9c6
+    background-color: #9c6;
 }
 
 .social-icon {
     margin: 15px 20px 70px 0;
-    height: 50px
+    height: 50px;
 }
 
 .social-icon a {
@@ -1233,27 +1230,27 @@ input[class="greenCheckbox"]:checked + span {
     float: right;
     height: 50px;
     width: 50px;
-    border-radius: 10%
+    border-radius: 10%;
 }
 
 .social-icon > a > img {
     width: 100%;
-    height: 100%
+    height: 100%;
 }
 
 .social-icon a:hover {
     -webkit-animation: swing .5s ease;
     animation: swing .5s ease;
     -webkit-animation-iteration-count: 1;
-    animation-iteration-count: 1
+    animation-iteration-count: 1;
 }
 
 .organization-color-border {
-    border-color: #1168a5
+    border-color: #1168a5;
 }
 
 .vip-color-background {
-    background-color: #fdb205
+    background-color: #fdb205;
 }
 
 .rating p {
@@ -1261,7 +1258,7 @@ input[class="greenCheckbox"]:checked + span {
     font: 400 36px DroidSans;
     text-align: left;
     line-height: 70px;
-    padding-left: 23px
+    padding-left: 23px;
 }
 
 .vip-profile-img {
@@ -1271,7 +1268,7 @@ input[class="greenCheckbox"]:checked + span {
     bottom: -1px;
     left: -1px;
     height: 100px;
-    width: 258px
+    width: 258px;
 }
 
 .vip-profile-img p {
@@ -1279,29 +1276,29 @@ input[class="greenCheckbox"]:checked + span {
     font: 400 24px DroidSans;
     position: absolute;
     top: 13px;
-    left: 25px
+    left: 25px;
 }
 
 .tend-top1 {
     position: relative;
     width: 145px;
     height: 167px;
-    border: 3.745px solid #70ab35;
+    border: 4px solid #70ab35;
     border-radius: 4px;
     float: left;
     margin: 19px 7px;
-    background: url(/resources/css/images/name.png) no-repeat center center
+    background: url(/resources/css/images/name.png) no-repeat center center;
 }
 
 .proj-top1 {
     position: relative;
     width: 145px;
     height: 167px;
-    border: 3.745px solid #70ab35;
+    border: 4px solid #70ab35;
     border-radius: 4px;
     float: left;
     margin: 19px 7px;
-    background: url(/resources/css/images/tractor.png) no-repeat center center
+    background: url(/resources/css/images/tractor.png) no-repeat center center;
 }
 
 .organization-profile-img {
@@ -1311,7 +1308,7 @@ input[class="greenCheckbox"]:checked + span {
     bottom: -1px;
     left: -1px;
     width: 258px;
-    height: 100px
+    height: 100px;
 }
 
 .organization-profile-img p {
@@ -1319,13 +1316,13 @@ input[class="greenCheckbox"]:checked + span {
     color: #1269a7;
     font: 400 24px DroidSans;
     top: 13px;
-    left: 25px
+    left: 25px;
 }
 
 .tab-news {
     float: left;
     width: 50%;
-    height: 57px
+    height: 57px;
 }
 
 .tab-news a {
@@ -1334,20 +1331,20 @@ input[class="greenCheckbox"]:checked + span {
     border-radius: 9px;
     border: 2px solid transparent;
     padding: 15px 30px;
-    line-height: 57px
+    line-height: 57px;
 }
 
 .tab-news a.active {
     border-color: #1269a7;
-    color: #1269a7
+    color: #1269a7;
 }
 
 .tab-news:nth-child(1) {
-    text-align: right
+    text-align: right;
 }
 
 .tab-container-news {
-    margin-top: 57px
+    margin-top: 57px;
 }
 
 .blogs {
@@ -1357,26 +1354,26 @@ input[class="greenCheckbox"]:checked + span {
     border-radius: 10px;
     margin-bottom: 17px;
     position: relative;
-    padding: 15px
+    padding: 15px;
 }
 
 .blogs-img {
     float: left;
     margin-right: 15px;
     height: 100px;
-    width: 100px
+    width: 100px;
 }
 
 .etabs-news {
     display: block;
     height: 57px;
-    margin-bottom: 51px
+    margin-bottom: 51px;
 }
 
 .nameBlogs {
     color: #3e5da2;
     font: 400 18px ArianAMU;
-    float: left
+    float: left;
 }
 
 .text-blogs {
@@ -1385,7 +1382,8 @@ input[class="greenCheckbox"]:checked + span {
     width: 747px;
     height: 65px;
     overflow: hidden;
-    line-height: 20px
+    line-height: 20px;
+    word-wrap: break-word;
 }
 
 .views-blogs {
@@ -1393,7 +1391,7 @@ input[class="greenCheckbox"]:checked + span {
     font: italic 700 13px Calibri;
     position: absolute;
     bottom: -1px;
-    left: 12px
+    left: 12px;
 }
 
 .DateOfCreation-blogs {
@@ -1401,18 +1399,18 @@ input[class="greenCheckbox"]:checked + span {
     font: 400 13px Calibri;
     position: absolute;
     bottom: -1px;
-    right: 10px
+    right: 10px;
 }
 
 .tab {
     width: 50%;
     float: left;
     margin-top: 10px;
-    padding: 0 2px
+    padding: 0 2px;
 }
 
 .tab:nth-child(1) {
-    text-align: right
+    text-align: right;
 }
 
 .tab a {
@@ -1421,40 +1419,40 @@ input[class="greenCheckbox"]:checked + span {
     padding: 7px 9px;
     border: 4px solid transparent;
     border-radius: 5px;
-    display: inline-block
+    display: inline-block;
 }
 
 .tab a.active {
     color: #1269a7;
-    border-color: #1269a7
+    border-color: #1269a7;
 }
 
 #entry-form {
-    margin: 38px 150px 65px 150px
+    margin: 38px 150px 65px 150px;
 }
 
 #entry-form:after {
     content: '';
     clear: both;
-    display: table
+    display: table;
 }
 
 .etabs:after {
     content: '';
     clear: both;
-    display: table
+    display: table;
 }
 
 #entry-form > .contact_form > label {
     color: #959595;
     font: 400 13px ArianAMU;
     float: left;
-    line-height: 25px
+    line-height: 25px;
 }
 
 #entry-form > .contact_form > input {
     float: right;
-    padding: 0 8px;
+    padding: 0 10px;
     margin-bottom: 15px;
     margin-right: 60px;
     width: 365px;
@@ -1462,27 +1460,27 @@ input[class="greenCheckbox"]:checked + span {
     background-color: white;
     border: 2px solid #9c6;
     border-radius: 4px;
-    font: 400 9px DroidSans
+    font: 400 13px DroidSans;
 }
 
 .rememberMe {
     margin: 15px auto 30px;
     height: 22px;
-    width: 117px
+    width: 117px;
 }
 
 label[for="checkbox-modal"] {
     color: #898989;
     font: 400 24px ArianAMU;
     line-height: 35px;
-    float: right
+    float: right;
 }
 
 label[for="checkbox-contact"] {
     color: #898989;
     font: 400 12px ArianAMU;
     line-height: 22px;
-    float: right
+    float: right;
 }
 
 #registration > .registration-form > label {
@@ -1811,8 +1809,7 @@ label[for="checkbox-contact"] {
     background-color: #fff;
     border-radius: 7px;
     width: 491px;
-    margin: 0 auto;
-    margin-bottom: 18px
+    margin: 0 auto 18px;
 }
 
 .whichBankYouChoose > .brokeAss > h2 {
@@ -1905,9 +1902,7 @@ label[for="checkbox-contact"] {
     height: 27px;
     width: 125px;
     display: block;
-    margin: 0 auto;
-    margin-top: 14px;
-    margin-bottom: 4px
+    margin: 14px auto 4px;
 }
 
 .FillUpBalance > div > .socialBankIcons {
@@ -1987,9 +1982,8 @@ form > .richAssCheck > label {
 
 .richAss > form > .richAssCheck {
     display: inline-block;
-    margin: 0 auto;
     height: 26px;
-    margin-top: 11px
+    margin: 11px auto 0;
 }
 
 form > .richAssCheck > label:first-child {
@@ -2047,12 +2041,10 @@ form > .richAssCheck > label:first-child {
 .AboutMe {
     position: relative;
     border: 3px solid #9c6;
-    border-radius: 8px;
-    border-top-left-radius: 0;
+    border-radius: 0 8px 8px 8px;
     width: 794px;
     padding: 23px;
-    margin: 0 auto;
-    margin-bottom: 40px
+    margin: 0 auto 40px;
 }
 
 .AboutMe-p {
@@ -2233,7 +2225,7 @@ form > .richAssCheck > label:first-child {
 
 .descriptionMedium:hover {
     background-color: rgba(255, 255, 255, 1);
-    color: #1269a7
+    color: #1269a7;
 }
 
 .normalNews {
@@ -2241,33 +2233,45 @@ form > .richAssCheck > label:first-child {
     border-radius: 7px;
     width: 100%;
     margin-top: 15px;
-    position: relative
+    position: relative;
 }
 
 .normalNews:after {
     content: '';
     clear: both;
-    display: table
+    display: table;
 }
 
 .normalNews img {
     float: left;
     margin: 12px 20px;
     height: 118px;
-    width: 118px
+    width: 118px;
 }
 
 .descriptionNormalNews {
     color: #1269a7;
     font: 400 18px HelveticaNeue;
     margin-top: 8px;
-    display: inline-block
+    display: inline-block;
 }
 
-.descriptionNormalNews2 {
+.news > .descriptionNormalNews2 {
     color: #828a8f;
     font: 400 16px HelveticaNeue;
-    margin: 20px 10px
+    margin: 20px 10px;
+    word-wrap: break-word;
+}
+
+.normalNews > .descriptionNormalNews2 {
+    color: #828a8f;
+    font: 400 16px HelveticaNeue;
+    word-wrap: break-word;
+    width: 725px;
+    float: right;
+    height: 100px;
+    overflow: hidden;
+    margin-right: 10px;
 }
 
 .normalNews-p {
@@ -2376,7 +2380,8 @@ form > .richAssCheck > label:first-child {
 .createBlogDescriptionText {
     text-align: justify;
     color: #7d7d7d;
-    font: 400 14px Calibri
+    font: 400 14px Calibri;
+    word-wrap: break-word;
 }
 
 .createBlogSocialIcon {
@@ -2480,8 +2485,7 @@ form > .richAssCheck > label:first-child {
     border-radius: 6px;
     width: 791px;
     height: 139px;
-    margin: 0 auto;
-    margin-top: 20px
+    margin: 20px auto 0;
 }
 
 .profileListLogo {
@@ -2568,22 +2572,21 @@ label[for="checkbox-filter3"] {
     font: 400 9px Calibri;
     position: absolute;
     top: 1px;
-    right: 25px
+    right: 25px;
 }
 
-.newsName {
+.news > .newsName {
     color: #1269a7;
     font: 400 16px Arial;
-    height: 35px;
-    width: 303px;
-    margin: 0 auto;
-    margin-top: 5px;
-    text-align: center
+    width: 600px;
+    margin: 5px auto 0;
+    text-align: center;
+    word-wrap: break-word;
 }
 
 .newsIMG1 {
     float: left;
-    margin: 10px
+    margin: 10px;
 }
 
 .newsText {
@@ -2624,7 +2627,6 @@ label[for="checkbox-filter3"] {
     -webkit-transform: rotate(360deg);
     -moz-transform: rotate(360deg);
     transition: -webkit-transform .2s ease-out;
-    transition: transform .2s ease-out;
     transition: transform .2s ease-out, -webkit-transform .2s ease-out;
     -webkit-transition: -webkit-transform .2s ease-out;
     -moz-transition: -moz-transform .2s ease-out
@@ -2885,10 +2887,9 @@ label[for="checkbox-filter3"] {
     width: 225px;
     border: 4px solid #9c6;
     border-radius: 6px;
-    background-color: transparent;
     color: #9c6;
     font: 400 21px ArianAMU;
-    background: url(/resources/css/images/+sub.png) no-repeat center center;
+    background: transparent url(/resources/css/images/+sub.png) no-repeat center center;
     margin-bottom: 30px
 }
 
@@ -3125,9 +3126,8 @@ input:focus:-ms-input-placeholder {
     width: 82px;
     height: 35px;
     overflow: hidden;
-    background: url(/resources/css/images/caret.png) no-repeat 90% 50%;
     border-radius: 2px;
-    background-color: #fff
+    background: #fff url(/resources/css/images/caret.png) no-repeat 90% 50%;
 }
 
 .selectBoxEvaluation select {
@@ -3337,8 +3337,7 @@ input:focus:-ms-input-placeholder {
     border: 2px solid #36aae0;
     border-radius: 5px;
     width: 870px;
-    margin: 0 auto;
-    margin-bottom: 15px;
+    margin: 0 auto 15px;
     position: relative;
     padding: 15px
 }
@@ -4016,9 +4015,8 @@ form > .description > textarea {
 .search > .filterADS > .superFilter {
     border-top: 3px solid #8bd0ea;
     width: 770px;
-    margin: 0 auto;
     padding-top: 20px;
-    margin-bottom: 10px;
+    margin: 0 auto 10px;
     display: none
 }
 
@@ -4158,10 +4156,9 @@ form > .price > input:placeholder-shown {
 }
 
 .contentContainer > .tenderFils > a {
-    background: url(/resources/images/caretDOC.png) no-repeat 95% 50%;
     color: #fff;
     font: 400 14px Arial;
-    background-color: #1269a7;
+    background: #1269a7 url(/resources/images/caretDOC.png) no-repeat 95% 50%;
     height: 30px;
     width: 179px;
     float: left;
@@ -4180,8 +4177,7 @@ form > .price > input:placeholder-shown {
 
 .contentContainer > .tenderMap {
     height: 194px;
-    margin: 0 auto;
-    margin-bottom: 40px;
+    margin: 0 auto 40px;
     position: relative
 }
 
@@ -4591,9 +4587,7 @@ form > .price > input:placeholder-shown {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: .4s;
-    -webkit-animation-name: animatetop;
     animation-name: animatetop;
-    -webkit-animation-duration: .4s;
     animation-duration: .4s
 }
 
@@ -4641,9 +4635,8 @@ form > .price > input:placeholder-shown {
     background-color: #fff;
     border-radius: 7px;
     width: 491px;
-    margin: 0 auto;
-    margin-bottom: 15px;
-    position: relative
+    margin: 0 auto 15px;
+    position: relative;
 }
 
 .modal > .FillUpBalance > div:after {
@@ -4991,9 +4984,10 @@ form > .price > input:placeholder-shown {
 .content > a > .title.build-name {
     color: #1269a7;
     font: 400 24px DroidSans;
-    width: 350px;
+    width: 510px;
     height: 30px;
-    overflow: hidden
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .dropDownMail > .mailMessage > p.defaultP, .book > .dropDownBook > .defaultP {
@@ -5066,4 +5060,12 @@ form > .price > input:placeholder-shown {
 .editBlogPost:hover span:after {
     opacity: 1;
     right: 0
+}
+
+#mceu_66 {
+    margin-bottom: 30px;
+}
+
+#drop_zone {
+    margin-bottom: 30px;
 }
