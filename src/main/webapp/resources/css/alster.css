@@ -158,8 +158,8 @@
 .tenders .feedItem .preview {
     display: block;
     position: relative;
-    width: 246px;
-    height: 154px;
+    width: 160px;
+    height: 160px;
     margin: 10px;
 }
 
@@ -370,8 +370,8 @@ color: white;
 }
 .tenders .feedItem .content {
     top: 10px;
-    left: 260px;
-    width: 610px;
+    left: 170px;
+    width: 695px;
     height: 100px;
 }
 
@@ -388,6 +388,7 @@ color: white;
     text-indent: 20px;
     max-height: 120px;
     overflow: hidden;
+    word-wrap: break-word;
 }
 .tenders .feedItem .content .text {
     max-height: 71px;
@@ -977,6 +978,7 @@ color: white;
 .tenderContent .text {
     text-align: justify;
     text-indent: 30px;
+    word-wrap: break-word;
 }
 .tenderContent .bottomSection {
     position: relative;

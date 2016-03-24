@@ -473,14 +473,6 @@ body {
     bottom: 5px;
 }
 
-.blogCreation .input-group.cat {
-    padding: 20px 0 0 50px;
-}
-
-.blogCreation .input-group.cat > label {
-    padding-left: 10px;
-}
-
 .tableOffer::after {
     content: '';
     clear: both;
