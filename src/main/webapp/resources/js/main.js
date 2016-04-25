@@ -60,18 +60,28 @@ $(document).ready(function () {
         );
     });
 
+    $('body').click(function(event) {
+        var elem = $(event.target);
+        if( $('.questionForm').css('marginLeft') === '0px' && !elem.hasClass('questionFormToggle')){
+            $('.questionForm').animate({
+                marginLeft: '-250px'
+            }, 'fast');
+        }
+    });
+
+    $(document).keyup(function(e) {
+        if (e.keyCode == 27) {
+            $('.questionForm').animate({
+                marginLeft: '-250px'
+            }, 'fast');
+        }
+    });
+
     $(".question-img").click(function () {
        var questionForm = $('.questionForm');
         questionForm.animate({
             marginLeft: 0
         }, 'fast');
-        if (questionForm.hasClass('uuu')) {
-            $('.questionForm').animate({
-                marginLeft: '-250px'
-            }, 'fast');
-        }
-        questionForm.toggleClass('uuu');
-
     });
 
     $(".caretContact").click(function () {
