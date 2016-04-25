@@ -101,7 +101,7 @@
                 <label for="offer-inpPrice">Цена<em>*</em></label>
             </div>
             <div id="price-options" class="col-xs-3">
-                <select class="prop" name="price">
+                <select id="selection-price" class="prop" name="price">
 
                 </select>
             </div>
