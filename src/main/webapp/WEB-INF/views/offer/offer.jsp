@@ -193,7 +193,7 @@
     </div>
 
     <div class="anonymUser">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem blanditiis culpa, cupiditate eligendi, enim eum impedit quaerat repellendus rerum tenetur vero voluptate. Accusamus cum itaque iusto, obcaecati repellendus velit.<i class="fa fa-exclamation-circle"></i>
+        <p><i class="fa fa-exclamation-circle"> Для создания объявления вам необходимо зарегистрироваться</i>
         </p>
     </div>
 </div>
