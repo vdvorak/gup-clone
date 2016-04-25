@@ -5,6 +5,22 @@ $.ajax({
     url: "/api/rest/profilesService/profile/read/id/" + profileId,
     statusCode: {
         200: function (profile) {
+            if (typeof loggedInProfile != 'undefined') {
+                var finded = false
+                for (var ci in loggedInProfile.contactList){
+                    if (loggedInProfile.contactList[ci] === profile.id) {
+                        finded = true
+                        break;
+                    }
+                }
+                if (finded) {
+                    $('#writeMessageToProfile').show()
+                }
+                else {
+                    $('#addProfileToContact').show()
+                }
+            }
+            
             if (profile.imgId) {
                 $('#profileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId);
             } else {
@@ -92,9 +108,10 @@ $.ajax({
 
             if (profileId ==profile.id){
                 $('.contact-btn-group').append('<button class="addToContact" id="editProfileBtn">Редактировать профиль</button>')
-            }else{
-                $('.contact-btn-group').append('<button class="addToContact" id="addProfileToContact">Добавить в контакты</button>')
             }
+            // else{
+            //     $('.contact-btn-group').append('<button class="addToContact" id="addProfileToContact">Добавить в контакты</button>')
+            // }
 
         },
         404: function () {
