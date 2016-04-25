@@ -149,7 +149,7 @@ $(document).on('click', '#addProfileToContact', function () {
     }, function(){
         alert('Internal error')
     })
-})Z
+})
 
 $(document).on('click', '#removeProfileFromContacts', function () {
     loggedInProfile.contactList.splice(loggedInProfile.contactList.indexOf(profileId), 1)

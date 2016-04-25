@@ -71,6 +71,9 @@
                 <label class="label-form-info" for="userName">ФИО</label>
                 <input id="userName" class="form-info-input" name='name' type="text">
             </div>
+            <div id="usernameError" style="display: none;font:400 12px DroidSans;color: #f3271a">
+                Допустимы имена, содержащие кириллические символы, символы латинского алфавита, цифры и дефис.
+            </div>
 
             <div id="nameCompanyBlock">
                 <label id="companyType" class="label-form-info" for="nameCompany">Название компании</label>
@@ -102,7 +105,7 @@
             </div>
 
             <label for="main-email-info" class="label-form-info">Основной E-mail</label>
-            <input id="main-email-info" type="email" name='email' class="form-info-input">
+            <input id="main-email-info" type="email" required name='email' class="form-info-input">
 
             <div class="clearfix"></div>
 
@@ -112,17 +115,24 @@
                 </div>
                 <label class="label-form-info">Контактный e-mail</label>
                 <div class="email-input-unit">
-                    <input type="text" name="myemail" class="form-info-input">
+                    <input type="email" name="myemail" class="form-info-input">
                     <%--<a href="#" class="remove_field"><img src="/resources/img/minus.png" alt="minus"></a>--%>
                 </div>
             </div>
-
-            <label for="main-tel-info" class="label-form-info">Основной Телефон</label>
-            <input type="tel" name="tel" id="main-tel-info" class="input-info-min">
+            <div id="emailError" style="display: none;font:400 12px DroidSans;color: #f3271a">
+                Введен несуществующий e-mail.
+            </div>
+            <div>
+                <label for="main-tel-info" class="label-form-info">Основной Телефон</label>
+                <input type="tel" name="tel" id="main-tel-info" class="input-info-min">
+            </div>
 
             <div class="clearfix"></div>
 
+
+
             <div id="contactPhonesBlock" class="input_tel_fields_wrap">
+
                 <div id="addPhoneImg" class="title-tel add_tel_field_button" data-title="Добавить телефон">
                     <img class="tel-plus" style="z-index: 2;" src="resources/images/pluse.png" alt="plus">
                 </div>

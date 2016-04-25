@@ -153,7 +153,7 @@
             <label class="blogCreationLabel">Фотографии</label>
 
             <div id="drop_zone">
-                <ul class="ul-img-container ul-img-container-green">
+                <ul id="blog-post-img-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
@@ -161,10 +161,10 @@
                 </ul>
             </div>
 
-            <label for="blogTitle" class="blogCreationLabel">Добавить видео</label>
+<%--            <label for="blogTitle" class="blogCreationLabel">Добавить видео</label>
             <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput blueBorder"
                    placeholder="Youtube"
-                   pattern="(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?">
+                   pattern="(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?">--%>
         </form>
         <button type="button" class="SendEdition">Отправить редакции</button>
 

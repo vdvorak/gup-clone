@@ -239,7 +239,7 @@
         <div class="row file-browse-wrap">
             <div class="col-xs-4"></div>
             <div id="drop_zone" class="col-xs-8">
-                <ul class="ul-img-container ul-img-container-green">
+                <ul id="offer-img-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
