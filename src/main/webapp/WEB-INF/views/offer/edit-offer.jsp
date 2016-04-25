@@ -278,7 +278,7 @@
                 <label for="inpAuthor">Контактное лицо<em>*</em></label>
             </div>
             <div class="col-xs-5">
-                <input type="text" id="inpAuthor">
+                <input type="text" id="inpAuthor" value="${offer.userInfo.contactName}">
             </div>
         </div>
         <div class="row">
@@ -286,7 +286,7 @@
                 <label for="inpEmail">E-mail<em>*</em></label>
             </div>
             <div class="col-xs-5">
-                <input type="text" id="inpEmail">
+                <input type="text" id="inpEmail" value="${offer.userInfo.email}">
             </div>
         </div>
         <div class="row">
@@ -294,7 +294,7 @@
                 <label for="inpSkype">Skype</label>
             </div>
             <div class="col-xs-5">
-                <input type="text" id="inpSkype">
+                <input type="text" id="inpSkype" value="${offer.userInfo.skypeLogin}">
             </div>
         </div>
         <div class="row row-telephone">

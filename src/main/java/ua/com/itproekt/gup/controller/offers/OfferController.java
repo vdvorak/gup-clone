@@ -43,93 +43,7 @@ public class OfferController {
         return "offer/offer-all";
     }
 
-
-    //ToDo turn on this controller when it will be created offers.jsp
-    @RequestMapping(value = "/offers-anton", method = RequestMethod.GET)
-    public String getAllOffers() {
-        return "offer/offers-OLD-2";
-    }
-
-    @RequestMapping(value = "/offers-old/{page}", method = RequestMethod.GET)
-    public String getOffersPerPage(Model model, HttpServletRequest request,
-                                   @PathVariable("page") Integer page,
-                                   @RequestParam(name = "minPrice", required = false, defaultValue = "0") Integer minPrice,
-                                   @RequestParam(name = "maxPrice", required = false, defaultValue = "0") Integer maxPrice) {
-        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-        offerFilterOptions.setLimit(5);
-        offerFilterOptions.setSkip((page - 1) * 5);
-        String search = "";
-        String chosenRegion = "";
-        String chosenCity = "";
-        try {
-            if (request != null && request.getQueryString() != null && request.getQueryString().contains("&")) {
-                search = URLDecoder.decode(request.getQueryString().split("&")[2].substring(7), "UTF-8");
-                chosenRegion = URLDecoder.decode(request.getQueryString().split("&")[3].substring(13), "UTF-8");
-                chosenCity = URLDecoder.decode(request.getQueryString().split("&")[4].substring(11), "UTF-8");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (minPrice != 0) offerFilterOptions.setFromPrice(minPrice);
-        if (maxPrice != 0) offerFilterOptions.setToPrice(maxPrice);
-        if (!search.equals("")) offerFilterOptions.setSearchField(search);
-        Address address = new Address();
-        if (!chosenRegion.equals("")) address.setArea(chosenRegion);
-        if (!chosenCity.equals("")) address.setCity(chosenCity);
-        offerFilterOptions.setAddress(address);
-        EntityPage<Offer> responseOffers = offerRepository.findOffersWihOptions(offerFilterOptions);
-        model.addAttribute("offers", responseOffers);
-        model.addAttribute("pageNumber", page);
-        if (minPrice != 0) model.addAttribute("minPrice", minPrice);
-        if (maxPrice != 0) model.addAttribute("maxPrice", maxPrice);
-        if (!search.equals("")) model.addAttribute("search", search);
-        if (chosenRegion.equals("")) {
-            model.addAttribute("chosenRegion", "Выберите область");
-        } else {
-            model.addAttribute("chosenRegion", chosenRegion);
-        }
-        if (chosenCity.equals("")) {
-            model.addAttribute("chosenCity", "Выберите город");
-        } else {
-            model.addAttribute("chosenCity", chosenCity);
-        }
-        model.addAttribute("pages", Math.round(responseOffers.getTotalEntities() % 5 == 0 ? responseOffers.getTotalEntities() / 5 : responseOffers.getTotalEntities() / 5 + 1));
-        System.err.println("объявлений: " + responseOffers.getTotalEntities());
-        System.err.println("страниц: " + Math.round(responseOffers.getTotalEntities() % 5 == 0 ? responseOffers.getTotalEntities() / 5 : responseOffers.getTotalEntities() / 5 + 1));
-        System.err.println("minPrice: " + minPrice);
-        System.err.println("maxPrice: " + maxPrice);
-        System.err.println("search: " + search);
-        System.err.println("chosenRegion: " + chosenRegion);
-        System.err.println("chosenCity: " + chosenCity);
-        System.err.println("URL: " + request.getQueryString());
-        return "offer/offers-old";
-    }
-
     //----------------------------------- one certain offer  ------
-
-    // ToDo delete this in the future
-    @RequestMapping(value = "/offer-new/{id}", method = RequestMethod.GET)
-    public String offer(Model model, @PathVariable("id") String id) {
-
-        Offer offer = new Offer();
-        try {
-            offer = offersService.findOfferAndIncViews(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        String properties = "";
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            properties = mapper.writeValueAsString(offer.getProperties());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        model.addAttribute("offer", offer);
-        model.addAttribute("properties", properties);
-        return "offer/offer-OLD";
-    }
-
-
     @RequestMapping(value = "/offer/{id}", method = RequestMethod.GET)
     public String offerNew(Model model, @PathVariable("id") String id) {
         String flag = "offer";
@@ -138,18 +52,10 @@ public class OfferController {
         return "offer/offer";
     }
 
-
     //----------------------------------- create offer  ------
-    // ToDo Delete in the future
-//    @RequestMapping(value = "/create-offer-old", method = RequestMethod.GET)
-//    public String createOffer(Model model) {
-//        return "offer/create-offer-OLD";
-//    }
-
-
 
     @RequestMapping(value = "/create-offer", method = RequestMethod.GET)
-    public String createOldOffer(Model model) {
+    public String createOffer(Model model) {
         String flag = "offer";
         model.addAttribute("flag", flag);
         return "offer/create-offer";

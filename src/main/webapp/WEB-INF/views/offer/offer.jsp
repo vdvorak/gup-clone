@@ -101,7 +101,7 @@
             <div class="clearfix"></div>
             <div class="row">
                 <div class="col-xs-5">
-                    <a href="#" class="btn btn-block btn-success">Написать автору</a>
+                    <a id="write-to-author" href="#" class="btn btn-block btn-success">Написать автору</a>
 
                     <div class="clearfix"></div>
                     <div class="contact phone-numbers">
@@ -190,11 +190,6 @@
         </li>
         <!-- li pattern for clone -->
         <div class="feedFooter"></div>
-    </div>
-
-    <div class="anonymUser">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem blanditiis culpa, cupiditate eligendi, enim eum impedit quaerat repellendus rerum tenetur vero voluptate. Accusamus cum itaque iusto, obcaecati repellendus velit.<i class="fa fa-exclamation-circle"></i>
-        </p>
     </div>
 </div>
 

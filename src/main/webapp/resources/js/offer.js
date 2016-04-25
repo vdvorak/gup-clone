@@ -2,6 +2,12 @@ var offerFilter = window.OfferFilter;
 var offer = {};
 var phonesSet;
 
+
+if (typeof loggedInProfile == 'undefined') {
+$('#write-to-author').hide();
+}
+
+
 //    alert("Перед ажаксом: " + offerId);
 $.ajax({
     type: "POST",
