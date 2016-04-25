@@ -23,18 +23,9 @@ public class InvestmentController {
 
     @RequestMapping("/investorPost")
     public String getInvestorPostById(@RequestParam String id, HttpServletRequest request) {
-        //..
-        //..
         return "projectsAndInvestments/investment/investorPost";
     }
 
-//    @RequestMapping("/investorPost/list")
-//    public String investorPostList(@RequestParam int pageNumber, Model model) {
-//        model.addAttribute("pageNumber", pageNumber);
-//        return "projectsAndInvestments/investment/investorPostList-OLD";
-//    }
-
-    @PreAuthorize("isAuthenticated()")
     @RequestMapping("/investorPost/create")
     public String createInvestorPost(Model model) {
         String flag = "project";
