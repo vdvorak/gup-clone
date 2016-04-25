@@ -99,7 +99,7 @@
                 <label for="offer-inpPrice">Цена<em>*</em></label>
             </div>
             <div id="price-options" class="col-xs-3">
-                <select id="selection-price" class="prop" name="price">
+                <select class="prop" name="price">
 
                 </select>
             </div>
@@ -442,7 +442,7 @@
 
     $.when(window.loadCategories).done(function(){
         for (var i in jsonCategory) {
-            var li = $('<li><a id="category-' + jsonCategory[i].id + '" href="#">' + jsonCategory[i].name + '</a></li>')
+            var li = $('<li><a id="' + jsonCategory[i].id + '" href="#">' + jsonCategory[i].name + '</a></li>')
                     .click(selectCategoryLvl1);
             $('#ul-category1').append(li);
         }
@@ -463,7 +463,7 @@
             arrValidate.push($('#categories-row'));
         }
 
-        if ($('#offer-price-row').css('display') !== 'none' && $('#selection-price').val() === 'price' && !$('#offer-inpPrice').val()) {
+        if ($('#offer-price-row').css('display') !== 'none' && $('select[name="price"]').val() === 'price' && !$('#offer-inpPrice').val()) {
             arrValidate.push($('#offer-inpPrice'));
         }
 
@@ -569,9 +569,9 @@
             if ($('#offer-price-row').css('display') !== 'none') {
                 properties.push({
                     key: 'price',
-                    value: $('#selection-price').val()
+                    value: $('select[name="price"]').val()
                 });
-                offer.currency = $('#selection-currency').val();
+                offer.currency = $('select[name="currency"]').val();
                 offer.price = $('#offer-inpPrice').val();
             }
 
@@ -847,7 +847,6 @@
 
         var a1 = $(event.currentTarget).children('a');
         category1Id = a1.attr("id");
-        category1Id = category1Id.substring(category1Id.indexOf("-") + 1);
         $('#text-category1').text(a1.text());
 
         var child1 = {};
@@ -858,7 +857,7 @@
             child1 = childArr[0].children;
 
             for (var key in child1) {
-                var li = $('<li><a id="category-' + child1[key].id + '" href="#">' + child1[key].name + '</a></li>')
+                var li = $('<li><a id="' + child1[key].id + '" href="#">' + child1[key].name + '</a></li>')
                         .click(selectCategoryLvl2);
                 $('#ul-category2').append(li);
             }
@@ -869,7 +868,7 @@
             isComplete = 1;
             drawOptions(category1Id);
             $('#category2-container').attr("style", "display: none");
-            $('#selection-price').change();
+            $('select[name="price"]').change();
         }
     }
 
@@ -884,14 +883,13 @@
 
         var a2 = $(event.currentTarget).children('a');
         category2Id = a2.attr("id");
-        category2Id = category2Id.substring(category2Id.indexOf("-") + 1);
         $('#text-category2').text(a2.text());
 
         var child2 = {};
         if (jsonSubcategory[category2Id]) {
             child2 = jsonSubcategory[category2Id].children;
             for (var key in child2) {
-                var li = $('<li><a id="category-' + key + '" href="#">' + child2[key].label + '</a></li>')
+                var li = $('<li><a id="' + key + '" href="#">' + child2[key].label + '</a></li>')
                         .click(selectCategoryLvl3);
                 $('#ul-category3').append(li);
             }
@@ -902,7 +900,7 @@
             isComplete = 1;
             drawOptions(category2Id);
             $('#category3-container').attr("style", "display: none");
-            $('#selection-price').change();
+            $('select[name="price"]').change();
         }
     }
 
@@ -912,18 +910,17 @@
         isComplete = 1;
         var a3 = $(event.currentTarget).children('a');
         category3Id = a3.attr("id");
-        category3Id = category3Id.substring(category3Id.indexOf("-") + 1);
         $('#text-category3').text(a3.text());
         erase();
         drawOptions(category3Id);
-        $('#selection-price').change();
+        $('select[name="price"]').change();
     }
 
 
     //--------------------------------END CATEGORY-------------------------------------------------//
 
     //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
-    $('#selection-price').change(selectPrice);
+    $('select[name="price"]').change(selectPrice);
 
     function selectPrice(event) {
         var selectVal = $(event.currentTarget).val();
@@ -962,7 +959,7 @@
                 for (var j in options[i]['v']) {
                     var option = $('<option value = "' + j + '"  id ="' + j + '">' + options[i]['v'][j] + '</option>');
                     if (name === 'price') {
-                        $('#selection-price').append(option);
+                        $('select[name="price"]').append(option);
                     } else {
                         $('#00' + i).append(option);
                     }
@@ -989,7 +986,7 @@
     function erase() {
         $('#offer-price-row').css('display', 'none');
         $('#offer-options-row').css('display', 'none');
-        $('#selection-price').empty();
+        $('select[name="price"]').empty();
         $('#other-options').empty();
     }
     //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
