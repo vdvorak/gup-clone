@@ -191,11 +191,6 @@
         <!-- li pattern for clone -->
         <div class="feedFooter"></div>
     </div>
-
-    <div class="anonymUser">
-        <p><i class="fa fa-exclamation-circle"> Для создания объявления вам необходимо зарегистрироваться</i>
-        </p>
-    </div>
 </div>
 
 <!-- The Modal -->
