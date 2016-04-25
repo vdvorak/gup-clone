@@ -18,6 +18,7 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -135,6 +136,12 @@ public class ProfileRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityPage<Profile>> listAllProfiles(@RequestBody ProfileFilterOptions profileFilterOptions) {
         EntityPage<Profile> profiles = profilesService.findAllProfiles(profileFilterOptions);
+
+        List<Profile> profilesList = profiles.getEntities();
+        for (Profile profile : profilesList) {
+            profile.setContactList(null);
+        }
+        
         if (profiles.getEntities().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
