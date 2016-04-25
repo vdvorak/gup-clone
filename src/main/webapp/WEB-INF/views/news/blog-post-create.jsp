@@ -161,10 +161,10 @@
                 </ul>
             </div>
 
-            <label for="blogTitle" class="blogCreationLabel">Добавить видео</label>
+<%--            <label for="blogTitle" class="blogCreationLabel">Добавить видео</label>
             <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput blueBorder"
                    placeholder="Youtube"
-                   pattern="(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?">
+                   pattern="(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?">--%>
         </form>
         <button type="button" class="SendEdition">Отправить редакции</button>
 
