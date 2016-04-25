@@ -89,8 +89,10 @@
 
         <sec:authorize access="isAuthenticated()">
             <div class="contact-btn-group">
-                <button class="writeMessage" id="writeMessageToProfile">Написать сообщение</button>
+                <button class="writeMessage" id="writeMessageToProfile" style="display: none;">Написать сообщение</button>
                 <!-- если профиль вип то сюда надо добавлять класс vip-color-background -->
+                <button class="addToContact" id="addProfileToContact" style="display: none;">Добавить в контакты</button>
+                <button class="addToContact" id="removeProfileFromContacts" style="display: none;">Удалить из контактов</button>
             </div>
         </sec:authorize>
 
@@ -117,6 +119,8 @@
 
 <jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
+<script src="/resources/js/api-generator/api-request.js"></script>
+<script src="/resources/js/api-generator/api-generated.js"></script>
 <script src="/resources/js/profileUtil.js"></script>
 <script src="/resources/js/profile.js"></script>
 </body>

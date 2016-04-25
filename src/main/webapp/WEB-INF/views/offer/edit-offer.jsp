@@ -240,7 +240,7 @@
         <div class="row file-browse-wrap">
             <div class="col-xs-4"></div>
             <div id="drop_zone" class="col-xs-8">
-                <ul class="ul-img-container ul-img-container-green">
+                <ul id="offer-img-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
@@ -406,11 +406,13 @@
                     processData: false,
 
                     success: function (data, textStatus, request) {
-                        var id = data.id;
-                        var isImage = f.type.substring(0, 5) === 'image';
-                        if (isImage) {
-                            imgsArr[id] = "image";
-                            appendImg(id);
+                        if (Object.keys(imgsArr).length <= 15) {
+                            var id = data.id;
+                            var isImage = f.type.substring(0, 5) === 'image';
+                            if (isImage) {
+                                imgsArr[id] = "image";
+                                appendImg(id);
+                            }
                         }
                     }
                 });
@@ -653,11 +655,13 @@
                 processData: false,
 
                 success: function (data, textStatus, request) {
-                    var id = data.id;
-                    var isImage = f.type.substring(0, 5) === 'image';
-                    if (isImage) {
-                        imgsArr[id] = "image";
-                        appendImg(id);
+                    if (Object.keys(imgsArr).length < 15) {
+                        var id = data.id;
+                        var isImage = f.type.substring(0, 5) === 'image';
+                        if (isImage) {
+                            imgsArr[id] = "image";
+                            appendImg(id);
+                        }
                     }
                 }
             });
@@ -680,6 +684,7 @@
         if (imgsArr[id] === "pic1") cloneImg.find('img').addClass('mainImg');
 
         cloneImg.appendTo('.ul-img-container');
+
     }
 
     // delete images before save changes in offer (must be called before update offer)

@@ -43,7 +43,7 @@
 
 <!--PAGE CONTENT START-->
 
-<div class="container2">
+<div id="investor-post-create" class="container2">
     <div class="contentContainer editor" id="tab-container-pVSi">
         <div class="title">Создание инвестиции</div>
         <div class="investor" id="tabs1-investment">
