@@ -51,7 +51,6 @@ public class ProjectController {
         return "projectsAndInvestments/project/projectList";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @RequestMapping("/project/create")
     public String createProject(Model model) {
         String flag = "project";
