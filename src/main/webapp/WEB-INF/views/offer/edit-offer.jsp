@@ -665,21 +665,23 @@
     });
 
     function appendImg(id) {
-        $(".li-defaultIMG").css("display", "none");
-        var cloneImg = $(".li-defaultIMG").clone()
-                .removeClass('li-defaultIMG')
-                .css("display", "inline-block");
-        cloneImg.find('img')
-                .attr("alt", "")
-                .attr("src", '/api/rest/fileStorage/OFFERS/file/read/id/' + id)
-                .attr("id", id)
-                .click(onClickSetMainImg);
-        cloneImg.find('span')
-                .click(deleteImg);
+        if (Object.keys(imgsArr).length <= 15) {
+            $(".li-defaultIMG").css("display", "none");
+            var cloneImg = $(".li-defaultIMG").clone()
+                    .removeClass('li-defaultIMG')
+                    .css("display", "inline-block");
+            cloneImg.find('img')
+                    .attr("alt", "")
+                    .attr("src", '/api/rest/fileStorage/OFFERS/file/read/id/' + id)
+                    .attr("id", id)
+                    .click(onClickSetMainImg);
+            cloneImg.find('span')
+                    .click(deleteImg);
 
-        if (imgsArr[id] === "pic1") cloneImg.find('img').addClass('mainImg');
+            if (imgsArr[id] === "pic1") cloneImg.find('img').addClass('mainImg');
 
-        cloneImg.appendTo('.ul-img-container');
+            cloneImg.appendTo('.ul-img-container');
+        }
     }
 
     // delete images before save changes in offer (must be called before update offer)
