@@ -542,6 +542,11 @@ Dialogs.init = function () {
 Dialogs.update = function () {
     var unreaded = 0
     R.Libra().dialogueService().dialogue().read().all(null, function (res) {
+        if (res.length == 0){
+            Dialogs.common.find('.noContent').show()
+            return;
+        }
+        Dialogs.common.find('.noContent').hide()
         for (var d in res) {
             var resDialog = res[d]
             if (Dialogs.dialogs[resDialog.id]) {
@@ -746,7 +751,7 @@ loadingQueue.push(function () {
         updateHash: false
     })
     $('.greenBox.optional').on('gboxClose', function (e, id) {
-        $('#gboxTumblers input[type="checkbox"][gbox-id="' + id + '"]').attr('checked', false)
+        $('#gboxTumblers input[type="checkbox"][gbox-id="' + id + '"]').attr('checked', true)
         Toggler.turnUntoggled($(this))
         $(this).find('.historyIcon').each(function (num, el) {
             $(el).hide()
@@ -782,23 +787,37 @@ loadingQueue.push(function () {
         }
     })
     User.get(User.current, function (err, user) {
+        // $('#gboxTumblers *[gbox-id]').each(function (num, e) {
+        //     var finded = false
+        //     for (var s in user.priofficeSets) {
+        //         if (user.priofficeSets[s] === $(e).val()) {
+        //             $(e).attr('checked', true)
+        //             var id = $(e).attr('gbox-id')
+        //             var gbox = $('#' + id)
+        //             GBox.open(gbox)
+        //         }
+        //     }
+        // })
+        var finded = false
         $('#gboxTumblers *[gbox-id]').each(function (num, e) {
-            var finded = false
+            finded = false
             for (var s in user.priofficeSets) {
                 if (user.priofficeSets[s] === $(e).val()) {
-                    $(e).attr('checked', true)
-                    var id = $(e).attr('gbox-id')
-                    var gbox = $('#' + id)
-                    GBox.open(gbox)
+                    finded = true
                 }
             }
+            if (finded) return;
+            $(e).attr('checked', true)
+            var id = $(e).attr('gbox-id')
+            var gbox = $('#' + id)
+            GBox.open(gbox)
         })
     })
 })
 function saveGBoxTogglers() {
     var set = []
     $('#gboxTumblers *[gbox-id]').each(function (num, e) {
-        if ($(e).is(':checked')) {
+        if (!$(e).is(':checked')) {
             set.push($(e).val())
         }
     })

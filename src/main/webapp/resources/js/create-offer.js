@@ -36,11 +36,13 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
                     processData: false,
 
                     success: function (data, textStatus, request) {
-                        var id = data.id;
-                        var isImage = f.type.substring(0, 5) === 'image';
-                        if (isImage) {
-                            imgsArr[id] = "image";
-                            appendImg(id);
+                        if (Object.keys(imgsArr).length < 15) {
+                            var id = data.id;
+                            var isImage = f.type.substring(0, 5) === 'image';
+                            if (isImage) {
+                                imgsArr[id] = "image";
+                                appendImg(id);
+                            }
                         }
                     }
                 });
@@ -247,11 +249,13 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
                 processData: false,
 
                 success: function (data, textStatus, request) {
-                    var id = data.id;
-                    var isImage = f.type.substring(0, 5) === 'image';
-                    if (isImage) {
-                        imgsArr[id] = "image";
-                        appendImg(id);
+                    if (Object.keys(imgsArr).length <= 15) {
+                        var id = data.id;
+                        var isImage = f.type.substring(0, 5) === 'image';
+                        if (isImage) {
+                            imgsArr[id] = "image";
+                            appendImg(id);
+                        }
                     }
                 }
             });
@@ -259,20 +263,18 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
     });
 
     function appendImg(id) {
-        if (Object.keys(imgsArr).length <= 15) {
-            $(".li-defaultIMG").css("display", "none");
-            var cloneImg = $(".li-defaultIMG").clone()
-                .removeClass('li-defaultIMG')
-                .css("display", "inline-block");
-            cloneImg.find('img')
-                .attr("alt", "")
-                .attr("src", '/api/rest/fileStorage/OFFERS/file/read/id/' + id)
-                .attr("id", id)
-                .click(onClickSetMainImg);
-            cloneImg.find('span')
-                .click(deleteImg);
-            cloneImg.appendTo('.ul-img-container');
-        }
+        $(".li-defaultIMG").css("display", "none");
+        var cloneImg = $(".li-defaultIMG").clone()
+            .removeClass('li-defaultIMG')
+            .css("display", "inline-block");
+        cloneImg.find('img')
+            .attr("alt", "")
+            .attr("src", '/api/rest/fileStorage/OFFERS/file/read/id/' + id)
+            .attr("id", id)
+            .click(onClickSetMainImg);
+        cloneImg.find('span')
+            .click(deleteImg);
+        cloneImg.appendTo('.ul-img-container');
     }
 
 

@@ -313,12 +313,14 @@
                     processData: false,
 
                     success: function (data, textStatus, request) {
-                        var id = data.id;
-                        var isImage = f.type.substring(0, 5) === 'image';
-                        if (isImage) {
-                            imgsArr[id] = "image";
-                            appendImg(id);
+                        if (Object.keys(imgsArr).length < 15) {
+                            var id = data.id;
+                            var isImage = f.type.substring(0, 5) === 'image';
+                            if (isImage) {
+                                imgsArr[id] = "image";
+                                appendImg(id);
 
+                            }
                         }
                     }
                 });
@@ -355,11 +357,13 @@
                 processData: false,
 
                 success: function (data, textStatus, request) {
-                    var id = data.id;
-                    var isImage = f.type.substring(0, 5) === 'image';
-                    if (isImage) {
-                        imgsArr[id] = "1";
-                        appendImg(id);
+                    if (Object.keys(imgsArr).length < 15) {
+                        var id = data.id;
+                        var isImage = f.type.substring(0, 5) === 'image';
+                        if (isImage) {
+                            imgsArr[id] = "image";
+                            appendImg(id);
+                        }
                     }
                 }
             });
