@@ -102,7 +102,7 @@
                 <label for="offer-inpPrice">Цена<em>*</em></label>
             </div>
             <div id="price-options" class="col-xs-3">
-                <select class="prop" name="price">
+                <select id="selection-price" class="prop" name="price">
 
                 </select>
             </div>
@@ -457,13 +457,7 @@
         }
     })
 
-    $.when(window.loadCategories).done(function(){
-        for (var i in jsonCategory) {
-            var li = $('<li><a id="' + jsonCategory[i].id + '" href="#">' + jsonCategory[i].name + '</a></li>')
-                    .click(selectCategoryLvl1);
-            $('#ul-category1').append(li);
-        }
-    })
+
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
     function validateOffer() {
         $('.error-validation').removeClass('error-validation');
@@ -478,7 +472,7 @@
             arrValidate.push($('#categories-row'));
         }
 
-        if ($('#offer-price-row').css('display') !== 'none' && $('select[name="price"]').val() === 'price' && !$('#offer-inpPrice').val()) {
+        if ($('#offer-price-row').css('display') !== 'none' && $('#selection-price').val() === 'price' && !$('#offer-inpPrice').val()) {
             arrValidate.push($('#offer-inpPrice'));
         }
 
@@ -596,9 +590,9 @@
             if ($('#offer-price-row').css('display') !== 'none') {
                 properties.push({
                     key: 'price',
-                    value: $('select[name="price"]').val()
+                    value: $('#selection-price').val()
                 });
-                offer.currency = $('select[name="currency"]').val();
+                offer.currency = $('#selection-currency').val();
                 offer.price = $('#offer-inpPrice').val();
             }
 
@@ -920,27 +914,35 @@
     //----------------------------- END PHONES LIST ----------------------------------------------//
 
     //--------------------------------BEGIN CATEGORY-------------------------------------------------//
-    var numberCategories = categories.length;
-    if (numberCategories > 0) {
-        category1Id = categories[0];
-        $('#' + category1Id + '').parent().click();
-        if (numberCategories > 1) {
-            category2Id = categories[1];
-            $('#' + category2Id + '').parent().click();
-            if (numberCategories > 2) {
-                category3Id = categories[2];
-                $('#' + category3Id + '').parent().click();
+    $.when(window.loadCategories, window.loadSubcategories, window.loadOptions, window.loadParameters).done(function(){
+        for (var i in jsonCategory) {
+            var li = $('<li><a id="category-' + jsonCategory[i].id + '" href="#">' + jsonCategory[i].name + '</a></li>')
+                    .click(selectCategoryLvl1);
+            $('#ul-category1').append(li);
+        }
+
+        var numberCategories = categories.length;
+        if (numberCategories > 0) {
+            category1Id = categories[0];
+            $('#category-' + category1Id).parent().click();
+            if (numberCategories > 1) {
+                category2Id = categories[1];
+                $('#category-' + category2Id).parent().click();
+                if (numberCategories > 2) {
+                    category3Id = categories[2];
+                    $('#category-' + category3Id).parent().click();
+                }
+            }
+            for (var i = 0; i < properties.length; i++) {
+                var curProperty = properties[i];
+                $('[name="' + curProperty.key + '"]').val(curProperty.value);
+            }
+            if ($('#selection-price').val() === 'price') {
+                $('#selection-currency').parent().css('display', 'inline-block');
+                $('#offer-inpPrice').parent().css('display', 'inline-block');
             }
         }
-        for (var i = 0; i < properties.length; i++) {
-            var curProperty = properties[i];
-            $('[name="' + curProperty.key + '"]').val(curProperty.value);
-        }
-        if ($('select[name="price"]').val() === 'price') {
-            $('#selection-currency').parent().css('display', 'inline-block');
-            $('#offer-inpPrice').parent().css('display', 'inline-block');
-        }
-    }
+    })
 
     function selectCategoryLvl1(event) {
         event.preventDefault();
@@ -958,6 +960,8 @@
 
         var a1 = $(event.currentTarget).children('a');
         category1Id = a1.attr("id");
+        category1Id = category1Id.substring(category1Id.indexOf("-") + 1);
+
         $('#text-category1').text(a1.text());
 
         var child1 = {};
@@ -968,7 +972,7 @@
             child1 = childArr[0].children;
 
             for (var key in child1) {
-                var li = $('<li><a id="' + child1[key].id + '" href="#">' + child1[key].name + '</a></li>')
+                var li = $('<li><a id="category-' + child1[key].id + '" href="#">' + child1[key].name + '</a></li>')
                         .click(selectCategoryLvl2);
                 $('#ul-category2').append(li);
             }
@@ -979,7 +983,7 @@
             isComplete = 1;
             drawOptions(category1Id);
             $('#category2-container').attr("style", "display: none");
-            $('select[name="price"]').change();
+            $('#selection-price').change();
         }
     }
 
@@ -994,13 +998,14 @@
 
         var a2 = $(event.currentTarget).children('a');
         category2Id = a2.attr("id");
+        category2Id = category2Id.substring(category2Id.indexOf("-") + 1);
         $('#text-category2').text(a2.text());
 
         var child2 = {};
         if (jsonSubcategory[category2Id]) {
             child2 = jsonSubcategory[category2Id].children;
             for (var key in child2) {
-                var li = $('<li><a id="' + key + '" href="#">' + child2[key].label + '</a></li>')
+                var li = $('<li><a id="category-' + key + '" href="#">' + child2[key].label + '</a></li>')
                         .click(selectCategoryLvl3);
                 $('#ul-category3').append(li);
             }
@@ -1011,7 +1016,7 @@
             isComplete = 1;
             drawOptions(category2Id);
             $('#category3-container').attr("style", "display: none");
-            $('select[name="price"]').change();
+            $('#selection-price').change();
         }
     }
 
@@ -1021,17 +1026,18 @@
         isComplete = 1;
         var a3 = $(event.currentTarget).children('a');
         category3Id = a3.attr("id");
+        category3Id = category3Id.substring(category3Id.indexOf("-") + 1);
         $('#text-category3').text(a3.text());
         erase(category2Id);
         drawOptions(category3Id);
-        $('select[name="price"]').change();
+        $('#selection-price').change();
     }
 
 
     //--------------------------------END CATEGORY-------------------------------------------------//
 
     //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
-    $('select[name="price"]').change(selectPrice);
+    $('#selection-price').change(selectPrice);
 
     function selectPrice(event) {
         var selectVal = $(event.currentTarget).val();
@@ -1070,7 +1076,7 @@
                 for (var j in options[i]['v']) {
                     var option = $('<option value = "' + j + '"  id ="' + j + '">' + options[i]['v'][j] + '</option>');
                     if (name === 'price') {
-                        $('select[name="price"]').append(option);
+                        $('#selection-price').append(option);
                     } else {
                         $('#00' + i).append(option);
                     }
@@ -1097,7 +1103,7 @@
     function erase(id) {
         $('#offer-price-row').css('display', 'none');
         $('#offer-options-row').css('display', 'none');
-        $('select[name="price"]').empty();
+        $('#selection-price').empty();
         $('#other-options').empty();
     }
     //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
