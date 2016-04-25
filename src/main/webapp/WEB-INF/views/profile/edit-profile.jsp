@@ -61,14 +61,19 @@
                 <select id="select-type" class="form-control">
                     <option value="INDIVIDUAL">Физическое лицо</option>
                     <option value="LEGAL_ENTITY">Юридическое лицо</option>
-                    <option value="ENTREPRENEUR">Частный предпрениматель</option>
+                    <option value="ENTREPRENEUR">Частный предприниматель</option>
                 </select>
             </div>
 
             <div class="clearfix"></div>
 
+            <div id="userNameBlock">
+                <label class="label-form-info" for="userName">ФИО</label>
+                <input id="userName" class="form-info-input" name='name' type="text">
+            </div>
+
             <div id="nameCompanyBlock">
-                <label class="label-form-info" for="nameCompany">Название компании</label>
+                <label id="companyType" class="label-form-info" for="nameCompany">Название компании</label>
                 <input id="nameCompany" class="form-info-input" name='name' type="text">
             </div>
 
@@ -96,11 +101,6 @@
                 <input id="position" type="text" name='position' class="form-info-input">
             </div>
 
-            <div id="userNameBlock">
-                <label class="label-form-info" for="userName">ФИО</label>
-                <input id="userName" class="form-info-input" name='name' type="text">
-            </div>
-
             <label for="main-email-info" class="label-form-info">Основной E-mail</label>
             <input id="main-email-info" type="email" name='email' class="form-info-input">
 
@@ -108,14 +108,12 @@
 
             <div id="contactEmailsBlock" class="input_email_fields_wrap">
                 <div id="addEmailImg" class="title-email add_email_field_button" data-title="Добавить e-mail">
-                    <img class="email-plus" src="resources/images/pluse.png" alt="plus">
+                    <img class="email-plus" style="z-index: 2;" src="resources/images/pluse.png" alt="plus">
                 </div>
                 <label class="label-form-info">Контактный e-mail</label>
                 <div class="email-input-unit">
                     <input type="text" name="myemail" class="form-info-input">
-                    <a href="#" class="remove_field">
-                        <img src="/resources/img/minus.png" alt="minus">
-                    </a>
+                    <%--<a href="#" class="remove_field"><img src="/resources/img/minus.png" alt="minus"></a>--%>
                 </div>
             </div>
 
@@ -126,14 +124,14 @@
 
             <div id="contactPhonesBlock" class="input_tel_fields_wrap">
                 <div id="addPhoneImg" class="title-tel add_tel_field_button" data-title="Добавить телефон">
-                    <img class="tel-plus" src="resources/images/pluse.png" alt="plus">
+                    <img class="tel-plus" style="z-index: 2;" src="resources/images/pluse.png" alt="plus">
                 </div>
 
                 <label class="label-form-info">Контактный телефон</label>
 
                 <div class="tel-wrapper-1 tel-input-unit">
                     <input type="tel" name="mytel" class="input-info-min">
-                    <a href="#" class="remove_field"><img class="remove_phone" src="/resources/img/minus.png" alt="minus"></a>
+                    <%--<a href="#" class="remove_field"><img class="remove_phone" src="/resources/img/minus.png" alt="minus"></a>--%>
                 </div>
 
             </div>
@@ -215,7 +213,9 @@
 
 <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 <script src="/resources/js/cropper.js"></script>
-
+<script>
+    var flag = '${flag}';
+</script>
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
 <script>

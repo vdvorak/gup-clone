@@ -231,6 +231,7 @@ $('#updateProfileBtn').on('click', function () {
 $('#select-type').on('change', function () {
     switch ($('#select-type').val()) {
         case "INDIVIDUAL":
+            $('#companyType').html('Место работы');
             $('#userNameBlock').show();
             $('#positionBlock').show();
             $('#aboutMe').show();
@@ -239,6 +240,7 @@ $('#select-type').on('change', function () {
             $('#aboutCompany').hide();
             break;
         case "LEGAL_ENTITY":
+            $('#companyType').html(' Название компании');
             $('#aboutMe').hide();
             $('#userNameBlock').hide();
             $('#positionBlock').hide();
@@ -248,6 +250,7 @@ $('#select-type').on('change', function () {
             $('#scopeOfActivityBlock').show();
             break;
         case "ENTREPRENEUR":
+            $('#companyType').html('Название компании');
             $('#aboutMe').hide();
             $('#aboutCompany').show();
             $('#positionBlock').show();
