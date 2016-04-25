@@ -1,11 +1,4 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: RAYANT
-  Date: 25.01.2016
-  Time: 11:41
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -22,7 +15,9 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
     <link rel="stylesheet" href="/resources/css/mini.css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 </head>
 <body>
 
@@ -44,33 +39,43 @@
         <form id="tender-make-form" action="#">
             <label for="EnterTheTitle">Введите название</label>
             <input type="text" id="EnterTheTitle" required>
-            <label>Выберете отрасль</label>
-            <input type="text" id="searchInputKved" class="form-control sear" name="search" placeholder="Поиск">
+<%--        <label>Выберете отрасль</label>
+            <input type="text" id="searchInputKved" class="form-control sear" name="search" placeholder="Поиск">--%>
+            <label for="selectKved">Выберите отрасль</label>
+            <select id="selectKved" class="chosen" multiple data-placeholder="Выберите отрасль" style="width: 553px;">
+            </select>
 
-            <div id="selectBox-info-type">
-                <select id="select-type">
-                    <option>Выберите тип</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+            <div class="clearfix"></div>
+
+            <label for="tender-date" class="label-notRequered">Сроки</label>
+            <div id="tender-date">
+                <input type="text" id="tender-datepicker1" class="datepicker-input" placeholder="Дата начала"> - <input type="text" id="tender-datepicker2" class="datepicker-input" placeholder="Дата окончания">
+                <span>Дата начала не должна превышать дату окончания</span>
             </div>
-            <p class="datePickPi">Сроки <input type="text" id="datepicker"></p>
-            <p class="datePickPi">&nbsp;- <input type="text" id="datepicker2"></p>
 
+            <%--<p class="datePickPi"><input type="text" id="tender-datepicker1" class="datepicker-input"></p>
+            <p class="datePickPi"><span>Дата начала не должна превышать дату окончания</span>&nbsp;- <input type="text" id="tender-datepicker2" class="datepicker-input"></p>
+--%>
             <div class="clearfix"></div>
 
             <h2>Укажите адрес</h2>
             <div class="location">
-                <label for="SelectArea">Выберете область</label>
-                <input type="text" id="SelectArea" required>
+                <label for="SelectArea" class="label-notRequered">Выберете область</label>
+                <input type="text" id="SelectArea">
 
                 <div class="clearfix"></div>
 
-                <label for="SelectCity">Выберете город</label>
-                <input type="text" id="SelectCity" required>
+                <label for="SelectCity" class="label-notRequered">Выберете город</label>
+                <input type="text" id="SelectCity">
             </div>
+
+<%--            <label for="map">Введите адрес</label>
+            <div id="floating-panel">
+                <input id="address" class="tender-map-address" type="text">
+                <button id="btn-save-adress">Сохранить</button>
+            </div>
+            <div id="map" class="tender-map"></div>--%>
+
             <label>Тип</label>
             <div class="tenderRadio">
                 <label><input class="input-tenderRadio" type="radio" value="open" name="k" data-type="OPEN" checked/><span></span></label><p>открытый</p>
@@ -118,12 +123,8 @@
                     </li>
                 </ul>
             </div>
-<%--
-            <img src="/resources/images/doerLogo.png" alt="doerLogo">
-            <img src="/resources/images/doerLogo.png" alt="doerLogo">
-            <img src="/resources/images/doerLogo.png" alt="doerLogo">
-            <img src="/resources/images/doerLogo.png" alt="doerLogo">
-            <img src="/resources/images/doerLogo.png" alt="doerLogo">--%>
+
+
             <button id="tender-btn-save" type="submit" form="tender-make-form">Сохранить</button>
 
             <form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
@@ -134,207 +135,6 @@
 
     </div>
 </div>
-
-<%--<h1>Создание тендера</h1>--%>
-<%--<input id="areaInp" type="text" name="area" style="display: none">--%>
-<%--<input id="cityInp" type="text" name="city" style="display: none">--%>
-
-<%--<div class="row">--%>
-    <%--<div class="col-xs-4">--%>
-        <%--<input id="title" type="text" class="form-control" placeholder="Название тендера">--%>
-    <%--</div>--%>
-
-<%--</div>--%>
-<%--<br>--%>
-
-<%--<div class="row">--%>
-    <%--<div class="col-xs-4">--%>
-        <%--<input id="tenderNumber" type="text" class="form-control" placeholder="Введите номер тендера если он есть">--%>
-    <%--</div>--%>
-<%--</div>--%>
-<%--<br>--%>
-
-<%--<div class="row">--%>
-    <%--<div class="col-xs-4">--%>
-        <%--<input id="price" type="number" class="form-control" placeholder="Ожидаемая стоимость">--%>
-    <%--</div>--%>
-<%--</div>--%>
-<%--<div class="row">--%>
-    <%--<div class="col-xs-4">--%>
-        <%--<input id="hidePropose" type="checkbox" class="form-control" ><br>Скрывать предложения участников--%>
-    <%--</div>--%>
-<%--</div>--%>
-<%--<br>--%>
-<%--<div class="row">--%>
-    <%--<div class="col-xs-2">--%>
-        <%--<div class="radio">--%>
-            <%--<label><input type="radio" id="open" name="optradio" checked>Открыйтый</label>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-    <%--<div class="col-xs-2">--%>
-        <%--<div class="radio">--%>
-            <%--<label><input type="radio" id="close" name="optradio">Закрытый</label>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-<%--</div>--%>
-<%--<div class="row" id="members" style="display: none">--%>
-    <%--<div class="col-xs-2">--%>
-        <%--<input name="memberId" type="text" class="form-control">--%>
-    <%--</div>--%>
-    <%--<div class="col-xs-2">--%>
-        <%--<button class="btn btn-default" id="add">Добавить участника</button>--%>
-    <%--</div>--%>
-<%--</div>--%>
-<%--<br>--%>
-
-<%--<div class="row">--%>
-    <%--<div class="col-xs-4">--%>
-        <%--<center id="membersList">--%>
-        <%--</center>--%>
-    <%--</div>--%>
-<%--</div>--%>
-
-<%--<div class="row">--%>
-    <%--<div class="col-xs-4">--%>
-        <%--<div class="input-group">--%>
-
-            <%--<div class="col-xs-6" id="bs-example-navbar-collapse-1">--%>
-                <%--<ul class="nav navbar-nav">--%>
-                    <%--<li class="dropdown">--%>
-                        <%--<a id="chosenRegion" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите область<b--%>
-                                <%--class="caret"></b></a>--%>
-                        <%--<ul class="dropdown-menu multi-column columns-2">--%>
-                            <%--<div id="regions" class="row">--%>
-                                <%--<div class="col-sm-6">--%>
-                                    <%--<ul class="multi-column-dropdown">--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#"><b>Вся Украина</b></a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Винницкая область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Волынская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Донецкая область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Житомирская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Закарпатская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Ивано‑Франковская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Киевская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Кировоградская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Крым</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Луганская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Львовская область</a></li>--%>
-                                    <%--</ul>--%>
-                                <%--</div>--%>
-                                <%--<div class="col-sm-6">--%>
-                                    <%--<ul class="multi-column-dropdown">--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Николаевская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Одесская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Полтавская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Ровенская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Сумская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Тернопольская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Харьковская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Херсонская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Хмельницкая область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Черкасская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Черниговская область</a></li>--%>
-                                        <%--<li><a role="menuitem" tabindex="-1" href="#">Черновицкая область</a>--%>
-                                        <%--</li>--%>
-                                    <%--</ul>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</ul>--%>
-                    <%--</li>--%>
-                <%--</ul>--%>
-            <%--</div>--%>
-
-            <%--<div class="col-xs-6" id="bs-example-navbar-collapse-2" style="visibility: hidden">--%>
-                <%--<ul class="nav navbar-nav">--%>
-                    <%--<li class="dropdown">--%>
-                        <%--<a id="chosenCity" href="#" class="dropdown-toggle" data-toggle="dropdown">Выберите город<b--%>
-                                <%--class="caret"></b></a>--%>
-                        <%--<ul class="dropdown-menu multi-column columns-2">--%>
-                            <%--<div id="cities" class="row">--%>
-
-                                <%--<div class="col-sm-6">--%>
-                                    <%--<ul id="cities1" class="multi-column-dropdown">--%>
-                                    <%--</ul>--%>
-                                <%--</div>--%>
-
-                                <%--<div class="col-sm-6">--%>
-                                    <%--<ul id="cities2" class="multi-column-dropdown">--%>
-                                    <%--</ul>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</ul>--%>
-                    <%--</li>--%>
-                <%--</ul>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-<%--</div>--%>
-<%--<!-- city chosen -->--%>
-
-
-<%--<div class="row">--%>
-    <%--<div class="col-xs-4">--%>
-        <%--<center>Выберите дату окончания тендера</center>--%>
-        <%--<input type='text' class="form-control" id='datetimepicker4'/>--%>
-    <%--</div>--%>
-<%--</div>--%>
-
-<%--<br>--%>
-<%--<br>--%>
-
-<%--<div id="drop_zone">--%>
-
-    <%--<button id="addImg">Загрузить фото</button>--%>
-    <%--<form id="uploadProfilePhotoForm" enctype="multipart/form-data"--%>
-          <%--method="post" style="display:none">--%>
-        <%--<p><input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg" multiple></p>--%>
-    <%--</form>--%>
-
-    <%--<div class="imgBlock">--%>
-        <%--<!--uploaded images-->--%>
-    <%--</div>--%>
-    <%--<div class="docBlock">--%>
-        <%--<!--uploaded images-->--%>
-    <%--</div>--%>
-    <%--Перетяните файлы сюда--%>
-<%--</div>--%>
-
-<%--</div>--%>
-
-<%--<div class="row">--%>
-    <%--<div class="col-xs-4">--%>
-        <%--<div class="panel panel-info">--%>
-            <%--<div class="panel-body" id="drop_zone"> Перетяните файлы сюда--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-<%--</div>--%>
-
-<%--<div class="row">--%>
-
-    <%--<div class="col-xs-4">--%>
-        <%--<center>--%>
-            <%--<button class="btn btn-success" id="save">Сохранить</button>--%>
-        <%--</center>--%>
-    <%--</div>--%>
-<%--</div>--%>
-
-<%--<br>--%>
-
-<%--<div class="row">--%>
-    <%--<div class="col-xs-12">--%>
-        <%--<textarea id="textarea"></textarea>--%>
-    <%--</div>--%>
-<%--</div>--%>
-
-
-<%--<div id="floating-panel">--%>
-    <%--<input id="address" type="textbox" value="">--%>
-    <%--<input id="submit" type="button" value="Сохранить">--%>
-<%--</div>--%>
-<%--<div id="map" style="height: 50%"></div>--%>
-
-<!-- script references -->
 
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
@@ -350,17 +150,23 @@
     var flag = '${flag}';
 </script>
 
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/logo-section.js"></script>
-<script src="/resources/js/search-bar.js"></script>
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
 <script>
     var imgsArr = {};
-    var cities;
     var members = []
-    var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
+    var placeKey = '';
+
+    $.when(loadNace).done(function(response){
+        var select = $('#selectKved');
+        for(var i = 0; i < response.length; i++) {
+            var option = $('<option id="'+ response[i].id +'" value="'+ response[i].id +'">'+ response[i].id + ": " +response[i].name +'</option>');
+            select.append(option);
+        }
+        $(".chosen").chosen();
+    });
 
     $(document).ready(function () {
         // Setup the dnd listeners.
@@ -376,7 +182,6 @@
 
             // files is a FileList of File objects. List some properties.
             for (var i = 0, f; f = files[i]; i++) {
-                var formImg = new FormData($(this)[0]);
                 var fd = new FormData();
                 fd.append('file', f);
                 $.ajax({
@@ -449,9 +254,7 @@
         cloneDoc.appendTo('#tender-doc-block');
     }
 
-    //--------------------   DATEPICKER ---------------------------------//
 
-    //--------------------   END  DATEPICKER ---------------------------------//
     //----------------------  HTML EDITOR-------------------------------------//
     tinymce.init({
         selector: 'textarea',
@@ -477,7 +280,6 @@
     });
 
     //---------------------- END  HTML EDITOR-------------------------------------//
-
 
     //--------------------  RADIO CHECK ------------------------------------//
 
@@ -538,20 +340,6 @@
 
     //-------------------- END ADD MEMBER ------------------------------------------//
 
-
-    // ---------------    LOAD RESOURCES    --------------------------//
-
-    $.ajax({
-        type: "GET",
-        url: "/resources/json/cities.json",
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-            cities = response;
-        }
-    });
-
-    // ---------------   END LOAD RESOURCES    --------------------------//
     $('#photoInput').change(function (event) {
         event.preventDefault();
 
@@ -693,7 +481,26 @@
 
     //---------------------------- SUBMIT -----------------------------------------------------//
 
+    function checkDateInDatepicker() {
+        var dateFrom = $('#tender-datepicker1').datepicker('getDate');
+        var dateTo = $('#tender-datepicker2').datepicker('getDate');
+        if (dateFrom && dateTo) {
+            dateFrom = new Date(dateFrom).getTime() / 1000;
+            dateTo = new Date(dateTo).getTime() / 1000;
+            if (dateFrom > dateTo) {
+                $('#tender-date span').addClass('tender-active-tooltip');
+                $("html,body").animate({ scrollTop: $('span.tender-active-tooltip').offset().top }, "fast");
+                setTimeout(function () {
+                    $('#tender-date span').removeClass('tender-active-tooltip');
+                }, 6000);
+                return false;
+            }
+        }
+        return true;
+    }
+
     $('#tender-make-form').submit(function (event) {
+        if(!checkDateInDatepicker()) return false;
 
         var body = tinymce.activeEditor.getContent();
         if(!body) return false;
@@ -705,8 +512,10 @@
         tender.title = $('#EnterTheTitle').val();
         tender.body = tinymce.activeEditor.getContent();
         tender.tenderNumber = $('#TenderNumber').val();
-        tender.begin = $('#datepicker').datepicker( 'getDate' );
-        tender.end = $('#datepicker2').datepicker( 'getDate' );
+        var dateBegin = $('#tender-datepicker1').datepicker( 'getDate' );
+        var dateEnd = $('#tender-datepicker1').datepicker( 'getDate' );
+        if(dateBegin) tender.begin = dateBegin.getTime() / 1000;
+        if(dateEnd) tender.end = dateEnd.getTime() / 1000;
         tender.type = $('.input-tenderRadio:checked').attr("data-type");
         tender.expectedPrice = $('#ExpectedValue').val();
         tender.hidePropose =  $('#HideBidders').prop('checked');
@@ -714,15 +523,11 @@
         if (tender.type === 'CLOSE') {
             tender.members = members;
         }
-        /*var naceIds = [];
-        var naceOptions = $('#select-type option:selected');
-        for(var i = 0; i < naceOptions.length; i++) {
-            naceIds.push(naceOptions[i]);
-        }
-        tender.naceIds = naceIds;*/
+        var naceIds = $('#selectKved').val();
+        if(naceIds) tender.naceIds = naceIds;
 
         tender.address = {};
-        //tender.address.googleMapKey = placeKey;
+//        tender.address.googleMapKey = placeKey;
         tender.address.area = $('#SelectArea').val();
         tender.address.city = $('#SelectCity').val();
 
@@ -734,7 +539,6 @@
             dataType: "json",
             statusCode: {
                 201: function (data, textStatus, request) {
-                    alert(data.id);
                     window.location.href = '/tender/' + data.id;
                 }
             }
@@ -743,57 +547,60 @@
     });
     //---------------------------- END SUBMIT -------------------------------------------------//
 
-    //    //--------------------------- GOOGLE MAP API ---------------------------------------//
-    //
-    //    function initMap() {
-    //
-    //        var input = document.getElementById('address');
-    //
-    //        var options = {
-    //            types: []
-    //        };
-    //
-    //        var autocomplete = new google.maps.places.Autocomplete(input, options);
-    //
-    //        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-    //            var place = autocomplete.getPlace(); //получаем место
-    //            console.log(place);
-    //            console.log(place.name);  //название места
-    //            console.log(place.id);  //уникальный идентификатор места
-    //        });
-    //
-    //        var map = new google.maps.Map(document.getElementById('map'), {
-    //            zoom: 17,
-    //            center: {lat: 50.4501, lng: 30.523400000000038}
-    //        });
-    //
-    //        var geocoder = new google.maps.Geocoder();
-    //
-    //        document.getElementById('submit').addEventListener('click', function () {
-    //            geocodeAddress(geocoder, map);
-    //        });
-    //    }
-    //
-    //    function geocodeAddress(geocoder, resultsMap) {
-    //        var address = document.getElementById('address').value;
-    //        geocoder.geocode({'address': address}, function (results, status) {
-    //            placeKey = results[0].place_id;
-    //            if (status === google.maps.GeocoderStatus.OK) {
-    //                resultsMap.setCenter(results[0].geometry.location);
-    //                var marker = new google.maps.Marker({
-    //                    map: resultsMap,
-    //                    position: results[0].geometry.location
-    //                });
-    //            } else {
-    //                alert('Geocode was not successful for the following reason: ' + status);
-    //            }
-    //        });
-    //    }
+   /* //--------------------------- GOOGLE MAP API ---------------------------------------//
 
-    //--------------------------- END GOOGLE MAP API ---------------------------------------//
+    function initMap() {
+
+        var input = document.getElementById('address');
+
+        var options = {
+            types: []
+        };
+
+        var autocomplete = new google.maps.places.Autocomplete(input, options);
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace(); //получаем место
+            console.log(place);
+            console.log(place.name);  //название места
+            console.log(place.id);  //уникальный идентификатор места
+        });
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 17,
+            center: {lat: 50.4501, lng: 30.523400000000038}
+        });
+
+        var geocoder = new google.maps.Geocoder();
+        var infowindow = new google.maps.InfoWindow();
+
+        document.getElementById('btn-save-adress').addEventListener('click', function () {
+            geocodeAddress(geocoder, map);
+        });
+    }
+
+    function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function (results, status) {
+            placeKey = results[0].place_id;
+            if (status === google.maps.GeocoderStatus.OK) {
+                resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+                infowindow.setContent(results[0].formatted_address);
+                infowindow.open(map, marker);
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+
+    //--------------------------- END GOOGLE MAP API ---------------------------------------//*/
 </script>
-<%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"--%>
-        <%--async defer></script>--%>
+<%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
+        async defer></script>--%>
 
 <script src="/resources/js/kved_autocomplete.js"></script>
 

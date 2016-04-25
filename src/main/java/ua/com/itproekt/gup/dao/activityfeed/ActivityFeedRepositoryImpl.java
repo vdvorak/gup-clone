@@ -30,6 +30,7 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
         mongoTemplate.insert(event);
     }
 
+    @Deprecated
     @Override
     public void setFeedsViewed(EventFilterOptions eventFO) {
         Query query = new Query()
@@ -40,6 +41,17 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
                 .set("isViewed", Boolean.TRUE);
 
         mongoTemplate.updateMulti(query, update, Event.class);
+    }
+
+    @Override
+    public void setViewed(String eventId) {
+        Query query = new Query()
+                .addCriteria(Criteria.where("id").is(eventId));
+
+        Update update = new Update()
+                .set("isViewed", Boolean.TRUE);
+
+        mongoTemplate.updateFirst(query, update, Event.class);
     }
 
     @Override
@@ -57,10 +69,13 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
 //            query.addCriteria(Criteria.where("type").is(eventFO.getType()));
 //        }
 
-        if (eventFO.isHideViewed()) {
+//      * if (eventFO.isHideViewed()) {
+//      *     query.addCriteria(Criteria.where("isViewed").ne(Boolean.TRUE));
+//      * }
+
+        if (!eventFO.isShowViewed()) {
             query.addCriteria(Criteria.where("isViewed").ne(Boolean.TRUE));
         }
-
 
         query.skip(eventFO.getSkip());
         query.limit(eventFO.getLimit());

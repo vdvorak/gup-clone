@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: Optical Illusion
@@ -23,6 +24,8 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link href="/resources/css/main.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
+
 </head>
 <body>
 <!-- BEGIN Common general header-->
@@ -107,7 +110,7 @@
                 </c:forEach>
             </div>
 
-            <p class="authorblog">Автор: ${username}</p>
+            <p class="authorblog">Автор:  <a href="/profile?id=${blog.authorId}">${username}</a></p>
 
             <c:if test="${check}">
                 <a href="/blog-post/create/${blog.id}">
@@ -133,9 +136,12 @@
 <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/logo-section.js"></script>
-<script src="/resources/js/search-bar.js"></script>
+
+<script>
+    var flag = '${flag}';
+</script>
+
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script src="/resources/js/common.js"></script>
 </body>

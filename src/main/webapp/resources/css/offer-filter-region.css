@@ -1,0 +1,167 @@
+#filter-container-region-search {
+    position: relative;
+    display: inline-block;
+}
+#input-region-search {
+    border: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+    height: 27px;
+    line-height: 27px;
+    padding-left: 22px;
+    padding-right: 20px;
+    width: 685px;
+
+}
+#filter-container-region-search > i {
+    position: absolute;
+    height: 25px;
+    width: 15px;
+    overflow: hidden;
+    display: inline-block;
+    opacity: 0.5;
+    color: #0098d0;
+}
+
+#filter-icon-gps {
+    left: 10px;
+    top: 6px;
+}
+
+#filter-icon-close {
+    top: 6px;
+    right: 0px;
+}
+
+#filter-icon-close:hover {
+    opacity:1;
+}
+
+#filter-region-menu {
+    position: relative;
+    background: #fff;
+    border: 1px solid #ccc;
+    margin-left: 142px;
+    margin-right: 68px;
+    margin-top: 15px;
+}
+
+#filter-region-menu:after, #filter-region-menu:before {
+    bottom: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+#filter-region-menu:after {
+    border-color: rgba(136, 183, 213, 0);
+    border-bottom-color: #fff;
+    border-width: 15px;
+    margin-left: -15px;
+}
+#filter-region-menu:before {
+    border-color: rgba(194, 225, 245, 0);
+    border-bottom-color: #ccc;
+    border-width: 2px;
+    margin-left: -21px;
+}
+label[for="input-region-search"] {
+    margin-left: 68px;
+    margin-right: 25px;
+    color: #fff;
+}
+
+#filter-region-nav {
+    border-bottom: 1px solid #ccc;
+    height: 35px;
+    line-height: 35px;
+}
+
+.left-a {
+    float: left;
+    margin-left:10px;
+}
+
+.left-a:after, .right-a:after {
+    content: '';
+    clear: both;
+    display: table;
+}
+
+.right-a {
+    float: right;
+    margin-right:10px;
+}
+
+.filter-region-a {
+    text-decoration: none;
+    color: #1269a7
+}
+
+.filter-region-a:hover {
+    text-decoration: underline;
+}
+
+.filter-elem-hidden {
+    display: none;
+}
+
+.filter-region-body::after {
+    display:block;
+    content:"";
+    clear:both;
+}
+
+.div-region {
+    width: 50%;
+    border-collapse: collapse;
+}
+
+.div-region-right {
+    float:right;
+}
+
+.div-region-left {
+    float:left;
+    border-right: 1px solid #ccc;
+}
+
+.div-region-right::after, .div-region-left::after{
+    display:block;
+    content:"";
+    clear:both;
+}
+.filter-region-elem {
+    padding: 8px;
+}
+.filter-region-elem:hover {
+    background-color: #C3E5F7;
+}
+
+.li-area {
+    width: 95%;
+    display: inline-block;
+}
+
+.li-angle {
+    color: #1269a7;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#offers-notFound{
+    font: 400 19px ArianAMU;
+    text-align: center;
+    margin-top:25px;
+}
+
+.offers-display-none {
+    display: none;
+}

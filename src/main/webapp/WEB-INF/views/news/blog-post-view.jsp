@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
@@ -111,13 +112,25 @@
 <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/logo-section.js"></script>
-<script src="/resources/js/search-bar.js"></script>
+
+<script src="/resources/js/moment-with-locales.js"></script>
+
+
+<script>
+    var flag = '${flag}';
+</script>
+
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script>
     var blogPostId = "${blogPostId}";
     var loadedBlogPost = {};
+
+    function localDateTime(long) {
+        long = (new Date(parseInt(long)));
+        long = moment(long).locale("ru").format('LLL');
+        return long;
+    }
 
     $.ajax({
         type: "POST",
@@ -136,7 +149,7 @@
 
                 if(loggedInProfile){
                     if (loggedInProfile.id === blogPost.authorId){
-                        $("<a href='/blog-post/edit/" + blogPost.id +"'><button>Редактировать статью</button></a>").insertAfter($('.newsRating'))
+                        $("<a class='editBlogPost' href='/blog-post/edit/" + blogPost.id +"'><span>Редактировать статью </span></a>").insertAfter($('.newsRating'))
                     }
                 }
 
@@ -155,10 +168,11 @@
                                 profileImgTag += ' width="52px" height="52px" alt="logo">';
 
                                 $('#commentsBlock').append(
+
                                         '<div class="comments">' +
                                         '<a href="/profile?id=' + profile.id + '">' + profileImgTag + '</a>' +
                                         '<a class="NameUser" href="/profile?id=' + profile.id + '">' + profile.username + '</a>' +
-                                        '<p class="commentUser">' + comment.comment + '</p>' +
+                                        '<span> ' + localDateTime(comment.createdDate) + '</span> <p class="commentUser">' + comment.comment + '</p>' +
                                         '</div>');
                             }
                         }

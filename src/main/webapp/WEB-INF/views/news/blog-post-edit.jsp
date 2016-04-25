@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
     <link rel="stylesheet" href="/resources/css/mini.css">
     <link rel="stylesheet" href="/resources/css/dropdown-multicolumn.css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 
 </head>
 <body>
@@ -204,9 +205,11 @@
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/logo-section.js"></script>
-<script src="/resources/js/search-bar.js"></script>
+<script>
+    var flag = '${flag}';
+</script>
+
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script src="/resources/js/jquery.maskedinput.min.js"></script>
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
@@ -216,7 +219,7 @@
     var imgsArr = {};
     var cities;
     var inpCategories = [];
-    var oldCategories = JSON.parse('${blogPost.categories}'); // make array from string
+    var oldCategories = '${blogPost.categories}'.slice(1, -1).split(","); // make array from string
     var oldImgArr = {};
     var imgsArrResult = {};
     var picArrDel = [];
@@ -320,9 +323,11 @@
 
 
     // ---------------    SET CATEGORIES    --------------------------//
-    for (var i = 0; i< oldCategories.length; i++){
-        $('input[name='+oldCategories[i]+']').prop('checked',true);
+    if(!oldCategories[0]) oldCategories = [];
+    for (var i = 0; i < oldCategories.length; i++) {
+        $('input[name=' + oldCategories[i] + ']').prop('checked', true);
     }
+
     // ---------------    END SET CATEGORIES  --------------------------//
 
 
@@ -401,6 +406,29 @@
         appendImg(key);
     }
 
+    function onClickSetMainImg() {
+        var img = $(event.currentTarget);
+        var id = img.attr("id");
+        var isMain = img.hasClass("mainImg");
+        var allImgs = $(".ul-img-container").find("img");
+        for (var i = 0; i < allImgs.length; i++) {
+            var curImg = $(allImgs[i]);
+            if (curImg.hasClass("mainImg")) {
+                curImg.removeClass("mainImg");
+            }
+        }
+        if (!isMain) img.addClass("mainImg");
+
+        for (var key in imgsArr) {
+            if (imgsArr[key] === "pic1") {
+                imgsArr[key] = "image";
+            }
+        }
+
+        if (img.hasClass("mainImg")) {
+            imgsArr[id] = "pic1";
+        }
+    }
 
     function appendImg(id) {
         $(".li-defaultIMG").css("display", "none");

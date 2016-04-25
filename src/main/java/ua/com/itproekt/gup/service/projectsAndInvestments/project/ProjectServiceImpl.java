@@ -1,9 +1,9 @@
 package ua.com.itproekt.gup.service.projectsAndInvestments.project;
 
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.BankSession;
+import ua.com.itproekt.gup.bank_api.entity.InternalTransaction;
 import ua.com.itproekt.gup.bank_api.services.Pair;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.projectsAndInvestments.project.ProjectRepository;
@@ -15,6 +15,7 @@ import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.ServiceNames;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -31,30 +32,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void create(Project project) {
-        Project newProject = new Project()
-                .setAuthorId(project.getAuthorId())
-                .setViews(0)
-                .setTotalScore(0L)
-                .setTotalVoters(0)
-                .setTotalComments(0)
-                .setCreatedDateEqualsToCurrentDate()
-                .setModerationStatus(ModerationStatus.COMPLETE)
-                .setStatus(ProjectStatus.ACTIVE)
-                .setLastInvestmentDateEqualsToCurrentDate()
-                .updateExpirationDateAt20Days()
-                .setInvestedAmount(0)
-                .setAmountRequested(project.getAmountRequested())
-                .setTitle(project.getTitle())
-                .setDescription(project.getDescription())
-                .setType(project.getType())
-                .setCategoriesOfIndustry(project.getCategoriesOfIndustry())
-                .setImagesIds(project.getImagesIds())
-                .setComments(new HashSet<>())
-                .setVotes(new HashSet<>());
-
-        projectRepository.create(newProject);
-
-        project.setId(newProject.getId());
+        Project.prepareProjectForCreateOperation(project);
+        projectRepository.create(project);
     }
 
     @Override
@@ -83,15 +62,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void addComment(String projectId, Comment comment) {
-        Comment newComment = new Comment()
-                .setComment(comment.getComment())
-                .setFromId(comment.getFromId())
-                .setToId(comment.getToId())
-                .setCreatedDateEqualsToCurrentDate();
-
-        projectRepository.createComment(projectId, newComment);
-
-        comment.setId(newComment.getcId());
+        comment.setCreatedDateEqualsToCurrentDate();
+        projectRepository.createComment(projectId, comment);
     }
 
     @Override
@@ -115,16 +87,11 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.commentExists(projectId, commentId);
     }
 
+    //TODO: fix
     @Override
     public Project edit(Project project) {
-        Project newProject = new Project()
-                .setId(project.getId())
-                .setTitle(project.getTitle())
-                .setDescription(project.getDescription())
-                .setType(project.getType())
-                .setCategoriesOfIndustry(project.getCategoriesOfIndustry())
-                .setImagesIds(project.getImagesIds());
-        return projectRepository.findProjectAndUpdate(newProject);
+//        Project preparedProjectForEditOperation = Project.takePreparedProjectForEditOperation(project);
+        return projectRepository.findProjectAndUpdate(project);
     }
 
     @Override
@@ -148,46 +115,63 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void bringBackMoneyToInvestors() {
-        Set<String> expiredProjectsIds = projectRepository.getExpiredProjectsIds();
-
-        expiredProjectsIds.parallelStream().unordered().forEach(projectId -> {
-            List<Pair<String, Long>> projectInvestments = null;
-            try {
-                projectInvestments = bankSession.projectPayback(projectId);
-            } catch (ParseException e) {
-                throw new RuntimeException(Arrays.toString(e.getStackTrace()));
-            }
-
-            sendNotificationsToInvestors(projectInvestments, projectId);
-            projectRepository.updateProjectStatus(projectId, ProjectStatus.EXPIRED_AND_RETURNED_MONEY);
-        });
-    }
-
-    @Override
     public Set<String> getMatchedNames(String name) {
         return projectRepository.getMatchedNames(name);
     }
 
-    //TODO: create method for send notifications
-    //TODO: refactoring
-    public void sendNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {
-        projectInvestments.parallelStream().unordered().forEach(pair -> {
-            String uId = pair.getKey();
-            Long moneyAmount = pair.getValue();
-            activityFeedService.createEvent(new Event(uId, EventType.PROJECT_BRING_BACK_MONEY,
-                    projectId, moneyAmount.toString(), null));
-        });
-    }
-
-    //TODO: create implementation
-    //TODO: create shcedule for autostart (mongoTask.xml)
     @Override
-    public void sendNotificationsToInvestorsOfCompletedProjects() {
-        throw new UnsupportedOperationException();
+    public void bringBackMoneyToInvestors() {
+        List<Project> activeAndExpiredProjects = projectRepository.getActiveAndExpiredProjects();
+        Set<String> notCollectedAmountRequestedProjectIds = getNotCollectedRequestedAmountProjectIds(activeAndExpiredProjects);
+        notCollectedAmountRequestedProjectIds.parallelStream().unordered()
+                .forEach(projectId -> {
+                    List<Pair<String, Long>> projectInvestments = bankSession.projectPayback(projectId);
+                    projectRepository.updateProjectStatus(projectId, ProjectStatus.EXPIRED_AND_RETURNED_MONEY);
+                    sendProjectBringBackNotificationsToInvestors(projectInvestments, projectId);
+                });
     }
 
+    @Override
+    public void findAndUpdateCollectedRequestedAmountProjects() {
+        List<Project> activeAndExpiredProjects = projectRepository.getActiveAndExpiredProjects();
+        Set<String> collectedAmountRequestedProjectIds = getCollectedRequestedAmountProjectIds(activeAndExpiredProjects);
+        collectedAmountRequestedProjectIds.parallelStream().unordered()
+                .forEach(projectId -> {
+                    projectRepository.updateProjectStatus(projectId, ProjectStatus.COLLECTED_MONEY);
+                    sendProjectCollectedMoneyNotificationsToInvestors(projectId);
+                });
+    }
 
+    private Set<String> getCollectedRequestedAmountProjectIds(List<Project> activeAndExpiredProjects) {
+        return activeAndExpiredProjects.parallelStream().unordered()
+                .filter(project -> project.getAmountRequested() >= bankSession.getUserBalance(project.getId()))
+                .map(Project::getId)
+                .collect(Collectors.toSet());
+    }
 
+    private Set<String> getNotCollectedRequestedAmountProjectIds(List<Project> activeAndExpiredProjects) {
+        return activeAndExpiredProjects.parallelStream().unordered()
+                .filter(project -> project.getAmountRequested() < bankSession.getUserBalance(project.getId()))
+                .map(Project::getId)
+                .collect(Collectors.toSet());
+    }
 
+    public void sendProjectBringBackNotificationsToInvestors(List<Pair<String, Long>> projectInvestments, String projectId) {
+        projectInvestments.parallelStream().unordered()
+                .forEach(pair -> {
+                    String uId = pair.getKey();
+                    Long investedMoneyAmount = pair.getValue();
+                    activityFeedService.createEvent(new Event(uId, EventType.PROJECT_BRING_BACK_MONEY,
+                            projectId, investedMoneyAmount.toString(), null));
+                });
+    }
+
+    public void sendProjectCollectedMoneyNotificationsToInvestors(String projectId) {
+        List<InternalTransaction> depositors = bankSession.getAllRecipientInternalTransactionsJson(projectId);
+        depositors.parallelStream().unordered()
+                .forEach(depositor -> {
+                    String uId = depositor.getSenderId();
+                    activityFeedService.createEvent(new Event(uId, EventType.PROJECT_COLLECTED_REQUESTED_AMOUNT, projectId, null));
+                });
+    }
 }

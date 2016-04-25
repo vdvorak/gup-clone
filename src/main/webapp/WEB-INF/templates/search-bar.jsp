@@ -78,7 +78,7 @@
         <div id="offerFilterBlock" class="hidefilter" style="display: none">
             <div class="filterADS">
                 <div class="ItemADS">
-                    <a id="36" href="#" data-url-param="category1lvl"><img src="/resources/images/kids.png" alt="kids"></a>
+                    <a id="36" href="#" data-level="1"><img src="/resources/images/kids.png" alt="kids"></a>
                     <a href="#">Малыши</a>
 
                     <div class="descriptionTitleLeft">
@@ -86,7 +86,8 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="35" href="#" data-url-param="category1lvl"><img src="/resources/images/Zoo.png" alt="Zoo"></a>
+                    <a id="35" href="#" data-level="1"><img src="/resources/images/Zoo.png"
+                                                            alt="Zoo"></a>
                     <a href="#">Zoo</a>
 
                     <div class="descriptionTitleLeft">
@@ -94,7 +95,8 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="891" href="#" data-url-param="category1lvl"><img src="/resources/images/StyleAndFashion.png" alt="StyleAndFashion"></a>
+                    <a id="891" href="#" data-level="1"><img src="/resources/images/StyleAndFashion.png"
+                                                             alt="StyleAndFashion"></a>
                     <a href="#">Стиль и мода</a>
 
                     <div class="descriptionTitleRight">
@@ -102,7 +104,8 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="903" href="#" data-url-param="category1lvl"><img src="/resources/images/SportAndHobby.png" alt="SportAndHobby"></a>
+                    <a id="903" href="#" data-level="1"><img src="/resources/images/SportAndHobby.png"
+                                                             alt="SportAndHobby"></a>
                     <a href="#">Спорт и хобби</a>
 
                     <div class="descriptionTitleRight">
@@ -110,7 +113,8 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="37" href="#" data-url-param="category1lvl"><img src="/resources/images/Equipment.png" alt="Equipment"></a>
+                    <a id="37" href="#" data-level="1"><img src="/resources/images/Equipment.png"
+                                                            alt="Equipment"></a>
                     <a href="#">Техника</a>
 
                     <div class="descriptionTitleLeft">
@@ -118,7 +122,8 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="899" href="#" data-url-param="category1lvl"><img src="/resources/images/HouseAndCottage.png" alt="HouseAndCottage"></a>
+                    <a id="899" href="#" data-level="1"><img src="/resources/images/HouseAndCottage.png"
+                                                             alt="HouseAndCottage"></a>
                     <a href="#">Дома и дача</a>
 
                     <div class="descriptionTitleLeft">
@@ -126,7 +131,8 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="exchange" href="#" data-url-param="category1lvl"><img src="/resources/images/Barter.png" alt="Barter"></a>
+                    <a id="exchange" href="#" data-level="1"><img src="/resources/images/Barter.png"
+                                                                  alt="Barter"></a>
                     <a href="#">Бартер</a>
 
                     <div class="descriptionTitleRight">
@@ -134,7 +140,8 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="1" href="#" data-url-param="category1lvl"><img src="/resources/images/TheProperty.png" alt="TheProperty"></a>
+                    <a id="1" href="#" data-level="1"><img src="/resources/images/TheProperty.png"
+                                                           alt="TheProperty"></a>
                     <a href="#">Недвижимость</a>
 
                     <div class="descriptionTitleRight">
@@ -142,7 +149,8 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="3" href="#" data-url-param="category1lvl"><img src="/resources/images/Transport.png" alt="Transport"></a>
+                    <a id="3" href="#" data-level="1"><img src="/resources/images/Transport.png"
+                                                           alt="Transport"></a>
                     <a href="#">Транспорт</a>
 
                     <div class="descriptionTitleLeft">
@@ -150,8 +158,9 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="7" href="#" data-url-param="category1lvl"><img src="/resources/images/BusinessAndServices.png"
-                                            alt="BusinessAndServices"></a>
+                    <a id="7" href="#" data-level="1"><img
+                            src="/resources/images/BusinessAndServices.png"
+                            alt="BusinessAndServices"></a>
                     <a href="#">Бизнес и услуги</a>
 
                     <div class="descriptionTitleLeft">
@@ -159,7 +168,8 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="1435" href="#" data-url-param="category1lvl"><img src="/resources/images/Volunteering.png" alt="Volunteering"></a>
+                    <a id="1435" href="#" data-level="1"><img src="/resources/images/Volunteering.png"
+                                                              alt="Volunteering"></a>
                     <a href="#">Волонтерство</a>
 
                     <div class="descriptionTitleRight">
@@ -167,7 +177,8 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="free" href="#" data-url-param="category1lvl"><img src="/resources/images/IsFree.png" alt="IsFree"></a>
+                    <a id="free" href="#" data-level="1"><img src="/resources/images/IsFree.png"
+                                                              alt="IsFree"></a>
                     <a href="#">Бесплатно</a>
 
                     <div class="descriptionTitleRight">
@@ -177,6 +188,132 @@
 
                 <div class="clearfix"></div>
 
+                <label for="input-region-search">Регион</label>
+
+                <div id="filter-container-region-search">
+                    <i id="filter-icon-gps" class="fa fa-map-marker"></i>
+                    <input id="input-region-search" type="text" placeholder="Вся Украина" readonly>
+                    <i id="filter-icon-close" class="fa fa-times"></i>
+                </div>
+                <div id="filter-region-menu" class="filter-elem-hidden">
+                    <div id="filter-region-nav">
+                        <a class="filter-region-a left-a">Вся Украина</a>
+                        <a class="filter-region-a left-a filter-elem-hidden"><i
+                                class="fa fa-angle-left"></i> Вернуться к выбору региона</a>
+                        <a class="filter-region-a right-a filter-elem-hidden">Все объявления по региону</a>
+                    </div>
+                    <ul id="filter-area-box" class="filter-region-body">
+                        <input id="input-selected-area" type="text" class="filter-elem-hidden">
+
+                        <div class="div-region div-region-left">
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Винницкая область</a>
+                                </li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Волынская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Донецкая область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Житомирская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Закарпатская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a href="#">Ивано‑Франковская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Киевская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Кировоградская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Крым</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Луганская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Львовская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                        </div>
+                        <div class="div-region div-region-right">
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Николаевская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Одесская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Ровенская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Сумская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Тернопольская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Харьковская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Херсонская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Хмельницкая область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Черкасская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Черниговская область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                            <div class="filter-region-elem">
+                                <li class="region-li li-area"><a class="filter-region-a" href="#">Черновицкая область</a></li>
+                                <i class="fa fa-angle-right li-angle"></i>
+                            </div>
+                        </div>
+                    </ul>
+                    <ul id="filter-city-box" class="filter-region-body filter-elem-hidden">
+                        <input id="input-selected-city" type="text" class="filter-elem-hidden">
+
+                        <div class="div-region div-region-left">
+                            <li class="filter-region-elem li-city filter-elem-hidden"></li>
+                        </div>
+                        <div class="div-region div-region-right">
+
+                        </div>
+                    </ul>
+                </div>
+
+                <div class="clearfix"></div>
+
+
                 <div class="superFilter">
                     <form action="#">
 
@@ -184,75 +321,6 @@
                         <select id="select-categories-3lvl" style="display: none">
                             <option>Все объявления</option>
                         </select>
-
-                        <div class="clearfix"></div>
-
-                        <label for="filter-region-row">Регион</label>
-                        <div id="filter-region-row">
-                            <div id="filter-region-container" class="dropdown" style="display: inline-block">
-                                <button class="btn btn-success dropdown-toggle" type="button"
-                                        data-toggle="dropdown"><span
-                                        id="filter-text-region">Выберите область</span>
-                                    <span class="caret"></span></button>
-                                <ul class="dropdown-menu  multi-column columns-2">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <ul class="multi-column-dropdown">
-                                                <li><a href="#" style="font-weight: bold">Вся Украина</a></li>
-                                                <li><a href="#">Винницкая область</a></li>
-                                                <li><a href="#">Волынская область</a></li>
-                                                <li><a href="#">Донецкая область</a></li>
-                                                <li><a href="#">Житомирская область</a></li>
-                                                <li><a href="#">Закарпатская область</a></li>
-                                                <li><a href="#">Ивано‑Франковская область</a></li>
-                                                <li><a href="#">Киевская область</a></li>
-                                                <li><a href="#">Кировоградская область</a></li>
-                                                <li><a href="#">Крым</a></li>
-                                                <li><a href="#">Луганская область</a></li>
-                                                <li><a href="#">Львовская область</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <ul class="multi-column-dropdown">
-                                                <li><a href="#">Николаевская область</a></li>
-                                                <li><a href="#">Одесская область</a></li>
-                                                <li><a href="#">Полтавская область</a></li>
-                                                <li><a href="#">Ровенская область</a></li>
-                                                <li><a href="#">Сумская область</a></li>
-                                                <li><a href="#">Тернопольская область</a></li>
-                                                <li><a href="#">Харьковская область</a></li>
-                                                <li><a href="#">Херсонская область</a></li>
-                                                <li><a href="#">Хмельницкая область</a></li>
-                                                <li><a href="#">Черкасская область</a></li>
-                                                <li><a href="#">Черниговская область</a></li>
-                                                <li><a href="#">Черновицкая область</a>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </ul>
-                            </div>
-                            <div id="filter-city-container" class="dropdown" style="display: none">
-                                <button class="btn btn-success dropdown-toggle" type="button"
-                                        data-toggle="dropdown"><span
-                                        id="filter-text-city">Выберите город</span>
-                                    <span class="caret"></span></button>
-                                <ul class="dropdown-menu  multi-column columns-2">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <ul class="multi-column-dropdown">
-
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <ul class="multi-column-dropdown">
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
-
 
                         <div class="clearfix"></div>
 
@@ -272,7 +340,6 @@
                                 </select>
                             </div>
                         </div>
-
                         <div class="clearfix"></div>
 
                         <div class="parameters">

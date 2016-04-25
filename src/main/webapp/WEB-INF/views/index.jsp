@@ -21,8 +21,9 @@
         <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
         <link rel="stylesheet" href="/resources/css/main.css">
         <link rel="stylesheet" href="/resources/css/font-awesome.css">
-
+        <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
 	</head>
     <body>
         <!--[if lt IE 8]>

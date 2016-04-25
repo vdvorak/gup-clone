@@ -7,6 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -30,8 +31,6 @@ public class Project {
     private Long lastInvestmentDate;
     @Min(1)
     private Integer amountRequested;
-    @Min(0)
-    private Integer investedAmount; // TODO delete investedAmount?
     private ProjectType type;
     @Size(min = 4, max = 70)
     private String title;
@@ -59,7 +58,6 @@ public class Project {
                 ", expirationDate=" + expirationDate +
                 ", lastInvestmentDate=" + lastInvestmentDate +
                 ", amountRequested=" + amountRequested +
-                ", investedAmount=" + investedAmount +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", type=" + type +
@@ -67,6 +65,33 @@ public class Project {
                 ", imagesIds=" + imagesIds +
                 '}';
     }
+
+    public static void prepareProjectForCreateOperation(Project project) {
+        project.setViews(0)
+                .setTotalScore(0L)
+                .setTotalVoters(0)
+                .setTotalComments(0)
+                .setStatus(ProjectStatus.ACTIVE)
+                .setModerationStatus(ModerationStatus.COMPLETE)
+                .setComments(new HashSet<>())
+                .setVotes(new HashSet<>())
+                .setCreatedDateEqualsToCurrentDate()
+                .setLastInvestmentDateEqualsToCurrentDate()
+                .updateExpirationDateAt20Days();
+    }
+
+    public static Project takePreparedProjectForEditOperation(Project project) {
+        Project newProject = new Project()
+                .setId(project.getId())
+                .setTitle(project.getTitle())
+                .setDescription(project.getDescription())
+                .setType(project.getType())
+                .setCategoriesOfIndustry(project.getCategoriesOfIndustry())
+                .setImagesIds(project.getImagesIds());
+
+        return newProject;
+    }
+
 
     public Project setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -200,15 +225,6 @@ public class Project {
 
     public Project setAmountRequested(Integer amountRequested) {
         this.amountRequested = amountRequested;
-        return this;
-    }
-
-    public Integer getInvestedAmount() {
-        return investedAmount;
-    }
-
-    public Project setInvestedAmount(Integer investedAmount) {
-        this.investedAmount = investedAmount;
         return this;
     }
 

@@ -146,16 +146,28 @@ $(document).ready(function () {
 
     }));
 
-    $('input#datepicker').datepicker({
-        onSelect: function (date) {
-            $('input#datepicker').val(date);
-        }
+    $('input.datepicker-input').datepicker();
+    $.datepicker.setDefaults({
+        onClose: checkDateInDatepicker
     });
-    $('input#datepicker2').datepicker({
-        onSelect: function (date) {
-            $('input#datepicker2').val(date);
+
+
+    function checkDateInDatepicker() {
+        var dateFrom = $('#tender-datepicker1').datepicker('getDate');
+        var dateTo = $('#tender-datepicker2').datepicker('getDate');
+        if (dateFrom && dateTo) {
+            dateFrom = new Date(dateFrom).getTime() / 1000;
+            dateTo = new Date(dateTo).getTime() / 1000;
+            if (dateFrom > dateTo) {
+                $('#tender-date span').addClass('tender-active-tooltip');
+                setTimeout(function () {
+                    $('#tender-date span').removeClass('tender-active-tooltip');
+                }, 4000);
+                return false;
+            }
         }
-    });
+        return true;
+    }
 
     //
 
@@ -208,7 +220,7 @@ $(document).ready(function () {
         });
     });
 
-    $('.modal-pay-liq-pay').on('click', function () {
+    $('#modal-pay-liq-pay').on('click', function () {
         $('#modal-bill-submit').click()
 
     });
@@ -230,12 +242,12 @@ $(document).ready(function () {
         }
     });
 
-    $('.bxsliderTender').bxSlider({
-        slideWidth: 141,
-        minSlides: 5,
-        maxSlides: 5,
-        slideMargin: 20
-    });
+    //$('.bxsliderTender').bxSlider({
+    //    slideWidth: 141,
+    //    minSlides: 5,
+    //    maxSlides: 5,
+    //    slideMargin: 20
+    //});
 
     $('#noMoneyStartRich').on('click', function () {
         $.ajax({
@@ -277,3 +289,10 @@ $(document).ready(function () {
     });
 
 });
+
+function findUser (userId) {
+    return $.ajax({
+        type: "POST",
+        url: "/api/rest/profilesService/profile/read/id/" + userId,
+    });
+}

@@ -20,8 +20,8 @@ public class ActivityFeedServiceImpl implements ActivityFeedService {
 
     @Override
     public void createEvent(Event event) {
-        if (profilesService.profileExists(event.getTargetUId())) {
-            Profile profile = profilesService.findById(event.getTargetUId());
+        Profile profile = profilesService.findById(event.getTargetUId());
+        if (profile != null) {
             event.setMakerName(profile.getUsername());
             event.setMakerImgId(profile.getImgId());
             activityFeedRepository.createEvent(event);
@@ -34,9 +34,8 @@ public class ActivityFeedServiceImpl implements ActivityFeedService {
     }
 
     @Override
-    public EntityPage<Event> findEventsWithOptionsAndSetViewed(EventFilterOptions eventFO) {
-        activityFeedRepository.setFeedsViewed(eventFO);
-        return activityFeedRepository.findEventsWihOptions(eventFO);
+    public void setViewed(String eventId) {
+        activityFeedRepository.setViewed(eventId);
     }
 
     @Override

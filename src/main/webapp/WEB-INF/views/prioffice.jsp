@@ -21,6 +21,9 @@
     <link rel="stylesheet" href="/resources/css/prioffice.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
+    <link rel="stylesheet" href="/resources/css/cropper.css">
+    <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 </head>
@@ -159,7 +162,7 @@
                 </div>
 
                 <div class="arrow toggler"></div>
-                <div class="closeBox"></div>
+                <i class="fa fa-times-circle closeBox"></i>
             </div>
         </div>
         <div class="greenBox msAndNt" id="tab-container-msAndNt">
@@ -219,7 +222,7 @@
                         <p><a href="/tender-make">создать тендер</a></p>
                     </c:if>
                 </div>
-                <div class="closeBox"></div>
+                <i class="fa fa-times-circle closeBox"></i>
                 <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myProjects" toggler="" style="display: none;">
@@ -235,7 +238,7 @@
                         <p><a href="/createProject">создать проект</a></p>
                     </c:if>
                 </div>
-                <div class="closeBox"></div>
+                <i class="fa fa-times-circle closeBox"></i>
                 <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myNews" toggler="" style="display: none;">
@@ -251,7 +254,7 @@
                         <p><a href="/blog-create">создать новостной блог</a></p>
                     </c:if>
                 </div>
-                <div class="closeBox"></div>
+                <i class="fa fa-times-circle closeBox"></i>
                 <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myOffers" toggler="" style="display: none;">
@@ -267,7 +270,7 @@
                         <p><a href="/blog-create">создать новостной блог</a></p>
                     </c:if>
                 </div>
-                <div class="closeBox"></div>
+                <i class="fa fa-times-circle closeBox"></i>
                 <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myInvestments" toggler="" style="display: none;">
@@ -275,7 +278,7 @@
                 <div class="titleMain toggler">Мои инвестиции</div>
                 <div class="historyContent">
                 </div>
-                <div class="closeBox"></div>
+                <i class="fa fa-times-circle closeBox"></i>
                 <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myBalance" toggler="" style="display: none;">
@@ -286,13 +289,37 @@
                         <span class="historyItem"><span class="time">${b.dateTime}</span>: пополнено на ${b.amount} грн.</span>
                     </c:forEach>
                 </div>
-                <div class="closeBox"></div>
+                <i class="fa fa-times-circle closeBox"></i>
                 <div class="arrow toggler"></div>
             </div>
         </div>
         <div class="clearfix"></div>
     </div>
 </div>
+
+<form id="uploadProfilePhotoForm">
+    <input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg"
+           style="display:none">
+</form>
+
+<!-- The Modal -->
+<div id="cropperModal" class="cropper-modal">
+    <!-- Modal content -->
+    <div class="cropper-modal-content">
+        <div class="cropper-modal-header">
+            <span>Редактирование фотографии</span>
+        </div>
+        <div class="cropper-modal-body drop_zone">
+            <img id="cropper-image" src="/resources/images/no_photo.jpg" style="max-width: 100%">
+        </div>
+        <div class="cropper-modal-footer">
+            <button class="cropper-btn cropper-btn-success">Готово</button>
+            <button class="cropper-btn cropper-btn-cancel">Отмена</button>
+
+        </div>
+    </div>
+</div>
+
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
 </sec:authorize>
@@ -303,9 +330,7 @@
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/logo-section.js"></script>
-<script src="/resources/js/search-bar.js"></script>
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <!-- libs starts here-->
 <script src="/resources/js/moment-with-locales.js"></script>
@@ -313,15 +338,15 @@
 <script src="/resources/js/masonry.pkgd.min.js"></script>
 <script src="/resources/js/enscroll-0.6.1.min.js"></script>
 <script src="/resources/js/angular.min.js"></script>
+<script src="/resources/js/cropper.js"></script>
 <!--END of libs-->
 
+<script>
+    var profileId = '${profile.id}';
+</script>
 <script src="/resources/js/api-generator/api-request.js"></script>
 <script src="/resources/js/api-generator/api-generated.js"></script>
 <script src="/resources/js/prioffice.js"></script>
-
-<script>
-</script>
-
 
 </body>
 </html>

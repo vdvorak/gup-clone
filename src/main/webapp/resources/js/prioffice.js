@@ -824,3 +824,106 @@ function toggleSettingsBox(e) {
     $('#userSettingsSet').slideToggle()
     $(e).toggleClass('toggled')
 }
+
+// --------------------------------------  BEGIN cropper  ----------------------------------------------
+var loadedProfile = {};
+$.ajax({
+    type: "POST",
+    url: "/api/rest/profilesService/profile/read/id/" + profileId + "/wholeProfile",
+    statusCode: {
+        200: function (profile) {
+            loadedProfile = profile;
+        }
+    }
+});
+
+var image = document.getElementById('cropper-image');
+var cropper = new Cropper(image, {
+    aspectRatio: 1 / 1,
+    crop: function (data) {
+    }
+});
+
+$('div.uploadButton').on('click', function () {
+    $("#uploadProfilePhotoInput").click();
+});
+
+$('#uploadProfilePhotoInput').on('change', function () {
+    var files = event.currentTarget.files;
+    var reader = new FileReader();
+
+    reader.addEventListener("load", function () {
+        cropper.replace(reader.result);
+    }, false);
+
+    if (files[0]) {
+        reader.readAsDataURL(files[0]);
+    }
+
+    $('#cropperModal').css('display', "block");
+});
+
+$(".cropper-btn-cancel").click(function () {
+    $('#cropperModal').css('display', "none");
+});
+
+$(window).click(function (event) {
+    var modal = document.getElementById('cropperModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+});
+
+$(".cropper-btn-success").click(function () {
+    $('#cropperModal').css('display', "none");
+
+    var canvas = cropper.getCroppedCanvas();
+    var dataURL = canvas.toDataURL('image/jpeg', 0.5);
+    var blob = dataURItoBlob(dataURL);
+
+    cropper.replace(dataURL);
+
+    var formData = new FormData();
+    formData.append('file', blob);
+
+    var loadImg = $.ajax({
+        type: "POST",
+        url: "/api/rest/fileStorage/profile/file/upload?cacheImage=1",
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data, textStatus, request) {
+            loadedProfile.imgId = data.id;
+            $('div.photo img').attr("src", "/api/rest/fileStorage/profile/file/read/id/" + loadedProfile.imgId);
+            cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + loadedProfile.imgId);
+        }
+    });
+
+    $.when(loadImg).done(updateProfile);
+});
+
+function updateProfile() {
+    return $.ajax({
+        type: "POST",
+        url: "/api/rest/profilesService/profile/edit",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(loadedProfile),
+        statusCode: {
+            200: function () {
+            }
+        }
+    });
+}
+
+function dataURItoBlob(dataURI) {
+    var binary = atob(dataURI.split(',')[1]);
+    var array = [];
+    for (var i = 0; i < binary.length; i++) {
+        array.push(binary.charCodeAt(i));
+    }
+    return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+}
+// --------------------------------------  END cropper  ----------------------------------------------

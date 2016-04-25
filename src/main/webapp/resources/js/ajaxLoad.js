@@ -1,11 +1,14 @@
 /**
  * Created by Юля on 15.03.2016.
  */
+var offerFilter = window.OfferFilter;
+
 var cities = {};
 var parameters = [];
 var options = [];
 var jsonCategory = [];
 var jsonSubcategory = {};
+var nace = [];
 
 var loadCities =
     $.ajax({
@@ -25,7 +28,7 @@ var loadCategories =
         dataType: "json",
         success: function (response) {
             jsonCategory = response;
-            OfferFilterModule.OfferFilter.prototype.drawSubcategories();
+            offerFilter.drawSubcategories();
         }
     })
 
@@ -59,6 +62,16 @@ var loadParameters =
         dataType: "json",
         success: function (response) {
             parameters = response;
+        }
+    });
+
+var loadNace =
+    $.ajax({
+        type: "GET",
+        url: "/resources/json/kved-test.json",
+        dataType: "json",
+        success: function (response) {
+            nace = response;
         }
     });
 

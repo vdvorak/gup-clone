@@ -88,6 +88,14 @@ $.ajax({
                 }
             }
             // End draw social networks input ----------------------------------
+
+
+            if (profileId ==profile.id){
+                $('.contact-btn-group').append('<button class="addToContact" id="editProfileBtn">Редактировать профиль</button>')
+            }else{
+                $('.contact-btn-group').append('<button class="addToContact" id="addProfileToContact">Добавить в контакты</button>')
+            }
+
         },
         404: function () {
 //                        alert('Такого пользователя нет');
@@ -100,7 +108,14 @@ $('#writeMessageToProfile').on('click', function () {
     window.location.href = "/dialogue/create/with/" + profileId;
 });
 
-$('#addProfileToContact').on('click', function () {
+
+
+
+$(document).on('click', '#editProfileBtn', function(){
+    window.location.href = '/edit-profile'
+});
+
+$(document).on('click', '#addProfileToContact', function () {
     $.ajax({
         type: "POST",
         url: '/api/rest/profilesService/profile/id/' + profileId + '/myContactList/add',

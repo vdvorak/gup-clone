@@ -104,15 +104,16 @@ a.explanation-point-tooltip img {
 
 .blog-social-container {
     float: right;
-    margin-right: 450px;
+    margin-right: 470px;
     margin-bottom: 10px;
+    position: relative;
 }
 
 .blog-social-input {
     border: 2px solid rgb(153, 204, 102);
     border-radius: 4px;
     font: 400 11px DroidSans;
-    padding: 7px 7px;
+    padding: 0 7px;
     height: 22px;
     width: 230px;
 }
@@ -120,7 +121,10 @@ a.explanation-point-tooltip img {
 .blog-btn-removeSocial {
     width: 20px;
     height: 20px;
-    margin-bottom: -5px;
+    position: absolute;
+    top: 1px;
+    right: -32px;
+    cursor: pointer;
 }
 
 .blog-img {
@@ -151,7 +155,7 @@ a.explanation-point-tooltip img {
     display: block;
 }
 
-.blog-img ul li li:not(.li-defaultIMG):hover .descr {
+.blog-img ul li:not(.li-defaultIMG):hover .descr {
     opacity: 1;
     -webkit-transform: rotateZ(0deg);
     transform: rotateZ(0deg);
@@ -237,16 +241,92 @@ textarea {
     display: table;
 }
 
-.offer-map {
+.offer-map, .tender-map {
     height: 300px;
     width: 100%;
     margin-top: 10px;
 }
+
+.tender-map {
+    border: 3px solid #9c6;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
 #blog-region-wrapper {
     display: inline-block;
     margin-bottom:15px;
     margin-left: 100px;
 }
+.tender-map-address {
+    height: 23px;
+    width: 65% !important;
+    border: 2px solid #9c6;
+    border-radius: 5px;
+    font: 400 13px DroidSans;
+    line-height: 23px;
+    margin-left: 100px;
+}
 
+#tender-date {
+    position: relative;
+    margin-left: 113px;
+    display: inline;
+}
 
+#tender-date span {
+    position: absolute;
+    width:175px;
+    color: #FFFFFF;
+    font: 400 13px DroidSans;
+    background: #9c6;
+    height: 38px;
+    text-align: center;
+    visibility: hidden;
+    border-radius: 6px;
+}
+#tender-date span:after {
+    content: '';
+    position: absolute;
+    top: 28%;
+    right: 100%;
+    width: 0; height: 0;
+    border-right: 8px solid #9c6;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+}
+#tender-date span.tender-active-tooltip {
+    visibility: visible;
+    left: 103%;
+    top: -51%;
+    z-index: 999;
+}
 
+#selectKved_chosen {
+    border: 2px solid #9c6;
+    border-radius: 5px;
+    font: 400 13px DroidSans !important;
+    margin-bottom: 40px;
+    margin-left: 10px;
+}
+
+.chosen-container .chosen-choices {
+     border: none !important;
+     box-shadow: none !important;
+}
+
+.chosen-container-multi .chosen-choices li.search-field input[type=text] {
+    height: 23px !important;
+    margin: 0px !important;
+    font: 400 13px DroidSans !important;
+}
+
+#tender-datepicker1, #tender-datepicker2 {
+    border: 2px solid #9c6;
+    border-radius: 5px;
+}
+
+.label-notRequered:after {
+    content: '' !important;
+}

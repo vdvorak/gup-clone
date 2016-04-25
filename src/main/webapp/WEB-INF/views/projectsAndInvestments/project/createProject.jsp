@@ -21,12 +21,13 @@
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
-    <link rel="stylesheet" href="/resources/css/chosen.min.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
     <link rel="stylesheet" href="/resources/css/alster.css">
     <link rel="stylesheet" href="/resources/css/mini.css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 
     <%--<link rel="stylesheet" href="/resources/css/font-awesome.css">--%>
     <%--<link rel="stylesheet" href="/resources/css/media-queries.css">--%>
@@ -94,17 +95,14 @@
             <div class="field required">
                 <label for="categoriesOfIndustry" class="editorLabel">Категории индустрии</label>
                 <select  id="categoriesOfIndustry" class="chosen" multiple="true" data-placeholder="Выберите категории" style="width: 550px;">
-                    <option>Инженерно-строительные услуги</option>
-                    <option>Ремонт и обслуживание техники и оборудования</option>
-                    <option>Услуги проката и аренды</option>
-                    <option>Ремонт и техническое обслуживание автотранспорта</option>
-                    <option>Логистические и складские услуги</option>
-                    <option>Услуги в сфере медицины, здоровья и красоты</option>
-                    <option>Услуги досуга, отдыха, культуры</option>
-                    <option>Услуги в сфере образования, тренинги</option>
-                    <%--<optgroup label="Swedish Cars">--%>
-                        <%--<option>Электромонтажные работы</option>--%>
-                    <%--</optgroup>--%>
+                    <option value="engineering">Инженерно-строительные услуги</option>
+                    <option value="repair">Ремонт и обслуживание техники и оборудования</option>
+                    <option value="rent">Услуги проката и аренды</option>
+                    <option value="vehicles">Ремонт и техническое обслуживание автотранспорта</option>
+                    <option value="logistics">Логистические и складские услуги</option>
+                    <option value="health">Услуги в сфере медицины, здоровья и красоты</option>
+                    <option value="recreation">Услуги досуга, отдыха, культуры</option>
+                    <option value="education">Услуги в сфере образования, тренинги</option>
                 </select>
             </div>
 
@@ -159,9 +157,8 @@
     var flag = '${flag}';
 </script>
 
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/logo-section.js"></script>
-<script src="/resources/js/search-bar.js"></script>
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
+
 <script src="/resources/js/createProject.js"></script>
 </body>
 </html>

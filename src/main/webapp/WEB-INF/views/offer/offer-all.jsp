@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="/resources/css/alster.css">
     <link href="/resources/css/custom-new.css" rel="stylesheet" type="text/css">
     <link href="/resources/css/dropdown-multicolumn.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 </head>
 <body>
 <!-- BEGIN Common general header-->
@@ -48,7 +49,13 @@
         </a>
     </div>
 
-    <h2>ТОП обьявлений</h2>
+    <h2 id="h2-top-offers">ТОП обьявлений</h2>
+
+    <!-- offers not found -->
+    <div id="offers-notFound" class="offers-notFound-hidden">
+        <span>По Вашему запросу ничего не найдено.</span>
+    </div>
+    <!-- offers not found -->
 
     <ul class="notice-box">
     </ul>
@@ -61,6 +68,7 @@
         <span>Просмотров: 222</span>
     </li>
     <!-- li pattern for clone -->
+
     <div class="contentContainer" style="margin-top: 5px">
         <img class="projAndInvestCaretDown" id="btn-offers-more" src="/resources/images/caret.png" alt="caret">
     </div>
@@ -86,90 +94,32 @@
 
 <script>
 
-    //    var filter = {skip: 0, limit: 10};
-    var filter = new OfferFilterModule.OfferFilter();
-
-    $.when(loadCategories).done(function() {
-        $('.ItemADS div a').click(onClickCategory2lvl);
-    });
+    var offerFilter = window.OfferFilter;
 
     $(document).ready(function () {
-        filter.parseUrlToFilter()
-                .readAllByFilter();
-    });
+        offerFilter.parseUrlToFilter()
+                    .readAllByFilter();
 
-    $('#btn-offers-more').click(function () {
-        filter.skip += 10;
-        filter.setFilterOptions()
-                .readAllByFilter();
-    });
-
-    $('#btn-offers-search').click(function (event) {
-        event.preventDefault();
-        filter.cleanResult()
-                .setFilterOptions()
-                .readAllByFilter();
-    });
-
-    $('#select-categories-3lvl').change(selectCategoryLvl3);
-
-    function selectCategoryLvl3(event) {
-        if (filter.categories.length > 2) filter.categories.pop();
-        var cat3 = $(event.currentTarget).val();
-        if (cat3) {
-            filter.categories.push(cat3);
-            filter.deleteFilterOptions()
-            .drawFilterOptions(cat3);
+        var categories = offerFilter.utils.categories;
+        if(categories && categories.length) {
+            $.when(window.loadOptions, window.loadParameters).done(function(){
+                offerFilter.drawFilterOptions(categories[categories.length - 1]);
+            })
+            $.when(window.loadSubcategories).done(function(){
+                if(categories.length > 1) offerFilter.drawCategories3lvl();
+            })
         }
-        $('#filter-price').change();
-    }
 
-    function onClickCategory1lvl(event) {
-        var id1 = $(event.currentTarget).attr('id');
-        filter.categories = [];
-        filter.deleteFilterOptions();
+        var address = offerFilter.utils.address;
+        if(address.area) $('#input-selected-area').val(address.area);
+        if(address.city) $('#input-selected-city').val(address.city);
+        offerFilter.generateFilterRegionString();
 
-        if(id1 !== 'free' && id1 !== 'exchange') {
-            filter.categories.push(id1);
-        } else {
-            $('#filter-price').append('<option selected value="'+ id1 +'" id="'+ id1 +'"></option>');
-        }
-        filter.cleanResult()
-                .drawFilterOptions(filter.categories[0])
-                .setFilterOptions()
-                .readAllByFilter();
+        $('#btn-offers-more').click(offerFilter.submitFilter);
 
-        $('#select-categories-3lvl').css('display', 'none');
-        $('label[for="select-categories-3lvl"]').css('display', 'none');
-        $('#filter-price').change();
-
-    }
-
-    function onClickCategory2lvl(event) {
-        var elem = $(event.currentTarget);
-        var id2 = elem.attr('id');
-        filter.categories  = [];
-        filter.categories.push(elem.parent().parent().children('a:first').attr('id'));
-        if(id2) filter.categories.push(id2);
-
-        filter.cleanResult()
-                .deleteFilterOptions()
-                .drawFilterOptions((id2) ? filter.categories[1] : filter.categories[0])
-                .drawCategories3lvl()
-                .setFilterOptions()
-                .readAllByFilter();
-
-        $('#filter-price').change();
-    }
-
-    $('.ItemADS').each(function () {
-        $(this).children('a:first').click(onClickCategory1lvl);
-    })
-
-    $('#filter-price').change(filter.selectFilterPrice);
-
-    $('#filter-region-container').find('li').click(filter.selectRegionInFilter);
-
+        $('#select-categories-3lvl').change(offerFilter.selectCategoryLvl3);
+        $('#filter-price').change(offerFilter.selectFilterPrice);
+    });
 
 </script>
 </body>

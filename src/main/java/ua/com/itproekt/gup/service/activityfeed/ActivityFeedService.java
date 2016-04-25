@@ -15,5 +15,5 @@ public interface ActivityFeedService {
 
     EntityPage<Event> findEventsWithOptions(EventFilterOptions eventFO);
 
-    EntityPage<Event> findEventsWithOptionsAndSetViewed(EventFilterOptions eventFO);
+    void setViewed(String eventId);
 }

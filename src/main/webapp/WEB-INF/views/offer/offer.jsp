@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/resources/css/custom-style.css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
     <style type="text/css">
         .offer-info-slider {
         }
@@ -100,7 +101,7 @@
             <div class="clearfix"></div>
             <div class="row">
                 <div class="col-xs-5">
-                    <a href="#" class="btn btn-block btn-success">Написать автору</a>
+                    <a id="write-to-author" href="#" class="btn btn-block btn-success">Написать автору</a>
 
                     <div class="clearfix"></div>
                     <div class="contact phone-numbers">
@@ -151,6 +152,13 @@
                 <a data-slide-index="2" href=""><img src="/resources/images/slider.jpg"/></a>
             </div>
 
+            <div class="modalSlider">
+                <span>×</span>
+                <img>
+                <a href="" class="super_prev_knopka"></a>
+                <a href="" class="super_netxt_knopka"></a>
+            </div>
+
             <div class='tableOffer'>
                 <div id="options" class="row p--------anel"></div>
             </div>
@@ -158,7 +166,6 @@
             <!-- <img src="/resources/images/slider.jpg" width="450" alt=""> -->
         </div>
     </div>
-
 
     <h2 class="title-h2-blue">Описание</h2>
 
@@ -183,11 +190,6 @@
         </li>
         <!-- li pattern for clone -->
         <div class="feedFooter"></div>
-    </div>
-
-    <div class="anonymUser">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut autem blanditiis culpa, cupiditate eligendi, enim eum impedit quaerat repellendus rerum tenetur vero voluptate. Accusamus cum itaque iusto, obcaecati repellendus velit.<i class="fa fa-exclamation-circle"></i>
-        </p>
     </div>
 </div>
 
@@ -245,9 +247,7 @@
     var flag = '${flag}';
 </script>
 
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/logo-section.js"></script>
-<script src="/resources/js/search-bar.js"></script>
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script src="/resources/js/moment-with-locales.js"></script>
 <script src="/resources/js/service.js"></script>
@@ -256,5 +256,24 @@
     var offerId = "${offerId}";
 </script>
 <script src="/resources/js/offer.js"></script>
+<script>
+    $('.offer-info-slider .bx-wrapper img').click(function(){
+        $('.modalSlider').css('display', 'block');
+        var src = $(this).attr('src');
+        $('.modalSlider > img').attr('src', src);
+    });
+    $('.modalSlider > span, .modalSlider').click(function() {
+        $('.modalSlider').css('display', 'none');
+    });
+    $( ".modalSlider > img" ).click(function( event ) {
+        event.stopPropagation();
+    });
+    $( ".super_netxt_knopka" ).click(function( event ) {
+        event.stopPropagation();
+    });
+    $( ".super_prev_knopka" ).click(function( event ) {
+        event.stopPropagation();
+    });
+</script>
 </body>
 </html>

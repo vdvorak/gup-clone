@@ -19,14 +19,10 @@
     <link rel="stylesheet" href="resources/css/main.css">
     <link rel="stylesheet" href="resources/css/font-awesome.css">
     <link rel="stylesheet" href="resources/css/media-queries.css">
-
-    <%-- Cropper style --%>
-    <link href="/resources/css/cropper.css" rel="stylesheet">
-    <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
-
     <link href="/resources/css/cropper.css" rel="stylesheet">
     <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
     <link rel="stylesheet" href="/resources/css/mini.css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 
 </head>
 <body>
@@ -179,9 +175,7 @@
 <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
-<script src="/resources/js/main.js"></script>
-<script src="/resources/js/logo-section.js"></script>
-<script src="/resources/js/search-bar.js"></script>
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script src="/resources/js/bootstrap.min.js"></script>
 <script src="/resources/js/cropper.js"></script>
@@ -244,6 +238,7 @@
             success: function (data, textStatus, request) {
                 imgId = data.id;
                 $('.blog-img ul').find('img').attr("src", "/api/rest/fileStorage/NEWS/file/read/id/" + imgId);
+                $('.blog-img ul li').removeClass('li-defaultIMG');
                 cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
             }
         });
@@ -270,11 +265,16 @@
     $(".img-responsive").click(function (e) {
         e.preventDefault();
         var el = e.currentTarget;
-        if (cur_fields < max_fields) {
-
-            var socName = $(el).attr("alt");
+        var socName = $(el).attr("alt");
+        var link = $('div.group-info').find('input[name="' + socName + '"]');
+        if(link.length) {
+            var linkParent = link.parent('div:not(.group-info)');
+            if (linkParent.length) {
+                linkParent.remove();
+                cur_fields--;
+            }
+        } else if (cur_fields < max_fields && !link.length) {
             addSocialLink(socName);
-
         }
     });
 
@@ -369,6 +369,7 @@
 
     function deleteImgFromDB() {
         $('.blog-img ul').find('img').attr("src", "/resources/images/no_photo.jpg");
+        $('.blog-img ul li').addClass('li-defaultIMG');
         $.ajax({
             url: '/api/rest/fileStorage/NEWS/file/delete/id/' + imgId,
             method: 'POST',

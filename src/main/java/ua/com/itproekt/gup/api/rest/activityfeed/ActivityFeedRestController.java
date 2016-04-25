@@ -27,11 +27,20 @@ public class ActivityFeedRestController {
         String userId = SecurityOperations.getLoggedUserId();
         eventFO.setTargetUId(userId);
 
-        EntityPage<Event> events = activityFeedService.findEventsWithOptionsAndSetViewed(eventFO);
+        EntityPage<Event> events = activityFeedService.findEventsWithOptions(eventFO);
         if(events.getEntities().isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(events, HttpStatus.OK);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/event/id/{eventId}/setViewed", method = RequestMethod.GET)
+    public ResponseEntity<Void> setViewed(@PathVariable String eventId) {
+
+        activityFeedService.setViewed(eventId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PreAuthorize("isAuthenticated()")

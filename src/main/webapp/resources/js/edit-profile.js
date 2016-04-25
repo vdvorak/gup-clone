@@ -101,9 +101,7 @@ $(document).ready(function () {
 
 // --------------------------------------  BEGIN soc network links  ----------------------------------------------
                 // Add/Remove social Input Fields Dynamically with jQuery
-                var max_fields = 5; //maximum input boxes allowed
                 var wrapper = $(".soc-input-group"); //Fields wrapper
-                var x = 1;
 
                 function drawInput(template, name, value) {
                     $('.soc-input-wrap').last().attr('style', 'display:;').addClass('show-inp');
@@ -114,7 +112,6 @@ $(document).ready(function () {
 
 // Draw social networks input
                 if (loadedProfile.contact.socNetLink) {
-                    x = Object.keys(loadedProfile.contact.socNetLink).length;
 
                     for (var soc in loadedProfile.contact.socNetLink) {
                         key = loadedProfile.contact.socNetLink[soc];
@@ -139,17 +136,16 @@ $(document).ready(function () {
                 $(".right-tag a").click(function (e) {
                     e.preventDefault();
                     var socName = $(this).attr("class");
-
-                    if (x < max_fields) { //max input box allowed
-                        x++; //text box increment
-                        $(wrapper).append('<div class="soc-input-wrap show-inp"><input class="soc-input input-info-min" name="' + socName + '" type="text" placeholder = "Страница ' + socName + '"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="15" height="15"></a></div>');
-                    }
+                        if ($('input[name="' + socName +'"]').length){
+                            $('input[name="' + socName +'"]').parent('div').remove();
+                        }else{
+                            $(wrapper).append('<div class="soc-input-wrap show-inp"><input class="soc-input input-info-min" name="' + socName + '" type="text" placeholder = "Страница ' + socName + '"/><a href="#" class="remove_field" required><img src="/resources/img/minus.png" width="15" height="15"></a></div>');
+                        }
                 });
 
                 $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
                     e.preventDefault();
                     $(this).parent('div').remove();
-                    x--;
                 });
 // ---------------------------------------------------- END Soc network links --------------------------------
 

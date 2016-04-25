@@ -43,5 +43,5 @@ public interface ProjectService {
 
     Set<String> getMatchedNames(String name);
 
-    void sendNotificationsToInvestorsOfCompletedProjects();
+    void findAndUpdateCollectedRequestedAmountProjects();
 }

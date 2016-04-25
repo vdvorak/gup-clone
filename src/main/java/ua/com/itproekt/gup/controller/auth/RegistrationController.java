@@ -16,6 +16,9 @@ import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Controller
 public class RegistrationController {

@@ -71,10 +71,10 @@ public class TenderRestController {
         if (tender == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-//          временно закоментировано. Незалогиненый будет видеть всё то же самое, что и юр.лицо
-//        if(getCurrentUser() == null){
-//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//        }
+
+        if(getCurrentUser() == null){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
         if(tender != null){
             // incrementing Visited field
@@ -153,6 +153,9 @@ public class TenderRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResp> createTender(@RequestBody Tender tender) {
 
+        if (!SecurityOperations.isUserLoggedIn()){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         tender.setAuthorId(SecurityOperations.getLoggedUserId());
         if(tender.getType() == TenderType.CLOSE){
             sendActivityFeedToMembers(tender);

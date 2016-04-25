@@ -137,6 +137,12 @@ public class DialogueRestController {
         return new ResponseEntity<>(dialogue, HttpStatus.OK);
     }
 
+    // this method provide getting all message from existing dialogue.
+    @RequestMapping(value = "/dialogue/updateRead/{id}",
+            method = RequestMethod.POST)
+    public void makeDialogueRead(@PathVariable("id") Dialogue dialogue) {
+    }
+
     //
     @RequestMapping(value = "/unread-msg/for-user-id/{id}",
             method = RequestMethod.POST, produces = "text/plain; charset=utf-8")

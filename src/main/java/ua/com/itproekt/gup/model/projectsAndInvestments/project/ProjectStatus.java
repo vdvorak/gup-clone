@@ -5,5 +5,5 @@ public enum ProjectStatus {
     ACTIVE,
     EXPIRED,
     EXPIRED_AND_RETURNED_MONEY,
-    REACHED_THE_GOAL
+    COLLECTED_MONEY
 }

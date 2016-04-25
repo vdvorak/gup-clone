@@ -5,8 +5,6 @@ blogPostFO.limit = 5;
 
 var isLeftImgLocation = true;
 
-
-loadAndAppendAdNews();
 loadAndAppendTopUserNews(blogPostFO);
 
 
@@ -29,7 +27,7 @@ function getBlogPostUrl(blogPost) {
 
 function getBlogPostImagePreviewTag(blogPost) {
    for (var imgId in blogPost.imagesIds) {
-       if (blogPost.imagesIds[imgId] === "1") {
+       if (blogPost.imagesIds[imgId] === "pic1") {
            return '<img src="/api/rest/fileStorage/NEWS/file/read/id/' + imgId + '"  width="169" height="126">'
        }
    }
@@ -118,8 +116,4 @@ function loadAndAppendNextUserNews() {
     }
 
     loadAndAppendTopUserNews();
-}
-
-function loadAndAppendAdNews() {
-    //TODO: create implementation
 }

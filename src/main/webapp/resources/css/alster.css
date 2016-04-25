@@ -27,6 +27,7 @@
 .projAndInvestCaretDown {
     cursor: pointer;
     padding: 10px 408px;
+    border: 1px solid #99cc66;
 }
 
 .projectsVSInvestments-btn {
@@ -157,8 +158,8 @@
 .tenders .feedItem .preview {
     display: block;
     position: relative;
-    width: 246px;
-    height: 154px;
+    width: 160px;
+    height: 160px;
     margin: 10px;
 }
 
@@ -369,8 +370,8 @@ color: white;
 }
 .tenders .feedItem .content {
     top: 10px;
-    left: 260px;
-    width: 610px;
+    left: 170px;
+    width: 695px;
     height: 100px;
 }
 
@@ -387,6 +388,7 @@ color: white;
     text-indent: 20px;
     max-height: 120px;
     overflow: hidden;
+    word-wrap: break-word;
 }
 .tenders .feedItem .content .text {
     max-height: 71px;
@@ -956,10 +958,15 @@ color: white;
 }
 .tenderContent .title {
     color: #1269a7;
-    font: 28px DroidSans;
+    font: 27px DroidSans;
     position: absolute;
     top: -40px;
     left: 56px;
+    width: 600px;
+    line-height: 35px;
+    height: 70px;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 .tenderContent .mainPhoto {
     border-radius: 5px;
@@ -971,6 +978,7 @@ color: white;
 .tenderContent .text {
     text-align: justify;
     text-indent: 30px;
+    word-wrap: break-word;
 }
 .tenderContent .bottomSection {
     position: relative;

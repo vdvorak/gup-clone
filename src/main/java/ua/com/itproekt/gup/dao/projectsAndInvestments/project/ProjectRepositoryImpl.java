@@ -202,23 +202,16 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         mongoTemplate.updateFirst(query, update, Project.class);
     }
 
-    //TODO: delete investedAmount ???
-    //TODO: add criteria to query "if status ia Active"
     @Override
-    public Set<String> getExpiredProjectsIds() {
+    public List<Project> getActiveAndExpiredProjects() {
         Long currentDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
 
-        DBObject queryObj = new BasicDBObject();
-        queryObj.put("expirationDate", new BasicDBObject("$lte", currentDate));
-        queryObj.put( "$where", "this.investedAmount < this.amountRequested");
-        List<Project> expiredProjects = mongoTemplate.find(new BasicQuery(queryObj), Project.class);
-        return expiredProjects.stream().map(Project::getId).collect(Collectors.toSet());
-    }
+        DBObject expiredProjQuery = new BasicDBObject();
+        expiredProjQuery.put("status", "ACTIVE");
+        expiredProjQuery.put("expirationDate", new BasicDBObject("$lte", currentDate));
+//        expiredProjQuery.put("$where", "this.investedAmount < this.amountRequested");
 
-    //TODO: create implementation
-    @Override
-    public Set<String> getCompletedAmountRequestedProjectsIds() {
-        throw new UnsupportedOperationException();
+        return mongoTemplate.find(new BasicQuery(expiredProjQuery), Project.class);
     }
 
     @Override

@@ -33,8 +33,13 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             url: "/api/rest/tenderService/tender/read/all/",
             data: JSON.stringify(filterOptions),
-            success: function (response) {
-                draw(response.entities);
+            statusCode: {
+                200: function (response) {
+                    draw(response.entities);
+                },
+                204: function () {
+                    alert("Тендеров больше нет")
+                }
             }
         });
     }
@@ -73,7 +78,6 @@ $(document).ready(function () {
 // ------------------- End create default block of tenders -------------------------------------------------------
 
 
-
 // ------------------- Create container of doers -------------------------------------------------------
 
 $(document).ready(function () {
@@ -104,10 +108,10 @@ $(document).ready(function () {
         for (var i in data) {
             $('.build-item-wrap-2').last().attr('style', 'display:;');
 
-            if (data[i].imageId && data[i].imageId !== ''){
+            if (data[i].imageId && data[i].imageId !== '') {
                 $(".build-pic-wrap-2 img").last().attr('src', '/api/rest/fileStorage/DOER/file/read/id/' + data[i].imageId);
-            }else{
-                $(".build-pic-wrap-2 img").last().attr('src', '/resources/images/no_photo.jpg' );
+            } else {
+                $(".build-pic-wrap-2 img").last().attr('src', '/resources/images/no_photo.jpg');
             }
 
             $(".build-pic-wrap-2 a").last().attr('href', '/doer/' + data[i].id);

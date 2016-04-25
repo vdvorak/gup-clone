@@ -1,20 +1,21 @@
 package ua.com.itproekt.gup.controller.test.services;
 
 import ua.com.itproekt.gup.bank_api.BankSession;
+import ua.com.itproekt.gup.bank_api.entity.InternalTransaction;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
-/**
- * Created by RAYANT on 26.11.2015.
- */
+
 public class BankTestService {
 
    private static BankSession session = new BankSession();
 
     public static void main(String[] args) throws UnsupportedEncodingException {
-//        System.err.println(getAllUsers());
 
-//        System.err.println(session.liqPayGenerateParamForHtmlForm("test", 100L));
+
+//        List<InternalTransaction> internalTransactions = session.getAllRecipientInternalTransactionsJson("56d7f812c2be2c21691d7d4a");
+//        System.err.println("Test: " + internalTransactions.get(5).getAmount());
     }
 
     private static String getAllUsers(){

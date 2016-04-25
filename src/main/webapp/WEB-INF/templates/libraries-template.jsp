@@ -5,7 +5,7 @@
 <script type="text/javascript" src="/resources/js/jquery.bxslider.js"></script>
 <script type="text/javascript" src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/resources/js/enscroll-0.6.1.min.js"></script>
-<script type="text/javascript" src="/resources/js/chosen.jquery.min.js"></script>
+<script type="text/javascript" src="/resources/libs/chosen/chosen.jquery.min.js"></script>
 <script type="text/javascript" src="/resources/js/vendor/bootstrap.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.easytabs/3.2.0/jquery.easytabs.min.js"></script>
 

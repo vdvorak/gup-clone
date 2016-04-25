@@ -37,8 +37,13 @@ function loadAndAppendProject(projectId) {
 }
 
 function appendProjectBlock(project, balance) {
-    if (project.authorId === loggedInProfile.id) {
-        $('#editProjectBtn').show();
+    if (typeof loggedInProfile != 'undefined') {
+        if (project.authorId === loggedInProfile.id) {
+            $('#editProjectBtn').show();
+        }
+        $('#makeInvest').show();
+    } else {
+        $('.downComments').replaceWith('<div style="margin-top: 20px; display: inline-block">Пожалуйста, авторизируйтесь, чтобы оставлять комментарии</div>')
     }
 
     if (balance || balance == 0) {
