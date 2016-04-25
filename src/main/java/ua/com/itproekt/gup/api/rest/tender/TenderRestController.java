@@ -76,22 +76,20 @@ public class TenderRestController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        if(tender != null){
-            // incrementing Visited field
-            HashSet<String> visit = (HashSet<String>) req.getSession().getAttribute("tenderVisit");
-            if (visit == null) visit = new HashSet<>();
-            if (!visit.contains(id)) {
-                Tender tenderForCountVisited = Tender.getEmpty();
-                tenderForCountVisited.setId(tender.getId());
+        // incrementing Visited field
+        HashSet<String> visit = (HashSet<String>) req.getSession().getAttribute("tenderVisit");
+        if (visit == null) visit = new HashSet<>();
+        if (!visit.contains(id)) {
+            Tender tenderForCountVisited = Tender.getEmpty();
+            tenderForCountVisited.setId(tender.getId());
 
-                tenderForCountVisited.setVisited(tender.getVisited() + 1);
-                tenderService.updateTender(tenderForCountVisited);
-                visit.add(id);
-                req.getSession().setAttribute("tenderVisit", visit);
+            tenderForCountVisited.setVisited(tender.getVisited() + 1);
+            tenderService.updateTender(tenderForCountVisited);
+            visit.add(id);
+            req.getSession().setAttribute("tenderVisit", visit);
 
-                //update field visited in current tender
-                tender.setVisited(tenderForCountVisited.getVisited());
-            }
+            //update field visited in current tender
+            tender.setVisited(tenderForCountVisited.getVisited());
         }
 
         //make propose visible according to hidden settings

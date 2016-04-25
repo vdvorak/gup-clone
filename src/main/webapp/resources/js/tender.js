@@ -1,3 +1,10 @@
+if (typeof loggedInProfile == 'undefined') {
+    $('#tender-container').empty().append('<div class="anonymUser"><p><i class="fa fa-exclamation-circle"> Для просмотра тендера вам необходимо зарегистрироваться</i></p></div>')
+}else{
+}
+
+
+
 var proposes;
 
 // ----------------------- Begin Tender propose text length counter ------------------------------
@@ -58,7 +65,6 @@ $.ajax({
         if(!data.hideContact) {
             var xhr =findUser(data.authorId);
             $.when(xhr).done(function(resp){
-                alert(JSON.stringify(resp));
                 $(".tender-author-contact span").last().text(resp.username);
             });
         }
@@ -152,7 +158,6 @@ $('#makePropose').on('click', function () {
     Propose.body = $('#newsFormComments').val();
     Propose.hidden = $('#visionSelect').prop('checked');
 
-    alert(JSON.stringify(Propose));
 
 
     $.ajax({

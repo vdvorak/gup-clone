@@ -46,7 +46,7 @@
 
 <!--PAGE CONTENT START-->
 
-<div class="container2">
+<div id="tender-container" class="container2">
     <div class="contentContainer" style="margin-top: 100px;"> <!-- Add "vip" class for "vip" users :3 -->
         <div class="tenderContent">
             <div class="topSection">
