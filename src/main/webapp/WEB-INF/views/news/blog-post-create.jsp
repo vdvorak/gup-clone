@@ -153,7 +153,7 @@
             <label class="blogCreationLabel">Фотографии</label>
 
             <div id="drop_zone">
-                <ul class="ul-img-container ul-img-container-green">
+                <ul id="blog-post-img-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
