@@ -75,14 +75,6 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
     countTextLength();
     $("textarea").on('keyup', countTextLength);
 
-    $.when(window.loadCategories).done(function(){
-        for (var i in jsonCategory) {
-            var li = $('<li><a id="' + jsonCategory[i].id + '" href="#">' + jsonCategory[i].name + '</a></li>')
-                .click(selectCategoryLvl1);
-            $('#ul-category1').append(li);
-        }
-    })
-
 // --------------------- MAIN FORM CONSTRUCTION ----------------------//
 
     function validateOffer() {
@@ -98,7 +90,9 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
             arrValidate.push($('#categories-row'));
         }
 
-        if ($('#offer-price-row').css('display') !== 'none' && $('select[name="price"]').val() === 'price' && !$('#offer-inpPrice').val()) {
+        var price = +$('#offer-inpPrice').val();
+        if (($('#offer-price-row').css('display') !== 'none' && $('#selection-price').val() === 'price')
+            && (price <= 0 || price > 2147483648)) {
             arrValidate.push($('#offer-inpPrice'));
         }
 
@@ -204,9 +198,9 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
             if ($('#offer-price-row').css('display') !== 'none') {
                 properties.push({
                     key: 'price',
-                    value: $('select[name="price"]').val()
+                    value: $('#selection-price').val()
                 });
-                offer.currency = $('select[name="currency"]').val();
+                offer.currency = $('#selection-currency').val();
                 offer.price = $('#offer-inpPrice').val();
             }
 
@@ -466,6 +460,14 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
 //----------------------------- END PHONES LIST ----------------------------------------------//
 
 //--------------------------------BEGIN CATEGORY-------------------------------------------------//
+    $.when(window.loadCategories).done(function(){
+        for (var i in jsonCategory) {
+            var li = $('<li><a id="category-' + jsonCategory[i].id + '" href="#">' + jsonCategory[i].name + '</a></li>')
+                .click(selectCategoryLvl1);
+            $('#ul-category1').append(li);
+        }
+    })
+
     function selectCategoryLvl1(event) {
         event.preventDefault();
 
@@ -482,6 +484,7 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
 
         var a1 = $(event.currentTarget).children('a');
         category1Id = a1.attr("id");
+        category1Id = category1Id.substring(category1Id.indexOf("-") + 1);
         $('#text-category1').text(a1.text());
 
         var child1 = {};
@@ -492,7 +495,7 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
             child1 = childArr[0].children;
 
             for (var key in child1) {
-                var li = $('<li><a id="' + child1[key].id + '" href="#">' + child1[key].name + '</a></li>')
+                var li = $('<li><a id="category-' + child1[key].id + '" href="#">' + child1[key].name + '</a></li>')
                     .click(selectCategoryLvl2);
                 $('#ul-category2').append(li);
             }
@@ -503,7 +506,7 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
             isComplete = 1;
             drawOptions(category1Id);
             $('#category2-container').attr("style", "display: none");
-            $('select[name="price"]').change();
+            $('#selection-price').change();
         }
     }
 
@@ -518,13 +521,14 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
 
         var a2 = $(event.currentTarget).children('a');
         category2Id = a2.attr("id");
+        category2Id = category2Id.substring(category2Id.indexOf("-") + 1);
         $('#text-category2').text(a2.text());
 
         var child2 = {};
         if (jsonSubcategory[category2Id]) {
             child2 = jsonSubcategory[category2Id].children;
             for (var key in child2) {
-                var li = $('<li><a id="' + key + '" href="#">' + child2[key].label + '</a></li>')
+                var li = $('<li><a id="category-' + key + '" href="#">' + child2[key].label + '</a></li>')
                     .click(selectCategoryLvl3);
                 $('#ul-category3').append(li);
             }
@@ -535,7 +539,7 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
             isComplete = 1;
             drawOptions(category2Id);
             $('#category3-container').attr("style", "display: none");
-            $('select[name="price"]').change();
+            $('#selection-price').change();
         }
     }
 
@@ -545,17 +549,18 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
         isComplete = 1;
         var a3 = $(event.currentTarget).children('a');
         category3Id = a3.attr("id");
+        category3Id = category3Id.substring(category3Id.indexOf("-") + 1);
         $('#text-category3').text(a3.text());
         erase();
         drawOptions(category3Id);
-        $('select[name="price"]').change();
+        $('#selection-price').change();
     }
 
 
 //--------------------------------END CATEGORY-------------------------------------------------//
 
 //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
-    $('select[name="price"]').change(selectPrice);
+    $('#selection-price').change(selectPrice);
 
     function selectPrice(event) {
         var selectVal = $(event.currentTarget).val();
@@ -594,7 +599,7 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
                 for (var j in options[i]['v']) {
                     var option = $('<option value = "' + j + '"  id ="' + j + '">' + options[i]['v'][j] + '</option>');
                     if (name === 'price') {
-                        $('select[name="price"]').append(option);
+                        $('#selection-price').append(option);
                     } else {
                         $('#00' + i).append(option);
                     }
@@ -621,7 +626,7 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
     function erase() {
         $('#offer-price-row').css('display', 'none');
         $('#offer-options-row').css('display', 'none');
-        $('select[name="price"]').empty();
+        $('#selection-price').empty();
         $('#other-options').empty();
     }
 //------------------ DELETE SELECT AND INPUTS FOR CATEGORY IF IT CHENGES ------------------------------------//
