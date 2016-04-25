@@ -101,7 +101,7 @@
             <div class="clearfix"></div>
             <div class="row">
                 <div class="col-xs-5">
-                    <a href="#" class="btn btn-block btn-success">Написать автору</a>
+                    <a id="write-to-author" href="#" class="btn btn-block btn-success">Написать автору</a>
 
                     <div class="clearfix"></div>
                     <div class="contact phone-numbers">
