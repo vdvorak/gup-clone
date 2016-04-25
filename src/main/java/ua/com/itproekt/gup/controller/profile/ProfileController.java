@@ -68,4 +68,28 @@ public class ProfileController {
         model.addAttribute("profileId", profileId);
         return "profile/edit-profile";
     }
+
+    @RequestMapping(value = "/profile/list")
+    public String getProfileListWithFO(@RequestParam(required = false, defaultValue = "0") int pageNum,
+                                       @RequestParam(required = false) String name,
+                                       @RequestParam(required = false) String type,
+                                       Model model) {
+        ProfileFilterOptions profileFO = new ProfileFilterOptions();
+        Contact contact = new Contact();
+        if (name != null) {
+            profileFO.setSearchField(name);
+        }
+
+        if (type != null && EnumUtils.isValidEnum(UserType.class, type.toUpperCase())) {
+            contact.setType(EnumUtils.getEnum(UserType.class, type.toUpperCase()));
+        }
+
+        profileFO.setSkip(pageNum);
+        profileFO.setContact(contact);
+
+        model.addAttribute("profileFO", new Gson().toJson(profileFO) );
+        return "profile/profileList";
+    }
+
+
 }
