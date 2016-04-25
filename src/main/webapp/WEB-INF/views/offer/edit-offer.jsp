@@ -107,7 +107,7 @@
                 </select>
             </div>
             <div class="col-xs-3" style="display: none">
-                <input id="offer-inpPrice" type="number"
+                <input id="offer-inpPrice" type="number" min="0" max="2147483648"
                        style="border: 4px solid #9c6; border-radius: 5px;" value="${offer.price}">
             </div>
             <div class="col-xs-2" style="display: none">
@@ -472,7 +472,9 @@
             arrValidate.push($('#categories-row'));
         }
 
-        if ($('#offer-price-row').css('display') !== 'none' && $('#selection-price').val() === 'price' && !$('#offer-inpPrice').val()) {
+        var price = +$('#offer-inpPrice').val();
+        if (($('#offer-price-row').css('display') !== 'none' && $('#selection-price').val() === 'price')
+                && (price <= 0 || price > 2147483648)) {
             arrValidate.push($('#offer-inpPrice'));
         }
 

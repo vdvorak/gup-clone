@@ -90,7 +90,9 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
             arrValidate.push($('#categories-row'));
         }
 
-        if ($('#offer-price-row').css('display') !== 'none' && $('#selection-price').val() === 'price' && !$('#offer-inpPrice').val()) {
+        var price = +$('#offer-inpPrice').val();
+        if (($('#offer-price-row').css('display') !== 'none' && $('#selection-price').val() === 'price')
+            && (price <= 0 || price > 2147483648)) {
             arrValidate.push($('#offer-inpPrice'));
         }
 

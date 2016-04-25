@@ -106,7 +106,7 @@
                 </select>
             </div>
             <div class="col-xs-3" style="display: none">
-                <input id="offer-inpPrice" name="price" type="number"
+                <input id="offer-inpPrice" name="price" type="number" min="0" max="2147483648"
                        style="border: 4px solid #9c6; border-radius: 5px;">
             </div>
             <div class="col-xs-2" style="display: none">
