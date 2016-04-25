@@ -33,13 +33,15 @@ function handleFileSelect(evt) {
             processData: false,
             statusCode: {
                 201: function (data, textStatus, request) {
-                    var id = data.id;
-                    if (f.type.substring(0, 5) === 'image') {
-                        imagesIds[id] = "image";
-                        appendProjectImage(id);
-                    } else {
-                        imagesIds[id] = "doc";
-                        appendDoc(id, f.name);
+                    if (Object.keys(imagesIds).length < 15) {
+                        var id = data.id;
+                        if (f.type.substring(0, 5) === 'image') {
+                            imagesIds[id] = "image";
+                            appendProjectImage(id);
+                        } else {
+                            imagesIds[id] = "doc";
+                            appendDoc(id, f.name);
+                        }
                     }
                 }
             }
@@ -239,13 +241,15 @@ $('#uploadProjectPhotoInput').change(function (event) {
             processData: false,
             statusCode: {
                 201: function (data, textStatus, request) {
-                    var id = data.id;
-                    if (f.type.substring(0, 5) === 'image') {
-                        imagesIds[id] = "image";
-                        appendProjectImage(id);
-                    } else {
-                        imagesIds[id] = "doc";
-                        appendDoc(id, f.name);
+                    if (Object.keys(imagesIds).length < 15) {
+                        var id = data.id;
+                        if (f.type.substring(0, 5) === 'image') {
+                            imagesIds[id] = "image";
+                            appendProjectImage(id);
+                        } else {
+                            imagesIds[id] = "doc";
+                            appendDoc(id, f.name);
+                        }
                     }
                 }
             }
