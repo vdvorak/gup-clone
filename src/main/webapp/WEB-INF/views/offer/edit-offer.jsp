@@ -406,11 +406,13 @@
                     processData: false,
 
                     success: function (data, textStatus, request) {
-                        var id = data.id;
-                        var isImage = f.type.substring(0, 5) === 'image';
-                        if (isImage) {
-                            imgsArr[id] = "image";
-                            appendImg(id);
+                        if (Object.keys(imgsArr).length <= 15) {
+                            var id = data.id;
+                            var isImage = f.type.substring(0, 5) === 'image';
+                            if (isImage) {
+                                imgsArr[id] = "image";
+                                appendImg(id);
+                            }
                         }
                     }
                 });
@@ -653,11 +655,13 @@
                 processData: false,
 
                 success: function (data, textStatus, request) {
-                    var id = data.id;
-                    var isImage = f.type.substring(0, 5) === 'image';
-                    if (isImage) {
-                        imgsArr[id] = "image";
-                        appendImg(id);
+                    if (Object.keys(imgsArr).length <= 15) {
+                        var id = data.id;
+                        var isImage = f.type.substring(0, 5) === 'image';
+                        if (isImage) {
+                            imgsArr[id] = "image";
+                            appendImg(id);
+                        }
                     }
                 }
             });
@@ -665,23 +669,22 @@
     });
 
     function appendImg(id) {
-        if (Object.keys(imgsArr).length <= 15) {
-            $(".li-defaultIMG").css("display", "none");
-            var cloneImg = $(".li-defaultIMG").clone()
-                    .removeClass('li-defaultIMG')
-                    .css("display", "inline-block");
-            cloneImg.find('img')
-                    .attr("alt", "")
-                    .attr("src", '/api/rest/fileStorage/OFFERS/file/read/id/' + id)
-                    .attr("id", id)
-                    .click(onClickSetMainImg);
-            cloneImg.find('span')
-                    .click(deleteImg);
+        $(".li-defaultIMG").css("display", "none");
+        var cloneImg = $(".li-defaultIMG").clone()
+                .removeClass('li-defaultIMG')
+                .css("display", "inline-block");
+        cloneImg.find('img')
+                .attr("alt", "")
+                .attr("src", '/api/rest/fileStorage/OFFERS/file/read/id/' + id)
+                .attr("id", id)
+                .click(onClickSetMainImg);
+        cloneImg.find('span')
+                .click(deleteImg);
 
-            if (imgsArr[id] === "pic1") cloneImg.find('img').addClass('mainImg');
+        if (imgsArr[id] === "pic1") cloneImg.find('img').addClass('mainImg');
 
-            cloneImg.appendTo('.ul-img-container');
-        }
+        cloneImg.appendTo('.ul-img-container');
+
     }
 
     // delete images before save changes in offer (must be called before update offer)
