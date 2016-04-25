@@ -41,13 +41,15 @@ if (typeof loggedInProfile == 'undefined') {
                     processData: false,
 
                     success: function (data, textStatus, request) {
-                        var id = data.id;
-                        if (f.type.substring(0, 5) === 'image') {
-                            imgsArr[id] = "image";
-                            appendImg(id);
-                        } else {
-                            imgsArr[id] = "doc";
-                            appendDoc(id, f.name);
+                        if (Object.keys(imgsArr).length < 15) {
+                            var id = data.id;
+                            if (f.type.substring(0, 5) === 'image') {
+                                imgsArr[id] = "image";
+                                appendImg(id);
+                            } else {
+                                imgsArr[id] = "doc";
+                                appendDoc(id, f.name);
+                            }
                         }
                     }
                 });
@@ -204,13 +206,15 @@ if (typeof loggedInProfile == 'undefined') {
                 processData: false,
 
                 success: function (data, textStatus, request) {
-                    var id = data.id;
-                    if (f.type.substring(0, 5) === 'image') {
-                        imgsArr[id] = "image";
-                        appendImg(id);
-                    } else {
-                        imgsArr[id] = "doc";
-                        appendDoc(id, f.name);
+                    if (Object.keys(imgsArr).length < 15) {
+                        var id = data.id;
+                        if (f.type.substring(0, 5) === 'image') {
+                            imgsArr[id] = "image";
+                            appendImg(id);
+                        } else {
+                            imgsArr[id] = "doc";
+                            appendDoc(id, f.name);
+                        }
                     }
                 }
             });
