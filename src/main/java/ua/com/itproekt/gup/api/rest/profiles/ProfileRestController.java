@@ -17,6 +17,8 @@ import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -71,7 +73,14 @@ public class ProfileRestController {
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(profile, HttpStatus.OK);
+
+
+        if (SecurityOperations.isUserLoggedIn() && profile.getId().equals(SecurityOperations.getLoggedUserId())) {
+            return new ResponseEntity<>(profile, HttpStatus.OK);
+        } else {
+            profile.setContactList(null);
+            return new ResponseEntity<>(profile, HttpStatus.OK);
+        }
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -151,29 +160,6 @@ public class ProfileRestController {
         if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             profilesService.editProfile(newProfile);
             return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-    }
-
-    /**
-     * Delete profile by profile id.
-     *
-     * @param profileId the profile id
-     * @return the response status
-     */
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/delete/id/{profileId}", method = RequestMethod.POST)
-    public ResponseEntity<Profile> deleteProfile(@PathVariable String profileId, HttpServletRequest request) {
-        if (!profilesService.profileExists(profileId)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        String loggedUserId = SecurityOperations.getLoggedUserId();
-        Profile profile = profilesService.findById(profileId);
-        if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
-            profilesService.deleteProfileById(profileId);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }

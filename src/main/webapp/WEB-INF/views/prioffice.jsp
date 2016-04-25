@@ -63,7 +63,7 @@
         <div class="greenBox settings">
             <div class="titleMain big">Мои настройки</div>
 
-            <form action="" class="panel-group" id="userSettingsSet" style="display: none;">
+            <form action="" class="panel-group" id="userSettingsSet">
                 <div class="panel">
                     <a class="" data-toggle="collapse" data-parent="#userSettingsSet" href="#collapseOne">Права</a>
                     <div id="collapseOne" class="collapse in">
@@ -133,7 +133,6 @@
                 </div>
                 <button type="button" class="info-submit">Сохранить</button>
             </form>
-            <div class="settingsToggle" onclick="toggleSettingsBox(this);"></div>
 
         </div>
     </div>
@@ -145,24 +144,23 @@
                 </div>
                 <div class="count" onclick="contactToggle();">Контакты: ${profile.contactList.size()}</div>
             </div>
-            <c:forEach items="${profile.contactList}" var="contact">
-                <div class="_contact" data-id="${contact}"></div>
-            </c:forEach>
             <div class="contactsContainer greenBox" toggler="" ng-controller="contacts">
-                <div class="persona {{contact.vip}}" ng-repeat="contact in contacts" data-id="{{contact.id}}">
-                    <a href="{{contact.homepage}}" class="photo border-color">
-                        <img src="{{contact.pic}}" alt="profile avatar">
-                        <span class="sendMessage"></span>
-                        <span class="name">{{contact.name}}</span>
-                    </a>
-                </div>
-
-                <div class="noFinded" style="display: none;">
-                    Не найдено
-                </div>
-
-                <div class="arrow toggler"></div>
-                <i class="fa fa-times-circle closeBox"></i>
+                <c:if test="${not empty profile.contactList}">
+                    <c:forEach items="${profile.contactList}" var="contact">
+                        <div class="_contact" data-id="${contact}"></div>
+                    </c:forEach>
+                    <div class="persona {{contact.vip}}" ng-repeat="contact in contacts" data-id="{{contact.id}}">
+                        <a href="{{contact.homepage}}" class="photo border-color">
+                            <img src="{{contact.pic}}" alt="profile avatar">
+                            <span class="sendMessage"></span>
+                            <span class="name">{{contact.name}}</span>
+                        </a>
+                    </div>
+                    <div class="arrow toggler"></div>
+                </c:if>
+                <c:if test="${empty events}">
+                    <div class="noContent">Пусто</div>
+                </c:if>
             </div>
         </div>
         <div class="greenBox msAndNt" id="tab-container-msAndNt">
@@ -180,6 +178,9 @@
                     <div class="clearfix"></div>
                     <div class="arrowHide"></div>
                 </form>
+                <div class="noContent">
+                    Тихо
+                </div>
                 <%--<div class="scrollPreffered"></div>--%>
             </div>
             <div class="notifications" id="tab-notifications" stype="display: none;">
@@ -204,7 +205,9 @@
                     </c:forEach>
                 </c:if>
                 <c:if test="${empty events}">
-                    <p>у вас нет новых уведомлений</p>
+                    <div class="noContent">
+                        Ничего не случилось
+                    </div>
                 </c:if>
             </div>
         </div>
