@@ -215,7 +215,9 @@
 
 <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 <script src="/resources/js/cropper.js"></script>
-
+<script>
+    var flag = '${flag}';
+</script>
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
 <script>
