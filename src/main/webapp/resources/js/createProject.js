@@ -173,7 +173,7 @@ function deleteImgFromDB(event) {
     var block = $(event.currentTarget).parent().parent();
 
     $.ajax({
-        url: '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/delete/id/' + picId,
+        url: '/api/rest/fileStorage/PROJECTS_AND_INVESTMENTS/file/delete/id/' + idImg,
         method: 'POST',
         success: function (response) {
             $('#' + idImg).parent().remove();
