@@ -15,6 +15,7 @@ $.ajax({
                 }
                 if (finded) {
                     $('#writeMessageToProfile').show()
+                    $('#removeProfileFromContacts').show()
                 }
                 else {
                     $('#addProfileToContact').show()
@@ -106,7 +107,7 @@ $.ajax({
             // End draw social networks input ----------------------------------
 
 
-            if (profileId ==profile.id){
+            if (profileId === loggedInProfile.id){
                 $('.contact-btn-group').append('<button class="addToContact" id="editProfileBtn">Редактировать профиль</button>')
             }
             // else{
@@ -133,14 +134,28 @@ $(document).on('click', '#editProfileBtn', function(){
 });
 
 $(document).on('click', '#addProfileToContact', function () {
-    $.ajax({
-        type: "POST",
-        url: '/api/rest/profilesService/profile/id/' + profileId + '/myContactList/add',
-        statusCode: {
-            200: function () {
-                $('#addProfileToContact').hide();
-                alert('Профиль добавлен в контакты.')
-            }
-        }
-    });
-});
+    // $.ajax({
+    //     type: "POST",
+    //     url: '/api/rest/profilesService/profile/id/' + profileId + '/myContactList/add',
+    //     statusCode: {
+    //         200: function () {
+    //             $('#addProfileToContact').hide();
+    //             alert('Профиль добавлен в контакты.')
+    //         }
+    //     }
+    // });
+    R.Libra().profilesService().profile().id(profileId).myContactList().add(null, function(){
+        location.reload()
+    }, function(){
+        alert('Internal error')
+    })
+})Z
+
+$(document).on('click', '#removeProfileFromContacts', function () {
+    loggedInProfile.contactList.splice(loggedInProfile.contactList.indexOf(profileId), 1)
+    R.Libra().profilesService().profile().edit({id: loggedInProfile.id, contactList: loggedInProfile.contactList}, function(){
+        location.reload()
+    }, function(){
+        alert('Internal error')
+    })
+})
