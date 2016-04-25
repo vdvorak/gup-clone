@@ -47,7 +47,7 @@
 
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
-<div class="container2">
+<div id="project-create-container" class="container2">
     <div class="contentContainer editor">
         <div class="title">Создание проекта</div>
         <div class="project">

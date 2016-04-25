@@ -146,6 +146,11 @@ R._libra = {
     },
     profilesService: {
         profile: {
+            id_id: {
+                myContactList: {
+                    add: '>'
+                }
+            },
             read: {
                 id_id: '>',
                 username_username: '>',
