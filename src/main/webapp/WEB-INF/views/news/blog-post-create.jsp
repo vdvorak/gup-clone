@@ -357,7 +357,7 @@
                 processData: false,
 
                 success: function (data, textStatus, request) {
-                    if (Object.keys(imgsArr).length <= 15) {
+                    if (Object.keys(imgsArr).length < 15) {
                         var id = data.id;
                         var isImage = f.type.substring(0, 5) === 'image';
                         if (isImage) {
