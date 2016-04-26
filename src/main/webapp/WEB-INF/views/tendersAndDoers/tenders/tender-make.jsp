@@ -85,10 +85,17 @@
             <div class="clearfix"></div>
 
             <div class="description">
+
                 <label for="HideBidders">Скрывать участников тендера</label>
                 <label><input type="checkbox" id="HideBidders" value="open" name="k"/><span></span></label>
-                <label for="InviteBidders" style="display: none">Пригласить участников тендера</label>
-                <input type="text" id="InviteBidders" placeholder="Название" style="display: none">
+                <%--<label for="InviteBidders" style="display: none">Пригласить участников тендера</label>--%>
+                <%--<input type="text" id="InviteBidders" placeholder="Название" style="display: none">--%>
+
+                <div class="clearfix"></div>
+
+                <label for="selectParticipants" style="display: none">Пригласить участников тендера</label>
+                <select id="selectParticipants" class="chosen" multiple data-placeholder="Участники тендера" style="display: none">
+                </select>
 
                 <div class="clearfix"></div>
 
@@ -155,8 +162,6 @@
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
 <script src="/resources/js/tender-make.js"></script>
-
-<script src="/resources/js/kved_autocomplete.js"></script>
 
 </body>
 </html>
