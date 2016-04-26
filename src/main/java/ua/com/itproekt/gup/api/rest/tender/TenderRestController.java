@@ -158,6 +158,7 @@ public class TenderRestController {
         if(tender.getType() == TenderType.CLOSE){
             sendActivityFeedToMembers(tender);
         }
+        tender.setHideContact(false);
         tenderService.createTender(tender);
 
         CreatedObjResp createdObjResp = new CreatedObjResp(tender.getId());
