@@ -3,8 +3,6 @@ if (typeof loggedInProfile == 'undefined') {
 }else{
 }
 
-
-
 var proposes;
 
 // ----------------------- Begin Tender propose text length counter ------------------------------
@@ -55,6 +53,12 @@ $.ajax({
     url: "/api/rest/tenderService/tender/read/id/" + tenderId,
     success: function (response) {
         var data = response;
+
+
+        if (data.authorId === loggedInProfile.id){
+
+$('#wantToComment').replaceWith('<a class="abutton blue" href="/tender/id/' + data.id + '/update">Редактировать</a>');
+        }
 
         sliderImg(data.uploadFilesIds);
         $(".tender-item-text").last().html(data.body);
