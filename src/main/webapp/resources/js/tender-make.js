@@ -349,6 +349,7 @@ if (typeof loggedInProfile == 'undefined') {
     }
 
     $('#tender-make-form').submit(function (event) {
+
         if(!checkDateInDatepicker()) return false;
 
         var body = tinymce.activeEditor.getContent();
@@ -369,8 +370,16 @@ if (typeof loggedInProfile == 'undefined') {
         tender.expectedPrice = $('#ExpectedValue').val();
         tender.hidePropose =  $('#HideBidders').prop('checked');
         if (tender.type === 'CLOSE') {
-            tender.members = $('#selectParticipants').val();
+            tender.members = [];
+            var arrOpt = $('#selectParticipants').children();
+            for(var i = 0; i < arrOpt.length; i++) {
+                tender.members.push({
+                    id: $(arrOpt[i]).attr('value'),
+                    name: $(arrOpt[i]).text()
+                })
+            }
         }
+
         var naceIds = $('#selectKved').val();
         if(naceIds) tender.naceIds = naceIds;
 

@@ -13,6 +13,11 @@ public class Member {
         this.id = id;
     }
 
+    public Member(String id, String name){
+        this.id = id;
+        this.name = name;
+    }
+
     public String getUserPic() {
         return userPic;
     }

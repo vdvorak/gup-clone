@@ -596,7 +596,14 @@
     tender.expectedPrice = $('#ExpectedValue').val();
     tender.hidePropose =  $('#HideBidders').prop('checked');
     if (tender.type === 'CLOSE') {
-      tender.members = $('#selectParticipants').val();
+      tender.members = [];
+      var arrOpt = $('#selectParticipants').children();
+      for(var i = 0; i < arrOpt.length; i++) {
+        tender.members.push({
+          id: $(arrOpt[i]).attr('value'),
+          name: $(arrOpt[i]).text()
+        })
+      }
     }
     var naceIds = $('#selectKved').val();
     if(naceIds) tender.naceIds = naceIds;
@@ -651,20 +658,29 @@
             members = [];
 
     strMembers.split('},').forEach(function(s) {
-      var idx = s.indexOf("id='") + 4;
-      var res = s.substring(idx, s.indexOf("'", idx));
-      members.push(res);
+      var idxID = s.indexOf("id='") + 4,
+        idxName = s.indexOf("name='") + 6,
+        id = s.substring(idxID, s.indexOf("'", idxID)),
+        name = s.substring(idxName, s.indexOf("'", idxName));
+
+      members.push({id: id, name: name});
     })
 
     return members;
   }
 
   $(function() {
+    $('.input-tenderRadio').change();
 
     var select = $('#selectParticipants');
-
     select.chosen({width: '545px', display_selected_options: false});
-    $('.input-tenderRadio').change();
+
+    var members = getMembers();
+    for(var i = 0; i < members.length; i++) {
+      select.append('<option value="' + members[i].id + '" selected>' + members[i].name + ' </option>');
+    }
+
+    select.trigger("chosen:updated");
 
     select.on('change', function() {
       select.children('option:not(:selected)').remove();
