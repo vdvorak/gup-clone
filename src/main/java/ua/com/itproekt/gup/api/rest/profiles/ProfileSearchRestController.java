@@ -1,13 +1,11 @@
 package ua.com.itproekt.gup.api.rest.profiles;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.List;
 import java.util.Set;
@@ -29,6 +27,4 @@ public class ProfileSearchRestController {
 
         return profilesService.getMatchedNamesWithIds(term);
     }
-
-
 }

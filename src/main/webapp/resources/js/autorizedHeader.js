@@ -205,6 +205,7 @@ function getLoggedInProfileAjax() {
         url: "/api/rest/profilesService/profile/read/loggedInProfile",
         async: false,
         success: function (profile) {
+
             loggedInProfile = profile;
 
             if (isNeedDrawAllHeader) { // - do it only after first page loading
@@ -222,7 +223,13 @@ function getLoggedInProfileAjax() {
                 } else {
                     profileName = 'Безымянный';
                 }
-                $('#headerProfileName').text(profileName);
+
+                if (profileName !=''){
+                    $('#headerProfileName').text(profileName);
+                }else{
+                    $('#headerProfileName').text('Безимянная фирма');
+                }
+
 
                 //if (profile.username) {
                 //    $('#headerProfileName').text(profile.username);
