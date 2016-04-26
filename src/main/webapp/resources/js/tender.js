@@ -1,6 +1,6 @@
 if (typeof loggedInProfile == 'undefined') {
     $('#tender-container').empty().append('<div class="anonymUser"><p><i class="fa fa-exclamation-circle"> Для просмотра тендера вам необходимо зарегистрироваться</i></p></div>')
-}else{
+} else {
 }
 
 var proposes;
@@ -55,9 +55,9 @@ $.ajax({
         var data = response;
 
 
-        if (data.authorId === loggedInProfile.id){
+        if (data.authorId === loggedInProfile.id) {
 
-$('#wantToComment').replaceWith('<a class="abutton blue" href="/tender/id/' + data.id + '/update">Редактировать</a>');
+            $('#wantToComment').replaceWith('<a class="abutton blue" href="/tender/id/' + data.id + '/update">Редактировать</a>');
         }
 
         sliderImg(data.uploadFilesIds);
@@ -66,13 +66,21 @@ $('#wantToComment').replaceWith('<a class="abutton blue" href="/tender/id/' + da
         $(".tender-publish-date span").last().text(localDateTime(data.begin));
         $(".tender-veiws span").last().text(data.visited);
         $(".tender-proposal-count span").last().text(data.proposeNumber);
-        if(!data.hideContact) {
-            var xhr =findUser(data.authorId);
-            $.when(xhr).done(function(resp){
+        if (!data.hideContact) {
+            var xhr = findUser(data.authorId);
+            $.when(xhr).done(function (resp) {
                 $(".tender-author-contact span").last().text(resp.username);
             });
         }
-        $(".tender-expectedPrice span").last().text(data.expectedPrice);
+
+
+        if (data.expectedPrice != null) {
+            $(".tender-expectedPrice").last().text(data.expectedPrice + "₴");
+        } else {
+            $(".tender-expectedPrice").last().text("Ожидаемая сумма не указана");
+        }
+
+
         $(".tender-name").last().text(data.title);
 
 
@@ -161,7 +169,6 @@ $('#makePropose').on('click', function () {
     var Propose = {};
     Propose.body = $('#newsFormComments').val();
     Propose.hidden = $('#visionSelect').prop('checked');
-
 
 
     $.ajax({
