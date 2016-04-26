@@ -15,6 +15,7 @@ import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -91,7 +92,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         query.skip(profileFilterOptions.getSkip());
         query.limit(profileFilterOptions.getLimit());
         return new EntityPage<>(mongoTemplate.count(query, Profile.class),
-                                mongoTemplate.find(query, Profile.class));
+                mongoTemplate.find(query, Profile.class));
     }
 
     @Override
@@ -108,13 +109,28 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
     }
 
+
+    public List<Profile> getMatchedNamesToFindWithId(String term) {
+        String searchFieldRegex = "(?i:.*" + term + ".*)";
+
+        Query query = new Query()
+                .addCriteria(Criteria.where("username").regex(searchFieldRegex));
+
+        query.fields().include("username");
+        query.skip(0);
+        query.limit(10);
+
+        return mongoTemplate.find(query, Profile.class);
+    }
+
+
     @Override
     public void addContactToContactList(String profileOwnerContactListId, String contactId) {
         Query addContactQuery = new Query(Criteria.where("id").is(profileOwnerContactListId));
 
         Query existsContactInListQuery = new Query()
                 .addCriteria(Criteria.where("id").is(profileOwnerContactListId))
-                .addCriteria( Criteria.where("contactList").in(contactId));
+                .addCriteria(Criteria.where("contactList").in(contactId));
 
         Update update = new Update();
         if (mongoTemplate.exists(existsContactInListQuery, Profile.class)) {

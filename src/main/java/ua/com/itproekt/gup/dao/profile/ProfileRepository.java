@@ -125,6 +125,8 @@ public interface ProfileRepository {
 
     Set<String> getMatchedNames(String term);
 
+    List<Profile> getMatchedNamesToFindWithId(String term);
+
     void addContactToContactList(String profileOwnerContactListId, String contactId);
 
     Profile findById(String id);
