@@ -88,8 +88,8 @@
 
                 <label for="HideBidders">Скрывать участников тендера</label>
                 <label><input type="checkbox" id="HideBidders" value="open" name="k"/><span></span></label>
-                <label for="InviteBidders" style="display: none">Пригласить участников тендера</label>
-                <input type="text" id="InviteBidders" placeholder="Название" style="display: none">
+                <%--<label for="InviteBidders" style="display: none">Пригласить участников тендера</label>--%>
+                <%--<input type="text" id="InviteBidders" placeholder="Название" style="display: none">--%>
 
                 <div class="clearfix"></div>
 

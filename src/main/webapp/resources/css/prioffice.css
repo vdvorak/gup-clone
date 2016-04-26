@@ -63,7 +63,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 14px;
+    width: 16px;
     height: 17px;
     opacity: 0.3;
     cursor: pointer;
@@ -751,6 +751,17 @@
 
 .historyBox#myInvestments .historyIcon:after {
     background-image: url(images/dollarUp.png);
+}
+.historyBox .proposeToCreate {
+    background-color: #99cc66;
+    padding: 10px;
+    color: white;
+    font: 12px DroidSans;
+    cursor: pointer;
+}
+.historyBox .proposeToCreate:hover {
+    background-color: #42abe0;
+    color: white;
 }
 
 
