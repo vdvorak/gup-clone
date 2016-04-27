@@ -185,7 +185,7 @@
       select.append(option);
     }
     if(oldNace.length) select.val(oldNace);
-    $(".chosen").chosen();
+    $("#selectKved").chosen();
   });
 
   //--------------------   END NACE ---------------------------------//
@@ -193,13 +193,6 @@
   $(document).ready(function () {
 
     if('${tender.hidePropose}') $('#HideBidders').prop( "checked", true );
-    if(('${tender.type}') === "CLOSE") {
-      $('.input-tenderRadio[data-type="CLOSE"]').prop("checked", true);
-    } else {
-      $('.input-tenderRadio[data-type="OPEN"]').prop("checked", true);
-      $('#InviteBidders').attr("style", "display: none");
-      $('label[for="InviteBidders"]').attr("style", "display: none");
-    }
 
     // place photo from received model on the page
     for (var id in picMapObj) {
@@ -334,11 +327,14 @@
 
 
   //--------------------  RADIO CHECK ------------------------------------//
+  if(('${tender.type}') === "CLOSE") {
+    $('.input-tenderRadio[data-type="CLOSE"]').prop("checked", true);
+  } else {
+    $('.input-tenderRadio[data-type="OPEN"]').prop("checked", true);
+  }
 
   $('.input-tenderRadio').change(function () {
     var display = $('.input-tenderRadio[data-type="CLOSE"]').prop('checked') ? "" : "none";
-
-    if(display) $('#selectParticipants').empty();
 
     $('#selectParticipants_chosen').css("display", display);
     $('label[for="selectParticipants"]').css("display", display);
@@ -348,44 +344,44 @@
 
   //-------------------- ADD MEMBER ------------------------------------------//
 
-  $('#add').click(function () {
-    var email = $('input[name="memberId"]').val();
-    $.ajax({
-      type: "POST",
-      url: "/api/rest/profilesService/profile/email-check",
-      data: {"email": email},
-      success: function (data) {
-        if (data === 'NOT FOUND') {
-          alert("Нет пользователя с таким e-mail");
-        } else {
-          var member = {};
-          member.id = data;
-          member.name = email;
-          var flag = true;
-          for (var i = 0; i < members.length; i++) {
-            if (members[i].id === data) {
-              flag = false;
-              break;
-            }
-          }
-          if (flag) {
-            members.push(member);
-            $('#membersList').append('<p name="' + email + '">' + email + '    <i name="' + email + '"class="icon-remove-sign"></i></p>');
-            $('i[name="' + email + '"]').click(function () {
-              $('p[name="' + email + '"]').detach();
-              for (var i in members) {
-                if (members[i].name === email) {
-                  members.splice(i);
-                }
-              }
-            });
-          } else {
-            alert("Собеседник уже добавлен!");
-          }
-        }
-      }
-    });
-  });
+//  $('#add').click(function () {
+//    var email = $('input[name="memberId"]').val();
+//    $.ajax({
+//      type: "POST",
+//      url: "/api/rest/profilesService/profile/email-check",
+//      data: {"email": email},
+//      success: function (data) {
+//        if (data === 'NOT FOUND') {
+//          alert("Нет пользователя с таким e-mail");
+//        } else {
+//          var member = {};
+//          member.id = data;
+//          member.name = email;
+//          var flag = true;
+//          for (var i = 0; i < members.length; i++) {
+//            if (members[i].id === data) {
+//              flag = false;
+//              break;
+//            }
+//          }
+//          if (flag) {
+//            members.push(member);
+//            $('#membersList').append('<p name="' + email + '">' + email + '    <i name="' + email + '"class="icon-remove-sign"></i></p>');
+//            $('i[name="' + email + '"]').click(function () {
+//              $('p[name="' + email + '"]').detach();
+//              for (var i in members) {
+//                if (members[i].name === email) {
+//                  members.splice(i);
+//                }
+//              }
+//            });
+//          } else {
+//            alert("Собеседник уже добавлен!");
+//          }
+//        }
+//      }
+//    });
+//  });
 
   //-------------------- END ADD MEMBER ------------------------------------------//
 
@@ -653,45 +649,47 @@
   //------------------ END DELETE TENDER ------------------------------------//
 
   // ---------------------------- BEGIN participants -------------------------------------------------//
+
   function getMembers() {
-    var strMembers = "${tender.members}",
-            members = [];
-
-    strMembers.split('},').forEach(function(s) {
-      var idxID = s.indexOf("id='") + 4,
-        idxName = s.indexOf("name='") + 6,
-        id = s.substring(idxID, s.indexOf("'", idxID)),
-        name = s.substring(idxName, s.indexOf("'", idxName));
-
-      members.push({id: id, name: name});
-    })
-
-    return members;
+    var str = "${tender.members}".replace(/Member/g, "");
+    str = str.substr(1, str.length - 2);
+    var parts = str.split('}, ');
+    var objs = [];
+    parts.forEach(function (p) {
+      var props = p.match(/(?:[^,"]+|"[^"]*")+/g);
+      var o = {};
+      props.forEach(function (pr) {
+        var ps = pr.split('=');
+        var name = ps[0].replace(/{/g, '').trim();
+        var value = ps[1].replace(/'/g, '').replace(/}/g, '').trim();
+        o[name] = value;
+      });
+      objs.push(o);
+    });
+    return objs;
   }
 
-  $(function() {
-    $('.input-tenderRadio').change();
-
     var select = $('#selectParticipants');
-    select.chosen({width: '545px', display_selected_options: false});
 
     var members = getMembers();
     for(var i = 0; i < members.length; i++) {
       select.append('<option value="' + members[i].id + '" selected>' + members[i].name + ' </option>');
     }
 
-    select.trigger("chosen:updated");
+    select.chosen({width: '545px', display_selected_options: false});
 
     select.on('change', function() {
       select.children('option:not(:selected)').remove();
       select.trigger("chosen:updated");
     });
 
+    $('.input-tenderRadio').change();
+
     var input = $("#selectParticipants_chosen ul.chosen-choices li.search-field input");
 
     input.autocomplete({
       source: function (request, response) {
-        $.getJSON("search/autocomplete/profile/ids", {
+        $.getJSON("/search/autocomplete/profile/ids", {
           term: request.term
         }, function(response) {
           var $search_param = input.val();
@@ -706,7 +704,6 @@
         });
       }
     });
-  });
 
   //---------------------------- END participants -------------------------------------------------//
 

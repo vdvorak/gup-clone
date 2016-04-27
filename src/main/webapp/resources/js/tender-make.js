@@ -135,8 +135,6 @@ if (typeof loggedInProfile == 'undefined') {
     $('.input-tenderRadio').change(function () {
         var display = $('.input-tenderRadio[data-type="CLOSE"]').prop('checked') ? "" : "none";
 
-        if(display) $('#selectParticipants').empty();
-
         $('#selectParticipants_chosen').css("display", display);
         $('label[for="selectParticipants"]').css("display", display);
     });
@@ -406,37 +404,34 @@ if (typeof loggedInProfile == 'undefined') {
 
 // ---------------------------- BEGIN participants -------------------------------------------------//
 
-    $(function() {
+    var select = $('#selectParticipants');
+    select.chosen({width: '545px', display_selected_options: false});
 
-        var select = $('#selectParticipants');
-        select.chosen({width: '545px', display_selected_options: false});
+    $('#selectParticipants_chosen').css("display", "none");
 
-        $('#selectParticipants_chosen').css("display", "none");
+    select.on('change', function() {
+        select.children('option:not(:selected)').remove();
+        select.trigger("chosen:updated");
+    });
 
-        select.on('change', function() {
-            select.children('option:not(:selected)').remove();
-            select.trigger("chosen:updated");
-        });
+    var input = $("#selectParticipants_chosen ul.chosen-choices li.search-field input");
 
-        var input = $("#selectParticipants_chosen ul.chosen-choices li.search-field input");
-
-        input.autocomplete({
-            source: function (request, response) {
-                $.getJSON("search/autocomplete/profile/ids", {
-                    term: request.term
-                }, function(response) {
-                    var $search_param = input.val();
-                    select.children('option:not(:selected)').remove();
-                    for (var key in response) {
-                        if(!select.children('option[value="' + response[key].id +'"]').length) {
-                            select.append('<option value="' + response[key].id + '">' + response[key].username + ' </option>');
-                        }
+    input.autocomplete({
+        source: function (request, response) {
+            $.getJSON("/search/autocomplete/profile/ids", {
+                term: request.term
+            }, function(response) {
+                var $search_param = input.val();
+                select.children('option:not(:selected)').remove();
+                for (var key in response) {
+                    if(!select.children('option[value="' + response[key].id +'"]').length) {
+                        select.append('<option value="' + response[key].id + '">' + response[key].username + ' </option>');
                     }
-                    select.trigger("chosen:updated");
-                    input.val($search_param);
-                });
-            }
-        });
+                }
+                select.trigger("chosen:updated");
+                input.val($search_param);
+            });
+        }
     });
 
 //---------------------------- END participants -------------------------------------------------//

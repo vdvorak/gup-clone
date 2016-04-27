@@ -919,7 +919,7 @@ $(".cropper-btn-success").click(function () {
             cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + loadedProfile.imgId);
         }
     });
-
+    $("#uploadProfilePhotoInput").val("");
     $.when(loadImg).done(updateProfile);
 });
 

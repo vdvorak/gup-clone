@@ -379,6 +379,7 @@ function fillNotificationListBlock() {
                     //alert(JSON.stringify(event));
                     getNotification(event);
                     $('.dropDownBell').append('<div class="bellMessage">' +
+                    '<i>Отметить все как прочитанные</i>' +
                     '<img src="' + getImgSrcForNotification(event.makerImgId) + '" alt="logo">' +
                     '<p>' +
                     '<a href="/profile?id=' + event.makerId + '">' + event.makerName + '</a> ' + notification.type + ' ' +

@@ -13,34 +13,38 @@
   <link type="text/css" rel="stylesheet" href="/resources/css/login.css"/>
   <link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="http://bootsnipp.com/dist/bootsnipp.min.css?ver=7d23ff901039aef6293954d33d23c066">
+  <style>
+    body > .err {
+      border-radius: 10px;
+      background-color: #5cda00;
+      height: 390px;
+      width: 695px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -195px;
+      margin-left: -345px;
+      text-align: center;
+    }
+
+    body > .err > i {
+      color: white;
+      font: italic 200px / 165px Consolas;
+      cursor: default;
+      width: 340px;
+      display: block;
+      margin: 55px auto 30px;
+    }
+
+    body > .err > i > i {
+      font: 120px Consolas;
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-      <div class="panel panel-login">
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="form-group">
-                Страница недоступна для неавторизованных пользователей
-              </div>
-              <div class="form-group">
-                <a href="/index">
-                  <div class="form-control btn btn-login">Вернуться на главную страницу</div>
-                </a>
-              </div>
-              <div class="form-group">
-                <a href="/index">
-                  <div class="form-control btn btn-login">Войти или зарегистрироваться</div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+<div class="err">
+  <i>401 <i>:(</i></i>
 </div>
 
 </body>

@@ -356,7 +356,7 @@ $(window).click(function (event) {
     }
 });
 
-$(".cropper-btn-success").click(function () {
+$(".cropper-btn-success").click(function (event) {
     $('#cropperModal').css('display', "none");
 
     var canvas = cropper.getCroppedCanvas();
@@ -390,6 +390,8 @@ $(".cropper-btn-success").click(function () {
             }
         }
     });
+
+    $("#uploadProfilePhotoInput").val("");
 });
 
 function dataURItoBlob(dataURI) {

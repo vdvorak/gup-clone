@@ -1,4 +1,5 @@
-//$(document).ready(function() {
+$(document).ready(function() {
+
 $("#loginBtn").click(function () {
     $.ajax({
         type: 'POST',
@@ -8,10 +9,10 @@ $("#loginBtn").click(function () {
                 window.location.href = '/prioffice';
             },
             401: function () {
-                alert("Неправильный пароль! Проверьте введенные данные!")
+                errorRaiser.raise('Неправильный пароль! Проверьте введенные данные!')
             },
             404: function () {
-                alert("Неправильный email! Проверьте введенные данные!")
+                errorRaiser.raise('Неправильный email! Проверьте введенные данные!')
             }
         }
     });
@@ -21,16 +22,12 @@ $("#registrationBtn").click(function () {
     var pass = $('#registration-password').val();
     var repeatPass = $('#repeat-registration-password').val();
 
-    var badPassMsg = '';
     if (!isMatchRegEx(pass)) {
-        badPassMsg += 'Пароль не соответствует требованиям.'
+        errorRaiser.raise('Пароль не соответствует требованиям.')
     }
     if (pass !== repeatPass) {
-        badPassMsg += 'Пароли не совпадают'
-    }
-    if (badPassMsg.length) {
-        alert(badPassMsg);
-        return;
+        errorRaiser.raise('Пароли не совпадают')
+        return
     }
 
     var profile = {
@@ -46,11 +43,11 @@ $("#registrationBtn").click(function () {
         data: JSON.stringify(profile),
         statusCode: {
             201: function () {
-                alert('Вы зарегистрировались! Вам выслано подтверждение на почту.')
+                errorRaiser.raise("Вы зарегистрировались! Вам выслано подтверждение на почту.");
                 window.location.href = '/index';
             },
             409: function () {
-                alert('Пользователь с таким email уже существует!')
+                errorRaiser.raise("Пользователь с таким email уже существует!");
             }
         }
     });
@@ -119,19 +116,19 @@ $('#go').click(function (event) { // лoвим клик пo ссылки с id="
 $('#modal_close, #overlay').click(function () { // лoвим клик пo крестику или пoдлoжке
     $('#modal_form')
         .animate({opacity: 0}, 200,  // плaвнo меняем прoзрaчнoсть нa 0 и oднoвременнo двигaем oкнo вверх
-        function () { // пoсле aнимaции
-            $(this).css('display', 'none'); // делaем ему display: none;
-            $('#overlay').fadeOut(400); // скрывaем пoдлoжку
-            $('.contactA').show();
-            $('.restore').hide();
-        }
-    );
+            function () { // пoсле aнимaции
+                $(this).css('display', 'none'); // делaем ему display: none;
+                $('#overlay').fadeOut(400); // скрывaем пoдлoжку
+                $('.contactA').show();
+                $('.restore').hide();
+            }
+        );
 });
 
 
 $('#socialBtn').attr('id', 'goo');
 
-$(document).on('click','#goo', function (event) {
+$(document).on('click', '#goo', function (event) {
     event.preventDefault();
     $('#overlay').fadeIn(400,
         function () {
@@ -140,4 +137,4 @@ $(document).on('click','#goo', function (event) {
                 .animate({opacity: 1}, 200);
         });
 });
-//});
+});
