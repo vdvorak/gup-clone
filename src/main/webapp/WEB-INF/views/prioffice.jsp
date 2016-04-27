@@ -158,7 +158,7 @@
                     </div>
                     <div class="arrow toggler"></div>
                 </c:if>
-                <c:if test="${empty events}">
+                <c:if test="${empty profile.contactList}">
                     <div class="noContent">Пусто</div>
                 </c:if>
             </div>
@@ -218,13 +218,11 @@
                 <div class="historyContent">
                     <c:if test="${not empty tenders}">
                         <c:forEach items="${tenders}" var="tender">
-                            <a class="historyItem" href="/tender/${tender.id}">${tender.title}</a>
+                            <a class="historyItem" href="/tender/${tender.id}" target="_blank">>${tender.title}</a>
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
-                    <c:if test="${empty tenders}">
-                        <p><a href="/tender-make" class="proposeToCreate" target="_blank">Обьявить тендер</a></p>
-                    </c:if>
+                    <p><a href="/tender-make" class="proposeToCreate" target="_blank">Обьявить тендер</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
@@ -234,13 +232,11 @@
                 <div class="historyContent">
                     <c:if test="${not empty projects}">
                         <c:forEach items="${projects}" var="project">
-                            <a class="historyItem" href="/project?id=${project.id}">${project.title}</a>
+                            <a class="historyItem" href="/project?id=${project.id}" target="_blank">>${project.title}</a>
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
-                    <c:if test="${empty projects}">
-                        <p><a href="/project/create" class="proposeToCreate" target="_blank">Рассказать о проекте</a></p>
-                    </c:if>
+                    <p><a href="/project/create" class="proposeToCreate" target="_blank">Рассказать о проекте</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
@@ -250,13 +246,11 @@
                 <div class="historyContent">
                     <c:if test="${not empty blogposts}">
                         <c:forEach items="${blogposts}" var="n">
-                            <a class="historyItem" href="/blog-post/view/id/${n.id}">${n.title}</a>
+                            <a class="historyItem" href="/blog-post/view/id/${n.id}" target="_blank">>${n.title}</a>
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
-                    <c:if test="${empty blogposts}">
-                        <p><a href="/blog-create" class="proposeToCreate" target="_blank">Начать новостной блог</a></p>
-                    </c:if>
+                    <p><a href="/blog-create" class="proposeToCreate" target="_blank">Начать новостной блог</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
@@ -266,13 +260,11 @@
                 <div class="historyContent">
                     <c:if test="${not empty offers}">
                         <c:forEach items="${offers}" var="offer">
-                            <a class="historyItem" href="/offer/${offer.id}">${offer.title}</a>
+                            <a class="historyItem" href="/offer/${offer.id}" target="_blank">>${offer.title}</a>
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
-                    <c:if test="${empty offers}">
-                        <p><a href="/create-offer" class="proposeToCreate" target="_blank">Разместить обьявление</a></p>
-                    </c:if>
+                    <p><a href="/create-offer" class="proposeToCreate" target="_blank">Разместить обьявление</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
@@ -282,13 +274,11 @@
                 <div class="historyContent">
                     <c:if test="${not empty investments}">
                         <c:forEach items="${investments}" var="invest">
-                            <span class="historyItem">${invest.description}</span>
+                            <a class="historyItem" href="/investorPost/edit?id=${invest.id}" target="_blank">>${invest.description}</a>
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
-                    <c:if test="${empty investments}">
-                        <p><a href="/investorPost/create" class="proposeToCreate" target="_blank">Инвестировать</a></p>
-                    </c:if>
+                    <p><a href="/investorPost/create" class="proposeToCreate" target="_blank">Инвестировать</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
