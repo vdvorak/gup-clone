@@ -331,8 +331,12 @@ textarea {
     content: '' !important;
 }
 
-#project-img-block, #project-doc-block, #tender-img-block, #tender-doc-block {
+#project-img-block, #project-doc-block {
     padding: 0 35px;
+}
+
+#tender-img-block, #tender-doc-block {
+    padding: 0 55px;
 }
 
 #blog-post-img-block {

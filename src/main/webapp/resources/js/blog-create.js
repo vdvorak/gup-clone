@@ -258,7 +258,7 @@ if (typeof loggedInProfile == 'undefined') {
                 var socName = $(this).attr("name");
                 var url = $(this).val();
                 if (isMatchPatternSocialLinks(socName, url) && url.length) {
-                    socArr[socName] = url;
+                    socArr[socName] = (socName === 'SKYPE') ? 'skype:' + url + '?call': url;
                 }
             });
 

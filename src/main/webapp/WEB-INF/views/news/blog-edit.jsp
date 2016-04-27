@@ -268,7 +268,7 @@
             $('#blogCreationSocial').val(firstFacebookLink);
         } else {
             var newSocLink = addSocialLink(key)
-            newSocLink.children('input').val(socialLinks[key]);
+            newSocLink.children('input').val((key === 'SKYPE') ? socialLinks[key].substring(6, socialLinks[key].length - 5) : socialLinks[key]);
         }
     }
 
@@ -460,7 +460,7 @@
                 var socName = $(this).attr("name");
                 var url = $(this).val();
                 if (isMatchPatternSocialLinks(socName, url) && url.length) {
-                    socArr[socName] = url;
+                    socArr[socName] = (socName === 'SKYPE') ? 'skype:' + url + '?call': url;
                 }
             });
 
