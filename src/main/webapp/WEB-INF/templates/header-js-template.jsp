@@ -3,6 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <sec:authorize var="loggedIn" access="isAuthenticated()"/>
+<script src="/resources/js/errorRaiser.js"></script>
 <c:choose>
     <c:when test="${loggedIn}">
         <script src="/resources/js/autorizedHeader.js"></script>

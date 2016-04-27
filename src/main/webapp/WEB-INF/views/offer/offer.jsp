@@ -103,7 +103,6 @@
                 <div class="col-xs-5">
                     <a id="write-to-author" href="#" class="btn btn-block btn-success">Написать автору</a>
 
-                    <div class="clearfix"></div>
                     <div class="contact phone-numbers">
                         <span class="show-number">Показать номера телефонов</span>
                         <i class="fa fa-2x fa-phone"></i>
@@ -132,10 +131,8 @@
             </div>
 
             <div class="clearfix"></div>
-            <section class="offer-map">
-            </section>
-            <section class="offer-video" style="border: 2px solid rgb(153, 204, 102);">
-            </section>
+            <section class="offer-map"></section>
+            <section class="offer-video"></section>
         </div>
         <div class="offer-info-slider">
             <div>Колличество просмотров: <span class="view-counter"></span></div>

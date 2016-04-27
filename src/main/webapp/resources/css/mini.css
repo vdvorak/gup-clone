@@ -13,7 +13,7 @@
 
 .ul-img-container li {
     margin: 10px;
-    padding: 0px;
+    padding: 0;
     width: 150px;
     height: 150px;
     list-style-type: none;
@@ -56,7 +56,7 @@ a.explanation-point-tooltip img {
     height: 23px;
     visibility: visible;
     left: 100%;
-    top: 0%;
+    top: 0;
     z-index: 999;
 }
 
@@ -111,7 +111,7 @@ a.explanation-point-tooltip img {
 .blog-social-input {
     border: 2px solid rgb(153, 204, 102);
     border-radius: 4px;
-    font: 400 11px DroidSans;
+    font: 400 13px DroidSans;
     padding: 0 7px;
     height: 22px;
     width: 230px;
@@ -162,9 +162,8 @@ a.explanation-point-tooltip img {
 }
 
 .error-validation {
-     background-image:  url(/resources/css/images/explanation-point.png);
-     background-repeat: no-repeat;
-     background-position-x: right;
+    background: url(/resources/css/images/explanation-point.png) no-repeat;
+    background-position-x: right;
      background-size: 18px 18px;
      padding-right: 18px !important;
  }
@@ -195,7 +194,7 @@ textarea {
     border-radius:6px;
     background-color:#C3212D;
     float:left;
-    margin:0px 0px 20px 20px;;
+    margin:0 0 20px 20px;;
     border:1px solid #C3212D;
     -webkit-transition:all .25s;
     transition:all .25s
@@ -317,13 +316,15 @@ textarea {
 
 .chosen-container-multi .chosen-choices li.search-field input[type=text] {
     height: 23px !important;
-    margin: 0px !important;
+    margin: 0 !important;
     font: 400 13px DroidSans !important;
 }
 
 #tender-datepicker1, #tender-datepicker2 {
     border: 2px solid #9c6;
     border-radius: 5px;
+    padding-left: 5px;
+    font: 400 13px DroidSans;
 }
 
 .label-notRequered:after {
@@ -331,14 +332,14 @@ textarea {
 }
 
 #project-img-block, #project-doc-block, #tender-img-block, #tender-doc-block {
-    padding: 0px 35px;
+    padding: 0 35px;
 }
 
 #blog-post-img-block {
-    padding: 0px 100px;
+    padding: 0 100px;
 }
 
 #offer-img-block {
-    padding: 0px 25px;
+    padding: 0 25px;
 }
 
