@@ -4,7 +4,6 @@
 }
 
 .ul-img-container {
-    padding: 0px 15px;
     width: 100%;
 }
 
@@ -13,7 +12,7 @@
 }
 
 .ul-img-container li {
-    margin: 10px 15px;
+    margin: 10px;
     padding: 0px;
     width: 150px;
     height: 150px;
@@ -330,3 +329,16 @@ textarea {
 .label-notRequered:after {
     content: '' !important;
 }
+
+#project-img-block, #project-doc-block, #tender-img-block, #tender-doc-block {
+    padding: 0px 35px;
+}
+
+#blog-post-img-block {
+    padding: 0px 100px;
+}
+
+#offer-img-block {
+    padding: 0px 25px;
+}
+

@@ -63,7 +63,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 16px;
+    width: 14px;
     height: 17px;
     opacity: 0.3;
     cursor: pointer;
@@ -199,10 +199,14 @@
     color: #99cc66;
     background-color: #fff;
     font: 12px DroidSans;
+    font-weight: bold;
     padding: 5px 6px;
     border-bottom: 2px solid #99cc66;
     border-top: 2px solid #fff;
     transition: 200ms;
+}
+.greenBox .panel-group .panel a.collapsed:before {
+    content: "> ";
 }
 
 .greenBox .panel-group .panel a.collapsed:hover {
@@ -274,6 +278,14 @@
     width: 600px;
     margin: 0 auto;
     margin-top: 30px;
+}
+
+.noContent{
+    color: #cbcbcb;
+    text-align: center;
+    margin: 10px 0;
+    font: 12px DroidSans;
+    font-weight: bold;
 }
 
 .contactsMain .topBar {
@@ -361,11 +373,6 @@
 
 .contactsContainer.toggled {
     max-height: 999px;
-}
-.contactsContainer .noFinded {
-    color: #68717a;
-    font: 14px DroidSans;
-    text-align: center;
 }
 
 .contactsContainer .persona {

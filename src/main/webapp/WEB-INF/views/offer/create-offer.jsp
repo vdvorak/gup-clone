@@ -101,12 +101,12 @@
                 <label for="offer-inpPrice">Цена<em>*</em></label>
             </div>
             <div id="price-options" class="col-xs-3">
-                <select class="prop" name="price">
+                <select id="selection-price" class="prop" name="price">
 
                 </select>
             </div>
             <div class="col-xs-3" style="display: none">
-                <input id="offer-inpPrice" name="price" type="number"
+                <input id="offer-inpPrice" name="price" type="number" min="0" max="2147483648"
                        style="border: 4px solid #9c6; border-radius: 5px;">
             </div>
             <div class="col-xs-2" style="display: none">
@@ -239,7 +239,7 @@
         <div class="row file-browse-wrap">
             <div class="col-xs-4"></div>
             <div id="drop_zone" class="col-xs-8">
-                <ul class="ul-img-container ul-img-container-green">
+                <ul id="offer-img-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
