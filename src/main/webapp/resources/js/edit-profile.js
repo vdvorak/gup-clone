@@ -403,3 +403,11 @@ function dataURItoBlob(dataURI) {
     return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
 }
 // --------------------------------------  END cropper  ----------------------------------------------
+
+$("#nameCompany").autocomplete({
+    source: function (request, response) {
+        $.getJSON("/search/autocomplete/profile/company" , {
+            term: request.term
+        }, response);
+    }
+});
