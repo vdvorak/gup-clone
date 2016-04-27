@@ -184,14 +184,6 @@
                 <%--<div class="scrollPreffered"></div>--%>
             </div>
             <div class="notifications" id="tab-notifications" stype="display: none;">
-                <%--<a href="#" class="notify" ng-repeat="notify in notifies">--%>
-                    <%--<div class="persona">--%>
-                        <%--<img src="/resources/css/images/rupor.png" alt="" class="avatar">--%>
-                        <%--<div class="date">25.10.15</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="text">{{getText(notify.type)}}</div>--%>
-                    <%--<div class="clearfix"></div>--%>
-                <%--</a>--%>
                 <c:if test="${not empty events}">
                     <c:forEach items="${events}" var="event">
                         <a href="#" class="notify" data-targetUId="${event.targetUId}" data-contentId="${event.contentId}" data-makerId="${event.makerId}" data-contentStoreId="${event.contentStoreId}">
@@ -240,13 +232,27 @@
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
+            <%--<div class="greenBox historyBox inlineBox optional closed" id="myNews" toggler="" style="display: none;">--%>
+                <%--<div class="historyIcon toggler"></div>--%>
+                <%--<div class="titleMain toggler">Мои новости</div>--%>
+                <%--<div class="historyContent">--%>
+                    <%--<c:if test="${not empty blogposts}">--%>
+                        <%--<c:forEach items="${blogposts}" var="n">--%>
+                            <%--<a class="historyItem" href="/blog-post/view/id/${n.id}" target="_blank">>${n.title}</a>--%>
+                        <%--</c:forEach>--%>
+                        <%--<div class="arrow toggler"></div>--%>
+                    <%--</c:if>--%>
+                    <%--<p><a href="/blog-create" class="proposeToCreate" target="_blank">Начать новостной блог</a></p>--%>
+                <%--</div>--%>
+                <%--<i class="fa fa-times-circle closeBox"></i>--%>
+            <%--</div>--%>
             <div class="greenBox historyBox inlineBox optional closed" id="myNews" toggler="" style="display: none;">
                 <div class="historyIcon toggler"></div>
-                <div class="titleMain toggler">Мои новости</div>
+                <div class="titleMain toggler">Мои блоги</div>
                 <div class="historyContent">
-                    <c:if test="${not empty blogposts}">
-                        <c:forEach items="${blogposts}" var="n">
-                            <a class="historyItem" href="/blog-post/view/id/${n.id}" target="_blank">>${n.title}</a>
+                    <c:if test="${not empty blogs}">
+                        <c:forEach items="${blogs}" var="n">
+                            <a class="historyItem" href="/blog/${n.id}" target="_blank">>${n.title}</a>
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>

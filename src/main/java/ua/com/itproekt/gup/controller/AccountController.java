@@ -16,6 +16,8 @@ import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.bank_api.entity.ExternalTransaction;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
+import ua.com.itproekt.gup.model.news.Blog;
+import ua.com.itproekt.gup.model.news.BlogFilterOptions;
 import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.offer.Offer;
@@ -31,6 +33,7 @@ import ua.com.itproekt.gup.model.tender.Tender;
 import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.news.BlogPostService;
+import ua.com.itproekt.gup.service.news.BlogService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -71,8 +74,10 @@ public class AccountController {
     @Autowired
     ActivityFeedService activityFeedService;
 
+//    @Autowired
+//    BlogPostService blogPostService;
     @Autowired
-    BlogPostService blogPostService;
+    BlogService blogService;
 
     @Autowired
     OffersService offersService;
@@ -120,16 +125,22 @@ public class AccountController {
         List<InvestorPost> investments = investorService.findInvestorPostsWihOptions(inf).getEntities();
         model.addAttribute("investments", investments);
 
-        BlogPostFilterOptions bpf = new BlogPostFilterOptions();
-        bpf.setAuthorId(authId);
-        bpf.setLimit(contentEntitiesLimit);
-        bpf.setCreatedDateSortDirection(Sort.Direction.DESC);
-        List<BlogPost> blogposts = blogPostService.findBlogPostsWihOptions(bpf).getEntities();
-        model.addAttribute("blogposts", blogposts);
+//        BlogPostFilterOptions bpf = new BlogPostFilterOptions();
+//        bpf.setAuthorId(authId);
+//        bpf.setLimit(contentEntitiesLimit);
+//        bpf.setCreatedDateSortDirection(Sort.Direction.DESC);
+//        List<BlogPost> blogposts = blogPostService.findBlogPostsWihOptions(bpf).getEntities();
+//        model.addAttribute("blogposts", blogposts);
+        BlogFilterOptions bf = new BlogFilterOptions();
+        bf.setAuthorId(authId);
+        bf.setLimit(contentEntitiesLimit);
+        List<Blog> blogs = blogService.findBlogWihOptions(bf).getEntities();
+        model.addAttribute("blogs", blogs);
 
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
         offerFilterOptions.setAuthorId(authId);
         offerFilterOptions.setLimit(contentEntitiesLimit);
+        offerFilterOptions.setCreatedDateSortDirection("DESC");
         List<Offer> offers = offersService.findOffersWihOptions(offerFilterOptions).getEntities();
         model.addAttribute("offers", offers);
 
