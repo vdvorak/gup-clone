@@ -84,7 +84,7 @@ public class MailSenderServiceImpl implements MailSenderService {
                 messageHelper.setTo(emailVerificationModel.getEmail());
                 messageHelper.setFrom(emailFromAddress);
                 messageHelper.setReplyTo(emailReplyToAddress);
-                messageHelper.setSubject(MimeUtility.encodeText(emailSubject, "utf-8", "B"));
+                messageHelper.setSubject("Добро пожаловать на GUP");
                 Map<String, Object> model = new HashMap<>();
                 model.put("model", emailVerificationModel);
                 String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityModel, "UTF-8", model);

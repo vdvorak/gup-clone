@@ -61,6 +61,7 @@ if (typeof loggedInProfile == 'undefined') {
                 cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
             }
         });
+        $("#photoInput").val("");
     });
 
     function dataURItoBlob(dataURI) {
@@ -257,7 +258,7 @@ if (typeof loggedInProfile == 'undefined') {
                 var socName = $(this).attr("name");
                 var url = $(this).val();
                 if (isMatchPatternSocialLinks(socName, url) && url.length) {
-                    socArr[socName] = url;
+                    socArr[socName] = (socName === 'SKYPE') ? 'skype:' + url + '?call': url;
                 }
             });
 
