@@ -63,7 +63,6 @@ public class TenderRestController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tender> getTenderById(@PathVariable("id") String id, HttpServletRequest req) {
-        System.err.println("------------------------------in----------------------------");
         Tender tender = tenderService.findById(id);
         if (tender == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -133,8 +132,6 @@ public class TenderRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityPage<Tender>> listOfAllTenderUsersNace(@RequestBody TenderFilterOptions tenderFilterOptions) {
         tenderFilterOptions.setNaceIdIn(getCurrentUserNaceId());
-        System.out.println("getCurrentUserNaceId() = " + getCurrentUserNaceId());
-        System.out.println("tenderFilterOptions.getNaceIdIn() = " + tenderFilterOptions.getNaceIdIn());
         EntityPage<Tender> tender = tenderService.findWihOptions(tenderFilterOptions, getCurrentUser());
         if (tender.getEntities().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -152,11 +149,13 @@ public class TenderRestController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         tender.setAuthorId(SecurityOperations.getLoggedUserId());
+
+        tender.setHideContact(false);
+        tenderService.createTender(tender);
+
         if (tender.getType() == TenderType.CLOSE) {
             sendActivityFeedToMembers(tender);
         }
-        tender.setHideContact(false);
-        tenderService.createTender(tender);
 
         CreatedObjResp createdObjResp = new CreatedObjResp(tender.getId());
         return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
@@ -408,12 +407,11 @@ public class TenderRestController {
             newMembers.add(m.getId());
         }
 
-            newMembers.removeAll(oldMembers);
+        newMembers.removeAll(oldMembers);
 
         for (String newMemberId : newMembers) {
             activityFeedService.createEvent(new Event(newMemberId, EventType.YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER, newTender.getId(), newTender.getAuthorId()));
         }
-
 
 
     }

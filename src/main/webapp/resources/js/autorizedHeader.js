@@ -481,7 +481,6 @@ function dialogueMakeRead(id) {
         contentType: "application/json; charset=utf-8",
         url: 'api/rest/dialogueService/dialogue/updateRead/' + id,
         success: function (response) {
-            alert("Удалили")
         }
     });
 }
