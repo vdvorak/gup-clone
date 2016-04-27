@@ -61,6 +61,7 @@ if (typeof loggedInProfile == 'undefined') {
                 cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
             }
         });
+        $("#photoInput").val("");
     });
 
     function dataURItoBlob(dataURI) {
