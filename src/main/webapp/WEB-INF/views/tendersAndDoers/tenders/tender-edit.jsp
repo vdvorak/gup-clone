@@ -86,8 +86,13 @@
       <div class="description">
         <label for="HideBidders">Скрывать участников тендера</label>
         <label><input type="checkbox" id="HideBidders" value="open" name="k"/><span></span></label>
-        <label for="InviteBidders">Пригласить участников тендера</label>
-        <input type="text" id="InviteBidders" placeholder="Название">
+        <%--<label for="InviteBidders">Пригласить участников тендера</label>--%>
+        <%--<input type="text" id="InviteBidders" placeholder="Название">--%>
+        <div class="clearfix"></div>
+
+        <label for="selectParticipants" style="display: none">Пригласить участников тендера</label>
+        <select id="selectParticipants" class="chosen" multiple data-placeholder="Участники тендера" style="display: none">
+        </select>
 
         <div class="clearfix"></div>
 
@@ -157,7 +162,7 @@
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 
 <script>
-  var members = [];
+
   var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
   var picMapObj = {};
   var imgsArrResult = {};
@@ -331,18 +336,15 @@
   //--------------------  RADIO CHECK ------------------------------------//
 
   $('.input-tenderRadio').change(function () {
-    var invite = $('#InviteBidders');
-    if ($('.input-tenderRadio[data-type="CLOSE"]').prop('checked')) {
-      invite.attr("style", "display: ");
-      $('label[for="InviteBidders"]').attr("style", "display: ");
-    } else {
-      invite.attr("style", "display: none");
-      $('label[for="InviteBidders"]').attr("style", "display: none");
-    }
+    var display = $('.input-tenderRadio[data-type="CLOSE"]').prop('checked') ? "" : "none";
+
+    if(display) $('#selectParticipants').empty();
+
+    $('#selectParticipants_chosen').css("display", display);
+    $('label[for="selectParticipants"]').css("display", display);
   });
 
   //--------------------   END RADIO CHECK ------------------------------------//
-
 
   //-------------------- ADD MEMBER ------------------------------------------//
 
@@ -593,9 +595,15 @@
     tender.type = $('.input-tenderRadio:checked').attr("data-type");
     tender.expectedPrice = $('#ExpectedValue').val();
     tender.hidePropose =  $('#HideBidders').prop('checked');
-    var members = [];
     if (tender.type === 'CLOSE') {
-      tender.members = members;
+      tender.members = [];
+      var arrOpt = $('#selectParticipants').children();
+      for(var i = 0; i < arrOpt.length; i++) {
+        tender.members.push({
+          id: $(arrOpt[i]).attr('value'),
+          name: $(arrOpt[i]).text()
+        })
+      }
     }
     var naceIds = $('#selectKved').val();
     if(naceIds) tender.naceIds = naceIds;
@@ -643,6 +651,64 @@
     });
   });
   //------------------ END DELETE TENDER ------------------------------------//
+
+  // ---------------------------- BEGIN participants -------------------------------------------------//
+  function getMembers() {
+    var strMembers = "${tender.members}",
+            members = [];
+
+    strMembers.split('},').forEach(function(s) {
+      var idxID = s.indexOf("id='") + 4,
+        idxName = s.indexOf("name='") + 6,
+        id = s.substring(idxID, s.indexOf("'", idxID)),
+        name = s.substring(idxName, s.indexOf("'", idxName));
+
+      members.push({id: id, name: name});
+    })
+
+    return members;
+  }
+
+  $(function() {
+    $('.input-tenderRadio').change();
+
+    var select = $('#selectParticipants');
+    select.chosen({width: '545px', display_selected_options: false});
+
+    var members = getMembers();
+    for(var i = 0; i < members.length; i++) {
+      select.append('<option value="' + members[i].id + '" selected>' + members[i].name + ' </option>');
+    }
+
+    select.trigger("chosen:updated");
+
+    select.on('change', function() {
+      select.children('option:not(:selected)').remove();
+      select.trigger("chosen:updated");
+    });
+
+    var input = $("#selectParticipants_chosen ul.chosen-choices li.search-field input");
+
+    input.autocomplete({
+      source: function (request, response) {
+        $.getJSON("search/autocomplete/profile/ids", {
+          term: request.term
+        }, function(response) {
+          var $search_param = input.val();
+          select.children('option:not(:selected)').remove();
+          for (var key in response) {
+            if(!select.children('option[value="' + response[key].id +'"]').length) {
+              select.append('<option value="' + response[key].id + '">' + response[key].username + ' </option>');
+            }
+          }
+          select.trigger("chosen:updated");
+          input.val($search_param);
+        });
+      }
+    });
+  });
+
+  //---------------------------- END participants -------------------------------------------------//
 
 </script>
 <%--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"--%>

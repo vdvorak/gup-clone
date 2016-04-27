@@ -46,14 +46,14 @@
 
 <!--PAGE CONTENT START-->
 
-<div class="container2">
+<div id="tender-container" class="container2">
     <div class="contentContainer" style="margin-top: 100px;"> <!-- Add "vip" class for "vip" users :3 -->
         <div class="tenderContent">
             <div class="topSection">
                 <div class="statInfo">
                     <div class="publishDate tender-publish-date">Опубликовано: <span></span></div>
                     <span class="number visible">№<span class="tender-number"></span></span>
-                    <div class="sum tender-expectedPrice"><span></span>₴</div>
+                    <div class="sum tender-expectedPrice"></div>
                     <div class="tender-veiws">Просмотров: <span></span></div>
                     <div class="tender-proposal-count">Предложений: <span></span></div>
                     <div class="tender-author-contact">Создатель тендера: <span></span></div>

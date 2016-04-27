@@ -4,7 +4,7 @@ var phonesSet;
 
 
 if (typeof loggedInProfile == 'undefined') {
-$('#write-to-author').hide();
+    $('#write-to-author').hide();
 }
 
 
@@ -45,9 +45,9 @@ if (offer.price) {
 
 $('#create-date').text(offer.createdDate);
 
-if (offer.urgent){
+if (offer.urgent) {
     if (offer.urgent == true) {
-       $('#urgent').text('СРОЧНО')
+        $('#urgent').text('СРОЧНО')
     }
 }
 
@@ -90,21 +90,21 @@ if (offer.imagesIds) {
     var SUKAA = $('#offer-slider').bxSlider({
         doubleControls: true,
         // pagerCustom`: '#bx-pager'
-        buildPager: function(slideIndex){
+        buildPager: function (slideIndex) {
             var sourceAttribute = $('#offer-slider li img').eq(slideIndex + 1).attr('src');
-            return '<div style="background-image: url(\''+sourceAttribute+'\');"></div>';
+            return '<div style="background-image: url(\'' + sourceAttribute + '\');"></div>';
         },
-        onSlideAfter: function(elem){
+        onSlideAfter: function (elem) {
             var src = elem.find('img').attr('src');
             $('.modalSlider > img').attr('src', src);
         }
 
     });
-    $('.super_netxt_knopka').on('click', function(){
+    $('.super_netxt_knopka').on('click', function () {
         SUKAA.goToNextSlide();
         return false;
     })
-    $('.super_prev_knopka').on('click', function(){
+    $('.super_prev_knopka').on('click', function () {
         SUKAA.goToPrevSlide();
         return false;
     })
@@ -125,24 +125,24 @@ if (offer.address) {
 }
 $('#offer-cities li a').click(offerFilter.redirectToOfferAllByBreadcrumbs);
 
-$.when(window.loadCategories, window.loadSubcategories).done(function(){
+$.when(window.loadCategories, window.loadSubcategories).done(function () {
     var breadcrumbs = offer.categories;
     if (breadcrumbs[0]) {
         for (var i = 0; i < jsonCategory.length; i++) {
             if (jsonCategory[i].id === +breadcrumbs[0]) {
-                $('#breadcrumbs').append('<li><a href="#" id="'+ breadcrumbs[0] +'">' + jsonCategory[i].name + '</a>' + '</li>');
+                $('#breadcrumbs').append('<li><a href="#" id="' + breadcrumbs[0] + '">' + jsonCategory[i].name + '</a>' + '</li>');
 
                 if (breadcrumbs[1]) {
                     for (var m in jsonCategory[i].children) {
                         if (jsonCategory[i].children[m].id == +breadcrumbs[1]) {
-                            $('#breadcrumbs').append('<li><a id="'+ breadcrumbs[1] +'" href="#">' + jsonCategory[i].children[m].name + '</a>' + '</li>');
+                            $('#breadcrumbs').append('<li><a id="' + breadcrumbs[1] + '" href="#">' + jsonCategory[i].children[m].name + '</a>' + '</li>');
                         }
                     }
                 }
                 if (breadcrumbs[2]) {
                     var obj1 = +breadcrumbs[1] + "";
                     var obj2 = +breadcrumbs[2] + "";
-                    $('#breadcrumbs').append('<li><a id="'+ obj2 +'" href="#">' + jsonSubcategory[obj1].children[obj2].label + '</a>' + '</li>');
+                    $('#breadcrumbs').append('<li><a id="' + obj2 + '" href="#">' + jsonSubcategory[obj1].children[obj2].label + '</a>' + '</li>');
                 }
             }
         }
@@ -174,6 +174,11 @@ $.ajax({
     type: "POST",
     url: "/api/rest/profilesService/profile/read/id/" + offer.authorId,
     success: function (profile) {
+
+        if (profile.imgId != '') {
+            $('#avatar-img').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId)
+        }
+
         if (profile.username) {
             $('.author-name').text(profile.username)
         } else {

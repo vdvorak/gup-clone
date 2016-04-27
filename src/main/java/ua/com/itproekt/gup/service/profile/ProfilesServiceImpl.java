@@ -8,10 +8,7 @@ import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.model.profiles.*;
 import ua.com.itproekt.gup.util.EntityPage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ProfilesServiceImpl implements ProfilesService {
@@ -151,6 +148,12 @@ public class ProfilesServiceImpl implements ProfilesService {
     public Set<String> getMatchedNames(String term) {
         return profileRepository.getMatchedNames(term);
     }
+
+    @Override
+    public List<Profile> getMatchedNamesWithIds(String term) {
+        return profileRepository.getMatchedNamesToFindWithId(term);
+    }
+
 
     @Override
     public void addContactToContactList(String profileOwnerContactListId, String contactId) {

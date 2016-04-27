@@ -23,6 +23,8 @@ import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.projectsAndInvestments.investment.InvestorPost;
+import ua.com.itproekt.gup.model.projectsAndInvestments.investment.InvestorPostFilterOptions;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOptions;
 import ua.com.itproekt.gup.model.tender.Tender;
@@ -32,6 +34,7 @@ import ua.com.itproekt.gup.service.news.BlogPostService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.service.projectsAndInvestments.investment.InvestorService;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
 import ua.com.itproekt.gup.service.tender.TenderService;
 import ua.com.itproekt.gup.util.EntityPage;
@@ -61,6 +64,9 @@ public class AccountController {
 
     @Autowired
     ProjectService projectService;
+
+    @Autowired
+    InvestorService investorService;
 
     @Autowired
     ActivityFeedService activityFeedService;
@@ -104,6 +110,12 @@ public class AccountController {
         pf.setLimit(3);
         List<Project> projects = projectService.findProjectsWihOptions(pf).getEntities();
         model.addAttribute("projects", projects);
+
+        InvestorPostFilterOptions inf = new InvestorPostFilterOptions();
+        inf.setuId(authId);
+        inf.setLimit(3);
+        List<InvestorPost> investments = investorService.findInvestorPostsWihOptions(inf).getEntities();
+        model.addAttribute("investments", investments);
 
         BlogPostFilterOptions bpf = new BlogPostFilterOptions();
         bpf.setAuthorId(authId);

@@ -114,7 +114,7 @@
                 <div class="col-xs-7 no-padd-left">
 
                     <div class="col-xs-5 no-padd-left">
-                        <span class="foto"><img src="/resources/images/doersLogo.png" alt=""></span>
+                        <span class="foto"><img id="avatar-img" src="/resources/images/doersLogo.png" alt=""></span>
                     </div>
                     <div class="col-xs-7 no-padd">
                         Автор: <a class="author-link"><span class="author-name"></span></a>
@@ -192,47 +192,6 @@
         <div class="feedFooter"></div>
     </div>
 </div>
-
-<!-- The Modal -->
-<%--<div id="refill">--%>
-<%--<h2>Вступить в организацию</h2>--%>
-<%--<div class="whichBankYouChoose">--%>
-<%--<div class="no-money-reserve">--%>
-<%--<!-- когда чувак нищеброд -->--%>
-<%--<h2>НА ВАШЕМ СЧЕТУ НЕТ ДЕНЕГ</h2>--%>
-<%--<p>Введите сумму:</p>--%>
-<%--<form action="#" role="form">--%>
-<%--<input type="text" name="bill" placeholder="350, 000">--%>
-<%--<p>$</p>--%>
-<%--</form>--%>
-<%--<p>Пополните счет, с помощью этих банк-систем:</p>--%>
-<%--<div class="socialBankIcons">--%>
-<%--<a href="#"><img src="/resources/images/visa.png" alt="visa"></a>--%>
-<%--<a href="#"><img src="/resources/images/mastercard.png" alt="mastercard"></a>--%>
-<%--<a href="#"><img src="/resources/images/payPal.png" alt="payPal"></a>--%>
-<%--<a href="#"><img src="/resources/images/box.png" alt="box"></a>--%>
-<%--</div>--%>
-<%--<a href="#"><img src="/resources/images/privat24.png" alt="privat24"></a>--%>
-<%--<button type="button">Отмена</button>--%>
-<%--</div>--%>
-<%--<div class="yes-money-reserve">--%>
-<%--<!-- когда чувак не нищеброд -->--%>
-<%--<p>С вашего счета будет снято 000. 00 грн</p>--%>
-<%--<form role="form" action="#">--%>
-<%--<div class="richAssCheck">--%>
-<%--<label for="hustle">Windows XP&nbsp;</label>--%>
-<%--<label class="label-checkbox-rich">--%>
-<%--<input type="checkbox" id="hustle" value="1" name="k" /><span></span>--%>
-<%--</label>--%>
-<%--</div>--%>
-<%--<div class="clearfix"></div>--%>
-<%--<button type="button" id='close'>Отмена</button>--%>
-<%--<button type="submit">Подтвердить</button>--%>
-<%--</form>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<!-- End of the Modal -->
 
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>

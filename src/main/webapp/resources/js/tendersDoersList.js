@@ -57,7 +57,13 @@ $(document).ready(function () {
             $(".build-publish-date span").last().text(localDateTime(data[i].begin));
             $(".build-veiws span").last().text(data[i].visited);
             $(".build-proposal-count span").last().text(data[i].proposeNumber);
-            $(".build-sum").last().text(data[i].expectedPrice);
+
+            if (data[i].expectedPrice != null) {
+                $(".sum").last().text(data[i].expectedPrice + "₴");
+            } else {
+                $(".sum").last().text("Ожидаемая сумма не указана");
+            }
+
             $(".build-name-wrap").last().attr('href', url);
             $(".build-name").last().text(data[i].title);
             $(".build-end").last().text(localDateTime(data[i].end));

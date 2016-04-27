@@ -5,6 +5,7 @@ import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -128,6 +129,8 @@ public interface ProfilesService {
     void addFriend(String profileId, String friendProfileId);
 
     Set<String> getMatchedNames(String term);
+
+    List<Profile> getMatchedNamesWithIds(String term);
 
     void addContactToContactList(String profileOwnerContactListId, String contactId);
 

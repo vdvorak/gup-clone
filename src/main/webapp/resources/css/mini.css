@@ -302,7 +302,7 @@ textarea {
     z-index: 999;
 }
 
-#selectKved_chosen {
+#selectKved_chosen, #selectParticipants_chosen {
     border: 2px solid #9c6;
     border-radius: 5px;
     font: 400 13px DroidSans !important;

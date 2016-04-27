@@ -12,7 +12,7 @@ if (typeof loggedInProfile == 'undefined') {
             var option = $('<option id="'+ response[i].id +'" value="'+ response[i].id +'">'+ response[i].id + ": " +response[i].name +'</option>');
             select.append(option);
         }
-        $(".chosen").chosen();
+        $("#selectKved").chosen();
     });
 
     $(document).ready(function () {
@@ -133,14 +133,12 @@ if (typeof loggedInProfile == 'undefined') {
 //--------------------  RADIO CHECK ------------------------------------//
 
     $('.input-tenderRadio').change(function () {
-        var invite = $('#InviteBidders');
-        if ($('.input-tenderRadio[data-type="CLOSE"]').prop('checked')) {
-            invite.attr("style", "display: ");
-            $('label[for="InviteBidders"]').attr("style", "display: ");
-        } else {
-            invite.attr("style", "display: none");
-            $('label[for="InviteBidders"]').attr("style", "display: none");
-        }
+        var display = $('.input-tenderRadio[data-type="CLOSE"]').prop('checked') ? "" : "none";
+
+        if(display) $('#selectParticipants').empty();
+
+        $('#selectParticipants_chosen').css("display", display);
+        $('label[for="selectParticipants"]').css("display", display);
     });
 
 //--------------------   END RADIO CHECK ------------------------------------//
@@ -351,6 +349,7 @@ if (typeof loggedInProfile == 'undefined') {
     }
 
     $('#tender-make-form').submit(function (event) {
+
         if(!checkDateInDatepicker()) return false;
 
         var body = tinymce.activeEditor.getContent();
@@ -370,10 +369,17 @@ if (typeof loggedInProfile == 'undefined') {
         tender.type = $('.input-tenderRadio:checked').attr("data-type");
         tender.expectedPrice = $('#ExpectedValue').val();
         tender.hidePropose =  $('#HideBidders').prop('checked');
-        var members = [];
         if (tender.type === 'CLOSE') {
-            tender.members = members;
+            tender.members = [];
+            var arrOpt = $('#selectParticipants').children();
+            for(var i = 0; i < arrOpt.length; i++) {
+                tender.members.push({
+                    id: $(arrOpt[i]).attr('value'),
+                    name: $(arrOpt[i]).text()
+                })
+            }
         }
+
         var naceIds = $('#selectKved').val();
         if(naceIds) tender.naceIds = naceIds;
 
@@ -397,6 +403,43 @@ if (typeof loggedInProfile == 'undefined') {
         event.preventDefault();
     });
 //---------------------------- END SUBMIT -------------------------------------------------//
+
+// ---------------------------- BEGIN participants -------------------------------------------------//
+
+    $(function() {
+
+        var select = $('#selectParticipants');
+        select.chosen({width: '545px', display_selected_options: false});
+
+        $('#selectParticipants_chosen').css("display", "none");
+
+        select.on('change', function() {
+            select.children('option:not(:selected)').remove();
+            select.trigger("chosen:updated");
+        });
+
+        var input = $("#selectParticipants_chosen ul.chosen-choices li.search-field input");
+
+        input.autocomplete({
+            source: function (request, response) {
+                $.getJSON("search/autocomplete/profile/ids", {
+                    term: request.term
+                }, function(response) {
+                    var $search_param = input.val();
+                    select.children('option:not(:selected)').remove();
+                    for (var key in response) {
+                        if(!select.children('option[value="' + response[key].id +'"]').length) {
+                            select.append('<option value="' + response[key].id + '">' + response[key].username + ' </option>');
+                        }
+                    }
+                    select.trigger("chosen:updated");
+                    input.val($search_param);
+                });
+            }
+        });
+    });
+
+//---------------------------- END participants -------------------------------------------------//
 }
 
 
