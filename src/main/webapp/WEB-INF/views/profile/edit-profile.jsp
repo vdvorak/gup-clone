@@ -51,9 +51,7 @@
             <input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg"
                    style="display:none">
         </form>
-        <div class="moreInformation-img" id="addProfileImg">
-            <a><img src="resources/images/pluse.png" alt="plus"></a>
-        </div>
+        <div class="moreInformation-img" id="addProfileImg"></div>
         <div id="moreInformation-form">
             <label class="label-form-info" for="select-type">Тип аккаунта</label>
 

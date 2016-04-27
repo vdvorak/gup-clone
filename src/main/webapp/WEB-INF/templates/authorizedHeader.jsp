@@ -13,8 +13,8 @@
             <div class="clearfix"></div>
             <a href="/prioffice">Личный кабинет</a>
             <a href="/dialogues">Мои сообщения</a>
-            <a href="/logout">Выход</a>
             <a href="/edit-profile">Редактировать страницу</a>
+            <a href="/logout">Выход</a>
         </div>
     </div>
     <div class="mail">
@@ -82,7 +82,7 @@
         </div>
     </div>
     <div class="money">
-        <p><span id="score"></span> грн.</p>
+        <p>Баланс: <span id="score"></span> грн.</p>
 
         <div class="dropDownMoney">
             <button>Пополнить баланс</button>

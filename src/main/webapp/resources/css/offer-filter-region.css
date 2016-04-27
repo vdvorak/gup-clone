@@ -13,7 +13,7 @@
     line-height: 27px;
     padding-left: 22px;
     padding-right: 20px;
-    width: 685px;
+    width: 668px;
 
 }
 #filter-container-region-search > i {
@@ -73,7 +73,7 @@
     margin-left: -21px;
 }
 label[for="input-region-search"] {
-    margin-left: 68px;
+    margin-left: 74px;
     margin-right: 25px;
     color: #fff;
 }
