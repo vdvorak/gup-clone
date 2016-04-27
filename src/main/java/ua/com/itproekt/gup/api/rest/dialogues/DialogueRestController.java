@@ -1,6 +1,5 @@
 package ua.com.itproekt.gup.api.rest.dialogues;
 
-import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -8,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
@@ -88,6 +89,7 @@ public class DialogueRestController {
     }
 
     // this method provide adding new message to existing dialogue. Id in path is a dialogue id.
+    //!!!! this functionality should be rewritten to the socke
     @RequestMapping(
             value = "dialogue/id/{id}/message/create",
             method = RequestMethod.POST,
@@ -274,5 +276,12 @@ public class DialogueRestController {
             member.setId(getCurrentUserId());
             dialogue.getMembers().add(member);
         }
+    }
+
+    @MessageMapping("/socket-request")
+    @SendTo("/topic/socket-response")
+    public SocketResponse response(SocketMessage message) throws Exception {
+        //Thread.sleep(3000); // simulated delay
+        return new SocketResponse("Hello, " + message.getMessage() + "!");
     }
 }

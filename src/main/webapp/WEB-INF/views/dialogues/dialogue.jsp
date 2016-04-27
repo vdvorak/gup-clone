@@ -51,6 +51,36 @@
 <!-- script references -->
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script src="/resources/libs/sockjs-0.3.4.js"></script>
+<script src="/resources/libs/stomp.js"></script>
+<script type="text/javascript">
+    var stompClient = null;
+    function connect() {
+        var socket = new SockJS('/socket-request');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/socket-response', function(response){
+                showResponse(JSON.parse(response.body).content);
+            });
+        });
+    }
+
+    function disconnect() {
+        stompClient.disconnect();
+        console.log("Disconnected");
+    }
+
+    function sendMessage() {
+        var message = document.getElementById('name').value;
+        stompClient.send("/app/socket-request", {}, JSON.stringify({ 'message': message }));
+    }
+
+    function showResponse(message) {
+        console.log(message);
+    }
+
+</script>
 
 <script>
 
@@ -64,6 +94,8 @@
 
         msg.message = $('#newMsg').val();
 
+
+        //!!!! should add sockets functionality here, instead of ajax. for test reason add getNewPosts at the end.
         $.ajax({
             type: "POST",
 //      url: "/api/rest/doerService/doer/create",
@@ -207,6 +239,16 @@
     }
 
 </script>
+
+<div>
+    <button id="connect" onclick="connect();">Connect</button>
+    <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
+</div>
+<div id="conversationDiv">
+    <label>What is your name?</label><input type="text" id="name" />
+    <button id="sendMessage" onclick="sendMessage();">Send</button>
+    <p id="response"></p>
+</div>
 
 </body>
 </html>

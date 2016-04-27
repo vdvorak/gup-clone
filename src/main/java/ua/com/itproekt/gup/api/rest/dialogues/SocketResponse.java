@@ -1,17 +1,18 @@
 package ua.com.itproekt.gup.api.rest.dialogues;
 
 /**
- * Created by wladi on 26.04.2016.
+ * Created by Lili on 27.04.2016.
  */
-public class Greeting {
+public class SocketResponse {
 
     private String content;
 
-    public Greeting(String content) {
+    public SocketResponse(String content) {
         this.content = content;
     }
 
     public String getContent() {
         return content;
     }
+
 }

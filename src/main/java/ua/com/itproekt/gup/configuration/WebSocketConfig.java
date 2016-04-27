@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.api.rest.dialogues;
+package ua.com.itproekt.gup.configuration;
 
 /**
  * Created by wladi on 26.04.2016.
@@ -14,14 +14,12 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
+    public void configureMessageBroker(MessageBrokerRegistry config){
         config.enableSimpleBroker("/topic");
         config.setApplicationDestinationPrefixes("/app");
     }
-
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/hello").withSockJS();
+        registry.addEndpoint("/socket-request").withSockJS();
     }
-
 }
