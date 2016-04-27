@@ -218,7 +218,7 @@
                 <div class="historyContent">
                     <c:if test="${not empty tenders}">
                         <c:forEach items="${tenders}" var="tender">
-                            <a class="historyItem" href="/tender/${tender.id}">${tender.title}</a>
+                            <a class="historyItem" href="/tender/${tender.id}" target="_blank">>${tender.title}</a>
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
@@ -234,7 +234,7 @@
                 <div class="historyContent">
                     <c:if test="${not empty projects}">
                         <c:forEach items="${projects}" var="project">
-                            <a class="historyItem" href="/project?id=${project.id}">${project.title}</a>
+                            <a class="historyItem" href="/project?id=${project.id}" target="_blank">>${project.title}</a>
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
@@ -250,7 +250,7 @@
                 <div class="historyContent">
                     <c:if test="${not empty blogposts}">
                         <c:forEach items="${blogposts}" var="n">
-                            <a class="historyItem" href="/blog-post/view/id/${n.id}">${n.title}</a>
+                            <a class="historyItem" href="/blog-post/view/id/${n.id}" target="_blank">>${n.title}</a>
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
@@ -266,7 +266,7 @@
                 <div class="historyContent">
                     <c:if test="${not empty offers}">
                         <c:forEach items="${offers}" var="offer">
-                            <a class="historyItem" href="/offer/${offer.id}">${offer.title}</a>
+                            <a class="historyItem" href="/offer/${offer.id}" target="_blank">>${offer.title}</a>
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
@@ -282,7 +282,7 @@
                 <div class="historyContent">
                     <c:if test="${not empty investments}">
                         <c:forEach items="${investments}" var="invest">
-                            <span class="historyItem">${invest.description}</span>
+                            <a class="historyItem" href="/investorPost/edit?id=${invest.id}" target="_blank">>${invest.description}</a>
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
