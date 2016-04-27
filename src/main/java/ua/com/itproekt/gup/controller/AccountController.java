@@ -81,6 +81,9 @@ public class AccountController {
 
     private static Map<String,Integer> storedSMScodes = new HashMap<>();
 
+    final int contentEntitiesLimit = 6;
+    final int eventEntitiesLimit = 60;
+
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/prioffice", method = RequestMethod.GET)
     public String privatOfice(Model model) {
@@ -101,37 +104,37 @@ public class AccountController {
 
         TenderFilterOptions tf = new TenderFilterOptions();
         tf.setAuthorId(authId);
-        tf.setLimit(3);
+        tf.setLimit(contentEntitiesLimit);
         List<Tender> tenders = tenderService.findWihOptions(tf, profile).getEntities();
         model.addAttribute("tenders", tenders);
 
         ProjectFilterOptions pf = new ProjectFilterOptions();
         pf.setAuthorId(authId);
-        pf.setLimit(3);
+        pf.setLimit(contentEntitiesLimit);
         List<Project> projects = projectService.findProjectsWihOptions(pf).getEntities();
         model.addAttribute("projects", projects);
 
         InvestorPostFilterOptions inf = new InvestorPostFilterOptions();
         inf.setuId(authId);
-        inf.setLimit(3);
+        inf.setLimit(contentEntitiesLimit);
         List<InvestorPost> investments = investorService.findInvestorPostsWihOptions(inf).getEntities();
         model.addAttribute("investments", investments);
 
         BlogPostFilterOptions bpf = new BlogPostFilterOptions();
         bpf.setAuthorId(authId);
-        bpf.setLimit(3);
+        bpf.setLimit(contentEntitiesLimit);
         bpf.setCreatedDateSortDirection(Sort.Direction.DESC);
         List<BlogPost> blogposts = blogPostService.findBlogPostsWihOptions(bpf).getEntities();
         model.addAttribute("blogposts", blogposts);
 
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
         offerFilterOptions.setAuthorId(authId);
-        offerFilterOptions.setLimit(3);
+        offerFilterOptions.setLimit(contentEntitiesLimit);
         List<Offer> offers = offersService.findOffersWihOptions(offerFilterOptions).getEntities();
         model.addAttribute("offers", offers);
 
         EventFilterOptions ef = new EventFilterOptions();
-        ef.setLimit(3);
+        ef.setLimit(eventEntitiesLimit);
         ef.setSkip(0);
         ef.setTargetUId(profile.getId());
         EntityPage<Event> events = activityFeedService.findEventsWithOptions(ef);

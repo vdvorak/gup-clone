@@ -158,7 +158,7 @@
                     </div>
                     <div class="arrow toggler"></div>
                 </c:if>
-                <c:if test="${empty events}">
+                <c:if test="${empty profile.contactList}">
                     <div class="noContent">Пусто</div>
                 </c:if>
             </div>
@@ -222,9 +222,7 @@
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
-                    <c:if test="${empty tenders}">
-                        <p><a href="/tender-make" class="proposeToCreate" target="_blank">Обьявить тендер</a></p>
-                    </c:if>
+                    <p><a href="/tender-make" class="proposeToCreate" target="_blank">Обьявить тендер</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
@@ -238,9 +236,7 @@
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
-                    <c:if test="${empty projects}">
-                        <p><a href="/project/create" class="proposeToCreate" target="_blank">Рассказать о проекте</a></p>
-                    </c:if>
+                    <p><a href="/project/create" class="proposeToCreate" target="_blank">Рассказать о проекте</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
@@ -254,9 +250,7 @@
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
-                    <c:if test="${empty blogposts}">
-                        <p><a href="/blog-create" class="proposeToCreate" target="_blank">Начать новостной блог</a></p>
-                    </c:if>
+                    <p><a href="/blog-create" class="proposeToCreate" target="_blank">Начать новостной блог</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
@@ -270,9 +264,7 @@
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
-                    <c:if test="${empty offers}">
-                        <p><a href="/create-offer" class="proposeToCreate" target="_blank">Разместить обьявление</a></p>
-                    </c:if>
+                    <p><a href="/create-offer" class="proposeToCreate" target="_blank">Разместить обьявление</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
@@ -286,9 +278,7 @@
                         </c:forEach>
                         <div class="arrow toggler"></div>
                     </c:if>
-                    <c:if test="${empty investments}">
-                        <p><a href="/investorPost/create" class="proposeToCreate" target="_blank">Инвестировать</a></p>
-                    </c:if>
+                    <p><a href="/investorPost/create" class="proposeToCreate" target="_blank">Инвестировать</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
