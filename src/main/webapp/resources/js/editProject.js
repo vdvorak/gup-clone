@@ -55,10 +55,10 @@ function handleDragOver(evt) {
     evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 }
 
-loadAndAppendProjectInfo(projectId);
+var xhrLoadProject = loadAndAppendProjectInfo(projectId);
 
 function loadAndAppendProjectInfo(projectId) {
-    $.ajax({
+    return $.ajax({
         type: "GET",
         url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/read",
         statusCode: {
@@ -309,3 +309,7 @@ tinymce.init({
         '//www.tinymce.com/css/codepen.min.css'
     ]
 });
+
+$.when(xhrLoadProject).done(function(res) {
+    tinymce.get('description').setContent(res.description, {format : 'raw'});
+})
