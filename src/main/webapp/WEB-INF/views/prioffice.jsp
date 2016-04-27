@@ -205,28 +205,28 @@
         </div>
         <div class="historyContainer">
             <div class="greenBox historyBox inlineBox optional closed" id="myTenders" toggler="" style="display: none;">
-                <div class="historyIcon toggler"></div>
-                <div class="titleMain toggler">Мои тендеры</div>
+                <div class="historyIcon"></div>
+                <div class="titleMain">Мои тендеры</div>
                 <div class="historyContent">
                     <c:if test="${not empty tenders}">
                         <c:forEach items="${tenders}" var="tender">
                             <a class="historyItem" href="/tender/${tender.id}" target="_blank">>${tender.title}</a>
                         </c:forEach>
-                        <div class="arrow toggler"></div>
+                        <div class="arrow loader"></div>
                     </c:if>
                     <p><a href="/tender-make" class="proposeToCreate" target="_blank">Обьявить тендер</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myProjects" toggler="" style="display: none;">
-                <div class="historyIcon toggler"></div>
-                <div class="titleMain toggler">Мои проекты</div>
+                <div class="historyIcon"></div>
+                <div class="titleMain">Мои проекты</div>
                 <div class="historyContent">
                     <c:if test="${not empty projects}">
                         <c:forEach items="${projects}" var="project">
                             <a class="historyItem" href="/project?id=${project.id}" target="_blank">>${project.title}</a>
                         </c:forEach>
-                        <div class="arrow toggler"></div>
+                        <div class="arrow loader"></div>
                     </c:if>
                     <p><a href="/project/create" class="proposeToCreate" target="_blank">Рассказать о проекте</a></p>
                 </div>
@@ -247,57 +247,57 @@
                 <%--<i class="fa fa-times-circle closeBox"></i>--%>
             <%--</div>--%>
             <div class="greenBox historyBox inlineBox optional closed" id="myNews" toggler="" style="display: none;">
-                <div class="historyIcon toggler"></div>
-                <div class="titleMain toggler">Мои блоги</div>
+                <div class="historyIcon"></div>
+                <div class="titleMain">Мои блоги</div>
                 <div class="historyContent">
                     <c:if test="${not empty blogs}">
                         <c:forEach items="${blogs}" var="n">
                             <a class="historyItem" href="/blog/${n.id}" target="_blank">>${n.title}</a>
                         </c:forEach>
-                        <div class="arrow toggler"></div>
+                        <div class="arrow loader"></div>
                     </c:if>
                     <p><a href="/blog-create" class="proposeToCreate" target="_blank">Начать новостной блог</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myOffers" toggler="" style="display: none;">
-                <div class="historyIcon toggler"></div>
-                <div class="titleMain toggler">Мои обьявления</div>
+                <div class="historyIcon"></div>
+                <div class="titleMain">Мои обьявления</div>
                 <div class="historyContent">
                     <c:if test="${not empty offers}">
                         <c:forEach items="${offers}" var="offer">
                             <a class="historyItem" href="/offer/${offer.id}" target="_blank">>${offer.title}</a>
                         </c:forEach>
-                        <div class="arrow toggler"></div>
+                        <div class="arrow loader"></div>
                     </c:if>
                     <p><a href="/create-offer" class="proposeToCreate" target="_blank">Разместить обьявление</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myInvestments" toggler="" style="display: none;">
-                <div class="historyIcon toggler"></div>
-                <div class="titleMain toggler">Мои инвестиции</div>
+                <div class="historyIcon"></div>
+                <div class="titleMain">Мои инвестиции</div>
                 <div class="historyContent">
                     <c:if test="${not empty investments}">
                         <c:forEach items="${investments}" var="invest">
                             <a class="historyItem" href="/investorPost/edit?id=${invest.id}" target="_blank">>${invest.description}</a>
                         </c:forEach>
-                        <div class="arrow toggler"></div>
+                        <div class="arrow loader"></div>
                     </c:if>
                     <p><a href="/investorPost/create" class="proposeToCreate" target="_blank">Инвестировать</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myBalance" toggler="" style="display: none;">
-                <div class="historyIcon toggler"></div>
-                <div class="titleMain toggler">Мой баланс</div>
+                <div class="historyIcon"></div>
+                <div class="titleMain">Мой баланс</div>
                 <div class="historyContent">
                     <c:forEach items="${balance}" var="b">
                         <span class="historyItem"><span class="time">${b.dateTime}</span>: пополнено на ${b.amount} грн.</span>
                     </c:forEach>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
-                <div class="arrow toggler"></div>
+                <div class="arrow loader"></div>
             </div>
         </div>
         <div class="clearfix"></div>

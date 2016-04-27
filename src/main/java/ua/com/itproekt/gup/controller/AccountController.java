@@ -86,8 +86,8 @@ public class AccountController {
 
     private static Map<String,Integer> storedSMScodes = new HashMap<>();
 
-    final int contentEntitiesLimit = 6;
-    final int eventEntitiesLimit = 60;
+    final int contentEntitiesLimit = 5;
+    final int eventEntitiesLimit = 50;
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/prioffice", method = RequestMethod.GET)
