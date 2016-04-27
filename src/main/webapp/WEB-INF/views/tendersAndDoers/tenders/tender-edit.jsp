@@ -651,7 +651,7 @@
   // ---------------------------- BEGIN participants -------------------------------------------------//
 
   function getMembers() {
-    var str = "${tender.members}";
+    var str = "${tender.members}".replace(/Member/g, "");
     str = str.substr(1, str.length - 2);
     var parts = str.split('}, ');
     var objs = [];
@@ -689,7 +689,7 @@
 
     input.autocomplete({
       source: function (request, response) {
-        $.getJSON("search/autocomplete/profile/ids", {
+        $.getJSON("/search/autocomplete/profile/ids", {
           term: request.term
         }, function(response) {
           var $search_param = input.val();

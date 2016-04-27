@@ -418,7 +418,7 @@ if (typeof loggedInProfile == 'undefined') {
 
     input.autocomplete({
         source: function (request, response) {
-            $.getJSON("search/autocomplete/profile/ids", {
+            $.getJSON("/search/autocomplete/profile/ids", {
                 term: request.term
             }, function(response) {
                 var $search_param = input.val();
