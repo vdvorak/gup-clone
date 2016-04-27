@@ -38,7 +38,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileRepository.createProfile(newProfile);
         bankSession.createBalanceRecord(newProfile.getId(), 0);
 
-       profile.setId(newProfile.getId());
+        profile.setId(newProfile.getId());
     }
 
     private void setEmptyFieldsForNewUser(Profile newProfile) {
@@ -154,6 +154,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.getMatchedNamesToFindWithId(term);
     }
 
+    @Override
+    public List<Profile> getMatchedCompanies(String term) {
+        return profileRepository.getMatchedCompanies(term);
+    }
 
     @Override
     public void addContactToContactList(String profileOwnerContactListId, String contactId) {

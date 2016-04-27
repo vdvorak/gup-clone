@@ -7,10 +7,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
-import ua.com.itproekt.gup.model.profiles.ProfileRating;
-import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.model.profiles.*;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
@@ -117,6 +114,20 @@ public class ProfileRepositoryImpl implements ProfileRepository {
                 .addCriteria(Criteria.where("username").regex(searchFieldRegex));
 
         query.fields().include("username");
+        query.skip(0);
+        query.limit(10);
+
+        return mongoTemplate.find(query, Profile.class);
+    }
+
+
+    public List<Profile> getMatchedCompanies(String term) {
+        String searchFieldRegex = "(?i:.*" + term + ".*)";
+
+        Query query = new Query()
+                .addCriteria(Criteria.where("contact.companyName").regex(searchFieldRegex));
+
+        query.fields().include("contact.companyName");
         query.skip(0);
         query.limit(10);
 
