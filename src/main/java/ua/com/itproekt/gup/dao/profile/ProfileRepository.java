@@ -1,9 +1,6 @@
 package ua.com.itproekt.gup.dao.profile;
 
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
-import ua.com.itproekt.gup.model.profiles.ProfileRating;
-import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.model.profiles.*;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.List;
@@ -126,6 +123,8 @@ public interface ProfileRepository {
     Set<String> getMatchedNames(String term);
 
     List<Profile> getMatchedNamesToFindWithId(String term);
+
+    List<Profile> getMatchedCompanies(String term);
 
     void addContactToContactList(String profileOwnerContactListId, String contactId);
 
