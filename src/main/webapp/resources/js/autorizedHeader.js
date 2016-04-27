@@ -90,10 +90,17 @@ $(".bell").click(function () {
         } else {
             $(".fadeScreen").hide()
         }
+        if ($('.bellMessage').is(':visible') ) {
+            $('.dropDownBell > i').show();
+        } else {
+            $('.dropDownBell > i').hide();
+        }
     });
 });
 
-$(".dropDownBell").mouseleave(function () {
+
+
+$(".bell").mouseleave(function () {
     setTimeout(function () {
         if (!$('.dropDownBell:hover').length) {
             $('.selecionado').removeClass('selecionado');
@@ -379,13 +386,13 @@ function fillNotificationListBlock() {
                     //alert(JSON.stringify(event));
                     getNotification(event);
                     $('.dropDownBell').append('<div class="bellMessage">' +
-                    '<i>Отметить все как прочитанные</i>' +
                     '<img src="' + getImgSrcForNotification(event.makerImgId) + '" alt="logo">' +
                     '<p>' +
                     '<a href="/profile?id=' + event.makerId + '">' + event.makerName + '</a> ' + notification.type + ' ' +
                     '<a href="' + notification.contentStoreId + '">' + notification.targetText + '</a> ' +
                     '</p>' +
                     '</div>');
+
                 });
             },
             204: function () {

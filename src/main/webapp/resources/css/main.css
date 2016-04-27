@@ -285,7 +285,7 @@ table {
 
 .users {
     color: #1269a7;
-    font: 400 17px DroidSans;
+    font: 400 16px DroidSans;
     width: 180px;
     height: 30px;
     background-color: white;
@@ -617,7 +617,7 @@ table {
 }
 
 .mid {
-    margin-top: 16px;
+    margin: 15px 0;
     display: table;
 }
 
@@ -4439,18 +4439,20 @@ form > .price > input:placeholder-shown {
     display: none;
     z-index: 5;
     overflow: auto;
-    max-height: 187px;
+    max-height: 201px;
+    padding-top: 15px;
+    padding-left: 10px;
 }
 
 .bell > .dropDownBell > .bellMessage {
     border-top: 1px solid white;
-    padding: 8px
+    padding: 8px 0;
 }
 
 .bell > .dropDownBell > .bellMessage:after {
     content: '';
     clear: both;
-    display: table
+    display: table;
 }
 
 .dropDownBell > .bellMessage > img {
@@ -5100,11 +5102,13 @@ form > .price > input:placeholder-shown {
     border: 2px solid rgb(153, 204, 102);
 }
 
-.dropDownBell > .bellMessage > i {
+.dropDownBell > i {
     color: white;
     font: 400 11px Calibri;
-    text-decoration: underline;
     cursor: pointer;
+    position: absolute;
+    top: 1px;
+    right: 11px;
 }
 
 #region-row .btn-success,

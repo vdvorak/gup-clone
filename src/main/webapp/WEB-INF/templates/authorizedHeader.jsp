@@ -42,6 +42,7 @@
         <p id="unreadNotificationsNum"></p>
 
         <div class="dropDownBell">
+            <i>Отметить все как прочитанные</i>
             <%--<div class="bellMessage">--%>
             <%--<img src="/resources/images/logo.png" alt="logo">--%>
             <%--<a href="#">Notification name!</a>--%>
