@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
-import ua.com.itproekt.gup.model.nace.DepartmentOrNace;
 import ua.com.itproekt.gup.model.nace.NACE;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserType;
@@ -307,15 +306,26 @@ public class TenderRestController {
         return true;
     }
 
+
+    // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an member, but author of tender also can see proposes;
     @RequestMapping(value = "/tender/{id}/user-check",
             method = RequestMethod.POST)
     public Boolean canBeMember(@PathVariable("id") String id) {
-        // check type of user. Only LEGAL_ENTITY or ENTREPRENEUR can became an member;
-        Profile p = profileService.findById(SecurityOperations.getLoggedUserId());
-        if (p == null || p.getContact() == null) {
+
+        Tender tender = tenderService.findById(id);
+
+        Profile profile = profileService.findById(SecurityOperations.getLoggedUserId());
+
+
+        if (profile == null || profile.getContact() == null) {
             return false;
         }
-        UserType userType = p.getContact().getType();
+
+        if (profile.getId().equals(tender.getAuthorId())) {
+            return true;
+        }
+
+        UserType userType = profile.getContact().getType();
         if (userType == null || userType == UserType.INDIVIDUAL) {
             return false;
         }
