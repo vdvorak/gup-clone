@@ -88,6 +88,9 @@
         <label><input type="checkbox" id="HideBidders" value="open" name="k"/><span></span></label>
         <%--<label for="InviteBidders">Пригласить участников тендера</label>--%>
         <%--<input type="text" id="InviteBidders" placeholder="Название">--%>
+        <label for="HideContacts">Скрывать контактные данные</label>
+        <input type="checkbox" id="HideContacts" value="open"/>
+
         <div class="clearfix"></div>
 
         <label for="selectParticipants" style="display: none">Пригласить участников тендера</label>
@@ -192,7 +195,8 @@
 
   $(document).ready(function () {
 
-    if('${tender.hidePropose}') $('#HideBidders').prop( "checked", true );
+    if('${tender.hidePropose}' === 'true') $('#HideBidders').prop( "checked", true );
+    if('${tender.hideContact}' === 'true') $('#HideContacts').prop('checked', true);
 
     // place photo from received model on the page
     for (var id in picMapObj) {
@@ -591,6 +595,7 @@
     tender.type = $('.input-tenderRadio:checked').attr("data-type");
     tender.expectedPrice = $('#ExpectedValue').val();
     tender.hidePropose =  $('#HideBidders').prop('checked');
+    tender.hideContact =  $('#HideContacts').prop('checked');
     if (tender.type === 'CLOSE') {
       tender.members = [];
       var arrOpt = $('#selectParticipants').children();
@@ -652,20 +657,22 @@
 
   function getMembers() {
     var str = "${tender.members}".replace(/Member/g, "");
-    str = str.substr(1, str.length - 2);
-    var parts = str.split('}, ');
     var objs = [];
-    parts.forEach(function (p) {
-      var props = p.match(/(?:[^,"]+|"[^"]*")+/g);
-      var o = {};
-      props.forEach(function (pr) {
-        var ps = pr.split('=');
-        var name = ps[0].replace(/{/g, '').trim();
-        var value = ps[1].replace(/'/g, '').replace(/}/g, '').trim();
-        o[name] = value;
+    if(str !== "[]") {
+      str = str.substr(1, str.length - 2);
+      var parts = str.split('}, ');
+      parts.forEach(function (p) {
+        var props = p.match(/(?:[^,"]+|"[^"]*")+/g);
+        var o = {};
+        props.forEach(function (pr) {
+          var ps = pr.split('=');
+          var name = ps[0].replace(/{/g, '').trim();
+          var value = ps[1].replace(/'/g, '').replace(/}/g, '').trim();
+          o[name] = value;
+        });
+        objs.push(o);
       });
-      objs.push(o);
-    });
+    }
     return objs;
   }
 

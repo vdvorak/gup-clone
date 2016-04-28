@@ -367,6 +367,7 @@ if (typeof loggedInProfile == 'undefined') {
         tender.type = $('.input-tenderRadio:checked').attr("data-type");
         tender.expectedPrice = $('#ExpectedValue').val();
         tender.hidePropose =  $('#HideBidders').prop('checked');
+        tender.hideContact =  $('#HideContacts').prop('checked');
         if (tender.type === 'CLOSE') {
             tender.members = [];
             var arrOpt = $('#selectParticipants').children();
