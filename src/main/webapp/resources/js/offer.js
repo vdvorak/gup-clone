@@ -268,9 +268,11 @@ $(document).ready(function () {
                         var priceStr = "Нет цены";
                         if (offerObj.price) {
                             priceStr = offerObj.price.toString();
-                            if (offerObj.currency) {
-                                priceStr = priceStr + offerObj.currency;
-                            }
+                                var strCurrency = (offerObj.currency === 'UAH') ? ' грн.'
+                                    : (offerObj.currency === 'USD') ? ' дол.'
+                                    : (offerObj.currency === 'EUR') ? ' евро'
+                                    : ' грн.';
+                                priceStr = priceStr + strCurrency;
                         }
 
                         var newLi = $('#li-offer-basic').clone()
