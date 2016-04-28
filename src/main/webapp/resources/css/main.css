@@ -5151,3 +5151,31 @@ form > .price > input:placeholder-shown {
     clear: both;
     margin: 0 15px;
 }
+
+.tender-author-contact {
+    position: absolute;
+    top: 5px;
+    left: 300px;
+}
+
+body > .err {
+    border-radius: 10px;
+    background-color: #5cda00;
+    height: 390px;
+    width: 695px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+body > .err > i {
+    color: white;
+    font: italic 200px / 165px Consolas;
+    cursor: default;
+    width: 340px;
+    display: block;
+    margin: 55px auto 30px;
+}
+
+body > .err > i > i {
+    font: 120px Consolas;
+}
