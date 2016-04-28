@@ -56,7 +56,7 @@
                     <div class="sum tender-expectedPrice"></div>
                     <div class="tender-veiws">Просмотров: <span></span></div>
                     <div class="tender-proposal-count">Предложений: <span></span></div>
-                    <div class="tender-author-contact">Создатель тендера: <span></span></div>
+                    <div class="tender-author-contact">Автор тендера: <a href=""></a></div>
                 </div>
                 <div class="clearfix"></div>
                 <div class="tenderButtons">
