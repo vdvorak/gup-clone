@@ -175,9 +175,10 @@ $.ajax({
     url: "/api/rest/profilesService/profile/read/id/" + offer.authorId,
     success: function (profile) {
 
-        if (profile.imgId != '') {
-            $('#avatar-img').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId)
-        }
+        var imgSrc = (profile.imgId != '' && profile.imgId !== null)
+            ? '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId
+            : '/resources/images/doersLogo.png';
+        $('#avatar-img').attr('src', imgSrc);
 
         if (profile.username) {
             $('.author-name').text(profile.username)
