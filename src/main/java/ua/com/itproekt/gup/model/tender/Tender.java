@@ -32,7 +32,7 @@ public class Tender {
     private String winnerId;
 
     public Tender(){
-        begin = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+//        begin = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         visited = 0l;
         proposes = new ArrayList<>();
         members = new HashSet<>();

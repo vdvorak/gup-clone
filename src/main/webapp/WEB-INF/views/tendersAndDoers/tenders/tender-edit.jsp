@@ -198,6 +198,9 @@
     if('${tender.hidePropose}' === 'true') $('#HideBidders').prop( "checked", true );
     if('${tender.hideContact}' === 'true') $('#HideContacts').prop('checked', true);
 
+    if ('${tender.begin}') $('#tender-datepicker1').datepicker("setDate", new Date('${tender.begin}'*1000));
+    if ('${tender.end}') $('#tender-datepicker2').datepicker("setDate", new Date('${tender.end}'*1000));
+
     // place photo from received model on the page
     for (var id in picMapObj) {
       imgsArr[id] = picMapObj[id];
@@ -589,9 +592,9 @@
     tender.body = body;
     tender.tenderNumber = $('#TenderNumber').val();
     var dateBegin = $('#tender-datepicker1').datepicker( 'getDate' );
-    var dateEnd = $('#tender-datepicker1').datepicker( 'getDate' );
-    if(dateBegin) tender.begin = dateBegin.getTime() / 1000;
-    if(dateEnd) tender.end = dateEnd.getTime() / 1000;
+    var dateEnd = $('#tender-datepicker2').datepicker( 'getDate' );
+    tender.begin = (dateBegin) ? dateBegin.getTime() / 1000 : null;
+    tender.end = (dateEnd) ? dateEnd.getTime() / 1000 : null;
     tender.type = $('.input-tenderRadio:checked').attr("data-type");
     tender.expectedPrice = $('#ExpectedValue').val();
     tender.hidePropose =  $('#HideBidders').prop('checked');
