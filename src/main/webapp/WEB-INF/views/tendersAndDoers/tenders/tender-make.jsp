@@ -91,6 +91,9 @@
                 <%--<label for="InviteBidders" style="display: none">Пригласить участников тендера</label>--%>
                 <%--<input type="text" id="InviteBidders" placeholder="Название" style="display: none">--%>
 
+                <label for="HideContacts">Скрывать контактные данные</label>
+                <input type="checkbox" id="HideContacts" value="open"/>
+
                 <div class="clearfix"></div>
 
                 <label for="selectParticipants" style="display: none">Пригласить участников тендера</label>
