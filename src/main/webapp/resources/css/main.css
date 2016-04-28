@@ -1674,12 +1674,11 @@ label[for="checkbox-contact"] {
 }
 
 .input-info-normal {
-    width: 229px;
-    height: 22px;
+    width: 230px;
+    height: 25px;
     border: 3px solid #9c6;
     border-radius: 6px;
     font: 400 12px DroidSans;
-    line-height: 20px;
     padding-left: 7px;
     float: right;
     margin-right: 275px;
