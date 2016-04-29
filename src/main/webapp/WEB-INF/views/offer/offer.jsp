@@ -124,7 +124,7 @@
                     <span class="author-rating"></span>
                     <div class="clearfix"></div>
                     <p>
-                        <a href="#">Все обьявления автора</a>
+                        <a id="a-author-offers" href="#">Все обьявления автора</a>
                     </p>
                     <div class="clearfix"></div>
                 </div>

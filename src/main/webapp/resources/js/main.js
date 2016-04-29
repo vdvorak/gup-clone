@@ -17,6 +17,8 @@ function getUrlParam(sParam) {
 
 $(document).ready(function () {
 
+    $( ".mail > .dropDownMail > .answer" ).draggable({ snap: "header" });
+
     if (typeof flag != 'undefined') {
         var selectedService = $('#selectedService');
 

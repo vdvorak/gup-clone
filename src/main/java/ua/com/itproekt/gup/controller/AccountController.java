@@ -109,6 +109,7 @@ public class AccountController {
 
         TenderFilterOptions tf = new TenderFilterOptions();
         tf.setAuthorId(authId);
+        tf.setSortDirection("DESC");
         tf.setLimit(contentEntitiesLimit);
         List<Tender> tenders = tenderService.findWihOptions(tf, profile).getEntities();
         model.addAttribute("tenders", tenders);

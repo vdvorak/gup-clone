@@ -1674,12 +1674,11 @@ label[for="checkbox-contact"] {
 }
 
 .input-info-normal {
-    width: 229px;
-    height: 22px;
+    width: 230px;
+    height: 25px;
     border: 3px solid #9c6;
     border-radius: 6px;
     font: 400 12px DroidSans;
-    line-height: 20px;
     padding-left: 7px;
     float: right;
     margin-right: 275px;
@@ -5150,4 +5149,32 @@ form > .price > input:placeholder-shown {
 .contact-btn-group {
     clear: both;
     margin: 0 15px;
+}
+
+.tender-author-contact {
+    position: absolute;
+    top: 5px;
+    left: 300px;
+}
+
+body > .err {
+    border-radius: 10px;
+    background-color: #5cda00;
+    height: 390px;
+    width: 695px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+body > .err > i {
+    color: white;
+    font: italic 200px / 165px Consolas;
+    cursor: default;
+    width: 340px;
+    display: block;
+    margin: 55px auto 30px;
+}
+
+body > .err > i > i {
+    font: 120px Consolas;
 }

@@ -536,7 +536,7 @@ Dialogs.init = function () {
         onSubmit()
     })
     Dialogs.fixScroll(Dialogs.common)
-    //setInterval(Dialogs.update, 300)//////////////////////////////////////////////////////////////////////////////////
+    setInterval(Dialogs.update, 300)//////////////////////////////////////////////////////////////////////////////////
 }
 Dialogs.update = function () {
     var unreaded = 0
@@ -699,6 +699,7 @@ ELoader.prototype.load = function () {
     var self = this
     data.skip = this.skip
     data.limit = 5
+    data.createdDateSortDirection = 'DESC'
     data.authorId = User.current
     //TODO DESC sorting & authorID
     this.api(JSON.stringify(data), function (res) {
@@ -713,7 +714,7 @@ ELoader.prototype.load = function () {
             temp.text(entity.title)
             temp.attr('href', self.href(entity.id))
             // self.historyContent.append(temp)
-            self.historyContent.find('p').last().prepend(temp)
+            self.historyContent.find('.historyItem').last().after(temp)
         }
         self.callback(res)
         updateHistoryLayout()

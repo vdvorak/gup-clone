@@ -361,12 +361,13 @@ if (typeof loggedInProfile == 'undefined') {
         tender.body = tinymce.activeEditor.getContent();
         tender.tenderNumber = $('#TenderNumber').val();
         var dateBegin = $('#tender-datepicker1').datepicker( 'getDate' );
-        var dateEnd = $('#tender-datepicker1').datepicker( 'getDate' );
-        if(dateBegin) tender.begin = dateBegin.getTime() / 1000;
-        if(dateEnd) tender.end = dateEnd.getTime() / 1000;
+        var dateEnd = $('#tender-datepicker2').datepicker( 'getDate' );
+        tender.begin = (dateBegin) ? dateBegin.getTime() / 1000 : null;
+        tender.end = (dateEnd) ? dateEnd.getTime() / 1000 : null;
         tender.type = $('.input-tenderRadio:checked').attr("data-type");
         tender.expectedPrice = $('#ExpectedValue').val();
         tender.hidePropose =  $('#HideBidders').prop('checked');
+        tender.hideContact =  $('#HideContacts').prop('checked');
         if (tender.type === 'CLOSE') {
             tender.members = [];
             var arrOpt = $('#selectParticipants').children();

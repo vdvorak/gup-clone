@@ -39,7 +39,7 @@
 
 <div class="container2">
 
-    <img src="images/PngMedium-access-denied-11124.png" style="float:left;" alt="PngMedium-access-denied-11124">
+    <img src="/resources/images/PngMedium-access-denied-11124.png" style="float:left;" alt="PngMedium-access-denied-11124">
 
     <h1 style="color:#1269a7;font:400 30px 'Myriad Pro';margin:0;margin-left:45px;display:inline-block;margin-bottom:15px;">Ошибка доступа</h1>
     <h2 style="color:#898989;font:400 24px Arial;margin:0;margin-left:30px;display:inline-block;">У Вас нет прав для просмотра этой страницы.</h2>
