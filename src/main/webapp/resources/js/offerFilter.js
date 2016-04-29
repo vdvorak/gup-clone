@@ -43,8 +43,10 @@
     }
 
     function drawNoFoundOffers() {
-        $('#offers-notFound').removeClass('offers-display-none');
-        $('#h2-top-offers').addClass('offers-display-none');
+        if(!$('.notice-box li:not(#li-offer-basic)').length) {
+            $('#offers-notFound').removeClass('offers-display-none');
+            $('#h2-top-offers').addClass('offers-display-none');
+        }
     }
 
     function createNewBox() {
@@ -541,7 +543,8 @@
         if (flag !== "offer-all") {
             redirectToOfferAll();
         } else {
-            cleanResult();
+            utils.skip +=10;
+
             setFilterOptions();
             readAllByFilter();
         }
@@ -623,7 +626,7 @@
 
     function filterOffersByAuthor(event) {
         event.preventDefault();
-        
+
         var url = '/offers?authorId='+ event.data +'&';
         redirectToOfferAll(url);
     }
