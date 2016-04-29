@@ -62,38 +62,35 @@ public class TenderRestController {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Tender> getTenderById(@PathVariable("id") String id, HttpServletRequest req) {
+
         Tender tender = tenderService.findById(id);
+
         if (tender == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        if (getCurrentUser() == null) {
+        Profile currentUser = getCurrentUser();
+
+        if (currentUser == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        TenderType tenderType = tender.getType();
+        UserType userType = currentUser.getContact().getType();
+        boolean isUserMemberOfTender = isUserMemberOfTender(tender, currentUser);
+        boolean isUserAuthorOrModerator = isUserModeratorOrAuthor(currentUser, tender.getAuthorId());
+
+        if (tenderType == TenderType.OPEN && userType == UserType.INDIVIDUAL && !isUserAuthorOrModerator && !isUserMemberOfTender) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        // incrementing Visited field
-        HashSet<String> visit = (HashSet<String>) req.getSession().getAttribute("tenderVisit");
-        if (visit == null) visit = new HashSet<>();
-        if (!visit.contains(id)) {
-            Tender tenderForCountVisited = Tender.getEmpty();
-            tenderForCountVisited.setId(tender.getId());
+        if (tenderType == TenderType.OPEN || (tenderType == TenderType.CLOSE && isUserMemberOfTender) || isUserAuthorOrModerator) {
 
-            tenderForCountVisited.setVisited(tender.getVisited() + 1);
-            tenderService.updateTender(tenderForCountVisited);
-            visit.add(id);
-            req.getSession().setAttribute("tenderVisit", visit);
-
-            //update field visited in current tender
-            tender.setVisited(tenderForCountVisited.getVisited());
+            makeTenderViewedBeforeResponse(tender, id, req);
+            return new ResponseEntity<>(tender, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
-        //make propose visible according to hidden settings
-        tender = tenderService.setVision(tender, getCurrentUser());
-
-        //complete Member name and picId
-        tenderService.completeMembers(tender);
-
-        return new ResponseEntity<>(tender, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/tender/read/all/",
@@ -422,7 +419,46 @@ public class TenderRestController {
         for (String newMemberId : newMembers) {
             activityFeedService.createEvent(new Event(newMemberId, EventType.YOU_HAVE_BEEN_ADDED_TO_CLOSE_TENDER, newTender.getId(), newTender.getAuthorId()));
         }
-
-
     }
+
+    private boolean isUserMemberOfTender(Tender tender, Profile profile) {
+        String userId = profile.getId();
+
+        Set<Member> members = tender.getMembers();
+
+        for (Member member : members) {
+            if (userId.equals(member.getId())) return true;
+        }
+        return false;
+    }
+
+    private void makeTenderViewedBeforeResponse(Tender tender, String id, HttpServletRequest req) {
+        // incrementing Visited field
+        HashSet<String> visit = (HashSet<String>) req.getSession().getAttribute("tenderVisit");
+        if (visit == null) visit = new HashSet<>();
+        if (!visit.contains(id)) {
+            Tender tenderForCountVisited = Tender.getEmpty();
+            tenderForCountVisited.setId(tender.getId());
+
+            tenderForCountVisited.setVisited(tender.getVisited() + 1);
+            tenderService.updateTender(tenderForCountVisited);
+            visit.add(id);
+            req.getSession().setAttribute("tenderVisit", visit);
+
+            //update field visited in current tender
+            tender.setVisited(tenderForCountVisited.getVisited());
+        }
+
+        //make propose visible according to hidden settings
+        tender = tenderService.setVision(tender, getCurrentUser());
+
+        //complete Member name and picId
+        tenderService.completeMembers(tender);
+    }
+
+    private boolean isUserModeratorOrAuthor(Profile user, String tenderAuthorId) {
+        return user.getId().equals(tenderAuthorId) || profileService.isUserModerator(user);
+    }
+
+
 }

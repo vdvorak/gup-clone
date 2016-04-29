@@ -1,6 +1,3 @@
-if (typeof loggedInProfile == 'undefined') {
-    $('#tender-container').empty().append('<div class="anonymUser"><p><i class="fa fa-exclamation-circle"> Для просмотра тендера вам необходимо зарегистрироваться</i></p></div>')
-} else {
     var proposes;
 
 // ----------------------- Begin Tender propose text length counter ------------------------------
@@ -52,9 +49,7 @@ if (typeof loggedInProfile == 'undefined') {
         success: function (response) {
             var data = response;
 
-
             if (data.authorId === loggedInProfile.id) {
-
                 $('#wantToComment').replaceWith('<a class="abutton blue" href="/tender/id/' + data.id + '/update">Редактировать</a>');
             }
 
@@ -72,7 +67,7 @@ if (typeof loggedInProfile == 'undefined') {
             } else {
                 $(".tender-author-contact a").replaceWith('<span>данные скрыты автором</span>')
             }
-            
+
             if (data.expectedPrice != null) {
                 $(".tender-expectedPrice").last().text(data.expectedPrice + "₴");
             } else {
@@ -145,13 +140,15 @@ if (typeof loggedInProfile == 'undefined') {
             }
         },
         statusCode: {
+            401: function () {
+                $('#tender-container').empty().append('<div class="anonymUser"><p><i class="fa fa-exclamation-circle"> Для просмотра тендера вам необходимо войти в систему</i></p></div>')
+            },
             403: function () {
-                $('.tender-tabs-items-wrap').detach();
-                $('.tender-wrap').text("Войдите в систему, чтобы просмотреть информацию о тендере.");
+                $('#tender-container').empty().append('<div class="anonymUser"><p><i class="fa fa-exclamation-circle"> Просмотр открытых тендеров доступен только для юридических лиц и физических лиц предпринимателей, или по индивидуальному приглашению в закрытый тендер (для лиц любой формы) .</i></p></div>')
+
             }
         }
     });
-
 
     function sliderInit() {
         $('.bxsliderTender').bxSlider({
@@ -222,5 +219,4 @@ if (typeof loggedInProfile == 'undefined') {
     });
 
 //----- scrolup ----
-}
 
