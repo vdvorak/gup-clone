@@ -23,6 +23,7 @@ public class Tender {
     private Long end;
     private Long visited;
     private Map<String, String> uploadFilesIds;
+    private Set<File> files;
     private Address address;
     private Boolean hidePropose;
     private String tenderNumber;
@@ -45,6 +46,14 @@ public class Tender {
         t.setBegin(null);
         t.setVisited(null);
         return t;
+    }
+
+    public Set<File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(Set<File> files) {
+        this.files = files;
     }
 
     public Boolean getHidePropose() {
@@ -236,15 +245,14 @@ public class Tender {
         this.winnerId = winnerId;
     }
 
+
     @Override
     public String toString() {
         return "Tender{" +
                 "id='" + id + '\'' +
                 ", authorId='" + authorId + '\'' +
-                ", tender number='" + tenderNumber + '\'' +
                 ", title='" + title + '\'' +
-                ", expected price='" + expectedPrice + '\'' +
-                ", naceIds='" + naceIds + '\'' +
+                ", naceIds=" + naceIds +
                 ", body='" + body + '\'' +
                 ", type=" + type +
                 ", members=" + members +
@@ -253,10 +261,14 @@ public class Tender {
                 ", end=" + end +
                 ", visited=" + visited +
                 ", uploadFilesIds=" + uploadFilesIds +
+                ", files=" + files +
                 ", address=" + address +
                 ", hidePropose=" + hidePropose +
+                ", tenderNumber='" + tenderNumber + '\'' +
+                ", expectedPrice=" + expectedPrice +
+                ", proposeNumber=" + proposeNumber +
                 ", hideContact=" + hideContact +
-                ", winner id=" + winnerId +
+                ", winnerId='" + winnerId + '\'' +
                 '}';
     }
 }
