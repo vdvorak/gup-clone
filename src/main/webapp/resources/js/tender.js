@@ -54,6 +54,13 @@
             }
 
             sliderImg(data.uploadFilesIds);
+
+            for(var key in data.uploadFilesIds) {
+                if(data.uploadFilesIds[key] === 'doc') {
+                    $('<a href="/api/rest/fileStorage/TENDER/file/read/id/'+ key +'">Файл</a>').appendTo('.tenderFils');
+                }
+            }
+
             $(".tender-item-text").last().html(data.body);
             $(".tender-number").last().text(data.tenderNumber);
             $(".tender-publish-date span").last().text(localDateTime(data.begin));
@@ -94,7 +101,6 @@
                 }
             }
             // delete button if winner is already chosen
-
 
 // ------------------------- Propose bulid block ---------------------------------------------------------------------
             for (var i in data.proposes) {
