@@ -79,14 +79,14 @@
             </ul>
         </div>
         <div class="tenderFils">
-            <a href="#">doc.exel</a>
-            <a href="#">system.docx</a>
-            <a href="#">doc.exel</a>
-            <a href="#">system.docx</a>
-            <a href="#">doc.exel</a>
-            <a href="#">system.docx</a>
-            <a href="#">doc.exel</a>
-            <a href="#">system.docx</a>
+            <%--<a href="#">doc.exel</a>--%>
+            <%--<a href="#">system.docx</a>--%>
+            <%--<a href="#">doc.exel</a>--%>
+            <%--<a href="#">system.docx</a>--%>
+            <%--<a href="#">doc.exel</a>--%>
+            <%--<a href="#">system.docx</a>--%>
+            <%--<a href="#">doc.exel</a>--%>
+            <%--<a href="#">system.docx</a>--%>
         </div>
         <div class="downComments" title="Для участия в тендере необходимо оставить предложение."><p>ПРЕДЛОЖЕНИЯ УЧАСТНИКОВ</p></div>
     </div>
