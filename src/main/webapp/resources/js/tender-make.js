@@ -264,7 +264,7 @@ if (typeof loggedInProfile == 'undefined') {
         }
 
         if(img.hasClass("mainImg")) {
-            filesArr[i].fileType = "MAINIMAGE";
+            filesArr[findFileIndexById(id)].fileType = "MAINIMAGE";
         }
     }
 
