@@ -126,7 +126,7 @@
           <li class="li-containerIMG li-defaultIMG">
             <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
             <img src="http://www.uzscience.uz/upload/userfiles/images/doc.png" alt="defaultIMG">
-            <div style="width: 100%; text-align: center; font-weight: bold"></div>
+            <div></div>
           </li>
         </ul>
       </div>
@@ -167,16 +167,10 @@
 <script>
 
   var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
-  var picMapObj = {};
-  var imgsArrResult = {};
+  var filesArr = getFiles();
   var picArrDel = [];
-  var picArrNew = [];
-  var imgsArr = {};
   var oldNace = '${tender.naceIds}'.slice(1, -1).split(", "); // make array from string
 
-  if ('${tender.uploadFilesIds}'.length > 5 ){
-    picMapObj = JSON.parse('${tender.uploadFilesIds}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
-  }
 
   //--------------------   BEGIN NACE ---------------------------------//
   if(!oldNace[0]) oldNace = [];
@@ -202,12 +196,11 @@
     if ('${tender.end}') $('#tender-datepicker2').datepicker("setDate", new Date('${tender.end}'*1000));
 
     // place photo from received model on the page
-    for (var id in picMapObj) {
-      imgsArr[id] = picMapObj[id];
-      if (picMapObj[id] === "image" || picMapObj[id] === "pic1") {
-        appendImg(id);
+    for(var i = 0; i < filesArr.length; i++) {
+      if (filesArr[i].fileType === "IMAGE" || filesArr[i].fileType === "MAINIMAGE") {
+        appendImg(filesArr[i]);
       } else {
-        appendDoc(id, "");
+        appendDoc(filesArr[i]);
       }
     }
 
@@ -236,15 +229,18 @@
           processData: false,
 
           success: function (data, textStatus, request) {
-            if (Object.keys(imgsArr).length < 15) {
-              var id = data.id;
+            if (filesArr.length < 15) {
+              var file, id = data.id;
+
               if (f.type.substring(0, 5) === 'image') {
-                imgsArr[id] = "image";
-                appendImg(id);
+                file = {id: id, name: f.name, fileType: 'IMAGE', size: f.size};
+                appendImg(file);
               } else {
-                imgsArr[id] = "doc";
-                appendDoc(id, f.name);
+                file = {id: id, name: f.name, fileType: 'DOCUMENT', size: f.size};
+                appendDoc(file);
               }
+
+              filesArr.push(file);
             }
           }
         });
@@ -266,36 +262,42 @@
     $('#photoInput').trigger('click');
   });
 
-  function appendImg(id) {
+  function appendImg(img) {
     $("#tender-img-block > .li-defaultIMG").css("display", "none");
     var cloneImg = $("#tender-img-block > .li-defaultIMG").clone()
             .removeClass('li-defaultIMG')
             .css("display", "inline-block");
     cloneImg.find('img')
             .attr("alt", "")
-            .attr("src", '/api/rest/fileStorage/TENDER/file/read/id/' + id)
-            .attr("id", id)
+            .attr("src", '/api/rest/fileStorage/TENDER/file/read/id/' + img.id)
+            .attr("id", img.id)
             .click(onClickSetMainImg);
     cloneImg.find('span')
             .click(deleteImg);
 
-    if(imgsArr[id] === 'pic1') cloneImg.find('img').addClass("mainImg");
+    if(img.fileType === 'MAINIMAGE') cloneImg.find('img').addClass("mainImg");
 
     cloneImg.appendTo('#tender-img-block');
   }
 
-  function appendDoc(id, name) {
+  function appendDoc(doc) {
     $("#tender-doc-block > .li-defaultIMG").css("display", "none");
     var cloneDoc = $("#tender-doc-block > .li-defaultIMG").clone()
             .removeClass('li-defaultIMG')
             .css("display", "inline-block");
     cloneDoc.find('img')
-            .attr("id", id);
+            .attr("id", doc.id);
     cloneDoc.find('div')
-            .text(name);
+            .text(doc.name);
     cloneDoc.find('span')
             .click(deleteImg);
     cloneDoc.appendTo('#tender-doc-block');
+  }
+
+  function findFileIndexById(fileId) {
+    for(var i = 0; i < filesArr.length; i++) {
+      if(filesArr[i].id === fileId) return i;
+    }
   }
 
   //--------------------   DATEPICKER ---------------------------------//
@@ -462,15 +464,18 @@
         processData: false,
 
         success: function (data, textStatus, request) {
-          if (Object.keys(imgsArr).length < 15) {
-            var id = data.id;
+          if (filesArr.length < 15) {
+            var file, id = data.id;
+
             if (f.type.substring(0, 5) === 'image') {
-              imgsArr[id] = "image";
-              appendImg(id);
+              file = {id: id, name: f.name, fileType: 'IMAGE', size: f.size};
+              appendImg(file);
             } else {
-              imgsArr[id] = "doc";
-              appendDoc(id, f.name);
+              file = {id: id, name: f.name, fileType: 'DOCUMENT', size: f.size};
+              appendDoc(file);
             }
+
+            filesArr.push(file);
           }
         }
       });
@@ -501,7 +506,6 @@
   }
 
   function onClickSetMainImg(event) {
-
     var img = $(event.currentTarget);
     var id = img.attr("id");
     var isMain = img.hasClass("mainImg");
@@ -514,33 +518,55 @@
     }
     if(!isMain) img.addClass("mainImg");
 
-    for(var key in imgsArr) {
-      if(imgsArr[key] === "pic1") {
-        imgsArr[key] = "image";
+    for(var i = 0; i < filesArr.length; i++) {
+      if(filesArr[i].fileType === "MAINIMAGE") {
+        filesArr[i].fileType = 'IMAGE';
       }
     }
 
     if(img.hasClass("mainImg")) {
-      imgsArr[id] = "pic1";
+      filesArr[i].fileType = "MAINIMAGE";
     }
   }
 
   function checkMainImg() {
     var hasMainImg = false;
 
-    for(var key in imgsArrResult) {
-      if(imgsArrResult[key] === 'pic1') {
+    for(var i = 0; i < filesArr.length; i++) {
+      if(filesArr[i].fileType === "MAINIMAGE") {
         hasMainImg = true;
         break;
       }
     }
 
     if(!hasMainImg) {
-      for(var key in imgsArrResult) {
-        imgsArrResult[key] = 'pic1';
+      for(var i = 0; i < filesArr.length; i++) {
+        if(filesArr[i].fileType === "DOCUMENT") continue;
+        filesArr[i].fileType === "MAINIMAGE";
         break;
       }
     }
+  }
+
+  function getFiles() {
+    var str = "${tender.files}".replace(/File/g, "");
+    var objs = [];
+    if(str !== "[]") {
+      str = str.substr(1, str.length - 2);
+      var parts = str.split('}, ');
+      parts.forEach(function (p) {
+        var props = p.match(/(?:[^,"]+|"[^"]*")+/g);
+        var o = {};
+        props.forEach(function (pr) {
+          var ps = pr.split('=');
+          var name = ps[0].replace(/{/g, '').trim();
+          var value = ps[1].replace(/'/g, '').replace(/}/g, '').trim();
+          o[name] = value;
+        });
+        objs.push(o);
+      });
+    }
+    return objs;
   }
 
   // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//
@@ -572,22 +598,24 @@
       return false;
     }
 
-    for(var key in imgsArr) {
-      if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
+    var imgsArrResult = [], picArrNew = [];
+    for(var i = 0; i < filesArr.length; i++) {
+      if(picArrDel.indexOf(filesArr[i].id) === -1) picArrNew.push(filesArr[i].id);
     }
 
     for (var i = 0; i < picArrNew.length; i++) {
-      imgsArrResult[picArrNew[i]] = imgsArr[picArrNew[i]];
+      imgsArrResult.push(filesArr[findFileIndexById(picArrNew[i])]);
     }
 
     for(var i = 0; i < picArrDel.length; i++) {
       deleteImgFromDB(picArrDel[i]);
     }
 
+
     checkMainImg();
 
     var tender = {};
-    tender.uploadFilesIds = imgsArrResult;
+    tender.files = imgsArrResult;
     tender.title = $('#EnterTheTitle').val();
     tender.body = body;
     tender.tenderNumber = $('#TenderNumber').val();

@@ -129,7 +129,7 @@
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="http://www.uzscience.uz/upload/userfiles/images/doc.png" alt="defaultIMG">
-                        <div style="width: 100%; text-align: center; font-weight: bold"></div>
+                        <div></div>
                     </li>
                 </ul>
             </div>
