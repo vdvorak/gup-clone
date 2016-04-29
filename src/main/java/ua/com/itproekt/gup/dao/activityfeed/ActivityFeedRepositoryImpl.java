@@ -11,6 +11,8 @@ import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import javax.annotation.PostConstruct;
+import java.util.Collections;
+import java.util.List;
 
 @Repository
 public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
@@ -79,8 +81,14 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
 
         query.skip(eventFO.getSkip());
         query.limit(eventFO.getLimit());
-        return new EntityPage<>(mongoTemplate.count(query, Event.class),
-                                mongoTemplate.find(query, Event.class));
+
+        long totalEntities = mongoTemplate.count(query, Event.class);
+        List<Event> entities = mongoTemplate.find(query, Event.class);
+
+        // reverse result to show newest events first
+        Collections.reverse(entities);
+
+        return new EntityPage<>(totalEntities, entities);
     }
 
     @Override
