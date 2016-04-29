@@ -424,6 +424,8 @@
             var price = getUrlParam("price");
             if (price) utils.properties.push({key: 'price', value: price});
 
+            var authorId = getUrlParam("authorId");
+            if (authorId) utils.authorId = authorId;
         }
         return namespace;
     }
@@ -619,6 +621,12 @@
         });
     }
 
+    function filterOffersByAuthor(event) {
+        event.preventDefault();
+        
+        var url = '/offers?authorId='+ event.data +'&';
+        redirectToOfferAll(url);
+    }
 
     namespace.utils = utils;
 
@@ -639,6 +647,7 @@
     namespace.redirectToOfferAllByCategories = redirectToOfferAllByCategories;
     namespace.redirectToOfferAllByRegion = redirectToOfferAllByRegion;
     namespace.redirectToOfferAllByBreadcrumbs = redirectToOfferAllByBreadcrumbs;
+    namespace.filterOffersByAuthor = filterOffersByAuthor;
 
     namespace.getIdCategory1Lvl = getIdCategory1Lvl;
     namespace.selectFilterPrice = selectFilterPrice;
