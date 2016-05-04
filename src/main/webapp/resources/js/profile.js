@@ -5,6 +5,23 @@ $.ajax({
     url: "/api/rest/profilesService/profile/read/id/" + profileId,
     statusCode: {
         200: function (profile) {
+            if (typeof loggedInProfile != 'undefined' && loggedInProfile.id !== profileId) {
+                var finded = false
+                for (var ci in loggedInProfile.contactList){
+                    if (loggedInProfile.contactList[ci] === profile.id) {
+                        finded = true
+                        break;
+                    }
+                }
+                if (finded) {
+                    $('#writeMessageToProfile').show()
+                    $('#removeProfileFromContacts').show()
+                }
+                else {
+                    $('#addProfileToContact').show()
+                }
+            }
+            
             if (profile.imgId) {
                 $('#profileImg').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId);
             } else {
@@ -90,11 +107,12 @@ $.ajax({
             // End draw social networks input ----------------------------------
 
 
-            if (profileId ==profile.id){
+            if (profileId === loggedInProfile.id){
                 $('.contact-btn-group').append('<button class="addToContact" id="editProfileBtn">Редактировать профиль</button>')
-            }else{
-                $('.contact-btn-group').append('<button class="addToContact" id="addProfileToContact">Добавить в контакты</button>')
             }
+            // else{
+            //     $('.contact-btn-group').append('<button class="addToContact" id="addProfileToContact">Добавить в контакты</button>')
+            // }
 
         },
         404: function () {
@@ -116,14 +134,28 @@ $(document).on('click', '#editProfileBtn', function(){
 });
 
 $(document).on('click', '#addProfileToContact', function () {
-    $.ajax({
-        type: "POST",
-        url: '/api/rest/profilesService/profile/id/' + profileId + '/myContactList/add',
-        statusCode: {
-            200: function () {
-                $('#addProfileToContact').hide();
-                alert('Профиль добавлен в контакты.')
-            }
-        }
-    });
-});
+    // $.ajax({
+    //     type: "POST",
+    //     url: '/api/rest/profilesService/profile/id/' + profileId + '/myContactList/add',
+    //     statusCode: {
+    //         200: function () {
+    //             $('#addProfileToContact').hide();
+    //             alert('Профиль добавлен в контакты.')
+    //         }
+    //     }
+    // });
+    R.Libra().profilesService().profile().id(profileId).myContactList().add(null, function(){
+        location.reload()
+    }, function(){
+        alert('Internal error')
+    })
+})
+
+$(document).on('click', '#removeProfileFromContacts', function () {
+    loggedInProfile.contactList.splice(loggedInProfile.contactList.indexOf(profileId), 1)
+    R.Libra().profilesService().profile().edit({id: loggedInProfile.id, contactList: loggedInProfile.contactList}, function(){
+        location.reload()
+    }, function(){
+        alert('Internal error')
+    })
+})

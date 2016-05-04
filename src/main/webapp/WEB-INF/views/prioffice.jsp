@@ -63,7 +63,7 @@
         <div class="greenBox settings">
             <div class="titleMain big">Мои настройки</div>
 
-            <form action="" class="panel-group" id="userSettingsSet" style="display: none;">
+            <form action="" class="panel-group" id="userSettingsSet">
                 <div class="panel">
                     <a class="" data-toggle="collapse" data-parent="#userSettingsSet" href="#collapseOne">Права</a>
                     <div id="collapseOne" class="collapse in">
@@ -133,7 +133,6 @@
                 </div>
                 <button type="button" class="info-submit">Сохранить</button>
             </form>
-            <div class="settingsToggle" onclick="toggleSettingsBox(this);"></div>
 
         </div>
     </div>
@@ -145,24 +144,23 @@
                 </div>
                 <div class="count" onclick="contactToggle();">Контакты: ${profile.contactList.size()}</div>
             </div>
-            <c:forEach items="${profile.contactList}" var="contact">
-                <div class="_contact" data-id="${contact}"></div>
-            </c:forEach>
             <div class="contactsContainer greenBox" toggler="" ng-controller="contacts">
-                <div class="persona {{contact.vip}}" ng-repeat="contact in contacts" data-id="{{contact.id}}">
-                    <a href="{{contact.homepage}}" class="photo border-color">
-                        <img src="{{contact.pic}}" alt="profile avatar">
-                        <span class="sendMessage"></span>
-                        <span class="name">{{contact.name}}</span>
-                    </a>
-                </div>
-
-                <div class="noFinded" style="display: none;">
-                    Не найдено
-                </div>
-
-                <div class="arrow toggler"></div>
-                <i class="fa fa-times-circle closeBox"></i>
+                <c:if test="${not empty profile.contactList}">
+                    <c:forEach items="${profile.contactList}" var="contact">
+                        <div class="_contact" data-id="${contact}"></div>
+                    </c:forEach>
+                    <div class="persona {{contact.vip}}" ng-repeat="contact in contacts" data-id="{{contact.id}}">
+                        <a href="{{contact.homepage}}" class="photo border-color">
+                            <img src="{{contact.pic}}" alt="profile avatar">
+                            <span class="sendMessage"></span>
+                            <span class="name">{{contact.name}}</span>
+                        </a>
+                    </div>
+                    <div class="arrow toggler"></div>
+                </c:if>
+                <c:if test="${empty profile.contactList}">
+                    <div class="noContent">Пусто</div>
+                </c:if>
             </div>
         </div>
         <div class="greenBox msAndNt" id="tab-container-msAndNt">
@@ -180,17 +178,12 @@
                     <div class="clearfix"></div>
                     <div class="arrowHide"></div>
                 </form>
+                <div class="noContent">
+                    Тихо
+                </div>
                 <%--<div class="scrollPreffered"></div>--%>
             </div>
             <div class="notifications" id="tab-notifications" stype="display: none;">
-                <%--<a href="#" class="notify" ng-repeat="notify in notifies">--%>
-                    <%--<div class="persona">--%>
-                        <%--<img src="/resources/css/images/rupor.png" alt="" class="avatar">--%>
-                        <%--<div class="date">25.10.15</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="text">{{getText(notify.type)}}</div>--%>
-                    <%--<div class="clearfix"></div>--%>
-                <%--</a>--%>
                 <c:if test="${not empty events}">
                     <c:forEach items="${events}" var="event">
                         <a href="#" class="notify" data-targetUId="${event.targetUId}" data-contentId="${event.contentId}" data-makerId="${event.makerId}" data-contentStoreId="${event.contentStoreId}">
@@ -204,93 +197,107 @@
                     </c:forEach>
                 </c:if>
                 <c:if test="${empty events}">
-                    <p>у вас нет новых уведомлений</p>
+                    <div class="noContent">
+                        Ничего не случилось
+                    </div>
                 </c:if>
             </div>
         </div>
         <div class="historyContainer">
             <div class="greenBox historyBox inlineBox optional closed" id="myTenders" toggler="" style="display: none;">
-                <div class="historyIcon toggler"></div>
-                <div class="titleMain toggler">Мои тендеры</div>
+                <div class="historyIcon"></div>
+                <div class="titleMain">Мои тендеры</div>
                 <div class="historyContent">
                     <c:if test="${not empty tenders}">
                         <c:forEach items="${tenders}" var="tender">
-                            <a class="historyItem" href="/tender/${tender.id}">${tender.title}</a>
+                            <a class="historyItem" href="/tender/${tender.id}" target="_blank">${tender.title}</a>
                         </c:forEach>
+                        <div class="arrow loader"></div>
                     </c:if>
-                    <c:if test="${empty tenders}">
-                        <p><a href="/tender-make">создать тендер</a></p>
-                    </c:if>
+                    <p><a href="/tender-make" class="proposeToCreate" target="_blank">Обьявить тендер</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
-                <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myProjects" toggler="" style="display: none;">
-                <div class="historyIcon toggler"></div>
-                <div class="titleMain toggler">Мои проекты</div>
+                <div class="historyIcon"></div>
+                <div class="titleMain">Мои проекты</div>
                 <div class="historyContent">
                     <c:if test="${not empty projects}">
                         <c:forEach items="${projects}" var="project">
-                            <a class="historyItem" href="/project?id=${project.id}">${project.title}</a>
+                            <a class="historyItem" href="/project?id=${project.id}" target="_blank">${project.title}</a>
                         </c:forEach>
+                        <div class="arrow loader"></div>
                     </c:if>
-                    <c:if test="${empty projects}">
-                        <p><a href="/createProject">создать проект</a></p>
-                    </c:if>
+                    <p><a href="/project/create" class="proposeToCreate" target="_blank">Рассказать о проекте</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
-                <div class="arrow toggler"></div>
             </div>
+            <%--<div class="greenBox historyBox inlineBox optional closed" id="myNews" toggler="" style="display: none;">--%>
+                <%--<div class="historyIcon toggler"></div>--%>
+                <%--<div class="titleMain toggler">Мои новости</div>--%>
+                <%--<div class="historyContent">--%>
+                    <%--<c:if test="${not empty blogposts}">--%>
+                        <%--<c:forEach items="${blogposts}" var="n">--%>
+                            <%--<a class="historyItem" href="/blog-post/view/id/${n.id}" target="_blank">>${n.title}</a>--%>
+                        <%--</c:forEach>--%>
+                        <%--<div class="arrow toggler"></div>--%>
+                    <%--</c:if>--%>
+                    <%--<p><a href="/blog-create" class="proposeToCreate" target="_blank">Начать новостной блог</a></p>--%>
+                <%--</div>--%>
+                <%--<i class="fa fa-times-circle closeBox"></i>--%>
+            <%--</div>--%>
             <div class="greenBox historyBox inlineBox optional closed" id="myNews" toggler="" style="display: none;">
-                <div class="historyIcon toggler"></div>
-                <div class="titleMain toggler">Мои новости</div>
+                <div class="historyIcon"></div>
+                <div class="titleMain">Мои блоги</div>
                 <div class="historyContent">
-                    <c:if test="${not empty blogposts}">
-                        <c:forEach items="${blogposts}" var="n">
-                            <a class="historyItem" href="/blog-post/view/id/${n.id}">${n.title}</a>
+                    <c:if test="${not empty blogs}">
+                        <c:forEach items="${blogs}" var="n">
+                            <a class="historyItem" href="/blog/${n.id}" target="_blank">${n.title}</a>
                         </c:forEach>
+                        <div class="arrow loader"></div>
                     </c:if>
-                    <c:if test="${empty blogposts}">
-                        <p><a href="/blog-create">создать новостной блог</a></p>
-                    </c:if>
+                    <p><a href="/blog-create" class="proposeToCreate" target="_blank">Начать новостной блог</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
-                <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myOffers" toggler="" style="display: none;">
-                <div class="historyIcon toggler"></div>
-                <div class="titleMain toggler">Мои обьявления</div>
+                <div class="historyIcon"></div>
+                <div class="titleMain">Мои обьявления</div>
                 <div class="historyContent">
                     <c:if test="${not empty offers}">
                         <c:forEach items="${offers}" var="offer">
-                            <a class="historyItem" href="/offer/${offer.id}">${offer.title}</a>
+                            <a class="historyItem" href="/offer/${offer.id}" target="_blank">${offer.title}</a>
                         </c:forEach>
+                        <div class="arrow loader"></div>
                     </c:if>
-                    <c:if test="${empty offers}">
-                        <p><a href="/blog-create">создать новостной блог</a></p>
-                    </c:if>
+                    <p><a href="/create-offer" class="proposeToCreate" target="_blank">Разместить обьявление</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
-                <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myInvestments" toggler="" style="display: none;">
-                <div class="historyIcon toggler"></div>
-                <div class="titleMain toggler">Мои инвестиции</div>
+                <div class="historyIcon"></div>
+                <div class="titleMain">Мои инвестиции</div>
                 <div class="historyContent">
+                    <c:if test="${not empty investments}">
+                        <c:forEach items="${investments}" var="invest">
+                            <a class="historyItem" href="/investorPost/edit?id=${invest.id}" target="_blank">${invest.description}</a>
+                        </c:forEach>
+                        <div class="arrow loader"></div>
+                    </c:if>
+                    <p><a href="/investorPost/create" class="proposeToCreate" target="_blank">Инвестировать</a></p>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
-                <div class="arrow toggler"></div>
             </div>
             <div class="greenBox historyBox inlineBox optional closed" id="myBalance" toggler="" style="display: none;">
-                <div class="historyIcon toggler"></div>
-                <div class="titleMain toggler">Мой баланс</div>
+                <div class="historyIcon"></div>
+                <div class="titleMain">Мой баланс</div>
                 <div class="historyContent">
                     <c:forEach items="${balance}" var="b">
                         <span class="historyItem"><span class="time">${b.dateTime}</span>: пополнено на ${b.amount} грн.</span>
                     </c:forEach>
                 </div>
                 <i class="fa fa-times-circle closeBox"></i>
-                <div class="arrow toggler"></div>
+                <div class="arrow loader"></div>
             </div>
         </div>
         <div class="clearfix"></div>

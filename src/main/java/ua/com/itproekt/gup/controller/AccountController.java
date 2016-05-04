@@ -16,6 +16,8 @@ import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.bank_api.entity.ExternalTransaction;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
+import ua.com.itproekt.gup.model.news.Blog;
+import ua.com.itproekt.gup.model.news.BlogFilterOptions;
 import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
 import ua.com.itproekt.gup.model.offer.Offer;
@@ -23,15 +25,19 @@ import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.projectsAndInvestments.investment.InvestorPost;
+import ua.com.itproekt.gup.model.projectsAndInvestments.investment.InvestorPostFilterOptions;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.Project;
 import ua.com.itproekt.gup.model.projectsAndInvestments.project.ProjectFilterOptions;
 import ua.com.itproekt.gup.model.tender.Tender;
 import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.news.BlogPostService;
+import ua.com.itproekt.gup.service.news.BlogService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.service.projectsAndInvestments.investment.InvestorService;
 import ua.com.itproekt.gup.service.projectsAndInvestments.project.ProjectService;
 import ua.com.itproekt.gup.service.tender.TenderService;
 import ua.com.itproekt.gup.util.EntityPage;
@@ -63,10 +69,15 @@ public class AccountController {
     ProjectService projectService;
 
     @Autowired
-    ActivityFeedService activityFeedService;
+    InvestorService investorService;
 
     @Autowired
-    BlogPostService blogPostService;
+    ActivityFeedService activityFeedService;
+
+//    @Autowired
+//    BlogPostService blogPostService;
+    @Autowired
+    BlogService blogService;
 
     @Autowired
     OffersService offersService;
@@ -74,6 +85,9 @@ public class AccountController {
     BankSession session = new BankSession();
 
     private static Map<String,Integer> storedSMScodes = new HashMap<>();
+
+    final int contentEntitiesLimit = 5;
+    final int eventEntitiesLimit = 50;
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/prioffice", method = RequestMethod.GET)
@@ -95,31 +109,44 @@ public class AccountController {
 
         TenderFilterOptions tf = new TenderFilterOptions();
         tf.setAuthorId(authId);
-        tf.setLimit(3);
+        tf.setSortDirection("DESC");
+        tf.setLimit(contentEntitiesLimit);
         List<Tender> tenders = tenderService.findWihOptions(tf, profile).getEntities();
         model.addAttribute("tenders", tenders);
 
         ProjectFilterOptions pf = new ProjectFilterOptions();
         pf.setAuthorId(authId);
-        pf.setLimit(3);
+        pf.setLimit(contentEntitiesLimit);
         List<Project> projects = projectService.findProjectsWihOptions(pf).getEntities();
         model.addAttribute("projects", projects);
 
-        BlogPostFilterOptions bpf = new BlogPostFilterOptions();
-        bpf.setAuthorId(authId);
-        bpf.setLimit(3);
-        bpf.setCreatedDateSortDirection(Sort.Direction.DESC);
-        List<BlogPost> blogposts = blogPostService.findBlogPostsWihOptions(bpf).getEntities();
-        model.addAttribute("blogposts", blogposts);
+        InvestorPostFilterOptions inf = new InvestorPostFilterOptions();
+        inf.setuId(authId);
+        inf.setLimit(contentEntitiesLimit);
+        List<InvestorPost> investments = investorService.findInvestorPostsWihOptions(inf).getEntities();
+        model.addAttribute("investments", investments);
+
+//        BlogPostFilterOptions bpf = new BlogPostFilterOptions();
+//        bpf.setAuthorId(authId);
+//        bpf.setLimit(contentEntitiesLimit);
+//        bpf.setCreatedDateSortDirection(Sort.Direction.DESC);
+//        List<BlogPost> blogposts = blogPostService.findBlogPostsWihOptions(bpf).getEntities();
+//        model.addAttribute("blogposts", blogposts);
+        BlogFilterOptions bf = new BlogFilterOptions();
+        bf.setAuthorId(authId);
+        bf.setLimit(contentEntitiesLimit);
+        List<Blog> blogs = blogService.findBlogWihOptions(bf).getEntities();
+        model.addAttribute("blogs", blogs);
 
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
         offerFilterOptions.setAuthorId(authId);
-        offerFilterOptions.setLimit(3);
+        offerFilterOptions.setLimit(contentEntitiesLimit);
+        offerFilterOptions.setCreatedDateSortDirection("DESC");
         List<Offer> offers = offersService.findOffersWihOptions(offerFilterOptions).getEntities();
         model.addAttribute("offers", offers);
 
         EventFilterOptions ef = new EventFilterOptions();
-        ef.setLimit(3);
+        ef.setLimit(eventEntitiesLimit);
         ef.setSkip(0);
         ef.setTargetUId(profile.getId());
         EntityPage<Event> events = activityFeedService.findEventsWithOptions(ef);

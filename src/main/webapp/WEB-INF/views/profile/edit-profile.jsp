@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="/resources/css/cropper.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
     <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
     <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 
@@ -51,9 +52,7 @@
             <input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg"
                    style="display:none">
         </form>
-        <div class="moreInformation-img" id="addProfileImg">
-            <a><img src="resources/images/pluse.png" alt="plus"></a>
-        </div>
+        <div class="moreInformation-img" id="addProfileImg"></div>
         <div id="moreInformation-form">
             <label class="label-form-info" for="select-type">Тип аккаунта</label>
 
@@ -61,29 +60,38 @@
                 <select id="select-type" class="form-control">
                     <option value="INDIVIDUAL">Физическое лицо</option>
                     <option value="LEGAL_ENTITY">Юридическое лицо</option>
-                    <option value="ENTREPRENEUR">Частный предпрениматель</option>
+                    <option value="ENTREPRENEUR">Частный предприниматель</option>
                 </select>
             </div>
 
             <div class="clearfix"></div>
 
+            <div id="userNameBlock">
+                <label class="label-form-info" for="userName">ФИО</label>
+                <input id="userName" class="form-info-input" name='name' type="text">
+            </div>
+            <div id="usernameError" style="display: none;font:400 12px DroidSans;color: #f3271a">
+                Допустимы имена, содержащие кириллические символы, символы латинского алфавита, цифры и дефис.
+            </div>
+
             <div id="nameCompanyBlock">
-                <label class="label-form-info" for="nameCompany">Название компании</label>
+                <label id="companyType" class="label-form-info" for="nameCompany">Название компании</label>
                 <input id="nameCompany" class="form-info-input" name='name' type="text">
             </div>
 
             <div id="scopeOfActivityBlock">
                 <label class="label-form-info" for="select-sphere">Cфера деятельности</label>
-
-                <div id="selectBox-info-sphere">
-                    <select id="select-sphere" class="form-control">
-                        <option>Выберете сферу</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
+                <select id="select-sphere" class="chosen" multiple data-placeholder="Выберите отрасль" style="width: 553px;">
+                </select>
+                <%--<div id="selectBox-info-sphere">--%>
+                    <%--<select id="select-sphere" class="form-control">--%>
+                        <%--<option>Выберете сферу</option>--%>
+                        <%--<option>2</option>--%>
+                        <%--<option>3</option>--%>
+                        <%--<option>4</option>--%>
+                        <%--<option>5</option>--%>
+                    <%--</select>--%>
+                <%--</div>--%>
             </div>
 
             <div id="companyAddressBlock">
@@ -96,44 +104,44 @@
                 <input id="position" type="text" name='position' class="form-info-input">
             </div>
 
-            <div id="userNameBlock">
-                <label class="label-form-info" for="userName">ФИО</label>
-                <input id="userName" class="form-info-input" name='name' type="text">
-            </div>
-
             <label for="main-email-info" class="label-form-info">Основной E-mail</label>
-            <input id="main-email-info" type="email" name='email' class="form-info-input">
+            <input id="main-email-info" type="email" required name='email' class="form-info-input">
 
             <div class="clearfix"></div>
 
             <div id="contactEmailsBlock" class="input_email_fields_wrap">
                 <div id="addEmailImg" class="title-email add_email_field_button" data-title="Добавить e-mail">
-                    <img class="email-plus" src="resources/images/pluse.png" alt="plus">
+                    <img class="email-plus" style="z-index: 2;" src="resources/images/pluse.png" alt="plus">
                 </div>
                 <label class="label-form-info">Контактный e-mail</label>
                 <div class="email-input-unit">
-                    <input type="text" name="myemail" class="form-info-input">
-                    <a href="#" class="remove_field">
-                        <img src="/resources/img/minus.png" alt="minus">
-                    </a>
+                    <input type="email" name="myemail" class="form-info-input">
+                    <%--<a href="#" class="remove_field"><img src="/resources/img/minus.png" alt="minus"></a>--%>
                 </div>
             </div>
-
-            <label for="main-tel-info" class="label-form-info">Основной Телефон</label>
-            <input type="tel" name="tel" id="main-tel-info" class="input-info-min">
+            <div id="emailError" style="display: none;font:400 12px DroidSans;color: #f3271a">
+                Введен несуществующий e-mail.
+            </div>
+            <div>
+                <label for="main-tel-info" class="label-form-info">Основной Телефон</label>
+                <input type="tel" name="tel" id="main-tel-info" class="input-info-min">
+            </div>
 
             <div class="clearfix"></div>
 
+
+
             <div id="contactPhonesBlock" class="input_tel_fields_wrap">
+
                 <div id="addPhoneImg" class="title-tel add_tel_field_button" data-title="Добавить телефон">
-                    <img class="tel-plus" src="resources/images/pluse.png" alt="plus">
+                    <img class="tel-plus" style="z-index: 2;" src="resources/images/pluse.png" alt="plus">
                 </div>
 
                 <label class="label-form-info">Контактный телефон</label>
 
                 <div class="tel-wrapper-1 tel-input-unit">
                     <input type="tel" name="mytel" class="input-info-min">
-                    <a href="#" class="remove_field"><img class="remove_phone" src="/resources/img/minus.png" alt="minus"></a>
+                    <%--<a href="#" class="remove_field"><img class="remove_phone" src="/resources/img/minus.png" alt="minus"></a>--%>
                 </div>
 
             </div>

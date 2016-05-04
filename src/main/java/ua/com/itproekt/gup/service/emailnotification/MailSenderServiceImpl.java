@@ -12,11 +12,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,7 +81,7 @@ public class MailSenderServiceImpl implements MailSenderService {
                 messageHelper.setTo(emailVerificationModel.getEmail());
                 messageHelper.setFrom(emailFromAddress);
                 messageHelper.setReplyTo(emailReplyToAddress);
-                messageHelper.setSubject(MimeUtility.encodeText(emailSubject, "utf-8", "B"));
+                messageHelper.setSubject("Добро пожаловать на GUP");
                 Map<String, Object> model = new HashMap<>();
                 model.put("model", emailVerificationModel);
                 String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, velocityModel, "UTF-8", model);

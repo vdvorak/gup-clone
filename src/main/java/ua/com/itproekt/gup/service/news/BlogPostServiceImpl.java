@@ -102,7 +102,6 @@ public class BlogPostServiceImpl implements BlogPostService {
                 .setCreatedDateEqualsToCurrentDate();
 
         blogPostRepository.createComment(blogPostId, newComment);
-
         String toId = comment.getToId();
         //TODO ** проверять существует ли пользователь с toId
         if( blogPostId.equals(toId)) {

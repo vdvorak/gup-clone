@@ -107,7 +107,7 @@
                 </select>
             </div>
             <div class="col-xs-3" style="display: none">
-                <input id="offer-inpPrice" type="number"
+                <input id="offer-inpPrice" type="number" min="0" max="2147483648"
                        style="border: 4px solid #9c6; border-radius: 5px;" value="${offer.price}">
             </div>
             <div class="col-xs-2" style="display: none">
@@ -240,7 +240,7 @@
         <div class="row file-browse-wrap">
             <div class="col-xs-4"></div>
             <div id="drop_zone" class="col-xs-8">
-                <ul class="ul-img-container ul-img-container-green">
+                <ul id="offer-img-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
@@ -406,11 +406,13 @@
                     processData: false,
 
                     success: function (data, textStatus, request) {
-                        var id = data.id;
-                        var isImage = f.type.substring(0, 5) === 'image';
-                        if (isImage) {
-                            imgsArr[id] = "image";
-                            appendImg(id);
+                        if (Object.keys(imgsArr).length <= 15) {
+                            var id = data.id;
+                            var isImage = f.type.substring(0, 5) === 'image';
+                            if (isImage) {
+                                imgsArr[id] = "image";
+                                appendImg(id);
+                            }
                         }
                     }
                 });
@@ -472,7 +474,9 @@
             arrValidate.push($('#categories-row'));
         }
 
-        if ($('#offer-price-row').css('display') !== 'none' && $('#selection-price').val() === 'price' && !$('#offer-inpPrice').val()) {
+        var price = +$('#offer-inpPrice').val();
+        if (($('#offer-price-row').css('display') !== 'none' && $('#selection-price').val() === 'price')
+                && (price <= 0 || price > 2147483648)) {
             arrValidate.push($('#offer-inpPrice'));
         }
 
@@ -651,11 +655,13 @@
                 processData: false,
 
                 success: function (data, textStatus, request) {
-                    var id = data.id;
-                    var isImage = f.type.substring(0, 5) === 'image';
-                    if (isImage) {
-                        imgsArr[id] = "image";
-                        appendImg(id);
+                    if (Object.keys(imgsArr).length < 15) {
+                        var id = data.id;
+                        var isImage = f.type.substring(0, 5) === 'image';
+                        if (isImage) {
+                            imgsArr[id] = "image";
+                            appendImg(id);
+                        }
                     }
                 }
             });
@@ -678,6 +684,7 @@
         if (imgsArr[id] === "pic1") cloneImg.find('img').addClass('mainImg');
 
         cloneImg.appendTo('.ul-img-container');
+
     }
 
     // delete images before save changes in offer (must be called before update offer)

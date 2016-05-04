@@ -231,7 +231,6 @@ loadingQueue.push(function () {
 var updateHistoryLayout = null
 loadingQueue.push(function () {
     var grid = $('.historyContainer').masonry({
-        // options
         itemSelector: '.historyBox',
         columnWidth: 325,
         fitWidth: true,
@@ -542,6 +541,11 @@ Dialogs.init = function () {
 Dialogs.update = function () {
     var unreaded = 0
     R.Libra().dialogueService().dialogue().read().all(null, function (res) {
+        if (res.length == 0) {
+            Dialogs.common.find('.noContent').show()
+            return;
+        }
+        Dialogs.common.find('.noContent').hide()
         for (var d in res) {
             var resDialog = res[d]
             if (Dialogs.dialogs[resDialog.id]) {
@@ -674,7 +678,7 @@ var ELoader = (function () {
         }
         this.template = ELoader.templateDefault;
         $.extend(this, options)
-        this.page = 0
+        this.skip = 5
 
         var self = this
         $(document).ready(function () {
@@ -693,49 +697,66 @@ var ELoader = (function () {
 ELoader.prototype.load = function () {
     var data = {}
     var self = this
-    data.skip = this.page
+    data.skip = this.skip
     data.limit = 5
+    data.createdDateSortDirection = 'DESC'
+    data.authorId = User.current
+    //TODO DESC sorting & authorID
     this.api(JSON.stringify(data), function (res) {
         Toggler.turnToggled(self.handle)
         if (res.entities.length <= 0) {
             return;
         }
+        self.skip += data.limit
         for (var r in res.entities) {
             var entity = res.entities[r]
             var temp = self.template.clone()
             temp.text(entity.title)
             temp.attr('href', self.href(entity.id))
-            self.historyContent.append(temp)
+            // self.historyContent.append(temp)
+            self.historyContent.find('.historyItem').last().after(temp)
         }
         self.callback(res)
         updateHistoryLayout()
     }, null)
-    this.page += 1
 }
-ELoader.templateDefault = $('<a class="historyItem" href="#">{title}</a>')
+ELoader.templateDefault = $('<a class="historyItem" href="#" target="_blank">{title}</a>')
 loadingQueue.push(function () {
-    /*new ELoader({
-     api: R.Libra().tenderService().tender().read().all,
-     id: 'myTenders'
-     }).load()
-     new ELoader({
-     api: R.Libra().projectsAndInvestmentsService().project().read().all,
-     id: 'myProjects',
-     href: function(id){return '/project?id=' + id}
-     }).load()
-     new ELoader({
-     api: R.Libra().newsService().blog().read().all,
-     id: 'myNews',
-     href: function(id){return '/blog-post/view/id/' + id}
-     }).load()
-     new ELoader({
-     api: R.Libra().offersService().offer().read().all,
-     id: 'myOffers'
-     }).load()
-     new ELoader({
-     api: R.Libra().projectsAndInvestmentsService().investorPost().read().all,
-     id: 'myInvestments'
-     }).load()*/
+    new ELoader({
+        api: R.Libra().tenderService().tender().read().all,
+        id: 'myTenders',
+        href: function (id) {
+            return '/tender/' + id
+        }
+    })
+    new ELoader({
+        api: R.Libra().projectsAndInvestmentsService().project().read().all,
+        id: 'myProjects',
+        href: function (id) {
+            return '/project?id=' + id
+        }
+    })
+    new ELoader({
+        api: R.Libra().newsService().blog().read().all,
+        id: 'myNews',
+        href: function (id) {
+            return '/blog/' + id
+        }
+    })
+    new ELoader({
+        api: R.Libra().offersService().offer().read().all,
+        id: 'myOffers',
+        href: function (id) {
+            return '/offer/' + id
+        }
+    })
+    new ELoader({
+        api: R.Libra().projectsAndInvestmentsService().investorPost().read().all,
+        id: 'myInvestments',
+        href: function (id) {
+            return '/investorPost/edit?id=' + id
+        }
+    })
 
     Toggler.init()
     GBox.init()
@@ -746,7 +767,7 @@ loadingQueue.push(function () {
         updateHash: false
     })
     $('.greenBox.optional').on('gboxClose', function (e, id) {
-        $('#gboxTumblers input[type="checkbox"][gbox-id="' + id + '"]').attr('checked', false)
+        $('#gboxTumblers input[type="checkbox"][gbox-id="' + id + '"]').attr('checked', true)
         Toggler.turnUntoggled($(this))
         $(this).find('.historyIcon').each(function (num, el) {
             $(el).hide()
@@ -782,30 +803,32 @@ loadingQueue.push(function () {
         }
     })
     User.get(User.current, function (err, user) {
+        var finded = false
         $('#gboxTumblers *[gbox-id]').each(function (num, e) {
-            var finded = false
+            finded = false
             for (var s in user.priofficeSets) {
                 if (user.priofficeSets[s] === $(e).val()) {
-                    $(e).attr('checked', true)
-                    var id = $(e).attr('gbox-id')
-                    var gbox = $('#' + id)
-                    GBox.open(gbox)
+                    finded = true
                 }
             }
+            if (finded) return;
+            $(e).attr('checked', true)
+            var id = $(e).attr('gbox-id')
+            var gbox = $('#' + id)
+            GBox.open(gbox)
         })
     })
 })
 function saveGBoxTogglers() {
     var set = []
     $('#gboxTumblers *[gbox-id]').each(function (num, e) {
-        if ($(e).is(':checked')) {
+        if (!$(e).is(':checked')) {
             set.push($(e).val())
         }
     })
     R.Libra().profilesService().profile().edit({
         id: User.current,
         priofficeSets: set
-    }, function () {
     })
 }
 
@@ -900,7 +923,7 @@ $(".cropper-btn-success").click(function () {
             cropper.replace('/api/rest/fileStorage/profile/file/read/id/' + loadedProfile.imgId);
         }
     });
-
+    $("#uploadProfilePhotoInput").val("");
     $.when(loadImg).done(updateProfile);
 });
 

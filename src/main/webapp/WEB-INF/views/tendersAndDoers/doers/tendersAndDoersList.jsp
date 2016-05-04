@@ -59,8 +59,6 @@
         </ul>
 
 
-
-
         <div id="tabs1-tenders">
             <div id="tenders-start-block" class="feedContainer tenders">
                 <div class="feedItem build-item-wrap">

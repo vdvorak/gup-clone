@@ -199,10 +199,14 @@
     color: #99cc66;
     background-color: #fff;
     font: 12px DroidSans;
+    font-weight: bold;
     padding: 5px 6px;
     border-bottom: 2px solid #99cc66;
     border-top: 2px solid #fff;
     transition: 200ms;
+}
+.greenBox .panel-group .panel a.collapsed:before {
+    content: "> ";
 }
 
 .greenBox .panel-group .panel a.collapsed:hover {
@@ -274,6 +278,14 @@
     width: 600px;
     margin: 0 auto;
     margin-top: 30px;
+}
+
+.noContent{
+    color: #cbcbcb;
+    text-align: center;
+    margin: 10px 0;
+    font: 12px DroidSans;
+    font-weight: bold;
 }
 
 .contactsMain .topBar {
@@ -361,11 +373,6 @@
 
 .contactsContainer.toggled {
     max-height: 999px;
-}
-.contactsContainer .noFinded {
-    color: #68717a;
-    font: 14px DroidSans;
-    text-align: center;
 }
 
 .contactsContainer .persona {
@@ -744,6 +751,17 @@
 
 .historyBox#myInvestments .historyIcon:after {
     background-image: url(images/dollarUp.png);
+}
+.historyBox .proposeToCreate {
+    background-color: #99cc66;
+    padding: 10px;
+    color: white;
+    font: 12px DroidSans;
+    cursor: pointer;
+}
+.historyBox .proposeToCreate:hover {
+    background-color: #42abe0;
+    color: white;
 }
 
 

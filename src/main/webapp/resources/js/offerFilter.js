@@ -43,8 +43,10 @@
     }
 
     function drawNoFoundOffers() {
-        $('#offers-notFound').removeClass('offers-display-none');
-        $('#h2-top-offers').addClass('offers-display-none');
+        if(!$('.notice-box li:not(#li-offer-basic)').length) {
+            $('#offers-notFound').removeClass('offers-display-none');
+            $('#h2-top-offers').addClass('offers-display-none');
+        }
     }
 
     function createNewBox() {
@@ -424,6 +426,8 @@
             var price = getUrlParam("price");
             if (price) utils.properties.push({key: 'price', value: price});
 
+            var authorId = getUrlParam("authorId");
+            if (authorId) utils.authorId = authorId;
         }
         return namespace;
     }
@@ -539,7 +543,8 @@
         if (flag !== "offer-all") {
             redirectToOfferAll();
         } else {
-            cleanResult();
+            utils.skip +=10;
+
             setFilterOptions();
             readAllByFilter();
         }
@@ -619,6 +624,12 @@
         });
     }
 
+    function filterOffersByAuthor(event) {
+        event.preventDefault();
+
+        var url = '/offers?authorId='+ event.data +'&';
+        redirectToOfferAll(url);
+    }
 
     namespace.utils = utils;
 
@@ -639,6 +650,7 @@
     namespace.redirectToOfferAllByCategories = redirectToOfferAllByCategories;
     namespace.redirectToOfferAllByRegion = redirectToOfferAllByRegion;
     namespace.redirectToOfferAllByBreadcrumbs = redirectToOfferAllByBreadcrumbs;
+    namespace.filterOffersByAuthor = filterOffersByAuthor;
 
     namespace.getIdCategory1Lvl = getIdCategory1Lvl;
     namespace.selectFilterPrice = selectFilterPrice;

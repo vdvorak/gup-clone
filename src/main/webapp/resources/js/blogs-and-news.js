@@ -84,10 +84,11 @@ $(document).ready(function () {
 
     doAjax(blogsFO, urlGetBlog, 'blogs');
 
-    $('#nextPageBlog').on('click', function () {
+    $(document).on('click', '#nextPageBlog', function () {
         blogsFO.skip += 5;
         doAjax(blogsFO, urlGetBlog, 'blogs');
     });
+
 
     //---------------------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------------
@@ -131,7 +132,7 @@ $(document).ready(function () {
 
     doAjax(newsFO, urlGetNews, 'news');
 
-    $('#nextPageNews').on('click', function () {
+    $(document).on('click', '#nextPageNews', function () {
         newsFO.skip += 5;
         doAjax(newsFO, urlGetNews, 'news');
     })

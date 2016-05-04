@@ -46,6 +46,34 @@ function setValuesForFieldsFromProfile(profile) {
     }
 }
 
+var validationObj = {
+    username:{
+        regexp: /^[a-zA-Z\- а-яА-Я0-9]{1,100}$/
+    },
+    email: {
+        regexp: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    }
+};
+
+function validateProfileData(profile){
+    var result = {
+        username:{
+            valid: true
+        },
+        emails:{
+            valid: true
+        }
+    };
+    result.username.valid = validationObj.username.regexp.test(profile.username);
+
+    for(var i = 0; i < profile.contact.contactEmails.length;i++){
+        if(!validationObj.email.regexp.test(profile.contact.contactEmails[i])){
+            result.emails.valid = false;
+        }
+    }
+    return result;
+};
+
 function initializeProfileEntityForUpdate() {
     updatedProfile.id = loadedProfile.id;
     updatedProfile.username = $('#userName').val();
@@ -56,6 +84,7 @@ function initializeProfileEntityForUpdate() {
     updatedProfile.contact.skypeUserName = $('#skype-info').val();
     updatedProfile.contact.linkToWebSite = $('#web-addresses').val();
     updatedProfile.mainPhoneNumber = $('#main-tel-info').val();
+    updatedProfile.contact.naceId = (updatedProfile.contact.type !== 'INDIVIDUAL') ? $("#select-sphere").val() : null;
 
     var contactEmails = [];
     $("input[name=myemail]").each(function () {
@@ -205,40 +234,75 @@ $(document).ready(function () {
                     x_email--;
                 });
 // ----------------------------------------------------- Multiply emails -----------------------------------
+
+// --------------------------------------  BEGIN NACE  ----------------------------------------------
+                var select = $('#select-sphere');
+                select.chosen();
+
+                var naceId = loadedProfile.contact.naceId;
+                $.when(loadNace).done(function(response){
+
+                    for (var i = 0; i < response.length; i++) {
+                        var option = $('<option id="' + response[i].id + '" value="' + response[i].id + '">' + response[i].id + ": " + response[i].name + '</option>');
+                        select.append(option);
+                    }
+                    if (naceId && naceId.length) select.val(naceId);
+
+                    select.trigger("chosen:updated")
+                });
+// --------------------------------------  END NACE  ----------------------------------------------
             }
         }
     });
 });
 
+function cleanErrors(){
+    $('#usernameError').css('display', 'none');
+    $('#emailError').css('display', 'none');
+}
+
+cleanErrors();
 
 $('#updateProfileBtn').on('click', function () {
+    cleanErrors();
     initializeProfileEntityForUpdate();
-
-    $.ajax({
-        type: "POST",
-        url: "/api/rest/profilesService/profile/edit",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(updatedProfile),
-        statusCode: {
-            200: function () {
-                window.location.href = '/profile?id=' + updatedProfile.id;
+    var temp = validateProfileData(updatedProfile);
+    if(temp.emails.valid && temp.username.valid){
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/profilesService/profile/edit",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(updatedProfile),
+            statusCode: {
+                200: function () {
+                    window.location.href = '/profile?id=' + updatedProfile.id;
+                }
             }
-        }
-    });
+        });
+    }
+    if(!temp.username.valid){
+        $('#usernameError').css('display', 'inline');
+    }
+    if(!temp.emails.valid){
+        $('#emailError').css('display', 'inline');
+    }
 });
 
 $('#select-type').on('change', function () {
     switch ($('#select-type').val()) {
         case "INDIVIDUAL":
+            $('#companyType').html('Место работы');
             $('#userNameBlock').show();
             $('#positionBlock').show();
             $('#aboutMe').show();
             $('#companyAddressBlock').hide();
             $('#scopeOfActivityBlock').hide();
             $('#aboutCompany').hide();
+            $('#select-sphere').val('').trigger("chosen:updated");
             break;
         case "LEGAL_ENTITY":
+            $('#companyType').html(' Название компании');
             $('#aboutMe').hide();
             $('#userNameBlock').hide();
             $('#positionBlock').hide();
@@ -248,6 +312,7 @@ $('#select-type').on('change', function () {
             $('#scopeOfActivityBlock').show();
             break;
         case "ENTREPRENEUR":
+            $('#companyType').html('Название компании');
             $('#aboutMe').hide();
             $('#aboutCompany').show();
             $('#positionBlock').show();
@@ -310,7 +375,7 @@ $(window).click(function (event) {
     }
 });
 
-$(".cropper-btn-success").click(function () {
+$(".cropper-btn-success").click(function (event) {
     $('#cropperModal').css('display', "none");
 
     var canvas = cropper.getCroppedCanvas();
@@ -344,6 +409,8 @@ $(".cropper-btn-success").click(function () {
             }
         }
     });
+
+    $("#uploadProfilePhotoInput").val("");
 });
 
 function dataURItoBlob(dataURI) {
@@ -355,3 +422,11 @@ function dataURItoBlob(dataURI) {
     return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
 }
 // --------------------------------------  END cropper  ----------------------------------------------
+
+$("#nameCompany").autocomplete({
+    source: function (request, response) {
+        $.getJSON("/search/autocomplete/profile/company" , {
+            term: request.term
+        }, response);
+    }
+});

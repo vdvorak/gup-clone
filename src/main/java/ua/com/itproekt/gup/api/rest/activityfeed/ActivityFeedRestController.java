@@ -28,7 +28,7 @@ public class ActivityFeedRestController {
         eventFO.setTargetUId(userId);
 
         EntityPage<Event> events = activityFeedService.findEventsWithOptions(eventFO);
-        if(events.getEntities().isEmpty()){
+        if (events.getEntities().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(events, HttpStatus.OK);
@@ -53,5 +53,15 @@ public class ActivityFeedRestController {
 
         activityFeedService.deleteEvent(eventId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/event/id/delete/all", method = RequestMethod.POST)
+    public ResponseEntity<Void> deleteEvent() {
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        activityFeedService.deleteAllEvents(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

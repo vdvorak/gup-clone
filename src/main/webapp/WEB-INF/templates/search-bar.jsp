@@ -86,8 +86,7 @@
                     </div>
                 </div>
                 <div class="ItemADS">
-                    <a id="35" href="#" data-level="1"><img src="/resources/images/Zoo.png"
-                                                            alt="Zoo"></a>
+                    <a id="35" href="#" data-level="1"><img src="/resources/images/Zoo.png" alt="Zoo"></a>
                     <a href="#">Zoo</a>
 
                     <div class="descriptionTitleLeft">
@@ -134,10 +133,6 @@
                     <a id="exchange" href="#" data-level="1"><img src="/resources/images/Barter.png"
                                                                   alt="Barter"></a>
                     <a href="#">Бартер</a>
-
-                    <div class="descriptionTitleRight">
-
-                    </div>
                 </div>
                 <div class="ItemADS">
                     <a id="1" href="#" data-level="1"><img src="/resources/images/TheProperty.png"
@@ -171,19 +166,11 @@
                     <a id="1435" href="#" data-level="1"><img src="/resources/images/Volunteering.png"
                                                               alt="Volunteering"></a>
                     <a href="#">Волонтерство</a>
-
-                    <div class="descriptionTitleRight">
-
-                    </div>
                 </div>
                 <div class="ItemADS">
                     <a id="free" href="#" data-level="1"><img src="/resources/images/IsFree.png"
                                                               alt="IsFree"></a>
                     <a href="#">Бесплатно</a>
-
-                    <div class="descriptionTitleRight">
-
-                    </div>
                 </div>
 
                 <div class="clearfix"></div>
