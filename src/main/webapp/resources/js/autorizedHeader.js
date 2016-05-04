@@ -303,6 +303,8 @@ function fillNotificationListBlock() {
                 break;
             case 'BLOG_POST_DISLIKE':
                 notification.type = 'Пользователю не нравится ваша запись';
+                notification.contentStoreId = '/blog-post/view/id/' + event.contentStoreId;
+                notification.targetText = 'Посмотреть новость';
                 break;
             case 'BLOG_POST_COMMENT':
                 notification.type = 'Новый комментарий к новости';
@@ -390,6 +392,7 @@ function fillNotificationListBlock() {
                 });
             },
             204: function () {
+                $('#delete-all-events').remove();
                 $('.dropDownBell').append(
                     '<div class="bellMessage">' +
                     '<p>Нет новых уведомлений</p>' +
