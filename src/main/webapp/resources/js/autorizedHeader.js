@@ -294,7 +294,6 @@ function fillNotificationListBlock() {
 
     function getNotification(event) {
         notification.targetText = '';
-
         switch (event.type) {
             case 'BLOG_SUBSCRIPTION':
                 notification.type = 'У вашего блога новый подписчик';
@@ -307,8 +306,10 @@ function fillNotificationListBlock() {
             case 'BLOG_POST_DISLIKE':
                 notification.type = 'Пользователю не нравится ваша запись';
                 break;
-            case 'BLOG_POST_COMMENTE':
-                notification.type = 'Новый комментарий';
+            case 'BLOG_POST_COMMENT':
+                notification.type = 'Новый комментарий к новости';
+                notification.contentStoreId = '/blog-post/view/id/' + event.contentStoreId;
+                notification.targetText = 'Посмотреть новость';
                 break;
             case 'BLOG_POST_COMMENT_REPLY':
                 notification.type = 'На ваш комментарий ответили';
@@ -318,6 +319,8 @@ function fillNotificationListBlock() {
                 break;
             case 'PROJECT_COMMENT':
                 notification.type = 'Новый комментарий к проекту';
+                notification.contentStoreId = '/project?id=' + event.contentStoreId;
+                notification.targetText = 'Посмотреть проект';
                 break;
             case 'PROJECT_COMMENT_REPLY':
                 notification.type = 'На ваш комментарий ответили';
