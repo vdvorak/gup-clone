@@ -90,14 +90,13 @@ $(".bell").click(function () {
         } else {
             $(".fadeScreen").hide()
         }
-        if ($('.bellMessage').is(':visible') ) {
+        if ($('.bellMessage').is(':visible')) {
             $('.dropDownBell > i').show();
         } else {
             $('.dropDownBell > i').hide();
         }
     });
 });
-
 
 
 $(".bell").mouseleave(function () {
@@ -114,7 +113,6 @@ $(".dropDownBell").click(function (event) {
     event.stopPropagation();
 });
 
-//
 
 $(".book").click(function () {
     $('.book div').slideToggle('fast', function () {
@@ -231,9 +229,9 @@ function getLoggedInProfileAjax() {
                     profileName = 'Безымянный';
                 }
 
-                if (profileName !=''){
+                if (profileName != '') {
                     $('#headerProfileName').text(profileName);
-                }else{
+                } else {
                     $('#headerProfileName').text('Безимянная фирма');
                 }
 
@@ -400,6 +398,21 @@ function fillNotificationListBlock() {
         }
     });
 }
+
+$('#delete-all-events').on('click', function () {
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/activityFeed/event/id/delete/all",
+        statusCode: {
+            200: function (response) {
+                $(".dropDownBell").empty();
+            },
+            204: function () {
+                alert("Внутренняя ошибка сервера")
+            }
+        }
+    });
+});
 
 function getImgSrcForNotification(imgId) {
     if (imgId) {

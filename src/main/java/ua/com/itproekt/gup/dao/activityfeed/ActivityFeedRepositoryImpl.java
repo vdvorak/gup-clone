@@ -98,6 +98,12 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
     }
 
     @Override
+    public void deleteAllEvents(String userId) {
+        Query query = new Query(Criteria.where("targetUId").is(userId));
+        mongoTemplate.remove(query, Event.class);
+    }
+
+    @Override
     public void deleteEventsWihOptions(EventFilterOptions eventFO) {
         throw new UnsupportedOperationException();
     }
