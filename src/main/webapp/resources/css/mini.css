@@ -13,14 +13,19 @@
 
 .ul-img-container li {
     margin: 10px;
-    padding: 0;
+    padding-bottom: 20px;
     width: 150px;
-    height: 150px;
+    height: 170px;
     list-style-type: none;
     display: inline-block;
     border-radius: 5px;
     position: relative;
     overflow: hidden;
+}
+
+.ul-img-container li div {
+    width: 100%;
+    text-align: center;
 }
 
 .ul-img-container img {

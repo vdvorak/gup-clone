@@ -25,9 +25,9 @@
     function sliderImg(arr) {
         var url = '';
         var imgId = '';
-        for (var i in arr) {
-            if (arr[i] === 'image' || arr[i] === 'pic1') {
-                imgId = i;
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].fileType === 'IMAGE' || arr[i].fileType === 'MAINIMAGE') {
+                imgId = arr[i].id;
                 url = '/api/rest/fileStorage/TENDER/file/read/id/' + imgId;
                 var element = '<li><img class="test1" src="' + url + '" /></li>';
                 $('.bxsliderTender').append(element)
@@ -53,11 +53,11 @@
                 $('#wantToComment').replaceWith('<a class="abutton blue" href="/tender/id/' + data.id + '/update">Редактировать</a>');
             }
 
-            sliderImg(data.uploadFilesIds);
+            sliderImg(data.files);
 
-            for(var key in data.uploadFilesIds) {
-                if(data.uploadFilesIds[key] === 'doc') {
-                    $('<a href="/api/rest/fileStorage/TENDER/file/read/id/'+ key +'">Файл</a>').appendTo('.tenderFils');
+            for(var i = 0; i < data.files.length; i++) {
+                if(data.files[i].fileType === 'DOCUMENT') {
+                    $('<a href="/api/rest/fileStorage/TENDER/file/read/id/'+ data.files[i].id +'">'+ data.files[i].name +'</a>').appendTo('.tenderFils');
                 }
             }
 

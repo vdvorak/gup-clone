@@ -213,11 +213,14 @@ public class TenderRestController {
         } else if (!tenderService.tenderExists(newTender.getId())) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+
+
         Tender tender = tenderService.findById(id);
-        Map<String, String> files = tender.getUploadFilesIds();
-        if (!newTender.getUploadFilesIds().isEmpty()) {
-            newTender.getUploadFilesIds().putAll(files);
-        }
+//        Map<String, String> files = tender.getUploadFilesIds();
+//        if (!newTender.getUploadFilesIds().isEmpty()) {
+//            newTender.getUploadFilesIds().putAll(files);
+//        }
         if (newTender.getWinnerId() != null && newTender.getWinnerId().length() > 0) {
             activityFeedService.createEvent(new Event(newTender.getWinnerId(), EventType.YOU_WON_IN_TENDER, tender.getId(), null, tender.getAuthorId()));
             tender.setEnd(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
