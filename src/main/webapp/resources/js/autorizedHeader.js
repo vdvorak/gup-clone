@@ -427,6 +427,7 @@ function getImgSrcForNotification(imgId) {
 
 function fillContactListBlock(contactList) {
     if (contactList.length > 0) {
+        $('.defaultP').remove();
         contactList.forEach(function (contactId) {
             $.ajax({
                 type: "POST",
@@ -444,7 +445,7 @@ function fillContactListBlock(contactList) {
             });
         });
     } else {
-        $('#dropDownBook').append(
+        $('.dropDownBook').append(
             '<div class="friend">' +
             '<p>Вы еще никого не добавили к себе в контакты.</p>' +
             '<a href="/profile/list">Найти знакомых</a>' +
