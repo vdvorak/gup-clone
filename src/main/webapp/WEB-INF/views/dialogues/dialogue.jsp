@@ -53,6 +53,7 @@
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 <script src="/resources/libs/sockjs-0.3.4.js"></script>
 <script src="/resources/libs/stomp.js"></script>
+<%--
 <script type="text/javascript">
     var stompClient = null;
     function connect() {
@@ -60,7 +61,7 @@
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/socket-response', function(response){
+            stompClient.subscribe('/topic/socket-response/${dialogue.id}', function(response){
                 showResponse(JSON.parse(response.body).content);
             });
         });
@@ -73,7 +74,7 @@
 
     function sendMessage() {
         var message = document.getElementById('name').value;
-        stompClient.send("/app/socket-request", {}, JSON.stringify({ 'message': message }));
+        stompClient.send("/app/socket-request/${dialogue.id}", {}, JSON.stringify({ 'message': message }));
     }
 
     function showResponse(message) {
@@ -81,22 +82,82 @@
     }
 
 </script>
+--%>
+
 
 <script>
+
+    var stompClient = null;
+    var isConnected = false;
+    var socket;
+
+    function connect(){
+        socket = new SockJS('/socket-request');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            console.log('Connected: ' + frame);
+            isConnected = true;
+            stompClient.subscribe('/topic/socket-response/${dialogue.id}', function(response){
+                var privateMessage = JSON.parse(response.body).content;
+                var senderName = "";
+                for(var i = 0; i < dialogue.members.length; i++){
+                    if(dialogue.members[i].id === privateMessage.authorId){
+                        senderName = dialogue.members[i].name;
+                        break;
+                    }
+                }
+                var dialog = $('#dialogues');
+                var tdId = '<td>'+ senderName +'</td>';
+                 var tr = '<tr>';
+                 var tdMsg = '<td>'+privateMessage.message+'</td>';
+                 var tdDate = '<td>'+ privateMessage.date +'</td>';
+                 var trClose = '</tr>';
+                 dialog.append(tr+tdId+tdMsg+tdDate+trClose);
+            });
+        });
+        stompClient.ws.onclose = function(){
+            isConnected = false;
+        }
+    }
+
+    connect();
+
+    setInterval(function(){
+        if(!isConnected){
+            connect();
+        }
+    },5000);
+
+    function disconnect() {
+        stompClient.disconnect();
+        console.log("Disconnected");
+    }
+
+    function sendMessage() {
+        var message = document.getElementById('name').value;
+        stompClient.send("/app/socket-request/${dialogue.id}", {}, JSON.stringify({ 'message': message }));
+    }
+
+    function showResponse(message) {
+        console.log(message);
+    }
 
     var msg = {};
     var dialogue = {};
     $(document).ready(function(){
         getNewPosts();
     });
+
     ///------------------------- Add msg -----------------------------------------------
     $(document).on('click', '#addMsg', function (event) {
 
         msg.message = $('#newMsg').val();
 
+        stompClient.send("/app/socket-request/${dialogue.id}", {}, JSON.stringify({ 'message': msg.message }));
 
-        //!!!! should add sockets functionality here, instead of ajax. for test reason add getNewPosts at the end.
-        $.ajax({
+        $('#newMsg').val("");
+
+       /*$.ajax({
             type: "POST",
 //      url: "/api/rest/doerService/doer/create",
             url: "/api/rest/dialogueService/dialogue/id/${dialogue.id}/message/create",
@@ -107,7 +168,7 @@
                 $('#newMsg').val("");
                 getNewPosts();
             }
-        });
+        });*/
     });
     ///------------------------- Add msg -----------------------------------------------
 
@@ -186,9 +247,9 @@
         });
     };
 
-    var getNewPostsAfter2sec = setInterval(function() {
+    /*var getNewPostsAfter2sec = setInterval(function() {
         getNewPosts();
-    }, 2000);
+    }, 2000);*/
 
     var deleteMember = function(id){
         var newMembers = dialogue.members;
@@ -239,16 +300,6 @@
     }
 
 </script>
-
-<div>
-    <button id="connect" onclick="connect();">Connect</button>
-    <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-</div>
-<div id="conversationDiv">
-    <label>What is your name?</label><input type="text" id="name" />
-    <button id="sendMessage" onclick="sendMessage();">Send</button>
-    <p id="response"></p>
-</div>
 
 </body>
 </html>

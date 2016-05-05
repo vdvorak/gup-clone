@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
@@ -20,13 +21,12 @@ import ua.com.itproekt.gup.model.privatemessages.PrivateMessage;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.beans.PropertyEditorSupport;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.security.Principal;
+import java.util.*;
 
 @RestController
 @RequestMapping("api/rest/dialogueService")
@@ -88,7 +88,7 @@ public class DialogueRestController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    // this method provide adding new message to existing dialogue. Id in path is a dialogue id.
+    // this method provides adding new message to existing dialogue. Id in path is a dialogue id.
     //!!!! this functionality should be rewritten to the socke
     @RequestMapping(
             value = "dialogue/id/{id}/message/create",
@@ -142,7 +142,14 @@ public class DialogueRestController {
     // this method provide getting all message from existing dialogue.
     @RequestMapping(value = "/dialogue/updateRead/{id}",
             method = RequestMethod.POST)
-    public void makeDialogueRead(@PathVariable("id") Dialogue dialogue) {
+    public void makeDialogueRead(@PathVariable("id") Dialogue dialogue, Principal p) {
+        /*user.setUnreadMessages(0)*/
+        String userId = SecurityOperations.getLoggedUserId();
+        Profile user = profileService.findWholeProfileById(userId);
+        System.err.println(user);
+        System.err.println(user.getUnreadMessages());
+        user.setUnreadMessages(0);
+        System.err.println(user.getUnreadMessages());
     }
 
     //
@@ -278,10 +285,30 @@ public class DialogueRestController {
         }
     }
 
-    @MessageMapping("/socket-request")
-    @SendTo("/topic/socket-response")
-    public SocketResponse response(SocketMessage message) throws Exception {
-        //Thread.sleep(3000); // simulated delay
-        return new SocketResponse("Hello, " + message.getMessage() + "!");
+    @MessageMapping("/socket-request/{dialogId}")
+    @SendTo("/topic/socket-response/{dialogId}")
+    public SocketResponse response(@DestinationVariable String dialogId, SocketMessage socketmessage, Principal p) throws Exception {
+        Profile profile = profileService.findProfileByEmail(p.getName());
+        String userId = profile.getId();
+
+        log.log(Level.INFO, LOGGED_TITLE + "message/create Hello =)");
+        Dialogue dialogue = dialogueService.findByIdProfile(dialogId, profile);
+        /*Dialogue dialogue = dialogueService.findById(dialogId);*/
+        if (dialogue == null || dialogue.getId() == null) {
+            log.log(Level.ERROR, LOGGED_TITLE + "NO SUCH DIALOGUE, id = " + dialogId);
+        }
+
+        // check if current user have access to existing dialogue
+        if (!dialogueService.isUserInDialogue(dialogue, userId)) {
+            log.log(Level.ERROR, LOGGED_TITLE + " user id=" + userId
+                    + " who is NOT IN LIST OF MEMBERS try to add new massage to dialogue id= " + dialogId);
+        }
+
+        PrivateMessage privateMessage = new PrivateMessage(socketmessage.getMessage(), userId);
+        dialogue.addMessage(privateMessage);
+        dialogueService.updateDialogueWhenAddMsgProfile(dialogue, profile);
+        log.log(Level.INFO, LOGGED_TITLE + " - new message was successfully add to dialogue");
+
+        return new SocketResponse(privateMessage);
     }
 }

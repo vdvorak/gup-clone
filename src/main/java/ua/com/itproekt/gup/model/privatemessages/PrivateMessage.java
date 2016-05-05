@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-
 public class PrivateMessage {
 
 //    new MongoId(String id) will return ObjectID;
