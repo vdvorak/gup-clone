@@ -94,7 +94,7 @@
 
     function GupValidator(strategy) {
 
-        this.modal = document.getElementById('gup-validator-modal');
+        this.modal = document.getElementById('gup-validator-popup');
         this.messages = [];
         this.strategy = {};
         this.isValid = true;
@@ -151,7 +151,8 @@
     }
 
     GupValidator.prototype.drawMessages = function () {
-        var modalBody = this.modal.querySelector('.cropper-modal-body');
+        var modalBody = this.modal.querySelector('.popup-content');
+        modalBody.innerHTML = '';
 
         for(var i = 0; i < this.messages.length; i++) {
           modalBody.appendChild('<p>'+ this.messages[i] +'</p>') ;
@@ -165,18 +166,13 @@
 
         window.addEventListener('click', function (event) {
             if (event.target == modal) {
-                modal.style.display = "none";
+                modal.classList.remove("gup-popup-active");
             }
         }, false);
 
-        document.getElementById('gup-validator-btn-ok').addEventListener('click', function(event) {
-            event.stopPropagation();
-
-            var modalBody = modal.querySelector('.cropper-modal-body');
-
-            modal.style.display = "none";
-            modalBody.innerHTML = '';
-
+        modal.querySelector('.popup-close').addEventListener('click', function(event) {
+            event.preventDefault();
+            modal.classList.remove("gup-popup-active");
         }, false);
 
         return this;
@@ -185,5 +181,6 @@
 
     namespace.Constructor = GupValidator;
 
-})(window.GupValidator = GupValidator || {});
+})(window.GupValidator = window.GupValidator || {});
+
 

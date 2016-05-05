@@ -173,6 +173,16 @@
     </div>
 </div>
 
+<div id="gup-validator-popup" class="gup-popup-overlay">
+    <div class="gup-popup">
+        <h2>Проверка заполнения полей</h2>
+        <a class="popup-close" href="#">&times;</a>
+        <div class="popup-content">
+          
+        </div>
+    </div>
+</div>
+
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
 </sec:authorize>
@@ -186,6 +196,7 @@
 
 <script src="/resources/js/jquery.maskedinput.min.js"></script>
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
+<script src="/resources/js/gup-validator.js"></script>
 
 <script>
     var imgsArr = {};
