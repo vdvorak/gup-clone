@@ -12,7 +12,7 @@
 <html lang="ru-RU">
 <head>
     <title>Тендер | GUP</title>
-    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
+    <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
 
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
@@ -53,6 +53,7 @@
                 <div class="statInfo">
                     <div class="publishDate tender-publish-date">Опубликовано: <span></span></div>
                     <span class="number visible">№<span class="tender-number"></span></span>
+
                     <div class="sum tender-expectedPrice"></div>
                     <div class="tender-veiws">Просмотров: <span></span></div>
                     <div class="tender-proposal-count">Предложений: <span></span></div>
@@ -64,7 +65,9 @@
                         <div class="clock">
                             <div class="time date-finish"></div>
                         </div>
-                        <button id="wantToComment" type="button" class="abutton blue" title="Для участия в тендере необходимо оставить предлжение.">Участвовать</button>
+                        <button id="wantToComment" type="button" class="abutton blue"
+                                title="Для участия в тендере необходимо оставить предлжение.">Участвовать
+                        </button>
                     </div>
                 </div>
             </div>
@@ -88,15 +91,18 @@
             <%--<a href="#">doc.exel</a>--%>
             <%--<a href="#">system.docx</a>--%>
         </div>
-        <div class="downComments" title="Для участия в тендере необходимо оставить предложение."><p>ПРЕДЛОЖЕНИЯ УЧАСТНИКОВ</p></div>
+        <div class="downComments" title="Для участия в тендере необходимо оставить предложение."><p>ПРЕДЛОЖЕНИЯ
+            УЧАСТНИКОВ</p></div>
     </div>
 
     <div class="colNewsComments">
         <div class="newsComments">
             <div class="clearfix"></div>
             <p class="newsCommentsHeader">Предложение</p>
+
             <form action="#" role="form" id="newsCommentsForm">
-                <textarea name="newsFormComments" id="newsFormComments" placeholder="Напишите своё предложение" maxlength="2000" required></textarea>
+                <textarea name="newsFormComments" id="newsFormComments" placeholder="Напишите своё предложение"
+                          maxlength="2000" required></textarea>
                 <input id="visionSelect" type="checkbox"><label for="visionSelect">Скрыть
                 предложение от других участников</label>
                 <button id="makePropose" class="newsFormSubmit">Отправить</button>
@@ -106,10 +112,12 @@
     </div>
     <div class="colComments" id="commentStart">
         <div class="comments">
-            <a href="#"><img src="/resources/images/logoComment.png" alt="logo"></a>
-            <a class="NameUser propose-author" href="#">Вася Петров</a>
+            <a href="#"><img class="member-pic" src="/resources/images/doersLogo.png" alt="logo"></a>
+            <a class="NameUser propose-author" href="#"></a>
+
             <p class="propose-date">Дата публикации: <span></span></p>
-            <p class="commentUser poropse-text">Интересно было узнать, история повторяется циклично! </p>
+
+            <p class="commentUser poropse-text"></p>
             <button class="chooseWinner">Выбрать победителем</button>
             <%--<p class="commentUser"></p>--%>
         </div>
