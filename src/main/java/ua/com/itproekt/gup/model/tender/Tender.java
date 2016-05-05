@@ -3,6 +3,7 @@ package ua.com.itproekt.gup.model.tender;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
@@ -13,8 +14,10 @@ public class Tender {
     @Id
     private String id;
     private String authorId;
+    @Size(min = 5, max = 70)
     private String title;
     private Set<String> naceIds;
+    @Size(min = 50, max = 4000)
     private String body;
     private TenderType type;
     private Set<Member> members;
@@ -23,6 +26,7 @@ public class Tender {
     private Long end;
     private Long visited;
     private Map<String, String> uploadFilesIds;
+    @Size(max = 15)
     private Set<File> files;
     private Address address;
     private Boolean hidePropose;
