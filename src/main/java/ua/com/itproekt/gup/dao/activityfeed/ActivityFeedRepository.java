@@ -19,5 +19,7 @@ public interface ActivityFeedRepository {
 
     void setViewed(String eventId);
 
+    void setAllViewed(String userId);
+
     void deleteAllEvents(String userId);
 }

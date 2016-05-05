@@ -42,7 +42,7 @@
         <p id="unreadNotificationsNum"></p>
 
         <div class="dropDownBell">
-            <i id="delete-all-events">Отметить все как прочитанные</i>
+            <i id="read-all-events">Отметить все как прочитанные</i>
         </div>
     </div>
     <div class="book">

@@ -402,10 +402,10 @@ function fillNotificationListBlock() {
     });
 }
 
-$('#delete-all-events').on('click', function () {
+$('#read-all-events').on('click', function () {
     $.ajax({
         type: "POST",
-        url: "/api/rest/activityFeed/event/id/delete/all",
+        url: "/api/rest/activityFeed/event/set/viewed/all",
         statusCode: {
             200: function (response) {
                 $(".dropDownBell").empty();
