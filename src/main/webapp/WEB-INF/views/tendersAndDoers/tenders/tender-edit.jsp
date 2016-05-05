@@ -542,7 +542,7 @@
     if(!hasMainImg) {
       for(var i = 0; i < filesArr.length; i++) {
         if(filesArr[i].fileType === "DOCUMENT") continue;
-        filesArr[i].fileType === "MAINIMAGE";
+        filesArr[i].fileType = "MAINIMAGE";
         break;
       }
     }
