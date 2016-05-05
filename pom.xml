@@ -8,11 +8,11 @@
     <name>NovaEra Maven Webapp</name>
     <url>http://maven.apache.org</url>
 
-    <!--<parent>
+    <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.3.3.RELEASE</version>
-    </parent>-->
+    </parent>
 
     <properties>
         <springframework.version>4.2.4.RELEASE</springframework.version>

@@ -2503,7 +2503,7 @@ form > .richAssCheck > label:first-child {
     margin: 10px 10px 0 0;
     color: #3e5da2;
     font: 400 24px ArianAMU;
-    display: block
+    display: inline-block;
 }
 
 .profileListDescription {
