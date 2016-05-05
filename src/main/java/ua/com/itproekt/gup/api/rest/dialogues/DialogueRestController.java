@@ -143,13 +143,10 @@ public class DialogueRestController {
     @RequestMapping(value = "/dialogue/updateRead/{id}",
             method = RequestMethod.POST)
     public void makeDialogueRead(@PathVariable("id") Dialogue dialogue, Principal p) {
-        /*user.setUnreadMessages(0)*/
+        /* // something already set to 0 before running code below
         String userId = SecurityOperations.getLoggedUserId();
         Profile user = profileService.findWholeProfileById(userId);
-        System.err.println(user);
-        System.err.println(user.getUnreadMessages());
-        user.setUnreadMessages(0);
-        System.err.println(user.getUnreadMessages());
+        user.setUnreadMessages(0);*/
     }
 
     //

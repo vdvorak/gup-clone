@@ -69,6 +69,7 @@ $(".mailMessage, .answer").mouseleave(function () {
             $('.mailMessage').slideDown('fast');
             $('.fadeScreen').hide('fast');
             $('#text-message-answer').val('');
+            getLoggedInProfileAjax();
         }
     }, 1000);
 });
@@ -481,7 +482,8 @@ function dialogueMakeRead(id) {
         contentType: "application/json; charset=utf-8",
         url: 'api/rest/dialogueService/dialogue/updateRead/' + id,
         success: function (response) {
-            alert("Удалили")
+            $('#unreadMessagesNum').hide();
+            /*alert("Удалили");*/
         }
     });
 }
