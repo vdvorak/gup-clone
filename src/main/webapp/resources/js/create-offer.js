@@ -9,6 +9,8 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
     var category3Id = '';
     var isComplete = 0;
 
+    var gupValidator = new window.GupValidator.Constructor('offer').init();
+
 // ---------------    LOAD RESOURCES    --------------------------//
     $(document).ready(function () {
         // Setup the dnd listeners.
@@ -79,149 +81,102 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
 
 // --------------------- MAIN FORM CONSTRUCTION ----------------------//
 
-    function validateOffer() {
-        $('.error-validation').removeClass('error-validation');
-
-        var arrValidate = [];
-
-        var title = $("#new-label-1").val();
-        if (title.length < 5 || title.length > 70) {
-            arrValidate.push($("#new-label-1"));
-        }
-        if (!isComplete) {
-            arrValidate.push($('#categories-row'));
-        }
-
-        var price = +$('#offer-inpPrice').val();
-        if (($('#offer-price-row').css('display') !== 'none' && $('#selection-price').val() === 'price')
-            && (price <= 0 || price > 2147483648)) {
-            arrValidate.push($('#offer-inpPrice'));
-        }
-
-        var region = $('#text-region').text();
-        var city = $('#text-city').text();
-        if (region === 'Выберите область' || (region !== 'Вся Украина' && city === 'Выберите город')) {
-            arrValidate.push($('#region-row'));
-        }
-
-        var description = $('#new-label-3').val();
-        if (description.length < 50 || description.length > 4000) {
-            arrValidate.push($('#new-label-3'));
-        }
-
-        if (!$('#inpEmail').val()) {
-            arrValidate.push($('#inpEmail'));
-        }
-
-        if (!$('#inpAuthor').val()) {
-            arrValidate.push($('#inpAuthor'));
-        }
-        for (var i = 0; i < arrValidate.length; i++) {
-            arrValidate[i].addClass('error-validation');
-        }
-        if (arrValidate.length) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     $('#btn-offer-save').click(function () {
 
-        if (validateOffer()) {
+        checkMainImg();
 
-            checkMainImg();
-
-            var offer = {};
-            offer.title = $("#new-label-1").val();
-            offer.imagesIds = imgsArr;
-            offer.canBeReserved = $("#reserve-checkbox").is(":checked");
-            offer.address = {};
-            offer.address.coordinates = placeKey;
-            offer.address.country = 'Украина';
+        var offer = {};
+        offer.title = $("#new-label-1").val();
+        offer.imagesIds = imgsArr;
+        offer.canBeReserved = $("#reserve-checkbox").is(":checked");
+        offer.address = {};
+        offer.address.coordinates = placeKey;
+        offer.address.country = 'Украина';
 
 
-            var city = $('#text-city').text();
-            if (city !== 'Выберите город' && city !== 'Все города') {
-                offer.address.city = city;
-            }
-
-            var area = $('#text-region').text();
-            if (area !== 'Выберите область') {
-                offer.address.area = area;
-            }
-
-            if ($('#new-label-check').is(':checked')) {
-                offer.urgent = true;
-            }
-
-            var phones = [];
-            $.each($('.row-telephone').find('input'), function (index) {
-                var val = $(this).val();
-                if (val) phones.push(val);
-            });
-
-            var categoryResult = [];
-            if (category1Id !== '') {
-                categoryResult.push(category1Id)
-            }
-            if (category2Id !== '') {
-                categoryResult.push(category2Id)
-            }
-            if (category3Id !== '') {
-                categoryResult.push(category3Id)
-            }
-
-            offer.categories = categoryResult;
-            offer.active = true;
-            offer.description = $('#new-label-3').val();
-            offer.userInfo = {};
-            offer.userInfo.skypeLogin = $('#inpSkype').val();
-            offer.userInfo.contactName = $('#inpAuthor').val();
-            offer.userInfo.email = $('#inpEmail').val();
-            offer.videoUrl = $('#inpVideo').val();
-            offer.userInfo.phoneNumbers = phones;
-
-            var properties = [];
-            $('#other-options').find('select').each(function () {
-                var prop = {};
-                prop.key = this.name;
-                prop.value = this.value;
-                properties.push(prop);
-            });
-
-            $('#other-options').find('input').each(function () {
-                var prop = {};
-                prop.key = this.name;
-                prop.value = this.value;
-                properties.push(prop);
-            });
-
-            if ($('#offer-price-row').css('display') !== 'none') {
-                properties.push({
-                    key: 'price',
-                    value: $('#selection-price').val()
-                });
-                offer.currency = $('#selection-currency').val();
-                offer.price = $('#offer-inpPrice').val();
-            }
-
-            offer.properties = properties;
-
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/offersService/offer/create",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify(offer),
-                success: function (response) {
-                    window.location.href = '/offer/' + response.id;
-                },
-                error: function (response) {
-                    alert("Внутренняя ошибка сервера");
-                }
-            });
+        var city = $('#text-city').text();
+        if (city !== 'Выберите город' && city !== 'Все города') {
+            offer.address.city = city;
         }
+
+        var area = $('#text-region').text();
+        if (area !== 'Выберите область') {
+            offer.address.area = area;
+        }
+
+        if ($('#new-label-check').is(':checked')) {
+            offer.urgent = true;
+        }
+
+        var phones = [];
+        $.each($('.row-telephone').find('input'), function (index) {
+            var val = $(this).val();
+            if (val) phones.push(val);
+        });
+
+        var categoryResult = [];
+        if (category1Id !== '') {
+            categoryResult.push(category1Id)
+        }
+        if (category2Id !== '') {
+            categoryResult.push(category2Id)
+        }
+        if (category3Id !== '') {
+            categoryResult.push(category3Id)
+        }
+
+        offer.categories = categoryResult;
+        offer.active = true;
+        offer.description = $('#new-label-3').val();
+        offer.userInfo = {};
+        offer.userInfo.skypeLogin = $('#inpSkype').val();
+        offer.userInfo.contactName = $('#inpAuthor').val();
+        offer.userInfo.email = $('#inpEmail').val();
+        offer.videoUrl = $('#inpVideo').val();
+        offer.userInfo.phoneNumbers = phones;
+
+        var properties = [];
+        $('#other-options').find('select').each(function () {
+            var prop = {};
+            prop.key = this.name;
+            prop.value = this.value;
+            properties.push(prop);
+        });
+
+        $('#other-options').find('input').each(function () {
+            var prop = {};
+            prop.key = this.name;
+            prop.value = this.value;
+            properties.push(prop);
+        });
+
+        if ($('#offer-price-row').css('display') !== 'none') {
+            properties.push({
+                key: 'price',
+                value: $('#selection-price').val()
+            });
+            offer.currency = $('#selection-currency').val();
+            offer.price = $('#offer-inpPrice').val();
+        }
+
+        offer.properties = properties;
+
+        gupValidator.validate(offer);
+        if(!gupValidator.isValid) return;
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/offersService/offer/create",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(offer),
+            success: function (response) {
+                window.location.href = '/offer/' + response.id;
+            },
+            error: function (response) {
+                alert("Внутренняя ошибка сервера");
+            }
+        });
     });
 
 // --------------------- END MAIN FORM CONSTRUCTION ----------------------//

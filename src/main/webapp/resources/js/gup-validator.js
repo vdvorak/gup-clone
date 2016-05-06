@@ -119,21 +119,15 @@
         return this;
     }
 
-
-    GupValidator.prototype.validate = function (obj, rules, msg) {
+    GupValidator.prototype.validate = function (obj) {
 
         this.reconstruct();
 
-        var rules = rules || this.strategy.rules,
-            msg = msg || this.strategy.msg;
+        var rules = this.strategy.rules,
+            msg = this.strategy.msg;
 
-        for(var key in rules) {
-            if(rules[key] !== null && typeof rules[key] === 'object') {
-                this.validate(obj[key], rules[key], msg[key]);
-            } else {
-                this.checkMatchRules(obj[key], rules[key], msg[key]);
-            }
-        }
+        this.validateRecursively(obj, rules, msg);
+        if(this.strategy.name === 'offer') this.validateOfferAdditionalFields();
 
         if(this.messages.length) {
             this.isValid = false;
@@ -141,6 +135,48 @@
         }
 
         return this;
+    }
+
+    GupValidator.prototype.validateOfferAdditionalFields = function() {
+
+        // validate price
+        var inp = document.getElementById('offer-inpPrice'),
+            price = +inp.value;
+
+        if ((document.getElementById('offer-price-row').style.display !== 'none' && document.getElementById('selection-price').value === 'price')
+            && (price <= 0 || price > 2147483648)) {
+            this.messages.push('Проверьте заполнение поля Цена. Сумма не должна превышать значение 2 147 483 648 грн.');
+        }
+
+        // validate region
+        var region = document.getElementById('text-region').textContent;
+        var city = document.getElementById('text-city').textContent;
+        if (region === 'Выберите область' || (region !== 'Вся Украина' && city === 'Выберите город')) {
+            this.messages.push('Проверьте заполнение поля Регион.');
+        }
+
+        // validate categories
+        var blocks = document.querySelectorAll('#categories-row div');
+        for(var i = 0; i < blocks.length; i++) {
+            if(blocks[i].style.display !== 'none') {
+                var content = blocks[i].querySelector('[id^="text-category"]').textContent;
+                if(content === 'Выберите категорию' || content === 'Выберите подкатегорию') {
+                    this.messages.push('Проверьте заполнение поля Категории.');
+                    break;
+                }
+            }
+        }
+    }
+
+    GupValidator.prototype.validateRecursively = function (obj, rules, msg) {
+        if(Object.prototype.toString.call(obj) === '[object Object]') {
+            for (var key in rules) {
+                if (key in obj) {
+                    this.checkMatchRules(obj[key], rules[key], msg[key])
+                        .validateRecursively(obj[key], rules[key], msg[key]);
+                }
+            }
+        }
     }
 
     GupValidator.prototype.reconstruct = function () {
@@ -155,8 +191,10 @@
         modalBody.innerHTML = '';
 
         for(var i = 0; i < this.messages.length; i++) {
-          modalBody.appendChild('<p>'+ this.messages[i] +'</p>') ;
+          modalBody.innerHTML += '<p>'+ this.messages[i] +'</p>';
         }
+
+        this.modal.classList.add("gup-popup-active");
 
         return this;
     }

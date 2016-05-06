@@ -175,10 +175,10 @@
 
 <div id="gup-validator-popup" class="gup-popup-overlay">
     <div class="gup-popup">
-        <h2>Проверка заполнения полей</h2>
+        <h2>Ошибка создания новости</h2>
         <a class="popup-close" href="#">&times;</a>
         <div class="popup-content">
-          
+
         </div>
     </div>
 </div>
@@ -196,12 +196,13 @@
 
 <script src="/resources/js/jquery.maskedinput.min.js"></script>
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
-<script src="/resources/js/gup-validator.js"></script>
 
 <script>
     var imgsArr = {};
     var inpCategories = [];
     var cities;
+
+    var gupValidator = new window.GupValidator.Constructor('blog-post').init();
 
     // ---------------    LOAD RESOURCES    --------------------------//
     $.ajax({
@@ -248,16 +249,10 @@
     $(document).on('click', 'button.SendEdition', function (event) {
         event.preventDefault();
 
-        var title = $('#newsTitle').val();
-        var text = tinymce.activeEditor.getContent({format: 'raw'});
-
-        if (title.length < 4 || title.length > 140) return;
-        if (text.length < 50 || text.length > 5000) return;
-
         var blogPost = {};
         blogPost.blogId = '${blogId}';
-        blogPost.title = title;
-        blogPost.text = text;
+        blogPost.title = $('#newsTitle').val();
+        blogPost.text = tinymce.activeEditor.getContent({format: 'raw'});
         blogPost.address = {};
         blogPost.address.country = 'Украина';
         var city = $('#text-city').text();
@@ -279,6 +274,9 @@
         });
 
         blogPost.categories = inpCategories;
+
+        gupValidator.validate(blogPost);
+        if(!gupValidator.isValid) return;
 
         $.ajax({
             type: "POST",

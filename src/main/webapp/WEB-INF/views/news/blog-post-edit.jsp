@@ -193,6 +193,16 @@
     </div>
 </div>
 
+<div id="gup-validator-popup" class="gup-popup-overlay">
+    <div class="gup-popup">
+        <h2>Ошибка редактирования новости</h2>
+        <a class="popup-close" href="#">&times;</a>
+        <div class="popup-content">
+
+        </div>
+    </div>
+</div>
+
 <!-- script references -->
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
@@ -225,6 +235,7 @@
     var picArrDel = [];
     var picArrNew = [];
 
+    var gupValidator = new window.GupValidator.Constructor('blog-post').init();
 
     // ---------------    LOAD RESOURCES    --------------------------//
     var area = '${blogPost.address.area}';
@@ -337,12 +348,6 @@
     $('#sendBpToEdition').click(function (event) {
         event.preventDefault();
 
-        var title = $('#newsTitle').val();
-        var text = tinymce.activeEditor.getContent({format : 'raw'});
-
-        if (title.length < 4 || title.length > 140) return;
-        if (text.length < 50 || text.length > 5000) return;
-
         for(var key in imgsArr) {
             if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
         }
@@ -383,6 +388,10 @@
         });
 
         blogPost.categories = inpCategories;
+
+        gupValidator.validate(blogPost);
+        if(!gupValidator.isValid) return;
+
         $.ajax({
             type: "POST",
             url: "/api/rest/newsService/blogPost/edit",

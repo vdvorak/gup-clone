@@ -377,7 +377,7 @@ textarea {
     padding: 20px;
     background: #fff;
     border-radius: 5px;
-    width: 30%;
+    width: 350px;
     position: relative;
     transition: all 5s ease-in-out;
     border: 4px solid #9c6;
@@ -405,7 +405,12 @@ textarea {
     color: #9c6;
 }
 .gup-popup .popup-content {
-    max-height: 30%;
+    max-height: 50%;
     overflow: auto;
     font: 400 13px DroidSans;
+}
+
+.gup-popup .popup-content p {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
