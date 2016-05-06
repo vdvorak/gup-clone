@@ -21,10 +21,13 @@ if (typeof loggedInProfile == 'undefined') {
         var dropZone = document.getElementById('drop_zone');
         dropZone.addEventListener('dragover', handleDragOver, false);
         dropZone.addEventListener('drop', handleFileSelect, false);
+        dropZone.addEventListener('dragleave', handleDragLeave, false);
 
         function handleFileSelect(evt) {
             evt.stopPropagation();
             evt.preventDefault();
+
+            dropZone.classList.remove("good");
 
             var files = evt.dataTransfer.files; // FileList object.
 
@@ -66,7 +69,11 @@ if (typeof loggedInProfile == 'undefined') {
             evt.stopPropagation();
             evt.preventDefault();
             evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-            dropZone.className += 'good';
+            dropZone.classList.add("good");
+        }
+
+        function handleDragLeave(evt) {
+            dropZone.classList.remove("good");
         }
 
     });

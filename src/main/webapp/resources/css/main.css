@@ -5088,8 +5088,15 @@ form > .price > input:placeholder-shown {
     margin-bottom: 30px;
 }
 
+@keyframes animatedBackground {
+    from { background-position: 0 0; }
+    to { background-position: 100% 0; }
+}
+
 #drop_zone {
     margin-bottom: 30px;
+    background: url(/resources/images/green-stripes-background.gif) repeat-x 0 0;
+    animation: animatedBackground 20s linear infinite;
 }
 
 .container2 > h2#h2-top-offers {
@@ -5211,6 +5218,7 @@ body > .err > i > i {
     line-height: 20px;
 }
 
-.good {
+#drop_zone.good {
     background-color: black;
+    animation: animatedBackground 0s linear infinite;
 }
