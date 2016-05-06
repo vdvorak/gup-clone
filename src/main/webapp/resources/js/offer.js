@@ -21,6 +21,8 @@ $.ajax({
 });
 
 // ----------- Draw offer -------------------------------------------------------------------------------------------
+$('#a-author-offers').bind('click', offer.authorId, offerFilter.filterOffersByAuthor);
+
 $('.offer-title').text(offer.title);
 
 if (offer.price) {

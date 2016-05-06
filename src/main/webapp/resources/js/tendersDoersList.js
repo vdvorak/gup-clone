@@ -11,11 +11,14 @@ $(document).ready(function () {
     function findFirstImg(arr) {
         var url = '/resources/images/no_photo.jpg';
         var imgId = '';
-        for (var i in arr) {
-            if (arr[i] === 'pic1') {
-                imgId = i;
-                url = '/api/rest/fileStorage/TENDER/file/read/id/' + imgId;
-                break;
+        if(arr) {
+            console.log(arr);
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].fileType === 'MAINIMAGE') {
+                    imgId = arr[i].id;
+                    url = '/api/rest/fileStorage/TENDER/file/read/id/' + imgId;
+                    break;
+                }
             }
         }
         return url;
@@ -49,7 +52,7 @@ $(document).ready(function () {
             var url = '/tender/' + data[i].id;
             data[i].body = data[i].body.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', ""); // Clear description from HTML tags
             $('.build-item-wrap').last().attr('style', 'display:;');
-            $(".build-pic-wrap img").last().attr('src', findFirstImg(data[i].uploadFilesIds));
+            $(".build-pic-wrap img").last().attr('src', findFirstImg(data[i].files));
             $(".build-pic-wrap").last().attr('href', url);
             $(".build-link-wrap").last().attr('href', url);
             $(".build-item-text").last().html(data[i].body);

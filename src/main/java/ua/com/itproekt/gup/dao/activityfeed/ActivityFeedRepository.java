@@ -18,4 +18,8 @@ public interface ActivityFeedRepository {
     void setFeedsViewed(EventFilterOptions eventFO);
 
     void setViewed(String eventId);
+
+    void setAllViewed(String userId);
+
+    void deleteAllEvents(String userId);
 }

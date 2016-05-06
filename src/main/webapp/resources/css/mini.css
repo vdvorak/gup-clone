@@ -13,14 +13,19 @@
 
 .ul-img-container li {
     margin: 10px;
-    padding: 0;
+    padding-bottom: 20px;
     width: 150px;
-    height: 150px;
+    height: 170px;
     list-style-type: none;
     display: inline-block;
     border-radius: 5px;
     position: relative;
     overflow: hidden;
+}
+
+.ul-img-container li div {
+    width: 100%;
+    text-align: center;
 }
 
 .ul-img-container img {
@@ -354,4 +359,63 @@ textarea {
 
 #blogCreationSocial {
     margin-bottom: 10px !important;
+}
+
+.gup-popup-overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+}
+.gup-popup-active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.gup-popup {
+    margin: 70px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 350px;
+    position: relative;
+    transition: all 5s ease-in-out;
+    border: 4px solid #9c6;
+}
+
+.gup-popup h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+    font: 400 18px DroidSans;
+    font-weight: bold;
+    color: #9c6;
+}
+.gup-popup .popup-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+.gup-popup .popup-close:hover {
+    color: #9c6;
+}
+.gup-popup .popup-content {
+    max-height: 50%;
+    overflow: auto;
+    font: 400 13px DroidSans;
+}
+
+.gup-popup .popup-content p {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

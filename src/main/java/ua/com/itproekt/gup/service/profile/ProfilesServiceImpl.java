@@ -113,6 +113,17 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
+    public boolean isUserModerator(Profile user) {
+        Set<UserRole> userRoleSet = user.getUserRoles();
+        for (UserRole userRole : userRoleSet) {
+            if (userRole == UserRole.ROLE_MODERATOR) {
+                return  true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public void createProfileRating(String profileId, ProfileRating profileRating) {
         ProfileRating newProfileRating = new ProfileRating()
                 .setEarnPoints(profileRating.getEarnPoints())

@@ -138,4 +138,6 @@ public interface ProfilesService {
     void addContactToContactList(String profileOwnerContactListId, String contactId);
 
     Profile findWholeProfileByEmail(String email);
+
+    boolean isUserModerator(Profile user);
 }

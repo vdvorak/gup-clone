@@ -9,7 +9,7 @@
     <title>Исполнители | Портал GUP</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
+    <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
 
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
@@ -42,10 +42,10 @@
 
     <div class="contentContainer" style="padding: 5px;">
         <a href="/tender-make">
-        <button type="button" id="createProject" class="abutton">Создать свой тендер</button>
+            <button type="button" id="createProject" class="abutton">Создать свой тендер</button>
         </a>
         <a href="/doer-create">
-        <button type="button" id="createInvestorPost" class="abutton">Создать исполнителя</button>
+            <button type="button" id="createInvestorPost" class="abutton">Создать исполнителя</button>
         </a>
     </div>
 
@@ -73,7 +73,9 @@
                         <!-- Добавь класс "visible" и ты узреешь номер -->
                         <span class="number visible">№ <span class="build-number"></span> </span>
 
-                        <a class="build-name-wrap" href="#"><div class="title build-name"></div></a>
+                        <a class="build-name-wrap" href="#">
+                            <div class="title build-name"></div>
+                        </a>
 
                         <div class="text build-item-text"></div>
                     </section>
@@ -83,7 +85,7 @@
                                 <div class="time build-end"></div>
                             </div>
                             <a href="#" class="build-link-wrap">
-                            <button type="button" class="abutton blue">Участвовать</button>
+                                <button type="button" class="abutton blue">Участвовать</button>
                             </a>
                         </div>
                         <div class="sum"><span class="build-sum"></span>₴</div>
@@ -153,88 +155,11 @@
 
 
             </section>
-            <%--<div class="doersFeed vip">--%>
-            <%--<img src="/resources/images/doersLogo.png" alt="doersLogo">--%>
 
-            <%--<div class="artistData">--%>
-            <%--<ul>--%>
-            <%--<li>--%>
-            <%--<p>Дата создания: 12. 09. 15</p>--%>
-            <%--</li>--%>
-            <%--<li>--%>
-            <%--<p>Дата обновления: 12. 09. 15</p>--%>
-            <%--</li>--%>
-            <%--<li>--%>
-            <%--<p>Просмотров: 133</p>--%>
-            <%--</li>--%>
-            <%--</ul>--%>
-            <%--</div>--%>
-            <%--<h2>ФИО исполнителя</h2>--%>
-
-            <%--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus doloribus ratione rem--%>
-            <%--provident reprehenderit maiores minus vel ab nostrum labore id, amet facere mollitia laboriosam,--%>
-            <%--eaque magnam numquam nam non.</p>--%>
-
-            <%--<div class="doersRang">--%>
-            <%--<div></div>--%>
-            <%--<div></div>--%>
-            <%--<button type="button">Добавить в клиенты</button>--%>
-            <%--</div>--%>
-
-            <%--<div class="clearfix"></div>--%>
-
-            <%--<div class="colNewsComments">--%>
-            <%--<div class="newsComments">--%>
-            <%--<div class="clearfix"></div>--%>
-            <%--<p class="newsCommentsHeader">КОММЕНТАРИИ</p>--%>
-
-            <%--<form action="#" role="form" id="newsCommentsForm">--%>
-            <%--<textarea name="newsFormComments" id="newsFormComments"--%>
-            <%--placeholder="Введите свой комментарий" maxlength="2000" required></textarea>--%>
-            <%--<button type="submit" class="newsFormSubmit">Отправить</button>--%>
-            <%--</form>--%>
-            <%--<p id="chars">2000 символов осталось</p>--%>
-            <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="clearfix"></div>--%>
-            <%--</div>--%>
             <button id="doerNextPage">Загрузить ещё исполнителей</button>
         </div>
     </div>
 </div>
-
-<%--<div>--%>
-<%--<a href="/doer-create"><button>Создать исполнителя</button></a>--%>
-<%--<c:forEach var="doer" items="${doerPages.entities}">--%>
-<%--<h3>--%>
-<%--<a href="/doer/${doer.id}">${doer.title}</a>--%>
-<%--</h3>--%>
-<%--<div>--%>
-<%--<a href="/doer/${doer.id}">--%>
-<%--<c:choose>--%>
-<%--<c:when test="${not empty doer.imageId}">--%>
-<%--<img id="imgPreview" src="/api/rest/fileStorage/DOER/file/read/id/${doer.imageId}" width="200"--%>
-<%--height="200">--%>
-<%--</c:when>--%>
-<%--<c:otherwise>--%>
-<%--<img id="imgPreview" src="/resources/images/no_photo.jpg" width="200" height="200">--%>
-<%--</c:otherwise>--%>
-<%--</c:choose>--%>
-<%--</a>--%>
-<%--</div>--%>
-<%--<br>--%>
-<%--<div>Описание<br>${doer.body}</div>--%>
-<%--<div><br>Дата создания: <span class="date-create"> ${doer.dateOfCreate}</span></div>--%>
-<%--<div><br>Дата последнего обновления: <span class="date-create"> ${doer.dateOfUpdate} </span></div>--%>
-<%--<div><br>Оценка по отзывам: ${doer.recallCount}</div>--%>
-<%--<c:forEach var="recall" items="${doer.recalls}">--%>
-<%--<div><br>Пользователь ${recall.authorId} пославил ${recall.mark} в <div> <span class="date-create"></span> ${doer.createTime}</div></div>--%>
-<%--<c:if test="${not empty recall.body}">--%>
-<%--<div>Отзыв: ${recall.body} </div>--%>
-<%--</c:if>--%>
-<%--</c:forEach>--%>
-<%--</c:forEach>--%>
-<%--</div>--%>
 
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>

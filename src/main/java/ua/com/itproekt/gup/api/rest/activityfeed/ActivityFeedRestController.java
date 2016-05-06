@@ -28,7 +28,7 @@ public class ActivityFeedRestController {
         eventFO.setTargetUId(userId);
 
         EntityPage<Event> events = activityFeedService.findEventsWithOptions(eventFO);
-        if(events.getEntities().isEmpty()){
+        if (events.getEntities().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(events, HttpStatus.OK);
@@ -53,5 +53,34 @@ public class ActivityFeedRestController {
 
         activityFeedService.deleteEvent(eventId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/event/id/delete/all", method = RequestMethod.POST)
+    public ResponseEntity<Void> deleteEvent() {
+
+        try {
+            String userId = SecurityOperations.getLoggedUserId();
+            activityFeedService.deleteAllEvents(userId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/event/set/viewed/all", method = RequestMethod.POST)
+    public ResponseEntity<Void> setViewed() {
+
+        try {
+            String userId = SecurityOperations.getLoggedUserId();
+            activityFeedService.setAllViewed(userId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

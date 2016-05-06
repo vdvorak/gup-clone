@@ -16,4 +16,8 @@ public interface ActivityFeedService {
     EntityPage<Event> findEventsWithOptions(EventFilterOptions eventFO);
 
     void setViewed(String eventId);
+
+    void deleteAllEvents(String userId);
+
+    void setAllViewed(String userId);
 }

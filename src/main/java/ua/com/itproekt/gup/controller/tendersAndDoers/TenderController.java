@@ -40,8 +40,6 @@ public class TenderController {
         String flag = "tender";
         model.addAttribute("flag", flag);
         model.addAttribute("id", id);
-        model.addAttribute("isAuthor",
-                tenderService.isAuthorOrWinner(tenderService.findById(id), SecurityOperations.getLoggedUserId()));
         return "tendersAndDoers/tenders/tender";
     }
 
