@@ -149,6 +149,16 @@
         </div>
     </div>
 
+    <div id="gup-validator-popup" class="gup-popup-overlay">
+        <div class="gup-popup">
+            <h2>Ошибка редактирования проекта</h2>
+            <a class="popup-close" href="#">&times;</a>
+            <div class="popup-content">
+
+            </div>
+        </div>
+    </div>
+
     <!--PAGE CONTENT END-->
 
     <sec:authorize access="isAuthenticated()">
