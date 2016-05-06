@@ -5,7 +5,7 @@
 
     'use strict';
 
-    // {maxLength, minLength, min, max, regExp}
+    // {maxLength, minLength, min, max, regExp, }
 
     var arrStrategies = [
         {
@@ -80,14 +80,16 @@
                 title: {minLength: 4, maxLength: 70},
                 description: {minLength: 50, maxLength: 5000},
                 categoriesOfIndustry: {minLength: 1},
-                amountRequested: {min: 1, max: 2147483648}
+                amountRequested: {min: 1, max: 2147483648},
+                type: {minLength: 1}
             },
             msg: {
                 imagesIds: 'Количество изображений не должно превышать 15 штук.',
                 title: 'Проверьте заполнение поля Заголовок. Длина заголовка должна быть не менее 5 и не более 70 символов.',
                 description: 'Проверьте заполнение поля Описание. Длина описания должна быть не менее 50 и не более 5000 символов.',
                 categoriesOfIndustry: 'Проверьте заполнение поля Категории индустрии. Необходимо выбрать хотя бы 1 значение.',
-                amountRequested: 'Проверьте заполнение поля Нужная сумма. Сумма не должна превышать значение 2 147 483 648 грн.'
+                amountRequested: 'Проверьте заполнение поля Нужная сумма. Сумма не должна превышать значение 2 147 483 648 грн.',
+                type: 'Выберите тип проекта.'
             }
         }
     ];
