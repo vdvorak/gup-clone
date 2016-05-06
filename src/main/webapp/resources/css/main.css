@@ -1674,7 +1674,7 @@ label[for="checkbox-contact"] {
     float: right;
     margin-bottom: 22px;
     -webkit-transition: all .25s;
-    transition: all .25s
+    transition: all .25s;
     margin-right: 10px;
 }
 
@@ -5070,3 +5070,44 @@ form > .price > input:placeholder-shown {
 #drop_zone {
     margin-bottom: 30px;
 }
+
+/*draggable-dialogue*/
+#adialog {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 0;
+    font-size: 0;
+}
+#adialog .dialog {
+    position: fixed;
+    font-size: 12px;
+    border: 1px solid blue;
+    display: inline-block;
+    width: 200px;
+    background-color: white;
+    min-height: 300px;
+}
+#adialog .dialog .title {
+    background-color: blue;
+    cursor: move;
+    padding: 10px 5px;
+    color: white;
+}
+#adialog .dialog.selected .title {
+    background-color: red;
+}
+#adialog .dialog .close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+#adialog .dialog .message {
+    background-color: yellow;
+    cursor: pointer;
+}
+/*draggable-dialogue*/

@@ -125,6 +125,23 @@
     </div>
 </div>
 
+
+<div id="adialog"></div>
+<div id="dialogs"></div>
+<button onclick="ClearCookie();">ClearCookie</button>
+
+<script id="adialogTemplate" type="text/html">
+    <div class="dialog">
+        <div class="title">Title</div>
+        <div class="close">x</div>
+        <div class="message">Hello</div>
+        <div>
+            <textarea style="width: 100%;position: absolute;bottom: 0;"></textarea>
+        </div>
+    </div>
+</script>
+
+
 <%--<div class="menu">--%>
 <%--<div class="container2">--%>
 <%--<div class="Logged">--%>

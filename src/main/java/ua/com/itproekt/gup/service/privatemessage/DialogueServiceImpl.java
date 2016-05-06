@@ -180,13 +180,10 @@ public class DialogueServiceImpl implements DialogueService {
             });
         }
         wasUnread = dialogue.getUnreadMsgCounter().replace(user.getId(), 0);
-        System.err.println("dialogue.getUnreadMsgCounter()" + dialogue.getUnreadMsgCounter());
         if (wasUnread != null) {
-            System.err.println("wasUnread != null");
             // todo move it to default constructor of Profile.
-            if(user.getUnreadMessages() == null) {System.err.println("user.getUnreadMessages() == null"); user.setUnreadMessages(0);}
+            if(user.getUnreadMessages() == null) {user.setUnreadMessages(0);}
             Integer p = user.getUnreadMessages() - wasUnread;
-            System.err.println("Integer p = user.getUnreadMessages() - wasUnread; " + p);
             user.setUnreadMessages(p);
             pr.findProfileAndUpdate(user);
         } else {

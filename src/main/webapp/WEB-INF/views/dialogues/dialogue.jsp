@@ -53,95 +53,9 @@
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 <script src="/resources/libs/sockjs-0.3.4.js"></script>
 <script src="/resources/libs/stomp.js"></script>
-<%--
-<script type="text/javascript">
-    var stompClient = null;
-    function connect() {
-        var socket = new SockJS('/socket-request');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, function(frame) {
-            console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/socket-response/${dialogue.id}', function(response){
-                showResponse(JSON.parse(response.body).content);
-            });
-        });
-    }
-
-    function disconnect() {
-        stompClient.disconnect();
-        console.log("Disconnected");
-    }
-
-    function sendMessage() {
-        var message = document.getElementById('name').value;
-        stompClient.send("/app/socket-request/${dialogue.id}", {}, JSON.stringify({ 'message': message }));
-    }
-
-    function showResponse(message) {
-        console.log(message);
-    }
-
-</script>
---%>
-
+<script src="/resources/js/socket-logic.js"></script>
 
 <script>
-
-    var stompClient = null;
-    var isConnected = false;
-    var socket;
-
-    function connect(){
-        socket = new SockJS('/socket-request');
-        stompClient = Stomp.over(socket);
-        stompClient.connect({}, function(frame) {
-            console.log('Connected: ' + frame);
-            isConnected = true;
-            stompClient.subscribe('/topic/socket-response/${dialogue.id}', function(response){
-                var privateMessage = JSON.parse(response.body).content;
-                var senderName = "";
-                for(var i = 0; i < dialogue.members.length; i++){
-                    if(dialogue.members[i].id === privateMessage.authorId){
-                        senderName = dialogue.members[i].name;
-                        break;
-                    }
-                }
-                var dialog = $('#dialogues');
-                var tdId = '<td>'+ senderName +'</td>';
-                 var tr = '<tr>';
-                 var tdMsg = '<td>'+privateMessage.message+'</td>';
-                 var tdDate = '<td>'+ privateMessage.date +'</td>';
-                 var trClose = '</tr>';
-                 dialog.append(tr+tdId+tdMsg+tdDate+trClose);
-            });
-        });
-        stompClient.ws.onclose = function(){
-            isConnected = false;
-        }
-    }
-
-    connect();
-
-    setInterval(function(){
-        if(!isConnected){
-            connect();
-        }
-    },5000);
-
-    function disconnect() {
-        stompClient.disconnect();
-        console.log("Disconnected");
-    }
-
-    function sendMessage() {
-        var message = document.getElementById('name').value;
-        stompClient.send("/app/socket-request/${dialogue.id}", {}, JSON.stringify({ 'message': message }));
-    }
-
-    function showResponse(message) {
-        console.log(message);
-    }
-
     var msg = {};
     var dialogue = {};
     $(document).ready(function(){
@@ -149,7 +63,7 @@
     });
 
     ///------------------------- Add msg -----------------------------------------------
-    $(document).on('click', '#addMsg', function (event) {
+    /*$(document).on('click', '#addMsg', function (event) {
 
         msg.message = $('#newMsg').val();
 
@@ -157,7 +71,7 @@
 
         $('#newMsg').val("");
 
-       /*$.ajax({
+       /!*$.ajax({
             type: "POST",
 //      url: "/api/rest/doerService/doer/create",
             url: "/api/rest/dialogueService/dialogue/id/${dialogue.id}/message/create",
@@ -168,8 +82,8 @@
                 $('#newMsg').val("");
                 getNewPosts();
             }
-        });*/
-    });
+        });*!/
+    });*/
     ///------------------------- Add msg -----------------------------------------------
 
     var getNewPosts = function(){
