@@ -237,7 +237,7 @@ $(document).ready(function () {
 
 // --------------------------------------  BEGIN NACE  ----------------------------------------------
                 var select = $('#select-sphere');
-                select.chosen();
+                select.chosen({width: '365px'});
 
                 var naceId = loadedProfile.contact.naceId;
                 $.when(loadNace).done(function(response){
