@@ -306,7 +306,7 @@
 
 <form id="uploadProfilePhotoForm">
     <input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg"
-           style="display:none">
+           style="visibility: hidden;width:0px;height:0px;">
 </form>
 
 <!-- The Modal -->
