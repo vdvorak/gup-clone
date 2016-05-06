@@ -310,8 +310,13 @@ textarea {
 }
 
 .chosen-container .chosen-choices {
-     border: none !important;
-     box-shadow: none !important;
+    padding-left: 5px;
+    position: relative;
+    margin-left: 5px;
+    border: 3px solid rgb(153, 204, 102);
+    border-radius: 6px;
+    font: 400 16px DroidSans;
+    line-height: 20px;
 }
 
 .chosen-container-multi .chosen-choices li.search-field input[type=text] {

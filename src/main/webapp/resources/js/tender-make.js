@@ -62,6 +62,7 @@ if (typeof loggedInProfile == 'undefined') {
             evt.stopPropagation();
             evt.preventDefault();
             evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+            dropZone.className += 'good';
         }
 
     });

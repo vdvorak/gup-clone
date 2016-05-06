@@ -92,7 +92,7 @@
                 <%--<input type="text" id="InviteBidders" placeholder="Название" style="display: none">--%>
 
                 <label for="HideContacts">Скрывать контактные данные</label>
-                <input type="checkbox" id="HideContacts" value="open"/>
+                <label><input type="checkbox" id="HideContacts" value="open"/><span></span></label>
 
                 <div class="clearfix"></div>
 

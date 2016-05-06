@@ -171,6 +171,7 @@ body {
     line-height: 32px;
     border-radius: 5px;
     position: relative;
+    margin-top: 10px;
 }
 
 .offer-info-box .contact i.fa-skype {

@@ -625,11 +625,6 @@ table {
     display: block;
 }
 
-.mid li:hover .ads-img {
-    border-radius: 0;
-    border-bottom: 0;
-}
-
 .mid li:hover .ads-p {
     background-color: #36aae0;
     height: 36px;
@@ -3873,12 +3868,21 @@ input[value="open"]:checked + span {
     float: left
 }
 
+
 .tenderMake > form > .description > label:nth-child(2) {
     width: 23px;
     height: 23px;
     position: relative;
     border-radius: 20%;
     margin-left: 5px
+}
+
+.tenderMake > form > .description > label:nth-child(4) {
+    width: 23px;
+    height: 23px;
+    position: relative;
+    border-radius: 20%;
+    margin-left: 5px;
 }
 
 .tenderMake > form > .description > label[for="InviteBidders"] {
@@ -5177,4 +5181,36 @@ body > .err > i {
 
 body > .err > i > i {
     font: 120px Consolas;
+}
+
+.description > label[for='HideContacts'] {
+    margin-left: 40px;
+}
+
+#moreInformation-form .chosen-choices {
+    border: 3px solid #9c6;
+    border-radius: 6px;
+    width: 365px;
+    height: 25px !important;
+    margin-left: 92px;
+    margin-bottom: 15px;
+}
+
+#selectKved_chosen > .chosen-choices {
+    margin: 0;
+    border: none;
+}
+
+#categoriesOfIndustry_chosen > .chosen-choices {
+    padding-left: 5px;
+    position: relative;
+    margin-left: 5px;
+    border: 3px solid rgb(153, 204, 102);
+    border-radius: 6px;
+    font: 400 16px DroidSans;
+    line-height: 20px;
+}
+
+.good {
+    background-color: black;
 }
