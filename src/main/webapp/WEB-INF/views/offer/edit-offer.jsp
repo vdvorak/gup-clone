@@ -336,7 +336,7 @@
 
 <div id="gup-validator-popup" class="gup-popup-overlay">
     <div class="gup-popup">
-        <h2>Ошибка создания объявления</h2>
+        <h2>Ошибка редактирования объявления</h2>
         <a class="popup-close" href="#">&times;</a>
         <div class="popup-content">
 
