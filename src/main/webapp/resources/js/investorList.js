@@ -29,9 +29,11 @@ function appendInvestorPostBlock(investorPost, balance) {
         200: function (profile) {
             var categoriesOfIndustryUlList = '';
 
-            investorPost.categoriesOfIndustry.forEach(function (categorieOfIndustry) {
-                categoriesOfIndustryUlList += '<li><a>' + categorieOfIndustry + '</a></li>';
-            });
+            if(investorPost.categoriesOfIndustry) {
+                investorPost.categoriesOfIndustry.forEach(function (categorieOfIndustry) {
+                    categoriesOfIndustryUlList += '<li><a>' + categorieOfIndustry + '</a></li>';
+                });
+            }
 
             $('#investorPostsBlock').append(
                 '<div class="feedItem">' +
