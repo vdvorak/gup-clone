@@ -7,7 +7,7 @@
     <title>Создание тендера</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
+    <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
 
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
@@ -22,7 +22,8 @@
 <body>
 
 <!--[if lt IE 8]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
@@ -36,11 +37,12 @@
 <div id="tender-container" class="container2">
     <div class="tenderMake">
         <h1>СОЗДАНИЕ ТЕНДЕРА</h1>
+
         <form id="tender-make-form" action="#">
             <label for="EnterTheTitle">Введите название</label>
             <input type="text" id="EnterTheTitle" required>
-<%--        <label>Выберете отрасль</label>
-            <input type="text" id="searchInputKved" class="form-control sear" name="search" placeholder="Поиск">--%>
+            <%--        <label>Выберете отрасль</label>
+                        <input type="text" id="searchInputKved" class="form-control sear" name="search" placeholder="Поиск">--%>
             <label for="selectKved">Выберите отрасль</label>
             <select id="selectKved" class="chosen" multiple data-placeholder="Выберите отрасль" style="width: 553px;">
             </select>
@@ -48,8 +50,10 @@
             <div class="clearfix"></div>
 
             <label for="tender-date" class="label-notRequered">Сроки</label>
+
             <div id="tender-date">
-                <input type="text" id="tender-datepicker1" class="datepicker-input" placeholder="Дата начала"> - <input type="text" id="tender-datepicker2" class="datepicker-input" placeholder="Дата окончания">
+                <input type="text" id="tender-datepicker1" class="datepicker-input" placeholder="Дата начала"> - <input
+                    type="text" id="tender-datepicker2" class="datepicker-input" placeholder="Дата окончания">
                 <span>Дата начала не должна превышать дату окончания</span>
             </div>
 
@@ -59,6 +63,7 @@
             <div class="clearfix"></div>
 
             <h2>Укажите адрес</h2>
+
             <div class="location">
                 <label for="SelectArea" class="label-notRequered">Выберете область</label>
                 <input type="text" id="SelectArea">
@@ -69,17 +74,24 @@
                 <input type="text" id="SelectCity">
             </div>
 
-<%--            <label for="map">Введите адрес</label>
-            <div id="floating-panel">
-                <input id="address" class="tender-map-address" type="text">
-                <button id="btn-save-adress">Сохранить</button>
-            </div>
-            <div id="map" class="tender-map"></div>--%>
+            <%--            <label for="map">Введите адрес</label>
+                        <div id="floating-panel">
+                            <input id="address" class="tender-map-address" type="text">
+                            <button id="btn-save-adress">Сохранить</button>
+                        </div>
+                        <div id="map" class="tender-map"></div>--%>
 
             <label>Тип</label>
+
             <div class="tenderRadio">
-                <label><input class="input-tenderRadio" type="radio" value="open" name="k" data-type="OPEN" checked/><span></span></label><p>открытый</p>
-                <label><input class="input-tenderRadio" type="radio" value="open" name="k" data-type="CLOSE"/><span></span></label><p>закрытый</p>
+                <label><input class="input-tenderRadio" type="radio" value="open" name="k" data-type="OPEN"
+                              checked/><span></span></label>
+
+                <p>открытый</p>
+                <label><input class="input-tenderRadio" type="radio" value="open" name="k"
+                              data-type="CLOSE"/><span></span></label>
+
+                <p>закрытый</p>
             </div>
 
             <div class="clearfix"></div>
@@ -97,7 +109,8 @@
                 <div class="clearfix"></div>
 
                 <label for="selectParticipants" style="display: none">Пригласить участников тендера</label>
-                <select id="selectParticipants" class="chosen" multiple data-placeholder="Участники тендера" style="display: none">
+                <select id="selectParticipants" class="chosen" multiple data-placeholder="Участники тендера"
+                        style="display: none">
                 </select>
 
                 <div class="clearfix"></div>
@@ -113,7 +126,9 @@
                 <textarea name="Description" id="Description"></textarea>
             </div>
 
-            <div class="titleFile" data-title="Добавить изображение"><button type="submit" class="blogCreationSubmit" form="photoForm"></button></div>
+            <div class="titleFile" data-title="Добавить изображение">
+                <button type="submit" class="blogCreationSubmit" form="photoForm"></button>
+            </div>
             <img id="tender-btn-addDoc" src="/resources/images/clip.png" alt="clip">
 
             <div class="clearfix"></div>
@@ -129,6 +144,7 @@
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                         <img src="http://www.uzscience.uz/upload/userfiles/images/doc.png" alt="defaultIMG">
+
                         <div></div>
                     </li>
                 </ul>

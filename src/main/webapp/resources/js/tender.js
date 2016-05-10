@@ -220,6 +220,12 @@ function canBeMemberAjax() {
 }
 
 $(".downComments").click(function () {
+
+    if (isTenderHasWinner){
+        alert("Тендер окончен. Победитель уже выбран.")
+        return
+    }
+
     canBeMemberAjax();
     if (canBeMember == true) {
         $(".downComments").hide('slow');
