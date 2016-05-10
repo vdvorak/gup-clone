@@ -136,7 +136,7 @@
 
       <div class="confirm" id="confirmTenderDelete" style="display: none">
         <h1>Подтвердите удаление</h1>
-        <p>Объявление будет навсегда удалено</p>
+        <p>Тендер будет навсегда удален</p>
         <button id="cancelTenderDelBtn" autofocus>Отмена</button>
         <button id="confirmTenderDelBtn">Удалить</button>
       </div>
@@ -147,6 +147,16 @@
 
     </form>
 
+  </div>
+</div>
+
+<div id="gup-validator-popup" class="gup-popup-overlay">
+  <div class="gup-popup">
+    <h2>Ошибка редактирования тендера</h2>
+    <a class="popup-close" href="#">&times;</a>
+    <div class="popup-content">
+
+    </div>
   </div>
 </div>
 
@@ -170,7 +180,7 @@
   var filesArr = getFiles();
   var picArrDel = [];
   var oldNace = '${tender.naceIds}'.slice(1, -1).split(", "); // make array from string
-
+  var gupValidator = new window.GupValidator.Constructor('tender').init();
 
   //--------------------   BEGIN NACE ---------------------------------//
   if(!oldNace[0]) oldNace = [];
@@ -590,13 +600,8 @@
     return true;
   }
 
-  $('#tender-make-form').submit(function (event) {
-    if(!checkDateInDatepicker()) return false;
-
-    var body = tinymce.activeEditor.getContent();
-    if(!body) {
-      return false;
-    }
+  $('#tender-btn-save').click(function (event) {
+    event.preventDefault();
 
     var imgsArrResult = [], picArrNew = [];
     for(var i = 0; i < filesArr.length; i++) {
@@ -611,13 +616,12 @@
       deleteImgFromDB(picArrDel[i]);
     }
 
-
     checkMainImg();
 
     var tender = {};
     tender.files = imgsArrResult;
     tender.title = $('#EnterTheTitle').val();
-    tender.body = body;
+    tender.body = tinymce.activeEditor.getContent();
     tender.tenderNumber = $('#TenderNumber').val();
     var dateBegin = $('#tender-datepicker1').datepicker( 'getDate' );
     var dateEnd = $('#tender-datepicker2').datepicker( 'getDate' );
@@ -645,6 +649,9 @@
     tender.address.area = $('#SelectArea').val();
     tender.address.city = $('#SelectCity').val();
 
+    gupValidator.validate(tender);
+    if(!gupValidator.isValid) return;
+
     $.ajax({
       type: "POST",
       url: "/api/rest/tenderService/tender/id/${tender.id}/update/",
@@ -655,8 +662,6 @@
         window.location.href = '/tender/' + response.id;
       }
     });
-
-    event.preventDefault();
     
   });
   //---------------------------- END SUBMIT -------------------------------------------------//
