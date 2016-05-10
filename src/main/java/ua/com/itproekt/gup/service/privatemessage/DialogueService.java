@@ -17,6 +17,8 @@ public interface DialogueService {
 
     Dialogue findById(String Id);
 
+    Dialogue findById(String id, String email);
+
     List<Dialogue> findDialogsForUser(String currentUserId);
 
     List<Dialogue> findDialogsForUserSimple(String currentUserId);

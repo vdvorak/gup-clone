@@ -77,6 +77,19 @@ public class DialogueController {
         return "dialogues/dialogues1";
     }
 
+    // additional method by VS
+    @RequestMapping(value = "/test_dialogues/all", method = RequestMethod.GET)
+    @ResponseBody
+    List<Dialogue> getAllDialogues2(){
+        Member member = new Member();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName(); //get logged in username
+        Profile user = profileService.findProfileByEmail(email);
+        member.setId(user.getId());
+        List<Dialogue> responseDialogues = dialogueRepository.findByMembersIn(member);
+        return responseDialogues;
+    }
+
     //----------------------------------- one dialogue  ------
     @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.GET)
     public String getOneDialogue(Model model, HttpServletRequest request,
@@ -158,5 +171,32 @@ public class DialogueController {
         }
     }
 
+    //additional method by VS
+    @RequestMapping(value = "/dialogue/init/{userId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Dialogue initDialog (@PathVariable String userId, Model model) {
+        Dialogue dialogue;
+        Profile profile = profileService.findWholeProfileById(userId);
+        if (profile == null || SecurityOperations.getLoggedUserId() == null) {
+            return null;
+        }
+        List<Member> members = new ArrayList<>();
+        members.add(new Member(userId));
+        members.add(new Member(SecurityOperations.getLoggedUserId()));
+        List<Dialogue> result = dialogueRepository.findByMembers(members);
+        if (result.isEmpty()) {
+            dialogue = new Dialogue();
+            dialogue.setMembers(members);
+            dialogue = dialogueService.addDialogue(dialogue);
+        } else {
+            dialogue = result.stream().filter(m -> m.getSubject() == null).findFirst().get();
+        }
+
+        if(!dialogueService.isUserInDialogue(dialogue, SecurityOperations.getLoggedUserId())){
+            return null;
+        }
+        completeMembers(dialogue);
+        return dialogue;
+    }
 }
 

@@ -134,13 +134,12 @@
     <div class="dialog">
         <div class="title">Title</div>
         <div class="close">x</div>
-        <div class="message">Hello</div>
+        <div class="messages" style="overflow-y: scroll; height: 235px;"></div>
         <div>
-            <textarea style="width: 100%;position: absolute;bottom: 0;"></textarea>
+            <textarea id="newMsg" style="width: 100%;position: absolute;bottom: 0; height:30px;" onkeypress="keyCodeAnalyse(event)"></textarea>
         </div>
     </div>
 </script>
-
 
 <%--<div class="menu">--%>
 <%--<div class="container2">--%>

@@ -95,7 +95,7 @@
                 <!-- если профиль вип то сюда надо добавлять класс vip-color-background -->
                 <button class="addToContact" id="addProfileToContact" style="display: none;">Добавить в контакты</button>
                 <button class="addToContact" id="removeProfileFromContacts" style="display: none;">Удалить из контактов</button>
-                <button id="test">Open dialog</button>
+                <button id="openDialog">Open dialog</button>
             </div>
         </sec:authorize>
 
@@ -127,17 +127,7 @@
 <script src="/resources/js/profileUtil.js"></script>
 <script src="/resources/js/profile.js"></script>
 </body>
-<script id="adialogTemplate" type="text/html">
-    <div class="dialog">
-        <div class="title">Title</div>
-        <div class="close">x</div>
-        <div class="message">Hello</div>
-        <div>
-            <textarea style="width: 100%;position: absolute;bottom: 0;"></textarea>
-        </div>
-    </div>
-</script>
-<script>
+<%--<script>
     document.getElementById("test").setAttribute('onclick', "openDialog(\'" + profileId + "\')");
-</script>
+</script>--%>
 </html>

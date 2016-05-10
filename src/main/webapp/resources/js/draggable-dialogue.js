@@ -22,7 +22,7 @@ var ADialog = (function () {
         }
         ADialog.dialogs.push(this)
         this.dragged = false
-        this.id = guid()
+        /*this.id = guid()*/
         var self = this
         this.handle = ADialog.dialogTemplate.clone()
         this.applyData(options)
@@ -110,6 +110,9 @@ ADialog.prototype.applyData = function (data) {
 }
 ADialog.prototype.updateView = function () {
     this.handle.find('.title').text(this.id)
+    this.handle.find('.messages').attr('id', this.id + "_messages")
+    this.handle.find('textarea').attr('dialogueId', this.id)
+    this.handle.find('textarea').attr('id', this.id + "_newMsg")
 }
 ADialog.dialogTemplate = $($("#adialogTemplate").html())
 ADialog.dialogs = []
@@ -205,12 +208,12 @@ ADialog.update = function(){
     })
 }
 
-function openDialog(profileId){
+function openDialog(dialogId){
     if (ADialog.dialogs.some(function(e){
-            return e.id === profileId
+            return e.id === dialogId
         })) return;
     var d = new ADialog({
-        id: profileId
+        id: dialogId
     })
     d.select()
     ADialog.save()

@@ -5106,8 +5106,25 @@ form > .price > input:placeholder-shown {
     font-size: 15px;
     cursor: pointer;
 }
-#adialog .dialog .message {
+#adialog .dialog .message{
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 3px;
+    display: inline-block;
+    max-width: 175px;
+    margin-bottom: 2px;
+    word-break: break-all;
+}
+
+.message-from > .message{
     background-color: yellow;
-    cursor: pointer;
+}
+
+#adialog .dialog .message-to{
+    text-align: right;
+}
+
+.message-to > .message {
+    background-color: #b1e3e7;
 }
 /*draggable-dialogue*/

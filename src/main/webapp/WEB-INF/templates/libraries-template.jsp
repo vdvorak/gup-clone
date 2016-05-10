@@ -12,3 +12,4 @@
 <script src="/resources/libs/sockjs-0.3.4.js"></script>
 <script src="/resources/libs/stomp.js"></script>
 <script type="text/javascript" src="/resources/js/socket-logic.js"></script>
+<script type="text/javascript" src="/resources/js/draggable-dialogue.js"></script>

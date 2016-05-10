@@ -1,5 +1,6 @@
 var loggedInProfile = {};
 var isNeedDrawAllHeader = true;
+var dialogues;
 
 //  <js for header>
 
@@ -463,7 +464,7 @@ $(".mail > img").click(function () {
 });
 
 
-$(document).on('click', '.mailMessage', function () {
+$(document).on('click', '.mailMessage', function (event) {
     if ($(this).attr('id')) {
         var dialogueId = $(this).attr('id');
         dialogueMakeRead(dialogueId);
@@ -530,6 +531,17 @@ $(window).keypress(function (e) {
         $(".dropDownMail").slideUp("fast");
     }
 });
+
+//additional function by VS
+$(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: '/test_dialogues/all' ,
+        success: function (dialogues) {
+            initDialogues(dialogues);
+        }
+    });
+})
 
 
 //$("#notificationBellImg").click(function () {

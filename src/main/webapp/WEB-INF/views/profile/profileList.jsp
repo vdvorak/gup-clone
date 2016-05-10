@@ -104,7 +104,7 @@
                 '<a href="/profile?id=' + profile.id + '" class="profileListName">' +
                 (profile.username?profile.username:'Без имени') +
                 '</a>' +
-                '<button style="display: inline-block;" onclick="openDialog(\'' + profile.id + '\');">Open dialog</button>' +
+                /*'<button style="display: inline-block;" onclick="openDialog(\'' + profile.id + '\');">Open dialog</button>' +*/
                 '<p class="profileListDescription">' +
                 (profile.contact.aboutUs?profile.contact.aboutUs:'Нет описания') +
                 '</p></div>');

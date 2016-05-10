@@ -159,3 +159,5 @@ $(document).on('click', '#removeProfileFromContacts', function () {
         alert('Internal error')
     })
 })
+
+

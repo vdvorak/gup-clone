@@ -89,7 +89,6 @@ public class DialogueRestController {
     }
 
     // this method provides adding new message to existing dialogue. Id in path is a dialogue id.
-    //!!!! this functionality should be rewritten to the socke
     @RequestMapping(
             value = "dialogue/id/{id}/message/create",
             method = RequestMethod.POST,
@@ -282,7 +281,7 @@ public class DialogueRestController {
         }
     }
 
-    @MessageMapping("/socket-request/{dialogId}")
+    @MessageMapping("/socket-request/dialogue/{dialogId}")
     @SendTo("/topic/socket-response/{dialogId}")
     public SocketResponse response(@DestinationVariable String dialogId, SocketMessage socketmessage, Principal p) throws Exception {
         Profile profile = profileService.findProfileByEmail(p.getName());
@@ -307,5 +306,12 @@ public class DialogueRestController {
         log.log(Level.INFO, LOGGED_TITLE + " - new message was successfully add to dialogue");
 
         return new SocketResponse(privateMessage);
+    }
+
+    @MessageMapping("/socket-request/profile/{profileId}")
+    @SendTo("/topic/socket-response/{profileId}")
+    public SocketResponse subscriptProfile(@DestinationVariable String profileId, SocketMessage socketmessage, Principal p) throws Exception {
+        Dialogue dialogue = dialogueService.findById(socketmessage.getMessage(), p.getName());
+        return new SocketResponse(dialogue);
     }
 }
