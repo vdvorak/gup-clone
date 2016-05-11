@@ -536,7 +536,7 @@ $(window).keypress(function (e) {
 $(document).ready(function() {
     $.ajax({
         type: "GET",
-        url: '/test_dialogues/all' ,
+        url: '/init_dialogues/all' ,
         success: function (dialogues) {
             initDialogues(dialogues);
         }

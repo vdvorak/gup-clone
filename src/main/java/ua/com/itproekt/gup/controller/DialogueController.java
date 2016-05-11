@@ -78,7 +78,7 @@ public class DialogueController {
     }
 
     // additional method by VS
-    @RequestMapping(value = "/test_dialogues/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/init_dialogues/all", method = RequestMethod.GET)
     @ResponseBody
     List<Dialogue> getAllDialogues2(){
         Member member = new Member();
@@ -145,7 +145,6 @@ public class DialogueController {
     @RequestMapping(value = "/dialogue/update", method = RequestMethod.POST)
     @ResponseBody
     public void update( @RequestBody Dialogue dialogue){
-
         Member member;
         for (int i = 0; i < dialogue.getMembers().size(); i++) {
             member =  dialogue.getMembers().get(i);
@@ -158,7 +157,6 @@ public class DialogueController {
                 }
             }
         }
-
         dialogueService.updateDialogue(dialogue);
     }
 
@@ -175,21 +173,40 @@ public class DialogueController {
     @RequestMapping(value = "/dialogue/init/{userId}", method = RequestMethod.GET)
     @ResponseBody
     public Dialogue initDialog (@PathVariable String userId, Model model) {
-        Dialogue dialogue;
+        Dialogue dialogue = new Dialogue();
         Profile profile = profileService.findWholeProfileById(userId);
         if (profile == null || SecurityOperations.getLoggedUserId() == null) {
             return null;
         }
+
+
+        /*
         List<Member> members = new ArrayList<>();
         members.add(new Member(userId));
         members.add(new Member(SecurityOperations.getLoggedUserId()));
         List<Dialogue> result = dialogueRepository.findByMembers(members);
-        if (result.isEmpty()) {
-            dialogue = new Dialogue();
-            dialogue.setMembers(members);
+        */
+
+        //can not find findByMembers method implementation. Old implementation should be fixed. solution below will not work for more than 2 users in a dialogue
+        List<Member> members1 = new ArrayList<>();
+        List<Member> members2 = new ArrayList<>();
+        members1.add(new Member(userId));
+        members1.add(new Member(SecurityOperations.getLoggedUserId()));
+        members2.add(new Member(SecurityOperations.getLoggedUserId()));
+        members2.add(new Member(userId));
+
+        List<Dialogue> result1 = dialogueRepository.findByMembers(members1);
+        List<Dialogue> result2 = dialogueRepository.findByMembers(members2);
+
+        if (result1.isEmpty() && result2.isEmpty()) {
+            dialogue.setMembers(members1);
             dialogue = dialogueService.addDialogue(dialogue);
         } else {
-            dialogue = result.stream().filter(m -> m.getSubject() == null).findFirst().get();
+            if(result1.isEmpty()){
+                dialogue = result2.stream().filter(m -> m.getSubject() == null).findFirst().get();
+            }else if(result2.isEmpty()){
+                dialogue = result1.stream().filter(m -> m.getSubject() == null).findFirst().get();
+            }
         }
 
         if(!dialogueService.isUserInDialogue(dialogue, SecurityOperations.getLoggedUserId())){

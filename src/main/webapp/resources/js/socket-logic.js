@@ -21,7 +21,6 @@ var subscribedTo = [];
         isConnected = false;
     }
 }*/
-
 /*connect();*/
 
 function subscribeToAllDialogues(){
@@ -45,9 +44,10 @@ function subscribeToAllDialogues(){
 }
 
 function subscribeToOneDialogue (dialogue){
-    if(subscribedTo.indexOf(dialogue.id) < 0){
+    if(subscribedTo.indexOf(dialogue.id) === -1){
+        subscribedTo.push(dialogue.id);
         stompClient.subscribe('/topic/socket-response/' + dialogue.id, function(response){
-            subscribedTo.push(dialogue.id);
+            openDialog(dialogue.id);
             var privateMessage = JSON.parse(response.body).content;
             var senderName = "";
             for(var i = 0; i < dialogue.members.length; i++){
