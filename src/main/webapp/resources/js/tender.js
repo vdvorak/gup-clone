@@ -38,7 +38,7 @@ function sliderImg(arr) {
 }
 
 function localDateTime(long) {
-    long = (new Date(parseInt(long)));
+    long = new Date(parseInt(long)) * 1000;
     long = moment(long).locale("ru").format('LLL');
     return long;
 }
@@ -64,7 +64,7 @@ $.ajax({
 
         $(".tender-item-text").last().html(data.body);
         $(".tender-number").last().text(data.tenderNumber);
-        $(".tender-publish-date span").last().text(localDateTime(data.begin));
+        $(".tender-publish-date span").last().text(localDateTime(data.publishDate));
         $(".tender-veiws span").last().text(data.visited);
         $(".tender-proposal-count span").last().text(data.proposeNumber);
         if (!data.hideContact) {
@@ -85,8 +85,8 @@ $.ajax({
 
         $(".tender-name").last().text(data.title);
 
-
-        $(".date-finish").last().text(localDateTime(data.end));
+        var dateEnd = localDateTime(data.end);
+        $(".date-finish").last().text((dateEnd === 'Invalid date') ? 'Дата не указана' : dateEnd);
 
 
         // delete button if user is not an author of tender

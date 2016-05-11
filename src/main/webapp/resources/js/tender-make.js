@@ -7,6 +7,8 @@ if (typeof loggedInProfile == 'undefined') {
     var members = [];
     var placeKey = '';
 
+    var gupValidator = new window.GupValidator.Constructor('tender').init();
+
     $.when(loadNace).done(function(response){
         var select = $('#selectKved');
         for(var i = 0; i < response.length; i++) {
@@ -357,13 +359,9 @@ if (typeof loggedInProfile == 'undefined') {
         return true;
     }
 
-    $('#tender-make-form').submit(function (event) {
-
-        if(!checkDateInDatepicker()) return false;
-
-        var body = tinymce.activeEditor.getContent();
-        if(!body) return false;
-
+    $('#tender-btn-save').click(function (event) {
+        event.preventDefault();
+      
         checkMainImg();
 
         var tender = {};
@@ -374,7 +372,8 @@ if (typeof loggedInProfile == 'undefined') {
         var dateBegin = $('#tender-datepicker1').datepicker( 'getDate' );
         var dateEnd = $('#tender-datepicker2').datepicker( 'getDate' );
         tender.begin = (dateBegin) ? dateBegin.getTime() / 1000 : null;
-        tender.end = (dateEnd) ? dateEnd.getTime() / 1000 : null;
+        tender.end = (dateEnd) ? dateEnd.setHours(23,59,59,999) / 1000 : null;
+        tender.publishDate = Date.now() / 1000;
         tender.type = $('.input-tenderRadio:checked').attr("data-type");
         tender.expectedPrice = $('#ExpectedValue').val();
         tender.hidePropose =  $('#HideBidders').prop('checked');
@@ -398,6 +397,9 @@ if (typeof loggedInProfile == 'undefined') {
         tender.address.area = $('#SelectArea').val();
         tender.address.city = $('#SelectCity').val();
 
+        gupValidator.validate(tender);
+        if(!gupValidator.isValid) return;
+
         $.ajax({
             type: "POST",
             url: "/api/rest/tenderService/tender/create/",
@@ -410,7 +412,7 @@ if (typeof loggedInProfile == 'undefined') {
                 }
             }
         });
-        event.preventDefault();
+
     });
 //---------------------------- END SUBMIT -------------------------------------------------//
 

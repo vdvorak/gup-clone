@@ -24,6 +24,7 @@ public class Tender {
     private List<Propose> proposes;
     private Long begin;
     private Long end;
+    private Long publishDate;
     private Long visited;
     private Map<String, String> uploadFilesIds;
     @Size(max = 15)
@@ -237,6 +238,15 @@ public class Tender {
         this.hideContact = hideContact;
     }
 
+
+    public Long getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Long publishDate) {
+        this.publishDate = publishDate;
+    }
+
     public String getWinnerId() {
         return winnerId;
     }
@@ -263,6 +273,7 @@ public class Tender {
                 ", proposes=" + proposes +
                 ", begin=" + begin +
                 ", end=" + end +
+                ", publishDate=" + publishDate +
                 ", visited=" + visited +
                 ", uploadFilesIds=" + uploadFilesIds +
                 ", files=" + files +

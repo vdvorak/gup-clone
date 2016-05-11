@@ -378,7 +378,7 @@ textarea {
     padding: 20px;
     background: #fff;
     border-radius: 5px;
-    width: 350px;
+    width: 370px;
     position: relative;
     transition: all 5s ease-in-out;
     border: 4px solid #9c6;
@@ -391,6 +391,7 @@ textarea {
     font: 400 18px DroidSans;
     font-weight: bold;
     color: #9c6;
+    width: 290px;
 }
 .gup-popup .popup-close {
     position: absolute;

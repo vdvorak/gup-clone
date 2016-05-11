@@ -12,7 +12,6 @@ $(document).ready(function () {
         var url = '/resources/images/no_photo.jpg';
         var imgId = '';
         if(arr) {
-            console.log(arr);
             for (var i = 0; i < arr.length; i++) {
                 if (arr[i].fileType === 'MAINIMAGE') {
                     imgId = arr[i].id;
@@ -25,7 +24,7 @@ $(document).ready(function () {
     }
 
     function localDateTime(long) {
-        long = new Date(parseInt(long));
+        long = new Date(parseInt(long)) * 1000;
         long = moment(long).locale("ru").format('LLL');
         return long;
     }
@@ -57,7 +56,7 @@ $(document).ready(function () {
             $(".build-link-wrap").last().attr('href', url);
             $(".build-item-text").last().html(data[i].body);
             $(".build-number").last().text(data[i].tenderNumber);
-            $(".build-publish-date span").last().text(localDateTime(data[i].begin));
+            $(".build-publish-date span").last().text(localDateTime(data[i].publishDate));
             $(".build-veiws span").last().text(data[i].visited);
             $(".build-proposal-count span").last().text(data[i].proposeNumber);
 
@@ -69,7 +68,8 @@ $(document).ready(function () {
 
             $(".build-name-wrap").last().attr('href', url);
             $(".build-name").last().text(data[i].title);
-            $(".build-end").last().text(localDateTime(data[i].end));
+            var dateEnd = localDateTime(data[i].end);
+            $(".build-end").last().text((dateEnd === 'Invalid date') ? 'Дата не указана' : dateEnd);
             $('#tenders-start-block').append(firstTenderBlock);
         }
 
