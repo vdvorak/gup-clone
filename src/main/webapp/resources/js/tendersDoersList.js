@@ -46,14 +46,29 @@ $(document).ready(function () {
         });
     }
 
-    function filterClosedTenders(data) {
+    function removeClosedTenders(data) {
         for (var i = 0; i < data.length; i++) {
             if (!(data[i].winnerId === null && data[i].end > Date.now() / 1000)) data.splice(i, 1);
         }
     }
 
+    function filterClosedTenders(data) {
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].winnerId === null && data[i].end > Date.now() / 1000) data.splice(i, 1);
+        }
+    }
+
+   function filterTenders(data) {
+        var showClosed = getUrlParam('closed');
+       if(showClosed) {
+           filterClosedTenders(data);
+       } else {
+           removeClosedTenders(data);
+       }
+   }
+
     function draw(data) {
-        filterClosedTenders(data);
+        filterTenders(data);
         if (!data.length) alert('Тендеров больше нет');
         for (var i = 0; i < data.length; i++) {
             var url = '/tender/' + data[i].id;
