@@ -502,6 +502,7 @@ function dialogueMakeRead(id) {
         contentType: "application/json; charset=utf-8",
         url: 'api/rest/dialogueService/dialogue/updateRead/' + id,
         success: function (response) {
+            $('#unreadMessagesNum').hide();
         }
     });
 }
@@ -534,7 +535,17 @@ $('#dialogue-answer-btn').on('click', function () {
 
 });
 
-$(window).keypress(function (e) {
+$(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: '/init_dialogues/all' ,
+        success: function (dialogues) {
+            initDialogues(dialogues);
+        }
+    });
+})
+
+/*$(window).keypress(function (e) {
     var textarea = document.getElementById('text-message-answer');
     if ((e.target == textarea) && (e.which == 13)) {
         var dialogueId = $('#dialogue-answer-btn').attr('class');
@@ -547,4 +558,4 @@ $(window).keypress(function (e) {
         $('#dialogue-answer-btn').removeClass();
         $(".dropDownMail").slideUp("fast");
     }
-});
+});*/

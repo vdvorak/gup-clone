@@ -5099,6 +5099,64 @@ form > .price > input:placeholder-shown {
     animation: animatedBackground 20s linear infinite;
 }
 
+/*draggable-dialogue*/
+#adialog {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 0;
+    font-size: 0;
+}
+#adialog .dialog {
+    position: fixed;
+    font-size: 12px;
+    border: 1px solid blue;
+    display: inline-block;
+    width: 200px;
+    background-color: white;
+    min-height: 300px;
+}
+#adialog .dialog .title {
+    background-color: blue;
+    cursor: move;
+    padding: 10px 5px;
+    color: white;
+}
+#adialog .dialog.selected .title {
+    background-color: red;
+}
+#adialog .dialog .close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+#adialog .dialog .message{
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 3px;
+    display: inline-block;
+    max-width: 175px;
+    margin-bottom: 2px;
+    word-break: break-all;
+}
+
+.message-from > .message{
+    background-color: yellow;
+}
+
+#adialog .dialog .message-to{
+    text-align: right;
+}
+
+.message-to > .message {
+    background-color: #b1e3e7;
+}
+/*draggable-dialogue*/
+
 .container2 > h2#h2-top-offers {
     font: 700 15px DroidSans;
     margin: 10px 20px;
