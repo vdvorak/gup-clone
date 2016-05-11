@@ -3,6 +3,7 @@ if (typeof loggedInProfile == 'undefined') {
 }else{
 
     var imagesIds = {};
+    var gupValidator = new window.GupValidator.Constructor('project').init();
 
     $(document).ready(function () {
         $(".chosen").chosen();
@@ -193,12 +194,12 @@ if (typeof loggedInProfile == 'undefined') {
     }
 
     $(document).on('click', 'button.info-submit', function (event) {
-        var incorrectValuesMsg = '';
+
         var newProject = {
             'categoriesOfIndustry' : []
         };
 
-        newProject.type =  $('input[class="greenCheckbox"]:checked').val();
+        newProject.type =  $('input[class="greenCheckbox"]:checked').val() || '';
         newProject.title = $('#main-title-info').val();
         newProject.description = tinymce.activeEditor.getContent({format : 'raw'});
         newProject.amountRequested = +$('#sum').val();
@@ -207,31 +208,24 @@ if (typeof loggedInProfile == 'undefined') {
             newProject.categoriesOfIndustry.push($(this).val());
         });
 
-        if (!newProject.type) { incorrectValuesMsg += "Выбрете тип проекта \n";}
-        if (newProject.title.length < 4 || newProject.title.length > 70) {incorrectValuesMsg += "Введите заголовок \n";}
-        if (newProject.description.length < 50 || newProject.description.length > 5000) {incorrectValuesMsg += "Добавьте описание \n";}
-        if (newProject.amountRequested < 1) {incorrectValuesMsg += "Укажите нужную сумму \n";}
-        if (newProject.categoriesOfIndustry.length < 1) {incorrectValuesMsg += "Добавьте категории индустрии \n";}
-
         checkMainImg();
         newProject.imagesIds = imagesIds;
 
-        if (!incorrectValuesMsg.length) {
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/projectsAndInvestmentsService/project/create",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify(newProject),
-                statusCode: {
-                    201: function (createdProjectId) {
-                        window.location.href = '/project?id=' + createdProjectId.id;
-                    }
+        gupValidator.validate(newProject);
+        if(!gupValidator.isValid) return;
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/projectsAndInvestmentsService/project/create",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(newProject),
+            statusCode: {
+                201: function (createdProjectId) {
+                    window.location.href = '/project?id=' + createdProjectId.id;
                 }
-            });
-        } else {
-            alert(incorrectValuesMsg);
-        }
+            }
+        });
     });
 
     tinymce.init({

@@ -21,6 +21,8 @@ $.ajax({
 });
 
 // ----------- Draw offer -------------------------------------------------------------------------------------------
+$('#a-author-offers').bind('click', offer.authorId, offerFilter.filterOffersByAuthor);
+
 $('.offer-title').text(offer.title);
 
 if (offer.price) {
@@ -175,9 +177,10 @@ $.ajax({
     url: "/api/rest/profilesService/profile/read/id/" + offer.authorId,
     success: function (profile) {
 
-        if (profile.imgId != '') {
-            $('#avatar-img').attr('src', '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId)
-        }
+        var imgSrc = (profile.imgId != '' && profile.imgId !== null)
+            ? '/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId
+            : '/resources/images/doersLogo.png';
+        $('#avatar-img').attr('src', imgSrc);
 
         if (profile.username) {
             $('.author-name').text(profile.username)
@@ -268,9 +271,11 @@ $(document).ready(function () {
                         var priceStr = "Нет цены";
                         if (offerObj.price) {
                             priceStr = offerObj.price.toString();
-                            if (offerObj.currency) {
-                                priceStr = priceStr + offerObj.currency;
-                            }
+                                var strCurrency = (offerObj.currency === 'UAH') ? ' грн.'
+                                    : (offerObj.currency === 'USD') ? ' дол.'
+                                    : (offerObj.currency === 'EUR') ? ' евро'
+                                    : ' грн.';
+                                priceStr = priceStr + strCurrency;
                         }
 
                         var newLi = $('#li-offer-basic').clone()

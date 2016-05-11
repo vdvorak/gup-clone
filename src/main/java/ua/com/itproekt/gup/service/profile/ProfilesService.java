@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.service.profile;
 
+import ua.com.itproekt.gup.model.profiles.Contact;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;
@@ -132,7 +133,11 @@ public interface ProfilesService {
 
     List<Profile> getMatchedNamesWithIds(String term);
 
+    List<Profile> getMatchedCompanies(String term);
+
     void addContactToContactList(String profileOwnerContactListId, String contactId);
 
     Profile findWholeProfileByEmail(String email);
+
+    boolean isUserModerator(Profile user);
 }

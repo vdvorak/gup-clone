@@ -84,11 +84,6 @@ $(document).ready(function () {
 
     doAjax(blogsFO, urlGetBlog, 'blogs');
 
-    $('#nextPageBlog').on('click', function () {
-        blogsFO.skip += 5;
-        doAjax(blogsFO, urlGetBlog, 'blogs');
-    });
-
     //---------------------------------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------------------------------
 
@@ -131,9 +126,20 @@ $(document).ready(function () {
 
     doAjax(newsFO, urlGetNews, 'news');
 
-    $('#nextPageNews').on('click', function () {
-        newsFO.skip += 5;
-        doAjax(newsFO, urlGetNews, 'news');
+    var waypoints = $('#nextPageNews').waypoint(function(direction) {
+        if (direction == 'up') {
+            return
+        }
+        if ( $('#tabs1-news').is(':visible') ) {
+            newsFO.skip += 5;
+            doAjax(newsFO, urlGetNews, 'news');
+        }
+        if ( $('#tabs1-blogs').is(':visible') ) {
+            blogsFO.skip += 5;
+            doAjax(blogsFO, urlGetBlog, 'blogs');
+        }
+    }, {
+        offset: '90%'
     })
 
 });

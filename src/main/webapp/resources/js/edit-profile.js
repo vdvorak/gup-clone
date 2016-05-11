@@ -84,6 +84,7 @@ function initializeProfileEntityForUpdate() {
     updatedProfile.contact.skypeUserName = $('#skype-info').val();
     updatedProfile.contact.linkToWebSite = $('#web-addresses').val();
     updatedProfile.mainPhoneNumber = $('#main-tel-info').val();
+    updatedProfile.contact.naceId = (updatedProfile.contact.type !== 'INDIVIDUAL') ? $("#select-sphere").val() : null;
 
     var contactEmails = [];
     $("input[name=myemail]").each(function () {
@@ -233,6 +234,23 @@ $(document).ready(function () {
                     x_email--;
                 });
 // ----------------------------------------------------- Multiply emails -----------------------------------
+
+// --------------------------------------  BEGIN NACE  ----------------------------------------------
+                var select = $('#select-sphere');
+                select.chosen();
+
+                var naceId = loadedProfile.contact.naceId;
+                $.when(loadNace).done(function(response){
+
+                    for (var i = 0; i < response.length; i++) {
+                        var option = $('<option id="' + response[i].id + '" value="' + response[i].id + '">' + response[i].id + ": " + response[i].name + '</option>');
+                        select.append(option);
+                    }
+                    if (naceId && naceId.length) select.val(naceId);
+
+                    select.trigger("chosen:updated")
+                });
+// --------------------------------------  END NACE  ----------------------------------------------
             }
         }
     });
@@ -281,6 +299,7 @@ $('#select-type').on('change', function () {
             $('#companyAddressBlock').hide();
             $('#scopeOfActivityBlock').hide();
             $('#aboutCompany').hide();
+            $('#select-sphere').val('').trigger("chosen:updated");
             break;
         case "LEGAL_ENTITY":
             $('#companyType').html(' Название компании');
@@ -314,7 +333,7 @@ $('#addProfileImg').on('click', function () {
     $("#uploadProfilePhotoInput").click();
 });
 
-$('#uploadProfilePhotoInput').on('change', function () {
+$('#uploadProfilePhotoInput').on('change', function (event) {
     var files = event.currentTarget.files;
     var reader = new FileReader();
 
@@ -328,6 +347,8 @@ $('#uploadProfilePhotoInput').on('change', function () {
 
     $('#cropperModal').css('display', "block");
 });
+
+
 // ------------------------------------------- End photo upload block ---------------------------------
 
 
@@ -356,7 +377,7 @@ $(window).click(function (event) {
     }
 });
 
-$(".cropper-btn-success").click(function () {
+$(".cropper-btn-success").click(function (event) {
     $('#cropperModal').css('display', "none");
 
     var canvas = cropper.getCroppedCanvas();
@@ -390,6 +411,8 @@ $(".cropper-btn-success").click(function () {
             }
         }
     });
+
+    $("#uploadProfilePhotoInput").val("");
 });
 
 function dataURItoBlob(dataURI) {
@@ -401,3 +424,11 @@ function dataURItoBlob(dataURI) {
     return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
 }
 // --------------------------------------  END cropper  ----------------------------------------------
+
+$("#nameCompany").autocomplete({
+    source: function (request, response) {
+        $.getJSON("/search/autocomplete/profile/company" , {
+            term: request.term
+        }, response);
+    }
+});

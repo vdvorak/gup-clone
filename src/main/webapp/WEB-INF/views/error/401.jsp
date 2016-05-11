@@ -8,46 +8,63 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <meta charset="utf-8">
+
   <title>Отказано в доступе</title>
-  <link type="text/css" rel="stylesheet" href="/resources/css/login.css"/>
-  <link type="text/css" rel="stylesheet" href="/resources/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="http://bootsnipp.com/dist/bootsnipp.min.css?ver=7d23ff901039aef6293954d33d23c066">
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="shortcut icon" href="/resources/images/favicon.ico" />
+  <link rel="stylesheet" href="/resources/css/bootstrap.css">
+  <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+  <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+  <link rel="stylesheet" href="/resources/css/main.css">
+  <link rel="stylesheet" href="/resources/css/font-awesome.css">
+  <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
 </head>
 <body>
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-      <div class="panel panel-login">
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="form-group">
-                Страница недоступна для неавторизованных пользователей
-              </div>
-              <div class="form-group">
-                <a href="/index">
-                  <div class="form-control btn btn-login">Вернуться на главную страницу</div>
-                </a>
-              </div>
-              <div class="form-group">
-                <a href="/index">
-                  <div class="form-control btn btn-login">Войти или зарегистрироваться</div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+
+<div class="err">
+  <i>401 <i>:(</i></i>
 </div>
 
-</body>
+<sec:authorize access="isAuthenticated()">
+  <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-<script src="/resources/js/bootstrap.min.js"></script>
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
+
+<script>
+  var flag = '${flag}';
+</script>
+
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
+
+<script src="/resources/js/top-news-block.js"></script>
+<script src="/resources/js/top-offers-block.js"></script>
+<script src="/resources/js/top-tenders-block.js"></script>
+<script src="/resources/js/top-projects-block.js"></script>
+
+</body>
 
 </html>

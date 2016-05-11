@@ -88,6 +88,9 @@
         <label><input type="checkbox" id="HideBidders" value="open" name="k"/><span></span></label>
         <%--<label for="InviteBidders">Пригласить участников тендера</label>--%>
         <%--<input type="text" id="InviteBidders" placeholder="Название">--%>
+        <label for="HideContacts">Скрывать контактные данные</label>
+        <input type="checkbox" id="HideContacts" value="open"/>
+
         <div class="clearfix"></div>
 
         <label for="selectParticipants" style="display: none">Пригласить участников тендера</label>
@@ -123,7 +126,7 @@
           <li class="li-containerIMG li-defaultIMG">
             <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
             <img src="http://www.uzscience.uz/upload/userfiles/images/doc.png" alt="defaultIMG">
-            <div style="width: 100%; text-align: center; font-weight: bold"></div>
+            <div></div>
           </li>
         </ul>
       </div>
@@ -133,7 +136,7 @@
 
       <div class="confirm" id="confirmTenderDelete" style="display: none">
         <h1>Подтвердите удаление</h1>
-        <p>Объявление будет навсегда удалено</p>
+        <p>Тендер будет навсегда удален</p>
         <button id="cancelTenderDelBtn" autofocus>Отмена</button>
         <button id="confirmTenderDelBtn">Удалить</button>
       </div>
@@ -144,6 +147,16 @@
 
     </form>
 
+  </div>
+</div>
+
+<div id="gup-validator-popup" class="gup-popup-overlay">
+  <div class="gup-popup">
+    <h2>Ошибка редактирования тендера</h2>
+    <a class="popup-close" href="#">&times;</a>
+    <div class="popup-content">
+
+    </div>
   </div>
 </div>
 
@@ -164,16 +177,10 @@
 <script>
 
   var placeKey = 'ChIJBUVa4U7P1EAR_kYBF9IxSXY';
-  var picMapObj = {};
-  var imgsArrResult = {};
+  var filesArr = getFiles();
   var picArrDel = [];
-  var picArrNew = [];
-  var imgsArr = {};
   var oldNace = '${tender.naceIds}'.slice(1, -1).split(", "); // make array from string
-
-  if ('${tender.uploadFilesIds}'.length > 5 ){
-    picMapObj = JSON.parse('${tender.uploadFilesIds}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
-  }
+  var gupValidator = new window.GupValidator.Constructor('tender').init();
 
   //--------------------   BEGIN NACE ---------------------------------//
   if(!oldNace[0]) oldNace = [];
@@ -185,29 +192,25 @@
       select.append(option);
     }
     if(oldNace.length) select.val(oldNace);
-    $(".chosen").chosen();
+    $("#selectKved").chosen();
   });
 
   //--------------------   END NACE ---------------------------------//
 
   $(document).ready(function () {
 
-    if('${tender.hidePropose}') $('#HideBidders').prop( "checked", true );
-    if(('${tender.type}') === "CLOSE") {
-      $('.input-tenderRadio[data-type="CLOSE"]').prop("checked", true);
-    } else {
-      $('.input-tenderRadio[data-type="OPEN"]').prop("checked", true);
-      $('#InviteBidders').attr("style", "display: none");
-      $('label[for="InviteBidders"]').attr("style", "display: none");
-    }
+    if('${tender.hidePropose}' === 'true') $('#HideBidders').prop( "checked", true );
+    if('${tender.hideContact}' === 'true') $('#HideContacts').prop('checked', true);
+
+    if ('${tender.begin}') $('#tender-datepicker1').datepicker("setDate", new Date('${tender.begin}'*1000));
+    if ('${tender.end}') $('#tender-datepicker2').datepicker("setDate", new Date('${tender.end}'*1000));
 
     // place photo from received model on the page
-    for (var id in picMapObj) {
-      imgsArr[id] = picMapObj[id];
-      if (picMapObj[id] === "image" || picMapObj[id] === "pic1") {
-        appendImg(id);
+    for(var i = 0; i < filesArr.length; i++) {
+      if (filesArr[i].fileType === "IMAGE" || filesArr[i].fileType === "MAINIMAGE") {
+        appendImg(filesArr[i]);
       } else {
-        appendDoc(id, "");
+        appendDoc(filesArr[i]);
       }
     }
 
@@ -236,15 +239,18 @@
           processData: false,
 
           success: function (data, textStatus, request) {
-            if (Object.keys(imgsArr).length < 15) {
-              var id = data.id;
+            if (filesArr.length < 15) {
+              var file, id = data.id;
+
               if (f.type.substring(0, 5) === 'image') {
-                imgsArr[id] = "image";
-                appendImg(id);
+                file = {id: id, name: f.name, fileType: 'IMAGE', size: f.size};
+                appendImg(file);
               } else {
-                imgsArr[id] = "doc";
-                appendDoc(id, f.name);
+                file = {id: id, name: f.name, fileType: 'DOCUMENT', size: f.size};
+                appendDoc(file);
               }
+
+              filesArr.push(file);
             }
           }
         });
@@ -266,36 +272,42 @@
     $('#photoInput').trigger('click');
   });
 
-  function appendImg(id) {
+  function appendImg(img) {
     $("#tender-img-block > .li-defaultIMG").css("display", "none");
     var cloneImg = $("#tender-img-block > .li-defaultIMG").clone()
             .removeClass('li-defaultIMG')
             .css("display", "inline-block");
     cloneImg.find('img')
             .attr("alt", "")
-            .attr("src", '/api/rest/fileStorage/TENDER/file/read/id/' + id)
-            .attr("id", id)
+            .attr("src", '/api/rest/fileStorage/TENDER/file/read/id/' + img.id)
+            .attr("id", img.id)
             .click(onClickSetMainImg);
     cloneImg.find('span')
             .click(deleteImg);
 
-    if(imgsArr[id] === 'pic1') cloneImg.find('img').addClass("mainImg");
+    if(img.fileType === 'MAINIMAGE') cloneImg.find('img').addClass("mainImg");
 
     cloneImg.appendTo('#tender-img-block');
   }
 
-  function appendDoc(id, name) {
+  function appendDoc(doc) {
     $("#tender-doc-block > .li-defaultIMG").css("display", "none");
     var cloneDoc = $("#tender-doc-block > .li-defaultIMG").clone()
             .removeClass('li-defaultIMG')
             .css("display", "inline-block");
     cloneDoc.find('img')
-            .attr("id", id);
+            .attr("id", doc.id);
     cloneDoc.find('div')
-            .text(name);
+            .text(doc.name);
     cloneDoc.find('span')
             .click(deleteImg);
     cloneDoc.appendTo('#tender-doc-block');
+  }
+
+  function findFileIndexById(fileId) {
+    for(var i = 0; i < filesArr.length; i++) {
+      if(filesArr[i].id === fileId) return i;
+    }
   }
 
   //--------------------   DATEPICKER ---------------------------------//
@@ -334,11 +346,14 @@
 
 
   //--------------------  RADIO CHECK ------------------------------------//
+  if(('${tender.type}') === "CLOSE") {
+    $('.input-tenderRadio[data-type="CLOSE"]').prop("checked", true);
+  } else {
+    $('.input-tenderRadio[data-type="OPEN"]').prop("checked", true);
+  }
 
   $('.input-tenderRadio').change(function () {
     var display = $('.input-tenderRadio[data-type="CLOSE"]').prop('checked') ? "" : "none";
-
-    if(display) $('#selectParticipants').empty();
 
     $('#selectParticipants_chosen').css("display", display);
     $('label[for="selectParticipants"]').css("display", display);
@@ -348,44 +363,44 @@
 
   //-------------------- ADD MEMBER ------------------------------------------//
 
-  $('#add').click(function () {
-    var email = $('input[name="memberId"]').val();
-    $.ajax({
-      type: "POST",
-      url: "/api/rest/profilesService/profile/email-check",
-      data: {"email": email},
-      success: function (data) {
-        if (data === 'NOT FOUND') {
-          alert("Нет пользователя с таким e-mail");
-        } else {
-          var member = {};
-          member.id = data;
-          member.name = email;
-          var flag = true;
-          for (var i = 0; i < members.length; i++) {
-            if (members[i].id === data) {
-              flag = false;
-              break;
-            }
-          }
-          if (flag) {
-            members.push(member);
-            $('#membersList').append('<p name="' + email + '">' + email + '    <i name="' + email + '"class="icon-remove-sign"></i></p>');
-            $('i[name="' + email + '"]').click(function () {
-              $('p[name="' + email + '"]').detach();
-              for (var i in members) {
-                if (members[i].name === email) {
-                  members.splice(i);
-                }
-              }
-            });
-          } else {
-            alert("Собеседник уже добавлен!");
-          }
-        }
-      }
-    });
-  });
+//  $('#add').click(function () {
+//    var email = $('input[name="memberId"]').val();
+//    $.ajax({
+//      type: "POST",
+//      url: "/api/rest/profilesService/profile/email-check",
+//      data: {"email": email},
+//      success: function (data) {
+//        if (data === 'NOT FOUND') {
+//          alert("Нет пользователя с таким e-mail");
+//        } else {
+//          var member = {};
+//          member.id = data;
+//          member.name = email;
+//          var flag = true;
+//          for (var i = 0; i < members.length; i++) {
+//            if (members[i].id === data) {
+//              flag = false;
+//              break;
+//            }
+//          }
+//          if (flag) {
+//            members.push(member);
+//            $('#membersList').append('<p name="' + email + '">' + email + '    <i name="' + email + '"class="icon-remove-sign"></i></p>');
+//            $('i[name="' + email + '"]').click(function () {
+//              $('p[name="' + email + '"]').detach();
+//              for (var i in members) {
+//                if (members[i].name === email) {
+//                  members.splice(i);
+//                }
+//              }
+//            });
+//          } else {
+//            alert("Собеседник уже добавлен!");
+//          }
+//        }
+//      }
+//    });
+//  });
 
   //-------------------- END ADD MEMBER ------------------------------------------//
 
@@ -459,15 +474,18 @@
         processData: false,
 
         success: function (data, textStatus, request) {
-          if (Object.keys(imgsArr).length < 15) {
-            var id = data.id;
+          if (filesArr.length < 15) {
+            var file, id = data.id;
+
             if (f.type.substring(0, 5) === 'image') {
-              imgsArr[id] = "image";
-              appendImg(id);
+              file = {id: id, name: f.name, fileType: 'IMAGE', size: f.size};
+              appendImg(file);
             } else {
-              imgsArr[id] = "doc";
-              appendDoc(id, f.name);
+              file = {id: id, name: f.name, fileType: 'DOCUMENT', size: f.size};
+              appendDoc(file);
             }
+
+            filesArr.push(file);
           }
         }
       });
@@ -498,7 +516,6 @@
   }
 
   function onClickSetMainImg(event) {
-
     var img = $(event.currentTarget);
     var id = img.attr("id");
     var isMain = img.hasClass("mainImg");
@@ -511,33 +528,55 @@
     }
     if(!isMain) img.addClass("mainImg");
 
-    for(var key in imgsArr) {
-      if(imgsArr[key] === "pic1") {
-        imgsArr[key] = "image";
+    for(var i = 0; i < filesArr.length; i++) {
+      if(filesArr[i].fileType === "MAINIMAGE") {
+        filesArr[i].fileType = 'IMAGE';
       }
     }
 
     if(img.hasClass("mainImg")) {
-      imgsArr[id] = "pic1";
+      filesArr[findFileIndexById(id)].fileType = "MAINIMAGE";
     }
   }
 
   function checkMainImg() {
     var hasMainImg = false;
 
-    for(var key in imgsArrResult) {
-      if(imgsArrResult[key] === 'pic1') {
+    for(var i = 0; i < filesArr.length; i++) {
+      if(filesArr[i].fileType === "MAINIMAGE") {
         hasMainImg = true;
         break;
       }
     }
 
     if(!hasMainImg) {
-      for(var key in imgsArrResult) {
-        imgsArrResult[key] = 'pic1';
+      for(var i = 0; i < filesArr.length; i++) {
+        if(filesArr[i].fileType === "DOCUMENT") continue;
+        filesArr[i].fileType = "MAINIMAGE";
         break;
       }
     }
+  }
+
+  function getFiles() {
+    var str = "${tender.files}".replace(/File/g, "");
+    var objs = [];
+    if(str !== "[]") {
+      str = str.substr(1, str.length - 2);
+      var parts = str.split('}, ');
+      parts.forEach(function (p) {
+        var props = p.match(/(?:[^,"]+|"[^"]*")+/g);
+        var o = {};
+        props.forEach(function (pr) {
+          var ps = pr.split('=');
+          var name = ps[0].replace(/{/g, '').trim();
+          var value = ps[1].replace(/'/g, '').replace(/}/g, '').trim();
+          o[name] = value;
+        });
+        objs.push(o);
+      });
+    }
+    return objs;
   }
 
   // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//
@@ -561,20 +600,16 @@
     return true;
   }
 
-  $('#tender-make-form').submit(function (event) {
-    if(!checkDateInDatepicker()) return false;
+  $('#tender-btn-save').click(function (event) {
+    event.preventDefault();
 
-    var body = tinymce.activeEditor.getContent();
-    if(!body) {
-      return false;
-    }
-
-    for(var key in imgsArr) {
-      if(picArrDel.indexOf(key) === -1) picArrNew.push(key);
+    var imgsArrResult = [], picArrNew = [];
+    for(var i = 0; i < filesArr.length; i++) {
+      if(picArrDel.indexOf(filesArr[i].id) === -1) picArrNew.push(filesArr[i].id);
     }
 
     for (var i = 0; i < picArrNew.length; i++) {
-      imgsArrResult[picArrNew[i]] = imgsArr[picArrNew[i]];
+      imgsArrResult.push(filesArr[findFileIndexById(picArrNew[i])]);
     }
 
     for(var i = 0; i < picArrDel.length; i++) {
@@ -584,17 +619,19 @@
     checkMainImg();
 
     var tender = {};
-    tender.uploadFilesIds = imgsArrResult;
+    tender.files = imgsArrResult;
     tender.title = $('#EnterTheTitle').val();
-    tender.body = body;
+    tender.body = tinymce.activeEditor.getContent();
     tender.tenderNumber = $('#TenderNumber').val();
     var dateBegin = $('#tender-datepicker1').datepicker( 'getDate' );
-    var dateEnd = $('#tender-datepicker1').datepicker( 'getDate' );
-    if(dateBegin) tender.begin = dateBegin.getTime() / 1000;
-    if(dateEnd) tender.end = dateEnd.getTime() / 1000;
+    var dateEnd = $('#tender-datepicker2').datepicker( 'getDate' );
+    tender.begin = (dateBegin) ? dateBegin.getTime() / 1000 : null;
+    tender.end = (dateEnd) ? dateEnd.setHours(23,59,59,999) / 1000 : null;
+    <%--tender.publishDate = '${tender.publishDate}';--%>
     tender.type = $('.input-tenderRadio:checked').attr("data-type");
     tender.expectedPrice = $('#ExpectedValue').val();
     tender.hidePropose =  $('#HideBidders').prop('checked');
+    tender.hideContact =  $('#HideContacts').prop('checked');
     if (tender.type === 'CLOSE') {
       tender.members = [];
       var arrOpt = $('#selectParticipants').children();
@@ -605,13 +642,15 @@
         })
       }
     }
-    var naceIds = $('#selectKved').val();
-    if(naceIds) tender.naceIds = naceIds;
+    tender.naceIds = $('#selectKved').val();
 
     tender.address = {};
     //tender.address.googleMapKey = placeKey;
     tender.address.area = $('#SelectArea').val();
     tender.address.city = $('#SelectCity').val();
+
+    gupValidator.validate(tender);
+    if(!gupValidator.isValid) return;
 
     $.ajax({
       type: "POST",
@@ -623,8 +662,6 @@
         window.location.href = '/tender/' + response.id;
       }
     });
-
-    event.preventDefault();
     
   });
   //---------------------------- END SUBMIT -------------------------------------------------//
@@ -653,45 +690,49 @@
   //------------------ END DELETE TENDER ------------------------------------//
 
   // ---------------------------- BEGIN participants -------------------------------------------------//
+
   function getMembers() {
-    var strMembers = "${tender.members}",
-            members = [];
-
-    strMembers.split('},').forEach(function(s) {
-      var idxID = s.indexOf("id='") + 4,
-        idxName = s.indexOf("name='") + 6,
-        id = s.substring(idxID, s.indexOf("'", idxID)),
-        name = s.substring(idxName, s.indexOf("'", idxName));
-
-      members.push({id: id, name: name});
-    })
-
-    return members;
+    var str = "${tender.members}".replace(/Member/g, "");
+    var objs = [];
+    if(str !== "[]") {
+      str = str.substr(1, str.length - 2);
+      var parts = str.split('}, ');
+      parts.forEach(function (p) {
+        var props = p.match(/(?:[^,"]+|"[^"]*")+/g);
+        var o = {};
+        props.forEach(function (pr) {
+          var ps = pr.split('=');
+          var name = ps[0].replace(/{/g, '').trim();
+          var value = ps[1].replace(/'/g, '').replace(/}/g, '').trim();
+          o[name] = value;
+        });
+        objs.push(o);
+      });
+    }
+    return objs;
   }
 
-  $(function() {
-    $('.input-tenderRadio').change();
-
     var select = $('#selectParticipants');
-    select.chosen({width: '545px', display_selected_options: false});
 
     var members = getMembers();
     for(var i = 0; i < members.length; i++) {
       select.append('<option value="' + members[i].id + '" selected>' + members[i].name + ' </option>');
     }
 
-    select.trigger("chosen:updated");
+    select.chosen({width: '545px', display_selected_options: false});
 
     select.on('change', function() {
       select.children('option:not(:selected)').remove();
       select.trigger("chosen:updated");
     });
 
+    $('.input-tenderRadio').change();
+
     var input = $("#selectParticipants_chosen ul.chosen-choices li.search-field input");
 
     input.autocomplete({
       source: function (request, response) {
-        $.getJSON("search/autocomplete/profile/ids", {
+        $.getJSON("/search/autocomplete/profile/ids", {
           term: request.term
         }, function(response) {
           var $search_param = input.val();
@@ -706,7 +747,6 @@
         });
       }
     });
-  });
 
   //---------------------------- END participants -------------------------------------------------//
 

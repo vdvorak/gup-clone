@@ -59,7 +59,7 @@ public class ProjectCommentsRestController {
         String toId = comment.getToId();
 
         if( projectId.equals(toId)) {
-            String authorId = projectService.findById(toId).getAuthorId();
+            String authorId = projectService.findById(projectId).getAuthorId();
             activityFeedService.createEvent(new Event(authorId, EventType.PROJECT_COMMENT, projectId, comment.getcId(), userId));
         } else {
             activityFeedService.createEvent(new Event(toId, EventType.PROJECT_COMMENT_REPLY, projectId, comment.getcId(), userId));

@@ -2,9 +2,12 @@
 if (typeof loggedInProfile == 'undefined') {
     $('#tender-container').empty().append('<div class="anonymUser"><p><i class="fa fa-exclamation-circle"> Для создания тендера вам необходимо зарегистрироваться</i></p></div>')
 }else{
-    var imgsArr = {};
+
+    var filesArr = [];
     var members = [];
     var placeKey = '';
+
+    var gupValidator = new window.GupValidator.Constructor('tender').init();
 
     $.when(loadNace).done(function(response){
         var select = $('#selectKved');
@@ -20,10 +23,13 @@ if (typeof loggedInProfile == 'undefined') {
         var dropZone = document.getElementById('drop_zone');
         dropZone.addEventListener('dragover', handleDragOver, false);
         dropZone.addEventListener('drop', handleFileSelect, false);
+        dropZone.addEventListener('dragleave', handleDragLeave, false);
 
         function handleFileSelect(evt) {
             evt.stopPropagation();
             evt.preventDefault();
+
+            dropZone.classList.remove("good");
 
             var files = evt.dataTransfer.files; // FileList object.
 
@@ -41,15 +47,18 @@ if (typeof loggedInProfile == 'undefined') {
                     processData: false,
 
                     success: function (data, textStatus, request) {
-                        if (Object.keys(imgsArr).length < 15) {
-                            var id = data.id;
+                        if (filesArr.length < 15) {
+                            var file, id = data.id;
+
                             if (f.type.substring(0, 5) === 'image') {
-                                imgsArr[id] = "image";
-                                appendImg(id);
+                                file = {id: id, name: f.name, fileType: 'IMAGE', size: f.size};
+                                appendImg(file);
                             } else {
-                                imgsArr[id] = "doc";
-                                appendDoc(id, f.name);
+                                file = {id: id, name: f.name, fileType: 'DOCUMENT', size: f.size};
+                                appendDoc(file);
                             }
+
+                            filesArr.push(file);
                         }
                     }
                 });
@@ -62,6 +71,11 @@ if (typeof loggedInProfile == 'undefined') {
             evt.stopPropagation();
             evt.preventDefault();
             evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+            dropZone.classList.add("good");
+        }
+
+        function handleDragLeave(evt) {
+            dropZone.classList.remove("good");
         }
 
     });
@@ -73,7 +87,7 @@ if (typeof loggedInProfile == 'undefined') {
         $('#photoInput').trigger('click');
     });
 
-    function appendImg(id) {
+    function appendImg(img) {
 
         $("#tender-img-block > .li-defaultIMG").css("display", "none");
         var cloneImg = $("#tender-img-block > .li-defaultIMG").clone()
@@ -81,23 +95,23 @@ if (typeof loggedInProfile == 'undefined') {
             .css("display", "inline-block");
         cloneImg.find('img')
             .attr("alt", "")
-            .attr("src", '/api/rest/fileStorage/TENDER/file/read/id/' + id)
-            .attr("id", id)
+            .attr("src", '/api/rest/fileStorage/TENDER/file/read/id/' + img.id)
+            .attr("id", img.id)
             .click(onClickSetMainImg);
         cloneImg.find('span')
             .click(deleteImg);
         cloneImg.appendTo('#tender-img-block');
     }
 
-    function appendDoc(id, name) {
+    function appendDoc(doc) {
         $("#tender-doc-block > .li-defaultIMG").css("display", "none");
         var cloneDoc = $("#tender-doc-block > .li-defaultIMG").clone()
             .removeClass('li-defaultIMG')
             .css("display", "inline-block");
         cloneDoc.find('img')
-            .attr("id", id);
+            .attr("id", doc.id);
         cloneDoc.find('div')
-            .text(name);
+            .text(doc.name);
         cloneDoc.find('span')
             .click(deleteImg);
         cloneDoc.appendTo('#tender-doc-block');
@@ -134,8 +148,6 @@ if (typeof loggedInProfile == 'undefined') {
 
     $('.input-tenderRadio').change(function () {
         var display = $('.input-tenderRadio[data-type="CLOSE"]').prop('checked') ? "" : "none";
-
-        if(display) $('#selectParticipants').empty();
 
         $('#selectParticipants_chosen').css("display", display);
         $('label[for="selectParticipants"]').css("display", display);
@@ -204,37 +216,29 @@ if (typeof loggedInProfile == 'undefined') {
                 processData: false,
 
                 success: function (data, textStatus, request) {
-                    if (Object.keys(imgsArr).length < 15) {
-                        var id = data.id;
+                    if (filesArr.length < 15) {
+                        var file, id = data.id;
+
                         if (f.type.substring(0, 5) === 'image') {
-                            imgsArr[id] = "image";
-                            appendImg(id);
+                            file = {id: id, name: f.name, fileType: 'IMAGE', size: f.size};
+                            appendImg(file);
                         } else {
-                            imgsArr[id] = "doc";
-                            appendDoc(id, f.name);
+                            file = {id: id, name: f.name, fileType: 'DOCUMENT', size: f.size};
+                            appendDoc(file);
                         }
+
+                        filesArr.push(file);
                     }
                 }
             });
         }
     });
 
-    /*function deleteImg(idImg) {
-     delete imgsArr[idImg];
-     $.ajax({
-     type: "POST",
-     url: "/api/rest/fileStorage/NEWS/file/delete/id/" + idImg,
-     success: function (data, textStatus, request) {
-     $('#' + idImg).remove();
-     }
-     });
-     }*/
-
     function deleteImg() {
         var idImg = $(event.currentTarget).parent()
             .find('img')
             .attr('id');
-        delete imgsArr[idImg];
+        filesArr.splice(findFileIndexById(idImg),1);
         var block = $(event.currentTarget).parent().parent();
         $.ajax({
             type: "POST",
@@ -263,32 +267,39 @@ if (typeof loggedInProfile == 'undefined') {
         }
         if(!isMain) img.addClass("mainImg");
 
-        for(var key in imgsArr) {
-            if(imgsArr[key] === "pic1") {
-                imgsArr[key] = "image";
+        for(var i = 0; i < filesArr.length; i++) {
+            if(filesArr[i].fileType === "MAINIMAGE") {
+                filesArr[i].fileType = 'IMAGE';
             }
         }
 
         if(img.hasClass("mainImg")) {
-            imgsArr[id] = "pic1";
+            filesArr[findFileIndexById(id)].fileType = "MAINIMAGE";
         }
     }
 
     function checkMainImg() {
         var hasMainImg = false;
 
-        for(var key in imgsArr) {
-            if(imgsArr[key] === 'pic1') {
+        for(var i = 0; i < filesArr.length; i++) {
+            if(filesArr[i].fileType === "MAINIMAGE") {
                 hasMainImg = true;
                 break;
             }
         }
 
         if(!hasMainImg) {
-            for(var key in imgsArr) {
-                imgsArr[key] = 'pic1';
+            for(var i = 0; i < filesArr.length; i++) {
+                if(filesArr[i].fileType === "DOCUMENT") continue;
+                filesArr[i].fileType = "MAINIMAGE";
                 break;
             }
+        }
+    }
+
+    function findFileIndexById(fileId) {
+        for(var i = 0; i < filesArr.length; i++) {
+            if(filesArr[i].id === fileId) return i;
         }
     }
 
@@ -348,27 +359,25 @@ if (typeof loggedInProfile == 'undefined') {
         return true;
     }
 
-    $('#tender-make-form').submit(function (event) {
-
-        if(!checkDateInDatepicker()) return false;
-
-        var body = tinymce.activeEditor.getContent();
-        if(!body) return false;
-
+    $('#tender-btn-save').click(function (event) {
+        event.preventDefault();
+      
         checkMainImg();
 
         var tender = {};
-        tender.uploadFilesIds = imgsArr;
+        tender.files = filesArr;
         tender.title = $('#EnterTheTitle').val();
         tender.body = tinymce.activeEditor.getContent();
         tender.tenderNumber = $('#TenderNumber').val();
         var dateBegin = $('#tender-datepicker1').datepicker( 'getDate' );
-        var dateEnd = $('#tender-datepicker1').datepicker( 'getDate' );
-        if(dateBegin) tender.begin = dateBegin.getTime() / 1000;
-        if(dateEnd) tender.end = dateEnd.getTime() / 1000;
+        var dateEnd = $('#tender-datepicker2').datepicker( 'getDate' );
+        tender.begin = (dateBegin) ? dateBegin.getTime() / 1000 : null;
+        tender.end = (dateEnd) ? dateEnd.setHours(23,59,59,999) / 1000 : null;
+        tender.publishDate = Date.now() / 1000;
         tender.type = $('.input-tenderRadio:checked').attr("data-type");
         tender.expectedPrice = $('#ExpectedValue').val();
         tender.hidePropose =  $('#HideBidders').prop('checked');
+        tender.hideContact =  $('#HideContacts').prop('checked');
         if (tender.type === 'CLOSE') {
             tender.members = [];
             var arrOpt = $('#selectParticipants').children();
@@ -388,6 +397,9 @@ if (typeof loggedInProfile == 'undefined') {
         tender.address.area = $('#SelectArea').val();
         tender.address.city = $('#SelectCity').val();
 
+        gupValidator.validate(tender);
+        if(!gupValidator.isValid) return;
+
         $.ajax({
             type: "POST",
             url: "/api/rest/tenderService/tender/create/",
@@ -400,43 +412,40 @@ if (typeof loggedInProfile == 'undefined') {
                 }
             }
         });
-        event.preventDefault();
+
     });
 //---------------------------- END SUBMIT -------------------------------------------------//
 
 // ---------------------------- BEGIN participants -------------------------------------------------//
 
-    $(function() {
+    var select = $('#selectParticipants');
+    select.chosen({width: '545px', display_selected_options: false});
 
-        var select = $('#selectParticipants');
-        select.chosen({width: '545px', display_selected_options: false});
+    $('#selectParticipants_chosen').css("display", "none");
 
-        $('#selectParticipants_chosen').css("display", "none");
+    select.on('change', function() {
+        select.children('option:not(:selected)').remove();
+        select.trigger("chosen:updated");
+    });
 
-        select.on('change', function() {
-            select.children('option:not(:selected)').remove();
-            select.trigger("chosen:updated");
-        });
+    var input = $("#selectParticipants_chosen ul.chosen-choices li.search-field input");
 
-        var input = $("#selectParticipants_chosen ul.chosen-choices li.search-field input");
-
-        input.autocomplete({
-            source: function (request, response) {
-                $.getJSON("search/autocomplete/profile/ids", {
-                    term: request.term
-                }, function(response) {
-                    var $search_param = input.val();
-                    select.children('option:not(:selected)').remove();
-                    for (var key in response) {
-                        if(!select.children('option[value="' + response[key].id +'"]').length) {
-                            select.append('<option value="' + response[key].id + '">' + response[key].username + ' </option>');
-                        }
+    input.autocomplete({
+        source: function (request, response) {
+            $.getJSON("/search/autocomplete/profile/ids", {
+                term: request.term
+            }, function(response) {
+                var $search_param = input.val();
+                select.children('option:not(:selected)').remove();
+                for (var key in response) {
+                    if(!select.children('option[value="' + response[key].id +'"]').length) {
+                        select.append('<option value="' + response[key].id + '">' + response[key].username + ' </option>');
                     }
-                    select.trigger("chosen:updated");
-                    input.val($search_param);
-                });
-            }
-        });
+                }
+                select.trigger("chosen:updated");
+                input.val($search_param);
+            });
+        }
     });
 
 //---------------------------- END participants -------------------------------------------------//

@@ -3,6 +3,7 @@ package ua.com.itproekt.gup.model.tender;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
@@ -13,16 +14,21 @@ public class Tender {
     @Id
     private String id;
     private String authorId;
+    @Size(min = 5, max = 70)
     private String title;
     private Set<String> naceIds;
+    @Size(min = 50, max = 4000)
     private String body;
     private TenderType type;
     private Set<Member> members;
     private List<Propose> proposes;
     private Long begin;
     private Long end;
+    private Long publishDate;
     private Long visited;
     private Map<String, String> uploadFilesIds;
+    @Size(max = 15)
+    private Set<File> files;
     private Address address;
     private Boolean hidePropose;
     private String tenderNumber;
@@ -32,7 +38,7 @@ public class Tender {
     private String winnerId;
 
     public Tender(){
-        begin = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+//        begin = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         visited = 0l;
         proposes = new ArrayList<>();
         members = new HashSet<>();
@@ -45,6 +51,14 @@ public class Tender {
         t.setBegin(null);
         t.setVisited(null);
         return t;
+    }
+
+    public Set<File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(Set<File> files) {
+        this.files = files;
     }
 
     public Boolean getHidePropose() {
@@ -224,6 +238,15 @@ public class Tender {
         this.hideContact = hideContact;
     }
 
+
+    public Long getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Long publishDate) {
+        this.publishDate = publishDate;
+    }
+
     public String getWinnerId() {
         return winnerId;
     }
@@ -236,27 +259,31 @@ public class Tender {
         this.winnerId = winnerId;
     }
 
+
     @Override
     public String toString() {
         return "Tender{" +
                 "id='" + id + '\'' +
                 ", authorId='" + authorId + '\'' +
-                ", tender number='" + tenderNumber + '\'' +
                 ", title='" + title + '\'' +
-                ", expected price='" + expectedPrice + '\'' +
-                ", naceIds='" + naceIds + '\'' +
+                ", naceIds=" + naceIds +
                 ", body='" + body + '\'' +
                 ", type=" + type +
                 ", members=" + members +
                 ", proposes=" + proposes +
                 ", begin=" + begin +
                 ", end=" + end +
+                ", publishDate=" + publishDate +
                 ", visited=" + visited +
                 ", uploadFilesIds=" + uploadFilesIds +
+                ", files=" + files +
                 ", address=" + address +
                 ", hidePropose=" + hidePropose +
+                ", tenderNumber='" + tenderNumber + '\'' +
+                ", expectedPrice=" + expectedPrice +
+                ", proposeNumber=" + proposeNumber +
                 ", hideContact=" + hideContact +
-                ", winner id=" + winnerId +
+                ", winnerId='" + winnerId + '\'' +
                 '}';
     }
 }

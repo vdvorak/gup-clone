@@ -28,10 +28,11 @@ public class BlogPost {
 
     @Size(min = 5, max = 70)
     private String title;
-    @Size(min = 50, max = 50_000)
+    @Size(min = 500, max = 10_000)
     private String text;
     private Address address;
     private Set<String> categories;
+    @Size(max = 15)
     private Map<String, String> imagesIds;
 
     private Long modifiedDate;

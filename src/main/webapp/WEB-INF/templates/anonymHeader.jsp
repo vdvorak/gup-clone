@@ -11,8 +11,8 @@
   <div id="modal_form"><!-- Сaмo oкнo -->
     <div id="tab-container" class="tab-container">
       <ul class='etabs'>
-        <li class='tab'><a href="#registration">Регистрация</a></li>
         <li class='tab'><a href="#entry-form">Вход</a></li>
+        <li class='tab'><a href="#registration">Регистрация</a></li>
       </ul>
 
       <div id="registration">

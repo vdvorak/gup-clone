@@ -39,6 +39,16 @@ public class ActivityFeedServiceImpl implements ActivityFeedService {
     }
 
     @Override
+    public void setAllViewed(String userId){
+        activityFeedRepository.setAllViewed(userId);
+    }
+
+    @Override
+    public void deleteAllEvents(String userId) {
+        activityFeedRepository.deleteAllEvents(userId);
+    }
+
+    @Override
     public void deleteEvent(String eventId) {
         activityFeedRepository.deleteEvent(eventId);
     }

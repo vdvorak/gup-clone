@@ -153,6 +153,16 @@
 
 </div>
 
+<div id="gup-validator-popup" class="gup-popup-overlay">
+    <div class="gup-popup">
+        <h2>Ошибка редактирования блога</h2>
+        <a class="popup-close" href="#">&times;</a>
+        <div class="popup-content">
+
+        </div>
+    </div>
+</div>
+
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
 </sec:authorize>
@@ -183,6 +193,8 @@
         oldImgId = '${blog.imageId}';
         imgId = oldImgId;
     }
+
+    var gupValidator = new window.GupValidator.Constructor('blog').init();
 
     if ('${blog.socLinks}'.length > 5) {
         socialLinks = JSON.parse('${blog.socLinks}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
@@ -238,6 +250,7 @@
                 cropper.replace('/api/rest/fileStorage/NEWS/file/read/id/' + imgId);
             }
         });
+        $("#photoInput").val("");
     });
 
     function dataURItoBlob(dataURI) {
@@ -267,7 +280,7 @@
             $('#blogCreationSocial').val(firstFacebookLink);
         } else {
             var newSocLink = addSocialLink(key)
-            newSocLink.children('input').val(socialLinks[key]);
+            newSocLink.children('input').val((key === 'SKYPE') ? socialLinks[key].substring(6, socialLinks[key].length - 5) : socialLinks[key]);
         }
     }
 
@@ -418,70 +431,49 @@
         }
     }
 
-    function validateBlog() {
-        $('.error-validation').removeClass('error-validation');
-
-        var arrValidate = [];
-
-        var title = $('#blogTitle').val();
-        var description = $('#blogCreationDescription').val();
-
-        if (title.length > 70 || title.length < 2)  arrValidate.push($('#blogTitle'));
-        if (description.length > 5000 || description.length < 50)  arrValidate.push($('#blogCreationDescription'));
-
-        for(var i = 0; i < arrValidate.length; i++) {
-            arrValidate[i].addClass('error-validation');
-        }
-        if(arrValidate.length) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     $(document).on('click', 'button.SendEdition', function (event) {
         event.preventDefault();
 
-        if (validateBlog()) {
+        blog.id = blogId;
+        blog.title = $('#blogTitle').val();
+        blog.description = $('#blogCreationDescription').val();
 
-            blog.id = blogId;
-            blog.title = $('#blogTitle').val();
-            blog.description = $('#blogCreationDescription').val();
+        blog.imageId = imgId;
 
-            blog.imageId = imgId;
-
-            if (oldImgId !== imgId) {
-                deleteImgFromDB(oldImgId);
-            }
-
-            var socArr = {};
-            $(".group-info").find('input').each(function (index) {
-                var socName = $(this).attr("name");
-                var url = $(this).val();
-                if (isMatchPatternSocialLinks(socName, url) && url.length) {
-                    socArr[socName] = url;
-                }
-            });
-
-            blog.socLinks = socArr;
-
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/newsService/blog/edit",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify(blog),
-                statusCode: {
-                    200: function (response) {
-                        window.location.href = '/blog/' + blogId;
-                    },
-                    400: function (response) {
-                    },
-                    404: function (response) {
-                    }
-                }
-            });
+        if (oldImgId !== imgId) {
+            deleteImgFromDB(oldImgId);
         }
+
+        var socArr = {};
+        $(".group-info").find('input').each(function (index) {
+            var socName = $(this).attr("name");
+            var url = $(this).val();
+            if (isMatchPatternSocialLinks(socName, url) && url.length) {
+                socArr[socName] = (socName === 'SKYPE') ? 'skype:' + url + '?call': url;
+            }
+        });
+
+        blog.socLinks = socArr;
+
+        gupValidator.validate(blog);
+        if(!gupValidator.isValid) return;
+
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/newsService/blog/edit",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(blog),
+            statusCode: {
+                200: function (response) {
+                    window.location.href = '/blog/' + blogId;
+                },
+                400: function (response) {
+                },
+                404: function (response) {
+                }
+            }
+        });
     });
     ///------------------------- Upload Blog -----------------------------------------------
 

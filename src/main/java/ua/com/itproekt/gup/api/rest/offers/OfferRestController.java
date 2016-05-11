@@ -16,6 +16,7 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.itproekt.gup.util.Translit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -91,6 +92,9 @@ public class OfferRestController {
         }
 
         offer.setAuthorId(userId);
+
+        offer.setSeoUrl(Translit.makeTransliteration(offer.getTitle()));
+
         offersService.create(offer);
 
         return new ResponseEntity<>(new CreatedObjResp(offer.getId()), HttpStatus.CREATED);

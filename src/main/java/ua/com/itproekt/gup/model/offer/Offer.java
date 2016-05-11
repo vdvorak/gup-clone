@@ -28,6 +28,7 @@ public class Offer {
     private Reservation reservation;
     private Integer views;
     private Rent rent;
+    private String seoUrl;
 
 
     private LinkedHashSet<String> categories;
@@ -92,6 +93,14 @@ public class Offer {
         return this;
     }
 
+    public String getSeoUrl() {
+        return seoUrl;
+    }
+
+    public Offer setSeoUrl(String seoUrl) {
+        this.seoUrl = seoUrl;
+        return this;
+    }
 
     public OfferUserContactInfo getUserInfo() {
         return userInfo;

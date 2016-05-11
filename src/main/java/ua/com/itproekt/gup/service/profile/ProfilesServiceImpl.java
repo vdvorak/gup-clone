@@ -38,7 +38,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileRepository.createProfile(newProfile);
         bankSession.createBalanceRecord(newProfile.getId(), 0);
 
-       profile.setId(newProfile.getId());
+        profile.setId(newProfile.getId());
     }
 
     private void setEmptyFieldsForNewUser(Profile newProfile) {
@@ -113,6 +113,17 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
+    public boolean isUserModerator(Profile user) {
+        Set<UserRole> userRoleSet = user.getUserRoles();
+        for (UserRole userRole : userRoleSet) {
+            if (userRole == UserRole.ROLE_MODERATOR) {
+                return  true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public void createProfileRating(String profileId, ProfileRating profileRating) {
         ProfileRating newProfileRating = new ProfileRating()
                 .setEarnPoints(profileRating.getEarnPoints())
@@ -154,6 +165,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.getMatchedNamesToFindWithId(term);
     }
 
+    @Override
+    public List<Profile> getMatchedCompanies(String term) {
+        return profileRepository.getMatchedCompanies(term);
+    }
 
     @Override
     public void addContactToContactList(String profileOwnerContactListId, String contactId) {

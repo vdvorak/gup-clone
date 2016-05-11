@@ -28,6 +28,15 @@ function appendProjectBlock(project, balance) {
     $('#projectsBlock').append(
         '<div class="feedItem">' +
             <!--Add class "vip" to vip-tialize project-->
+
+        '<div class="content">' +
+        '<a href="' + getProjectUrl(project.id) + '">' +
+        '<div class="publishDate">Опубликовано: ' + getReadableDate(project.createdDate) + '</div>' +
+        '<div class="title">' + project.title + '</div>' +
+        '</a>' +
+        '<div class="text">' + project.description + '</div>' +
+        '</div>' +
+
         '<div class="preview">' +
         '<a href="' + getProjectUrl(project.id) + '">' +
         '<img src="' + getUrlForProjectMainPic(project.imagesIds) + '" alt="project photo" />' +
@@ -39,13 +48,7 @@ function appendProjectBlock(project, balance) {
         '<div class="number">' + getProjectScore(project.totalScore, project.totalVoters) + '</div>' +
         '</div>' +
         '</div>' +
-        '<div class="content">' +
-        '<a href="' + getProjectUrl(project.id) + '">' +
-        '<div class="publishDate">Опубликовано: ' + getReadableDate(project.createdDate) + '</div>' +
-        '<div class="title">' + project.title + '</div>' +
-        '</a>' +
-        '<div class="text">' + project.description + '</div>' +
-        '</div>' +
+
         '<div class="bottomContent">' +
         '<button id="' + project.id + '" class="abutton invest make-invest">Инвестировать</button>' +
         '<div class="projectProgressBlock">' +

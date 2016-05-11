@@ -11,6 +11,8 @@ import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import javax.annotation.PostConstruct;
+import java.util.Collections;
+import java.util.List;
 
 @Repository
 public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
@@ -55,6 +57,18 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
     }
 
     @Override
+    public void setAllViewed(String userId) {
+        Query query = new Query()
+                .addCriteria(Criteria.where("targetUId").is(userId))
+                .addCriteria(Criteria.where("isViewed").ne(Boolean.TRUE));
+
+        Update update = new Update()
+                .set("isViewed", Boolean.TRUE);
+
+        mongoTemplate.updateMulti(query, update, Event.class);
+    }
+
+    @Override
     public EntityPage<Event> findEventsWihOptions(EventFilterOptions eventFO) {
         Query query = new Query();
 
@@ -79,13 +93,25 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
 
         query.skip(eventFO.getSkip());
         query.limit(eventFO.getLimit());
-        return new EntityPage<>(mongoTemplate.count(query, Event.class),
-                                mongoTemplate.find(query, Event.class));
+
+        long totalEntities = mongoTemplate.count(query, Event.class);
+        List<Event> entities = mongoTemplate.find(query, Event.class);
+
+        // reverse result to show newest events first
+        Collections.reverse(entities);
+
+        return new EntityPage<>(totalEntities, entities);
     }
 
     @Override
     public void deleteEvent(String eventId) {
         Query query = new Query(Criteria.where("id").is(eventId));
+        mongoTemplate.remove(query, Event.class);
+    }
+
+    @Override
+    public void deleteAllEvents(String userId) {
+        Query query = new Query(Criteria.where("targetUId").is(userId));
         mongoTemplate.remove(query, Event.class);
     }
 

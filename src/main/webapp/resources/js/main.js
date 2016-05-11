@@ -1,3 +1,5 @@
+
+
 function getUrlParam(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
         sURLVariables = sPageURL.split('&'),
@@ -14,6 +16,8 @@ function getUrlParam(sParam) {
 }
 
 $(document).ready(function () {
+
+    $( ".mail > .dropDownMail > .answer" ).draggable({ snap: "header" });
 
     if (typeof flag != 'undefined') {
         var selectedService = $('#selectedService');
@@ -94,7 +98,10 @@ $(document).ready(function () {
     });
 
     $('#services-menu-bxslider').bxSlider({
-        // pagerCustom: '#bx-pager'
+        controls: false,
+        pager: false,
+        auto: true,
+        autoHover: true
     });
 
     $('#tab-container-news').easytabs({
@@ -174,11 +181,15 @@ $(document).ready(function () {
     $(".ItemADS").hover(
         function () {
             $(this).find('img').addClass("hoverIMG");
+            $(this).find('.descriptionTitleLeft').stop(true, false);
+            $(this).find('.descriptionTitleRight').stop(true, false);
             $(this).find('.descriptionTitleLeft').fadeIn('fast');
             $(this).find('.descriptionTitleRight').fadeIn('fast');
         },
         function () {
             $(this).find('img').removeClass("hoverIMG");
+            $(this).find('.descriptionTitleLeft').stop(true, false);
+            $(this).find('.descriptionTitleRight').stop(true, false);
             $(this).find('.descriptionTitleLeft').fadeOut('fast');
             $(this).find('.descriptionTitleRight').fadeOut('fast');
         }

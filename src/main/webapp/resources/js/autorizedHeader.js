@@ -1,6 +1,5 @@
 var loggedInProfile = {};
 var isNeedDrawAllHeader = true;
-var dialogues;
 
 //  <js for header>
 
@@ -70,7 +69,6 @@ $(".mailMessage, .answer").mouseleave(function () {
             $('.mailMessage').slideDown('fast');
             $('.fadeScreen').hide('fast');
             $('#text-message-answer').val('');
-            getLoggedInProfileAjax();
         }
     }, 1000);
 });
@@ -92,10 +90,16 @@ $(".bell").click(function () {
         } else {
             $(".fadeScreen").hide()
         }
+        if ($('.bellMessage').is(':visible')) {
+            $('.dropDownBell > i').show();
+        } else {
+            $('.dropDownBell > i').hide();
+        }
     });
 });
 
-$(".dropDownBell").mouseleave(function () {
+
+$(".bell").mouseleave(function () {
     setTimeout(function () {
         if (!$('.dropDownBell:hover').length) {
             $('.selecionado').removeClass('selecionado');
@@ -109,7 +113,6 @@ $(".dropDownBell").click(function (event) {
     event.stopPropagation();
 });
 
-//
 
 $(".book").click(function () {
     $('.book div').slideToggle('fast', function () {
@@ -226,18 +229,11 @@ function getLoggedInProfileAjax() {
                     profileName = 'Безымянный';
                 }
 
-                if (profileName !=''){
+                if (profileName != '') {
                     $('#headerProfileName').text(profileName);
-                }else{
+                } else {
                     $('#headerProfileName').text('Безимянная фирма');
                 }
-
-
-                //if (profile.username) {
-                //    $('#headerProfileName').text(profile.username);
-                //} else {
-                //    $('#headerProfileName').text("Безымянный");
-                //}
 
                 fillNotificationListBlock();
                 fillContactListBlock(profile.contactList);
@@ -296,7 +292,6 @@ function fillNotificationListBlock() {
 
     function getNotification(event) {
         notification.targetText = '';
-
         switch (event.type) {
             case 'BLOG_SUBSCRIPTION':
                 notification.type = 'У вашего блога новый подписчик';
@@ -308,9 +303,13 @@ function fillNotificationListBlock() {
                 break;
             case 'BLOG_POST_DISLIKE':
                 notification.type = 'Пользователю не нравится ваша запись';
+                notification.contentStoreId = '/blog-post/view/id/' + event.contentStoreId;
+                notification.targetText = 'Посмотреть новость';
                 break;
-            case 'BLOG_POST_COMMENTE':
-                notification.type = 'Новый комментарий';
+            case 'BLOG_POST_COMMENT':
+                notification.type = 'Новый комментарий к новости';
+                notification.contentStoreId = '/blog-post/view/id/' + event.contentStoreId;
+                notification.targetText = 'Посмотреть новость';
                 break;
             case 'BLOG_POST_COMMENT_REPLY':
                 notification.type = 'На ваш комментарий ответили';
@@ -320,6 +319,8 @@ function fillNotificationListBlock() {
                 break;
             case 'PROJECT_COMMENT':
                 notification.type = 'Новый комментарий к проекту';
+                notification.contentStoreId = '/project?id=' + event.contentStoreId;
+                notification.targetText = 'Посмотреть проект';
                 break;
             case 'PROJECT_COMMENT_REPLY':
                 notification.type = 'На ваш комментарий ответили';
@@ -387,9 +388,11 @@ function fillNotificationListBlock() {
                     '<a href="' + notification.contentStoreId + '">' + notification.targetText + '</a> ' +
                     '</p>' +
                     '</div>');
+
                 });
             },
             204: function () {
+                $('#delete-all-events').remove();
                 $('.dropDownBell').append(
                     '<div class="bellMessage">' +
                     '<p>Нет новых уведомлений</p>' +
@@ -398,6 +401,21 @@ function fillNotificationListBlock() {
         }
     });
 }
+
+$('#read-all-events').on('click', function () {
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/activityFeed/event/set/viewed/all",
+        statusCode: {
+            200: function (response) {
+                $(".dropDownBell").empty();
+            },
+            204: function () {
+                alert("Внутренняя ошибка сервера")
+            }
+        }
+    });
+});
 
 function getImgSrcForNotification(imgId) {
     if (imgId) {
@@ -409,6 +427,7 @@ function getImgSrcForNotification(imgId) {
 
 function fillContactListBlock(contactList) {
     if (contactList.length > 0) {
+        $('.defaultP').remove();
         contactList.forEach(function (contactId) {
             $.ajax({
                 type: "POST",
@@ -426,7 +445,7 @@ function fillContactListBlock(contactList) {
             });
         });
     } else {
-        $('#dropDownBook').append(
+        $('.dropDownBook').append(
             '<div class="friend">' +
             '<p>Вы еще никого не добавили к себе в контакты.</p>' +
             '<a href="/profile/list">Найти знакомых</a>' +
@@ -464,7 +483,7 @@ $(".mail > img").click(function () {
 });
 
 
-$(document).on('click', '.mailMessage', function (event) {
+$(document).on('click', '.mailMessage', function () {
     if ($(this).attr('id')) {
         var dialogueId = $(this).attr('id');
         dialogueMakeRead(dialogueId);
@@ -483,8 +502,6 @@ function dialogueMakeRead(id) {
         contentType: "application/json; charset=utf-8",
         url: 'api/rest/dialogueService/dialogue/updateRead/' + id,
         success: function (response) {
-            $('#unreadMessagesNum').hide();
-            /*alert("Удалили");*/
         }
     });
 }
@@ -531,129 +548,3 @@ $(window).keypress(function (e) {
         $(".dropDownMail").slideUp("fast");
     }
 });
-
-//additional function by VS
-$(document).ready(function() {
-    $.ajax({
-        type: "GET",
-        url: '/init_dialogues/all' ,
-        success: function (dialogues) {
-            initDialogues(dialogues);
-        }
-    });
-})
-
-
-//$("#notificationBellImg").click(function () {
-//    $("#notificationContainer").empty();
-//
-//    var eventFO = {};
-//    eventFO.skip = 0;
-//    eventFO.limit = 20;
-//
-//    $.ajax({
-//        type: "POST",
-//        contentType: "application/json; charset=utf-8",
-//        url: "/api/rest/activityFeed/event/read/all",
-//        data: JSON.stringify(eventFO),
-//        success: function (response) {
-//            $(document).ready(function () {
-//                response.entities.forEach(function(event) {
-//                    $.ajax({
-//                        type: "POST",
-//                        url: "/api/rest/profilesService/profile/read/id/" + event.creatorEventId,
-//                        success: function (profile) {
-//                            var imgLinkTag = '<a href="/profile?id='+ profile.id +'">';
-//                            if (profile.contact != null && profile.contact.imgId != null && profile.imgId != '') {
-//                                imgLinkTag +=  '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '" class="notifimage"/>';
-//                            } else {
-//                                imgLinkTag +=  '<img src="/resources/images/no_photo.jpg" class="notifimage"/>';
-//                            }
-//                            imgLinkTag += '</a>';
-//
-//                            $('#notificationContainer').append(
-//                                '<li class=" notif unread">' +
-//                                '<a href="#">' +
-//                                '<div class="imageblock">' +
-//                                imgLinkTag +
-//                                '</div>' +
-//                                '<div class="messageblock">' +
-//                                '<div class="messageinfo">' +
-//                                '<i class="icon-flag"></i>' + event.createdDate.hour + ':' + event.createdDate.minute + '    ' +
-//                                event.createdDate.dayOfMonth + '/' + event.createdDate.monthValue + '/' + event.createdDate.year +
-//                                '</div>' +
-//                                '<div class="message">' +
-//                                '<a href="/profile/id/'+ profile.id +'">' + profile.username + '</a>' +
-//                                '<p>' + event.type + '</p>' +
-//                                '</div>' +
-//                                '</div>' +
-//                                '</a>' +
-//                                '</li>');
-//                        }});
-//
-//
-//                });
-//
-//            });
-//        }
-//    });
-//
-//    $(this).toggleClass("open");
-//    $("#notificationMenu").toggleClass("open");
-//});
-//
-//$("#contactListImg").click(function () {
-//    $("#contactListContainer").empty();
-//
-//    if (loggedInProfile.contactList != null && loggedInProfile.contactList.length > 0) {
-//        loggedInProfile.contactList.forEach(function(contactId){
-//            $.ajax({
-//                type: "POST",
-//                url: "/api/rest/profilesService/profile/read/id/" + contactId,
-//                success: function (profile) {
-//                    var imgLinkTag = '<a href="/profile/id/'+ profile.id +'">';
-//                    if (profile.contact != null && profile.imgId != null && profile.imgId != '') {
-//                        imgLinkTag +=  '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + profile.imgId + '" class="notifimage"/>';
-//                    } else {
-//                        imgLinkTag +=  '<img src="/resources/images/no_photo.jpg" class="notifimage"/>';
-//                    }
-//                    imgLinkTag += '</a>';
-//
-//                    $('#contactListContainer').append(
-//                        '<li class="notif unread">' +
-//                        '<a href="#">' +
-//                        '<div class="imageblock">' +
-//                        imgLinkTag +
-//                        '</div>' +
-//                        '<div class="messageblock">' +
-//                        '<div class="message">' +
-//                        '<a href="/profile/id/'+ contactId +'">' + profile.username + '</a>' +
-//                        '</div>' +
-//                        '<div class="messageaction">' +
-//                        '<button onclick="createDialog('+ '\'' + contactId +'\'' +')">Написать сообщение</button>' +
-//                        '</div>' +
-//                        '</div>' +
-//                        '</a>' +
-//                        '</li>');
-//                }});
-//        });
-//    } else {
-//        $('#contactListContainer').append(
-//            '<li class="notif unread">' +
-//            '<div class="messageblock">' +
-//            '<div class="message">' +
-//            '<p>У вас нет еще контактов.</p>' +
-//            '<a href="/profile/list">Добавить контакты</a>' +
-//            '</div>' +
-//            '</div>' +
-//            '</li>');
-//    }
-//
-//    $(this).toggleClass("open");
-//    $("#contactListMenu").toggleClass("open");
-//});
-
-//function createDialog(uId) {
-//    window.location.href = "/dialogue/create/with/" + uId;
-//}
-

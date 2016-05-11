@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="/resources/css/cropper.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
     <link rel="stylesheet" href="/resources/css/gup-custom-modal-window.css">
     <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 
@@ -49,11 +50,9 @@
 
         <form id="uploadProfilePhotoForm">
             <input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg"
-                   style="display:none">
+                   style="visibility: hidden;width:0px;height:0px;">
         </form>
-        <div class="moreInformation-img" id="addProfileImg">
-            <a><img src="resources/images/pluse.png" alt="plus"></a>
-        </div>
+        <div class="moreInformation-img" id="addProfileImg"></div>
         <div id="moreInformation-form">
             <label class="label-form-info" for="select-type">Тип аккаунта</label>
 
@@ -82,16 +81,17 @@
 
             <div id="scopeOfActivityBlock">
                 <label class="label-form-info" for="select-sphere">Cфера деятельности</label>
-
-                <div id="selectBox-info-sphere">
-                    <select id="select-sphere" class="form-control">
-                        <option>Выберете сферу</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
+                <select id="select-sphere" class="chosen" multiple data-placeholder="Выберите отрасль" style="width: 553px;">
+                </select>
+                <%--<div id="selectBox-info-sphere">--%>
+                    <%--<select id="select-sphere" class="form-control">--%>
+                        <%--<option>Выберете сферу</option>--%>
+                        <%--<option>2</option>--%>
+                        <%--<option>3</option>--%>
+                        <%--<option>4</option>--%>
+                        <%--<option>5</option>--%>
+                    <%--</select>--%>
+                <%--</div>--%>
             </div>
 
             <div id="companyAddressBlock">

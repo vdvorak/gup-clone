@@ -8,6 +8,8 @@ var imagesIdsResult = {};
 var picArrDel = [];
 var picArrNew = [];
 
+var gupValidator = new window.GupValidator.Constructor('project').init();
+
 // Setup the dnd listeners.
 var dropZone = document.getElementById('drop_zone');
 dropZone.addEventListener('dragover', handleDragOver, false);
@@ -55,10 +57,10 @@ function handleDragOver(evt) {
     evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 }
 
-loadAndAppendProjectInfo(projectId);
+var xhrLoadProject = loadAndAppendProjectInfo(projectId);
 
 function loadAndAppendProjectInfo(projectId) {
-    $.ajax({
+    return $.ajax({
         type: "GET",
         url: "/api/rest/projectsAndInvestmentsService/project/id/" + projectId + "/read",
         statusCode: {
@@ -186,6 +188,10 @@ function deleteImg() {
 
 $('#editProjectBtn').on('click', function () {
     initializeProjectEntityForUpdate();
+
+    gupValidator.validate(updatedProject);
+    if(!gupValidator.isValid) return;
+
     $.ajax({
         type: "POST",
         url: "/api/rest/projectsAndInvestmentsService/project/edit",
@@ -277,10 +283,10 @@ function initializeProjectEntityForUpdate() {
     $('#categoriesOfIndustry').find('option:selected').each(function() {
         updatedProject.categoriesOfIndustry.push($(this).val());
     });
-    alert(JSON.stringify(updatedProject.categoriesOfIndustry));
+
     updatedProject.id = projectId;
     updatedProject.title = $('#main-title-info').val();
-    updatedProject.type = $('input:radio[name="type"]:checked').val();
+    updatedProject.type = $('input:radio[name="type"]:checked').val() || '';
     updatedProject.description = $('#description').val();
     updatedProject.imagesIds = imagesIdsResult;
     updatedProject.amountRequested = $('#sum').val();
@@ -309,3 +315,7 @@ tinymce.init({
         '//www.tinymce.com/css/codepen.min.css'
     ]
 });
+
+$.when(xhrLoadProject).done(function(res) {
+    tinymce.get('description').setContent(res.description, {format : 'raw'});
+})
