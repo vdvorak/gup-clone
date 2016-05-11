@@ -12,7 +12,6 @@ $(document).ready(function () {
         var url = '/resources/images/no_photo.jpg';
         var imgId = '';
         if(arr) {
-            console.log(arr);
             for (var i = 0; i < arr.length; i++) {
                 if (arr[i].fileType === 'MAINIMAGE') {
                     imgId = arr[i].id;
@@ -25,7 +24,7 @@ $(document).ready(function () {
     }
 
     function localDateTime(long) {
-        long = new Date(parseInt(long));
+        long = new Date(parseInt(long)) * 1000;
         long = moment(long).locale("ru").format('LLL');
         return long;
     }

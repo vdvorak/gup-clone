@@ -38,7 +38,7 @@ function sliderImg(arr) {
 }
 
 function localDateTime(long) {
-    long = (new Date(parseInt(long)));
+    long = new Date(parseInt(long)) * 1000;
     long = moment(long).locale("ru").format('LLL');
     return long;
 }
