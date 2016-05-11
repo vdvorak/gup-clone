@@ -627,6 +627,7 @@
     var dateEnd = $('#tender-datepicker2').datepicker( 'getDate' );
     tender.begin = (dateBegin) ? dateBegin.getTime() / 1000 : null;
     tender.end = (dateEnd) ? dateEnd.setHours(23,59,59,999) / 1000 : null;
+    <%--tender.publishDate = '${tender.publishDate}';--%>
     tender.type = $('.input-tenderRadio:checked').attr("data-type");
     tender.expectedPrice = $('#ExpectedValue').val();
     tender.hidePropose =  $('#HideBidders').prop('checked');
