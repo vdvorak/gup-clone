@@ -70,7 +70,7 @@ $.ajax({
         if (!data.hideContact) {
             var xhr = findUser(data.authorId);
             $.when(xhr).done(function (resp) {
-                $(".tender-author-contact a").last().text(resp.username).attr('href', '/profile?id=' + data.authorId);
+                $(".tender-author-contact a").last().text((resp.username === null) ? 'Безымянный' : resp.username).attr('href', '/profile?id=' + data.authorId);
             });
         } else {
             $(".tender-author-contact a").replaceWith('<span>данные скрыты автором</span>')
