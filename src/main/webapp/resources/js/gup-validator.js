@@ -109,11 +109,11 @@
 
     GupValidator.prototype.checkMatchRules = function (prop, rules, msg) {
         for(var key in rules) {
-            if((key === 'maxLength' && prop.length > rules[key])
-            || (key === 'minLength' && prop.length < rules[key])
-            || (key === 'min' && prop < rules[key])
-            || (key === 'max' && prop > rules[key])
-            || (key === 'regExp' && !rules[key].test(prop)))  {
+            if((key === 'maxLength' && (prop === undefined || prop === null || prop.length > rules[key]))
+            || (key === 'minLength' && (prop === undefined || prop === null || prop.length < rules[key]))
+            || (key === 'min' && (prop === undefined || prop === null || prop < rules[key]))
+            || (key === 'max' && (prop === undefined || prop === null || prop > rules[key]))
+            || (key === 'regExp' && (prop === undefined || prop === null || !rules[key].test(prop))))  {
                 this.messages.push(msg);
                 break;
             }

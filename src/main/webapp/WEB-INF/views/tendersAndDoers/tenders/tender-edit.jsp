@@ -641,8 +641,7 @@
         })
       }
     }
-    var naceIds = $('#selectKved').val();
-    if(naceIds) tender.naceIds = naceIds;
+    tender.naceIds = $('#selectKved').val();
 
     tender.address = {};
     //tender.address.googleMapKey = placeKey;
