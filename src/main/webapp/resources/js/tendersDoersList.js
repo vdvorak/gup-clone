@@ -47,7 +47,9 @@ $(document).ready(function () {
     }
 
     function draw(data) {
-        for (var i in data) {
+        for (var i = 0; i < data.length; i++) {
+            if(data[i].winnerId !== null || data[i].end > Date.now() / 1000) continue;
+
             var url = '/tender/' + data[i].id;
             data[i].body = data[i].body.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', ""); // Clear description from HTML tags
             $('.build-item-wrap').last().attr('style', 'display:;');
