@@ -312,6 +312,11 @@ public class DialogueRestController {
     @SendTo("/topic/socket-response/{profileId}")
     public SocketResponse subscriptProfile(@DestinationVariable String profileId, SocketMessage socketmessage, Principal p) throws Exception {
         Dialogue dialogue = dialogueService.findById(socketmessage.getMessage(), p.getName());
+        for(int j =0; j < dialogue.getMembers().size(); j++){
+            Profile profile = profileService.findById(dialogue.getMembers().get(j).getId());
+            dialogue.getMembers().get(j).setName(profile.getUsername());
+            dialogue.getMembers().get(j).setUserPicId(profile.getImgId());
+        }
         return new SocketResponse(dialogue);
     }
 }

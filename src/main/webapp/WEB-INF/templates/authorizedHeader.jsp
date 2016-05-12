@@ -97,12 +97,12 @@
 </div>
 
 <div id="adialog"></div>
-<div id="dialogs"></div>
-<button onclick="ClearCookie();">ClearCookie</button>
+<%--<div id="dialogs"></div>
+<button onclick="ClearCookie();">ClearCookie</button>--%>
 
 <script id="adialogTemplate" type="text/html">
     <div class="dialog">
-        <div class="title">Title</div>
+        <div class="title" style="height: 32px;"></div>
         <div class="close">x</div>
         <div class="messages" style="overflow-y: scroll; height: 235px;"></div>
         <div>

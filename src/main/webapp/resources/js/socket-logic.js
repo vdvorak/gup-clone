@@ -33,7 +33,7 @@ function subscribeToAllDialogues(){
             subscribeToOneDialogue(dialogue);
         });
 
-        stompClient.subscribe('/topic/socket-response/' + loggedInProfile.id, function(response){
+        stompClient.subscribe('/topic/socket-response/' + loggedInProfile.id, function(response){ // letting subscribing user from the opposite side
             var dialog = JSON.parse(response.body).dialogue;
             subscribeToOneDialogue(dialog);
         })
@@ -45,9 +45,15 @@ function subscribeToAllDialogues(){
 
 function subscribeToOneDialogue (dialogue){
     if(subscribedTo.indexOf(dialogue.id) === -1){
-        subscribedTo.push(dialogue.id);
+        for(var k = 0; k < dialogue.members.length; k++){
+            if(dialogue.members[k].id === loggedInProfile.id){
+                dialogue.members[k].name = loggedInProfile.username;
+                dialogue.members[k].userPicId = loggedInProfile.imgId;
+                break;
+            }
+        }
         stompClient.subscribe('/topic/socket-response/' + dialogue.id, function(response){
-            openDialog(dialogue.id);
+            openDialog(dialogue);
             var privateMessage = JSON.parse(response.body).content;
             var senderName = "";
             for(var i = 0; i < dialogue.members.length; i++){
@@ -56,17 +62,25 @@ function subscribeToOneDialogue (dialogue){
                     break;
                 }
             }
+            addMessage(dialogue.id, privateMessage);
 
-            if(privateMessage.authorId === loggedInProfile.id){
-                $("#" + dialogue.id + "_messages").append(
-                    "<div class='message-to'>" + "<div class='message'>" + privateMessage.message + "</div></div>"
-                )
-            }else{
-                $("#" + dialogue.id + "_messages").append(
-                    "<div class='message-from'>" + "<div class='message'>" + privateMessage.message + "</div></div>"
-                )
-            }
+            var messagesField =  $("#" + dialogue.id + "_messages");
+            var height = messagesField[0].scrollHeight;
+            messagesField.scrollTop(height);
         });
+        subscribedTo.push(dialogue.id);
+    }
+}
+
+function addMessage (dialogueId, message){
+    if(message.authorId === loggedInProfile.id){
+        $("#" + dialogueId + "_messages").append(
+            "<div class='message-to'>" + "<div class='message'>" + message.message + "</div></div>"
+        )
+    }else{
+        $("#" + dialogueId + "_messages").append(
+            "<div class='message-from'>" + "<div class='message'>" + message.message + "</div></div>"
+        )
     }
 }
 
@@ -122,16 +136,41 @@ function keyCodeAnalyse(event){
      $('#newMsg').val("");*/
 }
 
+function showRecentMessages (dialogue){
+    var messages = dialogue.messages;
+    for(var i = 0; i < messages.length; i++){
+        addMessage(dialogue.id, messages[i]);
+    }
+
+    var messagesField =  $("#" + dialogue.id + "_messages");
+    var height = messagesField[0].scrollHeight;
+    messagesField.scrollTop(height);
+}
+
+function setTitle(dialogue){
+    var title = "";
+    var members = dialogue.members;
+    for(var i = 0; i < members.length; i++){
+        if(members[i].id !== loggedInProfile.id){
+            title += members[i].name;
+            if(i > 0 && i < members.length -1){
+                title += ', ';
+            }
+        }
+    }
+    $('#' + dialogue.id + '_title').text(title);
+}
+
 //additional function by VS
 $(document).on('click', '#openDialog', function () {
     $.ajax({
         type: "GET",
         url: 'dialogue/init/' + profileId ,
         success: function (dialogue) {
-            window.dialogue = dialogue;
-            subscribeProfile(dialogue.id, profileId);
-            openDialog(dialogue.id);
-            subscribeToOneDialogue(dialogue);
+            /*window.dialogue = dialogue;*/
+            subscribeProfile(dialogue.id, profileId);   // subscribing receiver
+            openDialog(dialogue);
+            subscribeToOneDialogue(dialogue);           // subscribing sender
         }
     });
 })

@@ -1,18 +1,21 @@
 package ua.com.itproekt.gup.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.dao.dialogue.DialogueRepository;
+import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.DialogueFilterOption;
 import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
@@ -83,10 +86,18 @@ public class DialogueController {
     List<Dialogue> getAllDialogues2(){
         Member member = new Member();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName(); //get logged in username
+        String email = auth.getName();          //get logged in username
         Profile user = profileService.findProfileByEmail(email);
         member.setId(user.getId());
         List<Dialogue> responseDialogues = dialogueRepository.findByMembersIn(member);
+        for(int i=0; i < responseDialogues.size(); i++){
+            List<Member> members = responseDialogues.get(i).getMembers();
+            for(int j =0; j < members.size(); j++){
+                Profile profile = profileService.findById(members.get(j).getId());
+                responseDialogues.get(i).getMembers().get(j).setName(profile.getUsername());
+                responseDialogues.get(i).getMembers().get(j).setUserPicId(profile.getImgId());
+            }
+        }
         return responseDialogues;
     }
 

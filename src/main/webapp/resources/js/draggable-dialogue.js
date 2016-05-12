@@ -109,7 +109,7 @@ ADialog.prototype.applyData = function (data) {
     this.updateView()
 }
 ADialog.prototype.updateView = function () {
-    this.handle.find('.title').text(this.id)
+    this.handle.find('.title').attr('id', this.id + '_title')
     this.handle.find('.messages').attr('id', this.id + "_messages")
     this.handle.find('textarea').attr('dialogueId', this.id)
     this.handle.find('textarea').attr('id', this.id + "_newMsg")
@@ -208,15 +208,17 @@ ADialog.update = function(){
     })
 }
 
-function openDialog(dialogId){
+function openDialog(dialogue){
     if (ADialog.dialogs.some(function(e){
-            return e.id === dialogId
+            return e.id === dialogue.id
         })) return;
     var d = new ADialog({
-        id: dialogId
+        id: dialogue.id
     })
     d.select()
     ADialog.save()
     ADialog.update()
+    setTitle(dialogue)
+    showRecentMessages(dialogue)
 }
 ADialog.init()

@@ -388,7 +388,6 @@ function fillNotificationListBlock() {
                     '<a href="' + notification.contentStoreId + '">' + notification.targetText + '</a> ' +
                     '</p>' +
                     '</div>');
-
                 });
             },
             204: function () {
@@ -540,6 +539,15 @@ $(document).ready(function() {
         type: "GET",
         url: '/init_dialogues/all' ,
         success: function (dialogues) {
+            for(var i =0; i < ADialog.dialogs.length; i++){
+                for(var j = 0; j < dialogues.length; j++){
+                    if(ADialog.dialogs[i].id === dialogues[j].id){
+                        setTitle(dialogues[j]);
+                        showRecentMessages(dialogues[j]);
+                        break;
+                    }
+                }
+            }
             initDialogues(dialogues);
         }
     });
