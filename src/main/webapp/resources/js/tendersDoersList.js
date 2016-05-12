@@ -130,8 +130,10 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             url: "/api/rest/doerService/doer/read/all/",
             data: JSON.stringify(filterOptions),
-            success: function (response) {
-                draw(response.entities);
+            statusCode: {
+                200: function (response) {
+                    draw(response.entities);
+                }
             }
         });
     }
