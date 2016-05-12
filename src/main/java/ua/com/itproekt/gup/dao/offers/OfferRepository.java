@@ -11,6 +11,8 @@ public interface OfferRepository {
 
     Offer findById(String offerId);
 
+    Offer findBySeoKey(String seoKey);
+
     Offer findAndUpdate(Offer offer);
 
     int delete(String offerId);

@@ -67,6 +67,11 @@ public class OffersServiceImpl implements OffersService {
     }
 
     @Override
+    public Offer findBySeoKey(String seoKey) {
+        return offerRepository.findBySeoKey(seoKey);
+    }
+
+    @Override
     public Offer findOfferAndIncViews(String offerId) {
         offerRepository.incViewsAtOne(offerId);
         return offerRepository.findById(offerId);

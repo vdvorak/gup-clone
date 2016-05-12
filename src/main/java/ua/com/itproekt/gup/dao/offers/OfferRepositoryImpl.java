@@ -45,8 +45,15 @@ public class OfferRepositoryImpl implements OfferRepository {
     }
 
     @Override
+    public Offer findBySeoKey(String seoKey) {
+        Query query = new Query(Criteria.where("seoKey").is(seoKey));
+        return mongoTemplate.findOne(query, Offer.class);
+    }
+
+
+    @Override
     public Offer findAndUpdate(Offer offer) {
-            return MongoTemplateOperations.updateFieldsAndReturnUpdatedObj(offer);
+        return MongoTemplateOperations.updateFieldsAndReturnUpdatedObj(offer);
     }
 
     @Override
@@ -153,9 +160,9 @@ public class OfferRepositoryImpl implements OfferRepository {
 
         if (offerFO.getFromPrice() != null && offerFO.getToPrice() != null) {
             query.addCriteria(Criteria.where("price").gte(offerFO.getFromPrice()).lte(offerFO.getToPrice()));
-        } else if(offerFO.getFromPrice() != null) {
+        } else if (offerFO.getFromPrice() != null) {
             query.addCriteria(Criteria.where("price").gte(offerFO.getFromPrice()));
-        } else if(offerFO.getToPrice() != null) {
+        } else if (offerFO.getToPrice() != null) {
             query.addCriteria(Criteria.where("price").lte(offerFO.getToPrice()));
         }
 
@@ -175,7 +182,7 @@ public class OfferRepositoryImpl implements OfferRepository {
 //                MongoTemplateOperations.explainQuery("offers", query));
 
         return new EntityPage<>(mongoTemplate.count(query, Offer.class),
-                                mongoTemplate.find(query, Offer.class));
+                mongoTemplate.find(query, Offer.class));
     }
 
     @Override

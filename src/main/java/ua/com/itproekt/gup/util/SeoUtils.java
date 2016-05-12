@@ -3,7 +3,7 @@ package ua.com.itproekt.gup.util;
 
 import ua.com.itproekt.gup.model.offer.Offer;
 
-public class SeoMaker {
+public class SeoUtils {
 
 
     //ToDo Make it generic or with interface for all models
@@ -20,5 +20,9 @@ public class SeoMaker {
         offer.setSeoUrl(seoUrl);
 
         return offer;
+    }
+
+    public static String getKey(String url) {
+        return url.substring(url.lastIndexOf('-') + 1);
     }
 }

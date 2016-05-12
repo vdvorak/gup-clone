@@ -11,6 +11,8 @@ public interface OffersService {
 
     Offer findById(String offerId);
 
+    Offer findBySeoKey(String seoKey);
+
     Offer findOfferAndIncViews(String offerId);
 
     void delete(String id);

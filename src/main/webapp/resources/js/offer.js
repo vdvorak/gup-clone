@@ -8,7 +8,6 @@ if (typeof loggedInProfile == 'undefined') {
 }
 
 
-//    alert("Перед ажаксом: " + offerId);
 $.ajax({
     type: "POST",
     contentType: "application/json; charset=utf-8",
@@ -16,7 +15,6 @@ $.ajax({
     async: false,
     success: function (response) {
         offer = response;
-        //alert("Первый" + JSON.stringify(offer))
     }
 });
 

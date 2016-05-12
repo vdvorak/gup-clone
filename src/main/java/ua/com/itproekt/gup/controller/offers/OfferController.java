@@ -8,31 +8,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import ua.com.itproekt.gup.dao.offers.OfferRepository;
-import ua.com.itproekt.gup.model.offer.Address;
 import ua.com.itproekt.gup.model.offer.Offer;
-import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.util.SeoUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.net.URLDecoder;
 
-/**
- * Created by Optical Illusion on 06.11.2015.
- */
 @Controller
 public class OfferController {
     @Autowired
     OffersService offersService;
     @Autowired
     ProfilesService profilesService;
-    @Autowired
-    private OfferRepository offerRepository;
 
 
     //----------------------------------- all offers  ------
@@ -45,12 +34,28 @@ public class OfferController {
 
     //----------------------------------- one certain offer  ------
     @RequestMapping(value = "/offer/{id}", method = RequestMethod.GET)
-    public String offerNew(Model model, @PathVariable("id") String id) {
+    public String getOneOffer(Model model, @PathVariable("id") String id) {
         String flag = "offer";
         model.addAttribute("flag", flag);
         model.addAttribute("offerId", id);
         return "offer/offer";
     }
+
+
+    //----------------------------------- one certain offer with SEO key  ------
+    @RequestMapping(value = "/obyavlenie/{seoUrl}", method = RequestMethod.GET)
+    public String getOneOfferBySeoKey(Model model, @PathVariable("seoUrl") String seoUrl) {
+
+        String offerSeoKey = SeoUtils.getKey(seoUrl);
+
+        Offer offer = offersService.findBySeoKey(offerSeoKey);
+
+        String flag = "offer";
+        model.addAttribute("flag", flag);
+        model.addAttribute("offerId", offer.getId());
+        return "offer/offer";
+    }
+
 
     //----------------------------------- create offer  ------
 
