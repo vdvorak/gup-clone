@@ -2,6 +2,8 @@ var investorPostId = getUrlParam('id');
 var updatedInvestorPost = {};
 var loadedInvestorPost = {};
 
+var gupValidator = new window.GupValidator.Constructor('investorPost').init();
+
 loadAndAppendInvestorPostInfo(investorPostId);
 
 function loadAndAppendInvestorPostInfo(investorPostId) {
@@ -25,6 +27,10 @@ function appendInvestorPostInfo(loadedInvestorPost) {
 
 $('#updateInvestorPost').on('click', function () {
     initializeInvestorPostEntityForUpdate();
+
+    gupValidator.validate(updatedInvestorPost);
+    if(!gupValidator.isValid) return;
+
     $.ajax({
         type: "POST",
         url: "/api/rest/projectsAndInvestmentsService/investorPost/edit",
@@ -42,6 +48,6 @@ $('#updateInvestorPost').on('click', function () {
 function initializeInvestorPostEntityForUpdate() {
     updatedInvestorPost.id = investorPostId;
     updatedInvestorPost.description = $('#description').val();
-    updatedInvestorPost.minInvestAmount = $('#sum1').val();
-    updatedInvestorPost.maxInvestAmount=$('#sum2').val();
+    updatedInvestorPost.minInvestAmount = +$('#sum1').val();
+    updatedInvestorPost.maxInvestAmount = +$('#sum2').val();
 }

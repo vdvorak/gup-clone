@@ -91,6 +91,21 @@
                 amountRequested: 'Проверьте заполнение поля Нужная сумма. Сумма не должна превышать значение 2 147 483 648 грн.',
                 type: 'Выберите тип проекта.'
             }
+        },
+        {
+            name: 'investorPost',
+            rules: {
+                description: {minLength: 50, maxLength: 5000},
+                categoriesOfIndustry: {minLength: 1},
+                minInvestAmount: {min: 1, max: 2147483648},
+                maxInvestAmount: {min: 1, max: 2147483648}
+            },
+            msg: {
+                description: 'Проверьте заполнение поля Описание. Длина описания должна быть не менее 50 и не более 5000 символов.',
+                categoriesOfIndustry: 'Проверьте заполнение поля Отрасли. Необходимо выбрать хотя бы 1 отрасль.',
+                minInvestAmount: 'Заполните поле Минимальная сумма. Сумма не должна превышать значение 2 147 483 648 грн.',
+                maxInvestAmount: 'Заполните поле  Максимальная сумма. Сумма не должна превышать значение 2 147 483 648 грн.'
+            }
         }
     ];
 
@@ -128,14 +143,30 @@
         var rules = this.strategy.rules,
             msg = this.strategy.msg;
 
-        this.validateRecursively(obj, rules, msg);
-        if(this.strategy.name === 'offer') this.validateOfferAdditionalFields();
+        this.validateRecursively(obj, rules, msg)
+            .validateAdditionalRules(obj);
 
         if(this.messages.length) {
             this.isValid = false;
             this.drawMessages();
         }
 
+        return this;
+    }
+
+    GupValidator.prototype.validateAdditionalRules = function(obj) {
+        var strategy = this.strategy.name;
+        if(strategy === 'offer') {
+            this.validateOfferAdditionalFields();
+        } else if(strategy === 'investorPost') {
+            this.validateInvestorPostAdditionalFields(obj);
+        }
+
+        return this;
+    }
+
+    GupValidator.prototype.validateInvestorPostAdditionalFields = function(obj) {
+        if (obj.minInvestAmount > obj.maxInvestAmount) this.messages.push('Максимальная сумма должна быть больше минимальной.');
         return this;
     }
 
@@ -179,6 +210,7 @@
                 }
             }
         }
+        return this;
     }
 
     GupValidator.prototype.reconstruct = function () {
