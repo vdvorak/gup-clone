@@ -100,7 +100,7 @@ public class OfferRestController {
 
         String titleInTransliteration = Translit.makeTransliteration(offer.getTitle());
 
-        long longValueOfSeoKey = seoSequenceService.getNextSequenceId("seosequence");
+        long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
 
         String stringValueOfSeoKey = String.valueOf(longValueOfSeoKey);
         offer.setSeoKey(stringValueOfSeoKey);

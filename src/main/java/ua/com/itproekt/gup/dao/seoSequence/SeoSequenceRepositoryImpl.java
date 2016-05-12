@@ -32,7 +32,7 @@ public class SeoSequenceRepositoryImpl implements SeoSequenceRepository {
         SeoSequence seoSequence = mongoTemplate.findAndModify(query, update, options, SeoSequence.class);
 
         if (seoSequence == null) {
-            throw new SequenceException("Unable to get sequence id for key : " + key);
+            throw new SequenceException("Unable to get SEO sequence id for key : " + key);
         }
 
         return seoSequence.getSeoKey();
