@@ -58,6 +58,7 @@
                     <div class="tender-veiws">Просмотров: <span></span></div>
                     <div class="tender-proposal-count">Предложений: <span></span></div>
                     <div class="tender-author-contact">Автор тендера: <a href=""></a></div>
+                    <div class="tender-status">Статус: </div>
                 </div>
                 <div class="clearfix"></div>
                 <div class="tenderButtons">
@@ -66,7 +67,7 @@
                             <div class="time date-finish"></div>
                         </div>
                         <button id="wantToComment" type="button" class="abutton blue"
-                                title="Для участия в тендере необходимо оставить предлжение.">Участвовать
+                                title="Для участия в тендере необходимо оставить предложение.">Участвовать
                         </button>
                     </div>
                 </div>

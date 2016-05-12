@@ -11,7 +11,7 @@ $(document).ready(function () {
     function findFirstImg(arr) {
         var url = '/resources/images/no_photo.jpg';
         var imgId = '';
-        if(arr) {
+        if (arr) {
             for (var i = 0; i < arr.length; i++) {
                 if (arr[i].fileType === 'MAINIMAGE') {
                     imgId = arr[i].id;
@@ -39,15 +39,38 @@ $(document).ready(function () {
                 200: function (response) {
                     draw(response.entities);
                 },
-                204: function () {
-                    alert("Тендеров больше нет")
+                204: function (response) {
+                    alert('Тендеров больше нет');
                 }
             }
         });
     }
 
+    function removeClosedTenders(data) {
+        for (var i = 0; i < data.length; i++) {
+            if (!(data[i].winnerId === null && data[i].end > Date.now() / 1000)) data.splice(i, 1);
+        }
+    }
+
+    function filterClosedTenders(data) {
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].winnerId === null && data[i].end > Date.now() / 1000) data.splice(i, 1);
+        }
+    }
+
+   function filterTenders(data) {
+        var showClosed = getUrlParam('closed');
+       if(showClosed) {
+           filterClosedTenders(data);
+       } else {
+           removeClosedTenders(data);
+       }
+   }
+
     function draw(data) {
-        for (var i in data) {
+        filterTenders(data);
+        if (!data.length) alert('Тендеров больше нет');
+        for (var i = 0; i < data.length; i++) {
             var url = '/tender/' + data[i].id;
             data[i].body = data[i].body.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', ""); // Clear description from HTML tags
             $('.build-item-wrap').last().attr('style', 'display:;');

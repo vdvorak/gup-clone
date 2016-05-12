@@ -365,8 +365,8 @@
         var blogPost = {};
         blogPost.id = '${blogPost.id}';
         blogPost.blogId = '${blogPost.blogId}';
-        blogPost.title = title;
-        blogPost.text = text;
+        blogPost.title = $('#newsTitle').val();
+        blogPost.text = tinymce.activeEditor.getContent({format: 'raw'});
         blogPost.address = {};
         blogPost.address.country = 'Украина';
         var city = $('#text-city').text();

@@ -70,7 +70,7 @@ $.ajax({
         if (!data.hideContact) {
             var xhr = findUser(data.authorId);
             $.when(xhr).done(function (resp) {
-                $(".tender-author-contact a").last().text(resp.username).attr('href', '/profile?id=' + data.authorId);
+                $(".tender-author-contact a").last().text((resp.username === null) ? 'Безымянный' : resp.username).attr('href', '/profile?id=' + data.authorId);
             });
         } else {
             $(".tender-author-contact a").replaceWith('<span>данные скрыты автором</span>')
@@ -87,7 +87,10 @@ $.ajax({
 
         var dateEnd = localDateTime(data.end);
         $(".date-finish").last().text((dateEnd === 'Invalid date') ? 'Дата не указана' : dateEnd);
-
+        var tenderStatus = (data.winnerId === null && data.end > Date.now() / 1000) ? 'Прием предложений на участие в тендере'
+            : (data.winnerId === null && data.end < Date.now() / 1000) ? 'Тендер не состоялся'
+            : 'Тендер завершен';
+        $(".tender-status").text('Статус: ' + tenderStatus);
 
         // delete button if user is not an author of tender
         if (typeof loggedInProfile != 'undefined') {
