@@ -14,10 +14,7 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
-import ua.com.itproekt.gup.util.CreatedObjResp;
-import ua.com.itproekt.gup.util.EntityPage;
-import ua.com.itproekt.gup.util.SecurityOperations;
-import ua.com.itproekt.gup.util.Translit;
+import ua.com.itproekt.gup.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -98,16 +95,9 @@ public class OfferRestController {
         offer.setAuthorId(userId);
 
 
-        String titleInTransliteration = Translit.makeTransliteration(offer.getTitle());
-
         long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
 
-        String stringValueOfSeoKey = String.valueOf(longValueOfSeoKey);
-        offer.setSeoKey(stringValueOfSeoKey);
-
-        String seoUrl = titleInTransliteration + "-" + stringValueOfSeoKey;
-
-        offer.setSeoUrl(seoUrl);
+        SeoMaker.makeSeoFields(offer, longValueOfSeoKey);
 
         offersService.create(offer);
 
