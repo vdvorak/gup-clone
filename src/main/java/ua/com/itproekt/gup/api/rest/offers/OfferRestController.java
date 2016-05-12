@@ -13,6 +13,7 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
 import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
@@ -33,10 +34,13 @@ public class OfferRestController {
     @Autowired
     ProfilesService profilesService;
 
+    @Autowired
+    SeoSequenceService seoSequenceService;
+
     //------------------------------------------ Read -----------------------------------------------------------------
 
     @RequestMapping(value = "/offer/id/{id}/read", method = RequestMethod.POST,
-                    produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Offer> getOfferById(@PathVariable String id) {
         Offer offer = offersService.findOfferAndIncViews(id);
         if (offer == null) {
@@ -46,17 +50,17 @@ public class OfferRestController {
     }
 
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST,
-                    consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityPage<Offer>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO,
                                                              HttpServletRequest request) {
-        if(!request.isUserInRole(UserRole.ROLE_ADMIN.toString())){
+        if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             offerFO.setActive(true);
             offerFO.setModerationStatus(ModerationStatus.COMPLETE);
         }
 
         EntityPage<Offer> offers = offersService.findOffersWihOptions(offerFO);
 
-        if(offers.getEntities().isEmpty()){
+        if (offers.getEntities().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(offers, HttpStatus.OK);
@@ -66,7 +70,7 @@ public class OfferRestController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
-                    consumes = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResp> createOffer(@Valid @RequestBody Offer offer) {
 
         if (offer.getUserInfo() == null) {
@@ -93,7 +97,17 @@ public class OfferRestController {
 
         offer.setAuthorId(userId);
 
-        offer.setSeoUrl(Translit.makeTransliteration(offer.getTitle()));
+
+        String titleInTransliteration = Translit.makeTransliteration(offer.getTitle());
+
+        long longValueOfSeoKey = seoSequenceService.getNextSequenceId("seosequence");
+
+        String stringValueOfSeoKey = String.valueOf(longValueOfSeoKey);
+        offer.setSeoKey(stringValueOfSeoKey);
+
+        String seoUrl = titleInTransliteration + "-" + stringValueOfSeoKey;
+
+        offer.setSeoUrl(seoUrl);
 
         offersService.create(offer);
 

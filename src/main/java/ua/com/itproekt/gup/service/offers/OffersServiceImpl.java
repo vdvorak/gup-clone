@@ -42,6 +42,7 @@ public class OffersServiceImpl implements OffersService {
                 .setProperties(offer.getProperties())
                 .setImagesIds(offer.getImagesIds())
                 .setSeoUrl(offer.getSeoUrl())
+                .setSeoKey(offer.getSeoKey())
                 .setVideoUrl(offer.getVideoUrl())
                 .setTitle(offer.getTitle())
                 .setDescription(offer.getDescription())
@@ -123,8 +124,8 @@ public class OffersServiceImpl implements OffersService {
                 .setCreatedDateEqualsToCurrentDate();
 
         Offer newOffer = new Offer()
-            .setId(offerId)
-            .setReservation(newReservation);
+                .setId(offerId)
+                .setReservation(newReservation);
 
         Offer updatedOffer = offerRepository.findAndUpdate(newOffer);
         activityFeedService.createEvent(new Event(updatedOffer.getAuthorId(), EventType.OFFER_RESERVATION, offerId, null, SecurityOperations.getLoggedUserId()));

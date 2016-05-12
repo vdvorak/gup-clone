@@ -28,7 +28,8 @@ public class Offer {
     private Reservation reservation;
     private Integer views;
     private Rent rent;
-    private String seoUrl;
+    private String seoUrl; // full SEO url with key - for siteMap
+    private String seoKey; // only key - for search in DB
 
 
     private LinkedHashSet<String> categories;
@@ -99,6 +100,15 @@ public class Offer {
 
     public Offer setSeoUrl(String seoUrl) {
         this.seoUrl = seoUrl;
+        return this;
+    }
+
+    public String getSeoKey() {
+        return seoKey;
+    }
+
+    public Offer setSeoKey(String seoKey) {
+        this.seoKey = seoKey;
         return this;
     }
 

@@ -21,7 +21,7 @@ public final class MongoTemplateOperations {
     private static MongoTemplate staticMongoTemplate;
 
     @Autowired
-    public MongoTemplateOperations(MongoTemplate mongoTemplate){
+    public MongoTemplateOperations(MongoTemplate mongoTemplate) {
         this.staticMongoTemplate = mongoTemplate;
     }
 
@@ -53,7 +53,7 @@ public final class MongoTemplateOperations {
                         String fieldName = method.getName().substring(3, 4).toLowerCase();
                         fieldName += method.getName().substring(4);
                         update.set(fieldName, value);
-                    } else if (method.getName().startsWith("is")){
+                    } else if (method.getName().startsWith("is")) {
                         String fieldName = method.getName().substring(2, 3).toLowerCase();
                         fieldName += method.getName().substring(3);
                         update.set(fieldName, value);
@@ -62,9 +62,7 @@ public final class MongoTemplateOperations {
             }
         }
 
-        //FindAndModifyOptions().returnNew(true) = newly updated document
-        //FindAndModifyOptions().returnNew(false) = old document (not updateInvestor yet)
-        return (T)staticMongoTemplate.findAndModify(
+        return (T) staticMongoTemplate.findAndModify(
                 query,
                 update,
                 new FindAndModifyOptions().returnNew(true),
