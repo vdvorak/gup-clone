@@ -9,6 +9,14 @@ $(function() {
             $.getJSON("/search/autocomplete/" + selectedService, {
                 term: request.term
             }, response);
+        },
+        open: function( event, ui) {
+            var content = $('#ui-id-1').children();
+            for(var i = 0, contentLgth = content.length; i < contentLgth; i++) {
+                $(content[i]).click(function(){
+                    window.location.href = getTargetUrlBasedOnCheckedFilters();
+                });
+            }
         }
     });
 });
