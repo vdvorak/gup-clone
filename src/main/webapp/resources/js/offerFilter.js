@@ -8,6 +8,7 @@
     function OfferFilter() {
         this.skip = 0;
         this.limit = 10;
+        this.searchField = getUrlParam('name');
         this.createdDateSortDirection = "DESC";
     }
 
