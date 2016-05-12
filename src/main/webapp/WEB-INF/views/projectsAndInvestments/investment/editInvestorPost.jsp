@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
+    <link rel="stylesheet" href="/resources/css/mini.css">
     <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
@@ -72,6 +73,16 @@
             <div class="field">
                 <button id="updateInvestorPost" class="info-submit">Сохранить</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div id="gup-validator-popup" class="gup-popup-overlay">
+    <div class="gup-popup">
+        <h2>Ошибка редактирования инвестиции</h2>
+        <a class="popup-close" href="#">&times;</a>
+        <div class="popup-content">
+
         </div>
     </div>
 </div>
