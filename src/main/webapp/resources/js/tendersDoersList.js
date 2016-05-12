@@ -7,6 +7,7 @@ $(document).ready(function () {
     var tendersFO = {};
     tendersFO.skip = 0;
     tendersFO.limit = 5;
+    tendersFO.searchField = getUrlParam('name');
 
     function findFirstImg(arr) {
         var url = '/resources/images/no_photo.jpg';
@@ -117,6 +118,7 @@ $(document).ready(function () {
     var doersFO = {};
     doersFO.skip = 0;
     doersFO.limit = 5;
+    doersFO.searchField = getUrlParam('name');
 
     function localDateTime(long) {
         long = new Date(parseInt(long));

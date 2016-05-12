@@ -20,6 +20,7 @@ $(document).ready(function () {
     var blogsFO = {};
     blogsFO.skip = 0;
     blogsFO.limit = 5;
+    blogsFO.seachField = getUrlParam('name');
 
     function findFirstImgBlog(pic) {
         var url = '/resources/images/no_photo.jpg';
@@ -91,6 +92,7 @@ $(document).ready(function () {
     var address = {};
     newsFO.skip = 0;
     newsFO.limit = 5;
+    newsFO.seachField = getUrlParam('name');
 
     $(".NewsTabsFilterItem").on('click', function () {
         $('.intro').removeClass("intro");
