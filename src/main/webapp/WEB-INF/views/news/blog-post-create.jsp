@@ -249,6 +249,8 @@
     $(document).on('click', 'button.SendEdition', function (event) {
         event.preventDefault();
 
+        checkMainImg();
+
         var blogPost = {};
         blogPost.blogId = '${blogId}';
         blogPost.title = $('#newsTitle').val();
@@ -459,6 +461,24 @@
                 }
             }
         });
+    }
+
+    function checkMainImg() {
+        var hasMainImg = false;
+
+        for(var key in imgsArr) {
+            if(imgsArr[key] === 'pic1') {
+                hasMainImg = true;
+                break;
+            }
+        }
+
+        if(!hasMainImg) {
+            for(var key in imgsArr) {
+                imgsArr[key] = 'pic1';
+                break;
+            }
+        }
     }
 
     // -------------------------- END PHOTO SUBMIT AND DELETE ------------------------------//
