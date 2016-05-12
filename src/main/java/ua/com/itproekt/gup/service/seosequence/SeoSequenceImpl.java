@@ -10,8 +10,10 @@ public class SeoSequenceImpl implements SeoSequenceService {
     @Autowired
     SeoSequenceRepository seoSequenceRepository;
 
+    private static final String SEQ_KEY = "seosequence";
+
     @Override
-    public long getNextSequenceId(String key) {
-        return seoSequenceRepository.getNextSequenceId(key);
+    public long getNextSequenceId() {
+        return seoSequenceRepository.getNextSequenceId(SEQ_KEY);
     }
 }
