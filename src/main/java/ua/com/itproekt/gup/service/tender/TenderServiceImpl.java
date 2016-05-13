@@ -16,6 +16,7 @@ import javax.swing.text.html.parser.Entity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -187,4 +188,10 @@ public class TenderServiceImpl implements TenderService {
         }
         return t;
     }
+
+    @Override
+    public Set<String> getMatchedNames(String name) {
+        return tenderRepository.getMatchedNames(name);
+    }
+
 }

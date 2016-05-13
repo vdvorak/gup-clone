@@ -5,6 +5,8 @@ import ua.com.itproekt.gup.model.tender.Tender;
 import ua.com.itproekt.gup.model.tender.TenderFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.Set;
+
 
 public interface TenderService {
     void createTender(Tender tender);
@@ -17,4 +19,5 @@ public interface TenderService {
     Tender setVision(Tender tender, Profile UserWhoReed);
     boolean isAuthorOrWinner(Tender tender, String user);
     Tender completeMembers(Tender t);
+    Set<String> getMatchedNames(String name);
 }

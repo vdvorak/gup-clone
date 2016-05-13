@@ -37,14 +37,14 @@ public class Tender {
     private Boolean hideContact;
     private String winnerId;
 
-    public Tender(){
+    public Tender() {
 //        begin = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         visited = 0l;
         proposes = new ArrayList<>();
         members = new HashSet<>();
     }
 
-    public static Tender getEmpty(){
+    public static Tender getEmpty() {
         Tender t = new Tender();
         t.setProposes(null);
         t.setMembers(null);
@@ -116,6 +116,7 @@ public class Tender {
     public void addNeceId(Set<String> naceIds) {
         this.naceIds.addAll(naceIds);
     }
+
     public String getBody() {
         return body;
     }
@@ -136,7 +137,7 @@ public class Tender {
         return begin;
     }
 
-    public void setBegin (Long begin) {
+    public void setBegin(Long begin) {
         this.begin = begin;
     }
 
@@ -214,14 +215,14 @@ public class Tender {
     }
 
     public Integer getProposeNumber() {
-        if(proposes == null) return 0;
+        if (proposes == null) return 0;
         return proposes.size();
     }
 
     public void setProposeNumber() {
-        if (proposes == null){
+        if (proposes == null) {
             proposeNumber = 0;
-        }else {
+        } else {
             proposeNumber = proposes.size();
         }
     }
@@ -253,7 +254,7 @@ public class Tender {
 
     public void setWinnerId(String winnerId) {
         long now = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        if (end == null || now < end){
+        if (end == null || now < end) {
             end = now;
         }
         this.winnerId = winnerId;

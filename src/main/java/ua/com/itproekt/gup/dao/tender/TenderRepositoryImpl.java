@@ -20,6 +20,8 @@ import ua.com.itproekt.gup.util.MongoTemplateOperations;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Repository
@@ -134,7 +136,7 @@ public class TenderRepositoryImpl implements TenderRepository {
 
         if (tenderFilterOptions.getType() == TenderType.CLOSE) {
             query.addCriteria(closed);
-        } else if(tenderFilterOptions.getType() == TenderType.OPEN){
+        } else if (tenderFilterOptions.getType() == TenderType.OPEN) {
             query.addCriteria(opened);
         } else {
             query.addCriteria(new Criteria().orOperator(opened, closed));
@@ -150,7 +152,7 @@ public class TenderRepositoryImpl implements TenderRepository {
                 mongoTemplate.find(query, Tender.class));
     }
 
-    public List<Tender> getTodayEndTenders(){
+    public List<Tender> getTodayEndTenders() {
         long now = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
 
         DBObject queryObj = new BasicDBObject();
@@ -159,4 +161,21 @@ public class TenderRepositoryImpl implements TenderRepository {
         LUST_CHECK = now;
         return mongoTemplate.find(new BasicQuery(queryObj), Tender.class);
     }
+
+    @Override
+    public Set<String> getMatchedNames(String name) {
+        String searchFieldRegex = "(?i:.*" + name + ".*)";
+        Query query = new Query();
+
+        query.addCriteria(new Criteria().orOperator(Criteria.where("title").regex(searchFieldRegex)));
+
+        query.fields().include("title");
+        query.skip(0);
+        query.limit(10);
+
+        return mongoTemplate.find(query, Tender.class).stream().map(Tender::getTitle).collect(Collectors.toSet());
+
+    }
+
+
 }
