@@ -32,13 +32,20 @@ public class OfferController {
         return "offer/offer-all";
     }
 
-    //----------------------------------- one certain offer  ------
+    //----------------------------------- redirect to Seo Url  ------
     @RequestMapping(value = "/offer/{id}", method = RequestMethod.GET)
     public String getOneOffer(Model model, @PathVariable("id") String id) {
-        String flag = "offer";
-        model.addAttribute("flag", flag);
-        model.addAttribute("offerId", id);
-        return "offer/offer";
+        Offer offer = new Offer();
+
+        try {
+            offer = offersService.findById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Exception in getOffer method trying receive offer");
+        }
+
+        String seoUrl = offer.getSeoUrl();
+        return "redirect:/obyavlenie/" + seoUrl;
     }
 
 
