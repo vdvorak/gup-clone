@@ -36,12 +36,8 @@
 
     <img src="/resources/images/tick_green.png" style="float:left;" alt="tick_green">
 
-
-
-    ${message}
-
-    <h1 style="color:#1269a7;font:400 30px 'Myriad Pro';display:inline-block;margin: 0 0 15px 45px;">Добро пожаловать!</h1>
-    <h2 style="color:#898989;font:400 24px Arial;margin: 0 0 0 30px;display:inline-block;">Регистрация успешно завершена, теперь Вы можете войти в свой ли</h2>
+    <h1 style="color:#1269a7;font:400 30px 'Myriad Pro';display:inline-block;margin: 0 0 15px 45px;">${message}</h1>
+    <h2 style="color:#898989;font:400 24px Arial;margin: 0 0 0 30px;display:inline-block;">${message}</h2>
 
 </div>
 

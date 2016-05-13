@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div class="ad">
-    <p class="ad-p">ТОП ОБЪЯВЛЕНИЙ</p>
+    <p class="ad-p" onClick='location.href="/offers"'>ТОП ОБЪЯВЛЕНИЙ</p>
     <div id="topOffersBlock">
         <a href="#" class="offer-item-wrapper" style="display: none;">
             <div class="add-top1">

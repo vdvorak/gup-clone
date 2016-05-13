@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div class="ad">
-    <p class="proj-p">ТОП ПРОЕКТОВ</p>
+    <p class="proj-p" onClick='location.href="/project/list"'>ТОП ПРОЕКТОВ</p>
 
     <div id="topProjectsBlock">
         <a href="#" class="project-item-wrapper" style="display: none;">
