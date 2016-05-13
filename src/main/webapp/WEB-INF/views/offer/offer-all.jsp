@@ -43,10 +43,10 @@
         </a>
     </div>
 
-    <h2 id="h2-top-offers">ТОП обьявлений</h2>
+    <h2 id="h2-top-offers" style="display:none;">ТОП обьявлений</h2>
 
     <!-- offers not found -->
-    <div id="offers-notFound" class="offers-notFound-hidden">
+    <div id="offers-notFound" style="display:none;">
         <span>По Вашему запросу ничего не найдено.</span>
     </div>
     <!-- offers not found -->
