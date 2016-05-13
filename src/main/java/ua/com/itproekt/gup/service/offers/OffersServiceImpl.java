@@ -17,6 +17,7 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.ServiceNames;
 
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class OffersServiceImpl implements OffersService {
@@ -157,5 +158,10 @@ public class OffersServiceImpl implements OffersService {
                 .setId(offerId)
                 .setActive(isActive);
         offerRepository.findAndUpdate(offer);
+    }
+
+    @Override
+    public Set<String> getMatchedNames(String name) {
+        return offerRepository.getMatchedNames(name);
     }
 }

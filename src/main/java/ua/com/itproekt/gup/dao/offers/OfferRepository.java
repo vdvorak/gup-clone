@@ -6,6 +6,8 @@ import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.Set;
+
 public interface OfferRepository {
     void create(Offer offer);
 
@@ -28,4 +30,6 @@ public interface OfferRepository {
     void incViewsAtOne(String offerId);
 
     void deleteRent(String offerId, String rentId);
+
+    Set<String> getMatchedNames(String name);
 }
