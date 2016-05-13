@@ -60,6 +60,13 @@
 
 
         <div id="tabs1-tenders">
+            <label for="select-tender-status">Статус тендера: </label>
+            <select id="select-tender-status">
+                <option value="all" selected>Все статусы</option>
+                <option value="active">Приём предложений</option>
+                <option value="finished">Завершен</option>
+                <option value="outdated">Не состоялся</option>
+            </select>
             <div id="tenders-start-block" class="feedContainer tenders">
                 <div class="feedItem build-item-wrap">
                     <!--Add class "vip" to vip-tialize tender-->
