@@ -17,6 +17,14 @@ function getUrlParam(sParam) {
 
 $(document).ready(function () {
 
+    $('.mid > li').hover(function(){
+        $(this).children('.dropUl').stop();
+        $(this).children('.dropUl').slideDown('fast')
+    }, function() {
+        $(this).children('.dropUl').stop();
+        $(this).children('.dropUl').slideUp('fast')
+    });
+
     $( ".mail > .dropDownMail > .answer" ).draggable({ snap: "header" });
 
     if (typeof flag != 'undefined') {

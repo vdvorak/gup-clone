@@ -94,11 +94,11 @@
             </div>
         </div>
     </div>
-    <audio src="/resources/audio/notificationSound.mp3"></audio>
-    <p onclick="function soundClick() {
+    <%--<audio src="/resources/audio/notificationSound.mp3"></audio>--%>
+    <button onclick="function soundClick() {
         var audio = new Audio(); // Создаём новый элемент Audio
         audio.src = '/resources/audio/notificationSound.mp3';
         audio.autoplay = true; // Автоматически запускаем
     }
-    soundClick()">Click on the text</p>
+    soundClick()">Кнопочка Счастья</button>
 </div>

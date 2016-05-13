@@ -335,6 +335,7 @@ table {
     top: -29px;
     left: 48px;
     text-align: center;
+    cursor: pointer;
 }
 
 .ad {
@@ -396,6 +397,7 @@ table {
     top: -29px;
     right: 15px;
     text-align: center;
+    cursor: pointer;
 }
 
 .proj-p {
@@ -411,6 +413,7 @@ table {
     top: -29px;
     left: 48px;
     text-align: center;
+    cursor: pointer;
 }
 
 .tidings {
@@ -518,9 +521,9 @@ table {
     color: #1269a7;
     font: 400 14px DroidSans;
     word-wrap: break-word;
-    width: 185px;
+    width: 180px;
     float: right;
-    height: 40px;
+    max-height: 40px;
     overflow: hidden;
 }
 
@@ -533,11 +536,12 @@ table {
     color: #868787;
     font: 400 12px DroidSans;
     line-height: 13px;
-    width: 188px;
-    height: 52px;
+    width: 180px;
+    max-height: 52px;
     overflow: hidden;
     float: right;
     word-wrap: break-word;
+    margin-left: 8px;
 }
 
 .tidi4-a2 {
@@ -566,7 +570,7 @@ table {
     float: left;
     width: 188px;
     word-wrap: break-word;
-    height: 40px;
+    max-height: 40px;
     overflow: hidden;
 }
 
@@ -575,7 +579,7 @@ table {
     font: 400 12px DroidSans;
     width: 188px;
     line-height: 13px;
-    height: 50px;
+    max-height: 52px;
     overflow: hidden;
     word-wrap: break-word;
 }
@@ -617,32 +621,35 @@ table {
 }
 
 .mid {
-    margin: 15px 0;
+    margin-top: 15px;
+    margin-bottom: 60px;
+}
+
+.mid::after {
+    content: '';
+    clear: both;
     display: table;
 }
 
-.mid li:hover .dropUl {
-    display: block;
-}
-
-.mid li:hover .ads-p {
+.mid > li:hover .ads-p {
     background-color: #36aae0;
     height: 36px;
     line-height: 36px;
     margin-top: 5px;
-    -webkit-transition: all ease .25s;
-    transition: all ease .25s;
+    -webkit-transition: all .25s;
+    transition: all .25s;
     text-decoration: none;
     color: #fff;
 }
 
-.mid li {
+.mid > li {
     float: left;
     width: 144px;
     margin-right: 1px;
+    position: relative;
 }
 
-.mid li:last-child {
+.mid > li:last-child {
     width: 319px;
 }
 
@@ -724,6 +731,7 @@ table {
 
 .dropUl {
     display: none;
+    position: absolute;
 }
 
 .ads-drop {
@@ -2501,7 +2509,8 @@ form > .richAssCheck > label:first-child {
     height: 29px;
     width: 125px;
     top: -29px;
-    right: 15px
+    right: 15px;
+    cursor: pointer;
 }
 
 .DateOfBirth {
@@ -5219,7 +5228,7 @@ body > .err > i > i {
     border: 3px solid #9c6;
     border-radius: 6px;
     width: 365px;
-    height: 25px !important;
+    min-height: 25px !important;
     margin-left: 92px;
     margin-bottom: 15px;
 }
@@ -5255,4 +5264,47 @@ body > .err > i > i {
     margin: 0 auto;
     display: block;
     padding: 10px 400px;
+}
+
+#moreInformation-form .chosen-container-multi .chosen-choices li.search-field input[type=text] {
+    margin: 0;
+    height: 20px;
+}
+
+#moreInformation-form .chosen-container.chosen-with-drop .chosen-drop {
+    left: 95px;
+}
+
+.mid > li > a:after {
+    content: '';
+    clear: both;
+    display: table;
+}
+
+.mid > li > a > div {
+    background-color: white;
+}
+
+.Logged > button {
+    padding: 15px 25px;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+    position: fixed;
+    top: 40px;
+    right: 3px;
+}
+
+.Logged > button:hover { background-color: #3e8e41 }
+
+.Logged > button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }

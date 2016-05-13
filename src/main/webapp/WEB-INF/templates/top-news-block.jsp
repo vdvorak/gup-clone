@@ -2,7 +2,7 @@
 
 <div class="tidings" id="tidings">
 
-    <p class="tidi-p">ТОП НОВОСТЕЙ</p>
+    <p class="tidi-p" onClick='location.href="/blog-post/news?pageNumber=0"'>ТОП НОВОСТЕЙ</p>
     <div id="adNews">
         <div class="tidi1">
             <a href="#" class="tidi3-a">В колокольне Лавры открыли концертный зал</a>

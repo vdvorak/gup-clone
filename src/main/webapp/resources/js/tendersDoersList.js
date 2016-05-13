@@ -144,6 +144,7 @@ $(document).ready(function () {
             $(".build-pic-wrap").last().attr('href', url);
             $(".build-link-wrap").last().attr('href', url);
             $(".build-item-text").last().html(data[i].body);
+            if(!data[i].tenderNumber) $(".number.visible").removeClass('visible');
             $(".build-number").last().text(data[i].tenderNumber);
             $(".build-publish-date span").last().text(localDateTime(data[i].publishDate));
             $(".build-veiws span").last().text(data[i].visited);
