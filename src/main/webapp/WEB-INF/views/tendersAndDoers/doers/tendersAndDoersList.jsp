@@ -92,7 +92,8 @@
                     </div>
                 </div>
             </div>
-            <button id="tenderNextPage">Загрузить ещё тендеры</button>
+
+            <img id="tenderNextPage" src="/resources/images/caret.png" alt="caret">
         </div>
 
 
@@ -156,7 +157,10 @@
 
             </section>
 
-            <button id="doerNextPage">Загрузить ещё исполнителей</button>
+            <%--<button id="doerNextPage">Загрузить ещё исполнителей</button>--%>
+
+            <img id="doerNextPage" src="/resources/images/caret.png" alt="caret">
+
         </div>
     </div>
 </div>
@@ -186,5 +190,8 @@
         animate: false
     })
 </script>
+
+
+
 </body>
 </html>

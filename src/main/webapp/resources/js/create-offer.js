@@ -17,10 +17,13 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
         var dropZone = document.getElementById('drop_zone');
         dropZone.addEventListener('dragover', handleDragOver, false);
         dropZone.addEventListener('drop', handleFileSelect, false);
+        dropZone.addEventListener('dragleave', handleDragLeave, false);
 
         function handleFileSelect(evt) {
             evt.stopPropagation();
             evt.preventDefault();
+
+            dropZone.classList.remove("good");
 
             var files = evt.dataTransfer.files; // FileList object.
 
@@ -57,6 +60,11 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
             evt.stopPropagation();
             evt.preventDefault();
             evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+            dropZone.classList.add("good");
+        }
+
+        function handleDragLeave(evt) {
+            dropZone.classList.remove("good");
         }
 
     });

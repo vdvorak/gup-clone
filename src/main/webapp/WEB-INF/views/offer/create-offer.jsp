@@ -203,7 +203,7 @@
                 <label for="new-label-3">Описание<em>*</em></label>
             </div>
             <div class="col-xs-8">
-        <textarea name="" id="new-label-3" cols="30" rows="10"
+        <textarea name="" id="new-label-3" height=""
                   placeholder="Длина описания от 50 до 4000 символов"></textarea>
             </div>
         </div>
@@ -238,13 +238,14 @@
         </div>
         <div class="row file-browse-wrap">
             <div class="col-xs-4"></div>
-            <div id="drop_zone" class="col-xs-8">
+            <div id="drop_zone" class="col-xs-8" style="min-height: 210px;">
                 <ul id="offer-img-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
-                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                        <img src="/resources/images/no-photo-available-md.png" alt="defaultIMG">
                     </li>
                 </ul>
+                <p>Drop Image To Upload</p>
             </div>
         </div>
 

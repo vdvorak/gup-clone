@@ -137,7 +137,7 @@
                 <ul id="tender-img-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
-                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                        <img src="/resources/images/no-photo-available-md.png" alt="defaultIMG">
                     </li>
                 </ul>
                 <ul id="tender-doc-block" class="ul-img-container ul-img-container-green">
@@ -148,6 +148,7 @@
                         <div></div>
                     </li>
                 </ul>
+                <p>Drop Image To Upload</p>
             </div>
 
 

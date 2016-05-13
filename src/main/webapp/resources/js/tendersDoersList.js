@@ -105,7 +105,20 @@ $(document).ready(function () {
     $('#tenderNextPage').on('click', function () {
         tendersFO.skip += 5;
         doAjax(tendersFO);
-    })
+    });
+
+    $(window).on('scroll', function() {
+        var x = location.href;
+        if($(window).scrollTop() >= $('.footer').offset().top + $('.footer').outerHeight() - window.innerHeight) {
+            if (x === 'http://localhost:8080/tenders' || x === 'http://localhost:8080/tenders#tabs1-tenders') {
+                tendersFO.skip += 5;
+                doAjax(tendersFO);
+            } if (x === 'http://localhost:8080/tenders#tabs1-investment') {
+                doersFO.skip += 5;
+                doAjax(doersFO);
+            }
+        }
+    });
 
 });
 // ------------------- End create default block of tenders -------------------------------------------------------

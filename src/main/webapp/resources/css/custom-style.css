@@ -33,9 +33,9 @@ body {
 
 .title-h2-blue {
     padding: 10px 0;
-    margin: 0;
     color: #1269a7;
     font: 28px/30px 'Droid Sans', sans-serif;
+    text-align: center;
 }
 
 .author-rating {
@@ -281,8 +281,6 @@ body {
 
 /* New advertisement box */
 
-.new-adv-box {}
-
 .new-adv-box em {
     color: red;
     font-style: normal;
@@ -292,18 +290,23 @@ body {
     padding-top: 15px;
 }
 
-.new-adv-box > .row div {
-    color: #7b7b7b;
-    font: 17px/20px 'Droid Sans', sans-serif;
-}
-
 .new-adv-box input[type=text],
-.new-adv-box textarea,
 .new-adv-box select {
     width: 100%;
-    border: 4px solid #9c6;
+    border: 2px solid #9c6;
+    border-radius: 5px;
+    padding: 0 7px;
+    height: 25px;
+    font: 400 13px DroidSans;
+}
+
+.new-adv-box textarea {
+    width: 100%;
+    border: 2px solid #9c6;
     border-radius: 5px;
     padding: 5px 7px;
+    font: 400 13px DroidSans;
+    height: 190px;
 }
 
 .new-adv-box input[type=file] {
@@ -312,15 +315,19 @@ body {
 
 .new-adv-box .file-browse-wrap {
     padding-top: 30px;
+    padding-right: 15px;
 }
 
 .new-adv-box .file-browse-wrap > .col-xs-4 {
-    padding-top: 19px;
+    padding-top: 7px;
+    color: #959595;
+    font: 400 16px DroidSans;
+    line-height: 23px;
 }
 
 .new-adv-box .file-browse {
-    width: 300px;
-    height: 60px;
+    width: 225px;
+    height: 35px;
     display: inline-block;
     text-align: center;
     border: 4px solid #9c6;
@@ -330,7 +337,6 @@ body {
 .new-adv-box .file-browse i.fa {
     color: #9c6;
     font-size: 30px;
-    line-height: 40px;
 }
 
 .new-ad-btn {
@@ -566,4 +572,12 @@ body {
     margin-top: -20px;
     right: 50%;
     margin-right: -370px;
+}
+
+.container-fluid.new-adv-box > .row > .col-xs-12,
+.col-xs-4 > label {
+    color: #959595;
+    font: 400 16px DroidSans;
+    line-height: 23px;
+    float: left;
 }

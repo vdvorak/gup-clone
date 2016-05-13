@@ -139,4 +139,11 @@ $(document).on('click', '#goo', function (event) {
             $('#tab-container > ul > li:nth-child(1) > a').trigger('click');
         });
 });
+
+    $('.contact_form > input').keypress(function(e) {
+        if(e.which == 13) {
+            $( "#loginBtn" ).trigger( "click" );
+        }
+    });
+
 });
