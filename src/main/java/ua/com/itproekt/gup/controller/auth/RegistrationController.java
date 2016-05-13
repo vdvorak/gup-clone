@@ -16,6 +16,7 @@ import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 
+import javax.lang.model.util.ElementScanner6;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,13 +33,20 @@ public class RegistrationController {
     @RequestMapping(value = "/registrationConfirm", method = RequestMethod.GET)
     public String confirmRegistration(@RequestParam String token, Model model) {
 
-        VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
-        String uid = verificationToken.getUserId();
 
-        profileRepository.addUserRole(uid, UserRole.EMAIL_CONFIRMED);
-        verificationTokenService.verifyToken(token);
+        try{
+            VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
+            String uid = verificationToken.getUserId();
 
-        model.addAttribute("message", "Регистрация подтверждена");
-        return "temp";
+            profileRepository.addUserRole(uid, UserRole.EMAIL_CONFIRMED);
+            verificationTokenService.verifyToken(token);
+
+            model.addAttribute("message", "Регистрация подтверждена");
+        }catch (Exception e){
+            e.printStackTrace();
+            model.addAttribute("message", "Проблемы с подтверждением. Свяжитесь с администрацией сайта.");
+        }
+
+        return "registrationConfirmed";
     }
 }

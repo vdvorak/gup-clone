@@ -9,10 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 
-/**
- * Created by Zver on 28.12.2015.
- */
-
 @Controller
 public class LostPasswordController {
 
@@ -44,7 +40,7 @@ public class LostPasswordController {
             model.addAttribute("message", "Пользователя с такой почтой нет");
         }
 
-        return "temp";
+        return "registrationConfirmed";
     }
 
     @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
@@ -55,6 +51,6 @@ public class LostPasswordController {
         verificationTokenService.resetPassword(token, newPassword);
 
         model.addAttribute("message", "Пароль изменен");
-        return "temp";
+        return "registrationConfirmed";
     }
 }

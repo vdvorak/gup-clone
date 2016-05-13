@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Zver
-  Date: 28.12.2015
-  Time: 13:37
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -42,6 +36,10 @@
 
     <img src="/resources/images/tick_green.png" style="float:left;" alt="tick_green">
 
+
+
+    ${message}
+
     <h1 style="color:#1269a7;font:400 30px 'Myriad Pro';display:inline-block;margin: 0 0 15px 45px;">Добро пожаловать!</h1>
     <h2 style="color:#898989;font:400 24px Arial;margin: 0 0 0 30px;display:inline-block;">Регистрация успешно завершена, теперь Вы можете войти в свой ли</h2>
 
@@ -56,10 +54,6 @@
 <jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
-
-<script>
-    var flag = '${flag}';
-</script>
 
 <jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
