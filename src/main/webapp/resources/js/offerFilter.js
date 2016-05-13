@@ -44,7 +44,7 @@
     }
 
     function drawNoFoundOffers() {
-        if(!$('.notice-box li:not(#li-offer-basic)').length) {
+        if (!$('.notice-box li:not(#li-offer-basic)').length) {
             $('#offers-notFound').removeClass('offers-display-none');
             $('#h2-top-offers').addClass('offers-display-none');
         }
@@ -111,7 +111,7 @@
             .attr('id', "")
             .css("display", "inline-block");
         newLi.find('p').text(offerObj.title);
-        newLi.find('.image').attr("href", '/offer/' + offerObj.id + '');
+        newLi.find('.image').attr("href", '/obyavlenie/' + offerObj.seoUrl + '');
         newLi.find('img').attr("src", imgSrc);
 
         newLi.children('span').text("Просмотров: " + offerObj.views);
@@ -411,7 +411,7 @@
                 if (cat2) {
                     utils.categories.push(cat2);
                     var cat3 = getUrlParam("category3lvl");
-                    if(cat3) utils.categories.push(cat3);
+                    if (cat3) utils.categories.push(cat3);
                 }
             }
 
@@ -544,7 +544,7 @@
         if (flag !== "offer-all") {
             redirectToOfferAll();
         } else {
-            utils.skip +=10;
+            utils.skip += 10;
 
             setFilterOptions();
             readAllByFilter();
@@ -591,7 +591,7 @@
 
         var url = "/offers?";
 
-        if(parentId === "breadcrumbs") {
+        if (parentId === "breadcrumbs") {
             utils.category = [];
             var childArr = $("#breadcrumbs li a");
             for (var i = 0; i < childArr.length; i++) {
@@ -599,12 +599,12 @@
                 utils.category.push(thisID);
                 if (thisID === id) break;
             }
-            for(var i = 0; i < utils.category.length; i++) {
+            for (var i = 0; i < utils.category.length; i++) {
                 var parameter = (i < 1) ? "category1lvl" :
                     (i < 2) ? "category2lvl" : "category3lvl";
                 url += parameter + "=" + utils.category[i] + "&";
             }
-        } else if(parentId === "offer-cities") {
+        } else if (parentId === "offer-cities") {
             utils.address = {};
             var childArr = $("#offer-cities li a");
             for (var i = 0; i < childArr.length; i++) {
@@ -612,8 +612,8 @@
                 utils.address[thisID.substring(thisID.indexOf("-") + 1)] = $.trim($(childArr[i]).text());
                 if (thisID === id) break;
             }
-            if(utils.address.area) url += "area=" + utils.address.area + "&";
-            if(utils.address.city) url += "city=" + utils.address.city + "&";
+            if (utils.address.area) url += "area=" + utils.address.area + "&";
+            if (utils.address.city) url += "city=" + utils.address.city + "&";
         }
 
         redirectToOfferAll(url);
@@ -628,7 +628,7 @@
     function filterOffersByAuthor(event) {
         event.preventDefault();
 
-        var url = '/offers?authorId='+ event.data +'&';
+        var url = '/offers?authorId=' + event.data + '&';
         redirectToOfferAll(url);
     }
 

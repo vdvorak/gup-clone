@@ -1,12 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Optical Illusion
-  Date: 14.01.2016
-  Time: 11:56
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -63,9 +57,10 @@
     <li id="li-offer-basic" style="display:none">
         <a href="#" class="image"><img src="/resources/images/no_photo.jpg" alt="">
 
-            <p>Заголовок обьявления</p></a>
-        <div class="priceButton">1 000 грн.</div>
-        <span>Просмотров: 222</span>
+            <p></p></a>
+
+        <div class="priceButton"></div>
+        <span></span>
     </li>
     <!-- li pattern for clone -->
 
@@ -98,21 +93,21 @@
 
     $(document).ready(function () {
         offerFilter.parseUrlToFilter()
-                    .readAllByFilter();
+                .readAllByFilter();
 
         var categories = offerFilter.utils.categories;
-        if(categories && categories.length) {
-            $.when(window.loadOptions, window.loadParameters).done(function(){
+        if (categories && categories.length) {
+            $.when(window.loadOptions, window.loadParameters).done(function () {
                 offerFilter.drawFilterOptions(categories[categories.length - 1]);
             })
-            $.when(window.loadSubcategories).done(function(){
-                if(categories.length > 1) offerFilter.drawCategories3lvl();
+            $.when(window.loadSubcategories).done(function () {
+                if (categories.length > 1) offerFilter.drawCategories3lvl();
             })
         }
 
         var address = offerFilter.utils.address;
-        if(address.area) $('#input-selected-area').val(address.area);
-        if(address.city) $('#input-selected-city').val(address.city);
+        if (address.area) $('#input-selected-area').val(address.area);
+        if (address.city) $('#input-selected-city').val(address.city);
         offerFilter.generateFilterRegionString();
 
         $('#btn-offers-more').click(offerFilter.submitFilter);

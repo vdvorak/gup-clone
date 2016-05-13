@@ -280,12 +280,12 @@ $(document).ready(function () {
                             .attr('id', "")
                             .css("display", "inline-block");
                         newLi.find('p').text(offerObj.title);
-                        newLi.find('.image').attr("href", '/offer/' + offerObj.id + '');
+                        newLi.find('.image').attr("href", '/obyavlenie/' + offerObj.seoUrl + '');
                         newLi.find('img').attr("src", imgSrc);
 
 
                         newLi.children('span').text("Просмотров: " + offerObj.views);
-                        newLi.find('a.btn').text(priceStr).attr("href", '/offer/' + offerObj.id + '');
+                        newLi.find('a.btn').text(priceStr).attr("href", '/obyavlenie/' + offerObj.seoUrl + '');
 
                         var noticeBox = $('ul.notice-box');
                         if (count === maxCount) {

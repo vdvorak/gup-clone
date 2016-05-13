@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
+    <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
@@ -21,21 +21,26 @@
     <style type="text/css">
         .offer-info-slider {
         }
+
         .offer-info-slider .bx-wrapper {
             height: 270px;
         }
+
         .offer-info-slider .bx-wrapper img {
             object-fit: cover;
             height: 100%;
         }
+
         .offer-info-slider .bx-wrapper {
             margin: 0 auto 160px;
         }
+
         .offer-info-slider .bx-custom-pager {
             position: absolute;
             font-size: 0px;
             bottom: -80px;
         }
+
         .offer-info-slider .bx-custom-pager .bx-pager-item {
             position: relative;
             display: inline-block;
@@ -43,6 +48,7 @@
             border-radius: 5px;
             margin: 4px;
         }
+
         .offer-info-slider .bx-custom-pager .bx-pager-item a {
             position: relative;
             display: inline-block;
@@ -50,6 +56,7 @@
             height: 50px;
             overflow: hidden;
         }
+
         .offer-info-slider .bx-custom-pager .bx-pager-item a div {
             position: relative;
             max-width: 90px;
@@ -122,10 +129,12 @@
                     </div>
                     <div class="clearfix"></div>
                     <span class="author-rating"></span>
+
                     <div class="clearfix"></div>
                     <p>
                         <a id="a-author-offers" href="#">Все обьявления автора</a>
                     </p>
+
                     <div class="clearfix"></div>
                 </div>
             </div>
@@ -213,21 +222,21 @@
 </script>
 <script src="/resources/js/offer.js"></script>
 <script>
-    $('.offer-info-slider .bx-wrapper img').click(function(){
+    $('.offer-info-slider .bx-wrapper img').click(function () {
         $('.modalSlider').css('display', 'block');
         var src = $(this).attr('src');
         $('.modalSlider > img').attr('src', src);
     });
-    $('.modalSlider > span, .modalSlider').click(function() {
+    $('.modalSlider > span, .modalSlider').click(function () {
         $('.modalSlider').css('display', 'none');
     });
-    $( ".modalSlider > img" ).click(function( event ) {
+    $(".modalSlider > img").click(function (event) {
         event.stopPropagation();
     });
-    $( ".super_netxt_knopka" ).click(function( event ) {
+    $(".super_netxt_knopka").click(function (event) {
         event.stopPropagation();
     });
-    $( ".super_prev_knopka" ).click(function( event ) {
+    $(".super_prev_knopka").click(function (event) {
         event.stopPropagation();
     });
 </script>
