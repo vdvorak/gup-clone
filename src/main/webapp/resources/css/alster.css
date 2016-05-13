@@ -135,7 +135,7 @@
 }
 
 .feedItem {
-    margin: 15px 5px;
+    margin: 15px auto;
     border-radius: 10px;
     border: 2px solid;
     position: relative;
@@ -860,8 +860,7 @@ color: white;
 .tenders .participate .clock,
 .tenderContent .participate .clock {
     position: absolute;
-    background-color: red;
-    width: 36px;
+    width: 40px;
     height: 40px;
     right: 160px;
     top: -28px;

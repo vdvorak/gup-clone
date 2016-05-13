@@ -71,6 +71,8 @@
     <div class="feedFooter"></div>
 </div>
 
+
+
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
 </sec:authorize>
@@ -111,6 +113,12 @@
         offerFilter.generateFilterRegionString();
 
         $('#btn-offers-more').click(offerFilter.submitFilter);
+
+        $(window).on('scroll', function() {
+            if($(window).scrollTop() >= $('#btn-offers-more').offset().top + $('#btn-offers-more').outerHeight() - window.innerHeight) {
+                $('#btn-offers-more').trigger('click', offerFilter.submitFilter);
+            }
+        });
 
         $('#select-categories-3lvl').change(offerFilter.selectCategoryLvl3);
         $('#filter-price').change(offerFilter.selectFilterPrice);

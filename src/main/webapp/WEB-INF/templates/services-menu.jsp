@@ -20,8 +20,7 @@
             </a>
             <ul class="dropUl">
                 <li><a class="ads-a1" href="/tender-make">Создать тендер</a></li>
-                <li><a class="ads-a1" href="/doer-create">Стать исполнителем</a></li>
-                <li><a class="ads-drop" href="/tenders?closed=true">Завершенные тендеры</a></li>
+                <li><a class="ads-drop" href="/doer-create">Стать исполнителем</a></li>
             </ul>
         </li>
         <li>

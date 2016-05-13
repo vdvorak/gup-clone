@@ -69,6 +69,19 @@ $('#showNext').on('click', function () {
     }
 });
 
+$(window).on('scroll', function() {
+    var x = location.href;
+    if($(window).scrollTop() >= $('.footer').offset().top + $('.footer').outerHeight() - window.innerHeight) {
+        if (x === 'http://localhost:8080/project/list' || x === 'http://localhost:8080/project/list#tabs1-project') {
+            projectFO.skip += projectFO.limit;
+            appendProjects(projectFO);
+        } if (x === 'http://localhost:8080/project/list#tabs1-investment') {
+            investorPostFO.skip += investorPostFO.limit;
+            appendInvestorPosts(investorPostFO);
+        }
+    }
+});
+
 $('#projectsTab').on('click', function () {
     $('#investmentsContainer').hide();
     $('#projectsContainer').show();

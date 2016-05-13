@@ -5095,8 +5095,23 @@ form > .price > input:placeholder-shown {
 
 #drop_zone {
     margin-bottom: 30px;
-    background: url(/resources/images/green-stripes-background.gif) repeat-x 0 0;
-    animation: animatedBackground 20s linear infinite;
+    background: url(/resources/images/green-stripes-background.gif) repeat 0 0;
+    animation: animatedBackground 15s linear infinite;
+    border-radius: 20px;
+    position: relative;
+}
+
+#drop_zone > p {
+    position: absolute;
+    top: 162px;
+    right: 50%;
+    margin-right: -90px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    font-family: DroidSans, serif;
+    cursor: default;
+    opacity: 0.9;
 }
 
 .container2 > h2#h2-top-offers {
@@ -5184,10 +5199,16 @@ body > .err > i {
     width: 340px;
     display: block;
     margin: 55px auto 30px;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently not supported by any browser */
 }
 
 body > .err > i > i {
-    font: 120px Consolas;
+    font-size: 120px;
 }
 
 .description > label[for='HideContacts'] {
@@ -5219,6 +5240,19 @@ body > .err > i > i {
 }
 
 #drop_zone.good {
-    background-color: black;
-    animation: animatedBackground 0s linear infinite;
+    animation-play-state: paused;
+}
+
+#tenderNextPage {
+    border: 1px solid rgb(153, 204, 102);
+    margin: 0 auto;
+    display: block;
+    padding: 10px 400px;
+}
+
+#tabs1-investment > #doerNextPage {
+    border: 1px solid rgb(153, 204, 102);
+    margin: 0 auto;
+    display: block;
+    padding: 10px 400px;
 }
