@@ -8,6 +8,7 @@ var msg = {};
 var dialogues;
 var dialogue;
 var subscribedTo = [];
+var senders = [];
 
 /*function connect(){
     socket = new SockJS('/socket-request');
@@ -29,9 +30,11 @@ function subscribeToAllDialogues(){
     stompClient.connect({}, function(frame) {
         console.log('Connected: ' + frame);
         isConnected = true;
-        dialogues.forEach(function(dialogue){
-            subscribeToOneDialogue(dialogue);
-        });
+        if(dialogues){
+            dialogues.forEach(function(dialogue){
+                subscribeToOneDialogue(dialogue);
+            });
+        }
 
         stompClient.subscribe('/topic/socket-response/' + loggedInProfile.id, function(response){ // letting subscribing user from the opposite side
             var dialog = JSON.parse(response.body).dialogue;
@@ -52,23 +55,50 @@ function subscribeToOneDialogue (dialogue){
                 break;
             }
         }
-        stompClient.subscribe('/topic/socket-response/' + dialogue.id, function(response){
-            openDialog(dialogue);
-            var privateMessage = JSON.parse(response.body).content;
-            var senderName = "";
-            for(var i = 0; i < dialogue.members.length; i++){
-                if(dialogue.members[i].id === privateMessage.authorId){
-                    senderName = dialogue.members[i].name;
-                    break;
-                }
-            }
-            addMessage(dialogue.id, privateMessage);
 
-            var messagesField =  $("#" + dialogue.id + "_messages");
-            var height = messagesField[0].scrollHeight;
-            messagesField.scrollTop(height);
+        stompClient.subscribe('/topic/socket-response/' + dialogue.id, function(response){
+                var privateMessage = JSON.parse(response.body).content;
+                dialogues.forEach(function(e){
+                    if(e.id === dialogue.id && e.sender === loggedInProfile.id){
+                        addMessage(dialogue.id, privateMessage);
+                        var messagesField =  $("#" + dialogue.id + "_messages");
+                        var height = messagesField[0].scrollHeight;
+                        messagesField.scrollTop(height);
+                        return false;
+                    }else if(e.id === dialogue.id && e.sender !== loggedInProfile.id){
+                        if(e.isOpenedOnce){
+                            addMessage(dialogue.id, privateMessage);
+                            var messagesField =  $("#" + dialogue.id + "_messages");
+                            var height = messagesField[0].scrollHeight;
+                            messagesField.scrollTop(height);
+                            return false;
+                        }else{
+                            var senderName = "";
+                            for(var i = 0; i < dialogue.members.length; i++){
+                                if(dialogue.members[i].id === privateMessage.authorId){
+                                    senderName = dialogue.members[i].name;
+                                    break;
+                                }
+                            }
+                            privateMessage.senderName = senderName;
+                            appendToIncoming(privateMessage, dialogue);
+                        }
+                    }
+                })
         });
         subscribedTo.push(dialogue.id);
+    }
+}
+
+function appendToIncoming(message, dialogue) {
+    if (senders.indexOf(message.authorId) === -1) {
+        senders.push(message.authorId);
+        var elem = $('.dropDownMail').append("<div><button" + " id='"+ message.authorId + "_sender' style='width: 100%; height: 30px;'>" +
+            message.senderName + "</button></div>").children();
+        elem.on('click', {dialogue: dialogue}, function(event){
+            openDialog(event.data.dialogue);
+        });
+
     }
 }
 
@@ -90,6 +120,11 @@ function subscribeProfile (dialogueId, profileId){
 
 function initDialogues(dialogues){
     this.dialogues = dialogues;
+    for(var i =0; i < dialogues.length; i++){
+        this.dialogues[i].sender = "";
+        this.dialogues[i].isCollapsed = false;
+        this.dialogues[i].isOpenedOnce = false;
+    }
     subscribeToAllDialogues();
 }
 
@@ -161,16 +196,38 @@ function setTitle(dialogue){
     $('#' + dialogue.id + '_title').text(title);
 }
 
+function updateDialogues(dialogue){
+    var exist = false;
+    dialogues.forEach(function(e){
+        if(e.id === dialogue.id){
+            e.sender = loggedInProfile.id;
+            e.isCollapsed = false;
+            e.isOpenedOnce = true;
+            exist = true;
+            return false;
+        }
+    });
+
+    if(!exist){
+        dialogues.push(dialogue);
+    }
+}
+
 //additional function by VS
-$(document).on('click', '#openDialog', function () {
+$(document).on('click', '#openDialog', function (){
     $.ajax({
         type: "GET",
         url: 'dialogue/init/' + profileId ,
         success: function (dialogue) {
+            dialogue.initialSender = loggedInProfile.id;
             /*window.dialogue = dialogue;*/
             subscribeProfile(dialogue.id, profileId);   // subscribing receiver
             openDialog(dialogue);
             subscribeToOneDialogue(dialogue);           // subscribing sender
+            dialogue.sender = loggedInProfile.id ;
+            dialogue.isCollapsed = false;
+            dialogue.isOpenedOnce = true;
+            updateDialogues(dialogue);
         }
     });
 })
