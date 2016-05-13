@@ -83,6 +83,18 @@ $(document).ready(function () {
         }
     }
 
+    function getTenderStatus(tender) {
+        var status = '';
+        if(tender.winnerId === null && tender.end < Date.now() / 1000) {
+            status = 'Не состоялся';
+        } else if(tender.winnerId !== null) {
+            status = 'Завершен';
+        } else if(tender.winnerId === null && tender.end > Date.now() / 1000) {
+            status = 'Приём предложений';
+        }
+        return status;
+    }
+
     function filterTenders(data) {
         var status = $('#select-tender-status').val();
         if (status === 'finished') {
@@ -136,6 +148,7 @@ $(document).ready(function () {
             $(".build-publish-date span").last().text(localDateTime(data[i].publishDate));
             $(".build-veiws span").last().text(data[i].visited);
             $(".build-proposal-count span").last().text(data[i].proposeNumber);
+            $(".tender-status span").last().text(getTenderStatus(data[i]));
 
             if (data[i].expectedPrice != null) {
                 $(".sum").last().text(data[i].expectedPrice + "₴");

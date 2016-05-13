@@ -68,7 +68,7 @@
                 <option value="outdated">Не состоялся</option>
             </select>
             <div id="tenders-start-block" class="feedContainer tenders">
-                <div class="feedItem build-item-wrap">
+                <div class="feedItem build-item-wrap" style="display:none;">
                     <!--Add class "vip" to vip-tialize tender-->
                     <a class="preview build-pic-wrap" href="#">
                         <img src="#" alt="project photo"/>
@@ -77,6 +77,7 @@
                     </a>
                     <section class="content">
                         <div class="publishDate build-publish-date">Опубликовано: <span></span></div>
+                        <div class="tender-status">Статус: <span></span></div>
                         <!-- Добавь класс "visible" и ты узреешь номер -->
                         <span class="number visible">№ <span class="build-number"></span> </span>
 
