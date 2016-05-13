@@ -163,7 +163,7 @@ if (typeof loggedInProfile != 'undefined') {
     if (offer.authorId === loggedInProfile.id) {
         var editOfferLink = $('#edit-offer-link');
         editOfferLink.show();
-        editOfferLink.attr('href', '/edit-offer/' + offer.id);
+        editOfferLink.attr('href', '/edit-offer/' + offer.seoUrl);
     }
 }
 // ----------- Draw offer -------------------------------------------------------------------------------------------

@@ -32,23 +32,6 @@ public class OfferController {
         return "offer/offer-all";
     }
 
-    //----------------------------------- redirect to Seo Url  ------
-    @RequestMapping(value = "/offer/{id}", method = RequestMethod.GET)
-    public String getOneOffer(Model model, @PathVariable("id") String id) {
-        Offer offer = new Offer();
-
-        try {
-            offer = offersService.findById(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Exception in getOffer method trying receive offer");
-        }
-
-        String seoUrl = offer.getSeoUrl();
-        return "redirect:/obyavlenie/" + seoUrl;
-    }
-
-
     //----------------------------------- one certain offer with SEO key  ------
     @RequestMapping(value = "/obyavlenie/{seoUrl}", method = RequestMethod.GET)
     public String getOneOfferBySeoKey(Model model, @PathVariable("seoUrl") String seoUrl) {
@@ -73,22 +56,17 @@ public class OfferController {
         return "offer/create-offer";
     }
 
-    //----------------------------------- one certain offer  ------
-    @RequestMapping(value = "/edit-offer/{id}", method = RequestMethod.GET)
-    public String getOffer(Model model, @PathVariable("id") String id) {
+
+    //----------------------------------- edit offer  ------
+    @RequestMapping(value = "/edit-offer/{seoUrl}", method = RequestMethod.GET)
+    public String getOfferWithSeo(Model model, @PathVariable("seoUrl") String seoUrl) {
+
+        String offerSeoKey = SeoUtils.getKey(seoUrl);
 
         Offer offer = new Offer();
-        Profile profile = new Profile();
 
         try {
-            profile = profilesService.findWholeProfileById(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Exception in getOffer method trying receive profile");
-        }
-
-        try {
-            offer = offersService.findOfferAndIncViews(id);
+            offer = offersService.findBySeoKey(offerSeoKey);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Exception in getOffer method trying receive offer");
@@ -103,40 +81,21 @@ public class OfferController {
 
         try {
             properties = mapper.writeValueAsString(offer.getProperties());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        try {
             categories = mapper.writeValueAsString(offer.getCategories());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        try {
             imagesIds = mapper.writeValueAsString(offer.getImagesIds());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         String flag = "offer";
         model.addAttribute("flag", flag);
         model.addAttribute("imagesIds", imagesIds);
         model.addAttribute("properties", properties);
         model.addAttribute("categories", categories);
-        model.addAttribute("profile", profile);
         model.addAttribute("offer", offer);
 
         return "offer/edit-offer";
     }
-
-    //----------------------------------- test page  ------
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String test(Model model) {
-        return "test";
-    }
-
 
 }
