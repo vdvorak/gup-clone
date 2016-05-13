@@ -45,8 +45,8 @@
 
     function drawNoFoundOffers() {
         if (!$('.notice-box li:not(#li-offer-basic)').length) {
-            $('#offers-notFound').removeClass('offers-display-none');
-            $('#h2-top-offers').addClass('offers-display-none');
+            $('#offers-notFound').css('display', 'block');
+            $('#h2-top-offers').css('display', 'none');
         }
     }
 
@@ -121,8 +121,8 @@
     }
 
     function drawOffers(offersArr) {
-        $('#offers-notFound').addClass('offers-display-none');
-        $('#h2-top-offers').removeClass('offers-display-none');
+        $('#offers-notFound').css('display', 'none');
+        $('#h2-top-offers').css('display', 'block');
 
         var count = 0;
         var maxCount = 5;
