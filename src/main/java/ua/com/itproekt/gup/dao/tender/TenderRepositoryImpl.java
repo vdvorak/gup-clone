@@ -133,13 +133,13 @@ public class TenderRepositoryImpl implements TenderRepository {
                 Criteria.where("members").elemMatch(Criteria.where("id").is(currUser.getId())),
                 Criteria.where("authorId").is(currUser.getId())));
         Criteria opened = new Criteria().where("type").is("OPEN");
-
         if (tenderFilterOptions.getType() == TenderType.CLOSE) {
             query.addCriteria(closed);
         } else if (tenderFilterOptions.getType() == TenderType.OPEN) {
             query.addCriteria(opened);
         } else {
-            query.addCriteria(new Criteria().orOperator(opened, closed));
+            //ToDo this must work. But doesn't.
+//            query.addCriteria(new Criteria().orOperator(opened, closed));
         }
 
 //            if(currUser != null && currUser.getContact() != null && currUser.getContact().getNaceId() != null) {

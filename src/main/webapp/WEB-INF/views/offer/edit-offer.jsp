@@ -18,7 +18,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
+    <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
@@ -338,6 +338,7 @@
     <div class="gup-popup">
         <h2>Ошибка редактирования объявления</h2>
         <a class="popup-close" href="#">&times;</a>
+
         <div class="popup-content">
 
         </div>
@@ -462,7 +463,7 @@
     var area = '${offer.address.area}';
     if (area) $('#text-region').text(area);
 
-    $.when(window.loadCities).done(function(){
+    $.when(window.loadCities).done(function () {
         var city = '${offer.address.city}';
 
         if (area && area !== 'Вся Украина') {
@@ -473,9 +474,9 @@
 
 
     // --------------------- MAIN FORM CONSTRUCTION ----------------------//
-     $('#btn-offer-save').click(function () {
+    $('#btn-offer-save').click(function () {
 
-         for (var key in imgsArr) {
+        for (var key in imgsArr) {
             if (picArrDel.indexOf(key) === -1) picArrNew.push(key);
         }
 
@@ -567,7 +568,7 @@
         offer.properties = properties;
 
         gupValidator.validate(offer);
-        if(!gupValidator.isValid) return;
+        if (!gupValidator.isValid) return;
 
         $.ajax({
             type: "POST",
@@ -576,7 +577,7 @@
             dataType: "json",
             data: JSON.stringify(offer),
             success: function (response) {
-                window.location.href = '/offer/' + response.id;
+                window.location.href = '/obyavlenie/' + response.id;
             },
             error: function (response) {
                 alert("Внутренняя ошибка сервера");
@@ -760,7 +761,7 @@
             geocodeAddress(geocoder, map, infowindow);
         });
 
-        if(placeKey) {
+        if (placeKey) {
             geocodePlaceId(geocoder, map, infowindow);
         }
     }
@@ -786,7 +787,7 @@
     function geocodePlaceId(geocoder, map, infowindow) {
         var placeId = placeKey;
         console.log(placeId);
-        geocoder.geocode({'placeId': placeId}, function(results, status) {
+        geocoder.geocode({'placeId': placeId}, function (results, status) {
             if (status === google.maps.GeocoderStatus.OK) {
                 if (results[0]) {
                     map.setZoom(11);
@@ -888,7 +889,7 @@
     //----------------------------- END PHONES LIST ----------------------------------------------//
 
     //--------------------------------BEGIN CATEGORY-------------------------------------------------//
-    $.when(window.loadCategories, window.loadSubcategories, window.loadOptions, window.loadParameters).done(function(){
+    $.when(window.loadCategories, window.loadSubcategories, window.loadOptions, window.loadParameters).done(function () {
         for (var i in jsonCategory) {
             var li = $('<li><a id="category-' + jsonCategory[i].id + '" href="#">' + jsonCategory[i].name + '</a></li>')
                     .click(selectCategoryLvl1);

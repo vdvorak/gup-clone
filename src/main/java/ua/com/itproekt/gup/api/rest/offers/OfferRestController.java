@@ -117,6 +117,10 @@ public class OfferRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+
+        Offer oldOffer = new Offer();
+        oldOffer = offersService.findById(offer.getId());
+
         String userId = SecurityOperations.getLoggedUserId();
         if (!offersService.findById(offer.getId()).getAuthorId().equals(userId)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -125,9 +129,16 @@ public class OfferRestController {
 //        ModerationStatus для админа
 //        if !Admin
 //        offer.setModerationStatus(null);
-        offersService.edit(offer);
 
-        return new ResponseEntity<>(new CreatedObjResp(offer.getId()), HttpStatus.OK);
+        String newTransiltTitle = Translit.makeTransliteration(offer.getTitle());
+
+        String newSeoUrl = newTransiltTitle + "-" + oldOffer.getSeoKey();
+
+        offer.setSeoUrl(newSeoUrl);
+
+        Offer newOffer = offersService.edit(offer);
+
+        return new ResponseEntity<>(new CreatedObjResp(newOffer.getSeoUrl()), HttpStatus.OK);
     }
 
     @PreAuthorize("isAuthenticated()")
