@@ -10,9 +10,9 @@ import ua.com.itproekt.gup.model.tender.doer.DoerFilterOptions;
 import ua.com.itproekt.gup.model.tender.doer.Recall;
 import ua.com.itproekt.gup.util.EntityPage;
 
-/**
- * Created by Комп2 on 10.11.2015.
- */
+import java.util.Set;
+
+
 @Service
 public class DoerServiceImpl implements DoerService {
     @Autowired
@@ -63,4 +63,11 @@ public class DoerServiceImpl implements DoerService {
 
         return likes - dislikes;
     }
+
+    @Override
+    public Set<String> getMatchedNames(String term) {
+        return doerRepository.getMatchedNames(term);
+    }
+
+
 }

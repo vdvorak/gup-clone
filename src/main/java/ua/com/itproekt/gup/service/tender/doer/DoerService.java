@@ -5,6 +5,8 @@ import ua.com.itproekt.gup.model.tender.doer.Doer;
 import ua.com.itproekt.gup.model.tender.doer.DoerFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.Set;
+
 /**
  * Created by Комп2 on 10.11.2015.
  */
@@ -18,4 +20,6 @@ public interface DoerService {
     EntityPage<Doer> findWihOptions(DoerFilterOptions tenderFilterOptions);
 
     long countRecallSum(Doer doer);
+
+    Set<String> getMatchedNames(String term);
 }

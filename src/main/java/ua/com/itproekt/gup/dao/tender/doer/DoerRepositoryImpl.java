@@ -12,6 +12,9 @@ import ua.com.itproekt.gup.model.tender.doer.DoerFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Repository
 public class DoerRepositoryImpl implements DoerRepository {
     @Autowired
@@ -95,5 +98,20 @@ public class DoerRepositoryImpl implements DoerRepository {
         query.limit(doerFilterOptions.getLimit());
         return new EntityPage<>(mongoTemplate.count(query, Doer.class),
                 mongoTemplate.find(query, Doer.class));
+    }
+
+
+    @Override
+    public Set<String> getMatchedNames(String term) {
+        String searchFieldRegex = "(?i:.*" + term + ".*)";
+        Query query = new Query();
+
+        query.addCriteria(new Criteria().orOperator(Criteria.where("title").regex(searchFieldRegex)));
+
+        query.fields().include("title");
+        query.skip(0);
+        query.limit(10);
+
+        return mongoTemplate.find(query, Doer.class).stream().map(Doer::getTitle).collect(Collectors.toSet());
     }
 }
