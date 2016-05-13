@@ -20,7 +20,7 @@ $(document).ready(function () {
     var blogsFO = {};
     blogsFO.skip = 0;
     blogsFO.limit = 5;
-    blogsFO.seachField = getUrlParam('name');
+    blogsFO.searchField = getUrlParam('name');
 
     function findFirstImgBlog(pic) {
         var url = '/resources/images/no_photo.jpg';
@@ -51,6 +51,7 @@ $(document).ready(function () {
     }
 
     function doAjax(filterOptions, url, whatDraw) {
+        console.log(filterOptions);
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
@@ -92,7 +93,7 @@ $(document).ready(function () {
     var address = {};
     newsFO.skip = 0;
     newsFO.limit = 5;
-    newsFO.seachField = getUrlParam('name');
+    newsFO.searchField = getUrlParam('name');
 
     $(".NewsTabsFilterItem").on('click', function () {
         $('.intro').removeClass("intro");
@@ -102,6 +103,7 @@ $(document).ready(function () {
         $("div.normalNews").remove();
         newsFO.skip = 0;
         newsFO.limit = 2;
+        newsFO.searchField = getUrlParam('name');
         doAjax(newsFO, urlGetNews, 'news');
 //            setTimeout(function() {alert("timout gone");doAjax(newsFO, urlGetNews, 'news');}, 1000);
     });
