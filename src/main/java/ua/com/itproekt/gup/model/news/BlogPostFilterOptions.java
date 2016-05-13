@@ -80,4 +80,19 @@ public final class BlogPostFilterOptions extends BlogPost {
     public void setSearchField(String searchField) {
         this.searchField = searchField;
     }
+
+
+    @Override
+    public String toString() {
+        return "BlogPostFilterOptions{" +
+                "skip=" + skip +
+                ", limit=" + limit +
+                ", afterDate=" + afterDate +
+                ", searchField='" + searchField + '\'' +
+                ", createdDateSortDirection=" + createdDateSortDirection +
+                ", viewsSortDirection=" + viewsSortDirection +
+                ", totalLikesSortDirection=" + totalLikesSortDirection +
+                ", totalCommentsSortDirection=" + totalCommentsSortDirection +
+                '}';
+    }
 }
