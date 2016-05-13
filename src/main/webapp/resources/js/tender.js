@@ -43,6 +43,18 @@ function localDateTime(long) {
     return long;
 }
 
+function getTenderStatus(tender) {
+    var status = '';
+    if(tender.winnerId === null && tender.end < Date.now() / 1000) {
+        status = 'Не состоялся';
+    } else if(tender.winnerId !== null) {
+        status = 'Завершен';
+    } else if(tender.winnerId === null && tender.end > Date.now() / 1000) {
+        status = 'Приём предложений';
+    }
+    return status;
+}
+
 $.ajax({
     type: "POST",
     contentType: "application/json; charset=utf-8",
@@ -87,10 +99,8 @@ $.ajax({
 
         var dateEnd = localDateTime(data.end);
         $(".date-finish").last().text((dateEnd === 'Invalid date') ? 'Дата не указана' : dateEnd);
-        var tenderStatus = (data.winnerId === null && data.end > Date.now() / 1000) ? 'Прием предложений на участие в тендере'
-            : (data.winnerId === null && data.end < Date.now() / 1000) ? 'Тендер не состоялся'
-            : 'Тендер завершен';
-        $(".tender-status").text('Статус: ' + tenderStatus);
+
+        $(".tender-status").text('Статус: ' + getTenderStatus(data));
 
         // delete button if user is not an author of tender
         if (typeof loggedInProfile != 'undefined') {
