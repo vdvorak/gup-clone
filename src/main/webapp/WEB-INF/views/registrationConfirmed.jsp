@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
+    <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
@@ -21,7 +21,8 @@
 <body>
 
 <!--[if lt IE 8]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <jsp:include page="/WEB-INF/templates/common-header.jsp"/>
@@ -37,6 +38,7 @@
     <img src="/resources/images/tick_green.png" style="float:left;" alt="tick_green">
 
     <h1 style="color:#1269a7;font:400 30px 'Myriad Pro';display:inline-block;margin: 0 0 15px 45px;">${message}</h1>
+
     <h2 style="color:#898989;font:400 24px Arial;margin: 0 0 0 30px;display:inline-block;">${message}</h2>
 
 </div>

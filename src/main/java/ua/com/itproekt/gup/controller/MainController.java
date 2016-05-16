@@ -39,18 +39,9 @@ public class MainController {
         return 0;
     }
 
-    @RequestMapping(value = {"/indexOld"})
+    @RequestMapping(value = {"/yandex_6e80b1f848a4a92a.html"})
     public String indexOLD(Model model) {
 
-        if (SecurityOperations.isUserLoggedIn()) {
-            String userId = SecurityOperations.getLoggedUserId();
-            Profile profile = profilesService.findWholeProfileById(userId);
-
-            model.addAttribute("profile", profile);
-        }
-
-        model.addAttribute("profileFO", new ProfileFilterOptions());
-
-        return "indexOLD";
+        return "yandex-webmaster-approvement";
     }
 }
