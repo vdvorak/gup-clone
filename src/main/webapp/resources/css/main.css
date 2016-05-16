@@ -2533,7 +2533,6 @@ form > .richAssCheck > label:first-child {
     height: 115px;
     float: left;
     margin: 10px;
-    cursor: pointer
 }
 
 .profileListName {
@@ -4488,7 +4487,7 @@ form > .price > input:placeholder-shown {
 
 .dropDownBell > .bellMessage > p {
     color: white;
-    font: 400 11px Calibri
+    font: 400 11px Calibri;
 }
 
 .Logged > .book > .dropDownBook {
@@ -4503,7 +4502,7 @@ form > .price > input:placeholder-shown {
     background-color: #9c6;
     padding-left: 10px;
     display: none;
-    padding-bottom: 5px
+    padding-bottom: 10px;
 }
 
 .book > .dropDownBook > .friend {
@@ -4538,18 +4537,22 @@ form > .price > input:placeholder-shown {
     float: none;
     margin: 0;
     border: 0;
-    border-radius: 0
+    border-radius: 0;
 }
 
 .dropDownBook > .friend > a {
     margin-top: 8px;
-    float: left
+    float: left;
+    width: 130px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .track4 {
     width: 10px;
     background: transparent;
-    border: 0
+    border: 0;
 }
 
 .track4.dragging, .track4:hover {
@@ -5121,6 +5124,12 @@ form > .price > input:placeholder-shown {
     font-family: DroidSans, serif;
     cursor: default;
     opacity: 0.9;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently not supported by any browser */
 }
 
 .container2 > h2#h2-top-offers {
@@ -5308,3 +5317,38 @@ body > .err > i > i {
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
+
+.statInfo > .tender-status {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    color: #545454;
+    font: 11px DroidSans;
+    font-style: italic;
+    padding: 5px 20px;
+}
+
+#tender-container { margin-top: 130px; }
+
+.dropDownBook > .friend > .or {
+    margin: 0;
+    display: block;
+    float: none;
+    text-align: center;
+    background-color: #97ca65;
+    padding-top: 5px;
+    color: white;
+    transition: all .25s;
+}
+
+.dropDownBook > .friend > .or:hover { color: #03c; }
+
+.dropDownBook > .friend > .masLink {
+    float: none;
+    position: absolute;
+    bottom: -3px;
+    right: 5px;
+    margin: 0;
+}
+
+#btn-add-tel > img { cursor: pointer; }
