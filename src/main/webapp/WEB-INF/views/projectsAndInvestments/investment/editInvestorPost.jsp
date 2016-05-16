@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
@@ -49,9 +50,17 @@
         <div class="title">Редактирование поста инвестора</div>
         <div class="investor" id="tabs1-investment">
             <div class="field required kvd">
-                <label for="main-kvd-info" class="editorLabel">Выберите отрасль</label>
-                <input id="main-kvd-info" type="text" name='text' class="editorInput"
-                       placeholder="Введите через пробел">
+                <label for="categoriesOfIndustry" class="editorLabel">Выберите отрасль</label>
+                <select  id="categoriesOfIndustry" class="chosen" multiple="true" data-placeholder="Выберите отрасли" style="width: 550px;">
+                    <option value="engineering">Инженерно-строительные услуги</option>
+                    <option value="repair">Ремонт и обслуживание техники и оборудования</option>
+                    <option value="rent">Услуги проката и аренды</option>
+                    <option value="vehicles">Ремонт и техническое обслуживание автотранспорта</option>
+                    <option value="logistics">Логистические и складские услуги</option>
+                    <option value="health">Услуги в сфере медицины, здоровья и красоты</option>
+                    <option value="recreation">Услуги досуга, отдыха, культуры</option>
+                    <option value="education">Услуги в сфере образования, тренинги</option>
+                </select>
             </div>
             <div class="sum">
                 <div class="field required">

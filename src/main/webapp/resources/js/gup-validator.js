@@ -160,8 +160,15 @@
             this.validateOfferAdditionalFields();
         } else if(strategy === 'investorPost') {
             this.validateInvestorPostAdditionalFields(obj);
+        } else if(strategy === 'tender') {
+            this.validateTenderAdditionalFields(obj);
         }
 
+        return this;
+    }
+
+    GupValidator.prototype.validateTenderAdditionalFields = function(obj) {
+        if (obj.begin && obj.end && obj.begin > obj.end) this.messages.push('Дата начала не должна превышать дату окончания тендера.');
         return this;
     }
 

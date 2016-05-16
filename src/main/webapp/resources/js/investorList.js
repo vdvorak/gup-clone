@@ -1,7 +1,17 @@
-var investorPostFO = {skip: 0, limit: 10};
+var investorPostFO = {skip: 0, limit: 10, searchField: getUrlParam('name')};
+
+var categories = {
+    engineering: 'Инженерно-строительные услуги',
+    repair: 'Ремонт и обслуживание техники и оборудования',
+    rent: 'Услуги проката и аренды',
+    vehicles: 'Ремонт и техническое обслуживание автотранспорта',
+    logistics: 'Логистические и складские услуги',
+    health: 'Услуги в сфере медицины, здоровья и красоты',
+    recreation: 'Услуги досуга, отдыха, культуры',
+    education: 'Услуги в сфере образования, тренинги'
+};
 
 appendInvestorPosts(investorPostFO);
-
 
 function appendInvestorPosts(investorPostFO) {
     loadInvestorPostsWithFO(investorPostFO).statusCode({
@@ -30,8 +40,9 @@ function appendInvestorPostBlock(investorPost, balance) {
             var categoriesOfIndustryUlList = '';
 
             if(investorPost.categoriesOfIndustry) {
-                investorPost.categoriesOfIndustry.forEach(function (categorieOfIndustry) {
-                    categoriesOfIndustryUlList += '<li><a>' + categorieOfIndustry + '</a></li>';
+                investorPost.categoriesOfIndustry.forEach(function (categoryOfIndustry) {
+                    var c = categories[categoryOfIndustry];
+                    if(c) categoriesOfIndustryUlList += '<li><a>' + c + '</a></li>';
                 });
             }
 
@@ -54,7 +65,7 @@ function appendInvestorPostBlock(investorPost, balance) {
 
                 '<div class="details">' +
                 '<a href="/profile?id=' + profile.id + '">' +
-                '<div class="title"> Инвестор: ' + profile.username + '</div>' +
+                '<div class="title"> Инвестор: ' + getProfileName(profile) + '</div>' +
                 '</a>' +
                 '<div class="alreadyInvested">' +
                 '<div class="desc"> Баланс инвестора:  <div class="total">' + balance + ' ₴ </div></div>' +
