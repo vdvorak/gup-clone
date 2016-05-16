@@ -1,5 +1,16 @@
 var investorPostFO = {skip: 0, limit: 10, searchField: getUrlParam('name')};
 
+var categories = {
+    engineering: 'Инженерно-строительные услуги',
+    repair: 'Ремонт и обслуживание техники и оборудования',
+    rent: 'Услуги проката и аренды',
+    vehicles: 'Ремонт и техническое обслуживание автотранспорта',
+    logistics: 'Логистические и складские услуги',
+    health: 'Услуги в сфере медицины, здоровья и красоты',
+    recreation: 'Услуги досуга, отдыха, культуры',
+    education: 'Услуги в сфере образования, тренинги'
+};
+
 appendInvestorPosts(investorPostFO);
 
 function appendInvestorPosts(investorPostFO) {
@@ -29,8 +40,9 @@ function appendInvestorPostBlock(investorPost, balance) {
             var categoriesOfIndustryUlList = '';
 
             if(investorPost.categoriesOfIndustry) {
-                investorPost.categoriesOfIndustry.forEach(function (categorieOfIndustry) {
-                    categoriesOfIndustryUlList += '<li><a>' + categorieOfIndustry + '</a></li>';
+                investorPost.categoriesOfIndustry.forEach(function (categoryOfIndustry) {
+                    var c = categories[categoryOfIndustry];
+                    if(c) categoriesOfIndustryUlList += '<li><a>' + c + '</a></li>';
                 });
             }
 
@@ -70,13 +82,3 @@ function appendInvestorPostBlock(investorPost, balance) {
 $(".investApp").click(function () {
     alert("!!! Нужно окно для выбора проекта !!!");
 });
-
-function getProfileName(profile) {
-    if (profile.contact.type === 'LEGAL_ENTITY' ) {
-        return profile.contact.companyName;
-    } else if (profile.username) {
-        return  profile.username;
-    } else {
-        return 'Имя не указано';
-    }
-}

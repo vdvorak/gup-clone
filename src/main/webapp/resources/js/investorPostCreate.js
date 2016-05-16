@@ -4,12 +4,13 @@ if (typeof loggedInProfile == 'undefined') {
 
     var gupValidator = new window.GupValidator.Constructor('investorPost').init();
 
+    $(".chosen").chosen();
+
     $("#createInvestorPost").on('click', function (event) {
 
         var newInvestorPost = {};
 
-        var categoriesText = $('#main-kvd-info').val();
-        newInvestorPost.categoriesOfIndustry = (categoriesText) ? categoriesText.split(" ") : [];
+        newInvestorPost.categoriesOfIndustry = $('#categoriesOfIndustry').val();
         newInvestorPost.minInvestAmount = +$('#sum1').val();
         newInvestorPost.maxInvestAmount = +$('#sum2').val();
         newInvestorPost.description = $('#description').val();

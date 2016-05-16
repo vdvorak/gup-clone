@@ -20,9 +20,14 @@ function loadAndAppendInvestorPostInfo(investorPostId) {
 }
 
 function appendInvestorPostInfo(loadedInvestorPost) {
+    if(loadedInvestorPost.categoriesOfIndustry) {
+        $('#categoriesOfIndustry').val(loadedInvestorPost.categoriesOfIndustry);
+    }
+    $(".chosen").chosen();
+
     $('#sum1').val(loadedInvestorPost.minInvestAmount);
     $('#sum2').val(loadedInvestorPost.maxInvestAmount);
-    $('#description').val(loadedInvestorPost.description)
+    $('#description').val(loadedInvestorPost.description);
 }
 
 $('#updateInvestorPost').on('click', function () {
@@ -50,4 +55,5 @@ function initializeInvestorPostEntityForUpdate() {
     updatedInvestorPost.description = $('#description').val();
     updatedInvestorPost.minInvestAmount = +$('#sum1').val();
     updatedInvestorPost.maxInvestAmount = +$('#sum2').val();
+    updatedInvestorPost.categoriesOfIndustry = $('#categoriesOfIndustry').val();
 }
