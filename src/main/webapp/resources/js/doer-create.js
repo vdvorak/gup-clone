@@ -4,17 +4,22 @@ if (typeof loggedInProfile == 'undefined') {
 }
 
 var imgId = '';
-var doer = {};
-var naceIds = [];
+var gupValidator = new window.GupValidator.Constructor('doer').init();
 
 //----------------------------------------------------- Image form -----------------------------------------------
+$('.doerCreationSubmit').click(function () {
+    $('#photoInput').trigger('click');
+});
 
-$(document).on('change', '#photofile', function (e) {
+$('#photoInput').on('change', function (event) {
+    event.preventDefault();
 
-    var formImg = new FormData($('#photoInput')[0]);
+    var files = event.currentTarget.files;
+    var formImg = new FormData();
+    formImg.append('file', files[0]);
 
     if (imgId !== '') {
-        deleteImgFromDB(imgId);
+        deleteImgFromDB();
     }
 
     $.ajax({
@@ -27,17 +32,22 @@ $(document).on('change', '#photofile', function (e) {
         processData: false,
         success: function (data, textStatus, request) {
             imgId = data.id;
-            $('#imgPreview').attr("src", "/api/rest/fileStorage/DOER/file/read/id/" + imgId);
+            $('.doer-img ul').find('img').attr("src", "/api/rest/fileStorage/DOER/file/read/id/" + imgId);
+            $('.doer-img ul li').removeClass('li-defaultIMG');
         }
     });
+
+    $("#photoInput").val("");
 });
 //----------------------------------------------------- Image form -----------------------------------------------
 
 
 ///----------------------Delete photo from  DB-----------------------------------------
-function deleteImgFromDB(picId) {
+function deleteImgFromDB() {
+    $('.doer-img ul').find('img').attr("src", "/resources/images/no_photo.jpg");
+    $('.doer-img ul li').addClass('li-defaultIMG');
     $.ajax({
-        url: '/api/rest/fileStorage/DOER/file/delete/id/' + picId,
+        url: '/api/rest/fileStorage/DOER/file/delete/id/' + imgId,
         method: 'POST',
         success: function (response) {
         },
@@ -48,28 +58,37 @@ function deleteImgFromDB(picId) {
 ///----------------------Delete photo from  DB-----------------------------------------
 
 ///------------------------- Upload Doer -----------------------------------------------
-$(document).on('click', '#createDoer', function (event) {
+$('#createDoer').on('click', function (event) {
+    event.preventDefault();
 
-    naceIds.push($('#naceIds').val());
-
-    doer.title = $('#doerTitle').val();
+    var doer = {};
+    doer.title = $('#doerName').val();
     doer.body = $('#doerDescription').val();
     doer.imageId = imgId;
-    doer.naceIds = naceIds;
+    doer.naceIds = $("#doerNaceIds").val();
 
-//    alert(JSON.stringify(doer));
+    gupValidator.validate(doer);
+    if(!gupValidator.isValid) return;
 
     $.ajax({
         type: "POST",
-//      url: "/api/rest/doerService/doer/create",
         url: "/api/rest/doerService/doer/create/",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(doer),
         success: function (response) {
-            window.location.href = '/index';
+            window.location.href = '/tenders#tabs1-investment';
 //               в перспективе должно перекидывать на страницу этого исполнителя - его просмотр
         }
     });
 });
 ///------------------------- Upload Doer -----------------------------------------------
+
+$.when(loadNace).done(function(response){
+    var select = $('#doerNaceIds');
+    for(var i = 0; i < response.length; i++) {
+        var option = $('<option id="'+ response[i].id +'" value="'+ response[i].id +'">'+ response[i].id + ": " +response[i].name +'</option>');
+        select.append(option);
+    }
+    $("#doerNaceIds").chosen();
+});

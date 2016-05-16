@@ -75,6 +75,7 @@ $.ajax({
         }
 
         $(".tender-item-text").last().html(data.body);
+        if(!data.tenderNumber) $(".number.visible").removeClass('visible');
         $(".tender-number").last().text(data.tenderNumber);
         $(".tender-publish-date span").last().text(localDateTime(data.publishDate));
         $(".tender-veiws span").last().text(data.visited);
