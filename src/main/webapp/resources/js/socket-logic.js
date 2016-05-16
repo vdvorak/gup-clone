@@ -98,7 +98,6 @@ function appendToIncoming(message, dialogue) {
         elem.on('click', {dialogue: dialogue}, function(event){
             openDialog(event.data.dialogue);
         });
-
     }
 }
 
@@ -159,6 +158,14 @@ function keyCodeAnalyse(event){
     if(key === 13 && msg.message !==""){
         event.preventDefault();
         var url = "/app/socket-request/dialogue/" + dialogueId;
+
+        for(var i =0; i < dialogues.length; i++){
+            if(dialogues[i].id === dialogueId){
+                dialogues[i].sender = loggedInProfile.id;
+                break;
+            }
+        }
+
         stompClient.send(url, {}, JSON.stringify({ 'message': msg.message }));
         $('#'+ dialogueId + "_newMsg").val("");
     }else if(key === 13){
@@ -172,14 +179,62 @@ function keyCodeAnalyse(event){
 }
 
 function showRecentMessages (dialogue){
-    var messages = dialogue.messages;
-    for(var i = 0; i < messages.length; i++){
-        addMessage(dialogue.id, messages[i]);
+    $.ajax({
+        type: "POST",
+        url: "/dialogue/id/" + dialogue.id,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (dialogue) {
+            var messages = dialogue.messages;
+            for(var i = 0; i < messages.length; i++){
+                addMessage(dialogue.id, messages[i]);
+            }
+            var messagesField =  $("#" + dialogue.id + "_messages");
+            var height = messagesField[0].scrollHeight;
+            messagesField.scrollTop(height);
+
+            removeFromDropdown(dialogue.id);
+        }
+
+    });
+}
+
+function removeFromDropdown(dialogueId){
+    /*var senderName =  $($('#' + dialogueId + '_title')[0]).text();
+    console.log($(sender).text());*/
+    var sender = "";
+
+    var appendedSenders = [];
+
+    var arr = $('.dropDownMail').find('button');
+    for(var j=0; j < arr.length; j++){
+        appendedSenders.push($(arr[j]).attr('id').split('_')[0]);
     }
 
-    var messagesField =  $("#" + dialogue.id + "_messages");
-    var height = messagesField[0].scrollHeight;
-    messagesField.scrollTop(height);
+    var out = false;
+
+    for(var i =0; i < dialogues.length; i++){
+        for(var z=0; z < appendedSenders.length; z++){
+            for(var n=0; dialogues[i].members.length; n++){
+                if(dialogues[i].members[n].id === appendedSenders[z]){
+                    sender = appendedSenders[z];
+                    out = true;
+                    break;
+                }
+            }
+            if(out){
+             break;
+             }
+        }
+        if(dialogueId === dialogues[i].id){
+            dialogues[i].isOpenedOnce = true;
+        }
+    }
+    if(sender !== ""){
+        $('#' + sender + '_sender').remove();
+    }
+
+    //delete from the rest of corresponding arrays!!!!!!!
 }
 
 function setTitle(dialogue){

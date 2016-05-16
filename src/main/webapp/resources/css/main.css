@@ -5132,7 +5132,6 @@ form > .price > input:placeholder-shown {
     top: 0;
     padding: 5px;
     font-size: 15px;
-    cursor: pointer;
 }
 #adialog .dialog .message{
     border: 1px solid grey;

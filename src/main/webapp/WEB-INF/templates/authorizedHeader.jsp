@@ -106,7 +106,11 @@
 <script id="adialogTemplate" type="text/html">
     <div class="dialog">
         <div class="title" style="height: 32px;"></div>
-        <div class="close">x</div>
+        <div class="close">
+            <div>
+                <div class="minimize" style="display:inline-block; padding-right: 10px;cursor: pointer;">_</div><div id="close" style="display:inline-block;cursor: pointer;">x</div>
+            </div>
+        </div>
         <div class="messages" style="overflow-y: scroll; height: 235px;"></div>
         <div>
             <textarea id="newMsg" style="width: 100%;position: absolute;bottom: 0; height:30px;" onkeypress="keyCodeAnalyse(event)"></textarea>

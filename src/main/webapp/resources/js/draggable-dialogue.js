@@ -53,7 +53,7 @@ var ADialog = (function () {
             self.select()
             ADialog.save()
         })
-        this.handle.find('.close').click(function(){
+        this.handle.find('#close').click(function(){
             self.remove()
         })
     }
@@ -113,6 +113,7 @@ ADialog.prototype.updateView = function () {
     this.handle.find('.messages').attr('id', this.id + "_messages")
     this.handle.find('textarea').attr('dialogueId', this.id)
     this.handle.find('textarea').attr('id', this.id + "_newMsg")
+    this.handle.find('.minimize').attr('id', this.id + "_minimize")
 }
 ADialog.dialogTemplate = $($("#adialogTemplate").html())
 ADialog.dialogs = []
