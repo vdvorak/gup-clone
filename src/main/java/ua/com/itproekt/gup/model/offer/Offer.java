@@ -33,6 +33,7 @@ public class Offer {
 
 
     private LinkedHashSet<String> categories;
+    private String seoCategory; // last category for seo meta tags
     private List<Property> properties;
     @Size(max = 15)
     private Map<String, String> imagesIds;
@@ -163,6 +164,15 @@ public class Offer {
 
     public Offer setCategories(LinkedHashSet<String> categories) {
         this.categories = categories;
+        return this;
+    }
+
+    public String getSeoCategory() {
+        return seoCategory;
+    }
+
+    public Offer setSeoCategory(String seoCategory) {
+        this.seoCategory = seoCategory;
         return this;
     }
 
