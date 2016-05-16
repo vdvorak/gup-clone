@@ -1,7 +1,6 @@
-var investorPostFO = {skip: 0, limit: 10};
+var investorPostFO = {skip: 0, limit: 10, searchField: getUrlParam('name')};
 
 appendInvestorPosts(investorPostFO);
-
 
 function appendInvestorPosts(investorPostFO) {
     loadInvestorPostsWithFO(investorPostFO).statusCode({
@@ -54,7 +53,7 @@ function appendInvestorPostBlock(investorPost, balance) {
 
                 '<div class="details">' +
                 '<a href="/profile?id=' + profile.id + '">' +
-                '<div class="title"> Инвестор: ' + profile.username + '</div>' +
+                '<div class="title"> Инвестор: ' + getProfileName(profile) + '</div>' +
                 '</a>' +
                 '<div class="alreadyInvested">' +
                 '<div class="desc"> Баланс инвестора:  <div class="total">' + balance + ' ₴ </div></div>' +
@@ -71,3 +70,13 @@ function appendInvestorPostBlock(investorPost, balance) {
 $(".investApp").click(function () {
     alert("!!! Нужно окно для выбора проекта !!!");
 });
+
+function getProfileName(profile) {
+    if (profile.contact.type === 'LEGAL_ENTITY' ) {
+        return profile.contact.companyName;
+    } else if (profile.username) {
+        return  profile.username;
+    } else {
+        return 'Имя не указано';
+    }
+}
