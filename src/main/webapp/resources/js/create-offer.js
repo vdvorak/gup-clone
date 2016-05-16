@@ -179,7 +179,7 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
             dataType: "json",
             data: JSON.stringify(offer),
             success: function (response) {
-                window.location.href = '/offer/' + response.id;
+                window.location.href = '/obyavlenie/' + response.id;
             },
             error: function (response) {
                 alert("Внутренняя ошибка сервера");

@@ -101,7 +101,7 @@ public class OfferRestController {
 
         offersService.create(offer);
 
-        return new ResponseEntity<>(new CreatedObjResp(offer.getId()), HttpStatus.CREATED);
+        return new ResponseEntity<>(new CreatedObjResp(offer.getSeoUrl()), HttpStatus.CREATED);
     }
 
     //------------------------------------------ Update -----------------------------------------------------------------

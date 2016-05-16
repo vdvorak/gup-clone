@@ -7,8 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
 
-
-
     <title>Global Ukrainian Portal | GUP - объявления, новости тендеры, проекты и инвестиции</title>
     <meta name="description"
           content="Global Ukrainian Portal - твой украинский портал. Актуальные новости, объявления, интересные проекты и тендеры.">
@@ -19,10 +17,6 @@
     <meta property="og:url" content="http://gup.com.ua/"/>
     <meta property="og:image" content="http://gup.com.ua/resources/css/images/brand.png"/>
     <meta property="og:site_name" content="Gup.com.ua"/>
-
-
-
-
 
 
     <meta name="viewport" content="width=device-width, initial-scale=1">

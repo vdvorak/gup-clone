@@ -37,10 +37,19 @@ public class OfferController {
     public String getOneOfferBySeoKey(Model model, @PathVariable("seoUrl") String seoUrl) {
 
         String offerSeoKey = SeoUtils.getKey(seoUrl);
+        String flag = "offer";
+
 
         Offer offer = offersService.findBySeoKey(offerSeoKey);
 
-        String flag = "offer";
+        String title = offer.getTitle();
+
+        String seoAdress = getAdressFromOffer(offer);
+        String seoCategory = offer.getSeoCategory();
+
+
+        model.addAttribute("seoAdress", seoAdress);
+        model.addAttribute("seoCategory", seoCategory);
         model.addAttribute("flag", flag);
         model.addAttribute("offerId", offer.getId());
         return "offer/offer";
@@ -97,5 +106,18 @@ public class OfferController {
 
         return "offer/edit-offer";
     }
+
+
+    private String getAdressFromOffer(Offer offer) {
+        String result = "Украина";
+        if (offer.getAddress().getArea() != null) {
+            result = offer.getAddress().getArea();
+        }
+        if (offer.getAddress().getCity() != null) {
+            result = offer.getAddress().getCity();
+        }
+        return result;
+    }
+
 
 }
