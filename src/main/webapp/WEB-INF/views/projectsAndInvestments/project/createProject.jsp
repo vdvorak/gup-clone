@@ -133,6 +133,7 @@
                         <div style="width: 100%; text-align: center; font-weight: bold"></div>
                     </li>
                 </ul>
+                <p>Drop Image To Upload</p>
             </div>
 
             <div class="field">

@@ -436,8 +436,8 @@ function fillContactListBlock(contactList) {
                     $('.dropDownBook').append(
                         '<div class="friend">' +
                         getContactProfileImgTagHtml(profile.imgId) +
-                        '<a href="/profile?id=' + contactId + '">' + profile.username + '</a>' +
-                        '<a href="/dialogue/create/with/' + contactId + '">' +
+                        '<a title="'+ profile.username + '" href="/profile?id=' + contactId + '">' + profile.username + '</a>' +
+                        '<a class="masLink" href="/dialogue/create/with/' + contactId + '">' +
                         '<img src="/resources/images/userMessage.png" alt="Message">' +
                         '</a>' +
                         '</div>');
@@ -447,8 +447,7 @@ function fillContactListBlock(contactList) {
     } else {
         $('.dropDownBook').append(
             '<div class="friend">' +
-            '<p>Вы еще никого не добавили к себе в контакты.</p>' +
-            '<a href="/profile/list">Найти знакомых</a>' +
+            '<a class="or" href="/profile/list">Найти знакомых</a>' +
             '</div>');
     }
 }
