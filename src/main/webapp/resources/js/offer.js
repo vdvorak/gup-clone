@@ -231,6 +231,7 @@ $(document).ready(function () {
     var offerFO = {};
     offerFO.skip = 0;
     offerFO.limit = 5;
+    offerFO.createdDateSortDirection = "DESC";
     readAllByFilter();
 
 
@@ -266,16 +267,7 @@ $(document).ready(function () {
                             imgSrc = "/resources/images/no_photo.jpg";
                         }
 
-                        var priceStr = "Нет цены";
-                        if (offerObj.price) {
-                            priceStr = offerObj.price.toString();
-                                var strCurrency = (offerObj.currency === 'UAH') ? ' грн.'
-                                    : (offerObj.currency === 'USD') ? ' дол.'
-                                    : (offerObj.currency === 'EUR') ? ' евро'
-                                    : ' грн.';
-                                priceStr = priceStr + strCurrency;
-                        }
-
+                        var priceStr = window.offerFilter.getPriceStr(offerObj);
                         var newLi = $('#li-offer-basic').clone()
                             .attr('id', "")
                             .css("display", "inline-block");

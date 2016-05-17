@@ -616,6 +616,8 @@
 
     namespace.submitFilter = submitFilter;
 
+    namespace.getPriceStr = getPriceStr;
+
     namespace.deleteFilterRegion = deleteFilterRegion;
     namespace.selectFilterCity = selectFilterCity;
     namespace.selectAllCities = selectAllCities;
