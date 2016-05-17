@@ -1,11 +1,5 @@
 var loadedBlogPost = {};
 
-function localDateTime(long) {
-    long = (new Date(parseInt(long)));
-    long = moment(long).locale("ru").format('LLL');
-    return long;
-}
-
 $.ajax({
     type: "POST",
     url: "/api/rest/newsService/blogPost/id/" + blogPostId + "/read",

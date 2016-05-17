@@ -44,14 +44,8 @@ $(document).ready(function () {
         return url;
     }
 
-    function localDateTime(long) {
-        long = new Date(parseInt(long));
-        long = moment(long).locale("ru").format('LLL');
-        return long;
-    }
-
     function doAjax(filterOptions, url, whatDraw) {
-        console.log(filterOptions);
+
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",

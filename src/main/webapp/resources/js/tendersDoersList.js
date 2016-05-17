@@ -28,12 +28,6 @@ $(document).ready(function () {
         return url;
     }
 
-    function localDateTime(long) {
-        long = new Date(parseInt(long)) * 1000;
-        long = moment(long).locale("ru").format('LLL');
-        return long;
-    }
-
     function doAjax(filterOptions) {
         $.ajax({
             type: "POST",
