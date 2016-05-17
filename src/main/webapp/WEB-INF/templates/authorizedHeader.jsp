@@ -24,7 +24,7 @@
 
         <div class="dropDownMail">
             <div class="mailMessage">
-                <img class="msg-avatar" src="#" alt="logo" style="display: none">
+                <img class="msg-avatar" src="about:blank" alt="logo" style="display: none">
 
                 <p class="defaultP">У вас нет непрочитанных сообщений.</p>
             </div>

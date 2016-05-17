@@ -2,9 +2,6 @@ package ua.com.itproekt.gup.model.tender.doer;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- * Created by Комп2 on 09.11.2015.
- */
 @Document(collection = "doerRecall")
 public class Recall {
 
