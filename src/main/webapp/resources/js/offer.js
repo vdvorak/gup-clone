@@ -23,25 +23,8 @@ $('#a-author-offers').bind('click', offer.authorId, offerFilter.filterOffersByAu
 
 $('.offer-title').text(offer.title);
 
-if (offer.price) {
-    $('.offer-price').text(offer.price);
-    var currency = $('.currency');
-    switch (offer.currency) {
-        case 'UAH':
-            currency.text(' грн.');
-            break;
-        case 'USD':
-            currency.text(' дол.');
-            break;
-        case 'EUR':
-            currency.text(' евро');
-            break;
-        default:
-            currency.text(' грн.')
-    }
-} else {
-    $('.offer-price').text("Нет цены")
-}
+$('.offer-price').text(window.offerFilter.getPriceStr(offer));
+
 
 $('#create-date').text(offer.createdDate);
 
@@ -231,6 +214,7 @@ $(document).ready(function () {
     var offerFO = {};
     offerFO.skip = 0;
     offerFO.limit = 5;
+    offerFO.createdDateSortDirection = "DESC";
     readAllByFilter();
 
 
@@ -266,16 +250,7 @@ $(document).ready(function () {
                             imgSrc = "/resources/images/no_photo.jpg";
                         }
 
-                        var priceStr = "Нет цены";
-                        if (offerObj.price) {
-                            priceStr = offerObj.price.toString();
-                                var strCurrency = (offerObj.currency === 'UAH') ? ' грн.'
-                                    : (offerObj.currency === 'USD') ? ' дол.'
-                                    : (offerObj.currency === 'EUR') ? ' евро'
-                                    : ' грн.';
-                                priceStr = priceStr + strCurrency;
-                        }
-
+                        var priceStr = window.offerFilter.getPriceStr(offerObj);
                         var newLi = $('#li-offer-basic').clone()
                             .attr('id', "")
                             .css("display", "inline-block");
@@ -284,7 +259,7 @@ $(document).ready(function () {
                         newLi.find('img').attr("src", imgSrc);
 
 
-                        newLi.children('span').text("Просмотров: " + offerObj.views);
+                        newLi.children('span').text("Просмотров: " + ((offerObj.views === null) ? 0 : offerObj.views));
                         newLi.find('a.btn').text(priceStr).attr("href", '/obyavlenie/' + offerObj.seoUrl + '');
 
                         var noticeBox = $('ul.notice-box');

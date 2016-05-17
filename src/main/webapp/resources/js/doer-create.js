@@ -1,11 +1,29 @@
 if (typeof loggedInProfile == 'undefined') {
-    $('#doer-create-container').empty().append('<div class="anonymUser"><p><i class="fa fa-exclamation-circle"> Для создания объявления вам необходимо зарегистрироваться</i></p></div>')
+    $('#doer-create-container').empty().append('<div class="anonymUser"><p><i class="fa fa-exclamation-circle"> Для создания исполнителя вам необходимо зарегистрироваться</i></p></div>')
 }else{
 }
 
 var imgId = '';
 var gupValidator = new window.GupValidator.Constructor('doer').init();
 
+
+countTextLength();
+$("textarea").on('keyup', countTextLength);
+
+function countTextLength() {
+    var counter = $("#p-textlength");
+    var currentString = $("#doerDescription").val();
+    counter.text("Количество символов: " + currentString.length);
+    if (currentString.length <= 50) {  /*or whatever your number is*/
+        counter.css("color", "red");
+    } else {
+        if (currentString.length > 4000) {
+            counter.css("color", "red");
+        } else {
+            counter.css("color", "green");
+        }
+    }
+}
 //----------------------------------------------------- Image form -----------------------------------------------
 $('.doerCreationSubmit').click(function () {
     $('#photoInput').trigger('click');
@@ -77,8 +95,7 @@ $('#createDoer').on('click', function (event) {
         dataType: "json",
         data: JSON.stringify(doer),
         success: function (response) {
-            window.location.href = '/tenders#tabs1-investment';
-//               в перспективе должно перекидывать на страницу этого исполнителя - его просмотр
+            window.location.href = '/doer/' + response.id;
         }
     });
 });

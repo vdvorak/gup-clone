@@ -44,14 +44,8 @@ $(document).ready(function () {
         return url;
     }
 
-    function localDateTime(long) {
-        long = new Date(parseInt(long));
-        long = moment(long).locale("ru").format('LLL');
-        return long;
-    }
-
     function doAjax(filterOptions, url, whatDraw) {
-        console.log(filterOptions);
+
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
@@ -94,6 +88,7 @@ $(document).ready(function () {
     newsFO.skip = 0;
     newsFO.limit = 5;
     newsFO.searchField = getUrlParam('name');
+    newsFO.createdDateSortDirection = "DESC";
 
     $(".NewsTabsFilterItem").on('click', function () {
         $('.intro').removeClass("intro");
@@ -104,6 +99,7 @@ $(document).ready(function () {
         newsFO.skip = 0;
         newsFO.limit = 2;
         newsFO.searchField = getUrlParam('name');
+        newsFO.createdDateSortDirection = "DESC";
         doAjax(newsFO, urlGetNews, 'news');
 //            setTimeout(function() {alert("timout gone");doAjax(newsFO, urlGetNews, 'news');}, 1000);
     });
