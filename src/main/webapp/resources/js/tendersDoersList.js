@@ -178,12 +178,6 @@ $(document).ready(function () {
     doersFO.limit = 5;
     doersFO.searchField = getUrlParam('name');
 
-    function localDateTime(long) {
-        long = new Date(parseInt(long));
-        long = moment(long).locale("ru").format('LLL');
-        return long;
-    }
-
     function doAjax(filterOptions) {
         $.ajax({
             type: "POST",
