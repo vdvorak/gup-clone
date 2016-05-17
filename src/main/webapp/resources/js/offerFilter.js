@@ -114,7 +114,7 @@
         newLi.find('.image').attr("href", '/obyavlenie/' + offerObj.seoUrl + '');
         newLi.find('img').attr("src", imgSrc);
 
-        newLi.children('span').text("Просмотров: " + offerObj.views);
+        newLi.children('span').text("Просмотров: " + ((offerObj.views === null) ? 0 : offerObj.views));
         newLi.children('.priceButton').text(priceStr);
 
         return newLi;
@@ -353,47 +353,6 @@
             $('#price-wrapper').css('display', 'none');
         }
     }
-
-    /*    OfferFilter.prototype.selectRegionInFilter = function(event) {
-     event.preventDefault();
-
-     var region = $(event.currentTarget).children('a').text();
-
-     $('#filter-text-region').text(region);
-     $('#filter-city-container').find('li').remove();
-     $('#filter-text-city').text('Выберите город');
-
-     if (region === 'Вся Украина') {
-     $('#filter-city-container').css('display', 'none');
-     } else {
-     drawCitiesInFilter(region);
-     }
-     }
-
-     function drawCitiesInFilter(area) {
-     var cities = window.cities || {};
-
-     var citiesArr = cities[area];
-
-     var parentBlock = $('#filter-city-container').find('.multi-column-dropdown').first();
-     var li = $('<li><a href="#" style="font-weight: bold">Все города</a></li>').click(selectCityInFilter);
-     parentBlock.append(li);
-
-     var numInColumn = citiesArr.length / 2 + (citiesArr.length % 2);
-     for (var i = 0; i < citiesArr.length; i++) {
-     parentBlock = (i + 2 <= numInColumn) ? $('#filter-city-container').find('.multi-column-dropdown').first() : $('#filter-city-container').find('.multi-column-dropdown').last();
-     li = $('<li><a href="#">' + citiesArr[i] + '</a></li>').click(selectCityInFilter);
-     parentBlock.append(li);
-     }
-
-     $('#filter-city-container').css('display', 'inline-block');
-     }
-
-     function selectCityInFilter(event) {
-     event.preventDefault();
-     var city = $(event.currentTarget).children('a').text();
-     $('#filter-text-city').text(city);
-     }*/
 
     function getIdCategory1Lvl(id2lvl) {
         var id = $('#' + id2lvl).parent().parent().children('a:first').attr('id');

@@ -284,7 +284,7 @@ $(document).ready(function () {
                         newLi.find('img').attr("src", imgSrc);
 
 
-                        newLi.children('span').text("Просмотров: " + offerObj.views);
+                        newLi.children('span').text("Просмотров: " + ((offerObj.views === null) ? 0 : offerObj.views));
                         newLi.find('a.btn').text(priceStr).attr("href", '/obyavlenie/' + offerObj.seoUrl + '');
 
                         var noticeBox = $('ul.notice-box');
