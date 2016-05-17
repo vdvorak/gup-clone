@@ -1073,6 +1073,27 @@ input[class="greenCheckbox"]:checked + span {
     width: 100%;
     position: relative;
     margin-top: 10px;
+    padding-bottom: 15px;
+}
+
+.profile > a > button {
+    height: 39px;
+    width: 255px;
+    color: #fff;
+    font: 400 21px DroidSans;
+    background-color: #9c6;
+    border-radius: 7px;
+    border: 1px solid #9c6;
+    -webkit-transition: all ease .25s;
+    transition: all ease .25s;
+    position: absolute;
+    top: 350px;
+    left: 15px;
+}
+
+.profile > a > button:hover {
+    background-color: transparent;
+    color: #9c6;
 }
 
 .online {
@@ -1110,7 +1131,11 @@ input[class="greenCheckbox"]:checked + span {
     margin-bottom: 5px;
     display: inline-block;
     color: #1269a7;
-    font: 400 22px DroidSans;
+    font: 400 22px / 24px DroidSans;
+    width: 320px;
+    word-wrap: break-word;
+    height: 50px;
+    overflow: hidden;
 }
 
 .phone {
@@ -1216,7 +1241,7 @@ input[class="greenCheckbox"]:checked + span {
     background-color: #63caed;
     border-radius: 7px;
     border: 0;
-    margin: 0 10px 0 20px;
+    margin: 0 10px 0 15px;
     -webkit-transition: all ease .25s;
     transition: all ease .25s;
 }
@@ -2094,7 +2119,8 @@ form > .richAssCheck > label:first-child {
 .AboutMe-p {
     color: #898989;
     font: 400 14px Arial;
-    text-align: justify
+    text-align: justify;
+    word-wrap: break-word;
 }
 
 .AboutMe-p2 {
@@ -2522,7 +2548,7 @@ form > .richAssCheck > label:first-child {
 
 .DateOfBirth {
     color: #898989;
-    font: 400 19px DroidSans
+    font: 400 19px DroidSans;
 }
 
 .profileList {
@@ -3251,25 +3277,26 @@ input:focus:-ms-input-placeholder {
     width: 50%;
     -webkit-transition: all .25s;
     transition: all .25s;
-    height: 18px
+    height: 18px;
 }
 
 .listArtist ul li:hover {
-    padding-left: 10px
+    padding-left: 10px;
 }
 
 .listArtist ul li p {
     color: #1269a7;
-    font: 400 16px DroidSansDroidSans
+    font: 400 16px DroidSansDroidSans;
+    cursor: default;
 }
 
 .listArtist ul li p.anonymous {
     color: #ccc;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .maxWidth {
-    width: 860px
+    width: 860px;
 }
 
 .likeComments {
@@ -3399,20 +3426,28 @@ input:focus:-ms-input-placeholder {
 
 .doersFeed h2 {
     color: #1269a7;
-    font: 400 21px DroidSans
+    font: 400 21px / 25px DroidSans;
+    width: 400px;
+    display: inline-block;
+    max-height: 50px;
+    word-wrap: break-word;
 }
 
-.doersFeed p {
+.doersFeed > p {
     color: #828a8f;
-    font: 400 18px Calibri;
-    width: 650px;
-    text-align: justify
+    font: 400 18px / 20px Calibri;
+    width: 400px;
+    text-align: justify;
+    display: inline-block;
+    word-wrap: break-word;
+    max-height: 100px;
+    overflow: hidden;
 }
 
 .doersFeed .artistData ul li p {
     color: #464646;
     font: 400 14px Calibri;
-    display: inline
+    display: inline;
 }
 
 .doersFeed .artistData {

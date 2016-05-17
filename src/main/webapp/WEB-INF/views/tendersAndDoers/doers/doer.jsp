@@ -217,11 +217,14 @@
             </div>
         </div>
         <div class="clearfix"></div>
+        <c:if test="${check}">
+            <a href="/doer/update/${doer.id}">
+                <button>Редактировать</button>
+            </a>
+
+        </c:if>
     </div>
 </div>
-
-
-<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
 <script>
   $('.listArtist ul li p.anonymous').click(function (event) {
@@ -304,13 +307,6 @@
   <%--<br>--%>
   <%--${doer.dateOfUpdate}--%>
 <%--</div>--%>
-
-<c:if test="${check}">
-    <a href="/doer/update/${doer.id}">
-        <button>Редактировать</button>
-    </a>
-
-</c:if>
 
 <script>
     var categories = '${doer.naceIds}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
