@@ -3075,14 +3075,14 @@ label[for="checkbox-filter3"] {
 
 .ItemADS a {
     color: #fff;
-    font: 400 12px DroidSans
+    font: 400 12px DroidSans;
 }
 
-.ItemADS img {
+.ItemADS > a > img {
     border: 3px solid transparent;
     border-radius: 6px;
     width: 85px;
-    height: 85px
+    height: 85px;
 }
 
 .hoverIMG {
@@ -3979,52 +3979,64 @@ form > .description > textarea {
 
 .tenderMake > form > button[type="submit"]:hover {
     background-color: transparent;
-    color: #9c6
+    color: #9c6;
 }
 
 .ItemADS > .descriptionTitleLeft {
     position: absolute;
     top: 60px;
     left: 65px;
-    height: 175px;
-    width: 397px;
+    width: 400px;
     z-index: 1;
-    background: url(/resources/images/descriptionTitleLeft.png) no-repeat;
-    padding: 20px 10px 10px 30px;
-    display: none
+    background-color: #99CC66;
+    padding: 10px;
+    display: none;
+    border-radius: 0 10px 10px 10px;
+}
+
+.ItemADS > .descriptionTitleLeft > img {
+    position: absolute;
+    top: -9px;
+    left: -17px;
 }
 
 .ItemADS > .descriptionTitleRight {
     position: absolute;
     top: 60px;
     left: -380px;
-    height: 175px;
-    width: 397px;
+    width: 400px;
     z-index: 1;
-    background: url(/resources/images/descriptionTitleRight.png) no-repeat;
-    padding: 20px 30px 10px 10px;
-    display: none
+    background-color: #99CC66;
+    padding: 10px;
+    display: none;
+    border-radius: 10px 0 10px 10px;
+}
+
+.ItemADS > .descriptionTitleRight > img {
+    position: absolute;
+    top: -10px;
+    right: -19px;
 }
 
 .ItemADS > .descriptionTitleLeft a {
     color: #fff;
     font: 400 11px DroidSans;
     float: left;
-    margin: 0 11px 15px 11px;
-    width: 27%
+    margin: 0 12px 15px 12px;
+    width: 27%;
 }
 
 .ItemADS > .descriptionTitleRight a {
     color: #fff;
     font: 400 11px DroidSans;
     float: left;
-    margin: 0 11px 15px 11px;
-    width: 27%
+    margin: 0 12px 15px 12px;
+    width: 27%;
 }
 
 .ItemADS > .descriptionTitleLeft a:hover {
     font-style: italic;
-    text-decoration: underline
+    text-decoration: underline;
 }
 
 .ItemADS > .descriptionTitleRight a:hover {
@@ -4047,17 +4059,17 @@ form > .description > textarea {
     font-style: italic;
     text-decoration: underline;
     margin-bottom: 0;
-    margin-top: 5px
+    margin-top: 5px;
 }
 
 .ItemADS > .descriptionTitleLeft a:last-child:hover {
     text-decoration: none;
-    font-style: normal
+    font-style: normal;
 }
 
 .ItemADS > .descriptionTitleRight a:last-child:hover {
     text-decoration: none;
-    font-style: normal
+    font-style: normal;
 }
 
 .filterADS:after {
@@ -4231,19 +4243,19 @@ form > .price > input:placeholder-shown {
 
 .contentContainer.vip {
     border: 2px solid #fc9b00;
-    border-radius: 4px
+    border-radius: 4px;
 }
 
 .contentContainer.vip .abutton.blue {
     background-color: #fdb33c;
     border-color: #fdb33c;
     -webkit-transition: all .25s;
-    transition: all .25s
+    transition: all .25s;
 }
 
 .contentContainer.vip .abutton.blue:hover {
     background-color: transparent;
-    color: #fdb33c
+    color: #fdb33c;
 }
 
 .Logged > .mail {
@@ -5373,4 +5385,15 @@ body > .err > i > i {
 
 .highlight {
     background-color: black;
+}
+
+#write-to-author {
+    background: #99cc66 none;
+    border-color: transparent;
+}
+
+#edit-offer-link > .btn.btn-warning,
+.notice-box > li > a.btn.btn-xs.btn-warning {
+    background: #faaf3a none;
+    border-color: transparent;
 }
