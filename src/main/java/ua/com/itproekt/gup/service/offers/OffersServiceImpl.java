@@ -110,6 +110,7 @@ public class OffersServiceImpl implements OffersService {
                 .setImagesIds(oldOffer.getImagesIds())
                 .setVideoUrl(oldOffer.getVideoUrl())
                 .setSeoUrl(oldOffer.getSeoUrl())
+                .setSeoCategory(oldOffer.getSeoCategory())
                 .setTitle(oldOffer.getTitle())
                 .setDescription(oldOffer.getDescription())
                 .setPrice(oldOffer.getPrice())

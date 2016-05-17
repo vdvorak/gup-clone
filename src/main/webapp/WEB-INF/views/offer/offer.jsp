@@ -7,20 +7,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
 
-    <title>Global Ukrainian Portal | GUP - объявления, новости тендеры, проекты и инвестиции</title>
+    <title>${title} - ${seoCategory} ${seoAdress} на Gup</title>
     <meta name="description"
           content="Global Ukrainian Portal - твой украинский портал. Актуальные новости, объявления, интересные проекты и тендеры.">
 
     <meta property="og:title"
-          content="Global Ukrainian Portal - твой украинский портал. Актуальные новости, объявления, интересные проекты и тендеры."/>
+          content="${title} - ${seoCategory} ${seoAdress} на Gup"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:url" content="http://gup.com.ua/"/>
-    <meta property="og:image" content="http://gup.com.ua/resources/css/images/brand.png"/>
-    <meta property="og:site_name" content="Gup.com.ua"/>
-
-
+    <meta property="og:url" content="http://gup.com.ua/obyavlenie/${seoUrl}"/>
+    <c:choose>
+        <c:when test="${mainImgId == ''}">
+            <meta property="og:image" content="http://gup.com.ua/resources/images/no_photo.jpg"/>
+        </c:when>
+        <c:otherwise>
+            <meta property="og:image"
+                  content="http://gup.com.ua/api/rest/fileStorage/OFFERS/file/read/id/${mainImgId}"/>
+        </c:otherwise>
+    </c:choose>
+    <meta property="og:site_name" content="Gup.com.ua - Global Ukrainian Portal"/>
+    <link rel="icon" type="image/x-icon" href="http://gup.com.ua/resources/images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
@@ -192,7 +198,8 @@
     </div>
 
     <div class="offerPluso">
-        <div class="pluso" data-background="transparent" data-options="small,round,line,horizontal,counter,theme=04" data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print"></div>
+        <div class="pluso" data-background="transparent" data-options="small,round,line,horizontal,counter,theme=04"
+             data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print"></div>
     </div>
 
     <h2 class="title-h2-blue text-center">САМЫЕ ПОСЛЕДНИЕ ДОБАВЛЕНИЯ</h2>
@@ -226,15 +233,19 @@
 
 <%--     <PLUSP>     --%>
 
-<script type="text/javascript">(function() {
+<script type="text/javascript">(function () {
     if (window.pluso)if (typeof window.pluso.start == "function") return;
-    if (window.ifpluso==undefined) { window.ifpluso = 1;
+    if (window.ifpluso == undefined) {
+        window.ifpluso = 1;
         var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
-        s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
-        s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
-        var h=d[g]('body')[0];
+        s.type = 'text/javascript';
+        s.charset = 'UTF-8';
+        s.async = true;
+        s.src = ('https:' == window.location.protocol ? 'https' : 'http') + '://share.pluso.ru/pluso-like.js';
+        var h = d[g]('body')[0];
         h.appendChild(s);
-    }})();
+    }
+})();
 </script>
 
 <%--     </PLUSP>     --%>

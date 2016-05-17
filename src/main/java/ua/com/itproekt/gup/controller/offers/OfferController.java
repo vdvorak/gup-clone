@@ -15,6 +15,7 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SeoUtils;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Controller
 public class OfferController {
@@ -46,10 +47,13 @@ public class OfferController {
 
         String seoAdress = getAdressFromOffer(offer);
         String seoCategory = offer.getSeoCategory();
+        String mainImgId = getFistImgFromOffer(offer.getImagesIds());
 
-
-        model.addAttribute("seoAdress", seoAdress);
+        model.addAttribute("mainImgId", mainImgId);
+        model.addAttribute("title", title);
         model.addAttribute("seoCategory", seoCategory);
+        model.addAttribute("seoAdress", seoAdress);
+        model.addAttribute("seoUrl", seoUrl);
         model.addAttribute("flag", flag);
         model.addAttribute("offerId", offer.getId());
         return "offer/offer";
@@ -107,6 +111,14 @@ public class OfferController {
         return "offer/edit-offer";
     }
 
+    private String getFistImgFromOffer(Map<String, String> imgsMap) {
+        for (String s : imgsMap.keySet()) {
+            if (imgsMap.get(s).equals("pic1")) {
+                return s;
+            }
+        }
+        return "";
+    }
 
     private String getAdressFromOffer(Offer offer) {
         String result = "Украина";
