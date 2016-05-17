@@ -44,6 +44,7 @@ public class OffersServiceImpl implements OffersService {
                 .setImagesIds(offer.getImagesIds())
                 .setSeoUrl(offer.getSeoUrl())
                 .setSeoKey(offer.getSeoKey())
+                .setSeoCategory(offer.getSeoCategory())
                 .setVideoUrl(offer.getVideoUrl())
                 .setTitle(offer.getTitle())
                 .setDescription(offer.getDescription())

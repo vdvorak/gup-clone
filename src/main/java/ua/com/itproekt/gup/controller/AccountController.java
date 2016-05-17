@@ -97,12 +97,9 @@ public class AccountController {
 
         String authId = profile.getId();
 
-        System.err.println("Деньги пришли: " + session.getUserBalance(loggedUserId));
         model.addAttribute("profile", profile);
         model.addAttribute("curentBalance", session.getUserBalance(authId));
 
-        System.err.println("balance: " + session.getUserBalance(authId));
-        System.err.println("id: " + authId);
 
         List<Dialogue> dialogues = dialogueService.findFirstThreeDialogues(new Member(profile.getId()));
         model.addAttribute("dialogues", dialogues);
@@ -163,7 +160,6 @@ public class AccountController {
             e.printStackTrace();
         }
 
-        System.err.println("json: " + balanceStr);
         model.addAttribute("balance", balance);
 
         return "prioffice";
