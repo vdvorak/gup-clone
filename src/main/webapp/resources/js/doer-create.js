@@ -1,5 +1,5 @@
 if (typeof loggedInProfile == 'undefined') {
-    $('#doer-create-container').empty().append('<div class="anonymUser"><p><i class="fa fa-exclamation-circle"> Для создания объявления вам необходимо зарегистрироваться</i></p></div>')
+    $('#doer-create-container').empty().append('<div class="anonymUser"><p><i class="fa fa-exclamation-circle"> Для создания исполнителя вам необходимо зарегистрироваться</i></p></div>')
 }else{
 }
 
@@ -77,8 +77,7 @@ $('#createDoer').on('click', function (event) {
         dataType: "json",
         data: JSON.stringify(doer),
         success: function (response) {
-            window.location.href = '/tenders#tabs1-investment';
-//               в перспективе должно перекидывать на страницу этого исполнителя - его просмотр
+            window.location.href = '/doer/' + response.id;
         }
     });
 });

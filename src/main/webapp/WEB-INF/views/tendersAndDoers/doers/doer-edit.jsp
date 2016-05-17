@@ -1,135 +1,126 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Редактирование исполнителя</title>
-    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Создание исполнителя</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
+    <link rel="stylesheet" href="/resources/css/bootstrap.css">
+    <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/font-awesome.css">
+    <link rel="stylesheet" href="/resources/css/media-queries.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
+    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
+    <link rel="stylesheet" href="/resources/css/mini.css">
+    <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
 </head>
 <body>
-    <div>
-        <select id="naceIds" required>
-            <option value="nace1">01.11 Вирощування зернових культур (крім рису), бобових культур і насіння олійних
-                культур
-            </option>
-            <option value="nace2">01.12 Вирощування рису</option>
-            <option value="nace3">01.13 Вирощування овочів та баштанних культур, коренеплодів та бульбоплодів</option>
-            <option value="nace4">01.15 Вирощування тютюну</option>
-            <option value="nace5">01.16 Вирощування прядивних культур</option>
-        </select>
-    </div>
-    <div>
-        <input id="doerTitle" type="text" name="doerTitle" value="${doer.title}" minlength="2" maxlength="70" required
-               placeholder="Название исполнителя">
-    </div>
 
-    <div>
-    <textarea id="doerDescription" value="${doer.body}" minlength="50" maxlength="5000" required
-              placeholder="Описание исполнителя"></textarea>
-    </div>
+<jsp:include page="/WEB-INF/templates/common-header.jsp"/>
 
+<jsp:include page="/WEB-INF/templates/logo-section.jsp"/>
 
-    <div>
-        <form id="photoInput" enctype="multipart/form-data" method="post">
-            <input id="photofile" type="file" name="file" multiple accept="image/*,image/jpeg">
+<jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
+
+<jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
+
+<div id="doer-create-container" class="container2">
+    <div class="doerCreate">
+        <h1>РЕДАКТИРОВАНИЕ ИСПОЛНИТЕЛЯ</h1>
+
+        <form action="#">
+            <label for="doerName">Введите название</label>
+            <input id="doerName" type="text" placeholder="Длина заголовка от 5 до 70 символов">
+
+            <div class="clearfix"></div>
+
+            <label for="doerNaceIds">Выберите отрасль</label>
+            <select id="doerNaceIds" class="chosen" multiple data-placeholder="Выберите отрасль" style="width: 553px;">
+            </select>
+
+            <div class="clearfix"></div>
+
+            <label for="doerDescription">Описание</label>
+            <textarea name="doerDescription" id="doerDescription"
+                      placeholder="Длина описания от 50 до 4000 символов"></textarea>
+
+            <div class="clearfix"></div>
         </form>
 
-        <div class="imgBlock">
-            <img id="imgPreview" src="/api/rest/fileStorage/DOER/file/read/id/${doer.imageId}" width="200" height="200"/>
+        <div class="drop_zone">
+            <div class="doer-img">
+                <ul>
+                    <li class="li-defaultIMG">
+                        <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImg()"></i></span>
+                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="titleFile" data-title="Добавить изображение">
+            <input type="button" class="doerCreationSubmit">
+        </div>
+        <label class="doerCreationLabel">Фотографии</label>
+
+        <div class="clearfix"></div>
+
+        <button id="createDoer">Сохранить</button>
+        <button id="deleteDoer">Удалить</button>
+
+        <div class="clearfix"></div>
+
+        <div class="confirm" id="confirmDoerDelete" style="display: none">
+            <h1>Подтвердите удаление</h1>
+            <p>Исполнитель будет навсегда удален</p>
+            <button id="cancelDoerDelBtn" autofocus>Отмена</button>
+            <button id="confirmDoerDelBtn">Удалить</button>
         </div>
 
     </div>
-    <p>
-    <button id="updateDoer">Редактировать профиль исполнителя</button>
-<p>
-    <!-- private List<DoerClient> clients; -->
-    <div>Ваши клиенты:
-        <table>
-            <c:forEach var="client" items="${doer.clients}">
-                <td>
-                    <tr>id: ${client.id}</tr>
-                </td>
-            </c:forEach>
-        </table>
+</div>
+
+<form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
+    <input id="photoInput" type="file" style="display: none;" multiple="multiple">
+</form>
+
+<div id="gup-validator-popup" class="gup-popup-overlay">
+    <div class="gup-popup">
+        <h2>Ошибка редактирования исполнителя</h2>
+        <a class="popup-close" href="#">&times;</a>
+
+        <div class="popup-content">
+
+        </div>
     </div>
-    <div>Добавить клиента</div>
+</div>
 
-    <script src="/resources/libs/jquery-1.11.3.min.js"></script>
-    <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-    <script>
+<sec:authorize access="isAuthenticated()">
+    <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
+</sec:authorize>
 
-        var imgId = '';
-        var newDoer = {};
-        var naceIds = [];
+<jsp:include page="/WEB-INF/templates/footer.jsp"/>
 
+<jsp:include page="/WEB-INF/templates/libraries-template.jsp"/>
 
-        //----------------------------------------------------- Image form -----------------------------------------------
+<jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
-        $(document).on('change', '#photofile', function (e) {
-
-            var formImg = new FormData($('#photoInput')[0]);
-
-            if (imgId !== '') {
-                deleteImgFromDB(imgId);
-            }
-
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/fileStorage/DOER/file/upload/",
-                data: formImg,
-                async: false,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (data, textStatus, request) {
-                    imgId = data.id;
-                    $('#imgPreview').attr("src", "/api/rest/fileStorage/DOER/file/read/id/" + imgId);
-                }
-            });
-        });
-        //----------------------------------------------------- Image form -----------------------------------------------
+<script>
+    var flag = '${flag}';
+    var doerId = '${doer.id}';
+</script>
 
 
-        ///----------------------Delete photo from  DB-----------------------------------------
-        function deleteImgFromDB(picId) {
-            $.ajax({
-                url: '/api/rest/fileStorage/DOER/file/delete/id/' + picId,
-                method: 'POST',
-                success: function (response) {
-                },
-                error: function (response) {
-                }
-            });
-        }
-        ///----------------------Delete photo from  DB-----------------------------------------
+<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
-        ///------------------------- Upload Doer -----------------------------------------------
-        $(document).on('click', '#updateDoer', function (event) {
+<script src="/resources/js/doer-edit.js"></script>
 
-            naceIds.push($('#naceIds').val());
-
-            newDoer.id = "${doer.id}";
-            newDoer.title = $('#doerTitle').val();
-            newDoer.body = $('#doerDescription').val();
-            newDoer.imageId = imgId;
-            newDoer.naceIds = naceIds;
-
-//    alert(JSON.stringify(doer));
-
-            $.ajax({
-                type: "POST",
-                url: "/api/rest/doerService/doer/id/${doer.id}/update/",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify(newDoer),
-                success: function (response) {
-                    window.location.href = '/doer/${doer.id}';
-                }
-            });
-        });
-        ///------------------------- Upload Doer -----------------------------------------------
-    </script>
-    </body>
+</body>
 </html>
-
-
-
