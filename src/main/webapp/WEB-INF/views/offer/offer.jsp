@@ -7,21 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
 
-    <title>${title} - ${seoCategory} ${seoAdress} на Gup</title>
+    <title>${seoMetaTags.title} - ${seoMetaTags.seoCategory} ${seoMetaTags.seoAdress} на Gup</title>
     <meta name="description"
           content="Global Ukrainian Portal - твой украинский портал. Актуальные новости, объявления, интересные проекты и тендеры.">
 
     <meta property="og:title"
-          content="${title} - ${seoCategory} ${seoAdress} на Gup"/>
+          content="${seoMetaTags.title} - ${seoMetaTags.seoCategory} ${seoMetaTags.seoAdress} на Gup"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:url" content="http://gup.com.ua/obyavlenie/${seoUrl}"/>
+    <meta property="og:url" content="http://gup.com.ua/obyavlenie/${seoMetaTags.seoUrl}"/>
     <c:choose>
-        <c:when test="${mainImgId == ''}">
+        <c:when test="${seoMetaTags.mainImgId == ''}">
             <meta property="og:image" content="http://gup.com.ua/resources/images/no_photo.jpg"/>
         </c:when>
         <c:otherwise>
             <meta property="og:image"
-                  content="http://gup.com.ua/api/rest/fileStorage/OFFERS/file/read/id/${mainImgId}"/>
+                  content="http://gup.com.ua/api/rest/fileStorage/OFFERS/file/read/id/${seoMetaTags.mainImgId}"/>
         </c:otherwise>
     </c:choose>
     <meta property="og:site_name" content="Gup.com.ua - Global Ukrainian Portal"/>

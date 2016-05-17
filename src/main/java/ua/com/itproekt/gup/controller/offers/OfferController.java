@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ua.com.itproekt.gup.model.offer.Offer;
-import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.util.SeoMetaTags;
 import ua.com.itproekt.gup.util.SeoUtils;
 
 import java.io.IOException;
@@ -43,17 +43,13 @@ public class OfferController {
 
         Offer offer = offersService.findBySeoKey(offerSeoKey);
 
-        String title = offer.getTitle();
-
-        String seoAdress = getAdressFromOffer(offer);
-        String seoCategory = offer.getSeoCategory();
-        String mainImgId = getFistImgFromOffer(offer.getImagesIds());
-
-        model.addAttribute("mainImgId", mainImgId);
-        model.addAttribute("title", title);
-        model.addAttribute("seoCategory", seoCategory);
-        model.addAttribute("seoAdress", seoAdress);
-        model.addAttribute("seoUrl", seoUrl);
+        SeoMetaTags seoMetaTags = new SeoMetaTags()
+                .setMainImgId(getFistImgFromOffer(offer.getImagesIds()))
+                .setTitle(offer.getTitle())
+                .setSeoCategory(offer.getSeoCategory())
+                .setSeoAdress(getAdressFromOffer(offer))
+                .setSeoUrl(seoUrl);
+        model.addAttribute("seoMetaTags", seoMetaTags);
         model.addAttribute("flag", flag);
         model.addAttribute("offerId", offer.getId());
         return "offer/offer";
@@ -130,6 +126,5 @@ public class OfferController {
         }
         return result;
     }
-
 
 }
