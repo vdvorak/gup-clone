@@ -532,6 +532,7 @@
         }
 
         offer.categories = categories;
+        offer.seoCategory = getLastCategory();
         offer.active = true;
         offer.description = $('#new-label-3').val();
         offer.userInfo = {};
@@ -1008,7 +1009,16 @@
         $('#selection-price').change();
     }
 
+    function getLastCategory() {
+        var lastCategory = null;
 
+        var blocks = document.querySelectorAll('#categories-row div');
+        for(var i = 0; i < blocks.length; i++) {
+            if(blocks[i].style.display !== 'none') lastCategory = blocks[i].querySelector('[id^="text-category"]').textContent;
+        }
+
+        return lastCategory;
+    }
     //--------------------------------END CATEGORY-------------------------------------------------//
 
     //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//

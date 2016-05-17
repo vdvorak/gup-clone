@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.itproekt.gup.model.profiles.Contact;
 import ua.com.itproekt.gup.util.SocialNetwork;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -19,7 +20,9 @@ public class Doer {
     // this field mast never storeg in DB, it will be download at "read" time
     private Contact authorContacts;
     private List<String> naceIds;
+    @Size(min = 5, max = 70)
     private String title;
+    @Size(min = 50, max = 4000)
     private String body;
     // ids of people or company, hwo work with this doer
     private List<DoerClient> clients;

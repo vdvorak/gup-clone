@@ -16,7 +16,9 @@
   <link rel="stylesheet" href="resources/css/main.css">
   <link rel="stylesheet" href="resources/css/font-awesome.css">
   <link rel="stylesheet" href="resources/css/media-queries.css">
+  <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
   <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
+  <link rel="stylesheet" href="/resources/css/mini.css">
 </head>
 <body>
 
@@ -33,36 +35,57 @@
     <h1>СОЗДАНИЕ ИСПОЛНИТЕЛЯ</h1>
     <form action="#">
       <label for="doerName">Введите название</label>
-      <input id="doerName" type="text">
+      <input id="doerName" type="text"  placeholder="Длина заголовка от 5 до 70 символов">
 
       <div class="clearfix"></div>
 
-      <label for="doerName">Выберете отрасль</label>
-      <div id="selectBox-info-type">
-        <select id="select-type" class="form-control">
-          <option>Выберете тип</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
-      </div>
+      <label for="doerNaceIds">Выберите отрасль</label>
+      <select id="doerNaceIds" class="chosen" multiple data-placeholder="Выберите отрасль" style="width: 553px;">
+      </select>
 
       <div class="clearfix"></div>
 
       <label for="doerDescription">Описание</label>
-      <textarea name="doerDescription" id="doerDescription"></textarea>
+      <textarea name="doerDescription" id="doerDescription"  placeholder="Длина описания от 50 до 4000 символов"></textarea>
 
       <div class="clearfix"></div>
     </form>
-    <img class="clip" src="/resources/images/clip.png" alt="clip">
-    <img src="/resources/images/doerLogo.png" alt="doerLogo">
+
+    <div class="drop_zone">
+      <div class="doer-img">
+        <ul>
+          <li class="li-defaultIMG">
+            <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImgFromDB()"></i></span>
+            <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="titleFile" data-title="Добавить изображение">
+      <input type="button" class="doerCreationSubmit">
+    </div>
+    <label class="doerCreationLabel">Фотографии</label>
 
     <div class="clearfix"></div>
 
-    <button type="button">Сохранить</button>
+    <button id="createDoer" type="button">Сохранить</button>
 
     <div class="clearfix"></div>
+  </div>
+</div>
+
+<form id="photoForm" enctype="multipart/form-data" method="post" style="display:none">
+  <input id="photoInput" type="file" style="display: none;" multiple="multiple">
+</form>
+
+<div id="gup-validator-popup" class="gup-popup-overlay">
+  <div class="gup-popup">
+    <h2>Ошибка создания исполнителя</h2>
+    <a class="popup-close" href="#">&times;</a>
+    <div class="popup-content">
+
+    </div>
   </div>
 </div>
 

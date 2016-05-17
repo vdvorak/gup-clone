@@ -134,6 +134,7 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
         }
 
         offer.categories = categoryResult;
+        offer.seoCategory = getLastCategory();
         offer.active = true;
         offer.description = $('#new-label-3').val();
         offer.userInfo = {};
@@ -521,6 +522,17 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
         erase();
         drawOptions(category3Id);
         $('#selection-price').change();
+    }
+
+    function getLastCategory() {
+        var lastCategory = null;
+
+        var blocks = document.querySelectorAll('#categories-row div');
+        for(var i = 0; i < blocks.length; i++) {
+            if(blocks[i].style.display !== 'none') lastCategory = blocks[i].querySelector('[id^="text-category"]').textContent;
+        }
+
+        return lastCategory;
     }
 
 

@@ -174,6 +174,7 @@ a.explanation-point-tooltip img {
 }
 #offer-inpPrice {
     width: 100%;
+    border-width: 2px !important;
 }
 #offer-container {
     border: 2px solid #9c6;
@@ -303,18 +304,19 @@ textarea {
 }
 
 #selectKved_chosen, #selectParticipants_chosen {
-    border: 2px solid #9c6;
-    border-radius: 5px;
-    font: 400 13px DroidSans !important;
     margin-bottom: 40px;
-    margin-left: 10px;
+}
+
+#doerNaceIds_chosen {
+    margin-left: 42px;
+    margin-bottom: 30px;
 }
 
 .chosen-container .chosen-choices {
     padding-left: 5px;
     position: relative;
-    margin-left: 5px;
-    border: 3px solid rgb(153, 204, 102);
+    margin-left: 5px !important;
+    border: 2px solid rgb(153, 204, 102) !important;
     border-radius: 6px;
     font: 400 16px DroidSans;
     line-height: 20px;
@@ -415,4 +417,66 @@ textarea {
 .gup-popup .popup-content p {
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+#doerCreationSocial {
+    margin-bottom: 10px !important;
+}
+
+.doer-img {
+    margin-left: 195px;
+}
+
+.doer-img ul,
+.doer-img ul li{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.doer-img ul li {
+    width: 225px;
+    height: 225px;
+    list-style-type: none;
+    display: inline-block;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.doer-img ul li img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.doer-img ul li:not(.li-defaultIMG):hover .descr {
+    opacity: 1;
+    -webkit-transform: rotateZ(0deg);
+    transform: rotateZ(0deg);
+    border-radius: 0;
+}
+
+.doerCreationLabel {
+    color: #959595;
+    font: 400 12px ArianAMU;
+    line-height: 22px;
+    margin-left: 50px;
+    float: left;
+}
+
+.doerCreationSubmit {
+    height: 34px;
+    width: 225px;
+    border: 4px solid #9c6;
+    border-radius: 6px;
+    color: #9c6;
+    font: 400 21px ArianAMU;
+    background: transparent url(/resources/css/images/+sub.png) no-repeat center center;
+    margin-bottom: 30px
+}
+
+.doerCreate form label {
+    float: left;
 }
