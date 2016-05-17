@@ -547,3 +547,14 @@ $(window).keypress(function (e) {
         $(".dropDownMail").slideUp("fast");
     }
 });
+
+
+
+$('.dropDownBell').on('scroll', function() {
+
+    var lastBellMessage = $(".dropDownBell").children('.bellMessage').last();
+
+    if($('.dropDownBell').scrollTop() >= lastBellMessage.offset().top + lastBellMessage.outerHeight()) {
+        alert('включим воображение и представим что этот алерт на самом деле AJAX запросик и сейчас будут подтягиваться новые уведомления')
+    }
+});

@@ -180,6 +180,13 @@ table {
     line-height: 98px;
     display: inline-block;
     margin-left: 18px;
+    cursor: default;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently not supported by any browser */
 }
 
 .store li {
@@ -4509,13 +4516,13 @@ form > .price > input:placeholder-shown {
     position: relative;
     border-top: 1px solid white;
     background-color: #dfe5e6;
-    display: none
+    display: none;
 }
 
 .book > .dropDownBook > .friend:after {
     content: '';
     clear: both;
-    display: table
+    display: table;
 }
 
 .dropDownBook > .friend > img {
@@ -5339,6 +5346,7 @@ body > .err > i > i {
     padding-top: 5px;
     color: white;
     transition: all .25s;
+    width: auto;
 }
 
 .dropDownBook > .friend > .or:hover { color: #03c; }
@@ -5352,3 +5360,17 @@ body > .err > i > i {
 }
 
 #btn-add-tel > img { cursor: pointer; }
+
+.offerPluso {
+    margin: 50px 0;
+    border: 1px solid #9c6;
+    padding: 5px;
+    display: inline-block;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+}
+
+.highlight {
+    background-color: black;
+}
