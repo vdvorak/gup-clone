@@ -76,15 +76,36 @@
     }
 
 
-    function getPriceStr(price, currency) {
-        var priceStr = "Нет цены";
-        if (price) {
-            priceStr = price.toString();
-            if (currency) {
-                priceStr = priceStr + " " + getCurrency(currency);
+    function getPriceStr(offerObj) {
+        var priceStr = 'Нет цены',
+            priceType = getPriceType(offerObj);
+
+        if (priceType === 'price') {
+            priceStr = offerObj.price.toString();
+            if (offerObj.currency) {
+                priceStr = priceStr + " " + getCurrency(offerObj.currency);
             }
+        } else if(priceType === 'free') {
+            priceStr = 'Бесплатно';
+        } else if(priceType === 'arranged') {
+            priceStr = 'Договорная';
+        } else if(priceType === 'exchange') {
+            priceStr = 'Обмен';
         }
         return priceStr;
+    }
+
+    function getPriceType(offerObj) {
+        var arr = offerObj.properties,
+            type = '';
+
+        for(var i = 0; i < arr.length; i++) {
+            if(arr[i].key === 'price') {
+                type = arr[i].value;
+                break;
+            }
+        }
+        return type;
     }
 
     function getCurrency(currency) {
@@ -105,7 +126,7 @@
     function createNewOffer(offerObj) {
 
         var imgSrc = getSrcOfMainImg(offerObj.imagesIds);
-        var priceStr = getPriceStr(offerObj.price, offerObj.currency);
+        var priceStr = getPriceStr(offerObj);
 
         var newLi = $('#li-offer-basic').clone()
             .attr('id', "")
