@@ -6,6 +6,24 @@ if (typeof loggedInProfile == 'undefined') {
 var imgId = '';
 var gupValidator = new window.GupValidator.Constructor('doer').init();
 
+
+countTextLength();
+$("textarea").on('keyup', countTextLength);
+
+function countTextLength() {
+    var counter = $("#p-textlength");
+    var currentString = $("#doerDescription").val();
+    counter.text("Количество символов: " + currentString.length);
+    if (currentString.length <= 50) {  /*or whatever your number is*/
+        counter.css("color", "red");
+    } else {
+        if (currentString.length > 4000) {
+            counter.css("color", "red");
+        } else {
+            counter.css("color", "green");
+        }
+    }
+}
 //----------------------------------------------------- Image form -----------------------------------------------
 $('.doerCreationSubmit').click(function () {
     $('#photoInput').trigger('click');

@@ -11,6 +11,23 @@
             imgId,
             gupValidator = new window.GupValidator.Constructor('doer').init();
 
+        $("textarea").on('keyup', countTextLength);
+
+        function countTextLength() {
+            var counter = $("#p-textlength");
+            var currentString = $("#doerDescription").val();
+            counter.text("Количество символов: " + currentString.length);
+            if (currentString.length <= 50) {  /*or whatever your number is*/
+                counter.css("color", "red");
+            } else {
+                if (currentString.length > 4000) {
+                    counter.css("color", "red");
+                } else {
+                    counter.css("color", "green");
+                }
+            }
+        }
+
         //----------------------------------------------------- Load resources -----------------------------------------------
         var loadDoer = loadDoerInfo();
 
@@ -43,6 +60,8 @@
                         }
                         $('#doerName').val(doer.title);
                         $('#doerDescription').val(doer.body);
+
+                        countTextLength();
                     }
                 }
             });

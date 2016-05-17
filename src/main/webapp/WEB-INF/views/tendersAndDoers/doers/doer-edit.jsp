@@ -52,6 +52,8 @@
                       placeholder="Длина описания от 50 до 4000 символов"></textarea>
 
             <div class="clearfix"></div>
+            <p id="p-textlength">Количество символов: 0</p>
+
         </form>
 
         <div class="drop_zone">
