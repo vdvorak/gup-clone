@@ -23,25 +23,8 @@ $('#a-author-offers').bind('click', offer.authorId, offerFilter.filterOffersByAu
 
 $('.offer-title').text(offer.title);
 
-if (offer.price) {
-    $('.offer-price').text(offer.price);
-    var currency = $('.currency');
-    switch (offer.currency) {
-        case 'UAH':
-            currency.text(' грн.');
-            break;
-        case 'USD':
-            currency.text(' дол.');
-            break;
-        case 'EUR':
-            currency.text(' евро');
-            break;
-        default:
-            currency.text(' грн.')
-    }
-} else {
-    $('.offer-price').text("Нет цены")
-}
+$('.offer-price').text(window.offerFilter.getPriceStr(offer));
+
 
 $('#create-date').text(offer.createdDate);
 
