@@ -106,7 +106,7 @@ $(document).ready(function () {
 
     function drawNews(data) {
         for (var i = 0; i < data.length; i++) {
-            data[i].text = data[i].text.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', "");
+            data[i].text = data[i].text.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', "").replace(/&nbsp;/g,' ');
             if ($('.normalNews').length == 0) {
                 $('#startBlockOfNews').append(firstBlockNews);
             }

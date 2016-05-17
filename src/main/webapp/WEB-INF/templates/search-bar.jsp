@@ -82,7 +82,7 @@
                     <a href="#">Малыши</a>
 
                     <div class="descriptionTitleLeft">
-
+                        <img src="/resources/images/descriptionTitleLeft.png" alt="descriptionTitleLeft">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -90,7 +90,7 @@
                     <a href="#">Zoo</a>
 
                     <div class="descriptionTitleLeft">
-
+                        <img src="/resources/images/descriptionTitleLeft.png" alt="descriptionTitleLeft">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -99,7 +99,7 @@
                     <a href="#">Стиль и мода</a>
 
                     <div class="descriptionTitleRight">
-
+                        <img src="/resources/images/descriptionTitleRight.png" alt="descriptionTitleRight">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -108,7 +108,7 @@
                     <a href="#">Спорт и хобби</a>
 
                     <div class="descriptionTitleRight">
-
+                        <img src="/resources/images/descriptionTitleRight.png" alt="descriptionTitleRight">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -117,7 +117,7 @@
                     <a href="#">Техника</a>
 
                     <div class="descriptionTitleLeft">
-
+                        <img src="/resources/images/descriptionTitleLeft.png" alt="descriptionTitleLeft">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -126,7 +126,7 @@
                     <a href="#">Дома и дача</a>
 
                     <div class="descriptionTitleLeft">
-
+                        <img src="/resources/images/descriptionTitleLeft.png" alt="descriptionTitleLeft">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -140,7 +140,7 @@
                     <a href="#">Недвижимость</a>
 
                     <div class="descriptionTitleRight">
-
+                        <img src="/resources/images/descriptionTitleRight.png" alt="descriptionTitleRight">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -149,7 +149,7 @@
                     <a href="#">Транспорт</a>
 
                     <div class="descriptionTitleLeft">
-
+                        <img src="/resources/images/descriptionTitleLeft.png" alt="descriptionTitleLeft">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -159,7 +159,7 @@
                     <a href="#">Бизнес и услуги</a>
 
                     <div class="descriptionTitleLeft">
-
+                        <img src="/resources/images/descriptionTitleLeft.png" alt="descriptionTitleLeft">
                     </div>
                 </div>
                 <div class="ItemADS">

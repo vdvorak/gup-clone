@@ -141,11 +141,9 @@
                         <span class="foto"><img id="avatar-img" src="/resources/images/doersLogo.png" alt=""></span>
                     </div>
                     <div class="col-xs-7 no-padd">
-                        Автор: <a class="author-link"><span class="author-name"></span></a>
-                        <br>
+                        <p>Автор: <a class="author-link"><span class="author-name"></span></a></p>
                         <span class="contact-name-block">Контактное лицо: <span class="contact-name-block-unit"></span></span>
                     </div>
-                    <div class="clearfix"></div>
                     <span class="author-rating"></span>
 
                     <div class="clearfix"></div>

@@ -188,14 +188,14 @@ $(document).ready(function () {
 
     $(".ItemADS").hover(
         function () {
-            $(this).find('img').addClass("hoverIMG");
+            $(this).find('a > img').addClass("hoverIMG");
             $(this).find('.descriptionTitleLeft').stop(true, false);
             $(this).find('.descriptionTitleRight').stop(true, false);
             $(this).find('.descriptionTitleLeft').fadeIn('fast');
             $(this).find('.descriptionTitleRight').fadeIn('fast');
         },
         function () {
-            $(this).find('img').removeClass("hoverIMG");
+            $(this).find('a > img').removeClass("hoverIMG");
             $(this).find('.descriptionTitleLeft').stop(true, false);
             $(this).find('.descriptionTitleRight').stop(true, false);
             $(this).find('.descriptionTitleLeft').fadeOut('fast');
