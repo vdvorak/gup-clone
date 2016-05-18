@@ -255,7 +255,6 @@
 <jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script src="/resources/js/moment-with-locales.js"></script>
-<script src="/resources/js/service.js"></script>
 
 <script>
     var offerId = "${offerId}";
