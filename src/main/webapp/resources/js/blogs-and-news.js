@@ -92,7 +92,7 @@ $(document).ready(function () {
     newsFO.limit = 5;
     newsFO.searchField = getUrlParam('name');
     newsFO.createdDateSortDirection = "DESC";
-    newsFO.categories = (getUrlParam('category') !== null) ? [getUrlParam('category')] : null;
+    if(getUrlParam('category')) newsFO.categories = [getUrlParam('category')];
 
     $(".NewsTabsFilterItem").on('click', function () {
         $('.intro').removeClass("intro");
