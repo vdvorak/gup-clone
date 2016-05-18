@@ -99,7 +99,6 @@ $(document).ready(function () {
         newsFO.skip = 0;
         newsFO.limit = 2;
         newsFO.searchField = getUrlParam('name');
-        newsFO.createdDateSortDirection = "DESC";
         doAjax(newsFO, urlGetNews, 'news');
 //            setTimeout(function() {alert("timout gone");doAjax(newsFO, urlGetNews, 'news');}, 1000);
     });

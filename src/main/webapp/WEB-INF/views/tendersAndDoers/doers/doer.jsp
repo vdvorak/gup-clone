@@ -55,11 +55,11 @@
         <div class="artistData">
             <ul>
                 <li>
-                    <p>Дата создания: <span class="date-create">${doer.dateOfCreate}</span></p>
+                    <p>Дата создания: <span class="date-create"></span></p>
                 </li>
-                <li>
-                    <p>Дата обновления: <span class="date-create">${doer.dateOfUpdate}</span></p>
-                </li>
+                <%--<li>--%>
+                    <%--<p>Дата обновления: <span class="date-create"></span></p>--%>
+                <%--</li>--%>
                 <li>
                     <p>Просмотров: ${doer.countVisit}</p>
                 </li>
@@ -226,33 +226,7 @@
     </div>
 </div>
 
-<script>
-  $('.listArtist ul li p.anonymous').click(function (event) {
-    event.preventDefault();
-    $('#overlay').fadeIn(400,
-            function () {
-              $('.modalDoer')
-                      .css('display', 'block')
-                      .animate({
-                        opacity: 1,
-                        top: '50%'
-                      }, 200);
-            });
-  });
-  /* Зaкрытие мoдaльнoгo oкнa, тут делaем тo же сaмoе нo в oбрaтнoм пoрядке */
-  $('#close, #overlay').click(function () {
-    $('.modalDoer')
-            .animate({
-              opacity: 0,
-              top: '45%'
-            }, 200,
-            function () {
-              $(this).css('display', 'none');
-              $('#overlay').fadeOut(400);
-            }
-    );
-  });
-</script>
+
 
 <%--<div>--%>
 <%--${doer.title}--%>
@@ -308,15 +282,6 @@
   <%--${doer.dateOfUpdate}--%>
 <%--</div>--%>
 
-<script>
-    var categories = '${doer.naceIds}'.replace('[', '').replace(']', '').replace(' ', '').split(','); // make array from string
-
-    for (var i = 0; i < categories.length; i++) {
-        var rubric = $('#rubrics');
-        rubric.append(categories[i]);
-    }
-</script>
-
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
 </sec:authorize>
@@ -329,12 +294,41 @@
 
 <script>
     var flag = '${flag}';
+    var doerId = '${doer.id}';
 </script>
 
+<script>
+    $('.listArtist ul li p.anonymous').click(function (event) {
+        event.preventDefault();
+        $('#overlay').fadeIn(400,
+                function () {
+                    $('.modalDoer')
+                            .css('display', 'block')
+                            .animate({
+                                opacity: 1,
+                                top: '50%'
+                            }, 200);
+                });
+    });
+    /* Зaкрытие мoдaльнoгo oкнa, тут делaем тo же сaмoе нo в oбрaтнoм пoрядке */
+    $('#close, #overlay').click(function () {
+        $('.modalDoer')
+                .animate({
+                    opacity: 0,
+                    top: '45%'
+                }, 200,
+                function () {
+                    $(this).css('display', 'none');
+                    $('#overlay').fadeOut(400);
+                }
+        );
+    });
+</script>
 
 <jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script src="/resources/js/moment-with-locales.js"></script>
-<script src="/resources/js/service.js"></script>
+<script src="/resources/js/doer.js"></script>
+
 </body>
 </html>

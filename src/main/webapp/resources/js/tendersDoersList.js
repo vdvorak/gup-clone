@@ -10,6 +10,7 @@ $(document).ready(function () {
     tendersFO.skip = 0;
     tendersFO.limit = 5;
     tendersFO.searchField = getUrlParam('name');
+    tendersFO.createdDateSortDirection = "DESC";
 
     setTenderStatus();
 
@@ -177,6 +178,7 @@ $(document).ready(function () {
     doersFO.skip = 0;
     doersFO.limit = 5;
     doersFO.searchField = getUrlParam('name');
+    doersFO.createdDateSortDirection = "DESC";
 
     function doAjax(filterOptions) {
         $.ajax({
@@ -193,19 +195,19 @@ $(document).ready(function () {
     }
 
     function draw(data) {
-        for (var i in data) {
+        for (var i = 0; i < data.length; i++) {
             $('.build-item-wrap-2').last().attr('style', 'display:;');
 
             if (data[i].imageId && data[i].imageId !== '') {
                 $(".build-pic-wrap-2 img").last().attr('src', '/api/rest/fileStorage/DOER/file/read/id/' + data[i].imageId);
             } else {
-                $(".build-pic-wrap-2 img").last().attr('src', '/resources/images/no_photo.jpg');
+                $(".build-pic-wrap-2 img").last().attr('src', '/resources/images/doersLogo.png');
             }
 
             $(".build-pic-wrap-2 a").last().attr('href', '/doer/' + data[i].id);
             $(".build-item-text-2").last().html(data[i].body);
             $(".build-publish-date-2").last().text(localDateTime(data[i].dateOfCreate));
-            $(".build-publish-date-update-2 span").last().text(localDateTime(data[i].dateOfUpdate));
+            //$(".build-publish-date-update-2 span").last().text(localDateTime(data[i].dateOfUpdate));
             $(".build-veiws-2").last().text(data[i].countVisit);
             $(".build-name-2").last().text(data[i].title);
             $('#doers-start-block').append(firstDoerBlock);
