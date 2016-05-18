@@ -5,8 +5,6 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-
     <title>${seoMetaTags.title} - ${seoMetaTags.seoCategory} ${seoMetaTags.seoAdress} на Gup</title>
     <meta name="description"
           content="Global Ukrainian Portal - твой украинский портал. Актуальные новости, объявления, интересные проекты и тендеры.">
