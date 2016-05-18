@@ -7,6 +7,8 @@ public class SeoMetaTags {
     private String seoCategory;
     private String seoAdress;
     private String seoUrl;
+    private String price;
+    private String currency;
 
 
     public SeoMetaTags() {
@@ -58,6 +60,24 @@ public class SeoMetaTags {
         return this;
     }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public SeoMetaTags setPrice(String price) {
+        this.price = price;
+        return this;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public SeoMetaTags setCurrency(String currency) {
+        this.currency = currency;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "SeoMetaTags{" +
@@ -66,6 +86,8 @@ public class SeoMetaTags {
                 ", seoCategory='" + seoCategory + '\'' +
                 ", seoAdress='" + seoAdress + '\'' +
                 ", seoUrl='" + seoUrl + '\'' +
+                ", price='" + price + '\'' +
+                ", currency='" + currency + '\'' +
                 '}';
     }
 }

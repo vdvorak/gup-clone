@@ -5,13 +5,16 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>${seoMetaTags.title} - ${seoMetaTags.seoCategory} ${seoMetaTags.seoAdress} на Gup</title>
+    <title>${seoMetaTags.title}: ${seoMetaTags.price}${seoMetaTags.currency}
+        - ${seoMetaTags.seoCategory} ${seoMetaTags.seoAdress} на Gup</title>
     <meta name="description"
           content="Global Ukrainian Portal - твой украинский портал. Актуальные новости, объявления, интересные проекты и тендеры.">
 
-    <meta property="og:title"
-          content="${seoMetaTags.title} - ${seoMetaTags.seoCategory} ${seoMetaTags.seoAdress} на Gup"/>
-    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="${seoMetaTags.title}"/>
+    <meta property="og:description"
+          content="Global Ukrainian Portal - актуальные новости, объявления, интересные проекты и тендеры."/>
+
+    <meta property="og:type" content="other"/>
     <meta property="og:url" content="http://gup.com.ua/obyavlenie/${seoMetaTags.seoUrl}"/>
     <c:choose>
         <c:when test="${seoMetaTags.mainImgId == ''}">
@@ -22,6 +25,8 @@
                   content="http://gup.com.ua/api/rest/fileStorage/OFFERS/file/read/id/${seoMetaTags.mainImgId}"/>
         </c:otherwise>
     </c:choose>
+    <meta property="og:site_name" content="Global Ukrainian Portal"/>
+
     <meta property="og:site_name" content="Gup.com.ua - Global Ukrainian Portal"/>
     <link rel="icon" type="image/x-icon" href="http://gup.com.ua/resources/images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">

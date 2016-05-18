@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ua.com.itproekt.gup.model.offer.Offer;
+import ua.com.itproekt.gup.model.offer.Property;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SeoMetaTags;
 import ua.com.itproekt.gup.util.SeoUtils;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -48,7 +50,10 @@ public class OfferController {
                 .setTitle(offer.getTitle())
                 .setSeoCategory(offer.getSeoCategory())
                 .setSeoAdress(getAdressFromOffer(offer))
-                .setSeoUrl(seoUrl);
+                .setSeoUrl(seoUrl)
+                .setPrice(getPriceFromOffer(offer))
+                .setCurrency(getCurrencyFromOffer(offer));
+
         model.addAttribute("seoMetaTags", seoMetaTags);
         model.addAttribute("flag", flag);
         model.addAttribute("offerId", offer.getId());
@@ -125,6 +130,46 @@ public class OfferController {
             result = offer.getAddress().getCity();
         }
         return result;
+    }
+
+    private String getPriceFromOffer(Offer offer) {
+
+        List<Property> propertyList = offer.getProperties();
+
+        for (Property property : propertyList) {
+            if (property.getKey().equals("price")) {
+
+                if (property.getValue().equals("price")) {
+                    if (offer.getPrice() != null) {
+
+                        return String.valueOf(offer.getPrice());
+                    }
+                }
+
+                switch (property.getValue()) {
+                    case "exchange":
+                        return "Обмен";
+                    case "free":
+                        return "Бесплатно";
+                    case "arranged":
+                        return "Договорная цена";
+                }
+            }
+        }
+        return "";
+    }
+
+
+    private String getCurrencyFromOffer(Offer offer) {
+        switch (offer.getCurrency()) {
+            case UAH:
+                return " грн.";
+            case USD:
+                return " дол.";
+            case EUR:
+                return " евро";
+        }
+        return "";
     }
 
 }
