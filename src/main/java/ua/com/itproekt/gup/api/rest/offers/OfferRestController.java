@@ -97,7 +97,7 @@ public class OfferRestController {
 
         long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
 
-        SeoUtils.makeSeoFields(offer, longValueOfSeoKey);
+        SeoUtils.makeSeoFieldsForOffer(offer, longValueOfSeoKey);
 
         offersService.create(offer);
 

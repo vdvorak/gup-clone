@@ -292,4 +292,36 @@ public class Offer {
         this.createdDate = createdDate;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Offer{" +
+                "id='" + id + '\'' +
+                ", authorId='" + authorId + '\'' +
+                ", userInfo=" + userInfo +
+                ", moderationStatus=" + moderationStatus +
+                ", active=" + active +
+                ", createdDate=" + createdDate +
+                ", reservation=" + reservation +
+                ", views=" + views +
+                ", rent=" + rent +
+                ", seoUrl='" + seoUrl + '\'' +
+                ", seoKey='" + seoKey + '\'' +
+                ", categories=" + categories +
+                ", seoCategory='" + seoCategory + '\'' +
+                ", properties=" + properties +
+                ", imagesIds=" + imagesIds +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", currency=" + currency +
+                ", priceCanBeNegotiated=" + priceCanBeNegotiated +
+                ", urgent=" + urgent +
+                ", used=" + used +
+                ", canBeReserved=" + canBeReserved +
+                ", canBeRented=" + canBeRented +
+                ", address=" + address +
+                '}';
+    }
 }

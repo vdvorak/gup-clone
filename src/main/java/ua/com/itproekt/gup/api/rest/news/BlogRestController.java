@@ -10,9 +10,11 @@ import ua.com.itproekt.gup.model.news.Blog;
 import ua.com.itproekt.gup.model.news.BlogFilterOptions;
 import ua.com.itproekt.gup.service.news.BlogService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
 import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.itproekt.gup.util.SeoUtils;
 
 import javax.validation.Valid;
 
@@ -25,6 +27,9 @@ public class BlogRestController {
 
     @Autowired
     ProfilesService profilesService;
+
+    @Autowired
+    SeoSequenceService seoSequenceService;
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
@@ -59,6 +64,11 @@ public class BlogRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
         blog.setAuthorId(userId);
+
+        long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
+
+        SeoUtils.makeSeoFieldsForBlog(blog, longValueOfSeoKey);
+
         blogService.createBlog(blog);
 
         CreatedObjResp createdObjResp = new CreatedObjResp(blog.getId());
