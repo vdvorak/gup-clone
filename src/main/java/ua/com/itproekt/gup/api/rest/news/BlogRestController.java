@@ -11,10 +11,7 @@ import ua.com.itproekt.gup.model.news.BlogFilterOptions;
 import ua.com.itproekt.gup.service.news.BlogService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
-import ua.com.itproekt.gup.util.CreatedObjResp;
-import ua.com.itproekt.gup.util.EntityPage;
-import ua.com.itproekt.gup.util.SecurityOperations;
-import ua.com.itproekt.gup.util.SeoUtils;
+import ua.com.itproekt.gup.util.*;
 
 import javax.validation.Valid;
 
@@ -87,6 +84,15 @@ public class BlogRestController {
         } else if (!blogService.blogExists(blog.getId())) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+
+        Blog oldBlog = blogService.findBlog(blog.getId());
+        
+        String newTransiltTitle = Translit.makeTransliteration(blog.getTitle());
+
+        String newSeoUrl = newTransiltTitle + "-" + oldBlog.getSeoKey();
+
+        blog.setSeoUrl(newSeoUrl);
 
         blogService.findBlogAndUpdate(blog);
 

@@ -118,7 +118,7 @@ public class OfferRestController {
         }
 
 
-        Offer oldOffer = new Offer();
+        Offer oldOffer;
         oldOffer = offersService.findById(offer.getId());
 
         String userId = SecurityOperations.getLoggedUserId();

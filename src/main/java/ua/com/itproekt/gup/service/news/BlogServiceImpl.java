@@ -59,6 +59,8 @@ public class BlogServiceImpl implements BlogService {
                 .setDescription(blog.getDescription())
                 .setImageId(blog.getImageId())
                 .setCategories(blog.getCategories())
+                .setSeoKey(blog.getSeoKey())
+                .setSeoUrl(blog.getSeoUrl())
                 .setEditorsIds(blog.getEditorsIds()) // ?? add list
                 .setSocLinks(blog.getSocLinks());
 
