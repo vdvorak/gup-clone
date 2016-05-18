@@ -47,13 +47,13 @@
         <p class="blogCreationHeader">Новый новостной блог</p>
 
         <form id="blogCreationForm" action="#" role="form">
-            <label for="blogTitle" class="blogCreationLabel">Заголовок блога <em>*</em></label>
+            <label for="blogTitle" class="blogCreationLabel">Заголовок блога<em>*</em></label>
             <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput"
                    placeholder="Длина заголовка от 2 до 70 символов">
 
             <div class="clearfix"></div>
 
-            <label for="blogCreationDescription" class="blogCreationLabel">Описание <em>*</em></label>
+            <label for="blogCreationDescription" class="blogCreationLabel">Описание<em>*</em></label>
             <textarea name="blogCreationDescription" id="blogCreationDescription"
                       class="blogCreationDescription" placeholder="Длина описания от 50 до 5000 символов"></textarea>
 
@@ -96,9 +96,10 @@
             <div class="titleFile" data-title="Добавить изображение">
                 <button type="submit" class="blogCreationSubmit"></button>
             </div>
-            <label class="blogCreationLabel">Фотографии</label>
+            <label class="blogCreationLabel" style="margin-top: 5px">Фотографии</label>
         </form>
 
+        <div class="clearfix"></div>
 
         <button type="button" class="SendEdition">Отправить редакции</button>
 
