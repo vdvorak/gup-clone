@@ -133,7 +133,6 @@
 
 <jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
-<script src="/resources/js/service.js"></script>
 <script src="/resources/js/blogs-and-news.js"></script>
 </body>
 </html>

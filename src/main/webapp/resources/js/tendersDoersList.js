@@ -153,7 +153,7 @@ $(document).ready(function () {
 
             $(".build-name-wrap").last().attr('href', url);
             $(".build-name").last().text(data[i].title);
-            var dateEnd = localDateTime(data[i].end);
+            var dateEnd = localDateTimeUTC(data[i].end);
             $(".build-end").last().text((dateEnd === 'Invalid date') ? 'Дата не указана' : dateEnd);
             $('#tenders-start-block').append(firstTenderBlock);
         }

@@ -8,3 +8,9 @@ function localDateTime(long) {
     long = moment(long).locale("ru").format('LLL');
     return long;
 }
+
+function localDateTimeUTC(long) {
+    long = (new Date(parseInt(long)));
+    long = moment(long).locale("ru").format('LLL');
+    return long;
+}

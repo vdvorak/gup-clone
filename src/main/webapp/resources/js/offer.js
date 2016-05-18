@@ -26,7 +26,7 @@ $('.offer-title').text(offer.title);
 $('.offer-price').text(window.offerFilter.getPriceStr(offer));
 
 
-$('#create-date').text(offer.createdDate);
+$('#create-date').text(localDateTime(offer.createdDate));
 
 if (offer.urgent) {
     if (offer.urgent == true) {
