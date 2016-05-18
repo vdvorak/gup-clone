@@ -198,13 +198,15 @@ $(document).ready(function () {
         for (var i = 0; i < data.length; i++) {
             $('.build-item-wrap-2').last().attr('style', 'display:;');
 
+            var pic = $(".build-pic-wrap-2 img").last();
             if (data[i].imageId && data[i].imageId !== '') {
-                $(".build-pic-wrap-2 img").last().attr('src', '/api/rest/fileStorage/DOER/file/read/id/' + data[i].imageId);
+                pic.attr('src', '/api/rest/fileStorage/DOER/file/read/id/' + data[i].imageId);
             } else {
-                $(".build-pic-wrap-2 img").last().attr('src', '/resources/images/doersLogo.png');
+                pic.attr('src', '/resources/images/doersLogo.png');
             }
+            pic.parent().attr('href', '/doer/' + data[i].id);
 
-            $(".build-pic-wrap-2 a").last().attr('href', '/doer/' + data[i].id);
+            $(".build-pic-wrap-2 > a").last().attr('href', '/doer/' + data[i].id);
             $(".build-item-text-2").last().html(data[i].body);
             $(".build-publish-date-2").last().text(localDateTime(data[i].dateOfCreate));
             //$(".build-publish-date-update-2 span").last().text(localDateTime(data[i].dateOfUpdate));

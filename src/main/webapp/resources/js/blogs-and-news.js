@@ -67,8 +67,11 @@ $(document).ready(function () {
     function drawBlog(data) {
         for (var i in data) {
             $('.blogs').last().attr('style', 'display:;');
-            $(".blogs-img").last().attr('src', findFirstImgBlog(data[i].imageId));
-            $(".blogs-img").last().attr('alt', data[i].title);
+            $(".blogs-img").last()
+                .attr('src', findFirstImgBlog(data[i].imageId))
+                .attr('alt', data[i].title)
+                .parent()
+                .attr('href', '/blog/' + data[i].id);
             $(".blogs a").last().attr('href', '/blog/' + data[i].id);
             $(".text-blogs").last().text(data[i].description);
             $(".DateOfCreation-blogs-num").last().append(localDateTime(data[i].createdDate));
@@ -110,8 +113,11 @@ $(document).ready(function () {
                 $('#startBlockOfNews').append(firstBlockNews);
             }
             $('.normalNews').last().attr('style', 'display:;');
-            $(".news-img").last().attr('src', findFirstImgNews(data[i].imagesIds));
-            $(".news-img").last().attr('alt', data[i].title);
+            $(".news-img").last()
+                .attr('src', findFirstImgNews(data[i].imagesIds))
+                .attr('alt', data[i].title)
+                .parent()
+                .attr('href', '/blog-post/view/id/' + data[i].id);
             $(".normalNews a").last().attr('href', '/blog-post/view/id/' + data[i].id);
             $(".descriptionNormalNews2").last().text(data[i].text);  // - описание
             $(".normalNews-p2").last().append(localDateTime(data[i].createdDate)); // - дата создания
