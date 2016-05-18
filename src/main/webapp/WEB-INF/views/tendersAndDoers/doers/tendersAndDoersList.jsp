@@ -109,7 +109,7 @@
 
             <section id="doers-start-block">
 
-                <div class="doersFeed build-item-wrap-2">
+                <div class="doersFeed build-item-wrap-2" style="display:none;">
                     <!-- если чувак вип, добавь сюда класс vip и ты увидишь магию -->
                     <section class="build-pic-wrap-2">
                         <a href="#">
@@ -122,9 +122,9 @@
                             <li>
                                 <p>Дата создания: <span class="build-publish-date-2"></span></p>
                             </li>
-                            <li>
-                                <p>Дата обновления: <span class="build-publish-date-update-2"></span></p>
-                            </li>
+                            <%--<li>--%>
+                                <%--<p>Дата обновления: <span class="build-publish-date-update-2"></span></p>--%>
+                            <%--</li>--%>
                             <li>
                                 <p>Просмотров: <span class="build-veiws-2"></span></p>
                             </li>
