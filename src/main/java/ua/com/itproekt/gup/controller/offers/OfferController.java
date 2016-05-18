@@ -161,15 +161,18 @@ public class OfferController {
 
 
     private String getCurrencyFromOffer(Offer offer) {
-        switch (offer.getCurrency()) {
-            case UAH:
-                return " грн.";
-            case USD:
-                return " дол.";
-            case EUR:
-                return " евро";
+        if (offer.getCurrency() != null) {
+            switch (offer.getCurrency()) {
+                case UAH:
+                    return " грн.";
+                case USD:
+                    return " дол.";
+                case EUR:
+                    return " евро";
+                default:
+                    return "";
+            }
         }
         return "";
     }
-
 }

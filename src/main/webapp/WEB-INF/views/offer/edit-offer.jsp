@@ -551,12 +551,15 @@
         });
 
         if ($('#offer-price-row').css('display') !== 'none') {
+            var priceType = $('#selection-price').val();
             properties.push({
                 key: 'price',
-                value: $('#selection-price').val()
+                value: priceType
             });
-            offer.currency = $('#selection-currency').val();
-            offer.price = $('#offer-inpPrice').val();
+            if(priceType === 'price') {
+                offer.currency = $('#selection-currency').val();
+                offer.price = $('#offer-inpPrice').val();
+            }
         }
 
         offer.properties = properties;

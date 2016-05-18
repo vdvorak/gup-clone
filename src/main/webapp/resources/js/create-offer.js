@@ -160,14 +160,16 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
         });
 
         if ($('#offer-price-row').css('display') !== 'none') {
+            var priceType = $('#selection-price').val();
             properties.push({
                 key: 'price',
-                value: $('#selection-price').val()
+                value: priceType
             });
-            offer.currency = $('#selection-currency').val();
-            offer.price = $('#offer-inpPrice').val();
+            if(priceType === 'price') {
+                offer.currency = $('#selection-currency').val();
+                offer.price = $('#offer-inpPrice').val();
+            }
         }
-
         offer.properties = properties;
 
         gupValidator.validate(offer);

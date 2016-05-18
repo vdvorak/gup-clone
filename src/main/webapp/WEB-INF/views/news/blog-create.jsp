@@ -57,6 +57,10 @@
             <textarea name="blogCreationDescription" id="blogCreationDescription"
                       class="blogCreationDescription" placeholder="Длина описания от 50 до 5000 символов"></textarea>
 
+            <div class="clearfix"></div>
+
+            <p id="p-textlength">Количество символов: 0</p>
+
             <div class="group-info">
                 <label for="blogCreationSocial" class="blogCreationLabel">Социальные сети</label>
                 <input type="text" id="blogCreationSocial" class="blogCreationSocial"

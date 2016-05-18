@@ -56,6 +56,10 @@
             <textarea name="blogCreationDescription" id="blogCreationDescription"
                       class="blogCreationDescription" placeholder="Длина описания от 50 до 5000 символов">${blog.description}</textarea>
 
+            <div class="clearfix"></div>
+
+            <p id="p-textlength">Количество символов: 0</p>
+
             <div class="group-info">
                 <label for="blogCreationSocial" class="blogCreationLabel">Социальные сети</label>
                 <input type="text" id="blogCreationSocial" class="blogCreationSocial"
@@ -199,6 +203,24 @@
     if ('${blog.socLinks}'.length > 5) {
         socialLinks = JSON.parse('${blog.socLinks}'.replace('{', '{"').replace(/=/g, '":"').replace(/,/g, '","').replace('}', '"}').replace(/ /g, ''));
     }
+
+    function countTextLength() {
+        var counter = $("#p-textlength");
+        var currentString = $("#blogCreationDescription").val();
+        counter.text("Количество символов: " + currentString.length);
+        if (currentString.length <= 50) {  /*or whatever your number is*/
+            counter.css("color", "red");
+        } else {
+            if (currentString.length > 5000) {
+                counter.css("color", "red");
+            } else {
+                counter.css("color", "green");
+            }
+        }
+    }
+
+    countTextLength();
+    $("textarea").on('keyup', countTextLength);
 
     // --------------------------------------  BEGIN cropper  ----------------------------------------------
     var image = document.getElementById('cropper-image');
