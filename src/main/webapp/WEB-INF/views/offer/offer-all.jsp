@@ -6,6 +6,21 @@
 <head>
     <title>Объявления | Портал GUP</title>
 
+
+    <title>Объявления на Gup</title>
+    <meta name="description"
+          content="Global Ukrainian Portal - твой украинский портал. Актуальные новости, объявления, интересные проекты и тендеры.">
+
+    <meta property="og:title" content="Объявления на Gup"/>
+    <meta property="og:description"
+          content="Global Ukrainian Portal - актуальные новости, объявления, интересные проекты и тендеры."/>
+
+    <meta property="og:type" content="other"/>
+    <meta property="og:url" content="http://gup.com.ua/offers"/>
+    <meta property="og:image" content="http://gup.com.ua/resources/css/images/brand.png"/>
+    <meta property="og:site_name" content="Gup.com.ua - Global Ukrainian Portal"/>
+
+
     <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
@@ -72,7 +87,6 @@
 </div>
 
 
-
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
 </sec:authorize>
@@ -114,8 +128,8 @@
 
         $('#btn-offers-more').click(offerFilter.submitFilter);
 
-        $(window).on('scroll', function() {
-            if($(window).scrollTop() >= $('#btn-offers-more').offset().top + $('#btn-offers-more').outerHeight() - window.innerHeight) {
+        $(window).on('scroll', function () {
+            if ($(window).scrollTop() >= $('#btn-offers-more').offset().top + $('#btn-offers-more').outerHeight() - window.innerHeight) {
                 $('#btn-offers-more').trigger('click', offerFilter.submitFilter);
             }
         });

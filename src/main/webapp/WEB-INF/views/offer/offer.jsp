@@ -25,9 +25,8 @@
                   content="http://gup.com.ua/api/rest/fileStorage/OFFERS/file/read/id/${seoMetaTags.mainImgId}"/>
         </c:otherwise>
     </c:choose>
-    <meta property="og:site_name" content="Global Ukrainian Portal"/>
-
     <meta property="og:site_name" content="Gup.com.ua - Global Ukrainian Portal"/>
+
     <link rel="icon" type="image/x-icon" href="http://gup.com.ua/resources/images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
