@@ -6,6 +6,24 @@ if (typeof loggedInProfile == 'undefined') {
 
     var gupValidator = new window.GupValidator.Constructor('blog').init();
 
+    function countTextLength() {
+        var counter = $("#p-textlength");
+        var currentString = $("#blogCreationDescription").val();
+        counter.text("Количество символов: " + currentString.length);
+        if (currentString.length <= 50) {  /*or whatever your number is*/
+            counter.css("color", "red");
+        } else {
+            if (currentString.length > 5000) {
+                counter.css("color", "red");
+            } else {
+                counter.css("color", "green");
+            }
+        }
+    }
+
+    countTextLength();
+    $("textarea").on('keyup', countTextLength);
+
 // --------------------------------------  BEGIN cropper  ----------------------------------------------
     var image = document.getElementById('cropper-image');
     var cropper = new Cropper(image, {
