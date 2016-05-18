@@ -37,12 +37,6 @@ function sliderImg(arr) {
     sliderInit();
 }
 
-function localDateTime(long) {
-    long = new Date(parseInt(long)) * 1000;
-    long = moment(long).locale("ru").format('LLL');
-    return long;
-}
-
 function getTenderStatus(tender) {
     var status = '';
     if(tender.winnerId === null && tender.end < Date.now() / 1000) {
