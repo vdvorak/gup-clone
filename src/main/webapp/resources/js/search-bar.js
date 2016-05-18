@@ -82,6 +82,13 @@ $("#selectedService").change(function(){
         $("#" + selectedService + "FilterBlock").show("slow");
     }
 });
+
+$('#newsFilterBlock').find('.categoriesItem').each(function() {
+    var elem = $(this);
+    elem.click(function(event) {
+        window.location.href = '/blog-post/news?category=' + elem.attr('data-cat');
+    })
+})
 // ------------------------------------ OFFER FILTER BEGIN ---------------------------------------------------//
     var offerFilter = window.OfferFilter;
 

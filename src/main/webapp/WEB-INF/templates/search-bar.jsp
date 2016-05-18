@@ -40,35 +40,35 @@
             <div class="categories">
                 <p>Рубрики</p>
 
-                <div class="categoriesItem">
+                <div class="categoriesItem" data-cat="sci">
                     <a href="#"><img src="/resources/images/science.png" alt="science"></a>
                     <a href="#">Наука и техника</a>
                 </div>
-                <div class="categoriesItem">
+                <div class="categoriesItem" data-cat="art">
                     <a href="#"><img src="/resources/images/art.png" alt="art"></a>
                     <a href="#">Искусство</a>
                 </div>
-                <div class="categoriesItem">
+                <div class="categoriesItem" data-cat="savor">
                     <a href="#"><img src="/resources/images/savor.png" alt="savor"></a>
                     <a href="#">Светская жизнь</a>
                 </div>
-                <div class="categoriesItem">
+                <div class="categoriesItem" data-cat="policy">
                     <a href="#"><img src="/resources/images/Policy.png" alt="Policy"></a>
                     <a href="#">Политика</a>
                 </div>
-                <div class="categoriesItem">
+                <div class="categoriesItem" data-cat="world">
                     <a href="#"><img src="/resources/images/WorldAndSociety.png" alt="World and Society"></a>
                     <a href="#">Мир и общество</a>
                 </div>
-                <div class="categoriesItem">
+                <div class="categoriesItem" data-cat="economy">
                     <a href="#"><img src="/resources/images/Economy.png" alt="Economy"></a>
                     <a href="#">Економика</a>
                 </div>
-                <div class="categoriesItem">
+                <div class="categoriesItem" data-cat="sport">
                     <a href="#"><img src="/resources/images/Sport,hobby.png" alt="Sport, hobby"></a>
                     <a href="#">Спорт, хобби</a>
                 </div>
-                <div class="categoriesItem">
+                <div class="categoriesItem" data-cat="social">
                     <a href="#"><img src="/resources/images/SocialNetwork.png" alt="Social network"></a>
                     <a href="#">Соц.сети</a>
                 </div>

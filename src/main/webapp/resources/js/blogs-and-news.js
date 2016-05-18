@@ -92,6 +92,7 @@ $(document).ready(function () {
     newsFO.limit = 5;
     newsFO.searchField = getUrlParam('name');
     newsFO.createdDateSortDirection = "DESC";
+    newsFO.categories = (getUrlParam('category') !== null) ? [getUrlParam('category')] : null;
 
     $(".NewsTabsFilterItem").on('click', function () {
         $('.intro').removeClass("intro");
@@ -100,8 +101,7 @@ $(document).ready(function () {
         newsFO.address = address;
         $("div.normalNews").remove();
         newsFO.skip = 0;
-        newsFO.limit = 2;
-        newsFO.searchField = getUrlParam('name');
+        newsFO.limit = 5;
         doAjax(newsFO, urlGetNews, 'news');
 //            setTimeout(function() {alert("timout gone");doAjax(newsFO, urlGetNews, 'news');}, 1000);
     });
