@@ -16,4 +16,6 @@ public interface BlogRepository {
     boolean blogExists(String id);
 
     EntityPage<Blog> findBlogWihOptions(BlogFilterOptions blogFO);
+
+    Blog findBySeoKey(String seoKey);
 }

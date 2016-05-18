@@ -9,6 +9,8 @@ public interface BlogService {
 
     Blog findBlog(String blogId);
 
+    Blog findBySeoKey(String seoKey);
+
     Blog findBlogAndUpdate(Blog blog);
 
     int deleteBlog(String blogId);

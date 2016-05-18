@@ -87,7 +87,7 @@ public class BlogRestController {
 
 
         Blog oldBlog = blogService.findBlog(blog.getId());
-        
+
         String newTransiltTitle = Translit.makeTransliteration(blog.getTitle());
 
         String newSeoUrl = newTransiltTitle + "-" + oldBlog.getSeoKey();

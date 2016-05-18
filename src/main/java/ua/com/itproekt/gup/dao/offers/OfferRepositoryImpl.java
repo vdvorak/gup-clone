@@ -52,7 +52,6 @@ public class OfferRepositoryImpl implements OfferRepository {
         return mongoTemplate.findOne(query, Offer.class);
     }
 
-
     @Override
     public Offer findAndUpdate(Offer offer) {
         return MongoTemplateOperations.updateFieldsAndReturnUpdatedObj(offer);

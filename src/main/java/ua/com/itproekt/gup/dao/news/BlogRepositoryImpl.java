@@ -37,6 +37,12 @@ public class BlogRepositoryImpl implements BlogRepository {
     }
 
     @Override
+    public Blog findBySeoKey(String seoKey) {
+        Query query = new Query(Criteria.where("seoKey").is(seoKey));
+        return mongoTemplate.findOne(query, Blog.class);
+    }
+
+    @Override
     public Blog findBlogAndUpdate(Blog blog) {
         return MongoTemplateOperations.updateFieldsAndReturnUpdatedObj(blog);
     }

@@ -71,8 +71,8 @@ $(document).ready(function () {
                 .attr('src', findFirstImgBlog(data[i].imageId))
                 .attr('alt', data[i].title)
                 .parent()
-                .attr('href', '/blog/' + data[i].id);
-            $(".blogs a").last().attr('href', '/blog/' + data[i].id);
+                .attr('href', '/blog/' + data[i].seoUrl);
+            $(".blogs a").last().attr('href', '/blog/' + data[i].seoUrl);
             $(".text-blogs").last().text(data[i].description);
             $(".DateOfCreation-blogs-num").last().append(localDateTime(data[i].createdDate));
             $(".nameBlogs").last().text(data[i].title);
@@ -92,7 +92,7 @@ $(document).ready(function () {
     newsFO.limit = 5;
     newsFO.searchField = getUrlParam('name');
     newsFO.createdDateSortDirection = "DESC";
-    if(getUrlParam('category')) newsFO.categories = [getUrlParam('category')];
+    if (getUrlParam('category')) newsFO.categories = [getUrlParam('category')];
 
     $(".NewsTabsFilterItem").on('click', function () {
         $('.intro').removeClass("intro");
@@ -108,7 +108,7 @@ $(document).ready(function () {
 
     function drawNews(data) {
         for (var i = 0; i < data.length; i++) {
-            data[i].text = data[i].text.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', "").replace(/&nbsp;/g,' ');
+            data[i].text = data[i].text.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', "").replace(/&nbsp;/g, ' ');
             if ($('.normalNews').length == 0) {
                 $('#startBlockOfNews').append(firstBlockNews);
             }
@@ -131,15 +131,15 @@ $(document).ready(function () {
 
     doAjax(newsFO, urlGetNews, 'news');
 
-    var waypoints = $('#nextPageNews').waypoint(function(direction) {
+    var waypoints = $('#nextPageNews').waypoint(function (direction) {
         if (direction == 'up') {
             return
         }
-        if ( $('#tabs1-news').is(':visible') ) {
+        if ($('#tabs1-news').is(':visible')) {
             newsFO.skip += 5;
             doAjax(newsFO, urlGetNews, 'news');
         }
-        if ( $('#tabs1-blogs').is(':visible') ) {
+        if ($('#tabs1-blogs').is(':visible')) {
             blogsFO.skip += 5;
             doAjax(blogsFO, urlGetBlog, 'blogs');
         }

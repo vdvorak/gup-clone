@@ -52,6 +52,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public Blog findBySeoKey(String seoKey) {
+        return blogRepository.findBySeoKey(seoKey);
+    }
+
+    @Override
     public Blog findBlogAndUpdate(Blog blog) {
         Blog newBlog = new Blog()
                 .setId(blog.getId())
