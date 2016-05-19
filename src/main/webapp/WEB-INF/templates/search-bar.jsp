@@ -8,10 +8,10 @@
             <select class="form-control" id="selectedService">
                 <option value="profile">Пользователи</option>
                 <option value="news">Новости</option>
-                <%--<option value="project">Проекты</option>--%>
+                <option value="project">Проекты</option>
                 <option value="offer">Обьявления</option>
-                <%--<option value="tender">Тендеры</option>--%>
-                <%--<option value="doer">Исполнители</option>--%>
+                <option value="tender">Тендеры</option>
+                <option value="doer">Исполнители</option>
             </select>
         </div>
         <button id="searchButton" class="submit-search">Найти <i class="fa fa-search fa-flip-horizontal"></i></button>
