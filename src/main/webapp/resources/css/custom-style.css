@@ -117,11 +117,10 @@ body {
 }
 
 .notice-box li span {
-    font-size: 9px;
     position: absolute;
     font: 9px / 9px 'Droid Sans', sans-serif;
     top: 1px;
-    left: 10px;
+    left: 15px;
 }
 
 /* Descr info box */
