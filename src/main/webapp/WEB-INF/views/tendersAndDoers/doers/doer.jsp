@@ -49,7 +49,7 @@
                 </c:otherwise>
             </c:choose>
         </div>
-        <p class="firstName">${doer.title}</p>
+        <h1 class="firstName">${doer.title}</h1>
 
 
         <div class="artistData">

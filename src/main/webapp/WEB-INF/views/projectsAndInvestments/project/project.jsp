@@ -67,7 +67,7 @@
                         <img class="mainPhoto" id="projCreatorPhoto" src="" alt="mainPhoto">
                     </div>
                     <div class="rightSec">
-                        <div class="name" id="projName"></div>
+                        <h1 class="name" id="projName"></h1>
                         <div class="additionalPhotos" id="projImages"></div>
                     </div>
                 </div>

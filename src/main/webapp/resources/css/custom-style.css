@@ -79,9 +79,10 @@ body {
     padding: 10px;
     margin-left: 15px;
     float: left;
-    border: 4px solid #9c6;
+    border: 2px solid #9c6;
     border-radius: 5px;
     position: relative;
+
 }
 
 .notice-box li:first-child {
@@ -430,7 +431,7 @@ body {
 
 .offer-info-slider .bx-wrapper .bx-viewport {
     box-shadow: 0;
-    border: 4px solid #9c6;
+    border: 2px solid #9c6;
     overflow: hidden;
     border-radius: 10px;
 }
@@ -462,7 +463,7 @@ body {
 
 .offer-info-box .foto img {
     width: 100%;
-    border: 4px solid #9c6;
+    border: 2px solid #9c6;
     display: block;
     border-radius: 7px;
     height: 88px;

@@ -185,6 +185,11 @@ a.explanation-point-tooltip img {
     font-size: 16px;
 }
 
+#blogCreationForm > #p-textlength {
+    float: right;
+    margin: 0 215px 10px;
+}
+
 textarea {
     resize: none;
 }
@@ -197,15 +202,15 @@ textarea {
     border-radius:6px;
     background-color:#C3212D;
     float:left;
-    margin:0 0 20px 20px;;
+    margin:0 0 20px 20px;
     border:1px solid #C3212D;
     -webkit-transition:all .25s;
-    transition:all .25s
+    transition:all .25s;
 }
 #btn-blog-delete:hover{
-    border-color:black;
+    border-color: #C3212D;
     background-color:transparent;
-    color:black
+    color: #C3212D;
 }
 
 #tender-btn-delete {

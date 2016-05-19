@@ -1,18 +1,109 @@
-var firstTenderBlock = $('#tenders-start-block').html();
-var firstDoerBlock = $('#doers-start-block').html();
+(function (namespace) {
 
-var doersFO = {};
-var tendersFO = {};
-// ------------------- Create container of tenders -------------------------------------------------------
+    'use strict';
+    var flag = window.flag || "",
+        util = new TenderFilter(),
+        param = {},
+        firstTenderBlock = $('#tenders-start-block').html();
 
-$(document).ready(function () {
+    init();
 
-    tendersFO.skip = 0;
-    tendersFO.limit = 5;
-    tendersFO.searchField = getUrlParam('name');
-    tendersFO.createdDateSortDirection = "DESC";
+    function TenderFilter() {
+        this.skip = 0;
+        this.limit = 5;
+        this.searchField = getUrlParam('name');
+        this.createdDateSortDirection = "DESC";
+    }
 
-    setTenderStatus();
+    function init() {
+        $('#select-tender-status').change(onChangeTenderStatus);
+
+        $('#tenderNextPage').on('click', function () {
+            util.skip += 5;
+            loadTenders();
+        });
+
+        setTenderStatus();
+        loadTenders();
+    }
+
+    function loadTenders() {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/api/rest/tenderService/tender/read/all/",
+            data: JSON.stringify(util),
+            statusCode: {
+                200: function (response) {
+                    drawTenders(response.entities);
+                },
+                204: function (response) {
+                    alert('Тендеров больше нет');
+                }
+            }
+        });
+    }
+
+    function drawTenders(data) {
+        filterTenders(data);
+
+        if (!data.length) alert('Тендеров больше нет');
+
+        for (var i = 0; i < data.length; i++) {
+            drawTenderInfo(data[i]);
+        }
+
+        $('.build-item-wrap').last().attr('style', 'display: none;');
+    }
+
+    function drawTenderInfo(tender) {
+        var tenderBlock = $('.build-item-wrap').last().attr('style', 'display:;');
+        console.log(tenderBlock);
+
+        tender.body = tender.body.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', ""); // Clear description from HTML tags
+
+        fillTenderImage(tender, tenderBlock);
+        fillTenderContent(tender, tenderBlock);
+        fillTenderBottom(tender, tenderBlock);
+
+        $('#tenders-start-block').append(firstTenderBlock);
+    }
+
+    function fillTenderContent(tender, tenderBlock) {
+        var content = tenderBlock.children('.content'),
+            url = '/tender/' + tender.id;
+
+        content.find('.build-publish-date span').text(localDateTime(tender.publishDate));
+        content.find('.tender-status span').text(getTenderStatus(tender));
+        if (!tender.tenderNumber) {
+            content.children('.number').removeClass('visible');
+        } else {
+            content.find('.build-number').text(tender.tenderNumber);
+        }
+        content.children(".build-item-text").html(tender.body);
+        content.children(".build-name-wrap").attr('href', url)
+            .children(".build-name").text(tender.title);
+    }
+
+    function fillTenderImage(tender, tenderBlock) {
+        var picBox = tenderBlock.children('.build-pic-wrap').attr('href', url),
+            url = '/tender/' + tender.id;
+
+        picBox.children('img').attr('src', findFirstImg(tender.files));
+        picBox.find('.build-veiws span').text(tender.visited);
+        picBox.find('.build-proposal-count span').text(tender.proposeNumber);
+    }
+
+    function fillTenderBottom(tender, tenderBlock) {
+        var bottom = tenderBlock.children('.bottomContent'),
+            url = '/tender/' + tender.id,
+            dateEnd = localDateTimeUTC(tender.end);
+
+        bottom.children(".sum")
+            .text((tender.expectedPrice !== null) ? tender.expectedPrice + "₴" : "Ожидаемая сумма не указана");
+        bottom.find(".build-link-wrap").attr('href', url);
+        bottom.find(".build-end").text((dateEnd === 'Invalid date') ? 'Дата не указана' : dateEnd);
+    }
 
     function findFirstImg(arr) {
         var url = '/resources/images/no_photo.jpg';
@@ -29,21 +120,26 @@ $(document).ready(function () {
         return url;
     }
 
-    function doAjax(filterOptions) {
-        $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-            url: "/api/rest/tenderService/tender/read/all/",
-            data: JSON.stringify(filterOptions),
-            statusCode: {
-                200: function (response) {
-                    draw(response.entities);
-                },
-                204: function (response) {
-                    alert('Тендеров больше нет');
-                }
-            }
+    function redirectToTenderList() {
+        var url = getUrlWithParameters();
+        $.get(url, function () {
+            window.location.href = url;
         });
+    }
+
+    function getUrlWithParameters() {
+        var url = '/tenders?';
+
+        for(var key in param) {
+            url += key + '=' + param[key] + '&';
+        }
+        url = url.substring(0, url.length - 1);
+        return url;
+    }
+
+    function setParamsToFilter() {
+        $.extend(true, util, param);
+        return util;
     }
 
     function filterFinishedTenders(data) {
@@ -115,117 +211,101 @@ $(document).ready(function () {
     }
 
     function onChangeTenderStatus() {
+        reload();
+        loadTenders();
+    }
 
-        tendersFO.skip = 0;
-        tendersFO.limit = 5;
-        tendersFO.searchField = getUrlParam('name');
-
+    function reload() {
+        util.skip = 0;
+        util.limit = 5;
         $('#tenders-start-block').empty().append(firstTenderBlock);
-
-        doAjax(tendersFO);
     }
 
-    $('#select-tender-status').change(onChangeTenderStatus);
+    namespace.filter = util;
+    namespace.loadTenders = loadTenders;
 
-    function draw(data) {
-        filterTenders(data);
+})(window.tenders = window.tenders || {});
 
-        if (!data.length) alert('Тендеров больше нет');
-        for (var i = 0; i < data.length; i++) {
-            var url = '/tender/' + data[i].id;
-            data[i].body = data[i].body.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', ""); // Clear description from HTML tags
-            $('.build-item-wrap').last().attr('style', 'display:;');
-            $(".build-pic-wrap img").last().attr('src', findFirstImg(data[i].files));
-            $(".build-pic-wrap").last().attr('href', url);
-            $(".build-link-wrap").last().attr('href', url);
-            $(".build-item-text").last().html(data[i].body);
-            if(!data[i].tenderNumber) $(".number.visible").removeClass('visible');
-            $(".build-number").last().text(data[i].tenderNumber);
-            $(".build-publish-date span").last().text(localDateTime(data[i].publishDate));
-            $(".build-veiws span").last().text(data[i].visited);
-            $(".build-proposal-count span").last().text(data[i].proposeNumber);
-            $(".tender-status span").last().text(getTenderStatus(data[i]));
+(function (namespace) {
 
-            if (data[i].expectedPrice != null) {
-                $(".sum").last().text(data[i].expectedPrice + "₴");
-            } else {
-                $(".sum").last().text("Ожидаемая сумма не указана");
-            }
+    'use strict';
+    var flag = window.flag || "",
+        util = new DoerFilter(),
+        param = {},
+        firstDoersBlock = $('#doers-start-block').html();
 
-            $(".build-name-wrap").last().attr('href', url);
-            $(".build-name").last().text(data[i].title);
-            var dateEnd = localDateTimeUTC(data[i].end);
-            $(".build-end").last().text((dateEnd === 'Invalid date') ? 'Дата не указана' : dateEnd);
-            $('#tenders-start-block').append(firstTenderBlock);
-        }
+    init();
 
-        $('.build-item-wrap').last().attr('style', 'display: none;');
+    function DoerFilter() {
+        this.skip = 0;
+        this.limit = 5;
+        this.searchField = getUrlParam('name');
+        this.createdDateSortDirection = "DESC";
     }
 
-    doAjax(tendersFO);
+    function init() {
 
-    $('#tenderNextPage').on('click', function () {
-        tendersFO.skip += 5;
-        doAjax(tendersFO);
-    })
+        $('#doerNextPage').on('click', function () {
+            util.skip += 5;
+            loadDoers();
+        })
 
-// ------------------- End create default block of tenders -------------------------------------------------------
-});
+        loadDoers();
+    }
 
-// ------------------- Create container of doers -------------------------------------------------------
-$(document).ready(function () {
-
-    doersFO.skip = 0;
-    doersFO.limit = 5;
-    doersFO.searchField = getUrlParam('name');
-    doersFO.createdDateSortDirection = "DESC";
-
-    function doAjax(filterOptions) {
+    function loadDoers() {
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: "/api/rest/doerService/doer/read/all/",
-            data: JSON.stringify(filterOptions),
+            data: JSON.stringify(util),
             statusCode: {
                 200: function (response) {
-                    draw(response.entities);
+                    drawDoers(response.entities);
+                },
+                204: function (response) {
+                    alert('Исполнителей больше нет');
                 }
             }
         });
     }
 
-    function draw(data) {
+    function drawDoers(data) {
+
         for (var i = 0; i < data.length; i++) {
-            $('.build-item-wrap-2').last().attr('style', 'display:;');
-
-            var pic = $(".build-pic-wrap-2 img").last();
-            if (data[i].imageId && data[i].imageId !== '') {
-                pic.attr('src', '/api/rest/fileStorage/DOER/file/read/id/' + data[i].imageId);
-            } else {
-                pic.attr('src', '/resources/images/doersLogo.png');
-            }
-            pic.parent().attr('href', '/doer/' + data[i].id);
-
-            $(".build-pic-wrap-2 > a").last().attr('href', '/doer/' + data[i].id);
-            $(".build-item-text-2").last().html(data[i].body);
-            $(".build-publish-date-2").last().text(localDateTime(data[i].dateOfCreate));
-            //$(".build-publish-date-update-2 span").last().text(localDateTime(data[i].dateOfUpdate));
-            $(".build-veiws-2").last().text(data[i].countVisit);
-            $(".build-name-2").last().text(data[i].title);
-            $('#doers-start-block').append(firstDoerBlock);
+            drawDoerInfo(data[i]);
         }
-
         $('.build-item-wrap-2').last().attr('style', 'display: none;');
     }
 
-    doAjax(doersFO);
+    function drawDoerInfo(doer) {
+        var doersBlock = $('.build-item-wrap-2').last().attr('style', 'display:;');
 
-    $('#doerNextPage').on('click', function () {
-        doersFO.skip += 5;
-        doAjax(doersFO);
-    })
+        var imgBlock = doersBlock.children(".build-pic-wrap-2").attr('href', '/doer/' + doer.id).first();
+        imgBlock.find('img').attr('src', (doer.imageId && doer.imageId !== '')
+            ? '/api/rest/fileStorage/DOER/file/read/id/' + doer.imageId
+            : '/resources/images/doersLogo.png');
+        imgBlock.find('a').attr('href', '/doer/' + doer.id);
 
-});
+        doersBlock.find(".build-publish-date-2").text(localDateTime(doer.dateOfCreate));
+        doersBlock.find(".build-veiws-2").text(doer.countVisit);
+        doersBlock.children(".build-item-text-2").html(doer.body);
+        doersBlock.find(".build-name-2").text(doer.title);
+
+        $('#doers-start-block').append(firstDoersBlock);
+    }
+
+    function reload() {
+        util.skip = 0;
+        util.limit = 5;
+        $('#doers-start-block').empty().append(firstDoersBlock);
+    }
+
+    namespace.filter = util;
+    namespace.loadDoers = loadDoers;
+
+})(window.doers = window.doers || {});
+
 // ------------------- End create default block of doers -------------------------------------------------------
 
 $(document).ready(function () {
@@ -234,11 +314,11 @@ $(document).ready(function () {
         var x = location.href;
         if($(window).scrollTop() >= $('.footer').offset().top + $('.footer').outerHeight() - window.innerHeight) {
             if (x === 'http://localhost:8080/tenders' || x === 'http://localhost:8080/tenders#tabs1-tenders') {
-                tendersFO.skip += 5;
-                doAjax(tendersFO);
+                window.tenders.filter.skip += 5;
+                loadTenders();
             } if (x === 'http://localhost:8080/tenders#tabs1-investment') {
-                doersFO.skip += 5;
-                doAjax(doersFO);
+                window.doers.filter.skip += 5;
+                loadDoers();
             }
         }
     });
