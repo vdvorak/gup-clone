@@ -1376,7 +1376,7 @@ input[class="greenCheckbox"]:checked + span {
 .blogs {
     height: 135px;
     width: 100%;
-    border: 4px solid #97ca65;
+    border: 2px solid #97ca65;
     border-radius: 10px;
     margin-bottom: 17px;
     position: relative;
@@ -2118,7 +2118,7 @@ form > .richAssCheck > label:first-child {
 }
 
 .NewsTabsFilter {
-    border: 3px solid #bbb;
+    border: 2px solid #bbb;
     border-radius: 5px;
     width: 100%;
     height: 37px;
@@ -2146,7 +2146,7 @@ form > .richAssCheck > label:first-child {
 }
 
 .VIPNewsLarge {
-    border: 3px solid #f8ad39;
+    border: 2px solid #f8ad39;
     border-radius: 7px;
     height: 318px;
     width: 279px;
@@ -2174,7 +2174,7 @@ form > .richAssCheck > label:first-child {
 }
 
 .VIPNewsSmall {
-    border: 3px solid #f8ad39;
+    border: 2px solid #f8ad39;
     border-radius: 7px;
     width: 417px;
     height: 137px;
@@ -2203,7 +2203,7 @@ form > .richAssCheck > label:first-child {
 }
 
 .VIPNewsExtraSmall {
-    border: 3px solid #f8ad39;
+    border: 2px solid #f8ad39;
     border-radius: 7px;
     position: relative;
     width: 153px;
@@ -2248,7 +2248,7 @@ form > .richAssCheck > label:first-child {
 }
 
 .VIPNewsMedium {
-    border: 3px solid #f8ad39;
+    border: 2px solid #f8ad39;
     border-radius: 7px;
     position: relative;
     width: 593px;
@@ -2278,7 +2278,7 @@ form > .richAssCheck > label:first-child {
 }
 
 .normalNews {
-    border: 3px solid #1269a7;
+    border: 2px solid #1269a7;
     border-radius: 7px;
     width: 100%;
     margin-top: 15px;
@@ -3377,7 +3377,7 @@ input:focus:-ms-input-placeholder {
 }
 
 .doers {
-    border: 4px solid #9c6;
+    border: 2px solid #9c6;
     border-radius: 18px;
     margin-top: 10px;
     padding-bottom: 50px
@@ -3395,7 +3395,7 @@ input:focus:-ms-input-placeholder {
 .doersFeed img {
     height: 156px;
     width: 156px;
-    border: 4px solid #1269a7;
+    border: 2px solid #1269a7;
     border-radius: 5px;
     padding: 20px;
     margin-right: 15px;
@@ -5457,4 +5457,12 @@ body > .err > i > i {
 .blogCreation > .drop_zone {
     margin: 0 365px 30px 277px;
     padding: 10px;
+}
+
+.feedItem.build-item-wrap > .content > .tender-status {
+    position: absolute;
+    top: -10px;
+    left: 1px;
+    color: #545454;
+    font: 400 9px DroidSans;
 }
