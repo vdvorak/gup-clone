@@ -91,6 +91,7 @@ $(document).ready(function () {
     newsFO.skip = 0;
     newsFO.limit = 5;
     newsFO.searchField = getUrlParam('name');
+    newsFO.blogId = getUrlParam('blogId');
     newsFO.createdDateSortDirection = "DESC";
     if (getUrlParam('category')) newsFO.categories = [getUrlParam('category')];
 

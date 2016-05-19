@@ -612,7 +612,7 @@
         redirectToOfferAll(url);
     }
 
-    namespace.utils = utils;
+    namespace.filter = utils;
 
     namespace.submitFilter = submitFilter;
 
@@ -648,5 +648,5 @@
     namespace.readAllByFilter = readAllByFilter;
     namespace.cleanResult = cleanResult;
 
-})(window.OfferFilter = window.OfferFilter || {});
+})(window.offers = window.offers || {});
 
