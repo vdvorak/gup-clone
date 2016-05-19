@@ -53,7 +53,7 @@
 <div class="container2">
     <div class="createBlog">
 
-        <p class="blogName">${blog.title}</p>
+        <h1 class="blogName">${blog.title}</h1>
 
         <div class="clearfix"></div>
 

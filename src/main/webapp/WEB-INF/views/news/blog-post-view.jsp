@@ -51,7 +51,7 @@
 
         <p class="newsPublished" id="bpCreatedDate">Опубликовано: </p>
 
-        <p class="newsName" id="bpTitle"></p> <!-- когда чувак вип надо добавить класс vip-color -->
+        <h1 class="newsName" id="bpTitle"></h1> <!-- когда чувак вип надо добавить класс vip-color -->
         <div id="bpText" class="descriptionNormalNews2">
         </div>
 

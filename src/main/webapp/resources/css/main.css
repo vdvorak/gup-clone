@@ -326,7 +326,7 @@ table {
 }
 
 .slider {
-    margin: 20px 0 0 7px;
+    margin: 17px 0 0 7px;
 }
 
 .ad-p {
@@ -526,7 +526,7 @@ table {
 
 .tidi4-a {
     color: #1269a7;
-    font: 400 14px DroidSans;
+    font: 400 14px / 19px DroidSans;
     word-wrap: break-word;
     width: 180px;
     float: right;
@@ -541,8 +541,7 @@ table {
 
 .tidi4-p {
     color: #868787;
-    font: 400 12px DroidSans;
-    line-height: 13px;
+    font: 400 12px / 17px DroidSans;
     width: 180px;
     max-height: 52px;
     overflow: hidden;
@@ -573,7 +572,7 @@ table {
 
 .tidi4-ar {
     color: #1269a7;
-    font: 400 14px DroidSans;
+    font: 400 14px / 19px DroidSans;
     float: left;
     width: 188px;
     word-wrap: break-word;
@@ -628,8 +627,7 @@ table {
 }
 
 .mid {
-    margin-top: 15px;
-    margin-bottom: 60px;
+    margin: 15px 43px 70px;
 }
 
 .mid::after {
@@ -641,23 +639,25 @@ table {
 .mid > li:hover .ads-p {
     background-color: #36aae0;
     height: 36px;
-    line-height: 36px;
     margin-top: 5px;
     -webkit-transition: all .25s;
     transition: all .25s;
     text-decoration: none;
     color: #fff;
+    font: 400 24px / 36px DroidSans;
 }
 
 .mid > li {
     float: left;
-    width: 144px;
+    /*width: 144px;*/
+    width: 190px;
     margin-right: 1px;
     position: relative;
 }
 
 .mid > li:last-child {
-    width: 319px;
+    /*width: 319px;*/
+    width: 430px;
 }
 
 .ads-p {
@@ -677,11 +677,11 @@ table {
 .ads-img {
     border: 4px solid #1269a7;
     border-top: 0;
-    width: 100%;
-    height: 144px;
+    /*height: 144px;*/
+    height: 190px;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
-    background: url(/resources/css/images/rupor.png) no-repeat center center;
+    background: url(/resources/css/images/Bigrupor.png) no-repeat center center;
     cursor: pointer;
 }
 
@@ -710,25 +710,31 @@ table {
 .ads-img4 {
     border: 4px solid #1269a7;
     border-top: 0;
-    width: 100%;
-    height: 144px;
+    /*height: 144px;*/
+    height: 190px;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
-    background: url(/resources/css/images/newspaper.png) no-repeat center center;
+    background: url(/resources/css/images/Bignewspaper.png) no-repeat center center;
     cursor: pointer;
 }
 
-.ads-a1 {
+.dropUl > li > a {
     color: #2f3846;
-    font: 300 11px Helvetica;
+    font: 300 15px / 26px Helvetica;
     display: block;
-    width: 100%;
-    border: 2px solid #36aae0;
-    border-bottom: 0;
     padding: 0 5px;
 }
 
-.ads-a1:hover {
+.dropUl > li{
+    border: 2px solid #36aae0;
+    border-bottom: none;
+}
+
+.dropUl > li:last-child {
+    border-bottom: 2px solid #36aae0;
+}
+
+.dropUl > li > a:hover {
     text-decoration: none;
     color: #2f3846;
     display: block;
@@ -739,23 +745,7 @@ table {
 .dropUl {
     display: none;
     position: absolute;
-}
-
-.ads-drop {
-    color: #2f3846;
-    font: 300 11px Helvetica;
-    display: block;
-    width: 144px;
-    border: 2px solid #36aae0;
-    border-bottom-left-radius: 1px;
-    border-bottom-right-radius: 1px;
-    padding: 0 5px;
-}
-
-.ads-drop:hover {
-    text-decoration: none;
-    color: #2f3846;
-    background-color: #9c6;
+    width: 100%;
 }
 
 .data {

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<div class="ad">
+<div class="ad" style="display: none">
     <p class="tend-p" onClick='location.href="/tenders"'>ТОП ТЕНДЕРОВ</p>
 
     <div id="topTendersBlock">
