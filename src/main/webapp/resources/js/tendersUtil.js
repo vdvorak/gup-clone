@@ -37,7 +37,7 @@
             data: JSON.stringify(util),
             statusCode: {
                 200: function (response) {
-                    draw(response.entities);
+                    drawTenders(response.entities);
                 },
                 204: function (response) {
                     alert('Тендеров больше нет');
@@ -59,7 +59,8 @@
     }
 
     function drawTenderInfo(tender) {
-        var tenderBlock = $('#build-item-wrap').last().attr('style', 'display:;');
+        var tenderBlock = $('.build-item-wrap').last().attr('style', 'display:;');
+        console.log(tenderBlock);
 
         tender.body = tender.body.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', ""); // Clear description from HTML tags
 
@@ -97,6 +98,7 @@
 
     function fillTenderBottom(tender, tenderBlock) {
         var bottom = tenderBlock.children('.bottomContent'),
+            url = '/tender/' + tender.id,
             dateEnd = localDateTimeUTC(tender.end);
 
         bottom.children(".sum")
@@ -195,6 +197,7 @@
         } else if (status === 'active') {
             filterActiveTenders(data);
         }
+        console.log(data);
     }
 
     function setTenderStatus() {
@@ -222,6 +225,7 @@
     }
 
     namespace.filter = util;
+    namespace.init = init;
 
 })(window.tenders = window.tenders || {});
 
