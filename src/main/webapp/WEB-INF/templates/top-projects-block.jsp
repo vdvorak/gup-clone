@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<div class="ad" style="display: none">
+<div class="ad">
     <p class="proj-p" onClick='location.href="/project/list"'>ТОП ПРОЕКТОВ</p>
 
     <div id="topProjectsBlock">

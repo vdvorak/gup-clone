@@ -13,7 +13,7 @@
                 <li><a href="/create-offer">Создать объявление</a></li>
             </ul>
         </li>
-        <li style="display: none">
+        <li>
             <a href="/tenders" class="ads-p">Тендеры</a>
             <a href="/tenders">
                 <div class="ads-img2"></div>
@@ -23,7 +23,7 @@
                 <li><a href="/doer-create">Стать исполнителем</a></li>
             </ul>
         </li>
-        <li style="display: none">
+        <li>
             <a href="/project/list" class="ads-p">Проекты</a>
             <a href="/project/list">
                 <div class="ads-img3"></div>
