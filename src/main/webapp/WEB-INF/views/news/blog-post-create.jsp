@@ -1,6 +1,5 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
@@ -47,32 +46,41 @@
         <form action="#" role="form">
             <label for="newsTitle" class="blogCreationLabel">Заголовок новости</label>
             <input type="text" name="newsTitle" id="newsTitle" class="blogCreationInput blueBorder">
+
             <div class="clearfix"></div>
 
             <p class="blogCreationHeader blueColor">Категория</p>
+
             <div class="input-group cat">
                 <hr>
-                <label class="labelLookGood" for="sciCategory"><input id="sciCategory" type="checkbox" name="sci"><span></span></label>
+                <label class="labelLookGood" for="sciCategory"><input id="sciCategory" type="checkbox"
+                                                                      name="sci"><span></span></label>
                 <label class="LabelForLabel" for="sciCategory">Наука и техника</label>
-                <label class="labelLookGood" for="artCategory"><input id="artCategory" type="checkbox" name="art"><span></span></label>
+                <label class="labelLookGood" for="artCategory"><input id="artCategory" type="checkbox"
+                                                                      name="art"><span></span></label>
                 <label class="LabelForLabel" for="artCategory">Искусство</label>
                 <label class="labelLookGood" for="savorCategory"><input id="savorCategory" type="checkbox" name="savor"><span></span></label>
                 <label class="LabelForLabel" for="savorCategory">Светская жизнь</label>
-                <label class="labelLookGood" for="policyCategory"><input id="policyCategory" type="checkbox" name="policy"><span></span></label>
+                <label class="labelLookGood" for="policyCategory"><input id="policyCategory" type="checkbox"
+                                                                         name="policy"><span></span></label>
                 <label class="LabelForLabel" for="policyCategory">Политика</label>
                 <label class="labelLookGood" for="worldCategory"><input id="worldCategory" type="checkbox" name="world"><span></span></label>
                 <label class="LabelForLabel" for="worldCategory">Мир и общество</label>
-                <label class="labelLookGood" for="economyCategory"><input id="economyCategory" type="checkbox" name="economy"><span></span></label>
+                <label class="labelLookGood" for="economyCategory"><input id="economyCategory" type="checkbox"
+                                                                          name="economy"><span></span></label>
                 <label class="LabelForLabel" for="economyCategory">Экономика</label>
                 <label class="labelLookGood" for="sportCategory"><input id="sportCategory" type="checkbox" name="sport"><span></span></label>
                 <label class="LabelForLabel" for="sportCategory">Спорт,хобби</label>
-                <label class="labelLookGood" for="socialCategory"><input id="socialCategory" type="checkbox" name="social"><span></span></label>
+                <label class="labelLookGood" for="socialCategory"><input id="socialCategory" type="checkbox"
+                                                                         name="social"><span></span></label>
                 <label class="LabelForLabel" for="socialCategory">Соц. сети</label>
+
                 <div class="clearfix"></div>
                 <hr>
             </div>
 
             <label for="region-row" class="blogCreationLabel">Регион</label>
+
             <div id="blog-region-wrapper">
                 <div id="region-row">
                     <div id="region-container" class="dropdown" style="display: inline-block">
@@ -161,10 +169,10 @@
                 </ul>
             </div>
 
-<%--            <label for="blogTitle" class="blogCreationLabel">Добавить видео</label>
-            <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput blueBorder"
-                   placeholder="Youtube"
-                   pattern="(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?">--%>
+            <%--            <label for="blogTitle" class="blogCreationLabel">Добавить видео</label>
+                        <input type="text" name="blogTitle" id="blogTitle" class="blogCreationInput blueBorder"
+                               placeholder="Youtube"
+                               pattern="(?:https?:\/\/)?(?:www\.)?youtu\.?be(?:\.com)?\/?.*(?:watch|embed)?(?:.*v=|v\/|\/)([\w\-_]+)\&?">--%>
         </form>
         <button type="button" class="SendEdition">Отправить редакции</button>
 
@@ -177,6 +185,7 @@
     <div class="gup-popup">
         <h2>Ошибка создания новости</h2>
         <a class="popup-close" href="#">&times;</a>
+
         <div class="popup-content">
 
         </div>
@@ -278,7 +287,7 @@
         blogPost.categories = inpCategories;
 
         gupValidator.validate(blogPost);
-        if(!gupValidator.isValid) return;
+        if (!gupValidator.isValid) return;
 
         $.ajax({
             type: "POST",
@@ -288,7 +297,7 @@
             data: JSON.stringify(blogPost),
             statusCode: {
                 201: function (data, textStatus, request) {
-                    window.location.href = '/blog-post/view/id/' + data.id;
+                    window.location.href = '/blog-post/' + data.seoUrl;
                 }
             }
         });
@@ -466,15 +475,15 @@
     function checkMainImg() {
         var hasMainImg = false;
 
-        for(var key in imgsArr) {
-            if(imgsArr[key] === 'pic1') {
+        for (var key in imgsArr) {
+            if (imgsArr[key] === 'pic1') {
                 hasMainImg = true;
                 break;
             }
         }
 
-        if(!hasMainImg) {
-            for(var key in imgsArr) {
+        if (!hasMainImg) {
+            for (var key in imgsArr) {
                 imgsArr[key] = 'pic1';
                 break;
             }

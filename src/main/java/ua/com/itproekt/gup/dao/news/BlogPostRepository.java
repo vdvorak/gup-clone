@@ -21,6 +21,8 @@ public interface BlogPostRepository {
 
     int delete(String blogPostId);
 
+    BlogPost findBySeoKey(String seoKey);
+
     boolean blogPostExists(String id);
 
     boolean commentExists(String blogPostId, String commentId);

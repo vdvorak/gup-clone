@@ -19,6 +19,8 @@ public interface BlogPostService {
 
     int delete(String id);
 
+    BlogPost findBySeoKey(String seoKey);
+
     boolean blogPostExists(String id);
 
     //PostComments

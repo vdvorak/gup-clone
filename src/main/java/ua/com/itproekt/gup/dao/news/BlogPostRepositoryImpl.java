@@ -122,7 +122,7 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
         query.limit(blogPostFO.getLimit());
 
         return new EntityPage<>(mongoTemplate.count(query, BlogPost.class),
-                                mongoTemplate.find(query, BlogPost.class));
+                mongoTemplate.find(query, BlogPost.class));
     }
 
     @Override
@@ -143,6 +143,12 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
     }
 
     @Override
+    public BlogPost findBySeoKey(String seoKey) {
+        Query query = new Query(Criteria.where("seoKey").is(seoKey));
+        return mongoTemplate.findOne(query, BlogPost.class);
+    }
+
+    @Override
     public boolean blogPostExists(String blogPostId) {
         Query query = new Query(Criteria.where("id").is(blogPostId));
         return mongoTemplate.exists(query, BlogPost.class);
@@ -151,22 +157,22 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
     @Override
     public boolean commentExists(String blogPostId, String commentId) {
         Query query = new Query()
-            .addCriteria(Criteria.where("id").is(blogPostId))
-            .addCriteria(Criteria.where("comments.cId").is(commentId));
+                .addCriteria(Criteria.where("id").is(blogPostId))
+                .addCriteria(Criteria.where("comments.cId").is(commentId));
         return mongoTemplate.exists(query, BlogPost.class);
     }
 
     @Override
     public void likeComment(String blogPostId, String commentId, String userId) {
         Query addLikeQuery = new Query()
-            .addCriteria(Criteria.where("id").is(blogPostId))
-            .addCriteria(Criteria.where("comments.cId").is(commentId));
+                .addCriteria(Criteria.where("id").is(blogPostId))
+                .addCriteria(Criteria.where("comments.cId").is(commentId));
 
         Query existsQuery = new Query()
-            .addCriteria(Criteria.where("id").is(blogPostId))
-            .addCriteria( Criteria.where("comments").elemMatch(new Criteria().andOperator(
-                    Criteria.where("cId").is(commentId),
-                    Criteria.where("likedIds").in(userId))));
+                .addCriteria(Criteria.where("id").is(blogPostId))
+                .addCriteria(Criteria.where("comments").elemMatch(new Criteria().andOperator(
+                        Criteria.where("cId").is(commentId),
+                        Criteria.where("likedIds").in(userId))));
 
         Update update = new Update();
         if (mongoTemplate.exists(existsQuery, BlogPost.class)) {
@@ -199,8 +205,8 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
     @Override
     public Comment findComment(String blogPostId, String commentId) {
         Query query = new Query()
-            .addCriteria(Criteria.where("id").is(blogPostId))
-            .addCriteria(Criteria.where("comments.cId").is(commentId));
+                .addCriteria(Criteria.where("id").is(blogPostId))
+                .addCriteria(Criteria.where("comments.cId").is(commentId));
         query.fields().slice("comments", 1);
 
         return mongoTemplate.findOne(query, BlogPost.class).getComments().iterator().next();
@@ -214,7 +220,7 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
                     new Update().pull("dislikedIds", userId).inc("totalDislikes", -1),
                     BlogPost.class);
         }
-        if (!checkIfUserHasVoted(blogPostId, userId, "likedIds")){
+        if (!checkIfUserHasVoted(blogPostId, userId, "likedIds")) {
             mongoTemplate.updateFirst(
                     Query.query(Criteria.where("id").is(blogPostId)),
                     new Update().push("likedIds", userId).inc("totalLikes", 1),
@@ -230,11 +236,11 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
                     new Update().pull("likedIds", userId).inc("totalLikes", -1),
                     BlogPost.class);
         }
-        if (!checkIfUserHasVoted(blogPostId, userId,"dislikedIds")){
+        if (!checkIfUserHasVoted(blogPostId, userId, "dislikedIds")) {
             mongoTemplate.updateFirst(
-                Query.query(Criteria.where("id").is(blogPostId)),
-                new Update().push("dislikedIds", userId).inc("totalDislikes", 1),
-                BlogPost.class);
+                    Query.query(Criteria.where("id").is(blogPostId)),
+                    new Update().push("dislikedIds", userId).inc("totalDislikes", 1),
+                    BlogPost.class);
         }
     }
 
@@ -248,8 +254,8 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
 
     public boolean checkIfUserHasVoted(String blogPostId, String userId, String votesArrayName) {
         Query query = new Query()
-            .addCriteria(Criteria.where("id").is(blogPostId))
-            .addCriteria(Criteria.where(votesArrayName).in(userId));
+                .addCriteria(Criteria.where("id").is(blogPostId))
+                .addCriteria(Criteria.where(votesArrayName).in(userId));
         return mongoTemplate.exists(query, BlogPost.class);
     }
 }

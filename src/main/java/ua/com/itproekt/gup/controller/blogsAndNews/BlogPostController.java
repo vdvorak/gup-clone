@@ -16,6 +16,8 @@ import ua.com.itproekt.gup.service.news.BlogService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.itproekt.gup.util.SeoMetaTags;
+import ua.com.itproekt.gup.util.SeoUtils;
 
 
 @Controller
@@ -31,16 +33,47 @@ public class BlogPostController {
     @Autowired
     BlogService blogService;
 
-    @RequestMapping("/view/id/{blogPostId}")
-    public String blogPostView(Model model, @PathVariable String blogPostId) {
-        if (!blogPostService.blogPostExists(blogPostId)) {
-            throw new ResourceNotFoundException();
-        }
+//    @RequestMapping("/view/id/{blogPostId}")
+//    public String blogPostView(Model model, @PathVariable String blogPostId) {
+//        if (!blogPostService.blogPostExists(blogPostId)) {
+//            throw new ResourceNotFoundException();
+//        }
+//        String flag = "news";
+//        model.addAttribute("flag", flag);
+//        model.addAttribute("blogPostId", blogPostId);
+//        return "news/blog-post-view";
+//    }
+
+    @RequestMapping("/{seoUrl}")
+    public String blogPostView(Model model, @PathVariable String seoUrl) {
+
+
+        String blogPostSeoKey = SeoUtils.getKey(seoUrl);
+
+
+        BlogPost blogPost = blogPostService.findBySeoKey(blogPostSeoKey);
+
+//        if (!blogPostService.blogPostExists(blogPostId)) {
+//            throw new ResourceNotFoundException();
+//        }
+
+
+
+//        SeoMetaTags seoMetaTags = new SeoMetaTags()
+//                .setTitle(blog.getTitle())
+//                .setMainImgId(blog.getImageId())
+//                .setSeoUrl(seoUrl);
+
         String flag = "news";
         model.addAttribute("flag", flag);
-        model.addAttribute("blogPostId", blogPostId);
+        model.addAttribute("blogPostId", blogPost.getId());
         return "news/blog-post-view";
     }
+
+
+
+
+
 
     @RequestMapping("/news")
     public String newsView(Model model) {

@@ -68,7 +68,7 @@ public class BlogRestController {
 
         blogService.createBlog(blog);
 
-        CreatedObjResp createdObjResp = new CreatedObjResp(blog.getId());
+        CreatedObjResp createdObjResp = new CreatedObjResp(blog.getSeoUrl());
         return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
     }
 

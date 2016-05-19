@@ -118,8 +118,8 @@ $(document).ready(function () {
                 .attr('src', findFirstImgNews(data[i].imagesIds))
                 .attr('alt', data[i].title)
                 .parent()
-                .attr('href', '/blog-post/view/id/' + data[i].id);
-            $(".normalNews a").last().attr('href', '/blog-post/view/id/' + data[i].id);
+                .attr('href', '/blog-post/' + data[i].seoUrl);
+            $(".normalNews a").last().attr('href', '/blog-post/' + data[i].seoUrl);
             $(".descriptionNormalNews2").last().text(data[i].text);  // - описание
             $(".normalNews-p2").last().append(localDateTime(data[i].createdDate)); // - дата создания
             $(".descriptionNormalNews").last().text(data[i].title);  // - заголовок

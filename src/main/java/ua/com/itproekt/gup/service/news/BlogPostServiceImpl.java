@@ -41,6 +41,11 @@ public class BlogPostServiceImpl implements BlogPostService {
     }
 
     @Override
+    public BlogPost findBySeoKey(String seoKey) {
+        return blogPostRepository.findBySeoKey(seoKey);
+    }
+
+    @Override
     public void create(BlogPost blogPost) {
         BlogPost newBlogPost = new BlogPost()
                 .setId(null)

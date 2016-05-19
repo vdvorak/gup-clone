@@ -68,7 +68,7 @@ public class BlogRepositoryImpl implements BlogRepository {
         query.limit(blogFO.getLimit());
 
         return new EntityPage<>(mongoTemplate.count(query, Blog.class),
-                                mongoTemplate.find(query, Blog.class));
+                mongoTemplate.find(query, Blog.class));
     }
 
     @Override
