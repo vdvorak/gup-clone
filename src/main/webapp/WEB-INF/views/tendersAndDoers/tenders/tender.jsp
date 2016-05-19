@@ -73,7 +73,7 @@
                 </div>
             </div>
             <div class="clearfix"></div>
-            <div class="title tender-name">Название тендера</div>
+            <h1 class="title tender-name">Название тендера</h1>
             <p class="text tender-item-text">
             </p>
 

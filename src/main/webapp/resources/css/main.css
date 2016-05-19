@@ -3010,14 +3010,13 @@ label[for="checkbox-filter3"] {
     -webkit-transform: rotateZ(90deg);
     transform: rotateZ(90deg);
     border-radius: 50%;
-    z-index: -1;
 }
 
 .defaultIMG li:hover .descr {
     opacity: 1;
     -webkit-transform: rotateZ(0);
     transform: rotateZ(0);
-    border-radius: 0
+    border-radius: 0;
 }
 
 .descr i {
