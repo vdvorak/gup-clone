@@ -3,14 +3,27 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>${blog.title} | Портал GUP</title>
+    <title>${seoMetaTags.title}: блог на Gup</title>
+    <meta name="description"
+          content="Global Ukrainian Portal - твой украинский портал. Актуальные новости, объявления, интересные проекты и тендеры.">
+    <meta property="og:title" content="${seoMetaTags.title}"/>
+    <meta property="og:description"
+          content="Global Ukrainian Portal - актуальные новости, объявления, интересные проекты и тендеры."/>
+    <meta property="og:type" content="other"/>
+    <meta property="og:url" content="http://gup.com.ua/blog/${seoMetaTags.seoUrl}"/>
+    <c:choose>
+        <c:when test="${empty seoMetaTags.mainImgId}">
+            <meta property="og:image" content="http://gup.com.ua/resources/images/no_photo.jpg"/>
+        </c:when>
+        <c:otherwise>
+            <meta property="og:image"
+                  content="http://gup.com.ua/api/rest/fileStorage/NEWS/file/read/id/${seoMetaTags.mainImgId}"/>
+        </c:otherwise>
+    </c:choose>
+    <meta property="og:site_name" content="Gup.com.ua - Global Ukrainian Portal"/>
     <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
-
-
     <link href="/resources/css/bootstrap.css" rel="stylesheet">
-
     <link href="/resources/css/com.css" rel="stylesheet">
-
     <link type="text/css" rel="stylesheet" href="/resources/css/simplePagination.css"/>
     <link href="/resources/css/pgwslideshow.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">

@@ -11,6 +11,7 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.news.BlogService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.itproekt.gup.util.SeoMetaTags;
 import ua.com.itproekt.gup.util.SeoUtils;
 
 
@@ -22,7 +23,6 @@ public class BlogController {
 
     @Autowired
     ProfilesService profilesService;
-
 
 
     //ToDo Delete this after SEO url for blog will be complete
@@ -50,8 +50,6 @@ public class BlogController {
 //    }
 
 
-
-
     @RequestMapping(value = "/blog/{seoUrl}", method = RequestMethod.GET)
     public String getBlogReadBySeoKey(Model model, @PathVariable String seoUrl) {
         boolean check = false;
@@ -72,22 +70,21 @@ public class BlogController {
         Profile profile = profilesService.findWholeProfileById(blog.getAuthorId());
         String userName = profile.getUsername();
 
+
+        SeoMetaTags seoMetaTags = new SeoMetaTags()
+                .setTitle(blog.getTitle())
+                .setMainImgId(blog.getImageId())
+                .setSeoUrl(seoUrl);
+
+
         String flag = "news";
+        model.addAttribute("seoMetaTags", seoMetaTags);
         model.addAttribute("flag", flag);
         model.addAttribute("username", userName);
         model.addAttribute("check", check);
         model.addAttribute("blog", blog);
         return "news/blog";
     }
-
-
-
-
-
-
-
-
-
 
 
     @RequestMapping("/blogs-and-news")
