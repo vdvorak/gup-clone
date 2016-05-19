@@ -1,4 +1,4 @@
-var offerFilter = window.OfferFilter;
+var offers = window.offers;
 var offer = {};
 var phonesSet;
 
@@ -19,11 +19,11 @@ $.ajax({
 });
 
 // ----------- Draw offer -------------------------------------------------------------------------------------------
-$('#a-author-offers').bind('click', offer.authorId, offerFilter.filterOffersByAuthor);
+$('#a-author-offers').bind('click', offer.authorId, offers.filterOffersByAuthor);
 
 $('.offer-title').text(offer.title);
 
-$('.offer-price').text(window.offerFilter.getPriceStr(offer));
+$('.offer-price').text(window.offers.getPriceStr(offer));
 
 
 $('#create-date').text(localDateTime(offer.createdDate));
@@ -106,7 +106,7 @@ if (offer.address) {
         $('#offer-cities').append('<li><a id="address-city" href="#">' + " \ " + offer.address.city + '</a>' + '</li>')
     }
 }
-$('#offer-cities li a').click(offerFilter.redirectToOfferAllByBreadcrumbs);
+$('#offer-cities li a').click(offers.redirectToOfferAllByBreadcrumbs);
 
 $.when(window.loadCategories, window.loadSubcategories).done(function () {
     var breadcrumbs = offer.categories;
@@ -130,7 +130,7 @@ $.when(window.loadCategories, window.loadSubcategories).done(function () {
             }
         }
     }
-    $("#breadcrumbs li a").click(offerFilter.redirectToOfferAllByBreadcrumbs);
+    $("#breadcrumbs li a").click(offers.redirectToOfferAllByBreadcrumbs);
 })
 
 $('.show-number').on('click', function () {
@@ -250,7 +250,7 @@ $(document).ready(function () {
                             imgSrc = "/resources/images/no_photo.jpg";
                         }
 
-                        var priceStr = window.offerFilter.getPriceStr(offerObj);
+                        var priceStr = window.offers.getPriceStr(offerObj);
                         var newLi = $('#li-offer-basic').clone()
                             .attr('id', "")
                             .css("display", "inline-block");

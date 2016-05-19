@@ -7,7 +7,7 @@ $(document).ready(function () {
     offers.parseUrlToFilter()
         .readAllByFilter();
 
-    var categories = offers.utils.categories;
+    var categories = offers.filter.categories;
     if (categories && categories.length) {
         $.when(window.loadOptions, window.loadParameters).done(function () {
             offers.drawFilterOptions(categories[categories.length - 1]);
@@ -17,7 +17,7 @@ $(document).ready(function () {
         })
     }
 
-    var address = offers.utils.address;
+    var address = offers.filter.address;
     if (address.area) $('#input-selected-area').val(address.area);
     if (address.city) $('#input-selected-city').val(address.city);
     offers.generateFilterRegionString();
