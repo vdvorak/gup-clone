@@ -73,7 +73,7 @@
 
             <div>
                 <div id="startBlockOfNews">
-                    <div class="normalNews">
+                    <div class="normalNews" style="display:none;">
                     <a href="#"><img class="news-img" src="" alt=""></a>
                     <a class="descriptionNormalNews" href="#">Студенты “топовых” бизнес—школ мира предпочитают
                         практиковаться на стартапах</a>
@@ -91,7 +91,7 @@
         <div id="tabs1-blogs">
             <div>
                 <div id="startBlockOfBlogs">
-                    <div class="blogs">
+                    <div class="blogs" style="display:none;">
                         <a href="#"><img class="blogs-img" src=""></a>
                         <a href="#" class="nameBlogs"></a>
                         <p class="text-blogs"></p>
