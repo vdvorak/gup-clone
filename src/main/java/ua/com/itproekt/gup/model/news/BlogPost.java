@@ -35,6 +35,9 @@ public class BlogPost {
     @Size(max = 15)
     private Map<String, String> imagesIds;
 
+    private String seoUrl; // full SEO url with key - for siteMap
+    private String seoKey; // only key - for search in DB
+
     private Long modifiedDate;
     private Long createdDate;
 
@@ -211,5 +214,48 @@ public class BlogPost {
     public BlogPost setAuthorId(String authorId) {
         this.authorId = authorId;
         return this;
+    }
+
+    public String getSeoUrl() {
+        return seoUrl;
+    }
+
+    public BlogPost setSeoUrl(String seoUrl) {
+        this.seoUrl = seoUrl;
+        return this;
+    }
+
+    public String getSeoKey() {
+        return seoKey;
+    }
+
+    public BlogPost setSeoKey(String seoKey) {
+        this.seoKey = seoKey;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "BlogPost{" +
+                "id='" + id + '\'' +
+                ", blogId='" + blogId + '\'' +
+                ", authorId='" + authorId + '\'' +
+                ", views=" + views +
+                ", totalLikes=" + totalLikes +
+                ", totalDislikes=" + totalDislikes +
+                ", totalComments=" + totalComments +
+                ", comments=" + comments +
+                ", likedIds=" + likedIds +
+                ", dislikedIds=" + dislikedIds +
+                ", title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                ", address=" + address +
+                ", categories=" + categories +
+                ", imagesIds=" + imagesIds +
+                ", seoUrl='" + seoUrl + '\'' +
+                ", seoKey='" + seoKey + '\'' +
+                ", modifiedDate=" + modifiedDate +
+                ", createdDate=" + createdDate +
+                '}';
     }
 }

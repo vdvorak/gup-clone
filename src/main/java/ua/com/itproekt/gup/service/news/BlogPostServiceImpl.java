@@ -50,6 +50,8 @@ public class BlogPostServiceImpl implements BlogPostService {
                 .setTotalComments(0)
                 .setComments(new HashSet<>())
                 .setTotalLikes(0)
+                .setSeoUrl(blogPost.getSeoUrl())
+                .setSeoKey(blogPost.getSeoKey())
                 .setLikedIds(new HashSet<>())
                 .setTotalDislikes(0)
                 .setDislikedIds(new HashSet<>())

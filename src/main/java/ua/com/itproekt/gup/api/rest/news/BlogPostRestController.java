@@ -11,12 +11,13 @@ import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.news.Blog;
 import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.news.BlogPostFilterOptions;
+import ua.com.itproekt.gup.model.seosequence.SeoSequence;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.news.BlogPostService;
+import ua.com.itproekt.gup.service.news.BlogService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.CreatedObjResp;
-import ua.com.itproekt.gup.util.EntityPage;
-import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
+import ua.com.itproekt.gup.util.*;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -29,10 +30,16 @@ public class BlogPostRestController {
     BlogPostService blogPostService;
 
     @Autowired
+    BlogService blogService;
+
+    @Autowired
     ProfilesService profilesService;
 
     @Autowired
     ActivityFeedService activityFeedService;
+
+    @Autowired
+    SeoSequenceService seoSequenceService;
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
@@ -48,11 +55,11 @@ public class BlogPostRestController {
     }
 
     @RequestMapping(value = "/blogPost/read/all", method = RequestMethod.POST,
-        consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityPage<BlogPost>> listOfAllBlogPost(@RequestBody BlogPostFilterOptions blogPostFO) {
         EntityPage<BlogPost> blogPages = blogPostService.findBlogPostsWihOptions(blogPostFO);
 
-        if(blogPages.getEntities().isEmpty()){
+        if (blogPages.getEntities().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(blogPages, HttpStatus.OK);
@@ -65,14 +72,25 @@ public class BlogPostRestController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResp> createBlogPost(@Valid @RequestBody BlogPost blogPost) {
 
-        // Проверка на права создавать посты от блога{userId, blogId} !!!!!!!!
-        // .........
+        Blog blog = blogService.findBlog(blogPost.getBlogId());
+
+        if (blog == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         String userId = SecurityOperations.getLoggedUserId();
+
+        if (!userId.equals(blog.getAuthorId())) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+
+        long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
+
+        SeoUtils.makeSeoFieldsForBlogPost(blogPost, longValueOfSeoKey);
+        
         blogPost.setAuthorId(userId);
-
         blogPostService.create(blogPost);
-
         return new ResponseEntity<>(new CreatedObjResp(blogPost.getId()), HttpStatus.CREATED);
     }
 
@@ -94,6 +112,11 @@ public class BlogPostRestController {
         if (!blogPostService.findById(blogPost.getId()).getAuthorId().equals(userId)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+
+        BlogPost oldBlogPost = blogPostService.findById(blogPost.getId());
+        String newTransiltTitle = Translit.makeTransliteration(blogPost.getTitle());
+        String newSeoUrl = newTransiltTitle + "-" + oldBlogPost.getSeoKey();
+        blogPost.setSeoUrl(newSeoUrl);
 
         blogPostService.edit(blogPost);
         return new ResponseEntity<>(HttpStatus.OK);

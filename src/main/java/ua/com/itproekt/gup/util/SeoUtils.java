@@ -2,6 +2,7 @@ package ua.com.itproekt.gup.util;
 
 
 import ua.com.itproekt.gup.model.news.Blog;
+import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.offer.Offer;
 
 public class SeoUtils {
@@ -37,6 +38,22 @@ public class SeoUtils {
         blog.setSeoUrl(seoUrl);
 
         return blog;
+    }
+
+
+    public static BlogPost makeSeoFieldsForBlogPost(BlogPost blogPost, Long longValueOfSeoKey) {
+
+        String titleInTransliteration = Translit.makeTransliteration(blogPost.getTitle());
+
+        String base36ValueOfSeoKey = Base36Convertor.encode(longValueOfSeoKey);
+
+        blogPost.setSeoKey(base36ValueOfSeoKey);
+
+        String seoUrl = titleInTransliteration + "-" + base36ValueOfSeoKey;
+
+        blogPost.setSeoUrl(seoUrl);
+
+        return blogPost;
     }
 
 
