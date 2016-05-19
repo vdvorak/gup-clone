@@ -23,6 +23,7 @@ var ADialog = (function () {
         ADialog.dialogs.push(this)
         this.dragged = false
         /*this.id = guid()*/
+        this.isCollapsed = false
         var self = this
         this.handle = ADialog.dialogTemplate.clone()
         this.applyData(options)
@@ -53,7 +54,14 @@ var ADialog = (function () {
             self.select()
             ADialog.save()
         })
-        this.handle.find('#close').click(function(){
+        this.handle.find('.close').click(function(event){
+            currentDialogId = $(event.target).parent().attr('id').split('_')[0];
+            for(var x = 0; x < dialogues.length; x++){
+                if(dialogues[x].id === currentDialogId){
+                    dialogues[x].isOpenedOnce = false;
+                    break;
+                }
+            }
             self.remove()
         })
     }
@@ -89,6 +97,7 @@ ADialog.prototype.serialize = function(){
         left: pos.left,
         top: pos.top,
         id: this.id,
+        isCollapsed: this.isCollapsed,
         dragged: this.dragged
     }
 }
@@ -114,6 +123,9 @@ ADialog.prototype.updateView = function () {
     this.handle.find('textarea').attr('dialogueId', this.id)
     this.handle.find('textarea').attr('id', this.id + "_newMsg")
     this.handle.find('.minimize').attr('id', this.id + "_minimize")
+    this.handle.find('.expand').attr('id', this.id + "_expand")
+    this.handle.find('.expand > i').attr('id', this.id + "_expand-i")
+    this.handle.find('.close').attr('id', this.id + "_close")
 }
 ADialog.dialogTemplate = $($("#adialogTemplate").html())
 ADialog.dialogs = []
@@ -209,10 +221,11 @@ ADialog.update = function(){
     })
 }
 
-function openDialog(dialogue){
+function openDialog(dialogue, sender){
     if (ADialog.dialogs.some(function(e){
             return e.id === dialogue.id
         })) return;
+    changePosition()
     var d = new ADialog({
         id: dialogue.id
     })
@@ -220,6 +233,8 @@ function openDialog(dialogue){
     ADialog.save()
     ADialog.update()
     setTitle(dialogue)
-    showRecentMessages(dialogue)
+    showRecentMessages(dialogue, sender)
+    setMinimizeChat()
+    setExpandChat ()
 }
 ADialog.init()

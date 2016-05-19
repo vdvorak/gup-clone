@@ -93,10 +93,11 @@ function subscribeToOneDialogue (dialogue){
 function appendToIncoming(message, dialogue) {
     if (senders.indexOf(message.authorId) === -1) {
         senders.push(message.authorId);
-        var elem = $('.dropDownMail').append("<div><button" + " id='"+ message.authorId + "_sender' style='width: 100%; height: 30px;'>" +
-            message.senderName + "</button></div>").children();
-        elem.on('click', {dialogue: dialogue}, function(event){
-            openDialog(event.data.dialogue);
+        $('#unreadMessages').css('display', 'block');
+        $('.dropDownMail').append("<div><button" + " id='"+ message.authorId + "_sender' style='width: 100%; height: 30px;'>" +
+            message.senderName + "</button></div>");
+        $("#"+ message.authorId + "_sender").on('click', {dialogue: dialogue}, function(event){
+            openDialog(event.data.dialogue, message.authorId);
         });
     }
 }
@@ -121,7 +122,6 @@ function initDialogues(dialogues){
     this.dialogues = dialogues;
     for(var i =0; i < dialogues.length; i++){
         this.dialogues[i].sender = "";
-        this.dialogues[i].isCollapsed = false;
         this.dialogues[i].isOpenedOnce = false;
     }
     subscribeToAllDialogues();
@@ -178,7 +178,7 @@ function keyCodeAnalyse(event){
      $('#newMsg').val("");*/
 }
 
-function showRecentMessages (dialogue){
+function showRecentMessages (dialogue, sender){
     $.ajax({
         type: "POST",
         url: "/dialogue/id/" + dialogue.id,
@@ -193,17 +193,13 @@ function showRecentMessages (dialogue){
             var height = messagesField[0].scrollHeight;
             messagesField.scrollTop(height);
 
-            removeFromDropdown(dialogue.id);
+            removeFromDropdown(dialogue.id, sender);
         }
 
     });
 }
 
-function removeFromDropdown(dialogueId){
-    /*var senderName =  $($('#' + dialogueId + '_title')[0]).text();
-    console.log($(sender).text());*/
-    var sender = "";
-
+function removeFromDropdown(dialogueId, sender){
     var appendedSenders = [];
 
     var arr = $('.dropDownMail').find('button');
@@ -214,27 +210,21 @@ function removeFromDropdown(dialogueId){
     var out = false;
 
     for(var i =0; i < dialogues.length; i++){
-        for(var z=0; z < appendedSenders.length; z++){
-            for(var n=0; dialogues[i].members.length; n++){
-                if(dialogues[i].members[n].id === appendedSenders[z]){
-                    sender = appendedSenders[z];
-                    out = true;
-                    break;
-                }
-            }
-            if(out){
-             break;
-             }
-        }
-        if(dialogueId === dialogues[i].id){
+        if(dialogues[i].id === dialogueId){
             dialogues[i].isOpenedOnce = true;
+            break;
         }
     }
     if(sender !== ""){
         $('#' + sender + '_sender').remove();
+        var z = senders.indexOf(sender);
+        senders.splice(z, 1) ;
+        if(senders.length === 0){
+            $('#unreadMessages').css('display', 'none');
+        }
     }
 
-    //delete from the rest of corresponding arrays!!!!!!!
+    $('.dropDownMail').css('display', 'none');
 }
 
 function setTitle(dialogue){
@@ -256,7 +246,6 @@ function updateDialogues(dialogue){
     dialogues.forEach(function(e){
         if(e.id === dialogue.id){
             e.sender = loggedInProfile.id;
-            e.isCollapsed = false;
             e.isOpenedOnce = true;
             exist = true;
             return false;
@@ -277,10 +266,9 @@ $(document).on('click', '#openDialog', function (){
             dialogue.initialSender = loggedInProfile.id;
             /*window.dialogue = dialogue;*/
             subscribeProfile(dialogue.id, profileId);   // subscribing receiver
-            openDialog(dialogue);
+            openDialog(dialogue, "");
             subscribeToOneDialogue(dialogue);           // subscribing sender
             dialogue.sender = loggedInProfile.id ;
-            dialogue.isCollapsed = false;
             dialogue.isOpenedOnce = true;
             updateDialogues(dialogue);
         }

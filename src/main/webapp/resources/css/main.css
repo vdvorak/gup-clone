@@ -148,6 +148,7 @@ table {
 .menu {
     background-color: #97ca65;
     height: 32px;
+    border: 1px solid blue;
 }
 
 .groupLi li {
@@ -5115,7 +5116,7 @@ form > .price > input:placeholder-shown {
     display: inline-block;
     width: 200px;
     background-color: white;
-    min-height: 300px;
+    height: 300px;
 }
 #adialog .dialog .title {
     background-color: blue;
@@ -5126,13 +5127,15 @@ form > .price > input:placeholder-shown {
 #adialog .dialog.selected .title {
     background-color: red;
 }
-#adialog .dialog .close {
+
+#adialog .dialog .panel-buttons {
     position: absolute;
     right: 0;
     top: 0;
     padding: 5px;
     font-size: 15px;
 }
+
 #adialog .dialog .message{
     border: 1px solid grey;
     border-radius: 5px;
@@ -5154,6 +5157,7 @@ form > .price > input:placeholder-shown {
 .message-to > .message {
     background-color: #b1e3e7;
 }
+
 /*draggable-dialogue*/
 
 .container2 > h2#h2-top-offers {

@@ -20,7 +20,8 @@
     <div class="mail">
         <img src="/resources/images/mail.png" alt="mail">
 
-        <p id="unreadMessagesNum" style="display: none;"></p>
+        <p id="unreadMessages" style="display: none; font-size: 12px;">!</p>
+        <%--<p id="unreadMessagesNum" style="display: none;"></p>--%>
 
         <div class="dropDownMail">
             <%--<div class="mailMessage">
@@ -106,10 +107,13 @@
 <script id="adialogTemplate" type="text/html">
     <div class="dialog">
         <div class="title" style="height: 32px;"></div>
-        <div class="close">
+        <div class="panel-buttons">
             <div>
-                <div class="minimize" style="display:inline-block; padding-right: 10px;cursor: pointer;">_</div><div id="close" style="display:inline-block;cursor: pointer;">x</div>
+                <div class="minimize" style="display:inline-block; padding-right: 7px;cursor: pointer;">_</div>
+                <div class="expand" style="display:inline-block;cursor: pointer;padding-right: 10px;margin-top: 4px;"><i class="fa fa-clone fa-flip-horizontal" aria-hidden="true"></i></div>
+                <div class="close" style="display:inline-block;cursor: pointer;opacity: 0.5;font-weight: 100;"><span>x</span></div>
             </div>
+            <%--<i class="fa fa-clone" aria-hidden="true"></i>--%>
         </div>
         <div class="messages" style="overflow-y: scroll; height: 235px;"></div>
         <div>
