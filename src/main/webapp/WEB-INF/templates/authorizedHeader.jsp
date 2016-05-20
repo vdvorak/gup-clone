@@ -23,8 +23,8 @@
         <p id="unreadMessages" style="display: none; font-size: 12px;"></p>
         <%--<p id="unreadMessagesNum" style="display: none;"></p>--%>
 
-        <%--<div class="dropDownMail">
-            <div class="mailMessage">
+        <div class="dropDownMail">
+            <%--<div class="mailMessage">
                 <img class="msg-avatar" src="about:blank" alt="logo" style="display: none">
 
                 <p class="defaultP">У вас нет непрочитанных сообщений.</p>
@@ -34,8 +34,8 @@
                 <img src="/resources/images/logo.png" alt="logo">
                 <textarea required id="text-message-answer"></textarea>
                 <button id="dialogue-answer-btn">Ответить</button>
-            </div>
-        </div>--%>
+            </div>--%>
+        </div>
     </div>
     <div class="bell">
         <img src="/resources/images/bell.png" alt="bell">
