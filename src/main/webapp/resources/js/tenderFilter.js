@@ -4,7 +4,7 @@
 (function (namespace) {
 
     'use strict';
-    var redirect = (window.location.pathname === '/tenders') ? false : true,
+    var redirect = (window.location.pathname !== '/tenders'),
         param = {};
 
     init();
@@ -34,8 +34,8 @@
     }
 
     function getUrlWithParameters() {
-        var url = '/tenders?filter=' + JSON.stringify(param) + '&status=' + $('#select-tender-status').val();
-        return encodeURIComponent(url);
+        var url = '/tenders?filter=' + JSON.stringify(param.filter) + '&status=' + param.status;
+        return encodeURI(url);
     }
 
     function setTenderStatus() {
@@ -54,29 +54,43 @@
     function getFilterParameters() {
         var filterBlock = $('.tenderFilter'),
             dateBegin = $('#datepicker3').datepicker( 'getDate'),
-            dateEnd = $('#datepicker4').datepicker( 'getDate'),
-            param = {};
-        param.tenderNumber = filterBlock.find('#tenderNumber').val();
-        param.naceIds = $('#filterNACE').val();
-        param.address = {
+            dateEnd = $('#datepicker4').datepicker( 'getDate');
+
+        param.filter = {};
+        param.filter.tenderNumber = filterBlock.find('#tenderNumber').val();
+        param.filter.naceIds = $('#filterNACE').val();
+        param.filter.address = {
             region: $('#region').val(),
             city: $('#city').val()
         }
-        param.begin = (dateBegin) ? dateBegin.getTime() : null;
-        param.end = (dateEnd) ? dateEnd.setHours(23,59,59,999) : null;
+        param.filter.begin = (dateBegin) ? dateBegin.getTime() : null;
+        param.filter.end = (dateEnd) ? dateEnd.setHours(23,59,59,999) : null;
+        param.status = $('#select-tender-status').val();
 
         validateParameters(param);
     }
 
     function parseURLParameters() {
-        var searchUrl = decodeURIComponent(window.location.search),
-            arrParam = url.substring(1, url.length - 1).split('&');
+        var searchUrl = decodeURI(window.location.search),
+            arrParam = searchUrl.substring(1, searchUrl.length - 1).split('&');
 
         for(var i = 0; i < arrParam.length; i++) {
             var p = arrParam[i],
                 ind = p.indexOf('=');
-            if(ind !== -1) param[p.substring(0, ind)] = p.substring(ind + 1, p.length - 1);
+            if(ind !== -1) {
+                var keyVal = p.substring(ind + 1, p.length);
+                param[p.substring(0, ind)] = (isJson(keyVal)) ? JSON.parse(keyVal) : keyVal;
+            }
         }
+    }
+
+    function isJson(v) {
+        try {
+            JSON.parse(v);
+        } catch (e) {
+            return false;
+        }
+        return true;
     }
 
     function searchTenders(event) {
@@ -89,12 +103,14 @@
     }
 
     function validateParameters(obj) {
-        for(var i = 0; i < obj.length; i++) {
-            if(Object.prototype.toString.call(obj[i]) === '[object Object]') validateParameters(obj[i]);
-            if(!obj[i]) delete obj[i];
+        for(var i in obj) {
+            var isObj = Object.prototype.toString.call(obj[i]) === '[object Object]';
+            if(isObj) validateParameters(obj[i]);
+            if(!obj[i] || (isObj && !Object.keys(obj[i]).length)) delete obj[i];
         }
     }
 
     namespace.parametersURI = param;
+    namespace.parseURLParameters = parseURLParameters;
 
 })(window.tenderFilter = window.tenderFilter || {});

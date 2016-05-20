@@ -15,6 +15,8 @@
     }
 
     function init() {
+        tenderFilter.parseURLParameters();
+        setParamsToFilter(tenderFilter.parametersURI.filter);
 
         $('#tenderNextPage').on('click', function () {
             util.skip += 5;
