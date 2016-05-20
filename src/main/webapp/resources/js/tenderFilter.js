@@ -4,7 +4,7 @@
 (function (namespace) {
 
     'use strict';
-    var flag = window.flag || "",
+    var redirect = (window.location.pathname === '/tenders') ? false : true,
         param = {};
 
     init();
@@ -53,14 +53,15 @@
 
     function getFilterParameters() {
         var filterBlock = $('.tenderFilter'),
-            dateBegin = $('#tender-datepicker3').datepicker( 'getDate'),
-            dateEnd = $('#tender-datepicker4').datepicker( 'getDate'),
+            dateBegin = $('#datepicker3').datepicker( 'getDate'),
+            dateEnd = $('#datepicker4').datepicker( 'getDate'),
             param = {};
-
         param.tenderNumber = filterBlock.find('#tenderNumber').val();
-        param.naceIds = ('#filterNACE').val();
-        param.address.region = filterBlock.find('#region').val();
-        param.address.city = filterBlock.find('#city').val();
+        param.naceIds = $('#filterNACE').val();
+        param.address = {
+            region: $('#region').val(),
+            city: $('#city').val()
+        }
         param.begin = (dateBegin) ? dateBegin.getTime() : null;
         param.end = (dateEnd) ? dateEnd.setHours(23,59,59,999) : null;
 
@@ -81,6 +82,10 @@
     function searchTenders(event) {
         event.preventDefault();
 
+        $('.projectsVSInvestments-btn.projects a').click();
+
+        getFilterParameters();
+        if(redirect) redirectToTenderList();
     }
 
     function validateParameters(obj) {
