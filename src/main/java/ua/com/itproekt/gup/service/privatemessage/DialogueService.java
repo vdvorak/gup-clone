@@ -3,6 +3,7 @@ package ua.com.itproekt.gup.service.privatemessage;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.privatemessages.PrivateMessage;
+import ua.com.itproekt.gup.model.profiles.Profile;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ public interface DialogueService {
     List<Dialogue> findFirstThreeDialogues(Member member);
 
     Dialogue findById(String Id);
+
+    Dialogue findById(String id, String email);
 
     List<Dialogue> findDialogsForUser(String currentUserId);
 
@@ -29,4 +32,8 @@ public interface DialogueService {
     Dialogue findByMembersAndSubject(Dialogue dialogue);
 
     Dialogue updateDialogueWhenAddMsg(Dialogue dialogue);
- }
+
+    void updateDialogueWhenAddMsgProfile(Dialogue dialogue, Profile profile);
+
+    Dialogue findByIdProfile(String dialogId, Profile profile);
+}

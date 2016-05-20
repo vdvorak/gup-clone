@@ -436,8 +436,8 @@ function fillContactListBlock(contactList) {
                     $('.dropDownBook').append(
                         '<div class="friend">' +
                         getContactProfileImgTagHtml(profile.imgId) +
-                        '<a title="'+ profile.username + '" href="/profile?id=' + contactId + '">' + profile.username + '</a>' +
-                        '<a class="masLink" href="/dialogue/create/with/' + contactId + '">' +
+                        '<a href="/profile?id=' + contactId + '">' + profile.username + '</a>' +
+                        '<a href="/dialogue/create/with/' + contactId + '">' +
                         '<img src="/resources/images/userMessage.png" alt="Message">' +
                         '</a>' +
                         '</div>');
@@ -447,7 +447,8 @@ function fillContactListBlock(contactList) {
     } else {
         $('.dropDownBook').append(
             '<div class="friend">' +
-            '<a class="or" href="/profile/list">Найти знакомых</a>' +
+            '<p>Вы еще никого не добавили к себе в контакты.</p>' +
+            '<a href="/profile/list">Найти знакомых</a>' +
             '</div>');
     }
 }
@@ -545,16 +546,5 @@ $(window).keypress(function (e) {
         $('#' + dialogueId).remove();
         $('#dialogue-answer-btn').removeClass();
         $(".dropDownMail").slideUp("fast");
-    }
-});
-
-
-
-$('.dropDownBell').on('scroll', function() {
-
-    var lastBellMessage = $(".dropDownBell").children('.bellMessage').last();
-
-    if($('.dropDownBell').scrollTop() >= lastBellMessage.offset().top + lastBellMessage.outerHeight()) {
-        alert('включим воображение и представим что этот алерт на самом деле AJAX запросик и сейчас будут подтягиваться новые уведомления')
     }
 });

@@ -51,20 +51,27 @@
 <!-- script references -->
 <script src="/resources/libs/jquery-1.11.3.min.js"></script>
 <script src="/resources/libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+<script src="/resources/libs/sockjs-0.3.4.js"></script>
+<script src="/resources/libs/stomp.js"></script>
+<script src="/resources/js/socket-logic.js"></script>
 
 <script>
-
     var msg = {};
     var dialogue = {};
     $(document).ready(function(){
         getNewPosts();
     });
+
     ///------------------------- Add msg -----------------------------------------------
-    $(document).on('click', '#addMsg', function (event) {
+    /*$(document).on('click', '#addMsg', function (event) {
 
         msg.message = $('#newMsg').val();
 
-        $.ajax({
+        stompClient.send("/app/socket-request/${dialogue.id}", {}, JSON.stringify({ 'message': msg.message }));
+
+        $('#newMsg').val("");
+
+       /!*$.ajax({
             type: "POST",
 //      url: "/api/rest/doerService/doer/create",
             url: "/api/rest/dialogueService/dialogue/id/${dialogue.id}/message/create",
@@ -75,8 +82,8 @@
                 $('#newMsg').val("");
                 getNewPosts();
             }
-        });
-    });
+        });*!/
+    });*/
     ///------------------------- Add msg -----------------------------------------------
 
     var getNewPosts = function(){
@@ -154,9 +161,9 @@
         });
     };
 
-    var getNewPostsAfter2sec = setInterval(function() {
+    /*var getNewPostsAfter2sec = setInterval(function() {
         getNewPosts();
-    }, 2000);
+    }, 2000);*/
 
     var deleteMember = function(id){
         var newMembers = dialogue.members;

@@ -536,7 +536,7 @@ Dialogs.init = function () {
         onSubmit()
     })
     Dialogs.fixScroll(Dialogs.common)
-    setInterval(Dialogs.update, 300)//////////////////////////////////////////////////////////////////////////////////
+    /*setInterval(Dialogs.update, 300)*///////////////////////////////////////////////////////////////////////////////////
 }
 Dialogs.update = function () {
     var unreaded = 0

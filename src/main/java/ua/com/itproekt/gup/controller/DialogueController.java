@@ -1,18 +1,21 @@
 package ua.com.itproekt.gup.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.dao.dialogue.DialogueRepository;
+import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.DialogueFilterOption;
 import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
@@ -77,6 +80,27 @@ public class DialogueController {
         return "dialogues/dialogues1";
     }
 
+    // additional method by VS
+    @RequestMapping(value = "/init_dialogues/all", method = RequestMethod.GET)
+    @ResponseBody
+    List<Dialogue> getAllDialogues2(){
+        Member member = new Member();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();          //get logged in username
+        Profile user = profileService.findProfileByEmail(email);
+        member.setId(user.getId());
+        List<Dialogue> responseDialogues = dialogueRepository.findByMembersIn(member);
+        for(int i=0; i < responseDialogues.size(); i++){
+            List<Member> members = responseDialogues.get(i).getMembers();
+            for(int j =0; j < members.size(); j++){
+                Profile profile = profileService.findById(members.get(j).getId());
+                responseDialogues.get(i).getMembers().get(j).setName(profile.getUsername());
+                responseDialogues.get(i).getMembers().get(j).setUserPicId(profile.getImgId());
+            }
+        }
+        return responseDialogues;
+    }
+
     //----------------------------------- one dialogue  ------
     @RequestMapping(value = "/dialogue/id/{id}", method = RequestMethod.GET)
     public String getOneDialogue(Model model, HttpServletRequest request,
@@ -132,7 +156,6 @@ public class DialogueController {
     @RequestMapping(value = "/dialogue/update", method = RequestMethod.POST)
     @ResponseBody
     public void update( @RequestBody Dialogue dialogue){
-
         Member member;
         for (int i = 0; i < dialogue.getMembers().size(); i++) {
             member =  dialogue.getMembers().get(i);
@@ -145,7 +168,6 @@ public class DialogueController {
                 }
             }
         }
-
         dialogueService.updateDialogue(dialogue);
     }
 
@@ -158,5 +180,51 @@ public class DialogueController {
         }
     }
 
+    //additional method by VS
+    @RequestMapping(value = "/dialogue/init/{userId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Dialogue initDialog (@PathVariable String userId, Model model) {
+        Dialogue dialogue = new Dialogue();
+        Profile profile = profileService.findWholeProfileById(userId);
+        if (profile == null || SecurityOperations.getLoggedUserId() == null) {
+            return null;
+        }
+
+
+        /*
+        List<Member> members = new ArrayList<>();
+        members.add(new Member(userId));
+        members.add(new Member(SecurityOperations.getLoggedUserId()));
+        List<Dialogue> result = dialogueRepository.findByMembers(members);
+        */
+
+        //can not find findByMembers method implementation. Old implementation should be fixed. solution below will not work for more than 2 users in a dialogue
+        List<Member> members1 = new ArrayList<>();
+        List<Member> members2 = new ArrayList<>();
+        members1.add(new Member(userId));
+        members1.add(new Member(SecurityOperations.getLoggedUserId()));
+        members2.add(new Member(SecurityOperations.getLoggedUserId()));
+        members2.add(new Member(userId));
+
+        List<Dialogue> result1 = dialogueRepository.findByMembers(members1);
+        List<Dialogue> result2 = dialogueRepository.findByMembers(members2);
+
+        if (result1.isEmpty() && result2.isEmpty()) {
+            dialogue.setMembers(members1);
+            dialogue = dialogueService.addDialogue(dialogue);
+        } else {
+            if(result1.isEmpty()){
+                dialogue = result2.stream().filter(m -> m.getSubject() == null).findFirst().get();
+            }else if(result2.isEmpty()){
+                dialogue = result1.stream().filter(m -> m.getSubject() == null).findFirst().get();
+            }
+        }
+
+        if(!dialogueService.isUserInDialogue(dialogue, SecurityOperations.getLoggedUserId())){
+            return null;
+        }
+        completeMembers(dialogue);
+        return dialogue;
+    }
 }
 
