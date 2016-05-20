@@ -20,9 +20,10 @@
     <div class="mail">
         <img src="/resources/images/mail.png" alt="mail">
 
-        <p id="unreadMessagesNum" style="display: none;"></p>
+        <p id="unreadMessages" style="display: none; font-size: 12px;"></p>
+        <%--<p id="unreadMessagesNum" style="display: none;"></p>--%>
 
-        <div class="dropDownMail">
+        <%--<div class="dropDownMail">
             <div class="mailMessage">
                 <img class="msg-avatar" src="about:blank" alt="logo" style="display: none">
 
@@ -34,7 +35,7 @@
                 <textarea required id="text-message-answer"></textarea>
                 <button id="dialogue-answer-btn">Ответить</button>
             </div>
-        </div>
+        </div>--%>
     </div>
     <div class="bell">
         <img src="/resources/images/bell.png" alt="bell">
@@ -95,3 +96,25 @@
         </div>
     </div>
 </div>
+
+<div id="adialog"></div>
+<%--<div id="dialogs"></div>
+<button onclick="ClearCookie();">ClearCookie</button>--%>
+
+<script id="adialogTemplate" type="text/html">
+    <div class="dialog">
+        <div class="title" style="height: 32px;"></div>
+        <div class="panel-buttons">
+            <div>
+                <div class="minimize" style="display:inline-block; padding-right: 7px;cursor: pointer;">_</div>
+                <div class="expand" style="display:inline-block;cursor: pointer;padding-right: 10px;margin-top: 4px;"><i class="fa fa-clone fa-flip-horizontal" aria-hidden="true"></i></div>
+                <div class="close" style="display:inline-block;cursor: pointer;opacity: 0.5;font-weight: 100;"><span>x</span></div>
+            </div>
+            <%--<i class="fa fa-clone" aria-hidden="true"></i>--%>
+        </div>
+        <div class="messages" style="overflow-y: scroll; height: 235px;"></div>
+        <div>
+            <textarea id="newMsg" style="width: 100%;position: absolute;bottom: 0; height:30px;" onkeypress="keyCodeAnalyse(event)"></textarea>
+        </div>
+    </div>
+</script>

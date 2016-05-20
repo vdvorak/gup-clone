@@ -11,17 +11,17 @@ var subscribedTo = [];
 var senders = [];
 
 /*function connect(){
-    socket = new SockJS('/socket-request');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function(frame) {
-        console.log('Connected: ' + frame);
-        isConnected = true;
+ socket = new SockJS('/socket-request');
+ stompClient = Stomp.over(socket);
+ stompClient.connect({}, function(frame) {
+ console.log('Connected: ' + frame);
+ isConnected = true;
 
-    });
-    stompClient.ws.onclose = function(){
-        isConnected = false;
-    }
-}*/
+ });
+ stompClient.ws.onclose = function(){
+ isConnected = false;
+ }
+ }*/
 /*connect();*/
 
 function subscribeToAllDialogues(){
@@ -57,34 +57,34 @@ function subscribeToOneDialogue (dialogue){
         }
 
         stompClient.subscribe('/topic/socket-response/' + dialogue.id, function(response){
-                var privateMessage = JSON.parse(response.body).content;
-                dialogues.forEach(function(e){
-                    if(e.id === dialogue.id && e.sender === loggedInProfile.id){
+            var privateMessage = JSON.parse(response.body).content;
+            dialogues.forEach(function(e){
+                if(e.id === dialogue.id && e.sender === loggedInProfile.id){
+                    addMessage(dialogue.id, privateMessage);
+                    var messagesField =  $("#" + dialogue.id + "_messages");
+                    var height = messagesField[0].scrollHeight;
+                    messagesField.scrollTop(height);
+                    return false;
+                }else if(e.id === dialogue.id && e.sender !== loggedInProfile.id){
+                    if(e.isOpenedOnce){
                         addMessage(dialogue.id, privateMessage);
                         var messagesField =  $("#" + dialogue.id + "_messages");
                         var height = messagesField[0].scrollHeight;
                         messagesField.scrollTop(height);
                         return false;
-                    }else if(e.id === dialogue.id && e.sender !== loggedInProfile.id){
-                        if(e.isOpenedOnce){
-                            addMessage(dialogue.id, privateMessage);
-                            var messagesField =  $("#" + dialogue.id + "_messages");
-                            var height = messagesField[0].scrollHeight;
-                            messagesField.scrollTop(height);
-                            return false;
-                        }else{
-                            var senderName = "";
-                            for(var i = 0; i < dialogue.members.length; i++){
-                                if(dialogue.members[i].id === privateMessage.authorId){
-                                    senderName = dialogue.members[i].name;
-                                    break;
-                                }
+                    }else{
+                        var senderName = "";
+                        for(var i = 0; i < dialogue.members.length; i++){
+                            if(dialogue.members[i].id === privateMessage.authorId){
+                                senderName = dialogue.members[i].name;
+                                break;
                             }
-                            privateMessage.senderName = senderName;
-                            appendToIncoming(privateMessage, dialogue);
                         }
+                        privateMessage.senderName = senderName;
+                        appendToIncoming(privateMessage, dialogue);
                     }
-                })
+                }
+            })
         });
         subscribedTo.push(dialogue.id);
     }
@@ -144,12 +144,12 @@ function showResponse(message) {
 }
 
 /*$(document).on('click', '#addMsg', function (event) {
-    msg.message = $('#newMsg').val();
-    var url = "/app/socket-request/dialogue/" + dialogue.id;
-    stompClient.send(url, {}, JSON.stringify({ 'message': msg.message }));
-    $('#newMsg').val("");
+ msg.message = $('#newMsg').val();
+ var url = "/app/socket-request/dialogue/" + dialogue.id;
+ stompClient.send(url, {}, JSON.stringify({ 'message': msg.message }));
+ $('#newMsg').val("");
 
-});*/
+ });*/
 
 function keyCodeAnalyse(event){
     //var evt = window.event || event;

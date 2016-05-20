@@ -534,7 +534,7 @@ $('#dialogue-answer-btn').on('click', function () {
 
 });
 
-$(window).keypress(function (e) {
+/*$(window).keypress(function (e) {
     var textarea = document.getElementById('text-message-answer');
     if ((e.target == textarea) && (e.which == 13)) {
         var dialogueId = $('#dialogue-answer-btn').attr('class');
@@ -547,4 +547,121 @@ $(window).keypress(function (e) {
         $('#dialogue-answer-btn').removeClass();
         $(".dropDownMail").slideUp("fast");
     }
+});*/
+
+var currentDialogId;
+
+function setMinimizeChat (){
+    $('.minimize').click(function(event){
+        currentDialogId = $(event.target).attr('id').split('_')[0];
+        for(var x = 0; x < ADialog.dialogs.length; x++){
+            if(ADialog.dialogs[x].id === currentDialogId){
+                ADialog.dialogs[x].isCollapsed = true;
+            }
+        }
+
+        $('#' + currentDialogId + '_title').parent().css('height', '0');
+        $('#' + currentDialogId + '_title').parent().css('border', '0px solid transparent');
+        $('#' + currentDialogId + '_title').css('border', '1px solid blue');
+
+        $('#' + currentDialogId + '_newMsg').css('display', 'none');
+        $('#' + currentDialogId + '_messages').css('display', 'none');
+        ADialog.save();
+    });
+}
+
+
+function setExpandChat (){
+    $('.expand').click(function(event){
+        currentDialogId = $(event.target).attr('id').split('_')[0];
+        for(var x = 0; x < ADialog.dialogs.length; x++){
+            if(ADialog.dialogs[x].id === currentDialogId){
+                ADialog.dialogs[x].isCollapsed = false;
+            }
+        }
+        $('#' + currentDialogId + '_title').parent().css('height', '300');
+        $('#' + currentDialogId + '_title').parent().css('border', '1px solid blue');
+        $('#' + currentDialogId + '_title').css('border', '0px solid transparent');
+
+        $('#' + currentDialogId + '_newMsg').css('display', 'block');
+        $('#' + currentDialogId + '_messages').css('display', 'block');
+        ADialog.save();
+    });
+}
+
+$(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: '/init_dialogues/all' ,
+        success: function (dialogues) {
+            setMinimizeChat ();
+            setExpandChat ();
+            for(var i =0; i < ADialog.dialogs.length; i++){
+                for(var j = 0; j < dialogues.length; j++){
+                    if(ADialog.dialogs[i].id === dialogues[j].id){
+                        setTitle(dialogues[j]);
+                        showRecentMessages(dialogues[j]);
+                        if(ADialog.dialogs[i].isCollapsed){
+                            $('#' + ADialog.dialogs[i].id + '_minimize').trigger('click');
+                        }
+                        break;
+                    }
+                }
+            }
+            initDialogues(dialogues);
+            appendToIncomingAfterOffline(dialogues);
+        }
+    });
 });
+
+function appendToIncomingAfterOffline(dialogues){
+    for(var i=0; i < dialogues.length; i++){
+        if(dialogues[i].unreadMsgCounter[loggedInProfile.id] > 0){
+            var inCookies = false;
+            for(var j=0; j < ADialog.dialogs.length; j++){
+                if(ADialog.dialogs[j].id==dialogues[i].id){
+                    inCookies = true;
+                    break
+                }
+            }
+            if(!inCookies){
+                var message = dialogues[i].messages[dialogues[i].messages.length-1];
+                for(var x = 0; x < dialogues[i].members.length; x++){
+                    if(dialogues[i].members[x].id === message.authorId){
+                        message.senderName = dialogues[i].members[x].name;
+                        break;
+                    }
+                }
+                appendToIncoming(message, dialogues[i]);
+            }
+        }
+    }
+}
+
+function changePosition(){
+    for(var i = 0; i < ADialog.dialogs.length; i++){
+        if((ADialog.dialogs[i].left === 0 && ADialog.dialogs[i].top === 0) || (!ADialog.dialogs[i].left && !ADialog.dialogs[i].top)){
+            changePositionRec(0, i);
+            break;
+        }
+    }
+    ADialog.save();
+}
+
+function changePositionRec(index, dialoguesIndex){
+    var toMove = false;
+    for(var j=0; j < ADialog.dialogs.length; j++){
+        if(Math.round(ADialog.dialogs[j].left) === (index + 1)*200 && Math.round(ADialog.dialogs[j].top) === 32){
+            toMove = true;
+            changePositionRec((index + 1), dialoguesIndex);
+            break;
+        }
+    }
+    if(!toMove){
+        $("#" + ADialog.dialogs[dialoguesIndex].id + "_title").parent().css('left', (index + 1)*200 + 'px');
+        $("#" + ADialog.dialogs[dialoguesIndex].id + "_title").parent().css('top', '32px');
+        ADialog.dialogs[dialoguesIndex].left = (index + 1)*200;
+        ADialog.dialogs[dialoguesIndex].top = 32;
+        ADialog.dialogs[dialoguesIndex].dragged = true;
+    }
+}
