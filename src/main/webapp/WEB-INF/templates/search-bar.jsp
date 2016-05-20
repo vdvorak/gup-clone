@@ -346,8 +346,6 @@
         <div id="tenderFilterBlock" class="hidefilter" style="display: none">
 
             <div class="clearfix"></div>
-            <div class="clearfix"></div>
-            <div class="clearfix"></div>
 
             <div class="tenderFilter">
 
@@ -360,34 +358,26 @@
 
                         <div class="clearfix"></div>
 
-                        <label for="filterNACE">КВЭДЫ:</label>
-                        <input type="text" placeholder="Автозаполнение" id="filterNACE">
-
-                        <div class="clearfix"></div>
-
                         <label for="Author">Автор:</label>
                         <input type="text" id="Author">
 
                         <div class="clearfix"></div>
 
-                        <label>Тип тендера:</label>
+                        <label>Ожидаемая стоимость: от&nbsp;</label>
+                        <input id="tenderMaxSum" type="number" class="moneyAfter">
 
-                        <div class="tenderRadio">
-                            <label><input type="radio" value="open" name="k"/><span></span></label>
-
-                            <p>открытый</p>
-                            <label><input type="radio" value="open" name="k"/><span></span></label>
-
-                            <p>закрытый</p>
-                        </div>
+                        <p class="tenderP">до</p>
+                        <input id="tenderMinSum" type="number" class="moneyAfter">
 
                         <div class="clearfix"></div>
 
-                        <label>Ожидаемая стоимость: от&nbsp;</label>
-                        <input type="text" class="moneyAfter">
-
-                        <p class="tenderP">до</p>
-                        <input type="text" class="moneyAfter">
+                        <label for="select-tender-status">Статус тендера: </label>
+                        <select id="select-tender-status">
+                            <option value="all" selected>Все статусы</option>
+                            <option value="active">Приём предложений</option>
+                            <option value="finished">Завершен</option>
+                            <option value="outdated">Не состоялся</option>
+                        </select>
 
                         <div class="clearfix"></div>
                     </form>
@@ -408,16 +398,21 @@
                         </div>
                         <label for="">Период проведения:</label>
 
-                        <p class="datePickPi">от <input type="text" id="datepicker"></p>
+                        <p class="datePickPi">от <input type="text" id="datepicker3" class="datepicker-input"></p>
 
-                        <p class="datePickPi">до <input type="text" id="datepicker2"></p>
-                        <label for="available">Доступные к участию:</label>
-                        <label class="participate"><input type="checkbox" id="available" value="1"
-                                                          name="k"/><span></span></label>
+                        <p class="datePickPi">до <input type="text" id="datepicker4" class="datepicker-input"></p>
 
-                        <div class="clearfix"></div>
                     </form>
                 </div>
+                <div class="clearfix"></div>
+
+                <label for="filterNACE">КВЭДЫ:</label>
+                <select id="filterNACE" class="chosen" multiple data-placeholder="Максимум 5">
+                </select>
+
+                <div class="clearfix"></div>
+
+                <button id="btn-tenders-search" type="submit">Искать по фильтру</button>
                 <div class="clearfix"></div>
             </div>
         </div>

@@ -3,7 +3,6 @@
     'use strict';
     var flag = window.flag || "",
         util = new TenderFilter(),
-        param = {},
         firstTenderBlock = $('#tenders-start-block').html();
 
     init();
@@ -16,14 +15,12 @@
     }
 
     function init() {
-        $('#select-tender-status').change(onChangeTenderStatus);
 
         $('#tenderNextPage').on('click', function () {
             util.skip += 5;
             loadTenders();
         });
 
-        setTenderStatus();
         loadTenders();
     }
 
@@ -58,7 +55,6 @@
 
     function drawTenderInfo(tender) {
         var tenderBlock = $('.build-item-wrap').last().attr('style', 'display:;');
-        console.log(tenderBlock);
 
         tender.body = tender.body.replace(/<\/?[^>]+(>|$)/g, "").replace('\\n', ""); // Clear description from HTML tags
 
@@ -120,24 +116,7 @@
         return url;
     }
 
-    function redirectToTenderList() {
-        var url = getUrlWithParameters();
-        $.get(url, function () {
-            window.location.href = url;
-        });
-    }
-
-    function getUrlWithParameters() {
-        var url = '/tenders?';
-
-        for(var key in param) {
-            url += key + '=' + param[key] + '&';
-        }
-        url = url.substring(0, url.length - 1);
-        return url;
-    }
-
-    function setParamsToFilter() {
+    function setParamsToFilter(param) {
         $.extend(true, util, param);
         return util;
     }
@@ -197,19 +176,6 @@
         }
     }
 
-    function setTenderStatus() {
-        if ($('#tabs1-tenders').hasClass('active')) {
-            var tenderStatus = getUrlParam('status');
-            if (tenderStatus) {
-                $('#select-tender-status option[value="' + tenderStatus + '"]').prop("selected", true);
-            } else {
-                $('#select-tender-status option[value="all"]').prop("selected", true);
-            }
-        } else {
-            $('#select-tender-status option[value="all"]').prop("selected", true);
-        }
-    }
-
     function onChangeTenderStatus() {
         reload();
         loadTenders();
@@ -231,7 +197,6 @@
     'use strict';
     var flag = window.flag || "",
         util = new DoerFilter(),
-        param = {},
         firstDoersBlock = $('#doers-start-block').html();
 
     init();
@@ -314,11 +279,11 @@ $(document).ready(function () {
         var x = location.href;
         if($(window).scrollTop() >= $('.footer').offset().top + $('.footer').outerHeight() - window.innerHeight) {
             if (x === 'http://localhost:8080/tenders' || x === 'http://localhost:8080/tenders#tabs1-tenders') {
-                window.tenders.filter.skip += 5;
-                loadTenders();
+                tenders.filter.skip += 5;
+                tenders.loadTenders();
             } if (x === 'http://localhost:8080/tenders#tabs1-investment') {
-                window.doers.filter.skip += 5;
-                loadDoers();
+                doers.filter.skip += 5;
+                doers.loadDoers();
             }
         }
     });

@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/resources/css/media-queries.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
     <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 </head>
@@ -60,13 +60,6 @@
 
 
         <div id="tabs1-tenders">
-            <label for="select-tender-status">Статус тендера: </label>
-            <select id="select-tender-status">
-                <option value="all" selected>Все статусы</option>
-                <option value="active">Приём предложений</option>
-                <option value="finished">Завершен</option>
-                <option value="outdated">Не состоялся</option>
-            </select>
             <div id="tenders-start-block" class="feedContainer tenders">
                 <div class="feedItem build-item-wrap" style="display:none;">
                     <!--Add class "vip" to vip-tialize tender-->
