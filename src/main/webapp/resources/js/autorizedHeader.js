@@ -587,7 +587,6 @@ $(document).ready(function() {
                         setTitle(dialogues[j]);
                         showRecentMessages(dialogues[j]);
                         if(ADialog.dialogs[i].isCollapsed){
-
                             $('#' + ADialog.dialogs[i].id + '_minimize').trigger('click');
                         }
                         break;
@@ -595,10 +594,34 @@ $(document).ready(function() {
                 }
             }
             initDialogues(dialogues);
-            console.log(dialogues); //!!!!!!!!!!!!!! add function which check unread and append buttons to incoming
+            appendToIncomingAfterOffline(dialogues);
         }
     });
-})
+});
+
+function appendToIncomingAfterOffline(dialogues){
+    for(var i=0; i < dialogues.length; i++){
+        if(dialogues[i].unreadMsgCounter[loggedInProfile.id] > 0){
+            var inCookies = false;
+            for(var j=0; j < ADialog.dialogs.length; j++){
+                if(ADialog.dialogs[j].id==dialogues[i].id){
+                    inCookies = true;
+                    break
+                }
+            }
+            if(!inCookies){
+                var message = dialogues[i].messages[dialogues[i].messages.length-1];
+                for(var x = 0; x < dialogues[i].members.length; x++){
+                    if(dialogues[i].members[x].id === message.authorId){
+                        message.senderName = dialogues[i].members[x].name;
+                        break;
+                    }
+                }
+                appendToIncoming(message, dialogues[i]);
+            }
+        }
+    }
+}
 
 function changePosition(){
     for(var i = 0; i < ADialog.dialogs.length; i++){

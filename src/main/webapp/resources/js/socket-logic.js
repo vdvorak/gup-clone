@@ -93,6 +93,7 @@ function subscribeToOneDialogue (dialogue){
 function appendToIncoming(message, dialogue) {
     if (senders.indexOf(message.authorId) === -1) {
         senders.push(message.authorId);
+        $('#unreadMessages').text(senders.length);
         $('#unreadMessages').css('display', 'block');
         $('.dropDownMail').append("<div><button" + " id='"+ message.authorId + "_sender' style='width: 100%; height: 30px;'>" +
             message.senderName + "</button></div>");
@@ -208,19 +209,31 @@ function removeFromDropdown(dialogueId, sender){
     }
 
     var out = false;
+    var senderInDialogue = false;
 
     for(var i =0; i < dialogues.length; i++){
         if(dialogues[i].id === dialogueId){
+            for(var n=0; n < dialogues[i].members.length; n++){
+                if(dialogues[i].members[n].id === sender){
+                    senderInDialogue = true;
+                    break;
+                }
+            }
             dialogues[i].isOpenedOnce = true;
             break;
         }
     }
-    if(sender !== ""){
+
+
+
+    if(sender !== "" && senderInDialogue){
         $('#' + sender + '_sender').remove();
         var z = senders.indexOf(sender);
         senders.splice(z, 1) ;
         if(senders.length === 0){
             $('#unreadMessages').css('display', 'none');
+        }else{
+            $('#unreadMessages').text(senders.length);
         }
     }
 

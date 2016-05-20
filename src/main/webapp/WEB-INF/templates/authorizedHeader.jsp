@@ -20,7 +20,7 @@
     <div class="mail">
         <img src="/resources/images/mail.png" alt="mail">
 
-        <p id="unreadMessages" style="display: none; font-size: 12px;">!</p>
+        <p id="unreadMessages" style="display: none; font-size: 12px;"></p>
         <%--<p id="unreadMessagesNum" style="display: none;"></p>--%>
 
         <div class="dropDownMail">
