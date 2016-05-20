@@ -34,7 +34,11 @@
     }
 
     function getUrlWithParameters() {
-        var url = '/tenders?filter=' + JSON.stringify(param.filter) + '&status=' + param.status;
+        var url = '/tenders?';
+        for(var key in param) {
+            url += key + '=' + ((key === 'filter') ? JSON.stringify(param[key]) : param[key]) + '&';
+        }
+        url = url.substring(0, url.length - 1);
         return encodeURI(url);
     }
 
@@ -65,6 +69,7 @@
         }
         param.filter.begin = (dateBegin) ? dateBegin.getTime() : null;
         param.filter.end = (dateEnd) ? dateEnd.setHours(23,59,59,999) : null;
+
         param.status = $('#select-tender-status').val();
 
         validateParameters(param);
@@ -72,25 +77,16 @@
 
     function parseURLParameters() {
         var searchUrl = decodeURI(window.location.search),
-            arrParam = searchUrl.substring(1, searchUrl.length - 1).split('&');
+            arrParam = searchUrl.substring(1, searchUrl.length).split('&');
 
         for(var i = 0; i < arrParam.length; i++) {
             var p = arrParam[i],
                 ind = p.indexOf('=');
             if(ind !== -1) {
-                var keyVal = p.substring(ind + 1, p.length);
-                param[p.substring(0, ind)] = (isJson(keyVal)) ? JSON.parse(keyVal) : keyVal;
+                var key = p.substring(0, ind);
+                param[key] = (key === 'filter') ? JSON.parse(p.substring(ind + 1, p.length)) : p.substring(ind + 1, p.length);
             }
         }
-    }
-
-    function isJson(v) {
-        try {
-            JSON.parse(v);
-        } catch (e) {
-            return false;
-        }
-        return true;
     }
 
     function searchTenders(event) {
