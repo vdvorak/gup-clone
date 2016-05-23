@@ -364,10 +364,10 @@
                         <div class="clearfix"></div>
 
                         <label>Ожидаемая стоимость: от&nbsp;</label>
-                        <input id="tenderMaxSum" type="number" class="moneyAfter">
+                        <input id="tenderMinSum" type="number" class="moneyAfter">
 
                         <p class="tenderP">до</p>
-                        <input id="tenderMinSum" type="number" class="moneyAfter">
+                        <input id="tenderMaxSum" type="number" class="moneyAfter">
 
                         <div class="clearfix"></div>
 
@@ -398,9 +398,9 @@
                         </div>
                         <label for="">Период проведения:</label>
 
-                        <p class="datePickPi">от <input type="text" id="datepicker3" class="datepicker-input"></p>
+                        <p class="datePickPi">от <input type="text" id="datepicker3" class="filter-datepicker"></p>
 
-                        <p class="datePickPi">до <input type="text" id="datepicker4" class="datepicker-input"></p>
+                        <p class="datePickPi">до <input type="text" id="datepicker4" class="filter-datepicker"></p>
 
                     </form>
                 </div>

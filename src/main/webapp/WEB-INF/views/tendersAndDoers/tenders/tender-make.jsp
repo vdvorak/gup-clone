@@ -122,7 +122,6 @@
 
                 <div class="clearfix"></div>
 
-                <label for="Description">Описание</label>
                 <textarea name="Description" id="Description"></textarea>
             </div>
 
