@@ -204,7 +204,7 @@ public class TenderRepositoryImpl implements TenderRepository {
         query.skip(0);
         query.limit(10);
 
-        return mongoTemplate.find(query, Tender.class).stream().map(Tender::getTitle).collect(Collectors.toSet());
+        return mongoTemplate.find(query, Tender.class).stream().map(Tender::getTenderNumber).collect(Collectors.toSet());
 
     }
 

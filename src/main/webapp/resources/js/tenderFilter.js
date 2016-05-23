@@ -10,8 +10,11 @@
     init();
 
     function init() {
+        $('.filter-datepicker').datepicker({ dateFormat: 'dd.mm.yy' });
+
         initNace();
-        $('.filter-datepicker').datepicker();
+        initTenderNumberAutocomplete();
+
         $('#btn-tenders-search').click(searchTenders);
     }
 
@@ -22,9 +25,17 @@
                 var option = $('<option id="'+ response[i].id +'" value="'+ response[i].id +'">'+ response[i].id + ": " +response[i].name +'</option>');
                 select.append(option);
             }
-
-
             $("#filterNACE").chosen({width:'720px', max_selected_options:5});
+        });
+    }
+
+    function initTenderNumberAutocomplete() {
+        $("#tenderNumber").autocomplete({
+            source: function (request, response) {
+                $.getJSON("/search/autocomplete/tender/number", {
+                    term: request.term
+                }, response);
+            }
         });
     }
 
@@ -121,13 +132,12 @@
             if(param.filter.begin) $('#datepicker3').datepicker("setDate", new Date(param.filter.begin));
             if(param.filter.end) $('#datepicker4').datepicker("setDate", new Date(param.filter.end));
         }
-        $('#select-tender-status').val(param.status);
+        if (param.status) $('#select-tender-status').val(param.status);
     }
 
     function fillNace() {
         $.when(loadNace).done(function(response) {
-            $('#filterNACE').val(param.filter.naceIds);
-            $('#filterNACE').trigger("chosen:updated");
+            if(param.filter.naceIds) $('#filterNACE').val(param.filter.naceIds).trigger("chosen:updated");
         });
     }
 
