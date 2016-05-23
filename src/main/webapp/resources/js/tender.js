@@ -39,11 +39,11 @@ function sliderImg(arr) {
 
 function getTenderStatus(tender) {
     var status = '';
-    if(tender.winnerId === null && tender.end < Date.now() / 1000) {
+    if(tender.winnerId === null && tender.end < Date.now()) {
         status = 'Не состоялся';
     } else if(tender.winnerId !== null) {
         status = 'Завершен';
-    } else if(tender.winnerId === null && tender.end > Date.now() / 1000) {
+    } else if(tender.winnerId === null && tender.end > Date.now()) {
         status = 'Приём предложений';
     }
     return status;
