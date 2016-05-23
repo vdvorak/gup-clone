@@ -15,7 +15,7 @@
         initNace();
         initTenderNumberAutocomplete();
 
-        $('#btn-tenders-search').click(searchTenders);
+        if(redirect) $('#btn-tenders-search').click(searchTenders);
     }
 
     function initNace() {
@@ -83,6 +83,9 @@
         param.filter.begin = (dateBegin) ? dateBegin.getTime() : null;
         param.filter.end = (dateEnd) ? dateEnd.setHours(23,59,59,999) : null;
 
+        param.filter.maxPrice = +$('#tenderMaxSum').val();
+        param.filter.minPrice = +$('#tenderMinSum').val();
+
         param.status = $('#select-tender-status').val();
 
         validateParameters(param);
@@ -121,9 +124,14 @@
 
     function fillParametersOnPage() {
         var filterBlock = $('.tenderFilter');
+
         if (param.filter) {
-            fillNace();
+            $.when(loadNace).done(function(response) {
+                if(param.filter.naceIds) $('#filterNACE').val(param.filter.naceIds).trigger("chosen:updated");
+            });
+
             filterBlock.find('#tenderNumber').val(param.filter.tenderNumber);
+
             if (param.filter.address) {
                 $('#region').val(param.filter.address.region);
                 $('#city').val(param.filter.address.city);
@@ -131,18 +139,16 @@
 
             if(param.filter.begin) $('#datepicker3').datepicker("setDate", new Date(param.filter.begin));
             if(param.filter.end) $('#datepicker4').datepicker("setDate", new Date(param.filter.end));
+
+            $('#tenderMaxSum').val(param.filter.maxPrice);
+            $('#tenderMinSum').val(param.filter.minPrice);
         }
         if (param.status) $('#select-tender-status').val(param.status);
-    }
-
-    function fillNace() {
-        $.when(loadNace).done(function(response) {
-            if(param.filter.naceIds) $('#filterNACE').val(param.filter.naceIds).trigger("chosen:updated");
-        });
     }
 
     namespace.parametersURI = param;
     namespace.parseURLParameters = parseURLParameters;
     namespace.fillParametersOnPage = fillParametersOnPage;
+    namespace.searchTenders = searchTenders;
 
 })(window.tenderFilter = window.tenderFilter || {});
