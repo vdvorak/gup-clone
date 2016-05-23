@@ -24,10 +24,18 @@
             loadTenders();
         });
 
+        $('#btn-tenders-search').click(function(event) {
+            reload();
+            tenderFilter.searchTenders(event);
+            setParamsToFilter(tenderFilter.parametersURI.filter);
+            loadTenders();
+        });
+
         loadTenders();
     }
 
     function loadTenders() {
+        console.log(util);
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
@@ -185,8 +193,7 @@
     }
 
     function reload() {
-        util.skip = 0;
-        util.limit = 5;
+        util = new TenderFilter();
         $('#tenders-start-block').empty().append(firstTenderBlock);
     }
 
@@ -264,8 +271,7 @@
     }
 
     function reload() {
-        util.skip = 0;
-        util.limit = 5;
+        util = new DoerFilter();
         $('#doers-start-block').empty().append(firstDoersBlock);
     }
 
