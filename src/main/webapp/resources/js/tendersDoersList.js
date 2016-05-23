@@ -187,11 +187,6 @@
         }
     }
 
-    function onChangeTenderStatus() {
-        reload();
-        loadTenders();
-    }
-
     function reload() {
         util = new TenderFilter();
         $('#tenders-start-block').empty().append(firstTenderBlock);
