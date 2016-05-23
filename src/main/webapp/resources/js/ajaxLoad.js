@@ -28,7 +28,6 @@ var loadCategories =
         dataType: "json",
         success: function (response) {
             jsonCategory = response;
-            offers.drawSubcategories();
         }
     })
 

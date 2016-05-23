@@ -5,6 +5,11 @@
     var flag = window.flag || "";
     var utils = new OfferFilter();
 
+    $.when(window.loadCategories).done(function () {
+        drawSubcategories();
+    });
+
+
     function OfferFilter() {
         this.skip = 0;
         this.limit = 10;
