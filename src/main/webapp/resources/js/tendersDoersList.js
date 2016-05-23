@@ -143,7 +143,7 @@
     function filterOutdatedTenders(data) {
         var arr = [];
         for (var i = 0; i < data.length; i++) {
-            if (data[i].winnerId === null && data[i].end < Date.now() / 1000) arr.push(data[i]);
+            if (data[i].winnerId === null && data[i].end < Date.now()) arr.push(data[i]);
         }
         refillArrayWithTenders(data, arr);
     }
@@ -151,7 +151,7 @@
     function filterActiveTenders(data) {
         var arr = [];
         for (var i = 0; i < data.length; i++) {
-            if (data[i].winnerId === null && data[i].end > Date.now() / 1000) arr.push(data[i]);
+            if (data[i].winnerId === null && data[i].end > Date.now()) arr.push(data[i]);
         }
         refillArrayWithTenders(data, arr);
     }
