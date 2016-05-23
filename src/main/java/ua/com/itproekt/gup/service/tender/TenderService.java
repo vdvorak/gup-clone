@@ -20,4 +20,5 @@ public interface TenderService {
     boolean isAuthorOrWinner(Tender tender, String user);
     Tender completeMembers(Tender t);
     Set<String> getMatchedNames(String name);
+    Set<String> getMatchedTenderNumber(String tenderNumb);
 }

@@ -49,10 +49,10 @@ public class TenderServiceImpl implements TenderService {
 
     @Override
     public Tender updateTender(Tender tender) {
-        if (tender.getMembers() != null && tender.getMembers().size() < 1){
+        if (tender.getMembers() != null && tender.getMembers().size() < 1) {
             tender.setMembers(null);
         }
-        if (tender.getProposes() != null && tender.getProposes().size() < 1){
+        if (tender.getProposes() != null && tender.getProposes().size() < 1) {
             tender.setProposes(null);
         }
         return tenderRepository.findTenderAndUpdate(tender);
@@ -80,15 +80,15 @@ public class TenderServiceImpl implements TenderService {
     public Tender setIndividualVision(Tender tender) {
         tender.setAuthorId(null);
         tender.setProposes(null);
-        if(tender.getUploadFilesIds() != null && tender.getUploadFilesIds().containsValue("pic1")) {
+        if (tender.getUploadFilesIds() != null && tender.getUploadFilesIds().containsValue("pic1")) {
             String docId = null;
-            for(Map.Entry<String, String> e : tender.getUploadFilesIds().entrySet()){
-                if(e.getValue().equals("pic1")){
+            for (Map.Entry<String, String> e : tender.getUploadFilesIds().entrySet()) {
+                if (e.getValue().equals("pic1")) {
                     docId = e.getKey();
                 }
             }
             tender.getUploadFilesIds().clear();
-            if(docId != null) {
+            if (docId != null) {
                 tender.getUploadFilesIds().put(docId, "pic1");
             }
         } else {
@@ -117,7 +117,7 @@ public class TenderServiceImpl implements TenderService {
                 tender.setProposes(tender.getProposes().stream()
                         .filter(p -> p.getAuthorId().equals(idUserWhoReed))
                         .collect(Collectors.toList()));
-            // if propose are not hidden by tender author, set visibility chosen by propose author
+                // if propose are not hidden by tender author, set visibility chosen by propose author
             } else {
                 tender.setProposes(tender.getProposes().stream()
                         .filter(p -> !p.getHidden() || p.getAuthorId().equals(idUserWhoReed))
@@ -136,7 +136,7 @@ public class TenderServiceImpl implements TenderService {
             if (tender.getProposes() == null)
                 return false;
         }
-        return tender.getProposes().stream().map(Propose::getAuthorId).collect(Collectors.toList()).contains(user) ;
+        return tender.getProposes().stream().map(Propose::getAuthorId).collect(Collectors.toList()).contains(user);
     }
 
     @Override
@@ -165,9 +165,9 @@ public class TenderServiceImpl implements TenderService {
             }
             return setLegalEntityVision(tender, userWhoReed.getId());
         } else if (userWhoReed != null && userWhoReed.getContact() != null &&
-                    (userWhoReed.getContact().getType() == UserType.LEGAL_ENTITY
-                    || userWhoReed.getContact().getType() == UserType.ENTREPRENEUR)) {
-                return setLegalEntityVision(tender, userWhoReed.getId());
+                (userWhoReed.getContact().getType() == UserType.LEGAL_ENTITY
+                        || userWhoReed.getContact().getType() == UserType.ENTREPRENEUR)) {
+            return setLegalEntityVision(tender, userWhoReed.getId());
         } else {
             return setIndividualVision(tender);
         }
@@ -175,10 +175,10 @@ public class TenderServiceImpl implements TenderService {
 
     @Override
     public Tender completeMembers(Tender t) {
-        if(t != null && t.getMembers() != null) {
+        if (t != null && t.getMembers() != null) {
             for (Member m : t.getMembers()) {
                 Profile p = profilesService.findWholeProfileById(m.getId());
-                if(p != null) {
+                if (p != null) {
                     m.setName(p.getUsername());
                     if (p.getContact() != null) {
                         m.setUserPic(p.getImgId());
@@ -194,4 +194,8 @@ public class TenderServiceImpl implements TenderService {
         return tenderRepository.getMatchedNames(name);
     }
 
+    @Override
+    public Set<String> getMatchedTenderNumber(String tenderNumb) {
+        return tenderRepository.getMatchedTenderNumber(tenderNumb);
+    }
 }

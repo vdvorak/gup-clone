@@ -140,10 +140,9 @@ public class TenderRepositoryImpl implements TenderRepository {
             query.addCriteria(Criteria.where("expectedPrice").gte(0).lte(tenderFilterOptions.getMaxPrice()));
         }
 
-        if(tenderFilterOptions.getMinPrice() !=null ){
+        if (tenderFilterOptions.getMinPrice() != null) {
             query.addCriteria(Criteria.where("expectedPrice").gte(tenderFilterOptions.getMinPrice()));
         }
-
 
 
         Criteria closed = new Criteria().andOperator(Criteria.where("type").is("CLOSE"), new Criteria().orOperator(
@@ -187,6 +186,21 @@ public class TenderRepositoryImpl implements TenderRepository {
         query.addCriteria(new Criteria().orOperator(Criteria.where("title").regex(searchFieldRegex)));
 
         query.fields().include("title");
+        query.skip(0);
+        query.limit(10);
+
+        return mongoTemplate.find(query, Tender.class).stream().map(Tender::getTitle).collect(Collectors.toSet());
+
+    }
+
+    @Override
+    public Set<String> getMatchedTenderNumber(String tenderNumb) {
+        String searchFieldRegex = "(?i:.*" + tenderNumb + ".*)";
+        Query query = new Query();
+
+        query.addCriteria(new Criteria().orOperator(Criteria.where("tenderNumber").regex(searchFieldRegex)));
+
+        query.fields().include("tenderNumber");
         query.skip(0);
         query.limit(10);
 

@@ -16,8 +16,13 @@ public class TenderSearchRestController {
 
 
     @RequestMapping("/search/autocomplete/tender")
-    public Set<String> getMachedNames(@RequestParam String term) {
+    public Set<String> getMatchedNames(@RequestParam String term) {
         return tenderService.getMatchedNames(term);
+    }
+
+    @RequestMapping("/search/autocomplete/tender/number")
+    public Set<String> getMatchedTenderNumber(@RequestParam String tenderNumb) {
+        return tenderService.getMatchedTenderNumber(tenderNumb);
     }
 
 }

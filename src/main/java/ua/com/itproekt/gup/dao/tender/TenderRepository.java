@@ -18,4 +18,5 @@ public interface TenderRepository  {
         EntityPage<Tender> findWihOptions(TenderFilterOptions tenderFilterOptions, Profile currUser);
         List<Tender> getTodayEndTenders();
         Set<String> getMatchedNames(String name);
+        Set<String> getMatchedTenderNumber(String tenderNumb);
 }
