@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ua.com.itproekt.gup.model.profiles.Contact;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
@@ -43,6 +42,7 @@ public class ProfileSearchRestController {
 
     @RequestMapping("/profile/isseowordfree")
     public boolean isProfileSeoWordFree(@RequestParam String seoWord) {
+        System.err.println("azaza: " + seoWord);
         return profilesService.isSeoWordFree(seoWord);
     }
 }

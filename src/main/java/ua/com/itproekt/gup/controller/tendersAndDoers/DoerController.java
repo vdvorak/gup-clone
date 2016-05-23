@@ -15,9 +15,6 @@ import ua.com.itproekt.gup.service.tender.doer.DoerService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
-/*
- * Created by Fairy on 15.01.2016.
- */
 @Controller
 public class DoerController {
     @Autowired
@@ -45,7 +42,7 @@ public class DoerController {
         Doer doer = doerService.findById(id);
         if (SecurityOperations.isUserLoggedIn()) {
             String userId = SecurityOperations.getLoggedUserId();
-            if(!userId.equals(doer.getAuthorId())){
+            if (!userId.equals(doer.getAuthorId())) {
                 // todo FORBIDDEN
             }
         }
@@ -70,13 +67,13 @@ public class DoerController {
         Profile profile = profilesService.findWholeProfileById(doer.getAuthorId());
         String userName = profile.getUsername();
 
-        if(userName != null && userName.length() > 0) model.addAttribute("username", userName);
+        if (userName != null && userName.length() > 0) model.addAttribute("username", userName);
         else model.addAttribute("username", "Anonimous");
         String flag = "tender";
         model.addAttribute("flag", flag);
         model.addAttribute("check", check);
         model.addAttribute("doer", doer);
-        if(doer.getRecalls() != null) {
+        if (doer.getRecalls() != null) {
             model.addAttribute("like", doer.getRecalls().stream().filter(r -> r.getMark().equals(Recall.Mark.LIKE)));
             model.addAttribute("dislike", doer.getRecalls().stream().filter(r -> r.getMark().equals(Recall.Mark.DISLIKE)));
         }
