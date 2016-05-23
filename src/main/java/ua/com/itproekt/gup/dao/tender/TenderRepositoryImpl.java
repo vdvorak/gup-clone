@@ -129,6 +129,23 @@ public class TenderRepositoryImpl implements TenderRepository {
             query.with(new Sort(Sort.Direction.fromString(tenderFilterOptions.getSortDirection()), tenderFilterOptions.getSortField()));
         }
 
+
+        if (tenderFilterOptions.getMinPrice() != null && tenderFilterOptions.getMaxPrice() != null) {
+            query.addCriteria(Criteria.where("expectedPrice")
+                    .gte(tenderFilterOptions.getMinPrice())
+                    .lte(tenderFilterOptions.getMaxPrice()));
+        }
+
+        if (tenderFilterOptions.getMaxPrice() != null) {
+            query.addCriteria(Criteria.where("expectedPrice").gte(0).lte(tenderFilterOptions.getMaxPrice()));
+        }
+
+        if(tenderFilterOptions.getMinPrice() !=null ){
+            query.addCriteria(Criteria.where("expectedPrice").gte(tenderFilterOptions.getMinPrice()));
+        }
+
+
+
         Criteria closed = new Criteria().andOperator(Criteria.where("type").is("CLOSE"), new Criteria().orOperator(
                 Criteria.where("members").elemMatch(Criteria.where("id").is(currUser.getId())),
                 Criteria.where("authorId").is(currUser.getId())));

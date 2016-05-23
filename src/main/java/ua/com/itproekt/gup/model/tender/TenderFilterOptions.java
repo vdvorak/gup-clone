@@ -13,6 +13,8 @@ public class TenderFilterOptions extends Tender {
     private String memberId;
     private List<String> naceIdIn;
     private boolean justUsersNace;
+    private Integer minPrice;
+    private Integer maxPrice;
 
     public TenderFilterOptions() {
         this.limit = 10;
@@ -135,6 +137,23 @@ public class TenderFilterOptions extends Tender {
         this.justUsersNace = justUsersNace;
     }
 
+
+    public Integer getMinPrice() {
+        return minPrice;
+    }
+
+    public void setMinPrice(Integer minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    public Integer getMaxPrice() {
+        return maxPrice;
+    }
+
+    public void setMaxPrice(Integer maxPrice) {
+        this.maxPrice = maxPrice;
+    }
+
     @Override
     public String toString() {
         return "TenderFilterOptions{" +
@@ -146,6 +165,8 @@ public class TenderFilterOptions extends Tender {
                 ", memberId='" + memberId + '\'' +
                 ", naceIdIn=" + naceIdIn +
                 ", justUsersNace=" + justUsersNace +
+                ", minPrice=" + minPrice +
+                ", maxPrice=" + maxPrice +
                 '}';
     }
 }
