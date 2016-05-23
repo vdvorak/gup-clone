@@ -316,7 +316,7 @@
 
   //----------------------  HTML EDITOR-------------------------------------//
   tinymce.init({
-    selector: 'textarea',
+    selector: '#Description',
     height: 500,
     theme: 'modern',
     plugins: [
