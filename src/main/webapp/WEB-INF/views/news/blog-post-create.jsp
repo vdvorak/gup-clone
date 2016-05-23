@@ -229,7 +229,7 @@
 
     //----------------------  HTML EDITOR-------------------------------------//
     tinymce.init({
-        selector: 'textarea',
+        selector: '#newsCreationDescription',
         height: 300,
         theme: 'modern',
         plugins: [
