@@ -364,10 +364,10 @@
                         <div class="clearfix"></div>
 
                         <label>Ожидаемая стоимость: от&nbsp;</label>
-                        <input id="tenderMaxSum" type="number" class="moneyAfter">
+                        <input id="tenderMinSum" type="number" class="moneyAfter">
 
                         <p class="tenderP">до</p>
-                        <input id="tenderMinSum" type="number" class="moneyAfter">
+                        <input id="tenderMaxSum" type="number" class="moneyAfter">
 
                         <div class="clearfix"></div>
 
