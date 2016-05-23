@@ -358,11 +358,6 @@
 
                         <div class="clearfix"></div>
 
-                        <label for="Author">Автор:</label>
-                        <input type="text" id="Author">
-
-                        <div class="clearfix"></div>
-
                         <label>Ожидаемая стоимость: от&nbsp;</label>
                         <input id="tenderMinSum" type="number" class="moneyAfter">
 

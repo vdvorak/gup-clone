@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
 </head>
 <body>
 

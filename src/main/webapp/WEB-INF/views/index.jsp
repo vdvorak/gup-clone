@@ -27,14 +27,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
-    <link rel="stylesheet" href="/resources/css/bootstrap.css">
-    <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
-    <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
-    <link rel="stylesheet" href="/resources/css/main.css">
-    <link rel="stylesheet" href="/resources/css/font-awesome.css">
-    <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <jsp:include page="/WEB-INF/templates/AllCascadingStyleSheets.jsp"/>
 
 </head>
 <body>

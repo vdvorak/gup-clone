@@ -27,6 +27,7 @@
     <link type="text/css" rel="stylesheet" href="/resources/css/simplePagination.css"/>
     <link href="/resources/css/pgwslideshow.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="/resources/libs/bxslider/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/notification.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link href="/resources/css/main.css" rel="stylesheet" type="text/css">

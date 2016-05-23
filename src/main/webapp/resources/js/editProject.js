@@ -294,7 +294,7 @@ function initializeProjectEntityForUpdate() {
 }
 
 tinymce.init({
-    selector: 'textarea',
+    selector: '#description',
     height: 300,
     theme: 'modern',
     plugins: [

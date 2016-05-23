@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/resources/css/alster.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/css/confirmDeleteAlert.css">
     <link rel="stylesheet" href="/resources/css/mini.css">
@@ -300,7 +301,7 @@
 
     //----------------------  HTML EDITOR-------------------------------------//
     tinymce.init({
-        selector: 'textarea',
+        selector: '#newsCreationDescription',
         height: 300,
         theme: 'modern',
         plugins: [

@@ -229,7 +229,7 @@ if (typeof loggedInProfile == 'undefined') {
     });
 
     tinymce.init({
-        selector: 'textarea',
+        selector: '#description',
         height: 300,
         theme: 'modern',
         plugins: [

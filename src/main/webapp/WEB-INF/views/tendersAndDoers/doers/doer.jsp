@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/media-queries.css">
