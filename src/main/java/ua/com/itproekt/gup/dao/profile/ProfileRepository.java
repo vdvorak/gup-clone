@@ -130,5 +130,7 @@ public interface ProfileRepository {
 
     Profile findById(String id);
 
+    Profile findBySeoWord(String seoWord);
+
 }
 

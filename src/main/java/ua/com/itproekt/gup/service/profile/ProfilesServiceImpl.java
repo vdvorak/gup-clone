@@ -124,6 +124,12 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
+    public boolean isSeoWordFree(String seoWord) {
+        Profile profile = profileRepository.findBySeoWord(seoWord);
+        return profile == null;
+    }
+
+    @Override
     public void createProfileRating(String profileId, ProfileRating profileRating) {
         ProfileRating newProfileRating = new ProfileRating()
                 .setEarnPoints(profileRating.getEarnPoints())

@@ -141,7 +141,7 @@ public class ProfileRestController {
         for (Profile profile : profilesList) {
             profile.setContactList(null);
         }
-        
+
         if (profiles.getEntities().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -164,11 +164,29 @@ public class ProfileRestController {
 
         Profile profile = profilesService.findById(newProfile.getId());
         String loggedUserId = SecurityOperations.getLoggedUserId();
-        if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
-            profilesService.editProfile(newProfile);
-            return new ResponseEntity<>(HttpStatus.OK);
+
+
+        if (newProfile.getIdSeoWord() != null) {
+
+            if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
+                if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+                    profilesService.editProfile(newProfile);
+                    return new ResponseEntity<>(HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+            } else {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+
+
         } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+                profilesService.editProfile(newProfile);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
         }
     }
 

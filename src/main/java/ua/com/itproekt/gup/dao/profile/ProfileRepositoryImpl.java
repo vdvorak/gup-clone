@@ -43,6 +43,12 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
+    public Profile findBySeoWord(String seoWord) {
+        Query query = new Query(Criteria.where("idSeoWord").is(seoWord));
+        return mongoTemplate.findOne(query, Profile.class);
+    }
+
+    @Override
     public Profile findProfileAndUpdate(Profile profile) {
         return MongoTemplateOperations.updateFieldsAndReturnUpdatedObj(profile);
     }

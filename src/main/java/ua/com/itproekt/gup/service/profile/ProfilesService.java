@@ -140,4 +140,6 @@ public interface ProfilesService {
     Profile findWholeProfileByEmail(String email);
 
     boolean isUserModerator(Profile user);
+
+    boolean isSeoWordFree(String seoWord);
 }

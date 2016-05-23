@@ -5,7 +5,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ua.com.itproekt.gup.model.nace.DepartmentOrNace;
 import ua.com.itproekt.gup.model.profiles.*;
 import ua.com.itproekt.gup.service.nace.NaceService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -36,7 +35,7 @@ public class ProfileTestController {
     public String addUser(Model model) {
         Profile profile = new Profile();
         profile.setConfirmModerator(true);
-        profile.setIdWord("ImChiefHere");
+        profile.setIdSeoWord("ImChiefHere");
         profile.setUsername("Main Admin");
         profile.setEmail("admin@abc.com");
         profile.setImgId("EnterPictureIdHere");

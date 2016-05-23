@@ -38,7 +38,11 @@ public class ProfileSearchRestController {
         for (Profile profile : profileList) {
             result.add(profile.getContact().getCompanyName());
         }
-
         return result;
+    }
+
+    @RequestMapping("/profile/isseowordfree")
+    public boolean isProfileSeoWordFree(@RequestParam String seoWord) {
+        return profilesService.isSeoWordFree(seoWord);
     }
 }
