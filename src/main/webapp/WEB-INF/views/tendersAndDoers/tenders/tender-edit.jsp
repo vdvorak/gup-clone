@@ -201,8 +201,8 @@
     if('${tender.hidePropose}' === 'true') $('#HideBidders').prop( "checked", true );
     if('${tender.hideContact}' === 'true') $('#HideContacts').prop('checked', true);
 
-    if ('${tender.begin}') $('#tender-datepicker1').datepicker("setDate", new Date('${tender.begin}'*1000));
-    if ('${tender.end}') $('#tender-datepicker2').datepicker("setDate", new Date('${tender.end}'*1000));
+    if ('${tender.begin}') $('#tender-datepicker1').datepicker("setDate", new Date('${tender.begin}'));
+    if ('${tender.end}') $('#tender-datepicker2').datepicker("setDate", new Date('${tender.end}'));
 
     // place photo from received model on the page
     for(var i = 0; i < filesArr.length; i++) {
