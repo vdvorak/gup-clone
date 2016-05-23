@@ -11,7 +11,7 @@
 
     function init() {
         initNace();
-
+        $('.filter-datepicker').datepicker();
         $('#btn-tenders-search').click(searchTenders);
     }
 
@@ -22,6 +22,8 @@
                 var option = $('<option id="'+ response[i].id +'" value="'+ response[i].id +'">'+ response[i].id + ": " +response[i].name +'</option>');
                 select.append(option);
             }
+
+
             $("#filterNACE").chosen({width:'720px', max_selected_options:5});
         });
     }
@@ -106,7 +108,31 @@
         }
     }
 
+    function fillParametersOnPage() {
+        var filterBlock = $('.tenderFilter');
+        if (param.filter) {
+            fillNace();
+            filterBlock.find('#tenderNumber').val(param.filter.tenderNumber);
+            if (param.filter.address) {
+                $('#region').val(param.filter.address.region);
+                $('#city').val(param.filter.address.city);
+            }
+
+            if(param.filter.begin) $('#datepicker3').datepicker("setDate", new Date(param.filter.begin));
+            if(param.filter.end) $('#datepicker4').datepicker("setDate", new Date(param.filter.end));
+        }
+        $('#select-tender-status').val(param.status);
+    }
+
+    function fillNace() {
+        $.when(loadNace).done(function(response) {
+            $('#filterNACE').val(param.filter.naceIds);
+            $('#filterNACE').trigger("chosen:updated");
+        });
+    }
+
     namespace.parametersURI = param;
     namespace.parseURLParameters = parseURLParameters;
+    namespace.fillParametersOnPage = fillParametersOnPage;
 
 })(window.tenderFilter = window.tenderFilter || {});

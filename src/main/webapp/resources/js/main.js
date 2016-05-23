@@ -161,11 +161,7 @@ $(document).ready(function () {
 
     }));
 
-    $('input.datepicker-input').datepicker();
-    $.datepicker.setDefaults({
-        onClose: checkDateInDatepicker
-    });
-
+    $('input.datepicker-input').datepicker({onClose: checkDateInDatepicker});
 
     function checkDateInDatepicker() {
         var dateFrom = $('#tender-datepicker1').datepicker('getDate');

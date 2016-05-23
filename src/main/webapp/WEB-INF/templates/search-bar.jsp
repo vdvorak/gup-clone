@@ -398,9 +398,9 @@
                         </div>
                         <label for="">Период проведения:</label>
 
-                        <p class="datePickPi">от <input type="text" id="datepicker3" class="datepicker-input"></p>
+                        <p class="datePickPi">от <input type="text" id="datepicker3" class="filter-datepicker"></p>
 
-                        <p class="datePickPi">до <input type="text" id="datepicker4" class="datepicker-input"></p>
+                        <p class="datePickPi">до <input type="text" id="datepicker4" class="filter-datepicker"></p>
 
                     </form>
                 </div>
