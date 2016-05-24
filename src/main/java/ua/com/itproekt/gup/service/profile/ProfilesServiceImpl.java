@@ -36,7 +36,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         setEmptyFieldsForNewUser(newProfile);
 
         profileRepository.createProfile(newProfile);
-        bankSession.createBalanceRecord(newProfile.getId(), 0);
+        bankSession.createBalanceRecord(newProfile.getId(), 3);
 
         profile.setId(newProfile.getId());
     }
@@ -117,7 +117,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         Set<UserRole> userRoleSet = user.getUserRoles();
         for (UserRole userRole : userRoleSet) {
             if (userRole == UserRole.ROLE_MODERATOR) {
-                return  true;
+                return true;
             }
         }
         return false;

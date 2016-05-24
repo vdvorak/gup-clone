@@ -1,7 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!doctype html>
 <html>
-<head>
+<head lang="ru">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <title>Объявления</title>
@@ -55,13 +56,15 @@
     <!--search-->
     <div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">
         <div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">
-               <a href="/create-offer"><button class="btn btn-info btn-sm" id="btn-chat" > ПОДАТЬ ОБЪЯВЛЕНИЕ</button>    </a>
+            <a href="/create-offer">
+                <button class="btn btn-info btn-sm" id="btn-chat"> ПОДАТЬ ОБЪЯВЛЕНИЕ</button>
+            </a>
         </div>
     </div>
     <!--search-->
 
     <!--gallery-->
-  <center><h1>Мои объявления</h1></center>
+    <center><h1>Мои объявления</h1></center>
     <div class="row" style="background-color: #bcd6d9; padding: 15px; margin-top: 25px;">
 
         <div class="col-xs-9" style="padding-left: 5px; padding-right: 5px;">
@@ -82,7 +85,8 @@
                                         <c:when test="${not empty offer.imagesIds.keySet()}">
                                             <c:forEach items="${offer.imagesIds.keySet()}" var="id" varStatus="status">
                                                 <c:if test="${status.first}">
-                                                    <img alt="" width="150" height="150" src="/api/rest/fileStorage/OFFERS/file/read/id/${id}">
+                                                    <img alt="" width="150" height="150"
+                                                         src="/api/rest/fileStorage/OFFERS/file/read/id/${id}">
                                                 </c:if>
                                             </c:forEach>
                                         </c:when>
@@ -93,36 +97,39 @@
                                     <div>${offer.title}</div>
                                     <div>${offer.price}</div>
                                     <div>${offer.views}</div>
-                                    <div><a href="/edit-offer/${offer.id}" style="color: #087aff;">Редактировать</a></div>
+                                    <div><a href="/edit-offer/${offer.id}" style="color: #087aff;">Редактировать</a>
+                                    </div>
 
                                     <c:choose>
                                         <c:when test="${offer.active}">
-                                            <button type="button" class="btn btn-default btn-md deactivateOffer" style="margin-left: 25px" value="${offer.id}">
+                                            <button type="button" class="btn btn-default btn-md deactivateOffer"
+                                                    style="margin-left: 25px" value="${offer.id}">
                                                 Деактевировать
                                             </button>
                                         </c:when>
                                         <c:otherwise>
-                                            <button type="button" class="btn btn-default btn-md activeOffer" style="margin-left: 25px" value="${offer.id}">
+                                            <button type="button" class="btn btn-default btn-md activeOffer"
+                                                    style="margin-left: 25px" value="${offer.id}">
                                                 Активировать
                                             </button>
                                         </c:otherwise>
                                     </c:choose>
 
-                                    <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#deleteModal" style="margin-left: 25px">
+                                    <button type="button" class="btn btn-default btn-md" data-toggle="modal"
+                                            data-target="#deleteModal" style="margin-left: 25px">
                                         Удалить
                                     </button>
 
 
-
-
-
-
                                     <!-- Modal window for delete offer -->
-                                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+                                         aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close"><span aria-hidden="true">&times;</span>
+                                                    </button>
                                                     <h4 class="modal-title" id="myModalLabel">Подтвердите удаление</h4>
                                                 </div>
                                                 <div class="modal-body">
@@ -130,18 +137,18 @@
                                                     После удаление восстановить объявление будет невозможно.
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button id="${offer.id}" type="button" class="btn btn-danger deleteOffer" data-dismiss="modal">Удалить</button>
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                                                    <button id="${offer.id}" type="button"
+                                                            class="btn btn-danger deleteOffer" data-dismiss="modal">
+                                                        Удалить
+                                                    </button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                        Отмена
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- Modal window for delete offer -->
-
-
-
-
-
 
 
                                 </a>
@@ -178,12 +185,12 @@
         $('#myInput').focus()
     });
 
-    $('#amount').change(function(){
+    $('#amount').change(function () {
         $.ajax({
             url: '/account/getLiqPayParam',
             method: 'POST',
             data: {'amount': $('#amount').val()},
-            success: function(response) {
+            success: function (response) {
                 $('#liq-pay-data').val(response[0]);
                 $('#liq-pay-signature').val(response[1]);
             }
@@ -193,9 +200,9 @@
     $('.deleteOffer').click(function () {
         var id = $(this).attr("id");
         $.ajax({
-            url: '/offer/id/'+ id +'/delete',
+            url: '/offer/id/' + id + '/delete',
             method: 'POST',
-            success: function(response) {
+            success: function (response) {
                 window.location.href = '/account';
             },
             error: function (response) {
@@ -207,9 +214,9 @@
     $('.deactivateOffer').click(function () {
         var id = $(this).attr("value");
         $.ajax({
-            url: '/api/rest/offersService/offer/id/'+ id +'/setActive/false',
+            url: '/api/rest/offersService/offer/id/' + id + '/setActive/false',
             method: 'POST',
-            success: function(response) {
+            success: function (response) {
                 window.location.href = '/account';
             },
             error: function (response) {
@@ -221,9 +228,9 @@
     $('.activeOffer').click(function () {
         var id = $(this).attr("value");
         $.ajax({
-            url: '/api/rest/offersService/offer/id/'+ id +'/setActive/true',
+            url: '/api/rest/offersService/offer/id/' + id + '/setActive/true',
             method: 'POST',
-            success: function(response) {
+            success: function (response) {
                 window.location.href = '/account';
             },
             error: function (response) {
