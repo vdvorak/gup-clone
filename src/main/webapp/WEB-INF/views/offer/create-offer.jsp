@@ -276,7 +276,7 @@
 
         <div class="row">
             <div class="col-xs-4">
-                <label for="inpAuthor">Контактное лицо<em>*</em></label>
+                <label for="inpAuthor">Контактное лицо</label>
             </div>
             <div class="col-xs-5">
                 <input type="text" id="inpAuthor">
@@ -284,7 +284,7 @@
         </div>
         <div class="row">
             <div class="col-xs-4">
-                <label for="inpEmail">E-mail<em>*</em></label>
+                <label for="inpEmail">E-mail</label>
             </div>
             <div class="col-xs-5">
                 <input type="text" id="inpEmail">
@@ -300,7 +300,7 @@
         </div>
         <div class="row row-telephone">
             <div class="col-xs-4">
-                <label>Телефон</label>
+                <label>Телефон<em>*</em></label>
             </div>
             <div class="col-xs-5">
                 <input type="text">
