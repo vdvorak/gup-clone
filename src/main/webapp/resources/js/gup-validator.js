@@ -33,8 +33,7 @@
                 description: {minLength: 50, maxLength: 4000},
                 naceIds: {minLength: 1},
                 userInfo: {
-                    email: {regExp: /\S+@\S+\.\S+/},
-                    contactName: {minLength: 1}
+                    phoneNumbers: {minLength: 1}
                 }
             },
             msg: {
@@ -43,8 +42,7 @@
                 description: 'Проверьте заполнение поля Описание. Длина описания должна быть не менее 50 и не более 4000 символов.',
                 naceIds: 'Проверьте заполнение поля Отрасли. Необходимо выбрать хотя бы 1 отрасль.',
                 userInfo: {
-                    email: 'Проверьте заполнение поля E-mail.',
-                    contactName: 'Заполнените поле Контактное лицо.'
+                    phoneNumbers: 'Введите хотя бы 1 номер телефона.'
                 }
             }
         },
