@@ -452,7 +452,7 @@
     }
 
     countTextLength();
-    $("textarea").on('keyup', countTextLength);
+    $("#new-label-3").on('keyup', countTextLength);
 
     var area = '${offer.address.area}';
     if (area) $('#text-region').text(area);

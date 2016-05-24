@@ -85,7 +85,7 @@ $('#offer-container').empty().append('<div class="anonymUser"><p><i class="fa fa
     }
 
     countTextLength();
-    $("textarea").on('keyup', countTextLength);
+    $("#new-label-3").on('keyup', countTextLength);
 
 // --------------------- MAIN FORM CONSTRUCTION ----------------------//
 
