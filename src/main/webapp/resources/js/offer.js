@@ -21,6 +21,11 @@ $.ajax({
 // ----------- Draw offer -------------------------------------------------------------------------------------------
 $('#a-author-offers').bind('click', offer.authorId, offers.filterOffersByAuthor);
 
+
+if(!offer.canBeReserved){
+    $('#make-reserve').remove();
+}
+
 $('.offer-title').text(offer.title);
 
 $('.offer-price').text(window.offers.getPriceStr(offer));
@@ -310,67 +315,76 @@ $(document).ready(function () {
 //});
 //
 //// - first we check balance to make sure we have required amount
-//$('#make-reserve').click(function (event) {
-//    event.preventDefault();
-//
-//    $.ajax({
-//        type: "POST",
-//        url: "/check-balance",
-//        cache: false,
-//        success: function (response) {
-//
-//            if (response >= 5) {
-//                $('.brokeAss').hide();
-//                $('.richAss').show();
-//
-//                $('#noMoneyStartRich').attr('id', 'acccept-reservation');
-//
-//
-//                $('#overlay').fadeIn(400,
-//                    function () {
-//                        $('#refill')
-//                            .css('display', 'block')
-//                            .animate({opacity: 1, top: '50%'}, 200);
-//                    });
-//
-//
-//                $('.message-payment-accept').text("С вашего счёта будет снято 5 гривен за бронирование объявления")
-//
-//            } else {
-//                $('.brokeAss').show();
-//                $('.richAss').hide();
-//
-//                $('#overlay').fadeIn(400,
-//                    function () {
-//                        $('#refill')
-//                            .css('display', 'block')
-//                            .animate({opacity: 1, top: '50%'}, 200);
-//                    });
-//
-//                //$('.show-message-for-payment').text("Для бронирования объявления на счету должно быть не менее 5 гривен")
-//
-//            }
-//        },
-//        error: function (response) {
-//            alert("Для бронирования нужно войти в систему")
-//        }
-//    });
-//
-//    $(document).on('click', '#acccept-reservation', function () {
-//        $.ajax({
-//            type: "POST",
-//            url: "/api/rest/offersService/offer/id/" + offerId + "/reserve",
-//            cache: false,
-//            success: function (response) {
-//                alert("Объявление успешно забронировано за вами!")
-//            },
-//            error: function (response) {
-//                alert("Недостаточно денег на балансе")
-//            }
-//        });
-//        $('#acccept-reservation').attr('id', 'noMoneyStartRich');
-//    })
-//});
+$('#make-reserve').click(function (event) {
+    event.preventDefault();
+
+    $.ajax({
+        type: "POST",
+        url: "/check-balance",
+        cache: false,
+        success: function (response) {
+            alert("Response: " + response)
+
+            if (response >= 5) {
+                $('.brokeAss').hide();
+                $('.richAss').show();
+
+                $('#noMoneyStartRich').attr('id', 'acccept-reservation');
+
+
+                $('#overlay').fadeIn(400,
+                    function () {
+                        $('#refill')
+                            .css('display', 'block')
+                            .animate({opacity: 1, top: '50%'}, 200);
+                    });
+
+
+                //$('.message-payment-accept').text("С вашего счёта будет снято 5 гривен за бронирование объявления")
+                alert("С вашего счёта будет снято 5 гривен за бронирование объявления")
+
+            } else {
+                $('.brokeAss').show();
+                $('.richAss').hide();
+
+                $('#overlay').fadeIn(400,
+                    function () {
+                        $('#refill')
+                            .css('display', 'block')
+                            .animate({opacity: 1, top: '50%'}, 200);
+                    });
+
+                //$('.show-message-for-payment').text("Для бронирования объявления на счету должно быть не менее 5 гривен")
+
+            }
+        },
+        error: function (response) {
+            alert("Для бронирования нужно войти в систему")
+        }
+    });
+
+    $(document).on('click', '#acccept-reservation', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        $.ajax({
+            type: "POST",
+            url: "/api/rest/offersService/offer/id/" + offerId + "/reserve",
+            cache: false,
+            statusCode: {
+                200: function() {
+                    alert('Объявление успешно забронировано за вами!');
+                },
+                404: function () {
+                    alert("Объявления не существует")
+                },
+                409: function() {
+                    alert('Это объявление нельзя зарезервировать!');
+                }
+            }
+        });
+        $('#acccept-reservation').attr('id', 'noMoneyStartRich');
+    })
+});
 // ---------------------------------- Reservation -----------------------------------------------------------
 
 

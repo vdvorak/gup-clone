@@ -163,7 +163,7 @@
             <section class="offer-video"></section>
         </div>
         <div class="offer-info-slider">
-            <div>Колличество просмотров: <span class="view-counter"></span></div>
+            <div>Количество просмотров: <span class="view-counter"></span></div>
             <div>Дата создания: <span id="create-date" class="date-create"></span></div>
             <ul class="bxslider" id="offer-slider">
                 <%--<li><img src="/resources/images/slider.jpg" /></li>--%>
