@@ -2,7 +2,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html class="no-js" lang=""> <!--<![endif]-->
+<html class="no-js" lang="ru"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
+    <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
@@ -59,7 +59,7 @@
                     <p>Дата создания: <span class="date-create"></span></p>
                 </li>
                 <%--<li>--%>
-                    <%--<p>Дата обновления: <span class="date-create"></span></p>--%>
+                <%--<p>Дата обновления: <span class="date-create"></span></p>--%>
                 <%--</li>--%>
                 <li>
                     <p>Просмотров: ${doer.countVisit}</p>
@@ -164,6 +164,7 @@
                 <li><p>Spirit Breaker</p></li>
             </ul>
             <img src="/resources/images/downArtist.png" alt="downArtist">
+
             <div class="modalDoer">
                 <div>
                     <p>Вася Пупкин отправил заявку на добавление, подтвердите что он входит в список ваших клиентов</p>
@@ -228,7 +229,6 @@
 </div>
 
 
-
 <%--<div>--%>
 <%--${doer.title}--%>
 <%--</div>--%>
@@ -248,39 +248,39 @@
 <%--</c:choose>--%>
 <%--</div>--%>
 <%--<div>--%>
-  <%--Название--%>
-  <%--<br>--%>
-  <%--${doer.authorId}--%>
+<%--Название--%>
+<%--<br>--%>
+<%--${doer.authorId}--%>
 <%--</div>--%>
 
 <%--<div>--%>
-  <%--Автор: ${username}--%>
+<%--Автор: ${username}--%>
 <%--</div>--%>
 <%--<div>--%>
-  <%--Описание--%>
-  <%--<br>--%>
-  <%--${doer.body}--%>
+<%--Описание--%>
+<%--<br>--%>
+<%--${doer.body}--%>
 <%--</div>--%>
 <%--<div>--%>
-  <%--Количество посещений--%>
-  <%--<br>--%>
-  <%--${doer.countVisit}--%>
+<%--Количество посещений--%>
+<%--<br>--%>
+<%--${doer.countVisit}--%>
 <%--</div>--%>
 <%--<div>--%>
-  <%--Дата создания--%>
-  <%--<br>--%>
-  <%--${doer.dateOfCreate}--%>
+<%--Дата создания--%>
+<%--<br>--%>
+<%--${doer.dateOfCreate}--%>
 <%--</div>--%>
 <%--<div>--%>
-  <%--Дата последнего обноновления--%>
-  <%--<br>--%>
-  <%--${doer.dateOfUpdate}--%>
+<%--Дата последнего обноновления--%>
+<%--<br>--%>
+<%--${doer.dateOfUpdate}--%>
 <%--</div>--%>
 
 <%--<div>--%>
-  <%--Дата последнего обноновления--%>
-  <%--<br>--%>
-  <%--${doer.dateOfUpdate}--%>
+<%--Дата последнего обноновления--%>
+<%--<br>--%>
+<%--${doer.dateOfUpdate}--%>
 <%--</div>--%>
 
 <sec:authorize access="isAuthenticated()">

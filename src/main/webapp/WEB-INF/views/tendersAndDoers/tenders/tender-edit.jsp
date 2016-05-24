@@ -1,14 +1,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: RAYANT
-  Date: 25.01.2016
-  Time: 11:41
-  To change this template use File | Settings | File Templates.
---%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="ru">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
