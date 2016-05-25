@@ -156,10 +156,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.profileRatingExists(profileId, profileRatingId);
     }
 
-    @Override
-    public void addFriend(String profileId, String friendProfileId) {
-        profileRepository.addFriend(profileId, friendProfileId);
-    }
+//    @Override
+//    public void addFriend(String profileId, String friendProfileId) {
+//        profileRepository.addFriend(profileId, friendProfileId);
+//    }
 
     @Override
     public Set<String> getMatchedNames(String term) {

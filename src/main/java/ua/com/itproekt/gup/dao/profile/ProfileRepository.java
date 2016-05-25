@@ -114,7 +114,7 @@ public interface ProfileRepository {
      * @param profileId       the profile id
      * @param friendProfileId the friend profile id
      */
-    void addFriend(String profileId, String friendProfileId);
+//    void addFriend(String profileId, String friendProfileId);
 
     void addUserRole(String profileId, UserRole userRole);
 

@@ -203,12 +203,12 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         return mongoTemplate.findOne(query, Profile.class);
     }
 
-    @Override
-    public void addFriend(String profileId, String friendProfileId) {
-        mongoTemplate.updateFirst(
-                Query.query(Criteria.where("id").is(profileId)),
-                new Update().push("friendList", friendProfileId), Profile.class);
-    }
+//    @Override
+//    public void addFriend(String profileId, String friendProfileId) {
+//        mongoTemplate.updateFirst(
+//                Query.query(Criteria.where("id").is(profileId)),
+//                new Update().push("friendList", friendProfileId), Profile.class);
+//    }
 
     @Override
     public void addUserRole(String profileId, UserRole userRole) {

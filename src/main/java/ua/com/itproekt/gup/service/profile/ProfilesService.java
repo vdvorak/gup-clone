@@ -121,13 +121,13 @@ public interface ProfilesService {
      */
     boolean profileRatingExists(String profileId, String profileRatingId);
 
-    /**
-     * Add friend.
-     *
-     * @param profileId       the profile id
-     * @param friendProfileId the friend profile id
-     */
-    void addFriend(String profileId, String friendProfileId);
+//    /**
+//     * Add friend.
+//     *
+//     * @param profileId       the profile id
+//     * @param friendProfileId the friend profile id
+//     */
+//    void addFriend(String profileId, String friendProfileId);
 
     Set<String> getMatchedNames(String term);
 

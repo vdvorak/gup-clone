@@ -126,9 +126,6 @@ $('#writeMessageToProfile').on('click', function () {
     window.location.href = "/dialogue/create/with/" + profileId;
 });
 
-
-
-
 $(document).on('click', '#editProfileBtn', function(){
     window.location.href = '/edit-profile'
 });
@@ -149,15 +146,22 @@ $(document).on('click', '#addProfileToContact', function () {
     }, function(){
         alert('Internal error')
     })
-})
+});
 
 $(document).on('click', '#removeProfileFromContacts', function () {
-    loggedInProfile.contactList.splice(loggedInProfile.contactList.indexOf(profileId), 1)
-    R.Libra().profilesService().profile().edit({id: loggedInProfile.id, contactList: loggedInProfile.contactList}, function(){
-        location.reload()
-    }, function(){
-        alert('Internal error')
-    })
-})
+    $.ajax({
+        type: "POST",
+        url: "/api/rest/profilesService/profile/id/" + profileId + "/myContactList/delete",
+        cache: false,
+        statusCode: {
+            200: function() {
+                alert('Пользователь удалён из списка вших контактов');
+            },
+            400: function () {
+                alert("Ошибка сервера")
+            }
+        }
+    });
+});
 
 
