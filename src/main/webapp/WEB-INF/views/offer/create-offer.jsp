@@ -306,8 +306,7 @@
                 <input type="text">
             </div>
             <div id="btn-add-tel" class="col-xs-1" data-toggle="tooltip" data-placement="right"
-                 title="Добавить телефон"
-                 onClick="addTelephone()">
+                 title="Добавить телефон">
                 <img src="resources/images/pluse.png" alt="plus">
             </div>
         </div>
@@ -350,16 +349,8 @@
 
 <jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
-<script>
-    $(document).ready(function () {
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
-    })
-</script>
-
-<script src="/resources/js/create-offer.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
+<script src="/resources/js/offer-redactor.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=offerRedactor.initMap"
         async defer></script>
 </body>
 </html>
