@@ -21,8 +21,11 @@ $.ajax({
 // ----------- Draw offer -------------------------------------------------------------------------------------------
 $('#a-author-offers').bind('click', offer.authorId, offers.filterOffersByAuthor);
 
+if (typeof offer.reservation != 'undefined'){
+$('.offer-title').before("<div>Объявление забронировано:</div><a href='/profile?id=" + offer.reservation.profileId +"'>пользователем</a>")
+}
 
-if(!offer.canBeReserved){
+if (!offer.canBeReserved) {
     $('#make-reserve').remove();
 }
 
@@ -75,9 +78,8 @@ if (offer.imagesIds) {
     } else {
         $('#offer-slider').append('<li><img src="/resources/images/no_photo.jpg" /></li>');
     }
-    var SUKAA = $('#offer-slider').bxSlider({
+    var slider = $('#offer-slider').bxSlider({
         doubleControls: true,
-        // pagerCustom`: '#bx-pager'
         buildPager: function (slideIndex) {
             var sourceAttribute = $('#offer-slider li img').eq(slideIndex + 1).attr('src');
             return '<div style="background-image: url(\'' + sourceAttribute + '\');"></div>';
@@ -89,11 +91,11 @@ if (offer.imagesIds) {
 
     });
     $('.super_netxt_knopka').on('click', function () {
-        SUKAA.goToNextSlide();
+        slider.goToNextSlide();
         return false;
-    })
+    });
     $('.super_prev_knopka').on('click', function () {
-        SUKAA.goToPrevSlide();
+        slider.goToPrevSlide();
         return false;
     })
 }
@@ -292,29 +294,7 @@ $(document).ready(function () {
 
 
 // ---------------------------------- Reservation -----------------------------------------------------------
-// - Need consultation. Don't delete this part
 
-//$('#socialBtn').click(function (event) {
-//    event.preventDefault();
-//    $('#overlay').fadeIn(400,
-//        function () {
-//            $('#refill')
-//                .css('display', 'block')
-//                .animate({opacity: 1, top: '50%'}, 200);
-//        });
-//});
-//
-//$('.brokeAss > button, #overlay, .richAss > form > #close').click(function () {
-//    $('#refill')
-//        .animate({opacity: 0, top: '45%'}, 200,
-//        function () {
-//            $(this).css('display', 'none');
-//            $('#overlay').fadeOut(400);
-//        }
-//    );
-//});
-//
-//// - first we check balance to make sure we have required amount
 $('#make-reserve').click(function (event) {
     event.preventDefault();
 
@@ -371,13 +351,13 @@ $('#make-reserve').click(function (event) {
             url: "/api/rest/offersService/offer/id/" + offerId + "/reserve",
             cache: false,
             statusCode: {
-                200: function() {
+                200: function () {
                     alert('Объявление успешно забронировано за вами!');
                 },
                 404: function () {
                     alert("Объявления не существует")
                 },
-                409: function() {
+                409: function () {
                     alert('Это объявление нельзя зарезервировать!');
                 }
             }
