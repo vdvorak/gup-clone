@@ -797,13 +797,14 @@
     }
 
     function setOfferProperties() {
+        var self = this;
         if (!this.properties) this.properties = [];
 
         $('#other-options').find('select, input').each(function () {
             var prop = {};
             prop.key = this.name;
             prop.value = this.value;
-            this.properties.push(prop);
+            self.properties.push(prop);
         });
 
         return this;
