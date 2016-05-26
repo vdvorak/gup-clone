@@ -642,7 +642,7 @@
         if (curNumber < 3) {
             var imgDel = $('<a href="#" class="remove_field"><img src="/resources/img/minus.png" style="width: 20px; height: 20px; margin-left: 0px;"></a>').click(deleteTel);
             var row = $('.row-telephone').first().clone();
-            row.children('#btn-add-tel').remove();
+            row.children('#btn-add-tel, div.tooltip').remove();
             row.find('label').parent().remove();
             var inputBlock = row.find('input').val("").parent().addClass('col-xs-offset-4');
             imgDel.insertAfter(inputBlock);
