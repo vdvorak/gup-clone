@@ -21,7 +21,7 @@ $.ajax({
 // ----------- Draw offer -------------------------------------------------------------------------------------------
 $('#a-author-offers').bind('click', offer.authorId, offers.filterOffersByAuthor);
 
-if (typeof offer.reservation != 'undefined'){
+if (offer.reservation){
 $('.offer-title').before("<div>Объявление забронировано:</div><a href='/profile?id=" + offer.reservation.profileId +"'>пользователем</a>")
 }
 
@@ -31,7 +31,7 @@ if (!offer.canBeReserved) {
 
 $('.offer-title').text(offer.title);
 
-$('.offer-price').text(window.offers.getPriceStr(offer));
+$('.offer-price').text(offers.getPriceStr(offer));
 
 
 $('#create-date').text(localDateTime(offer.createdDate));
@@ -115,7 +115,7 @@ if (offer.address) {
 }
 $('#offer-cities li a').click(offers.redirectToOfferAllByBreadcrumbs);
 
-$.when(window.loadCategories, window.loadSubcategories).done(function () {
+$.when(loadCategories, loadSubcategories).done(function () {
     var breadcrumbs = offer.categories;
     if (breadcrumbs[0]) {
         for (var i = 0; i < jsonCategory.length; i++) {
