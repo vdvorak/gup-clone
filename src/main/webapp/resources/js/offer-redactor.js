@@ -36,13 +36,19 @@
             return;
         }
 
+
+        if (isUserAdmin(loggedInProfile)) {
+            $('.new-adv-box').prepend('<input type="text" id="moderator-message" placeholder="Сообщение модератора" value="">')
+        }
+
+
         initDropZone();
         initImages();
         initCategories();
         initEventHandlers();
         countTextLength();
 
-        if(isEditorPage) initLoadOfferData();
+        if (isEditorPage) initLoadOfferData();
     }
 
     function initEventHandlers() {
@@ -74,7 +80,9 @@
         if (offer.urgent) $('#new-label-check').prop('checked', true);
 
         categories = offer.categories;
-        $.when(loadCategories, loadSubcategories, loadOptions, loadParameters).done(function(){drawLoadedCategories(offer)});
+        $.when(loadCategories, loadSubcategories, loadOptions, loadParameters).done(function () {
+            drawLoadedCategories(offer)
+        });
 
         imgsArr = offer.imagesIds;
         drawLoadedImages();
@@ -223,7 +231,9 @@
             .attr("id", id)
             .click(onClickSetMainImg);
         cloneImg.find('span')
-            .click((isEditorPage) ? function(){deleteImgFromPage(id)} : deleteImgById);
+            .click((isEditorPage) ? function () {
+                deleteImgFromPage(id)
+            } : deleteImgById);
         if (imgsArr[id] === "pic1") cloneImg.find('img').addClass('mainImg');
         cloneImg.appendTo('.ul-img-container');
     }
@@ -250,7 +260,7 @@
         if (numberImg < 2) {
             $(".li-defaultIMG").css("display", "inline-block");
         }
-        if(isEditorPage) picArrDel.push(idImg);
+        if (isEditorPage) picArrDel.push(idImg);
     }
 
     function deleteImgFromDB(arr) {
@@ -403,15 +413,15 @@
                     name = j;
                 }
 
-                drawSelectElements(i,name);
-                drawOptionsInSelectElements(i,name);
+                drawSelectElements(i, name);
+                drawOptionsInSelectElements(i, name);
 
                 if (name === 'price') $('#offer-price-row').css('display', 'block');
             }
         }
     }
 
-    function drawOptionsInSelectElements(i,name) {
+    function drawOptionsInSelectElements(i, name) {
         for (var j in options[i]['v']) {
             var option = $('<option value = "' + j + '"  id ="' + j + '">' + options[i]['v'][j] + '</option>');
             if (name === 'price') {
@@ -422,7 +432,7 @@
         }
     }
 
-    function drawSelectElements(i,name) {
+    function drawSelectElements(i, name) {
         for (var j in parameters) {
             if (name !== 'price') {
                 var selectWrapper = $('<div style="display: inline-block; margin-bottom: 5px; margin-right: 5px;"></div>');
@@ -455,7 +465,7 @@
         event.preventDefault();
 
         $('#ul-category2, #ul-category3').html("");
-        categories.splice(0,3);
+        categories.splice(0, 3);
 
         $('#text-category2, #text-category3').text("Выберите подкатегорию");
         $('#category3-container').attr("style", "display: none");
@@ -494,7 +504,7 @@
         $('#ul-category3').html("");
         $('#text-category3').text("Выберите подкатегорию");
         $('#category3-container').attr("style", "display: inline-block");
-        categories.splice(1,2);
+        categories.splice(1, 2);
 
         var a2 = $(event.currentTarget).children('a'),
             category2Id = a2.attr("id");
@@ -589,7 +599,9 @@
             geocodeAddress(geocoder, map, infowindow);
         });
 
-        if (xhr) $.when(xhr).done(function(){geocodePlaceId(geocoder, map, infowindow)});
+        if (xhr) $.when(xhr).done(function () {
+            geocodePlaceId(geocoder, map, infowindow)
+        });
     }
 
     function geocodeAddress(geocoder, resultsMap, infowindow) {
@@ -611,7 +623,7 @@
     }
 
     function geocodePlaceId(geocoder, map, infowindow) {
-        if(placeKey) geocoder.geocode({'placeId': placeKey}, function (results, status) {
+        if (placeKey) geocoder.geocode({'placeId': placeKey}, function (results, status) {
             if (status === google.maps.GeocoderStatus.OK) {
                 if (results[0]) {
                     map.setZoom(11);
@@ -669,7 +681,8 @@
     Offer.prototype.setOfferPrice = setOfferPrice;
     Offer.prototype.setOfferCategories = setOfferCategories;
     Offer.prototype.setOfferOtherFields = setOfferOtherFields;
-    Offer.prototype.setOfferId= setOfferId;
+    Offer.prototype.setOfferId = setOfferId;
+    Offer.prototype.setModeratorMessage = setModeratorMessage;
     Offer.prototype.sendUpdatedOffer = sendUpdatedOffer;
 
     function createOffer(event) {
@@ -700,6 +713,7 @@
             .setOfferProperties()
             .setOfferPrice()
             .setOfferCategories()
+            .setModeratorMessage()
             .setOfferOtherFields();
 
         gupValidator.validate(offer);
@@ -727,7 +741,7 @@
     function readOfferData() {
         return $.ajax({
             type: "POST",
-            url: "/api/rest/offersService/offer/id/"+ offerId +"/read",
+            url: "/api/rest/offersService/offer/id/" + offerId + "/read",
             contentType: "application/json; charset=utf-8",
             dataType: "json"
         });
@@ -759,6 +773,17 @@
                 }
             }
         });
+    }
+
+
+    function setModeratorMessage() {
+        this.moderationMessage = {};
+        if (isUserAdmin(loggedInProfile)) {
+            if ($('#moderator-message').val() !== '') {
+                this.moderationMessage.message = $('#moderator-message').val();
+            }
+        }
+        return this;
     }
 
     function setOfferAddress() {
@@ -829,7 +854,7 @@
     }
 
     function setOfferCategories() {
-        if(categories.length) this.categories = categories;
+        if (categories.length) this.categories = categories;
         this.seoCategory = getLastCategory();
 
         return this;

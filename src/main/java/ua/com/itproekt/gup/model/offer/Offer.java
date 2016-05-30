@@ -51,6 +51,7 @@ public class Offer {
     private Boolean canBeReserved;
     private Boolean canBeRented;
     private Address address;
+    private ModerationMessage moderationMessage;
 
     public Offer setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -293,6 +294,15 @@ public class Offer {
         return this;
     }
 
+    public ModerationMessage getModerationMessage() {
+        return moderationMessage;
+    }
+
+    public Offer setModerationMessage(ModerationMessage moderationMessage) {
+        this.moderationMessage = moderationMessage;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Offer{" +
@@ -322,6 +332,7 @@ public class Offer {
                 ", canBeReserved=" + canBeReserved +
                 ", canBeRented=" + canBeRented +
                 ", address=" + address +
+                ", moderationMessage=" + moderationMessage +
                 '}';
     }
 }

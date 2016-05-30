@@ -1,5 +1,3 @@
-
-
 function getUrlParam(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
         sURLVariables = sPageURL.split('&'),
@@ -17,15 +15,15 @@ function getUrlParam(sParam) {
 
 $(document).ready(function () {
 
-    $('.mid > li').hover(function(){
+    $('.mid > li').hover(function () {
         $(this).children('.dropUl').stop();
         $(this).children('.dropUl').slideDown('fast')
-    }, function() {
+    }, function () {
         $(this).children('.dropUl').stop();
         $(this).children('.dropUl').slideUp('fast')
     });
 
-    $( ".mail > .dropDownMail > .answer" ).draggable({ snap: "header" });
+    $(".mail > .dropDownMail > .answer").draggable({snap: "header"});
 
     if (typeof flag != 'undefined') {
         var selectedService = $('#selectedService');
@@ -72,16 +70,16 @@ $(document).ready(function () {
         );
     });
 
-    $('body').click(function(event) {
+    $('body').click(function (event) {
         var elem = $(event.target);
-        if( $('.questionForm').css('marginLeft') === '0px' && !elem.hasClass('questionFormToggle')){
+        if ($('.questionForm').css('marginLeft') === '0px' && !elem.hasClass('questionFormToggle')) {
             $('.questionForm').animate({
                 marginLeft: '-250px'
             }, 'fast');
         }
     });
 
-    $(document).keyup(function(e) {
+    $(document).keyup(function (e) {
         if (e.keyCode == 27) {
             $('.questionForm').animate({
                 marginLeft: '-250px'
@@ -90,7 +88,7 @@ $(document).ready(function () {
     });
 
     $(".question-img").click(function () {
-       var questionForm = $('.questionForm');
+        var questionForm = $('.questionForm');
         questionForm.animate({
             marginLeft: 0
         }, 'fast');
@@ -305,9 +303,20 @@ $(document).ready(function () {
 
 });
 
-function findUser (userId) {
+function findUser(userId) {
     return $.ajax({
         type: "POST",
-        url: "/api/rest/profilesService/profile/read/id/" + userId,
+        url: "/api/rest/profilesService/profile/read/id/" + userId
     });
+}
+
+function isUserAdmin(loggedInProfile) {
+    var roleArray = loggedInProfile.userRoles;
+
+    for (var i = 0; i < roleArray.length; i++) {
+        if (roleArray[i] === 'ROLE_ADMIN') {
+            return true;
+        }
+    }
+    return false;
 }
