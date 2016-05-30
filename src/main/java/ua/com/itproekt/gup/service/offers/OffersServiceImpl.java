@@ -38,7 +38,7 @@ public class OffersServiceImpl implements OffersService {
                 .setAuthorId(offer.getAuthorId())
                 .setUserInfo(offer.getUserInfo())
                 .setCreatedDateEqualsToCurrentDate()
-                .setModerationStatus(ModerationStatus.COMPLETE)
+                .setModerationStatus(ModerationStatus.NO)
                 .setCategories(offer.getCategories())
                 .setProperties(offer.getProperties())
                 .setImagesIds(offer.getImagesIds())

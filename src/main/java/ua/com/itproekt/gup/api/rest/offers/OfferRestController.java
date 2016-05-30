@@ -117,18 +117,14 @@ public class OfferRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-
         Offer oldOffer;
         oldOffer = offersService.findById(offer.getId());
 
         String userId = SecurityOperations.getLoggedUserId();
-        if (!offersService.findById(offer.getId()).getAuthorId().equals(userId)) {
+
+        if (!offersService.findById(offer.getId()).getAuthorId().equals(userId) || !profilesService.isUserModerator(profilesService.findById(userId))) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
-//        ModerationStatus для админа
-//        if !Admin
-//        offer.setModerationStatus(null);
 
         String newTransiltTitle = Translit.makeTransliteration(offer.getTitle());
 
