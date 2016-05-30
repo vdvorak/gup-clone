@@ -15,7 +15,7 @@ $(document).ready(function () {
     var data;
     var offerFilterOptions = {};
     offerFilterOptions.skip = 0;
-    offerFilterOptions.limit = 10;
+    offerFilterOptions.limit = 50;
 
     $.ajax({
         type: "POST",
@@ -63,8 +63,8 @@ $(document).ready(function () {
             table
                 .on('select', function (e, dt, type, indexes) {
                     var rowData = table.rows(indexes).data().toArray();
-                    $("input[name='transactionId']").attr("value", rowData[0].id);
-                    $('#offerIdhref').attr("href", "/edit-offer/" + rowData[0].id);
+                    $("input[name='transactionId']").attr("value", rowData[0].seoUrl);
+                    $('#offerIdhref').attr("href", "/edit-offer/" + rowData[0].seoUrl);
                     $('#inp').removeAttr("readonly");
                     $('#editOfferButton').attr("class", "btn btn-danger");
                 })
