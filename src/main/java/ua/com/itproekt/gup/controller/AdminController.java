@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.tender.TenderService;
 
-/**
- * Created by RAYANT on 24.12.2015.
- */
 @Controller
 public class AdminController {
 
@@ -19,12 +16,6 @@ public class AdminController {
     @Autowired
     TenderService tenderService;
 
-
-    @RequestMapping("/admin*")
-    @PreAuthorize ("hasRole('ROLE_ADMIN')")
-    public String getAdminProfile() {
-        return "adminPage";
-    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin")
