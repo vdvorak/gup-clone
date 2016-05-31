@@ -6,10 +6,7 @@ import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.offers.OfferRepository;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
-import ua.com.itproekt.gup.model.offer.ModerationStatus;
-import ua.com.itproekt.gup.model.offer.Offer;
-import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
-import ua.com.itproekt.gup.model.offer.Reservation;
+import ua.com.itproekt.gup.model.offer.*;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.util.EntityPage;
@@ -110,7 +107,7 @@ public class OffersServiceImpl implements OffersService {
                 .setImagesIds(oldOffer.getImagesIds())
                 .setVideoUrl(oldOffer.getVideoUrl())
                 .setSeoUrl(oldOffer.getSeoUrl())
-                .setModerationMessage(oldOffer.getModerationMessage())
+                .setModerationMessage(moderateOffer(oldOffer.getModerationMessage()))
                 .setSeoCategory(oldOffer.getSeoCategory())
                 .setTitle(oldOffer.getTitle())
                 .setDescription(oldOffer.getDescription())
@@ -124,6 +121,13 @@ public class OffersServiceImpl implements OffersService {
                 .setCurrency(oldOffer.getCurrency());
 
         return offerRepository.findAndUpdate(newOffer);
+    }
+
+    @Override
+    public ModerationMessage moderateOffer(ModerationMessage moderationMessage) {
+        moderationMessage.setCreatedDateEqualsToCurrentDate();
+        moderationMessage.setIsRead(false);
+        return moderationMessage;
     }
 
     @Override

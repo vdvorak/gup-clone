@@ -122,8 +122,14 @@ public class OfferRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-        if (!offersService.findById(offer.getId()).getAuthorId().equals(userId) || !profilesService.isUserModerator(profilesService.findById(userId))) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        System.err.println("Avtor li?: " + offersService.findById(offer.getId()).getAuthorId().equals(userId)) ;
+        System.err.println("Moderator li?: " + profilesService.isUserModerator(profilesService.findById(userId))) ;
+
+        if (!offersService.findById(offer.getId()).getAuthorId().equals(userId)) {
+            if (!profilesService.isUserModerator(profilesService.findById(userId))){
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
         }
 
         String newTransiltTitle = Translit.makeTransliteration(offer.getTitle());

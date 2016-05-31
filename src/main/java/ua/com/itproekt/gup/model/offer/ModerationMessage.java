@@ -1,13 +1,20 @@
 package ua.com.itproekt.gup.model.offer;
 
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 public class ModerationMessage {
+    @Size(min = 5, max = 300)
     private String message;
     private Long createdDate;
     private boolean isRead;
+
+    public ModerationMessage setCreatedDateEqualsToCurrentDate() {
+        this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        return this;
+    }
 
     public String getMessage() {
         return message;

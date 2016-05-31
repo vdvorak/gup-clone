@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.service.offers;
 
+import ua.com.itproekt.gup.model.offer.ModerationMessage;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.itproekt.gup.model.offer.Reservation;
@@ -36,4 +37,6 @@ public interface OffersService {
     void setActive(String offerId, boolean isActive);
 
     Set<String> getMatchedNames(String name);
+
+    ModerationMessage moderateOffer(ModerationMessage moderationMessage);
 }

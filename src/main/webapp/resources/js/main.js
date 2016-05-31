@@ -314,7 +314,7 @@ function isUserAdmin(loggedInProfile) {
     var roleArray = loggedInProfile.userRoles;
 
     for (var i = 0; i < roleArray.length; i++) {
-        if (roleArray[i] === 'ROLE_ADMIN') {
+        if (roleArray[i] === 'ROLE_ADMIN' || roleArray[i] === 'ROLE_MODERATOR' || roleArray[i] === 'ROLE_SUPPORT') {
             return true;
         }
     }

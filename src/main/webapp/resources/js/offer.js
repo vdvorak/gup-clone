@@ -150,7 +150,7 @@ $('.show-number').on('click', function () {
 });
 
 if (typeof loggedInProfile != 'undefined') {
-    if (offer.authorId === loggedInProfile.id) {
+    if (offer.authorId === loggedInProfile.id || isUserAdmin(loggedInProfile)) {
         var editOfferLink = $('#edit-offer-link');
         editOfferLink.show();
         editOfferLink.attr('href', '/edit-offer/' + offer.seoUrl);
