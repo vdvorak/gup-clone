@@ -1,7 +1,3 @@
-/**
- * Created by Юля on 24.05.2016.
- */
-
 (function (namespace) {
 
     'use strict';
@@ -35,7 +31,6 @@
                 .append('<div class="anonymUser"><p><i class="fa fa-exclamation-circle"> Для создания объявления вам необходимо зарегистрироваться</i></p></div>');
             return;
         }
-
 
         if (isUserAdmin(loggedInProfile)) {
             $('.new-adv-box').prepend('<input type="text" id="moderator-message" placeholder="Сообщение модератора" value="">')
@@ -89,6 +84,10 @@
 
         drawLoadedAddress(offer.address);
         drawLoadedPhones(offer.userInfo.phoneNumbers);
+
+        if (offer.moderationMessage && !offer.moderationMessage.read) {
+            $('.new-adv-box').prepend('<div><span style="color: red">Сообщение от модератора: </span>' + offer.moderationMessage.message + '</div>')
+        }
 
     }
 
@@ -376,7 +375,7 @@
 
     //--------------------------- REGIONS LIST --------------------------------------------//
 
-    //--------------------------------- DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
+    //--------------------------------- DRAW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
 
     function selectPrice(event) {
         var selectVal = $(event.currentTarget).val(),
@@ -447,7 +446,7 @@
         }
     }
 
-//---------------------------- END DROW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
+//---------------------------- END DRAW SELECT AND INPUTS FOR CATEGORY ------------------------------------//
 
     //--------------------------------BEGIN CATEGORY-------------------------------------------------//
 
@@ -775,13 +774,14 @@
         });
     }
 
-
     function setModeratorMessage() {
         this.moderationMessage = {};
         if (isUserAdmin(loggedInProfile)) {
             if ($('#moderator-message').val() !== '') {
                 this.moderationMessage.message = $('#moderator-message').val();
             }
+        } else {
+            this.moderationMessage.isRead = true;
         }
         return this;
     }
