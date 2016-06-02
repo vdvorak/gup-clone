@@ -176,6 +176,8 @@ public class DialogueRestController {
 //            }
 //        }
 
+
+
         dialogues.stream().filter(d -> (d.getUnreadMsgCounter().get(userId) > 0))
                 .forEach(dialogue -> {
                     //find last msg (with latest date);
@@ -188,10 +190,8 @@ public class DialogueRestController {
                     //Change AuthorId in messages to UserPicId
                     Profile p = profileService.findById(msg.getAuthorId());
                     if (p != null && p.getImgId() != null) {
-                        if (p.getImgId() != null) {
-                            msg.setAuthorId(p.getImgId());
-                            msg.getWhoRead().remove(p.getImgId());
-                        }
+                        msg.setAuthorId(p.getImgId());
+                        msg.getWhoRead().remove(p.getImgId());
                     } else {
                         msg.setAuthorId("noImg");
                     }

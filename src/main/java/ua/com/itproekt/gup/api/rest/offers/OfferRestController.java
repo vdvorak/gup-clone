@@ -122,16 +122,16 @@ public class OfferRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-
-        System.err.println("Avtor li?: " + offersService.findById(offer.getId()).getAuthorId().equals(userId)) ;
-        System.err.println("Moderator li?: " + profilesService.isUserModerator(profilesService.findById(userId))) ;
-
         if (!offersService.findById(offer.getId()).getAuthorId().equals(userId)) {
             if (!profilesService.isUserModerator(profilesService.findById(userId))){
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         }
 
+        if (!profilesService.isUserModerator(profilesService.findById(userId))){
+            offer.getModerationMessage().setMessage(oldOffer.getModerationMessage().getMessage());
+        }
+        
         String newTransiltTitle = Translit.makeTransliteration(offer.getTitle());
 
         String newSeoUrl = newTransiltTitle + "-" + oldOffer.getSeoKey();
