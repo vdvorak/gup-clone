@@ -91,7 +91,7 @@ public class BlogPostRestController {
         
         blogPost.setAuthorId(userId);
         blogPostService.create(blogPost);
-        return new ResponseEntity<>(new CreatedObjResp(blogPost.getId()), HttpStatus.CREATED);
+        return new ResponseEntity<>(new CreatedObjResp(blogPost.getSeoUrl()), HttpStatus.CREATED);
     }
 
     //------------------------------------------ Update -----------------------------------------------------------------
