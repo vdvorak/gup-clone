@@ -180,7 +180,7 @@
         prepareImages();
         checkMainImg();
 
-        this.imagesIds = imgsArr;
+        this.imagesIds = imgsArrResult;
         return this;
     }
 
