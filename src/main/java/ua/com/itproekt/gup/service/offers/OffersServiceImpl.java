@@ -107,7 +107,7 @@ public class OffersServiceImpl implements OffersService {
                 .setImagesIds(oldOffer.getImagesIds())
                 .setVideoUrl(oldOffer.getVideoUrl())
                 .setSeoUrl(oldOffer.getSeoUrl())
-                .setModerationMessage(moderateOffer(oldOffer.getModerationMessage()))
+                .setModerationMessage(oldOffer.getModerationMessage())
                 .setSeoCategory(oldOffer.getSeoCategory())
                 .setTitle(oldOffer.getTitle())
                 .setDescription(oldOffer.getDescription())
@@ -123,12 +123,12 @@ public class OffersServiceImpl implements OffersService {
         return offerRepository.findAndUpdate(newOffer);
     }
 
-    @Override
-    public ModerationMessage moderateOffer(ModerationMessage moderationMessage) {
-        moderationMessage.setCreatedDateEqualsToCurrentDate();
-        moderationMessage.setIsRead(false);
-        return moderationMessage;
-    }
+//    @Override
+//    public ModerationMessage moderateOffer(ModerationMessage moderationMessage) {
+//        moderationMessage.setCreatedDateEqualsToCurrentDate();
+//        moderationMessage.setIsRead(false);
+//        return moderationMessage;
+//    }
 
     @Override
     public void reserveOffer(String offerId, Reservation reservation) {

@@ -123,15 +123,23 @@ public class OfferRestController {
         String userId = SecurityOperations.getLoggedUserId();
 
         if (!offersService.findById(offer.getId()).getAuthorId().equals(userId)) {
-            if (!profilesService.isUserModerator(profilesService.findById(userId))){
+            if (!profilesService.isUserModerator(profilesService.findById(userId))) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         }
 
-        if (!profilesService.isUserModerator(profilesService.findById(userId))){
+
+        if (profilesService.isUserModerator(profilesService.findById(userId))) {
+            offer.getModerationMessage().setCreatedDateEqualsToCurrentDate();
+            offer.getModerationMessage().setIsRead(false);
+            System.err.println("azza2");
+        } else {
+            System.err.println("azza1");
             offer.getModerationMessage().setMessage(oldOffer.getModerationMessage().getMessage());
+            offer.getModerationMessage().setIsRead(true);
         }
-        
+
+
         String newTransiltTitle = Translit.makeTransliteration(offer.getTitle());
 
         String newSeoUrl = newTransiltTitle + "-" + oldOffer.getSeoKey();

@@ -85,10 +85,15 @@
         drawLoadedAddress(offer.address);
         drawLoadedPhones(offer.userInfo.phoneNumbers);
 
-        if (offer.moderationMessage && !offer.moderationMessage.read) {
-            $('.new-adv-box').prepend('<div><span style="color: red">Сообщение от модератора: </span>' + offer.moderationMessage.message + '</div>')
+        if (isUserAdmin(loggedInProfile) && offer.moderationMessage) {
+            $('#moderator-message').val(offer.moderationMessage.message)
         }
 
+        if (offer.moderationMessage && !offer.moderationMessage.read && !isUserAdmin(loggedInProfile)) {
+            if (offer.moderationMessage.message !== null) {
+                $('.new-adv-box').prepend('<div><span style="color: red">Сообщение от модератора: </span>' + offer.moderationMessage.message + '</div>')
+            }
+        }
     }
 
     function drawLoadedPhones(phonesArr) {

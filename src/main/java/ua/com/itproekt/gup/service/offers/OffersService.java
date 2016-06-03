@@ -38,5 +38,5 @@ public interface OffersService {
 
     Set<String> getMatchedNames(String name);
 
-    ModerationMessage moderateOffer(ModerationMessage moderationMessage);
+//    ModerationMessage moderateOffer(ModerationMessage moderationMessage);
 }
