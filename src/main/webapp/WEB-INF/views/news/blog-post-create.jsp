@@ -208,6 +208,7 @@
 <script src="/resources/js/jquery.maskedinput.min.js"></script>
 <script src='https://cdn.tinymce.com/4/tinymce.min.js'></script>
 <script>
+    var flag = '${flag}';
     var blogId = '${blogId}';
 </script>
 <script src="/resources/js/blog-post-create.js"></script>
