@@ -19,6 +19,12 @@
     initBlogPost();
 
     function initBlogPost() {
+        if (typeof loggedInProfile == 'undefined') {
+            $('#blogCreation').empty()
+                .append('<div class="anonymUser"><p><i class="fa fa-exclamation-circle"> Для редактирования новости вам необходимо зарегистрироваться</i></p></div>');
+            return;
+        }
+
         initLoadBlogPostData();
         initTinymce();
         initEventHandlers();

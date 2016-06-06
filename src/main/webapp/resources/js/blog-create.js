@@ -1,5 +1,5 @@
 if (typeof loggedInProfile == 'undefined') {
-    $('#blog-create-container').empty().append('<div class="anonymUser"><p><i class="fa fa-exclamation-circle"> Для создания объявления вам необходимо зарегистрироваться</i></p></div>')
+    $('#blog-create-container').empty().append('<div class="anonymUser"><p><i class="fa fa-exclamation-circle"> Для создания блога вам необходимо зарегистрироваться</i></p></div>')
 }else{
     var imgId = '';
     var blog = {};
