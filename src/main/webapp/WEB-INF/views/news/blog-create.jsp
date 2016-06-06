@@ -81,7 +81,7 @@
                 <div class="blog-img">
                     <ul>
                         <li class="li-defaultIMG">
-                            <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImgFromDB()"></i></span>
+                            <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                             <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
                         </li>
                     </ul>

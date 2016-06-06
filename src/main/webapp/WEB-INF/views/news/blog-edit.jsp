@@ -85,7 +85,7 @@
                         <div class="blog-img">
                             <ul>
                                 <li>
-                                    <span class="descr"><i class="fa fa-trash-o fa-2x" onclick="deleteImg()"></i></span>
+                                    <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
                                     <img src="/api/rest/fileStorage/NEWS/file/read/id/${blog.imageId}" alt="">
                                 </li>
                             </ul>

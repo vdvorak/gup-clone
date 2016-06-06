@@ -1,12 +1,9 @@
-/**
- * Created by Юля on 01.06.2016.
- */
+
 (function () {
     'use strict';
 
     var cropper,
         imgId = '',
-        oldImgId = '',
         max_fields = 6,
         cur_fields = 1;
 
@@ -21,68 +18,14 @@
             return;
         }
 
-        var xhr = loadBlogData();
-        $.when(xhr).done(initBlogData).always(countTextLength);
-
         initEventHandlers();
-    }
-
-    function loadBlogData() {
-        return $.ajax({
-            type: "POST",
-            url: "/api/rest/newsService/blog/id/" + blogId + "/read",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json"
-        });
-    }
-
-    function initBlogData(blog) {
-        var imgId = blog.imageId,
-            oldImgId = imgId,
-            socialLinks = blog.socLinks,
-            firstFacebookLink = "";
-        for (var key in socialLinks) {
-            if (!firstFacebookLink && key === 'FACEBOOK') {
-                firstFacebookLink = socialLinks[key];
-                $('#blogCreationSocial').val(firstFacebookLink);
-            } else {
-                var newSocLink = addSocialLink(key)
-                newSocLink.children('input').val((key === 'SKYPE') ? socialLinks[key].substring(6, socialLinks[key].length - 5) : socialLinks[key]);
-            }
-        }
     }
 
     function initEventHandlers() {
         $("#blogCreationDescription").on('keyup', countTextLength);
         $(".img-responsive").click(onClickAddSocial);
-        $('.SendEdition').on('click', editBlog);
-        $('.blog-img').find('i').click(deleteImg);
+        $('button.SendEdition').on('click', createBlog);
         initImagesEventHandlers();
-        initDeleteBlogEventHandlers();
-    }
-
-    function initDeleteBlogEventHandlers() {
-        $('#btn-blog-delete').on('click', function () {
-            $("#confirmBlogDelete").show();
-        });
-
-        $('#cancelBlogDelBtn').on('click', function () {
-            $("#confirmBlogDelete").hide();
-        });
-
-        $('#confirmBlogDelBtn').on('click', makeRequestDeleteBlog);
-    }
-
-    function makeRequestDeleteBlog() {
-        return $.ajax({
-            type: "POST",
-            url: "/api/rest/newsService/blog/id/" + blogId + "/delete",
-            statusCode: {
-                204: function () {
-                    window.location.href = '/blogs-and-news';
-                }
-            }
-        });
     }
 
     function initImagesEventHandlers() {
@@ -120,7 +63,7 @@
 
         cropper.replace(dataURL);
         formData.append('file', blob);
-        if (imgId !== '') deleteImg();
+        if (imgId !== '') deleteImgFromDB();
 
         $.when(uploadImage(formData)).done(function (data) {
             imgId = data.id;
@@ -202,18 +145,14 @@
         evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
     }
 
-    function deleteImgFromDB(picId) {
-        $.ajax({
-            url: '/api/rest/fileStorage/NEWS/file/delete/id/' + picId,
-            method: 'POST'
-        });
-    }
-
-    function deleteImg() {
-        imgId = '';
+    function deleteImgFromDB() {
         var block = $('.blog-img ul');
         block.find('img').attr("src", "/resources/images/no_photo.jpg");
         block.find('li').addClass('li-defaultIMG');
+        $.ajax({
+            url: '/api/rest/fileStorage/NEWS/file/delete/id/' + imgId,
+            method: 'POST'
+        });
     }
 
     // --------------------------------------  END images  ----------------------------------------------
@@ -301,32 +240,30 @@
     // -------------------------------------------------------END soc network links --------------------------------------------
 
     ///------------------------- Upload Blog -----------------------------------------------//
-
-    function editBlog(event) {
+    function createBlog(event) {
         event.preventDefault();
         var blog = {};
-        blog.id = blogId;
         blog.title = $('#blogTitle').val();
         blog.description = $('#blogCreationDescription').val();
         blog.imageId = imgId;
-        if (oldImgId !== imgId) deleteImgFromDB(oldImgId);
         blog.socLinks = getSocLinks();
+
         gupValidator.validate(blog);
         if (!gupValidator.isValid) return;
 
-        sendUpdatedBlog(blog);
+        sendCreatedBlog(blog);
     }
 
-    function sendUpdatedBlog(blog) {
+    function sendCreatedBlog(blog) {
         return $.ajax({
             type: "POST",
-            url: "/api/rest/newsService/blog/edit",
+            url: "/api/rest/newsService/blog/create",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(blog),
             statusCode: {
                 200: function (response) {
-                    window.location.href = '/blog/' + blogSeoUrl;
+                    window.location.href = '/blog/' + response.id;
                 }
             }
         });
@@ -352,3 +289,4 @@
 
     ///------------------------- Other -----------------------------------------------//
 })();
+
