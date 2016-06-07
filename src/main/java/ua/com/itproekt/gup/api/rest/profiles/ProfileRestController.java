@@ -17,7 +17,6 @@ import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 

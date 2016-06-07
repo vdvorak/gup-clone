@@ -1,9 +1,5 @@
 package ua.com.itproekt.gup.api.rest.dialogues;
 
-/*
- * Created by Fairy on 27.01.2016.
- */
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

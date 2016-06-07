@@ -3,18 +3,14 @@ package ua.com.itproekt.gup.api.rest.offers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.bank_api.BankSession;
-import ua.com.itproekt.gup.model.activityfeed.Event;
-import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.OfferUserContactInfo;
 import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;

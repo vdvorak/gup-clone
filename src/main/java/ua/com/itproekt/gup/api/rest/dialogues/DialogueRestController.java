@@ -21,7 +21,6 @@ import ua.com.itproekt.gup.model.privatemessages.PrivateMessage;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.beans.PropertyEditorSupport;
 import java.io.IOException;

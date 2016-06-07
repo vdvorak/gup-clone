@@ -24,8 +24,6 @@ import ua.com.itproekt.gup.util.Oauth2Util;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.concurrent.TimeUnit;
-
 
 @RestController
 public class LoginRestController {
