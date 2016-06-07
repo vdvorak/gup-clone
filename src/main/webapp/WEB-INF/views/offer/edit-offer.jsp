@@ -356,7 +356,7 @@
 
 <jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
-<script src="/resources/js/offer-redactor.js"></script>
+<script src="/resources/js/offers/offer-redactor.js"></script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=offerRedactor.initMap"
         async defer></script>

@@ -44,13 +44,7 @@
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
 
 <div class="container2">
-    <jsp:include page="/WEB-INF/templates/top-news-block.jsp"/>
-
     <jsp:include page="/WEB-INF/templates/top-offers-block.jsp"/>
-
-    <jsp:include page="/WEB-INF/templates/top-tenders-block.jsp"/>
-
-    <jsp:include page="/WEB-INF/templates/top-projects-block.jsp"/>
 </div>
 
 <sec:authorize access="isAuthenticated()">
@@ -69,10 +63,7 @@
 
 <jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
-<script src="/resources/js/top-news-block.js"></script>
 <script src="/resources/js/top-offers-block.js"></script>
-<script src="/resources/js/top-tenders-block.js"></script>
-<script src="/resources/js/top-projects-block.js"></script>
 
 <jsp:include page="/WEB-INF/templates/yandex-metrika.jsp"/>
 

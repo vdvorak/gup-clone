@@ -52,12 +52,5 @@
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
-<jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
-
-<script src="/resources/js/top-news-block.js"></script>
-<script src="/resources/js/top-offers-block.js"></script>
-<script src="/resources/js/top-tenders-block.js"></script>
-<script src="/resources/js/top-projects-block.js"></script>
-
 </body>
 </html>

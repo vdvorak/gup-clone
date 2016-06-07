@@ -262,7 +262,7 @@
 <script>
     var offerId = "${offerId}";
 </script>
-<script src="/resources/js/offer.js"></script>
+<script src="/resources/js/offers/offer.js"></script>
 <script>
     $('.offer-info-slider .bx-wrapper img').click(function () {
         $('.modalSlider').css('display', 'block');

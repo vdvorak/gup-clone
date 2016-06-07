@@ -103,7 +103,7 @@
 </script>
 
 <jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
-<script src="/resources/js/offer-all.js"></script>
+<script src="/resources/js/offers/offer-all.js"></script>
 
 </body>
 </html>
