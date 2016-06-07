@@ -5,16 +5,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.service.tender.TenderService;
 
 @Controller
 public class AdminController {
 
     @Autowired
     ProfilesService profilesService;
-
-    @Autowired
-    TenderService tenderService;
 
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -33,30 +29,6 @@ public class AdminController {
     @RequestMapping("/admin-offers")
     public String getAdminOffers() {
         return "admin/admin-offers";
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping("/admin-tenders")
-    public String getAdminTenders() {
-        return "admin/admin-tenders";
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping("/admin-projects")
-    public String getAdminProjects() {
-        return "admin/admin-projects";
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping("/admin-news")
-    public String getAdminNews() {
-        return "admin/admin-news";
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping("/admin-blogs")
-    public String getAdminBlogs() {
-        return "admin/admin-blogs";
     }
 
     @RequestMapping("/admin-admins")

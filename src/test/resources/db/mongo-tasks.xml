@@ -7,21 +7,5 @@
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <task:scheduled-tasks scheduler="bringBackMoneyToInvestorsOfExpiredProjects">
-        <task:scheduled ref="projectServiceImpl" method="bringBackMoneyToInvestors"
-                        fixed-delay="${mongo.task.projectService.bringBackMoneyToInvestorsPeriod}" />
-        <!--<task:scheduled ref="projectServiceImpl" method="bringBackMoneyToInvestors"
-                        cron="0 0 4 * * *""/>-->
-    </task:scheduled-tasks>
 
-    <task:scheduler id="bringBackMoneyToInvestorsOfExpiredProjects"/>
-
-    <task:scheduled-tasks scheduler="checkClosedTenders">
-        <task:scheduled ref="tenderServiceImpl" method="checkClosedTendersAndSendActivityFeed"
-                        fixed-delay="${mongo.task.projectService.bringBackMoneyToInvestorsPeriod}" />
-        <!--<task:scheduled ref="tenderServiceImpl" method="checkClosedTendersAndSendActivityFeed"
-                        cron="0 0 4 * * *""/>-->
-    </task:scheduled-tasks>
-
-    <task:scheduler id="checkClosedTenders"/>
 </beans>

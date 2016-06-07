@@ -1,8 +1,5 @@
 package ua.com.itproekt.gup.util;
 
-
-import ua.com.itproekt.gup.model.news.Blog;
-import ua.com.itproekt.gup.model.news.BlogPost;
 import ua.com.itproekt.gup.model.offer.Offer;
 
 public class SeoUtils {
@@ -23,39 +20,6 @@ public class SeoUtils {
 
         return offer;
     }
-
-
-    public static Blog makeSeoFieldsForBlog(Blog blog, Long longValueOfSeoKey) {
-
-        String titleInTransliteration = Translit.makeTransliteration(blog.getTitle());
-
-        String base36ValueOfSeoKey = Base36Convertor.encode(longValueOfSeoKey);
-
-        blog.setSeoKey(base36ValueOfSeoKey);
-
-        String seoUrl = titleInTransliteration + "-" + base36ValueOfSeoKey;
-
-        blog.setSeoUrl(seoUrl);
-
-        return blog;
-    }
-
-
-    public static BlogPost makeSeoFieldsForBlogPost(BlogPost blogPost, Long longValueOfSeoKey) {
-
-        String titleInTransliteration = Translit.makeTransliteration(blogPost.getTitle());
-
-        String base36ValueOfSeoKey = Base36Convertor.encode(longValueOfSeoKey);
-
-        blogPost.setSeoKey(base36ValueOfSeoKey);
-
-        String seoUrl = titleInTransliteration + "-" + base36ValueOfSeoKey;
-
-        blogPost.setSeoUrl(seoUrl);
-
-        return blogPost;
-    }
-
 
     public static String getKey(String url) {
         return url.substring(url.lastIndexOf('-') + 1);
