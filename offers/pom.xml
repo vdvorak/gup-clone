@@ -1,0 +1,20 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>Offers Webapp</name>
+
+    <parent>
+        <groupId>ua.com.itproekt</groupId>
+        <artifactId>GUP</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <groupId>ua.com.itproekt</groupId>
+    <artifactId>offers</artifactId>
+    <version>${version}</version>
+
+    <packaging>war</packaging>
+
+    <dependencies>
+    </dependencies>
+</project>
