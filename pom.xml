@@ -29,7 +29,7 @@
 
     <modules>
         <module>client</module>
-        <!--<module>oauth</module>-->
-		<!--<module>offers</module>-->
+        <module>oauth</module>
+        <module>offers</module>
     </modules>
 </project>
