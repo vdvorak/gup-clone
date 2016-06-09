@@ -28,8 +28,8 @@
     <url>http://maven.apache.org</url>
 
     <modules>
-        <module>client</module>
         <module>oauth</module>
-        <module>offers</module>
+        <!--<module>offers</module>-->
+        <module>client</module>
     </modules>
 </project>

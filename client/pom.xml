@@ -230,10 +230,22 @@
             <!--<version>${org.springframework-version}</version>-->
         </dependency>
 
+        <dependency>
+            <groupId>ua.com.itproekt</groupId>
+            <artifactId>oauth</artifactId>
+            <version>${version}</version>
+        </dependency>
+
+        <!-- OAuth-2 -->
+        <dependency>
+            <groupId>ua.com.itproekt</groupId>
+            <artifactId>oauth</artifactId>
+            <version>${version}</version>
+        </dependency>
     </dependencies>
 
     <build>
-        <finalName>topjava</finalName>
+        <finalName>client</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
