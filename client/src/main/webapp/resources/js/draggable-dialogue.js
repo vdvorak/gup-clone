@@ -56,12 +56,17 @@ var ADialog = (function () {
         })
         this.handle.find('.close').click(function(event){
             currentDialogId = $(event.target).parent().attr('id').split('_')[0];
-            for(var x = 0; x < dialogues.length; x++){
-                if(dialogues[x].id === currentDialogId){
-                    dialogues[x].isOpenedOnce = false;
-                    break;
+
+            if (dialogues){
+
+                for(var x = 0; x < dialogues.length; x++){
+                    if(dialogues[x].id === currentDialogId){
+                        dialogues[x].isOpenedOnce = false;
+                        break;
+                    }
                 }
             }
+
             self.remove()
         })
     }

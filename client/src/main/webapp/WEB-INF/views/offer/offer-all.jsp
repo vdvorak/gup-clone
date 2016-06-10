@@ -6,7 +6,6 @@
 <head>
     <title>Объявления | Портал GUP</title>
 
-
     <title>Объявления на Gup</title>
     <meta name="description"
           content="Global Ukrainian Portal - твой украинский портал. Актуальные новости, объявления, интересные проекты и тендеры.">
@@ -52,6 +51,8 @@
 <!--END 2nd section -->
 
 <div class="container2">
+
+    <div id="map" style="width: 500px; height: 400px;"></div>
 
     <div class="contentContainer" style="padding: 5px;">
         <a href="/create-offer">
@@ -102,8 +103,18 @@
     var flag = '${flag}';
 </script>
 
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true"></script>
+
+
 <jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
+
 <script src="/resources/js/offers/offer-all.js"></script>
+
+<script>
+
+</script>
+
 
 </body>
 </html>

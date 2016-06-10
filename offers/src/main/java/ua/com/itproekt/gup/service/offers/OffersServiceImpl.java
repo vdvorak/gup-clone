@@ -87,7 +87,6 @@ public class OffersServiceImpl implements OffersService {
         if (imagesIds != null) {
             storageRepository.delete(ServiceNames.OFFERS.toString(), imagesIds.keySet());
         }
-
         offerRepository.delete(id);
     }
 

@@ -38,7 +38,7 @@
             data: JSON.stringify(utils),
             statusCode: {
                 200: function (data, textStatus, request) {
-                    drawOffers(data.entities);
+                    drawOffers(data.entities, utils.address);
                 },
                 204: function (data, textStatus, request) {
                     drawNoFoundOffers();
@@ -90,11 +90,11 @@
             if (offerObj.currency) {
                 priceStr = priceStr + " " + getCurrency(offerObj.currency);
             }
-        } else if(priceType === 'free') {
+        } else if (priceType === 'free') {
             priceStr = 'Бесплатно';
-        } else if(priceType === 'arranged') {
+        } else if (priceType === 'arranged') {
             priceStr = 'Договорная';
-        } else if(priceType === 'exchange') {
+        } else if (priceType === 'exchange') {
             priceStr = 'Обмен';
         }
         return priceStr;
@@ -104,8 +104,8 @@
         var arr = offerObj.properties,
             type = '';
 
-        for(var i = 0; i < arr.length; i++) {
-            if(arr[i].key === 'price') {
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i].key === 'price') {
                 type = arr[i].value;
                 break;
             }
@@ -146,9 +146,20 @@
         return newLi;
     }
 
-    function drawOffers(offersArr) {
+    function drawOffers(offersArr, address) {
         $('#offers-notFound').css('display', 'none');
         $('#h2-top-offers').css('display', 'block');
+
+        if (address.city) {
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({'address': 'Украина ' + address.area + ' ' + address.city}, function (results, status) {
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+                map.setCenter(results[0].geometry.location);
+                map.fitBounds(results[0].geometry.viewport);
+            });
+        }
 
         var count = 0;
         var maxCount = 5;
