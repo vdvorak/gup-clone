@@ -592,7 +592,7 @@
         });
 
         var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 17,
+            zoom: 10,
             center: {lat: 50.4501, lng: 30.523400000000038}
         });
 
@@ -614,6 +614,7 @@
             placeKey = results[0].place_id;
             if (status === google.maps.GeocoderStatus.OK) {
                 resultsMap.setCenter(results[0].geometry.location);
+                resultsMap.fitBounds(results[0].geometry.viewport);
                 var marker = new google.maps.Marker({
                     map: resultsMap,
                     position: results[0].geometry.location
