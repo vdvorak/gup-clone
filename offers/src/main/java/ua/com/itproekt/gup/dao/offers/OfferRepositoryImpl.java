@@ -182,8 +182,7 @@ public class OfferRepositoryImpl implements OfferRepository {
 //        System.err.println("****** explainQuery ******\n" +
 //                MongoTemplateOperations.explainQuery("offers", query));
 
-        return new EntityPage<>(mongoTemplate.count(query, Offer.class),
-                mongoTemplate.find(query, Offer.class));
+        return new EntityPage<>(mongoTemplate.count(query, Offer.class), mongoTemplate.find(query, Offer.class));
     }
 
     @Override

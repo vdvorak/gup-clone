@@ -38,6 +38,7 @@
             data: JSON.stringify(utils),
             statusCode: {
                 200: function (data, textStatus, request) {
+                    console.log(JSON.stringify(data.entities));
                     drawOffers(data.entities);
                 },
                 204: function (data, textStatus, request) {
