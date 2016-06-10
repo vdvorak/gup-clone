@@ -29,6 +29,7 @@
 
     <modules>
         <module>oauth</module>
+        <module>socket</module>
         <module>offers</module>
         <module>client</module>
     </modules>

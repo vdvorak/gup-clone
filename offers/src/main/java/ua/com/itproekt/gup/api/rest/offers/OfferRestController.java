@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.com.itproekt.gup.api.rest.dto.OfferInfo;
 import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
@@ -46,21 +47,13 @@ public class OfferRestController {
         return new ResponseEntity<>(offer, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EntityPage<Offer>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO,
-                                                             HttpServletRequest request) {
+    @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
+    public EntityPage<OfferInfo> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
         if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             offerFO.setActive(true);
             offerFO.setModerationStatus(ModerationStatus.COMPLETE);
         }
-
-        EntityPage<Offer> offers = offersService.findOffersWihOptions(offerFO);
-
-        if (offers.getEntities().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(offers, HttpStatus.OK);
+        return ModelUtil.toModel(offersService.findOffersWihOptions(offerFO));
     }
 
     //------------------------------------------ Create -----------------------------------------------------------------
