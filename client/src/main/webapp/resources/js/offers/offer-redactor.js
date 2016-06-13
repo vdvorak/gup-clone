@@ -12,8 +12,8 @@
         picArrNew = [],
 
         categories = [],
-        lat = 50.401699,
-        lng = 30.252512,
+        lat = '',
+        lng = '',
         placeKey = '';
 
     // ---------------    TOOLTIP    --------------------------//
@@ -21,7 +21,7 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
-    })
+    });
     // ---------------    TOOLTIP    --------------------------//
 
     // ---------------    INIT    --------------------------//
@@ -894,7 +894,7 @@
         if (currentString.length <= 50) {  /*or whatever your number is*/
             counter.css("color", "red");
         } else {
-            if (currentString.length > 500) {
+            if (currentString.length > 4000) {
                 counter.css("color", "red");
             } else {
                 counter.css("color", "green");

@@ -150,6 +150,15 @@
         $('#offers-notFound').css('display', 'none');
         $('#h2-top-offers').css('display', 'block');
 
+
+        console.log("Azza: " + JSON.stringify(offersArr))
+
+
+        var locations = getLocationsForMap(offersArr);
+
+        console.log("Arr: " + JSON.stringify(locations))
+
+
         if (address.city) {
             var geocoder = new google.maps.Geocoder();
             geocoder.geocode({'address': 'Украина ' + address.area + ' ' + address.city}, function (results, status) {
@@ -158,7 +167,37 @@
                 });
                 map.setCenter(results[0].geometry.location);
                 map.fitBounds(results[0].geometry.viewport);
+
+                var infowindow = new google.maps.InfoWindow();
+                var marker, i;
+                for (i = 0; i < locations.length; i++) {
+                    marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                        icon: locations[i][3],
+                        map: map
+                    });
+
+                    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                        return function () {
+                            console.log("plplplp: " + marker);
+                            infowindow.setContent(locations[i][0]);
+                            infowindow.open(map, marker);
+                        }
+                    })(marker, i));
+                }
+
+
+
             });
+
+
+
+
+
+
+
+
+
         }
 
         var count = 0;
@@ -628,6 +667,21 @@
         redirectToOfferAll(url);
     }
 
+    function getLocationsForMap(offers) {
+        var result = [];
+        for (var i = 0; i < offers.length; i++) {
+            if (offers[i].address.lat) {
+                var arr = [];
+                arr.push("azaza");
+                arr.push(offers[i].address.lat);
+                arr.push(offers[i].address.lng);
+                arr.push("http://maps.google.com/mapfiles/ms/micons/yellow.png");
+                result.push(arr)
+            }
+        }
+        return result;
+    }
+
     namespace.filter = utils;
 
     namespace.submitFilter = submitFilter;
@@ -650,6 +704,7 @@
     namespace.redirectToOfferAllByRegion = redirectToOfferAllByRegion;
     namespace.redirectToOfferAllByBreadcrumbs = redirectToOfferAllByBreadcrumbs;
     namespace.filterOffersByAuthor = filterOffersByAuthor;
+    namespace.getLocationsForMap = getLocationsForMap;
 
     namespace.getIdCategory1Lvl = getIdCategory1Lvl;
     namespace.selectFilterPrice = selectFilterPrice;
