@@ -12,6 +12,8 @@
         picArrNew = [],
 
         categories = [],
+        lat = 50.401699,
+        lng = 30.252512,
         placeKey = '';
 
     // ---------------    TOOLTIP    --------------------------//
@@ -586,9 +588,9 @@
 
         google.maps.event.addListener(autocomplete, 'place_changed', function () {
             var place = autocomplete.getPlace(); //получаем место
-            console.log(place);
-            console.log(place.name);  //название места
-            console.log(place.id);  //уникальный идентификатор места
+            //console.log(place);
+            //console.log(place.name);  //название места
+            //console.log(place.id);  //уникальный идентификатор места
         });
 
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -612,6 +614,8 @@
         var address = document.getElementById('address').value;
         geocoder.geocode({'address': address}, function (results, status) {
             placeKey = results[0].place_id;
+            lat = results[0].geometry.location.lat();
+            lng = results[0].geometry.location.lng();
             if (status === google.maps.GeocoderStatus.OK) {
                 resultsMap.setCenter(results[0].geometry.location);
                 resultsMap.fitBounds(results[0].geometry.viewport);
@@ -798,6 +802,8 @@
 
         this.address = {};
         this.address.coordinates = placeKey;
+        this.address.lat = lat;
+        this.address.lng = lng;
         this.address.country = 'Украина';
 
         if (city !== 'Выберите город' && city !== 'Все города') this.address.city = city;

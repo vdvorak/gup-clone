@@ -1,5 +1,7 @@
 package ua.com.itproekt.gup.model.offer;
 
+import java.math.BigDecimal;
+
 public class Address {
     private String coordinates;
     private String country;
@@ -7,6 +9,8 @@ public class Address {
     private String city;
     private String district;
     private String street;
+    private BigDecimal lat;
+    private BigDecimal lng;
 
     public String getDistrict() {
         return district;
@@ -54,5 +58,21 @@ public class Address {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public BigDecimal getLat() {
+        return lat;
+    }
+
+    public void setLat(BigDecimal lat) {
+        this.lat = lat;
+    }
+
+    public BigDecimal getLng() {
+        return lng;
+    }
+
+    public void setLng(BigDecimal lng) {
+        this.lng = lng;
     }
 }
