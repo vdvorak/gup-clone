@@ -38,7 +38,9 @@
             data: JSON.stringify(utils),
             statusCode: {
                 200: function (data, textStatus, request) {
-                    drawOffers(data.entities, utils.address);
+                    if(data.entities.length>1){
+                        drawOffers(data.entities, utils.address)
+                    }
                 },
                 204: function (data, textStatus, request) {
                     drawNoFoundOffers();
@@ -150,13 +152,12 @@
         $('#offers-notFound').css('display', 'none');
         $('#h2-top-offers').css('display', 'block');
 
-
-        console.log("Azza: " + JSON.stringify(offersArr))
+        //console.log("Azza: " + JSON.stringify(offersArr))
 
 
         var locations = getLocationsForMap(offersArr);
 
-        console.log("Arr: " + JSON.stringify(locations))
+        //console.log("Arr: " + JSON.stringify(locations))
 
 
         if (address.city) {
@@ -168,6 +169,12 @@
                 map.setCenter(results[0].geometry.location);
                 map.fitBounds(results[0].geometry.viewport);
 
+
+
+
+
+
+
                 var infowindow = new google.maps.InfoWindow();
                 var marker, i;
                 for (i = 0; i < locations.length; i++) {
@@ -177,10 +184,24 @@
                         map: map
                     });
 
+
+                    //var content = '<div id="iw_container">' +
+                    //    '<div class="iw_title">' + locations[i][0] +'</div>' +
+                    //    '<div class="iw_content">Visit the cod aquarium at the Maritime Museum of Ílhavo.</div>' +
+                    //    '</div>';
+
+
+                    //infowindow.setContent(content);
+
+
                     google.maps.event.addListener(marker, 'click', (function (marker, i) {
                         return function () {
-                            console.log("plplplp: " + marker);
-                            infowindow.setContent(locations[i][0]);
+                            //infowindow.setContent(locations[i][0]);
+                            infowindow.setContent('<div id="iw_container">' +
+                            '<div class="iw_title">' + locations[i][0] +'</div>' +
+                            '<div class="iw_content">Visit the cod aquarium at the Maritime Museum of Ílhavo.</div>' +
+                            '</div>');
+
                             infowindow.open(map, marker);
                         }
                     })(marker, i));
@@ -672,7 +693,7 @@
         for (var i = 0; i < offers.length; i++) {
             if (offers[i].address.lat) {
                 var arr = [];
-                arr.push("azaza");
+                arr.push(offers[i].title);
                 arr.push(offers[i].address.lat);
                 arr.push(offers[i].address.lng);
                 arr.push("http://maps.google.com/mapfiles/ms/micons/yellow.png");
