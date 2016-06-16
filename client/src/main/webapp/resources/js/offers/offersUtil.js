@@ -164,8 +164,6 @@
             clusterMap.markers = [];
             clusterMap.infoWindow = null;
 
-
-            //-------------------------------
             clusterMap.markerClickFunction = function (offer, latlng) {
                 return function (e) {
                     e.cancelBubble = true;
@@ -175,17 +173,16 @@
                         e.preventDefault();
                     }
                     var title = offer.title;
-                    var url = '#';
-                    var fileurl = '#';
+                    var url = '/obyavlenie/' + offer.seoUrl;
+                    var fileurl = getSrcOfMainImg(offer.imagesIds);
+                    var mapPrice = getPriceStr(offer);
 
-                    var infoHtml = '<div class="info"><h3>' + title +
-                        '</h3><div class="info-body">' +
+                    var infoHtml = '<div class="cluster-map-info"><h3>' + title +
+                        '</h3><div>' + mapPrice +'</div><div class="cluster-map-info-body">' +
                         '<a href="' + url + '" target="_blank"><img src="' +
-                        fileurl + '" class="info-img"/></a></div>' +
-                        '<a href="http://www.panoramio.com/" target="_blank">' +
-                        '<img src="http://maps.google.com/intl/en_ALL/mapfiles/' +
-                        'iw_panoramio.png"/></a><br/>' +
-                        '<a href="' + '#' + '" target="_blank">' + 'ЧТО-ТО' +
+                        fileurl + '" class="cluster-map-info-img"/></a></div>' +
+                        '<br/>' +
+                        '<a href="' + url + '" target="_blank">' + 'Перейти к объявлению' +
                         '</a></div></div>';
 
                     clusterMap.infoWindow.setContent(infoHtml);
@@ -193,13 +190,9 @@
                     clusterMap.infoWindow.open(clusterMap.map);
                 };
             };
-            //-------------------------------
 
-            //-------------------------------
             clusterMap.showMarkers = function () {
                 clusterMap.markers = [];
-
-                var type = 1;
 
                 if (clusterMap.markerClusterer) {
                     clusterMap.markerClusterer.clearMarkers();
@@ -240,7 +233,7 @@
             var geocoder = new google.maps.Geocoder();
 
             geocoder.geocode({'address': 'Украина ' + address.area + ' ' + address.city}, function (results, status) {
-                clusterMap.map = new google.maps.Map(document.getElementById('map'), {
+                clusterMap.map = new google.maps.Map(document.getElementById('cluster-map'), {
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 });
                 clusterMap.map.setCenter(results[0].geometry.location);

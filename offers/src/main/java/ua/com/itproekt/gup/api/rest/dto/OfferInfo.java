@@ -18,6 +18,7 @@ public class OfferInfo {
     private Currency currency;
     private List<Property> properties;
     private Address address;
+    private String seoUrl;
 
     public String getTitle() {
         return title;
@@ -73,5 +74,13 @@ public class OfferInfo {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getSeoUrl() {
+        return seoUrl;
+    }
+
+    public void setSeoUrl(String seoUrl) {
+        this.seoUrl = seoUrl;
     }
 }
