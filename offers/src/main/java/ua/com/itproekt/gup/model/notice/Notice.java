@@ -3,9 +3,7 @@ package ua.com.itproekt.gup.model.notice;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-/**
- * Created by Комп2 on 17.11.2015.
- */
+
 @Document(collection = "notice")
 public class Notice {
     @Id
