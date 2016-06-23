@@ -97,7 +97,7 @@
                                             $scope.errorEmail = data.errors.email;
                                             $scope.errorPassword = data.errors.password;
                                         } else {
-                                            window.location.assign("/index"); //window.location.assign("http://localhost:8081/index");
+                                            window.location.assign("/index");
                                         }
                                     })
                                     .error(function(data, status) {

@@ -5526,3 +5526,34 @@ body > .err > i > i {
     color: #545454;
     font: 400 9px DroidSans;
 }
+
+
+/*Google map claster*/
+
+#cluster-map {
+    width: 100%;
+    height: 550px;
+}
+
+.cluster-map-info {
+    width: 200px;
+}
+.cluster-map-info img {
+    border: 0;
+}
+.cluster-map-info-body {
+    width: 200px;
+    height: 200px;
+    line-height: 200px;
+    margin: 2px 0;
+    text-align: center;
+    overflow: hidden;
+}
+.cluster-map-info-img {
+    height: 220px;
+    width: 200px;
+}
+
+.gm-style-iw > div > div {
+    overflow: hidden !important;
+}

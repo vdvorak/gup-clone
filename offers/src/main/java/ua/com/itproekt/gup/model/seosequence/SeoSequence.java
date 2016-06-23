@@ -19,13 +19,20 @@ public class SeoSequence {
         this.id = id;
     }
 
-
     public Long getSeoKey() {
         return seq;
     }
 
     public void setSeoKey(Long seoKey) {
         this.seq = seoKey;
+    }
+
+    public long getSeq() {
+        return seq;
+    }
+
+    public void setSeq(long seq) {
+        this.seq = seq;
     }
 
     @Override

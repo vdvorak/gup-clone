@@ -13,6 +13,7 @@ import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.service.reservationSchedule.ReservationScheduleService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 @RestController
@@ -27,6 +28,9 @@ public class OfferReservationRestController {
 
     @Autowired
     BankSession bankSession;
+
+    @Autowired
+    ReservationScheduleService reservationScheduleService;
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/id/{offerId}/reserve", method = RequestMethod.POST)
@@ -51,8 +55,15 @@ public class OfferReservationRestController {
                         .setEmail(profile.getEmail())
                         .setPhoneNumbers(profile.getContact().getContactPhones())
                         .setSkypeLogin(profile.getContact().getSkypeUserName()));
-        offersService.reserveOffer(offerId, reservation);
-        bankSession.investInOrganization(5555, userId, 5L, 30, "success");
+
+
+        if (bankSession.getUserBalance(userId) > 5) {
+            offersService.reserveOffer(offerId, reservation);
+            bankSession.investInOrganization(5555, userId, 5L, 30, "success");
+            reservationScheduleService.add(offerId);
+        }
+
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -38,7 +38,9 @@
             data: JSON.stringify(utils),
             statusCode: {
                 200: function (data, textStatus, request) {
-                    drawOffers(data.entities, utils.address);
+                    if (data.entities.length > 1) {
+                        drawOffers(data.entities, utils.address)
+                    }
                 },
                 204: function (data, textStatus, request) {
                     drawNoFoundOffers();
@@ -150,16 +152,97 @@
         $('#offers-notFound').css('display', 'none');
         $('#h2-top-offers').css('display', 'block');
 
+        var locations = getLocationsForMap(offersArr);
+
         if (address.city) {
+
+            var clusterMap = {};
+
+            clusterMap.pics = null;
+            clusterMap.map = null;
+            clusterMap.markerClusterer = null;
+            clusterMap.markers = [];
+            clusterMap.infoWindow = null;
+
+            clusterMap.markerClickFunction = function (offer, latlng) {
+                return function (e) {
+                    e.cancelBubble = true;
+                    e.returnValue = false;
+                    if (e.stopPropagation) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                    }
+                    var title = offer.title;
+                    var url = '/obyavlenie/' + offer.seoUrl;
+                    var fileurl = getSrcOfMainImg(offer.imagesIds);
+                    var mapPrice = getPriceStr(offer);
+
+                    var infoHtml = '<div class="cluster-map-info"><h3>' + title +
+                        '</h3><div>' + mapPrice +'</div><div class="cluster-map-info-body">' +
+                        '<a href="' + url + '" target="_blank"><img src="' +
+                        fileurl + '" class="cluster-map-info-img"/></a></div>' +
+                        '<br/>' +
+                        '<a href="' + url + '" target="_blank">' + 'Перейти к объявлению' +
+                        '</a></div></div>';
+
+                    clusterMap.infoWindow.setContent(infoHtml);
+                    clusterMap.infoWindow.setPosition(latlng);
+                    clusterMap.infoWindow.open(clusterMap.map);
+                };
+            };
+
+            clusterMap.showMarkers = function () {
+                clusterMap.markers = [];
+
+                if (clusterMap.markerClusterer) {
+                    clusterMap.markerClusterer.clearMarkers();
+                }
+
+                var length = offersArr.length; // ------- Кол-во элементов. Брать из массива ------------
+
+                for (var i = 0; i < length; i++) {
+                    var titleText = offersArr[i].photo_title;
+                    if (titleText === '') {
+                        titleText = 'No title';
+                    }
+
+                    var latLng = new google.maps.LatLng(offersArr[i].address.lat,
+                        offersArr[i].address.lng);
+
+                    var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&chco=' +
+                        'FFFFFF,008CFF,000000&ext=.png';
+                    var markerImage = new google.maps.MarkerImage(imageUrl,
+                        new google.maps.Size(24, 32));
+
+                    var marker = new google.maps.Marker({
+                        'position': latLng,
+                        'icon': markerImage
+                    });
+
+                    var fn = clusterMap.markerClickFunction(offersArr[i], latLng);
+                    google.maps.event.addListener(marker, 'click', fn);
+                    clusterMap.markers.push(marker);
+                }
+                window.setTimeout(clusterMap.time, 0);
+            };
+
+            clusterMap.time = function () {
+                clusterMap.markerClusterer = new MarkerClusterer(clusterMap.map, clusterMap.markers, {imagePath: '/resources/images/m'});
+            };
+
             var geocoder = new google.maps.Geocoder();
+
             geocoder.geocode({'address': 'Украина ' + address.area + ' ' + address.city}, function (results, status) {
-                var map = new google.maps.Map(document.getElementById('map'), {
+                clusterMap.map = new google.maps.Map(document.getElementById('cluster-map'), {
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 });
-                map.setCenter(results[0].geometry.location);
-                map.fitBounds(results[0].geometry.viewport);
+                clusterMap.map.setCenter(results[0].geometry.location);
+                clusterMap.map.fitBounds(results[0].geometry.viewport);
+                clusterMap.infoWindow = new google.maps.InfoWindow();
+                clusterMap.showMarkers();
             });
         }
+
 
         var count = 0;
         var maxCount = 5;
@@ -628,6 +711,21 @@
         redirectToOfferAll(url);
     }
 
+    function getLocationsForMap(offers) {
+        var result = [];
+        for (var i = 0; i < offers.length; i++) {
+            if (offers[i].address.lat) {
+                var arr = [];
+                arr.push(offers[i].title);
+                arr.push(offers[i].address.lat);
+                arr.push(offers[i].address.lng);
+                arr.push("http://maps.google.com/mapfiles/ms/micons/yellow.png");
+                result.push(arr)
+            }
+        }
+        return result;
+    }
+
     namespace.filter = utils;
 
     namespace.submitFilter = submitFilter;
@@ -650,6 +748,7 @@
     namespace.redirectToOfferAllByRegion = redirectToOfferAllByRegion;
     namespace.redirectToOfferAllByBreadcrumbs = redirectToOfferAllByBreadcrumbs;
     namespace.filterOffersByAuthor = filterOffersByAuthor;
+    namespace.getLocationsForMap = getLocationsForMap;
 
     namespace.getIdCategory1Lvl = getIdCategory1Lvl;
     namespace.selectFilterPrice = selectFilterPrice;
