@@ -1,6 +1,5 @@
 package ua.com.itproekt.gup.api.rest.dto;
 
-import ua.com.itproekt.gup.model.offer.Address;
 import ua.com.itproekt.gup.model.offer.Currency;
 import ua.com.itproekt.gup.model.offer.Property;
 
@@ -17,8 +16,6 @@ public class OfferInfo {
     private Integer price;
     private Currency currency;
     private List<Property> properties;
-    private Address address;
-    private String seoUrl;
 
     public String getTitle() {
         return title;
@@ -66,21 +63,5 @@ public class OfferInfo {
 
     public void setProperties(List<Property> properties) {
         this.properties = properties;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public String getSeoUrl() {
-        return seoUrl;
-    }
-
-    public void setSeoUrl(String seoUrl) {
-        this.seoUrl = seoUrl;
     }
 }

@@ -230,12 +230,27 @@
             <!--<version>${org.springframework-version}</version>-->
         </dependency>
 
+        <!-- Profile -->
+        <!--<dependency>-->
+            <!--<groupId>ua.com.itproekt</groupId>-->
+            <!--<artifactId>profile</artifactId>-->
+            <!--<version>${version}</version>-->
+        <!--</dependency>-->
+
+        <!-- OAuth-2 -->
+        <dependency>
+        <groupId>ua.com.itproekt</groupId>
+        <artifactId>oauth</artifactId>
+        <version>${version}</version>
+        </dependency>
+
         <!-- WebSocket -->
         <dependency>
             <groupId>ua.com.itproekt</groupId>
             <artifactId>socket</artifactId>
             <version>${version}</version>
         </dependency>
+
 		<!-- Offers -->
         <dependency>
             <groupId>ua.com.itproekt</groupId>

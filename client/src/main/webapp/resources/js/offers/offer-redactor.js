@@ -12,8 +12,6 @@
         picArrNew = [],
 
         categories = [],
-        lat = '',
-        lng = '',
         placeKey = '';
 
     // ---------------    TOOLTIP    --------------------------//
@@ -21,7 +19,7 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
-    });
+    })
     // ---------------    TOOLTIP    --------------------------//
 
     // ---------------    INIT    --------------------------//
@@ -588,9 +586,9 @@
 
         google.maps.event.addListener(autocomplete, 'place_changed', function () {
             var place = autocomplete.getPlace(); //получаем место
-            //console.log(place);
-            //console.log(place.name);  //название места
-            //console.log(place.id);  //уникальный идентификатор места
+            console.log(place);
+            console.log(place.name);  //название места
+            console.log(place.id);  //уникальный идентификатор места
         });
 
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -614,8 +612,6 @@
         var address = document.getElementById('address').value;
         geocoder.geocode({'address': address}, function (results, status) {
             placeKey = results[0].place_id;
-            lat = results[0].geometry.location.lat();
-            lng = results[0].geometry.location.lng();
             if (status === google.maps.GeocoderStatus.OK) {
                 resultsMap.setCenter(results[0].geometry.location);
                 resultsMap.fitBounds(results[0].geometry.viewport);
@@ -802,8 +798,6 @@
 
         this.address = {};
         this.address.coordinates = placeKey;
-        this.address.lat = lat;
-        this.address.lng = lng;
         this.address.country = 'Украина';
 
         if (city !== 'Выберите город' && city !== 'Все города') this.address.city = city;
@@ -894,7 +888,7 @@
         if (currentString.length <= 50) {  /*or whatever your number is*/
             counter.css("color", "red");
         } else {
-            if (currentString.length > 4000) {
+            if (currentString.length > 500) {
                 counter.css("color", "red");
             } else {
                 counter.css("color", "green");

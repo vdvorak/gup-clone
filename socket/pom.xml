@@ -230,16 +230,10 @@
             <!--<version>${org.springframework-version}</version>-->
         </dependency>
 
-        <!-- OAuth-2 -->
+        <!-- Profile -->
         <dependency>
             <groupId>ua.com.itproekt</groupId>
-            <artifactId>oauth</artifactId>
-            <version>${version}</version>
-        </dependency>
-        <!-- Offers -->
-        <dependency>
-            <groupId>ua.com.itproekt</groupId>
-            <artifactId>offers</artifactId>
+            <artifactId>profile</artifactId>
             <version>${version}</version>
         </dependency>
     </dependencies>

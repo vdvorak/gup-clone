@@ -230,6 +230,12 @@
             <!--<version>${org.springframework-version}</version>-->
         </dependency>
 
+        <!-- Profile -->
+        <dependency>
+            <groupId>ua.com.itproekt</groupId>
+            <artifactId>profile</artifactId>
+            <version>${version}</version>
+        </dependency>
     </dependencies>
 
     <build>

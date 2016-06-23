@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.dao.dialogue.DialogueRepository;
-import ua.com.itproekt.gup.model.offer.Offer;
+//import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.privatemessages.Dialogue;
 import ua.com.itproekt.gup.model.privatemessages.DialogueFilterOption;
 import ua.com.itproekt.gup.model.privatemessages.Member;
