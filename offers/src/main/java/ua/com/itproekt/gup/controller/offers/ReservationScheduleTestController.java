@@ -5,8 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.com.itproekt.gup.service.reservationSchedule.ReservationScheduleService;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @Controller
 public class ReservationScheduleTestController {
@@ -14,7 +12,6 @@ public class ReservationScheduleTestController {
 
     @Autowired
     ReservationScheduleService reservationScheduleService;
-
 
     @RequestMapping("/addTestSchedulePoints")
     public void addTestSchedulePoints() {
