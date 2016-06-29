@@ -14,8 +14,8 @@ public class ReservationScheduleTestController {
     ReservationScheduleService reservationScheduleService;
 
 
-    @Autowired
-    private SessionRegistry sessionRegistry;
+//    @Autowired
+//    private SessionRegistry sessionRegistry;
 
 
     @RequestMapping("/addTestSchedulePoints")

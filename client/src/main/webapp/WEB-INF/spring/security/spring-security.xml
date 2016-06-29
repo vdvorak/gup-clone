@@ -28,7 +28,7 @@
     <!-- This is where we tells spring security what URL should be protected
      and what roles have access to them -->
     <!--i changed "stateless" on "always" http://www.baeldung.com/spring-security-session-->
-    <sec:http pattern="/**" create-session="always"
+    <sec:http pattern="/**" create-session="stateless"
               entry-point-ref="oauthAuthenticationEntryPoint"
               access-decision-manager-ref="accessDecisionManager">
         <sec:anonymous enabled="false"/>
@@ -36,11 +36,11 @@
         <sec:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER"/>
         <sec:access-denied-handler ref="oauthAccessDeniedHandler"/>
 
-        <sec:session-management session-fixation-protection="migrateSession"
-                                session-authentication-error-url="/login.jsp?authFailed=true">
-            <sec:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/login.html"
-                                     session-registry-alias="sessionRegistry"/>
-        </sec:session-management>
+        <!--<sec:session-management session-fixation-protection="migrateSession"-->
+                                <!--session-authentication-error-url="/login.jsp?authFailed=true">-->
+            <!--<sec:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/login.html"-->
+                                     <!--session-registry-alias="sessionRegistry"/>-->
+        <!--</sec:session-management>-->
     </sec:http>
 
 
