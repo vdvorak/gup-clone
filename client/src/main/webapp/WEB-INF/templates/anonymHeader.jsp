@@ -88,7 +88,7 @@
                         $scope.submitForm = function() {
                             $http({
                                 method  : 'POST',
-                                url     : 'http://localhost:8082/login', //'/login'
+                                url     : 'http://localhost:8083/login',
                                 data    : $scope.user,
                                 headers : {'Content-Type': 'application/json'},
                                 withCredentials : true
