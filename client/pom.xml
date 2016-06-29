@@ -231,17 +231,10 @@
         </dependency>
 
         <!-- Profile -->
-        <dependency>
-            <groupId>ua.com.itproekt</groupId>
-            <artifactId>profile</artifactId>
-            <version>${version}</version>
-        </dependency>
-
-        <!-- OAuth-2 -->
         <!--<dependency>-->
-        <!--<groupId>ua.com.itproekt</groupId>-->
-        <!--<artifactId>oauth</artifactId>-->
-        <!--<version>${version}</version>-->
+            <!--<groupId>ua.com.itproekt</groupId>-->
+            <!--<artifactId>profile</artifactId>-->
+            <!--<version>${version}</version>-->
         <!--</dependency>-->
 
         <!-- WebSocket -->

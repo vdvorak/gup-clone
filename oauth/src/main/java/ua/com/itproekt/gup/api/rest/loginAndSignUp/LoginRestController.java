@@ -22,11 +22,12 @@ import ua.com.itproekt.gup.util.CookieUtil;
 import ua.com.itproekt.gup.util.LogUtil;
 import ua.com.itproekt.gup.util.Oauth2Util;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
-//@CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
 @RestController
 public class LoginRestController {
 	private final static Logger LOG = Logger.getLogger(LoginRestController.class);
@@ -121,5 +122,53 @@ public class LoginRestController {
 
 		return (profileService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
 	}
+
+
+
+
+//    @RequestMapping(value = "/logout")
+//    public String logout(HttpServletRequest request, HttpServletResponse response) {
+//
+//        for (Cookie cookie : request.getCookies()) {
+//            if (cookie.getName().equals("authToken")) {
+//                tokenServices.revokeToken(cookie.getValue());
+//            }
+//        }
+//
+//        Cookie cookieAuthToken = new Cookie("authToken", null);
+//        cookieAuthToken.setMaxAge(0);
+//        cookieAuthToken.setPath("/");
+//        response.addCookie(cookieAuthToken);
+//
+//        Cookie cookieRefreshToken = new Cookie("refreshToken", null);
+//        cookieRefreshToken.setMaxAge(0);
+//        cookieRefreshToken.setPath("/");
+//        response.addCookie(cookieRefreshToken);
+//
+//        return "redirect:/index";
+//    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("authToken")) {
+                tokenServices.revokeToken(cookie.getValue());
+            }
+        }
+
+        Cookie cookieAuthToken = new Cookie("authToken", null);
+        cookieAuthToken.setMaxAge(0);
+        cookieAuthToken.setPath("/");
+        response.addCookie(cookieAuthToken);
+
+        Cookie cookieRefreshToken = new Cookie("refreshToken", null);
+        cookieRefreshToken.setMaxAge(0);
+        cookieRefreshToken.setPath("/");
+        response.addCookie(cookieRefreshToken);
+
+        return "redirect:/index";
+    }
 
 }

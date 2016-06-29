@@ -88,7 +88,7 @@
                         $scope.submitForm = function() {
                             $http({
                                 method  : 'POST',
-                                url     : 'http://93.73.109.38:8083/login',
+                                url     : 'http://93.73.109.38:8083/login', //url     : 'http://localhost:8083/login',
                                 data    : $scope.user,
                                 headers : {'Content-Type': 'application/json'},
                                 withCredentials : true
@@ -98,7 +98,7 @@
                                     $scope.errorEmail = data.errors.email;
                                     $scope.errorPassword = data.errors.password;
                                 } else {
-                                    window.location.assign("/index"); //window.location.assign("http://localhost:8081/index");
+                                    window.location.assign("/index");
                                 }
                             })
                             .error(function(data, status) {

@@ -9,14 +9,71 @@
 
         <p id="headerProfileName"></p>
 
-        <div>
+        <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+        <style>
+            .err{
+                border: 1px solid;
+                margin: 10px 0px;
+                padding:10px;
+                color: #D8000C;
+                background-color: #FFBABA;
+                list-style: none;
+            }
+        </style>
+        <div class="container" ng-app="app" ng-controller="AppCtrl">
             <div class="clearfix"></div>
             <a href="/prioffice">Личный кабинет</a>
             <a href="/dialogues">Мои сообщения</a>
             <a href="/edit-profile">Редактировать страницу</a>
-            <a href="/logout">Выход</a>
+            <!--<a href="/logout">Выход</a>-->
+            <ul>
+                <li class="err" ng-repeat="error in errors"> {{error}} </li>
+            </ul>
+            <a ng-click="func()" href="#">Выход</a>
         </div>
+        <!-- Выход -->
+        <script>
+            // (Simple Authentication for Angular.js App) http://beletsky.net/2013/11/simple-authentication-in-angular-dot-js-app.html
+            // (window.location.assign) http://stackoverflow.com/questions/27941876/how-to-redirect-to-another-page-using-angular-js
+            var app = angular.module('app', []);
+
+            app.controller('AppCtrl', function($scope, $http, $location) {
+                $scope.errors = [];
+
+                $scope.func = function() {
+                    $http({
+                        method  : 'POST',
+                        url     : 'http://93.73.109.38:8083/logout', //url     : 'http://localhost:8083/logout',
+                        headers : {'Content-Type': 'application/json'},
+                        withCredentials : true
+                    })
+                            .success(function(data) {
+                                if (data.errors) {
+                                } else {
+                                    window.location.assign("/index");
+                                }
+                            })
+                            .error(function(data, status) {
+                                //$scope.errors.push(status);
+                                window.location.assign("/index");
+                            });
+                };
+            });
+
+            app.config(function($httpProvider) {
+                $httpProvider.defaults.useXDomain = true;
+                delete $httpProvider.defaults.headers.common['X-Requested-With'];
+                /* $httpProvider.defaults.headers.common['Authorization'] = 'Basic YWRtaW46YWRtaW4='; */
+            });
+        </script>
     </div>
+
+
+
+
+
+
+
     <div class="mail">
         <img src="/resources/images/mail.png" alt="mail">
 
