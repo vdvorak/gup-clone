@@ -1,6 +1,6 @@
 package ua.com.itproekt.gup.service.profile;
 
-import ua.com.itproekt.gup.model.profiles.Contact;
+import ua.com.itproekt.gup.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;
@@ -129,17 +129,54 @@ public interface ProfilesService {
 //     */
 //    void addFriend(String profileId, String friendProfileId);
 
+    /**
+     * @param term
+     * @return
+     */
     Set<String> getMatchedNames(String term);
 
+    /**
+     * @param term
+     * @return
+     */
     List<Profile> getMatchedNamesWithIds(String term);
 
+    /**
+     * @param term
+     * @return
+     */
     List<Profile> getMatchedCompanies(String term);
 
+    /**
+     * @param profileOwnerContactListId
+     * @param contactId
+     */
     void addContactToContactList(String profileOwnerContactListId, String contactId);
 
+    /**
+     * @param email
+     * @return
+     */
     Profile findWholeProfileByEmail(String email);
 
+    /**
+     * @param user
+     * @return
+     */
     boolean isUserModerator(Profile user);
 
+    /**
+     * @param seoWord
+     * @return
+     */
     boolean isSeoWordFree(String seoWord);
+
+    /**
+     * @param userId
+     * @return
+     */
+    boolean isUserOnline(String userId);
+
+    ProfileInfo findExtendedProfileById(String id);
+
 }

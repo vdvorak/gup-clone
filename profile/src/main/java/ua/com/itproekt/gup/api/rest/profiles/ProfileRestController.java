@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.com.itproekt.gup.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
@@ -68,18 +69,19 @@ public class ProfileRestController {
      */
     @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Profile> getProfileById(@PathVariable String id) {
-        Profile profile = profilesService.findById(id);
-        if (profile == null) {
+    public ResponseEntity<ProfileInfo> getProfileById(@PathVariable String id) {
+
+        ProfileInfo profileInfo = profilesService.findExtendedProfileById(id);
+
+        if (profileInfo == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-
-        if (SecurityOperations.isUserLoggedIn() && profile.getId().equals(SecurityOperations.getLoggedUserId())) {
-            return new ResponseEntity<>(profile, HttpStatus.OK);
+        if (SecurityOperations.isUserLoggedIn() && id.equals(SecurityOperations.getLoggedUserId())) {
+            return new ResponseEntity<>(profileInfo, HttpStatus.OK);
         } else {
-            profile.setContactList(null);
-            return new ResponseEntity<>(profile, HttpStatus.OK);
+            profileInfo.setContactList(null);
+            return new ResponseEntity<>(profileInfo, HttpStatus.OK);
         }
     }
 

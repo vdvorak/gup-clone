@@ -1,10 +1,10 @@
 package ua.com.itproekt.gup.controller.offers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ua.com.itproekt.gup.service.reservationSchedule.ReservationScheduleService;
-
 
 @Controller
 public class ReservationScheduleTestController {
@@ -12,6 +12,11 @@ public class ReservationScheduleTestController {
 
     @Autowired
     ReservationScheduleService reservationScheduleService;
+
+
+    @Autowired
+    private SessionRegistry sessionRegistry;
+
 
     @RequestMapping("/addTestSchedulePoints")
     public void addTestSchedulePoints() {
@@ -31,4 +36,5 @@ public class ReservationScheduleTestController {
         reservationScheduleService.removeOverdue();
 
     }
+
 }

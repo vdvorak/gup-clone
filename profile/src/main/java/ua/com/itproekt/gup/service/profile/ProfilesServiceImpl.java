@@ -1,8 +1,11 @@
 package ua.com.itproekt.gup.service.profile;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ua.com.itproekt.gup.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.model.profiles.*;
@@ -14,12 +17,14 @@ import java.util.*;
 public class ProfilesServiceImpl implements ProfilesService {
 
     @Autowired
+    PasswordEncoder passwordEncoder;
+    BankSession bankSession = new BankSession();
+    @Autowired
     private ProfileRepository profileRepository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
-    BankSession bankSession = new BankSession();
+    @Autowired
+    private SessionRegistry sessionRegistry;
 
     @Override
     public void createProfile(Profile profile) {
@@ -185,5 +190,35 @@ public class ProfilesServiceImpl implements ProfilesService {
         profile.setEmail(null)
                 .setPassword(null)
                 .setMainPhoneNumber(null);
+    }
+
+    @Override
+    public boolean isUserOnline(String userId) {
+
+        Profile profile = findWholeProfileById(userId);
+
+        List<Object> principals = sessionRegistry.getAllPrincipals();
+        User user;
+        for (Object principal : principals) {
+            user = (User) principal;
+            if (user.getUsername().equals(profile.getEmail()))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public ProfileInfo findExtendedProfileById(String id) {
+
+        Profile profile = findById(id);
+
+        if (profile == null) {
+            return null;
+        }
+
+        ProfileInfo profileInfo = ProfileInfo.toModel(profile);
+        profileInfo.setIsOnline(isUserOnline(id));
+
+        return profileInfo;
     }
 }
