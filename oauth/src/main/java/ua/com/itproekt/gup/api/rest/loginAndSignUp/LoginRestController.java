@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
+//@CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
 @RestController
 public class LoginRestController {
 	private final static Logger LOG = Logger.getLogger(LoginRestController.class);

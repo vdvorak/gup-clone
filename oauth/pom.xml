@@ -13,7 +13,7 @@
     <artifactId>oauth</artifactId>
     <version>${version}</version>
 
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <dependencies>
         <dependency>
@@ -234,6 +234,20 @@
         <dependency>
             <groupId>ua.com.itproekt</groupId>
             <artifactId>profile</artifactId>
+            <version>${version}</version>
+        </dependency>
+
+        <!-- WebSocket -->
+        <dependency>
+            <groupId>ua.com.itproekt</groupId>
+            <artifactId>socket</artifactId>
+            <version>${version}</version>
+        </dependency>
+
+        <!-- Offers -->
+        <dependency>
+            <groupId>ua.com.itproekt</groupId>
+            <artifactId>offers</artifactId>
             <version>${version}</version>
         </dependency>
     </dependencies>

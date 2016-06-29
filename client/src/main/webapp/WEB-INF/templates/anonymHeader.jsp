@@ -88,21 +88,22 @@
                         $scope.submitForm = function() {
                             $http({
                                 method  : 'POST',
-                                url     : '/login', //'http://localhost:8081/login'
+                                url     : 'http://localhost:8082/login', //'/login'
                                 data    : $scope.user,
-                                headers : {'Content-Type': 'application/json'}
+                                headers : {'Content-Type': 'application/json'},
+                                withCredentials : true
                             })
-                                    .success(function(data) {
-                                        if (data.errors) {
-                                            $scope.errorEmail = data.errors.email;
-                                            $scope.errorPassword = data.errors.password;
-                                        } else {
-                                            window.location.assign("/index"); //window.location.assign("http://localhost:8081/index");
-                                        }
-                                    })
-                                    .error(function(data, status) {
-                                        $scope.errors.push(status);
-                                    });
+                            .success(function(data) {
+                                if (data.errors) {
+                                    $scope.errorEmail = data.errors.email;
+                                    $scope.errorPassword = data.errors.password;
+                                } else {
+                                    window.location.assign("/index"); //window.location.assign("http://localhost:8081/index");
+                                }
+                            })
+                            .error(function(data, status) {
+                                $scope.errors.push(status);
+                            });
                         };
                     });
 
