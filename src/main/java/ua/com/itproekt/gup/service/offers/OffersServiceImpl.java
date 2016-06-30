@@ -6,10 +6,7 @@ import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.offers.OfferRepository;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
-import ua.com.itproekt.gup.model.offer.ModerationStatus;
-import ua.com.itproekt.gup.model.offer.Offer;
-import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
-import ua.com.itproekt.gup.model.offer.Reservation;
+import ua.com.itproekt.gup.model.offer.*;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.util.EntityPage;
@@ -17,6 +14,7 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.ServiceNames;
 
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class OffersServiceImpl implements OffersService {
@@ -37,10 +35,13 @@ public class OffersServiceImpl implements OffersService {
                 .setAuthorId(offer.getAuthorId())
                 .setUserInfo(offer.getUserInfo())
                 .setCreatedDateEqualsToCurrentDate()
-                .setModerationStatus(ModerationStatus.COMPLETE)
+                .setModerationStatus(ModerationStatus.NO)
                 .setCategories(offer.getCategories())
                 .setProperties(offer.getProperties())
                 .setImagesIds(offer.getImagesIds())
+                .setSeoUrl(offer.getSeoUrl())
+                .setSeoKey(offer.getSeoKey())
+                .setSeoCategory(offer.getSeoCategory())
                 .setVideoUrl(offer.getVideoUrl())
                 .setTitle(offer.getTitle())
                 .setDescription(offer.getDescription())
@@ -62,6 +63,11 @@ public class OffersServiceImpl implements OffersService {
     @Override
     public Offer findById(String offerId) {
         return offerRepository.findById(offerId);
+    }
+
+    @Override
+    public Offer findBySeoKey(String seoKey) {
+        return offerRepository.findBySeoKey(seoKey);
     }
 
     @Override
@@ -100,6 +106,9 @@ public class OffersServiceImpl implements OffersService {
                 .setProperties(oldOffer.getProperties())
                 .setImagesIds(oldOffer.getImagesIds())
                 .setVideoUrl(oldOffer.getVideoUrl())
+                .setSeoUrl(oldOffer.getSeoUrl())
+                .setModerationMessage(oldOffer.getModerationMessage())
+                .setSeoCategory(oldOffer.getSeoCategory())
                 .setTitle(oldOffer.getTitle())
                 .setDescription(oldOffer.getDescription())
                 .setPrice(oldOffer.getPrice())
@@ -114,6 +123,13 @@ public class OffersServiceImpl implements OffersService {
         return offerRepository.findAndUpdate(newOffer);
     }
 
+//    @Override
+//    public ModerationMessage moderateOffer(ModerationMessage moderationMessage) {
+//        moderationMessage.setCreatedDateEqualsToCurrentDate();
+//        moderationMessage.setIsRead(false);
+//        return moderationMessage;
+//    }
+
     @Override
     public void reserveOffer(String offerId, Reservation reservation) {
         Reservation newReservation = new Reservation()
@@ -122,8 +138,8 @@ public class OffersServiceImpl implements OffersService {
                 .setCreatedDateEqualsToCurrentDate();
 
         Offer newOffer = new Offer()
-            .setId(offerId)
-            .setReservation(newReservation);
+                .setId(offerId)
+                .setReservation(newReservation);
 
         Offer updatedOffer = offerRepository.findAndUpdate(newOffer);
         activityFeedService.createEvent(new Event(updatedOffer.getAuthorId(), EventType.OFFER_RESERVATION, offerId, null, SecurityOperations.getLoggedUserId()));
@@ -150,5 +166,10 @@ public class OffersServiceImpl implements OffersService {
                 .setId(offerId)
                 .setActive(isActive);
         offerRepository.findAndUpdate(offer);
+    }
+
+    @Override
+    public Set<String> getMatchedNames(String name) {
+        return offerRepository.getMatchedNames(name);
     }
 }

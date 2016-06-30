@@ -19,6 +19,8 @@ import ua.com.itproekt.gup.util.MongoTemplateOperations;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Repository
 public class OfferRepositoryImpl implements OfferRepository {
@@ -45,8 +47,14 @@ public class OfferRepositoryImpl implements OfferRepository {
     }
 
     @Override
+    public Offer findBySeoKey(String seoKey) {
+        Query query = new Query(Criteria.where("seoKey").is(seoKey));
+        return mongoTemplate.findOne(query, Offer.class);
+    }
+
+    @Override
     public Offer findAndUpdate(Offer offer) {
-            return MongoTemplateOperations.updateFieldsAndReturnUpdatedObj(offer);
+        return MongoTemplateOperations.updateFieldsAndReturnUpdatedObj(offer);
     }
 
     @Override
@@ -153,9 +161,9 @@ public class OfferRepositoryImpl implements OfferRepository {
 
         if (offerFO.getFromPrice() != null && offerFO.getToPrice() != null) {
             query.addCriteria(Criteria.where("price").gte(offerFO.getFromPrice()).lte(offerFO.getToPrice()));
-        } else if(offerFO.getFromPrice() != null) {
+        } else if (offerFO.getFromPrice() != null) {
             query.addCriteria(Criteria.where("price").gte(offerFO.getFromPrice()));
-        } else if(offerFO.getToPrice() != null) {
+        } else if (offerFO.getToPrice() != null) {
             query.addCriteria(Criteria.where("price").lte(offerFO.getToPrice()));
         }
 
@@ -175,7 +183,7 @@ public class OfferRepositoryImpl implements OfferRepository {
 //                MongoTemplateOperations.explainQuery("offers", query));
 
         return new EntityPage<>(mongoTemplate.count(query, Offer.class),
-                                mongoTemplate.find(query, Offer.class));
+                mongoTemplate.find(query, Offer.class));
     }
 
     @Override
@@ -209,5 +217,20 @@ public class OfferRepositoryImpl implements OfferRepository {
                 new Update().pull("rent.rentedOfferPeriodInfo", Query.query(Criteria.where("id").is(rentId))),
                 Offer.class);
     }
+
+    @Override
+    public Set<String> getMatchedNames(String name) {
+        String searchFieldRegex = "(?i:.*" + name + ".*)";
+        Query query = new Query();
+
+        query.addCriteria(new Criteria().orOperator(Criteria.where("title").regex(searchFieldRegex)));
+
+        query.fields().include("title");
+        query.skip(0);
+        query.limit(10);
+
+        return mongoTemplate.find(query, Offer.class).stream().map(Offer::getTitle).collect(Collectors.toSet());
+    }
+
 
 }

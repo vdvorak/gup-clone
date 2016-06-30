@@ -180,6 +180,13 @@ table {
     line-height: 98px;
     display: inline-block;
     margin-left: 18px;
+    cursor: default;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently not supported by any browser */
 }
 
 .store li {
@@ -319,13 +326,12 @@ table {
 }
 
 .slider {
-    margin: 20px 0 0 7px;
+    margin: 17px 0 0 7px;
 }
 
 .ad-p {
     color: #fff;
-    font: 400 13px ArianAMU;
-    line-height: 29px;
+    font: 400 12px / 29px ArianAMU;
     background-color: #70ab35;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -335,12 +341,13 @@ table {
     top: -29px;
     left: 48px;
     text-align: center;
+    cursor: pointer;
 }
 
 .ad {
     position: relative;
     width: 487px;
-    border: 4px solid #70ab35;
+    border: 2px solid #70ab35;
     border-radius: 4px;
     margin-top: 40px;
     float: left;
@@ -350,7 +357,7 @@ table {
     position: relative;
     width: 145px;
     height: 167px;
-    border: 4px solid #70ab35;
+    border: 2px solid #70ab35;
     border-radius: 4px;
     float: left;
     margin: 19px 7px;
@@ -379,14 +386,13 @@ table {
 
 .caretDown {
     cursor: pointer;
-    border-top: 4px solid #70ab35;
+    border-top: 2px solid #70ab35;
     padding: 10px 203px;
 }
 
 .tend-p {
     color: #fff;
-    font: 400 13px ArianAMU;
-    line-height: 29px;
+    font: 400 12px / 29px ArianAMU;
     background-color: #70ab35;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -396,12 +402,12 @@ table {
     top: -29px;
     right: 15px;
     text-align: center;
+    cursor: pointer;
 }
 
 .proj-p {
     color: #fff;
-    font: 400 13px ArianAMU;
-    line-height: 29px;
+    font: 400 12px / 29px ArianAMU;
     background-color: #70ab35;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -411,12 +417,13 @@ table {
     top: -29px;
     left: 48px;
     text-align: center;
+    cursor: pointer;
 }
 
 .tidings {
     position: relative;
     width: 369px;
-    border: 4px solid #70ab35;
+    border: 2px solid #70ab35;
     border-radius: 4px;
     float: right;
     margin-top: 40px;
@@ -424,7 +431,7 @@ table {
 
 .tidiDown {
     cursor: pointer;
-    border-top: 4px solid #70ab35;
+    border-top: 2px solid #70ab35;
     padding: 10px 144px;
     margin-top: 20px;
 }
@@ -500,7 +507,7 @@ table {
 .tidi4 {
     width: 323px;
     height: 115px;
-    border: 4px solid #70ab35;
+    border: 2px solid #70ab35;
     border-radius: 4px;
     margin: 20px auto 0;
     position: relative;
@@ -516,11 +523,11 @@ table {
 
 .tidi4-a {
     color: #1269a7;
-    font: 400 14px DroidSans;
+    font: 400 14px / 19px DroidSans;
     word-wrap: break-word;
-    width: 185px;
+    width: 180px;
     float: right;
-    height: 40px;
+    max-height: 40px;
     overflow: hidden;
 }
 
@@ -531,13 +538,13 @@ table {
 
 .tidi4-p {
     color: #868787;
-    font: 400 12px DroidSans;
-    line-height: 13px;
-    width: 188px;
-    height: 52px;
+    font: 400 12px / 17px DroidSans;
+    width: 180px;
+    max-height: 52px;
     overflow: hidden;
     float: right;
     word-wrap: break-word;
+    margin-left: 8px;
 }
 
 .tidi4-a2 {
@@ -562,11 +569,11 @@ table {
 
 .tidi4-ar {
     color: #1269a7;
-    font: 400 14px DroidSans;
+    font: 400 14px / 19px DroidSans;
     float: left;
     width: 188px;
     word-wrap: break-word;
-    height: 40px;
+    max-height: 40px;
     overflow: hidden;
 }
 
@@ -575,7 +582,7 @@ table {
     font: 400 12px DroidSans;
     width: 188px;
     line-height: 13px;
-    height: 50px;
+    max-height: 52px;
     overflow: hidden;
     word-wrap: break-word;
 }
@@ -617,58 +624,52 @@ table {
 }
 
 .mid {
-    margin: 15px 0;
+    margin-bottom: 70px;
+}
+
+.mid::after {
+    content: '';
+    clear: both;
     display: table;
 }
 
-.mid li:hover .dropUl {
-    display: block;
-}
-
-.mid li:hover .ads-img {
-    border-radius: 0;
-    border-bottom: 0;
-}
-
-.mid li:hover .ads-p {
+.mid > li:hover .ads-p {
     background-color: #36aae0;
-    height: 36px;
-    line-height: 36px;
+    height: 27px;
     margin-top: 5px;
-    -webkit-transition: all ease .25s;
-    transition: all ease .25s;
+    -webkit-transition: all .25s;
+    transition: all .25s;
     text-decoration: none;
     color: #fff;
+    font: 400 19px / 27px DroidSans;
 }
 
-.mid li {
+.mid > li {
     float: left;
     width: 144px;
     margin-right: 1px;
+    position: relative;
 }
 
-.mid li:last-child {
+.mid > li:last-child {
     width: 319px;
 }
 
 .ads-p {
     color: #fff;
-    font: 400 18px DroidSans;
+    font: 400 12px / 19px DroidSans;
     background-color: #1269a7;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    height: 25px;
-    width: 100%;
+    height: 19px;
     text-align: center;
-    line-height: 25px;
-    margin-top: 16px;
+    margin-top: 13px;
     display: block;
 }
 
 .ads-img {
     border: 4px solid #1269a7;
     border-top: 0;
-    width: 100%;
     height: 144px;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
@@ -701,7 +702,6 @@ table {
 .ads-img4 {
     border: 4px solid #1269a7;
     border-top: 0;
-    width: 100%;
     height: 144px;
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
@@ -709,43 +709,32 @@ table {
     cursor: pointer;
 }
 
-.ads-a1 {
+.dropUl > li > a {
     color: #2f3846;
-    font: 300 11px Helvetica;
+    font: 300 11px / 20px Helvetica;
     display: block;
-    width: 100%;
-    border: 2px solid #36aae0;
-    border-bottom: 0;
     padding: 0 5px;
 }
 
-.ads-a1:hover {
+.dropUl > li{
+    border: 2px solid #36aae0;
+    border-bottom: none;
+}
+
+.dropUl > li:last-child {
+    border-bottom: 2px solid #36aae0;
+}
+
+.dropUl > li > a:hover {
     text-decoration: none;
     color: #2f3846;
-    display: block;
-    width: 100%;
     background-color: #9c6;
 }
 
 .dropUl {
     display: none;
-}
-
-.ads-drop {
-    color: #2f3846;
-    font: 300 11px Helvetica;
-    display: block;
-    width: 144px;
-    border: 2px solid #36aae0;
-    border-bottom-left-radius: 1px;
-    border-bottom-right-radius: 1px;
-    padding: 0 5px;
-}
-
-.ads-drop:hover {
-    text-decoration: none;
-    color: #2f3846;
-    background-color: #9c6;
+    position: absolute;
+    width: 100%;
 }
 
 .data {
@@ -1063,6 +1052,27 @@ input[class="greenCheckbox"]:checked + span {
     width: 100%;
     position: relative;
     margin-top: 10px;
+    padding-bottom: 15px;
+}
+
+.profile > a > button {
+    height: 39px;
+    width: 255px;
+    color: #fff;
+    font: 400 21px DroidSans;
+    background-color: #9c6;
+    border-radius: 7px;
+    border: 1px solid #9c6;
+    -webkit-transition: all ease .25s;
+    transition: all ease .25s;
+    position: absolute;
+    top: 350px;
+    left: 15px;
+}
+
+.profile > a > button:hover {
+    background-color: transparent;
+    color: #9c6;
 }
 
 .online {
@@ -1100,7 +1110,11 @@ input[class="greenCheckbox"]:checked + span {
     margin-bottom: 5px;
     display: inline-block;
     color: #1269a7;
-    font: 400 22px DroidSans;
+    font: 400 22px / 24px DroidSans;
+    width: 320px;
+    word-wrap: break-word;
+    height: 50px;
+    overflow: hidden;
 }
 
 .phone {
@@ -1206,7 +1220,7 @@ input[class="greenCheckbox"]:checked + span {
     background-color: #63caed;
     border-radius: 7px;
     border: 0;
-    margin: 0 10px 0 20px;
+    margin: 0 10px 0 15px;
     -webkit-transition: all ease .25s;
     transition: all ease .25s;
 }
@@ -1295,7 +1309,7 @@ input[class="greenCheckbox"]:checked + span {
     position: relative;
     width: 145px;
     height: 167px;
-    border: 4px solid #70ab35;
+    border: 2px solid #70ab35;
     border-radius: 4px;
     float: left;
     margin: 19px 7px;
@@ -1306,7 +1320,7 @@ input[class="greenCheckbox"]:checked + span {
     position: relative;
     width: 145px;
     height: 167px;
-    border: 4px solid #70ab35;
+    border: 2px solid #70ab35;
     border-radius: 4px;
     float: left;
     margin: 19px 7px;
@@ -1362,7 +1376,7 @@ input[class="greenCheckbox"]:checked + span {
 .blogs {
     height: 135px;
     width: 100%;
-    border: 4px solid #97ca65;
+    border: 2px solid #97ca65;
     border-radius: 10px;
     margin-bottom: 17px;
     position: relative;
@@ -2084,7 +2098,8 @@ form > .richAssCheck > label:first-child {
 .AboutMe-p {
     color: #898989;
     font: 400 14px Arial;
-    text-align: justify
+    text-align: justify;
+    word-wrap: break-word;
 }
 
 .AboutMe-p2 {
@@ -2103,7 +2118,7 @@ form > .richAssCheck > label:first-child {
 }
 
 .NewsTabsFilter {
-    border: 3px solid #bbb;
+    border: 2px solid #bbb;
     border-radius: 5px;
     width: 100%;
     height: 37px;
@@ -2131,7 +2146,7 @@ form > .richAssCheck > label:first-child {
 }
 
 .VIPNewsLarge {
-    border: 3px solid #f8ad39;
+    border: 2px solid #f8ad39;
     border-radius: 7px;
     height: 318px;
     width: 279px;
@@ -2159,7 +2174,7 @@ form > .richAssCheck > label:first-child {
 }
 
 .VIPNewsSmall {
-    border: 3px solid #f8ad39;
+    border: 2px solid #f8ad39;
     border-radius: 7px;
     width: 417px;
     height: 137px;
@@ -2188,7 +2203,7 @@ form > .richAssCheck > label:first-child {
 }
 
 .VIPNewsExtraSmall {
-    border: 3px solid #f8ad39;
+    border: 2px solid #f8ad39;
     border-radius: 7px;
     position: relative;
     width: 153px;
@@ -2233,7 +2248,7 @@ form > .richAssCheck > label:first-child {
 }
 
 .VIPNewsMedium {
-    border: 3px solid #f8ad39;
+    border: 2px solid #f8ad39;
     border-radius: 7px;
     position: relative;
     width: 593px;
@@ -2263,7 +2278,7 @@ form > .richAssCheck > label:first-child {
 }
 
 .normalNews {
-    border: 3px solid #1269a7;
+    border: 2px solid #1269a7;
     border-radius: 7px;
     width: 100%;
     margin-top: 15px;
@@ -2497,8 +2512,7 @@ form > .richAssCheck > label:first-child {
 .tidi-p {
     color: #fff;
     text-align: center;
-    font: 400 13px ArianAMU;
-    line-height: 29px;
+    font: 400 12px / 29px ArianAMU;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     background-color: #70ab35;
@@ -2506,12 +2520,13 @@ form > .richAssCheck > label:first-child {
     height: 29px;
     width: 125px;
     top: -29px;
-    right: 15px
+    right: 15px;
+    cursor: pointer;
 }
 
 .DateOfBirth {
     color: #898989;
-    font: 400 19px DroidSans
+    font: 400 19px DroidSans;
 }
 
 .profileList {
@@ -2529,7 +2544,6 @@ form > .richAssCheck > label:first-child {
     height: 115px;
     float: left;
     margin: 10px;
-    cursor: pointer
 }
 
 .profileListName {
@@ -2840,15 +2854,15 @@ label[for="checkbox-filter3"] {
 }
 
 .blogCreationHeader {
-    color: #aad57f;
-    font: 400 19px ArianAMU;
+    color: #1269a7;
+    font: 32px/35px 'Droid Sans', sans-serif;
     text-align: center;
     margin: 40px 0;
 }
 
 .blogCreationLabel {
     color: #959595;
-    font: 400 12px ArianAMU;
+    font: 400 16px DroidSans;
     line-height: 22px;
     margin-left: 50px;
     float: left;
@@ -2856,7 +2870,7 @@ label[for="checkbox-filter3"] {
 
 .blogCreationLabel > em {
     color: red;
-    margin: 0;
+    font-style: normal;
 }
 
 .blogCreationInput {
@@ -2868,7 +2882,7 @@ label[for="checkbox-filter3"] {
     padding: 0 7px;
     margin-bottom: 15px;
     float: right;
-    margin-right: 300px
+    margin-right: 213px;
 }
 
 .blogCreationDescription {
@@ -2879,7 +2893,7 @@ label[for="checkbox-filter3"] {
     height: 80px;
     width: 400px;
     resize: none;
-    margin-right: 300px;
+    margin-right: 213px;
     float: right;
     margin-bottom: 30px;
 }
@@ -2897,14 +2911,14 @@ label[for="checkbox-filter3"] {
     height: 22px;
     width: 230px;
     float: right;
-    margin-right: 470px;
+    margin-right: 382px;
     margin-bottom: 30px
 }
 
 .socialIconBlog {
     position: absolute;
     top: -4px;
-    right: 220px
+    right: 130px
 }
 
 .socialIconBlog a:first-child {
@@ -2913,24 +2927,24 @@ label[for="checkbox-filter3"] {
 
 .socialIconBlog a {
     float: left;
-    margin-left: 10px
+    margin-left: 10px;
 }
 
 .blogCreationSubmit {
     height: 34px;
     width: 225px;
-    border: 4px solid #9c6;
+    border: 2px solid #9c6;
     border-radius: 6px;
     color: #9c6;
     font: 400 21px ArianAMU;
     background: transparent url(/resources/css/images/+sub.png) no-repeat center center;
-    margin-bottom: 30px
+    margin-bottom: 30px;
 }
 
 .titleFile {
     position: relative;
     display: inline-block;
-    margin-left: 77px
+    margin-left: 137px;
 }
 
 .titleFile:hover::after {
@@ -2983,14 +2997,14 @@ label[for="checkbox-filter3"] {
     opacity: 0;
     -webkit-transform: rotateZ(90deg);
     transform: rotateZ(90deg);
-    border-radius: 50%
+    border-radius: 50%;
 }
 
 .defaultIMG li:hover .descr {
     opacity: 1;
     -webkit-transform: rotateZ(0);
     transform: rotateZ(0);
-    border-radius: 0
+    border-radius: 0;
 }
 
 .descr i {
@@ -3013,16 +3027,16 @@ label[for="checkbox-filter3"] {
     border-radius: 6px;
     background-color: #9c6;
     float: right;
-    margin: 0 20px 20px 0;
+    margin: 1px 20px 20px 0;
     border: 1px solid #9c6;
     -webkit-transition: all .25s;
-    transition: all .25s
+    transition: all .25s;
 }
 
 .SendEdition:hover {
-    border-color: black;
+    border-color: #9c6;
     background-color: transparent;
-    color: black
+    color: #9c6;
 }
 
 .categories p {
@@ -3065,14 +3079,14 @@ label[for="checkbox-filter3"] {
 
 .ItemADS a {
     color: #fff;
-    font: 400 12px DroidSans
+    font: 400 12px DroidSans;
 }
 
-.ItemADS img {
+.ItemADS > a > img {
     border: 3px solid transparent;
     border-radius: 6px;
     width: 85px;
-    height: 85px
+    height: 85px;
 }
 
 .hoverIMG {
@@ -3241,25 +3255,26 @@ input:focus:-ms-input-placeholder {
     width: 50%;
     -webkit-transition: all .25s;
     transition: all .25s;
-    height: 18px
+    height: 18px;
 }
 
 .listArtist ul li:hover {
-    padding-left: 10px
+    padding-left: 10px;
 }
 
 .listArtist ul li p {
     color: #1269a7;
-    font: 400 16px DroidSansDroidSans
+    font: 400 16px DroidSansDroidSans;
+    cursor: default;
 }
 
 .listArtist ul li p.anonymous {
     color: #ccc;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .maxWidth {
-    width: 860px
+    width: 860px;
 }
 
 .likeComments {
@@ -3362,7 +3377,7 @@ input:focus:-ms-input-placeholder {
 }
 
 .doers {
-    border: 4px solid #9c6;
+    border: 2px solid #9c6;
     border-radius: 18px;
     margin-top: 10px;
     padding-bottom: 50px
@@ -3380,29 +3395,37 @@ input:focus:-ms-input-placeholder {
 .doersFeed img {
     height: 156px;
     width: 156px;
-    border: 4px solid #1269a7;
+    border: 2px solid #1269a7;
     border-radius: 5px;
     padding: 20px;
     margin-right: 15px;
-    float: left
+    float: left;
 }
 
 .doersFeed h2 {
     color: #1269a7;
-    font: 400 21px DroidSans
+    font: 400 21px / 25px DroidSans;
+    width: 400px;
+    display: inline-block;
+    max-height: 50px;
+    word-wrap: break-word;
 }
 
-.doersFeed p {
+.doersFeed > p {
     color: #828a8f;
-    font: 400 18px Calibri;
-    width: 650px;
-    text-align: justify
+    font: 400 18px / 20px Calibri;
+    width: 400px;
+    text-align: justify;
+    display: inline-block;
+    word-wrap: break-word;
+    max-height: 100px;
+    overflow: hidden;
 }
 
 .doersFeed .artistData ul li p {
     color: #464646;
     font: 400 14px Calibri;
-    display: inline
+    display: inline;
 }
 
 .doersFeed .artistData {
@@ -3873,12 +3896,21 @@ input[value="open"]:checked + span {
     float: left
 }
 
+
 .tenderMake > form > .description > label:nth-child(2) {
     width: 23px;
     height: 23px;
     position: relative;
     border-radius: 20%;
     margin-left: 5px
+}
+
+.tenderMake > form > .description > label:nth-child(4) {
+    width: 23px;
+    height: 23px;
+    position: relative;
+    border-radius: 20%;
+    margin-left: 5px;
 }
 
 .tenderMake > form > .description > label[for="InviteBidders"] {
@@ -3960,52 +3992,64 @@ form > .description > textarea {
 
 .tenderMake > form > button[type="submit"]:hover {
     background-color: transparent;
-    color: #9c6
+    color: #9c6;
 }
 
 .ItemADS > .descriptionTitleLeft {
     position: absolute;
     top: 60px;
     left: 65px;
-    height: 175px;
-    width: 397px;
+    width: 400px;
     z-index: 1;
-    background: url(/resources/images/descriptionTitleLeft.png) no-repeat;
-    padding: 20px 10px 10px 30px;
-    display: none
+    background-color: #99CC66;
+    padding: 10px;
+    display: none;
+    border-radius: 0 10px 10px 10px;
+}
+
+.ItemADS > .descriptionTitleLeft > img {
+    position: absolute;
+    top: -9px;
+    left: -17px;
 }
 
 .ItemADS > .descriptionTitleRight {
     position: absolute;
     top: 60px;
     left: -380px;
-    height: 175px;
-    width: 397px;
+    width: 400px;
     z-index: 1;
-    background: url(/resources/images/descriptionTitleRight.png) no-repeat;
-    padding: 20px 30px 10px 10px;
-    display: none
+    background-color: #99CC66;
+    padding: 10px;
+    display: none;
+    border-radius: 10px 0 10px 10px;
+}
+
+.ItemADS > .descriptionTitleRight > img {
+    position: absolute;
+    top: -10px;
+    right: -19px;
 }
 
 .ItemADS > .descriptionTitleLeft a {
     color: #fff;
     font: 400 11px DroidSans;
     float: left;
-    margin: 0 11px 15px 11px;
-    width: 27%
+    margin: 0 12px 15px 12px;
+    width: 27%;
 }
 
 .ItemADS > .descriptionTitleRight a {
     color: #fff;
     font: 400 11px DroidSans;
     float: left;
-    margin: 0 11px 15px 11px;
-    width: 27%
+    margin: 0 12px 15px 12px;
+    width: 27%;
 }
 
 .ItemADS > .descriptionTitleLeft a:hover {
     font-style: italic;
-    text-decoration: underline
+    text-decoration: underline;
 }
 
 .ItemADS > .descriptionTitleRight a:hover {
@@ -4028,49 +4072,46 @@ form > .description > textarea {
     font-style: italic;
     text-decoration: underline;
     margin-bottom: 0;
-    margin-top: 5px
+    margin-top: 5px;
 }
 
 .ItemADS > .descriptionTitleLeft a:last-child:hover {
     text-decoration: none;
-    font-style: normal
+    font-style: normal;
 }
 
 .ItemADS > .descriptionTitleRight a:last-child:hover {
     text-decoration: none;
-    font-style: normal
+    font-style: normal;
 }
 
 .filterADS:after {
     content: '';
     clear: both;
-    display: table
+    display: table;
 }
 
-.search > .filterADS > .superFilter {
+.filterADS > .superFilter {
     border-top: 3px solid #8bd0ea;
-    width: 770px;
+    width: 775px;
     padding-top: 20px;
-    margin: 0 auto 10px;
-    display: none
+    margin: 10px auto 10px;
 }
 
-.superFilter > form > select {
-    height: 23px;
+.superFilter select {
+    height: 25px;
     width: 125px;
     border-radius: 5px;
     color: #36aae0;
     font: 400 11px DroidSans;
     border: 0;
     background-color: #fff;
-    margin-left: 20px
+    padding-left: 5px;
 }
 
 .superFilter > form > .price {
-    width: 186px;
     float: left;
-    margin-left: 20px;
-    margin-top: 20px
+    margin: 10px;
 }
 
 form > .price > p {
@@ -4080,32 +4121,34 @@ form > .price > p {
     line-height: 23px
 }
 
-form > .price > input {
+form > .price input {
     height: 23px;
     width: 49px;
     border: 0;
     border-radius: 3px;
     padding: 0 5px;
     color: #36aae0;
-    font: 400 11px DroidSans
+    font: 400 11px DroidSans;
 }
 
-form > .price > input:placeholder-shown {
-    color: #36aae0;
-    font: 400 10px DroidSans
-}
+.superFilter > form input::-webkit-input-placeholder {color:#36aae0;}
+.superFilter > form input::-moz-placeholder          {color:#36aae0;}/* Firefox 19+ */
+.superFilter > form input:-moz-placeholder           {color:#36aae0;}/* Firefox 18- */
+.superFilter > form input:-ms-input-placeholder      {color:#36aae0;}
 
-.superFilter > form > input {
+.superFilter > form > div > input {
     border-radius: 5px;
-    height: 23px;
-    width: 130px;
+    height: 25px;
+    width: 125px;
     border: 0;
     padding: 0 7px;
     color: #36aae0;
     font: 400 11px DroidSans;
-    float: left;
-    margin-top: 20px;
-    margin-left: 20px
+}
+
+.superFilter select,
+.superFilter > form > div > input {
+    margin: 10px 15px;
 }
 
 .superFilter > form > button {
@@ -4115,12 +4158,12 @@ form > .price > input:placeholder-shown {
     font: 400 16px DroidSans;
     background-color: #9c6;
     border-radius: 8px;
-    height: 29px;
-    width: 154px;
+    height: 30px;
+    width: 155px;
     border: 0;
     -webkit-transition: all .25s;
     transition: all .25s;
-    margin-right: 73px;
+    margin-right: 10px;
 }
 
 .superFilter > form > button:hover {
@@ -4212,19 +4255,19 @@ form > .price > input:placeholder-shown {
 
 .contentContainer.vip {
     border: 2px solid #fc9b00;
-    border-radius: 4px
+    border-radius: 4px;
 }
 
 .contentContainer.vip .abutton.blue {
     background-color: #fdb33c;
     border-color: #fdb33c;
     -webkit-transition: all .25s;
-    transition: all .25s
+    transition: all .25s;
 }
 
 .contentContainer.vip .abutton.blue:hover {
     background-color: transparent;
-    color: #fdb33c
+    color: #fdb33c;
 }
 
 .Logged > .mail {
@@ -4475,7 +4518,7 @@ form > .price > input:placeholder-shown {
 
 .dropDownBell > .bellMessage > p {
     color: white;
-    font: 400 11px Calibri
+    font: 400 11px Calibri;
 }
 
 .Logged > .book > .dropDownBook {
@@ -4490,20 +4533,20 @@ form > .price > input:placeholder-shown {
     background-color: #9c6;
     padding-left: 10px;
     display: none;
-    padding-bottom: 5px
+    padding-bottom: 10px;
 }
 
 .book > .dropDownBook > .friend {
     position: relative;
     border-top: 1px solid white;
     background-color: #dfe5e6;
-    display: none
+    display: none;
 }
 
 .book > .dropDownBook > .friend:after {
     content: '';
     clear: both;
-    display: table
+    display: table;
 }
 
 .dropDownBook > .friend > img {
@@ -4525,18 +4568,22 @@ form > .price > input:placeholder-shown {
     float: none;
     margin: 0;
     border: 0;
-    border-radius: 0
+    border-radius: 0;
 }
 
 .dropDownBook > .friend > a {
     margin-top: 8px;
-    float: left
+    float: left;
+    width: 130px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .track4 {
     width: 10px;
     background: transparent;
-    border: 0
+    border: 0;
 }
 
 .track4.dragging, .track4:hover {
@@ -5081,12 +5128,99 @@ form > .price > input:placeholder-shown {
 }
 
 #mceu_66 {
-    margin-bottom: 30px;
+    margin: 0 20px 30px;
 }
 
+@keyframes animatedBackground {
+    from { background-position: 0 0; }
+    to { background-position: 100% 0; }
+}
+
+.drop_zone,
 #drop_zone {
     margin-bottom: 30px;
+    border: 2px dotted #9c6;
+    position: relative;
 }
+
+#drop_zone > p {
+    position: absolute;
+    top: 162px;
+    right: 50%;
+    margin-right: -90px;
+    padding: 10px;
+    border-radius: 10px;
+    font-family: DroidSans, serif;
+    cursor: default;
+    opacity: 0.9;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently not supported by any browser */
+    color: #9c6;
+}
+
+/*draggable-dialogue*/
+#adialog {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 0;
+    font-size: 0;
+}
+#adialog .dialog {
+    position: fixed;
+    font-size: 12px;
+    border: 1px solid blue;
+    display: inline-block;
+    width: 200px;
+    background-color: white;
+    height: 300px;
+}
+#adialog .dialog .title {
+    background-color: blue;
+    cursor: move;
+    padding: 10px 5px;
+    color: white;
+}
+#adialog .dialog.selected .title {
+    background-color: red;
+}
+
+#adialog .dialog .panel-buttons {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 5px;
+    font-size: 15px;
+}
+
+#adialog .dialog .message{
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 3px;
+    display: inline-block;
+    max-width: 175px;
+    margin-bottom: 2px;
+    word-break: break-all;
+}
+
+.message-from > .message{
+    background-color: yellow;
+}
+
+#adialog .dialog .message-to{
+    text-align: right;
+}
+
+.message-to > .message {
+    background-color: #b1e3e7;
+}
+
+/*draggable-dialogue*/
 
 .container2 > h2#h2-top-offers {
     font: 700 15px DroidSans;
@@ -5173,8 +5307,222 @@ body > .err > i {
     width: 340px;
     display: block;
     margin: 55px auto 30px;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently not supported by any browser */
 }
 
 body > .err > i > i {
-    font: 120px Consolas;
+    font-size: 120px;
+}
+
+.description > label[for='HideContacts'] {
+    margin-left: 40px;
+}
+
+#moreInformation-form .chosen-choices {
+    border: 3px solid #9c6;
+    border-radius: 6px;
+    width: 365px;
+    min-height: 25px !important;
+    margin-left: 92px;
+    margin-bottom: 15px;
+}
+
+#selectKved_chosen > .chosen-choices {
+    margin: 0;
+    border: none;
+}
+
+#categoriesOfIndustry_chosen > .chosen-choices {
+    padding-left: 5px;
+    position: relative;
+    margin-left: 5px;
+    border: 3px solid rgb(153, 204, 102);
+    border-radius: 6px;
+    font: 400 16px DroidSans;
+    line-height: 20px;
+}
+
+#drop_zone.good {
+    animation-play-state: paused;
+}
+
+#tenderNextPage {
+    border: 1px solid rgb(153, 204, 102);
+    margin: 0 auto;
+    display: block;
+    padding: 10px 400px;
+}
+
+#tabs1-investment > #doerNextPage {
+    border: 1px solid rgb(153, 204, 102);
+    margin: 0 auto;
+    display: block;
+    padding: 10px 400px;
+}
+
+#moreInformation-form .chosen-container-multi .chosen-choices li.search-field input[type=text] {
+    margin: 0;
+    height: 20px;
+}
+
+#moreInformation-form .chosen-container.chosen-with-drop .chosen-drop {
+    left: 95px;
+}
+
+.mid > li > a:after {
+    content: '';
+    clear: both;
+    display: table;
+}
+
+.mid > li > a > div {
+    background-color: white;
+}
+
+.Logged > button {
+    padding: 15px 25px;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+    position: fixed;
+    top: 40px;
+    right: 3px;
+}
+
+.Logged > button:hover { background-color: #3e8e41 }
+
+.Logged > button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+.statInfo > .tender-status {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    color: #545454;
+    font: 11px DroidSans;
+    font-style: italic;
+    padding: 5px 20px;
+}
+
+#tender-container { margin-top: 30px; }
+
+.dropDownBook > .friend > .or {
+    margin: 0;
+    display: block;
+    float: none;
+    text-align: center;
+    background-color: #97ca65;
+    padding-top: 5px;
+    color: white;
+    transition: all .25s;
+    width: auto;
+}
+
+.dropDownBook > .friend > .or:hover { color: #03c; }
+
+.dropDownBook > .friend > .masLink {
+    float: none;
+    position: absolute;
+    bottom: -3px;
+    right: 5px;
+    margin: 0;
+}
+
+#btn-add-tel > img { cursor: pointer; }
+
+.offerPluso {
+    margin: 50px 0;
+    border: 1px solid #9c6;
+    padding: 5px;
+    display: inline-block;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+}
+
+.highlight {
+    background-color: black;
+}
+
+#write-to-author {
+    background: #99cc66 none;
+    border-color: transparent;
+}
+
+#edit-offer-link > .btn.btn-warning,
+.notice-box > li > a.btn.btn-xs.btn-warning {
+    background: #faaf3a none;
+    border-color: transparent;
+}
+
+#commentsBlock > .comments > span {
+    color: #fff;
+    font: 400 10px DroidSans;
+    position: absolute;
+    top: 1px;
+    right: 3px;
+    cursor: default;
+}
+
+.blogCreation > #drop_zone {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.profile > .social-icon {
+    display: inline-block;
+}
+
+#price-wrapper {
+    width: 272px;
+}
+
+.superFilter > form > label {
+    color: white;
+    margin-left: 10px;
+    height: 25px;
+    margin-top: 10px;
+    float: left;
+    line-height: 25px;
+}
+
+#blog-create-container > .blogCreation > .drop_zone {
+    margin-left: 278px;
+    margin-right: 372px;
+    padding: 10px;
+}
+
+.blogCreation > .drop_zone > .blog-img {
+    margin-left: 0;
+}
+
+.drop_zone > .blog-img > ul > li {
+    margin-bottom: 0;
+}
+
+.blogCreation > .drop_zone {
+    margin: 0 365px 30px 277px;
+    padding: 10px;
+}
+
+.feedItem.build-item-wrap > .content > .tender-status {
+    position: absolute;
+    top: -10px;
+    left: 1px;
+    color: #545454;
+    font: 400 9px DroidSans;
 }

@@ -5,37 +5,63 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Страница объявления</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>${seoMetaTags.title}: ${seoMetaTags.price}${seoMetaTags.currency}
+        - ${seoMetaTags.seoCategory} ${seoMetaTags.seoAdress} на Gup</title>
+    <meta name="description"
+          content="Global Ukrainian Portal - твой украинский портал. Актуальные новости, объявления, интересные проекты и тендеры.">
 
-    <link rel="shortcut icon" href="/resources/images/favicon.ico" />
+    <meta property="og:title" content="${seoMetaTags.title}"/>
+    <meta property="og:description"
+          content="Global Ukrainian Portal - актуальные новости, объявления, интересные проекты и тендеры."/>
+
+    <meta property="og:type" content="other"/>
+    <meta property="og:url" content="http://gup.com.ua/obyavlenie/${seoMetaTags.seoUrl}"/>
+    <c:choose>
+        <c:when test="${seoMetaTags.mainImgId == ''}">
+            <meta property="og:image" content="http://gup.com.ua/resources/images/no_photo.jpg"/>
+        </c:when>
+        <c:otherwise>
+            <meta property="og:image"
+                  content="http://gup.com.ua/api/rest/fileStorage/OFFERS/file/read/id/${seoMetaTags.mainImgId}"/>
+        </c:otherwise>
+    </c:choose>
+    <meta property="og:site_name" content="Gup.com.ua - Global Ukrainian Portal"/>
+
+    <link rel="icon" type="image/x-icon" href="http://gup.com.ua/resources/images/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="/resources/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/resources/css/jquery.bxslider.css">
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
     <link rel="stylesheet" href="/resources/css/custom-style.css">
     <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
     <style type="text/css">
         .offer-info-slider {
         }
+
         .offer-info-slider .bx-wrapper {
             height: 270px;
         }
+
         .offer-info-slider .bx-wrapper img {
             object-fit: cover;
             height: 100%;
         }
+
         .offer-info-slider .bx-wrapper {
             margin: 0 auto 160px;
         }
+
         .offer-info-slider .bx-custom-pager {
             position: absolute;
             font-size: 0px;
             bottom: -80px;
         }
+
         .offer-info-slider .bx-custom-pager .bx-pager-item {
             position: relative;
             display: inline-block;
@@ -43,6 +69,7 @@
             border-radius: 5px;
             margin: 4px;
         }
+
         .offer-info-slider .bx-custom-pager .bx-pager-item a {
             position: relative;
             display: inline-block;
@@ -50,6 +77,7 @@
             height: 50px;
             overflow: hidden;
         }
+
         .offer-info-slider .bx-custom-pager .bx-pager-item a div {
             position: relative;
             max-width: 90px;
@@ -116,16 +144,16 @@
                         <span class="foto"><img id="avatar-img" src="/resources/images/doersLogo.png" alt=""></span>
                     </div>
                     <div class="col-xs-7 no-padd">
-                        Автор: <a class="author-link"><span class="author-name"></span></a>
-                        <br>
+                        <p>Автор: <a class="author-link"><span class="author-name"></span></a></p>
                         <span class="contact-name-block">Контактное лицо: <span class="contact-name-block-unit"></span></span>
                     </div>
-                    <div class="clearfix"></div>
                     <span class="author-rating"></span>
+
                     <div class="clearfix"></div>
                     <p>
                         <a id="a-author-offers" href="#">Все обьявления автора</a>
                     </p>
+
                     <div class="clearfix"></div>
                 </div>
             </div>
@@ -135,7 +163,7 @@
             <section class="offer-video"></section>
         </div>
         <div class="offer-info-slider">
-            <div>Колличество просмотров: <span class="view-counter"></span></div>
+            <div>Количество просмотров: <span class="view-counter"></span></div>
             <div>Дата создания: <span id="create-date" class="date-create"></span></div>
             <ul class="bxslider" id="offer-slider">
                 <%--<li><img src="/resources/images/slider.jpg" /></li>--%>
@@ -170,6 +198,11 @@
         <p class="offer-description"></p>
     </div>
 
+    <div class="offerPluso">
+        <div class="pluso" data-background="transparent" data-options="small,round,line,horizontal,counter,theme=04"
+             data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print"></div>
+    </div>
+
     <h2 class="title-h2-blue text-center">САМЫЕ ПОСЛЕДНИЕ ДОБАВЛЕНИЯ</h2>
 
 
@@ -199,6 +232,25 @@
 
 <jsp:include page="/WEB-INF/templates/header-js-template.jsp"/>
 
+<%--     <PLUSP>     --%>
+
+<script type="text/javascript">(function () {
+    if (window.pluso)if (typeof window.pluso.start == "function") return;
+    if (window.ifpluso == undefined) {
+        window.ifpluso = 1;
+        var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+        s.type = 'text/javascript';
+        s.charset = 'UTF-8';
+        s.async = true;
+        s.src = ('https:' == window.location.protocol ? 'https' : 'http') + '://share.pluso.ru/pluso-like.js';
+        var h = d[g]('body')[0];
+        h.appendChild(s);
+    }
+})();
+</script>
+
+<%--     </PLUSP>     --%>
+
 <script>
     var flag = '${flag}';
 </script>
@@ -206,28 +258,27 @@
 <jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
 <script src="/resources/js/moment-with-locales.js"></script>
-<script src="/resources/js/service.js"></script>
 
 <script>
     var offerId = "${offerId}";
 </script>
-<script src="/resources/js/offer.js"></script>
+<script src="/resources/js/offers/offer.js"></script>
 <script>
-    $('.offer-info-slider .bx-wrapper img').click(function(){
+    $('.offer-info-slider .bx-wrapper img').click(function () {
         $('.modalSlider').css('display', 'block');
         var src = $(this).attr('src');
         $('.modalSlider > img').attr('src', src);
     });
-    $('.modalSlider > span, .modalSlider').click(function() {
+    $('.modalSlider > span, .modalSlider').click(function () {
         $('.modalSlider').css('display', 'none');
     });
-    $( ".modalSlider > img" ).click(function( event ) {
+    $(".modalSlider > img").click(function (event) {
         event.stopPropagation();
     });
-    $( ".super_netxt_knopka" ).click(function( event ) {
+    $(".super_netxt_knopka").click(function (event) {
         event.stopPropagation();
     });
-    $( ".super_prev_knopka" ).click(function( event ) {
+    $(".super_prev_knopka").click(function (event) {
         event.stopPropagation();
     });
 </script>

@@ -536,7 +536,7 @@ Dialogs.init = function () {
         onSubmit()
     })
     Dialogs.fixScroll(Dialogs.common)
-    setInterval(Dialogs.update, 300)//////////////////////////////////////////////////////////////////////////////////
+    /*setInterval(Dialogs.update, 300)*///////////////////////////////////////////////////////////////////////////////////
 }
 Dialogs.update = function () {
     var unreaded = 0
@@ -871,7 +871,7 @@ $('div.uploadButton').on('click', function () {
     $("#uploadProfilePhotoInput").click();
 });
 
-$('#uploadProfilePhotoInput').on('change', function () {
+$('#uploadProfilePhotoInput').on('change', function (event) {
     var files = event.currentTarget.files;
     var reader = new FileReader();
 

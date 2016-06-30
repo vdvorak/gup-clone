@@ -13,9 +13,8 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.CreatedObjResp;
-import ua.com.itproekt.gup.util.EntityPage;
-import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
+import ua.com.itproekt.gup.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -32,10 +31,13 @@ public class OfferRestController {
     @Autowired
     ProfilesService profilesService;
 
+    @Autowired
+    SeoSequenceService seoSequenceService;
+
     //------------------------------------------ Read -----------------------------------------------------------------
 
     @RequestMapping(value = "/offer/id/{id}/read", method = RequestMethod.POST,
-                    produces = MediaType.APPLICATION_JSON_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Offer> getOfferById(@PathVariable String id) {
         Offer offer = offersService.findOfferAndIncViews(id);
         if (offer == null) {
@@ -45,17 +47,17 @@ public class OfferRestController {
     }
 
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST,
-                    consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityPage<Offer>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO,
                                                              HttpServletRequest request) {
-        if(!request.isUserInRole(UserRole.ROLE_ADMIN.toString())){
+        if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             offerFO.setActive(true);
             offerFO.setModerationStatus(ModerationStatus.COMPLETE);
         }
 
         EntityPage<Offer> offers = offersService.findOffersWihOptions(offerFO);
 
-        if(offers.getEntities().isEmpty()){
+        if (offers.getEntities().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(offers, HttpStatus.OK);
@@ -65,7 +67,7 @@ public class OfferRestController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
-                    consumes = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResp> createOffer(@Valid @RequestBody Offer offer) {
 
         if (offer.getUserInfo() == null) {
@@ -91,9 +93,15 @@ public class OfferRestController {
         }
 
         offer.setAuthorId(userId);
+
+
+        long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
+
+        SeoUtils.makeSeoFieldsForOffer(offer, longValueOfSeoKey);
+
         offersService.create(offer);
 
-        return new ResponseEntity<>(new CreatedObjResp(offer.getId()), HttpStatus.CREATED);
+        return new ResponseEntity<>(new CreatedObjResp(offer.getSeoUrl()), HttpStatus.CREATED);
     }
 
     //------------------------------------------ Update -----------------------------------------------------------------
@@ -109,17 +117,38 @@ public class OfferRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        Offer oldOffer;
+        oldOffer = offersService.findById(offer.getId());
+
         String userId = SecurityOperations.getLoggedUserId();
+
         if (!offersService.findById(offer.getId()).getAuthorId().equals(userId)) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            if (!profilesService.isUserModerator(profilesService.findById(userId))) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
         }
 
-//        ModerationStatus для админа
-//        if !Admin
-//        offer.setModerationStatus(null);
-        offersService.edit(offer);
 
-        return new ResponseEntity<>(new CreatedObjResp(offer.getId()), HttpStatus.OK);
+        if (profilesService.isUserModerator(profilesService.findById(userId))) {
+            offer.getModerationMessage().setCreatedDateEqualsToCurrentDate();
+            offer.getModerationMessage().setIsRead(false);
+            System.err.println("azza2");
+        } else {
+            System.err.println("azza1");
+            offer.getModerationMessage().setMessage(oldOffer.getModerationMessage().getMessage());
+            offer.getModerationMessage().setIsRead(true);
+        }
+
+
+        String newTransiltTitle = Translit.makeTransliteration(offer.getTitle());
+
+        String newSeoUrl = newTransiltTitle + "-" + oldOffer.getSeoKey();
+
+        offer.setSeoUrl(newSeoUrl);
+
+        Offer newOffer = offersService.edit(offer);
+
+        return new ResponseEntity<>(new CreatedObjResp(newOffer.getSeoUrl()), HttpStatus.OK);
     }
 
     @PreAuthorize("isAuthenticated()")

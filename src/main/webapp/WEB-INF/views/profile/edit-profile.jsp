@@ -7,7 +7,7 @@
 <!--[if IE 8]> <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang=""> <!--<![endif]-->
-<head>
+<head lang="ru">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>Редактирование профиля</title>
@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
 </head>
 <body>
 
@@ -50,7 +51,7 @@
 
         <form id="uploadProfilePhotoForm">
             <input id="uploadProfilePhotoInput" type="file" name="file" accept="image/*,image/jpeg"
-                   style="display:none">
+                   style="visibility: hidden;width:0px;height:0px;">
         </form>
         <div class="moreInformation-img" id="addProfileImg"></div>
         <div id="moreInformation-form">

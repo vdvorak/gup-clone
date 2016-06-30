@@ -1,16 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Optical Illusion
-  Date: 05.11.2015
-  Time: 17:19
-  To change this template use File | Settings | File Templates.
---%>
 <!DOCTYPE>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -26,6 +19,7 @@
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="/resources/css/custom-style.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
     <link rel="stylesheet" href="/resources/css/dropdown-multicolumn.css">
     <link rel="stylesheet" href="/resources/css/mini.css">
     <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
@@ -203,7 +197,7 @@
                 <label for="new-label-3">Описание<em>*</em></label>
             </div>
             <div class="col-xs-8">
-        <textarea name="" id="new-label-3" cols="30" rows="10"
+        <textarea name="" id="new-label-3" height=""
                   placeholder="Длина описания от 50 до 4000 символов"></textarea>
             </div>
         </div>
@@ -238,13 +232,14 @@
         </div>
         <div class="row file-browse-wrap">
             <div class="col-xs-4"></div>
-            <div id="drop_zone" class="col-xs-8">
+            <div id="drop_zone" class="col-xs-8" style="min-height: 210px;">
                 <ul id="offer-img-block" class="ul-img-container ul-img-container-green">
                     <li class="li-containerIMG li-defaultIMG">
                         <span class="descr"><i class="fa fa-trash-o fa-2x"></i></span>
-                        <img src="/resources/images/no_photo.jpg" alt="defaultIMG">
+                        <img src="/resources/images/no-photo-available-md.png" alt="defaultIMG">
                     </li>
                 </ul>
+                <p>Drop Image To Upload</p>
             </div>
         </div>
 
@@ -274,7 +269,7 @@
 
         <div class="row">
             <div class="col-xs-4">
-                <label for="inpAuthor">Контактное лицо<em>*</em></label>
+                <label for="inpAuthor">Контактное лицо</label>
             </div>
             <div class="col-xs-5">
                 <input type="text" id="inpAuthor">
@@ -282,7 +277,7 @@
         </div>
         <div class="row">
             <div class="col-xs-4">
-                <label for="inpEmail">E-mail<em>*</em></label>
+                <label for="inpEmail">E-mail</label>
             </div>
             <div class="col-xs-5">
                 <input type="text" id="inpEmail">
@@ -298,14 +293,13 @@
         </div>
         <div class="row row-telephone">
             <div class="col-xs-4">
-                <label>Телефон</label>
+                <label>Телефон<em>*</em></label>
             </div>
             <div class="col-xs-5">
                 <input type="text">
             </div>
             <div id="btn-add-tel" class="col-xs-1" data-toggle="tooltip" data-placement="right"
-                 title="Добавить телефон"
-                 onClick="addTelephone()">
+                 title="Добавить телефон">
                 <img src="resources/images/pluse.png" alt="plus">
             </div>
         </div>
@@ -323,6 +317,16 @@
 
 </div>
 
+<div id="gup-validator-popup" class="gup-popup-overlay">
+    <div class="gup-popup">
+        <h2>Ошибка создания объявления</h2>
+        <a class="popup-close" href="#">&times;</a>
+        <div class="popup-content">
+
+        </div>
+    </div>
+</div>
+
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
 </sec:authorize>
@@ -338,16 +342,8 @@
 
 <jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
 
-<script>
-    $(document).ready(function () {
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
-    })
-</script>
-
-<script src="/resources/js/create-offer.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=initMap"
+<script src="/resources/js/offers/offer-redactor.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTOK35ibuwO8eBj0LTdROFPbX40SWrfww&libraries=places&signed_in=true&callback=offerRedactor.initMap"
         async defer></script>
 </body>
 </html>

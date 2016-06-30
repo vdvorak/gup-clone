@@ -36,7 +36,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         setEmptyFieldsForNewUser(newProfile);
 
         profileRepository.createProfile(newProfile);
-        bankSession.createBalanceRecord(newProfile.getId(), 0);
+        bankSession.createBalanceRecord(newProfile.getId(), 3);
 
         profile.setId(newProfile.getId());
     }
@@ -116,11 +116,17 @@ public class ProfilesServiceImpl implements ProfilesService {
     public boolean isUserModerator(Profile user) {
         Set<UserRole> userRoleSet = user.getUserRoles();
         for (UserRole userRole : userRoleSet) {
-            if (userRole == UserRole.ROLE_MODERATOR) {
-                return  true;
+            if (userRole == UserRole.ROLE_MODERATOR || userRole == UserRole.ROLE_ADMIN) {
+                return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean isSeoWordFree(String seoWord) {
+        Profile profile = profileRepository.findBySeoWord(seoWord);
+        return profile == null;
     }
 
     @Override
@@ -150,10 +156,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.profileRatingExists(profileId, profileRatingId);
     }
 
-    @Override
-    public void addFriend(String profileId, String friendProfileId) {
-        profileRepository.addFriend(profileId, friendProfileId);
-    }
+//    @Override
+//    public void addFriend(String profileId, String friendProfileId) {
+//        profileRepository.addFriend(profileId, friendProfileId);
+//    }
 
     @Override
     public Set<String> getMatchedNames(String term) {

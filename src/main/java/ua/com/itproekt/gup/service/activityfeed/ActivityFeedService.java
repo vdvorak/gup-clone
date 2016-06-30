@@ -18,4 +18,6 @@ public interface ActivityFeedService {
     void setViewed(String eventId);
 
     void deleteAllEvents(String userId);
+
+    void setAllViewed(String userId);
 }

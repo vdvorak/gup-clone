@@ -10,7 +10,7 @@ $("#ad-caret").click(function () {
 });
 
 function getOfferUrl(offer) {
-    return '/offer/' + offer.id;
+    return '/obyavlenie/' + offer.seoUrl;
 }
 
 function getOfferImageUrl(imagesIds) {

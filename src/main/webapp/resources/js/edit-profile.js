@@ -237,7 +237,7 @@ $(document).ready(function () {
 
 // --------------------------------------  BEGIN NACE  ----------------------------------------------
                 var select = $('#select-sphere');
-                select.chosen();
+                select.chosen({width: '370px'});
 
                 var naceId = loadedProfile.contact.naceId;
                 $.when(loadNace).done(function(response){
@@ -333,7 +333,7 @@ $('#addProfileImg').on('click', function () {
     $("#uploadProfilePhotoInput").click();
 });
 
-$('#uploadProfilePhotoInput').on('change', function () {
+$('#uploadProfilePhotoInput').on('change', function (event) {
     var files = event.currentTarget.files;
     var reader = new FileReader();
 
@@ -347,6 +347,8 @@ $('#uploadProfilePhotoInput').on('change', function () {
 
     $('#cropperModal').css('display', "block");
 });
+
+
 // ------------------------------------------- End photo upload block ---------------------------------
 
 

@@ -1,16 +1,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Optical Illusion
-  Date: 14.01.2016
-  Time: 11:56
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Объявления | Портал GUP</title>
+
+
+    <title>Объявления на Gup</title>
+    <meta name="description"
+          content="Global Ukrainian Portal - твой украинский портал. Актуальные новости, объявления, интересные проекты и тендеры.">
+
+    <meta property="og:title" content="Объявления на Gup"/>
+    <meta property="og:description"
+          content="Global Ukrainian Portal - актуальные новости, объявления, интересные проекты и тендеры."/>
+
+    <meta property="og:type" content="other"/>
+    <meta property="og:url" content="http://gup.com.ua/offers"/>
+    <meta property="og:image" content="http://gup.com.ua/resources/css/images/brand.png"/>
+    <meta property="og:site_name" content="Gup.com.ua - Global Ukrainian Portal"/>
+
 
     <link rel="shortcut icon" href="/resources/images/favicon.ico"/>
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
@@ -19,6 +28,7 @@
     <link rel="stylesheet" href="/resources/css/main.css">
     <link rel="stylesheet" href="/resources/css/font-awesome.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
     <link rel="stylesheet" href="/resources/css/alster.css">
     <link href="/resources/css/custom-new.css" rel="stylesheet" type="text/css">
     <link href="/resources/css/dropdown-multicolumn.css" rel="stylesheet" type="text/css">
@@ -49,10 +59,10 @@
         </a>
     </div>
 
-    <h2 id="h2-top-offers">ТОП обьявлений</h2>
+    <h2 id="h2-top-offers" style="display:none;">ТОП обьявлений</h2>
 
     <!-- offers not found -->
-    <div id="offers-notFound" class="offers-notFound-hidden">
+    <div id="offers-notFound" style="display:none;">
         <span>По Вашему запросу ничего не найдено.</span>
     </div>
     <!-- offers not found -->
@@ -63,9 +73,10 @@
     <li id="li-offer-basic" style="display:none">
         <a href="#" class="image"><img src="/resources/images/no_photo.jpg" alt="">
 
-            <p>Заголовок обьявления</p></a>
-        <div class="priceButton">1 000 грн.</div>
-        <span>Просмотров: 222</span>
+            <p></p></a>
+
+        <div class="priceButton"></div>
+        <span></span>
     </li>
     <!-- li pattern for clone -->
 
@@ -75,6 +86,7 @@
 
     <div class="feedFooter"></div>
 </div>
+
 
 <sec:authorize access="isAuthenticated()">
     <jsp:include page="/WEB-INF/templates/support-questions.jsp"/>
@@ -91,36 +103,7 @@
 </script>
 
 <jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
+<script src="/resources/js/offers/offer-all.js"></script>
 
-<script>
-
-    var offerFilter = window.OfferFilter;
-
-    $(document).ready(function () {
-        offerFilter.parseUrlToFilter()
-                    .readAllByFilter();
-
-        var categories = offerFilter.utils.categories;
-        if(categories && categories.length) {
-            $.when(window.loadOptions, window.loadParameters).done(function(){
-                offerFilter.drawFilterOptions(categories[categories.length - 1]);
-            })
-            $.when(window.loadSubcategories).done(function(){
-                if(categories.length > 1) offerFilter.drawCategories3lvl();
-            })
-        }
-
-        var address = offerFilter.utils.address;
-        if(address.area) $('#input-selected-area').val(address.area);
-        if(address.city) $('#input-selected-city').val(address.city);
-        offerFilter.generateFilterRegionString();
-
-        $('#btn-offers-more').click(offerFilter.submitFilter);
-
-        $('#select-categories-3lvl').change(offerFilter.selectCategoryLvl3);
-        $('#filter-price').change(offerFilter.selectFilterPrice);
-    });
-
-</script>
 </body>
 </html>

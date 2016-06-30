@@ -17,7 +17,6 @@ import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -141,7 +140,7 @@ public class ProfileRestController {
         for (Profile profile : profilesList) {
             profile.setContactList(null);
         }
-        
+
         if (profiles.getEntities().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -162,32 +161,51 @@ public class ProfileRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Profile profile = profilesService.findById(newProfile.getId());
+        Profile oldProfile = profilesService.findById(newProfile.getId());
         String loggedUserId = SecurityOperations.getLoggedUserId();
-        if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
-            profilesService.editProfile(newProfile);
-            return new ResponseEntity<>(HttpStatus.OK);
+
+        if (newProfile.getIdSeoWord() != null) {
+
+            if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
+                if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+                    changeUserType(newProfile, oldProfile);
+                    profilesService.editProfile(newProfile);
+                    return new ResponseEntity<>(HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+            } else {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+
+
         } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+                changeUserType(newProfile, oldProfile);
+                profilesService.editProfile(newProfile);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
         }
     }
 
-    /**
-     * Add friend response entity.
-     *
-     * @param friendID the friend's profile id
-     * @return the response status
-     */
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/friends/addFriend/{friendID}/", method = RequestMethod.POST)
-    public ResponseEntity<Void> addFriend(@PathVariable String friendID) {
-        if (!profilesService.profileExists(friendID)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        String profileId = SecurityOperations.getLoggedUserId();
-        profilesService.addFriend(profileId, friendID);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    /**
+//     * Add friend response entity.
+//     *
+//     * @param friendID the friend's profile id
+//     * @return the response status
+//     */
+//    @PreAuthorize("isAuthenticated()")
+//    @RequestMapping(value = "/friends/addFriend/{friendID}/", method = RequestMethod.POST)
+//    public ResponseEntity<Void> addFriend(@PathVariable String friendID) {
+//        if (!profilesService.profileExists(friendID)) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        String profileId = SecurityOperations.getLoggedUserId();
+//        profilesService.addFriend(profileId, friendID);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     @ResponseBody
     @RequestMapping(value = "/profile/email-check", method = RequestMethod.POST)
@@ -218,6 +236,27 @@ public class ProfileRestController {
     }
 
     @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/id/{profileId}/myContactList/delete", method = RequestMethod.POST)
+    public ResponseEntity<Void> deleteFromMyContactList(@PathVariable String profileId) {
+
+        if (!profilesService.profileExists(profileId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        Profile profile = profilesService.findById(userId);
+
+        Set<String> contactList = profile.getContactList();
+
+        contactList.remove(profileId);
+
+        profilesService.editProfile(profile);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/join-organization", method = RequestMethod.POST)
     public ResponseEntity<String> joinToOrganization() {
 
@@ -239,23 +278,6 @@ public class ProfileRestController {
         }
     }
 
-
-//    @PreAuthorize("isAuthenticated()")
-//    @RequestMapping(value = "/offer-reservation", method = RequestMethod.POST)
-//    public ResponseEntity<Void> offerReservation() {
-//
-//        String userId = SecurityOperations.getLoggedUserId();
-//
-//            Integer userBalance = bankSession.getUserBalance(userId);
-//            if (userBalance >= 5) {
-//                bankSession.investInOrganization(5555, userId, 5L, 30, "Success");
-//                return new ResponseEntity<>(HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//            }
-//    }
-
-
     @RequestMapping(value = "/check-user-balance-by-id", method = RequestMethod.POST)
     @ResponseBody
     public Integer checkBalance(@RequestParam("userId") String userId) {
@@ -264,5 +286,21 @@ public class ProfileRestController {
             return bankSession.getUserBalance(userId);
         }
         return 0;
+    }
+
+    private void changeUserType(Profile newProfile, Profile oldProfile) {
+        if (!newProfile.getContact().getType().equals(oldProfile.getContact().getType())) {
+            switch (newProfile.getContact().getType()) {
+                case LEGAL_ENTITY:
+                    bankSession.editBalanceTypeEntityOfUser(newProfile.getId(), 2);
+                    break;
+                case INDIVIDUAL:
+                    bankSession.editBalanceTypeEntityOfUser(newProfile.getId(), 3);
+                    break;
+                case ENTREPRENEUR:
+                    bankSession.editBalanceTypeEntityOfUser(newProfile.getId(), 4);
+                    break;
+            }
+        }
     }
 }

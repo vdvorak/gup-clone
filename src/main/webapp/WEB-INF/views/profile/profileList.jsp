@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
 </head>
 
 <body>
@@ -41,7 +42,6 @@
 <jsp:include page="/WEB-INF/templates/search-bar.jsp"/>
 
 <jsp:include page="/WEB-INF/templates/services-menu.jsp"/>
-
 
 <div class="container2" id="profileListContainer">
     <div>
@@ -101,10 +101,11 @@
     function appendProfileBlock(profile) {
         $('#profileListContainer').append(
                 '<div class="profileList <%-- vip-color-border --%>">' +
-                '<div class="profileListLogo <%-- vip-color-border --%>" style="background: url(' + getUrlForProfilePic(profile.imgId) + ') no-repeat center center; background-size: cover;"></div>' +
+                '<a href="/profile?id=' + profile.id + '"><div class="profileListLogo <%-- vip-color-border --%>" style="background: url(' + getUrlForProfilePic(profile.imgId) + ') no-repeat center center; background-size: cover;"></div></a>' +
                 '<a href="/profile?id=' + profile.id + '" class="profileListName">' +
                 (profile.username?profile.username:'Без имени') +
                 '</a>' +
+                /*'<button style="display: inline-block;" onclick="openDialog(\'' + profile.id + '\');">Open dialog</button>' +*/
                 '<p class="profileListDescription">' +
                 (profile.contact.aboutUs?profile.contact.aboutUs:'Нет описания') +
                 '</p></div>');

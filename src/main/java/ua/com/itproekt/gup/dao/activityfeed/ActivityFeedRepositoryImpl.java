@@ -57,6 +57,18 @@ public class ActivityFeedRepositoryImpl implements ActivityFeedRepository {
     }
 
     @Override
+    public void setAllViewed(String userId) {
+        Query query = new Query()
+                .addCriteria(Criteria.where("targetUId").is(userId))
+                .addCriteria(Criteria.where("isViewed").ne(Boolean.TRUE));
+
+        Update update = new Update()
+                .set("isViewed", Boolean.TRUE);
+
+        mongoTemplate.updateMulti(query, update, Event.class);
+    }
+
+    @Override
     public EntityPage<Event> findEventsWihOptions(EventFilterOptions eventFO) {
         Query query = new Query();
 

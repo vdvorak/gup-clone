@@ -1,5 +1,3 @@
-
-
 function getUrlParam(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
         sURLVariables = sPageURL.split('&'),
@@ -17,7 +15,15 @@ function getUrlParam(sParam) {
 
 $(document).ready(function () {
 
-    $( ".mail > .dropDownMail > .answer" ).draggable({ snap: "header" });
+    $('.mid > li').hover(function () {
+        $(this).children('.dropUl').stop();
+        $(this).children('.dropUl').slideDown('fast')
+    }, function () {
+        $(this).children('.dropUl').stop();
+        $(this).children('.dropUl').slideUp('fast')
+    });
+
+    $(".mail > .dropDownMail > .answer").draggable({snap: "header"});
 
     if (typeof flag != 'undefined') {
         var selectedService = $('#selectedService');
@@ -64,16 +70,16 @@ $(document).ready(function () {
         );
     });
 
-    $('body').click(function(event) {
+    $('body').click(function (event) {
         var elem = $(event.target);
-        if( $('.questionForm').css('marginLeft') === '0px' && !elem.hasClass('questionFormToggle')){
+        if ($('.questionForm').css('marginLeft') === '0px' && !elem.hasClass('questionFormToggle')) {
             $('.questionForm').animate({
                 marginLeft: '-250px'
             }, 'fast');
         }
     });
 
-    $(document).keyup(function(e) {
+    $(document).keyup(function (e) {
         if (e.keyCode == 27) {
             $('.questionForm').animate({
                 marginLeft: '-250px'
@@ -82,7 +88,7 @@ $(document).ready(function () {
     });
 
     $(".question-img").click(function () {
-       var questionForm = $('.questionForm');
+        var questionForm = $('.questionForm');
         questionForm.animate({
             marginLeft: 0
         }, 'fast');
@@ -153,11 +159,7 @@ $(document).ready(function () {
 
     }));
 
-    $('input.datepicker-input').datepicker();
-    $.datepicker.setDefaults({
-        onClose: checkDateInDatepicker
-    });
-
+    $('input.datepicker-input').datepicker({onClose: checkDateInDatepicker});
 
     function checkDateInDatepicker() {
         var dateFrom = $('#tender-datepicker1').datepicker('getDate');
@@ -180,14 +182,14 @@ $(document).ready(function () {
 
     $(".ItemADS").hover(
         function () {
-            $(this).find('img').addClass("hoverIMG");
+            $(this).find('a > img').addClass("hoverIMG");
             $(this).find('.descriptionTitleLeft').stop(true, false);
             $(this).find('.descriptionTitleRight').stop(true, false);
             $(this).find('.descriptionTitleLeft').fadeIn('fast');
             $(this).find('.descriptionTitleRight').fadeIn('fast');
         },
         function () {
-            $(this).find('img').removeClass("hoverIMG");
+            $(this).find('a > img').removeClass("hoverIMG");
             $(this).find('.descriptionTitleLeft').stop(true, false);
             $(this).find('.descriptionTitleRight').stop(true, false);
             $(this).find('.descriptionTitleLeft').fadeOut('fast');
@@ -301,9 +303,20 @@ $(document).ready(function () {
 
 });
 
-function findUser (userId) {
+function findUser(userId) {
     return $.ajax({
         type: "POST",
-        url: "/api/rest/profilesService/profile/read/id/" + userId,
+        url: "/api/rest/profilesService/profile/read/id/" + userId
     });
+}
+
+function isUserAdmin(loggedInProfile) {
+    var roleArray = loggedInProfile.userRoles;
+
+    for (var i = 0; i < roleArray.length; i++) {
+        if (roleArray[i] === 'ROLE_ADMIN' || roleArray[i] === 'ROLE_MODERATOR' || roleArray[i] === 'ROLE_SUPPORT') {
+            return true;
+        }
+    }
+    return false;
 }

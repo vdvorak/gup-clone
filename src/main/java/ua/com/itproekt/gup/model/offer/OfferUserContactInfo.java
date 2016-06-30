@@ -16,31 +16,35 @@ public class OfferUserContactInfo {
         return email;
     }
 
-    public void setEmail(String email) {
+    public OfferUserContactInfo setEmail(String email) {
         this.email = email;
+        return this;
     }
 
     public String getContactName() {
         return contactName;
     }
 
-    public void setContactName(String contactName) {
+    public OfferUserContactInfo setContactName(String contactName) {
         this.contactName = contactName;
+        return this;
     }
 
     public Set<String> getPhoneNumbers() {
         return phoneNumbers;
     }
 
-    public void setPhoneNumbers(Set<String> phoneNumbers) {
+    public OfferUserContactInfo setPhoneNumbers(Set<String> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
+        return this;
     }
 
     public String getSkypeLogin() {
         return skypeLogin;
     }
 
-    public void setSkypeLogin(String skypeLogin) {
+    public OfferUserContactInfo setSkypeLogin(String skypeLogin) {
         this.skypeLogin = skypeLogin;
+        return this;
     }
 }

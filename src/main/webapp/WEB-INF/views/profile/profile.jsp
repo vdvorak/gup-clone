@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="/resources/css/offer-filter-region.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/libs/chosen/chosen.min.css">
 </head>
 <body>
 <!--[if lt IE 8]>
@@ -87,12 +88,15 @@
         </div>
 
 
+
+
         <sec:authorize access="isAuthenticated()">
             <div class="contact-btn-group">
                 <button class="writeMessage" id="writeMessageToProfile" style="display: none;">Написать сообщение</button>
                 <!-- если профиль вип то сюда надо добавлять класс vip-color-background -->
                 <button class="addToContact" id="addProfileToContact" style="display: none;">Добавить в контакты</button>
                 <button class="addToContact" id="removeProfileFromContacts" style="display: none;">Удалить из контактов</button>
+                <button id="openDialog">Open dialog</button>
             </div>
         </sec:authorize>
 
@@ -124,4 +128,7 @@
 <script src="/resources/js/profileUtil.js"></script>
 <script src="/resources/js/profile.js"></script>
 </body>
+<%--<script>
+    document.getElementById("test").setAttribute('onclick', "openDialog(\'" + profileId + "\')");
+</script>--%>
 </html>

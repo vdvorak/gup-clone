@@ -25,7 +25,6 @@
     height: 87px;
 }
 .projAndInvestCaretDown {
-    cursor: pointer;
     padding: 10px 391px;
     border: 1px solid #99cc66;
     margin: 0 auto;
@@ -37,7 +36,7 @@
     text-align: center;
     margin: 25px 40px;
     padding: 5px 10px;
-    border: 4px white solid;
+    border: 2px white solid;
     cursor: pointer;
     border-radius: 10px;
     width: 150px;
@@ -136,10 +135,12 @@
 }
 
 .feedItem {
-    margin: 15px 5px;
+    margin: 15px auto;
     border-radius: 10px;
     border: 2px solid;
     position: relative;
+    width: 890px;
+    height: 190px;
 }
 
 .feedItem .publishDate,
@@ -235,26 +236,28 @@ color: white;
 .projectContent .projectRating .ratingSelector {
     display: block;
     float: left;
-    margin: 0 5px;
-    margin-top: 5px;
+    margin: 5px 5px 0;
 }
 
 .projectFeedContainer .content {
-    position: absolute;
-    top: 3px;
-    left: 270px;
-    right: 10px;
+    width: 690px;
+    height: 150px;
+    float: right;
+    margin-right: 10px;
 }
 
 .projectFeedContainer .content .title {
     color: #99cc66;
-    font: 24px Calibri;
+    font: 24px / 24px Calibri;
+    display: inline-block;
+    max-width: 550px;
 }
 
 .projectFeedContainer .content .text {
     color: #242424;
-    font: 14px Calibri;
+    font: 14px / 17px Calibri;
     text-indent: 40px;
+    word-wrap: break-word;
     max-height: 100px;
     overflow: hidden;
 }
@@ -857,8 +860,7 @@ color: white;
 .tenders .participate .clock,
 .tenderContent .participate .clock {
     position: absolute;
-    background-color: red;
-    width: 36px;
+    width: 40px;
     height: 40px;
     right: 160px;
     top: -28px;
@@ -961,9 +963,6 @@ color: white;
 .tenderContent .title {
     color: #1269a7;
     font: 27px DroidSans;
-    position: absolute;
-    top: -40px;
-    left: 56px;
     width: 600px;
     line-height: 35px;
     height: 70px;
@@ -981,6 +980,7 @@ color: white;
     text-align: justify;
     text-indent: 30px;
     word-wrap: break-word;
+    margin-top: 15px;
 }
 .tenderContent .bottomSection {
     position: relative;

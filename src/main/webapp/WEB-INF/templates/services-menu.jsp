@@ -6,45 +6,11 @@
             <a href="/offers" class="ads-p">Обьявления</a>
 
             <a href="/offers">
-            <div class="ads-img"></div>
+                <div class="ads-img"></div>
             </a>
             <ul class="dropUl">
-                <li><a class="ads-a1" href="/offers">Топ объявлений</a></li>
-                <li><a class="ads-drop" href="/create-offer">Создать объявление</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="/tenders" class="ads-p">Тендеры</a>
-            <a href="/tenders">
-            <div class="ads-img2"></div>
-            </a>
-            <ul class="dropUl">
-                <li><a class="ads-a1" href="/tender-make">Создать тендер</a></li>
-                <li><a class="ads-drop" href="/doer-create">Стать исполнителем</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="/project/list" class="ads-p">Проекты</a>
-            <a href="/project/list">
-            <div class="ads-img3"></div>
-                </a>
-            <ul class="dropUl">
-                <li><a class="ads-a1" href="/project/list?type=renovation">Реструкторизация</a></li>
-                <li><a class="ads-a1" href="/project/list?type=prototype">Готовый прототип</a></li>
-                <li><a class="ads-a1" href="/project/list?type=project_on_paper">Проект на бумаге</a></li>
-                <li><a class="ads-drop" href="/project/list?type=know_how">Ноу-Хау</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="/blog-post/news?pageNumber=0" class="ads-p">Новости</a>
-
-            <a href="/blog-post/news?pageNumber=0">
-            <div class="ads-img4"></div>
-            </a>
-
-            <ul class="dropUl">
-                <li><a class="ads-a1" href="/blog-post/news?pageNumber=0">Топ новостей</a></li>
-                <li><a class="ads-drop" href="/blog-create">Создать новостной блог</a></li>
+                <li><a href="/offers">Топ объявлений</a></li>
+                <li><a href="/create-offer">Создать объявление</a></li>
             </ul>
         </li>
         <li>

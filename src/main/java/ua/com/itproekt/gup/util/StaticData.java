@@ -6,9 +6,6 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Комп2 on 19.01.2016.
- */
 public final class StaticData {
     private StaticData(){}
     public static final Profile SUPPORT_DIALOGUE_ADMIN = new Profile();

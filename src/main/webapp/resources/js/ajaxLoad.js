@@ -1,7 +1,7 @@
 /**
  * Created by Юля on 15.03.2016.
  */
-var offerFilter = window.OfferFilter;
+var offers = window.offers;
 
 var cities = {};
 var parameters = [];
@@ -28,7 +28,6 @@ var loadCategories =
         dataType: "json",
         success: function (response) {
             jsonCategory = response;
-            offerFilter.drawSubcategories();
         }
     })
 

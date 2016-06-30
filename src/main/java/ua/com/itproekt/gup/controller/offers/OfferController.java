@@ -8,31 +8,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import ua.com.itproekt.gup.dao.offers.OfferRepository;
-import ua.com.itproekt.gup.model.offer.Address;
 import ua.com.itproekt.gup.model.offer.Offer;
-import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.offer.Property;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.util.SeoMetaTags;
+import ua.com.itproekt.gup.util.SeoUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.net.URLDecoder;
+import java.util.List;
+import java.util.Map;
 
-/**
- * Created by Optical Illusion on 06.11.2015.
- */
 @Controller
 public class OfferController {
     @Autowired
     OffersService offersService;
     @Autowired
     ProfilesService profilesService;
-    @Autowired
-    private OfferRepository offerRepository;
 
 
     //----------------------------------- all offers  ------
@@ -43,14 +35,31 @@ public class OfferController {
         return "offer/offer-all";
     }
 
-    //----------------------------------- one certain offer  ------
-    @RequestMapping(value = "/offer/{id}", method = RequestMethod.GET)
-    public String offerNew(Model model, @PathVariable("id") String id) {
+    //----------------------------------- one certain offer with SEO key  ------
+    @RequestMapping(value = "/obyavlenie/{seoUrl}", method = RequestMethod.GET)
+    public String getOneOfferBySeoKey(Model model, @PathVariable("seoUrl") String seoUrl) {
+
+        String offerSeoKey = SeoUtils.getKey(seoUrl);
         String flag = "offer";
+
+
+        Offer offer = offersService.findBySeoKey(offerSeoKey);
+
+        SeoMetaTags seoMetaTags = new SeoMetaTags()
+                .setMainImgId(getFistImgFromOffer(offer.getImagesIds()))
+                .setTitle(offer.getTitle())
+                .setSeoCategory(offer.getSeoCategory())
+                .setSeoAdress(getAdressFromOffer(offer))
+                .setSeoUrl(seoUrl)
+                .setPrice(getPriceFromOffer(offer))
+                .setCurrency(getCurrencyFromOffer(offer));
+
+        model.addAttribute("seoMetaTags", seoMetaTags);
         model.addAttribute("flag", flag);
-        model.addAttribute("offerId", id);
+        model.addAttribute("offerId", offer.getId());
         return "offer/offer";
     }
+
 
     //----------------------------------- create offer  ------
 
@@ -61,22 +70,17 @@ public class OfferController {
         return "offer/create-offer";
     }
 
-    //----------------------------------- one certain offer  ------
-    @RequestMapping(value = "/edit-offer/{id}", method = RequestMethod.GET)
-    public String getOffer(Model model, @PathVariable("id") String id) {
+
+    //----------------------------------- edit offer  ------
+    @RequestMapping(value = "/edit-offer/{seoUrl}", method = RequestMethod.GET)
+    public String getOfferWithSeo(Model model, @PathVariable("seoUrl") String seoUrl) {
+
+        String offerSeoKey = SeoUtils.getKey(seoUrl);
 
         Offer offer = new Offer();
-        Profile profile = new Profile();
 
         try {
-            profile = profilesService.findWholeProfileById(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Exception in getOffer method trying receive profile");
-        }
-
-        try {
-            offer = offersService.findOfferAndIncViews(id);
+            offer = offersService.findBySeoKey(offerSeoKey);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Exception in getOffer method trying receive offer");
@@ -91,40 +95,84 @@ public class OfferController {
 
         try {
             properties = mapper.writeValueAsString(offer.getProperties());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        try {
             categories = mapper.writeValueAsString(offer.getCategories());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        try {
             imagesIds = mapper.writeValueAsString(offer.getImagesIds());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         String flag = "offer";
         model.addAttribute("flag", flag);
         model.addAttribute("imagesIds", imagesIds);
         model.addAttribute("properties", properties);
         model.addAttribute("categories", categories);
-        model.addAttribute("profile", profile);
         model.addAttribute("offer", offer);
 
         return "offer/edit-offer";
     }
 
-    //----------------------------------- test page  ------
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String test(Model model) {
-        return "test";
+    private String getFistImgFromOffer(Map<String, String> imgsMap) {
+        for (String s : imgsMap.keySet()) {
+            if (imgsMap.get(s).equals("pic1")) {
+                return s;
+            }
+        }
+        return "";
+    }
+
+    private String getAdressFromOffer(Offer offer) {
+        String result = "Украина";
+        if (offer.getAddress().getArea() != null) {
+            result = offer.getAddress().getArea();
+        }
+        if (offer.getAddress().getCity() != null) {
+            result = offer.getAddress().getCity();
+        }
+        return result;
+    }
+
+    private String getPriceFromOffer(Offer offer) {
+
+        List<Property> propertyList = offer.getProperties();
+
+        for (Property property : propertyList) {
+            if (property.getKey().equals("price")) {
+
+                if (property.getValue().equals("price")) {
+                    if (offer.getPrice() != null) {
+
+                        return String.valueOf(offer.getPrice());
+                    }
+                }
+
+                switch (property.getValue()) {
+                    case "exchange":
+                        return "Обмен";
+                    case "free":
+                        return "Бесплатно";
+                    case "arranged":
+                        return "Договорная цена";
+                }
+            }
+        }
+        return "";
     }
 
 
+    private String getCurrencyFromOffer(Offer offer) {
+        if (offer.getCurrency() != null) {
+            switch (offer.getCurrency()) {
+                case UAH:
+                    return " грн.";
+                case USD:
+                    return " дол.";
+                case EUR:
+                    return " евро";
+                default:
+                    return "";
+            }
+        }
+        return "";
+    }
 }

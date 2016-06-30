@@ -59,9 +59,28 @@ public class ActivityFeedRestController {
     @RequestMapping(value = "/event/id/delete/all", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteEvent() {
 
-        String userId = SecurityOperations.getLoggedUserId();
+        try {
+            String userId = SecurityOperations.getLoggedUserId();
+            activityFeedService.deleteAllEvents(userId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-        activityFeedService.deleteAllEvents(userId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/event/set/viewed/all", method = RequestMethod.POST)
+    public ResponseEntity<Void> setViewed() {
+
+        try {
+            String userId = SecurityOperations.getLoggedUserId();
+            activityFeedService.setAllViewed(userId);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

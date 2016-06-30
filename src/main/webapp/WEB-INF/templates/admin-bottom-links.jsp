@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Optical Illusion
-  Date: 04.01.2016
-  Time: 12:42
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- jQuery -->
 <script src="/resources/bower_components/jquery/dist/jquery.min.js"></script>

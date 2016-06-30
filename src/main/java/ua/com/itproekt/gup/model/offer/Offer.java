@@ -28,9 +28,12 @@ public class Offer {
     private Reservation reservation;
     private Integer views;
     private Rent rent;
+    private String seoUrl; // full SEO url with key - for siteMap
+    private String seoKey; // only key - for search in DB
 
 
     private LinkedHashSet<String> categories;
+    private String seoCategory; // last category for seo meta tags
     private List<Property> properties;
     @Size(max = 15)
     private Map<String, String> imagesIds;
@@ -48,6 +51,7 @@ public class Offer {
     private Boolean canBeReserved;
     private Boolean canBeRented;
     private Address address;
+    private ModerationMessage moderationMessage;
 
     public Offer setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -92,6 +96,23 @@ public class Offer {
         return this;
     }
 
+    public String getSeoUrl() {
+        return seoUrl;
+    }
+
+    public Offer setSeoUrl(String seoUrl) {
+        this.seoUrl = seoUrl;
+        return this;
+    }
+
+    public String getSeoKey() {
+        return seoKey;
+    }
+
+    public Offer setSeoKey(String seoKey) {
+        this.seoKey = seoKey;
+        return this;
+    }
 
     public OfferUserContactInfo getUserInfo() {
         return userInfo;
@@ -144,6 +165,15 @@ public class Offer {
 
     public Offer setCategories(LinkedHashSet<String> categories) {
         this.categories = categories;
+        return this;
+    }
+
+    public String getSeoCategory() {
+        return seoCategory;
+    }
+
+    public Offer setSeoCategory(String seoCategory) {
+        this.seoCategory = seoCategory;
         return this;
     }
 
@@ -262,5 +292,47 @@ public class Offer {
     public Offer setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
         return this;
+    }
+
+    public ModerationMessage getModerationMessage() {
+        return moderationMessage;
+    }
+
+    public Offer setModerationMessage(ModerationMessage moderationMessage) {
+        this.moderationMessage = moderationMessage;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Offer{" +
+                "id='" + id + '\'' +
+                ", authorId='" + authorId + '\'' +
+                ", userInfo=" + userInfo +
+                ", moderationStatus=" + moderationStatus +
+                ", active=" + active +
+                ", createdDate=" + createdDate +
+                ", reservation=" + reservation +
+                ", views=" + views +
+                ", rent=" + rent +
+                ", seoUrl='" + seoUrl + '\'' +
+                ", seoKey='" + seoKey + '\'' +
+                ", categories=" + categories +
+                ", seoCategory='" + seoCategory + '\'' +
+                ", properties=" + properties +
+                ", imagesIds=" + imagesIds +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", currency=" + currency +
+                ", priceCanBeNegotiated=" + priceCanBeNegotiated +
+                ", urgent=" + urgent +
+                ", used=" + used +
+                ", canBeReserved=" + canBeReserved +
+                ", canBeRented=" + canBeRented +
+                ", address=" + address +
+                ", moderationMessage=" + moderationMessage +
+                '}';
     }
 }

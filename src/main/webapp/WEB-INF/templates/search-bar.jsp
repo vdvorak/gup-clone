@@ -7,11 +7,7 @@
         <div class="selectBox">
             <select class="form-control" id="selectedService">
                 <option value="profile">Пользователи</option>
-                <option value="news">Новости</option>
-                <option value="project">Проекты</option>
                 <option value="offer">Обьявления</option>
-                <option value="tender">Тендеры</option>
-                <option value="doer">Исполнители</option>
             </select>
         </div>
         <button id="searchButton" class="submit-search">Найти <i class="fa fa-search fa-flip-horizontal"></i></button>
@@ -36,45 +32,6 @@
             </div>
         </div>
 
-        <div id="newsFilterBlock" class="hidefilter" style="display: none">
-            <div class="categories">
-                <p>Рубрики</p>
-
-                <div class="categoriesItem">
-                    <a href="#"><img src="/resources/images/science.png" alt="science"></a>
-                    <a href="#">Наука и техника</a>
-                </div>
-                <div class="categoriesItem">
-                    <a href="#"><img src="/resources/images/art.png" alt="art"></a>
-                    <a href="#">Искусство</a>
-                </div>
-                <div class="categoriesItem">
-                    <a href="#"><img src="/resources/images/savor.png" alt="savor"></a>
-                    <a href="#">Светская жизнь</a>
-                </div>
-                <div class="categoriesItem">
-                    <a href="#"><img src="/resources/images/Policy.png" alt="Policy"></a>
-                    <a href="#">Политика</a>
-                </div>
-                <div class="categoriesItem">
-                    <a href="#"><img src="/resources/images/WorldAndSociety.png" alt="World and Society"></a>
-                    <a href="#">Мир и общество</a>
-                </div>
-                <div class="categoriesItem">
-                    <a href="#"><img src="/resources/images/Economy.png" alt="Economy"></a>
-                    <a href="#">Економика</a>
-                </div>
-                <div class="categoriesItem">
-                    <a href="#"><img src="/resources/images/Sport,hobby.png" alt="Sport, hobby"></a>
-                    <a href="#">Спорт, хобби</a>
-                </div>
-                <div class="categoriesItem">
-                    <a href="#"><img src="/resources/images/SocialNetwork.png" alt="Social network"></a>
-                    <a href="#">Соц.сети</a>
-                </div>
-            </div>
-        </div>
-
         <div id="offerFilterBlock" class="hidefilter" style="display: none">
             <div class="filterADS">
                 <div class="ItemADS">
@@ -82,7 +39,7 @@
                     <a href="#">Малыши</a>
 
                     <div class="descriptionTitleLeft">
-
+                        <img src="/resources/images/descriptionTitleLeft.png" alt="descriptionTitleLeft">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -90,7 +47,7 @@
                     <a href="#">Zoo</a>
 
                     <div class="descriptionTitleLeft">
-
+                        <img src="/resources/images/descriptionTitleLeft.png" alt="descriptionTitleLeft">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -99,7 +56,7 @@
                     <a href="#">Стиль и мода</a>
 
                     <div class="descriptionTitleRight">
-
+                        <img src="/resources/images/descriptionTitleRight.png" alt="descriptionTitleRight">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -108,7 +65,7 @@
                     <a href="#">Спорт и хобби</a>
 
                     <div class="descriptionTitleRight">
-
+                        <img src="/resources/images/descriptionTitleRight.png" alt="descriptionTitleRight">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -117,7 +74,7 @@
                     <a href="#">Техника</a>
 
                     <div class="descriptionTitleLeft">
-
+                        <img src="/resources/images/descriptionTitleLeft.png" alt="descriptionTitleLeft">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -126,7 +83,7 @@
                     <a href="#">Дома и дача</a>
 
                     <div class="descriptionTitleLeft">
-
+                        <img src="/resources/images/descriptionTitleLeft.png" alt="descriptionTitleLeft">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -140,7 +97,7 @@
                     <a href="#">Недвижимость</a>
 
                     <div class="descriptionTitleRight">
-
+                        <img src="/resources/images/descriptionTitleRight.png" alt="descriptionTitleRight">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -149,7 +106,7 @@
                     <a href="#">Транспорт</a>
 
                     <div class="descriptionTitleLeft">
-
+                        <img src="/resources/images/descriptionTitleLeft.png" alt="descriptionTitleLeft">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -159,7 +116,7 @@
                     <a href="#">Бизнес и услуги</a>
 
                     <div class="descriptionTitleLeft">
-
+                        <img src="/resources/images/descriptionTitleLeft.png" alt="descriptionTitleLeft">
                     </div>
                 </div>
                 <div class="ItemADS">
@@ -341,108 +298,6 @@
                     </form>
                 </div>
             </div>
-        </div>
-
-        <div id="tenderFilterBlock" class="hidefilter" style="display: none">
-
-            <div class="clearfix"></div>
-            <div class="clearfix"></div>
-            <div class="clearfix"></div>
-
-            <div class="tenderFilter">
-
-                <div class="column">
-                    <form action="#">
-                        <div class="clearfix"></div>
-
-                        <label for="tenderNumber">Номер тендера:</label>
-                        <input type="text" placeholder="Автозаполнение" id="tenderNumber">
-
-                        <div class="clearfix"></div>
-
-                        <label for="filterNACE">КВЭДЫ:</label>
-                        <input type="text" placeholder="Автозаполнение" id="filterNACE">
-
-                        <div class="clearfix"></div>
-
-                        <label for="Author">Автор:</label>
-                        <input type="text" id="Author">
-
-                        <div class="clearfix"></div>
-
-                        <label>Тип тендера:</label>
-
-                        <div class="tenderRadio">
-                            <label><input type="radio" value="open" name="k"/><span></span></label>
-
-                            <p>открытый</p>
-                            <label><input type="radio" value="open" name="k"/><span></span></label>
-
-                            <p>закрытый</p>
-                        </div>
-
-                        <div class="clearfix"></div>
-
-                        <label>Ожидаемая стоимость: от&nbsp;</label>
-                        <input type="text" class="moneyAfter">
-
-                        <p class="tenderP">до</p>
-                        <input type="text" class="moneyAfter">
-
-                        <div class="clearfix"></div>
-                    </form>
-                </div>
-
-                <div class="column">
-                    <h2>Адрес (место проведения):</h2>
-
-                    <form action="#">
-                        <div class="location">
-                            <img src="/resources/images/location.png" alt="location">
-                            <label for="region">Область</label>
-                            <input type="text" id="region">
-                            <label for="city">Город</label>
-                            <input type="text" id="city">
-
-                            <div class="clearfix"></div>
-                        </div>
-                        <label for="">Период проведения:</label>
-
-                        <p class="datePickPi">от <input type="text" id="datepicker"></p>
-
-                        <p class="datePickPi">до <input type="text" id="datepicker2"></p>
-                        <label for="available">Доступные к участию:</label>
-                        <label class="participate"><input type="checkbox" id="available" value="1"
-                                                          name="k"/><span></span></label>
-
-                        <div class="clearfix"></div>
-                    </form>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-
-        <div id="doerFilterBlock" class="hidefilter" style="display: none">
-            <form class="filterArtists" action="#">
-                <label class="filterArtistsLabel" for="filterArtistsInput">Cоздатель:&nbsp;</label>
-                <input id="filterArtistsInput" type="text" placeholder="Автозаполнение"><br>
-
-                <label class="filterArtistsLabel marginTop" for="checkboxArtists">По актуальности:&nbsp;</label>
-                <label class="label-checkbox"><input type="checkbox" class="greenCheckbox" id="checkboxArtists"
-                                                     value="1" name="k"/><span></span></label>
-
-                <label class="filterArtistsLabel marginTop marginLeft">По оценке:&nbsp;</label>
-
-                <div class="selectBoxEvaluation">
-                    <select class="form-control">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
-            </form>
         </div>
 
         <div class="clearfix"></div>

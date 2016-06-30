@@ -14,7 +14,7 @@ public class Profile {
     @Id
     private String id;
     @Indexed
-    private String idWord;
+    private String idSeoWord;
 
     @Indexed
     private String email;
@@ -113,8 +113,8 @@ public class Profile {
         return this;
     }
 
-    public Profile setIdWord(String idWord) {
-        this.idWord = idWord;
+    public Profile setIdSeoWord(String idSeoWord) {
+        this.idSeoWord = idSeoWord;
         return this;
     }
 
@@ -180,8 +180,8 @@ public class Profile {
         return confirmModerator;
     }
 
-    public String getIdWord() {
-        return idWord;
+    public String getIdSeoWord() {
+        return idSeoWord;
     }
 
     public String getMainPhoneNumber() {
@@ -238,7 +238,7 @@ public class Profile {
         return "Profile{" +
                 "id='" + id + '\'' +
                 ", confirmModerator=" + confirmModerator +
-                ", idWord='" + idWord + '\'' +
+                ", idSeoWord='" + idSeoWord + '\'' +
                 ", mainPhoneNumber='" + mainPhoneNumber + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +

@@ -1,6 +1,5 @@
 package ua.com.itproekt.gup.api.rest.dialogues;
 
-import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -8,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.WebDataBinder;
@@ -22,10 +24,8 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import java.beans.PropertyEditorSupport;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.security.Principal;
+import java.util.*;
 
 @RestController
 @RequestMapping("api/rest/dialogueService")
@@ -87,7 +87,7 @@ public class DialogueRestController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    // this method provide adding new message to existing dialogue. Id in path is a dialogue id.
+    // this method provides adding new message to existing dialogue. Id in path is a dialogue id.
     @RequestMapping(
             value = "dialogue/id/{id}/message/create",
             method = RequestMethod.POST,
@@ -140,7 +140,11 @@ public class DialogueRestController {
     // this method provide getting all message from existing dialogue.
     @RequestMapping(value = "/dialogue/updateRead/{id}",
             method = RequestMethod.POST)
-    public void makeDialogueRead(@PathVariable("id") Dialogue dialogue) {
+    public void makeDialogueRead(@PathVariable("id") Dialogue dialogue, Principal p) {
+        /* // something already set to 0 before running code below
+        String userId = SecurityOperations.getLoggedUserId();
+        Profile user = profileService.findWholeProfileById(userId);
+        user.setUnreadMessages(0);*/
     }
 
     //
@@ -171,6 +175,8 @@ public class DialogueRestController {
 //            }
 //        }
 
+
+
         dialogues.stream().filter(d -> (d.getUnreadMsgCounter().get(userId) > 0))
                 .forEach(dialogue -> {
                     //find last msg (with latest date);
@@ -183,10 +189,8 @@ public class DialogueRestController {
                     //Change AuthorId in messages to UserPicId
                     Profile p = profileService.findById(msg.getAuthorId());
                     if (p != null && p.getImgId() != null) {
-                        if (p.getImgId() != null) {
-                            msg.setAuthorId(p.getImgId());
-                            msg.getWhoRead().remove(p.getImgId());
-                        }
+                        msg.setAuthorId(p.getImgId());
+                        msg.getWhoRead().remove(p.getImgId());
                     } else {
                         msg.setAuthorId("noImg");
                     }
@@ -274,5 +278,44 @@ public class DialogueRestController {
             member.setId(getCurrentUserId());
             dialogue.getMembers().add(member);
         }
+    }
+
+    @MessageMapping("/socket-request/dialogue/{dialogId}")
+    @SendTo("/topic/socket-response/{dialogId}")
+    public SocketResponse response(@DestinationVariable String dialogId, SocketMessage socketmessage, Principal p) throws Exception {
+        Profile profile = profileService.findProfileByEmail(p.getName());
+        String userId = profile.getId();
+
+        log.log(Level.INFO, LOGGED_TITLE + "message/create Hello =)");
+        Dialogue dialogue = dialogueService.findByIdProfile(dialogId, profile);
+        /*Dialogue dialogue = dialogueService.findById(dialogId);*/
+        if (dialogue == null || dialogue.getId() == null) {
+            log.log(Level.ERROR, LOGGED_TITLE + "NO SUCH DIALOGUE, id = " + dialogId);
+        }
+
+        // check if current user have access to existing dialogue
+        if (!dialogueService.isUserInDialogue(dialogue, userId)) {
+            log.log(Level.ERROR, LOGGED_TITLE + " user id=" + userId
+                    + " who is NOT IN LIST OF MEMBERS try to add new massage to dialogue id= " + dialogId);
+        }
+
+        PrivateMessage privateMessage = new PrivateMessage(socketmessage.getMessage(), userId);
+        dialogue.addMessage(privateMessage);
+        dialogueService.updateDialogueWhenAddMsgProfile(dialogue, profile);
+        log.log(Level.INFO, LOGGED_TITLE + " - new message was successfully add to dialogue");
+
+        return new SocketResponse(privateMessage);
+    }
+
+    @MessageMapping("/socket-request/profile/{profileId}")
+    @SendTo("/topic/socket-response/{profileId}")
+    public SocketResponse subscriptProfile(@DestinationVariable String profileId, SocketMessage socketmessage, Principal p) throws Exception {
+        Dialogue dialogue = dialogueService.findById(socketmessage.getMessage(), p.getName());
+        for(int j =0; j < dialogue.getMembers().size(); j++){
+            Profile profile = profileService.findById(dialogue.getMembers().get(j).getId());
+            dialogue.getMembers().get(j).setName(profile.getUsername());
+            dialogue.getMembers().get(j).setUserPicId(profile.getImgId());
+        }
+        return new SocketResponse(dialogue);
     }
 }

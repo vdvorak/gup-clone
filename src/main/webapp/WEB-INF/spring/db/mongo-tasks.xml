@@ -6,11 +6,6 @@
        http://www.springframework.org/schema/task/spring-task.xsd
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-    <task:scheduler id="findAndUpdateCollectedRequestedAmountProjects"/>
-    <task:scheduler id="bringBackMoneyToInvestorsOfExpiredProjects"/>
-    <task:scheduler id="checkClosedTenders"/>
-
     <!--Cron expression example-->
     <!--"0 0 * * * *" = the top of every hour of every day.-->
     <!--"*/10 * * * * *" = every ten seconds.-->
@@ -18,19 +13,4 @@
     <!--"0 0/30 8-10 * * *" = 8:00, 8:30, 9:00, 9:30 and 10 o'clock every day.-->
     <!--"0 0 9-17 * * MON-FRI" = on the hour nine-to-five weekdays-->
     <!--"0 0 0 25 12 ?" = every Christmas Day at midnight-->
-
-    <task:scheduled-tasks scheduler="bringBackMoneyToInvestorsOfExpiredProjects">
-        <task:scheduled ref="projectServiceImpl" method="bringBackMoneyToInvestors" cron="0 0 4 * * *"/>
-    </task:scheduled-tasks>
-
-    <task:scheduled-tasks scheduler="findAndUpdateCollectedRequestedAmountProjects">
-        <task:scheduled ref="projectServiceImpl" method="findAndUpdateCollectedRequestedAmountProjects" cron="0 0 3 * * *"/>
-    </task:scheduled-tasks>
-
-    <task:scheduled-tasks scheduler="checkClosedTenders">
-        <task:scheduled ref="tenderServiceImpl" method="checkClosedTendersAndSendActivityFeed"
-                        fixed-delay="${mongo.task.projectService.bringBackMoneyToInvestorsPeriod}" />
-        <!--<task:scheduled ref="tenderServiceImpl" method="checkClosedTendersAndSendActivityFeed"
-                        cron="0 0 4 * * *""/>-->
-    </task:scheduled-tasks>
 </beans>
