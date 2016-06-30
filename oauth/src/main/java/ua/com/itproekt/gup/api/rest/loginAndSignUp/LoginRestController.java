@@ -17,11 +17,15 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.login.FormLoggedUser;
 import ua.com.itproekt.gup.model.login.LoggedUser;
+import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CookieUtil;
 import ua.com.itproekt.gup.util.LogUtil;
 import ua.com.itproekt.gup.util.Oauth2Util;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -42,6 +46,12 @@ public class LoginRestController {
 	@Qualifier("userDetailsServiceImpl")
 	@Autowired
 	UserDetailsService userDetailsService;
+
+    @Autowired
+    ProfilesService profilesService;
+
+    @Autowired
+    VerificationTokenService verificationTokenService;
 
 //	@RequestMapping(value = "/login", method = RequestMethod.POST)
 //    public ResponseEntity<Void> login(@RequestParam String email, @RequestParam String password, HttpServletResponse response) {
@@ -121,4 +131,64 @@ public class LoginRestController {
 		return (profileService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
 	}
 
+
+
+
+//    @RequestMapping(value = "/logout")
+//    public String logout(HttpServletRequest request, HttpServletResponse response) {
+//
+//        for (Cookie cookie : request.getCookies()) {
+//            if (cookie.getName().equals("authToken")) {
+//                tokenServices.revokeToken(cookie.getValue());
+//            }
+//        }
+//
+//        Cookie cookieAuthToken = new Cookie("authToken", null);
+//        cookieAuthToken.setMaxAge(0);
+//        cookieAuthToken.setPath("/");
+//        response.addCookie(cookieAuthToken);
+//
+//        Cookie cookieRefreshToken = new Cookie("refreshToken", null);
+//        cookieRefreshToken.setMaxAge(0);
+//        cookieRefreshToken.setPath("/");
+//        response.addCookie(cookieRefreshToken);
+//
+//        return "redirect:/index";
+//    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("authToken")) {
+                tokenServices.revokeToken(cookie.getValue());
+            }
+        }
+
+        Cookie cookieAuthToken = new Cookie("authToken", null);
+        cookieAuthToken.setMaxAge(0);
+        cookieAuthToken.setPath("/");
+        response.addCookie(cookieAuthToken);
+
+        Cookie cookieRefreshToken = new Cookie("refreshToken", null);
+        cookieRefreshToken.setMaxAge(0);
+        cookieRefreshToken.setPath("/");
+        response.addCookie(cookieRefreshToken);
+
+        return "redirect:/index";
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<Void> register(@RequestBody Profile profile){
+        if(profilesService.profileExistsWithEmail(profile.getEmail())) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } else {
+            profilesService.createProfile(profile);
+            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+    }
 }

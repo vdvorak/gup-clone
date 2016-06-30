@@ -1,0 +1,372 @@
+/*@media only screen and (max-width:1199px) {*/
+	/*.AboutMe {*/
+		/*width: 870px;*/
+		/*margin-bottom: 30px;*/
+	/*}*/
+
+	/*.email {*/
+		/*margin: 10px 0 0 10px;*/
+	/*}*/
+
+	/*.skype {*/
+		/*margin-top: 10px;*/
+		/*margin-left: 10px;*/
+	/*}*/
+
+	/*.textarea-about-me {*/
+		/*width: 600px;*/
+	/*}*/
+
+	/*.social-icon-info {*/
+		/*right: 65px;*/
+	/*}*/
+
+	/*.input-info-normal {*/
+		/*margin-right: 287px;*/
+	/*}*/
+
+	/*.input-info-min {*/
+		/*margin-right: 365px;*/
+	/*}*/
+
+	/*.tel-plus {*/
+		/*left: 470px;*/
+	/*}*/
+
+	/*.title-tel:hover::after {*/
+		/*width: 155px;*/
+		/*font-size: 18px;*/
+		/*padding-left: 12px;*/
+		/*height: 50px;*/
+		/*padding-top: 10px;*/
+		/*left: 510px;*/
+		/*top: -65px;*/
+	/*}*/
+
+	/*.email-plus {*/
+		/*right: -725px;*/
+	/*}*/
+
+	/*.title-email:hover::after {*/
+		/*left: 720px;*/
+		/*top: -63px;*/
+		/*width: 155px;*/
+		/*font-size: 18px;*/
+		/*padding-left: 20px;*/
+		/*height: 50px;*/
+		/*padding-top: 10px;*/
+	/*}*/
+
+	/*.form-info-input {*/
+		/*width: 430px;*/
+		/*margin-right: 170px;*/
+	/*}*/
+
+	/*.moreInformation-img {*/
+		/*right: 10px;*/
+	/*}*/
+
+	/*#selectBox-info-type {*/
+		/*margin-right: 170px;*/
+		/*width: 430px;*/
+	/*}*/
+
+	/*#selectBox-info-type select {*/
+		/*width: 437px;*/
+	/*}*/
+
+	/*#selectBox-info-sphere {*/
+		/*margin-right: 170px;*/
+		/*width: 430px;*/
+	/*}*/
+
+	/*#selectBox-info-sphere select {*/
+		/*width: 437px;*/
+	/*}*/
+
+	/*#moreInformation-form {*/
+		/*margin-left: 10px;*/
+		/*width: 906px;*/
+		/*margin-right: 10px;*/
+	/*}*/
+
+	/*.moreInformation {*/
+		/*width: 940px;*/
+	/*}*/
+
+	/*.text-blogs {*/
+		/*width: 710px;*/
+		/*font-size: 21px;*/
+		/*margin-top: 15px;*/
+	/*}*/
+
+	/*.blogs {*/
+		/*width: 940px;*/
+	/*}*/
+
+	/*.tabs1-blogs {*/
+		/*width: 100%;*/
+	/*}*/
+
+	/*.tab-container-news {*/
+		/*width: 100%;*/
+	/*}*/
+
+	/*.profile-img {*/
+		/*width: 250px;*/
+		/*height: 310px;*/
+		/*margin-left: 10px;*/
+	/*}*/
+
+	/*.contacts {*/
+		/*width: 650px;*/
+		/*margin: 10px;*/
+	/*}*/
+
+	/*.emailContact {*/
+		/*width: 290px;*/
+		/*margin-top: 10px;*/
+		/*padding-bottom: 10px;*/
+	/*}*/
+
+	/*.skypeContact {*/
+		/*width: 290px;*/
+		/*margin-top: 10px;*/
+		/*padding-bottom: 10px;*/
+	/*}*/
+
+	/*.phone {*/
+		/*width: 290px;*/
+		/*padding-bottom: 10px;*/
+	/*}*/
+
+
+
+	/*.firstName {*/
+		/*margin-left: 10px;*/
+		/*font-size: 33px;*/
+	/*}*/
+
+	/*.DateOfBirth li {*/
+		/*font-size: 25px;*/
+	/*}*/
+
+	/*.DateOfBirth {*/
+		/*margin-left: 10px;*/
+		/*margin-top: 10px;*/
+	/*}*/
+
+	/*.phoneNumber {*/
+		/*font-size: 25px;*/
+		/*margin-top: 10px;*/
+		/*margin-left: 10px;*/
+	/*}*/
+
+	/*.logo {*/
+		/*float: none;*/
+		/*margin: 0 auto;*/
+	/*}*/
+
+	/*.social {*/
+		/*float: none;*/
+		/*margin-top: 0;*/
+	/*}*/
+
+	/*.socialBtn {*/
+		/*float: right;*/
+		/*margin-top: 0;*/
+	/*}*/
+
+	/*.store {*/
+		/*display: inline-block;*/
+	/*}*/
+
+	/*.sear {*/
+		/*width: 310px;*/
+	/*}*/
+
+	/*.users {*/
+		/*width: 200px;*/
+	/*}*/
+
+	/*.mid li {*/
+		/*width: 146px;*/
+	/*}*/
+
+	/*.ads-drop {*/
+		/*width: 146px;*/
+		/*font-size: 15px;*/
+	/*}*/
+
+	/*.ads-img a {*/
+		/*width: 135px;*/
+		/*height: 190px;*/
+	/*}*/
+
+	/*.ads-img a img {*/
+		/*margin: 40px auto;*/
+	/*}*/
+
+	/*.ads-a1 {*/
+		/*font-size: 15px;*/
+	/*}*/
+
+	/*.slider {*/
+		/*margin-top: 18px;*/
+	/*}*/
+
+	/*.tidings {*/
+		/*width: 47.4%;*/
+		/*margin-left: 0;*/
+	/*}*/
+
+	/*.tidi1 {*/
+		/*margin: 5px;*/
+	/*}*/
+
+	/*.tidi2 {*/
+		/*margin: 5px 0 5px 5px;*/
+	/*}*/
+
+	/*.tidi3 {*/
+		/*margin: 13px 0 5px 5px;*/
+	/*}*/
+
+	/*.tidiDown {*/
+		/*padding: 10px 170px;*/
+		/*margin-top: 10px;*/
+	/*}*/
+
+	/*.ad {*/
+		/*width: 52.5%;*/
+	/*}*/
+
+	/*.add-top1 {*/
+		/*margin: 3.5px;*/
+		/*width: 154px;*/
+		/*height: 175.75px;*/
+		/*overflow: hidden;*/
+	/*}*/
+
+	/*.tend-top1 {*/
+		/*margin: 3.5px;*/
+		/*width: 154px;*/
+		/*height: 175.75px;*/
+		/*overflow: hidden;*/
+	/*}*/
+
+	/*.proj-top1 {*/
+		/*margin: 3.5px;*/
+		/*width: 154px;*/
+		/*height: 175.75px;*/
+		/*overflow: hidden;*/
+	/*}*/
+
+	/*.caretDown {*/
+		/*padding: 10px 195px;*/
+	/*}*/
+
+	/*.tidi4 {*/
+		/*margin-top: 10px;*/
+	/*}*/
+
+	/*.tend-p {*/
+		/*left: 250px;*/
+	/*}*/
+
+	/*.bx-wrapper .bx-controls-direction a {*/
+		/*right: -19px;*/
+		/*width: 22px;*/
+	/*}*/
+/*}*/
+
+/*@media only screen and (max-width:991px) {*/
+	/*.store {*/
+		/*margin: 0 auto;*/
+		/*display: table;*/
+		/*margin-bottom: 60px;*/
+	/*}*/
+
+	/*.social {*/
+		/*position: relative;*/
+	/*}*/
+
+	/*.search {*/
+		/*width: 720px;*/
+		/*display: table;*/
+	/*}*/
+
+	/*.socialBtn {*/
+		/*position: absolute;*/
+		/*top: 60px;*/
+		/*left: 50%;*/
+		/*margin-left: -164px;*/
+	/*}*/
+
+	/*.users {*/
+		/*margin: 10px 0 10px 260px;*/
+	/*}*/
+
+	/*.search img {*/
+		/*margin-bottom: 10px;*/
+	/*}*/
+
+	/*.mid {*/
+		/*width: 590px;*/
+		/*margin: 0 auto;*/
+	/*}*/
+
+	/*.mid li:last-child {*/
+		/*width: 440px;*/
+	/*}*/
+
+	/*.sear {*/
+		/*margin-left: 10px;*/
+	/*}*/
+
+	/*.ad {*/
+		/*width: 635px;*/
+		/*margin: 0 auto;*/
+		/*margin-top: 60px;*/
+		/*float: none;*/
+	/*}*/
+
+	/*.tidings {*/
+		/*margin: 0 auto;*/
+		/*margin-top: 60px;*/
+		/*width: 493px;*/
+		/*display: block;*/
+		/*float: none;*/
+	/*}*/
+
+	/*.tidi1 {*/
+		/*margin: 20px;*/
+	/*}*/
+
+	/*.tidi2 {*/
+		/*margin: 20px 0 0 20px;*/
+	/*}*/
+
+	/*.tidi3 {*/
+		/*margin: 17px 0 0 20px;*/
+	/*}*/
+
+	/*.tidi4 {*/
+		/*margin-top: 20px;*/
+	/*}*/
+
+	/*.tidiDown {*/
+		/*padding: 10px 195px;*/
+		/*margin-top: 20px;*/
+	/*}*/
+
+	/*.add-top1 {*/
+		/*width: 190px;*/
+		/*height: 224px;*/
+		/*margin: 9.1px;*/
+	/*}*/
+
+	/*.caretDown {*/
+		/*padding: 10px 265px;*/
+	/*}*/
+/*}*/

@@ -28,7 +28,7 @@
     <url>http://maven.apache.org</url>
 
     <modules>
-        <module>profile</module>
+        <module>core</module>
         <module>oauth</module>
         <module>socket</module>
         <module>offers</module>
