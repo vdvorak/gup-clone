@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <name>Profiles Service</name>
+    <name>Core</name>
 
     <parent>
         <groupId>ua.com.itproekt</groupId>
@@ -10,7 +10,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>ua.com.itproekt</groupId>
-    <artifactId>profile</artifactId>
+    <artifactId>core</artifactId>
     <version>${version}</version>
 
     <packaging>jar</packaging>
@@ -232,7 +232,7 @@
     </dependencies>
 
     <build>
-        <finalName>profile</finalName>
+        <finalName>core</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>

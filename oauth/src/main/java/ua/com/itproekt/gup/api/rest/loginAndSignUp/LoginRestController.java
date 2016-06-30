@@ -17,7 +17,9 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.login.FormLoggedUser;
 import ua.com.itproekt.gup.model.login.LoggedUser;
+import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CookieUtil;
 import ua.com.itproekt.gup.util.LogUtil;
 import ua.com.itproekt.gup.util.Oauth2Util;
@@ -44,6 +46,12 @@ public class LoginRestController {
 	@Qualifier("userDetailsServiceImpl")
 	@Autowired
 	UserDetailsService userDetailsService;
+
+    @Autowired
+    ProfilesService profilesService;
+
+    @Autowired
+    VerificationTokenService verificationTokenService;
 
 //	@RequestMapping(value = "/login", method = RequestMethod.POST)
 //    public ResponseEntity<Void> login(@RequestParam String email, @RequestParam String password, HttpServletResponse response) {
@@ -171,4 +179,16 @@ public class LoginRestController {
         return "redirect:/index";
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<Void> register(@RequestBody Profile profile){
+        if(profilesService.profileExistsWithEmail(profile.getEmail())) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } else {
+            profilesService.createProfile(profile);
+            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+    }
 }
