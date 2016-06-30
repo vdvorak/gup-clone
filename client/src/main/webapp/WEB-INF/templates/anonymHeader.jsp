@@ -105,7 +105,7 @@
                         // Posting data to php file
                         $http({
                             method  : 'POST',
-                            url     : 'http://93.73.109.38:8083/login', //url     : 'http://localhost:8083/login',
+                            url     : 'http://localhost:8078/login', //url     : 'http://localhost:8083/login',
                             data    : $scope.user, //forms user object
                             headers : {'Content-Type': 'application/json'},
                             withCredentials : true
@@ -135,7 +135,7 @@
                         // Posting data to php file
                         $http({
                             method  : 'POST',
-                            url     : 'http://93.73.109.38:8083/register', //url     : 'http://localhost:8083/register',
+                            url     : 'http://localhost:8078/register', //url     : 'http://localhost:8083/register',
                             data    : $scope.user, //forms user object
                             headers : {'Content-Type': 'application/json'},
                             withCredentials : true
