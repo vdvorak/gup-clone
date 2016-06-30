@@ -149,12 +149,13 @@
     }
 
     function drawOffers(offersArr, address) {
+
         $('#offers-notFound').css('display', 'none');
         $('#h2-top-offers').css('display', 'block');
 
-        var locations = getLocationsForMap(offersArr);
-
         if (address.city) {
+
+            var locations = getLocationsForMap(offersArr);
 
             var clusterMap = {};
 
