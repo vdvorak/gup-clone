@@ -80,4 +80,18 @@ public class OfferInfo {
     public void setSeoUrl(String seoUrl) {
         this.seoUrl = seoUrl;
     }
+
+    @Override
+    public String toString() {
+        return "OfferInfo{" +
+                "title='" + title + '\'' +
+                ", views=" + views +
+                ", imagesIds=" + imagesIds +
+                ", price=" + price +
+                ", currency=" + currency +
+                ", properties=" + properties +
+                ", address=" + address +
+                ", seoUrl='" + seoUrl + '\'' +
+                '}';
+    }
 }
