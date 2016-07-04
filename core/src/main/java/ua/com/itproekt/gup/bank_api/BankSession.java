@@ -202,7 +202,6 @@ public class BankSession {
 
     public List<Pair<String, Long>> projectPayback(String projectId) {
         String jsonResponse = internalTransactionRepository.projectPayback(projectId);
-        System.out.println(jsonResponse);
         JSONParser parser = new JSONParser();
 
         Object obj = null;
