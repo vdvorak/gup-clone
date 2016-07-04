@@ -6,9 +6,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-/**
- * Created by Fairy on 23.11.2015.
- */
 @Document(collection = "emailNotification")
 public class EmailMessage {
     @Id

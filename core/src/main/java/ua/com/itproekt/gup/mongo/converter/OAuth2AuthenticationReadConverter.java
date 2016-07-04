@@ -19,18 +19,24 @@ import java.util.stream.Collectors;
 
 public class OAuth2AuthenticationReadConverter implements Converter<DBObject, OAuth2Authentication> {
 
+    public static Collection<GrantedAuthority> getAuthorities(List<Map<String, String>> authorities) {
+        return authorities.stream()
+                .map(authority -> new SimpleGrantedAuthority(authority.get("role")))
+                .collect(Collectors.toSet());
+    }
+
     @Override
     public OAuth2Authentication convert(DBObject source) {
-        DBObject storedRequest = (DBObject)source.get("storedRequest");
-        OAuth2Request oAuth2Request = new OAuth2Request((Map<String, String>)storedRequest.get("requestParameters"),
-                (String)storedRequest.get("clientId"), null, true, new HashSet((List)storedRequest.get("scope")),
+        DBObject storedRequest = (DBObject) source.get("storedRequest");
+        OAuth2Request oAuth2Request = new OAuth2Request((Map<String, String>) storedRequest.get("requestParameters"),
+                (String) storedRequest.get("clientId"), null, true, new HashSet((List) storedRequest.get("scope")),
                 null, null, null, null);
-        DBObject userAuthorization = (DBObject)source.get("userAuthentication");
+        DBObject userAuthorization = (DBObject) source.get("userAuthentication");
 
         Object principal = getPrincipalObject(userAuthorization.get("principal"));
 
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(principal,
-                (String)userAuthorization.get("credentials"), getAuthorities((List) userAuthorization.get("authorities")));
+                (String) userAuthorization.get("credentials"), getAuthorities((List) userAuthorization.get("authorities")));
 
         return new OAuth2Authentication(oAuth2Request, userAuthentication);
     }
@@ -41,11 +47,5 @@ public class OAuth2AuthenticationReadConverter implements Converter<DBObject, OA
         } else {
             return principal;
         }
-    }
-
-    public static Collection<GrantedAuthority> getAuthorities(List<Map<String, String>> authorities) {
-        return authorities.stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.get("role")))
-                .collect(Collectors.toSet());
     }
 }
