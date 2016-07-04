@@ -83,7 +83,7 @@ public class OfferController {
             offer = offersService.findBySeoKey(offerSeoKey);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Exception in getOffer method trying receive offer");
+            System.out.println("Exception in getOffer method trying receive offer with seoUrl: " + seoUrl);
         }
 
 

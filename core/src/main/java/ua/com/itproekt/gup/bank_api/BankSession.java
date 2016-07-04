@@ -26,10 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by RAYANT on 20.10.2015.
- */
-
 @Service
 public class BankSession {
     private static final Logger LOG = Logger.getLogger(BankSession.class);

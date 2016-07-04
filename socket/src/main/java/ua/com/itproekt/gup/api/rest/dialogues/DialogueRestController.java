@@ -203,7 +203,6 @@ public class DialogueRestController {
 
         try {
             result = mapper.writeValueAsString(msgs);
-            System.out.println(result);
         } catch (IOException e) {
             e.printStackTrace();
         }
