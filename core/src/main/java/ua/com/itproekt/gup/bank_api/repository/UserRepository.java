@@ -146,14 +146,12 @@ public class UserRepository {
                     .setParameter("password", Base64.encodeBytes(SecurityService.encrypt(String.valueOf(Math.random()))))
                     .setParameter("login", Base64.encodeBytes(SecurityService.encrypt(login)))
                     .build();
-            System.out.println(uri.getHost());
             HttpPost httpPost = new HttpPost(uri);
             HttpResponse response = client.execute(httpPost);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 String result = EntityUtils.toString(entity);
                 EntityUtils.consume(entity);
-                System.out.println(result);
                 return result;
             }
         } catch (Exception e) {

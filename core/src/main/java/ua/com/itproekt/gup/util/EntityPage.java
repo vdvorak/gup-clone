@@ -26,4 +26,12 @@ public final class EntityPage<T> {
     public void setEntities(List<T> entities) {
         this.entities = entities;
     }
+
+    @Override
+    public String toString() {
+        return "EntityPage{" +
+                "totalEntities=" + totalEntities +
+                ", entities=" + entities +
+                '}';
+    }
 }

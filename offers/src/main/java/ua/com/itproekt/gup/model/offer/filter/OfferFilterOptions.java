@@ -10,7 +10,7 @@ public final class OfferFilterOptions extends Offer {
     private int limit;
     private Integer fromPrice;
     private Integer toPrice;
-    private Boolean showReserved;
+    private Boolean showReserved; // allow to get reserved offers (by default it is not allowed)
     private List<PropertyWithValuesInterval> propertiesInterval;
     private String searchField;
     private String priceSortDirection;

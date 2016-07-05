@@ -99,9 +99,9 @@ $(document).ready(function () {
         $(".mapContact").slideToggle();
     });
 
-    $('#tab-container').easytabs({
-        animate: false
-    });
+    //$('#tab-container').easytabs({
+    //    animate: false
+    //});
 
     $('#services-menu-bxslider').bxSlider({
         controls: false,
@@ -110,9 +110,9 @@ $(document).ready(function () {
         autoHover: true
     });
 
-    $('#tab-container-news').easytabs({
-        animate: false
-    });
+    //$('#tab-container-news').easytabs({
+    //    animate: false
+    //});
 
     $(".listArtist img").click(function () {
         $(".listArtist ul").css("height", "auto");

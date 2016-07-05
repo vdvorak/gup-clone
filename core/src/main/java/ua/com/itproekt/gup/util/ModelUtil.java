@@ -31,6 +31,7 @@ public final class ModelUtil {
         info.setPrice(offer.getPrice());
         info.setProperties(offer.getProperties());
         info.setViews(offer.getViews());
+        info.setSeoUrl(offer.getSeoUrl());
         return info;
     }
 

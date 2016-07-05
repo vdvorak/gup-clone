@@ -26,10 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by RAYANT on 20.10.2015.
- */
-
 @Service
 public class BankSession {
     private static final Logger LOG = Logger.getLogger(BankSession.class);
@@ -202,7 +198,6 @@ public class BankSession {
 
     public List<Pair<String, Long>> projectPayback(String projectId) {
         String jsonResponse = internalTransactionRepository.projectPayback(projectId);
-        System.out.println(jsonResponse);
         JSONParser parser = new JSONParser();
 
         Object obj = null;

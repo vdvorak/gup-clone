@@ -11,7 +11,7 @@ public class Notice {
     //user who will receive this notice
     private String userId;
     // this is id of entity, which is initiate this notice
-    // for example it can be offer or doer wich have new comments or confirm, whatever
+    // for example it can be offer or doer which have new comments or confirm, whatever
     private String initiatorId;
     // name of service which initiator is belong to
     private String serviceName;
