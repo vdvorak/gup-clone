@@ -3,6 +3,10 @@ package ua.com.itproekt.gup.api.rest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestTemplate;
 
 public class LoginTest {
 
@@ -30,22 +34,22 @@ public class LoginTest {
 
     @Test
     public void testLoginResponse() {
-//        RestTemplate restTemplate = new RestTemplate();
-//        String url = "http://localhost:8081/login";
-//        String requestJson = "{\"email\":\"sss2@gmail.com\",\"password\":\"123456\"}";
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
-//        String answer = restTemplate.postForObject(url, entity, String.class);
-//        System.out.println(answer);
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://93.73.109.38:8083/login";
+        String requestJson = "{\"email\":\"sss2@gmail.com\",\"password\":\"123456\"}";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
+        String answer = restTemplate.postForObject(url, entity, String.class);
+        System.out.println(answer);
+
+//        ResponseEntity<String> response = restTemplate.postForObject(url, entity, String.class);
 //
-////        ResponseEntity<String> response = restTemplate.postForObject(url, entity, String.class);
-////
-////        if (HttpStatus.OK == response.getStatusCode()) {
-////            System.out.println(response);
-////        } else {
-////            // log error, retry or ?
-////        }
+//        if (HttpStatus.OK == response.getStatusCode()) {
+//            System.out.println(response);
+//        } else {
+//            // log error, retry or ?
+//        }
     }
 
 }
