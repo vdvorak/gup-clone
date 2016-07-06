@@ -11,7 +11,7 @@ var frontWebpackConfig = {
   entry: "./app.js",
 
   output: {
-    path: path.join(__dirname, "../public/src/main/webapp/WEB-INF/"),
+    path: path.join(__dirname, "../public/src/main/webapp/"),
     filename: "app.js"
   },
 
