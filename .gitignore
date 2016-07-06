@@ -4,3 +4,4 @@
 *.iml
 **/target/**
 **/startMongo
+frontend-dev/node_modules
