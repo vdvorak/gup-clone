@@ -3,7 +3,7 @@ require("./styles/basic.scss")
 /* Controllers */
 const basicController = require('./controllers/basic')
 
-let app = angular.module('gup', ['ngRoute'])
+let app = angular.module('gup', ['ngRoute', 'ngMaterial', 'ngMessages'])
 
 /* Plug in controllers */
 app.controller('basicController', basicController)

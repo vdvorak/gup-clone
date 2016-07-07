@@ -1,9 +1,40 @@
-$font-stack:    Helvetica, sans-serif;
-$primary-color: #333;
-$back: red;
+//$font-stack:    Helvetica, sans-serif;
+$blue: #1875D0;
+//$back: red;
+//
+//body {
+//  font: 100% $font-stack;
+//  color: $primary-color;
+//  background: $back;
+//}
 
-body {
-  font: 100% $font-stack;
-  color: $primary-color;
-  background: $back;
+header {
+  height: 70px;
+  box-shadow: 0px 2px 2px 0.00px rgba(0, 0, 0, 0.3);
+  background-color: $blue;
+}
+
+.container {
+  width: 1170px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.head {
+  padding-top: 5px;
+  
+  img {
+    cursor: pointer;
+    border-radius: 50%;
+  }
 }
