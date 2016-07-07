@@ -108,12 +108,12 @@ public interface ProfileRepository {
      */
     Profile findProfileRating(String profileId, String profileRatingId);
 
-    /**
-     * Add friend.
-     *
-     * @param profileId       the profile id
-     * @param friendProfileId the friend profile id
-     */
+//    /**
+//     * Add friend.
+//     *
+//     * @param profileId       the profile id
+//     * @param friendProfileId the friend profile id
+//     */
 //    void addFriend(String profileId, String friendProfileId);
 
     void addUserRole(String profileId, UserRole userRole);
