@@ -5,7 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.OfferUserContactInfo;
@@ -33,8 +36,8 @@ public class OfferReservationRestController {
     ReservationScheduleService reservationScheduleService;
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/offer/id/{offerId}/reserve", method = RequestMethod.POST)
-    public ResponseEntity<Void> reserveOffer(@PathVariable String offerId) {
+    @RequestMapping(value = "/offer/id/{offerId}/{period}/reserve", method = RequestMethod.POST)
+    public ResponseEntity<Void> reserveOffer(@PathVariable String offerId, Integer period) {
         if (!offersService.offerExists(offerId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -44,12 +47,17 @@ public class OfferReservationRestController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
+        if (period < 1 || period > offer.getMaximumReservedPeriod()){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
         String userId = SecurityOperations.getLoggedUserId();
 
         Profile profile = profilesService.findById(userId);
 
         Reservation reservation = new Reservation()
                 .setProfileId(userId)
+                .setPeriod(period)
                 .setUserContactInfo(new OfferUserContactInfo()
                         .setContactName(profile.getUsername())
                         .setEmail(profile.getEmail())
@@ -57,9 +65,9 @@ public class OfferReservationRestController {
                         .setSkypeLogin(profile.getContact().getSkypeUserName()));
 
 
-        if (bankSession.getUserBalance(userId) > 5) {
+        if (bankSession.getUserBalance(userId) > 5*period) {
             offersService.reserveOffer(offerId, reservation);
-            bankSession.investInOrganization(5555, userId, 5L, 30, "success");
+            bankSession.investInOrganization(5555, userId, (long) (5 * period), 30, "success");
             reservationScheduleService.add(offerId);
         }
 

@@ -49,6 +49,9 @@ public class Offer {
     private Boolean urgent;
     private Boolean used; // б/y
     private Boolean canBeReserved;
+
+    private Integer maximumReservedPeriod;
+
     private Boolean canBeRented;
     private Address address;
     private ModerationMessage moderationMessage;
@@ -303,6 +306,15 @@ public class Offer {
         return this;
     }
 
+    public Integer getMaximumReservedPeriod() {
+        return maximumReservedPeriod;
+    }
+
+    public Offer setMaximumReservedPeriod(Integer maximumReservedPeriod) {
+        this.maximumReservedPeriod = maximumReservedPeriod;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Offer{" +
@@ -330,6 +342,7 @@ public class Offer {
                 ", urgent=" + urgent +
                 ", used=" + used +
                 ", canBeReserved=" + canBeReserved +
+                ", maximumReservedPeriod=" + maximumReservedPeriod +
                 ", canBeRented=" + canBeRented +
                 ", address=" + address +
                 ", moderationMessage=" + moderationMessage +
