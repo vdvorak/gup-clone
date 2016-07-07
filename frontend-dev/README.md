@@ -12,3 +12,24 @@ Compilation:
 
 Dependency build:
   . bootstrap.sh
+
+Angular Controllers:
+General
+BulletinAdd
+MessageBox
+Dialog
+Contacts
+Feedback
+Profile
+ProfileEdit
+Register
+Login
+Favourites
+BulletinDetails
+BulletinsPreffered
+MessageBoxMini
+ContactsMini
+DialogMini
+FeaturedList
+FeaturedDetails
+Filter (Map, colors, subscribe, category)
