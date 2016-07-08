@@ -1,5 +1,18 @@
 {
   "api" : {
     "url" : "http://93.73.109.38:8081/"
+  },
+  "routes" : {
+    "getBulletins" : {
+      "method" : "POST",
+      "url" : "/api/rest/offersService/offer/read/all",
+      "accept" : {
+        "type" : "json",
+        "example" : {
+          "skip" : 0,
+          "limit" : 20
+        }
+      }
+    }
   }
 }

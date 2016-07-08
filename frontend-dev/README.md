@@ -6,11 +6,11 @@ Easy web-server(launch in the build folder):
   docs: https://www.npmjs.com/package/local-web-server
   usage: ws
 
-Compilation:
+Compile:
   dev: . dev_compile_webpack.sh
   prod: . prod_compile_webpack.sh
 
-Dependency build:
+Install dependencies:
   . bootstrap.sh
 
 Angular Controllers:
@@ -30,6 +30,6 @@ BulletinsPreffered
 MessageBoxMini
 ContactsMini
 DialogMini
-FeaturedList
-FeaturedDetails
+FavouritesList
+FavouritesDetails
 Filter (Map, colors, subscribe, category)

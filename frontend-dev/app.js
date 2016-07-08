@@ -1,9 +1,17 @@
 require("./styles/basic.scss")
+/* TEST */
+let utils = require('./modules/utils')
+let config = require('./config')
+console.log(config)
+let data = {
+  method : "POST",
+  url : ""
+}
 
 /* Controllers */
 const basicController = require('./controllers/basic')
 
-let app = angular.module('gup', ['ngRoute', 'ngMaterial', 'ngMessages'])
+let app = angular.module('gup', ['ngRoute'])
 
 /* Plug in controllers */
 app.controller('basicController', basicController)
