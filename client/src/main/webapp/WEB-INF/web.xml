@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app.xsd"
          version="3.0">
 
-    <display-name>Client WEB-App</display-name>
+    <display-name>Offers REST-Service</display-name>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
