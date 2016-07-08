@@ -1,4 +1,6 @@
 require("./styles/basic.scss")
+require("./styles/favourites.scss")
+
 /* TEST */
 let utils = require('./modules/utils')
 let config = require('./config')
