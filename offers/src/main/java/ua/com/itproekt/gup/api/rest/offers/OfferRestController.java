@@ -56,7 +56,7 @@ public class OfferRestController {
         return ModelUtil.toModel(offersService.findOffersWihOptions(offerFO));
     }
 
-    //------------------------------------------ Create -----------------------------------------------------------------
+    //------------------------------------------ Create ----------------------------------------------------------------
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
@@ -97,7 +97,7 @@ public class OfferRestController {
         return new ResponseEntity<>(new CreatedObjResp(offer.getSeoUrl()), HttpStatus.CREATED);
     }
 
-    //------------------------------------------ Update -----------------------------------------------------------------
+    //------------------------------------------ Update ----------------------------------------------------------------
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/edit", method = RequestMethod.POST,
