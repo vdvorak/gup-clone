@@ -18,14 +18,17 @@ public class Subscription {
     private Long sinceDate;
 
 
-    public Subscription setSinceDateEqualsToCurrentDate() {
-        this.sinceDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        return this;
+    public Subscription() {
     }
 
     public Subscription(String userId, OfferFilterOptions offerFilterOptions) {
         this.userId = userId;
         this.offerFilterOptions = offerFilterOptions;
+    }
+
+    public Subscription setSinceDateEqualsToCurrentDate() {
+        this.sinceDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        return this;
     }
 
     public String getId() {
