@@ -41,7 +41,7 @@ $decription_font_color: #0d0d1e;
             width:58px;
         }
         
-        
+        /* Левая колонка */
         h3 {
             margin:0;
             font: 400 20px / 24px Roboto;
@@ -62,6 +62,7 @@ $decription_font_color: #0d0d1e;
             color: $decription_font_color;
         }
         
+        /* Правая колонка */
         .bulletin-image {
             width:90px;
             height: 91px;
@@ -73,6 +74,23 @@ $decription_font_color: #0d0d1e;
             bottom:18px;
             right:19px;
             color: #202020;
+            font: 400 14px / 16.8px Roboto;
+        }
+        
+        /* Центральная колонка */
+        input {
+            position:absolute;
+            top:14px;
+            right:131px;
+            width:22px;
+            height:19px;
+        }
+        
+        .bulletin-action {
+            position:absolute;
+            bottom:20px;
+            right:117px;
+            color: #212121;
             font: 400 14px / 16.8px Roboto;
         }
         
