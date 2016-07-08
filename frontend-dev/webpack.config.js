@@ -3,8 +3,9 @@
 /* ENVIRONMENT VARIABLES AND DEPENDENCIES */
 const NODE_ENV = process.env.NODE_ENV || "development",
       webpack = require('webpack'),
-      fs = require('fs'),
-      path = require('path')
+      path = require('path'),
+      precss = require('precss'),
+      autoprefixer = require('autoprefixer')
 
 /* FRONT-END CONFIG */
 var frontWebpackConfig = {
@@ -33,16 +34,22 @@ var frontWebpackConfig = {
           presets: ['es2015']
         }
       },
-      //{ test: /\.css$/, loader: "style-loader!css-loader" },
       {
         test: /\.scss$/,
-        loaders: ["style", "css", "sass"]
+        loaders: ["style", "css", "postcss", "sass"]
       },
+      // {
+      //   test: /\.(jpe?g|png|gif|svg)$/i,
+      //   loader: 'file?name=img/[name].[ext]'
+      // },
       {
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        loader: 'file?name=img/[name].[ext]'
+        test: /\.json$/,
+        loader : 'json'
       }
     ]
+  },
+  postcss: function () {
+    return [precss, autoprefixer];
   }
 };
 

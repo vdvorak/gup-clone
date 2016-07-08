@@ -1,4 +1,12 @@
 require("./styles/basic.scss")
+/* TEST */
+let utils = require('./modules/utils')
+let config = require('./config')
+console.log(config)
+let data = {
+  method : "POST",
+  url : ""
+}
 
 /* Controllers */
 const basicController = require('./controllers/basic')
