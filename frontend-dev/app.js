@@ -11,7 +11,7 @@ let data = {
 /* Controllers */
 const basicController = require('./controllers/basic')
 
-let app = angular.module('gup', ['ngRoute', 'ngMaterial', 'ngMessages'])
+let app = angular.module('gup', ['ngRoute'])
 
 /* Plug in controllers */
 app.controller('basicController', basicController)
