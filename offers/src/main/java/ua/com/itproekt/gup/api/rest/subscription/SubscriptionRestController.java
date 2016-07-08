@@ -75,7 +75,7 @@ public class SubscriptionRestController {
 
     //------------------------------------------ Delete ----------------------------------------------------------------
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/subscription/delete/{subscriptionId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/subscription/delete/{subscriptionId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteOffer(@PathVariable String subscriptionId) {
 
         int result = subscriptionService.delete(subscriptionId);
