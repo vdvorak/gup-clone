@@ -23,6 +23,7 @@ public class Offer {
     private String authorId;
     private OfferUserContactInfo userInfo;
     private ModerationStatus moderationStatus;
+    private Long lastModerationDate;
     private Boolean active;
     private Long createdDate;
     private Reservation reservation;
@@ -315,6 +316,15 @@ public class Offer {
         return this;
     }
 
+    public Long getLastModerationDate() {
+        return lastModerationDate;
+    }
+
+    public Offer setLastModerationDate(Long lastModerationDate) {
+        this.lastModerationDate = lastModerationDate;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Offer{" +
@@ -322,6 +332,7 @@ public class Offer {
                 ", authorId='" + authorId + '\'' +
                 ", userInfo=" + userInfo +
                 ", moderationStatus=" + moderationStatus +
+                ", lastModerationDate=" + lastModerationDate +
                 ", active=" + active +
                 ", createdDate=" + createdDate +
                 ", reservation=" + reservation +

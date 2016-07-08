@@ -19,6 +19,8 @@ import ua.com.itproekt.gup.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -56,7 +58,7 @@ public class OfferRestController {
         return ModelUtil.toModel(offersService.findOffersWihOptions(offerFO));
     }
 
-    //------------------------------------------ Create -----------------------------------------------------------------
+    //------------------------------------------ Create ----------------------------------------------------------------
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
@@ -97,7 +99,7 @@ public class OfferRestController {
         return new ResponseEntity<>(new CreatedObjResp(offer.getSeoUrl()), HttpStatus.CREATED);
     }
 
-    //------------------------------------------ Update -----------------------------------------------------------------
+    //------------------------------------------ Update ----------------------------------------------------------------
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/edit", method = RequestMethod.POST,
@@ -125,9 +127,8 @@ public class OfferRestController {
         if (profilesService.isUserModerator(profilesService.findById(userId))) {
             offer.getModerationMessage().setCreatedDateEqualsToCurrentDate();
             offer.getModerationMessage().setIsRead(false);
-            System.err.println("azza2");
+            offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
         } else {
-            System.err.println("azza1");
             offer.getModerationMessage().setMessage(oldOffer.getModerationMessage().getMessage());
             offer.getModerationMessage().setIsRead(true);
         }
