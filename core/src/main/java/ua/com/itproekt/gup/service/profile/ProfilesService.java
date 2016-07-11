@@ -166,6 +166,13 @@ public interface ProfilesService {
     boolean isUserModerator(Profile user);
 
     /**
+     *
+     * @param id
+     * @return
+     */
+    boolean isUserAdminById(String userId);
+
+    /**
      * @param seoWord
      * @return
      */

@@ -182,7 +182,6 @@ public class OfferRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-
         if (moderationStatus != ModerationStatus.FAIL && moderationStatus != ModerationStatus.COMPLETE) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
