@@ -36,6 +36,3 @@ app
   .directive('greyButton', require('./directives/greyButton'))
   .controller('mainCtrl', require('./controllers/temp'))
   .run()
-
-// let ripple = require('./modules/ripple')
-// ripple()
