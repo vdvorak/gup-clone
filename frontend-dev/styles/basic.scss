@@ -19,9 +19,9 @@ header {
 }
 
 .container {
-  width: 1170px;
-  position: relative;
-  margin: 0 auto;
+	width: 1280px;
+	position: relative;
+	margin: 0 auto;
 }
 
 .clearfix:before,
@@ -53,39 +53,133 @@ header {
 	}
 }
 
-.head {
-  padding-top: 5px;
+.headLeft {
+	padding-top: 5px;
+	display: inline-block;
+	width: calc(100% - 491px);
+	height: 70px;
+	box-sizing: border-box;
   
-  img {
-    cursor: pointer;
-    border-radius: 50%;
-    float: left;
-  }
-  
-  md-input-container {
-    margin: 13px 0 0 20px;
-    float: left;
-    
-    input {
-      color: #ffffff;
-      font: 400 14px / 21px Roboto;
-      border-color: white;
-      width: 200px;
-    }
-    
-    label {
-      color: white;
-    }
-  }
-  
-  .md-input-focused {
-    
-    input {
-      border-color: white !important;
-    }
-    
-    label {
-      color: white !important;
-    }
-  }
+	&>.logo {
+		cursor: pointer;
+		border-radius: 50%;
+		float: left;
+		height: 60px;
+		width: 60px;
+		background: url(../images/logo.png) no-repeat;
+		float: left;
+	}
+	
+	&>.inputSearch {
+		margin-top: 18px;
+		margin-left: 20px;
+		float: left;
+		
+		&>input {
+			width: 200px;
+		}
+	}
+	
+	&>.selectBox {
+		float: left;
+		margin-top: 20px;
+		margin-left: 20px;
+	}
+}
+
+.headRight {
+	float: right;
+	width: 490px;
+	height: 70px;
+	border-left: 1px solid grey;
+	
+	&>.mail {
+		height: 20px;
+		width: 30px;
+		cursor: pointer;
+		position: relative;
+		float: left;
+		background: url(../images/mail.png) no-repeat;
+		margin-top: 25px;
+		margin-left: 20px;
+		
+		&>p {
+			color: #ffffff;
+			font: 400 10px / 15px Roboto;
+			position: absolute;
+			bottom: -7px;
+			left: 30px;
+			cursor: default;
+		}
+	}
+	
+	&>.bell {
+		height: 20px;
+		width: 20px;
+		cursor: pointer;
+		position: relative;
+		display: inline-block;
+		float: left;
+		margin-top: 25px;
+		margin-left: 30px;
+		background: url(../images/bell.png) no-repeat center center;
+		border-radius: 15px 0 15px 10px;
+		
+		&>p {
+			color: #ffffff;
+			font: 400 10px / 15px Roboto;
+			position: absolute;
+			bottom: -7px;
+			left: 20px;
+			cursor: default;
+		}
+	}
+}
+
+.inputSearch {
+	position: relative;
+	display: inline-block;
+	margin-top: 10px;
+	
+	&>input {
+		border: none;
+		border-bottom: 1px solid white;
+		background-color: transparent;
+		outline: none;
+		color: #ffffff;
+		font: 400 14px / 21px Roboto;
+	}
+	
+	&>label {
+		position: absolute;
+		top: 0;
+		left: 0;
+		color: #ffffff;
+		font: 400 14px / 21px Roboto;
+		cursor: text;
+	}
+}
+
+.selectBox {
+	position: relative;
+	display: inline-block;
+	margin-top: 10px;
+	cursor: pointer;
+	
+	&>.defaultValue {
+		color: #ffffff;
+		font: 400 14px / 21px Roboto;
+		background: url(../images/caretOfSelectBox.png) no-repeat 95% center;
+		padding-right: 20px;
+		overflow: hidden;
+		border-bottom: 1px solid white;
+	}
+	
+	&>.listOfValues {
+		display: none;
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: grey;
+	}
 }
