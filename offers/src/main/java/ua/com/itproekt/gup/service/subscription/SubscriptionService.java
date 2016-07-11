@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.service.subscription;
 
 
+import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.subscription.Subscription;
 import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
@@ -36,5 +37,11 @@ public interface SubscriptionService {
      * @return List of subscriptions satisfying the filter
      */
     EntityPage<Subscription> findWithFilterOption(SubscriptionFilterOptions subscriptionFilterOptions);
+
+    /**
+     *
+     */
+    void checkIfOfferSuiteForSubscriptionAndSendEmail(Offer offer);
+
 
 }

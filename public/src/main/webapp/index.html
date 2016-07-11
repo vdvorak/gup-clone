@@ -8,7 +8,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
 	<script src="lib/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
-<body>
+<body ng-controller="mainCtrl as main">
 
 <!-- HEADER -->
 <header>
@@ -41,6 +41,13 @@
 
 <!-- CONTAINER -->
 <div class="container clearfix">
+    <blue-button>Hello</blue-button>
+    <grey-button>Wahahahaha</grey-button>
+
+
+    <!-- <div class="btn-blue">Hello</div> -->
+
+    <div class="input" id="name">Имя</div>
 
     <section id="favourites" class="clearfix">
         <div class="right-column">
@@ -63,8 +70,9 @@
 
         <div class="left-column">
             Левая
-            <button class="blue">Hello</button>
         </div>
+
+
 
     </section>
 

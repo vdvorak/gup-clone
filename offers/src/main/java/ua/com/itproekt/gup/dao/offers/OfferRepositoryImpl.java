@@ -173,14 +173,12 @@ public class OfferRepositoryImpl implements OfferRepository {
             query.with(new Sort(Sort.Direction.fromString(offerFO.getPriceSortDirection()), "price"));
         }
 
+        if (offerFO.getLastModerationDate() != null) {
+            query.addCriteria(Criteria.where("lastModerationDate").is(offerFO.getLastModerationDate()));
+        }
+
         query.skip(offerFO.getSkip());
         query.limit(offerFO.getLimit());
-
-//        System.out.println("******" + query);
-//
-////         ****** TEST ******
-//        System.err.println("****** explainQuery ******\n" +
-//                MongoTemplateOperations.explainQuery("offers", query));
 
         return new EntityPage<>(mongoTemplate.count(query, Offer.class), mongoTemplate.find(query, Offer.class));
     }

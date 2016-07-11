@@ -192,22 +192,6 @@ public class ProfileRestController {
         }
     }
 
-//    /**
-//     * Add friend response entity.
-//     *
-//     * @param friendID the friend's profile id
-//     * @return the response status
-//     */
-//    @PreAuthorize("isAuthenticated()")
-//    @RequestMapping(value = "/friends/addFriend/{friendID}/", method = RequestMethod.POST)
-//    public ResponseEntity<Void> addFriend(@PathVariable String friendID) {
-//        if (!profilesService.profileExists(friendID)) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        String profileId = SecurityOperations.getLoggedUserId();
-//        profilesService.addFriend(profileId, friendID);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
 
     @ResponseBody
     @RequestMapping(value = "/profile/email-check", method = RequestMethod.POST)

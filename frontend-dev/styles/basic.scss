@@ -18,6 +18,14 @@ header {
   background-color: $blue;
 }
 
+.btn-blue, .btn-grey {
+    position:relative;
+    display:inline-block;
+    overflow: hidden;
+    width:50px;
+    height:30px;
+}
+
 .container {
 	width: 1280px;
 	position: relative;
@@ -45,7 +53,7 @@ header {
 .ink.animate {
 	animation: ripple 0.65s linear;
 }
-      
+
 @keyframes ripple {
 	100% {
 		opacity: 0;
