@@ -1,0 +1,33 @@
+    <div class="view-edit-profile" controller="profileCtrl as profile">
+        <h1>Редактирование профиля</h1>
+        <div id="edit-profile-form">
+            <select class="select" ng-model="profile.contact.type">
+                <option value="" selected>Тип аккаунта</option>
+                <option value="INDIVIDUAL">Физическое лицо</option>
+                <option value="LEGAL_ENTITY">Юридическое лицо</option>
+                <option value="ENTREPRENEUR">Частный предприниматель</option>
+            </select>
+            <input type="text" placeholder="ФИО" ng-model="profile.username">
+            <input type="text" placeholder="Место работы" ng-model="profile.contact.position">
+            <input type="text" placeholder="Основной e-mail" ng-model="profile.email">
+            <input type="text" placeholder="Контактный e-mail" ng-model="email" ng-repeat="email in profile.contact.contactEmails track by $index">
+            <input type="text" placeholder="Основной телефон" ng-model="profile.mainPhoneNumber">
+            <input type="text" placeholder="Контактный телефон" ng-model="tel" ng-repeat="tel in profile.contact.contactPhones track by $index">
+            <input type="text" placeholder="Skype" ng-model="profile.contact.skypeUserName">
+            <div class="social-link-container">
+                <div data-social="LINKEDIN"></div>
+                <div data-social="FACEBOOK"></div>
+                <div data-social="GOOGLEPLUS"></div>
+                <div data-social="VKONTAKTE"></div>
+                <div data-social="TWITTER"></div>
+            </div>
+            <input type="text" placeholder="Ссылка на сайт" ng-model="profile.contact.linkToWebSite">
+            <textarea placeholder="О себе" ng-model="profile.contact.aboutUs"></textarea>
+            <textarea placeholder="О компании" ng-model="profile.contact.aboutUs" ng-if="profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'ENTREPRENEUR'"></textarea>
+        </div>
+        <button id="edit-profile-btn-save" class="button" ng-click="">СОХРАНИТЬ</button>
+    </div>
+
+    <form class="uploadFileForm">
+        <input type="file" name="file" accept="image/*,image/jpeg" ng-click="">
+    </form>
