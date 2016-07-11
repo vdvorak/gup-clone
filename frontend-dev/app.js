@@ -1,7 +1,7 @@
 require("./styles/basic.scss")
 require("./styles/favourites.scss")
 
-/* TEST */
+/* TEST json require */
 let utils = require('./modules/utils')
 let config = require('./config')
 
@@ -33,3 +33,6 @@ app
 
   }])
   .run()
+
+let ripple = require('./modules/ripple')
+ripple()
