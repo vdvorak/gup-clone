@@ -53,6 +53,7 @@ public class OffersServiceImpl implements OffersService {
                 .setAddress(offer.getAddress())
                 .setCurrency(offer.getCurrency())
                 .setCanBeReserved(offer.getCanBeReserved())
+                .setMaximumReservedPeriod(offer.getMaximumReservedPeriod())
                 .setCanBeRented(offer.getCanBeRented());
 
         offerRepository.create(newOffer);
@@ -117,6 +118,7 @@ public class OffersServiceImpl implements OffersService {
                 .setActive(oldOffer.getActive())
                 .setCanBeReserved(oldOffer.getCanBeReserved())
                 .setAddress(oldOffer.getAddress())
+                .setMaximumReservedPeriod(oldOffer.getMaximumReservedPeriod())
                 .setCurrency(oldOffer.getCurrency());
 
         return offerRepository.findAndUpdate(newOffer);

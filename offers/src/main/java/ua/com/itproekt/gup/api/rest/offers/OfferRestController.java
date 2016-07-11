@@ -19,6 +19,8 @@ import ua.com.itproekt.gup.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,7 +39,7 @@ public class OfferRestController {
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
-    @RequestMapping(value = "/offer/id/{id}/read", method = RequestMethod.POST,
+    @RequestMapping(value = "/offer/read/{id}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Offer> getOfferById(@PathVariable String id) {
         Offer offer = offersService.findOfferAndIncViews(id);
@@ -56,7 +58,7 @@ public class OfferRestController {
         return ModelUtil.toModel(offersService.findOffersWihOptions(offerFO));
     }
 
-    //------------------------------------------ Create -----------------------------------------------------------------
+    //------------------------------------------ Create ----------------------------------------------------------------
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
@@ -97,7 +99,7 @@ public class OfferRestController {
         return new ResponseEntity<>(new CreatedObjResp(offer.getSeoUrl()), HttpStatus.CREATED);
     }
 
-    //------------------------------------------ Update -----------------------------------------------------------------
+    //------------------------------------------ Update ----------------------------------------------------------------
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/edit", method = RequestMethod.POST,
@@ -110,8 +112,7 @@ public class OfferRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Offer oldOffer;
-        oldOffer = offersService.findById(offer.getId());
+        Offer oldOffer = offersService.findById(offer.getId());
 
         String userId = SecurityOperations.getLoggedUserId();
 
@@ -125,9 +126,8 @@ public class OfferRestController {
         if (profilesService.isUserModerator(profilesService.findById(userId))) {
             offer.getModerationMessage().setCreatedDateEqualsToCurrentDate();
             offer.getModerationMessage().setIsRead(false);
-            System.err.println("azza2");
+            offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
         } else {
-            System.err.println("azza1");
             offer.getModerationMessage().setMessage(oldOffer.getModerationMessage().getMessage());
             offer.getModerationMessage().setIsRead(true);
         }
@@ -145,7 +145,7 @@ public class OfferRestController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/offer/id/{offerId}/setActive/{isActive}", method = RequestMethod.POST)
+    @RequestMapping(value = "/offer/{offerId}/setActive/{isActive}", method = RequestMethod.POST)
     public ResponseEntity<Void> setActive(@PathVariable String offerId, @PathVariable boolean isActive) {
 
         if (!offersService.offerExists(offerId)) {
@@ -156,10 +156,10 @@ public class OfferRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //------------------------------------------ Delete -----------------------------------------------------------------
+    //------------------------------------------ Delete ----------------------------------------------------------------
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/offer/id/{offerId}/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/offer/delete/{offerId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteOffer(@PathVariable String offerId) {
 
         if (!offersService.offerExists(offerId)) {
@@ -169,5 +169,32 @@ public class OfferRestController {
         offersService.delete(offerId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
+    //------------------------------------------ Rest for admin --------------------------------------------------------
+
+    @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_SUPPORT','ROLE_MODERATOR')")
+    @RequestMapping(value = "/offer/moderateStatus/{offerId}", method = RequestMethod.POST)
+    public ResponseEntity<Void> makeOfferComplete(@PathVariable String offerId, @RequestBody ModerationStatus moderationStatus) {
+
+
+        if (!offersService.offerExists(offerId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+
+        if (moderationStatus != ModerationStatus.FAIL && moderationStatus != ModerationStatus.COMPLETE) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Offer offer = offersService.findById(offerId);
+
+        offer
+                .setModerationStatus(moderationStatus)
+                .setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 
 }

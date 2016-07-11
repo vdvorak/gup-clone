@@ -2,13 +2,12 @@
 <html lang="en" ng-app="gup">
 <head>
   <meta charset="UTF-8">
-  <title>Voytenko</title>
+  <title>GUP</title>
   <base href="/" />
-  <link rel="stylesheet" href="lib/angular-material.css" />
   <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body>
-  
+
 <!-- HEADER -->
 <header>
   <div class="container clearfix">
@@ -32,24 +31,45 @@
 
 <!-- CONTAINER -->
 <div class="container">
-
-  <!-- CONTENT NG-ROUTE -->
-  <div class="content" ng-view></div>
+    
+    <section id="favourites">
+        <div class="right-column">
+            <div class="bulletin-short">
+                <div class="bulletin-left-column">
+                    <h3>Hotwheels недорого по запчастям</h3>
+                    <div class="bulletin-category">Детские игрушки</div>
+                    <div class="bulletin-description">Lorem ipsum dolor sit amet, ne quod novum mei. Sea omnium invenire mediocrem at, in lobortis conclusionemque nam.</div>
+                </div>
+                <div class="bulletin-right-column">
+                    <div class="bulletin-image"></div>
+                    <div class="bulletin-price">2 345 грн</div>
+                </div>
+                <div class="bulletin-center-column">
+                    <input type="checkbox" class="checkbox" />
+                    <div class="bulletin-action">Искать похожие</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="left-column">
+            Левая
+        </div>
+        
+    </section>
+    
+    <!-- CONTENT NG-ROUTE -->
+    <div class="content" ng-view></div>
 
 </div>
 
 <!-- FOOTER -->
 <footer>
-	
+
 </footer>
 
 <!-- LIBLARIES -->
 <script type="text/javascript" src="lib/angular.min.js"></script>
 <script type="text/javascript" src="lib/angular-route.js"></script>
-<script type="text/javascript" src="lib/angular-animate.js"></script>
-<script type="text/javascript" src="lib/angular-aria.js"></script>
-<script type="text/javascript" src="lib/angular-messages.js"></script>
-<script type="text/javascript" src="lib/angular-material.js"></script>
 
 <!-- JS BUILD -->
 <script type="text/javascript" src="app.js"></script>

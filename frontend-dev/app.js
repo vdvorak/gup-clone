@@ -1,12 +1,16 @@
 require("./styles/basic.scss")
+require("./styles/favourites.scss")
 
-/* Controllers */
-const basicController = require('./controllers/basic')
+/* TEST */
+let utils = require('./modules/utils')
+let config = require('./config')
 
-let app = angular.module('gup', ['ngRoute', 'ngMaterial', 'ngMessages'])
+let data = {
+  method : "POST",
+  url : ""
+}
 
-/* Plug in controllers */
-app.controller('basicController', basicController)
+let app = angular.module('gup', ['ngRoute'])
 
 // Router config
 app
@@ -15,7 +19,8 @@ app
     $routeProvider
       .when('/', {
         templateUrl:"templates/index.html",
-        controller: "basicController as basic"
+        controller: require('./controllers/basic'),
+        controllerAs: "basic"
       })
       .otherwise({
          redirectTo: '/'
