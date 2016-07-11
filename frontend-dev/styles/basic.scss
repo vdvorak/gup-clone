@@ -14,6 +14,14 @@ header {
   background-color: $blue;
 }
 
+.btn-blue, .btn-grey {
+    position:relative;
+    display:inline-block;
+    overflow: hidden;
+    width:50px;
+    height:30px;
+}
+
 .container {
   width: 1170px;
   position: relative;
@@ -41,7 +49,7 @@ header {
 .ink.animate {
 	animation: ripple 0.65s linear;
 }
-      
+
 @keyframes ripple {
 	100% {
 		opacity: 0;
@@ -51,35 +59,35 @@ header {
 
 .head {
   padding-top: 5px;
-  
+
   img {
     cursor: pointer;
     border-radius: 50%;
     float: left;
   }
-  
+
   md-input-container {
     margin: 13px 0 0 20px;
     float: left;
-    
+
     input {
       color: #ffffff;
       font: 400 14px / 21px Roboto;
       border-color: white;
       width: 200px;
     }
-    
+
     label {
       color: white;
     }
   }
-  
+
   .md-input-focused {
-    
+
     input {
       border-color: white !important;
     }
-    
+
     label {
       color: white !important;
     }
