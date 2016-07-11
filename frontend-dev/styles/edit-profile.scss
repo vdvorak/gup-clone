@@ -2,6 +2,12 @@ $font-form-header:700 22px Roboto;
 $font-form-content:400 16px Roboto;
 $font-form-button:400 14px Roboto;
 
+@mixin clearfix{
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .view-edit-profile{
   margin: 13.84767556874382% 20.41742286751361% 0% 20.41742286751361%;
 
@@ -13,13 +19,35 @@ $font-form-button:400 14px Roboto;
   .edit-profile-form{
     margin-top: 4.253214638971316%;
     font: $font-form-content;
+
+    input, textarea{
+      width: 100%;
+    }
   }
 
+  .social-link-container{
+    height: auto;
+    div{
+      width: 24px;
+      height: 24px;
+      float: left;
+      margin-right: 47px;
+
+      &::after{
+        @include clearfix;
+      }
+    }
+  }
 }
 
-.uploadFileForm input{
+.uploadFileForm{
   visibility: hidden;
-  width:0px;
-  height:0px;
+  input{
+    width:0px;
+    height:0px;
+  }
 }
 
+#favourites{
+  display:none;
+}
