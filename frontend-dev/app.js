@@ -34,5 +34,20 @@ app
   }])
   .directive('blueButton', require('./directives/blueButton'))
   .directive('greyButton', require('./directives/greyButton'))
+  .directive('text', function() {
+    return {
+      restrict: "E",
+      require: '^ngModel',
+      scope : {
+        label: "@",
+        class: "@",
+        ngModel: "="
+      },
+      template: `<div class="{{class}}">
+            			 <label>{{ label }}</label>
+            			 <input type="text" class="textInputs" value="{{ ngModel }}">
+          			 </div>`
+    }
+  })
   .controller('mainCtrl', require('./controllers/main'))
   .run()

@@ -8,7 +8,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
 	<script src="lib/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
-<body ng-controller="mainCtrl as main">
+<body ng-controller="mainCtrl as main" ng-init="main.init()">
 
 <!-- HEADER -->
 <header>
@@ -24,7 +24,7 @@
 					<p>Сортировка</p>
 				</div>
 				<div class="listOfValues">
-					
+
 				</div>
 			</div>
 			<div class="add">
@@ -51,10 +51,7 @@
     <blue-button>Hello</blue-button>
     <grey-button>Wahahahaha</grey-button>
 
-
-    <!-- <div class="btn-blue">Hello</div> -->
-
-    <div class="input" id="name">Имя</div>
+    <text on-blur="main.textOnBlur" on-focus="main.textOnFocus" class="inputSearch" ng-model="main.hello" label="name"></text>
 
     <section id="favourites" class="clearfix">
         <div class="right-column">
@@ -78,8 +75,6 @@
         <div class="left-column">
             Левая
         </div>
-
-
 
     </section>
 
