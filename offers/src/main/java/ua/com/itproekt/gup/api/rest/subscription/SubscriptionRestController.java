@@ -29,7 +29,7 @@ public class SubscriptionRestController {
     //------------------------------------------ Read -----------------------------------------------------------------
     @RequestMapping(value = "/subscription/read/{subscriptionId}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Subscription> getOfferById(@PathVariable String subscriptionId) {
+    public ResponseEntity<Subscription> getSubscriptionById(@PathVariable String subscriptionId) {
 
         Subscription subscription = subscriptionService.find(subscriptionId);
         if (subscription == null) {
@@ -41,7 +41,7 @@ public class SubscriptionRestController {
 
     @RequestMapping(value = "/subscription/read/all", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EntityPage<Subscription>> getOfferById(@RequestBody SubscriptionFilterOptions subscriptionFilterOptions) {
+    public ResponseEntity<EntityPage<Subscription>> getSubscriptionWithFilter(@RequestBody SubscriptionFilterOptions subscriptionFilterOptions) {
 
         EntityPage<Subscription> subscriptions = subscriptionService.findWithFilterOption(subscriptionFilterOptions);
 
@@ -75,7 +75,7 @@ public class SubscriptionRestController {
 
     //------------------------------------------ Delete ----------------------------------------------------------------
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/subscription/delete/{subscriptionId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/subscription/delete/{subscriptionId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteOffer(@PathVariable String subscriptionId) {
 
         int result = subscriptionService.delete(subscriptionId);

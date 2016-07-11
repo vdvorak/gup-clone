@@ -38,10 +38,10 @@ var frontWebpackConfig = {
         test: /\.scss$/,
         loaders: ["style", "css", "postcss", "sass"]
       },
-      // {
-      //   test: /\.(jpe?g|png|gif|svg)$/i,
-      //   loader: 'file?name=img/[name].[ext]'
-      // },
+       {
+         test: /\.(jpe?g|png|gif|svg)$/i,
+         loader: 'file?name=[path][name].[ext]'
+       },
       {
         test: /\.json$/,
         loader : 'json'
