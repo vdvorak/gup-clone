@@ -5,6 +5,29 @@ module.exports = function() {
   console.log('loaded temp')
   this.hello="hi"
 
+  this.init = function() {
+    console.log("Main controller init")
+    
+    this.initListeners()
+  }
+
+  this.initListeners = function() {
+    let textInputs = document.getElementsByClassName("textInputs")
+    Array.prototype.forEach.call(textInputs, el => {
+      el.addEventListener('focus', this.textOnFocus)
+      el.addEventListener('blur', this.textOnBlur)
+    })
+  }
+
+  this.textOnFocus = function(e) {
+    console.log("Got text focus")
+  }
+
+  this.textOnBlur = function(e) {
+    console.log("Got text blur")
+  }
+
+
   this.rippleHandler = function handler(e) {
     let parent = e.target.parentNode.parentNode.parentNode
     let ink = parent.getElementsByClassName('ink')[0]
