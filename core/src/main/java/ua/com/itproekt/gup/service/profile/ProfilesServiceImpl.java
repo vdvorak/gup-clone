@@ -119,11 +119,17 @@ public class ProfilesServiceImpl implements ProfilesService {
     public boolean isUserModerator(Profile user) {
         Set<UserRole> userRoleSet = user.getUserRoles();
         for (UserRole userRole : userRoleSet) {
-            if (userRole == UserRole.ROLE_MODERATOR || userRole == UserRole.ROLE_ADMIN) {
+            if (userRole == UserRole.ROLE_MODERATOR || userRole == UserRole.ROLE_ADMIN || userRole == UserRole.ROLE_SUPPORT) {
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean isUserAdminById(String userId) {
+        Profile profile = profileRepository.findById(userId);
+        return isUserModerator(profile);
     }
 
     @Override
