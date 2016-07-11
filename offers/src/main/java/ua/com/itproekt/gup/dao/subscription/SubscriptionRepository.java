@@ -34,4 +34,10 @@ public interface SubscriptionRepository {
      * @return List of subscriptions satisfying the filter
      */
     EntityPage<Subscription> findWithFilterOption(SubscriptionFilterOptions subscriptionFilterOptions);
+
+    /**
+     *
+     * @return
+     */
+    EntityPage<Subscription> findAll();
 }

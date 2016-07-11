@@ -1,7 +1,7 @@
 require("./styles/basic.scss")
 require("./styles/favourites.scss")
 
-/* TEST */
+/* TEST json require */
 let utils = require('./modules/utils')
 let config = require('./config')
 
@@ -32,4 +32,7 @@ app
     })
 
   }])
+  .directive('blueButton', require('./directives/blueButton'))
+  .directive('greyButton', require('./directives/greyButton'))
+  .controller('mainCtrl', require('./controllers/main'))
   .run()

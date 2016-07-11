@@ -32,24 +32,24 @@ public class LoginTest {
 //        }
 //    }
 
-    @Test
-    public void testLoginResponse() {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = "http://93.73.109.38:8083/login";
-        String requestJson = "{\"email\":\"sss2@gmail.com\",\"password\":\"123456\"}";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
-        String answer = restTemplate.postForObject(url, entity, String.class);
-        System.out.println(answer);
-
-//        ResponseEntity<String> response = restTemplate.postForObject(url, entity, String.class);
+//    @Test
+//    public void testLoginResponse() {
+//        RestTemplate restTemplate = new RestTemplate();
+//        String url = "http://93.73.109.38:8083/login";
+//        String requestJson = "{\"email\":\"sss2@gmail.com\",\"password\":\"123456\"}";
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
+//        String answer = restTemplate.postForObject(url, entity, String.class);
+//        System.out.println(answer);
 //
-//        if (HttpStatus.OK == response.getStatusCode()) {
-//            System.out.println(response);
-//        } else {
-//            // log error, retry or ?
-//        }
-    }
+////        ResponseEntity<String> response = restTemplate.postForObject(url, entity, String.class);
+////
+////        if (HttpStatus.OK == response.getStatusCode()) {
+////            System.out.println(response);
+////        } else {
+////            // log error, retry or ?
+////        }
+//    }
 
 }
