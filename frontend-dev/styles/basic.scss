@@ -8,10 +8,22 @@ $blue: #1875D0;
 //  background: $back;
 //}
 
+body {
+	background-color: #ECECEC;
+}
+
 header {
   height: 70px;
   box-shadow: 0px 2px 2px 0.00px rgba(0, 0, 0, 0.3);
   background-color: $blue;
+}
+
+.btn-blue, .btn-grey {
+    position:relative;
+    display:inline-block;
+    overflow: hidden;
+    width:50px;
+    height:30px;
 }
 
 .container {
@@ -30,11 +42,58 @@ header {
   clear: both;
 }
 
+.ink {
+	display: block;
+	position: absolute;
+	background: blue;
+	border-radius: 100%;
+	transform: scale(0);
+}
+
+.ink.animate {
+	animation: ripple 0.65s linear;
+}
+
+@keyframes ripple {
+	100% {
+		opacity: 0;
+		transform: scale(2.5);
+	}
+}
+
 .head {
   padding-top: 5px;
-  
+
   img {
     cursor: pointer;
     border-radius: 50%;
+    float: left;
+  }
+
+  md-input-container {
+    margin: 13px 0 0 20px;
+    float: left;
+
+    input {
+      color: #ffffff;
+      font: 400 14px / 21px Roboto;
+      border-color: white;
+      width: 200px;
+    }
+
+    label {
+      color: white;
+    }
+  }
+
+  .md-input-focused {
+
+    input {
+      border-color: white !important;
+    }
+
+    label {
+      color: white !important;
+    }
   }
 }

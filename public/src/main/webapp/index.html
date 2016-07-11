@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>GUP</title>
+  <link rel="stylesheet" href="lib/normalize.css">
   <base href="/" />
   <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+  <script src="lib/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
 <body>
 
@@ -13,14 +15,30 @@
   <div class="container clearfix">
     <div class="head">
       <img src="images/logo.png" alt="logo">
+      <!-- <md-input-container>
+        <label>Поиск</label>
+        <input ng-model="user.title">
+      </md-input-container>
+      <md-input-container>
+        <label>Сортировка</label>
+        <md-select ng-model="">
+          <md-option ng-repeat="" value="{{}}">
+            {{}}
+          </md-option>
+        </md-select>
+      </md-input-container> -->
     </div>
   </div>
 </header>
 
 <!-- CONTAINER -->
-<div class="container">
-    
-    <section id="favourites">
+<div class="container clearfix">
+
+    <div class="btn-blue">Hello</div>
+
+    <div class="input" id="name">Имя</div>
+
+    <section id="favourites" class="clearfix">
         <div class="right-column">
             <div class="bulletin-short">
                 <div class="bulletin-left-column">
@@ -38,13 +56,15 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="left-column">
             Левая
         </div>
-        
-    </section>
-    
+
+
+
+    </section> -->
+
     <!-- CONTENT NG-ROUTE -->
     <div class="content" ng-view></div>
 
