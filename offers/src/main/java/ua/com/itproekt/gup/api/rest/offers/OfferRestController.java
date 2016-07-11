@@ -15,6 +15,7 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
+import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,9 @@ public class OfferRestController {
 
     @Autowired
     SeoSequenceService seoSequenceService;
+
+    @Autowired
+    SubscriptionService subscriptionService;
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
@@ -187,6 +191,16 @@ public class OfferRestController {
         }
 
         Offer offer = offersService.findById(offerId);
+
+        // if we don't have lastModerationDate => we must check if this offer suite for some of subscriptions
+
+        if (offer.getLastModerationDate() == null && moderationStatus == ModerationStatus.COMPLETE) {
+            offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+            offer.setModerationStatus(moderationStatus);
+            subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(offer);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
 
         offer
                 .setModerationStatus(moderationStatus)

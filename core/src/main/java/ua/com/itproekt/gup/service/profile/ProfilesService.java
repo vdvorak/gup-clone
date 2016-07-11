@@ -167,7 +167,7 @@ public interface ProfilesService {
 
     /**
      *
-     * @param id
+     * @param userId
      * @return
      */
     boolean isUserAdminById(String userId);

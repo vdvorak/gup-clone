@@ -15,7 +15,8 @@ public class Subscription {
 
     private String userId;
     private OfferFilterOptions offerFilterOptions;
-    private Long sinceDate;
+    private Long createDate;
+    private Long lastCheckDate;
 
 
     public Subscription() {
@@ -26,8 +27,9 @@ public class Subscription {
         this.offerFilterOptions = offerFilterOptions;
     }
 
-    public Subscription setSinceDateEqualsToCurrentDate() {
-        this.sinceDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+    public Subscription setSinceDateAndCreateDateEqualsToCurrentDate() {
+        this.lastCheckDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        this.createDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
     }
 
@@ -56,11 +58,19 @@ public class Subscription {
     }
 
     public Long getSinceDate() {
-        return sinceDate;
+        return lastCheckDate;
     }
 
     public void setSinceDate(Long sinceDate) {
-        this.sinceDate = sinceDate;
+        this.lastCheckDate = sinceDate;
+    }
+
+    public Long getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Long createDate) {
+        this.createDate = createDate;
     }
 
     @Override
@@ -69,7 +79,8 @@ public class Subscription {
                 "id='" + id + '\'' +
                 ", userId='" + userId + '\'' +
                 ", offerFilterOptions=" + offerFilterOptions +
-                ", sinceDate=" + sinceDate +
+                ", createDate=" + createDate +
+                ", lastCheckDate=" + lastCheckDate +
                 '}';
     }
 }

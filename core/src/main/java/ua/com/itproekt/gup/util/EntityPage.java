@@ -11,6 +11,9 @@ public final class EntityPage<T> {
         this.entities = entities;
     }
 
+    public EntityPage() {
+    }
+
     public long getTotalEntities() {
         return totalEntities;
     }

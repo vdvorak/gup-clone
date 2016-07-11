@@ -11,6 +11,8 @@ import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
+import java.util.List;
+
 @Repository
 public class SubscriptionRepositoryImpl implements SubscriptionRepository {
 
@@ -53,5 +55,11 @@ public class SubscriptionRepositoryImpl implements SubscriptionRepository {
         query.limit(subscriptionFilterOptions.getLimit());
 
         return new EntityPage<>(mongoTemplate.count(query, Subscription.class), mongoTemplate.find(query, Subscription.class));
+    }
+
+    @Override
+    public EntityPage<Subscription> findAll() {
+        List<Subscription> subscriptionList = mongoTemplate.findAll(Subscription.class);
+        return new EntityPage<>(subscriptionList.size(), subscriptionList);
     }
 }
