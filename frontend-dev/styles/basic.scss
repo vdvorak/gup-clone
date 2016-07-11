@@ -36,5 +36,33 @@ header {
   img {
     cursor: pointer;
     border-radius: 50%;
+    float: left;
+  }
+  
+  md-input-container {
+    margin: 13px 0 0 20px;
+    float: left;
+    
+    input {
+      color: #ffffff;
+      font: 400 14px / 21px Roboto;
+      border-color: white;
+      width: 200px;
+    }
+    
+    label {
+      color: white;
+    }
+  }
+  
+  .md-input-focused {
+    
+    input {
+      border-color: white !important;
+    }
+    
+    label {
+      color: white !important;
+    }
   }
 }
