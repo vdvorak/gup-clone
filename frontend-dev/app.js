@@ -32,7 +32,10 @@ app
     })
 
   }])
+  .directive('blueButton', require('./directives/blueButton'))
+  .directive('greyButton', require('./directives/greyButton'))
+  .controller('temp', require('./controllers/temp'))
   .run()
 
-let ripple = require('./modules/ripple')
-ripple()
+// let ripple = require('./modules/ripple')
+// ripple()
