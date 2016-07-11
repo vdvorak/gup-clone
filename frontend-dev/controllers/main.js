@@ -1,5 +1,6 @@
 "use strict"
 
+/* Контроллер для управления  основным скелетом документа */
 module.exports = function() {
   console.log('loaded temp')
   this.hello="hi"
