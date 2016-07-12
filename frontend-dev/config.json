@@ -1,11 +1,11 @@
 {
   "api" : {
-    "url" : "http://93.73.109.38:8081/"
+    "url" : "http://93.73.109.38:8084/"
   },
   "routes" : {
     "getBulletins" : {
       "method" : "POST",
-      "url" : "/api/rest/offersService/offer/read/all",
+      "url" : "api/rest/offersService/offer/read/all",
       "accept" : {
         "type" : "json",
         "example" : {

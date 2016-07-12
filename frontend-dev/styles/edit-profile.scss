@@ -1,0 +1,80 @@
+$font-form-header:700 22px Roboto;
+$font-form-content:400 16px Roboto;
+$font-form-button:400 14px Roboto;
+
+@mixin clearfix{
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.view-edit-profile{
+  width: 652px;
+  margin:0 auto;
+
+  h1{
+    font: $font-form-header;
+    text-align: center;
+  }
+
+  .edit-profile-form{
+    font: $font-form-content;
+
+    input, textarea{
+      width: 100%;
+    }
+  }
+
+  .edit-profile-form-contacts-container{
+    input{
+      width: 95%;
+    }
+    div {
+      width:16px;
+      height: 16px;
+      display: inline-block;
+      background: url('../images/icon_close_blue.png') no-repeat;
+      background-size: contain;
+    }
+  }
+
+  .edit-profile-form-foto{
+    float: right;
+    &::after{
+      @include clearfix;
+    }
+    input{
+      width: 60%;
+    }
+    .edit-profile-form-foto-preview{
+      background: url('../images/avatar.jpg') no-repeat;
+      background-position: center center;
+      background-size: contain;
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .social-link-container{
+    height: auto;
+    div{
+      width: 24px;
+      height: 24px;
+      float: left;
+      margin-right: 47px;
+
+      &::after{
+        @include clearfix;
+      }
+    }
+  }
+}
+
+.uploadFileForm{
+  visibility: hidden;
+  input{
+    width:0px;
+    height:0px;
+  }
+}
