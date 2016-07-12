@@ -43,10 +43,10 @@ Implemented directives example:
 <text class="inputSearch" ng-model="main.hello" label="name"></text>
 
 
-
 URLS of the app:
 /
-/index
+/favourites
+/bulletinDetails
 /error/403
 /error/404
 /error/500

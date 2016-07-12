@@ -9,14 +9,14 @@ let config = require('./config')
 utils.request({
   method : config.routes.getBulletins.method,
   url : config.api.url + config.routes.getBulletins.url,
-  data : JSON.stringify({
+  data : {
     "skip": 0,
     "limit": 20
-  })
-  // headers : {
-  //   "Content-Type" : "application/json",
-  //   "Access-Control-Allow-Origin" : true
-  // }
+  },
+  success : data => console.log(data),
+  headers : {
+    "Content-Type" : "application/json"
+  }
 })
 
 let app = angular.module('gup', ['ngRoute'])
