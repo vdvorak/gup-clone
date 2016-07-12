@@ -233,7 +233,7 @@
     var profileId = "${profileId}";
 </script>
 <jsp:include page="/WEB-INF/templates/custom-js-template.jsp"/>
-<script src="/resources/js/edit-profile.js"></script>
+<script src="/resources/js/editProfile.js"></script>
 
 </body>
 </html>
