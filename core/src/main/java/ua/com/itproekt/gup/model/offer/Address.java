@@ -75,4 +75,19 @@ public class Address {
     public void setLng(BigDecimal lng) {
         this.lng = lng;
     }
+
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "coordinates='" + coordinates + '\'' +
+                ", country='" + country + '\'' +
+                ", area='" + area + '\'' +
+                ", city='" + city + '\'' +
+                ", district='" + district + '\'' +
+                ", street='" + street + '\'' +
+                ", lat=" + lat +
+                ", lng=" + lng +
+                '}';
+    }
 }
