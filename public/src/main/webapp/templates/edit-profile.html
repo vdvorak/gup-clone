@@ -21,15 +21,15 @@
             <input type="text" placeholder="Основной e-mail" ng-model="profile.email">
 
             <div class="edit-profile-form-contacts-container" ng-repeat="email in profile.contact.contactEmails track by $index">
-                <input type="text" placeholder="Контактный e-mail" ng-model="profile.contact.contactEmails[$index]" ng-blur="profile.addContacts($event, $index)">
-                <div class="" ng-click="profile.deleteContacts($event, $index)"></div>
+                <input type="text" placeholder="Контактный e-mail" ng-model="profile.contact.contactEmails[$index]" ng-blur="profile.addContacts($event, 'email')">
+                <div ng-style="$first && {'visibility':'hidden'}" ng-click="profile.deleteContacts($event, $index, 'email')"></div>
             </div>
 
             <input type="text" placeholder="Основной телефон" ng-model="profile.mainPhoneNumber">
 
             <div class="edit-profile-form-contacts-container" ng-repeat="tel in profile.contact.contactPhones track by $index">
-                <input type="text" placeholder="Контактный телефон" ng-model="profile.contact.contactPhones[$index]" ng-blur="profile.addContacts($event,$index)">
-                <div ng-click="profile.deleteContacts($event, $index)"></div>
+                <input type="text" placeholder="Контактный телефон" ng-model="profile.contact.contactPhones[$index]" ng-blur="profile.addContacts($event, 'phone')">
+                <div ng-style="$first && {'visibility':'hidden'}" ng-click="profile.deleteContacts($event, $index, 'phone')"></div>
             </div>
 
             <input type="text" placeholder="Skype" ng-model="profile.contact.skypeUserName">
