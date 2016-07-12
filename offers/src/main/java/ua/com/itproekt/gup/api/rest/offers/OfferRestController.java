@@ -53,6 +53,7 @@ public class OfferRestController {
         return new ResponseEntity<>(offer, HttpStatus.OK);
     }
 
+
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
     public EntityPage<OfferInfo> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
         if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
@@ -207,6 +208,26 @@ public class OfferRestController {
                 .setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+
+
+
+
+
+
+
+    //ToDo delete this in the future
+    //
+    @RequestMapping(value = "/subscription/test", method = RequestMethod.POST)
+    public ResponseEntity<Void> test() {
+
+        Offer offer = offersService.findById("5783955367e2f7a69d567bb8");
+
+        subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(offer);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

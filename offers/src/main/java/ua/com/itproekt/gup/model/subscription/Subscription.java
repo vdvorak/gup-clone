@@ -27,7 +27,7 @@ public class Subscription {
         this.offerFilterOptions = offerFilterOptions;
     }
 
-    public Subscription setSinceDateAndCreateDateEqualsToCurrentDate() {
+    public Subscription setLastCheckDateAndCreateDateEqualsToCurrentDate() {
         this.lastCheckDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         this.createDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
@@ -57,12 +57,12 @@ public class Subscription {
         this.offerFilterOptions = offerFilterOptions;
     }
 
-    public Long getSinceDate() {
+    public Long getLastCheckDate() {
         return lastCheckDate;
     }
 
-    public void setSinceDate(Long sinceDate) {
-        this.lastCheckDate = sinceDate;
+    public void setLastCheckDate(Long lastCheckDate) {
+        this.lastCheckDate = lastCheckDate;
     }
 
     public Long getCreateDate() {

@@ -72,6 +72,7 @@ public class OfferRepositoryImpl implements OfferRepository {
 
     @Override
     public EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFO) {
+
         Query query = new Query();
 
         if (offerFO.getAuthorId() != null) {
