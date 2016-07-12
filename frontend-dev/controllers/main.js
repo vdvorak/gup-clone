@@ -7,7 +7,7 @@ module.exports = function() {
 
   this.init = function() {
     console.log("Main controller init")
-    
+
     this.initListeners()
   }
 
@@ -16,6 +16,11 @@ module.exports = function() {
     Array.prototype.forEach.call(textInputs, el => {
       el.addEventListener('focus', this.textOnFocus)
       el.addEventListener('blur', this.textOnBlur)
+    })
+
+    let ripples = document.getElementsByClassName('ripple')
+    Array.prototype.forEach.call(ripples, el => {
+      el.addEventListener('click', this.rippleHandler)
     })
   }
 
