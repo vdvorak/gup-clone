@@ -1,45 +1,55 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="gup">
 <head>
-  <meta charset="UTF-8">
-  <title>GUP</title>
-  <link rel="stylesheet" href="lib/normalize.css">
-  <base href="/" />
-  <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
-  <script src="lib/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+	<meta charset="UTF-8">
+	<title>GUP</title>
+	<link rel="stylesheet" href="lib/normalize.css">
+	<base href="/" />
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+	<script src="lib/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
-<body ng-controller="mainCtrl as main">
+<body ng-controller="mainCtrl as main" ng-init="main.init()">
 
 <!-- HEADER -->
 <header>
-  <div class="container clearfix">
-    <div class="head">
-      <img src="images/logo.png" alt="logo">
-      <!-- <md-input-container>
-        <label>Поиск</label>
-        <input ng-model="user.title">
-      </md-input-container>
-      <md-input-container>
-        <label>Сортировка</label>
-        <md-select ng-model="">
-          <md-option ng-repeat="" value="{{}}">
-            {{}}
-          </md-option>
-        </md-select>
-      </md-input-container> -->
-    </div>
-  </div>
+	<div class="container clearfix">
+		<div class="headLeft clearfix">
+			<div class="logo"></div>
+			<div class="inputSearch">
+				<label>Поиск</label>
+				<input type="text">
+			</div>
+			<div class="selectBox">
+				<div class="defaultValue">
+					<p>Сортировка</p>
+				</div>
+				<div class="listOfValues">
+
+				</div>
+			</div>
+			<div class="add">
+				<p>Добавить Объявление</p>
+			</div>
+		</div>
+		<div class="headRight clearfix">
+			<div class="mail">
+				<p>10</p>
+			</div>
+			<div class="bell">
+				<p>8</p>
+			</div>
+			<div class="services"></div>
+			<div class="userName">
+				<p>Имя Фамилия</p>
+			</div>
+		</div>
+	</div>
 </header>
 
 <!-- CONTAINER -->
 <div class="container clearfix">
-    <blue-button>Hello</blue-button>
-    <grey-button>Wahahahaha</grey-button>
-
-
-    <!-- <div class="btn-blue">Hello</div> -->
-
-    <div class="input" id="name">Имя</div>
+		<nice-button class="btn-blue">Hi man</nice-button>
+    <text class="inputSearch" ng-model="main.hello" label="name"></text>
 
     <section id="favourites" class="clearfix">
         <div class="right-column">
@@ -63,8 +73,6 @@
         <div class="left-column">
             Левая
         </div>
-
-
 
     </section>
 

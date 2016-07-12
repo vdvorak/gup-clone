@@ -32,7 +32,7 @@ app
     })
 
   }])
-  .directive('blueButton', require('./directives/blueButton'))
-  .directive('greyButton', require('./directives/greyButton'))
+  .directive('text', require('./directives/text'))
+  .directive('niceButton', require('./directives/niceButton'))
   .controller('mainCtrl', require('./controllers/main'))
   .run()

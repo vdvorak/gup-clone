@@ -2,15 +2,16 @@
 
 module.exports = function() {
   return {
-    restrict : "E",
+    restrict: "E",
     transclude: true,
-    scope: true,
-    template: `<div class="btn-blue">
+    scope : {
+      class: "@"
+    },
+    template : `<div class="{{ class }}">
                   <span class="ink"></span>
-                  <p ng-click="main.rippleHandler($event)" class="ripple">
+                  <p class="ripple">
                     <ng-transclude></ng-transclude>
                   </p>
                 </div>`
-
   }
 }
