@@ -25,6 +25,24 @@ $font-form-button:400 14px Roboto;
     }
   }
 
+  .edit-profile-form-foto{
+    float: right;
+    &::after{
+      @include clearfix;
+    }
+    input{
+      width: 60%;
+    }
+    .edit-profile-form-foto-preview{
+      background: url('../images/avatar.jpg') no-repeat;
+      background-position: center center;
+      background-size: contain;
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+    }
+  }
+
   .social-link-container{
     height: auto;
     div{

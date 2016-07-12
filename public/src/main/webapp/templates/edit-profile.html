@@ -6,6 +6,12 @@
                 <option value="LEGAL_ENTITY">Юридическое лицо</option>
                 <option value="ENTREPRENEUR">Частный предприниматель</option>
             </select>
+            <div class="edit-profile-form-foto">
+                <div class="edit-profile-form-foto-preview"></div>
+                <input type="text" placeholder="{{profile.contact.type === 'ENTREPRENEUR' && 'Лого' || 'Аватар'}}">
+                <button ng-click="">Обзор</button>
+                <!--<span>Максимальный размер файла - 5 мб.</span>-->
+            </div>
             <input type="text" placeholder="ФИО" ng-model="profile.username" ng-hide="profile.contact.type === 'LEGAL_ENTITY'">
             <input type="text" placeholder="Должность" ng-model="profile.contact.position" ng-hide="profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY'">
             <input type="text" placeholder="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'Название компании' || 'Место работы'}}" ng-model="profile.contact.companyName">
@@ -34,8 +40,11 @@
             <textarea placeholder="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'О компании' || 'О себе'}}" ng-model="profile.contact.aboutUs"></textarea>
         </form>
         <button id="edit-profile-btn-save" type="submit" class="button" ng-submit="profile.updateProfile($event)">СОХРАНИТЬ</button>
+
+        <form id="uploadFileForm" class="uploadFileForm">
+            <input id="uploadFileFormInput" type="file" name="file" accept="image/*,image/jpeg">
+        </form>
+
     </div>
 
-    <form class="uploadFileForm">
-        <input type="file" name="file" accept="image/*,image/jpeg" ng-click="">
-    </form>
+
