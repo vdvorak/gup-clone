@@ -53,6 +53,7 @@ public class OfferRestController {
         return new ResponseEntity<>(offer, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
     public EntityPage<OfferInfo> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
         if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
