@@ -71,3 +71,12 @@ Implemented directives example:
 <nice-button class="btn-blue | btn-grey">Hi man</nice-button>
 
 <text class="inputSearch" ng-model="main.hello" label="name"></text>
+
+
+
+URLS of the app:
+/
+/index
+/error/403
+/error/404
+/error/500
