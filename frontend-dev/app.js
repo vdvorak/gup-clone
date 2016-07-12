@@ -1,6 +1,7 @@
 require("./styles/basic.scss")
 require("./styles/favourites.scss")
 require("./styles/edit-profile.scss")
+require("./styles/profile.scss")
 
 /* TEST json require */
 let utils = require('./modules/utils')
@@ -46,6 +47,11 @@ app
       .when('/editProfile', {
         templateUrl: "templates/edit-profile.html",
         controller: require('./controllers/editProfile'),
+        controllerAs: "profile"
+      })
+      .when('/profile', {
+        templateUrl: "templates/profile.html",
+        controller: require('./controllers/profile'),
         controllerAs: "profile"
       })
       .when('/favourites', {
