@@ -34,6 +34,22 @@ module.exports.addRipple = function(selector) {
 }
 
 /* Adds input sliding label effect in and out */
-module.exports.addInputEvents = function(selector) {
-  let onBlur = (e) => console.log("Got Text onblur event") 
+module.exports.addTextEvents = function(selector) {
+  this.onFocus = function(e) {
+    console.log("Got text focus")
+  }
+
+  this.onBlur = function(e) {
+    console.log("Got text blur")
+  }
+
+  try {
+    let elements = document.querySelectorAll(selector)
+    Array.prototype.forEach.call(elements, el => el.addEventListener('blur', this.onBlur))
+    Array.prototype.forEach.call(elements, el => el.addEventListener('focus', this.onFocus))
+    return true
+  } catch(e) {
+    console.error(e)
+    return false
+  }
 }

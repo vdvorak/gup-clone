@@ -73,4 +73,4 @@ app
   .directive('text', require('./directives/text'))
   .directive('niceButton', require('./directives/niceButton'))
   .controller('mainCtrl', require('./controllers/main'))
-  .run()
+  .run()  
