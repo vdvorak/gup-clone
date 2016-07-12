@@ -12,6 +12,9 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
+import ua.com.itproekt.gup.model.offer.Offer;
+import ua.com.itproekt.gup.model.profiles.Profile;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
@@ -62,12 +65,42 @@ public class MailSenderServiceImpl implements MailSenderService {
                  "velocity/LostPasswordEmail.vm", resources);
     }
 
+    @Override
+    public void sendSubscriptionOfferEmail(Profile profile, Offer offer, final Map<String, String> resources) {
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,
+                        MimeMessageHelper.MULTIPART_MODE_RELATED, "UTF-8");
+                messageHelper.setTo(profile.getEmail());
+                messageHelper.setFrom(emailFromAddress);
+                messageHelper.setReplyTo(emailReplyToAddress);
+                messageHelper.setSubject("Результаты поиска по подписке с сайта GUP");
+                Map<String, Object> model = new HashMap<>();
+                model.put("model", offer);
+                String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "velocity/OfferSubscriptionEmail.vm", "UTF-8", model);
+                messageHelper.setText(text, true);
+
+                for(String resourceIdentifier: resources.keySet()) {
+                    addInlineResource(messageHelper, resources.get(resourceIdentifier), resourceIdentifier);
+                }
+            }
+
+        };
+
+     mailSender.send(preparator);
+
+
+    }
+
+
 
     private void addInlineResource(MimeMessageHelper messageHelper, String resourcePath,
                                    String resourceIdentifier) throws MessagingException {
         Resource resource = new ClassPathResource(resourcePath);
         messageHelper.addInline(resourceIdentifier, resource);
     }
+
+
 
     //TODO: fix subject encoding (cp1251 -> UTF-8)
     private EmailServiceTokenModel sendVerificationEmail(final EmailServiceTokenModel emailVerificationModel,
@@ -92,7 +125,6 @@ public class MailSenderServiceImpl implements MailSenderService {
                 }
             }
         };
-
         LOG.debug("Sending {} token to : {}", emailVerificationModel.getTokenType().toString(), emailVerificationModel.getEmail());
         this.mailSender.send(preparator);
         return emailVerificationModel;

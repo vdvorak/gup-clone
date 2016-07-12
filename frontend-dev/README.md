@@ -1,69 +1,39 @@
 Build folder:
 
-  /public/src/main/webapp/WEB-INF/
+/public/src/main/webapp/WEB-INF/
 
-Easy web-server(launch in the build folder):
+Easy web-server:
 
-  install: npm install -g local-web-server
+being in 'frontend-dev' folder
+```
+npm i
+```
 
-  docs: https://www.npmjs.com/package/local-web-server
-
-  usage: ws
-
+```
+node server.js
+```
 
 
 Compile:
+dev:
+```
+. dev_compile_webpack.sh
+```
 
-  dev: . dev_compile_webpack.sh
-
-  prod: . prod_compile_webpack.sh
+prod:
+```
+. prod_compile_webpack.sh
+```
 
 
 Install dependencies:
-  . bootstrap.sh
-
+```
+. bootstrap.sh
+```
 
 
 Angular Controllers Plan:
-
-General
-
-BulletinAdd
-
-MessageBox
-
-Dialog
-
-Contacts
-
-Feedback
-
-Profile
-
-ProfileEdit
-
-Register
-
-Login
-
-Favourites
-
-BulletinDetails
-
-BulletinsPreffered
-
-MessageBoxMini
-
-ContactsMini
-
-DialogMini
-
-FavouritesList
-
-FavouritesDetails
-
-Filter (Map, colors, subscribe, category)
-
+/docs/controllers_plan.md
 
 
 Implemented directives example:
@@ -73,10 +43,10 @@ Implemented directives example:
 <text class="inputSearch" ng-model="main.hello" label="name"></text>
 
 
-
 URLS of the app:
 /
-/index
+/favourites
+/bulletinDetails
 /error/403
 /error/404
 /error/500

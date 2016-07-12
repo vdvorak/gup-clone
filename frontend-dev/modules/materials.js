@@ -35,5 +35,5 @@ module.exports.addRipple = function(selector) {
 
 /* Adds input sliding label effect in and out */
 module.exports.addInputEvents = function(selector) {
-
+  let onBlur = (e) => console.log("Got Text onblur event") 
 }

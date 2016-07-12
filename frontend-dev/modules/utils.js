@@ -39,7 +39,8 @@ module.exports.request = function(options) {
     for( var prop in headers)
       xhr.setRequestHeader(prop, headers[prop])
 
-  xhr.send(data)
+  if(data)
+    xhr.send(JSON.stringify(data))
 
   xhr.onreadystatechange = function() {
     if (this.readyState != 4)

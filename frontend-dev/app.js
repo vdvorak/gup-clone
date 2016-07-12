@@ -7,10 +7,18 @@ require("./styles/profile.scss")
 let utils = require('./modules/utils')
 let config = require('./config')
 
-let data = {
-  method : "POST",
-  url : ""
-}
+utils.request({
+  method : config.routes.getBulletins.method,
+  url : config.api.url + config.routes.getBulletins.url,
+  data : {
+    "skip": 0,
+    "limit": 20
+  },
+  success : data => console.log(data),
+  headers : {
+    "Content-Type" : "application/json"
+  }
+})
 
 let app = angular.module('gup', ['ngRoute'])
 
