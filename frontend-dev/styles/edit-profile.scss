@@ -9,7 +9,8 @@ $font-form-button:400 14px Roboto;
 }
 
 .view-edit-profile{
-  margin: 13.84767556874382% 20.41742286751361% 0% 20.41742286751361%;
+  width: 652px;
+  margin:0 auto;
 
   h1{
     font: $font-form-header;
@@ -17,11 +18,23 @@ $font-form-button:400 14px Roboto;
   }
 
   .edit-profile-form{
-    margin-top: 4.253214638971316%;
     font: $font-form-content;
 
     input, textarea{
       width: 100%;
+    }
+  }
+
+  .edit-profile-form-contacts-container{
+    input{
+      width: 95%;
+    }
+    div {
+      width:16px;
+      height: 16px;
+      display: inline-block;
+      background: url('../images/icon_close_blue.png') no-repeat;
+      background-size: contain;
     }
   }
 

@@ -2,8 +2,8 @@
 
 class ProfileContact{
     constructor() {
-        this.contactEmails = [];
-        this.contactPhones = [];
+        this.contactEmails = [''];
+        this.contactPhones = [''];
     }
 }
 
@@ -14,11 +14,21 @@ class profileCtrl {
     updateProfile(){
 
     }
-    addContact(array){
-        if(array.length < 5) array.push('');
+    addContacts($event, $index){
+        var arr;
+        if(type === 'email') arr = this.contactEmails;
+        else if(type === 'phone') arr = this.contactPhones;
+        else return;
+
+        if(arr.length < 5 && arr[$index].trim()) arr.push('');
     }
-    deleteContact(array, index){
-        array.splice(index,1);
+
+    deleteContacts($event, $index){
+        var type = angular.element($event.target).parent().data('contact');
+
+        if(type === 'email') this.contactEmails.splice($index, 1);
+        else if(type === 'phone') this.contactPhones.splice($index, 1);
+        else return;
     }
 }
 
