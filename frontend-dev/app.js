@@ -30,7 +30,6 @@ app
       enabled : true,
       requireBase : false
     })
-
   }])
   .directive('text', require('./directives/text'))
   .directive('niceButton', require('./directives/niceButton'))
