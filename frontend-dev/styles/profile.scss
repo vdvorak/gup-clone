@@ -1,7 +1,77 @@
+$font-form-header:700 22px Roboto;
+$font-form-content:400 16px Roboto;
+$font-form-button:400 14px Roboto;
+
+@mixin clearfix{
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.view-profile-container{
+  background-color: #fff;
+  padding-top: 40px;
+  box-sizing: content-box;
+  margin:0 auto;
+  width: 1103px;
+  font: $font-form-content;
+
+  h1{
+    text-align: center;
+    font: $font-form-header;
+    padding: 25px 0px;
+  }
+
+  input:read-only{
+    width:100%;
+    border:none;
+    outline: none;
+    padding: 25px 0px;
+  }
+}
+
+.profile-left-container, .profile-right-container, .profile-info-section-left, .profile-info-section-right, .profile-info{
+  float: left;
+  &::after{
+    @include clearfix;
+  }
+}
+
+.view-profile, .view-profile-container{
+  &::after{
+    @include clearfix;
+  }
+}
+
+.profile-left-container{
+  width: 20%;
+}
+.profile-right-container{
+  width: 80%;
+}
+
+.profile-info-section-left, .profile-info-section-right{
+  width: 50%;
+}
+
 .profile-avatar{
-  width: 183px;
+  width: 175px;
   height: 220px;
   background: url('../images/avatar.jpg') no-repeat;
   background-size: contain;
   background-position: center center;
+}
+
+.social-link-container{
+  height: auto;
+  div:not(:last-of-type){
+    width: 24px;
+    height: 24px;
+    float: left;
+    margin-right: 24px;
+
+    &::after{
+      @include clearfix;
+    }
+  }
 }
