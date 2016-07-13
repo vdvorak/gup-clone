@@ -3,6 +3,7 @@
 require("./styles/basic.scss")
 require("./styles/favourites.scss")
 require("./styles/edit-profile.scss")
+require("./styles/profile.scss")
 
 const materials = require('./modules/materials')
 
@@ -60,6 +61,11 @@ app
       .when('/editProfile', {
         templateUrl: "templates/edit-profile.html",
         controller: require('./controllers/editProfile'),
+        controllerAs: "profile"
+      })
+      .when('/profile', {
+        templateUrl: "templates/profile.html",
+        controller: require('./controllers/profile'),
         controllerAs: "profile"
       })
       .when('/favourites', {
