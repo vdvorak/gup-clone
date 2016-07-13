@@ -1,9 +1,14 @@
+'use strict'
+
 require("./styles/basic.scss")
 require("./styles/favourites.scss")
 require("./styles/edit-profile.scss")
 
+const materials = require('./modules/materials')
+
 /* TEST json require */
-let utils = require('./modules/utils')
+let utils = require('./modules/utils'),
+
 let config = require('./config')
 
 /* test request to backend */
@@ -71,7 +76,11 @@ app
       requireBase : false
     })
   }])
-  .directive('text', require('./directives/text'))
-  .directive('niceButton', require('./directives/niceButton'))
+
+  materials.init(app)
   .controller('mainCtrl', require('./controllers/main'))
   .run()
+
+
+
+//materials.init(app)
