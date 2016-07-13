@@ -31,22 +31,31 @@ Install dependencies:
 . bootstrap.sh
 ```
 
-
 Angular Controllers Plan:
-/docs/controllers_plan.md
+https://trello.com/b/WRjaA6ir/novaera
 
 
 Implemented directives example:
 
-<nice-button class="btn-blue | btn-grey">Hi man</nice-button>
+<nice-button class="btn-blue">Hi man</nice-button>
 
 <text class="inputSearch" ng-model="main.hello" label="name"></text>
 
 
 URLS of the app:
-/
-/favourites
-/bulletinDetails
-/error/403
-/error/404
-/error/500
+see /server.js
+
+Images dimensions:
+
+Avatar:
+```
+40x40
+175x200
+```
+
+Image uploaded:
+```
+*x600
+165x120 - fit ratio as much as possible
+90x90
+```

@@ -1,11 +1,18 @@
+'use strict'
+
 require("./styles/basic.scss")
 require("./styles/favourites.scss")
 require("./styles/edit-profile.scss")
+require("./styles/profile.scss")
+
+const materials = require('./modules/materials')
 
 /* TEST json require */
-let utils = require('./modules/utils')
+let utils = require('./modules/utils'),
+
 let config = require('./config')
 
+/* test request to backend */
 utils.request({
   method : config.routes.getBulletins.method,
   url : config.api.url + config.routes.getBulletins.url,
@@ -56,6 +63,11 @@ app
         controller: require('./controllers/editProfile'),
         controllerAs: "profile"
       })
+      .when('/profile', {
+        templateUrl: "templates/profile.html",
+        controller: require('./controllers/profile'),
+        controllerAs: "profile"
+      })
       .when('/favourites', {
         templateUrl:"templates/favourites.html",
         controller: require('./controllers/favourites'),
@@ -70,7 +82,11 @@ app
       requireBase : false
     })
   }])
-  .directive('text', require('./directives/text'))
-  .directive('niceButton', require('./directives/niceButton'))
+
+  materials.init(app)
   .controller('mainCtrl', require('./controllers/main'))
-  .run()  
+  .run()
+
+
+
+//materials.init(app)
