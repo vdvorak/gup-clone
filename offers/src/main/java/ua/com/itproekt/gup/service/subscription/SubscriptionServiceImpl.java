@@ -3,16 +3,22 @@ package ua.com.itproekt.gup.service.subscription;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.subscription.SubscriptionRepository;
+import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.subscription.Subscription;
 import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
+import ua.com.itproekt.gup.service.emailnotification.MailSenderService;
 import ua.com.itproekt.gup.service.offers.OffersService;
+import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
@@ -23,10 +29,16 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Autowired
     OffersService offersService;
 
+    @Autowired
+    MailSenderService mailSenderService;
+
+    @Autowired
+    ProfilesService profilesService;
+
 
     @Override
     public void create(String userId, OfferFilterOptions offerFilterOptions) {
-        Subscription newSubscription = new Subscription(userId, offerFilterOptions).setSinceDateAndCreateDateEqualsToCurrentDate();
+        Subscription newSubscription = new Subscription(userId, offerFilterOptions).setLastCheckDateAndCreateDateEqualsToCurrentDate();
         subscriptionRepository.create(newSubscription);
     }
 
@@ -54,27 +66,36 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public void checkIfOfferSuiteForSubscriptionAndSendEmail(Offer newOffer) {
         Long newOfferLastModerationDate = newOffer.getLastModerationDate();
 
+        List<Subscription> subscriptionList = subscriptionRepository.findAll().getEntities();
 
-        EntityPage<Subscription> subscriptionEntityPage = subscriptionRepository.findAll();
-        List<Subscription> subscriptionList = subscriptionEntityPage.getEntities();
 
-        EntityPage<Offer> offerEntityPage;
+        Profile profile;
 
         for (Subscription subscription : subscriptionList) {
-            subscription.getOfferFilterOptions().setLastModerationDate(newOfferLastModerationDate);
+
+            subscription.getOfferFilterOptions()
+                    .setLastModerationDate(newOfferLastModerationDate)
+                    .setModerationStatus(ModerationStatus.COMPLETE)
+                    .setActive(true);
+
 
             // make search among offers with our filterOptions
             List<Offer> offerList = offersService.findOffersWihOptions(subscription.getOfferFilterOptions()).getEntities();
+
+
             if (offerList.size() > 0) {
                 // go through results and send them for user email
 
+                profile = profilesService.findWholeProfileById(subscription.getUserId());
+
                 for (Offer offer : offerList) {
-                    System.err.println("Result for subscription finding: " + offer.toString());
+                    Map<String, String> resources = new HashMap<>();
+                    mailSenderService.sendSubscriptionOfferEmail(profile, offer, resources);
                 }
             }
 
             // change sinceDate of the current subscription to time.Now() and update it
-            subscription.setSinceDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+            subscription.setLastCheckDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
             subscriptionRepository.findAndUpdate(subscription);
 
 

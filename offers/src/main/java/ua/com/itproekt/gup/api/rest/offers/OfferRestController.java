@@ -53,6 +53,7 @@ public class OfferRestController {
         return new ResponseEntity<>(offer, HttpStatus.OK);
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
     public EntityPage<OfferInfo> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
         if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
@@ -197,6 +198,7 @@ public class OfferRestController {
         if (offer.getLastModerationDate() == null && moderationStatus == ModerationStatus.COMPLETE) {
             offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
             offer.setModerationStatus(moderationStatus);
+            offersService.edit(offer);
             subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(offer);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -205,9 +207,21 @@ public class OfferRestController {
         offer
                 .setModerationStatus(moderationStatus)
                 .setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+        offersService.edit(offer);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
+
+    //ToDo удалить перед продакшеном
+    @RequestMapping(value = "/subscription/test/{offerId}", method = RequestMethod.POST)
+    public ResponseEntity<Void> test(@PathVariable String offerId) {
+
+        Offer offer = offersService.findById(offerId);
+//        offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+        subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(offer);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+    }
 }

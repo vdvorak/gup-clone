@@ -18,5 +18,6 @@ app.get('/error/404', handler)
 app.get('/error/500', handler)
 app.get('/bulletinDetails', handler)
 app.get('/editProfile', handler)
+app.get('/profile', handler)
 
 app.listen(3000)
