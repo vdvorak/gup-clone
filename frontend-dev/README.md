@@ -41,6 +41,7 @@ Implemented directives example:
 
 <text class="inputSearch" ng-model="main.hello" label="name"></text>
 
+<checkbox ng-model="main.boolean"></checkbox>
 
 URLS of the app:
 see /server.js
