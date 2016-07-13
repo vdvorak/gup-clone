@@ -72,10 +72,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         Profile profile;
 
         for (Subscription subscription : subscriptionList) {
-            subscription.getOfferFilterOptions().setLastModerationDate(newOfferLastModerationDate);
-
 
             subscription.getOfferFilterOptions()
+                    .setLastModerationDate(newOfferLastModerationDate)
                     .setModerationStatus(ModerationStatus.COMPLETE)
                     .setActive(true);
 
@@ -84,10 +83,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             List<Offer> offerList = offersService.findOffersWihOptions(subscription.getOfferFilterOptions()).getEntities();
 
 
-            profile = profilesService.findWholeProfileById(subscription.getUserId());
-
             if (offerList.size() > 0) {
                 // go through results and send them for user email
+
+                profile = profilesService.findWholeProfileById(subscription.getUserId());
 
                 for (Offer offer : offerList) {
                     Map<String, String> resources = new HashMap<>();

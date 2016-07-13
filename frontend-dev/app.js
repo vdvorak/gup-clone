@@ -7,6 +7,7 @@ require("./styles/profile.scss")
 let utils = require('./modules/utils')
 let config = require('./config')
 
+/* test request to backend */
 utils.request({
   method : config.routes.getBulletins.method,
   url : config.api.url + config.routes.getBulletins.url,
