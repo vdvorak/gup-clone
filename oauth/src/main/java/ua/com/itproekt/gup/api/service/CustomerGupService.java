@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.service;
+package ua.com.itproekt.gup.api.service;
 
 import ua.com.itproekt.gup.exception.CustomerGupException;
 import ua.com.itproekt.gup.model.RestCustomer;
