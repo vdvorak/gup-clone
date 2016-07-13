@@ -21,7 +21,7 @@ import java.util.Set;
 public class StorageRepositoryImpl implements StorageRepository {
     private static final String FILE_STORAGE_PATH = ".file.storage";
     private static final String CACHE_IMAGE_STORAGE_PATH = ".file.storage.cache";
-    private static final int CACHED_IMAGE_TARGET_SIZE_IN_PX = 60;
+    private static final int CACHED_IMAGE_TARGET_SIZE_IN_PX = 40;
 
     @Autowired
     private MongoTemplate mongoTemplate;

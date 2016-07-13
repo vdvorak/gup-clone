@@ -27,10 +27,17 @@ public class FileStorageRestController {
     @Autowired
     private StorageService storageService;
 
+
+    /**
+     * @param serviceName servicename in lowercase or in uppercase
+     * @param fileId      file ID to read
+     * @param cachedImage boolean parameter. If true - read cached image
+     * @return return file
+     */
     @RequestMapping(value = "{serviceName}/file/read/id/{fileId}", method = RequestMethod.GET)
     public ResponseEntity<InputStreamResource>
     getById2(@PathVariable String serviceName, @PathVariable String fileId,
-            @RequestParam(required = false, defaultValue = "false") boolean cachedImage) {
+             @RequestParam(required = false, defaultValue = "false") boolean cachedImage) {
 
         if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -54,10 +61,17 @@ public class FileStorageRestController {
         }
     }
 
-    @RequestMapping(value="{serviceName}/file/upload", method=RequestMethod.POST)
+    /**
+     * @param serviceName servicename in lowercase or in uppercase
+     * @param file        file
+     * @param cachedImage boolean parameter. If true - read cached image
+     * @return
+     */
+    //ToDo поставить ПреАвторайз
+    @RequestMapping(value = "{serviceName}/file/upload", method = RequestMethod.POST)
     public ResponseEntity<CreatedObjResp>
     fileUpload(@PathVariable String serviceName, @RequestParam MultipartFile file,
-               @RequestParam(required = false, defaultValue = "false") boolean cacheImage){
+               @RequestParam(required = false, defaultValue = "false") boolean cachedImage) {
 
         if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -70,7 +84,7 @@ public class FileStorageRestController {
                         file.getContentType(),
                         file.getOriginalFilename());
 
-                if (cacheImage){
+                if (cachedImage) {
                     if (file.getContentType().startsWith("image/")) {
                         storageService.cacheImage(serviceName.toUpperCase(),
                                 uploadedFileId,
