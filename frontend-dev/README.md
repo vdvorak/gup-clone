@@ -36,10 +36,27 @@ https://trello.com/b/WRjaA6ir/novaera
 
 
 Implemented directives example:
+
 <nice-button class="btn-blue">Hi man</nice-button>
 
 <text class="inputSearch" ng-model="main.hello" label="name"></text>
 
+<checkbox ng-model="main.boolean"></checkbox>
 
 URLS of the app:
 see /server.js
+
+Images dimensions:
+
+Avatar:
+```
+40x40
+175x200
+```
+
+Image uploaded:
+```
+*x600
+165x120 - fit ratio as much as possible
+90x90
+```

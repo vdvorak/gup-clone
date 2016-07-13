@@ -5,6 +5,7 @@ module.exports = function($scope) {
   console.log('Main controller loaded')
   /* variable for testing */
   this.hello="hi"
+  this.boolean = true
 
   this.init = function() {
     console.log("Main controller init")
