@@ -6,6 +6,7 @@ require("./styles/edit-profile.scss")
 let utils = require('./modules/utils')
 let config = require('./config')
 
+/* test request to backend */
 utils.request({
   method : config.routes.getBulletins.method,
   url : config.api.url + config.routes.getBulletins.url,
@@ -73,4 +74,4 @@ app
   .directive('text', require('./directives/text'))
   .directive('niceButton', require('./directives/niceButton'))
   .controller('mainCtrl', require('./controllers/main'))
-  .run()  
+  .run()
