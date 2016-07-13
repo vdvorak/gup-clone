@@ -7,19 +7,13 @@ module.exports = {
     controllerAs: "index"
   },
   '/error/403' : {
-    templateUrl:"templates/error403.html",
-    controller: require('../controllers/error'),
-    controllerAs: "err"
+    templateUrl:"templates/error403.html"
   },
   '/error/404' : {
-    templateUrl:"templates/error404.html",
-    controller: require('../controllers/error'),
-    controllerAs: "err"
+    templateUrl:"templates/error404.html"
   },
   '/error/500' : {
-    templateUrl:"templates/error500.html",
-    controller: require('../controllers/error'),
-    controllerAs: "err"
+    templateUrl:"templates/error500.html"
   },
   '/bulletinDetails' : {
     templateUrl:"templates/bulletinDetails.html",
