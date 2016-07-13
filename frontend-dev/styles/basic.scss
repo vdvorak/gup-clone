@@ -43,7 +43,7 @@ header {
 }
 
 .ink.animate {
-	animation: ripple 0.65s linear;
+	animation: ripple .25s linear;
 }
 
 @keyframes ripple {
@@ -274,7 +274,7 @@ section.openAdvertert {
 	&>.checkBox {
 		float: right;
 		margin-right: 15px;
-		margin-top: 2px;
+		margin-top: -1px;
 	}
 	
 	&>.breadCrumbs {
@@ -348,12 +348,14 @@ section.openAdvertert {
 		float: left;
 		height: 230px;
 		width: 225px;
+		margin-bottom: 25px;
 	}
 	
 	&>.wrapForDiv {
 		width: 265px;
 		float: right;
 		overflow: hidden;
+		margin-bottom: 25px;
 		
 		&>.featuresAndReviews {
 			height: 230px;
@@ -443,6 +445,10 @@ section.openAdvertert {
 					padding: 30px 20px 25px 65px;
 					position: relative;
 					border-bottom: 1px solid #E9E9E9;
+					
+					&:nth-last-of-type(1) {
+						border: none;
+					}
 
 					&>img {
 						position: absolute;
@@ -460,6 +466,47 @@ section.openAdvertert {
 			}
 		}
 	}
+	
+	&>.descriptionAd {
+		color: #0c0c1e;
+		font: 400 12px / 18px Roboto;
+		margin-top: 15px;
+		margin-bottom: 20px;
+	}
+
+	&>.goToMap {
+		color: #1976d2;
+		font: 400 14px / 21px Roboto;
+		cursor: pointer;
+		float: left;
+	}
+	
+	&>.allComments {
+		color: #1976d2;
+		font: 400 14px / 21px Roboto;
+		cursor: pointer;
+		float: right;
+		margin-right: 50px;
+	}
+	
+	&>.writeAReview {
+		color: #1976d2;
+		font: 400 14px / 21px Roboto;
+		cursor: pointer;
+		float: right;
+	}
+	
+	&>.nameUser {
+		color: #1976d2;
+		font: 400 14px / 18px Roboto;
+		float: left;
+		margin-left: 20px;
+		cursor: default;
+	}
+	
+	&>.onOrOffLineUser {
+		float: left;
+	}
 }
 
 @-webkit-keyframes fadeEffect {
@@ -473,5 +520,19 @@ section.openAdvertert {
 }
 
 .btn-blue {
-	
+	background-color: $blue;
+	box-shadow: $boxShadow;
+	color: #ffffff;
+	font: 400 14px / 21px Roboto;
+	cursor: pointer;
+}
+
+.onOrOffLineUser {
+	background-color: #00C652;
+	border: 1px solid white;
+	box-shadow: 1px 1px 3px 0.00px rgba(0, 0, 0, 0.65);
+	height: 18px;
+	width: 18px;
+	box-sizing: border-box;
+	border-radius: 50%;
 }
