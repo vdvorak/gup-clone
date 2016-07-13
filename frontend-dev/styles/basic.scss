@@ -472,6 +472,37 @@ section.openAdvertert {
     to {opacity: 1;}
 }
 
-.btn-blue {
-	
+.error-container {
+    width:1103px;
+    margin:auto;
+    
+    background-image: url('../images/error_bg.png');
+    background-repeat:no-repeat;
+    background-position-x:right;
+    background-position-y:80px;
+    
+    min-height:500px;
+    
+    h1 {
+        color: #1f1f1f;
+        font: 400 22px / 26.4px Roboto;
+        text-align: center;
+        margin-top:65px;
+    }
+    
+    h2 {
+        color: #1f1f1f;
+        font: 400 22px / 26.4px Roboto;
+        margin-top:189px;
+    }
+
+    h3 {
+        color:rgba(31, 31, 31, 0.54);
+        font:400 12px / 14.4px Roboto;
+        margin-top:10px;
+        margin-bottom:30px;
+    }
+    
+   
+    
 }
