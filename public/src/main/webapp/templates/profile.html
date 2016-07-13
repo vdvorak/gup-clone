@@ -1,0 +1,49 @@
+<div class="view-profile">
+    <div class="view-profile-container">
+        <h1>Личный кабинет</h1>
+        <div class="profile-left-container">
+            <div class="profile-avatar"></div>
+            <div class="profile-settings"></div>
+            <nice-button class="btn-blue">СОХРАНИТЬ</nice-button>
+        </div>
+        <div class="profile-right-container">
+            <div class="profile-info">
+                <div class="profile-info-section-left">
+
+                    <input type="text" placeholder="ФИО" ng-bind="::profile.username" ng-hide="profile.contact.type === 'LEGAL_ENTITY'" readonly>
+                    <input type="text" placeholder="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'Название компании' || 'Место работы'}}" ng-bind="::profile.contact.companyName" readonly>
+                    <input type="text" placeholder="Должность" ng-bind="::profile.contact.position" ng-hide="profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY'" readonly>
+                    <input type="text" placeholder="Skype" ng-bind="::profile.contact.skypeUserName" readonly>
+
+                    <div class="social-link-container">
+                        <div data-social="LINKEDIN" style="background: url('../images/icon-linkedin.png')"></div>
+                        <div data-social="FACEBOOK" style="background: url('../images/icon-facebook.png')"></div>
+                        <div data-social="GOOGLEPLUS" style="background: url('../images/icon-google-plus.png')"></div>
+                        <div data-social="VKONTAKTE" style="background: url('../images/icon-vk.png')"></div>
+                        <div data-social="TWITTER" style="background: url('../images/icon-twitter.png')"></div>
+                    </div>
+
+                    <input type="text" placeholder="Ссылка на сайт" ng-bind="::profile.contact.linkToWebSite" readonly>
+
+                </div>
+                <div class="profile-info-section-right">
+                    <input type="text" placeholder="Основной телефон" ng-bind="::profile.mainPhoneNumber" readonly>
+                    <input type="text" placeholder="Контактный телефон" ng-repeat="tel in ::profile.contact.contactPhones track by $index" ng-bind="tel" readonly>
+                    <input type="text" placeholder="Основной e-mail" ng-bind="::profile.email" readonly>
+                    <input type="text" placeholder="Контактный e-mail" ng-repeat="email in profile.contact.contactEmails track by $index" ng-bind="email" readonly>
+                </div>
+            </div>
+            <div class="profile-messages-and-notifications">
+                <div class="profile-messages-and-notifications-nav">
+                    <div>СООБЩЕНИЯ</div>
+                    <div class="nav-item-selected">УВЕДОМЛЕНИЯ</div>
+                </div>
+                <div class="profile-messages-and-notifications-content">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

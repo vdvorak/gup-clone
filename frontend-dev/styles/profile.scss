@@ -1,0 +1,103 @@
+$font-form-header:700 22px Roboto;
+$font-form-content:400 16px Roboto;
+$font-form-button:400 14px Roboto;
+$color-grey: #f6f6f6;
+
+@mixin clearfix{
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.view-profile-container{
+  background-color: #fff;
+  box-sizing: border-box;
+  padding: 40px 127px 0px 127px;
+  margin:0 auto;
+  width: 1103px;
+  font: $font-form-content;
+
+  h1{
+    text-align: center;
+    font: $font-form-header;
+    padding: 25px 0px;
+  }
+
+  input:read-only{
+    width:100%;
+    border:none;
+    outline: none;
+    padding: 25px 0px;
+  }
+}
+
+.profile-left-container, .profile-right-container, .profile-info-section-left, .profile-info-section-right, .profile-info{
+  float: left;
+  &::after{
+    @include clearfix;
+  }
+}
+
+.view-profile, .view-profile-container{
+  &::after{
+    @include clearfix;
+  }
+}
+
+.profile-left-container{
+  width: 30%;
+}
+.profile-right-container{
+  width: 70%;
+}
+
+.profile-info-section-left, .profile-info-section-right{
+  width: 50%;
+}
+
+.profile-avatar{
+  width: 175px;
+  height: 220px;
+  background: url('../images/avatar.jpg') no-repeat;
+  background-size: contain;
+  background-position: center center;
+}
+
+.social-link-container{
+  height: auto;
+  div:not(:last-of-type){
+    width: 24px;
+    height: 24px;
+    float: left;
+    margin-right: 24px;
+
+    &::after{
+      @include clearfix;
+    }
+  }
+}
+
+.profile-messages-and-notifications-nav, .profile-messages-and-notifications-content{
+  border: 1px solid $color-grey;
+  overflow: hidden;
+}
+
+.profile-messages-and-notifications-nav{
+  div{
+    color: #929292;
+    width:50%;
+    text-align: center;
+    float:left;
+    &::after{
+      @include clearfix;
+    }
+  }
+  .nav-item-selected{
+    color: #7eaee0;
+    border-bottom: 2px solid #ff5252;
+  }
+}
+
+.profile-messages-and-notifications-content{
+  height: 180px;
+}
