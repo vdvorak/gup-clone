@@ -14,8 +14,16 @@ header {
     position:relative;
     display:inline-block;
     overflow: hidden;
-    width:50px;
-    height:30px;
+	border-radius: 5px;
+	box-shadow: $boxShadow;
+	cursor: pointer;
+	text-align: center;
+}
+
+.btn-grey {
+	background-color: #D8D8D8;
+	color: #868686;
+	font: 400 14px / 21px Roboto;
 }
 
 .container {
@@ -502,10 +510,26 @@ section.openAdvertert {
 		float: left;
 		margin-left: 20px;
 		cursor: default;
+		margin-bottom: 35px;
 	}
 	
 	&>.onOrOffLineUser {
 		float: left;
+	}
+	
+	.btn-grey {
+		float: right;
+		height: 35px;
+		width: 140px;
+		margin-right: 25px;
+		line-height: 35px;
+	}
+	
+	.btn-blue {
+		float: right;
+		height: 35px;
+		width: 180px;
+		line-height: 35px;
 	}
 }
 
@@ -521,10 +545,8 @@ section.openAdvertert {
 
 .btn-blue {
 	background-color: $blue;
-	box-shadow: $boxShadow;
 	color: #ffffff;
 	font: 400 14px / 21px Roboto;
-	cursor: pointer;
 }
 
 .onOrOffLineUser {
