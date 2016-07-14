@@ -2,23 +2,43 @@
   "items" : [
     {
       "id" : 1,
-      "title" : "По цене возр.",
+      "title" : "По цене  &#8593;",
       "requestCriteria" : ""
     },
     {
       "id" : 2,
-      "title" : "По цене убыв.",
+      "title" : "По цене &#8595;",
       "requestCriteria" : ""
     },
     {
       "id" : 3,
-      "title" : "По дате возр.",
+      "title" : "По дате  &#8593;",
       "requestCriteria" : ""
     },
     {
       "id" : 4,
-      "title" : "По дате убыв.",
+      "title" : "По дате &#8595;",
       "requestCriteria" : ""
+    },
+    {
+      "id" : 5,
+      "title" : "По рейтингу  &#8593;",
+      "requestCriteria" : ""
+    },
+    {
+      "id" : 6,
+      "title" : "По рейтингу &#8595;",
+      "requestCriteria" : ""
+    },
+  ],
+  "specialChars" : [
+    {
+      "htmlCode" : "&#8595;",
+      "renderedLook" : "↓"
+    },
+    {
+      "htmlCode" : "&#8593;",
+      "renderedLook" : "↑"
     }
   ]
 
