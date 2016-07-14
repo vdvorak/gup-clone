@@ -31,7 +31,13 @@
 	.bulletin-right-column {
 		float:right;
 		width:90px;
-		text-align: right;
+		position: relative;
+		
+		&>.onOrOffLineUser {
+			position: absolute;
+			top: 5px;
+			left: 10px;
+		}
 	}
 
 	.bulletin-center-column {
@@ -77,8 +83,8 @@
 
 	.bulletin-price {
 		position:absolute;
-		bottom:18px;
-		right:19px;
+		bottom: -54px;
+		right: 0;
 		color: #202020;
 		font: 400 14px / 16.8px Roboto;
 	}

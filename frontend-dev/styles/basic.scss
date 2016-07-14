@@ -256,7 +256,7 @@ header {
 			cursor: pointer;
 			padding: 0 15px;
 			height: 50px;
-			width: 110px;
+			width: 120px;
 			font: 400 16px / 50px Roboto;
 			transition: all .25s;
 			
@@ -636,8 +636,49 @@ section.openAdvertert {
 		height: 165px;
 		padding: 15px;
 		
-		&:nth-of-type(1) {
+		&:nth-of-type(3n-2) {
 			margin-left: 0;
 		}
+		
+		&:nth-of-type(1) {
+			background-color: #BCE6E9;
+		}
+		
+		&:nth-of-type(2) {
+			background-color: #BCE6E9;
+		}
+		
+		&:nth-of-type(3) {
+			background-color: #BCE6E9;
+		}
+		
+		&>.bulletin-center-column {
+			float: none;
+			margin: 0;
+			position: absolute;
+			top: 15px;
+			right: 110px;
+			
+			&>.bulletin-action {
+				bottom: -105px;
+				width: 110px;
+				right: -30px;
+			}
+		}
+		
+		&>.bulletin-left-column {
+			
+			&>.bulletin-description {
+				color: #0c0c1e;
+				font: 400 12px / 18px Roboto;
+				width: 170px;
+				overflow: hidden;
+				height: 40px;
+			}
+		}
 	}
+}
+
+.red {
+	background-color: #F74A4A;
 }
