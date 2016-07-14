@@ -107,14 +107,15 @@ $border-color: #ebebeb;
 }
 
 .social-link-container{
-  height: auto;
-  div:not(:last-of-type){
+  div{
+      cursor:pointer;
     width: 24px;
     height: 24px;
     float: left;
-    margin-right: 23px;
     @include clearfix;
-
+      &:not(:last-of-type){
+         margin-right: 23px; 
+      }
   }
 }
 
