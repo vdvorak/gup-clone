@@ -8,6 +8,7 @@ module.exports = function() {
       class: "@",
       ngClick: "&"
     },
+    replace: true,
     template : `<div class="{{ class }}">
                   <span class="ink"></span>
                   <p class="ripple" ng-click="ngClick({e:$event})">
