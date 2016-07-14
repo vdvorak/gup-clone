@@ -19,5 +19,6 @@ app.get('/500', handler)
 app.get('/bulletinDetails', handler)
 app.get('/editProfile', handler)
 app.get('/profile', handler)
+app.get('/searchResults', handler)
 
 app.listen(3000)
