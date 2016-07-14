@@ -3,11 +3,14 @@
 /* Контроллер для управления  основным скелетом документа */
 module.exports = function($scope, $location) {
   console.log('Main controller loaded')
+
+  /* Standalone module for bd */
+  $scope.bd = require('../modules/bd')
+  $scope.bd.init()
+
   /* variables for testing */
   this.hello="hi"
   this.boolean = true
-
-
 
   this.init = function() {
     console.log("Main controller init")
@@ -27,6 +30,8 @@ module.exports = function($scope, $location) {
 
     if(res) this.currentCategory = res.title
   }
+
+
   /* Correct redirect to url through app router*/
   $scope.redirectToUrl = url => $location.path(url)
 
