@@ -2,6 +2,8 @@ Build folder:
 
 /public/src/main/webapp/WEB-INF/
 
+
+
 Easy web-server:
 
 being in 'frontend-dev' folder
@@ -10,7 +12,7 @@ npm i
 ```
 
 ```
-node server.js
+npm start
 ```
 
 
@@ -37,7 +39,7 @@ https://trello.com/b/WRjaA6ir/novaera
 
 Implemented directives example:
 
-<nice-button class="btn-blue">Hi man</nice-button>
+<nice-button class="btn-blue" ng-click="somefunc("ololoshechka")">Hi man</nice-button>
 
 <text class="inputSearch" ng-model="main.hello" label="name"></text>
 

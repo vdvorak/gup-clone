@@ -11,7 +11,7 @@ const materials = require('./modules/materials'),
 /* TEST json require */
 let utils = require('./modules/utils')
 
-let config = require('./config')
+let config = require('./data/config')
 
 /* test request to backend */
 utils.request({
@@ -21,11 +21,11 @@ utils.request({
     "skip": 0,
     "limit": 20
   },
-  success : data => console.log(data),
   headers : {
     "Content-Type" : "application/json"
   }
 })
+.then( data => console.log(data), err => console.error(err) )
 
 let app = angular.module('gup', ['ngRoute'])
 
