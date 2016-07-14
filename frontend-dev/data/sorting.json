@@ -1,0 +1,34 @@
+{
+  "items" : [
+    {
+      "id" : 1,
+      "title" : "По цене  ↓↓",
+      "requestCriteria" : ""
+    },
+    {
+      "id" : 2,
+      "title" : "По цене ↑↑",
+      "requestCriteria" : ""
+    },
+    {
+      "id" : 3,
+      "title" : "По дате  ↓↓",
+      "requestCriteria" : ""
+    },
+    {
+      "id" : 4,
+      "title" : "По дате ↑↑",
+      "requestCriteria" : ""
+    },
+    {
+      "id" : 5,
+      "title" : "По рейтингу  ↓↓",
+      "requestCriteria" : ""
+    },
+    {
+      "id" : 6,
+      "title" : "По рейтингу ↑↑",
+      "requestCriteria" : ""
+    }
+  ]
+}

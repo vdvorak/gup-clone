@@ -20,6 +20,11 @@ module.exports = {
     controller: require('../controllers/bulletinDetails'),
     controllerAs: "bdetailed"
   },
+  '/bulletinAdd' : {
+    templateUrl:"templates/bulletinAdd.html",
+    controller: require('../controllers/bulletinAdd'),
+    controllerAs: "badd"
+  },
   '/editProfile' : {
     templateUrl: "templates/edit-profile.html",
     controller: require('../controllers/editProfile'),
@@ -34,5 +39,10 @@ module.exports = {
     templateUrl:"templates/favourites.html",
     controller: require('../controllers/favourites'),
     controllerAs: "favourite"
+  },
+  '/searchResults' : {
+    templateUrl:"templates/searchResults.html",
+    controller: require('../controllers/searchResults'),
+    controllerAs: "searchResults"
   }
 }

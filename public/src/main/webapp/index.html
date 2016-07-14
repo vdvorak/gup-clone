@@ -14,20 +14,20 @@
 <header>
 	<div class="container clearfix">
 		<div class="headLeft clearfix">
-			<div class="logo"></div>
+			<div class="logo" ng-click="redirectToUrl('/')"></div>
 			<div class="inputSearch">
 				<label>Поиск</label>
 				<input type="text">
 			</div>
 			<div class="selectBox">
-				<div class="defaultValue">
-					<p>Сортировка</p>
+				<div class="defaultValue" ng-click="main.showCategories=true">
+					<p>{{ main.currentCategory }}</p>
 				</div>
-				<div class="listOfValues">
-
+				<div class="listOfValues" ng-show="main.showCategories">
+					<div class="listItem" ng-repeat="cat in main.sortingCategories" ng-click="main.setCategory(cat.id)">{{ cat.title }}</div>
 				</div>
 			</div>
-			<div class="add">
+			<div class="add" ng-click="redirectToUrl('/bulletinAdd')">
 				<p>Добавить Объявление</p>
 			</div>
 		</div>
