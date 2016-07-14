@@ -1,12 +1,15 @@
-$font-form-header:700 22px Roboto;
-$font-form-content:400 16px Roboto;
-$font-form-button:400 14px Roboto;
+$font-form-header:400 22px / 26.4px Roboto;
+$font-form-content:400 16px / 24.8px Roboto;
+$font-form-msg: 400 12px / 18.6px Roboto;
 $color-grey: #f6f6f6;
+$border-color: #ebebeb;
 
 @mixin clearfix{
-  content: "";
-  display: table;
-  clear: both;
+  &::after{
+      content: "";
+      display: table;
+      clear: both;
+    }
 }
 
 .view-profile-container{
@@ -15,52 +18,92 @@ $color-grey: #f6f6f6;
   padding: 40px 127px 0px 127px;
   margin:0 auto;
   width: 1103px;
-  font: $font-form-content;
+    font: $font-form-content;
 
   h1{
+    padding-bottom: 16px;
     text-align: center;
     font: $font-form-header;
-    padding: 25px 0px;
   }
 
   input:read-only{
     width:100%;
     border:none;
     outline: none;
-    padding: 25px 0px;
+          
+      &:not(:last-of-type){
+          margin-bottom: 45px;
+      }
   }
+    .social-link-container{
+        margin-bottom: 45px;
+    }
+}
+
+.profile-containers-wrap{
+    width:849px;
+    margin:0 auto;
 }
 
 .profile-left-container, .profile-right-container, .profile-info-section-left, .profile-info-section-right, .profile-info{
-  float: left;
-  &::after{
+    float: left;
     @include clearfix;
-  }
 }
 
 .view-profile, .view-profile-container{
-  &::after{
     @include clearfix;
-  }
 }
 
 .profile-left-container{
-  width: 30%;
+  width: 190px;
+    padding: 0 52px;
+    
+    .btn-blue{
+        width:180px;
+        height: 36px;
+        margin: 0 auto;
+        margin-top:35px;
+    }
 }
 .profile-right-container{
-  width: 70%;
+  width: 485px;
+    padding-left:20px; 
+    border-left: 1px solid $border-color;
 }
 
 .profile-info-section-left, .profile-info-section-right{
-  width: 50%;
+    width: 50%;
+    box-sizing: border-box;
 }
 
 .profile-avatar{
-  width: 175px;
-  height: 220px;
+  width: 145px;
+  height: 217px;
+    margin: 0 auto;
+    padding-bottom:5px;
   background: url('../images/avatar.jpg') no-repeat;
   background-size: contain;
   background-position: center center;
+}
+
+.profile-settings-dropdown {
+    .profile-settings-dropdown-title {
+        cursor:pointer;
+        padding: 13px 0;
+        @include clearfix;
+        span{
+          color: #929292;
+            float:left;
+        }
+        div{
+            float:right;
+            background: url(images/caret_black.png);
+            width: 13px;
+            height: 7px;
+        }
+    }
+    
+    
 }
 
 .social-link-container{
@@ -69,16 +112,22 @@ $color-grey: #f6f6f6;
     width: 24px;
     height: 24px;
     float: left;
-    margin-right: 24px;
+    margin-right: 23px;
+    @include clearfix;
 
-    &::after{
-      @include clearfix;
-    }
   }
 }
 
+.profile-messages-and-notifications{
+    display: block;
+    width: 100%;
+    margin: 30px 0;
+    float:left;
+    @include clearfix;
+}
+
 .profile-messages-and-notifications-nav, .profile-messages-and-notifications-content{
-  border: 1px solid $color-grey;
+  border: 1px solid $border-color;
   overflow: hidden;
 }
 
@@ -86,11 +135,10 @@ $color-grey: #f6f6f6;
   div{
     color: #929292;
     width:50%;
+    padding: 24px 0;
     text-align: center;
     float:left;
-    &::after{
-      @include clearfix;
-    }
+    @include clearfix;
   }
   .nav-item-selected{
     color: #7eaee0;
@@ -99,5 +147,39 @@ $color-grey: #f6f6f6;
 }
 
 .profile-messages-and-notifications-content{
+  background-color: $color-grey; 
   height: 180px;
+    box-sizing: border-box;
+}
+
+.profile-messages-and-notifications-content-item{
+    width:100%;
+    border-bottom: 1px solid #ebebeb;
+    height: 123px;
+    position: relative;
+    overflow: hidden;
+    
+    .content-item-logo{
+        position: absolute;
+        top:0;
+        left:0;
+        width: 27px;
+        height: 27px;
+        padding: 0 23px 23px 7px;
+        background: url('../images/icon_user.png') no-repeat;
+        display: inline-block;
+        background-position: center;
+        margin-top: 28px;
+    }
+    
+    .content-item-text{
+        display: inline-block;
+        float: right;
+        width:373px;
+        @include clearfix;
+        margin: 28px 38px 24px 0;
+        font: $font-form-msg;
+        color: #0c0c1e;
+    }
+    
 }
