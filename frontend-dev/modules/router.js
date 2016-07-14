@@ -20,6 +20,11 @@ module.exports = {
     controller: require('../controllers/bulletinDetails'),
     controllerAs: "bdetailed"
   },
+  '/bulletinAdd' : {
+    templateUrl:"templates/bulletinAdd.html",
+    controller: require('../controllers/bulletinAdd'),
+    controllerAs: "badd"
+  },
   '/editProfile' : {
     templateUrl: "templates/edit-profile.html",
     controller: require('../controllers/editProfile'),

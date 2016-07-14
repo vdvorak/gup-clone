@@ -9,7 +9,7 @@ module.exports = function() {
       ngClick: "&"
     },
     replace: true,
-    template : `<div class="{{ class }}" ng-click="ngClick({e:$event})">
+    template : `<div class="{{ class }}">
                   <span class="ink"></span>
                   <ng-transclude style="display:block; width:100%; height:inherit;"></ng-transclude>
                 </div>`,
@@ -30,6 +30,9 @@ module.exports = function() {
         ink.classList.add('animate')
       }
 
+      if($scope.ngClick)
+        $element[0].addEventListener('click', $scope.ngClick)
+        
       $element[0].addEventListener('click', onClick)
     }
   }
