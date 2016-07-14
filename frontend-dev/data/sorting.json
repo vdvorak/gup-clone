@@ -2,44 +2,33 @@
   "items" : [
     {
       "id" : 1,
-      "title" : "По цене  &#8593;",
+      "title" : "По цене  ↓↓",
       "requestCriteria" : ""
     },
     {
       "id" : 2,
-      "title" : "По цене &#8595;",
+      "title" : "По цене ↑↑",
       "requestCriteria" : ""
     },
     {
       "id" : 3,
-      "title" : "По дате  &#8593;",
+      "title" : "По дате  ↓↓",
       "requestCriteria" : ""
     },
     {
       "id" : 4,
-      "title" : "По дате &#8595;",
+      "title" : "По дате ↑↑",
       "requestCriteria" : ""
     },
     {
       "id" : 5,
-      "title" : "По рейтингу  &#8593;",
+      "title" : "По рейтингу  ↓↓",
       "requestCriteria" : ""
     },
     {
       "id" : 6,
-      "title" : "По рейтингу &#8595;",
+      "title" : "По рейтингу ↑↑",
       "requestCriteria" : ""
-    },
-  ],
-  "specialChars" : [
-    {
-      "htmlCode" : "&#8595;",
-      "renderedLook" : "↓"
-    },
-    {
-      "htmlCode" : "&#8593;",
-      "renderedLook" : "↑"
     }
   ]
-
 }
