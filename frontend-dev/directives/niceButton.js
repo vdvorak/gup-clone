@@ -5,11 +5,12 @@ module.exports = function() {
     restrict: "E",
     transclude: true,
     scope : {
-      class: "@"
+      class: "@",
+      ngClick: "&"
     },
     template : `<div class="{{ class }}">
                   <span class="ink"></span>
-                  <p class="ripple">
+                  <p class="ripple" ng-click="ngClick({e:$event})">
                     <ng-transclude></ng-transclude>
                   </p>
                 </div>`,

@@ -10,4 +10,9 @@ module.exports = function($scope) {
   this.init = function() {
     console.log("Main controller init")
   }
+  
+  $scope.redirectToHome = function(e) {
+      if(!e) return
+      window.location = "/"
+  }
 }
