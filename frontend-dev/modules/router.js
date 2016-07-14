@@ -39,5 +39,10 @@ module.exports = {
     templateUrl:"templates/favourites.html",
     controller: require('../controllers/favourites'),
     controllerAs: "favourite"
+  },
+  '/searchResults' : {
+    templateUrl:"templates/searchResults.html",
+    controller: require('../controllers/searchResults'),
+    controllerAs: "searchResults"
   }
 }

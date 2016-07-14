@@ -45,13 +45,13 @@ header {
 .ink {
 	display: block;
 	position: absolute;
-	background: hsl(180, 40%, 80%);
+	background: rgba(0, 0, 0, 0.15);
 	border-radius: 100%;
 	transform: scale(0);
 }
 
 .ink.animate {
-	animation: ripple .25s linear;
+	animation: ripple .5s ease-in;
 }
 
 @keyframes ripple {
@@ -244,7 +244,6 @@ header {
 	}
 	
 	&>.listOfValues {
-		display: none;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -364,77 +363,80 @@ section.openAdvertert {
 		float: right;
 		overflow: hidden;
 		margin-bottom: 25px;
+		border: 1px solid #E9E9E9;
+		box-sizing: border-box;
 		
-		&>.featuresAndReviews {
-			height: 230px;
-			width: 282px;
-			border: 1px solid #E9E9E9;
-			background-color: #F4F4F4;
-			overflow: auto;
+		&>ul.tab {
+			list-style-type: none;
+			height: 50px;
+			background-color: white;
+			border-bottom: 1px solid #E9E9E9;
 			box-sizing: border-box;
 
-			&>ul.tab {
-				list-style-type: none;
-				height: 50px;
-				background-color: white;
-				border-bottom: 1px solid #E9E9E9;
+			&>li {
+				float: left;
 
-				&>li {
-					float: left;
+				&>a {
+					color: #939393;
+					font: 400 14px / 50px Roboto;
+					display: block;
+					transition: all .25s;
+					text-align: center;
+					position: relative;
 
-					&>a {
-						color: #939393;
-						font: 400 14px / 50px Roboto;
+					&:after {
+						content: '';
 						display: block;
+						position: absolute;
+						bottom: 0;
+						width: 0;
+						height: 2px;
+						background-color: #FD5151;
 						transition: all .25s;
-						text-align: center;
-						position: relative;
-
-						&:after {
-							content: '';
-							display: block;
-							position: absolute;
-							width: 0;
-							height: 2px;
-							background-color: #FD5151;
-							transition: all .25s;
-						}
+					}
 
 	//					&:hover {
 	//						background-color: #ddd;
 	//					}
 
-						&:focus,
-						&.active {
-							color: #7eafe1;
+					&:focus,
+					&.active {
+						color: #7eafe1;
 
-							&:after {
-								width: 100%;
-							}
+						&:after {
+							width: 100%;
 						}
 					}
+				}
 
-					&:nth-of-type(1) {
-						&>a {
-							width: 159px;
+				&:nth-of-type(1) {
+					&>a {
+						width: 159px;
 
-							&:after {
-								right: 0;
-							}
+						&:after {
+							right: 0;
 						}
 					}
+				}
 
-					&:nth-of-type(2) {
-						&>a {
-							width: 104px;
+				&:nth-of-type(2) {
+					&>a {
+						width: 104px;
 
-							&:after {
-								left: 0;
-							}
+						&:after {
+							left: 0;
 						}
 					}
 				}
 			}
+		}
+		
+		&>.featuresAndReviews {
+			height: 178px;
+			width: 282px;
+			background-color: #F4F4F4;
+			overflow: auto;
+			box-sizing: border-box;
 
 			&>.tabcontent {
 				display: none;
@@ -511,6 +513,7 @@ section.openAdvertert {
 		margin-left: 20px;
 		cursor: default;
 		margin-bottom: 35px;
+		
 	}
 	
 	&>.onOrOffLineUser {
@@ -589,4 +592,24 @@ section.openAdvertert {
         margin-top:10px;
         margin-bottom:30px;
     }
+}
+
+.clicked {
+	box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.4);
+	margin-top: 12px;
+}
+
+.multiple {
+	width: 1150px;
+	margin: 5px auto 0;
+	
+	&>.bulletin-short{
+		float: left;
+		width: 380px;
+		margin-left: 5px;
+		
+		&:nth-of-type(1) {
+			margin-left: 0;
+		}
+	}
 }
