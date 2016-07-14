@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api;
+package ua.com.itproekt.gup.api;
 
 import ua.com.itproekt.gup.exception.CustomerGupErrorCode;
 import ua.com.itproekt.gup.exception.CustomerGupException;
