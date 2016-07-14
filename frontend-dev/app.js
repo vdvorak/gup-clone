@@ -5,6 +5,8 @@ require("./styles/favourites.scss")
 require("./styles/edit-profile.scss")
 require("./styles/profile.scss")
 
+const co = require('co')
+
 const materials = require('./modules/materials'),
       router = require('./modules/router')
 
@@ -13,19 +15,36 @@ let utils = require('./modules/utils')
 
 let config = require('./config')
 
+// co(function*() {
+//   let data = yield utils.request({
+//     method : config.routes.getBulletins.method,
+//     url : config.api.url + config.routes.getBulletins.url,
+//     data : {
+//       "skip": 0,
+//       "limit": 20
+//     },
+//     headers : {
+//       "Content-Type" : "application/json"
+//     }
+//   })
+//
+//   console.log(data)
+// })
+// .catch(err => console.error(err.stack))
+
 /* test request to backend */
-utils.request({
-  method : config.routes.getBulletins.method,
-  url : config.api.url + config.routes.getBulletins.url,
-  data : {
-    "skip": 0,
-    "limit": 20
-  },
-  success : data => console.log(data),
-  headers : {
-    "Content-Type" : "application/json"
-  }
-})
+// utils.request({
+//   method : config.routes.getBulletins.method,
+//   url : config.api.url + config.routes.getBulletins.url,
+//   data : {
+//     "skip": 0,
+//     "limit": 20
+//   },
+//   headers : {
+//     "Content-Type" : "application/json"
+//   }
+// })
+// .then( data => console.log(data), err => console.error(err) )
 
 let app = angular.module('gup', ['ngRoute'])
 
