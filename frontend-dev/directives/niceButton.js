@@ -14,20 +14,14 @@ module.exports = function() {
                   <ng-transclude style="display:block; width:100%; height:inherit;"></ng-transclude>
                 </div>`,
     controller: function($scope, $element) {
-      function onClick(e) {
-        if(!e) return
-
-        let parent = e.target.parentNode.parentNode
-        if(!parent.classList.contains($scope.class.trim()))
-          parent = e.target.parentNode
-
-        let ink = parent.getElementsByClassName('ink')[0]
+      let onClick = function(e) {
+        let ink = this.getElementsByClassName('ink')[0]
         ink.classList.remove('animate')
 
-        let rect = parent.getBoundingClientRect()
+        let rect = this.getBoundingClientRect()
 
         if( !ink.clientHeight && !ink.clientWidth ) {
-          let d = Math.max(parent.clientWidth, parent.clientHeight)
+          let d = Math.max(this.clientWidth, this.clientHeight)
           ink.style.height = ink.style.width = `${d}px`
         }
 
