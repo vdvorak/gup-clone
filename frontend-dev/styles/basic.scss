@@ -90,7 +90,7 @@ header {
 
 	&>.selectBox {
 		float: left;
-		margin-top: 20px;
+		margin-top: 21px;
 		margin-left: 20px;
 	}
 
@@ -106,6 +106,7 @@ header {
 		text-align: left;
 		box-shadow: 0px 2px 4px 0.00px rgba(0, 0, 0, 0.4);
 		border: 1px solid white;
+		transition: all .15s;
 
 		&>p {
 			color: #ffffff;
@@ -220,10 +221,11 @@ header {
 	position: relative;
 	display: inline-block;
 	margin-top: 10px;
+	border-bottom: 1px solid white;
 
 	&>input {
 		border: none;
-		border-bottom: 1px solid white;
+		padding:2px 0;
 		background-color: transparent;
 		outline: none;
 		color: #ffffff;
@@ -237,6 +239,7 @@ header {
 		color: #ffffff;
 		font: 400 14px / 21px Roboto;
 		cursor: text;
+		transition: .5s;
 	}
 }
 
@@ -248,7 +251,7 @@ header {
 
 	&>.defaultValue {
 		color: #ffffff;
-		font: 400 14px / 21px Roboto;
+		font: 400 14px / 19px Roboto;
 		overflow: hidden;
 		border-bottom: 1px solid white;
 
@@ -290,6 +293,7 @@ header {
 		opacity: 1;
 	}
 }
+
 
 aside.bulletinDetails {
 	float: right;
@@ -643,7 +647,7 @@ section.openAdvertert {
 	width: 1150px;
 	margin: 5px auto 0;
 
-	&>.bulletin-short{
+	&>.bulletin-short {
 		float: left;
 		width: 380px;
 		margin-left: 5px;
@@ -703,12 +707,13 @@ section.openAdvertert {
     font: 400 16px / 24.8px Roboto;
     box-sizing: border-box;
     border-bottom: 1px solid #9b9b9b;
-    background-color: #fff;
+    margin-top: 15px;
     label{
-        position:absolute;
+        position: absolute;
         left:2px;
         top:6px;
         color: $input-placeholder-color;
+				transition: all .25s;
     }
     input{
         border: none;
@@ -724,12 +729,13 @@ section.openAdvertert {
     font: 400 16px / 24.8px Roboto;
     box-sizing: border-box;
     border-bottom: 1px dashed #cdcdcd;
-    background-color: #fff;
+    margin-top: 15px;
     label{
-        position:absolute;
+        position: absolute;
         left:2px;
         top:6px;
         color: $input-placeholder-color;
+				transition: all .25s;
     }
     input{
         border: none;
@@ -737,4 +743,16 @@ section.openAdvertert {
         width:100%;
         background-color: transparent;
     }
+}
+
+/* Text element animation */
+.textOut {
+	top: -18px !important;
+	font-size: 12px !important;
+}
+
+.textIn {
+	top: 6px !important;
+
+	// animation: textIn .25s;
 }
