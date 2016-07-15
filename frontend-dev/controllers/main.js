@@ -1,18 +1,19 @@
 "use strict"
 
 /* Контроллер для управления  основным скелетом документа */
-module.exports = function($scope, $location) {
+module.exports = function($scope, $location, $timeout) {
   console.log('Main controller loaded')
 
   /* Standalone module for bd */
   $scope.bd = require('../modules/bd')
   $scope.bd.init()
 
-  /* variables for testing */
-  this.hello="hi"
-  this.boolean = true
-
+  /* Initialize data */
   this.init = function() {
+    /* variables for testing */
+    this.hello="hi"
+    this.boolean = true
+
     console.log("Main controller init")
 
     this.sortingCategories = (require('../data/sorting')).items
@@ -29,11 +30,24 @@ module.exports = function($scope, $location) {
     }
     else console.error(new Error("No sorting options found"))
 
-    this.showCategories = false
+    this.showingCategories = false
+    this.settingCat = true
   }
 
+  this.showCategories = () => {
+    this.settingCat = true
+    this.settingCat = true
+    $timeout( () => {
+      this.settingCat = false
+    }, 250)
+
+    this.showingCategories = true
+  }
+
+  /* Sorting in header */
   this.setCategory = id => {
-    this.showCategories = false
+    this.settingCat = false
+
     let res = this.sortingCategories.filter(el => el.id === id | 0)[0]
     this.sortingId = id
 
@@ -47,8 +61,18 @@ module.exports = function($scope, $location) {
 
   }
 
+  /* Watch all click on the body */
+  this.click = () => {
+    if(this.showingCategories && !this.settingCat)
+      this.showingCategories = false
+  }
+
 
   /* Correct redirect to url through app router*/
-  $scope.redirectToUrl = url => $location.path(url)
+  $scope.redirectToUrl = url => {
+    $timeout(() => {
+      $location.path(url)
+    }, 250)
+  }
 
 }
