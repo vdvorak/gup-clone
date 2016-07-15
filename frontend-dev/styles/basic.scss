@@ -682,3 +682,45 @@ section.openAdvertert {
 .red {
 	background-color: #F74A4A;
 }
+
+.inputForm-required{
+    position: relative;
+    padding: 6px 2px;
+    font: 400 16px / 24.8px Roboto;
+    box-sizing: border-box;
+    border-bottom: 1px solid #9b9b9b;
+    background-color: #fff;
+    label{
+        position:absolute;
+        left:2px;
+        top:6px;
+        color: $input-placeholder-color;
+    }
+    input{
+        border: none;
+        outline: none;
+        width:100%;
+        background-color: transparent;
+    }
+}
+
+.inputForm{
+    position: relative;
+    padding: 6px 2px;
+    font: 400 16px / 24.8px Roboto;
+    box-sizing: border-box;
+    border-bottom: 1px dashed #cdcdcd;
+    background-color: #fff;
+    label{
+        position:absolute;
+        left:2px;
+        top:6px;
+        color: $input-placeholder-color;
+    }
+    input{
+        border: none;
+        outline: none;
+        width:100%;
+        background-color: transparent;
+    }
+}
