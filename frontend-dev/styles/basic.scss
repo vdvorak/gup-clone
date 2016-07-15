@@ -90,7 +90,7 @@ header {
 
 	&>.selectBox {
 		float: left;
-		margin-top: 20px;
+		margin-top: 21px;
 		margin-left: 20px;
 	}
 
@@ -220,10 +220,11 @@ header {
 	position: relative;
 	display: inline-block;
 	margin-top: 10px;
+	border-bottom: 1px solid white;
 
 	&>input {
 		border: none;
-		border-bottom: 1px solid white;
+		padding:2px 0;
 		background-color: transparent;
 		outline: none;
 		color: #ffffff;
@@ -237,6 +238,7 @@ header {
 		color: #ffffff;
 		font: 400 14px / 21px Roboto;
 		cursor: text;
+		transition: .5s;
 	}
 }
 
@@ -722,7 +724,7 @@ section.openAdvertert {
 
 .inputForm{
     position: relative;
-    padding: 6px 8px;
+    padding: 6px 2px;
     font: 400 16px / 24.8px Roboto;
     box-sizing: border-box;
     border-bottom: 1px dashed #cdcdcd;

@@ -15,10 +15,7 @@
 	<div class="container clearfix">
 		<div class="headLeft clearfix">
 			<div class="logo" ng-click="redirectToUrl('/')"></div>
-			<div class="inputSearch">
-				<label>Поиск</label>
-				<input type="text">
-			</div>
+			<text class="inputSearch" ng-model="main.hello" color="white" label="Поиск"></text/>
 			<div class="selectBox">
 				<div class="defaultValue" ng-click="main.showCategories()">
 					<p>{{ main.currentCategory }} <span>{{ main.arrow }}</span></p>

@@ -35,8 +35,13 @@ module.exports = function() {
 
       function displayAnimation() {
         label.style.color = COLORS[$scope.color]
-        defaultBorder = window.getComputedStyle(label.parentNode).borderBottom
-        label.parentNode.style.borderBottom = `2px solid ${COLORS[$scope.color]}`
+        if(!defaultBorder.length) {
+          defaultBorder = window.getComputedStyle(label.parentNode).borderBottom
+        } else {
+          label.parentNode.style.borderBottom = `2px solid ${COLORS[$scope.color]}`
+        }
+
+
         label.classList.add('textOut')
         label.classList.remove('textIn')
       }
@@ -56,7 +61,6 @@ module.exports = function() {
           displayAnimation()
         else
           hideAnimation()
-
       }, 250)
 
 
