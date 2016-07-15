@@ -710,6 +710,7 @@ section.openAdvertert {
         left:2px;
         top:6px;
         color: $input-placeholder-color;
+				transition: all .25s;
     }
     input{
         border: none;
@@ -743,13 +744,12 @@ section.openAdvertert {
 
 /* Text element animation */
 .textOut {
-	top: -20px !important;
-	color: #1875D0 !important;
+	top: -18px !important;
 	font-size: 12px !important;
 }
 
 .textIn {
 	top: 6px !important;
 
-	animation: textIn .25s;
+	// animation: textIn .25s;
 }

@@ -1,5 +1,10 @@
 'use strict'
 
+const COLORS = {
+    blue: "#1875D0",
+    white: "white"
+}
+
 module.exports = function() {
   return {
     restrict: "E",
@@ -7,7 +12,8 @@ module.exports = function() {
     scope : {
       label: "@",
       class: "@",
-      ngModel: "="
+      ngModel: "=",
+      color: "@"
     },
     replace: true,
     template: `<div class="{{class}}">
@@ -15,29 +21,42 @@ module.exports = function() {
                  <input type="text" ng-model="ngModel">
                </div>`,
     controller: function($scope, $element, $timeout) {
+      let defaultBorder = ""
+
       function onBlur(e) {
-        if(!$scope.ngModel.length) {
-          label.classList.add('textIn')
-          label.classList.remove('textOut')
-        }        
+        if(!$scope.ngModel.length)
+          hideAnimation()
       }
 
       function onFocus(e) {
-        if(!$scope.ngModel.length && !label.classList.contains('textOut'))
-          label.classList.add('textOut')
-        if(label.classList.contains('textIn'))
-          label.classList.remove('textIn')
+        if(!$scope.ngModel.length)
+          displayAnimation()
+      }
+
+      function displayAnimation() {
+        label.style.color = COLORS[$scope.color]
+        defaultBorder = window.getComputedStyle(label.parentNode).borderBottom
+        label.parentNode.style.borderBottom = `2px solid ${COLORS[$scope.color]}`
+        label.classList.add('textOut')
+        label.classList.remove('textIn')
+      }
+
+      function hideAnimation() {
+        label.style.color = ""
+        label.parentNode.style.borderBottom = defaultBorder
+        label.classList.add('textIn')
+        label.classList.remove('textOut')
       }
 
       let el = $element[0].getElementsByTagName('input')[0]
       let label = $element[0].getElementsByTagName('label')[0]
 
       $timeout( () => {
-        if( $scope.ngModel.length ) {
-          label.classList.add('textOut')
-        } else {
-          label.classList.add('textIn')
-        }
+        if( $scope.ngModel.length )
+          displayAnimation()
+        else
+          hideAnimation()
+
       }, 250)
 
 
