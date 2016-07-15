@@ -23,14 +23,14 @@ public class StorageRepositoryImpl implements StorageRepository {
     private static final String FILE_STORAGE_PATH = ".file.storage";
     private static final String CACHE_IMAGE_STORAGE_PATH = ".file.storage.cache";
 
-    @Value("${upload.profile.photo.cached.size}")
-    private String size;
+//    @Value("${upload.profile.photo.cached.size}")
+    private String size = "40";
 
-    @Value("${upload.offer.photo.cached.size.offerSmall}")
-    private String offerSmall;
-
-    @Value("${upload.offer.photo.cached.size.offerMedium}")
-    private String offerMedium;
+//    @Value("${upload.offer.photo.cached.size.offerSmall}")
+//    private String offerSmall;
+//
+//    @Value("${upload.offer.photo.cached.size.offerMedium}")
+//    private String offerMedium;
 
 
     @Autowired

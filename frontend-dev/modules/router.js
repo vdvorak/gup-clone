@@ -25,6 +25,16 @@ module.exports = {
     controller: require('../controllers/bulletinAdd'),
     controllerAs: "badd"
   },
+  '/login' : {
+    templateUrl: "templates/login.html",
+    controller: require('../controllers/login'),
+    controllerAs: "login"
+  },
+  '/register' : {
+    templateUrl: "templates/register.html",
+    controller: require('../controllers/register'),
+    controllerAs: "register"
+  },
   '/editProfile' : {
     templateUrl: "templates/edit-profile.html",
     controller: require('../controllers/editProfile'),
