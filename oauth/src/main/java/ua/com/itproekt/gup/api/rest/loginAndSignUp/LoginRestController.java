@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.zip.DataFormatException;
 
 @RestController
 public class LoginRestController {
@@ -53,6 +52,27 @@ public class LoginRestController {
 
     @Autowired
     VerificationTokenService verificationTokenService;
+
+//	@RequestMapping(value = "/login", method = RequestMethod.POST)
+//    public ResponseEntity<Void> login(@RequestParam String email, @RequestParam String password, HttpServletResponse response) {
+//		LoggedUser loggedUser;
+//		try {
+//			loggedUser = (LoggedUser)userDetailsService.loadUserByUsername(email);
+//		} catch (UsernameNotFoundException ex) {
+//			LOG.debug("Incorrect email: " + LogUtil.getExceptionStackTrace(ex));
+//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//		}
+//
+//		if (!passwordEncoder.matches(password, loggedUser.getPassword())) {
+//			LOG.debug("Password doesn't match: email [" + email + "]");
+//			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//		}
+//
+//		authenticateByEmailAndPassword(loggedUser, response);
+//		LOG.debug("Login profile email : [" + email + "]");
+//
+//		return new ResponseEntity<>(HttpStatus.OK);
+//	}
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -84,6 +104,57 @@ public class LoginRestController {
 		CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
 		CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
 	}
+
+//		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
+//			Authenticate the user
+//		Authentication authentication = authenticationManager.authenticate(authRequest);
+//		SecurityContext securityContext = SecurityContextHolder.getContext();
+//		securityContext.setAuthentication(authentication);
+//
+//			Create a new session and add the security context.
+//		HttpSession session = request.getSession(true);
+//		session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+
+
+/*--------------------------------------- Check -----------------------------------------------------------------*/
+	@RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
+	public String existEmailCheck(@RequestBody String email) {
+
+		email = email.split("=")[0];
+
+		try {
+			email = URLDecoder.decode(email, "UTF-8");
+		} catch (UnsupportedEncodingException ex) {
+			LOG.error(LogUtil.getExceptionStackTrace(ex));
+		}
+
+		return (profileService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
+	}
+
+
+
+
+//    @RequestMapping(value = "/logout")
+//    public String logout(HttpServletRequest request, HttpServletResponse response) {
+//
+//        for (Cookie cookie : request.getCookies()) {
+//            if (cookie.getName().equals("authToken")) {
+//                tokenServices.revokeToken(cookie.getValue());
+//            }
+//        }
+//
+//        Cookie cookieAuthToken = new Cookie("authToken", null);
+//        cookieAuthToken.setMaxAge(0);
+//        cookieAuthToken.setPath("/");
+//        response.addCookie(cookieAuthToken);
+//
+//        Cookie cookieRefreshToken = new Cookie("refreshToken", null);
+//        cookieRefreshToken.setMaxAge(0);
+//        cookieRefreshToken.setPath("/");
+//        response.addCookie(cookieRefreshToken);
+//
+//        return "redirect:/index";
+//    }
 
     @CrossOrigin
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
@@ -119,36 +190,5 @@ public class LoginRestController {
 
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
-    }
-
-    /*--------------------------------------- Check -----------------------------------------------------------------*/
-    @RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
-    public String existEmailCheck(@RequestBody String email) {
-        email = email.split("=")[0];
-
-        try {
-            email = URLDecoder.decode(email, "UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            LOG.error(LogUtil.getExceptionStackTrace(ex));
-        }
-
-        return (profileService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
-    }
-
-//		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
-//			Authenticate the user
-//		Authentication authentication = authenticationManager.authenticate(authRequest);
-//		SecurityContext securityContext = SecurityContextHolder.getContext();
-//		securityContext.setAuthentication(authentication);
-//
-//			Create a new session and add the security context.
-//		HttpSession session = request.getSession(true);
-//		session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
-
-
-    @ExceptionHandler(DataFormatException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "My Response Status Change….!!")
-    public void handleDataFormatException(DataFormatException ex, HttpServletResponse response) {
-        System.err.println( "Handlng DataFormatException - Catching: " + ex.getClass().getSimpleName() );
     }
 }
