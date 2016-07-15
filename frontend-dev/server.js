@@ -22,6 +22,8 @@ app.get('/bulletinDetails', handler)
 app.get('/bulletinAdd', handler)
 app.get('/editProfile', handler)
 app.get('/profile', handler)
+app.get('/login', handler)
+app.get('/register', handler)
 app.get('/searchResults', handler)
 
 console.log(`Server started at port: ${PORT}. Gl & HF =)`)

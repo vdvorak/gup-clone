@@ -9,6 +9,7 @@ module.exports = function() {
       class: "@",
       ngModel: "="
     },
+    replace: true,
     template: `<div class="{{class}}">
                  <label>{{ label }}</label>
                  <input type="text" value="{{ ngModel }}">

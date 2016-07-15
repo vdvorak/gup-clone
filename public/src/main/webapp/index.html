@@ -32,15 +32,18 @@
 			</div>
 		</div>
 		<div class="headRight clearfix">
-			<div class="mail">
+			<div class="mail" ng-show="db.user">
 				<p>10</p>
 			</div>
-			<div class="bell">
+			<div class="bell" ng-show="db.user">
 				<p>8</p>
 			</div>
 			<div class="services"></div>
-			<div class="userName">
+			<div class="userName" ng-show="db.user">
 				<p>Имя Фамилия</p>
+			</div>
+			<div class="auth">
+				<span ng-click="redirectToUrl('/login')">Войти</span> | <span ng-click="redirectToUrl('/register')">Регистрация</span>
 			</div>
 		</div>
 	</div>
@@ -57,7 +60,7 @@
 <!-- FOOTER -->
 <footer>
 	<!-- Just an example  -->
-	notifications: {{ bd.notifications }}
+	notifications: {{ db.notifications }}
 </footer>
 
 <!-- LIBLARIES -->

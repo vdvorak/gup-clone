@@ -45,6 +45,8 @@ Implemented directives example:
 
 <checkbox ng-model="main.boolean"></checkbox>
 
+
+
 URLS of the app:
 see /server.js
 
