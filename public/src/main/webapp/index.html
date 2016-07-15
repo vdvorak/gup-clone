@@ -8,7 +8,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
 	<script src="lib/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
-<body ng-controller="mainCtrl as main" ng-init="main.init()">
+<body ng-controller="mainCtrl as main" ng-init="main.init()" ng-click="main.click()">
 
 <!-- HEADER -->
 <header>
@@ -20,10 +20,10 @@
 				<input type="text">
 			</div>
 			<div class="selectBox">
-				<div class="defaultValue" ng-click="main.showCategories=true">
+				<div class="defaultValue" ng-click="main.showCategories()">
 					<p>{{ main.currentCategory }} <span>{{ main.arrow }}</span></p>
 				</div>
-				<div class="listOfValues" ng-show="main.showCategories">
+				<div class="listOfValues" ng-show="main.showingCategories">
 					<div class="listItem" ng-repeat="cat in main.sortingCategories" ng-click="main.setCategory(cat.id)">{{ cat.title }}</div>
 				</div>
 			</div>
