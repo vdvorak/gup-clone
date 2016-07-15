@@ -27,7 +27,7 @@
 					<div class="listItem" ng-repeat="cat in main.sortingCategories" ng-click="main.setCategory(cat.id)">{{ cat.title }}</div>
 				</div>
 			</div>
-			<div class="add" ng-click="redirectToUrl('/bulletinAdd')">
+			<div class="add" ng-class="temp"  ng-mousedown="temp = 'clicked'" ng-mouseup="temp = ''" ng-click="redirectToUrl('/bulletinAdd')">
 				<p>Добавить Объявление</p>
 			</div>
 		</div>

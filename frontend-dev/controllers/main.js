@@ -32,6 +32,7 @@ module.exports = function($scope, $location) {
     this.showCategories = false
   }
 
+
   this.setCategory = id => {
     this.showCategories = false
     let res = this.sortingCategories.filter(el => el.id === id | 0)[0]
