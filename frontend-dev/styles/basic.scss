@@ -202,6 +202,18 @@ header {
 			text-overflow: ellipsis;
 		}
 	}
+
+	&>.auth {
+		color: white;
+    float: right;
+    margin-right: 20px;
+    font: 400 14px / 35px Roboto;
+
+		span {
+			cursor: pointer;
+			margin:0 10px;
+		}
+	}
 }
 
 .inputSearch {

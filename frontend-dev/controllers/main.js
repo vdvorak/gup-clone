@@ -5,8 +5,8 @@ module.exports = function($scope, $location, $timeout) {
   console.log('Main controller loaded')
 
   /* Standalone module for bd */
-  $scope.bd = require('../modules/bd')
-  $scope.bd.init()
+  $scope.db = require('../modules/db')
+  $scope.db.init()
 
   /* Initialize data */
   this.init = function() {
