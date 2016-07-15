@@ -96,12 +96,66 @@
 		color: #212121;
 		font: 400 14px / 16.8px Roboto;
 	}
+	
+	&>.wrapRibbon {
+		position: absolute;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		z-index: 1;
+		
+		&>.ribbon {
+			width: 150px;
+			position: relative;
+			background-color: #F5911D;
+			text-align: center;
+
+			&:before {
+				content: "";
+				position: absolute;
+				display: block;
+				bottom: -14px;
+				border: 13px solid #e57b00;
+				z-index: -1;
+				left: -23px;
+				border-right-width: 1.5em;
+				border-left-color: transparent;
+				box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.3);
+			}
+
+			&:after {
+					content: "";
+					position: absolute;
+					display: block;
+					bottom: 0;
+					border: 13px solid #F5911D;
+					right: -13px;
+					border-left-width: 0;
+					border-right-color: transparent;
+			}
+
+			&>.ribbon-content {
+				color: #ffffff;
+				font: 400 14px / 26px Roboto;
+
+				&:before {
+					content: "";
+					position: absolute;
+					display: block;
+					border-style: solid;
+					border-color: #2B4A67 transparent transparent transparent;
+					bottom: -14px;
+					left: 0;
+					border-width: 1em 0 0 1em;
+				}
+			}
+		}
+	}
 }
 
 .checkBox {
 	width: 25px;
 	height: 25px;
-	display: inline-block;
 	border: 1px solid grey;
 	border-radius: 5px;
 	cursor: pointer;
@@ -111,4 +165,18 @@
 .checked {
 	background: $blue url(../images/V.png) no-repeat center center;
 	border-color: $blue !important;
+}
+
+div.exclamationPoint {
+	background: url(../images/exclamationPoint.png) no-repeat center center;
+	height: 27px;
+	width: 27px;
+	margin-top: 10px;
+}
+
+.dollarBill {
+	background: url(../images/dollarBill.png) no-repeat center center;
+	height: 27px;
+	width: 27px;
+	margin-top: 10px;
 }

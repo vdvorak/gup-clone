@@ -106,6 +106,7 @@ header {
 		text-align: left;
 		box-shadow: 0px 2px 4px 0.00px rgba(0, 0, 0, 0.4);
 		border: 1px solid white;
+		transition: all .15s;
 
 		&>p {
 			color: #ffffff;
@@ -250,7 +251,7 @@ header {
 
 	&>.defaultValue {
 		color: #ffffff;
-		font: 400 14px / 21px Roboto;
+		font: 400 14px / 19px Roboto;
 		overflow: hidden;
 		border-bottom: 1px solid white;
 
@@ -646,7 +647,7 @@ section.openAdvertert {
 	width: 1150px;
 	margin: 5px auto 0;
 
-	&>.bulletin-short{
+	&>.bulletin-short {
 		float: left;
 		width: 380px;
 		margin-left: 5px;
