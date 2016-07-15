@@ -1,6 +1,6 @@
 package ua.com.itproekt.gup.service.profile;
 
-import ua.com.itproekt.gup.api.rest.profiles.dto.ProfileInfo;
+import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;

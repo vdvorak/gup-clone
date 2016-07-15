@@ -1,7 +1,7 @@
     <div class="view-edit-profile">
         <h1>Редактирование профиля</h1>
         <form id="edit-profile-form" class="edit-profile-form">
-
+    
             <select class="select" ng-model="profile.contact.type">
                 <option value="INDIVIDUAL" selected>Физическое лицо</option>
                 <option value="LEGAL_ENTITY">Юридическое лицо</option>
@@ -13,26 +13,28 @@
                 <input type="text" placeholder="{{profile.contact.type === 'ENTREPRENEUR' && 'Лого' || 'Аватар'}}">
                 <nice-button class="btn-blue" ng-click="">Обзор</nice-button>
             </div>
-
-            <input type="text" placeholder="ФИО" ng-model="profile.username" ng-hide="profile.contact.type === 'LEGAL_ENTITY'">
-            <input type="text" placeholder="Должность" ng-model="profile.contact.position" ng-hide="profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY'">
-            <input type="text" placeholder="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'Название компании' || 'Место работы'}}" ng-model="profile.contact.companyName">
-
-            <input type="text" placeholder="Основной e-mail" ng-model="profile.email">
-
+            
+            <div class='clearfix'></div>
+            
+            <text class="inputForm-required" ng-model="profile.username" label="ФИО" ng-hide="profile.contact.type === 'LEGAL_ENTITY'"></text>
+            <text class="inputForm" ng-model="profile.contact.position" label="Должность" ng-hide="profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY'"></text>
+            <text class="inputForm-required" ng-model="profile.contact.companyName" label="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'Название компании' || 'Место работы'}}"></text>
+            
+            <text class="inputForm-required" ng-model="profile.email" label="Основной e-mail"></text>
+        
             <div class="edit-profile-form-contacts-container" ng-repeat="email in profile.contact.contactEmails track by $index">
-                <input type="text" placeholder="Контактный e-mail" ng-model="profile.contact.contactEmails[$index]" ng-blur="profile.addContacts($event, 'email')">
-                <div ng-style="$first && {'visibility':'hidden'}" ng-click="profile.deleteContacts($event, $index, 'email')"></div>
+                <text class="inputForm" label="Контактный email" ng-model="profile.contact.contactEmails[$index]"></text>
+                <button ng-style="$first && {'visibility':'hidden'}" ng-click="profile.deleteContacts($event, $index, 'email')"></button>
             </div>
-
-            <input type="text" placeholder="Основной телефон" ng-model="profile.mainPhoneNumber">
-
+            
+            <text class="inputForm-required" ng-model="profile.mainPhoneNumber" label="Основной телефон"></text>
+            
             <div class="edit-profile-form-contacts-container" ng-repeat="tel in profile.contact.contactPhones track by $index">
-                <input type="text" placeholder="Контактный телефон" ng-model="profile.contact.contactPhones[$index]" ng-blur="profile.addContacts($event, 'phone')">
-                <div ng-style="$first && {'visibility':'hidden'}" ng-click="profile.deleteContacts($event, $index, 'phone')"></div>
+                <text class="inputForm" label="Контактный телефон" ng-model="profile.contact.contactPhones[$index]"></text>
+                <button ng-style="$first && {'visibility':'hidden'}" ng-click="profile.deleteContacts($event, $index, 'phone')"></button>
             </div>
 
-            <input type="text" placeholder="Skype" ng-model="profile.contact.skypeUserName">
+            <text class="inputForm" ng-model="profile.contact.skypeUserName" label="Skype"></text>
 
             <div class="social-link-container">
                 <div data-social="LINKEDIN" style="background: url('../images/icon-linkedin.png')"></div>
@@ -41,8 +43,10 @@
                 <div data-social="VKONTAKTE" style="background: url('../images/icon-vk.png')"></div>
                 <div data-social="TWITTER" style="background: url('../images/icon-twitter.png')"></div>
             </div>
+            
+            <div class='clearfix'></div>
 
-            <input type="text" placeholder="Ссылка на сайт" ng-model="profile.contact.linkToWebSite">
+            <text class="inputForm" ng-model="profile.contact.linkToWebSite" label="Ссылка на сайт"></text>
             <textarea placeholder="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'О компании' || 'О себе'}}" ng-model="profile.contact.aboutUs"></textarea>
 
         </form>
