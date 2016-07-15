@@ -358,7 +358,7 @@
                 <configuration>
                     <skipTests>${skip.unit.tests}</skipTests>
                     <excludes>
-                        <exclude>**/IT*.java</exclude>
+                        <exclude>**/*.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
