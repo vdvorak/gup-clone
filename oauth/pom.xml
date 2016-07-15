@@ -315,7 +315,7 @@
 
 
     <build>
-        <finalName>api</finalName> <!--<finalName>${project.artifactId}##${project.version}</finalName>-->
+        <finalName>api##${project.version}</finalName> <!--<finalName>${project.artifactId}##${project.version}</finalName>-->
         <filters>
             <filter>profiles/${build.profile.id}/config.properties</filter>
         </filters>
