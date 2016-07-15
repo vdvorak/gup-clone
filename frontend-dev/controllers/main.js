@@ -1,7 +1,7 @@
 "use strict"
 
 /* Контроллер для управления  основным скелетом документа */
-module.exports = function($scope, $location) {
+module.exports = function($scope, $location, $timeout) {
   console.log('Main controller loaded')
 
   /* Standalone module for bd */
@@ -50,6 +50,10 @@ module.exports = function($scope, $location) {
 
 
   /* Correct redirect to url through app router*/
-  $scope.redirectToUrl = url => $location.path(url)
+  $scope.redirectToUrl = url => {
+    $timeout(() => {
+      $location.path(url)
+    }, 250)
+  }
 
 }
