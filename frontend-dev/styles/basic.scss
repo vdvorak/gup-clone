@@ -704,9 +704,9 @@ section.openAdvertert {
     font: 400 16px / 24.8px Roboto;
     box-sizing: border-box;
     border-bottom: 1px solid #9b9b9b;
-    background-color: #fff;
+    margin-top: 15px;
     label{
-        position:absolute;
+        position: absolute;
         left:2px;
         top:6px;
         color: $input-placeholder-color;
@@ -725,10 +725,9 @@ section.openAdvertert {
     font: 400 16px / 24.8px Roboto;
     box-sizing: border-box;
     border-bottom: 1px dashed #cdcdcd;
-    background-color: #fff;
-
+    margin-top: 15px;
     label{
-        position:absolute;
+        position: absolute;
         left:2px;
         top:6px;
         color: $input-placeholder-color;
@@ -751,6 +750,6 @@ section.openAdvertert {
 
 .textIn {
 	top: 6px !important;
-	
+
 	animation: textIn .25s;
 }

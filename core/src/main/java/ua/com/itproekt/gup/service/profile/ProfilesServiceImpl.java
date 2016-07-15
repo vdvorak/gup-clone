@@ -3,7 +3,7 @@ package ua.com.itproekt.gup.service.profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.com.itproekt.gup.api.rest.profiles.dto.ProfileInfo;
+import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.model.profiles.*;

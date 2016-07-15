@@ -1,7 +1,7 @@
 package ua.com.itproekt.gup.util;
 
 import org.springframework.util.CollectionUtils;
-import ua.com.itproekt.gup.api.rest.dto.OfferInfo;
+import ua.com.itproekt.gup.server.api.rest.dto.OfferInfo;
 import ua.com.itproekt.gup.model.offer.Offer;
 import java.util.ArrayList;
 import java.util.List;
