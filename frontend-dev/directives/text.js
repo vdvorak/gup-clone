@@ -12,22 +12,37 @@ module.exports = function() {
     replace: true,
     template: `<div class="{{class}}">
                  <label>{{ label }}</label>
-                 <input type="text" value="{{ ngModel }}">
+                 <input type="text" ng-model="ngModel">
                </div>`,
-    controller: function($scope, $element) {
+    controller: function($scope, $element, $timeout) {
       function onBlur(e) {
-        console.log("Text on blur. Event:")
-        console.log(e)
+        if(!$scope.ngModel.length) {
+          label.classList.add('textIn')
+          label.classList.remove('textOut')
+        }        
       }
 
       function onFocus(e) {
-        console.log("Text on focus. Event:")
-        console.log(e)
+        if(!$scope.ngModel.length && !label.classList.contains('textOut'))
+          label.classList.add('textOut')
+        if(label.classList.contains('textIn'))
+          label.classList.remove('textIn')
       }
 
       let el = $element[0].getElementsByTagName('input')[0]
-      el.addEventListener('blur', onBlur)
-      el.addEventListener('focus', onFocus)
+      let label = $element[0].getElementsByTagName('label')[0]
+
+      $timeout( () => {
+        if( $scope.ngModel.length ) {
+          label.classList.add('textOut')
+        } else {
+          label.classList.add('textIn')
+        }
+      }, 250)
+
+
+      el.addEventListener('blur', onBlur.bind(this))
+      el.addEventListener('focus', onFocus.bind(this))
     }
   }
 }
