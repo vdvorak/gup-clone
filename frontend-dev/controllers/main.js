@@ -16,10 +16,18 @@ module.exports = function($scope, $location) {
     console.log("Main controller init")
 
     this.sortingCategories = (require('../data/sorting')).items
+    this.currentCategory = "None"
+    this.sortingId = 0
 
-    if(this.sortingCategories.length)
-      this.currentCategory = this.sortingCategories[0].title
-    else this.currentCategory = "None"
+    if(this.sortingCategories.length) {
+      let title = this.sortingCategories[this.sortingId].title
+      let arr = title.split("")
+      this.arrow = arr.pop()
+      arr.pop()
+
+      this.currentCategory = arr.join("")
+    }
+    else console.error(new Error("No sorting options found"))
 
     this.showCategories = false
   }
@@ -27,8 +35,16 @@ module.exports = function($scope, $location) {
   this.setCategory = id => {
     this.showCategories = false
     let res = this.sortingCategories.filter(el => el.id === id | 0)[0]
+    this.sortingId = id
 
-    if(res) this.currentCategory = res.title
+    if(res) {
+      let arr = res.title.split("")
+      this.arrow = arr.pop()
+      arr.pop()
+
+      this.currentCategory = arr.join("")
+    }
+
   }
 
 

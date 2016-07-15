@@ -21,7 +21,7 @@
 			</div>
 			<div class="selectBox">
 				<div class="defaultValue" ng-click="main.showCategories=true">
-					<p>{{ main.currentCategory }}</p>
+					<p>{{ main.currentCategory }} <span>{{ main.arrow }}</span></p>
 				</div>
 				<div class="listOfValues" ng-show="main.showCategories">
 					<div class="listItem" ng-repeat="cat in main.sortingCategories" ng-click="main.setCategory(cat.id)">{{ cat.title }}</div>
