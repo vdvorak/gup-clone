@@ -79,13 +79,14 @@ header {
 	}
 
 	&>.inputForm {
-		margin-top: 17px;
+		margin-top: 21px;
 		margin-left: 20px;
 		float: left;
-		border-color: white;
+		border-color: $white;
 		box-sizing: border-box;
 		height: auto;
 		width: 200px;
+		border-bottom: 1px solid $white;
 		
 		&>label, input {
 			color: #ffffff;
@@ -733,7 +734,7 @@ section.openAdvertert {
     position: relative;
     font: 400 16px Roboto;
     box-sizing: border-box;
-    border-bottom: 1px solid red;
+	border-bottom: 1px dotted #999999;
 	
     label{
         position: absolute;
@@ -760,7 +761,7 @@ section.openAdvertert {
 	left: 0 !important;
 }
 
-section.login {
+section.login, section.register {
 	background-color: $white;
 	box-shadow: $boxShadow;
 	padding: 65px 230px;
@@ -776,7 +777,7 @@ section.login {
 	}
 	
 	&>.inputForm {
-		border-color: #9a9a9a;
+		border-bottom: 1px solid $white;
 		margin-bottom: 45px;
 		
 		&>label, input {
@@ -802,6 +803,32 @@ section.login {
 		
 		&.google {
 			background: #FD3C00 url(../images/google.png) no-repeat center left 10px;
+		}
+	}
+}
+
+section.bulletinAdd {
+	box-shadow: $boxShadow;
+	background-color: $white;
+	width: 1100px;
+	margin: 5px auto 0;
+	padding: 65px 225px;
+	box-sizing: border-box;
+	
+	&>h2 {
+		color: #1f1f1f;
+		font: 400 22px Roboto;
+		text-align: center;
+		margin-bottom: 40px;
+	}
+	
+	&>.inputForm {
+		border-bottom: 1px solid #999999;
+		margin-bottom: 45px;
+		
+		&>label, input {
+			color: #999999;
+			font: 400 16px Roboto;
 		}
 	}
 }
