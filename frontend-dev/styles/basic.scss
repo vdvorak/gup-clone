@@ -78,13 +78,18 @@ header {
 		margin-left: 15px;
 	}
 
-	&>.inputSearch {
-		margin-top: 18px;
+	&>.inputForm {
+		margin-top: 17px;
 		margin-left: 20px;
 		float: left;
-
-		&>input {
-			width: 200px;
+		border-color: white;
+		box-sizing: border-box;
+		height: auto;
+		width: 200px;
+		
+		&>label, input {
+			color: #ffffff;
+			font: 400 14px Roboto;
 		}
 	}
 
@@ -726,37 +731,33 @@ section.openAdvertert {
 
 .inputForm{
     position: relative;
-    padding: 6px 2px;
-    font: 400 16px / 24.8px Roboto;
+    font: 400 16px Roboto;
     box-sizing: border-box;
-    border-bottom: 1px dashed #cdcdcd;
-    margin-top: 15px;
+    border-bottom: 1px solid red;
+	
     label{
         position: absolute;
-        left:2px;
-        top:6px;
+        left: 5px;
         color: $input-placeholder-color;
-				transition: all .25s;
+		transition: all .25s;
+		top: -1px;
     }
+	
     input{
         border: none;
         outline: none;
         width:100%;
         background-color: transparent;
 		position: relative;
+		padding: 1px 5px;
     }
 }
 
 /* Text element animation */
 .textOut {
-	top: -18px !important;
+	top: -15px !important;
 	font-size: 12px !important;
-}
-
-.textIn {
-	top: 6px !important;
-
-	// animation: textIn .25s;
+	left: 0 !important;
 }
 
 section.login {
@@ -772,5 +773,35 @@ section.login {
 		color: #202020;
 		font: 400 22px Roboto;
 		margin-bottom: 55px;
+	}
+	
+	&>.inputForm {
+		border-color: #9a9a9a;
+		margin-bottom: 45px;
+		
+		&>label, input {
+			color: #9a9a9a;
+			font: 400 16px Roboto;
+		}
+	}
+	
+	&>.btn-blue {
+		height: 35px;
+		width: 180px;
+		margin-left: 45px;
+		line-height: 35px;
+		
+		&.vk {
+			background: #0186CF url(../images/vk.png) no-repeat center left 10px;
+			margin-left: 0;
+		}
+		
+		&.facebook {
+			background: #3E50B3 url(../images/facebook.png) no-repeat center left 10px;
+		}
+		
+		&.google {
+			background: #FD3C00 url(../images/google.png) no-repeat center left 10px;
+		}
 	}
 }
