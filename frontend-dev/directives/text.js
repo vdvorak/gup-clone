@@ -12,12 +12,13 @@ module.exports = function() {
     scope : {
       label: "@",
       ngModel: "=",
-      color: "@"
+      color: "@",
+      type: "@"
     },
     replace: true,
     template: `<div class="inputForm">
                  <label>{{ label }}</label>
-                 <input type="text" ng-model="ngModel">
+                 <input type="{{ type || 'text'}}" ng-model="ngModel">
                </div>`,
     controller: function($scope, $element, $timeout) {
       let defaultBorder = ""
@@ -42,13 +43,11 @@ module.exports = function() {
 
 
         label.classList.add('textOut')
-        label.classList.remove('textIn')
       }
 
       function hideAnimation() {
         label.style.color = ""
         label.parentNode.style.borderBottom = defaultBorder
-        label.classList.add('textIn')
         label.classList.remove('textOut')
       }
 
