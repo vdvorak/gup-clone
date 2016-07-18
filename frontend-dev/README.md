@@ -39,7 +39,7 @@ https://trello.com/b/WRjaA6ir/novaera
 
 Implemented directives example:
 
-<nice-button class="btn-blue" ng-click="somefunc("ololoshechka")">Hi man</nice-button>
+<nice-button class="btn-blue" ng-click="">Hi man</nice-button>
 
 <text class="inputSearch" ng-model="main.hello" label="name" color="blue | white"></text>
 
