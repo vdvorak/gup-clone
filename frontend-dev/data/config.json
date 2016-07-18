@@ -1,17 +1,37 @@
 {
   "api" : {
-    "url" : "http://93.73.109.38:8084/"
+    "url" : "http://93.73.109.38:8084/",
+    "auth" : "http://93.73.109.38:8083/"
   },
   "routes" : {
     "getBulletins" : {
       "method" : "POST",
       "url" : "api/rest/offersService/offer/read/all",
       "accept" : {
-        "type" : "json",
-        "example" : {
-          "skip" : 0,
-          "limit" : 20
-        }
+        "skip" : 0,
+        "limit" : 20
+      }
+    },
+    "login" : {
+      "method" : "POST",
+      "url" : "login",      "accept" : {        "email":"sss2@gmail.com",        "password":"123456"      }    },
+    "logout" : {
+      "method" : "POST",
+      "url" : "logout"
+    },
+    "register" : {
+      "method" : "POST",
+      "url" : "register",
+      "accept" : {
+        "email":"sss2@gmail.com",
+        "password":"123456"
+      }
+    },
+    "checkEmail" : {
+      "method" : "POST",
+      "url" : "login/checkEmail",
+      "accept" : {
+        "email":"sss2@gmail.com"
       }
     }
   }
