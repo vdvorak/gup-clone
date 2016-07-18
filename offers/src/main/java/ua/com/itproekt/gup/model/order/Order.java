@@ -3,6 +3,7 @@ package ua.com.itproekt.gup.model.order;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 
 import java.util.Date;
 
@@ -31,128 +32,144 @@ public class Order {
         return id;
     }
 
-    public void setId(String id) {
+    public Order setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getOfferId() {
         return offerId;
     }
 
-    public void setOfferId(String offerId) {
+    public Order setOfferId(String offerId) {
         this.offerId = offerId;
+        return this;
     }
 
     public String getBuyerId() {
         return buyerId;
     }
 
-    public void setBuyerId(String buyerId) {
+    public Order setBuyerId(String buyerId) {
         this.buyerId = buyerId;
+        return this;
     }
 
     public String getSellerId() {
         return sellerId;
     }
 
-    public void setSellerId(String sellerId) {
+    public Order setSellerId(String sellerId) {
         this.sellerId = sellerId;
+        return this;
     }
 
     public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public Order setStartDate(Date startDate) {
         this.startDate = startDate;
+        return this;
     }
 
     public Date getAcceptDate() {
         return acceptDate;
     }
 
-    public void setAcceptDate(Date acceptDate) {
+    public Order setAcceptDate(Date acceptDate) {
         this.acceptDate = acceptDate;
+        return this;
     }
 
     public Date getSentDate() {
         return sentDate;
     }
 
-    public void setSentDate(Date sentDate) {
+    public Order setSentDate(Date sentDate) {
         this.sentDate = sentDate;
+        return this;
     }
 
     public Date getReceivedDate() {
         return receivedDate;
     }
 
-    public void setReceivedDate(Date receivedDate) {
+    public Order setReceivedDate(Date receivedDate) {
         this.receivedDate = receivedDate;
+        return this;
     }
 
     public Date getCompleteDate() {
         return completeDate;
     }
 
-    public void setCompleteDate(Date completeDate) {
+    public Order setCompleteDate(Date completeDate) {
         this.completeDate = completeDate;
+        return this;
     }
 
     public OrderAddress getOrderAddress() {
         return orderAddress;
     }
 
-    public void setOrderAddress(OrderAddress orderAddress) {
+    public Order setOrderAddress(OrderAddress orderAddress) {
         this.orderAddress = orderAddress;
+        return this;
     }
 
     public String getTrackNumber() {
         return trackNumber;
     }
 
-    public void setTrackNumber(String trackNumber) {
+    public Order setTrackNumber(String trackNumber) {
         this.trackNumber = trackNumber;
+        return this;
     }
 
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
+    public Order setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+        return this;
     }
 
     public boolean isSafeOrder() {
         return safeOrder;
     }
 
-    public void setSafeOrder(boolean safeOrder) {
+    public Order setSafeOrder(boolean safeOrder) {
         this.safeOrder = safeOrder;
+        return this;
     }
 
     public OrderType getOrderType() {
         return orderType;
     }
 
-    public void setOrderType(OrderType orderType) {
+    public Order setOrderType(OrderType orderType) {
         this.orderType = orderType;
+        return this;
     }
 
     public String getBuyerComment() {
         return buyerComment;
     }
 
-    public void setBuyerComment(String buyerComment) {
+    public Order setBuyerComment(String buyerComment) {
         this.buyerComment = buyerComment;
+        return this;
     }
 
     public String getSellerComment() {
         return sellerComment;
     }
 
-    public void setSellerComment(String sellerComment) {
+    public Order setSellerComment(String sellerComment) {
         this.sellerComment = sellerComment;
+        return this;
     }
 
 

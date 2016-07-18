@@ -4,9 +4,11 @@ import org.apache.commons.lang3.EnumUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Set;
 
 @Document(collection = "users")
@@ -40,6 +42,8 @@ public class Profile {
 
     private Long createdDate;
     private Long lastLoginDate;
+
+    private List<OrderAddress> orderAddressList;
 
 
     public boolean hasUserRole(String userRole) {
@@ -85,27 +89,17 @@ public class Profile {
         return this;
     }
 
+    public Long getLastLoginDate() {
+        return lastLoginDate;
+    }
+
     public Profile setLastLoginDate(Long lastLoginDate) {
         this.lastLoginDate = lastLoginDate;
         return this;
     }
 
-    public Long getLastLoginDate() {
-        return lastLoginDate;
-    }
-
     public Boolean getConfirmModerator() {
         return confirmModerator;
-    }
-
-    public Profile setCreatedDate(Long createdDate) {
-        this.createdDate = createdDate;
-        return this;
-    }
-
-    public Profile setId(String id) {
-        this.id = id;
-        return this;
     }
 
     public Profile setConfirmModerator(Boolean confirmModerator) {
@@ -113,54 +107,8 @@ public class Profile {
         return this;
     }
 
-    public Profile setIdSeoWord(String idSeoWord) {
-        this.idSeoWord = idSeoWord;
-        return this;
-    }
-
-    public Profile setMainPhoneNumber(String mainPhoneNumber) {
-        this.mainPhoneNumber = mainPhoneNumber;
-        return this;
-    }
-
-    public Profile setUsername(String username) {
-        this.username = username;
-        return this;
-    }
-
-    public Profile setEmail(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public Profile setPassword(String password) {
-        this.password = password;
-        return this;
-    }
-
-    public Profile setUserRoles(Set<UserRole> userRoles) {
-        this.userRoles = userRoles;
-        return this;
-    }
-
-    public Profile setContact(Contact contact) {
-        this.contact = contact;
-        return this;
-    }
-
-    public Profile setProfileRating(Set<ProfileRating> profileRating) {
-        this.profileRating = profileRating;
-        return this;
-    }
-
-    public Profile setContactList(Set<String> contactList) {
-        this.contactList = contactList;
-        return this;
-    }
-
-    public Profile setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
-        return this;
+    public Integer getPoint() {
+        return point;
     }
 
     public Profile setPoint(Integer point) {
@@ -168,12 +116,13 @@ public class Profile {
         return this;
     }
 
-    public Integer getPoint() {
-        return point;
-    }
-
     public String getId() {
         return id;
+    }
+
+    public Profile setId(String id) {
+        this.id = id;
+        return this;
     }
 
     public Boolean isConfirmModerator() {
@@ -184,44 +133,99 @@ public class Profile {
         return idSeoWord;
     }
 
+    public Profile setIdSeoWord(String idSeoWord) {
+        this.idSeoWord = idSeoWord;
+        return this;
+    }
+
     public String getMainPhoneNumber() {
         return mainPhoneNumber;
+    }
+
+    public Profile setMainPhoneNumber(String mainPhoneNumber) {
+        this.mainPhoneNumber = mainPhoneNumber;
+        return this;
     }
 
     public String getUsername() {
         return username;
     }
 
+    public Profile setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public Profile setEmail(String email) {
+        this.email = email;
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
+    public Profile setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
     public Set<UserRole> getUserRoles() {
         return userRoles;
     }
 
+    public Profile setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
+        return this;
+    }
+
     public Contact getContact() {
-         return contact;
+        return contact;
+    }
+
+    public Profile setContact(Contact contact) {
+        this.contact = contact;
+        return this;
     }
 
     public Set<ProfileRating> getProfileRating() {
         return profileRating;
     }
 
+    public Profile setProfileRating(Set<ProfileRating> profileRating) {
+        this.profileRating = profileRating;
+        return this;
+    }
+
     public Set<String> getContactList() {
         return contactList;
+    }
+
+    public Profile setContactList(Set<String> contactList) {
+        this.contactList = contactList;
+        return this;
     }
 
     public UserProfile getUserProfile() {
         return userProfile;
     }
 
+    public Profile setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+        return this;
+    }
+
     public Long getCreatedDate() {
         return createdDate;
+    }
+
+    public Profile setCreatedDate(Long createdDate) {
+        this.createdDate = createdDate;
+        return this;
     }
 
     public Integer getUnreadMessages() {
@@ -233,23 +237,38 @@ public class Profile {
         return this;
     }
 
+    public List<OrderAddress> getOrderAddressList() {
+        return orderAddressList;
+    }
+
+    public Profile setOrderAddressList(List<OrderAddress> orderAddressList) {
+        this.orderAddressList = orderAddressList;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
                 "id='" + id + '\'' +
-                ", confirmModerator=" + confirmModerator +
                 ", idSeoWord='" + idSeoWord + '\'' +
-                ", mainPhoneNumber='" + mainPhoneNumber + '\'' +
-                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", userRoles=" + userRoles +
-                ", userProfile=" + userProfile +
+                ", mainPhoneNumber='" + mainPhoneNumber + '\'' +
+                ", username='" + username + '\'' +
+                ", imgId='" + imgId + '\'' +
+                ", birthDate=" + birthDate +
                 ", contact=" + contact +
-                ", profileRating=" + profileRating +
                 ", contactList=" + contactList +
-                ", createdDate=" + createdDate +
+                ", userProfile=" + userProfile +
+                ", priofficeSets=" + priofficeSets +
+                ", point=" + point +
                 ", unreadMessages=" + unreadMessages +
+                ", profileRating=" + profileRating +
+                ", confirmModerator=" + confirmModerator +
+                ", userRoles=" + userRoles +
+                ", createdDate=" + createdDate +
+                ", lastLoginDate=" + lastLoginDate +
+                ", orderAddressList=" + orderAddressList +
                 '}';
     }
 }
