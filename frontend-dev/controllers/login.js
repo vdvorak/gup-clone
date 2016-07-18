@@ -42,7 +42,12 @@ module.exports = function($scope) {
         if(err) {
           this.loginError = "Ошибка авторизации, проверьте ваши данные"
           console.error("Bad login/password")
-        } else console.log(data)
+        } else {
+          this.deleteListners()
+          /* Save data to db */
+          $scope.redirectToUrl('/profile')
+          console.log(data)
+        }
       })
     }
   }

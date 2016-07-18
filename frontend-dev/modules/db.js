@@ -28,7 +28,7 @@ module.exports.checkEmail = function(email, cb) {
   }).then(data => cb(null, data), err => cb(err))
 }
 
-module.exports.login = function( data, cb) {
+module.exports.login = function( data, cb ) {
   utils.request({
     "method" : config.routes.login.method,
     "url" : config.api.auth + config.routes.login.url,
