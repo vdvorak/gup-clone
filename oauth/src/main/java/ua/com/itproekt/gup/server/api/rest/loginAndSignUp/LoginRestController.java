@@ -32,26 +32,21 @@ import java.net.URLDecoder;
 
 @RestController
 public class LoginRestController {
-	private final static Logger LOG = Logger.getLogger(LoginRestController.class);
+    private final static Logger LOG = Logger.getLogger(LoginRestController.class);
 
-	@Autowired
-	ProfilesService profileService;
-
-	@Autowired
-	private DefaultTokenServices tokenServices;
-
-	@Autowired
-	PasswordEncoder passwordEncoder;
-
-	@Qualifier("userDetailsServiceImpl")
-	@Autowired
-	UserDetailsService userDetailsService;
-
+    @Autowired
+    ProfilesService profileService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    @Qualifier("userDetailsServiceImpl")
+    @Autowired
+    UserDetailsService userDetailsService;
     @Autowired
     ProfilesService profilesService;
-
     @Autowired
     VerificationTokenService verificationTokenService;
+    @Autowired
+    private DefaultTokenServices tokenServices;
 
 //	@RequestMapping(value = "/login", method = RequestMethod.POST)
 //    public ResponseEntity<Void> login(@RequestParam String email, @RequestParam String password, HttpServletResponse response) {
@@ -79,7 +74,7 @@ public class LoginRestController {
     public ResponseEntity<Void> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
         LoggedUser loggedUser;
         try {
-            loggedUser = (LoggedUser)userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
+            loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {
             LOG.debug("Incorrect email: " + LogUtil.getExceptionStackTrace(ex));
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -96,14 +91,14 @@ public class LoginRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-	private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
-		Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
-		OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
-		OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
+    private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
+        Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
+        OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
+        OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 
-		CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
-		CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
-	}
+        CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+        CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+    }
 
 //		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
 //			Authenticate the user
@@ -116,22 +111,21 @@ public class LoginRestController {
 //		session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
 
-/*--------------------------------------- Check -----------------------------------------------------------------*/
-	@RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
-	public String existEmailCheck(@RequestBody String email) {
+    /*--------------------------------------- Check -----------------------------------------------------------------*/
+    @CrossOrigin
+    @RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
+    public String existEmailCheck(@RequestBody String email) {
 
-		email = email.split("=")[0];
+        email = email.split("=")[0];
 
-		try {
-			email = URLDecoder.decode(email, "UTF-8");
-		} catch (UnsupportedEncodingException ex) {
-			LOG.error(LogUtil.getExceptionStackTrace(ex));
-		}
+        try {
+            email = URLDecoder.decode(email, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            LOG.error(LogUtil.getExceptionStackTrace(ex));
+        }
 
-		return (profileService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
-	}
-
-
+        return (profileService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
+    }
 
 
 //    @RequestMapping(value = "/logout")
@@ -181,8 +175,8 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Void> register(@RequestBody Profile profile){
-        if(profilesService.profileExistsWithEmail(profile.getEmail())) {
+    public ResponseEntity<Void> register(@RequestBody Profile profile) {
+        if (profilesService.profileExistsWithEmail(profile.getEmail())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
             profilesService.createProfile(profile);

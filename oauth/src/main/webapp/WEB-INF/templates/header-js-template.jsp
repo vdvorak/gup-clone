@@ -4,11 +4,11 @@
 
 <sec:authorize var="loggedIn" access="isAuthenticated()"/>
 <script src="/resources/js/errorRaiser.js"></script>
-<c:choose>
-    <c:when test="${loggedIn}">
+<%--<c:choose>--%>
+    <%--<c:when test="${loggedIn}">--%>
         <%--<script src="/resources/js/autorizedHeader.js"></script>--%>
-    </c:when>
-    <c:otherwise>
+    <%--</c:when>--%>
+    <%--<c:otherwise>--%>
         <%--<script src="/resources/js/anonymHeader.js"></script>--%>
-    </c:otherwise>
-</c:choose>
+    <%--</c:otherwise>--%>
+<%--</c:choose>--%>
