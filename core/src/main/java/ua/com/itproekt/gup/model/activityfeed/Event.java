@@ -23,7 +23,7 @@ public class Event {
 
     private Boolean isViewed;
 
-    @Indexed(expireAfterSeconds = 60*60*24*14)
+    @Indexed(expireAfterSeconds = 60 * 60 * 24 * 14)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime createdDate;
 
