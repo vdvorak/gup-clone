@@ -41,7 +41,7 @@ Implemented directives example:
 
 <nice-button class="btn-blue" ng-click="">Hi man</nice-button>
 
-<text class="inputSearch" ng-model="main.hello" label="name" color="blue | white"></text>
+<text ng-model="main.hello" label="name" color="blue | white"></text>
 
 <checkbox ng-model="main.boolean"></checkbox>
 

@@ -11,12 +11,11 @@ module.exports = function() {
     require: '^ngModel',
     scope : {
       label: "@",
-      class: "@",
       ngModel: "=",
       color: "@"
     },
     replace: true,
-    template: `<div class="{{class}}">
+    template: `<div class="inputForm">
                  <label>{{ label }}</label>
                  <input type="text" ng-model="ngModel">
                </div>`,
