@@ -30,8 +30,8 @@ module.exports.checkEmail = function(email, cb) {
 
 module.exports.login = function( data, cb) {
   utils.request({
-    "method" : config.routes.checkEmail.method,
-    "url" : config.api.auth + config.routes.checkEmail.url,
+    "method" : config.routes.login.method,
+    "url" : config.api.auth + config.routes.login.url,
     "data" : data,
     "headers" : {
       "Content-Type" : "application/json"
