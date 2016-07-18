@@ -1,5 +1,10 @@
 'use strict'
 
-module.exports = function() {
+module.exports = function($scope) {
+
+  this.init = function() {    
+    this.username = ""
+    this.password = ""
+  }
 
 }
