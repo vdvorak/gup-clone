@@ -87,7 +87,7 @@ header {
 		height: auto;
 		width: 200px;
 		border-bottom: 1px solid $white;
-		
+
 		&>label, input {
 			color: #ffffff;
 			font: 400 14px Roboto;
@@ -730,12 +730,16 @@ section.openAdvertert {
     }
 }
 
+.inputForm.required {
+	border-bottom: 1px solid #9b9b9b !important;
+}
+
 .inputForm{
     position: relative;
     font: 400 16px Roboto;
     box-sizing: border-box;
-	border-bottom: 1px dotted #999999;
-	
+		border-bottom: 1px dotted #999999;
+
     label{
         position: absolute;
         left: 5px;
@@ -743,7 +747,7 @@ section.openAdvertert {
 		transition: all .25s;
 		top: -1px;
     }
-	
+
     input{
         border: none;
         outline: none;
@@ -768,39 +772,39 @@ section.login, section.register {
 	width: 1100px;
 	margin: 5px auto 0;
 	box-sizing: border-box;
-	
+
 	&>h2 {
 		text-align: center;
 		color: #202020;
 		font: 400 22px Roboto;
 		margin-bottom: 55px;
 	}
-	
+
 	&>.inputForm {
 		border-bottom: 1px solid $white;
 		margin-bottom: 45px;
-		
+
 		&>label, input {
 			color: #9a9a9a;
 			font: 400 16px Roboto;
 		}
 	}
-	
+
 	&>.btn-blue {
 		height: 35px;
 		width: 180px;
 		margin-left: 45px;
 		line-height: 35px;
-		
+
 		&.vk {
 			background: #0186CF url(../images/vk.png) no-repeat center left 10px;
 			margin-left: 0;
 		}
-		
+
 		&.facebook {
 			background: #3E50B3 url(../images/facebook.png) no-repeat center left 10px;
 		}
-		
+
 		&.google {
 			background: #FD3C00 url(../images/google.png) no-repeat center left 10px;
 		}
@@ -814,18 +818,18 @@ section.bulletinAdd {
 	margin: 5px auto 0;
 	padding: 65px 225px;
 	box-sizing: border-box;
-	
+
 	&>h2 {
 		color: #1f1f1f;
 		font: 400 22px Roboto;
 		text-align: center;
 		margin-bottom: 40px;
 	}
-	
+
 	&>.inputForm {
 		border-bottom: 1px solid #999999;
 		margin-bottom: 45px;
-		
+
 		&>label, input {
 			color: #999999;
 			font: 400 16px Roboto;
