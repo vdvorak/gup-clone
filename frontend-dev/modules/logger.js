@@ -5,7 +5,7 @@ const debug = require('../data/debug')
 let ctx = module.exports = {}
 
 module.exports = function() {
-  ctx.DEBUG_LEVEL = debug.PRODUCTION
+  ctx.DEBUG_LEVEL = debug.DEBUG
 
   console.log = (function() {
     let log = console.log

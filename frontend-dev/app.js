@@ -10,35 +10,17 @@ require("./modules/logger")()
 const materials = require('./modules/materials'),
       router = require('./modules/router')
 
-/* TEST json require */
-let utils = require('./modules/utils')
-
-let config = require('./data/config')
-
-/* test request to backend */
-utils.request({
-  method : config.routes.getBulletins.method,
-  url : config.api.url + config.routes.getBulletins.url,
-  data : {
-    "skip": 0,
-    "limit": 20
-  },
-  headers : {
-    "Content-Type" : "application/json"
-  }
-})
-.then( data => console.log(data), err => console.error(err) )
-
 let app = angular.module('gup', ['ngRoute'])
 
 // App config
 app
-  .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
+  .config(['$routeProvider', '$locationProvider', function( $routeProvider, $locationProvider){
+
     for(let key in router)
       $routeProvider.when(key, router[key])
 
     $routeProvider.otherwise({
-      redirectTo: '/error/404'
+      redirectTo: '/404'
     })
 
     $locationProvider.html5Mode({

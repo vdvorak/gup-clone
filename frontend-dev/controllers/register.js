@@ -9,11 +9,9 @@ module.exports = function() {
     this.password = ""
     this.password2 = ""
 
-    this.emailError = ""
-    this.passwordError = ""
-    this.password2Error = ""
-
-    this.regError = ""
+    this.emailValid = ""
+    this.passwordValid = ""
+    this.password2Valid = ""
 
     this.handler = function(e) {
       if(e.which == 13) this.send.call(this)
@@ -34,18 +32,15 @@ module.exports = function() {
       - or
       - Goto bd and send data
     */
-    // this.deleteListners()
-
-    if( this.isValid() ) {
+    if( this.emailValid && this.passwordValid && this.password2Valid ) {
       this.db.login({
         "email" : this.email,
         "password": this.password
       }, (err, data) => {
-        if(err) {
-          this.loginError = "Ошибка авторизации, проверьте ваши данные"
-          console.error("Bad login/password")
-        } else {
-          this.deleteListners()
+        this.deleteListners()
+        if(err)
+          $scope.$parent.redirectToUrl('/500')
+        else {
           /* Save data to db */
           $scope.redirectToUrl('/profile')
           console.log(data)
@@ -54,28 +49,35 @@ module.exports = function() {
     }
   }
 
-  this.isValid = () => {
-    if(!this.email.length) {
-      this.emailError = "Обязательное поле"
-      this.email = ""
-    }else if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email)) {
-      this.emailError = "Неверный формат почты"
-      this.email = ""
-    } else {
-      this.emailError = ""
-    }
+  this.emailIsValid = email => {
+    return new Promise( (resolve, reject) => {
+      let error = ""
+      if(!email.length)  error += "Обязательное поле. "
+      if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email))
+        error += "Неверный формат почты. "
 
-    if (!this.password.length) {
-      this.passwordError = "Обязательное поле"
-      this.password = ""
-    } else if(this.password.length < 6) {
-      this.passwordError = "Пароль должен содержать не менее 6 символов"
-      this.password = ""
-    } else {
-      this.passwordError = ""
-    }
+      this.db.checkEmail(email, function(err, data) {
+        if(err) reject(err)
+        else {
+          console.log(data)
+          if(data !== "true")
+            error += "Такая почта уже используется. "
+          resolve(error)
+        }
+      }.bind(this))
+    })
+  }
 
-    $scope.$apply()
-    return !this.emailError.length && !this.passwordError.length
+  this.passwordIsValid = pwd => {
+    let error = ""
+    if(!pwd.length) error += "Обязательное поле. "
+    if(!pwd.length < 6) error += "Пароль должен содержать не менее 6 символов. "
+    return error
+  }
+
+  this.password2IsValid = pwd => {
+    let error = this.passwordIsValid(pwd)
+    if(this.password !== this.password2 ) error += "Пароли не совпадают"
+    return error
   }
 }

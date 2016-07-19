@@ -12,22 +12,44 @@ module.exports = function() {
     scope : {
       label: "@",
       ngModel: "=",
-      error: "=",
       color: "@",
-      type: "@"
+      type: "@",
+      validate: "=",
+      isValid: "="
     },
     replace: true,
     template: `<div class="inputForm">
                  <label>{{ label }}</label>
                  <input type="{{ type || 'text'}}" ng-model="ngModel">
-                 <div class="errors">{{ error }} </div>
+                 <div class="error"></div>
                </div>`,
     controller: function($scope, $element, $timeout) {
       let defaultBorder = ""
 
       function onBlur(e) {
-        if(!$scope.ngModel.length)
+        if( $scope.ngModel && !$scope.ngModel.length)
           hideAnimation()
+
+        if($scope.validate) {
+          function handle(error) {
+            if(typeof $scope.isValid !== "undefined") {
+              if(error.innerHTML.length) $scope.isValid = false
+              else $scope.isValid = true
+            }
+          }
+
+          if( typeof $scope.validate === "function") {
+            error.innerHTML = $scope.validate(el.value)
+            handle(error.innerHTML)
+          } else {
+            $scope.validate(el.value)
+              .then( data => {
+                error.innerHTML = data
+                handle(data)
+              }, console.error)
+          }
+
+        }
       }
 
       function onFocus(e) {
@@ -43,7 +65,6 @@ module.exports = function() {
           label.parentNode.style.borderBottom = `2px solid ${COLORS[$scope.color]}`
         }
 
-
         label.classList.add('textOut')
       }
 
@@ -53,11 +74,12 @@ module.exports = function() {
         label.classList.remove('textOut')
       }
 
-      let el = $element[0].getElementsByTagName('input')[0]
-      let label = $element[0].getElementsByTagName('label')[0]
+      let el = $element[0].getElementsByTagName('input')[0],
+          label = $element[0].getElementsByTagName('label')[0],
+          error = $element[0].getElementsByClassName('errors')[0]
 
       $timeout( () => {
-        if( $scope.ngModel.length )
+        if( $scope.ngModel && $scope.ngModel.length )
           displayAnimation()
         else
           hideAnimation()

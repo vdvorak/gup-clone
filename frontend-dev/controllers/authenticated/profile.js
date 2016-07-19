@@ -8,8 +8,10 @@ class ProfileContact{
 }
 
 class profileCtrl {
-    constructor(){
-        this.contact = new ProfileContact();
+    constructor($scope){
+        if(!$scope.$parent.db.user)
+          $scope.$parent.redirectToUrl('/403', true)
+        else this.contact = new ProfileContact();
     }
     updateProfile(){
 

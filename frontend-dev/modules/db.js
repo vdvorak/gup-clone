@@ -12,7 +12,7 @@ module.exports.init = function(data) {
   this.user = null
   this.notifications = {hello : "preved"}
 
-  console.log("bd initialized")
+  console.log("Database initialized")
 }
 
 module.exports.checkEmail = function(email, cb) {
@@ -39,8 +39,11 @@ module.exports.login = function( data, cb ) {
   }).then(data => cb(null, data), err => cb(err))
 }
 
+/* This method does saves user data in this module only, no backend communication */
 module.exports.saveUserData = function(data) {
   data = JSON.parse(data)
-  
+  this.user = {}
+  /* TODO: распарсить данные в осмысленные переменные */
+
   console.log("BD:: User data saved successfully( шутка ) ")
 }
