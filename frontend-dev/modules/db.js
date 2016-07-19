@@ -12,6 +12,14 @@ module.exports.init = function(data) {
   this.user = null
   this.notifications = {hello : "preved"}
 
+  ctx.checkUserIsLogged(function(err, data) {
+    if(err) console.error(err)
+    else {
+      if(data) ctx.saveUserData(data)
+      else console.log("User is not logged in")
+    }
+  }.bind(this))
+
   console.log("Database initialized")
 }
 
@@ -45,5 +53,15 @@ module.exports.saveUserData = function(data) {
   this.user = {}
   /* TODO: распарсить данные в осмысленные переменные */
 
-  console.log("BD:: User data saved successfully( шутка ) ")
+  console.log("Database:: User data saved successfully( шутка ) ")
+}
+
+module.exports.checkUserIsLogged = function( cb ) {
+  utils.request({
+    "method" : config.routes.checkLogged.method,
+    "url" : config.api.url + config.routes.checkLogged.url
+  }).then(data =>
+    cb(null, data),
+    err =>
+    cb(err))
 }
