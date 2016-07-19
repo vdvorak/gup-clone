@@ -6,11 +6,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CreatedObjResp;
@@ -102,8 +102,9 @@ public class ProfileRestController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.POST,
+    @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
+
     public ResponseEntity<Profile> getLoggedUser() {
         Profile profile = profilesService.findWholeProfileById(SecurityOperations.getLoggedUserId());
 

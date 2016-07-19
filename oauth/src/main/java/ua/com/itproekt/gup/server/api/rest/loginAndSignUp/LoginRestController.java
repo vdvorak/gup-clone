@@ -27,6 +27,7 @@ import ua.com.itproekt.gup.util.Oauth2Util;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -76,11 +77,11 @@ public class LoginRestController {
         try {
             loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         authenticateByEmailAndPassword(loggedUser, response);
@@ -184,5 +185,33 @@ public class LoginRestController {
 
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
+    }
+
+    //ToDo Delete thish trash
+    @CrossOrigin
+    @RequestMapping(value = "/azzaza", method = RequestMethod.GET)
+    public ResponseEntity<Void> test404(HttpServletResponse httpServletResponse) {
+
+
+        System.err.println("#1");
+
+//        httpServletResponse.setHeader("Location", "/test404");
+        try {
+            httpServletResponse.sendRedirect("/test404");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.err.println("#2");
+        return new ResponseEntity<>(HttpStatus.OK);
+
+//        if (profilesService.profileExistsWithEmail(profile.getEmail())) {
+//            return new ResponseEntity<>(HttpStatus.CONFLICT);
+//        } else {
+//
+//            return new ResponseEntity<>(HttpStatus.CREATED);
+//        }
+
+
     }
 }
