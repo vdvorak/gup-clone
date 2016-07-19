@@ -1,13 +1,9 @@
 <section class="register">
 	<h2>Регистрация</h2>
-	<text ng-model="main.hello" label="Почта" color="blue"></text>
-	<div class="errors"></div>
-	<text ng-model="main.hello" type="password" label="Пароль" color="blue"></text>
-	<div class="errors"></div>
-	<text ng-model="main.hello" type="password" label="Повторите Пароль" color="blue"></text>
-	<div class="errors"></div>
-
-	<nice-button class="btn-blue vk" ng-click="">Vkontakte</nice-button>
-	<nice-button class="btn-blue facebook" ng-click="">Facebook</nice-button>
-	<nice-button class="btn-blue google" ng-click="">Google +</nice-button>
+	<text ng-model="main.hello" label="Почта" color="blue" error="register.emailError"></text>
+	<text ng-model="main.hello" type="password" label="Пароль" color="blue" error="register.passwordError"></text>
+	<text ng-model="main.hello" type="password" label="Повторите Пароль" color="blue" error="register.password2Error"></text>
+	<nice-button class="btn-blue vk" ng-click="" style="visibility:hidden">Vkontakte</nice-button>
+	<nice-button class="btn-blue facebook" ng-click="" style="visibility:hidden">Facebook</nice-button>
+	<nice-button class="btn-blue google" ng-click="" style="visibility:hidden">Google +</nice-button>
 </section>

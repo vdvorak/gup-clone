@@ -34,18 +34,15 @@ module.exports = function() {
       - or
       - Goto bd and send data
     */
-    // this.deleteListners()
-
     if( this.isValid() ) {
       this.db.login({
         "email" : this.email,
         "password": this.password
       }, (err, data) => {
-        if(err) {
-          this.loginError = "Ошибка авторизации, проверьте ваши данные"
-          console.error("Bad login/password")
-        } else {
-          this.deleteListners()
+        this.deleteListners()
+        if(err)
+          $scope.$parent.redirectToUrl('/500')
+        else {
           /* Save data to db */
           $scope.redirectToUrl('/profile')
           console.log(data)
@@ -67,10 +64,16 @@ module.exports = function() {
 
     if (!this.password.length) {
       this.passwordError = "Обязательное поле"
-      this.password = ""
+    } else if(!this.password2.length) {
+      this.password2Error = "Обязательное поле"
     } else if(this.password.length < 6) {
       this.passwordError = "Пароль должен содержать не менее 6 символов"
       this.password = ""
+    } else if( this.password !== this.password2 ) {
+      this.passwordError = "Пароли не совпадают"
+      this.password2Error = "Пароли не совпадают"
+      this.password = ""
+      this.password2 = ""
     } else {
       this.passwordError = ""
     }

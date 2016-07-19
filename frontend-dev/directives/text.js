@@ -12,15 +12,16 @@ module.exports = function() {
     scope : {
       label: "@",
       ngModel: "=",
-      error: "=",
       color: "@",
-      type: "@"
+      type: "@",
+      validate: "=",
+      isValid: "="
     },
     replace: true,
     template: `<div class="inputForm">
                  <label>{{ label }}</label>
                  <input type="{{ type || 'text'}}" ng-model="ngModel">
-                 <div class="error" ng-show="error">{{ error }} </div>
+                 <div class="errors"></div>
                </div>`,
     controller: function($scope, $element, $timeout) {
       let defaultBorder = ""
@@ -28,6 +29,14 @@ module.exports = function() {
       function onBlur(e) {
         if(!$scope.ngModel.length)
           hideAnimation()
+
+        if($scope.validate) {
+          error.innerHTML = $scope.validate(el.value)
+          if(typeof $scope.isValid !== "undefined") {
+            if(error.innerHTML.length) $scope.isValid = false
+            else $scope.isValid = true
+          }          
+        }
       }
 
       function onFocus(e) {
@@ -43,7 +52,6 @@ module.exports = function() {
           label.parentNode.style.borderBottom = `2px solid ${COLORS[$scope.color]}`
         }
 
-
         label.classList.add('textOut')
       }
 
@@ -53,8 +61,9 @@ module.exports = function() {
         label.classList.remove('textOut')
       }
 
-      let el = $element[0].getElementsByTagName('input')[0]
-      let label = $element[0].getElementsByTagName('label')[0]
+      let el = $element[0].getElementsByTagName('input')[0],
+          label = $element[0].getElementsByTagName('label')[0],
+          error = $element[0].getElementsByClassName('errors')[0]
 
       $timeout( () => {
         if( $scope.ngModel.length )
