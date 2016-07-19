@@ -36,38 +36,22 @@ public class LoginRestController {
 
     @Autowired
     ProfilesService profileService;
+
     @Autowired
     PasswordEncoder passwordEncoder;
+
     @Qualifier("userDetailsServiceImpl")
     @Autowired
     UserDetailsService userDetailsService;
+
     @Autowired
     ProfilesService profilesService;
+
     @Autowired
     VerificationTokenService verificationTokenService;
+
     @Autowired
     private DefaultTokenServices tokenServices;
-
-//	@RequestMapping(value = "/login", method = RequestMethod.POST)
-//    public ResponseEntity<Void> login(@RequestParam String email, @RequestParam String password, HttpServletResponse response) {
-//		LoggedUser loggedUser;
-//		try {
-//			loggedUser = (LoggedUser)userDetailsService.loadUserByUsername(email);
-//		} catch (UsernameNotFoundException ex) {
-//			LOG.debug("Incorrect email: " + LogUtil.getExceptionStackTrace(ex));
-//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		}
-//
-//		if (!passwordEncoder.matches(password, loggedUser.getPassword())) {
-//			LOG.debug("Password doesn't match: email [" + email + "]");
-//			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//		}
-//
-//		authenticateByEmailAndPassword(loggedUser, response);
-//		LOG.debug("Login profile email : [" + email + "]");
-//
-//		return new ResponseEntity<>(HttpStatus.OK);
-//	}
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -115,7 +99,6 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
     public String existEmailCheck(@RequestBody String email) {
-
         email = email.split("=")[0];
 
         try {
@@ -127,33 +110,9 @@ public class LoginRestController {
         return (profileService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
     }
 
-
-//    @RequestMapping(value = "/logout")
-//    public String logout(HttpServletRequest request, HttpServletResponse response) {
-//
-//        for (Cookie cookie : request.getCookies()) {
-//            if (cookie.getName().equals("authToken")) {
-//                tokenServices.revokeToken(cookie.getValue());
-//            }
-//        }
-//
-//        Cookie cookieAuthToken = new Cookie("authToken", null);
-//        cookieAuthToken.setMaxAge(0);
-//        cookieAuthToken.setPath("/");
-//        response.addCookie(cookieAuthToken);
-//
-//        Cookie cookieRefreshToken = new Cookie("refreshToken", null);
-//        cookieRefreshToken.setMaxAge(0);
-//        cookieRefreshToken.setPath("/");
-//        response.addCookie(cookieRefreshToken);
-//
-//        return "redirect:/index";
-//    }
-
     @CrossOrigin
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public String logout(HttpServletRequest request, HttpServletResponse response) {
-
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals("authToken")) {
                 tokenServices.revokeToken(cookie.getValue());
