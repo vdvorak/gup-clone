@@ -61,7 +61,7 @@ module.exports = function($scope) {
   this.passwordIsValid = pwd => {
     let error = ""
     if(!pwd.length) error += "Обязательное поле. "
-    if(!pwd.length < 6) error += "Пароль должен содержать не менее 6 символов. "
+    if( pwd.length < 6) error += "Пароль должен содержать не менее 6 символов. "
     return error
   }
 }

@@ -40,7 +40,8 @@ module.exports.request = function(options) {
 
     if(data)
       xhr.send(JSON.stringify(data))
-
+    else xhr.send()
+    
     xhr.onreadystatechange = function() {
       if (this.readyState != 4)
         return

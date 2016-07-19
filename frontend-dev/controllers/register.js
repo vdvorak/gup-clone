@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = function() {
+module.exports = function($scope, $q) {
 
   this.init = () => {
     this.db = $scope.$parent.db
@@ -49,29 +49,29 @@ module.exports = function() {
     }
   }
 
-  this.emailIsValid = email => {
-    return new Promise( (resolve, reject) => {
+  this.emailIsValid = function(email) {
+    return $q( function(resolve, reject) {
       let error = ""
       if(!email.length)  error += "Обязательное поле. "
       if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email))
         error += "Неверный формат почты. "
 
-      this.db.checkEmail(email, function(err, data) {
+      window.db.checkEmail(email, function(err, data) {
         if(err) reject(err)
         else {
           console.log(data)
-          if(data !== "true")
+          if(data !== "false")
             error += "Такая почта уже используется. "
           resolve(error)
         }
       }.bind(this))
-    })
+    }.bind(this))
   }
 
   this.passwordIsValid = pwd => {
     let error = ""
     if(!pwd.length) error += "Обязательное поле. "
-    if(!pwd.length < 6) error += "Пароль должен содержать не менее 6 символов. "
+    if(pwd.length < 6) error += "Пароль должен содержать не менее 6 символов. "
     return error
   }
 

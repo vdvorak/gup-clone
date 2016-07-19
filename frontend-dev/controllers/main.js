@@ -7,7 +7,8 @@ module.exports = function($scope, $location, $timeout) {
   /* Standalone module for bd */
   $scope.db = require('../modules/db')
   $scope.db.init()
-
+  window.db = $scope.db
+  
   /* Initialize data */
   this.init = function() {
     /* variables for testing */
