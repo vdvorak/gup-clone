@@ -49,6 +49,7 @@ Implemented directives example:
 
 <checkbox ng-model="main.boolean"></checkbox>
 
+<select-box ng-model="main.hello" items="{{ main.list }}"></select-box>
 
 
 URLS of the app:

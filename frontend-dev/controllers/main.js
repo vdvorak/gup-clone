@@ -8,14 +8,13 @@ module.exports = function($scope, $location, $timeout) {
   $scope.db = require('../modules/db')
   $scope.db.init()
   window.db = $scope.db
-  
+
   /* Initialize data */
   this.init = function() {
     /* variables for testing */
     this.hello="hi"
     this.boolean = true
-
-
+    this.list = [1,2,3]
 
     console.log("Main controller init")
 

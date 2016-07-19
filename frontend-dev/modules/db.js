@@ -7,31 +7,36 @@ let ctx = module.exports = {}
 
 module.exports.init = function(data) {
   /* init data from database here */
-  this.favourites = null
-  this.mailbox = null
-  this.user = null
-  this.notifications = {hello : "preved"}
+  ctx.setDefaults()
 
-  ctx.checkUserIsLogged(function(err, data) {
-    if(err) console.error(err)
-    else {
-      if(data) ctx.saveUserData(data)
-      else console.log("User is not logged in")
-    }
-  }.bind(this))
+  // ctx.checkUserIsLogged(function(err, data) {
+  //   if(err) console.error(err)
+  //   else {
+  //     if(data) ctx.saveUserData(data)
+  //     else console.log("User is not logged in")
+  //   }
+  // }.bind(this))
 
   console.log("Database initialized")
 }
+
+module.exports.setDefaults = function() {
+  console.log("Database :: defaults set")
+
+  ctx.favourites = null
+  ctx.mailbox = null
+  ctx.user = null
+  ctx.notifications = { hello : "preved" }
+}
+
 
 module.exports.checkEmail = function(email, cb) {
   utils.request({
     "method" : config.routes.checkEmail.method,
     "url" : config.api.auth + config.routes.checkEmail.url,
-    "data" : {
-      "email" : email
-    },
+    "data" : email,
     "headers" : {
-      "Content-Type" : "application/json"
+      "Content-Type" : "text/plain"
     }
   }).then(data => cb(null, data), err => cb(err))
 }
@@ -60,8 +65,14 @@ module.exports.checkUserIsLogged = function( cb ) {
   utils.request({
     "method" : config.routes.checkLogged.method,
     "url" : config.api.url + config.routes.checkLogged.url
-  }).then(data =>
-    cb(null, data),
-    err =>
-    cb(err))
+  }).then(data => cb(null, data), err => cb(err))
+}
+
+module.exports.userLogout = function() {
+  ctx.setDefaults()
+
+  utils.request({
+    "method" : config.routes.logout.method,
+    "url" : config.api.auth + config.routes.logout.url
+  }).then(()=>{}, ()=>{})
 }
