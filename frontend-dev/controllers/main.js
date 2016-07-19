@@ -14,7 +14,7 @@ module.exports = function($scope, $location, $timeout) {
     this.hello="hi"
     this.boolean = true
 
-  
+
 
     console.log("Main controller init")
 
@@ -71,10 +71,13 @@ module.exports = function($scope, $location, $timeout) {
 
 
   /* Correct redirect to url through app router*/
-  $scope.redirectToUrl = url => {
-    $timeout(() => {
+  $scope.redirectToUrl = (url, immediate) => {
+    if(immediate)
       $location.path(url)
-    }, 250)
+    else
+      $timeout(() => {
+        $location.path(url)
+      }, 250)
   }
 
   /* Use this method for global purpose errors */

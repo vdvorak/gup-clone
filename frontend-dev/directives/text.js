@@ -27,15 +27,28 @@ module.exports = function() {
       let defaultBorder = ""
 
       function onBlur(e) {
-        if(!$scope.ngModel.length)
+        if( $scope.ngModel && !$scope.ngModel.length)
           hideAnimation()
 
         if($scope.validate) {
-          error.innerHTML = $scope.validate(el.value)
-          if(typeof $scope.isValid !== "undefined") {
-            if(error.innerHTML.length) $scope.isValid = false
-            else $scope.isValid = true
-          }          
+          function handle(error) {
+            if(typeof $scope.isValid !== "undefined") {
+              if(error.innerHTML.length) $scope.isValid = false
+              else $scope.isValid = true
+            }
+          }
+
+          if( typeof $scope.validate === "function") {
+            error.innerHTML = $scope.validate(el.value)
+            handle(error.innerHTML)
+          } else {
+            $scope.validate(el.value)
+              .then( data => {
+                error.innerHTML = data
+                handle(data)
+              }, console.error)
+          }
+
         }
       }
 
@@ -66,7 +79,7 @@ module.exports = function() {
           error = $element[0].getElementsByClassName('errors')[0]
 
       $timeout( () => {
-        if( $scope.ngModel.length )
+        if( $scope.ngModel && $scope.ngModel.length )
           displayAnimation()
         else
           hideAnimation()
