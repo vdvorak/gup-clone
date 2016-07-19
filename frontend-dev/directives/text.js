@@ -12,6 +12,7 @@ module.exports = function() {
     scope : {
       label: "@",
       ngModel: "=",
+      error: "=",
       color: "@",
       type: "@"
     },
@@ -19,6 +20,7 @@ module.exports = function() {
     template: `<div class="inputForm">
                  <label>{{ label }}</label>
                  <input type="{{ type || 'text'}}" ng-model="ngModel">
+                 <div class="error" ng-show="error">{{ error }} </div>
                </div>`,
     controller: function($scope, $element, $timeout) {
       let defaultBorder = ""

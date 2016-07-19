@@ -27,4 +27,7 @@ module.exports = function() {
       return info
     else return () => {}
   }.bind(ctx))()
+
+  /*  Для хохмы */
+  window.ls = "You've missed a window, lol =)"
 }

@@ -43,7 +43,7 @@ Implemented directives example:
 
 <text ng-model="main.hello" label="name" color="blue"></text>
 <text ng-model="main.hello" label="name" color="blue"></text>
-<text class="required" ng-model="main.hello" label="name" color="blue"></text>
+<text class="required" ng-model="main.hello" label="name" color="blue" error="main.someError"></text>
 <text ng-model="main.hello" type="password" label="name" color="blue"></text>
 
 <checkbox ng-model="main.boolean"></checkbox>
