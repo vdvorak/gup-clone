@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Document(collection = "orders")
@@ -25,8 +26,8 @@ public class Order {
     OrderStatus orderStatus;
     boolean safeOrder;
     OrderType orderType;
-    String buyerComment;
-    String sellerComment;
+    List<OrderComment> orderComments;
+
 
     public String getId() {
         return id;
@@ -154,21 +155,12 @@ public class Order {
         return this;
     }
 
-    public String getBuyerComment() {
-        return buyerComment;
+    public List<OrderComment> getOrderComments() {
+        return orderComments;
     }
 
-    public Order setBuyerComment(String buyerComment) {
-        this.buyerComment = buyerComment;
-        return this;
-    }
-
-    public String getSellerComment() {
-        return sellerComment;
-    }
-
-    public Order setSellerComment(String sellerComment) {
-        this.sellerComment = sellerComment;
+    public Order setOrderComments(List<OrderComment> orderComments) {
+        this.orderComments = orderComments;
         return this;
     }
 
@@ -190,8 +182,7 @@ public class Order {
                 ", orderStatus=" + orderStatus +
                 ", safeOrder=" + safeOrder +
                 ", orderType=" + orderType +
-                ", buyerComment='" + buyerComment + '\'' +
-                ", sellerComment='" + sellerComment + '\'' +
+                ", orderComments=" + orderComments +
                 '}';
     }
 }

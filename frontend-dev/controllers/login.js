@@ -39,14 +39,12 @@ module.exports = function($scope) {
         "email" : this.email,
         "password": this.password
       }, (err, data) => {
-        if(err) {
-          this.loginError = "Ошибка авторизации, проверьте ваши данные"
-          console.error("Bad login/password")
-        } else {
+        if(err)
+          $scope.$parent.displayError("Ошибка авторизации, проверьте ваши данные")
+        else {
           this.deleteListners()
-          /* Save data to db */
+          this.db.saveUserData(data)
           $scope.redirectToUrl('/profile')
-          console.log(data)
         }
       })
     }

@@ -35,8 +35,6 @@ public class LoginRestController {
     private final static Logger LOG = Logger.getLogger(LoginRestController.class);
 
     @Autowired
-    ProfilesService profileService;
-    @Autowired
     PasswordEncoder passwordEncoder;
     @Qualifier("userDetailsServiceImpl")
     @Autowired
@@ -71,24 +69,26 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<Void> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
+    public ResponseEntity<Profile> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
+
+
         LoggedUser loggedUser;
         try {
             loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {
-            LOG.debug("Incorrect email: " + LogUtil.getExceptionStackTrace(ex));
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
-            LOG.debug("Password doesn't match: email [" + formLoggedUser.getEmail() + "]");
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         authenticateByEmailAndPassword(loggedUser, response);
-        LOG.debug("Login profile email : [" + formLoggedUser.getEmail() + "]");
 
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        Profile profile = profilesService.findById(loggedUser.getProfileId());
+
+        return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
     private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
@@ -124,7 +124,7 @@ public class LoginRestController {
             LOG.error(LogUtil.getExceptionStackTrace(ex));
         }
 
-        return (profileService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
+        return (profilesService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
     }
 
 

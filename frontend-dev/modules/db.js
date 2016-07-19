@@ -38,3 +38,9 @@ module.exports.login = function( data, cb ) {
     }
   }).then(data => cb(null, data), err => cb(err))
 }
+
+module.exports.saveUserData = function(data) {
+  data = JSON.parse(data)
+  
+  console.log("BD:: User data saved successfully( шутка ) ")
+}

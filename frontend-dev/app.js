@@ -5,6 +5,8 @@ require("./styles/favourites.scss")
 require("./styles/edit-profile.scss")
 require("./styles/profile.scss")
 
+require("./modules/logger")()
+
 const materials = require('./modules/materials'),
       router = require('./modules/router')
 
