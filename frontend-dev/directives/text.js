@@ -20,7 +20,7 @@ module.exports = function() {
     template: `<div class="inputForm">
                  <label>{{ label }}</label>
                  <input type="{{ type || 'text'}}" ng-model="ngModel">
-                 <div class="error" ng-show="error">{{ error }} </div>
+                 <div class="errors">{{ error }} </div>
                </div>`,
     controller: function($scope, $element, $timeout) {
       let defaultBorder = ""

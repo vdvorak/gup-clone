@@ -1,7 +1,7 @@
 <section class="login" ng-init="login.init()">
 	<h2>Войти</h2>
-	<text ng-model="login.email" label="Почта" color="blue" error="login.emailError"></text>
-	<text ng-model="login.password" type="password" label="Пароль" color="blue" error="login.passwordError"></text>
+	<text class='required' ng-model="login.email" label="Почта" color="blue" error="login.emailError"></text>
+	<text class='required' ng-model="login.password" type="password" label="Пароль" color="blue" error="login.passwordError"></text>
 	<nice-button class="btn-blue vk" ng-click="">Vkontakte</nice-button>
 	<nice-button class="btn-blue facebook" ng-click="">Facebook</nice-button>
 	<nice-button class="btn-blue google" ng-click="">Google +</nice-button>
