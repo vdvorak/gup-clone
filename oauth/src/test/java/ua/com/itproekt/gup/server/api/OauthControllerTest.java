@@ -19,7 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring-mvc-config.xml"})
 @WebAppConfiguration
-public class GupControllerTest {
+public class OauthControllerTest {
 
     @Autowired
     private WebApplicationContext ctx;
@@ -33,20 +33,20 @@ public class GupControllerTest {
 
     @Test
     public void indexControllerTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.post("/loginTest").accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("Index")));
+                .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("Login")));
     }
 
     @Test
     public void helloControllerTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.post("/logoutTest").accept(MediaType.APPLICATION_JSON))
             .andDo(MockMvcResultHandlers.print())
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("Hello!!")));
+            .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("Logout")));
     }
 
 }
