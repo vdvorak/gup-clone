@@ -1,13 +1,11 @@
 <section class="login" ng-init="login.init()">
 	<h2>Войти</h2>
 
-	EmailError: {{ login.emailError}} <br />
-	PasswordError: {{ login.passwordError}}<br />
-	LoginError: {{ login.loginError}}<br />
-
+	<div class="errors">{{ login.loginError}}</div>
 	<text ng-model="login.email" label="Почта" color="blue"></text>
+	<div class="errors">{{ login.emailError}}</div>
 	<text ng-model="login.password" type="password" label="Пароль" color="blue"></text>
-
+	<div class="errors">{{ login.passwordError}}</div>
 	<nice-button class="btn-blue vk" ng-click="">Vkontakte</nice-button>
 	<nice-button class="btn-blue facebook" ng-click="">Facebook</nice-button>
 	<nice-button class="btn-blue google" ng-click="">Google +</nice-button>
