@@ -212,13 +212,13 @@ header {
 
 	&>.auth {
 		color: white;
-    float: right;
-    margin-right: 20px;
-    font: 400 14px / 35px Roboto;
+		float: right;
+		margin-right: 20px;
+		font: 400 14px / 26px Roboto;
 
 		span {
 			cursor: pointer;
-			margin:0 10px;
+			margin: 0 10px;
 		}
 	}
 }
@@ -975,6 +975,14 @@ section.bulletinAdd {
 			}
 		}
 	}
+	
+	&>.btn-blue {
+		height: 35px;
+		width: 180px;
+		line-height: 35px;
+		display: block;
+		margin: 0 auto;
+	}
 }
 
 .errors {
@@ -982,4 +990,98 @@ section.bulletinAdd {
 	font: 400 12px / 14px Roboto;
 	color: rgb(221,44,0);
 	bottom: -17px;
+}
+
+nav {
+	width: 255px;
+	float: left;
+	background-color: $white;
+	box-shadow: $boxShadow;
+	margin-top: 5px;
+	
+	&>.map {
+		background: url(../images/map.png) no-repeat;
+		height: 145px;
+		width: 255px;
+		
+		&>.inputForm {
+			width: 215px;
+			margin: 115px auto 0;
+			
+			&.required {
+				border-color: black !important;
+			}
+			
+			&>input, label, .textOut {
+				color: black !important;
+			}
+		}
+	}
+	
+	&>ul {
+		list-style: none;
+		
+		&>li {
+			
+			&>p {
+				padding-left: 75px;
+				color: #263238;
+				font: 500 13px / 40px Roboto;
+				background: url(../images/caretRightNav.png) no-repeat center right 20px;
+				cursor: pointer;
+			}
+			
+			&:hover {
+				background-color: #E6E6E6 !important;
+			}
+			
+			&:nth-of-type(1) {
+				background: url(../images/ForChildren.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(2) {
+				background: url(../images/ForAnimals.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(3) {
+				background: url(../images/Business.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(4) {
+				background: url(../images/TheProperty.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(5) {
+				background: url(../images/Transport.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(6) {
+				background: url(../images/ClothingAndCosmetics.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(7) {
+				background: url(../images/Volunteering.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(8) {
+				background: url(../images/IsFree.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(9) {
+				background: url(../images/AHouseAndAGarden.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(10) {
+				background: url(../images/HobbiesAndSports.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(11) {
+				background: url(../images/Barter.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(12) {
+				background: url(../images/Technologies.png) no-repeat left 25px center;
+			}
+		}
+	}
 }
