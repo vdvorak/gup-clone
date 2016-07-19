@@ -14,6 +14,8 @@ module.exports = function($scope, $location, $timeout) {
     this.hello="hi"
     this.boolean = true
 
+  
+
     console.log("Main controller init")
 
     this.sortingCategories = (require('../data/sorting')).items
@@ -73,6 +75,12 @@ module.exports = function($scope, $location, $timeout) {
     $timeout(() => {
       $location.path(url)
     }, 250)
+  }
+
+  /* Use this method for global purpose errors */
+  $scope.displayError = text => {
+    alert(text)
+    console.error(new Error("text"))
   }
 
 }
