@@ -21,13 +21,17 @@ module.exports = function() {
     template: `<div class="inputForm">
                  <label>{{ label }}</label>
                  <input type="{{ type || 'text'}}" ng-model="ngModel">
-                 <div class="error"></div>
+                 <div class="errors"></div>
                </div>`,
     controller: function($scope, $element, $timeout) {
       let defaultBorder = ""
 
+      let el = $element[0].getElementsByTagName('input')[0],
+          label = $element[0].getElementsByTagName('label')[0],
+          error = $element[0].getElementsByClassName('errors')[0]
+
       function onBlur(e) {
-        if( $scope.ngModel && !$scope.ngModel.length)
+        if( !$scope.ngModel.length)
           hideAnimation()
 
         if($scope.validate) {
@@ -38,16 +42,16 @@ module.exports = function() {
             }
           }
 
-          if( typeof $scope.validate === "function") {
-            error.innerHTML = $scope.validate(el.value)
-            handle(error.innerHTML)
-          } else {
-            $scope.validate(el.value)
-              .then( data => {
+          let resp = $scope.validate(el.value)
+
+          if( typeof resp === "string")
+            handle( error.innerHTML = resp)
+          else
+            resp.then( function(data) {
                 error.innerHTML = data
                 handle(data)
               }, console.error)
-          }
+
 
         }
       }
@@ -74,9 +78,7 @@ module.exports = function() {
         label.classList.remove('textOut')
       }
 
-      let el = $element[0].getElementsByTagName('input')[0],
-          label = $element[0].getElementsByTagName('label')[0],
-          error = $element[0].getElementsByClassName('errors')[0]
+
 
       $timeout( () => {
         if( $scope.ngModel && $scope.ngModel.length )
@@ -87,7 +89,7 @@ module.exports = function() {
 
 
       el.addEventListener('blur', onBlur.bind(this))
-      el.addEventListener('focus', onFocus.bind(this))
+      el.addEventListener('focus', onFocus.bind($scope))
     }
   }
 }
