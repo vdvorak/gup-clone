@@ -37,10 +37,10 @@
 			</div>
 			<div class="services" style="visibility:hidden"></div>
 			<div class="userName" ng-show="db.user">
-				<p>Имя Фамилия</p>
-				<div>
-					<p>Профиль</p>
-					<p>Выйти</p>
+				<p ng-click="username = true">Имя Фамилия</p>
+				<div ng-show="username">
+					<p ng-click="redirectToUrl('/profile')">Профиль</p>
+					<p ng-click="main.logout()">Выйти</p>
 				</div>
 			</div>
 			<div class="auth" ng-hide="db.user">
@@ -89,6 +89,7 @@
 <!-- LIBLARIES -->
 <script type="text/javascript" src="lib/angular.min.js"></script>
 <script type="text/javascript" src="lib/angular-route.js"></script>
+<script type="text/javascript" src="lib/angular-cookies.js"></script>
 
 <!-- JS BUILD -->
 <script type="text/javascript" src="app.js"></script>
