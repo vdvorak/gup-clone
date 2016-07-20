@@ -7,10 +7,30 @@ require("./styles/profile.scss")
 
 require("./modules/logger")()
 
+window.ee = require('./modules/events')
+window.ee.init()
+
 const materials = require('./modules/materials'),
       router = require('./modules/router')
 
 let app = angular.module('gup', ['ngRoute'])
+
+let id = ee.on('muhahaha', function(data) {
+  console.log("bugagashechko")
+  console.log(data)
+})
+
+ee.emit({
+  name : "muhahaha",
+  data : [1,2,3,4,5]
+})
+
+ee.off(id)
+
+ee.emit({
+  name : "muhahaha",
+  data : [1,2,3,4,5]
+})
 
 // App config
 app
