@@ -1,3 +1,4 @@
+@import "config.scss";
 $font-form-header:400 22px / 26px Roboto;
 $font-form-content:400 16px / 24px Roboto;
 $font-form-msg: 400 12px / 18px Roboto;
@@ -13,12 +14,13 @@ $border-color: #ebebeb;
 }
 
 .view-profile-container{
-  background-color: #fff;
-  box-sizing: border-box;
-  padding: 40px 127px 0px;
-  margin: 5px auto 0;
-  width: 1103px;
-  font: $font-form-content;
+	background-color: #fff;
+	box-sizing: border-box;
+	padding: 40px 127px 30px;
+	margin: 5px auto 0;
+	width: 1103px;
+	font: $font-form-content;
+	box-shadow: $boxShadow;
 
   h1{
     padding-bottom: 16px;
@@ -86,6 +88,28 @@ $border-color: #ebebeb;
   width: 485px;
     padding-left:20px; 
     border-left: 1px solid $border-color;
+	
+	&>.wrapForDiv {
+		width: auto;
+		float: none;
+		margin-bottom: 0;
+		
+		&>ul.tab {
+			
+			&>li {
+				width: 50%;
+				
+				&>a {
+					width: auto;
+					
+				}
+			}
+		}
+		
+		&>.featuresAndReviews {
+			width: 500px;
+		}
+	}
 }
 
 .profile-info-section-left, .profile-info-section-right{
@@ -199,5 +223,8 @@ $border-color: #ebebeb;
         font: $font-form-msg;
         color: #0c0c1e;
     }
-    
+}
+
+.profile-info {
+	margin-bottom: 30px;
 }
