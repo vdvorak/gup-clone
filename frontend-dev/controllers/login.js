@@ -8,8 +8,8 @@ module.exports = function($scope) {
     this.email = ""
     this.password = ""
 
-    this.emailValid = false
-    this.passwordValid = false
+    this.emailValid = true
+    this.passwordValid = true
 
     this.loginError = ""
 

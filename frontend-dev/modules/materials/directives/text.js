@@ -24,10 +24,10 @@ module.exports = function() {
                  <div class="errors"></div>
                </div>`,
     controller: function($scope, $element, $timeout) {
-      ee.on('form-submit', function() {
-        console.log("Muahhahhahhah")
-      })
-
+      let id = ee.on('form-submit', validate)
+      $scope.$on("$destroy", function() {
+        ee.off(id)
+      }.bind(this))
 
       let defaultBorder = ""
 
@@ -40,10 +40,12 @@ module.exports = function() {
         if($scope.validate) {
           function handle(error) {
             if(typeof $scope.isValid !== "undefined") {
-              if(error.innerHTML.length) $scope.isValid = false
-              else $scope.isValid = true
+              if(error.length)
+                $scope.isValid = false
+              else
+                $scope.isValid = true
 
-              $scope.apply()
+              $scope.$apply()
             }
           }
 
