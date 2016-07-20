@@ -25,6 +25,7 @@ module.exports = function($scope) {
   }
 
   this.send = () => {
+    ee.emit({ name : "form-submit" })
     /*
       - Get data
       - Validate
