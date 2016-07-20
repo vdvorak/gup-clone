@@ -390,7 +390,7 @@
                         <configuration>
                             <skipTests>${skip.integration.tests}</skipTests>
                             <includes>
-                                <include>**/IT*.java</include>
+                                <include>**/*.java</include>
                             </includes>
                         </configuration>
                     </execution>

@@ -24,21 +24,28 @@ module.exports = function() {
                  <div class="errors"></div>
                </div>`,
     controller: function($scope, $element, $timeout) {
+
+      this.handler = function(e) {
+        if(e.which == 13) this.send.call(this)
+      }.bind(this)
+
+      document.addEventListener('keyup', this.handler)
+
       let defaultBorder = ""
 
       let el = $element[0].getElementsByTagName('input')[0],
           label = $element[0].getElementsByTagName('label')[0],
           error = $element[0].getElementsByClassName('errors')[0]
 
-      function onBlur(e) {
-        if( !$scope.ngModel.length)
-          hideAnimation()
 
+      function validate() {
         if($scope.validate) {
           function handle(error) {
             if(typeof $scope.isValid !== "undefined") {
               if(error.innerHTML.length) $scope.isValid = false
               else $scope.isValid = true
+
+              $scope.apply()
             }
           }
 
@@ -54,6 +61,13 @@ module.exports = function() {
 
 
         }
+      }
+
+      function onBlur(e) {
+        if( !$scope.ngModel.length)
+          hideAnimation()
+
+          validate()
       }
 
       function onFocus(e) {
@@ -77,8 +91,6 @@ module.exports = function() {
         label.parentNode.style.borderBottom = defaultBorder
         label.classList.remove('textOut')
       }
-
-
 
       $timeout( () => {
         if( $scope.ngModel && $scope.ngModel.length )

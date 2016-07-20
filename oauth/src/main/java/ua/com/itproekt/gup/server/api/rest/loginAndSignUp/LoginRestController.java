@@ -27,7 +27,6 @@ import ua.com.itproekt.gup.util.Oauth2Util;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
@@ -36,60 +35,44 @@ public class LoginRestController {
     private final static Logger LOG = Logger.getLogger(LoginRestController.class);
 
     @Autowired
-    PasswordEncoder passwordEncoder;
-    @Qualifier("userDetailsServiceImpl")
-    @Autowired
-    UserDetailsService userDetailsService;
-    @Autowired
-    ProfilesService profilesService;
-    @Autowired
-    VerificationTokenService verificationTokenService;
+    ProfilesService profileService;
+
     @Autowired
     private DefaultTokenServices tokenServices;
 
-//	@RequestMapping(value = "/login", method = RequestMethod.POST)
-//    public ResponseEntity<Void> login(@RequestParam String email, @RequestParam String password, HttpServletResponse response) {
-//		LoggedUser loggedUser;
-//		try {
-//			loggedUser = (LoggedUser)userDetailsService.loadUserByUsername(email);
-//		} catch (UsernameNotFoundException ex) {
-//			LOG.debug("Incorrect email: " + LogUtil.getExceptionStackTrace(ex));
-//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		}
-//
-//		if (!passwordEncoder.matches(password, loggedUser.getPassword())) {
-//			LOG.debug("Password doesn't match: email [" + email + "]");
-//			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//		}
-//
-//		authenticateByEmailAndPassword(loggedUser, response);
-//		LOG.debug("Login profile email : [" + email + "]");
-//
-//		return new ResponseEntity<>(HttpStatus.OK);
-//	}
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Qualifier("userDetailsServiceImpl")
+    @Autowired
+    UserDetailsService userDetailsService;
+
+    @Autowired
+    ProfilesService profilesService;
+
+    @Autowired
+    VerificationTokenService verificationTokenService;
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<Profile> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
-
-
+    public ResponseEntity<Void> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
         LoggedUser loggedUser;
         try {
-            loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
+            loggedUser = (LoggedUser)userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            LOG.debug("Incorrect email: " + LogUtil.getExceptionStackTrace(ex));
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
+            LOG.debug("Password doesn't match: email [" + formLoggedUser.getEmail() + "]");
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         authenticateByEmailAndPassword(loggedUser, response);
+        LOG.debug("Login profile email : [" + formLoggedUser.getEmail() + "]");
 
-
-        Profile profile = profilesService.findById(loggedUser.getProfileId());
-
-        return new ResponseEntity<>(profile, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
@@ -113,7 +96,6 @@ public class LoginRestController {
 
 
     /*--------------------------------------- Check -----------------------------------------------------------------*/
-    @CrossOrigin
     @RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
     public String existEmailCheck(@RequestBody String email) {
 
@@ -125,31 +107,8 @@ public class LoginRestController {
             LOG.error(LogUtil.getExceptionStackTrace(ex));
         }
 
-        return (profilesService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
+        return (profileService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
     }
-
-
-//    @RequestMapping(value = "/logout")
-//    public String logout(HttpServletRequest request, HttpServletResponse response) {
-//
-//        for (Cookie cookie : request.getCookies()) {
-//            if (cookie.getName().equals("authToken")) {
-//                tokenServices.revokeToken(cookie.getValue());
-//            }
-//        }
-//
-//        Cookie cookieAuthToken = new Cookie("authToken", null);
-//        cookieAuthToken.setMaxAge(0);
-//        cookieAuthToken.setPath("/");
-//        response.addCookie(cookieAuthToken);
-//
-//        Cookie cookieRefreshToken = new Cookie("refreshToken", null);
-//        cookieRefreshToken.setMaxAge(0);
-//        cookieRefreshToken.setPath("/");
-//        response.addCookie(cookieRefreshToken);
-//
-//        return "redirect:/index";
-//    }
 
     @CrossOrigin
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
@@ -176,8 +135,8 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Void> register(@RequestBody Profile profile) {
-        if (profilesService.profileExistsWithEmail(profile.getEmail())) {
+    public ResponseEntity<Void> register(@RequestBody Profile profile){
+        if(profilesService.profileExistsWithEmail(profile.getEmail())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
             profilesService.createProfile(profile);
@@ -185,33 +144,5 @@ public class LoginRestController {
 
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
-    }
-
-    //ToDo Delete thish trash
-    @CrossOrigin
-    @RequestMapping(value = "/azzaza", method = RequestMethod.GET)
-    public ResponseEntity<Void> test404(HttpServletResponse httpServletResponse) {
-
-
-        System.err.println("#1");
-
-//        httpServletResponse.setHeader("Location", "/test404");
-        try {
-            httpServletResponse.sendRedirect("/test404");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.err.println("#2");
-        return new ResponseEntity<>(HttpStatus.OK);
-
-//        if (profilesService.profileExistsWithEmail(profile.getEmail())) {
-//            return new ResponseEntity<>(HttpStatus.CONFLICT);
-//        } else {
-//
-//            return new ResponseEntity<>(HttpStatus.CREATED);
-//        }
-
-
     }
 }

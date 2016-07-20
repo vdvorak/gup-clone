@@ -8,8 +8,8 @@ module.exports = function($scope) {
     this.email = ""
     this.password = ""
 
-    this.emailValid = true
-    this.passwordValid = true
+    this.emailValid = false
+    this.passwordValid = false
 
     this.loginError = ""
 
@@ -25,6 +25,7 @@ module.exports = function($scope) {
   }
 
   this.send = () => {
+    ee.emit({ name : "form-submit" })
     /*
       - Get data
       - Validate
