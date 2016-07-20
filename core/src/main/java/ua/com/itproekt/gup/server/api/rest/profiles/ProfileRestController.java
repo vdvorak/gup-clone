@@ -101,13 +101,10 @@ public class ProfileRestController {
         }
     }
 
-    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-
     public ResponseEntity<Profile> getLoggedUser() {
         Profile profile = profilesService.findWholeProfileById(SecurityOperations.getLoggedUserId());
-
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
