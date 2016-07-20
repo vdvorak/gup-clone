@@ -212,13 +212,13 @@ header {
 
 	&>.auth {
 		color: white;
-    float: right;
-    margin-right: 20px;
-    font: 400 14px / 35px Roboto;
+		float: right;
+		margin-right: 20px;
+		font: 400 14px / 26px Roboto;
 
 		span {
 			cursor: pointer;
-			margin:0 10px;
+			margin: 0 10px;
 		}
 	}
 }
@@ -738,7 +738,7 @@ section.openAdvertert {
     position: relative;
     font: 400 16px Roboto;
     box-sizing: border-box;
-		border-bottom: 1px dotted #999999;
+	border-bottom: 1px dotted #999999;
 
     label{
         position: absolute;
@@ -762,7 +762,7 @@ section.openAdvertert {
 .textOut {
 	top: -15px !important;
 	font-size: 12px !important;
-	left: 0 !important;
+	left: 5px !important;
 }
 
 section.login, section.register {
@@ -781,7 +781,6 @@ section.login, section.register {
 	}
 
 	&>.inputForm {
-		border-bottom: 1px solid $white;
 		margin-bottom: 45px;
 
 		&>label, input {
@@ -827,12 +826,262 @@ section.bulletinAdd {
 	}
 
 	&>.inputForm {
-		border-bottom: 1px solid #999999;
 		margin-bottom: 45px;
 
 		&>label, input {
 			color: #999999;
 			font: 400 16px Roboto;
+		}
+	}
+	
+	&>.color {
+		margin-bottom: 40px;
+		
+		&>p {
+			color: #999999;
+			font: 400 16px Roboto;
+			border-bottom: 1px dotted #999999;
+			width: 160px;
+			float: left;
+			height: 21px;
+			box-sizing: border-box;
+		}
+		
+		&>div {
+			float: left;
+			margin-left: 19px;
+			margin-top: 3px;
+			width: 16px;
+			height: 15px;
+			cursor: pointer;
+			box-sizing: border-box;
+			outline: 1px solid transparent;
+			border: 1px solid white;
+			
+			&.transparent {
+				border-color: #E9E9E9;
+				overflow: hidden;
+
+				&>.redStick {
+					transform: rotate(-43deg);
+					background-color: red;
+					height: 2px;
+					margin-top: 5.5px;
+					width: 20px;
+					margin-left: -3px;
+				}
+			}
+
+			&.red {
+				background-color: red;
+			}
+
+			&.orange {
+				background-color: orange;
+			}
+
+			&.yellow {
+				background-color: yellow;
+			}
+
+			&.green {
+				background-color: green;
+			}
+
+			&.lightBlue {
+				background-color: lightBlue;
+			}
+
+			&.blue {
+				background-color: blue;
+			}
+
+			&.pink {
+				background-color: pink;
+			}
+
+			&.purple {
+				background-color: purple;
+			}
+
+			&.white {
+				background-color: white;
+				border-color: #E9E9E9;
+			}
+
+			&.gray {
+				background-color: gray;
+			}
+
+			&.black {
+				background-color: black;
+			}
+
+			&.brown {
+				background-color: brown;
+			}
+
+			&.multicolor {
+				/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ff0000+0,ffff00+20,1dff00+40,00ffff+60,0400ff+80,ff00fa+100 */
+				background: #ff0000; /* Old browsers */
+				background: -moz-linear-gradient(left,  #ff0000 0%, #ffff00 20%, #1dff00 40%, #00ffff 60%, #0400ff 80%, #ff00fa 100%); /* FF3.6-15 */
+				background: -webkit-linear-gradient(left,  #ff0000 0%,#ffff00 20%,#1dff00 40%,#00ffff 60%,#0400ff 80%,#ff00fa 100%); /* Chrome10-25,Safari5.1-6 */
+				background: linear-gradient(to right,  #ff0000 0%,#ffff00 20%,#1dff00 40%,#00ffff 60%,#0400ff 80%,#ff00fa 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0000', endColorstr='#ff00fa',GradientType=1 ); /* IE6-9 */
+			}
+			
+			&.active {
+				outline-color: red;
+			}
+		}
+	}
+	
+	&>.calendar, .addCalendar {
+		height: 20px;
+		position: relative;
+		width: 230px;
+		background: url(../images/calendar.png) no-repeat center left;
+		padding-left: 45px;
+		box-sizing: border-box;
+		margin-bottom: 40px;
+		
+		&>.defaultValue {
+			border-bottom: 1px solid grey;
+			background: url(../images/caretCalendar.png) no-repeat center right 5px;
+			cursor: pointer;
+			
+			&>p {
+				text-align: left;
+				color: #262626;
+				font: 400 14px / 20px Roboto;
+			}
+		}
+		
+		&>.listValue {
+			display: none;
+		}
+	}
+	
+	&>.addCalendar {
+		background-image: url(../images/addCalendar.png);
+		
+		&>.defaultValue {
+			border-bottom-color: blue;
+			background: none;
+			
+			&>p {
+				color: #1976d2;
+				font-size: 16px;
+			}
+		}
+	}
+	
+	&>.btn-blue {
+		height: 35px;
+		width: 180px;
+		line-height: 35px;
+		display: block;
+		margin: 0 auto;
+	}
+}
+
+.errors {
+	position: absolute;
+	font: 400 12px / 14px Roboto;
+	color: rgb(221,44,0);
+	bottom: -17px;
+}
+
+nav {
+	width: 255px;
+	float: left;
+	background-color: $white;
+	box-shadow: $boxShadow;
+	margin-top: 5px;
+	
+	&>.map {
+		background: url(../images/map.png) no-repeat;
+		height: 145px;
+		width: 255px;
+		
+		&>.inputForm {
+			width: 215px;
+			margin: 115px auto 0;
+			
+			&.required {
+				border-color: black !important;
+			}
+			
+			&>input, label, .textOut {
+				color: black !important;
+			}
+		}
+	}
+	
+	&>ul {
+		list-style: none;
+		
+		&>li {
+			
+			&>p {
+				padding-left: 75px;
+				color: #263238;
+				font: 500 13px / 40px Roboto;
+				background: url(../images/caretRightNav.png) no-repeat center right 20px;
+				cursor: pointer;
+			}
+			
+			&:hover {
+				background-color: #E6E6E6 !important;
+			}
+			
+			&:nth-of-type(1) {
+				background: url(../images/ForChildren.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(2) {
+				background: url(../images/ForAnimals.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(3) {
+				background: url(../images/Business.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(4) {
+				background: url(../images/TheProperty.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(5) {
+				background: url(../images/Transport.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(6) {
+				background: url(../images/ClothingAndCosmetics.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(7) {
+				background: url(../images/Volunteering.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(8) {
+				background: url(../images/IsFree.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(9) {
+				background: url(../images/AHouseAndAGarden.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(10) {
+				background: url(../images/HobbiesAndSports.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(11) {
+				background: url(../images/Barter.png) no-repeat left 25px center;
+			}
+			
+			&:nth-of-type(12) {
+				background: url(../images/Technologies.png) no-repeat left 25px center;
+			}
 		}
 	}
 }

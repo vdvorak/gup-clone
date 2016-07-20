@@ -39,7 +39,7 @@
 			<div class="userName" ng-show="db.user">
 				<p>Имя Фамилия</p>
 			</div>
-			<div class="auth">
+			<div class="auth" ng-hide="db.user">
 				<span ng-click="redirectToUrl('/login')">Войти</span> | <span ng-click="redirectToUrl('/register')">Регистрация</span>
 			</div>
 		</div>
@@ -48,7 +48,6 @@
 
 <!-- CONTAINER -->
 <div class="container">
-
     <!-- CONTENT NG-ROUTE -->
     <div class="content clearfix" ng-view></div>
 

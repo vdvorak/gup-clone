@@ -21,8 +21,8 @@ module.exports = {
     controllerAs: "bdetailed"
   },
   '/bulletinAdd' : {
-    templateUrl:"templates/bulletinAdd.html",
-    controller: require('../controllers/bulletinAdd'),
+    templateUrl:"templates/authenticated/bulletinAdd.html",
+    controller: require('../controllers/authenticated/bulletinAdd'),
     controllerAs: "badd"
   },
   '/login' : {
@@ -36,18 +36,18 @@ module.exports = {
     controllerAs: "register"
   },
   '/editProfile' : {
-    templateUrl: "templates/edit-profile.html",
-    controller: require('../controllers/editProfile'),
+    templateUrl: "templates/authenticated/edit-profile.html",
+    controller: require('../controllers/authenticated/editProfile'),
     controllerAs: "profile"
   },
   '/profile' : {
-    templateUrl: "templates/profile.html",
-    controller: require('../controllers/profile'),
+    templateUrl: "templates/authenticated/profile.html",
+    controller: require('../controllers/authenticated/profile'),
     controllerAs: "profile"
   },
   '/favourites' : {
-    templateUrl:"templates/favourites.html",
-    controller: require('../controllers/favourites'),
+    templateUrl:"templates/authenticated/favourites.html",
+    controller: require('../controllers/authenticated/favourites'),
     controllerAs: "favourite"
   },
   '/searchResults' : {

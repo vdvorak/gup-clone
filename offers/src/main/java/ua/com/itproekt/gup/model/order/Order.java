@@ -5,7 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 
@@ -16,11 +17,11 @@ public class Order {
     String offerId;
     String buyerId;
     String sellerId;
-    Date startDate;
-    Date acceptDate;
-    Date sentDate;
-    Date receivedDate;
-    Date completeDate;
+    Long startDate;
+    Long acceptDate;
+    Long sentDate;
+    Long receivedDate;
+    Long completeDate;
     OrderAddress orderAddress;
     String trackNumber;
     OrderStatus orderStatus;
@@ -28,6 +29,10 @@ public class Order {
     OrderType orderType;
     List<OrderComment> orderComments;
 
+    public Order setCreatedDateEqualsToCurrentDate() {
+        this.startDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        return this;
+    }
 
     public String getId() {
         return id;
@@ -65,47 +70,47 @@ public class Order {
         return this;
     }
 
-    public Date getStartDate() {
+    public Long getStartDate() {
         return startDate;
     }
 
-    public Order setStartDate(Date startDate) {
+    public Order setStartDate(Long startDate) {
         this.startDate = startDate;
         return this;
     }
 
-    public Date getAcceptDate() {
+    public Long getAcceptDate() {
         return acceptDate;
     }
 
-    public Order setAcceptDate(Date acceptDate) {
+    public Order setAcceptDate(Long acceptDate) {
         this.acceptDate = acceptDate;
         return this;
     }
 
-    public Date getSentDate() {
+    public Long getSentDate() {
         return sentDate;
     }
 
-    public Order setSentDate(Date sentDate) {
+    public Order setSentDate(Long sentDate) {
         this.sentDate = sentDate;
         return this;
     }
 
-    public Date getReceivedDate() {
+    public Long getReceivedDate() {
         return receivedDate;
     }
 
-    public Order setReceivedDate(Date receivedDate) {
+    public Order setReceivedDate(Long receivedDate) {
         this.receivedDate = receivedDate;
         return this;
     }
 
-    public Date getCompleteDate() {
+    public Long getCompleteDate() {
         return completeDate;
     }
 
-    public Order setCompleteDate(Date completeDate) {
+    public Order setCompleteDate(Long completeDate) {
         this.completeDate = completeDate;
         return this;
     }

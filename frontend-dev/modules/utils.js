@@ -38,8 +38,12 @@ module.exports.request = function(options) {
       for( var prop in headers)
         xhr.setRequestHeader(prop, headers[prop])
 
-    if(data)
+    if(data && headers['Content-Type'] !== "text/plain")
       xhr.send(JSON.stringify(data))
+    else if(data)
+      xhr.send(data)
+    else
+      xhr.send()
 
     xhr.onreadystatechange = function() {
       if (this.readyState != 4)

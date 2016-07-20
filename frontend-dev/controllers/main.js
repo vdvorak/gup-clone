@@ -7,12 +7,14 @@ module.exports = function($scope, $location, $timeout) {
   /* Standalone module for bd */
   $scope.db = require('../modules/db')
   $scope.db.init()
+  window.db = $scope.db
 
   /* Initialize data */
   this.init = function() {
     /* variables for testing */
     this.hello="hi"
     this.boolean = true
+    this.list = [1,2,3]
 
     console.log("Main controller init")
 
@@ -69,10 +71,19 @@ module.exports = function($scope, $location, $timeout) {
 
 
   /* Correct redirect to url through app router*/
-  $scope.redirectToUrl = url => {
-    $timeout(() => {
+  $scope.redirectToUrl = (url, immediate) => {
+    if(immediate)
       $location.path(url)
-    }, 250)
+    else
+      $timeout(() => {
+        $location.path(url)
+      }, 250)
+  }
+
+  /* Use this method for global purpose errors */
+  $scope.displayError = text => {
+    alert(text)
+    console.error(new Error("text"))
   }
 
 }

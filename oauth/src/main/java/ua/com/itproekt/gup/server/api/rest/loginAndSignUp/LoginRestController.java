@@ -38,6 +38,9 @@ public class LoginRestController {
     ProfilesService profileService;
 
     @Autowired
+    private DefaultTokenServices tokenServices;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Qualifier("userDetailsServiceImpl")
@@ -50,15 +53,12 @@ public class LoginRestController {
     @Autowired
     VerificationTokenService verificationTokenService;
 
-    @Autowired
-    private DefaultTokenServices tokenServices;
-
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<Void> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
         LoggedUser loggedUser;
         try {
-            loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
+            loggedUser = (LoggedUser)userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {
             LOG.debug("Incorrect email: " + LogUtil.getExceptionStackTrace(ex));
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -96,9 +96,9 @@ public class LoginRestController {
 
 
     /*--------------------------------------- Check -----------------------------------------------------------------*/
-    @CrossOrigin
     @RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
     public String existEmailCheck(@RequestBody String email) {
+
         email = email.split("=")[0];
 
         try {
@@ -113,6 +113,7 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public String logout(HttpServletRequest request, HttpServletResponse response) {
+
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals("authToken")) {
                 tokenServices.revokeToken(cookie.getValue());
@@ -134,8 +135,8 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Void> register(@RequestBody Profile profile) {
-        if (profilesService.profileExistsWithEmail(profile.getEmail())) {
+    public ResponseEntity<Void> register(@RequestBody Profile profile){
+        if(profilesService.profileExistsWithEmail(profile.getEmail())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
             profilesService.createProfile(profile);
