@@ -1,4 +1,4 @@
-//package ua.com.itproekt.gup.server.api;
+//package example.spring.mvcapp.controller;
 //
 //import org.hamcrest.core.StringContains;
 //import org.junit.Before;
@@ -19,8 +19,8 @@
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration({"classpath:spring-mvc-config.xml"})
 //@WebAppConfiguration
-//public class OauthControllerTest {
-//
+//public class UT_HelloGreetingControllerTest
+//{
 //    @Autowired
 //    private WebApplicationContext ctx;
 //
@@ -32,21 +32,12 @@
 //    }
 //
 //    @Test
-//    public void indexControllerTest() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.post("/loginTest").accept(MediaType.APPLICATION_JSON))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("Login")));
-//    }
-//
-//    @Test
-//    public void helloControllerTest() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.post("/logoutTest").accept(MediaType.APPLICATION_JSON))
+//    public void helloWorldControllerTest() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.APPLICATION_JSON))
 //            .andDo(MockMvcResultHandlers.print())
 //            .andExpect(MockMvcResultMatchers.status().isOk())
-//            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-//            .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("Logout")));
+//                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+//            .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("Hello Greeting!!")));
 //    }
 //
 //}
