@@ -45,6 +45,8 @@ module.exports.request = function(options) {
     else
       xhr.send()
 
+
+
     xhr.onreadystatechange = function() {
       if (this.readyState != 4)
         return
@@ -55,5 +57,6 @@ module.exports.request = function(options) {
         return resolve(this.responseText)
 
     }
+
   })
 }
