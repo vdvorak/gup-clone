@@ -29,6 +29,12 @@
                 /WEB-INF/spring/dispatcher-servlet.xml
             </param-value>
         </init-param>
+
+        <init-param>
+            <param-name>throwExceptionIfNoHandlerFound</param-name>
+            <param-value>true</param-value>
+        </init-param>
+
         <load-on-startup>1</load-on-startup>
         <async-supported>true</async-supported>
     </servlet>
@@ -72,28 +78,28 @@
     </servlet-mapping>
 
 
-    <error-page>
-        <error-code>401</error-code>
-        <location>/WEB-INF/views/error/401.jsp</location>
-    </error-page>
+    <!--<error-page>-->
+        <!--<error-code>401</error-code>-->
+        <!--<location>/WEB-INF/views/error/401.jsp</location>-->
+    <!--</error-page>-->
 
-    <error-page>
-        <error-code>403</error-code>
-        <location>/WEB-INF/views/error/403.jsp</location>
-    </error-page>
+    <!--<error-page>-->
+        <!--<error-code>403</error-code>-->
+        <!--<location>/WEB-INF/views/error/403.jsp</location>-->
+    <!--</error-page>-->
 
-    <error-page>
-        <error-code>404</error-code>
-        <location>/WEB-INF/views/error/404.jsp</location>
-    </error-page>
+    <!--<error-page>-->
+        <!--<error-code>404</error-code>-->
+        <!--<location>/404</location>-->
+    <!--</error-page>-->
 
-    <error-page>
-        <error-code>500</error-code>
-        <location>/WEB-INF/views/error/500.jsp</location>
-    </error-page>
+    <!--<error-page>-->
+        <!--<error-code>500</error-code>-->
+        <!--<location>/WEB-INF/views/error/500.jsp</location>-->
+    <!--</error-page>-->
 
-    <error-page>
-        <location>/WEB-INF/views/error/error.jsp</location>
-    </error-page>
+    <!--<error-page>-->
+        <!--<location>/WEB-INF/views/error/error.jsp</location>-->
+    <!--</error-page>-->
 
 </web-app>

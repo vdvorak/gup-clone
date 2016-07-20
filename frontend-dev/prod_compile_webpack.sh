@@ -1,1 +1,1 @@
-export NODE_ENV=production && webpack --display-modules
+export NODE_ENV=production && webpack
