@@ -24,18 +24,25 @@ module.exports = function() {
       $timeout(function() {
         defaultVal.addEventListener('click', function(e) {
           this.show = true
+
+          document.addEventListener('click', handler)
         }.bind($scope))
 
-        // displayedElelement = null
-        //
-        // function handler() {
-        //   if(displa)
-        // }
+        function handler(e) {
+          if( !(e.target == listOfValues ||
+                e.target.parentNode == listOfValues ||
+                e.target == defaultVal ||
+                e.target.parentNode == defaultVal) ) {
+            $scope.show = false
+            $scope.$apply()
+            document.removeEventListener('click', handler)
+          }
+        }
 
         for(let t=0;t<listOfValues.children.length; t++) {
 
           listOfValues.children[t].addEventListener('click', function(e) {
-            document.addEventListener('click')
+            document.removeEventListener('click', handler)
             this.show = false
             this.ngModel = e.target.innerHTML
           }.bind($scope))
