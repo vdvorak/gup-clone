@@ -7,6 +7,9 @@ const MODULES = {
   "selectBox" : require('../directives/selectBox')
 }
 
+window.ee = require('./events')
+ee.init()
+
 let ctx = module.exports = {}
 
 module.exports.init = app => {

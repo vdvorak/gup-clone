@@ -37,7 +37,7 @@ module.exports = function() {
           label = $element[0].getElementsByTagName('label')[0],
           error = $element[0].getElementsByClassName('errors')[0]
 
-            
+
       function validate() {
         if($scope.validate) {
           function handle(error) {
@@ -91,8 +91,6 @@ module.exports = function() {
         label.parentNode.style.borderBottom = defaultBorder
         label.classList.remove('textOut')
       }
-
-
 
       $timeout( () => {
         if( $scope.ngModel && $scope.ngModel.length )

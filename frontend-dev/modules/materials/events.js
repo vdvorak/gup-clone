@@ -42,6 +42,10 @@ module.exports.init = function() {
 
     return false
   }
+
+  privateScope.removeHandlerByName = function(name) {
+    privateScope.eventHandlers[name] = []
+  }
 }
 
 
@@ -49,10 +53,15 @@ module.exports.on = function(eventName, handler) {
   return privateScope.registerHandler(eventName, handler)
 }
 
+/* Removes handler by id*/
 module.exports.off = function(id) {
   return privateScope.removeHandler(id)
 }
 
+/* Removes all handlers by event name */
+module.exports.remove = function(name) {
+  return privateScope.removeHandlerByName(name)
+}
 /*
   {
     "name" : "form-submit",

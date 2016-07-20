@@ -34,6 +34,12 @@ module.exports = function($scope, $location, $timeout) {
 
     this.showingCategories = false
     this.settingCat = true
+
+    this.initListeners()
+  }
+
+  this.initListeners = function() {
+    $scope.$on('routeChange')
   }
 
   this.showCategories = () => {
