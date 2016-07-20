@@ -106,8 +106,17 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Profile> getLoggedUser() {
-        Profile profile = profilesService.findWholeProfileById(SecurityOperations.getLoggedUserId());
-        return new ResponseEntity<>(profile, HttpStatus.OK);
+
+
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+
+        if (loggedUserId!=null){
+            Profile profile = profilesService.findById(loggedUserId);
+            return new ResponseEntity<>(profile, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
     /**

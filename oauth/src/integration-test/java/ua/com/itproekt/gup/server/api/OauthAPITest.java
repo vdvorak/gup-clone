@@ -52,25 +52,5 @@ public class OauthAPITest {
                 .path("oauth");
 
         Assert.assertEquals(message, "LogoutTest");
-
-////        RestTemplate restTemplate = new RestTemplate();
-////        String uri = "http://localhost:9090/api/hello";
-////        HttpHeaders headers = new HttpHeaders();
-////        headers.setContentType(MediaType.APPLICATION_JSON);
-////        HttpEntity<String> entity = new HttpEntity<String>("Hello World!", headers);
-////        ResponseEntity<Person> personEntity = restTemplate.exchange(uri, HttpMethod.POST, entity, Person.class, 100);
-////        System.out.println("ID:"+personEntity.getBody().getId());
-////        System.out.println("Name:"+personEntity.getBody().getName());
-////        System.out.println("Village:"+personEntity.getBody().getAddress().getVillage());
-//
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//        String url = "http://localhost:9090/api/hello";
-//        String requestJson = "{\"email\":\"sss2@gmail.com\",\"password\":\"123456\"}";
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
-//        String answer = restTemplate.postForObject(url, entity, String.class);
-//        System.err.println(answer);
     }
 }
