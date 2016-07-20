@@ -52,20 +52,16 @@ public class LoginRestController {
         try {
             loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {
-            LOG.debug("Incorrect email: " + LogUtil.getExceptionStackTrace(ex));
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
-            LOG.debug("Password doesn't match: email [" + formLoggedUser.getEmail() + "]");
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         authenticateByEmailAndPassword(loggedUser, response);
 
         Profile profile = profilesService.findProfileByEmail(formLoggedUser.getEmail());
-        
-        LOG.debug("Login profile email : [" + formLoggedUser.getEmail() + "]");
 
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
@@ -130,12 +126,13 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Void> register(@RequestBody Profile profile) {
+    public ResponseEntity<Void> register(@RequestBody Profile profile, HttpServletResponse response) {
         if (profilesService.profileExistsWithEmail(profile.getEmail())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
             profilesService.createProfile(profile);
             verificationTokenService.sendEmailRegistrationToken(profile.getId());
+
 
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
