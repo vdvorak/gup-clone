@@ -1,6 +1,11 @@
 <section class="bulletinAdd">
 	<h2>Добавить объявление</h2>
 	<select-box ng-model="main.hello" items="{{ main.list }}"></select-box>
+	<div class="file">
+		<input type="file clearfix">
+		<p>Фото (можно несколько)</p>
+		<nice-button class="btn-blue" ng-click="">ОБЗОР</nice-button>
+	</div>
 	<text class="required" ng-model="main.hello" label="Название" color="blue"></text>
 	<text ng-model="main.hello" label="Характеристика 1" color="blue"></text>
 	<text class="required" ng-model="main.hello" label="Характеристика 2" color="blue"></text>
