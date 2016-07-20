@@ -1,12 +1,12 @@
 "use strict"
 
 /* Контроллер для управления  основным скелетом документа */
-module.exports = function($scope, $location, $timeout) {
+module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieStore) {
   console.log('Main controller loaded')
 
   /* Standalone module for bd */
   $scope.db = require('../modules/db')
-  $scope.db.init()
+  $scope.db.init($http)
   window.db = $scope.db
 
   /* Initialize data */
@@ -61,6 +61,11 @@ module.exports = function($scope, $location, $timeout) {
       this.currentCategory = arr.join("")
     }
 
+  }
+
+  this.logout = function() {
+      db.userLogout()
+      $scope.redirectToUrl('/')
   }
 
   /* Watch all click on the body */
