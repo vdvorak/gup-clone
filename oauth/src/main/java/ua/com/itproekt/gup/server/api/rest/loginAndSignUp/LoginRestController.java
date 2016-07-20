@@ -33,32 +33,24 @@ import java.net.URLDecoder;
 @RestController
 public class LoginRestController {
     private final static Logger LOG = Logger.getLogger(LoginRestController.class);
-
-    @Autowired
-    ProfilesService profileService;
-
-    @Autowired
-    private DefaultTokenServices tokenServices;
-
     @Autowired
     PasswordEncoder passwordEncoder;
-
     @Qualifier("userDetailsServiceImpl")
     @Autowired
     UserDetailsService userDetailsService;
-
     @Autowired
     ProfilesService profilesService;
-
     @Autowired
     VerificationTokenService verificationTokenService;
+    @Autowired
+    private DefaultTokenServices tokenServices;
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<Void> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
+    public ResponseEntity<Profile> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
         LoggedUser loggedUser;
         try {
-            loggedUser = (LoggedUser)userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
+            loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {
             LOG.debug("Incorrect email: " + LogUtil.getExceptionStackTrace(ex));
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -70,9 +62,12 @@ public class LoginRestController {
         }
 
         authenticateByEmailAndPassword(loggedUser, response);
+
+        Profile profile = profilesService.findProfileByEmail(formLoggedUser.getEmail());
+        
         LOG.debug("Login profile email : [" + formLoggedUser.getEmail() + "]");
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
     private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
@@ -107,7 +102,7 @@ public class LoginRestController {
             LOG.error(LogUtil.getExceptionStackTrace(ex));
         }
 
-        return (profileService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
+        return (profilesService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
     }
 
     @CrossOrigin
@@ -135,8 +130,8 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Void> register(@RequestBody Profile profile){
-        if(profilesService.profileExistsWithEmail(profile.getEmail())) {
+    public ResponseEntity<Void> register(@RequestBody Profile profile) {
+        if (profilesService.profileExistsWithEmail(profile.getEmail())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
             profilesService.createProfile(profile);
