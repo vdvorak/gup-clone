@@ -55,7 +55,6 @@ module.exports.login = function( data, cb ) {
 /* This method does saves user data in this module only, no backend communication */
 module.exports.saveUserData = function(data) {
   data = data.length ? JSON.parse(data) : ""
-
   this.user = {}
   /* TODO: распарсить данные в осмысленные переменные */
 

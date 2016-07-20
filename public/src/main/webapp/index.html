@@ -38,6 +38,10 @@
 			<div class="services" style="visibility:hidden"></div>
 			<div class="userName" ng-show="db.user">
 				<p>Имя Фамилия</p>
+				<div>
+					<p>Профиль</p>
+					<p>Выйти</p>
+				</div>
 			</div>
 			<div class="auth" ng-hide="db.user">
 				<span ng-click="redirectToUrl('/login')">Войти</span> | <span ng-click="redirectToUrl('/register')">Регистрация</span>
