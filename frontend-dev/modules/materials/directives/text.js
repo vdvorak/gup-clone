@@ -24,8 +24,10 @@ module.exports = function() {
                  <div class="errors"></div>
                </div>`,
     controller: function($scope, $element, $timeout) {
-      ee.on('form-submit', validate)
-
+      let id = ee.on('form-submit', validate)
+      $scope.$on("$destroy", function() {
+        ee.off(id)
+      }.bind(this))
 
       let defaultBorder = ""
 
