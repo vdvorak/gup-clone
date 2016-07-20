@@ -24,9 +24,7 @@ module.exports = function() {
                  <div class="errors"></div>
                </div>`,
     controller: function($scope, $element, $timeout) {
-      ee.on('form-submit', function() {
-        console.log("Muahhahhahhah")
-      })
+      ee.on('form-submit', validate)
 
 
       let defaultBorder = ""
