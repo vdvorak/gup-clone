@@ -35,7 +35,7 @@ module.exports = function() {
         for(let t=0;t<listOfValues.children.length; t++) {
 
           listOfValues.children[t].addEventListener('click', function(e) {
-            document.addEventListener('click')
+//            document.addEventListener('click')
             this.show = false
             this.ngModel = e.target.innerHTML
           }.bind($scope))
