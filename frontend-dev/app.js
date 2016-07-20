@@ -7,7 +7,7 @@ require("./styles/profile.scss")
 
 require("./modules/logger")()
 
-const materials = require('./modules/materials'),
+const materials = require('./modules/materials/index.js'),
       router = require('./modules/router')
 
 let app = angular.module('gup', ['ngRoute'])
@@ -15,7 +15,7 @@ let app = angular.module('gup', ['ngRoute'])
 // App config
 app
   .config(['$routeProvider', '$locationProvider', function( $routeProvider, $locationProvider){
-    
+
     for(let key in router)
       $routeProvider.when(key, router[key])
 

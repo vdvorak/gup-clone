@@ -1,10 +1,10 @@
 'use strict'
 
 const MODULES = {
-  "checkbox" : require('../directives/checkbox'),
-  "niceButton" : require('../directives/niceButton'),
-  "text" : require('../directives/text'),
-  "selectBox" : require('../directives/selectBox')
+  "checkbox" : require('./directives/checkbox'),
+  "niceButton" : require('./directives/niceButton'),
+  "text" : require('./directives/text'),
+  "selectBox" : require('./directives/selectBox')
 }
 
 window.ee = require('./events')

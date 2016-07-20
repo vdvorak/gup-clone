@@ -24,12 +24,10 @@ module.exports = function() {
                  <div class="errors"></div>
                </div>`,
     controller: function($scope, $element, $timeout) {
+      ee.on('form-submit', function() {
+        console.log("Muahhahhahhah")
+      })
 
-      this.handler = function(e) {
-        if(e.which == 13) this.send.call(this)
-      }.bind(this)
-
-      document.addEventListener('keyup', this.handler)
 
       let defaultBorder = ""
 
