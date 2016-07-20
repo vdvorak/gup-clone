@@ -38,6 +38,10 @@
 			<div class="services" style="visibility:hidden"></div>
 			<div class="userName" ng-show="db.user">
 				<p>Имя Фамилия</p>
+				<div>
+					<p>Профиль</p>
+					<p>Выйти</p>
+				</div>
 			</div>
 			<div class="auth" ng-hide="db.user">
 				<span ng-click="redirectToUrl('/login')">Войти</span> | <span ng-click="redirectToUrl('/register')">Регистрация</span>
@@ -45,6 +49,29 @@
 		</div>
 	</div>
 </header>
+
+<div class="navBtn"></div>
+
+<nav style="display: none">
+	<div class="map">
+	<div class="clearfix"></div>
+		<text class="required" ng-model="main.hello" label="Киевская обл." color="blue" validate="login.emailIsValid" isValid="login.emailValid"></text>
+	</div>
+	<ul>
+		<li class='item'><p>Для детей</p></li>
+		<li class='item'><p>Для животных</p></li>
+		<li class='item'><p>Бизнес</p></li>
+		<li class='item'><p>Недвижимость</p></li>
+		<li class='item'><p>Транспорт</p></li>
+		<li class='item'><p>Одежда и косметика</p></li>
+		<li class='item'><p>Волонтерство</p></li>
+		<li class='item'><p>Бесплатно</p></li>
+		<li class='item'><p>Дом и сад</p></li>
+		<li class='item'><p>Хобби и спорт</p></li>
+		<li class='item'><p>Бартер</p></li>
+		<li class='item'><p>Технологии</p></li>
+	</ul>
+</nav>
 
 <!-- CONTAINER -->
 <div class="container">

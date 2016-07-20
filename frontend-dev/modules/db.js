@@ -9,13 +9,13 @@ module.exports.init = function(data) {
   /* init data from database here */
   ctx.setDefaults()
 
-  // ctx.checkUserIsLogged(function(err, data) {
-  //   if(err) console.error(err)
-  //   else {
-  //     if(data) ctx.saveUserData(data)
-  //     else console.log("User is not logged in")
-  //   }
-  // }.bind(this))
+  ctx.checkUserIsLogged(function(err, data) {
+    if(err) console.error(err)
+    else {
+      if(data) ctx.saveUserData(data)
+      else console.log("User is not logged in")
+    }
+  }.bind(this))
 
   console.log("Database initialized")
 }
@@ -54,7 +54,7 @@ module.exports.login = function( data, cb ) {
 
 /* This method does saves user data in this module only, no backend communication */
 module.exports.saveUserData = function(data) {
-  data = JSON.parse(data)
+  data = data.length ? JSON.parse(data) : ""
   this.user = {}
   /* TODO: распарсить данные в осмысленные переменные */
 

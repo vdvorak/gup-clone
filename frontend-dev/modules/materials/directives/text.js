@@ -40,10 +40,12 @@ module.exports = function() {
         if($scope.validate) {
           function handle(error) {
             if(typeof $scope.isValid !== "undefined") {
-              if(error.innerHTML.length) $scope.isValid = false
-              else $scope.isValid = true
+              if(error.length)
+                $scope.isValid = false
+              else
+                $scope.isValid = true
 
-              $scope.apply()
+              $scope.$apply()
             }
           }
 

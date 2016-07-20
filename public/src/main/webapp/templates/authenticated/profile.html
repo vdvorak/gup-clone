@@ -1,27 +1,15 @@
 <div class="view-profile">
     <div class="view-profile-container">
         <h1>Личный кабинет</h1>
-        <div class="profile-containers-wrap">
+        <div class="profile-containers-wrap clearfix">
             <div class="profile-left-container">
                 <div class="hz-centering-wrapper">
                     <div class="profile-avatar"></div>
                 </div>
                 <div class="hz-centering-wrapper">
                     <div class="profile-settings">
-                        <div class="profile-settings-dropdown">
-                            <div class="profile-settings-dropdown-title">
-                                <span>Настройки</span>
-                                <div></div>
-                            </div>
-                            <div class="profile-settings-dropdown-items"></div>
-                        </div>
-                        <div class="profile-settings-dropdown">
-                            <div class="profile-settings-dropdown-title">
-                                <span>Показать</span>
-                                <div></div>
-                            </div>
-                            <div class="profile-settings-dropdown-items"></div>
-                        </div>
+                        <select-box ng-model="main.hello" items="{{ main.list }}"></select-box>
+                        <select-box ng-model="main.hello" items="{{ main.list }}"></select-box>
                     </div>
                 </div>
                 <div class="hz-centering-wrapper">

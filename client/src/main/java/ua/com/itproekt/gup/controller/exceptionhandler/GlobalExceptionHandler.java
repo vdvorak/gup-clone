@@ -2,13 +2,10 @@ package ua.com.itproekt.gup.controller.exceptionhandler;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import ua.com.itproekt.gup.exception.ResourceNotFoundException;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
@@ -35,16 +32,6 @@ public class GlobalExceptionHandler {
                 "   Exception: [" + stack.toString() + "]");
     }
 
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    public String handleAuthCredentialsNotFoundEx(HttpServletRequest request, Principal principal,
-                                                  AuthenticationCredentialsNotFoundException ex) {
-        logException(request, principal, ex);
-
-        return "error/401";
-    }
-
-    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(AccessDeniedException.class)
     public String handleAccessDeniedException(HttpServletRequest request, Principal principal,
                                               AccessDeniedException ex) {
@@ -53,31 +40,19 @@ public class GlobalExceptionHandler {
         return "error/403";
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
-    public String handleResourceNotFoundException(HttpServletRequest request, Principal principal,
-                                                  ResourceNotFoundException ex) {
-        logException(request, principal, ex);
-
-        return "error/404";
+    public String handleResourceNotFoundException() {
+        return "redirect:404";
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public String handleValidationException(HttpServletRequest request, Principal principal,
-                                            MethodArgumentNotValidException ex) {
-        logException(request, principal, ex);
-
-        return "error/error";
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public String handleNoHandlerFoundException() {
+        return "redirect:404";
     }
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public String handleUncaughtException(HttpServletRequest request, Principal principal,
-                                          Exception ex) {
-        logException(request, principal, ex);
-
-        return "error/error";
+    public String handleUncaughtException() {
+        return "redirect:500";
     }
 
 }

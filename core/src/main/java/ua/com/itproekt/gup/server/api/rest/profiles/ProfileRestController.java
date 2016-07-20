@@ -22,9 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 
-/**
- * The type Profile rest controller.
- */
+
 @RestController
 @RequestMapping("/api/rest/profilesService")
 public class ProfileRestController {
@@ -46,6 +44,7 @@ public class ProfileRestController {
      * @param profile JSON object in request body
      * @return the response status
      */
+    @CrossOrigin
     @RequestMapping(value = "/profile/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResp> createProfile(@RequestBody Profile profile) {
@@ -67,6 +66,7 @@ public class ProfileRestController {
      * @param id the id
      * @return the profile by id
      */
+    @CrossOrigin
     @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileInfo> getProfileById(@PathVariable String id) {
@@ -85,6 +85,7 @@ public class ProfileRestController {
         }
     }
 
+    @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/read/id/{profileId}/wholeProfile", method = RequestMethod.POST)
     public ResponseEntity<Profile> readUserProfile(@PathVariable String profileId, HttpServletRequest request) {
@@ -101,14 +102,21 @@ public class ProfileRestController {
         }
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-
     public ResponseEntity<Profile> getLoggedUser() {
-        Profile profile = profilesService.findWholeProfileById(SecurityOperations.getLoggedUserId());
 
-        return new ResponseEntity<>(profile, HttpStatus.OK);
+
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+
+        if (loggedUserId!=null){
+            Profile profile = profilesService.findById(loggedUserId);
+            return new ResponseEntity<>(profile, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
     /**
@@ -117,6 +125,7 @@ public class ProfileRestController {
      * @param username the username
      * @return the profile by username
      */
+    @CrossOrigin
     @RequestMapping(value = "/profile/read/username/{username}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Profile> getProfileByUsername(@PathVariable("username") String username) {
@@ -134,6 +143,7 @@ public class ProfileRestController {
      *                             Use "skip" and "limit" in JSON object request body
      * @return the response entity
      */
+    @CrossOrigin
     @RequestMapping(value = "/profile/read/all", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EntityPage<Profile>> listAllProfiles(@RequestBody ProfileFilterOptions profileFilterOptions) {
@@ -156,6 +166,7 @@ public class ProfileRestController {
      * @param newProfile the new profile with id of entity in request body
      * @return the response status
      */
+    @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/edit", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -193,7 +204,7 @@ public class ProfileRestController {
         }
     }
 
-
+    @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "/profile/email-check", method = RequestMethod.POST)
     public String idByEmail(@RequestParam String email) {
@@ -204,6 +215,7 @@ public class ProfileRestController {
         return profile.getId();
     }
 
+    @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/id/{profileId}/myContactList/add", method = RequestMethod.POST)
     public ResponseEntity<Void> addToMyContactList(@PathVariable String profileId) {
@@ -222,6 +234,7 @@ public class ProfileRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/id/{profileId}/myContactList/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteFromMyContactList(@PathVariable String profileId) {
@@ -242,7 +255,7 @@ public class ProfileRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+    @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/join-organization", method = RequestMethod.POST)
     public ResponseEntity<String> joinToOrganization() {
@@ -265,6 +278,7 @@ public class ProfileRestController {
         }
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/check-user-balance-by-id", method = RequestMethod.POST)
     @ResponseBody
     public Integer checkBalance(@RequestParam("userId") String userId) {
