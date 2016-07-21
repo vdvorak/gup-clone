@@ -1,9 +1,9 @@
 "use strict"
 
 /* Контроллер для управления  основным скелетом документа */
-module.exports = function($http, $scope, $location, $timeout) {
+module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieStore) {
   console.log('Main controller loaded')
-
+  console.log($cookies)
   /* Standalone module for bd */
   $scope.db = require('../modules/db')
   $scope.db.init()
