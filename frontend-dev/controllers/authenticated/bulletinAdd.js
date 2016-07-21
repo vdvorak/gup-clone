@@ -6,6 +6,12 @@ module.exports = function($scope, $timeout) {
     // if(!db.user)
     //   return $scope.redirectToUrl('/403')
 
+    this.types = [
+      "Аренда",
+      "Продажа",
+      "Отдам даром",
+      "Обмен"
+    ]
     this.files = []
   }
 
