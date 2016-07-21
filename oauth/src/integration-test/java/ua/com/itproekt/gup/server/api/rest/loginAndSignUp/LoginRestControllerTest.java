@@ -52,6 +52,9 @@ public class LoginRestControllerTest {
         String             actual = restTemplate.postForObject(urlLogin, new HttpEntity<>(requestJson, headers), String.class);
         String           expected = "{\"id\":\"575697a53880f94fe2ced184\",\"idSeoWord\":null,\"email\":null,\"password\":null,\"mainPhoneNumber\":null,\"username\":\"NEO\",\"imgId\":\"577530314c8eb310cacffc49\",\"birthDate\":null,\"contact\":{\"member\":false,\"naceId\":null,\"type\":\"INDIVIDUAL\",\"position\":\"\",\"companyName\":\"\",\"aboutUs\":\"\",\"skypeUserName\":\"\",\"linkToWebSite\":\"\",\"contactEmails\":[],\"contactPhones\":[],\"socNetLink\":{}},\"contactList\":[\"572368bffb644cbdbcf3cc1c\",\"575697a53880f94fe2ced184\"],\"userProfile\":{\"usreou\":null,\"bankCode\":null,\"vatNumber\":null,\"beneficiaryBank\":null,\"beneficiaryAccount\":null,\"legalEntityLocation\":null,\"idAddFile\":null},\"priofficeSets\":null,\"point\":0,\"unreadMessages\":0,\"profileRating\":[],\"confirmModerator\":null,\"userRoles\":[\"ROLE_USER\"],\"createdDate\":null,\"lastLoginDate\":null}";
 
+        System.err.println("testLoginResponse+actual:===============================================" + actual + "===============================================");
+        System.err.println("testLoginResponse+expected:===============================================" + expected + "===============================================");
+
         Assert.assertEquals(expected, actual.toString()); // Assert.assertEquals(expected.substring(8, 250), actual.toString().substring(8, 250));
     }
 
