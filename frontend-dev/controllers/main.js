@@ -6,7 +6,7 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
   console.log($cookies)
   /* Standalone module for bd */
   $scope.db = require('../modules/db')
-  $scope.db.init()
+  $scope.db.init($http)
   window.db = $scope.db
 
   /* Initialize data */
