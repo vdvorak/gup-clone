@@ -31,6 +31,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 @RestController
+@RequestMapping("/oauth")
 public class LoginRestController {
     private final static Logger LOG = Logger.getLogger(LoginRestController.class);
     @Autowired

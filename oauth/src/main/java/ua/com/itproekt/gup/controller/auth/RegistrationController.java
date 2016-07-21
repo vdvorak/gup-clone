@@ -13,6 +13,7 @@
 //
 //
 //@Controller
+//@RequestMapping("/oauth")
 //public class RegistrationController {
 //
 //    @Autowired
