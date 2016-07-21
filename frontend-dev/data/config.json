@@ -16,7 +16,7 @@
       "method" : "POST",
       "url" : "login",      "accept" : {        "email":"sss2@gmail.com",        "password":"123456"      }    },
     "logout" : {
-      "method" : "POST",
+      "method" : "GET",
       "url" : "logout"
     },
     "register" : {
