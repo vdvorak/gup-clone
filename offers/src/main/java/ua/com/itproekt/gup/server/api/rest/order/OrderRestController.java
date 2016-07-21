@@ -35,12 +35,6 @@ public class OrderRestController {
     OffersService offersService;
 
 
-    // ToDo т.к. "Купить" и собственно "Заказ" доступны только для товаров, которые можно либо купить, либо зазказать,
-    // то при создании нужна проверка на тип объявления (чтобы нелья было "купить" то, что "обмен" либо "бесплатно").
-
-    // ToDo написать метод валидатор, который будет проверять "можно ли" купить данное объявление
-
-
     //------------------------------------------ Read -----------------------------------------------------------------
 
     @CrossOrigin
@@ -101,11 +95,9 @@ public class OrderRestController {
                 .setSellerId("5720b0a8681da6b00652ed0a")
                 .setOrderType(OrderType.PURCHASE);
 
+        orderService.create(order1);
 
-
-
-
-
+        //--------------------
         OrderAddress orderAddress2 = new OrderAddress()
                 .setAddress("Kiev, Geroev Dnipra. Otdelenie #77")
                 .setTransportCompany(TransportCompany.NOVA_POSHTA)
@@ -123,7 +115,9 @@ public class OrderRestController {
                 .setBuyerId("56e6cbb5e4b00942b3340123")
                 .setSellerId("571a2fdd681db5eee71086c0")
                 .setOrderType(OrderType.PURCHASE);
+//--------------------
 
+        orderService.create(order2);
 
         OrderAddress orderAddress3 = new OrderAddress()
                 .setAddress("Lugansk, kv.Uzhni #35")
@@ -142,6 +136,8 @@ public class OrderRestController {
                 .setBuyerId("5720b0a8681da6b00652ed0a")
                 .setSellerId("56e6cbb5e4b00942b3340123")
                 .setOrderType(OrderType.PURCHASE);
+
+        orderService.create(order3);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
