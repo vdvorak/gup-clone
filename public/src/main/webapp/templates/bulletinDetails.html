@@ -129,39 +129,65 @@
 		<div class="next"></div>
 		<div class="prev"></div>
 	</div>
-	<div id="mapForOneAdvertert"><img src="../images/mapForOneAdvertert.png" alt="mapForOneAdvertert"></div>
-	<div class="wrapForDiv">
-		<ul class="tab clearfix">
-			<li><a href="">ХАРАКТЕРИСТИКИ</a></li>
-			<li><a href="" class="active">ОТЗЫВЫ</a></li>
-		</ul>
-		<div class="featuresAndReviews">
-			<div id="features" class="tabcontent">
-				<h3>ХАРАКТЕРИСТИКИ</h3>
-			</div>
-
-			<div id="reviews" class="tabcontent active">
-				<div>
-					<img src="../images/userComment.png" alt="userComment">
-					<p>Lorem ipsum dolor sit amet, ne quod novum mei. Sea omnium invenire mediocrem at, in lobortis conclusionemque nam.</p>
+	
+	<div class="clearfix"></div>
+	
+	<div class="buyProduct clearfix">
+		<div id="mapForOneAdvertert"><img src="../images/mapForOneAdvertert.png" alt="mapForOneAdvertert"></div>
+		<div class="wrapForDiv">
+			<ul class="tab clearfix">
+				<li><a href="">ХАРАКТЕРИСТИКИ</a></li>
+				<li><a href="" class="active">ОТЗЫВЫ</a></li>
+			</ul>
+			<div class="featuresAndReviews">
+				<div id="features" class="tabcontent">
+					<h3>ХАРАКТЕРИСТИКИ</h3>
 				</div>
-				<div>
-					<img src="../images/userComment.png" alt="userComment">
-					<p>Lorem ipsum dolor sit amet, ne quod novum mei. Sea omnium invenire mediocrem at, in lobortis conclusionemque nam.</p>
+
+				<div id="reviews" class="tabcontent active">
+					<div>
+						<img src="../images/userComment.png" alt="userComment">
+						<p>Lorem ipsum dolor sit amet, ne quod novum mei. Sea omnium invenire mediocrem at, in lobortis conclusionemque nam.</p>
+					</div>
+					<div>
+						<img src="../images/userComment.png" alt="userComment">
+						<p>Lorem ipsum dolor sit amet, ne quod novum mei. Sea omnium invenire mediocrem at, in lobortis conclusionemque nam.</p>
+					</div>
 				</div>
 			</div>
 		</div>
+		<p class="goToMap">ПЕРЕЙТИ К КАРТЕ</p>
+		<p class="writeAReview">НАПИСАТЬ ОТЗЫВ</p>
+		<p class="allComments">ВСЕ ОТЗЫВЫ</p>
+		<div class="clearfix"></div>
+		<p class="descriptionAd">Стратегический маркетинг, анализируя результаты рекламной кампании, неестественно концентрирует портрет потребителя. Потребительская культура, конечно, недостаточно стабилизирует ребрендинг. Стоит отметить, что искусство медиапланирования экономит связанный медиавес.</p>
+		<div class="onOrOffLineUser"></div>
+		<p class="nameUser">Продавец Username</p>
+		<div class="clearfix"></div>
+		<nice-button class="btn-blue">ЗАБРОНИРОВАТЬ</nice-button>
+		<nice-button class="btn-grey">КУПИТЬ</nice-button>
 	</div>
-	<p class="goToMap">ПЕРЕЙТИ К КАРТЕ</p>
-	<p class="writeAReview">НАПИСАТЬ ОТЗЫВ</p>
-	<p class="allComments">ВСЕ ОТЗЫВЫ</p>
-	<div class="clearfix"></div>
-	<p class="descriptionAd">Стратегический маркетинг, анализируя результаты рекламной кампании, неестественно концентрирует портрет потребителя. Потребительская культура, конечно, недостаточно стабилизирует ребрендинг. Стоит отметить, что искусство медиапланирования экономит связанный медиавес.</p>
-	<div class="onOrOffLineUser"></div>
-	<p class="nameUser">Продавец Username</p>
-	<div class="clearfix"></div>
-	<nice-button class="btn-blue">ЗАБРОНИРОВАТЬ</nice-button>
-	<nice-button class="btn-grey">КУПИТЬ</nice-button>
+	
+	<div class="rentProduct">
+		<div class="rentCalendar clearfix">
+			<p>С</p>
+			<div class="calendar">
+				<div class="defaultValue"><p>7/5/2016</p></div>
+				<div class="listValue"></div>
+			</div>
+			<p>по</p>
+			<div class="calendar">
+				<div class="defaultValue"><p>7/5/2016</p></div>
+				<div class="listValue"></div>
+			</div>
+		</div>
+		<text class="required" ng-model="main.hello" label="ФИО" color="blue"></text>
+		<text ng-model="main.hello" label="Телефон" color="blue"></text>
+		<text class="required" ng-model="main.hello" label="E-mail" color="blue"></text>
+		<text ng-model="main.hello" label="Контактная информация" color="blue"></text>
+		<nice-button class="btn-blue" ng-click="">ЗАБРОНИРОВАТЬ</nice-button>
+	</div>
+	
 </section>
 
 <!--

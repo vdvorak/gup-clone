@@ -1,10 +1,11 @@
 "use strict";
 
-class ProfileContact{
+class ProfileContact {
     constructor() {
         this.contactEmails = [''];
         this.contactPhones = [''];
-        this.type = ""
+        this.type ="ENTREPRENEUR"
+
         this.position = ""
         this.companyName = ""
         this.skypeUserName = ""

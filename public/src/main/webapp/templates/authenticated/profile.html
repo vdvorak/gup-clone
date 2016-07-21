@@ -43,37 +43,6 @@
                         <input type="text" placeholder="Контактный e-mail" ng-repeat="email in profile.contact.contactEmails track by $index" ng-bind="email" readonly>
                     </div>
                 </div>
-
-				<div class="wrapForDiv">
-					<ul class="tab clearfix">
-						<li><a ng-click="activeTab=1" ng-class="{'active':activeTab==1}">СООБЩЕНИЯ</a></li>
-						<li><a ng-click="activeTab=2" ng-class="{'active':activeTab==2}">УВЕДОМЛЕНИЯ</a></li>
-					</ul>
-					<div class="featuresAndReviews">
-						<div id="features" class="tabcontent" ng-class="{'active':activeTab==1}" ng-show="activeTab==1">
-              <div>
-								<img src="../images/userComment.png" alt="userComment">
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus doloribus dolore distinctio quia, consequatur voluptatem dicta voluptas. Harum quae, autem itaque at voluptatibus quam mollitia, molestiae corrupti in? Temporibus, mollitia.</p>
-							</div>
-							<div>
-								<img src="../images/userComment.png" alt="userComment">
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa quam hic vitae. Quisquam, dolorem totam repellendus excepturi deserunt aliquam commodi quia, maxime. Accusantium, mollitia at inventore explicabo maiores voluptatum nam!</p>
-							</div>
-						</div>
-
-						<div id="reviews" class="tabcontent" ng-class="{'active':activeTab==2}" ng-show="activeTab==2">
-							<div>
-								<img src="../images/userComment.png" alt="userComment">
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus doloribus dolore distinctio quia, consequatur voluptatem dicta voluptas. Harum quae, autem itaque at voluptatibus quam mollitia, molestiae corrupti in? Temporibus, mollitia.</p>
-							</div>
-							<div>
-								<img src="../images/userComment.png" alt="userComment">
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa quam hic vitae. Quisquam, dolorem totam repellendus excepturi deserunt aliquam commodi quia, maxime. Accusantium, mollitia at inventore explicabo maiores voluptatum nam!</p>
-							</div>
-						</div>
-					</div>
-				</div>
-
             </div>
         </div>
     </div>
