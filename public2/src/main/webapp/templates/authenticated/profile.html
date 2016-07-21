@@ -1,0 +1,75 @@
+<div class="view-profile">
+    <div class="view-profile-container">
+        <h1>Личный кабинет</h1>
+        <div class="profile-containers-wrap clearfix">
+            <div class="profile-left-container">
+                <div class="hz-centering-wrapper">
+                    <div class="profile-avatar"></div>
+                </div>
+                <div class="hz-centering-wrapper">
+                    <div class="profile-settings">
+                        <select-box ng-model="main.hello" items="{{ main.list }}"></select-box>
+                        <select-box ng-model="main.hello" items="{{ main.list }}"></select-box>
+                    </div>
+                </div>
+                <div class="hz-centering-wrapper">
+                    <nice-button class="btn-blue">СОХРАНИТЬ</nice-button>
+                </div>
+            </div>
+            <div class="profile-right-container">
+                <div class="profile-info">
+                    <div class="profile-info-section-left">
+
+                        <input type="text" placeholder="ФИО" ng-bind="::profile.username" ng-hide="profile.contact.type === 'LEGAL_ENTITY'" readonly>
+                        <input type="text" placeholder="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'Название компании' || 'Место работы'}}" ng-bind="::profile.contact.companyName" readonly>
+                        <input type="text" placeholder="Должность" ng-bind="::profile.contact.position" ng-hide="profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY'" readonly>
+                        <input type="text" placeholder="Skype" ng-bind="::profile.contact.skypeUserName" readonly>
+
+                        <div class="social-link-container">
+                            <div data-social="LINKEDIN" style="background: url('../images/icon-linkedin.png')"></div>
+                            <div data-social="FACEBOOK" style="background: url('../images/icon-facebook.png')"></div>
+                            <div data-social="GOOGLEPLUS" style="background: url('../images/icon-google-plus.png')"></div>
+                            <div data-social="VKONTAKTE" style="background: url('../images/icon-vk.png')"></div>
+                            <div data-social="TWITTER" style="background: url('../images/icon-twitter.png')"></div>
+                        </div>
+
+                        <input type="text" placeholder="Ссылка на сайт" ng-bind="::profile.contact.linkToWebSite" readonly>
+
+                    </div>
+                    <div class="profile-info-section-right">
+                        <input type="text" placeholder="Основной телефон" ng-bind="::profile.mainPhoneNumber" readonly>
+                        <input type="text" placeholder="Контактный телефон" ng-repeat="tel in ::profile.contact.contactPhones track by $index" ng-bind="tel" readonly>
+                        <input type="text" placeholder="Основной e-mail" ng-bind="::profile.email" readonly>
+                        <input type="text" placeholder="Контактный e-mail" ng-repeat="email in profile.contact.contactEmails track by $index" ng-bind="email" readonly>
+                    </div>
+                </div>
+                
+				<div class="wrapForDiv">
+					<ul class="tab clearfix">
+						<li><a href="">СООБЩЕНИЯ</a></li>
+						<li><a href="" class="active">УВЕДОМЛЕНИЯ</a></li>
+					</ul>
+					<div class="featuresAndReviews">
+						<div id="features" class="tabcontent">
+							<h3>ХАРАКТЕРИСТИКИ</h3>
+						</div>
+
+						<div id="reviews" class="tabcontent active">
+							<div>
+								<img src="../images/userComment.png" alt="userComment">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus doloribus dolore distinctio quia, consequatur voluptatem dicta voluptas. Harum quae, autem itaque at voluptatibus quam mollitia, molestiae corrupti in? Temporibus, mollitia.</p>
+							</div>
+							<div>
+								<img src="../images/userComment.png" alt="userComment">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa quam hic vitae. Quisquam, dolorem totam repellendus excepturi deserunt aliquam commodi quia, maxime. Accusantium, mollitia at inventore explicabo maiores voluptatum nam!</p>
+							</div>
+						</div>
+					</div>
+				</div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
