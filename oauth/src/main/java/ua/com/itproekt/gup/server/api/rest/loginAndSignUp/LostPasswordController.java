@@ -10,6 +10,7 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 
 @Controller
+@RequestMapping("/oauth")
 public class LostPasswordController {
 
     @Autowired

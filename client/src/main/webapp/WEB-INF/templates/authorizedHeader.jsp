@@ -42,8 +42,8 @@
 
                 $scope.func = function() {
                     $http({
-                        method  : 'POST',
-                        url     : 'http://93.73.109.38:8083/logout', //url     : 'http://localhost:8083/logout',
+                        method  : 'GET',
+                        url     : 'http://93.73.109.38:8083/api/oauth/logout', //url     : 'http://localhost:8083/logout',
                         headers : {'Content-Type': 'application/json'},
                         withCredentials : true
                     })

@@ -1,6 +1,6 @@
 {
   "api" : {
-    "url" : "http://93.73.109.38:8084/",
+    "url" : "http://93.73.109.38:8081/",
     "auth" : "http://93.73.109.38:8083/"
   },
   "routes" : {
@@ -14,14 +14,14 @@
     },
     "login" : {
       "method" : "POST",
-      "url" : "login",      "accept" : {        "email":"sss2@gmail.com",        "password":"123456"      }    },
+      "url" : "api/oauth/login",      "accept" : {        "email":"sss2@gmail.com",        "password":"123456"      }    },
     "logout" : {
       "method" : "GET",
-      "url" : "logout"
+      "url" : "api/oauth/logout"
     },
     "register" : {
       "method" : "POST",
-      "url" : "register",
+      "url" : "api/oauth/register",
       "accept" : {
         "email":"sss2@gmail.com",
         "password":"123456"
@@ -29,7 +29,7 @@
     },
     "checkEmail" : {
       "method" : "POST",
-      "url" : "login/checkEmail",
+      "url" : "api/oauth/login/checkEmail",
       "accept" : {
         "email":"sss2@gmail.com"
       }
