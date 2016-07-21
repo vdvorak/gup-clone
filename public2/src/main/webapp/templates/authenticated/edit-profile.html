@@ -6,14 +6,14 @@
 
 			<select-box ng-model="profile.contact.type" items="{{ profile.contactTypes }}"></select-box>
 
-			<div class="edit-profile-form-foto clearfix">
+			<!-- <div class="edit-profile-form-foto clearfix">
 				<input type="file">
 				<p>Лого</p>
 				<nice-button class="btn-blue" ng-click="">Обзор</nice-button>
-			</div>
+			</div> -->
 
 			<text ng-model="profile.fio" label="ФИО" ng-hide="profile.contact.type === 'LEGAL_ENTITY'"></text>
-			<text class="inputForm" ng-model="profile.contact.position" label="Должность" ng-hide="profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY'"></text>
+			<!-- <text class="inputForm" ng-model="profile.contact.position" label="Должность" ng-hide="profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY'"></text>
 			<text class="inputForm-required" ng-model="profile.contact.companyName" label="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'Название компании' || 'Место работы'}}"></text>
 
 			<text class="inputForm-required" ng-model="profile.email" label="Основной e-mail"></text>
@@ -43,11 +43,11 @@
 			<div class='clearfix'></div>
 
 			<text class="inputForm" ng-model="profile.contact.linkToWebSite" label="Ссылка на сайт"></text>
-			<textarea placeholder="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'О компании' || 'О себе'}}" ng-model="profile.contact.aboutUs"></textarea>
+			<textarea placeholder="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'О компании' || 'О себе'}}" ng-model="profile.contact.aboutUs"></textarea> -->
 
 		</form>
 
-		<nice-button class="btn-blue" type="submit" ng-submit="profile.updateProfile($event)">СОХРАНИТЬ</nice-button>
+		<!-- <nice-button class="btn-blue" type="submit" ng-submit="profile.updateProfile($event)">СОХРАНИТЬ</nice-button> -->
 
 		<form id="uploadFileForm" class="uploadFileForm">
 			<input id="uploadFileFormInput" type="file" accept="image/*,image/jpeg" onchange="angular.element(this).scope().uploadFile(this)">
