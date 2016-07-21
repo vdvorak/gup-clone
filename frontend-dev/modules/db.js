@@ -9,7 +9,7 @@ module.exports.init = function($http) {
   /* init data from database here */
   ctx.setDefaults()
   this.transport = $http
-  // console.log(this.transport)
+
   ctx.checkUserIsLogged(function(err, data) {
     if(err) console.error(err)
     else {
@@ -75,10 +75,17 @@ module.exports.saveUserData = function(data) {
 }
 
 module.exports.checkUserIsLogged = function( cb ) {
-  utils.request({
-    "method" : config.routes.checkLogged.method,
-    "url" : config.api.url + config.routes.checkLogged.url
-  }).then(data => cb(null, data), err => cb(err))
+  ctx.transport({
+    method: config.routes.checkLogged.method,
+    url: config.api.url + config.routes.checkLogged.url,
+    withCredentials : true
+  })
+  .then(data => cb(null, data))
+  .catch(cb)
+  // utils.request({
+  //   "method" : config.routes.checkLogged.method,
+  //   "url" : config.api.url + config.routes.checkLogged.url
+  // }).then(data => cb(null, data), err => cb(err))
 }
 
 module.exports.userLogout = function() {
