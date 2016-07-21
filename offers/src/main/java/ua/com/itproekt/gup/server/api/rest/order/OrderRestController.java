@@ -102,6 +102,47 @@ public class OrderRestController {
                 .setOrderType(OrderType.PURCHASE);
 
 
+
+
+
+
+        OrderAddress orderAddress2 = new OrderAddress()
+                .setAddress("Kiev, Geroev Dnipra. Otdelenie #77")
+                .setTransportCompany(TransportCompany.NOVA_POSHTA)
+                .setName("Nikolas Cage")
+                .setPhoneNumber("3809995573");
+
+        OrderComment orderComment2 = new OrderComment()
+                .setMessage("Добрый день! Сегодня постараюсь отправить.")
+                .setUserId("571a2fdd681db5eee71086c0");
+
+        Order order2 = new Order()
+                .setSafeOrder(false)
+                .setOrderAddress(orderAddress2)
+                .setOrderStatus(OrderStatus.ACCEPT)
+                .setBuyerId("56e6cbb5e4b00942b3340123")
+                .setSellerId("571a2fdd681db5eee71086c0")
+                .setOrderType(OrderType.PURCHASE);
+
+
+        OrderAddress orderAddress3 = new OrderAddress()
+                .setAddress("Lugansk, kv.Uzhni #35")
+                .setTransportCompany(TransportCompany.DELIVERY)
+                .setName("Sasha Grey")
+                .setPhoneNumber("380505698723");
+
+        OrderComment orderComment3 = new OrderComment()
+                .setMessage("Спасибо, что забрали посылку!")
+                .setUserId("56e6cbb5e4b00942b3340123");
+
+        Order order3 = new Order()
+                .setSafeOrder(true)
+                .setOrderAddress(orderAddress3)
+                .setOrderStatus(OrderStatus.SENT)
+                .setBuyerId("5720b0a8681da6b00652ed0a")
+                .setSellerId("56e6cbb5e4b00942b3340123")
+                .setOrderType(OrderType.PURCHASE);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
