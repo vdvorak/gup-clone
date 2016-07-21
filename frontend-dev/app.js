@@ -10,14 +10,12 @@ require("./modules/logger")()
 const materials = require('./modules/materials/index.js'),
       router = require('./modules/router')
 
-let app = angular.module('gup', ['ngRoute', 'ngCookies'])
+// let app = angular.module('gup', ['ngRoute', 'ngCookies'])
+let app = angular.module('gup', ['ngRoute'])
 
 // App config
 app
-  .config(['$routeProvider', '$locationProvider', '$httpProvider', function( $routeProvider, $locationProvider, $httpProvider){
-    $httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    
+  .config(['$routeProvider', '$locationProvider', function( $routeProvider, $locationProvider){
     for(let key in router)
       $routeProvider.when(key, router[key])
 
@@ -30,7 +28,7 @@ app
       requireBase : false
     })
   }])
-  .controller('mainCtrl', [ "$http", "$scope", "$location", "$timeout", "$cookies", "$cookieStore", require('./controllers/main')])
+  .controller('mainCtrl', require('./controllers/main'))
 
 materials
   .init(app)
