@@ -34,5 +34,6 @@
         <module>offers</module>
         <module>client</module>
         <module>public</module>
+        <module>public2</module>
     </modules>
 </project>
