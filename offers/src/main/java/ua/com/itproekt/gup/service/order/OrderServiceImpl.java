@@ -19,6 +19,7 @@ public class OrderServiceImpl implements OrderService {
                 .setOfferId(order.getOfferId())
                 .setBuyerId(order.getBuyerId())
                 .setSellerId(order.getSellerId())
+                .setPrice(order.getPrice())
                 .setCreatedDateEqualsToCurrentDate()
                 .setOrderAddress(order.getOrderAddress())
                 .setOrderStatus(OrderStatus.NEW)
