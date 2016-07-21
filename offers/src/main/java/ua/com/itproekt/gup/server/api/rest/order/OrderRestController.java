@@ -20,6 +20,9 @@ import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api/rest/orderService")
@@ -62,7 +65,7 @@ public class OrderRestController {
             throw new ResourceNotFoundException();
         }
 
-        if (isOrderValid(order)) {
+        if (isOrderValid(order, offer)) {
             orderService.create(order);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -86,6 +89,8 @@ public class OrderRestController {
         OrderComment orderComment1 = new OrderComment()
                 .setMessage("Привет! Отправь, пожалуйста, как можно быстрее!")
                 .setUserId("571a2fdd681db5eee71086c0");
+        List<OrderComment> commentList1 = new ArrayList<>();
+        commentList1.add(orderComment1);
 
         Order order1 = new Order()
                 .setSafeOrder(false)
@@ -93,7 +98,8 @@ public class OrderRestController {
                 .setOrderStatus(OrderStatus.NEW)
                 .setBuyerId("571a2fdd681db5eee71086c0")
                 .setSellerId("5720b0a8681da6b00652ed0a")
-                .setOrderType(OrderType.PURCHASE);
+                .setOrderType(OrderType.PURCHASE)
+                .setOrderComments(commentList1);
 
         orderService.create(order1);
 
@@ -107,6 +113,8 @@ public class OrderRestController {
         OrderComment orderComment2 = new OrderComment()
                 .setMessage("Добрый день! Сегодня постараюсь отправить.")
                 .setUserId("571a2fdd681db5eee71086c0");
+        List<OrderComment> commentList2 = new ArrayList<>();
+        commentList2.add(orderComment2);
 
         Order order2 = new Order()
                 .setSafeOrder(false)
@@ -114,7 +122,8 @@ public class OrderRestController {
                 .setOrderStatus(OrderStatus.ACCEPT)
                 .setBuyerId("56e6cbb5e4b00942b3340123")
                 .setSellerId("571a2fdd681db5eee71086c0")
-                .setOrderType(OrderType.PURCHASE);
+                .setOrderType(OrderType.PURCHASE)
+                .setOrderComments(commentList2);
 //--------------------
 
         orderService.create(order2);
@@ -129,21 +138,24 @@ public class OrderRestController {
                 .setMessage("Спасибо, что забрали посылку!")
                 .setUserId("56e6cbb5e4b00942b3340123");
 
+        List<OrderComment> commentList3 = new ArrayList<>();
+        commentList3.add(orderComment3);
+
         Order order3 = new Order()
                 .setSafeOrder(true)
                 .setOrderAddress(orderAddress3)
                 .setOrderStatus(OrderStatus.SENT)
                 .setBuyerId("5720b0a8681da6b00652ed0a")
                 .setSellerId("56e6cbb5e4b00942b3340123")
-                .setOrderType(OrderType.PURCHASE);
+                .setOrderType(OrderType.PURCHASE)
+                .setOrderComments(commentList3);
 
         orderService.create(order3);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private boolean isOrderValid(Order order) {
-        Offer offer = offersService.findById(order.getOfferId());
+    private boolean isOrderValid(Order order, Offer offer) {
 
         if (offer.getCurrency() != Currency.UAH) {
             return false;
@@ -158,7 +170,23 @@ public class OrderRestController {
 
         order.setPrice(offer.getPrice());
 
+        //ToDo вставляем в заказ первую фотографию из оффера
+        //ToDo вставляем в заказ название объявления из оффера
+        //ToDo вставляем Seo
+
         return true;
+    }
+
+    private void orderPreparator(Order order, Offer offer) {
+        order.setOfferTitle(offer.getTitle())
+                .setSeoKey(offer.getSeoKey())
+                .setSeoUrl(offer.getSeoUrl());
+    }
+
+
+    private String findMainOfferPhoto(Offer offer){
+        
+        return null;
     }
 
 
