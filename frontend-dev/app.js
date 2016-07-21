@@ -14,10 +14,7 @@ let app = angular.module('gup', ['ngRoute', 'ngCookies'])
 
 // App config
 app
-  .config(['$routeProvider', '$locationProvider', '$httpProvider', function( $routeProvider, $locationProvider, $httpProvider){
-    $httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    
+  .config(['$routeProvider', '$locationProvider', function( $routeProvider, $locationProvider){
     for(let key in router)
       $routeProvider.when(key, router[key])
 
@@ -30,7 +27,7 @@ app
       requireBase : false
     })
   }])
-  .controller('mainCtrl', [ "$http", "$scope", "$location", "$timeout", "$cookies", "$cookieStore", require('./controllers/main')])
+  .controller('mainCtrl', require('./controllers/main'))
 
 materials
   .init(app)

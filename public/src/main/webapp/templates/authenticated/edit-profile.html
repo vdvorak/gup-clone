@@ -1,10 +1,10 @@
 <section class="editProfile">
 	<div class="view-edit-profile">
 		<h2>Редактирование профиля</h1>
-		
+
 		<form id="edit-profile-form" class="edit-profile-form clearfix">
 
-			<select-box ng-model="main.hello" items="{{ main.list }}"></select-box>
+			<select-box ng-model="profile.contact.type" items="{{ profile.contactTypes }}"></select-box>
 
 			<div class="edit-profile-form-foto clearfix">
 				<input type="file">
@@ -12,7 +12,7 @@
 				<nice-button class="btn-blue" ng-click="">Обзор</nice-button>
 			</div>
 
-			<text ng-model="''" label="ФИО" ng-hide="profile.contact.type === 'LEGAL_ENTITY'"></text>
+			<text ng-model="profile.fio" label="ФИО" ng-hide="profile.contact.type === 'LEGAL_ENTITY'"></text>
 			<text class="inputForm" ng-model="profile.contact.position" label="Должность" ng-hide="profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY'"></text>
 			<text class="inputForm-required" ng-model="profile.contact.companyName" label="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'Название компании' || 'Место работы'}}"></text>
 

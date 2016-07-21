@@ -119,8 +119,13 @@
 	<nice-button class="btn-blue">Hi man</nice-button>
 
 	<br />
-	<text class="inputForm" ng-model="main.hello" label="name" color="blue"></text>
+	<select-box ng-model="main.hello" items="{{ main.list }}"></select-box>
+	<text ng-model="main.hello" label="name" color="blue"></text>
 
 	<br />
-	<select-box ng-model="main.hello" items="{{ main.list }}"></select-box>
+
+
+	<br /><br />
+	<text-area ng-model="main.hello" label="name"></text-area>
+
 </section>

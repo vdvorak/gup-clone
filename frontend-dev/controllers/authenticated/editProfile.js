@@ -4,6 +4,11 @@ class ProfileContact{
     constructor() {
         this.contactEmails = [''];
         this.contactPhones = [''];
+        this.type = ""
+        this.position = ""
+        this.companyName = ""
+        this.skypeUserName = ""
+        this.linkToWebSite = ""
     }
 }
 
@@ -13,6 +18,14 @@ class profileCtrl {
 //          $scope.$parent.redirectToUrl('/403', true)
 //        else
 			this.contact = new ProfileContact();
+      this.contactTypes = [
+        "LEGAL_ENTITY",
+        "ENTREPRENEUR"
+      ]
+
+      this.email = ""
+      this.fio = ""
+      this.mainPhoneNumber = ""
     }
     updateProfile(){
 

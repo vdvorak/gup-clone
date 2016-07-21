@@ -9,14 +9,14 @@ module.exports.init = function($http) {
   /* init data from database here */
   ctx.setDefaults()
   this.transport = $http
-  console.log(this.transport)
-  // ctx.checkUserIsLogged(function(err, data) {
-  //   if(err) console.error(err)
-  //   else {
-  //     if(data) ctx.saveUserData(data)
-  //     else console.log("User is not logged in")
-  //   }
-  // }.bind(this))
+  // console.log(this.transport)
+  ctx.checkUserIsLogged(function(err, data) {
+    if(err) console.error(err)
+    else {
+      if(data) ctx.saveUserData(data)
+      else console.log("User is not logged in")
+    }
+  }.bind(this))
 
   console.log("Database initialized")
 }

@@ -4,7 +4,8 @@ const MODULES = {
   "checkbox" : require('./directives/checkbox'),
   "niceButton" : require('./directives/niceButton'),
   "text" : require('./directives/text'),
-  "selectBox" : require('./directives/selectBox')
+  "selectBox" : require('./directives/selectBox'),
+  "textArea" : require('./directives/textArea')
 }
 
 window.ee = require('./events')

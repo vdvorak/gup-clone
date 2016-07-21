@@ -4,39 +4,43 @@ package ua.com.itproekt.gup.model.profiles.order;
 public class OrderAddress {
     String name;
     String address;
-    Integer phoneNumber;
+    String phoneNumber;
     TransportCompany transportCompany;
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public OrderAddress setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public OrderAddress setAddress(String address) {
         this.address = address;
+        return this;
     }
 
-    public Integer getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Integer phoneNumber) {
+    public OrderAddress setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        return this;
     }
 
     public TransportCompany getTransportCompany() {
         return transportCompany;
     }
 
-    public void setTransportCompany(TransportCompany transportCompany) {
+    public OrderAddress setTransportCompany(TransportCompany transportCompany) {
         this.transportCompany = transportCompany;
+        return this;
     }
 
     @Override
@@ -44,7 +48,7 @@ public class OrderAddress {
         return "OrderAddress{" +
                 "name='" + name + '\'' +
                 ", address='" + address + '\'' +
-                ", phoneNumber=" + phoneNumber +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", transportCompany=" + transportCompany +
                 '}';
     }
