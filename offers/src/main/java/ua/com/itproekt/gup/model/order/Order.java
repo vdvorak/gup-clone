@@ -13,21 +13,28 @@ import java.util.List;
 @Document(collection = "orders")
 public class Order {
     @Id
-    String id;
-    String offerId;
-    String buyerId;
-    String sellerId;
-    Long startDate;
-    Long acceptDate;
-    Long sentDate;
-    Long receivedDate;
-    Long completeDate;
-    OrderAddress orderAddress;
-    String trackNumber;
-    OrderStatus orderStatus;
-    boolean safeOrder;
-    OrderType orderType;
-    List<OrderComment> orderComments;
+    private String id;
+    private String offerId;
+    private Integer price;
+    private String buyerId;
+    private String sellerId;
+    private Long startDate;
+    private Long acceptDate;
+    private Long sentDate;
+    private Long receivedDate;
+    private Long completeDate;
+
+    private String offerMainImageId;
+    private String offerTitle;
+    private String seoUrl; // full SEO url with key
+    private String seoKey; // only key - for search in DB
+
+    private OrderAddress orderAddress;
+    private String trackNumber;
+    private OrderStatus orderStatus;
+    private boolean safeOrder;
+    private OrderType orderType;
+    private List<OrderComment> orderComments;
 
     public Order setCreatedDateEqualsToCurrentDate() {
         this.startDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -169,12 +176,59 @@ public class Order {
         return this;
     }
 
+    public Integer getPrice() {
+        return price;
+    }
+
+    public Order setPrice(Integer price) {
+        this.price = price;
+        return this;
+    }
+
+
+    public String getOfferMainImageId() {
+        return offerMainImageId;
+    }
+
+    public Order setOfferMainImageId(String offerMainImageId) {
+        this.offerMainImageId = offerMainImageId;
+        return this;
+    }
+
+    public String getOfferTitle() {
+        return offerTitle;
+    }
+
+    public Order setOfferTitle(String offerTitle) {
+        this.offerTitle = offerTitle;
+        return this;
+    }
+
+    public String getSeoUrl() {
+        return seoUrl;
+    }
+
+    public Order setSeoUrl(String seoUrl) {
+        this.seoUrl = seoUrl;
+        return this;
+    }
+
+    public String getSeoKey() {
+        return seoKey;
+    }
+
+    public Order setSeoKey(String seoKey) {
+        this.seoKey = seoKey;
+        return this;
+    }
+
 
     @Override
     public String toString() {
         return "Order{" +
                 "id='" + id + '\'' +
                 ", offerId='" + offerId + '\'' +
+                ", price=" + price +
                 ", buyerId='" + buyerId + '\'' +
                 ", sellerId='" + sellerId + '\'' +
                 ", startDate=" + startDate +
@@ -182,6 +236,10 @@ public class Order {
                 ", sentDate=" + sentDate +
                 ", receivedDate=" + receivedDate +
                 ", completeDate=" + completeDate +
+                ", offerMainImageId='" + offerMainImageId + '\'' +
+                ", offerTitle='" + offerTitle + '\'' +
+                ", seoUrl='" + seoUrl + '\'' +
+                ", seoKey='" + seoKey + '\'' +
                 ", orderAddress=" + orderAddress +
                 ", trackNumber='" + trackNumber + '\'' +
                 ", orderStatus=" + orderStatus +

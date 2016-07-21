@@ -71,6 +71,8 @@ module.exports = function() {
 
       el.addEventListener('blur', onBlur.bind(this))
       el.addEventListener('focus', onFocus.bind($scope))
+
+      count()
     }
   }
 }

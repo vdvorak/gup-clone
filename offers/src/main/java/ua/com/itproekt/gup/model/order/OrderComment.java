@@ -1,35 +1,40 @@
 package ua.com.itproekt.gup.model.order;
 
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 public class OrderComment {
     String userId;
     String message;
-    Date date;
+    Long date;
 
     public String getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public OrderComment setUserId(String userId) {
         this.userId = userId;
+        return this;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public OrderComment setMessage(String message) {
         this.message = message;
+        this.date = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        return this;
     }
 
-    public Date getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public OrderComment setDate(Long date) {
         this.date = date;
+        return this;
     }
 
     @Override
