@@ -66,6 +66,7 @@ public class OrderRestController {
         }
 
         if (isOrderValid(order, offer)) {
+            orderPreparator(order, offer);
             orderService.create(order);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -170,22 +171,27 @@ public class OrderRestController {
 
         order.setPrice(offer.getPrice());
 
-        //ToDo вставляем в заказ первую фотографию из оффера
-        //ToDo вставляем в заказ название объявления из оффера
-        //ToDo вставляем Seo
-
         return true;
     }
 
     private void orderPreparator(Order order, Offer offer) {
         order.setOfferTitle(offer.getTitle())
                 .setSeoKey(offer.getSeoKey())
-                .setSeoUrl(offer.getSeoUrl());
+                .setSeoUrl(offer.getSeoUrl())
+                .setOfferMainImageId(findMainOfferPhoto(offer));
     }
 
 
-    private String findMainOfferPhoto(Offer offer){
-        
+    private String findMainOfferPhoto(Offer offer) {
+
+        Map<String, String> imagesMap = offer.getImagesIds();
+
+        for (String key : imagesMap.keySet()) {
+            if (imagesMap.get(key).equals("1")) {
+                return key;
+            }
+        }
+
         return null;
     }
 
