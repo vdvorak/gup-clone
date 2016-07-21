@@ -3,7 +3,7 @@
 'form-submit' - каждый элемент производит валидацию по событию
 
 
-# Интегрированные директивы с примерами
+# Интегрированные директивы с примерами 
 <nice-button class="btn-blue" ng-click="">Hi man</nice-button>
 
 <text ng-model="main.hello" label="name" color="blue"></text>

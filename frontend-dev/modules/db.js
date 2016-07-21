@@ -5,10 +5,10 @@ let utils = require('./utils'),
 
 let ctx = module.exports = {}
 
-module.exports.init = function() {
+module.exports.init = function($http) {
   /* init data from database here */
   ctx.setDefaults()
-  // this.transport = $http
+  this.transport = $http
   // console.log(this.transport)
   ctx.checkUserIsLogged(function(err, data) {
     if(err) console.error(err)
@@ -43,26 +43,26 @@ module.exports.checkEmail = function(email, cb) {
 }
 
 module.exports.login = function( data, cb ) {
-  utils.request({
-    "method" : config.routes.login.method,
-    "url" : config.api.auth + config.routes.login.url,
-    "data" : data,
-    "headers" : {
-      "Content-Type" : "application/json",
-      "withCredentials" : "true"
-    }
-  }).then(data => cb(null, data), err => cb(err))
-  // ctx.transport({
-  //   method : config.routes.login.method,
-  //   url : config.api.auth + config.routes.login.url,
-  //   data : data,
-  //   headers : {
+  // utils.request({
+  //   "method" : config.routes.login.method,
+  //   "url" : config.api.auth + config.routes.login.url,
+  //   "data" : data,
+  //   "headers" : {
   //     "Content-Type" : "application/json",
-  //   },
-  //   withCredentials : true
-  // })
-  // .then(data => cb(null, data))
-  // .catch(cb)
+  //     "withCredentials" : "true"
+  //   }
+  // }).then(data => cb(null, data), err => cb(err))
+  ctx.transport({
+    method : config.routes.login.method,
+    url : config.api.auth + config.routes.login.url,
+    data : data,
+    headers : {
+      "Content-Type" : "application/json",
+    },
+    withCredentials : true
+  })
+  .then(data => cb(null, data))
+  .catch(cb)
 }
 
 /* This method does saves user data in this module only, no backend communication */
