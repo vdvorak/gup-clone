@@ -25,6 +25,7 @@ app.get('/profile', handler)
 app.get('/login', handler)
 app.get('/register', handler)
 app.get('/searchResults', handler)
+app.get('/mail', handler)
 
 console.log(`Server started at port: ${PORT}. Gl & HF =)`)
 
