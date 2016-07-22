@@ -191,9 +191,7 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     private void removeAdministrativeFields(Profile profile) {
-        profile.setEmail(null)
-                .setPassword(null)
-                .setMainPhoneNumber(null);
+        profile.setPassword(null);
     }
 
 

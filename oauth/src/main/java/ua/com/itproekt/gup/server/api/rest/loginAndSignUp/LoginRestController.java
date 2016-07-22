@@ -23,6 +23,7 @@ import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CookieUtil;
 import ua.com.itproekt.gup.util.LogUtil;
 import ua.com.itproekt.gup.util.Oauth2Util;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -63,6 +64,8 @@ public class LoginRestController {
         authenticateByEmailAndPassword(loggedUser, response);
 
         Profile profile = profilesService.findProfileByEmail(formLoggedUser.getEmail());
+        profile.setLastLoginDateEqualsToCurrentDate();
+        profilesService.editProfile(profile);
 
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
@@ -105,6 +108,17 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request, HttpServletResponse response) {
+
+
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+
+
+        if (loggedUserId != null) {
+            Profile profile = profilesService.findById(loggedUserId);
+            profile.setLastLoginDateEqualsToCurrentDate();
+            profilesService.editProfile(profile);
+        }
+
 
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals("authToken")) {
