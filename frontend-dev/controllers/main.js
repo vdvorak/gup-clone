@@ -1,5 +1,6 @@
 "use strict"
 
+const ctx = module.exports = {}
 /* Контроллер для управления  основным скелетом документа */
 module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieStore) {
   console.log('Main controller loaded')
@@ -40,12 +41,26 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
 
     this.showingCategories = false
     this.settingCat = true
-
-
   }
 
-  this.toggleFilters = function() {
-    this.showFilters = this.showFilters ? false : true
+  this.displayFilters = function() {
+    this.showFilters = true
+    const nav = document.getElementsByTagName('nav')[0]
+
+
+    let handler = function(e) {
+      let x = e.clientX,
+          y = e.clientY,
+          rect = nav.getBoundingClientRect()
+
+      if( !(x > rect.left && x < rect.right && y > rect.top && y < rect.bottom) ) {
+        document.removeEventListener('click', handler)
+        this.showFilters = false
+        $scope.$apply()
+      }
+    }.bind(this)
+
+    document.addEventListener('click', handler)
   }
 
   this.showCategories = () => {

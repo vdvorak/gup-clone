@@ -35,7 +35,6 @@ public class ProfileInfo {
                 .setId(profile.getId())
                 .setIdSeoWord(profile.getIdSeoWord())
                 .setEmail(profile.getEmail())
-                .setPassword(profile.getPassword())
                 .setMainPhoneNumber(profile.getMainPhoneNumber())
                 .setUsername(profile.getUsername())
                 .setImgId(profile.getImgId())

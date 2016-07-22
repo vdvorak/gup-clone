@@ -23,6 +23,7 @@ import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CookieUtil;
 import ua.com.itproekt.gup.util.LogUtil;
 import ua.com.itproekt.gup.util.Oauth2Util;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -68,6 +69,8 @@ public class LoginRestController {
         authenticateByEmailAndPassword(loggedUser, response);
 
         Profile profile = profilesService.findProfileByEmail(formLoggedUser.getEmail());
+        profile.setLastLoginDateEqualsToCurrentDate();
+        profilesService.editProfile(profile);
 
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }

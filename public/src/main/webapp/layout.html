@@ -53,11 +53,11 @@
 		</div>
 	</header>
 
-	<div class="navBtn" ng-click="main.toggleFilters()" ></div>
+	<div class="navBtn" ng-click="main.displayFilters()" ></div>
 
 	<nav ng-show="main.showFilters">
 		<div class="map">
-			<div class="clearfix"></div>
+		<div class="clearfix"></div>
 			<text class="required" ng-model="main.hello" label="Киевская обл." color="blue" validate="login.emailIsValid" isValid="login.emailValid"></text>
 		</div>
 		<ul>
@@ -78,8 +78,8 @@
 
 	<!-- CONTAINER -->
 	<div class="container">
-		<!-- CONTENT NG-ROUTE -->
-		<div class="content clearfix" ng-view></div>
+	    <!-- CONTENT NG-ROUTE -->
+	    <div class="content clearfix" ng-view></div>
 
 	</div>
 
