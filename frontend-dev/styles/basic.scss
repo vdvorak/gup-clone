@@ -4,6 +4,33 @@ body {
 	background-color: #ECECEC;
 }
 
+.calendar, .addCalendar {
+	position: relative;
+	background: url(../images/calendar.png) no-repeat center left;
+	padding-left: 45px;
+	box-sizing: border-box;
+	margin-bottom: 40px;
+	box-sizing: border-box;
+
+	&>.defaultValue {
+		border-bottom: 1px solid grey;
+		background: url(../images/caretCalendar.png) no-repeat center right 5px;
+		cursor: pointer;
+		padding-right: 15px;
+		box-sizing: border-box;
+
+		&>p {
+			text-align: left;
+			color: #262626;
+			font: 400 14px / 20px Roboto;
+		}
+	}
+
+	&>.listValue {
+		display: none;
+	}
+}
+
 header {
   height: 70px;
   box-shadow: $boxShadow;
@@ -432,69 +459,115 @@ section.openAdvertert {
 		}
 	}
 
-	&>#mapForOneAdvertert {
-		float: left;
-		height: 230px;
-		width: 225px;
-		margin-bottom: 25px;
+	&>div.buyProduct {
+		
+		&>#mapForOneAdvertert {
+			float: left;
+			height: 230px;
+			width: 225px;
+			margin-bottom: 25px;
+		}
+
+		&>.descriptionAd {
+			color: #0c0c1e;
+			font: 400 12px / 18px Roboto;
+			margin-top: 15px;
+			margin-bottom: 20px;
+		}
+
+		&>.goToMap {
+			color: #1976d2;
+			font: 400 14px / 21px Roboto;
+			cursor: pointer;
+			float: left;
+		}
+
+		&>.allComments {
+			color: #1976d2;
+			font: 400 14px / 21px Roboto;
+			cursor: pointer;
+			float: right;
+			margin-right: 50px;
+		}
+
+		&>.writeAReview {
+			color: #1976d2;
+			font: 400 14px / 21px Roboto;
+			cursor: pointer;
+			float: right;
+		}
+
+		&>.nameUser {
+			color: #1976d2;
+			font: 400 14px / 18px Roboto;
+			float: left;
+			margin-left: 20px;
+			cursor: default;
+			margin-bottom: 35px;
+
+		}
+
+		&>.onOrOffLineUser {
+			float: left;
+		}
+
+		.btn-grey {
+			float: right;
+			height: 35px;
+			width: 140px;
+			margin-right: 25px;
+			line-height: 35px;
+		}
+
+		.btn-blue {
+			float: right;
+			height: 35px;
+			width: 180px;
+			line-height: 35px;
+		}
 	}
-
-	&>.descriptionAd {
-		color: #0c0c1e;
-		font: 400 12px / 18px Roboto;
-		margin-top: 15px;
-		margin-bottom: 20px;
-	}
-
-	&>.goToMap {
-		color: #1976d2;
-		font: 400 14px / 21px Roboto;
-		cursor: pointer;
-		float: left;
-	}
-
-	&>.allComments {
-		color: #1976d2;
-		font: 400 14px / 21px Roboto;
-		cursor: pointer;
-		float: right;
-		margin-right: 50px;
-	}
-
-	&>.writeAReview {
-		color: #1976d2;
-		font: 400 14px / 21px Roboto;
-		cursor: pointer;
-		float: right;
-	}
-
-	&>.nameUser {
-		color: #1976d2;
-		font: 400 14px / 18px Roboto;
-		float: left;
-		margin-left: 20px;
-		cursor: default;
-		margin-bottom: 35px;
-
-	}
-
-	&>.onOrOffLineUser {
-		float: left;
-	}
-
-	.btn-grey {
-		float: right;
-		height: 35px;
-		width: 140px;
-		margin-right: 25px;
-		line-height: 35px;
-	}
-
-	.btn-blue {
-		float: right;
-		height: 35px;
-		width: 180px;
-		line-height: 35px;
+	
+	&>.rentProduct {
+		margin-top: 45px;
+		
+		&>.rentCalendar {
+			margin-bottom: 45px;
+			
+			&>p {
+				color: #263238;
+				font: 400 16px / 21px Roboto;
+				float: left;
+				cursor: default;
+				
+				&:nth-of-type(2) {
+					margin-left: 55px;
+				}
+			}
+			
+			&>.calendar {
+				float: left;
+				margin-left: 45px;
+				width: 165px;
+				margin-bottom: 0;
+				
+				&>.defaultValue {
+					
+				}
+			}
+		}
+		
+		&>.inputForm  {
+			color: #9a9a9a;
+			margin-bottom: 40px;
+		}
+		
+		&>.btn-blue {
+			box-shadow: 0px 2px 4px 0.00px rgba(0, 0, 0, 0.4);
+			height: 35px;
+			width: 180px;
+			line-height: 35px;
+			float: right;
+		}
 	}
 }
 
@@ -1018,29 +1091,7 @@ section.bulletinAdd {
 	}
 	
 	&>.calendar, .addCalendar {
-		height: 20px;
-		position: relative;
 		width: 230px;
-		background: url(../images/calendar.png) no-repeat center left;
-		padding-left: 45px;
-		box-sizing: border-box;
-		margin-bottom: 40px;
-		
-		&>.defaultValue {
-			border-bottom: 1px solid grey;
-			background: url(../images/caretCalendar.png) no-repeat center right 5px;
-			cursor: pointer;
-			
-			&>p {
-				text-align: left;
-				color: #262626;
-				font: 400 14px / 20px Roboto;
-			}
-		}
-		
-		&>.listValue {
-			display: none;
-		}
 	}
 	
 	&>.addCalendar {
@@ -1079,6 +1130,7 @@ nav {
 	background-color: $white;
 	box-shadow: $boxShadow;
 	margin-top: 5px;
+	z-index: 1;
 	
 	&>.map {
 		background: url(../images/map.png) no-repeat;
@@ -1182,4 +1234,22 @@ nav {
 		width: 60px;
 		background-image: url(../images/ruprHover.png);
 	}
+}
+
+.cover {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.9);
+	z-index: 5;
+	
+	&.hide {
+		animation: hide 1s;
+	}
+}
+
+@keyframes hide {
+    100% { background-color: rgba(0, 0, 0, 0) }
 }

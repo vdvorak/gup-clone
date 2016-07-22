@@ -2,7 +2,7 @@
 <html lang="en" ng-app="gup">
 <head>
 	<meta charset="UTF-8">
-	<title>GUP</title>
+	<title>GUP - 1</title>
 	<link rel="stylesheet" href="lib/normalize.css">
 	<base href="/" />
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>

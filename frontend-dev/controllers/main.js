@@ -15,12 +15,18 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     this.hello="hi"
     this.boolean = true
     this.list = [1,2,3]
+    /* End variables for testing */
+
+    this.loader = require('../modules/loader')
+    this.loader($scope, $timeout)
 
     console.log("Main controller init")
 
     this.sortingCategories = (require('../data/sorting')).items
     this.currentCategory = "None"
     this.sortingId = 0
+
+    this.showFilters = false
 
     if(this.sortingCategories.length) {
       let title = this.sortingCategories[this.sortingId].title
@@ -34,6 +40,12 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
 
     this.showingCategories = false
     this.settingCat = true
+
+
+  }
+
+  this.toggleFilters = function() {
+    this.showFilters = this.showFilters ? false : true
   }
 
   this.showCategories = () => {
