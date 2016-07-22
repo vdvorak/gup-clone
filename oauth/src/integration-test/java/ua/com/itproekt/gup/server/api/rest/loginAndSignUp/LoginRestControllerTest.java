@@ -7,10 +7,9 @@ import org.junit.Test;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.profiles.UserRole;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class LoginRestControllerTest {
 
@@ -50,12 +49,15 @@ public class LoginRestControllerTest {
         HttpHeaders       headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        String             actual = restTemplate.postForObject(urlLogin, new HttpEntity<>(requestJson, headers), String.class);
-        String           expected = "{\"id\":\"575697a53880f94fe2ced184\",\"idSeoWord\":null,\"email\":null,\"password\":null,\"mainPhoneNumber\":null,\"username\":\"NEO\",\"imgId\":\"577530314c8eb310cacffc49\",\"birthDate\":null,\"contact\":{\"member\":false,\"naceId\":null,\"type\":\"INDIVIDUAL\",\"position\":\"\",\"companyName\":\"\",\"aboutUs\":\"\",\"skypeUserName\":\"\",\"linkToWebSite\":\"\",\"contactEmails\":[],\"contactPhones\":[],\"socNetLink\":{}},\"contactList\":[\"572368bffb644cbdbcf3cc1c\",\"575697a53880f94fe2ced184\"],\"userProfile\":{\"usreou\":null,\"bankCode\":null,\"vatNumber\":null,\"beneficiaryBank\":null,\"beneficiaryAccount\":null,\"legalEntityLocation\":null,\"idAddFile\":null},\"priofficeSets\":null,\"point\":0,\"unreadMessages\":0,\"profileRating\":[],\"confirmModerator\":null,\"userRoles\":[\"ROLE_USER\"],\"createdDate\":null,\"lastLoginDate\":null,\"orderAddressList\":null}";
+        Profile                  actual = restTemplate.postForObject(urlLogin, new HttpEntity<>(requestJson, headers), Profile.class);
+        String               expectedId = "575697a53880f94fe2ced184";
+        String         expectedUsername = "NEO";
+        Set<UserRole> expectedUserRoles = new HashSet<>();
+        expectedUserRoles.add(UserRole.ROLE_USER);
 
-//        Profile profile
-
-        Assert.assertEquals(expected, actual.toString()); // Assert.assertEquals(expected.substring(8, 250), actual.toString().substring(8, 250));
+        Assert.assertEquals(expectedId, actual.getId());
+        Assert.assertEquals(expectedUsername, actual.getUsername());
+        Assert.assertEquals(expectedUserRoles, actual.getUserRoles());
     }
 
 //    /**
