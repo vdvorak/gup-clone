@@ -49,4 +49,21 @@
 //            .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("Logout")));
 //    }
 //
+//    @Test
+//    public void indexGetControllerTest() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON))
+//                .andDo(MockMvcResultHandlers.print())
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("Index Greeting")));
+//    }
+//
+//    @Test
+//    public void helloGetControllerTest() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.APPLICATION_JSON))
+//                .andDo(MockMvcResultHandlers.print())
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(MockMvcResultMatchers.content().string(StringContains.containsString("Hello Greeting!!")));
+//    }
 //}
