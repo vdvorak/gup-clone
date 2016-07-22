@@ -34,15 +34,20 @@ import java.net.URLDecoder;
 @RequestMapping("/oauth")
 public class LoginRestController {
     private final static Logger LOG = Logger.getLogger(LoginRestController.class);
+
     @Autowired
     PasswordEncoder passwordEncoder;
+
     @Qualifier("userDetailsServiceImpl")
     @Autowired
     UserDetailsService userDetailsService;
+
     @Autowired
     ProfilesService profilesService;
+
     @Autowired
     VerificationTokenService verificationTokenService;
+
     @Autowired
     private DefaultTokenServices tokenServices;
 
@@ -67,6 +72,69 @@ public class LoginRestController {
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+//        try {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("authToken")) {
+                    tokenServices.revokeToken(cookie.getValue());
+                }
+            }
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
+
+        Cookie cookieAuthToken = new Cookie("authToken", null);
+        cookieAuthToken.setMaxAge(0);
+        cookieAuthToken.setPath("/");
+        response.addCookie(cookieAuthToken);
+
+        Cookie cookieRefreshToken = new Cookie("refreshToken", null);
+        cookieRefreshToken.setMaxAge(0);
+        cookieRefreshToken.setPath("/");
+        response.addCookie(cookieRefreshToken);
+
+        return "redirect:/index";
+    }
+
+
+
+
+
+
+//    @CrossOrigin
+//    @RequestMapping(value = "/logout2", method = RequestMethod.GET)
+//    public String login2(HttpServletRequest request, HttpServletResponse response) {
+//
+//        try {
+//            for (Cookie cookie : request.getCookies()) {
+//                if (cookie.getName().equals("authToken")) {
+//                    tokenServices.revokeToken(cookie.getValue());
+//                }
+//            }
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
+//
+//        Cookie cookieAuthToken = new Cookie("authToken", null);
+//        cookieAuthToken.setMaxAge(0);
+//        cookieAuthToken.setPath("/");
+//        response.addCookie(cookieAuthToken);
+//
+//        Cookie cookieRefreshToken = new Cookie("refreshToken", null);
+//        cookieRefreshToken.setMaxAge(0);
+//        cookieRefreshToken.setPath("/");
+//        response.addCookie(cookieRefreshToken);
+//
+//        return "redirect:/index";
+//    }
+
+
+
+
+
+
     private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
@@ -88,6 +156,7 @@ public class LoginRestController {
 
 
     /*--------------------------------------- Check -----------------------------------------------------------------*/
+    @CrossOrigin
     @RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
     public String existEmailCheck(@RequestBody String email) {
 
@@ -100,29 +169,6 @@ public class LoginRestController {
         }
 
         return (profilesService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
-    }
-
-    @CrossOrigin
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
-
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals("authToken")) {
-                tokenServices.revokeToken(cookie.getValue());
-            }
-        }
-
-        Cookie cookieAuthToken = new Cookie("authToken", null);
-        cookieAuthToken.setMaxAge(0);
-        cookieAuthToken.setPath("/");
-        response.addCookie(cookieAuthToken);
-
-        Cookie cookieRefreshToken = new Cookie("refreshToken", null);
-        cookieRefreshToken.setMaxAge(0);
-        cookieRefreshToken.setPath("/");
-        response.addCookie(cookieRefreshToken);
-
-        return "redirect:/index";
     }
 
     @CrossOrigin

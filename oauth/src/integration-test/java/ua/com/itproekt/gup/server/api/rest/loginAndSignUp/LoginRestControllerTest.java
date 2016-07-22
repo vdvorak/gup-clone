@@ -36,7 +36,7 @@ public class LoginRestControllerTest {
         HttpHeaders            headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        ResponseEntity<String> actual = restTemplate.exchange(urlLogin, HttpMethod.POST, new HttpEntity<>(requestJson,headers), String.class, 100);
+        ResponseEntity<Profile> actual = restTemplate.exchange(urlLogin, HttpMethod.POST, new HttpEntity<>(requestJson,headers), Profile.class, 100);
 
         Assert.assertEquals(HttpStatus.OK, actual.getStatusCode());
     }
@@ -60,19 +60,26 @@ public class LoginRestControllerTest {
         Assert.assertEquals(expectedUserRoles, actual.getUserRoles());
     }
 
-//    /**
-//     * test Logout-Status
-//     */
+    /**
+     * test Logout-Status
+     */
+    @Test
+    public void testLogoutStatus() {
+        HttpHeaders            headers = new HttpHeaders();
+        ResponseEntity<String> actual = restTemplate.exchange(urlLogout, HttpMethod.GET, new HttpEntity<>(null, headers), String.class);
+
+        Assert.assertEquals(HttpStatus.OK, actual.getStatusCode());
+    }
+
 //    @Test
-//    public void testLogoutStatus() {
-//        HttpHeaders headers = new HttpHeaders();
-////        headers.setContentType(MediaType.APPLICATION_JSON);
-//        HttpEntity<String> entity = new HttpEntity<>(requestJson,headers);
+//    public void testLogin2Status() {
+//        HttpHeaders            headers = new HttpHeaders();
+//        ResponseEntity<String> actual2 = restTemplate.exchange("http://localhost:9090/api/oauth/logout2", HttpMethod.GET, new HttpEntity<>(null, headers), String.class);
+//        System.err.println("testLogin2Status+actual2:============================================" + actual2.toString() + "============================================");
+//        System.err.println("testLogin2Status+actual2:============================================" + actual2.getStatusCode() + "============================================");
 //
-////        ResponseEntity<String> actual = restTemplate.exchange(urlLogout, HttpMethod.GET, entity, String.class);
-//        ResponseEntity<String> actual = restTemplate.getForEntity(urlLogout, String.class);
-//
-//        Assert.assertEquals(HttpStatus.OK, actual.getStatusCode());
+//        String actual3 = restTemplate.getForObject("http://localhost:9090/api/oauth/logout2", String.class);
+//        System.err.println("testLogin2Status+actual3:============================================" + actual3.toString() + "============================================");
 //    }
 
 }
