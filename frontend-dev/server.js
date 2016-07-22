@@ -10,7 +10,7 @@ const PORT = 3000
 app.use(express.static(path.join(__dirname, "../public/src/main/webapp")))
 
 let handler = (req, res)=>
-  res.sendFile(path.join(__dirname, "../public/src/main/webapp/index.html"))
+  res.sendFile(path.join(__dirname, "../public/src/main/webapp/layout.html"))
 
 
 app.get('/', handler)
