@@ -17,7 +17,7 @@ public class MainController {
 
     @RequestMapping(value = {"/", "/index", "/404", "/403", "/500", "/favourites", "/bulletinDetails", "/bulletinAdd", "/editProfile", "/profile", "/login", "/register", "/searchResults"})
     public String index() {
-        return "index";
+        return "layout";
     }
 
     //ToDo где-то есть уже дубль, удалить
