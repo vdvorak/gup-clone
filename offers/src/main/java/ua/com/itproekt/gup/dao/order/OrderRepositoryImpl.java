@@ -3,14 +3,17 @@ package ua.com.itproekt.gup.dao.order;
 
 import com.mongodb.WriteResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import ua.com.itproekt.gup.model.order.Order;
+import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 
 @Repository
@@ -48,5 +51,28 @@ public class OrderRepositoryImpl implements OrderRepository {
         Query query = new Query(Criteria.where("id").is(id));
         WriteResult result = mongoTemplate.remove(query, Order.class);
         return result.getN();
+    }
+
+    @Override
+    public List<Order> findOrdersWihOptions(OrderFilterOptions orderFilterOptions) {
+        Query query = new Query();
+
+        if (orderFilterOptions.getBuyerId() != null) {
+            query.addCriteria(Criteria.where("buyerId").is(orderFilterOptions.getBuyerId()));
+        }
+
+        if (orderFilterOptions.getSellerId() != null) {
+            query.addCriteria(Criteria.where("sellerId").is(orderFilterOptions.getSellerId()));
+        }
+
+        if (orderFilterOptions.getCreatedDateSortDirection() != null) {
+            query.with(new Sort(Sort.Direction.fromString(orderFilterOptions.getCreatedDateSortDirection()), "startDate"));
+        }
+
+
+        query.skip(orderFilterOptions.getSkip());
+        query.limit(orderFilterOptions.getLimit());
+
+        return mongoTemplate.find(query, Order.class);
     }
 }
