@@ -5,3 +5,15 @@ $blue: #1875D0;
 $boxShadow: 0px 2px 2px 0.00px rgba(0, 0, 0, 0.3);
 $input-placeholder-color:#9a9a9a;
 $white: #FDFDFD;
+@mixin clearfix {
+	&:before,
+	&:after {
+		content: " ";
+		display: table;
+	}
+
+	&:after {
+		clear: both;
+	}
+	
+}

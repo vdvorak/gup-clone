@@ -54,5 +54,8 @@ module.exports = {
     templateUrl:"templates/searchResults.html",
     controller: require('../controllers/searchResults'),
     controllerAs: "searchResults"
+  },
+  '/mail' : {
+    templateUrl:"templates/authenticated/mail.html",
   }
 }
