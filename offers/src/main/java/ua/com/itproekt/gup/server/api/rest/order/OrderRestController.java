@@ -10,17 +10,12 @@ import ua.com.itproekt.gup.exception.ResourceNotFoundException;
 import ua.com.itproekt.gup.model.offer.Currency;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
-import ua.com.itproekt.gup.model.order.OrderComment;
-import ua.com.itproekt.gup.model.order.OrderStatus;
-import ua.com.itproekt.gup.model.order.OrderType;
-import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
-import ua.com.itproekt.gup.model.profiles.order.TransportCompany;
+import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +35,11 @@ public class OrderRestController {
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
+
+    /**
+     * @param id
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/order/read/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,9 +52,27 @@ public class OrderRestController {
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
+    /**
+     * @param orderFilterOptions
+     * @return
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/order/read/all", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Order>> getOrderById(@Valid @RequestBody OrderFilterOptions orderFilterOptions) {
 
-    //------------------------------------------ Create -----------------------------------------------------------------
+        List<Order> orderList = orderService.findOrdersWihOptions(orderFilterOptions);
 
+        return new ResponseEntity<>(orderList, HttpStatus.OK);
+    }
+
+
+    //------------------------------------------ Create -------------------------------------------------------------
+
+    /**
+     * @param order
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/order/create", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,6 +85,9 @@ public class OrderRestController {
 
         if (isOrderValid(order, offer)) {
             orderPreparator(order, offer);
+            //ToDo перевод денег на счёт Гупа
+
+            //ToDo Отправка уведомления продавцу
             orderService.create(order);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -74,88 +95,11 @@ public class OrderRestController {
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
+//------------------------------------------ Update -------------------------------------------------------------
 
-    //------------------------------------------ Test -----------------------------------------------------------------
-    @CrossOrigin
-    @RequestMapping(value = "/test/addsomeorders", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Order> addSomeTestOrders() {
 
-        OrderAddress orderAddress1 = new OrderAddress()
-                .setAddress("Kiev, Obolonskaya naberezhnaya, 36. Otdelenie #2")
-                .setTransportCompany(TransportCompany.NOVA_POSHTA)
-                .setName("Alexander Ko")
-                .setPhoneNumber("380505665789");
 
-        OrderComment orderComment1 = new OrderComment()
-                .setMessage("Привет! Отправь, пожалуйста, как можно быстрее!")
-                .setUserId("571a2fdd681db5eee71086c0");
-        List<OrderComment> commentList1 = new ArrayList<>();
-        commentList1.add(orderComment1);
-
-        Order order1 = new Order()
-                .setSafeOrder(false)
-                .setOrderAddress(orderAddress1)
-                .setOrderStatus(OrderStatus.NEW)
-                .setBuyerId("571a2fdd681db5eee71086c0")
-                .setSellerId("5720b0a8681da6b00652ed0a")
-                .setOrderType(OrderType.PURCHASE)
-                .setOrderComments(commentList1);
-
-        orderService.create(order1);
-
-        //--------------------
-        OrderAddress orderAddress2 = new OrderAddress()
-                .setAddress("Kiev, Geroev Dnipra. Otdelenie #77")
-                .setTransportCompany(TransportCompany.NOVA_POSHTA)
-                .setName("Nikolas Cage")
-                .setPhoneNumber("3809995573");
-
-        OrderComment orderComment2 = new OrderComment()
-                .setMessage("Добрый день! Сегодня постараюсь отправить.")
-                .setUserId("571a2fdd681db5eee71086c0");
-        List<OrderComment> commentList2 = new ArrayList<>();
-        commentList2.add(orderComment2);
-
-        Order order2 = new Order()
-                .setSafeOrder(false)
-                .setOrderAddress(orderAddress2)
-                .setOrderStatus(OrderStatus.ACCEPT)
-                .setBuyerId("56e6cbb5e4b00942b3340123")
-                .setSellerId("571a2fdd681db5eee71086c0")
-                .setOrderType(OrderType.PURCHASE)
-                .setOrderComments(commentList2);
-//--------------------
-
-        orderService.create(order2);
-
-        OrderAddress orderAddress3 = new OrderAddress()
-                .setAddress("Lugansk, kv.Uzhni #35")
-                .setTransportCompany(TransportCompany.DELIVERY)
-                .setName("Sasha Grey")
-                .setPhoneNumber("380505698723");
-
-        OrderComment orderComment3 = new OrderComment()
-                .setMessage("Спасибо, что забрали посылку!")
-                .setUserId("56e6cbb5e4b00942b3340123");
-
-        List<OrderComment> commentList3 = new ArrayList<>();
-        commentList3.add(orderComment3);
-
-        Order order3 = new Order()
-                .setSafeOrder(true)
-                .setOrderAddress(orderAddress3)
-                .setOrderStatus(OrderStatus.SENT)
-                .setBuyerId("5720b0a8681da6b00652ed0a")
-                .setSellerId("56e6cbb5e4b00942b3340123")
-                .setOrderType(OrderType.PURCHASE)
-                .setOrderComments(commentList3);
-
-        orderService.create(order3);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
+    //------------------------------------------ Create -------------------------------------------------------------
     private boolean isOrderValid(Order order, Offer offer) {
 
         if (offer.getCurrency() != Currency.UAH) {
