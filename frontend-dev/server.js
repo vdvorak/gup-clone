@@ -25,6 +25,8 @@ app.get('/profile', handler)
 app.get('/login', handler)
 app.get('/register', handler)
 app.get('/searchResults', handler)
+app.get('/socketTest', handler) // <=== Это на java не переносить
+
 
 console.log(`Server started at port: ${PORT}. Gl & HF =)`)
 

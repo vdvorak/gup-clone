@@ -25,15 +25,8 @@ module.exports = function($scope, $q) {
   }
 
   this.send = () => {
-    /*
-      - Get data
-      - Validate
-      - Show errors
-      - or
-      - Goto bd and send data
-    */
     if( this.emailValid && this.passwordValid && this.password2Valid ) {
-      this.db.login({
+      this.db.register({
         "email" : this.email,
         "password": this.password
       }, (err, data) => {
@@ -41,9 +34,8 @@ module.exports = function($scope, $q) {
         if(err)
           $scope.$parent.redirectToUrl('/500')
         else {
-          /* Save data to db */
+          window.db.isLogged = true
           $scope.redirectToUrl('/profile')
-          console.log(data)
         }
       })
     }
