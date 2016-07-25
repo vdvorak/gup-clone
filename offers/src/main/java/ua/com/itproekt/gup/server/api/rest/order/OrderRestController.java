@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.exception.ResourceNotFoundException;
@@ -12,12 +13,14 @@ import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.offer.Currency;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
+import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -105,6 +108,39 @@ public class OrderRestController {
     }
 
 //------------------------------------------ Update -------------------------------------------------------------
+
+    /**
+     * @param order - updated order. This method can only update order Address only before seller will accept Order.
+     * @return - status code if Ok, redirect on 404 if order or offer isn't exist, status 400 if OrderStatus isn't "New"
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/order/update/2", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateOrder2(@Valid @RequestBody Order order) {
+
+        String userId = SecurityOperations.getLoggedUserId();
+        if (userId == null) {
+            throw new AccessDeniedException("Edit order can only logged in user");
+        }
+
+        if (!userId.equals(order.getBuyerId())) {
+            throw new AccessDeniedException("User is not buyer");
+        }
+
+        Order newOrder = orderService.findById(order.getId());
+        if (newOrder == null) {
+            throw new ResourceNotFoundException();
+        }
+
+        if (newOrder.getOrderStatus() != OrderStatus.NEW) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        newOrder.setOrderAddress(order.getOrderAddress());
+        orderService.findAndUpdate(newOrder);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
     //------------------------------------------ Helpers methods -------------------------------------------------------------
