@@ -88,9 +88,10 @@ module.exports.login = function( data, cb ) {
 
 /* This method does saves user data in this module only, no backend communication */
 module.exports.saveUserData = function(data) {
-  if( !data.length ) return this.isLogged = false
-  
-  data = data.length ? JSON.parse(data) : ""
+  if( !data ) return this.isLogged = false
+
+  data = data || ""
+
   this.isLogged = true
   this.user.emailGeneral = data.contact.emailGeneral || ""
   this.user.emailContact = data.contact.contactEmails[0] || ""
