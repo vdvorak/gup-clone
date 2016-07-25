@@ -8,6 +8,12 @@ public class OrderFilterOptions extends Order {
     private int limit;
     private String createdDateSortDirection;
 
+
+    public OrderFilterOptions() {
+        this.skip = 0;
+        this.limit = 10;
+    }
+
     public int getSkip() {
         return skip;
     }
