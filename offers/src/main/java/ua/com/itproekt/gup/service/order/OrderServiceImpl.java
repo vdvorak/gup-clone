@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.order.OrderRepository;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderStatus;
+import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
+
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -61,6 +64,10 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.delete(id);
     }
 
+    @Override
+    public List<Order> findOrdersWihOptions(OrderFilterOptions orderFilterOptions) {
+        return orderRepository.findOrdersWihOptions(orderFilterOptions);
+    }
 
     //ToDo метод для добавления комментария к ордеру
 }

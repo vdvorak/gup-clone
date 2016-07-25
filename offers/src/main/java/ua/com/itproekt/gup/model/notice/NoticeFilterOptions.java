@@ -1,8 +1,5 @@
 package ua.com.itproekt.gup.model.notice;
 
-/**
- * Created by Комп2 on 17.11.2015.
- */
 public class NoticeFilterOptions extends Notice {
     private int skip;
     private int limit;

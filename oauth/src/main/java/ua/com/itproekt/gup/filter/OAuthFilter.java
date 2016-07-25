@@ -32,11 +32,9 @@ public class OAuthFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletReq, ServletResponse servletResp, FilterChain chain)
-            throws IOException, ServletException {
-
-        HttpServletRequest httpServletReq = (HttpServletRequest) servletReq;
-        HttpServletResponse httpServletResp = (HttpServletResponse) servletResp;
+    public void doFilter(ServletRequest servletReq, ServletResponse servletResp, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest       httpServletReq = (HttpServletRequest) servletReq;
+        HttpServletResponse     httpServletResp = (HttpServletResponse) servletResp;
         CustomParametersRequest customParamsReq = new CustomParametersRequest(httpServletReq);
 
         Cookie[] cookies = httpServletReq.getCookies();
@@ -44,7 +42,11 @@ public class OAuthFilter implements Filter {
             authenticateByTokensFromCookies(customParamsReq, httpServletResp, cookies);
         }
 
-        chain.doFilter(customParamsReq, httpServletResp);
+        try {
+            chain.doFilter(customParamsReq, httpServletResp);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void authenticateByTokensFromCookies(CustomParametersRequest customParamsReq, HttpServletResponse httpServletResp, Cookie[] cookies) {
