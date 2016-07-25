@@ -81,7 +81,7 @@ public class OrderRestController {
      * @return - status code if Ok, redirect on 404 if order isn't exist, status code 400 if order is not valid
      */
     @CrossOrigin
-    @RequestMapping(value = "/order/create", method = RequestMethod.GET,
+    @RequestMapping(value = "/order/create", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createOrder(@Valid @RequestBody Order order) {
 
