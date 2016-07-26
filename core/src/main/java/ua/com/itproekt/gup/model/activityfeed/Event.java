@@ -17,7 +17,9 @@ public class Event {
 
 
     private String contentStoreId; //content id (order, offer etc)
+    private String contentStoreTitle; // title of content store
     private String contentId; // content id in other conten (comment in order etc)
+
 
     private String imgId; //picture id
 
@@ -47,11 +49,12 @@ public class Event {
         this.makerId = makerId;
     }
 
-    public Event(String targetUId, EventType type, String contentStoreId, String makerId, String makerName, String imgId) {
+    public Event(String targetUId, EventType type, String contentStoreId, String contentStoreTitle, String makerId, String makerName, String imgId) {
         this();
         this.targetUId = targetUId;
         this.type = type;
         this.contentStoreId = contentStoreId;
+        this.contentStoreTitle = contentStoreTitle;
         this.makerId = makerId;
         this.makerName = makerName;
         this.imgId = imgId;
@@ -162,6 +165,15 @@ public class Event {
         return this;
     }
 
+    public String getContentStoreTitle() {
+        return contentStoreTitle;
+    }
+
+    public Event setContentStoreTitle(String contentStoreTitle) {
+        this.contentStoreTitle = contentStoreTitle;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -169,6 +181,7 @@ public class Event {
                 ", type=" + type +
                 ", targetUId='" + targetUId + '\'' +
                 ", contentStoreId='" + contentStoreId + '\'' +
+                ", contentStoreTitle='" + contentStoreTitle + '\'' +
                 ", contentId='" + contentId + '\'' +
                 ", imgId='" + imgId + '\'' +
                 ", makerId='" + makerId + '\'' +

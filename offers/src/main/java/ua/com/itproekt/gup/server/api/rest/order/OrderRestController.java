@@ -209,6 +209,15 @@ public class OrderRestController {
     }
 
 
+
+
+
+
+
+
+
+
+
     //------------------------------------------ Helpers methods -------------------------------------------------------------
     private boolean isOrderValid(Order order, Offer offer) {
 
@@ -257,9 +266,10 @@ public class OrderRestController {
                 .setTargetUId(order.getSellerId())
                 .setType(eventType)
                 .setContentStoreId(order.getOfferId())
+                .setContentStoreTitle(order.getOfferTitle())
                 .setContentId(order.getId())
                 .setMakerId(order.getBuyerId())
-                .setImgId(profile.getImgId())// ToDo тут нужна фотография объявления
+                .setImgId(order.getOfferMainImageId())
                 .setMakerName(profile.getUsername());
     }
 
@@ -270,9 +280,10 @@ public class OrderRestController {
                 .setTargetUId(order.getBuyerId())
                 .setType(eventType)
                 .setContentStoreId(order.getOfferId())
+                .setContentStoreTitle(order.getOfferTitle())
                 .setContentId(order.getId())
                 .setMakerId(order.getSellerId())
-                .setImgId(profile.getImgId())// ToDo тут нужна фотография объявления
+                .setImgId(order.getOfferMainImageId())
                 .setMakerName(profile.getUsername());
     }
 
