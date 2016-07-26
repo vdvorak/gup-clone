@@ -102,16 +102,36 @@ public class Order {
         return startDate;
     }
 
+    public Order setStartDate(Long startDate) {
+        this.startDate = startDate;
+        return this;
+    }
+
     public Long getAcceptDate() {
         return acceptDate;
+    }
+
+    public Order setAcceptDate(Long acceptDate) {
+        this.acceptDate = acceptDate;
+        return this;
     }
 
     public Long getSentDate() {
         return sentDate;
     }
 
+    public Order setSentDate(Long sentDate) {
+        this.sentDate = sentDate;
+        return this;
+    }
+
     public Long getReceivedDate() {
         return receivedDate;
+    }
+
+    public Order setReceivedDate(Long receivedDate) {
+        this.receivedDate = receivedDate;
+        return this;
     }
 
     public Long getCompleteDate() {
@@ -186,7 +206,6 @@ public class Order {
         return this;
     }
 
-
     public String getOfferMainImageId() {
         return offerMainImageId;
     }
@@ -225,6 +244,11 @@ public class Order {
 
     public Long getRejectDate() {
         return rejectDate;
+    }
+
+    public Order setRejectDate(Long rejectDate) {
+        this.rejectDate = rejectDate;
+        return this;
     }
 
     private Long getNowTime() {

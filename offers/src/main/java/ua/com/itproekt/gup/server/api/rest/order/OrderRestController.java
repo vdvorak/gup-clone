@@ -24,6 +24,8 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 
@@ -205,6 +207,7 @@ public class OrderRestController {
         if (order.getOrderStatus() == OrderStatus.ACCEPT) {
             oldOrder.setOrderStatus(OrderStatus.ACCEPT)
                     .setAcceptedDateEqualsToCurrentDate();
+
             orderService.findAndUpdate(oldOrder);
             activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_ACCEPTED));
         }
@@ -223,10 +226,11 @@ public class OrderRestController {
 
 
     /**
-     * @param order - updated order. This method can only change order status to SENT. Due to TransportCompany type
+     * @param order - updated order. This method can only change order status to SENT and onl seller. Due to TransportCompany type
      *              you need or not put trackNumber.
      * @return - return 200 status code if Ok, 400 - order doesn't have track number, 401 - not authorized,
-     * 404 - not found order, 405 - if TransportCompany was SELF_PICKED - you can't use this method
+     * 404 - not found order, 405 - if TransportCompany was SELF_PICKED - you can't use this method,
+     * 406 - if you are not seller
      */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
@@ -238,6 +242,11 @@ public class OrderRestController {
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String userId = SecurityOperations.getLoggedUserId();
+        if (!userId.equals(oldOrder.getSellerId())) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
 
         if (oldOrder.getOrderAddress().getTransportCompany() != TransportCompany.SELF_PICKED) {
@@ -255,6 +264,68 @@ public class OrderRestController {
             return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
         }
 
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    /**
+     * @param order
+     * @return- return 200 status code if Ok, 400 - user neither seller nor buyer, 404 - not found order,
+     * 406 - buyer can't mark this order like RECEIVED yet
+     */
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/order/update/6", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateOrder6(@Valid @RequestBody Order order) {
+
+
+        Order oldOrder = orderService.findById(order.getId());
+        if (oldOrder == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Long timeNow = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        String userId = SecurityOperations.getLoggedUserId();
+        TransportCompany oldOrderTransportCompany = oldOrder.getOrderAddress().getTransportCompany();
+
+        if (userId.equals(oldOrder.getSellerId())) {
+
+            //логика для продавца. Может нажать, если прошёл 31 день с момента отправки (через ТК),
+            // либо через 15 дней, если SELF_PICKED
+
+
+            if ((oldOrderTransportCompany != TransportCompany.SELF_PICKED && (timeNow - oldOrder.getSentDate()) > 2678400000L)
+                    || (oldOrderTransportCompany == TransportCompany.SELF_PICKED && (timeNow - oldOrder.getAcceptDate()) > 1296000000L)) { //31 or 15 days
+                oldOrder
+                        .setOrderStatus(OrderStatus.RECEIVED)
+                        .setReceivedDateEqualsToCurrentDate();
+                orderService.findAndUpdate(oldOrder);
+                //ToDo перевести деньги на счёт продавца
+                activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_RECEIVED));
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            }
+
+
+        } else {
+            if (userId.equals(oldOrder.getBuyerId())) {
+
+                if ((oldOrder.getOrderStatus() == OrderStatus.SENT && (timeNow - oldOrder.getSentDate() > 43200000L))
+                        || (oldOrderTransportCompany == TransportCompany.SELF_PICKED && (timeNow - oldOrder.getAcceptDate() > 43200000L))) { // 12 hours
+                    oldOrder
+                            .setOrderStatus(OrderStatus.RECEIVED)
+                            .setReceivedDateEqualsToCurrentDate();
+                    orderService.findAndUpdate(oldOrder);
+                    //ToDo перевести деньги на счёт продавца
+                    activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, EventType.ORDER_RECEIVED));
+                }
+
+            } else {
+                //ошибка, т.к. ты не покупатель и не продаввец
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
