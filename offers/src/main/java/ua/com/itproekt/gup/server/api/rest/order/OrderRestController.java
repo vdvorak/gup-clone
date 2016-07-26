@@ -16,6 +16,7 @@ import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.profiles.order.TransportCompany;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
@@ -94,6 +95,8 @@ public class OrderRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        //TODO проверить, чтобы отправиший этот запрос юзер был исключительно покуателем (продавец не может создать заказ)
+
         if (isOrderValid(order, offer)) {
             orderPreparator(order, offer);
 
@@ -145,7 +148,7 @@ public class OrderRestController {
 
     /**
      * @param order - updated order. This method can only cancel order by buyer (before seller accept)
-     * @return - return 200 status code if Ok, 401 - not authorized, 404 - not found order
+     * @return - return 200 status code if Ok, 400 - if status not NEW jr if user is not buyer, 401 - not authorized, 404 - not found order
      */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
@@ -162,13 +165,15 @@ public class OrderRestController {
 
         if (userId.equals(oldOrder.getBuyerId()) && oldOrder.getOrderStatus() == OrderStatus.NEW) {
             oldOrder.setOrderStatus(OrderStatus.CANCELED_BY_BUYER);
+            orderService.findAndUpdate(oldOrder);
 
             //ToDo Веруть деньги покупателю
 
             activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, EventType.ORDER_CANCEL_BY_BUYER));
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        orderService.findAndUpdate(oldOrder);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -195,27 +200,47 @@ public class OrderRestController {
 
         if (order.getOrderStatus() == OrderStatus.ACCEPT) {
             oldOrder.setOrderStatus(OrderStatus.ACCEPT);
+            orderService.findAndUpdate(oldOrder);
             activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_ACCEPTED));
         }
 
         if (order.getOrderStatus() == OrderStatus.REJECTED_BY_SELLER) {
             oldOrder.setOrderStatus(OrderStatus.REJECTED_BY_SELLER);
+            orderService.findAndUpdate(oldOrder);
             //ToDo Возврат денег покупателю
             activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_REJECTED_BY_SELLER));
         }
 
-        orderService.findAndUpdate(oldOrder);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/order/update/5", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateOrder5(@Valid @RequestBody Order order) {
 
 
+        Order oldOrder = orderService.findById(order.getId());
+        if (oldOrder == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
+        if (oldOrder.getOrderAddress().getTransportCompany() != TransportCompany.SELF_PICKED) {
+            if (order.getTrackNumber() != null) {
+                oldOrder
+                        .setTrackNumber(order.getTrackNumber())
+                        .setOrderStatus(OrderStatus.SENT);
+                orderService.findAndUpdate(oldOrder);
+                activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_SENT));
+            } else {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
 
-
-
-
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
     //------------------------------------------ Helpers methods -------------------------------------------------------------
