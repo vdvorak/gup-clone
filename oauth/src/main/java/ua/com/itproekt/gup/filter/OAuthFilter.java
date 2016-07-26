@@ -42,11 +42,7 @@ public class OAuthFilter implements Filter {
             authenticateByTokensFromCookies(customParamsReq, httpServletResp, cookies);
         }
 
-        try {
-            chain.doFilter(customParamsReq, httpServletResp);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        chain.doFilter(customParamsReq, httpServletResp);
     }
 
     private void authenticateByTokensFromCookies(CustomParametersRequest customParamsReq, HttpServletResponse httpServletResp, Cookie[] cookies) {

@@ -14,7 +14,12 @@
     },
     "login" : {
       "method" : "POST",
-      "url" : "api/oauth/login",      "accept" : {        "email":"sss2@gmail.com",        "password":"123456"      }    },
+      "url" : "api/oauth/login",
+      "accept" : {
+        "email":"sss2@gmail.com",
+        "password":"123456"
+      }
+    },
     "logout" : {
       "method" : "GET",
       "url" : "api/oauth/logout"

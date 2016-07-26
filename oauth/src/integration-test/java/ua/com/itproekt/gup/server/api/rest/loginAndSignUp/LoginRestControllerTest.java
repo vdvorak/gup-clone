@@ -1,15 +1,35 @@
 package ua.com.itproekt.gup.server.api.rest.loginAndSignUp;
 
+import org.apache.http.impl.client.HttpClients;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.*;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 
 import java.util.*;
+
+import static com.jayway.restassured.RestAssured.get;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.any;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.describedAs;
+import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.sameInstance;
 
 public class LoginRestControllerTest {
 
@@ -20,7 +40,8 @@ public class LoginRestControllerTest {
 
     @Before
     public void setUp() {
-        restTemplate = new RestTemplate();
+        ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory( HttpClients.createDefault() );
+        restTemplate = new RestTemplate( requestFactory );
     }
 
     @After
@@ -38,7 +59,7 @@ public class LoginRestControllerTest {
 
         ResponseEntity<Profile> actual = restTemplate.exchange(urlLogin, HttpMethod.POST, new HttpEntity<>(requestJson,headers), Profile.class, 100);
 
-        Assert.assertEquals(HttpStatus.OK, actual.getStatusCode());
+        assertThat(actual.getStatusCode(), equalTo(HttpStatus.OK));
     }
 
     /**
@@ -46,7 +67,7 @@ public class LoginRestControllerTest {
      */
     @Test
     public void testLoginResponse() {
-        HttpHeaders       headers = new HttpHeaders();
+        HttpHeaders             headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         Profile                  actual = restTemplate.postForObject(urlLogin, new HttpEntity<>(requestJson, headers), Profile.class);
@@ -55,9 +76,9 @@ public class LoginRestControllerTest {
         Set<UserRole> expectedUserRoles = new HashSet<>();
         expectedUserRoles.add(UserRole.ROLE_USER);
 
-        Assert.assertEquals(expectedId, actual.getId());
-        Assert.assertEquals(expectedUsername, actual.getUsername());
-        Assert.assertEquals(expectedUserRoles, actual.getUserRoles());
+        assertThat(actual.getId(), equalTo(expectedId));
+        assertThat(actual.getUsername(), equalTo(expectedUsername));
+        assertThat(actual.getUserRoles(), equalTo(expectedUserRoles));
     }
 
     /**
@@ -65,21 +86,13 @@ public class LoginRestControllerTest {
      */
     @Test
     public void testLogoutStatus() {
-        HttpHeaders            headers = new HttpHeaders();
-        ResponseEntity<String> actual = restTemplate.exchange(urlLogout, HttpMethod.GET, new HttpEntity<>(null, headers), String.class);
+        HttpHeaders           headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        Assert.assertEquals(HttpStatus.OK, actual.getStatusCode());
+        restTemplate.postForObject(urlLogin, new HttpEntity<>(requestJson, headers), Profile.class);
+        ResponseEntity<String> actual = restTemplate.exchange(urlLogout, HttpMethod.GET, new HttpEntity<>("", headers), String.class);
+
+        assertThat(actual.getStatusCode(), equalTo(HttpStatus.OK));
     }
-
-//    @Test
-//    public void testLogin2Status() {
-//        HttpHeaders            headers = new HttpHeaders();
-//        ResponseEntity<String> actual2 = restTemplate.exchange("http://localhost:9090/api/oauth/logout2", HttpMethod.GET, new HttpEntity<>(null, headers), String.class);
-//        System.err.println("testLogin2Status+actual2:============================================" + actual2.toString() + "============================================");
-//        System.err.println("testLogin2Status+actual2:============================================" + actual2.getStatusCode() + "============================================");
-//
-//        String actual3 = restTemplate.getForObject("http://localhost:9090/api/oauth/logout2", String.class);
-//        System.err.println("testLogin2Status+actual3:============================================" + actual3.toString() + "============================================");
-//    }
 
 }
