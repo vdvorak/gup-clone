@@ -17,11 +17,15 @@ public class Event {
 
 
     private String contentStoreId; //content id (order, offer etc)
+    private String contentStoreTitle; // title of content store
     private String contentId; // content id in other conten (comment in order etc)
+
+
+    private String imgId; //picture id
 
     private String makerId; // user id, who was producer of event
     private String makerName; // user name, who was producer of event
-    private String makerImgId; //picture (avatar) id of user, who was producer of event
+
 
     private Boolean isViewed;
 
@@ -45,14 +49,15 @@ public class Event {
         this.makerId = makerId;
     }
 
-    public Event(String targetUId, EventType type, String contentStoreId, String makerId, String makerName, String makerImgId) {
+    public Event(String targetUId, EventType type, String contentStoreId, String contentStoreTitle, String makerId, String makerName, String imgId) {
         this();
         this.targetUId = targetUId;
         this.type = type;
         this.contentStoreId = contentStoreId;
+        this.contentStoreTitle = contentStoreTitle;
         this.makerId = makerId;
         this.makerName = makerName;
-        this.makerImgId = makerImgId;
+        this.imgId = imgId;
     }
 
     public Event(String targetUId, EventType type, String contentStoreId, String contentId, String makerId) {
@@ -142,12 +147,12 @@ public class Event {
         return this;
     }
 
-    public String getMakerImgId() {
-        return makerImgId;
+    public String getImgId() {
+        return imgId;
     }
 
-    public Event setMakerImgId(String makerImgId) {
-        this.makerImgId = makerImgId;
+    public Event setImgId(String imgId) {
+        this.imgId = imgId;
         return this;
     }
 
@@ -160,6 +165,15 @@ public class Event {
         return this;
     }
 
+    public String getContentStoreTitle() {
+        return contentStoreTitle;
+    }
+
+    public Event setContentStoreTitle(String contentStoreTitle) {
+        this.contentStoreTitle = contentStoreTitle;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -167,10 +181,11 @@ public class Event {
                 ", type=" + type +
                 ", targetUId='" + targetUId + '\'' +
                 ", contentStoreId='" + contentStoreId + '\'' +
+                ", contentStoreTitle='" + contentStoreTitle + '\'' +
                 ", contentId='" + contentId + '\'' +
+                ", imgId='" + imgId + '\'' +
                 ", makerId='" + makerId + '\'' +
                 ", makerName='" + makerName + '\'' +
-                ", makerImgId='" + makerImgId + '\'' +
                 ", isViewed=" + isViewed +
                 ", createdDate=" + createdDate +
                 '}';

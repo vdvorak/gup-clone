@@ -20,6 +20,7 @@ public class Order {
     private String sellerId;
     private Long startDate;
     private Long acceptDate;
+    private Long rejectDate;
     private Long sentDate;
     private Long receivedDate;
     private Long completeDate;
@@ -37,7 +38,27 @@ public class Order {
     private List<OrderComment> orderComments;
 
     public Order setCreatedDateEqualsToCurrentDate() {
-        this.startDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        this.startDate = getNowTime();
+        return this;
+    }
+
+    public Order setAcceptedDateEqualsToCurrentDate() {
+        this.acceptDate = getNowTime();
+        return this;
+    }
+
+    public Order setSentDateEqualsToCurrentDate() {
+        this.sentDate = getNowTime();
+        return this;
+    }
+
+    public Order setReceivedDateEqualsToCurrentDate() {
+        this.receivedDate = getNowTime();
+        return this;
+    }
+
+    public Order setRejectDateEqualsToCurrentDate() {
+        this.rejectDate = getNowTime();
         return this;
     }
 
@@ -185,7 +206,6 @@ public class Order {
         return this;
     }
 
-
     public String getOfferMainImageId() {
         return offerMainImageId;
     }
@@ -222,6 +242,18 @@ public class Order {
         return this;
     }
 
+    public Long getRejectDate() {
+        return rejectDate;
+    }
+
+    public Order setRejectDate(Long rejectDate) {
+        this.rejectDate = rejectDate;
+        return this;
+    }
+
+    private Long getNowTime() {
+        return LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+    }
 
     @Override
     public String toString() {
@@ -233,6 +265,7 @@ public class Order {
                 ", sellerId='" + sellerId + '\'' +
                 ", startDate=" + startDate +
                 ", acceptDate=" + acceptDate +
+                ", rejectDate=" + rejectDate +
                 ", sentDate=" + sentDate +
                 ", receivedDate=" + receivedDate +
                 ", completeDate=" + completeDate +

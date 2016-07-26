@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.exception.ResourceNotFoundException;
@@ -16,6 +16,7 @@ import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.profiles.order.TransportCompany;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
@@ -23,6 +24,8 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +51,7 @@ public class OrderRestController {
 
     /**
      * @param id - order id
-     * @return - order and status code, or just redirect on 404 if order isn't exist
+     * @return - return order and status code, or just redirect on 404 if order isn't exist
      */
     @CrossOrigin
     @RequestMapping(value = "/order/read/{id}", method = RequestMethod.GET,
@@ -64,7 +67,7 @@ public class OrderRestController {
 
     /**
      * @param orderFilterOptions - order filter options
-     * @return - List of orders and status code
+     * @return - return List of orders and status code 200
      */
     @CrossOrigin
     @RequestMapping(value = "/order/read/all", method = RequestMethod.GET,
@@ -81,8 +84,9 @@ public class OrderRestController {
 
     /**
      * @param order - order
-     * @return - status code if Ok, redirect on 404 if order isn't exist, status code 400 if order is not valid
+     * @return - return status code if Ok, 400 - order not valid, 404 - offer not found, 405 - if user is not buyer
      */
+    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
     @RequestMapping(value = "/order/create", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -90,7 +94,13 @@ public class OrderRestController {
 
         Offer offer = offersService.findById(order.getOfferId());
         if (offer == null) {
-            throw new ResourceNotFoundException();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        // only user-buyer can create order
+        String userId = SecurityOperations.getLoggedUserId();
+        if (!userId.equals(order.getBuyerId())) {
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
         }
 
         if (isOrderValid(order, offer)) {
@@ -100,7 +110,7 @@ public class OrderRestController {
                 //ToDo перевод денег на счёт Гупа если ввключён safe order
             }
             orderService.create(order);
-            activityFeedService.createEvent(eventPreparator(order));
+            activityFeedService.createEvent(eventPreparatorForSeller(order, EventType.NEW_ORDER));
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -111,34 +121,211 @@ public class OrderRestController {
 
     /**
      * @param order - updated order. This method can only update order Address only before seller will accept Order.
-     * @return - status code if Ok, redirect on 404 if order or offer isn't exist, status 400 if OrderStatus isn't "New"
+     * @return - return status 200 code if Ok, 401 - not authorized, 400 - user is not buyer,
+     * 404 - not found order, 405 - OrderStatus isn't NEW
      */
+    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
     @RequestMapping(value = "/order/update/2", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateOrder2(@Valid @RequestBody Order order) {
 
         String userId = SecurityOperations.getLoggedUserId();
-        if (userId == null) {
-            throw new AccessDeniedException("Edit order can only logged in user");
-        }
 
         if (!userId.equals(order.getBuyerId())) {
-            throw new AccessDeniedException("User is not buyer");
-        }
-
-        Order newOrder = orderService.findById(order.getId());
-        if (newOrder == null) {
-            throw new ResourceNotFoundException();
-        }
-
-        if (newOrder.getOrderStatus() != OrderStatus.NEW) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        newOrder.setOrderAddress(order.getOrderAddress());
-        orderService.findAndUpdate(newOrder);
+        Order oldOrder = orderService.findById(order.getId());
+        if (oldOrder == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
+        if (oldOrder.getOrderStatus() != OrderStatus.NEW) {
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+        }
+
+        oldOrder.setOrderAddress(order.getOrderAddress());
+        orderService.findAndUpdate(oldOrder);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    /**
+     * @param order - updated order. This method can only cancel order by buyer (before seller accept)
+     * @return - return 200 status code if Ok, 400 - if status not NEW jr if user is not buyer, 401 - not authorized, 404 - not found order
+     */
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/order/update/3", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateOrder3(@Valid @RequestBody Order order) {
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        Order oldOrder = orderService.findById(order.getId());
+        if (oldOrder == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (userId.equals(oldOrder.getBuyerId()) && oldOrder.getOrderStatus() == OrderStatus.NEW) {
+            oldOrder.setOrderStatus(OrderStatus.CANCELED_BY_BUYER);
+            orderService.findAndUpdate(oldOrder);
+
+            //ToDo Веруть деньги покупателю
+
+            activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, EventType.ORDER_CANCEL_BY_BUYER));
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    /**
+     * @param order - updated order. This method can only change Order Status to Accept or Rejected (only by seller)
+     * @return - return 200 status code if Ok, 400 - user is not seller, 401 - not authorized, 404 - not found order
+     */
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/order/update/4", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateOrder4(@Valid @RequestBody Order order) {
+
+        Order oldOrder = orderService.findById(order.getId());
+        if (oldOrder == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String userId = SecurityOperations.getLoggedUserId();
+        if (!userId.equals(oldOrder.getSellerId())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if (order.getOrderStatus() == OrderStatus.ACCEPT) {
+            oldOrder.setOrderStatus(OrderStatus.ACCEPT)
+                    .setAcceptedDateEqualsToCurrentDate();
+
+            orderService.findAndUpdate(oldOrder);
+            activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_ACCEPTED));
+        }
+
+        if (order.getOrderStatus() == OrderStatus.REJECTED_BY_SELLER) {
+            oldOrder
+                    .setOrderStatus(OrderStatus.REJECTED_BY_SELLER)
+                    .setRejectDateEqualsToCurrentDate();
+            orderService.findAndUpdate(oldOrder);
+            //ToDo Возврат денег покупателю
+            activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_REJECTED_BY_SELLER));
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    /**
+     * @param order - updated order. This method can only change order status to SENT and onl seller. Due to TransportCompany type
+     *              you need or not put trackNumber.
+     * @return - return 200 status code if Ok, 400 - order doesn't have track number, 401 - not authorized,
+     * 404 - not found order, 405 - if TransportCompany was SELF_PICKED - you can't use this method,
+     * 406 - if you are not seller
+     */
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/order/update/5", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateOrder5(@Valid @RequestBody Order order) {
+
+
+        Order oldOrder = orderService.findById(order.getId());
+        if (oldOrder == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String userId = SecurityOperations.getLoggedUserId();
+        if (!userId.equals(oldOrder.getSellerId())) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        if (oldOrder.getOrderAddress().getTransportCompany() != TransportCompany.SELF_PICKED) {
+            if (order.getTrackNumber() != null) {
+                oldOrder
+                        .setTrackNumber(order.getTrackNumber())
+                        .setOrderStatus(OrderStatus.SENT)
+                        .setSentDateEqualsToCurrentDate();
+                orderService.findAndUpdate(oldOrder);
+                activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_SENT));
+            } else {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    /**
+     * @param order
+     * @return- return 200 status code if Ok, 400 - user neither seller nor buyer, 404 - not found order,
+     * 406 - buyer can't mark this order like RECEIVED yet
+     */
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/order/update/6", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateOrder6(@Valid @RequestBody Order order) {
+
+
+        Order oldOrder = orderService.findById(order.getId());
+        if (oldOrder == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Long timeNow = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        String userId = SecurityOperations.getLoggedUserId();
+        TransportCompany oldOrderTransportCompany = oldOrder.getOrderAddress().getTransportCompany();
+
+        if (userId.equals(oldOrder.getSellerId())) {
+
+            //логика для продавца. Может нажать, если прошёл 31 день с момента отправки (через ТК),
+            // либо через 15 дней, если SELF_PICKED
+
+
+            if ((oldOrderTransportCompany != TransportCompany.SELF_PICKED && (timeNow - oldOrder.getSentDate()) > 2678400000L)
+                    || (oldOrderTransportCompany == TransportCompany.SELF_PICKED && (timeNow - oldOrder.getAcceptDate()) > 1296000000L)) { //31 or 15 days
+                oldOrder
+                        .setOrderStatus(OrderStatus.RECEIVED)
+                        .setReceivedDateEqualsToCurrentDate();
+                orderService.findAndUpdate(oldOrder);
+                //ToDo перевести деньги на счёт продавца
+                activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_RECEIVED));
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            }
+
+
+        } else {
+            if (userId.equals(oldOrder.getBuyerId())) {
+
+                if ((oldOrder.getOrderStatus() == OrderStatus.SENT && (timeNow - oldOrder.getSentDate() > 43200000L))
+                        || (oldOrderTransportCompany == TransportCompany.SELF_PICKED && (timeNow - oldOrder.getAcceptDate() > 43200000L))) { // 12 hours
+                    oldOrder
+                            .setOrderStatus(OrderStatus.RECEIVED)
+                            .setReceivedDateEqualsToCurrentDate();
+                    orderService.findAndUpdate(oldOrder);
+                    //ToDo перевести деньги на счёт продавца
+                    activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, EventType.ORDER_RECEIVED));
+                }
+
+            } else {
+                //ошибка, т.к. ты не покупатель и не продаввец
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -184,16 +371,31 @@ public class OrderRestController {
     }
 
 
-    private Event eventPreparator(Order order) {
+    private Event eventPreparatorForSeller(Order order, EventType eventType) {
         Profile profile = profilesService.findById(order.getBuyerId());
 
         return new Event()
                 .setTargetUId(order.getSellerId())
-                .setType(EventType.NEW_ORDER)
+                .setType(eventType)
                 .setContentStoreId(order.getOfferId())
+                .setContentStoreTitle(order.getOfferTitle())
                 .setContentId(order.getId())
                 .setMakerId(order.getBuyerId())
-                .setMakerImgId(profile.getImgId())
+                .setImgId(order.getOfferMainImageId())
+                .setMakerName(profile.getUsername());
+    }
+
+    private Event eventPreparatorForBuyer(Order order, EventType eventType) {
+        Profile profile = profilesService.findById(order.getSellerId());
+
+        return new Event()
+                .setTargetUId(order.getBuyerId())
+                .setType(eventType)
+                .setContentStoreId(order.getOfferId())
+                .setContentStoreTitle(order.getOfferTitle())
+                .setContentId(order.getId())
+                .setMakerId(order.getSellerId())
+                .setImgId(order.getOfferMainImageId())
                 .setMakerName(profile.getUsername());
     }
 

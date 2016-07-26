@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.activityfeed.ActivityFeedRepository;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
-import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
 
@@ -20,12 +19,15 @@ public class ActivityFeedServiceImpl implements ActivityFeedService {
 
     @Override
     public void createEvent(Event event) {
-        Profile profile = profilesService.findById(event.getTargetUId());
-        if (profile != null) {
-            event.setMakerName(profile.getUsername());
-            event.setMakerImgId(profile.getImgId());
-            activityFeedRepository.createEvent(event);
-        }
+        activityFeedRepository.createEvent(event);
+
+        //ToDo somebody was drink when put this
+//        Profile profile = profilesService.findById(event.getTargetUId());
+//        if (profile != null) {
+//            event.setMakerName(profile.getUsername());
+//            event.setMakerImgId(profile.getImgId());
+//            activityFeedRepository.createEvent(event);
+//        }
     }
 
     @Override
@@ -39,7 +41,7 @@ public class ActivityFeedServiceImpl implements ActivityFeedService {
     }
 
     @Override
-    public void setAllViewed(String userId){
+    public void setAllViewed(String userId) {
         activityFeedRepository.setAllViewed(userId);
     }
 
