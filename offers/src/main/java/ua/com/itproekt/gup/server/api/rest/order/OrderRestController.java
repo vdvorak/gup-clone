@@ -82,7 +82,7 @@ public class OrderRestController {
 
     /**
      * @param order - order
-     * @return - return status code if Ok, 404 - offer not found, 400 - order not valid
+     * @return - return status code if Ok, 400 - order not valid, 404 - offer not found, 405 - if user is not buyer
      */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
@@ -95,7 +95,11 @@ public class OrderRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        //TODO проверить, чтобы отправиший этот запрос юзер был исключительно покуателем (продавец не может создать заказ)
+        // only user-buyer can create order
+        String userId = SecurityOperations.getLoggedUserId();
+        if (!userId.equals(order.getBuyerId())) {
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+        }
 
         if (isOrderValid(order, offer)) {
             orderPreparator(order, offer);
@@ -116,7 +120,7 @@ public class OrderRestController {
     /**
      * @param order - updated order. This method can only update order Address only before seller will accept Order.
      * @return - return status 200 code if Ok, 401 - not authorized, 400 - user is not buyer,
-     * 404 - not found order, 405 - OrderStatus isn't "New"
+     * 404 - not found order, 405 - OrderStatus isn't NEW
      */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
@@ -199,13 +203,16 @@ public class OrderRestController {
         }
 
         if (order.getOrderStatus() == OrderStatus.ACCEPT) {
-            oldOrder.setOrderStatus(OrderStatus.ACCEPT);
+            oldOrder.setOrderStatus(OrderStatus.ACCEPT)
+                    .setAcceptedDateEqualsToCurrentDate();
             orderService.findAndUpdate(oldOrder);
             activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_ACCEPTED));
         }
 
         if (order.getOrderStatus() == OrderStatus.REJECTED_BY_SELLER) {
-            oldOrder.setOrderStatus(OrderStatus.REJECTED_BY_SELLER);
+            oldOrder
+                    .setOrderStatus(OrderStatus.REJECTED_BY_SELLER)
+                    .setRejectDateEqualsToCurrentDate();
             orderService.findAndUpdate(oldOrder);
             //ToDo Возврат денег покупателю
             activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_REJECTED_BY_SELLER));
@@ -215,6 +222,12 @@ public class OrderRestController {
     }
 
 
+    /**
+     * @param order - updated order. This method can only change order status to SENT. Due to TransportCompany type
+     *              you need or not put trackNumber.
+     * @return - return 200 status code if Ok, 400 - order doesn't have track number, 401 - not authorized,
+     * 404 - not found order, 405 - if TransportCompany was SELF_PICKED - you can't use this method
+     */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
     @RequestMapping(value = "/order/update/5", method = RequestMethod.POST,
@@ -231,12 +244,15 @@ public class OrderRestController {
             if (order.getTrackNumber() != null) {
                 oldOrder
                         .setTrackNumber(order.getTrackNumber())
-                        .setOrderStatus(OrderStatus.SENT);
+                        .setOrderStatus(OrderStatus.SENT)
+                        .setSentDateEqualsToCurrentDate();
                 orderService.findAndUpdate(oldOrder);
                 activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_SENT));
             } else {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
+        } else {
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
