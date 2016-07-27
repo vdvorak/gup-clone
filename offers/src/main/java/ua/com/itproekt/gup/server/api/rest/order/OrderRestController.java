@@ -38,21 +38,25 @@ public class OrderRestController {
     // нам нужны данные, которы меняются исключительно пользователем
 
 
+    private final ResponseEntity<Void> ok = new ResponseEntity<>(HttpStatus.OK);
+    private final ResponseEntity<Void> badRequest = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    private final ResponseEntity<Void> forbidden = new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    private final ResponseEntity<Void> notFound = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    private final ResponseEntity<Void> methodNotAllowed = new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+    private final ResponseEntity<Void> notAcceptable = new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+
+
     @Autowired
     OrderService orderService;
-
     @Autowired
     ProfilesService profilesService;
-
     @Autowired
     OffersService offersService;
-
     @Autowired
     ActivityFeedService activityFeedService;
 
 
     //------------------------------------------ Read -----------------------------------------------------------------
-
 
     /**
      * @param id - order id
@@ -89,7 +93,7 @@ public class OrderRestController {
 
     /**
      * @param order - order include: offerId, orderAddress, isSafeOrder, orderType, orderComment
-     * @return - return status code if Ok, 400 - order not valid, 404 - offer not found, 405 - if user is not buyer
+     * @return - return status code if Ok, 400 - order not valid, 403 - if user is offer author, 404 - offer not found, 405 - if user is not buyer
      */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
@@ -99,22 +103,16 @@ public class OrderRestController {
 
         Offer offer = offersService.findById(order.getOfferId());
         if (offer == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return notFound;
         }
 
-
-
-
         String userId = SecurityOperations.getLoggedUserId();
-        //ToDo проверить, чтобы залогиненный юзер не было автором этого объявления
-
-//        if (!userId.equals(order.getBuyerId())) {
-//            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
-//        }
-
+        if (userId.equals(offer.getAuthorId())) {
+            return forbidden;
+        }
 
         if (isOrderValid(order, offer)) {
-            newOrderPreparator(userId ,order, offer);
+            newOrderPreparator(userId, order, offer);
 
             if (order.isSafeOrder()) {
                 //ToDo перевод денег на счёт Гупа если ввключён safe order
@@ -122,9 +120,9 @@ public class OrderRestController {
             orderService.create(order);
             activityFeedService.createEvent(eventPreparatorForSeller(order, EventType.NEW_ORDER));
         } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return badRequest;
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ok;
     }
 
 //------------------------------------------ Update -------------------------------------------------------------
@@ -151,17 +149,17 @@ public class OrderRestController {
 
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return notFound;
         }
 
         if (oldOrder.getOrderStatus() != OrderStatus.NEW) {
-            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+            return methodNotAllowed;
         }
 
         oldOrder.setOrderAddress(order.getOrderAddress());
         orderService.findAndUpdate(oldOrder);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ok;
     }
 
 
@@ -398,7 +396,7 @@ public class OrderRestController {
         return true;
     }
 
-    private void newOrderPreparator(String userId ,Order order, Offer offer) {
+    private void newOrderPreparator(String userId, Order order, Offer offer) {
         order
                 .setBuyerId(userId)
                 .setSellerId(offer.getAuthorId())
