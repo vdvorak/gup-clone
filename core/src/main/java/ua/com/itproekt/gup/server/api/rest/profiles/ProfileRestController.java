@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Set;
 
 
-
 @RestController
 @RequestMapping("/api/rest/profilesService")
 public class ProfileRestController {
@@ -67,7 +66,7 @@ public class ProfileRestController {
      * @return the profile by id
      */
     @CrossOrigin
-    @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.POST,
+    @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileInfo> getProfileById(@PathVariable String id) {
 
@@ -87,7 +86,7 @@ public class ProfileRestController {
 
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/read/id/{profileId}/wholeProfile", method = RequestMethod.POST)
+    @RequestMapping(value = "/profile/read/id/{profileId}/wholeProfile", method = RequestMethod.GET)
     public ResponseEntity<Profile> readUserProfile(@PathVariable String profileId, HttpServletRequest request) {
         Profile profile = profilesService.findWholeProfileById(profileId);
         if (profile == null) {
@@ -110,8 +109,10 @@ public class ProfileRestController {
 
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
-        if (loggedUserId!=null){
+        if (loggedUserId != null) {
             Profile profile = profilesService.findById(loggedUserId);
+            profile.setLastLoginDateEqualsToCurrentDate();
+            profilesService.editProfile(profile);
             return new ResponseEntity<>(profile, HttpStatus.OK);
         }
 
@@ -126,7 +127,7 @@ public class ProfileRestController {
      * @return the profile by username
      */
     @CrossOrigin
-    @RequestMapping(value = "/profile/read/username/{username}", method = RequestMethod.POST,
+    @RequestMapping(value = "/profile/read/username/{username}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Profile> getProfileByUsername(@PathVariable("username") String username) {
         Profile profile = profilesService.findProfileByUsername(username);
@@ -223,13 +224,10 @@ public class ProfileRestController {
         if (!profilesService.profileExists(profileId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-//        contactId
-//        ownerContactListId
+
         String userId = SecurityOperations.getLoggedUserId();
         profilesService.addContactToContactList(userId, profileId);
 
-//        String authorId = blogPostService.findComment(blogPostId, commentId).getComments().iterator().next().getFromId();
-//        activityFeedService.createEvent(new Event(authorId, EventType.BLOG_POST_COMMENT_LIKE, blogPostId, userId));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

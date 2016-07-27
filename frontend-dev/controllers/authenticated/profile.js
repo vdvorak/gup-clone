@@ -2,8 +2,8 @@
 
 class ProfileContact{
     constructor() {
-        this.contactEmails = [''];
-        this.contactPhones = [''];
+        this.contactEmails = ['']
+        this.contactPhones = ['']
     }
 }
 
@@ -12,8 +12,9 @@ class profileCtrl {
         // if(!$scope.$parent.db.user)
         //   $scope.$parent.redirectToUrl('/403', true)
         // else
-          this.contact = new ProfileContact();
-        
+        this.contact = new ProfileContact();
+
+        this.socialCategories = require('../../data/social')
     }
     updateProfile(){
 

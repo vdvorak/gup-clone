@@ -26,14 +26,6 @@ module.exports = function($scope) {
 
   this.send = () => {
     ee.emit({ name : "form-submit" })
-    /*
-      - Get data
-      - Validate
-      - Show errors
-      - or
-      - Goto bd and send data
-    */
-    // this.deleteListners()
 
     if( this.emailValid && this.passwordValid ) {
       this.db.login({

@@ -32,14 +32,14 @@
 				</div>
 			</div>
 			<div class="headRight clearfix">
-				<div class="mail" ng-show="db.user">
+				<div class="mail" ng-show="db.isLogged">
 					<p>10</p>
 					<div class="chooseYourStyle">
 						<p>Компактный вид</p>
 						<p>Полный вид</p>
 					</div>
 				</div>
-				<div class="bell" ng-show="db.user">
+				<div class="bell" ng-show="db.isLogged">
 					<p>8</p>
 				</div>
 				<div class="services">
@@ -53,14 +53,15 @@
 						<a href="#"><p>Проекты</p></a>
 					</div>
 				</div>
-				<div class="userName" ng-show="db.user">
+				<div class="userName" ng-show="db.isLogged">
 					<p ng-click="username = true">Имя Фамилия</p>
 					<div ng-show="username">
 						<p ng-click="redirectToUrl('/profile')">Профиль</p>
+						<p ng-click="redirectToUrl('/editProfile')">Редактировать профиль</p>
 						<p ng-click="main.logout()">Выйти</p>
 					</div>
 				</div>
-				<div class="auth" ng-hide="db.user">
+				<div class="auth" ng-hide="db.isLogged">
 					<span ng-click="redirectToUrl('/login')">Войти</span> | <span ng-click="redirectToUrl('/register')">Регистрация</span>
 				</div>
 			</div>

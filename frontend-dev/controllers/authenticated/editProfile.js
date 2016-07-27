@@ -21,7 +21,8 @@ class profileCtrl {
 			this.contact = new ProfileContact();
       this.contactTypes = [
         "LEGAL_ENTITY",
-        "ENTREPRENEUR"
+        "ENTREPRENEUR",
+        "INDIVIDUAL"
       ]
 
       this.email = ""

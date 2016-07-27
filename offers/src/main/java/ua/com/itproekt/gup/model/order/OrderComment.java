@@ -1,11 +1,13 @@
 package ua.com.itproekt.gup.model.order;
 
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 public class OrderComment {
     String userId;
+    @Size(min = 10, max = 500)
     String message;
     Long date;
 
