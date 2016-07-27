@@ -13,6 +13,7 @@ import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.offer.Currency;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
+import ua.com.itproekt.gup.model.order.OrderComment;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
@@ -32,6 +33,10 @@ import java.util.Map;
 @Controller
 @RequestMapping("/api/rest/orderService")
 public class OrderRestController {
+
+    //ToDo В любом изменении ордера нам не нужно получать: id пользователя, который делает апдейт
+    // нам нужны данные, которы меняются исключительно пользователем
+
 
     @Autowired
     OrderService orderService;
@@ -97,11 +102,14 @@ public class OrderRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+        //ToDo проверить, чтобы залогиненный юзер не было автором этого объявления
+
         // only user-buyer can create order
         String userId = SecurityOperations.getLoggedUserId();
         if (!userId.equals(order.getBuyerId())) {
             return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
         }
+
 
         if (isOrderValid(order, offer)) {
             orderPreparator(order, offer);
@@ -132,9 +140,12 @@ public class OrderRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
+
+        //TODO перенести ниже и переписать (доставать пользователя только из Секьюрити
         if (!userId.equals(order.getBuyerId())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
 
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
@@ -269,8 +280,9 @@ public class OrderRestController {
 
 
     /**
-     * @param order
-     * @return- return 200 status code if Ok, 400 - user neither seller nor buyer, 404 - not found order,
+     * @param order - updated order.
+     *              This method can only change order status to RECEIVED from the client (by seller or by buyer).
+     * @return - return 200 status code if Ok, 400 - user neither seller nor buyer, 404 - not found order,
      * 406 - buyer can't mark this order like RECEIVED yet
      */
     @PreAuthorize("isAuthenticated()")
@@ -327,6 +339,41 @@ public class OrderRestController {
             }
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    /**
+     * @param order - updated order. Can received only one comment from buyer or from seller to certain order.
+     *              Comment length can be from 10 to 500 letters.
+     * @return - return 200 status code if Ok, 400 - user neither seller nor buyer, 404 - not found order,
+     */
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/order/update/7", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateOrder7(@Valid @RequestBody Order order) {
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        Order oldOrder = orderService.findById(order.getId());
+        if (oldOrder == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+
+        if (userId.equals(oldOrder.getBuyerId())) {
+            commentUpdaterAndEventSender(userId, order, oldOrder, EventType.ORDER_BUYER_COMMENT);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+
+        if (userId.equals(oldOrder.getSellerId())) {
+            commentUpdaterAndEventSender(userId, order, oldOrder, EventType.ORDER_SELLER_COMMENT);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 
@@ -397,6 +444,19 @@ public class OrderRestController {
                 .setMakerId(order.getSellerId())
                 .setImgId(order.getOfferMainImageId())
                 .setMakerName(profile.getUsername());
+    }
+
+
+    private void commentUpdaterAndEventSender(String userId, Order order, Order oldOrder, EventType eventType) {
+
+        OrderComment newComment = order.getOrderComments().get(0)
+                .setDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli())
+                .setUserId(userId);
+
+        oldOrder.getOrderComments().add(newComment);
+        orderService.findAndUpdate(oldOrder);
+
+        activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, eventType));
     }
 
 
