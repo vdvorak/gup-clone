@@ -88,7 +88,7 @@ public class OrderRestController {
     //------------------------------------------ Create -------------------------------------------------------------
 
     /**
-     * @param order - order
+     * @param order - order include: offerId, orderAddress, isSafeOrder, orderType, orderComment
      * @return - return status code if Ok, 400 - order not valid, 404 - offer not found, 405 - if user is not buyer
      */
     @PreAuthorize("isAuthenticated()")
@@ -102,17 +102,19 @@ public class OrderRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+
+
+
+        String userId = SecurityOperations.getLoggedUserId();
         //ToDo проверить, чтобы залогиненный юзер не было автором этого объявления
 
-        // only user-buyer can create order
-        String userId = SecurityOperations.getLoggedUserId();
-        if (!userId.equals(order.getBuyerId())) {
-            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
-        }
+//        if (!userId.equals(order.getBuyerId())) {
+//            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+//        }
 
 
         if (isOrderValid(order, offer)) {
-            orderPreparator(order, offer);
+            newOrderPreparator(userId ,order, offer);
 
             if (order.isSafeOrder()) {
                 //ToDo перевод денег на счёт Гупа если ввключён safe order
@@ -396,8 +398,12 @@ public class OrderRestController {
         return true;
     }
 
-    private void orderPreparator(Order order, Offer offer) {
-        order.setOfferTitle(offer.getTitle())
+    private void newOrderPreparator(String userId ,Order order, Offer offer) {
+        order
+                .setBuyerId(userId)
+                .setSellerId(offer.getAuthorId())
+                .setOfferTitle(offer.getTitle())
+                .setPrice(offer.getPrice())
                 .setSeoKey(offer.getSeoKey())
                 .setSeoUrl(offer.getSeoUrl())
                 .setOfferMainImageId(findMainOfferPhoto(offer));
