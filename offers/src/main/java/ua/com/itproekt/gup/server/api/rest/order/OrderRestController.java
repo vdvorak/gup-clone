@@ -37,6 +37,8 @@ public class OrderRestController {
     //ToDo В любом изменении ордера нам не нужно получать: id пользователя, который делает апдейт
     // нам нужны данные, которы меняются исключительно пользователем
 
+    //ToDo возможно стоит в методах, окторые ничего кроме статуса на отправляют, убрать produces = MediaType.APPLICATION_JSON_VALUE
+
 
     private final ResponseEntity<Void> ok = new ResponseEntity<>(HttpStatus.OK);
     private final ResponseEntity<Void> badRequest = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -177,7 +179,7 @@ public class OrderRestController {
 
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return notFound;
         }
 
         if (userId.equals(oldOrder.getBuyerId()) && oldOrder.getOrderStatus() == OrderStatus.NEW) {
@@ -188,7 +190,7 @@ public class OrderRestController {
 
             activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, EventType.ORDER_CANCEL_BY_BUYER));
         } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return badRequest;
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -196,7 +198,7 @@ public class OrderRestController {
 
 
     /**
-     * @param order - updated order. This method can only change Order Status to Accept or Rejected (only by seller)
+     * @param order - updated order. This method can only change Order Status to ACCEPT or ORDER_REJECTED_BY_SELLER (only by seller)
      * @return - return 200 status code if Ok, 400 - user is not seller, 401 - not authorized, 404 - not found order
      */
     @PreAuthorize("isAuthenticated()")
@@ -207,12 +209,12 @@ public class OrderRestController {
 
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return notFound;
         }
 
         String userId = SecurityOperations.getLoggedUserId();
         if (!userId.equals(oldOrder.getSellerId())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return badRequest;
         }
 
         if (order.getOrderStatus() == OrderStatus.ACCEPT) {
@@ -232,7 +234,7 @@ public class OrderRestController {
             activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_REJECTED_BY_SELLER));
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ok;
     }
 
 
@@ -252,12 +254,12 @@ public class OrderRestController {
 
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return notFound;
         }
 
         String userId = SecurityOperations.getLoggedUserId();
         if (!userId.equals(oldOrder.getSellerId())) {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            return notAcceptable;
         }
 
         if (oldOrder.getOrderAddress().getTransportCompany() != TransportCompany.SELF_PICKED) {
@@ -269,13 +271,13 @@ public class OrderRestController {
                 orderService.findAndUpdate(oldOrder);
                 activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_SENT));
             } else {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                return badRequest;
             }
         } else {
-            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+            return methodNotAllowed;
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ok;
     }
 
 
@@ -294,7 +296,7 @@ public class OrderRestController {
 
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return notFound;
         }
 
         Long timeNow = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -316,7 +318,7 @@ public class OrderRestController {
                 //ToDo перевести деньги на счёт продавца
                 activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_RECEIVED));
             } else {
-                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+                return notAcceptable;
             }
 
 
@@ -335,10 +337,10 @@ public class OrderRestController {
 
             } else {
                 //ошибка, т.к. ты не покупатель и не продаввец
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                return badRequest;
             }
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ok;
     }
 
 
@@ -357,13 +359,13 @@ public class OrderRestController {
 
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return notFound;
         }
 
 
         if (userId.equals(oldOrder.getBuyerId())) {
             commentUpdaterAndEventSender(userId, order, oldOrder, EventType.ORDER_BUYER_COMMENT);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return ok;
         }
 
 
@@ -372,8 +374,7 @@ public class OrderRestController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
-
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return badRequest;
     }
 
 
@@ -462,6 +463,4 @@ public class OrderRestController {
 
         activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, eventType));
     }
-
-
 }
