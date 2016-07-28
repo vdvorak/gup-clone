@@ -5,3 +5,4 @@
 **/target/**
 **/startMongo
 frontend-dev/node_modules
+/public/src/main/webapp/app.js
