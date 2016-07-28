@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <name>NovaEra Maven Webapp</name>
+    <name>GUP</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -30,9 +30,7 @@
     <modules>
         <module>core</module>
         <module>oauth</module>
-        <module>socket</module>
         <module>offers</module>
-        <module>client</module>
         <module>public</module>
     </modules>
 </project>
