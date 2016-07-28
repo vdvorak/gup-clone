@@ -67,7 +67,7 @@ public interface ProfilesService {
      * @param profileFilterOptions the profile filter options
      * @return the entity page
      */
-    EntityPage<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions);
+    List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions);
 
     /**
      * Find profile by username profile.
@@ -194,4 +194,5 @@ public interface ProfilesService {
 
     ProfileInfo findPrivateProfileByEmail(String email);
 
+    List<ProfileInfo> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions);
 }

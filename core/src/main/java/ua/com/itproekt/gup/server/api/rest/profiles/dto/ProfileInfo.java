@@ -2,9 +2,12 @@ package ua.com.itproekt.gup.server.api.rest.profiles.dto;
 
 import ua.com.itproekt.gup.model.profiles.Profile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProfileInfo {
 
-     //ToDo when this features will work     profileInfo.setIsOnline(isUserOnline(id));
+    //ToDo when this features will work     profileInfo.setIsOnline(isUserOnline(id));
     //ToDo profileInfo.setLastLoginDateEqualsToCurrentDate() - сохранять в базу
 
 
@@ -38,6 +41,15 @@ public class ProfileInfo {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+
+    public List<ProfileInfo> getListOfPublicProfilesWithOptions(List<Profile> profileList) {
+        List<ProfileInfo> profileInfoList = new ArrayList<>();
+        for (Profile profile : profileList) {
+            profileInfoList.add(getPublicProfile(profile));
+        }
+        return profileInfoList;
     }
 
 

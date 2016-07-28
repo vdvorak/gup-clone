@@ -13,7 +13,6 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
-import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
@@ -99,17 +98,8 @@ public class ProfileRestController {
     @CrossOrigin
     @RequestMapping(value = "/profile/read/all", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EntityPage<Profile>> listAllProfiles(@RequestBody ProfileFilterOptions profileFilterOptions) {
-        EntityPage<Profile> profiles = profilesService.findAllProfiles(profileFilterOptions);
-
-        List<Profile> profilesList = profiles.getEntities();
-        for (Profile profile : profilesList) {
-            profile.setContactList(null);
-        }
-
-        if (profiles.getEntities().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+    public ResponseEntity<List<ProfileInfo>> listAllProfiles(@RequestBody ProfileFilterOptions profileFilterOptions) {
+        List<ProfileInfo> profiles = profilesService.findAllPublicProfilesWithOptions(profileFilterOptions);
         return new ResponseEntity<>(profiles, HttpStatus.OK);
     }
 

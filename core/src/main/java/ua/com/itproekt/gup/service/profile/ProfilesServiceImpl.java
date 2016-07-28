@@ -7,7 +7,6 @@ import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.model.profiles.*;
 import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
-import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.*;
 
@@ -90,7 +89,7 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public EntityPage<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions) {
+    public List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions) {
         return profileRepository.findAllProfiles(profileFilterOptions);
     }
 
@@ -218,5 +217,10 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public ProfileInfo findPublicProfileByEmail(String email) {
         return new ProfileInfo().getPublicProfile(findById(email));
+    }
+
+    @Override
+    public List<ProfileInfo> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions) {
+        return new ProfileInfo().getListOfPublicProfilesWithOptions(profileRepository.findAllProfiles(profileFilterOptions));
     }
 }
