@@ -231,11 +231,11 @@
         </dependency>
 
         <!-- WebSocket -->
-        <dependency>
-            <groupId>ua.com.itproekt</groupId>
-            <artifactId>socket</artifactId>
-            <version>${version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>ua.com.itproekt</groupId>-->
+            <!--<artifactId>socket</artifactId>-->
+            <!--<version>${version}</version>-->
+        <!--</dependency>-->
 
 		<!-- Offers -->
         <dependency>

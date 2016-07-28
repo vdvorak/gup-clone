@@ -17,12 +17,12 @@ import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventFilterOptions;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.itproekt.gup.model.privatemessages.Dialogue;
-import ua.com.itproekt.gup.model.privatemessages.Member;
+//import ua.com.itproekt.gup.model.privatemessages.Dialogue;
+//import ua.com.itproekt.gup.model.privatemessages.Member;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.offers.OffersService;
-import ua.com.itproekt.gup.service.privatemessage.DialogueService;
+//import ua.com.itproekt.gup.service.privatemessage.DialogueService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
@@ -40,8 +40,8 @@ public class AccountController {
     @Autowired
     ProfilesService profilesService;
 
-    @Autowired
-    DialogueService dialogueService;
+//    @Autowired
+//    DialogueService dialogueService;
 
 
 
@@ -74,8 +74,8 @@ public class AccountController {
         model.addAttribute("curentBalance", session.getUserBalance(authId));
 
 
-        List<Dialogue> dialogues = dialogueService.findFirstThreeDialogues(new Member(profile.getId()));
-        model.addAttribute("dialogues", dialogues);
+//        List<Dialogue> dialogues = dialogueService.findFirstThreeDialogues(new Member(profile.getId()));
+//        model.addAttribute("dialogues", dialogues);
 
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
         offerFilterOptions.setAuthorId(authId);

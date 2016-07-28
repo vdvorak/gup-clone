@@ -4,6 +4,7 @@
          version="3.0">
 
     <display-name>Offers REST-Service</display-name>
+
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
