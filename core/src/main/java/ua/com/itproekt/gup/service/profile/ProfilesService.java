@@ -186,4 +186,6 @@ public interface ProfilesService {
 
     ProfileInfo findExtendedProfileById(String id);
 
+    ProfileInfo findExtendedProfileByEmail(String email);
+
 }

@@ -23,6 +23,8 @@ public class OrderServiceImpl implements OrderService {
                 .setBuyerId(order.getBuyerId())
                 .setSellerId(order.getSellerId())
                 .setPrice(order.getPrice())
+                .setOfferTitle(order.getOfferTitle())
+                .setOfferMainImageId(order.getOfferMainImageId())
                 .setCreatedDateEqualsToCurrentDate()
                 .setOrderAddress(order.getOrderAddress())
                 .setOrderStatus(OrderStatus.NEW)
@@ -39,6 +41,9 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findById(id);
     }
 
+
+
+    //ToDo тут не хватает некоторых полей (тайтл...)
     @Override
     public Order findAndUpdate(Order order) {
         Order newOrder = new Order()

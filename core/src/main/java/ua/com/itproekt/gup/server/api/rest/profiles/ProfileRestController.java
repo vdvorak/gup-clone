@@ -76,12 +76,9 @@ public class ProfileRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        if (SecurityOperations.isUserLoggedIn() && id.equals(SecurityOperations.getLoggedUserId())) {
+//            profileInfo.setContactList(null); //ToDo перенести эту логику в ProfileInfo
             return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-        } else {
-            profileInfo.setContactList(null);
-            return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-        }
+
     }
 
     @CrossOrigin

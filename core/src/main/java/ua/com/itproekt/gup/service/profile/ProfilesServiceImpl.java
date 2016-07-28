@@ -3,10 +3,10 @@ package ua.com.itproekt.gup.service.profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.model.profiles.*;
+import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.*;
@@ -214,15 +214,27 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public ProfileInfo findExtendedProfileById(String id) {
 
-        Profile profile = findById(id);
+//        if (profile == null) {
+//            return null;
+//        }
 
-        if (profile == null) {
-            return null;
-        }
+        //        profileInfo.setIsOnline(isUserOnline(id)); //ToDo when this features will work
 
-        ProfileInfo profileInfo = ProfileInfo.toModel(profile);
-        profileInfo.setIsOnline(isUserOnline(id));
+        return new ProfileInfo(findById(id));
+    }
 
-        return profileInfo;
+    @Override
+    public ProfileInfo findExtendedProfileByEmail(String email) {
+//
+//        ProfileInfo profile = (ProfileInfo) findProfileByEmail(email);
+//
+//
+//        if (profile == null) {
+//            return null;
+//        }
+
+        //        profileInfo.setIsOnline(isUserOnline(id)); //ToDo when this features will work
+
+        return new ProfileInfo(findProfileByEmail(email));
     }
 }
