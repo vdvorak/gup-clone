@@ -25,7 +25,6 @@ import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CookieUtil;
 import ua.com.itproekt.gup.util.LogUtil;
 import ua.com.itproekt.gup.util.Oauth2Util;
-import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -73,19 +72,7 @@ public class LoginRestController {
 
         authenticateByEmailAndPassword(loggedUser, response);
 
-
-
-//        Profile profile = profilesService.findProfileByEmail(formLoggedUser.getEmail());
-
-        ProfileInfo profileInfo = profilesService.findExtendedProfileByEmail(formLoggedUser.getEmail());
-
-
-//ToDo profileInfo.setLastLoginDateEqualsToCurrentDate() - сохранять в базу
-
-//        profileInfo.setLastLoginDateEqualsToCurrentDate();
-
-//        profilesService.editProfile(profileInfo);
-
+        ProfileInfo profileInfo = profilesService.findPrivateProfileByEmail(formLoggedUser.getEmail());
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
@@ -110,41 +97,6 @@ public class LoginRestController {
 
         return "redirect:/index";
     }
-
-
-
-
-
-
-//    @CrossOrigin
-//    @RequestMapping(value = "/logout2", method = RequestMethod.GET)
-//    public String login2(HttpServletRequest request, HttpServletResponse response) {
-//
-//        try {
-//            for (Cookie cookie : request.getCookies()) {
-//                if (cookie.getName().equals("authToken")) {
-//                    tokenServices.revokeToken(cookie.getValue());
-//                }
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//
-//        Cookie cookieAuthToken = new Cookie("authToken", null);
-//        cookieAuthToken.setMaxAge(0);
-//        cookieAuthToken.setPath("/");
-//        response.addCookie(cookieAuthToken);
-//
-//        Cookie cookieRefreshToken = new Cookie("refreshToken", null);
-//        cookieRefreshToken.setMaxAge(0);
-//        cookieRefreshToken.setPath("/");
-//        response.addCookie(cookieRefreshToken);
-//
-//        return "redirect:/index";
-//    }
-
-
-
 
 
 
@@ -186,7 +138,7 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Void> register(@RequestBody Profile profile, HttpServletResponse response) {
+    public ResponseEntity<Void> register(@RequestBody Profile profile) {
         if (profilesService.profileExistsWithEmail(profile.getEmail())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {

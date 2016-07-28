@@ -184,8 +184,14 @@ public interface ProfilesService {
      */
     boolean isUserOnline(String userId);
 
-    ProfileInfo findExtendedProfileById(String id);
 
-    ProfileInfo findExtendedProfileByEmail(String email);
+    ProfileInfo findPublicProfileById(String id);
+
+    ProfileInfo findPublicProfileByEmail(String email);
+
+
+    ProfileInfo findPrivateProfileById(String id);
+
+    ProfileInfo findPrivateProfileByEmail(String email);
 
 }

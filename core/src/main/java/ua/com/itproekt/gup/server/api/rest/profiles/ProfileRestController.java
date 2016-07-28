@@ -13,7 +13,6 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
-import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
@@ -25,9 +24,8 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/rest/profilesService")
 public class ProfileRestController {
-    /**
-     * The Profiles service.
-     */
+
+
     @Autowired
     ProfilesService profilesService;
 
@@ -37,27 +35,6 @@ public class ProfileRestController {
     @Autowired
     BankSession bankSession;
 
-    /**
-     * Create profile.
-     *
-     * @param profile JSON object in request body
-     * @return the response status
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/profile/create", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResp> createProfile(@RequestBody Profile profile) {
-        if (profilesService.profileExistsWithEmail(profile.getEmail())) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        profilesService.createProfile(profile);
-        verificationTokenService.sendEmailRegistrationToken(profile.getId());
-
-        CreatedObjResp createdObjResp = new CreatedObjResp(profile.getId());
-
-        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
-    }
 
     /**
      * Gets profile by id.
@@ -70,14 +47,13 @@ public class ProfileRestController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileInfo> getProfileById(@PathVariable String id) {
 
-        ProfileInfo profileInfo = profilesService.findExtendedProfileById(id);
+        ProfileInfo profileInfo = profilesService.findPublicProfileById(id);
 
         if (profileInfo == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-//            profileInfo.setContactList(null); //ToDo перенести эту логику в ProfileInfo
-            return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+        return new ResponseEntity<>(profileInfo, HttpStatus.OK);
 
     }
 
@@ -85,20 +61,15 @@ public class ProfileRestController {
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Profile> getLoggedUser() {
-
+    public ResponseEntity<ProfileInfo> getLoggedUser() {
 
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         if (loggedUserId != null) {
-            Profile profile = profilesService.findById(loggedUserId);
-            profile.setLastLoginDateEqualsToCurrentDate();
-            profilesService.editProfile(profile);
-            return new ResponseEntity<>(profile, HttpStatus.OK);
+            return new ResponseEntity<>(profilesService.findPrivateProfileById(loggedUserId), HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 
     /**
@@ -233,29 +204,6 @@ public class ProfileRestController {
         profilesService.editProfile(profile);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-//    @CrossOrigin
-//    @PreAuthorize("isAuthenticated()")
-//    @RequestMapping(value = "/join-organization", method = RequestMethod.POST)
-//    public ResponseEntity<String> joinToOrganization() {
-//
-//        String userId = SecurityOperations.getLoggedUserId();
-//        Profile profile = profilesService.findById(userId);
-//
-//        if (profile.getContact().isMember()) {
-//            return new ResponseEntity<>("1", HttpStatus.OK);
-//        } else {
-//            Integer userBalance = bankSession.getUserBalance(userId);
-//            if (userBalance >= 50) {
-//                bankSession.investInOrganization(5555, userId, 50L, 11, "Success");
-//                profile.getContact().setMember(true);
-//                profilesService.editProfile(profile);
-//                return new ResponseEntity<>("2", HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<>("3", HttpStatus.OK);
-//            }
-//        }
-//    }
 
     @CrossOrigin
     @RequestMapping(value = "/check-user-balance-by-id", method = RequestMethod.POST)
