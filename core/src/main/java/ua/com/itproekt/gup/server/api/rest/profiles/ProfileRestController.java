@@ -81,22 +81,6 @@ public class ProfileRestController {
 
     }
 
-    @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/read/id/{profileId}/wholeProfile", method = RequestMethod.GET)
-    public ResponseEntity<Profile> readUserProfile(@PathVariable String profileId, HttpServletRequest request) {
-        Profile profile = profilesService.findWholeProfileById(profileId);
-        if (profile == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        String loggedUserId = SecurityOperations.getLoggedUserId();
-        if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
-            return new ResponseEntity<>(profile, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-    }
 
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET,
@@ -250,28 +234,28 @@ public class ProfileRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/join-organization", method = RequestMethod.POST)
-    public ResponseEntity<String> joinToOrganization() {
-
-        String userId = SecurityOperations.getLoggedUserId();
-        Profile profile = profilesService.findById(userId);
-
-        if (profile.getContact().isMember()) {
-            return new ResponseEntity<>("1", HttpStatus.OK);
-        } else {
-            Integer userBalance = bankSession.getUserBalance(userId);
-            if (userBalance >= 50) {
-                bankSession.investInOrganization(5555, userId, 50L, 11, "Success");
-                profile.getContact().setMember(true);
-                profilesService.editProfile(profile);
-                return new ResponseEntity<>("2", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("3", HttpStatus.OK);
-            }
-        }
-    }
+//    @CrossOrigin
+//    @PreAuthorize("isAuthenticated()")
+//    @RequestMapping(value = "/join-organization", method = RequestMethod.POST)
+//    public ResponseEntity<String> joinToOrganization() {
+//
+//        String userId = SecurityOperations.getLoggedUserId();
+//        Profile profile = profilesService.findById(userId);
+//
+//        if (profile.getContact().isMember()) {
+//            return new ResponseEntity<>("1", HttpStatus.OK);
+//        } else {
+//            Integer userBalance = bankSession.getUserBalance(userId);
+//            if (userBalance >= 50) {
+//                bankSession.investInOrganization(5555, userId, 50L, 11, "Success");
+//                profile.getContact().setMember(true);
+//                profilesService.editProfile(profile);
+//                return new ResponseEntity<>("2", HttpStatus.OK);
+//            } else {
+//                return new ResponseEntity<>("3", HttpStatus.OK);
+//            }
+//        }
+//    }
 
     @CrossOrigin
     @RequestMapping(value = "/check-user-balance-by-id", method = RequestMethod.POST)
