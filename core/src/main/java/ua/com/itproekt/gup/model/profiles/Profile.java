@@ -31,10 +31,8 @@ public class Profile {
     private Set<String> contactList;
     private UserProfile userProfile;
 
-    private Set<PriOfficeSetting> priofficeSets;
-
     private Integer point;
-    private Integer unreadMessages;
+    private Integer unreadMessages; //ToDo должно ли оно тут храниться? Вынести в ProfileInfo?
     private Set<ProfileRating> profileRating;
 
     private Boolean confirmModerator;
@@ -44,7 +42,6 @@ public class Profile {
     private Long lastLoginDate;
 
     private List<OrderAddress> orderAddressList;
-
 
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
@@ -62,14 +59,6 @@ public class Profile {
 
     //*********************************************************************
 
-    public Set<PriOfficeSetting> getPriofficeSets() {
-        return priofficeSets;
-    }
-
-    public Profile setPriofficeSets(Set<PriOfficeSetting> priofficeSets) {
-        this.priofficeSets = priofficeSets;
-        return this;
-    }
 
     public String getImgId() {
         return imgId;
@@ -260,7 +249,6 @@ public class Profile {
                 ", contact=" + contact +
                 ", contactList=" + contactList +
                 ", userProfile=" + userProfile +
-                ", priofficeSets=" + priofficeSets +
                 ", point=" + point +
                 ", unreadMessages=" + unreadMessages +
                 ", profileRating=" + profileRating +

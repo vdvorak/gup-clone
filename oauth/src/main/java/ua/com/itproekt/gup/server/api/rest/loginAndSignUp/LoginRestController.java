@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.login.FormLoggedUser;
 import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
+import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CookieUtil;
@@ -52,14 +54,17 @@ public class LoginRestController {
     @Autowired
     private DefaultTokenServices tokenServices;
 
+    @Autowired
+    ActivityFeedService activityFeedService;
+
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<Profile> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
+    public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
         LoggedUser loggedUser;
         try {
             loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
@@ -68,11 +73,20 @@ public class LoginRestController {
 
         authenticateByEmailAndPassword(loggedUser, response);
 
-        Profile profile = profilesService.findProfileByEmail(formLoggedUser.getEmail());
-        profile.setLastLoginDateEqualsToCurrentDate();
-        profilesService.editProfile(profile);
 
-        return new ResponseEntity<>(profile, HttpStatus.OK);
+
+//        Profile profile = profilesService.findProfileByEmail(formLoggedUser.getEmail());
+
+        ProfileInfo profileInfo = profilesService.findExtendedProfileByEmail(formLoggedUser.getEmail());
+
+
+//ToDo profileInfo.setLastLoginDateEqualsToCurrentDate() - сохранять в базу
+
+//        profileInfo.setLastLoginDateEqualsToCurrentDate();
+
+//        profilesService.editProfile(profileInfo);
+
+        return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
     @CrossOrigin

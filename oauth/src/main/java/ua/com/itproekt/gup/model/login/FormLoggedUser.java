@@ -1,18 +1,14 @@
 package ua.com.itproekt.gup.model.login;
 
-/**
- * ua.com.itproekt.gup.api.rest.loginAndSignUp >> LoginRestController
- * >> login(<FormLoggedUser>, <HttpServletResponse>)
- */
 public class FormLoggedUser {
 
     private String email;
     private String password;
 
-    public FormLoggedUser(){
+    public FormLoggedUser() {
     }
 
-    public FormLoggedUser(String email, String password){
+    public FormLoggedUser(String email, String password) {
         this.email = email;
         this.password = password;
     }
@@ -31,5 +27,13 @@ public class FormLoggedUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "FormLoggedUser{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
