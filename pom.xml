@@ -30,9 +30,7 @@
     <modules>
         <module>core</module>
         <module>oauth</module>
-        <!--<module>socket</module>-->
         <module>offers</module>
-        <!--<module>client</module>-->
         <module>public</module>
     </modules>
 </project>

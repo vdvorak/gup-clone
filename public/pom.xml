@@ -230,13 +230,6 @@
             <!--<version>${org.springframework-version}</version>-->
         </dependency>
 
-        <!-- WebSocket -->
-        <!--<dependency>-->
-            <!--<groupId>ua.com.itproekt</groupId>-->
-            <!--<artifactId>socket</artifactId>-->
-            <!--<version>${version}</version>-->
-        <!--</dependency>-->
-
 		<!-- Offers -->
         <dependency>
             <groupId>ua.com.itproekt</groupId>

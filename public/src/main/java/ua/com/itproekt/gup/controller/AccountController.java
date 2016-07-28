@@ -33,24 +33,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-
 @Controller
 public class AccountController {
 
     @Autowired
     ProfilesService profilesService;
 
-//    @Autowired
-//    DialogueService dialogueService;
-
-
-
-
     @Autowired
     ActivityFeedService activityFeedService;
-
-//    @Autowired
-//    BlogPostService blogPostService;
 
     @Autowired
     OffersService offersService;
@@ -72,10 +62,6 @@ public class AccountController {
 
         model.addAttribute("profile", profile);
         model.addAttribute("curentBalance", session.getUserBalance(authId));
-
-
-//        List<Dialogue> dialogues = dialogueService.findFirstThreeDialogues(new Member(profile.getId()));
-//        model.addAttribute("dialogues", dialogues);
 
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
         offerFilterOptions.setAuthorId(authId);
