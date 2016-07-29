@@ -102,9 +102,9 @@ module.exports.saveUserData = function(data) {
   this.user.skypeName = data.profile.contact.skypeUserName || ""
   this.user.website = data.profile.contact.linkToWebSite || ""
   this.user.social = data.profile.contact.socNetLink || []
-  this.user.avatarId = data.profile.imgId || DEFAULT_IMAGE
-
-  /* TODO: распарсить данные в осмысленные переменные */
+  this.user.avatar = data.profile.imgId || DEFAULT_IMAGE
+  this.unreadMessages = data.profile.unreadMessages
+  this.unreadNotifications = data.unreadEventsCount
 
   console.log("Database:: User data saved successfully( шутка ) ")
 }

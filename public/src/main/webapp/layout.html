@@ -33,14 +33,14 @@
 			</div>
 			<div class="headRight clearfix">
 				<div class="mail" ng-show="db.isLogged">
-					<p>10</p>
+					<p>{{ db.unreadMessages }}</p>
 					<div class="chooseYourStyle">
 						<p>Компактный вид</p>
 						<p>Полный вид</p>
 					</div>
 				</div>
 				<div class="bell" ng-show="db.isLogged">
-					<p>8</p>
+					<p>{{ db.unreadNotifications }}</p>
 				</div>
 				<div class="services" ng-click="main.displayServices=!main.displayServices">
 					<div class="vidgets" ng-show="main.displayServices">
