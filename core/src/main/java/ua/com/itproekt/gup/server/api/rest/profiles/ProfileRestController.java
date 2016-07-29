@@ -53,7 +53,6 @@ public class ProfileRestController {
         }
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-
     }
 
 
@@ -65,7 +64,7 @@ public class ProfileRestController {
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         if (loggedUserId != null) {
-            return new ResponseEntity<>(profilesService.findPrivateProfileById(loggedUserId), HttpStatus.OK);
+            return new ResponseEntity<>(profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(loggedUserId), HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

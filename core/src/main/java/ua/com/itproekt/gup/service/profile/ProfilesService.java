@@ -1,10 +1,9 @@
 package ua.com.itproekt.gup.service.profile;
 
-import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;
-import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 
 import java.util.List;
 import java.util.Set;
@@ -166,7 +165,6 @@ public interface ProfilesService {
     boolean isUserModerator(Profile user);
 
     /**
-     *
      * @param userId
      * @return
      */
@@ -187,10 +185,15 @@ public interface ProfilesService {
 
     ProfileInfo findPublicProfileById(String id);
 
+
     ProfileInfo findPublicProfileByEmail(String email);
+    ProfileInfo findPublicProfileByEmailAndUpdateLastLoginDate(String email);
 
 
     ProfileInfo findPrivateProfileById(String id);
+
+    ProfileInfo findPrivateProfileByIdAndUpdateLastLoginDate(String id);
+
 
     ProfileInfo findPrivateProfileByEmail(String email);
 

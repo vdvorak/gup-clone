@@ -11,7 +11,6 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
@@ -19,9 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * Implementation of ProfileRepository.
- */
+
 @Repository
 public class ProfileRepositoryImpl implements ProfileRepository {
     @Autowired

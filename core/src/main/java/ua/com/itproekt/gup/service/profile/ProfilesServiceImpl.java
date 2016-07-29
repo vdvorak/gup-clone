@@ -205,8 +205,27 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
+    public ProfileInfo findPrivateProfileByIdAndUpdateLastLoginDate(String id) {
+
+        Profile profile = findById(id);
+        profile.setLastLoginDateEqualsToCurrentDate();
+        profileRepository.findProfileAndUpdate(profile);
+
+        return new ProfileInfo().getPrivateProfile(profile);
+    }
+
+    @Override
     public ProfileInfo findPrivateProfileByEmail(String email) {
-        return new ProfileInfo().getPrivateProfile(findById(email));
+        return new ProfileInfo().getPrivateProfile(findProfileByEmail(email));
+    }
+
+    @Override
+    public ProfileInfo findPublicProfileByEmailAndUpdateLastLoginDate(String email) {
+        Profile profile = findProfileByEmail(email);
+        profile.setLastLoginDateEqualsToCurrentDate();
+        profileRepository.findProfileAndUpdate(profile);
+
+        return new ProfileInfo().getPrivateProfile(profile);
     }
 
     @Override
@@ -214,9 +233,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         return new ProfileInfo().getPublicProfile(findById(id));
     }
 
+
     @Override
     public ProfileInfo findPublicProfileByEmail(String email) {
-        return new ProfileInfo().getPublicProfile(findById(email));
+        return new ProfileInfo().getPublicProfile(findProfileByEmail(email));
     }
 
     @Override

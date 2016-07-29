@@ -49,12 +49,10 @@ public class LoginRestController {
 
     @Autowired
     VerificationTokenService verificationTokenService;
-
-    @Autowired
-    private DefaultTokenServices tokenServices;
-
     @Autowired
     ActivityFeedService activityFeedService;
+    @Autowired
+    private DefaultTokenServices tokenServices;
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -72,7 +70,7 @@ public class LoginRestController {
 
         authenticateByEmailAndPassword(loggedUser, response);
 
-        ProfileInfo profileInfo = profilesService.findPrivateProfileByEmail(formLoggedUser.getEmail());
+        ProfileInfo profileInfo = profilesService.findPublicProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
@@ -99,7 +97,6 @@ public class LoginRestController {
     }
 
 
-
     private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
@@ -108,16 +105,6 @@ public class LoginRestController {
         CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
         CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
     }
-
-//		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
-//			Authenticate the user
-//		Authentication authentication = authenticationManager.authenticate(authRequest);
-//		SecurityContext securityContext = SecurityContextHolder.getContext();
-//		securityContext.setAuthentication(authentication);
-//
-//			Create a new session and add the security context.
-//		HttpSession session = request.getSession(true);
-//		session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
 
     /*--------------------------------------- Check -----------------------------------------------------------------*/
