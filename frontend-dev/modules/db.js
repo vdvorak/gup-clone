@@ -103,7 +103,7 @@ module.exports.saveUserData = function(data) {
   this.user.website = data.profile.contact.linkToWebSite || ""
   this.user.social = data.profile.contact.socNetLink || []
   this.user.avatar = data.profile.imgId || DEFAULT_IMAGE
-  this.unreadMessages = data.profile.unreadMessages
+  this.unreadMessages = data.unreadMessages
   this.unreadNotifications = data.unreadEventsCount
 
   console.log("Database:: User data saved successfully( шутка ) ")
