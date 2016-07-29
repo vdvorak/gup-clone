@@ -70,7 +70,8 @@ public class ProfileInfo {
     public ProfileInfo getPrivateProfile(Profile profile) {
         ProfileInfo profileInfo = new ProfileInfo(profile);
         profileInfo.getProfile()
-                .setPassword(null);
+                .setPassword(null)
+                .setUnreadMessages(6);//FixMe make this realy work
         profileInfo.setUnreadEventsCount(42);//ToDo make this work
         return profileInfo;
     }
