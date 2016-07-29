@@ -3,7 +3,7 @@ var express = require('express');
 var     app = express();
 var  server = require('http').createServer(app);
 var      io = require('../frontend-dev2')(server);
-var    port = process.env.PORT || 8888;
+var    port = process.env.PORT || 8889;
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
