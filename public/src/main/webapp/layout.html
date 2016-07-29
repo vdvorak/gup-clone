@@ -94,10 +94,10 @@
 	</div>
 </div>
 
-<div class="miniContacts">
+<div class="miniContacts" ng-show="main.showMiniContacts">
 	<div class="header">
 		<div class="back toContacts"></div>
-		<div class="close"></div>
+		<div class="close" ng-click="main.showMiniContacts=false"></div>
 	</div>
 	<div class="table">
 		<div class="tr">

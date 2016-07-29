@@ -31,6 +31,7 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
 
     this.showFilters = false
     this.showServices = false
+    this.showMiniContacts = false
 
     if(this.sortingCategories.length) {
       let title = this.sortingCategories[this.sortingId].title
