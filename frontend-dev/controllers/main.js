@@ -57,10 +57,6 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     this.idName = -1
   }
 
-  this.displayServices = function() {
-
-  }
-
   this.displayFilters = function() {
     this.showFilters = true
     const nav = document.getElementsByTagName('nav')[0]
