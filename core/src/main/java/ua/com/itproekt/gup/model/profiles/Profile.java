@@ -32,7 +32,6 @@ public class Profile {
     private UserProfile userProfile;
 
     private Integer point;
-    private Integer unreadMessages; //ToDo должно ли оно тут храниться? Вынести в ProfileInfo?
     private Set<ProfileRating> profileRating;
 
     private Boolean confirmModerator;
@@ -217,15 +216,6 @@ public class Profile {
         return this;
     }
 
-    public Integer getUnreadMessages() {
-        return unreadMessages;
-    }
-
-    public Profile setUnreadMessages(Integer unreadMessages) {
-        this.unreadMessages = unreadMessages;
-        return this;
-    }
-
     public List<OrderAddress> getOrderAddressList() {
         return orderAddressList;
     }
@@ -250,7 +240,6 @@ public class Profile {
                 ", contactList=" + contactList +
                 ", userProfile=" + userProfile +
                 ", point=" + point +
-                ", unreadMessages=" + unreadMessages +
                 ", profileRating=" + profileRating +
                 ", confirmModerator=" + confirmModerator +
                 ", userRoles=" + userRoles +

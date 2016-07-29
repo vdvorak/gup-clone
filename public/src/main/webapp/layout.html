@@ -33,17 +33,17 @@
 			</div>
 			<div class="headRight clearfix">
 				<div class="mail" ng-show="db.isLogged">
-					<p>10</p>
+					<p>{{ db.unreadMessages }}</p>
 					<div class="chooseYourStyle">
 						<p>Компактный вид</p>
 						<p>Полный вид</p>
 					</div>
 				</div>
 				<div class="bell" ng-show="db.isLogged">
-					<p>8</p>
+					<p>{{ db.unreadNotifications }}</p>
 				</div>
-				<div class="services">
-					<div class="vidgets">
+				<div class="services" ng-click="main.displayServices=!main.displayServices">
+					<div class="vidgets" ng-show="main.displayServices">
 						<h2>Сервисы GUP</h2>
 						<a href="#"><p>Объявления</p></a>
 						<a href="#"><p>Тендеры</p></a>
@@ -76,34 +76,28 @@
 			<text class="required" ng-model="main.hello" label="Киевская обл." color="blue" validate="login.emailIsValid" isValid="login.emailValid"></text>
 		</div>
 		<ul>
-			<li class='item'><p>Для детей</p></li>
-			<li class='item'><p>Для животных</p></li>
-			<li class='item'><p>Бизнес</p></li>
-			<li class='item'><p>Недвижимость</p></li>
-			<li class='item'><p>Транспорт</p></li>
-			<li class='item'><p>Одежда и косметика</p></li>
-			<li class='item'><p>Волонтерство</p></li>
-			<li class='item'><p>Бесплатно</p></li>
-			<li class='item'><p>Дом и сад</p></li>
-			<li class='item'><p>Хобби и спорт</p></li>
-			<li class='item'><p>Бартер</p></li>
-			<li class='item'><p>Технологии</p></li>
+			<li ng-repeat="x in main.searchCategories" ng-click="main.curr(x.id)" ng-class="x.class">
+				<p>{{x.name}}</p>
+				<div class="firstSubcategories" ng-show="main.idName === x.id">
+					<p ng-repeat="child in x.children">{{child.name}}</p>
+				</div>
+			</li>
 		</ul>
 	</nav>
 
 	<!-- CONTAINER -->
 	<div class="container">
-    
+
 	    <!-- CONTENT NG-ROUTE -->
 	    <div class="content clearfix" ng-view></div>
 
 	</div>
 </div>
 
-<div class="miniContacts">
+<div class="miniContacts" ng-show="main.showMiniContacts">
 	<div class="header">
 		<div class="back toContacts"></div>
-		<div class="close"></div>
+		<div class="close" ng-click="main.showMiniContacts=false"></div>
 	</div>
 	<div class="table">
 		<div class="tr">
@@ -164,7 +158,7 @@
 				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id rem ipsa quod deleniti quidem dignissimos dolore, ipsum tempore voluptas aspernatur quas illum maiores, at consequuntur quis nemo est perferendis illo!</p>
 			</div>
 		</div>
-		
+
 		<div class="footer">
 			<text-area class="required" ng-model="main.hello" label=""></text-area>
 			<div class="clip"></div>

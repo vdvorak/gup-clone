@@ -1,5 +1,7 @@
 "use strict"
 
+const utils = require('../modules/utils')
+
 const ctx = module.exports = {}
 /* Контроллер для управления  основным скелетом документа */
 module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieStore) {
@@ -28,6 +30,8 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     this.sortingId = 0
 
     this.showFilters = false
+    this.showServices = false
+    this.showMiniContacts = false
 
     if(this.sortingCategories.length) {
       let title = this.sortingCategories[this.sortingId].title
@@ -41,22 +45,34 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
 
     this.showingCategories = false
     this.settingCat = true
+
+	  this.searchCategories = require('../data/searchCategories');
+  }
+
+  this.curr = function(id) {
+		this.idName = id
+		console.log(this.idName, id)
+	}
+
+  this.resetFilters = function() {
+    this.idName = -1
   }
 
   this.displayFilters = function() {
     this.showFilters = true
     const nav = document.getElementsByTagName('nav')[0]
 
-
     let handler = function(e) {
       let x = e.clientX,
-          y = e.clientY,
-          rect = nav.getBoundingClientRect()
+          y = e.clientY
 
-      if( !(x > rect.left && x < rect.right && y > rect.top && y < rect.bottom) ) {
-        document.removeEventListener('click', handler)
-        this.showFilters = false
-        $scope.$apply()
+      if( !utils.coordinatesBelongToElements(x, y, 'nav') &&
+          !utils.coordinatesBelongToElements(x, y, '.firstSubcategories') &&
+          !utils.coordinatesBelongToElements(x, y, '.secondSubcategories') ) {
+            document.removeEventListener('click', handler)
+            this.showFilters = false
+            this.resetFilters()
+            $scope.$apply()
       }
     }.bind(this)
 
@@ -117,5 +133,4 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     alert(text)
     console.error(new Error("text"))
   }
-
 }

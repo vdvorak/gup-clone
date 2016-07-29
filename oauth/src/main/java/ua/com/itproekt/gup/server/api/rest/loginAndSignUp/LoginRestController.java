@@ -25,7 +25,6 @@ import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CookieUtil;
 import ua.com.itproekt.gup.util.LogUtil;
 import ua.com.itproekt.gup.util.Oauth2Util;
-import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -50,12 +49,10 @@ public class LoginRestController {
 
     @Autowired
     VerificationTokenService verificationTokenService;
-
-    @Autowired
-    private DefaultTokenServices tokenServices;
-
     @Autowired
     ActivityFeedService activityFeedService;
+    @Autowired
+    private DefaultTokenServices tokenServices;
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -73,19 +70,7 @@ public class LoginRestController {
 
         authenticateByEmailAndPassword(loggedUser, response);
 
-
-
-//        Profile profile = profilesService.findProfileByEmail(formLoggedUser.getEmail());
-
-        ProfileInfo profileInfo = profilesService.findExtendedProfileByEmail(formLoggedUser.getEmail());
-
-
-//ToDo profileInfo.setLastLoginDateEqualsToCurrentDate() - сохранять в базу
-
-//        profileInfo.setLastLoginDateEqualsToCurrentDate();
-
-//        profilesService.editProfile(profileInfo);
-
+        ProfileInfo profileInfo = profilesService.findPublicProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
@@ -112,42 +97,6 @@ public class LoginRestController {
     }
 
 
-
-
-
-
-//    @CrossOrigin
-//    @RequestMapping(value = "/logout2", method = RequestMethod.GET)
-//    public String login2(HttpServletRequest request, HttpServletResponse response) {
-//
-//        try {
-//            for (Cookie cookie : request.getCookies()) {
-//                if (cookie.getName().equals("authToken")) {
-//                    tokenServices.revokeToken(cookie.getValue());
-//                }
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//
-//        Cookie cookieAuthToken = new Cookie("authToken", null);
-//        cookieAuthToken.setMaxAge(0);
-//        cookieAuthToken.setPath("/");
-//        response.addCookie(cookieAuthToken);
-//
-//        Cookie cookieRefreshToken = new Cookie("refreshToken", null);
-//        cookieRefreshToken.setMaxAge(0);
-//        cookieRefreshToken.setPath("/");
-//        response.addCookie(cookieRefreshToken);
-//
-//        return "redirect:/index";
-//    }
-
-
-
-
-
-
     private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
@@ -156,16 +105,6 @@ public class LoginRestController {
         CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
         CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
     }
-
-//		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
-//			Authenticate the user
-//		Authentication authentication = authenticationManager.authenticate(authRequest);
-//		SecurityContext securityContext = SecurityContextHolder.getContext();
-//		securityContext.setAuthentication(authentication);
-//
-//			Create a new session and add the security context.
-//		HttpSession session = request.getSession(true);
-//		session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
 
     /*--------------------------------------- Check -----------------------------------------------------------------*/
@@ -186,7 +125,7 @@ public class LoginRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Void> register(@RequestBody Profile profile, HttpServletResponse response) {
+    public ResponseEntity<Void> register(@RequestBody Profile profile) {
         if (profilesService.profileExistsWithEmail(profile.getEmail())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {

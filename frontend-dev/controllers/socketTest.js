@@ -1,5 +1,6 @@
 'use strict'
 
+/* FIXME */
 module.exports = function($scope) {
   this.message = ""
   this.messages = []
@@ -24,6 +25,6 @@ module.exports = function($scope) {
   document.addEventListener('keydown', handler)
 
   this.send = function() {
-    
+
   }
 }
