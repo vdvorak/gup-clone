@@ -75,6 +75,7 @@
 		<div class="clearfix"></div>
 			<text class="required" ng-model="main.hello" label="Киевская обл." color="blue" validate="login.emailIsValid" isValid="login.emailValid"></text>
 		</div>
+<!--
 		<ul>
 			<li class='item'><p>Для детей</p></li>
 			<li class='item'><p>Для животных</p></li>
@@ -88,6 +89,15 @@
 			<li class='item'><p>Хобби и спорт</p></li>
 			<li class='item'><p>Бартер</p></li>
 			<li class='item'><p>Технологии</p></li>
+		</ul>
+-->
+		<ul>
+			<li ng-repeat="x in main.searchCategories" ng-click="curr(x.id)" ng-class="x.class">
+				<p>{{x.name}}</p>
+				<div class="firstSubcategories" ng-show="idName === x.id">
+					<p ng-repeat="child in x.children">{{child.name}}</p>
+				</div>
+			</li>
 		</ul>
 	</nav>
 

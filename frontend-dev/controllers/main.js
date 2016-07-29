@@ -41,6 +41,14 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
 
     this.showingCategories = false
     this.settingCat = true
+	
+	this.searchCategories = require('../data/searchCategories');
+	  
+	$scope.curr = function(id) {
+		this.idName = id;
+		console.log(this.idName, id);
+//		angular.element('#div1').addClass("alpha");
+	};
   }
 
   this.displayFilters = function() {
@@ -117,5 +125,4 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     alert(text)
     console.error(new Error("text"))
   }
-
 }

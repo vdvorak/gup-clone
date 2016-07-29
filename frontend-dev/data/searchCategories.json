@@ -1,7 +1,8 @@
-﻿[
+[
   {
     "id": 36,
     "name": "Детский мир",
+	"class": "childsWorld",
     "children": [
       {
         "id": "539",
@@ -48,6 +49,7 @@
   {
     "id": 1,
     "name": "Недвижимость",
+	"class": "theProperty",
     "children": [
       {
         "id": "15",
@@ -114,6 +116,7 @@
   {
     "id": 3,
     "name": "Транспорт",
+	"class": "transport",
     "children": [
       {
         "id": "108",
@@ -164,6 +167,7 @@
   {
     "id": 6,
     "name": "Работа",
+	"class": "job",
     "children": [
       {
         "id": "144",
@@ -254,6 +258,7 @@
   {
     "id": 35,
     "name": "Животные",
+	"class": "animals",
     "children": [
       {
         "id": "64",
@@ -308,6 +313,7 @@
   {
     "id": 899,
     "name": "Дом и сад",
+	"class": "aHouseAndAGarden",
     "children": [
       {
         "id": "632",
@@ -362,6 +368,7 @@
   {
     "id": 37,
     "name": "Электроника",
+	"class": "electronics",
     "children": [
       {
         "id": "44",
@@ -416,6 +423,7 @@
   {
     "id": 7,
     "name": "Бизнес и услуги",
+	"class": "businessAndServices",
     "children": [
       {
         "id": "188",
@@ -502,6 +510,7 @@
   {
     "id": 891,
     "name": "Мода и стиль",
+	"class": "fashionAndStyle",
     "children": [
       {
         "id": "50",
@@ -536,6 +545,7 @@
   {
     "id": 903,
     "name": "Хобби, отдых и спорт",
+	"class": "hobbiesAndSports",
     "children": [
       {
         "id": "53",
@@ -578,6 +588,7 @@
   {
     "id": 1435,
     "name": "Требуется помощь",
+	"class": "helpWanted",
     "children": [ ]
   }
 ]
