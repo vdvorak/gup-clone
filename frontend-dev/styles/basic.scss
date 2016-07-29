@@ -1260,6 +1260,7 @@ nav {
 		list-style: none;
 		
 		&>li {
+			position: relative;
 			
 			&>p {
 				padding-left: 75px;
@@ -1273,52 +1274,68 @@ nav {
 				background-color: #E6E6E6 !important;
 			}
 			
-			&:nth-of-type(1) {
+			&.childsWorld {
 				background: url(../images/ForChildren.png) no-repeat left 25px center;
 			}
 			
-			&:nth-of-type(2) {
+			&.animals {
 				background: url(../images/ForAnimals.png) no-repeat left 25px center;
 			}
 			
-			&:nth-of-type(3) {
+			&.job {
 				background: url(../images/Business.png) no-repeat left 25px center;
 			}
 			
-			&:nth-of-type(4) {
+			&.theProperty {
 				background: url(../images/TheProperty.png) no-repeat left 25px center;
 			}
 			
-			&:nth-of-type(5) {
+			&.transport {
 				background: url(../images/Transport.png) no-repeat left 25px center;
 			}
 			
-			&:nth-of-type(6) {
+			&.fashionAndStyle {
 				background: url(../images/ClothingAndCosmetics.png) no-repeat left 25px center;
 			}
 			
-			&:nth-of-type(7) {
+			&.helpWanted {
 				background: url(../images/Volunteering.png) no-repeat left 25px center;
 			}
 			
-			&:nth-of-type(8) {
-				background: url(../images/IsFree.png) no-repeat left 25px center;
-			}
-			
-			&:nth-of-type(9) {
+			&.aHouseAndAGarden {
 				background: url(../images/AHouseAndAGarden.png) no-repeat left 25px center;
 			}
 			
-			&:nth-of-type(10) {
+			&.hobbiesAndSports {
 				background: url(../images/HobbiesAndSports.png) no-repeat left 25px center;
 			}
 			
-			&:nth-of-type(11) {
-				background: url(../images/Barter.png) no-repeat left 25px center;
+			&.electronics {
+				background: url(../images/Technologies.png) no-repeat left 25px center;
 			}
 			
-			&:nth-of-type(12) {
-				background: url(../images/Technologies.png) no-repeat left 25px center;
+			&.businessAndServices {
+				background: url(../images/businessAndServices.png) no-repeat left 25px center;
+			}
+			
+			&>div {
+				position: absolute;
+				top: 0;
+				left: 250px;
+				background-color: $white;
+				width: 260px;
+				
+				&>p {
+					padding-left: 30px;
+					color: #263238;
+					font: 500 13px / 40px Roboto;
+					background: url(../images/caretRightNav.png) no-repeat center right 20px;
+					cursor: pointer;
+					
+					&:hover {
+						background-color: #E6E6E6 !important;
+					}
+				}
 			}
 		}
 	}

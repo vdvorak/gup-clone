@@ -60,3 +60,22 @@ module.exports.request = function(options) {
 
   })
 }
+
+module.exports.coordinatesBelongToElements = function(x, y, selector) {
+  let result = false
+  try {
+    let elements = document.querySelectorAll(selector)
+    Array.prototype.forEach.call(elements, el => {
+      let rect = el.getBoundingClientRect(el)
+      if(!rect.top && !rect.left && !rect.bottom && !rect.right )
+        return
+
+      if(x > rect.left && x < rect.right && y > rect.top && y < rect.bottom)
+        result = true
+    })
+  } catch(e) {
+    console.error(e)
+  }  
+
+  return result
+}
