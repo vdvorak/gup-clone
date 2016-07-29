@@ -47,11 +47,16 @@ public class Offer {
     private Integer price;
     private Currency currency;
     private Boolean priceCanBeNegotiated;
-    private Boolean urgent;
     private Boolean used; // б/y
     private Boolean canBeReserved;
 
     private Integer maximumReservedPeriod;
+
+    private Boolean isMarked; // marked offer forever
+    private Boolean urgent; // marked offer with "urgent" forever
+    private Long dateUntilTop; // if dateUntilTop is later than date Now - offer will be in the TOP
+    private Long lastUpdateDate;
+
 
     private Boolean canBeRented;
     private Address address;
@@ -59,6 +64,11 @@ public class Offer {
 
     public Offer setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        return this;
+    }
+
+    public Offer setLastUpdadeDateToCurrenDate() {
+        this.lastUpdateDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
     }
 
@@ -325,6 +335,33 @@ public class Offer {
         return this;
     }
 
+    public Long getLastUpdateDate() {
+        return lastUpdateDate;
+    }
+
+    public Offer setLastUpdateDate(Long lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
+        return this;
+    }
+
+    public Boolean getIsMarked() {
+        return isMarked;
+    }
+
+    public Offer setIsMarked(Boolean isMarked) {
+        this.isMarked = isMarked;
+        return this;
+    }
+
+    public Long getDateUntilTop() {
+        return dateUntilTop;
+    }
+
+    public Offer setDateUntilTop(Long dateUntilTop) {
+        this.dateUntilTop = dateUntilTop;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Offer{" +
@@ -350,10 +387,13 @@ public class Offer {
                 ", price=" + price +
                 ", currency=" + currency +
                 ", priceCanBeNegotiated=" + priceCanBeNegotiated +
-                ", urgent=" + urgent +
                 ", used=" + used +
                 ", canBeReserved=" + canBeReserved +
                 ", maximumReservedPeriod=" + maximumReservedPeriod +
+                ", isMarked=" + isMarked +
+                ", urgent=" + urgent +
+                ", dateUntilTop=" + dateUntilTop +
+                ", lastUpdateDate=" + lastUpdateDate +
                 ", canBeRented=" + canBeRented +
                 ", address=" + address +
                 ", moderationMessage=" + moderationMessage +
