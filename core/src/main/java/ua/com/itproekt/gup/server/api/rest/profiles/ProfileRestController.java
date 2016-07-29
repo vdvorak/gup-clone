@@ -13,8 +13,6 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
-import ua.com.itproekt.gup.util.CreatedObjResp;
-import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,9 +23,8 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/rest/profilesService")
 public class ProfileRestController {
-    /**
-     * The Profiles service.
-     */
+
+
     @Autowired
     ProfilesService profilesService;
 
@@ -37,27 +34,6 @@ public class ProfileRestController {
     @Autowired
     BankSession bankSession;
 
-    /**
-     * Create profile.
-     *
-     * @param profile JSON object in request body
-     * @return the response status
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/profile/create", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResp> createProfile(@RequestBody Profile profile) {
-        if (profilesService.profileExistsWithEmail(profile.getEmail())) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        profilesService.createProfile(profile);
-        verificationTokenService.sendEmailRegistrationToken(profile.getId());
-
-        CreatedObjResp createdObjResp = new CreatedObjResp(profile.getId());
-
-        return new ResponseEntity<>(createdObjResp, HttpStatus.CREATED);
-    }
 
     /**
      * Gets profile by id.
@@ -70,54 +46,28 @@ public class ProfileRestController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileInfo> getProfileById(@PathVariable String id) {
 
-        ProfileInfo profileInfo = profilesService.findExtendedProfileById(id);
+        ProfileInfo profileInfo = profilesService.findPublicProfileById(id);
 
         if (profileInfo == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        if (SecurityOperations.isUserLoggedIn() && id.equals(SecurityOperations.getLoggedUserId())) {
-            return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-        } else {
-            profileInfo.setContactList(null);
-            return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-        }
+        return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
-    @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/read/id/{profileId}/wholeProfile", method = RequestMethod.GET)
-    public ResponseEntity<Profile> readUserProfile(@PathVariable String profileId, HttpServletRequest request) {
-        Profile profile = profilesService.findWholeProfileById(profileId);
-        if (profile == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        String loggedUserId = SecurityOperations.getLoggedUserId();
-        if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
-            return new ResponseEntity<>(profile, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-    }
 
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Profile> getLoggedUser() {
-
+    public ResponseEntity<ProfileInfo> getLoggedUser() {
 
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         if (loggedUserId != null) {
-            Profile profile = profilesService.findById(loggedUserId);
-            profile.setLastLoginDateEqualsToCurrentDate();
-            profilesService.editProfile(profile);
-            return new ResponseEntity<>(profile, HttpStatus.OK);
+            return new ResponseEntity<>(profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(loggedUserId), HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 
     /**
@@ -147,17 +97,8 @@ public class ProfileRestController {
     @CrossOrigin
     @RequestMapping(value = "/profile/read/all", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EntityPage<Profile>> listAllProfiles(@RequestBody ProfileFilterOptions profileFilterOptions) {
-        EntityPage<Profile> profiles = profilesService.findAllProfiles(profileFilterOptions);
-
-        List<Profile> profilesList = profiles.getEntities();
-        for (Profile profile : profilesList) {
-            profile.setContactList(null);
-        }
-
-        if (profiles.getEntities().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+    public ResponseEntity<List<ProfileInfo>> listAllProfiles(@RequestBody ProfileFilterOptions profileFilterOptions) {
+        List<ProfileInfo> profiles = profilesService.findAllPublicProfilesWithOptions(profileFilterOptions);
         return new ResponseEntity<>(profiles, HttpStatus.OK);
     }
 
@@ -251,29 +192,6 @@ public class ProfileRestController {
 
         profilesService.editProfile(profile);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/join-organization", method = RequestMethod.POST)
-    public ResponseEntity<String> joinToOrganization() {
-
-        String userId = SecurityOperations.getLoggedUserId();
-        Profile profile = profilesService.findById(userId);
-
-        if (profile.getContact().isMember()) {
-            return new ResponseEntity<>("1", HttpStatus.OK);
-        } else {
-            Integer userBalance = bankSession.getUserBalance(userId);
-            if (userBalance >= 50) {
-                bankSession.investInOrganization(5555, userId, 50L, 11, "Success");
-                profile.getContact().setMember(true);
-                profilesService.editProfile(profile);
-                return new ResponseEntity<>("2", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("3", HttpStatus.OK);
-            }
-        }
     }
 
     @CrossOrigin

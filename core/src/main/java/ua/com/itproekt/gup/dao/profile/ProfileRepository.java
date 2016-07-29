@@ -55,7 +55,7 @@ public interface ProfileRepository {
      * @param profileFilterOptions the profile filter options
      * @return the entity page
      */
-    EntityPage<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions);
+   List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions);
 
     /**
      * Find by username profile.

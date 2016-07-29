@@ -7,8 +7,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import ua.com.itproekt.gup.model.profiles.*;
-import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
+import ua.com.itproekt.gup.model.profiles.ProfileRating;
+import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
@@ -16,9 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * Implementation of ProfileRepository.
- */
+
 @Repository
 public class ProfileRepositoryImpl implements ProfileRepository {
     @Autowired
@@ -73,7 +73,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
-    public EntityPage<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions) {
+    public List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions) {
         Query query = new Query();
         if (profileFilterOptions.getSearchField() != null) {
             String searchFieldRegex = "(?i:.*" + profileFilterOptions.getSearchField() + ".*)";
@@ -94,8 +94,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
         query.skip(profileFilterOptions.getSkip());
         query.limit(profileFilterOptions.getLimit());
-        return new EntityPage<>(mongoTemplate.count(query, Profile.class),
-                mongoTemplate.find(query, Profile.class));
+        return mongoTemplate.find(query, Profile.class);
     }
 
     @Override
@@ -109,7 +108,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         query.skip(0);
         query.limit(10);
         return mongoTemplate.find(query, Profile.class).stream().map(Profile::getUsername).collect(Collectors.toSet());
-
     }
 
 

@@ -3,11 +3,10 @@ package ua.com.itproekt.gup.service.profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.model.profiles.*;
-import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 
 import java.util.*;
 
@@ -61,9 +60,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public Profile findById(String id) {
-        Profile profile = profileRepository.findById(id);
-        removeAdministrativeFields(profile);
-        return profile;
+        return profileRepository.findById(id);
     }
 
     @Override
@@ -92,22 +89,18 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public EntityPage<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions) {
+    public List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions) {
         return profileRepository.findAllProfiles(profileFilterOptions);
     }
 
     @Override
     public Profile findProfileByUsername(String username) {
-        Profile profile = profileRepository.findByUsername(username);
-        removeAdministrativeFields(profile);
-        return profile;
+        return profileRepository.findByUsername(username);
     }
 
     @Override
     public Profile findProfileByEmail(String email) {
-        Profile profile = profileRepository.findByEmail(email);
-        removeAdministrativeFields(profile);
-        return profile;
+        return profileRepository.findByEmail(email);
     }
 
     @Override
@@ -190,15 +183,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileRepository.addContactToContactList(profileOwnerContactListId, contactId);
     }
 
-    private void removeAdministrativeFields(Profile profile) {
-        profile.setPassword(null);
-    }
-
 
     //ToDo  make this work after we will repair oauth
     @Override
     public boolean isUserOnline(String userId) {
-
 //        Profile profile = findWholeProfileById(userId);
 //
 //        List<Object> principals = sessionRegistry.getAllPrincipals();
@@ -212,17 +200,47 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public ProfileInfo findExtendedProfileById(String id) {
+    public ProfileInfo findPrivateProfileById(String id) {
+        return new ProfileInfo().getPrivateProfile(findById(id));
+    }
+
+    @Override
+    public ProfileInfo findPrivateProfileByIdAndUpdateLastLoginDate(String id) {
 
         Profile profile = findById(id);
+        profile.setLastLoginDateEqualsToCurrentDate();
+        profileRepository.findProfileAndUpdate(profile);
 
-        if (profile == null) {
-            return null;
-        }
+        return new ProfileInfo().getPrivateProfile(profile);
+    }
 
-        ProfileInfo profileInfo = ProfileInfo.toModel(profile);
-        profileInfo.setIsOnline(isUserOnline(id));
+    @Override
+    public ProfileInfo findPrivateProfileByEmail(String email) {
+        return new ProfileInfo().getPrivateProfile(findProfileByEmail(email));
+    }
 
-        return profileInfo;
+    @Override
+    public ProfileInfo findPublicProfileByEmailAndUpdateLastLoginDate(String email) {
+        Profile profile = findProfileByEmail(email);
+        profile.setLastLoginDateEqualsToCurrentDate();
+        profileRepository.findProfileAndUpdate(profile);
+
+        return new ProfileInfo().getPrivateProfile(profile);
+    }
+
+    @Override
+    public ProfileInfo findPublicProfileById(String id) {
+        return new ProfileInfo().getPublicProfile(findById(id));
+    }
+
+
+    @Override
+    public ProfileInfo findPublicProfileByEmail(String email) {
+        return new ProfileInfo().getPublicProfile(findProfileByEmail(email));
+    }
+
+    @Override
+    public List<ProfileInfo> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions) {
+        return new ProfileInfo().getListOfPublicProfilesWithOptions(profileRepository.findAllProfiles(profileFilterOptions));
     }
 }
