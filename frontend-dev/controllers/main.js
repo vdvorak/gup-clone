@@ -33,7 +33,8 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     this.showFilters = false
     this.showServices = false
     this.showMiniContacts = false
-    
+    this.showMessagesSelect = false
+
     if(this.sortingCategories.length) {
       let title = this.sortingCategories[this.sortingId].title
       let arr = title.split("")
@@ -48,6 +49,10 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     this.settingCat = true
 
 	  this.searchCategories = require('../data/searchCategories');
+  }
+
+  this.toggleMessagesSelect = () => {
+      this.showMessagesSelect = !this.showMessagesSelect
   }
 
   this.curr = function(id) {

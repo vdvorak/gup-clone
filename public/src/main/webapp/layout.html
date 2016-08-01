@@ -39,9 +39,9 @@
 				</div>
 			</div>
 			<div class="headRight clearfix">
-				<div class="mail" ng-show="db.isLogged">
+				<div class="mail" ng-show="db.isLogged" ng-click="main.toggleMessagesSelect()">
 					<p>{{ db.unreadMessages }}</p>
-					<div class="chooseYourStyle">
+					<div class="chooseYourStyle" ng-show="main.showMessagesSelect">
 						<p ng-click="main.showMiniContacts = true">Компактный вид</p>
 						<p>Полный вид</p>
 					</div>
@@ -104,7 +104,7 @@
 <div class="miniContacts" ng-controller="miniContacts as mini" ng-init="mini.init()" ng-show="main.showMiniContacts" ng-drag=".header" style="right:0px; bottom:0px;">
 	<div class="header">
 		<div class="back toContacts" ng-show="mini.showMessages" ng-click="mini.back()"></div>
-		<div class="close" ng-click="main.main.showMiniContacts = false"></div>
+		<div class="close" ng-click="main.showMiniContacts = false"></div>
 	</div>
 	<div class="table" ng-show="mini.showConversations">
 		<!-- TODO: NG repeat later -->
