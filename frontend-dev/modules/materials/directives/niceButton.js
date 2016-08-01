@@ -14,6 +14,7 @@ module.exports = function() {
                   <ng-transclude style="display:block; width:100%; height:inherit;"></ng-transclude>
                 </div>`,
     controller: function($scope, $element) {
+
       let onClick = function(e) {
         let ink = this.getElementsByClassName('ink')[0]
         ink.classList.remove('animate')
@@ -32,7 +33,7 @@ module.exports = function() {
 
       if($scope.ngClick)
         $element[0].addEventListener('click', $scope.ngClick)
-        
+
       $element[0].addEventListener('click', onClick)
     }
   }

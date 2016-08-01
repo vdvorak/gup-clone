@@ -20,7 +20,7 @@
 				<div class="logo" ng-click="redirectToUrl('/')"></div>
 				<text ng-model="main.searchQuery" label="Поиск" color="white"></text>
 				<div class="dropDown" ng-show="main.autoVariants.length > 0">
-					<p ng-repeat="variant in main.autoVariants" ng-click="main.searchQuery = variant">{{ variant }}</p>
+					<p ng-repeat="variant in main.autoVariants" ng-click="main.setQuery(variant)">{{ variant }}</p>
 				</div>
 				<div class="selectBox">
 					<div class="defaultValue" ng-click="main.showCategories()">

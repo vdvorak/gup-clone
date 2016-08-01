@@ -22,7 +22,7 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     /* End variables for testing */
 
     /* for search autocomplete */
-    this.autoVariants = []
+    this.autoVariants = ["test", "test2"]
     this.searchQuery = ""
 
     this.loader = require('../modules/loader')
@@ -53,6 +53,14 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     this.settingCat = true
 
 	  this.searchCategories = require('../data/searchCategories');
+  }
+
+  this.setQuery = selected => {
+    this.searchQuery = selected
+    $timeout( function() {
+      document.dispatchEvent(new Event('update-text'))
+    }.bind(this), 100)
+
   }
 
   this.toggleMessagesSelect = () => {

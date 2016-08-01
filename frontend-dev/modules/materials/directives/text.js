@@ -29,6 +29,11 @@ module.exports = function() {
         ee.off(id)
       }.bind(this))
 
+
+      /* Update method from outside */
+      document.addEventListener('update-text', onFocus.bind(this))
+
+
       let defaultBorder = ""
 
       let el = $element[0].getElementsByTagName('input')[0],
@@ -64,15 +69,14 @@ module.exports = function() {
       }
 
       function onBlur(e) {
-        if( !$scope.ngModel.length)
+        if( !$scope.ngModel.length) {
           hideAnimation()
-
+        }
           validate()
       }
 
       function onFocus(e) {
-        if(!$scope.ngModel.length)
-          displayAnimation()
+        displayAnimation()
       }
 
       function displayAnimation() {
