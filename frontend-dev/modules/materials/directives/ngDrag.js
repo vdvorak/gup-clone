@@ -32,9 +32,10 @@ module.exports = function() {
         }
 
         let deltaX = this.xOld - x,
-            deltaY = this.yOld - y,
-            this.xOld = x,
-            this.yOld = y
+            deltaY = this.yOld - y
+
+        this.xOld = x
+        this.yOld = y
 
         let styles = window.getComputedStyle(parent)
 
