@@ -1,6 +1,7 @@
 <div class="view-profile">
     <div class="view-profile-container">
-        <h1>Личный кабинет</h1>
+        <h1 ng-if="profile.profileOrHistory">Личный кабинет</h1>
+        <h1 ng-if="!profile.profileOrHistory">История покупок</h1>
         <div class="profile-containers-wrap clearfix">
             <div class="profile-left-container">
                 <div class="hz-centering-wrapper">
@@ -9,14 +10,14 @@
                 <div class="hz-centering-wrapper">
                     <div class="profile-settings">
                         <select-box ng-model="main.hello" items="{{ main.list }}"></select-box>
-                        <select-box ng-model="main.hello" items="{{ main.list }}"></select-box>
+                        <select-box ng-model="profile.selectedOption" items="{{ profile.showProfile }}"></select-box>
                     </div>
                 </div>
-                <div class="hz-centering-wrapper">
-                    <nice-button class="btn-blue">СОХРАНИТЬ</nice-button>
-                </div>
             </div>
-            <div class="profile-right-container">
+            
+            <h1>{{ profile.selectedOption }}</h1>
+            
+            <div ng-if="profile.profileOrHistory" class="profile-right-container">
                 <div class="profile-info">
                     <div class="profile-info-section-left">
 
@@ -44,6 +45,45 @@
                     </div>
                 </div>
             </div>
+			
+            <div ng-if="!profile.profileOrHistory" class="purchaseHistory">
+            
+            	<div ng-click="profile.showOrHideDeeper()" class="itemHistory">
+            		<p class="number">№ 59367004</p>
+            		<p class="date">11 июля 2016 22:23</p>
+            		<p class="price">2 товарa на 1 940 грн</p>
+            		<div class="clearfix"></div>
+            		<div ng-if="profile.deeper" class="deeper">
+            			<div class="avatar"><img src="images/trololo.png" alt="item"></div>
+            			<a href="#" class="title">D-Link DIR-300A</a>
+            			<p class="price">385 грн</p>
+            		</div>
+            		<div ng-if="profile.deeper" class="deeper">
+            			<div class="avatar"><img src="images/sdgsd.png" alt="item"></div>
+            			<a href="#" class="title">Goodram CX200 240GB 2.5” SATAIII TLC (SSDPR-CX200-240)</a>
+            			<p class="price">1 555 грн</p>
+            		</div>
+            	</div>
+            	
+            	<div ng-click="profile.showOrHideDeeper()" class="itemHistory">
+            		<p class="number">№ 59367004</p>
+            		<p class="date">11 июля 2016 22:23</p>
+            		<p class="price">2 товарa на 1 940 грн</p>
+            		<div class="clearfix"></div>
+            		<div ng-if="profile.deeper" class="deeper">
+            			<div class="avatar"><img src="images/trololo.png" alt="item"></div>
+            			<a href="#" class="title">D-Link DIR-300A</a>
+            			<p class="price">385 грн</p>
+            		</div>
+            		<div ng-if="profile.deeper" class="deeper">
+            			<div class="avatar"><img src="images/sdgsd.png" alt="item"></div>
+            			<a href="#" class="title">Goodram CX200 240GB 2.5” SATAIII TLC (SSDPR-CX200-240)</a>
+            			<p class="price">1 555 грн</p>
+            		</div>
+            	</div>
+				
+            </div>
+			
         </div>
     </div>
 </div>

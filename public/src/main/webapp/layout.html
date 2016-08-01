@@ -19,6 +19,13 @@
 			<div class="headLeft clearfix">
 				<div class="logo" ng-click="redirectToUrl('/')"></div>
 				<text ng-model="main.hello" label="Поиск" color="white"></text>
+				<div class="dropDown">
+					<p>Авто0</p>
+					<p>Авто1</p>
+					<p>Авто2</p>
+					<p>Авто3</p>
+					<p>Авто4</p>
+				</div>
 				<div class="selectBox">
 					<div class="defaultValue" ng-click="main.showCategories()">
 						<p>{{ main.currentCategory }} <span>{{ main.arrow }}</span></p>
@@ -94,7 +101,7 @@
 	</div>
 </div>
 
-<div class="miniContacts" ng-show="main.showMiniContacts">
+<div class="miniContacts" ng-show="main.showMiniContacts" ng-drag=".header">
 	<div class="header">
 		<div class="back toContacts"></div>
 		<div class="close" ng-click="main.showMiniContacts=false"></div>
