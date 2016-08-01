@@ -13,8 +13,8 @@ import ua.com.itproekt.gup.model.order.OrderComment;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.OrderType;
 import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
-import ua.com.itproekt.gup.model.profiles.order.TransportCompany;
 import ua.com.itproekt.gup.service.order.OrderService;
+import ua.com.itproekt.gup.util.TransportCompany;
 
 import java.util.ArrayList;
 import java.util.List;

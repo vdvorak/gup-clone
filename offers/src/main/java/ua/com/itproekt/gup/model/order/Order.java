@@ -4,6 +4,7 @@ package ua.com.itproekt.gup.model.order;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
+import ua.com.itproekt.gup.util.PaymentMethod;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -31,6 +32,7 @@ public class Order {
     private String seoKey; // only key - for search in DB
 
     private OrderAddress orderAddress;
+    private PaymentMethod paymentMethod;
     private String trackNumber;
     private OrderStatus orderStatus;
     private boolean safeOrder;
@@ -255,6 +257,15 @@ public class Order {
         return LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
     }
 
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public Order setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -274,6 +285,7 @@ public class Order {
                 ", seoUrl='" + seoUrl + '\'' +
                 ", seoKey='" + seoKey + '\'' +
                 ", orderAddress=" + orderAddress +
+                ", paymentMethod=" + paymentMethod +
                 ", trackNumber='" + trackNumber + '\'' +
                 ", orderStatus=" + orderStatus +
                 ", safeOrder=" + safeOrder +

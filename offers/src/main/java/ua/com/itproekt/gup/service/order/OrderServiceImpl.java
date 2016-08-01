@@ -30,7 +30,8 @@ public class OrderServiceImpl implements OrderService {
                 .setOrderStatus(OrderStatus.NEW)
                 .setSafeOrder(order.isSafeOrder())
                 .setOrderType(order.getOrderType())
-                .setOrderComments(order.getOrderComments());
+                .setOrderComments(order.getOrderComments())
+                .setPaymentMethod(order.getPaymentMethod());
 
         orderRepository.create(newOrder);
         order.setId(newOrder.getId());
@@ -42,8 +43,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-
-    //ToDo тут не хватает некоторых полей (тайтл...)
     @Override
     public Order findAndUpdate(Order order) {
         Order newOrder = new Order()
@@ -58,7 +57,8 @@ public class OrderServiceImpl implements OrderService {
                 .setOrderStatus(order.getOrderStatus())
                 .setSafeOrder(order.isSafeOrder())
                 .setOrderType(order.getOrderType())
-                .setOrderComments(order.getOrderComments());
+                .setOrderComments(order.getOrderComments())
+                .setPaymentMethod(order.getPaymentMethod());
 
         return orderRepository.findAndUpdate(newOrder);
 
@@ -73,6 +73,4 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> findOrdersWihOptions(OrderFilterOptions orderFilterOptions) {
         return orderRepository.findOrdersWihOptions(orderFilterOptions);
     }
-
-    //ToDo метод для добавления комментария к ордеру
 }

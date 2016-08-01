@@ -1,5 +1,5 @@
 package ua.com.itproekt.gup.model.profiles.order;
-
+import ua.com.itproekt.gup.util.TransportCompany;
 
 public class OrderAddress {
     String name;
