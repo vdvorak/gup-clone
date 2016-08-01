@@ -6,7 +6,10 @@ import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.offers.OfferRepository;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
-import ua.com.itproekt.gup.model.offer.*;
+import ua.com.itproekt.gup.model.offer.ModerationStatus;
+import ua.com.itproekt.gup.model.offer.Offer;
+import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
+import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.util.EntityPage;
@@ -54,7 +57,11 @@ public class OffersServiceImpl implements OffersService {
                 .setCurrency(offer.getCurrency())
                 .setCanBeReserved(offer.getCanBeReserved())
                 .setMaximumReservedPeriod(offer.getMaximumReservedPeriod())
-                .setCanBeRented(offer.getCanBeRented());
+                .setCanBeRented(offer.getCanBeRented())
+                .setIsMarked(offer.getIsMarked())
+                .setDateUntilTop(offer.getDateUntilTop())
+                .setAvailableShippingMethods(offer.getAvailableShippingMethods())
+                .setAvailablePaymentMethods(offer.getAvailablePaymentMethods());
 
         offerRepository.create(newOffer);
 
@@ -119,7 +126,11 @@ public class OffersServiceImpl implements OffersService {
                 .setCanBeReserved(oldOffer.getCanBeReserved())
                 .setAddress(oldOffer.getAddress())
                 .setMaximumReservedPeriod(oldOffer.getMaximumReservedPeriod())
-                .setCurrency(oldOffer.getCurrency());
+                .setCurrency(oldOffer.getCurrency())
+                .setIsMarked(oldOffer.getIsMarked())
+                .setDateUntilTop(oldOffer.getDateUntilTop())
+                .setAvailableShippingMethods(oldOffer.getAvailableShippingMethods())
+                .setAvailablePaymentMethods(oldOffer.getAvailablePaymentMethods());
 
         return offerRepository.findAndUpdate(newOffer);
     }

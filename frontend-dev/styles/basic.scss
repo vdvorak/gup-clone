@@ -951,11 +951,15 @@ section.openAdvertert {
         color: $input-placeholder-color;
 				transition: all .25s;
     }
-    input{
+    input, textarea{
         border: none;
         outline: none;
         width:100%;
         background-color: transparent;
+    }
+    
+    textarea{
+        resize: none;
     }
 }
 

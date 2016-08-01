@@ -17,12 +17,13 @@ import ua.com.itproekt.gup.model.order.OrderComment;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.order.TransportCompany;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.util.PaymentMethod;
 import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.itproekt.gup.util.TransportCompany;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -35,7 +36,7 @@ import java.util.Map;
 public class OrderRestController {
 
     //ToDo В любом изменении ордера нам не нужно получать: id пользователя, который делает апдейт
-    // нам нужны данные, которы меняются исключительно пользователем
+    // нам нужны данные, которы меняются исключительно пользователем, а иначе нам могут подсунуть левый id пользователя
 
     //ToDo возможно стоит в методах, окторые ничего кроме статуса на отправляют, убрать produces = MediaType.APPLICATION_JSON_VALUE
 
@@ -94,7 +95,7 @@ public class OrderRestController {
     //------------------------------------------ Create -------------------------------------------------------------
 
     /**
-     * @param order - order include: offerId, orderAddress, isSafeOrder, orderType, orderComment
+     * @param order - order include: offerId, orderAddress, paymentMethod, orderType, orderComment
      * @return - return status code if Ok, 400 - order not valid, 403 - if user is offer author, 404 - offer not found, 405 - if user is not buyer
      */
     @PreAuthorize("isAuthenticated()")
@@ -116,7 +117,7 @@ public class OrderRestController {
         if (isOrderValid(order, offer)) {
             newOrderPreparator(userId, order, offer);
 
-            if (order.isSafeOrder()) {
+            if (order.getPaymentMethod() == PaymentMethod.GUP) {
                 //ToDo перевод денег на счёт Гупа если ввключён safe order
             }
             orderService.create(order);
@@ -130,9 +131,9 @@ public class OrderRestController {
 //------------------------------------------ Update -------------------------------------------------------------
 
     /**
-     * @param order - updated order. This method can only update order Address only before seller will accept Order.
-     * @return - return status 200 code if Ok, 401 - not authorized, 400 - user is not buyer,
-     * 404 - not found order, 405 - OrderStatus isn't NEW
+     * @param order - updated order. This method can only update order Address, payment method only before seller will accept Order.
+     * @return - return status 200 code if Ok, 401 - not authorized, 400 - user is not buyer or not valid payment or shipping method,
+     * 404 - not found order or offer, 405 - OrderStatus isn't NEW
      */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
@@ -142,23 +143,36 @@ public class OrderRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-
-        //TODO перенести ниже и переписать (доставать пользователя только из Секьюрити
-        if (!userId.equals(order.getBuyerId())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Offer offer = offersService.findById(order.getOfferId());
+        if (offer == null) {
+            return notFound;
         }
-
 
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
             return notFound;
         }
 
+        if (!userId.equals(oldOrder.getBuyerId())) {
+            return badRequest;
+        }
+
         if (oldOrder.getOrderStatus() != OrderStatus.NEW) {
             return methodNotAllowed;
         }
 
+        if (!isShippingMethodsValid(order, offer)) {
+            return badRequest;
+        }
+
+
+        if (!isPaymentMethodsValid(order, offer)) {
+            return badRequest;
+        }
+
+
         oldOrder.setOrderAddress(order.getOrderAddress());
+        oldOrder.setPaymentMethod(order.getPaymentMethod());
         orderService.findAndUpdate(oldOrder);
 
         return ok;
@@ -392,10 +406,44 @@ public class OrderRestController {
             return false;
         }
 
+        if (!isShippingMethodsValid(order, offer)) {
+            return false;
+        }
+
+        if (!isPaymentMethodsValid(order, offer)) {
+            return false;
+        }
+
         order.setPrice(offer.getPrice());
 
         return true;
     }
+
+
+    private boolean isShippingMethodsValid(Order order, Offer offer) {
+        TransportCompany orderTransportCompany = order.getOrderAddress().getTransportCompany();
+        List<TransportCompany> availableShippingMethodsList = offer.getAvailableShippingMethods();
+
+        for (TransportCompany offerTransportCompany : availableShippingMethodsList) {
+
+            if (orderTransportCompany == offerTransportCompany) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isPaymentMethodsValid(Order order, Offer offer) {
+        PaymentMethod orderPaymentMethod = order.getPaymentMethod();
+        List<PaymentMethod> offerPaymentMethodsList = offer.getAvailablePaymentMethods();
+        for (PaymentMethod offerPaymentMethod : offerPaymentMethodsList) {
+            if (orderPaymentMethod == offerPaymentMethod) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private void newOrderPreparator(String userId, Order order, Offer offer) {
         order
