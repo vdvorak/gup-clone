@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 import ua.com.itproekt.gup.util.PaymentMethod;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -32,10 +33,10 @@ public class Order {
     private String seoKey; // only key - for search in DB
 
     private OrderAddress orderAddress;
+    @NotNull
     private PaymentMethod paymentMethod;
     private String trackNumber;
     private OrderStatus orderStatus;
-    private boolean safeOrder;
     private OrderType orderType;
     private List<OrderComment> orderComments;
 
@@ -172,15 +173,6 @@ public class Order {
         return this;
     }
 
-    public boolean isSafeOrder() {
-        return safeOrder;
-    }
-
-    public Order setSafeOrder(boolean safeOrder) {
-        this.safeOrder = safeOrder;
-        return this;
-    }
-
     public OrderType getOrderType() {
         return orderType;
     }
@@ -288,7 +280,6 @@ public class Order {
                 ", paymentMethod=" + paymentMethod +
                 ", trackNumber='" + trackNumber + '\'' +
                 ", orderStatus=" + orderStatus +
-                ", safeOrder=" + safeOrder +
                 ", orderType=" + orderType +
                 ", orderComments=" + orderComments +
                 '}';

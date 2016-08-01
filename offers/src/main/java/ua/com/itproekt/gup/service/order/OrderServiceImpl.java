@@ -28,7 +28,6 @@ public class OrderServiceImpl implements OrderService {
                 .setCreatedDateEqualsToCurrentDate()
                 .setOrderAddress(order.getOrderAddress())
                 .setOrderStatus(OrderStatus.NEW)
-                .setSafeOrder(order.isSafeOrder())
                 .setOrderType(order.getOrderType())
                 .setOrderComments(order.getOrderComments())
                 .setPaymentMethod(order.getPaymentMethod());
@@ -55,7 +54,6 @@ public class OrderServiceImpl implements OrderService {
                 .setCompleteDate(order.getCompleteDate())
                 .setAcceptDate(order.getAcceptDate())
                 .setOrderStatus(order.getOrderStatus())
-                .setSafeOrder(order.isSafeOrder())
                 .setOrderType(order.getOrderType())
                 .setOrderComments(order.getOrderComments())
                 .setPaymentMethod(order.getPaymentMethod());

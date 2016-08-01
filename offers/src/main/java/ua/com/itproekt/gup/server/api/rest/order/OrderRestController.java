@@ -95,7 +95,7 @@ public class OrderRestController {
     //------------------------------------------ Create -------------------------------------------------------------
 
     /**
-     * @param order - order include: offerId, orderAddress, isSafeOrder, orderType, orderComment
+     * @param order - order include: offerId, orderAddress, paymentMethod, orderType, orderComment
      * @return - return status code if Ok, 400 - order not valid, 403 - if user is offer author, 404 - offer not found, 405 - if user is not buyer
      */
     @PreAuthorize("isAuthenticated()")
@@ -117,7 +117,7 @@ public class OrderRestController {
         if (isOrderValid(order, offer)) {
             newOrderPreparator(userId, order, offer);
 
-            if (order.isSafeOrder()) {
+            if (order.getPaymentMethod() == PaymentMethod.GUP) {
                 //ToDo перевод денег на счёт Гупа если ввключён safe order
             }
             orderService.create(order);

@@ -14,6 +14,7 @@ import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.OrderType;
 import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 import ua.com.itproekt.gup.service.order.OrderService;
+import ua.com.itproekt.gup.util.PaymentMethod;
 import ua.com.itproekt.gup.util.TransportCompany;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class OrderTestRestController {
         commentList1.add(orderComment1);
 
         Order order1 = new Order()
-                .setSafeOrder(false)
+                .setPaymentMethod(PaymentMethod.CARD_PAYMENT)
                 .setOrderAddress(orderAddress1)
                 .setOrderStatus(OrderStatus.NEW)
                 .setBuyerId("571a2fdd681db5eee71086c0")
@@ -70,7 +71,7 @@ public class OrderTestRestController {
         commentList2.add(orderComment2);
 
         Order order2 = new Order()
-                .setSafeOrder(false)
+                .setPaymentMethod(PaymentMethod.CASH_LESS_PAYMENT)
                 .setOrderAddress(orderAddress2)
                 .setOrderStatus(OrderStatus.ACCEPT)
                 .setBuyerId("56e6cbb5e4b00942b3340123")
@@ -95,7 +96,7 @@ public class OrderTestRestController {
         commentList3.add(orderComment3);
 
         Order order3 = new Order()
-                .setSafeOrder(true)
+                .setPaymentMethod(PaymentMethod.GUP)
                 .setOrderAddress(orderAddress3)
                 .setOrderStatus(OrderStatus.SENT)
                 .setBuyerId("5720b0a8681da6b00652ed0a")
