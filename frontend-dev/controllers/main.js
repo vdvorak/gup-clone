@@ -3,6 +3,7 @@
 const utils = require('../modules/utils')
 
 const ctx = module.exports = {}
+
 /* Контроллер для управления  основным скелетом документа */
 module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieStore) {
   console.log('Main controller loaded')
@@ -31,7 +32,6 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
 
     this.showFilters = false
     this.showServices = false
-    this.showMiniContacts = true
 
     if(this.sortingCategories.length) {
       let title = this.sortingCategories[this.sortingId].title
@@ -53,18 +53,6 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
 		this.idName = id
 		console.log(this.idName, id)
 	}
-
-  this.drag = {
-    start: function(e){
-      console.log(e)
-      console.log("Started drag")
-    },
-    stop : function(e) {
-      console.log(e)
-      console.log("Stopped drag")
-    }
-  }
-
 
   this.resetFilters = function() {
     this.idName = -1

@@ -105,7 +105,7 @@ module.exports = function() {
       document.addEventListener('mousemove', onMouseMoveHandler)
 
       let onMouseDownHandler = function(e) {
-        if( this.dragStart ) return
+        if( this.dragStart || e.which !==1 ) return
         this.dragStart = true
       }.bind(this)
 

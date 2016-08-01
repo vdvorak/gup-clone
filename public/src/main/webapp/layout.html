@@ -101,68 +101,25 @@
 	</div>
 </div>
 
-<div class="miniContacts" ng-show="main.showMiniContacts" ng-drag=".header" style="right:0px; bottom:0px;">
+<div class="miniContacts" ng-controller="miniContacts as mini" ng-init="mini.init()" ng-show="mini.show" ng-drag=".header" style="right:0px; bottom:0px;">
 	<div class="header">
-		<div class="back toContacts"></div>
-		<div class="close" ng-click="main.showMiniContacts=false"></div>
+		<div class="back toContacts" ng-show="mini.showMessages" ng-click="mini.back()"></div>
+		<div class="close" ng-click="mini.close()"></div>
 	</div>
-	<div class="table">
-		<div class="tr">
+	<div class="table" ng-show="mini.showConversations">
+		<!-- TODO: NG repeat later -->
+		<div class="tr" ng-click="mini.showMessage(0)">
 			<div class="td"><div class="avatar"></div></div>
 			<div class="td"><p class="username">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, sunt!</p></div>
 			<div class="td"><div class="onOrOffLineUser"></div></div>
 		</div>
-		<div class="tr">
-			<div class="td"><div class="avatar"></div></div>
-			<div class="td"><p class="username">username</p></div>
-			<div class="td"><div class="onOrOffLineUser red"></div></div>
-		</div>
-		<div class="tr">
-			<div class="td"><div class="avatar"></div></div>
-			<div class="td"><p class="username">username</p></div>
-			<div class="td"><div class="onOrOffLineUser red"></div></div>
-		</div>
-		<div class="tr">
-			<div class="td"><div class="avatar"></div></div>
-			<div class="td"><p class="username">username</p></div>
-			<div class="td"><div class="onOrOffLineUser red"></div></div>
-		</div>
-		<div class="tr">
-			<div class="td"><div class="avatar"></div></div>
-			<div class="td"><p class="username">username</p></div>
-			<div class="td"><div class="onOrOffLineUser red"></div></div>
-		</div>
-		<div class="tr">
-			<div class="td"><div class="avatar"></div></div>
-			<div class="td"><p class="username">username</p></div>
-			<div class="td"><div class="onOrOffLineUser red"></div></div>
-		</div>
 	</div>
-	<div class="wrapMessages">
+	<div class="wrapMessages" ng-show="mini.showMessages">
+		<!-- TODO: NG repeat here later -->
 		<div class="messages">
 			<div class="postInterlocutor">
-				<div class="avatar"></div>
+				<div class="avatar" ng-click="mini.showUserCabinet(0)"></div>
 				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum accusantium quisquam modi iure nisi suscipit dolore nostrum alias voluptate, natus officia earum ab cum, odit incidunt quaerat! Numquam temporibus perspiciatis suscipit repudiandae ad, minima sapiente delectus animi dignissimos possimus recusandae velit, error corporis quam aliquam impedit cumque in, sit aperiam nisi dolor autem architecto magnam! Soluta repellat maxime reiciendis. Error, quis molestiae magnam ut sed atque veritatis soluta obcaecati iusto consectetur ipsam, in voluptatum minus, fuga praesentium. Fugit quod autem iste necessitatibus labore aperiam, molestiae optio fuga iure est totam modi minus quasi id ab natus, nihil blanditiis aliquam. Ratione?</p>
-			</div>
-			<div class="yourAnswer">
-				<div class="avatar"></div>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea, iste!</p>
-			</div>
-			<div class="postInterlocutor">
-				<div class="avatar"></div>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id rem ipsa quod deleniti quidem dignissimos dolore, ipsum tempore voluptas aspernatur quas illum maiores, at consequuntur quis nemo est perferendis illo!</p>
-			</div>
-			<div class="postInterlocutor">
-				<div class="avatar"></div>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum accusantium quisquam modi iure nisi suscipit dolore nostrum alias voluptate, natus officia earum ab cum, odit incidunt quaerat! Numquam temporibus perspiciatis suscipit repudiandae ad, minima sapiente delectus animi dignissimos possimus recusandae velit, error corporis quam aliquam impedit cumque in, sit aperiam nisi dolor autem architecto magnam! Soluta repellat maxime reiciendis. Error, quis molestiae magnam ut sed atque veritatis soluta obcaecati iusto consectetur ipsam, in voluptatum minus, fuga praesentium. Fugit quod autem iste necessitatibus labore aperiam, molestiae optio fuga iure est totam modi minus quasi id ab natus, nihil blanditiis aliquam. Ratione?</p>
-			</div>
-			<div class="yourAnswer">
-				<div class="avatar"></div>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea, iste!</p>
-			</div>
-			<div class="postInterlocutor">
-				<div class="avatar"></div>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id rem ipsa quod deleniti quidem dignissimos dolore, ipsum tempore voluptas aspernatur quas illum maiores, at consequuntur quis nemo est perferendis illo!</p>
 			</div>
 		</div>
 
