@@ -1,6 +1,8 @@
 package ua.com.itproekt.gup.model.offer;
 
 import org.springframework.data.annotation.Id;
+import ua.com.itproekt.gup.util.PaymentMethod;
+import ua.com.itproekt.gup.util.TransportCompany;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -46,21 +48,31 @@ public class Offer {
     @Min(1)
     private Integer price;
     private Currency currency;
+
+
     private Boolean priceCanBeNegotiated;
     private Boolean used; // б/y
     private Boolean canBeReserved;
-
+    private Boolean canBeRented;
     private Integer maximumReservedPeriod;
+    private List<TransportCompany> availableShippingMethods;
+    private List<PaymentMethod> availablePaymentMethods;
 
+
+    /**
+     * This parameters for paid services
+     */
     private Boolean isMarked; // marked offer forever
     private Boolean urgent; // marked offer with "urgent" forever
     private Long dateUntilTop; // if dateUntilTop is later than date Now - offer will be in the TOP
     private Long lastUpdateDate;
 
 
-    private Boolean canBeRented;
     private Address address;
+
+
     private ModerationMessage moderationMessage;
+
 
     public Offer setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -362,6 +374,25 @@ public class Offer {
         return this;
     }
 
+    public List<TransportCompany> getAvailableShippingMethods() {
+        return availableShippingMethods;
+    }
+
+    public Offer setAvailableShippingMethods(List<TransportCompany> availableShippingMethods) {
+        this.availableShippingMethods = availableShippingMethods;
+        return this;
+    }
+
+
+    public List<PaymentMethod> getAvailablePaymentMethods() {
+        return availablePaymentMethods;
+    }
+
+    public Offer setAvailablePaymentMethods(List<PaymentMethod> availablePaymentMethods) {
+        this.availablePaymentMethods = availablePaymentMethods;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Offer{" +
@@ -389,12 +420,14 @@ public class Offer {
                 ", priceCanBeNegotiated=" + priceCanBeNegotiated +
                 ", used=" + used +
                 ", canBeReserved=" + canBeReserved +
+                ", canBeRented=" + canBeRented +
                 ", maximumReservedPeriod=" + maximumReservedPeriod +
+                ", availableShippingMethods=" + availableShippingMethods +
+                ", availablePaymentMethods=" + availablePaymentMethods +
                 ", isMarked=" + isMarked +
                 ", urgent=" + urgent +
                 ", dateUntilTop=" + dateUntilTop +
                 ", lastUpdateDate=" + lastUpdateDate +
-                ", canBeRented=" + canBeRented +
                 ", address=" + address +
                 ", moderationMessage=" + moderationMessage +
                 '}';

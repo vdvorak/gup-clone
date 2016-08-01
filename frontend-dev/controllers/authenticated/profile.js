@@ -15,7 +15,22 @@ class profileCtrl {
         this.contact = new ProfileContact();
 
         this.socialCategories = require('../../data/social')
+		
+		this.profileOrHistory = true;
+		
+		this.deeper = false;
+		
+		this.showProfile = ["История покупок", "История отзывов", "Запросы на отзывов"];
+		
+		this.selectedOption = "Показать";
     }
+	showOrHideDeeper() {
+		if (this.deeper == true) {
+			return this.deeper = false;
+		} else {
+			return this.deeper = true;
+		}
+	}
     updateProfile(){
 
     }
