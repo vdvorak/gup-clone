@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.profiles.order;
+package ua.com.itproekt.gup.util;
 
 
 public enum TransportCompany {

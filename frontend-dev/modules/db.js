@@ -20,7 +20,7 @@ module.exports.init = function($http) {
     }
   }.bind(this))
 
-  console.log("Database initialized")
+  console.log("Database :: initialized")
 }
 
 module.exports.setDefaults = function() {
@@ -40,6 +40,7 @@ module.exports.setDefaults = function() {
     social : [],
     avatar : ""
   }
+
   ctx.unreadMessages = 0
   ctx.unreadNotifications = 0
 }

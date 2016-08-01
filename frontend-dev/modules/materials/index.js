@@ -5,7 +5,8 @@ const MODULES = {
   "niceButton" : require('./directives/niceButton'),
   "text" : require('./directives/text'),
   "selectBox" : require('./directives/selectBox'),
-  "textArea" : require('./directives/textArea')
+  "textArea" : require('./directives/textArea'),
+  "ngDrag" : require('./directives/ngDrag')
 }
 
 window.ee = require('./events')

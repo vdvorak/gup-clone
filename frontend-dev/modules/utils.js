@@ -75,7 +75,7 @@ module.exports.coordinatesBelongToElements = function(x, y, selector) {
     })
   } catch(e) {
     console.error(e)
-  }  
+  }
 
   return result
 }
