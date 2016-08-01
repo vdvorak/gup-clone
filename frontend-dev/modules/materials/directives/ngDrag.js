@@ -11,6 +11,18 @@ function getWindowSize() {
     return { x, y }
 }
 
+function clearSelections() {
+  if (window.getSelection) {
+    if (window.getSelection().empty) {  // Chrome
+      window.getSelection().empty();
+    } else if (window.getSelection().removeAllRanges) {  // Firefox
+      window.getSelection().removeAllRanges();
+    }
+  } else if (document.selection) {  // IE?
+    document.selection.empty();
+  }
+}
+
 module.exports = function() {
   return {
     restrict : "A",
@@ -40,7 +52,7 @@ module.exports = function() {
             y = e.clientY
 
         /* Не снимаем показания координат при выходе за границы окна */
-        if( x < 0 || y < 0 || x > this.xMax || y > this.yMax )
+        if( x < 50 || y < 50 || x > this.xMax-60 || y > this.yMax-50 )
           return
 
         /* Если старых координат нет */
@@ -87,6 +99,7 @@ module.exports = function() {
             parent.style.top = `${this.yMax - rect.height}px`
           parent.style.top = `${parseInt(parent.style.top)+deltaY}px`
         }
+        clearSelections()
       }.bind(this)
 
       document.addEventListener('mousemove', onMouseMoveHandler)
