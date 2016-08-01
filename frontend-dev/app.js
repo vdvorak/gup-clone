@@ -28,6 +28,7 @@ app
     })
   }])
   .controller('mainCtrl', require('./controllers/main'))
+  .controller('miniContacts', require('./controllers/authenticated/miniContacts'))
 
 materials
   .init(app)

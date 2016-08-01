@@ -35,6 +35,22 @@ section.editProfile {
 					padding-left: 5px;
 				}
 			}
+            
+            &>.inputForm{
+              margin-bottom:45px; 
+                
+                textarea{
+                   min-height: 116px; 
+                }
+            }
+            
+            &>.btn-blue {
+                display: block;
+                width: 180px;
+                height: 36px;
+				line-height: 36px;
+                margin: 50px auto 0 auto;             
+            }
 			
 			&>.edit-profile-form-foto {
 				float: right;
@@ -68,26 +84,30 @@ section.editProfile {
 		}
 
 	  .edit-profile-form-contacts-container{
-		.inputForm {
-			width: 95%;
-		display: inline-block;
+		
+          .inputForm {
+            width: 620px;
+            display: inline-block;
+            margin-bottom:45px;
 		}
-		button {
-		  width:16px;
-		  height: 16px;
-			display: inline-block;
-		  background: url('../images/icon_close_blue.png') no-repeat;
-		  background-size: contain;
-		}
+          button{
+              width:16px;
+		      height: 16px;
+              border: none;
+              outline: none;
+              float:right;
+              display: inline-block;
+              background: url('../images/icon_close_blue.png') no-repeat;
+              background-size: contain;
+          }
 	  }
 
 	  .social-link-container{
-		height: auto;
 		div{
 		  width: 24px;
 		  height: 24px;
 		  float: left;
-		  margin-right: 47px;
+		  margin: 0 45px 45px 2px;
 		}
 	  }
 	}

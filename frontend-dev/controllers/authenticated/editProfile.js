@@ -1,51 +1,60 @@
 "use strict";
 
+let _$timeout;
+    
 class ProfileContact {
     constructor() {
-        this.contactEmails = [''];
+        this.contactEmails = ['',''];
         this.contactPhones = [''];
         this.type ="ENTREPRENEUR"
 
         this.position = ""
         this.companyName = ""
         this.skypeUserName = ""
+        this.socNetLink = {}
         this.linkToWebSite = ""
+        this.aboutUs = ""
     }
 }
 
 class profileCtrl {
-    constructor($scope){
+    constructor($scope, $timeout){
 //        if(!$scope.$parent.db.user)
 //          $scope.$parent.redirectToUrl('/403', true)
 //        else
-			this.contact = new ProfileContact();
-      this.contactTypes = [
+        
+        _$timeout = $timeout;
+        
+        this.contact = new ProfileContact();
+        this.contactTypes = [
         "LEGAL_ENTITY",
         "ENTREPRENEUR",
         "INDIVIDUAL"
       ]
 
       this.email = ""
-      this.fio = ""
+      this.username = ""
+      this.imgId = ""
       this.mainPhoneNumber = ""
+      
     }
-    updateProfile(){
-
+    
+    fileUpload() {
+        _$timeout(function(){
+            document.getElementById('profile-upload-photo-inp').click()
+        })
     }
-    addContacts($event, type){
-        var arr;
-        if(type === 'email') arr = this.contact.contactEmails;
-        else if(type === 'phone') arr = this.contact.contactPhones;
-        else return;
-
-        if(arr.length < 5 && arr[arr.length - 1].trim()) arr.push('');
+    
+    changeAvatar(files){
+        angular.element(document.querySelector('.edit-profile-form-foto>p')).text(files[0].name);
     }
+    
+    updateProfile($event){
 
-    deleteContacts($event, $index, type){
-        if(type === 'email') this.contact.contactEmails.splice($index, 1);
-        else if(type === 'phone') this.contact.contactPhones.splice($index, 1);
-        else return;
     }
 }
 
+profileCtrl.$inject = ['$scope', '$timeout'];  
+
 module.exports = profileCtrl;
+
