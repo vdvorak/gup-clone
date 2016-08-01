@@ -10,6 +10,7 @@ class ProfileContact {
         this.companyName = ""
         this.skypeUserName = ""
         this.linkToWebSite = ""
+        this.aboutUs = ""
     }
 }
 

@@ -8,7 +8,7 @@ $border-color: #ebebeb;
 .view-profile-container{
 	background-color: #fff;
 	box-sizing: border-box;
-	padding: 40px 127px 30px;
+	padding: 40px 110px 30px;
 	margin: 5px auto 0;
 	width: 1103px;
 	font: $font-form-content;
@@ -35,8 +35,67 @@ $border-color: #ebebeb;
 }
 
 .profile-containers-wrap{
-    width:849px;
-    margin:0 auto;
+    width: 900px;
+    margin: 0 auto;
+	
+	&>.purchaseHistory {
+		border-left: 1px solid #E9E9E9;
+		display: inline-block;
+    	width: 600px;
+		
+		&>.itemHistory {
+			margin-bottom: 30px;
+			@extend .clearfix;
+			
+			&>.avatar {
+				width: 100px;
+				background: none;
+				display: inline-block;
+				border-radius: 0;
+				height: 40px;
+				float: left;
+				cursor: default;
+				
+				&>img {
+					object-fit: contain;
+					width: 100%;
+					background-color: transparent;
+					height: 100%;
+				}
+			}
+			
+			&>.title {
+				color: #1976d2;
+				font: 500 13px / 20px Roboto;
+				width: 195px;
+				margin-left: 5px;
+				float: left;
+			}
+			
+			&>.number {
+				color: #106cc8;
+				font: 500 14px / 40px Roboto;
+				float: left;
+				width: 90px;
+				margin-left: 5px;
+			}
+			
+			&>.date {
+				color: #999999;
+				font: 400 14px / 40px Roboto;
+				float: left;
+				margin-left: 5px;
+				width: 130px;
+			}
+			
+			&>.price {
+				color: #666666;
+				font: 500 13px / 40px Roboto;
+				float: right;
+				text-align: right;
+			}
+		}
+	}
 }
 
 .profile-left-container, .profile-right-container, .profile-info-section-left, .profile-info-section-right, .profile-info{
@@ -68,18 +127,24 @@ $border-color: #ebebeb;
 				display: block;
 				margin-bottom: 25px;
 				
-				
 				&>.defaultValue {
 					color: #9e9e9e;
 					font: 400 16px / 24px Roboto;
 					border-bottom: 1px solid #9e9e9e;
+				}
+				
+				&>.listOfValues {
+					
+					&>div {
+						width: auto;
+					}
 				}
 			}
 		}
 	}
 }
 .profile-right-container{
-  width: 485px;
+	width: 485px;
     padding-left:20px; 
     border-left: 1px solid $border-color;
 	
