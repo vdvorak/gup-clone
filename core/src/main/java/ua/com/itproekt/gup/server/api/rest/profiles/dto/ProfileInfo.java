@@ -8,19 +8,14 @@ import java.util.List;
 public class ProfileInfo {
 
     //ToDo when this features will work     profileInfo.setIsOnline(isUserOnline(id));
-    //ToDo profileInfo.setLastLoginDateEqualsToCurrentDate() - сохранять в базу
 
 
     private Profile profile;
     private Integer unreadEventsCount;
-
-//    public ProfileInfo(Profile profile) {
-//        this.profile = profile;
-//    }
+    private Integer unreadMessages;
 
 
     public ProfileInfo() {
-
     }
 
     private ProfileInfo(Profile profile) {
@@ -31,8 +26,9 @@ public class ProfileInfo {
         return unreadEventsCount;
     }
 
-    public void setUnreadEventsCount(Integer unreadEventsCount) {
+    public ProfileInfo setUnreadEventsCount(Integer unreadEventsCount) {
         this.unreadEventsCount = unreadEventsCount;
+        return this;
     }
 
     public Profile getProfile() {
@@ -43,6 +39,15 @@ public class ProfileInfo {
         this.profile = profile;
     }
 
+
+    public Integer getUnreadMessages() {
+        return unreadMessages;
+    }
+
+    public ProfileInfo setUnreadMessages(Integer unreadMessages) {
+        this.unreadMessages = unreadMessages;
+        return this;
+    }
 
     public List<ProfileInfo> getListOfPublicProfilesWithOptions(List<Profile> profileList) {
         List<ProfileInfo> profileInfoList = new ArrayList<>();
@@ -61,18 +66,18 @@ public class ProfileInfo {
                 .setContactList(null)
                 .setUserProfile(null)
                 .setOrderAddressList(null)
-                .setUserRoles(null)
+                .setUserRoles(null);
+        profileInfo.setUnreadEventsCount(null)
                 .setUnreadMessages(null);
-        profileInfo.setUnreadEventsCount(null);
         return profileInfo;
     }
 
     public ProfileInfo getPrivateProfile(Profile profile) {
         ProfileInfo profileInfo = new ProfileInfo(profile);
         profileInfo.getProfile()
-                .setPassword(null)
+                .setPassword(null);
+        profileInfo.setUnreadEventsCount(42)//FixMe make this work
                 .setUnreadMessages(6);//FixMe make this realy work
-        profileInfo.setUnreadEventsCount(42);//ToDo make this work
         return profileInfo;
     }
 
@@ -82,6 +87,7 @@ public class ProfileInfo {
         return "ProfileInfo{" +
                 "profile=" + profile +
                 ", unreadEventsCount=" + unreadEventsCount +
+                ", unreadMessages=" + unreadMessages +
                 '}';
     }
 }
