@@ -3,37 +3,45 @@
 		<h2>Редактирование профиля</h2>
 
 		<form id="edit-profile-form" class="edit-profile-form clearfix">
-
+            
+            <div class='clearfix'></div>
+            
 			<select-box ng-model="profile.contact.type" items="{{ profile.contactTypes }}"></select-box>
 
 			<div class="edit-profile-form-foto">
-				<input type="file">
+				<input id="profile-upload-photo-inp" type="file" accept="image/*,image/jpeg" onchange="angular.element(this).controller().changeAvatar(this.files)">
 				<p>Лого</p>
-				<nice-button class="btn-blue" ng-click="">Обзор</nice-button>
+				<nice-button class="btn-blue" ng-mouseUp="profile.fileUpload()">Обзор</nice-button>
 			</div>
             
             <div class='clearfix'></div>
             
-			<text class="inputForm-required" ng-model="profile.fio" label="ФИО" ng-hide="profile.contact.type === 'LEGAL_ENTITY'"></text>
-			<text class="inputForm-required" ng-model="profile.contact.position" label="Должность" ng-hide="profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY'"></text>
-			<text class="inputForm-required" ng-model="profile.contact.companyName" label="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'Название компании' || 'Место работы'}}"></text>
+			<text class="required" color='blue' ng-model="profile.username" label="ФИО" ng-hide="profile.contact.type === 'LEGAL_ENTITY'"></text>
+			<text color='blue' ng-model="profile.contact.position" label="Должность" ng-hide="profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY'"></text>
+			<text color='blue' class="required" ng-model="profile.contact.companyName" label="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'Название компании' || 'Место работы'}}"></text>
 
-			<text class="inputForm-required" ng-model="profile.email" label="Основной e-mail"></text>
+			<text class="required" color='blue' ng-model="profile.email" label="Основной e-mail"></text>
 
-			<div class="edit-profile-form-contacts-container" ng-repeat="email in profile.contact.contactEmails track by $index">
-				<text class="inputForm-required" label="Контактный email" ng-model="profile.contact.contactEmails[$index]"></text>
-				<button ng-style="$first && {'visibility':'hidden'}" ng-click="profile.deleteContacts($event, $index, 'email')"></button>
+			<div class="edit-profile-form-contacts-container">
+                <div ng-repeat="email in profile.contact.contactEmails track by $index">
+                    <text label="Контактный email" color='blue' ng-model="profile.contact.contactEmails[$index]"></text>
+                    <button></button>
+                </div>
 			</div>
 
-			<text class="inputForm-required" ng-model="profile.mainPhoneNumber" label="Основной телефон"></text>
-
-			<div class="edit-profile-form-contacts-container" ng-repeat="tel in profile.contact.contactPhones track by $index">
-				<text class="inputForm-required" label="Контактный телефон" ng-model="profile.contact.contactPhones[$index]"></text>
-				<button ng-style="$first && {'visibility':'hidden'}" ng-click="profile.deleteContacts($event, $index, 'phone')"></button>
+			<text class="required" color='blue' ng-model="profile.mainPhoneNumber" label="Основной телефон"></text>
+         
+			<div class="edit-profile-form-contacts-container">
+                <div ng-repeat="tel in profile.contact.contactPhones track by $index">
+                    <text label="Контактный телефон" color='blue' ng-model="profile.contact.contactPhones[$index]"></text>
+                    <button></button>
+                </div>
 			</div>
 
-			<text class="inputForm-required" ng-model="profile.contact.skypeUserName" label="Skype"></text>
-
+			<text color='blue' ng-model="profile.contact.skypeUserName" label="Skype"></text>
+            
+            <div class='clearfix'></div>
+            
 			<div class="social-link-container">
 				<div data-social="LINKEDIN" style="background: url('../images/icon-linkedin.png')"></div>
 				<div data-social="FACEBOOK" style="background: url('../images/icon-facebook.png')"></div>
@@ -44,14 +52,11 @@
 
 			<div class='clearfix'></div>
 
-			<text class="inputForm-required" ng-model="profile.contact.linkToWebSite" label="Ссылка на сайт"></text>
-			<text-area class="inputForm-required" label="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'О компании' || 'О себе'}}" ng-model="profile.contact.aboutUs"></text-area>
+			<text color='blue' ng-model="profile.contact.linkToWebSite" label="Ссылка на сайт"></text>
+			<text-area label="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'О компании' || 'О себе'}}" ng-model="profile.contact.aboutUs"></text-area>
             
             <nice-button class="btn-blue" type="submit" ng-submit="profile.updateProfile($event)">СОХРАНИТЬ</nice-button>
 		</form>
-
-		<form id="uploadFileForm" class="uploadFileForm">
-			<input id="uploadFileFormInput" type="file" accept="image/*,image/jpeg" onchange="angular.element(this).scope().uploadFile(this)">
-		</form>
+        
 	</div>
 </section>

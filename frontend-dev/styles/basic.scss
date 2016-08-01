@@ -139,7 +139,7 @@ header {
 		float: left;
 		margin-top: 21px;
 		margin-left: 20px;
-		
+
 		&>.defaultValue {
 			background: none;
 			padding: 0 5px;
@@ -193,7 +193,7 @@ header {
 			left: 32px;
 			cursor: default;
 		}
-		
+
 		&>.chooseYourStyle {
 			background-color: #ffffff;
 			height: 90px;
@@ -204,13 +204,13 @@ header {
 			left: 50%;
 			margin-left: -100px;
 			z-index: 1;
-			
+
 			&>p {
 				color: #333333;
 				font: 400 14px / 45px Roboto;
 				padding-left: 15px;
 				transition: all .25s;
-				
+
 				&:hover {
 					cursor: pointer;
 					background-color: #EBEBEB;
@@ -262,7 +262,7 @@ header {
 		&:hover {
 			background: url(../images/services_shadow.png) no-repeat center center;
 		}
-		
+
 		&>.vidgets {
 			position: absolute;
 			height: 244px;
@@ -274,14 +274,14 @@ header {
 			cursor: default;
 			padding: 20px 30px;
 			box-sizing: border-box;
-			
+
 			&>h2 {
 				color: #212121;
 				font: 700 18px Roboto;
 				text-align: center;
 				margin-bottom: 25px;
 			}
-			
+
 			&>a {
 				height: 65px;
 				margin-left: 30px;
@@ -290,32 +290,32 @@ header {
 				font: 400 14px Roboto;
 				position: relative;
 				margin-bottom: 25px;
-				
+
 				&>p {
 					position: absolute;
 					bottom: 0;
 				}
-				
+
 				&:nth-of-type(1) {
 					margin-left: 0;
 					background: url(../images/rypr.png) no-repeat top center;
 					width: 80px;
 				}
-				
+
 				&:nth-of-type(2) {
 					background: url(../images/tender.png) no-repeat top center;
 					width: 60px;
 					opacity: 0.5;
 					cursor: not-allowed;
 				}
-				
+
 				&:nth-of-type(3) {
 					background: url(../images/frilans.png) no-repeat top center;
 					width: 60px;
 					opacity: 0.5;
 					cursor: not-allowed;
 				}
-				
+
 				&:nth-of-type(4) {
 					margin-left: 0;
 					background: url(../images/tehnologii.png) no-repeat top center;
@@ -323,7 +323,7 @@ header {
 					opacity: 0.5;
 					cursor: not-allowed;
 				}
-				
+
 				&:nth-of-type(5) {
 					background: url(../images/rabota.png) no-repeat top center;
 					width: 50px;
@@ -331,7 +331,7 @@ header {
 					opacity: 0.5;
 					cursor: not-allowed;
 				}
-				
+
 				&:nth-of-type(6) {
 					background: url(../images/proekti.png) no-repeat top center;
 					width: 60px;
@@ -359,7 +359,7 @@ header {
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
-		
+
 		&>div {
 			background-color: $white;
 			box-shadow: $boxShadow;
@@ -367,7 +367,7 @@ header {
 			top: 0;
 			width: 100%;
 			z-index: 1;
-			
+
 			&>p {
 				cursor: pointer;
 				padding: 0 15px;
@@ -376,7 +376,7 @@ header {
 				transition: all .25s;
 				box-sizing: border-box;
 				transition: all .25s;
-				
+
 				&:hover {
 					background-color: #eeeeee;
 				}
@@ -578,7 +578,7 @@ section.openAdvertert {
 	}
 
 	&>div.buyProduct {
-		
+
 		&>#mapForOneAdvertert {
 			float: left;
 			height: 230px;
@@ -644,41 +644,41 @@ section.openAdvertert {
 			line-height: 35px;
 		}
 	}
-	
+
 	&>.rentProduct {
 		margin-top: 45px;
-		
+
 		&>.rentCalendar {
 			margin-bottom: 45px;
-			
+
 			&>p {
 				color: #263238;
 				font: 400 16px / 21px Roboto;
 				float: left;
 				cursor: default;
-				
+
 				&:nth-of-type(2) {
 					margin-left: 55px;
 				}
 			}
-			
+
 			&>.calendar {
 				float: left;
 				margin-left: 45px;
 				width: 165px;
 				margin-bottom: 0;
-				
+
 				&>.defaultValue {
-					
+
 				}
 			}
 		}
-		
+
 		&>.inputForm  {
 			color: #9a9a9a;
 			margin-bottom: 40px;
 		}
-		
+
 		&>.btn-blue {
 			box-shadow: 0px 2px 4px 0.00px rgba(0, 0, 0, 0.4);
 			height: 35px;
@@ -864,7 +864,7 @@ section.openAdvertert {
         margin-top:10px;
         margin-bottom:30px;
     }
-	
+
 	&>.btn-blue{
 		box-shadow: 0px 2px 4px 0.00px rgba(0, 0, 0, 0.4);
 		height: 35px;
@@ -981,13 +981,17 @@ section.openAdvertert {
 		top: -1px;
     }
 
-    input{
+    input, textarea{
         border: none;
         outline: none;
         width:100%;
         background-color: transparent;
 		position: relative;
 		padding: 1px 5px;
+    }
+    
+    textarea{
+        resize: none;
     }
 }
 
@@ -1057,11 +1061,11 @@ section.bulletinAdd {
 		text-align: center;
 		margin-bottom: 40px;
 	}
-	
+
 	&>.selectBox {
 		margin-bottom: 45px;
 		margin-top: 15px;
-		
+
 		&>.defaultValue {
 			border-color: grey;
 			min-width: 195px;
@@ -1070,7 +1074,7 @@ section.bulletinAdd {
 			padding-left: 5px;
 		}
 	}
-	
+
 	&>.file {
 		float: right;
 		position: relative;
@@ -1078,12 +1082,12 @@ section.bulletinAdd {
 		border-bottom: 1px solid #9e9e9e;
 		width: 410px;
 		padding-bottom: 5px;
-		
+
 		&>input {
 			position: absolute;
 			z-index: -1;
 		}
-		
+
 		&>p {
 			color: #9e9e9e;
 			font: 400 16px Roboto;
@@ -1091,7 +1095,7 @@ section.bulletinAdd {
 			float: left;
 			padding-top: 10px;
 		}
-		
+
 		&>.btn-blue {
 			float: right;
 			box-shadow: 0px 2px 4px 0.00px rgba(0, 0, 0, 0.4);
@@ -1109,10 +1113,10 @@ section.bulletinAdd {
 			font: 400 16px Roboto;
 		}
 	}
-	
+
 	&>.color {
 		margin-bottom: 40px;
-		
+
 		&>p {
 			color: #999999;
 			font: 400 16px Roboto;
@@ -1122,7 +1126,7 @@ section.bulletinAdd {
 			height: 21px;
 			box-sizing: border-box;
 		}
-		
+
 		&>div {
 			float: left;
 			margin-left: 19px;
@@ -1133,7 +1137,7 @@ section.bulletinAdd {
 			box-sizing: border-box;
 			outline: 1px solid transparent;
 			border: 1px solid white;
-			
+
 			&.transparent {
 				border-color: #E9E9E9;
 				overflow: hidden;
@@ -1205,31 +1209,31 @@ section.bulletinAdd {
 				background: linear-gradient(to right,  #ff0000 0%,#ffff00 20%,#1dff00 40%,#00ffff 60%,#0400ff 80%,#ff00fa 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff0000', endColorstr='#ff00fa',GradientType=1 ); /* IE6-9 */
 			}
-			
+
 			&.active {
 				outline-color: red;
 			}
 		}
 	}
-	
+
 	&>.calendar, .addCalendar {
 		width: 230px;
 	}
-	
+
 	&>.addCalendar {
 		background-image: url(../images/addCalendar.png);
-		
+
 		&>.defaultValue {
 			border-bottom-color: blue;
 			background: none;
-			
+
 			&>p {
 				color: #1976d2;
 				font-size: 16px;
 			}
 		}
 	}
-	
+
 	&>.btn-blue {
 		height: 35px;
 		width: 180px;
@@ -1254,32 +1258,32 @@ nav {
 	margin-top: 5px;
 	z-index: 2;
 	position: absolute;
-	
+
 	&>.map {
 		background: url(../images/map.png) no-repeat;
 		height: 145px;
 		width: 255px;
-		
+
 		&>.inputForm {
 			width: 215px;
 			margin: 115px auto 0;
-			
+
 			&.required {
 				border-color: black !important;
 			}
-			
+
 			&>input, label, .textOut {
 				color: black !important;
 			}
 		}
 	}
-	
+
 	&>ul {
 		list-style: none;
-		
+
 		&>li {
 			position: relative;
-			
+
 			&>p {
 				padding-left: 75px;
 				color: #263238;
@@ -1287,69 +1291,69 @@ nav {
 				background: url(../images/caretRightNav.png) no-repeat center right 20px;
 				cursor: pointer;
 			}
-			
+
 			&:hover {
 				background-color: #E6E6E6 !important;
 			}
-			
+
 			&.childsWorld {
 				background: url(../images/ForChildren.png) no-repeat left 25px center;
 			}
-			
+
 			&.animals {
 				background: url(../images/ForAnimals.png) no-repeat left 25px center;
 			}
-			
+
 			&.job {
 				background: url(../images/Business.png) no-repeat left 25px center;
 			}
-			
+
 			&.theProperty {
 				background: url(../images/TheProperty.png) no-repeat left 25px center;
 			}
-			
+
 			&.transport {
 				background: url(../images/Transport.png) no-repeat left 25px center;
 			}
-			
+
 			&.fashionAndStyle {
 				background: url(../images/ClothingAndCosmetics.png) no-repeat left 25px center;
 			}
-			
+
 			&.helpWanted {
 				background: url(../images/Volunteering.png) no-repeat left 25px center;
 			}
-			
+
 			&.aHouseAndAGarden {
 				background: url(../images/AHouseAndAGarden.png) no-repeat left 25px center;
 			}
-			
+
 			&.hobbiesAndSports {
 				background: url(../images/HobbiesAndSports.png) no-repeat left 25px center;
 			}
-			
+
 			&.electronics {
 				background: url(../images/Technologies.png) no-repeat left 25px center;
 			}
-			
+
 			&.businessAndServices {
 				background: url(../images/businessAndServices.png) no-repeat left 25px center;
 			}
-			
+
 			&>div {
 				position: absolute;
 				top: 0;
 				left: 250px;
 				background-color: $white;
 				width: 260px;
-				
+
 				&>p {
 					padding-left: 30px;
 					color: #263238;
 					font: 500 13px / 40px Roboto;
 					background: url(../images/caretRightNav.png) no-repeat center right 20px;
 					cursor: pointer;
-					
+
 					&:hover {
 						background-color: #E6E6E6 !important;
 					}
@@ -1369,7 +1373,7 @@ nav {
     background: url(../images/rupr.png) no-repeat;
     transition: all .25s;
     z-index: 1;
-	
+
 	&:hover {
 		width: 60px;
 		background-image: url(../images/ruprHover.png);
@@ -1384,7 +1388,7 @@ nav {
 	left: 0;
 	background-color: rgba(0, 0, 0, 0.9);
 	z-index: 5;
-	
+
 	&.hide {
 		animation: hide 1s;
 	}
@@ -1400,21 +1404,21 @@ section.mail {
 	width: 1105px;
 	margin: 5px auto 10px;
 	padding: 45px 0 80px;
-	
+
 	&>.tab {
 		width: 905px;
 		border: 1px solid #E9E9E9;
 		border-bottom: none;
 		margin: 0 auto;
 		background-color: #F4F4F4;
-		
+
 		&>ul {
 			background-color: $white;
 			list-style: none;
 			border-bottom: 1px solid #E9E9E9;
 			height: 50px;
 			box-sizing: border-box;
-			
+
 			&>li {
 				color: #9e9e9e;
 				font: 400 14px / 50px Roboto;
@@ -1422,7 +1426,7 @@ section.mail {
 				text-align: center;
 				float: left;
 				position: relative;
-				
+
 				&:after {
 					content: '';
 					position: absolute;
@@ -1434,46 +1438,46 @@ section.mail {
 					background-color: #FD5151;
 					transition: all .25s;
 				}
-				
+
 				&.active {
 					color: #7eafe1;
-					
+
 					&:after {
 						width: 100%;
 						left: 0;
 					}
 				}
-				
+
 				&:nth-of-type(1) {
 					width: 110px;
 				}
-				
+
 				&:nth-of-type(2) {
 					width: 215px;
 				}
-				
+
 				&:nth-of-type(3) {
 					padding: 0 15px;
 				}
 			}
 		}
-		
+
 		&>.mailTab {
 			display: none;
-			
+
 			&>.tavleTitle {
 				height: 65px;
 				padding-top: 35px;
 				box-sizing: border-box;
 				border-bottom: 1px solid #999999;
-				
+
 				&>p {
 					color: #9e9e9e;
 					font: 400 14px / 20px Roboto;
 					float: left;
 					margin-left: 30px;
 					cursor: default;
-					
+
 					&:nth-of-type(2) {
 						margin-left: 45px;
 					}
@@ -1482,45 +1486,45 @@ section.mail {
 				&>.selectBox {
 					float: left;
 					margin-left: 45px;
-					
+
 					&>.defaultValue {
 						color: #9e9e9e;
 						font: 400 16px Roboto;
 						border-color: #999999;
 						width: 195px;
 					}
-					
+
 					&:nth-of-type(2) {
 						margin-left: 10px;
 					}
 				}
 			}
-			
+
 			&>.table {
-					
+
 				&>.tr {
 					border-bottom: 1px solid #999999;
 					padding: 10px 0;
 					@include clearfix;
 					position: relative;
-					
+
 					&:nth-of-type(1) {
-						
+
 						&>.td {
 							color: #9e9e9e;
 							font: 400 13px / 27px Roboto;
 							text-align: left;
 							cursor: default !important;
-							
+
 							&>.checkBox {
 								    position: relative !important;
 									margin-top: 0 !important;
 									margin-left: 30px;
 									left: 0 !important;
 							}
-							
+
 							&>.status {
-								
+
 							}
 						}
 					}
@@ -1529,11 +1533,11 @@ section.mail {
 						float: left;
 						color: #666666;
 						font: 400 14px / 18px Roboto;
-						
+
 						&:nth-of-type(1) {
 							width: 80px;
 							min-height: 1px;
-							
+
 							&>.checkBox {
 								left: 30px;
 								position: absolute;
@@ -1545,18 +1549,18 @@ section.mail {
 						&:nth-of-type(2) {
 							width: 145px;
 							min-height: 1px;
-							
+
 							&>.trUser {
 								position: absolute;
 								top: 50%;
 								margin-top: -9px;
 							}
 						}
-						
+
 						&:nth-of-type(3) {
 							width: 310px;
 							cursor: pointer;
-							
+
 							&>.preview {
 								color: #9e9e9e;
 								font: 400 14px Roboto;
@@ -1567,11 +1571,11 @@ section.mail {
 								margin-top: 10px;
 							}
 						}
-						
+
 						&:nth-of-type(4) {
 							width: 105px;
 							min-height: 1px;
-							
+
 							&>img {
 								position: absolute;
 								top: 50%;
@@ -1579,21 +1583,21 @@ section.mail {
 								left: 555px;
 							}
 						}
-						
+
 						&:nth-of-type(5) {
 							width: 150px;
 							min-height: 1px;
-							
+
 							&>.status {
 								position: absolute;
 								top: 50%;
 								margin-top: -9px;
 							}
 						}
-						
+
 						&:nth-of-type(6) {
 							min-height: 1px;
-							
+
 							&>.date {
 								position: absolute;
 								top: 50%;
@@ -1605,55 +1609,55 @@ section.mail {
 				}
 			}
 		}
-		
+
 		&>.contactsTab {
 			padding: 30px;
 			border-bottom: 1px solid #E9E9E9;
 			display: none;
-			
+
 			&>.inputForm {
 				float: left;
 				width: 315px;
 				background: url(../images/loopSearcg.png) no-repeat center right 5px;
 				margin-bottom: 30px;
 			}
-			
+
 			&>.table {
-				
+
 				&>.tr {
 					@extend .clearfix;
 					margin-bottom: 25px;
-					
+
 					&:nth-of-type(1) {
-						
+
 						&>.td {
 							height: auto;
-							
+
 							&>p {
 								color: #9e9e9e;
 								font: 400 13px Roboto;
 								text-align: left;
 								cursor: default;
 							}
-							
+
 							&:nth-of-type(1) {
-								
+
 								&>p {
 									margin-left: 65px;
 								}
 							}
 						}
 					}
-					
+
 					&:nth-last-of-type(1) {
 						margin-bottom: 0;
 					}
-					
+
 					&>.td {
 						float: left;
 						@extend .clearfix;
 						height: 40px;
-						
+
 						&:nth-of-type(1) {
 							width: 330px;
 						}
@@ -1661,7 +1665,7 @@ section.mail {
 						&:nth-of-type(2) {
 							width: 410px;
 						}
-						
+
 						&>.username {
 							color: #666666;
 							font: 400 14px / 40px Roboto;
@@ -1672,7 +1676,7 @@ section.mail {
 							text-overflow: ellipsis;
 							width: 260px;
 						}
-						
+
 						&>.onOrOffLineUser {
 							margin-top: 11px;
 						}
@@ -1704,7 +1708,7 @@ section.mail {
 	box-sizing: border-box;
 	overflow: hidden;
 	border-bottom: 1px solid #E9E9E9;
-	
+
 	&>.header {
 		height: 65px;
 		border-bottom: 1px solid #999999;
@@ -1714,55 +1718,55 @@ section.mail {
 		top: 0;
 		left: 0;
 		width: 905px;
-		
+
 		&>.avatar {
 			@extend .avatar;
 			margin-left: 25px;
 		}
-		
+
 		&>p {
 			color: #263238;
 			font: 400 14px / 40px Roboto;
 			float: left;
 			margin-left: 35px;
-			
+
 			&>i {
 				color: #9e9e9e;
 				font: 400 14px / 40px Roboto;
 			}
 		}
-		
+
 		&>a {
 			color: #1976d2;
 			font: 400 14px / 40px Roboto;
 			float: left;
 			margin-left: 5px;
 			text-decoration: underline;
-			
+
 			&:hover {
 				text-decoration: none;
 			}
 		}
-		
+
 		&>.date {
 			@extend .date;
 			float: right;
 			margin-right: 10px;
 		}
 	}
-	
+
 	&>h2 {
 		color: #202020;
 		font: 400 20px Roboto;
 		margin-bottom: 20px;
 		margin-left: 80px;
 	}
-	
+
 	&>.wrapMessages {
 		width: 645px;
 		overflow: hidden;
 		margin-left: 25px;
-		
+
 		&>.messages {
 			width: 662px;
 			height: 320px;
@@ -1801,26 +1805,26 @@ section.mail {
 			}
 		}
 	}
-	
+
 	&>.footer {
 		@extend .clearfix;
 		position: absolute;
 		bottom: 10px;
 		left: 25px;
 		width: 870px;
-		
+
 		&>.avatar {
 			float: left;
 			background: url(../images/yourAvatar.png);
 		}
-		
+
 		&>.inputForm {
 			float: left;
 			margin-left: 5px;
 			border-bottom: 1px solid $blue;
 			width: 610px;
 			overflow: hidden;
-			
+
 			&>textarea {
 				border: none;
 				resize: none;
@@ -1833,12 +1837,12 @@ section.mail {
 				padding-right: 50px;
 				box-sizing: border-box;
 			}
-			
+
 			&>.symbols {
 				display: none;
 			}
 		}
-		
+
 		&>.clip {
 			background: url(../images/clip.png) no-repeat center center;
 			height: 20px;
@@ -1849,7 +1853,7 @@ section.mail {
 			cursor: pointer;
 			z-index: 1;
 		}
-		
+
 		&>.btn-blue {
 			box-shadow: 0px 2px 4px 0.00px rgba(0, 0, 0, 0.4);
 			height: 35px;
@@ -1862,19 +1866,17 @@ section.mail {
 
 .miniContacts {
 	position: absolute;
-	top: 115px;
-	left: 540px;
 	background-color: $white;
 	height: 390px;
 	width: 335px;
 	box-shadow: $boxShadow;
 	z-index: 1;
-	
+
 	&>.header {
 		height: 65px;
 		background-color: $blue;
 		@extend .clearfix;
-		
+
 		&>.back {
 			background: url(../images/back.png) no-repeat center center;
 			cursor: pointer;
@@ -1884,14 +1886,14 @@ section.mail {
 			margin-left: 20px;
 			margin-top: 20px;
 			transition: all .25s;
-			
+
 			&.toContacts {
 				background-image: url(../images/toContacts.png);
 				height: 30px;
 				transition: all .25s;
 			}
 		}
-		
+
 		&>.close {
 			background: url(../images/close.png) no-repeat center center;
 			height: 25px;
@@ -1902,33 +1904,33 @@ section.mail {
 			margin-top: 20px;
 		}
 	}
-	
+
 	&>.table {
 		height: 325px;
 		overflow: auto;
 		display: none;
-		
+
 		&>.tr {
 			@extend .clearfix;
 			padding: 15px 0;
-			
+
 			&>.td {
 				float: left;
 				height: 40px;
 				position: relative;
-				
+
 				&:nth-of-type(1) {
 					width: 85px;
 				}
-				
+
 				&:nth-of-type(2) {
 					width: 180px;
 				}
-				
+
 				&>.avatar {
 					margin-left: 15px;
 				}
-				
+
 				&>.username {
 					color: #666666;
 					font: 400 14px / 40px Roboto;
@@ -1937,32 +1939,32 @@ section.mail {
 					overflow: hidden;
 					text-overflow: ellipsis;
 				}
-				
+
 				&>.onOrOffLineUser {
 					margin: 10px 15px;
 				}
 			}
 		}
 	}
-	
+
 	&>.wrapMessages {
 		overflow: hidden;
-		
+
 		&>.messages {
 			overflow: auto;
 			height: 265px;
 			width: 355px;
 			padding: 15px 35px 0 15px;
 			box-sizing: border-box;
-			
+
 			&>.postInterlocutor {
 				@extend .clearfix;
 				margin-bottom: 40px;
-				
+
 				&>.avatar {
 					float: left;
 				}
-				
+
 				&>p {
 					margin-left: 15px;
 					color: #0c0c1e;
@@ -1971,16 +1973,16 @@ section.mail {
 					width: 190px;
 				}
 			}
-			
+
 			&>.yourAnswer {
 				@extend .clearfix;
 				margin-bottom: 40px;
-				
+
 				&>.avatar {
 					background: url(../images/yourAvatar.png);
 					float: right;
 				}
-				
+
 				&>p {
 					margin-right: 15px;
 					color: #0c0c1e;
@@ -1991,24 +1993,24 @@ section.mail {
 				}
 			}
 		}
-		
+
 		&>.footer {
 			height: 60px;
 			border-top: 1px solid #DBDBDB;
 			padding: 15px;
 			box-sizing: border-box;
-			
+
 			&>.inputForm {
 				border-color: $blue !important;
 				color: #0c0c1e;
 				font: 400 12px Roboto;
 				width: 305px;
 				overflow: hidden;
-				
+
 				&>.symbols {
 					display: none;
 				}
-				
+
 				&>textarea {
 					border: none;
 					outline: none;
@@ -2018,7 +2020,7 @@ section.mail {
     				box-sizing: border-box;
 				}
 			}
-			
+
 			&>.clip {
 				background: url(../images/clip.png) no-repeat center center;
 				height: 20px;

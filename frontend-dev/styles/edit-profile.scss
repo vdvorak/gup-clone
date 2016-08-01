@@ -36,6 +36,14 @@ section.editProfile {
 				}
 			}
             
+            &>.inputForm{
+              margin-bottom:45px; 
+                
+                textarea{
+                   min-height: 116px; 
+                }
+            }
+            
             &>.btn-blue {
                 display: block;
                 width: 180px;
@@ -76,26 +84,30 @@ section.editProfile {
 		}
 
 	  .edit-profile-form-contacts-container{
-		.inputForm {
-            width: 95%;
+		
+          .inputForm {
+            width: 620px;
             display: inline-block;
+            margin-bottom:45px;
 		}
-		button {
-		  width:16px;
-		  height: 16px;
-			display: inline-block;
-		  background: url('../images/icon_close_blue.png') no-repeat;
-		  background-size: contain;
-		}
+          button{
+              width:16px;
+		      height: 16px;
+              border: none;
+              outline: none;
+              float:right;
+              display: inline-block;
+              background: url('../images/icon_close_blue.png') no-repeat;
+              background-size: contain;
+          }
 	  }
 
 	  .social-link-container{
-		margin-top: 15px;
 		div{
 		  width: 24px;
 		  height: 24px;
 		  float: left;
-		  margin-right: 47px;
+		  margin: 0 45px 45px 2px;
 		}
 	  }
 	}
