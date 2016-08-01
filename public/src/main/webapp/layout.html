@@ -34,7 +34,7 @@
 						<div class="listItem" ng-repeat="cat in main.sortingCategories" ng-click="main.setCategory(cat.id)">{{ cat.title }}</div>
 					</div>
 				</div>
-				<div class="add" ng-class="temp"  ng-mousedown="temp = 'clicked'" ng-mouseup="temp = ''" 	ng-click="redirectToUrl('/bulletinAdd')">
+				<div class="add" ng-class="temp" ng-mousedown="temp = 'clicked'" ng-mouseup="temp = ''" 	ng-click="redirectToUrl('/bulletinAdd')">
 					<p>Добавить Объявление</p>
 				</div>
 			</div>
@@ -42,7 +42,7 @@
 				<div class="mail" ng-show="db.isLogged">
 					<p>{{ db.unreadMessages }}</p>
 					<div class="chooseYourStyle">
-						<p>Компактный вид</p>
+						<p ng-click="main.showMiniContacts = true">Компактный вид</p>
 						<p>Полный вид</p>
 					</div>
 				</div>
@@ -101,10 +101,10 @@
 	</div>
 </div>
 
-<div class="miniContacts" ng-controller="miniContacts as mini" ng-init="mini.init()" ng-show="mini.show" ng-drag=".header" style="right:0px; bottom:0px;">
+<div class="miniContacts" ng-controller="miniContacts as mini" ng-init="mini.init()" ng-show="main.showMiniContacts" ng-drag=".header" style="right:0px; bottom:0px;">
 	<div class="header">
 		<div class="back toContacts" ng-show="mini.showMessages" ng-click="mini.back()"></div>
-		<div class="close" ng-click="mini.close()"></div>
+		<div class="close" ng-click="main.main.showMiniContacts = false"></div>
 	</div>
 	<div class="table" ng-show="mini.showConversations">
 		<!-- TODO: NG repeat later -->

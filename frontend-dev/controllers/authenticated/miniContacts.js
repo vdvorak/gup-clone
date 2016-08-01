@@ -3,13 +3,8 @@
 module.exports = function($scope) {
 
   this.init = function() {
-    this.show = true
     this.showConversations = true
     this.showMessages = false
-  }
-
-  this.close = function() {
-    this.show = false
   }
 
   this.showMessage = id => {
