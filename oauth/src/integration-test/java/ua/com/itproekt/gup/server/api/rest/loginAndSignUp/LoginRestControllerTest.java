@@ -11,6 +11,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 
 import java.util.*;
 
@@ -57,7 +58,7 @@ public class LoginRestControllerTest {
         HttpHeaders            headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        ResponseEntity<Profile> actual = restTemplate.exchange(urlLogin, HttpMethod.POST, new HttpEntity<>(requestJson,headers), Profile.class, 100);
+        ResponseEntity<ProfileInfo> actual = restTemplate.exchange(urlLogin, HttpMethod.POST, new HttpEntity<>(requestJson,headers), ProfileInfo.class, 100);
 
         assertThat(actual.getStatusCode(), equalTo(HttpStatus.OK));
     }
@@ -70,15 +71,15 @@ public class LoginRestControllerTest {
         HttpHeaders             headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        Profile                  actual = restTemplate.postForObject(urlLogin, new HttpEntity<>(requestJson, headers), Profile.class);
+        ProfileInfo              actual = restTemplate.postForObject(urlLogin, new HttpEntity<>(requestJson, headers), ProfileInfo.class);
         String               expectedId = "575697a53880f94fe2ced184";
         String         expectedUsername = "NEO";
         Set<UserRole> expectedUserRoles = new HashSet<>();
         expectedUserRoles.add(UserRole.ROLE_USER);
 
-        assertThat(actual.getId(), equalTo(expectedId));
-        assertThat(actual.getUsername(), equalTo(expectedUsername));
-        assertThat(actual.getUserRoles(), equalTo(expectedUserRoles));
+        assertThat(actual.getProfile().getId(), equalTo(expectedId));
+        assertThat(actual.getProfile().getUsername(), equalTo(expectedUsername));
+        assertThat(actual.getProfile().getUserRoles(), equalTo(expectedUserRoles));
     }
 
     /**
@@ -89,7 +90,7 @@ public class LoginRestControllerTest {
         HttpHeaders           headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        restTemplate.postForObject(urlLogin, new HttpEntity<>(requestJson, headers), Profile.class);
+        restTemplate.postForObject(urlLogin, new HttpEntity<>(requestJson, headers), ProfileInfo.class);
         ResponseEntity<String> actual = restTemplate.exchange(urlLogout, HttpMethod.GET, new HttpEntity<>("", headers), String.class);
 
         assertThat(actual.getStatusCode(), equalTo(HttpStatus.OK));

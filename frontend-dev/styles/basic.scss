@@ -981,13 +981,17 @@ section.openAdvertert {
 		top: -1px;
     }
 
-    input{
+    input, textarea{
         border: none;
         outline: none;
         width:100%;
         background-color: transparent;
 		position: relative;
 		padding: 1px 5px;
+    }
+    
+    textarea{
+        resize: none;
     }
 }
 
