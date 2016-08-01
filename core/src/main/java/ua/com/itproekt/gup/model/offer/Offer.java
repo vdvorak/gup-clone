@@ -24,8 +24,6 @@ public class Offer {
     private String id;
     private String authorId;
     private OfferUserContactInfo userInfo;
-    private ModerationStatus moderationStatus;
-    private Long lastModerationDate;
     private Boolean active;
     private Long createdDate;
     private Reservation reservation;
@@ -48,7 +46,7 @@ public class Offer {
     @Min(1)
     private Integer price;
     private Currency currency;
-
+    private Address address;
 
     private Boolean priceCanBeNegotiated;
     private Boolean used; // б/y
@@ -58,7 +56,6 @@ public class Offer {
     private List<TransportCompany> availableShippingMethods;
     private List<PaymentMethod> availablePaymentMethods;
 
-
     /**
      * This parameters for paid services
      */
@@ -67,10 +64,8 @@ public class Offer {
     private Long dateUntilTop; // if dateUntilTop is later than date Now - offer will be in the TOP
     private Long lastUpdateDate;
 
-
-    private Address address;
-
-
+    private ModerationStatus moderationStatus;
+    private Long lastModerationDate;
     private ModerationMessage moderationMessage;
 
 
@@ -79,7 +74,7 @@ public class Offer {
         return this;
     }
 
-    public Offer setLastUpdadeDateToCurrenDate() {
+    public Offer setLastUpdateDateToCurrentDate() {
         this.lastUpdateDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
     }
@@ -393,43 +388,5 @@ public class Offer {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return "Offer{" +
-                "id='" + id + '\'' +
-                ", authorId='" + authorId + '\'' +
-                ", userInfo=" + userInfo +
-                ", moderationStatus=" + moderationStatus +
-                ", lastModerationDate=" + lastModerationDate +
-                ", active=" + active +
-                ", createdDate=" + createdDate +
-                ", reservation=" + reservation +
-                ", views=" + views +
-                ", rent=" + rent +
-                ", seoUrl='" + seoUrl + '\'' +
-                ", seoKey='" + seoKey + '\'' +
-                ", categories=" + categories +
-                ", seoCategory='" + seoCategory + '\'' +
-                ", properties=" + properties +
-                ", imagesIds=" + imagesIds +
-                ", videoUrl='" + videoUrl + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", currency=" + currency +
-                ", priceCanBeNegotiated=" + priceCanBeNegotiated +
-                ", used=" + used +
-                ", canBeReserved=" + canBeReserved +
-                ", canBeRented=" + canBeRented +
-                ", maximumReservedPeriod=" + maximumReservedPeriod +
-                ", availableShippingMethods=" + availableShippingMethods +
-                ", availablePaymentMethods=" + availablePaymentMethods +
-                ", isMarked=" + isMarked +
-                ", urgent=" + urgent +
-                ", dateUntilTop=" + dateUntilTop +
-                ", lastUpdateDate=" + lastUpdateDate +
-                ", address=" + address +
-                ", moderationMessage=" + moderationMessage +
-                '}';
-    }
+
 }

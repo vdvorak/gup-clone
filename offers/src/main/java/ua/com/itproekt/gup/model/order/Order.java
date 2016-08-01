@@ -40,6 +40,8 @@ public class Order {
     private OrderType orderType;
     private List<OrderComment> orderComments;
 
+    private OrderFeedback  orderFeedback;
+
     public Order setCreatedDateEqualsToCurrentDate() {
         this.startDate = getNowTime();
         return this;
@@ -245,16 +247,25 @@ public class Order {
         return this;
     }
 
-    private Long getNowTime() {
-        return LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-    }
-
     public PaymentMethod getPaymentMethod() {
         return paymentMethod;
     }
 
     public Order setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
+        return this;
+    }
+
+    private Long getNowTime() {
+        return LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+    }
+
+    public OrderFeedback getOrderFeedback() {
+        return orderFeedback;
+    }
+
+    public Order setOrderFeedback(OrderFeedback orderFeedback) {
+        this.orderFeedback = orderFeedback;
         return this;
     }
 
@@ -282,6 +293,7 @@ public class Order {
                 ", orderStatus=" + orderStatus +
                 ", orderType=" + orderType +
                 ", orderComments=" + orderComments +
+                ", orderFeedback=" + orderFeedback +
                 '}';
     }
 }
