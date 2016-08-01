@@ -20,7 +20,7 @@ module.exports.init = function($http) {
     }
   }.bind(this))
 
-  console.log("Database initialized")
+  console.log("Database :: initialized")
 }
 
 module.exports.setDefaults = function() {
@@ -40,6 +40,7 @@ module.exports.setDefaults = function() {
     social : [],
     avatar : ""
   }
+
   ctx.unreadMessages = 0
   ctx.unreadNotifications = 0
 }
@@ -93,18 +94,18 @@ module.exports.saveUserData = function(data) {
   data = data || ""
 
   this.isLogged = true
-  this.user.emailGeneral = data.contact.emailGeneral || ""
-  this.user.emailContact = data.contact.contactEmails[0] || ""
-  this.user.phoneGeneral = data.mainPhoneNumber
-  this.user.phoneContact = data.contact.contactPhones[0] || ""
-  this.user.workplace = data.contact.companyName || ""
-  this.user.position = data.contact.position || ""
-  this.user.skypeName = data.contact.skypeUserName || ""
-  this.user.website = ""
-  this.user.social = data.contact.socNetLink || []
-  this.user.avatarId = data.imgId || DEFAULT_IMAGE
-
-  /* TODO: распарсить данные в осмысленные переменные */
+  this.user.emailGeneral = data.profile.contact.emailGeneral || ""
+  this.user.emailContact = data.profile.contact.contactEmails[0] || ""
+  this.user.phoneGeneral = data.profile.mainPhoneNumber
+  this.user.phoneContact = data.profile.contact.contactPhones[0] || ""
+  this.user.workplace = data.profile.contact.companyName || ""
+  this.user.position = data.profile.contact.position || ""
+  this.user.skypeName = data.profile.contact.skypeUserName || ""
+  this.user.website = data.profile.contact.linkToWebSite || ""
+  this.user.social = data.profile.contact.socNetLink || []
+  this.user.avatar = data.profile.imgId || DEFAULT_IMAGE
+  this.unreadMessages = data.unreadMessages
+  this.unreadNotifications = data.unreadEventsCount
 
   console.log("Database:: User data saved successfully( шутка ) ")
 }

@@ -31,6 +31,7 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
 
     this.showFilters = false
     this.showServices = false
+    this.showMiniContacts = true
 
     if(this.sortingCategories.length) {
       let title = this.sortingCategories[this.sortingId].title
@@ -53,12 +54,20 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
 		console.log(this.idName, id)
 	}
 
-  this.resetFilters = function() {
-    this.idName = -1
+  this.drag = {
+    start: function(e){
+      console.log(e)
+      console.log("Started drag")
+    },
+    stop : function(e) {
+      console.log(e)
+      console.log("Stopped drag")
+    }
   }
 
-  this.displayServices = function() {
 
+  this.resetFilters = function() {
+    this.idName = -1
   }
 
   this.displayFilters = function() {
