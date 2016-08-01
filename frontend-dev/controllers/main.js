@@ -21,6 +21,10 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     this.list = [1,2,3]
     /* End variables for testing */
 
+    /* for search autocomplete */
+    this.autoVariants = []
+    this.searchQuery = ""
+
     this.loader = require('../modules/loader')
     this.loader($scope, $timeout)
 
