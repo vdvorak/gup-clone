@@ -24,13 +24,19 @@ class profileCtrl {
 		
 		this.selectedOption = "Показать";
     }
-	showOrHideDeeper() {
-		if (this.deeper == true) {
-			return this.deeper = false;
+	
+	showTitle() {
+		if (this.selectedOption == "Показать") {
+			return "Профиль";
+		} else if (this.selectedOption == "История покупок") {
+			return "История покупок";
+		} else if (this.selectedOption == "История отзывов") {
+			return "История отзывов"
 		} else {
-			return this.deeper = true;
+			return "Запросы на отзывов";
 		}
 	}
+	
     updateProfile(){
 
     }
