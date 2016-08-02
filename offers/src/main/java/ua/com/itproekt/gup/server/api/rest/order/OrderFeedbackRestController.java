@@ -152,11 +152,69 @@ public class OrderFeedbackRestController {
             return forbidden;
         }
 
-        if (oldOrder.getOrderStatus() != OrderStatus.COMPLETED) {
-            return badRequest;
+        editFeedbackPreparatorFromBuyer(order, oldOrder);
+
+        return ok;
+    }
+
+    // --------------------------------------------- DELETE --------------------------------------------------------
+
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/order/feedback/deleteBuyerFeedback", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> deleteBuyerFeedback(@Valid @RequestBody Order order) {
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        Order oldOrder = orderService.findById(order.getId());
+        if (oldOrder == null) {
+            return notFound;
         }
 
-        editFeedbackPreparatorFromBuyer(order, oldOrder);
+        if (oldOrder.getOrderFeedback() == null) {
+            return notFound;
+        }
+
+        if (!userId.equals(oldOrder.getBuyerId())) {
+            return forbidden;
+        }
+
+        oldOrder.setOrderFeedback(null);
+        orderService.findAndUpdate(oldOrder);
+        eventPreparatorForSeller(oldOrder, EventType.ORDER_BUYER_DELETE_FEEDBACK);
+
+        return ok;
+    }
+
+
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/order/feedback/deleteSellerFeedback", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> deleteSellerFeedback(@Valid @RequestBody Order order) {
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        Order oldOrder = orderService.findById(order.getId());
+        if (oldOrder == null) {
+            return notFound;
+        }
+
+        if (oldOrder.getOrderFeedback() == null) {
+            return notFound;
+        }
+
+        if (!userId.equals(oldOrder.getSellerId())) {
+            return forbidden;
+        }
+
+        oldOrder.getOrderFeedback().setSellerComment(null);
+
+        clearSellerFeedback(oldOrder);
+
+        orderService.findAndUpdate(oldOrder);
+        eventPreparatorForSeller(oldOrder, EventType.ORDER_BUYER_DELETE_FEEDBACK);
 
         return ok;
     }
@@ -253,6 +311,17 @@ public class OrderFeedbackRestController {
         eventPreparatorForBuyer(order, EventType.ORDER_COMPLETED);
 
         orderService.findAndUpdate(oldOrder);
+
+    }
+
+
+    private void clearSellerFeedback(Order oldOrder) {
+        oldOrder.getOrderFeedback()
+                .setSellerComment(null)
+                .setSellerCommentDate(null)
+                .setSellerCommentDislikesCount(0)
+                .setSellerCommentLikesCount(0)
+                .setSellerCommentSpamCount(0);
 
     }
 
