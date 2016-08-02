@@ -33,7 +33,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         Profile newProfile = new Profile()
                 .setEmail(profile.getEmail())
                 .setPassword(hashedPassword)
-                .setUserRoles(UserRole.ROLE_USER)
+                .setUserRoles(userRoles)
                 .setCreatedDateEqualsToCurrentDate();
 
         setEmptyFieldsForNewUser(newProfile);
