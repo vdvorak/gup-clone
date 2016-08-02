@@ -109,8 +109,6 @@ public class LoginRestController {
         CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
     }
 
-
-    /*--------------------------------------- Check -----------------------------------------------------------------*/
     @CrossOrigin
     @RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
     public String existEmailCheck(@RequestBody String email) {
@@ -121,25 +119,6 @@ public class LoginRestController {
         } catch (UnsupportedEncodingException ex) {
             LOG.error(LogUtil.getExceptionStackTrace(ex));
         }
-
-//        ///////////////////////////////////////////////////
-//        System.err.println("/profile/read/loggedInProfile");
-//        System.err.println("=============================");
-//        try {
-////            String loggedUserId = SecurityOperations.getLoggedUserId();
-////            System.err.println("loggedUserId: '"+loggedUserId+"'");
-//            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//            if (principal instanceof UserDetails) {
-//                String username = ((UserDetails)principal).getUsername();
-//                System.err.println( username );
-//            } else {
-//                String username = principal.toString();
-//                System.err.println( username );
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        ///////////////////////////////////////////////////
 
         return (profilesService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
     }

@@ -57,47 +57,15 @@ public class ProfileRestController {
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
-
-//    @CrossOrigin
-//    @RequestMapping(value="/profile/read/loggedInProfile", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<ProfileInfo> getLoggedUser() {
-//        String loggedUserId = SecurityOperations.getLoggedUserId();
-//
-//        if (loggedUserId != null) {
-//            return new ResponseEntity<>(profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(loggedUserId), HttpStatus.OK);
-//        }
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
     @CrossOrigin
     @RequestMapping(value="/profile/read/loggedInProfile", method=RequestMethod.GET)
     public ResponseEntity<ProfileInfo> getLoggedUser() {
-//        System.err.println("/profile/read/loggedInProfile");
-//        System.err.println("-----------------------------");
-
-        ///////////////////////////////////////////////////
-//        try {
-            String loggedUserId = SecurityOperations.getLoggedUserId();
-            System.err.println("loggedUserId: '"+loggedUserId+"'");
-//            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//            if (principal instanceof UserDetails) {
-//                String username = ((UserDetails)principal).getUsername();
-//                System.err.println( username );
-//            } else {
-//                String username = principal.toString();
-//                System.err.println( username );
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-        ///////////////////////////////////////////////////
-
         ProfileInfo profileInfo = null;
+
+        String loggedUserId = SecurityOperations.getLoggedUserId();
         if (loggedUserId != null) {
             profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(loggedUserId);
         }
-
-//        System.err.println("-----------------------------");
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
