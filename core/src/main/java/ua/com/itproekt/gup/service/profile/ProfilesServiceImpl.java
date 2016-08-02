@@ -26,14 +26,15 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public void createProfile(Profile profile) {
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
-        HashSet<UserRole> userRoles = new HashSet<UserRole>() {{
+        HashSet<UserRole> userRoles = new HashSet<UserRole>() {{ //Fixme - чё?? мои глаза!!! Зачем хешсет?!
             add(UserRole.ROLE_USER);
         }};
 
         Profile newProfile = new Profile()
                 .setEmail(profile.getEmail())
                 .setPassword(hashedPassword)
-                .setUserRoles(userRoles);
+                .setUserRoles(UserRole.ROLE_USER)
+                .setCreatedDateEqualsToCurrentDate();
 
         setEmptyFieldsForNewUser(newProfile);
 
