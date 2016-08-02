@@ -1260,23 +1260,9 @@ nav {
 	z-index: 2;
 	position: absolute;
 
-	&>.map {
-		background: url(../images/map.png) no-repeat;
+	.map {
 		height: 145px;
 		width: 255px;
-
-		&>.inputForm {
-			width: 215px;
-			margin: 115px auto 0;
-
-			&.required {
-				border-color: black !important;
-			}
-
-			&>input, label, .textOut {
-				color: black !important;
-			}
-		}
 	}
 
 	&>ul {
