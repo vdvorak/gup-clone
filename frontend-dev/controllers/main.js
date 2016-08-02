@@ -3,6 +3,7 @@
 const utils = require('../modules/utils')
 
 const ctx = module.exports = {}
+
 /* Контроллер для управления  основным скелетом документа */
 module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieStore) {
   console.log('Main controller loaded')
@@ -20,6 +21,10 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     this.list = [1,2,3]
     /* End variables for testing */
 
+    /* for search autocomplete */
+    this.autoVariants = ["test", "test2"]
+    this.searchQuery = ""
+
     this.loader = require('../modules/loader')
     this.loader($scope, $timeout)
 
@@ -31,7 +36,8 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
 
     this.showFilters = false
     this.showServices = false
-    this.showMiniContacts = true
+    this.showMiniContacts = false
+    this.showMessagesSelect = false
 
     if(this.sortingCategories.length) {
       let title = this.sortingCategories[this.sortingId].title
@@ -49,22 +55,27 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
 	  this.searchCategories = require('../data/searchCategories');
   }
 
-  this.curr = function(id) {
-		this.idName = id
-		console.log(this.idName, id)
-	}
+  this.setQuery = selected => {
+    this.searchQuery = selected
+    $timeout( function() {
+      document.dispatchEvent(new Event('update-text'))
+    }.bind(this), 25)
 
-  this.drag = {
-    start: function(e){
-      console.log(e)
-      console.log("Started drag")
-    },
-    stop : function(e) {
-      console.log(e)
-      console.log("Stopped drag")
-    }
   }
 
+  this.toggleMessagesSelect = () => {
+      this.showMessagesSelect = !this.showMessagesSelect
+  }
+
+  this.curr = function(id) {
+		this.idName = id
+		console.log("idName = " + this.idName, "id = " +id)
+	}
+	
+	this.curr2 = function(id) {
+		this.idName2 = id
+		console.log("idName2 = " + this.idName2, "id2 = " +id)
+	}
 
   this.resetFilters = function() {
     this.idName = -1

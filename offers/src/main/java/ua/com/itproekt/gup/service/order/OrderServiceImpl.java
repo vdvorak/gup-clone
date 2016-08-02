@@ -56,7 +56,8 @@ public class OrderServiceImpl implements OrderService {
                 .setOrderStatus(order.getOrderStatus())
                 .setOrderType(order.getOrderType())
                 .setOrderComments(order.getOrderComments())
-                .setPaymentMethod(order.getPaymentMethod());
+                .setPaymentMethod(order.getPaymentMethod())
+                .setOrderFeedback(order.getOrderFeedback());
 
         return orderRepository.findAndUpdate(newOrder);
 

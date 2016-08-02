@@ -23,11 +23,19 @@ module.exports = function() {
                  <input type="{{ type || 'text'}}" ng-model="ngModel">
                  <div class="errors"></div>
                </div>`,
-    controller: function($scope, $element, $timeout) {
+    controller: function($scope, $element, $timeout, $attrs) {
       let id = ee.on('form-submit', validate)
       $scope.$on("$destroy", function() {
         ee.off(id)
       }.bind(this))
+
+
+      /* Update method from outside */
+      document.addEventListener('update-text', function() {
+        this.onFocus()
+        this.onBlur()
+      }.bind(this))
+
 
       let defaultBorder = ""
 
@@ -45,7 +53,9 @@ module.exports = function() {
               else
                 $scope.isValid = true
 
-              $scope.$apply()
+              $timeout(function() {
+                $scope.$apply()
+              }.bind(this), 0)
             }
           }
 
@@ -63,16 +73,15 @@ module.exports = function() {
         }
       }
 
-      function onBlur(e) {
+      this.onBlur = function(e) {
         if( !$scope.ngModel.length)
           hideAnimation()
 
-          validate()
+        validate()
       }
 
-      function onFocus(e) {
-        if(!$scope.ngModel.length)
-          displayAnimation()
+      this.onFocus = function(e) {
+        displayAnimation()
       }
 
       function displayAnimation() {
@@ -100,8 +109,8 @@ module.exports = function() {
       }, 250)
 
 
-      el.addEventListener('blur', onBlur.bind(this))
-      el.addEventListener('focus', onFocus.bind($scope))
+      el.addEventListener('blur', this.onBlur.bind(this))
+      el.addEventListener('focus', this.onFocus.bind($scope))
     }
   }
 }

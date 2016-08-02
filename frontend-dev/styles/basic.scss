@@ -94,7 +94,7 @@ header {
 		background: url(../images/logo.png) no-repeat;
 		margin-left: 15px;
 	}
-	
+
 	&>.dropDown {
 		position: absolute;
 		top: 45px;
@@ -105,14 +105,14 @@ header {
 		box-shadow: $boxShadow;
 		background-color: $white;
 		z-index: 1;
-		
+
 		&>p {
 			color: #333333;
 			font: 400 14px / 40px Roboto;
 			padding-left: 15px;
 			transition: all .25s;
 			cursor: pointer;
-			
+
 			&:hover {
 				background-color: #EBEBEB;
 			}
@@ -367,11 +367,12 @@ header {
 			top: 0;
 			width: 100%;
 			z-index: 1;
+			right: 0;
 
 			&>p {
 				cursor: pointer;
 				padding: 0 15px;
-				height: 48px;
+				width: 220px;
 				font: 400 16px / 50px Roboto;
 				transition: all .25s;
 				box-sizing: border-box;
@@ -957,14 +958,14 @@ section.openAdvertert {
         width:100%;
         background-color: transparent;
     }
-    
+
     textarea{
         resize: none;
     }
 }
 
 .inputForm.required {
-	border-bottom: 1px solid #9b9b9b !important;
+	border-bottom: 1px solid #9b9b9b;
 }
 
 .inputForm{
@@ -1340,22 +1341,45 @@ nav {
 				background: url(../images/businessAndServices.png) no-repeat left 25px center;
 			}
 
-			&>div {
+			&>ul {
 				position: absolute;
 				top: 0;
-				left: 250px;
+				left: 255px;
 				background-color: $white;
-				width: 260px;
+				list-style-type: none;
 
-				&>p {
+				&>li {
 					padding-left: 30px;
 					color: #263238;
 					font: 500 13px / 40px Roboto;
 					background: url(../images/caretRightNav.png) no-repeat center right 20px;
 					cursor: pointer;
+					width: 350px;
+					position: relative;
 
 					&:hover {
 						background-color: #E6E6E6 !important;
+					}
+					
+					&>ul {
+						list-style-type: none;
+						position: absolute;
+						top: 0;
+						left: 380px;
+						background-color: $white;
+						
+						&>li {
+							padding-left: 30px;
+							color: #263238;
+							font: 500 13px / 40px Roboto;
+							cursor: pointer;
+							white-space: nowrap;
+							padding-right: 20px;
+							
+							&:hover {
+								background-color: #E6E6E6 !important;
+							}
+						}
 					}
 				}
 			}
@@ -1908,11 +1932,11 @@ section.mail {
 	&>.table {
 		height: 325px;
 		overflow: auto;
-		display: none;
 
 		&>.tr {
 			@extend .clearfix;
 			padding: 15px 0;
+			cursor:pointer;
 
 			&>.td {
 				float: left;

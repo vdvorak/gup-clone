@@ -34,6 +34,7 @@ var frontWebpackConfig = {
           presets: ['es2015']
         }
       },
+      { test: /\.tsx?$/, loader: 'ts-loader' },
       {
         test: /\.scss$/,
         loaders: ["style", "css", "postcss", "sass"]

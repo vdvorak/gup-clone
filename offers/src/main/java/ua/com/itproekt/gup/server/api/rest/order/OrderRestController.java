@@ -14,6 +14,7 @@ import ua.com.itproekt.gup.model.offer.Currency;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderComment;
+import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
@@ -361,7 +362,7 @@ public class OrderRestController {
     /**
      * @param order - updated order. Can received only one comment from buyer or from seller to certain order.
      *              Comment length can be from 10 to 500 letters.
-     * @return - return 200 status code if Ok, 400 - user neither seller nor buyer, 404 - not found order,
+     * @return - return 200 status code if Ok, 400 - user neither seller nor buyer, 404 - not found order.
      */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
@@ -392,7 +393,8 @@ public class OrderRestController {
     }
 
 
-    //------------------------------------------ Helpers methods -------------------------------------------------------------
+
+    //------------------------------------------ Helpers methods -----------------------------------------------------
     private boolean isOrderValid(Order order, Offer offer) {
 
         if (offer.getCurrency() != Currency.UAH) {

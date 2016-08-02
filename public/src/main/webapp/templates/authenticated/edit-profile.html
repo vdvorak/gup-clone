@@ -6,39 +6,27 @@
             
             <div class='clearfix'></div>
             
-			<select-box ng-model="profile.contact.type" items="{{ profile.contactTypes }}"></select-box>
+			<select-box ng-model="profile.type" items="{{ profile.contactTypes }}"></select-box>
 
 			<div class="edit-profile-form-foto">
 				<input id="profile-upload-photo-inp" type="file" accept="image/*,image/jpeg" onchange="angular.element(this).controller().changeAvatar(this.files)">
-				<p>Лого</p>
+				<p>{{(profile.user.avatar !== 'DEFAULT_IMAGE' && profile.user.avatar !== '') ? profile.user.avatar : 'Лого'}}</p>
 				<nice-button class="btn-blue" ng-mouseUp="profile.fileUpload()">Обзор</nice-button>
 			</div>
             
             <div class='clearfix'></div>
             
-			<text class="required" color='blue' ng-model="profile.username" label="ФИО" ng-hide="profile.contact.type === 'LEGAL_ENTITY'"></text>
-			<text color='blue' ng-model="profile.contact.position" label="Должность" ng-hide="profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY'"></text>
-			<text color='blue' class="required" ng-model="profile.contact.companyName" label="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'Название компании' || 'Место работы'}}"></text>
+			<text class="required" color='blue' ng-model="profile.username" label="ФИО" ng-hide="profile.user.type === 'LEGAL_ENTITY'"></text>
+			<text color='blue' ng-class="{{profile.user.type === 'INDIVIDUAL' || 'required'}}" ng-model="profile.user.workplace" label="{{(profile.user.type === 'ENTREPRENEUR' || profile.user.type === 'LEGAL_ENTITY') && 'Название компании' || 'Место работы'}}"></text>
+            <text color='blue' ng-model="profile.user.position" label="Должность" ng-hide="profile.user.type === 'ENTREPRENEUR' || profile.user.type === 'LEGAL_ENTITY'"></text>
 
-			<text class="required" color='blue' ng-model="profile.email" label="Основной e-mail"></text>
+			<text class="required" color='blue' ng-model="profile.user.emailGeneral" label="Основной e-mail"></text>
+            <text label="Контактный email" color='blue' ng-model="profile.user.emailContact"></text>
 
-			<div class="edit-profile-form-contacts-container">
-                <div ng-repeat="email in profile.contact.contactEmails track by $index">
-                    <text label="Контактный email" color='blue' ng-model="profile.contact.contactEmails[$index]"></text>
-                    <button></button>
-                </div>
-			</div>
+			<text class="required" color='blue' ng-model="profile.user.phoneGeneral" label="Основной телефон"></text>
+            <text label="Контактный телефон" color='blue' ng-model="profile.user.phoneContact"></text>
 
-			<text class="required" color='blue' ng-model="profile.mainPhoneNumber" label="Основной телефон"></text>
-         
-			<div class="edit-profile-form-contacts-container">
-                <div ng-repeat="tel in profile.contact.contactPhones track by $index">
-                    <text label="Контактный телефон" color='blue' ng-model="profile.contact.contactPhones[$index]"></text>
-                    <button></button>
-                </div>
-			</div>
-
-			<text color='blue' ng-model="profile.contact.skypeUserName" label="Skype"></text>
+			<text color='blue' ng-model="profile.user.skypeName" label="Skype"></text>
             
             <div class='clearfix'></div>
             
@@ -52,8 +40,8 @@
 
 			<div class='clearfix'></div>
 
-			<text color='blue' ng-model="profile.contact.linkToWebSite" label="Ссылка на сайт"></text>
-			<text-area label="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'О компании' || 'О себе'}}" ng-model="profile.contact.aboutUs"></text-area>
+			<text color='blue' ng-model="profile.user.website" label="Ссылка на сайт"></text>
+			<text-area label="{{(profile.user.type === 'ENTREPRENEUR' || profile.user.type === 'LEGAL_ENTITY') && 'О компании' || 'О себе'}}" ng-model="profile.user.aboutUs"></text-area>
             
             <nice-button class="btn-blue" type="submit" ng-submit="profile.updateProfile($event)">СОХРАНИТЬ</nice-button>
 		</form>
