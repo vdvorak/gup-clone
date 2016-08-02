@@ -105,9 +105,7 @@ module.exports.saveUserData = function(data) {
   this.user.social = data.profile.contact.socNetLink || []
   this.user.avatar = data.profile.imgId || DEFAULT_IMAGE
   this.unreadMessages = data.unreadMessages
-  this.unreadNotifications = data.unreadEventsCount
-
-  console.log("Database:: User data saved successfully( шутка ) ")
+  this.unreadNotifications = data.unreadEventsCounta
 }
 
 module.exports.checkUserIsLogged = function( cb ) {

@@ -21,6 +21,10 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     this.list = [1,2,3]
     /* End variables for testing */
 
+    /* for search autocomplete */
+    this.autoVariants = ["test", "test2"]
+    this.searchQuery = ""
+
     this.loader = require('../modules/loader')
     this.loader($scope, $timeout)
 
@@ -33,7 +37,8 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     this.showFilters = false
     this.showServices = false
     this.showMiniContacts = false
-    
+    this.showMessagesSelect = false
+
     if(this.sortingCategories.length) {
       let title = this.sortingCategories[this.sortingId].title
       let arr = title.split("")
@@ -48,6 +53,18 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     this.settingCat = true
 
 	  this.searchCategories = require('../data/searchCategories');
+  }
+
+  this.setQuery = selected => {
+    this.searchQuery = selected
+    $timeout( function() {
+      document.dispatchEvent(new Event('update-text'))
+    }.bind(this), 25)
+
+  }
+
+  this.toggleMessagesSelect = () => {
+      this.showMessagesSelect = !this.showMessagesSelect
   }
 
   this.curr = function(id) {

@@ -18,13 +18,9 @@
 		<div class="container clearfix">
 			<div class="headLeft clearfix">
 				<div class="logo" ng-click="redirectToUrl('/')"></div>
-				<text ng-model="main.hello" label="Поиск" color="white"></text>
-				<div class="dropDown">
-					<p>Авто0</p>
-					<p>Авто1</p>
-					<p>Авто2</p>
-					<p>Авто3</p>
-					<p>Авто4</p>
+				<text ng-model="main.searchQuery" label="Поиск" color="white"></text>
+				<div class="dropDown" ng-show="main.autoVariants.length > 0">
+					<p ng-repeat="variant in main.autoVariants" ng-click="main.setQuery(variant)">{{ variant }}</p>
 				</div>
 				<div class="selectBox">
 					<div class="defaultValue" ng-click="main.showCategories()">
@@ -39,9 +35,9 @@
 				</div>
 			</div>
 			<div class="headRight clearfix">
-				<div class="mail" ng-show="db.isLogged">
+				<div class="mail" ng-show="db.isLogged" ng-click="main.toggleMessagesSelect()">
 					<p>{{ db.unreadMessages }}</p>
-					<div class="chooseYourStyle">
+					<div class="chooseYourStyle" ng-show="main.showMessagesSelect">
 						<p ng-click="main.showMiniContacts = true">Компактный вид</p>
 						<p>Полный вид</p>
 					</div>
@@ -104,7 +100,7 @@
 <div class="miniContacts" ng-controller="miniContacts as mini" ng-init="mini.init()" ng-show="main.showMiniContacts" ng-drag=".header" style="right:0px; bottom:0px;">
 	<div class="header">
 		<div class="back toContacts" ng-show="mini.showMessages" ng-click="mini.back()"></div>
-		<div class="close" ng-click="main.main.showMiniContacts = false"></div>
+		<div class="close" ng-click="main.showMiniContacts = false"></div>
 	</div>
 	<div class="table" ng-show="mini.showConversations">
 		<!-- TODO: NG repeat later -->
