@@ -53,7 +53,9 @@ module.exports = function() {
               else
                 $scope.isValid = true
 
-              $scope.$apply()
+              $timeout(function() {
+                $scope.$apply()
+              }.bind(this), 0)
             }
           }
 
