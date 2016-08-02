@@ -49,6 +49,99 @@ public class OrderFeedback {
         this.point = point;
     }
 
+    public void addUpdatedBuyerFeedback(String feedbackText) {
+        this.buyerFeedbackList.add(new BuyerFeedback(feedbackText));
+    }
+
+    public List<BuyerFeedback> getBuyerFeedbackList() {
+        return buyerFeedbackList;
+    }
+
+    public OrderFeedback setBuyerFeedbackList(List<BuyerFeedback> buyerFeedbackList) {
+        this.buyerFeedbackList = buyerFeedbackList;
+        return this;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public OrderFeedback setPoint(int point) {
+        this.point = point;
+        return this;
+    }
+
+    public int getFeedbackLikesCount() {
+        return feedbackLikesCount;
+    }
+
+    public OrderFeedback setFeedbackLikesCount(int feedbackLikesCount) {
+        this.feedbackLikesCount = feedbackLikesCount;
+        return this;
+    }
+
+    public int getFeedbackDislikesCount() {
+        return feedbackDislikesCount;
+    }
+
+    public OrderFeedback setFeedbackDislikesCount(int feedbackDislikesCount) {
+        this.feedbackDislikesCount = feedbackDislikesCount;
+        return this;
+    }
+
+    public int getFeedbackSpamCount() {
+        return feedbackSpamCount;
+    }
+
+    public OrderFeedback setFeedbackSpamCount(int feedbackSpamCount) {
+        this.feedbackSpamCount = feedbackSpamCount;
+        return this;
+    }
+
+    public String getSellerComment() {
+        return sellerComment;
+    }
+
+    public OrderFeedback setSellerComment(String sellerComment) {
+        this.sellerComment = sellerComment;
+        return this;
+    }
+
+    public Long getSellerCommentDate() {
+        return sellerCommentDate;
+    }
+
+    public OrderFeedback setSellerCommentDate(Long sellerCommentDate) {
+        this.sellerCommentDate = sellerCommentDate;
+        return this;
+    }
+
+    public int getSellerCommentLikesCount() {
+        return sellerCommentLikesCount;
+    }
+
+    public OrderFeedback setSellerCommentLikesCount(int sellerCommentLikesCount) {
+        this.sellerCommentLikesCount = sellerCommentLikesCount;
+        return this;
+    }
+
+    public int getSellerCommentDislikesCount() {
+        return sellerCommentDislikesCount;
+    }
+
+    public OrderFeedback setSellerCommentDislikesCount(int sellerCommentDislikesCount) {
+        this.sellerCommentDislikesCount = sellerCommentDislikesCount;
+        return this;
+    }
+
+    public int getSellerCommentSpamCount() {
+        return sellerCommentSpamCount;
+    }
+
+    public OrderFeedback setSellerCommentSpamCount(int sellerCommentSpamCount) {
+        this.sellerCommentSpamCount = sellerCommentSpamCount;
+        return this;
+    }
 
     public class BuyerFeedback {
 
@@ -80,83 +173,19 @@ public class OrderFeedback {
     }
 
 
-    public List<BuyerFeedback> getBuyerFeedbackList() {
-        return buyerFeedbackList;
-    }
-
-    public void setBuyerFeedbackList(List<BuyerFeedback> buyerFeedbackList) {
-        this.buyerFeedbackList = buyerFeedbackList;
-    }
-
-    public int getPoint() {
-        return point;
-    }
-
-    public void setPoint(int point) {
-        this.point = point;
-    }
-
-    public int getFeedbackLikesCount() {
-        return feedbackLikesCount;
-    }
-
-    public void setFeedbackLikesCount(int feedbackLikesCount) {
-        this.feedbackLikesCount = feedbackLikesCount;
-    }
-
-    public int getFeedbackDislikesCount() {
-        return feedbackDislikesCount;
-    }
-
-    public void setFeedbackDislikesCount(int feedbackDislikesCount) {
-        this.feedbackDislikesCount = feedbackDislikesCount;
-    }
-
-    public int getFeedbackSpamCount() {
-        return feedbackSpamCount;
-    }
-
-    public void setFeedbackSpamCount(int feedbackSpamCount) {
-        this.feedbackSpamCount = feedbackSpamCount;
-    }
-
-    public String getSellerComment() {
-        return sellerComment;
-    }
-
-    public void setSellerComment(String sellerComment) {
-        this.sellerComment = sellerComment;
-    }
-
-    public Long getSellerCommentDate() {
-        return sellerCommentDate;
-    }
-
-    public void setSellerCommentDate(Long sellerCommentDate) {
-        this.sellerCommentDate = sellerCommentDate;
-    }
-
-    public int getSellerCommentLikesCount() {
-        return sellerCommentLikesCount;
-    }
-
-    public void setSellerCommentLikesCount(int sellerCommentLikesCount) {
-        this.sellerCommentLikesCount = sellerCommentLikesCount;
-    }
-
-    public int getSellerCommentDislikesCount() {
-        return sellerCommentDislikesCount;
-    }
-
-    public void setSellerCommentDislikesCount(int sellerCommentDislikesCount) {
-        this.sellerCommentDislikesCount = sellerCommentDislikesCount;
-    }
-
-    public int getSellerCommentSpamCount() {
-        return sellerCommentSpamCount;
-    }
-
-    public void setSellerCommentSpamCount(int sellerCommentSpamCount) {
-        this.sellerCommentSpamCount = sellerCommentSpamCount;
+    @Override
+    public String toString() {
+        return "OrderFeedback{" +
+                "buyerFeedbackList=" + buyerFeedbackList +
+                ", point=" + point +
+                ", feedbackLikesCount=" + feedbackLikesCount +
+                ", feedbackDislikesCount=" + feedbackDislikesCount +
+                ", feedbackSpamCount=" + feedbackSpamCount +
+                ", sellerComment='" + sellerComment + '\'' +
+                ", sellerCommentDate=" + sellerCommentDate +
+                ", sellerCommentLikesCount=" + sellerCommentLikesCount +
+                ", sellerCommentDislikesCount=" + sellerCommentDislikesCount +
+                ", sellerCommentSpamCount=" + sellerCommentSpamCount +
+                '}';
     }
 }

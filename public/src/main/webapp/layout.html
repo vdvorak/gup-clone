@@ -75,10 +75,7 @@
 	<div class="navBtn" ng-click="main.displayFilters()" ></div>
 
 	<nav ng-show="main.showFilters">
-		<div class="map">
-		<div class="clearfix"></div>
-			<text class="required" ng-model="main.hello" label="Киевская обл." color="blue" validate="login.emailIsValid" isValid="login.emailValid"></text>
-		</div>
+		<map-small></map-small>
 		<ul>
 			<li ng-repeat="x in main.searchCategories" ng-click="main.curr(x.id)" ng-class="x.class">
 				<p>{{x.name}}</p>
