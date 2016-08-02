@@ -29,6 +29,14 @@ module.exports = function() {
         ee.off(id)
       }.bind(this))
 
+
+      /* Update method from outside */
+      document.addEventListener('update-text', function() {
+        this.onFocus()
+        this.onBlur()
+      }.bind(this))
+
+
       let defaultBorder = ""
 
       let el = $element[0].getElementsByTagName('input')[0],
@@ -63,16 +71,15 @@ module.exports = function() {
         }
       }
 
-      function onBlur(e) {
+      this.onBlur = function(e) {
         if( !$scope.ngModel.length)
           hideAnimation()
 
-          validate()
+        validate()
       }
 
-      function onFocus(e) {
-        if(!$scope.ngModel.length)
-          displayAnimation()
+      this.onFocus = function(e) {
+        displayAnimation()
       }
 
       function displayAnimation() {
@@ -100,8 +107,8 @@ module.exports = function() {
       }, 250)
 
 
-      el.addEventListener('blur', onBlur.bind(this))
-      el.addEventListener('focus', onFocus.bind($scope))
+      el.addEventListener('blur', this.onBlur.bind(this))
+      el.addEventListener('focus', this.onFocus.bind($scope))
     }
   }
 }

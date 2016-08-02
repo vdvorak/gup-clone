@@ -4,7 +4,7 @@ let _$timeout;
     
 class ProfileContact {
     constructor() {
-        this.contactEmails = ['',''];
+        this.contactEmails = [''];
         this.contactPhones = [''];
         this.type ="ENTREPRENEUR"
 
@@ -25,18 +25,17 @@ class profileCtrl {
         
         _$timeout = $timeout;
         
-        this.contact = new ProfileContact();
         this.contactTypes = [
         "LEGAL_ENTITY",
         "ENTREPRENEUR",
         "INDIVIDUAL"
       ]
-
-      this.email = ""
-      this.username = ""
-      this.imgId = ""
-      this.mainPhoneNumber = ""
-      
+        this.contact = new ProfileContact();
+        this.user = $scope.$parent.db.user;
+        
+        this.user.type = this.user.type || "INDIVIDUAL";
+        this.user.aboutUs = this.user.aboutUs || "";
+        
     }
     
     fileUpload() {

@@ -52,8 +52,8 @@ module.exports = function($scope, $q) {
         if(err) reject(err)
         else {
           console.log(data)
-          if(data !== "false")
-            error += "Такая почта уже используется. "
+          if(data !== false)
+            error = "Такая почта уже используется. "
           resolve(error)
         }
       }.bind(this))

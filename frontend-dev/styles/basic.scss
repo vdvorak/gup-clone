@@ -94,7 +94,7 @@ header {
 		background: url(../images/logo.png) no-repeat;
 		margin-left: 15px;
 	}
-	
+
 	&>.dropDown {
 		position: absolute;
 		top: 45px;
@@ -105,14 +105,14 @@ header {
 		box-shadow: $boxShadow;
 		background-color: $white;
 		z-index: 1;
-		
+
 		&>p {
 			color: #333333;
 			font: 400 14px / 40px Roboto;
 			padding-left: 15px;
 			transition: all .25s;
 			cursor: pointer;
-			
+
 			&:hover {
 				background-color: #EBEBEB;
 			}
@@ -957,7 +957,7 @@ section.openAdvertert {
         width:100%;
         background-color: transparent;
     }
-    
+
     textarea{
         resize: none;
     }
@@ -1908,11 +1908,11 @@ section.mail {
 	&>.table {
 		height: 325px;
 		overflow: auto;
-		display: none;
 
 		&>.tr {
 			@extend .clearfix;
 			padding: 15px 0;
+			cursor:pointer;
 
 			&>.td {
 				float: left;
