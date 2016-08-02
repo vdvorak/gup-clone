@@ -14,7 +14,7 @@ require("./modules/logger")()
 const materials = require('./modules/materials/index.js'),
       router = require('./modules/router')
 
-let app = angular.module('gup', ['ngRoute', 'ngCookies'])
+let app = angular.module('gup', ['ngRoute', 'ngCookies', 'ngImgCrop'])
 
 // App config
 app
