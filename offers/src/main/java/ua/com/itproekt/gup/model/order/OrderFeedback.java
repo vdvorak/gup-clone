@@ -5,32 +5,37 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 
 public class OrderFeedback {
 
+    // ----------------------------------------
 
-    @Size(min = 5, max = 500)
-    private String feedback;
 
-    @Size(min = 5, max = 500)
-    private String sellerComment;
-
+    private List<BuyerFeedback> buyerFeedbackList;
 
     @Min(1)
     @Max(5)
     private int point;
 
-    private int likesCount;
-    private int dislikesCount;
-    private int spamCount;
+    private int feedbackLikesCount;
+    private int feedbackDislikesCount;
+    private int feedbackSpamCount;
 
-    private Long feedBackDate;
+
+    // ----------------------------------------
+
+
+    @Size(min = 5, max = 500)
+    private String sellerComment;
     private Long sellerCommentDate;
 
+    private int sellerCommentLikesCount;
+    private int sellerCommentDislikesCount;
+    private int sellerCommentSpamCount;
 
-    public OrderFeedback setFeedBackDateToCurrentDate() {
-        this.feedBackDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        return this;
+
+    public OrderFeedback() {
     }
 
     public OrderFeedback setSellerCommentDateToCurrentDate() {
@@ -38,89 +43,120 @@ public class OrderFeedback {
         return this;
     }
 
-    public String getFeedback() {
-        return feedback;
+
+    public void addNewBuyerFeedback(String feedbackText, int point) {
+        this.buyerFeedbackList.add(new BuyerFeedback(feedbackText));
+        this.point = point;
     }
 
-    public OrderFeedback setFeedback(String feedback) {
-        this.feedback = feedback;
-        return this;
+
+    public class BuyerFeedback {
+
+        @Size(min = 5, max = 500)
+        String feedbackText;
+        Long feedBackDate;
+
+
+        public BuyerFeedback(String feedbackText) {
+            this.feedbackText = feedbackText;
+            this.feedBackDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        }
+
+        public String getFeedbackText() {
+            return feedbackText;
+        }
+
+        public void setFeedbackText(String feedbackText) {
+            this.feedbackText = feedbackText;
+        }
+
+        public Long getFeedBackDate() {
+            return feedBackDate;
+        }
+
+        public void setFeedBackDate(Long feedBackDate) {
+            this.feedBackDate = feedBackDate;
+        }
     }
 
-    public String getSellerComment() {
-        return sellerComment;
+
+    public List<BuyerFeedback> getBuyerFeedbackList() {
+        return buyerFeedbackList;
     }
 
-    public OrderFeedback setSellerComment(String sellerComment) {
-        this.sellerComment = sellerComment;
-        return this;
+    public void setBuyerFeedbackList(List<BuyerFeedback> buyerFeedbackList) {
+        this.buyerFeedbackList = buyerFeedbackList;
     }
 
     public int getPoint() {
         return point;
     }
 
-    public OrderFeedback setPoint(int point) {
+    public void setPoint(int point) {
         this.point = point;
-        return this;
     }
 
-    public int getLikesCount() {
-        return likesCount;
+    public int getFeedbackLikesCount() {
+        return feedbackLikesCount;
     }
 
-    public OrderFeedback setLikesCount(int likesCount) {
-        this.likesCount = likesCount;
-        return this;
+    public void setFeedbackLikesCount(int feedbackLikesCount) {
+        this.feedbackLikesCount = feedbackLikesCount;
     }
 
-    public int getDislikesCount() {
-        return dislikesCount;
+    public int getFeedbackDislikesCount() {
+        return feedbackDislikesCount;
     }
 
-    public OrderFeedback setDislikesCount(int dislikesCount) {
-        this.dislikesCount = dislikesCount;
-        return this;
+    public void setFeedbackDislikesCount(int feedbackDislikesCount) {
+        this.feedbackDislikesCount = feedbackDislikesCount;
     }
 
-    public int getSpamCount() {
-        return spamCount;
+    public int getFeedbackSpamCount() {
+        return feedbackSpamCount;
     }
 
-    public OrderFeedback setSpamCount(int spamCount) {
-        this.spamCount = spamCount;
-        return this;
+    public void setFeedbackSpamCount(int feedbackSpamCount) {
+        this.feedbackSpamCount = feedbackSpamCount;
     }
 
-    public Long getFeedBackDate() {
-        return feedBackDate;
+    public String getSellerComment() {
+        return sellerComment;
     }
 
-    public OrderFeedback setFeedBackDate(Long feedBackDate) {
-        this.feedBackDate = feedBackDate;
-        return this;
+    public void setSellerComment(String sellerComment) {
+        this.sellerComment = sellerComment;
     }
 
     public Long getSellerCommentDate() {
         return sellerCommentDate;
     }
 
-    public OrderFeedback setSellerCommentDate(Long sellerCommentDate) {
+    public void setSellerCommentDate(Long sellerCommentDate) {
         this.sellerCommentDate = sellerCommentDate;
-        return this;
     }
 
-    @Override
-    public String toString() {
-        return "OrderFeedback{" +
-                "feedback='" + feedback + '\'' +
-                ", sellerComment='" + sellerComment + '\'' +
-                ", point=" + point +
-                ", likesCount=" + likesCount +
-                ", dislikesCount=" + dislikesCount +
-                ", spamCount=" + spamCount +
-                ", feedBackDate=" + feedBackDate +
-                ", sellerCommentDate=" + sellerCommentDate +
-                '}';
+    public int getSellerCommentLikesCount() {
+        return sellerCommentLikesCount;
+    }
+
+    public void setSellerCommentLikesCount(int sellerCommentLikesCount) {
+        this.sellerCommentLikesCount = sellerCommentLikesCount;
+    }
+
+    public int getSellerCommentDislikesCount() {
+        return sellerCommentDislikesCount;
+    }
+
+    public void setSellerCommentDislikesCount(int sellerCommentDislikesCount) {
+        this.sellerCommentDislikesCount = sellerCommentDislikesCount;
+    }
+
+    public int getSellerCommentSpamCount() {
+        return sellerCommentSpamCount;
+    }
+
+    public void setSellerCommentSpamCount(int sellerCommentSpamCount) {
+        this.sellerCommentSpamCount = sellerCommentSpamCount;
     }
 }

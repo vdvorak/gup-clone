@@ -7,6 +7,10 @@ require("./styles/profile.scss")
 
 require("./modules/logger")()
 
+
+// let greeter = require("./modules/map.ts")
+// console.log(greeter)
+
 const materials = require('./modules/materials/index.js'),
       router = require('./modules/router')
 
@@ -29,7 +33,7 @@ app
   }])
   .controller('mainCtrl', require('./controllers/main'))
   .controller('miniContacts', require('./controllers/authenticated/miniContacts'))
-
+  .directive('bulletinList', require('./directives/bulletinList'))
 materials
   .init(app)
   .run()
