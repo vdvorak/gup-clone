@@ -3,17 +3,27 @@
 let _$timeout;
     
 class ProfileContact {
-    constructor() {
-        this.contactEmails = [''];
-        this.contactPhones = [''];
-        this.type ="ENTREPRENEUR"
+    constructor(user) {
+        this.contactEmails = [].push(user.emailContact);
+        this.emailGeneral = user.emailGeneral;
+        this.contactPhones = [].push(user.phoneContact);
+        this.type ="INDIVIDUAL";
 
-        this.position = ""
-        this.companyName = ""
-        this.skypeUserName = ""
-        this.socNetLink = {}
-        this.linkToWebSite = ""
-        this.aboutUs = ""
+        this.position = user.position;
+        this.companyName = user.workplace;
+        this.skypeUserName = user.skypeName;
+        this.socNetLink = {};
+        this.linkToWebSite = user.website;
+        this.aboutUs = "";
+    }
+}
+
+class Profile {
+    constructor(user){
+        
+        this.mainPhoneNumber = user.phoneGeneral;
+        this.imgId = user.avatar;
+        this.contact = new ProfileContact(user);
     }
 }
 
@@ -25,16 +35,31 @@ class profileCtrl {
         
         _$timeout = $timeout;
         
-        this.contactTypes = [
-        "LEGAL_ENTITY",
-        "ENTREPRENEUR",
-        "INDIVIDUAL"
-      ]
-        this.contact = new ProfileContact();
         this.user = $scope.$parent.db.user;
+        this.contact = new ProfileContact(this.user);
         
+        // удалить потом
         this.user.type = this.user.type || "INDIVIDUAL";
+        this.username = "";
         this.user.aboutUs = this.user.aboutUs || "";
+        //
+        
+        this.contactTypes = [
+            'Физическое лицо',
+            'Частный предприниматель',
+            'Юридическое лицо'
+        ];
+            
+        this.type = "Физическое лицо";
+        
+        $scope.$watch(
+            () => this.type,
+            ( newValue, oldValue ) => {
+                if(this.user) this.user.type = (newValue === 'Юридическое лицо') ? "LEGAL_ENTITY" 
+                : (newValue === 'Частный предприниматель') ? "ENTREPRENEUR"
+                : "INDIVIDUAL";
+            }
+        );
         
     }
     
