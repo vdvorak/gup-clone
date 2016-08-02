@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +27,7 @@ import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CookieUtil;
 import ua.com.itproekt.gup.util.LogUtil;
 import ua.com.itproekt.gup.util.Oauth2Util;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -111,7 +114,6 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
     public String existEmailCheck(@RequestBody String email) {
-
         email = email.split("=")[0];
 
         try {
@@ -119,6 +121,25 @@ public class LoginRestController {
         } catch (UnsupportedEncodingException ex) {
             LOG.error(LogUtil.getExceptionStackTrace(ex));
         }
+
+//        ///////////////////////////////////////////////////
+//        System.err.println("/profile/read/loggedInProfile");
+//        System.err.println("=============================");
+//        try {
+////            String loggedUserId = SecurityOperations.getLoggedUserId();
+////            System.err.println("loggedUserId: '"+loggedUserId+"'");
+//            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//            if (principal instanceof UserDetails) {
+//                String username = ((UserDetails)principal).getUsername();
+//                System.err.println( username );
+//            } else {
+//                String username = principal.toString();
+//                System.err.println( username );
+//            }
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        ///////////////////////////////////////////////////
 
         return (profilesService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
     }
