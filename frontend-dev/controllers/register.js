@@ -9,9 +9,9 @@ module.exports = function($scope, $q) {
     this.password = ""
     this.password2 = ""
 
-    this.emailValid = ""
-    this.passwordValid = ""
-    this.password2Valid = ""
+    this.emailValid = true
+    this.passwordValid = true
+    this.password2Valid = true
 
     this.handler = function(e) {
       if(e.which == 13) this.send.call(this)
@@ -25,6 +25,8 @@ module.exports = function($scope, $q) {
   }
 
   this.send = () => {
+    ee.emit({ name : "form-submit" })
+
     if( this.emailValid && this.passwordValid && this.password2Valid ) {
       this.db.register({
         "email" : this.email,
@@ -52,7 +54,7 @@ module.exports = function($scope, $q) {
         if(err) reject(err)
         else {
           console.log(data)
-          if(data !== "false")
+          if(data !== false)
             error += "Такая почта уже используется. "
           resolve(error)
         }

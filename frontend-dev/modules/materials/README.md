@@ -8,7 +8,7 @@
 
 <text ng-model="main.hello" label="name" color="blue"></text>
 <text ng-model="main.hello" label="name" color="blue"></text>
-<text class="required" ng-model="main.hello" label="name" color="blue" validate="login.emailIsValid" isValid="login.emailValid"></text>
+<text class="required" ng-model="main.hello" label="name" color="blue" validate="login.emailIsValid" is-valid="login.emailValid"></text>
 
 <text ng-model="main.hello" type="password" label="name" color="blue"></text>
 

@@ -23,7 +23,7 @@ module.exports = function() {
                  <input type="{{ type || 'text'}}" ng-model="ngModel">
                  <div class="errors"></div>
                </div>`,
-    controller: function($scope, $element, $timeout) {
+    controller: function($scope, $element, $timeout, $attrs) {
       let id = ee.on('form-submit', validate)
       $scope.$on("$destroy", function() {
         ee.off(id)

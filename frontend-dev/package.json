@@ -1,10 +1,10 @@
-	{
+{
   "name": "gup",
   "version": "1.0.0",
   "description": "GUP",
   "main": "index.js",
   "scripts": {
-    "start" : "node server.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Oleksandr Hatskalev",
@@ -22,6 +22,7 @@
     "precss": "^1.4.0",
     "sass-loader": "^4.0.0",
     "style-loader": "^0.13.1",
+    "ts-loader": "^0.8.2",
     "webpack": "^1.13.1"
   },
   "dependencies": {
