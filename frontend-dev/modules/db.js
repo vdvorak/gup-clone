@@ -111,7 +111,7 @@ module.exports.saveUserData = function(data) {
 module.exports.checkUserIsLogged = function( cb ) {
   ctx.transport({
     method: config.routes.checkLogged.method,
-    url: config.api.url + config.routes.checkLogged.url,
+    url: config.api.auth + config.routes.checkLogged.url,
     withCredentials : true
   })
   .then(data => cb(null, data.data))
