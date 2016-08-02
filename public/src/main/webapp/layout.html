@@ -97,7 +97,7 @@
 	</div>
 </div>
 
-<div class="miniContacts" ng-controller="miniContacts as mini" ng-init="mini.init()" ng-show="main.showMiniContacts" ng-drag=".header" style="right:0px; bottom:0px;">
+<div class="miniContacts" ng-controller="miniContacts as mini" ng-init="mini.init()" ng-show="main.showMiniContacts" ng-drag=".header" style="right:0px; bottom:0px;display:none;">
 	<div class="header">
 		<div class="back toContacts" ng-show="mini.showMessages" ng-click="mini.back()"></div>
 		<div class="close" ng-click="main.showMiniContacts = false"></div>
