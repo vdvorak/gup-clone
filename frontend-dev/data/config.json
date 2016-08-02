@@ -42,6 +42,10 @@
     "checkLogged" : {
       "method" : "GET",
       "url" : "api/rest/profilesService/profile/read/loggedInProfile"
+    },
+      "editProfile" : {
+      "method" : "POST",
+      "url" : "api/rest/profilesService/profile/edit"
     }
   }
 }
