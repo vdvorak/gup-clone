@@ -59,7 +59,7 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
     this.searchQuery = selected
     $timeout( function() {
       document.dispatchEvent(new Event('update-text'))
-    }.bind(this), 100)
+    }.bind(this), 25)
 
   }
 
