@@ -34,6 +34,7 @@ app
   .controller('mainCtrl', require('./controllers/main'))
   .controller('miniContacts', require('./controllers/authenticated/miniContacts'))
   .directive('bulletinList', require('./directives/bulletinList'))
+
 materials
   .init(app)
   .run()
