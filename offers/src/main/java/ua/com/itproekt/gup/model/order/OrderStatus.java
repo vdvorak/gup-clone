@@ -7,7 +7,5 @@ public enum OrderStatus {
     ACCEPT,
     REJECTED_BY_SELLER,
     SENT,
-    RECEIVED,
-    WAITING_SELLER_FEEDBACK,
     COMPLETED,
 }
