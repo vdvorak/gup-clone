@@ -12,10 +12,6 @@ public class OrderFeedback {
     @Size(min = 5, max = 500)
     private String feedback;
 
-    @Size(min = 5, max = 500)
-    private String sellerComment;
-
-
     @Min(1)
     @Max(5)
     private int point;
@@ -25,7 +21,24 @@ public class OrderFeedback {
     private int spamCount;
 
     private Long feedBackDate;
+
+
+
+
+
+
+    @Size(min = 5, max = 500)
+    private String sellerComment;
+
+
     private Long sellerCommentDate;
+
+
+
+
+
+
+
 
 
     public OrderFeedback setFeedBackDateToCurrentDate() {
