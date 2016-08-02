@@ -6,19 +6,20 @@
             
             <div class='clearfix'></div>
             
-			<select-box ng-model="profile.contact.type" items="{{ profile.contactTypes }}"></select-box>
-
+			<select-box ng-model="profile.type" items="{{ profile.contactTypes }}"></select-box>
+            
 			<div class="edit-profile-form-foto">
 				<input id="profile-upload-photo-inp" type="file" accept="image/*,image/jpeg" onchange="angular.element(this).controller().changeAvatar(this.files)">
-				<p>{{profile.user.avatar !== 'DEFAULT_IMAGE' ? profile.user.avatar : 'Лого'}}</p>
+				<p>{{(profile.user.avatar !== 'DEFAULT_IMAGE' && profile.user.avatar !== '') ? profile.user.avatar : 'Лого'}}</p>
 				<nice-button class="btn-blue" ng-mouseUp="profile.fileUpload()">Обзор</nice-button>
 			</div>
+            <div class="profile-logo-preview"></div>
             
             <div class='clearfix'></div>
             
-			<text class="required" color='blue' ng-model="profile.username" label="ФИО" ng-hide="profile.contact.type === 'LEGAL_ENTITY'"></text>
-			<text color='blue' ng-class="{{profile.contact.type === 'INDIVIDUAL' || 'required'}}" ng-model="profile.contact.companyName" label="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'Название компании' || 'Место работы'}}"></text>
-            <text color='blue' ng-model="profile.contact.position" label="Должность" ng-hide="profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY'"></text>
+			<text class="required" color='blue' ng-model="profile.username" label="ФИО" ng-hide="profile.user.type === 'LEGAL_ENTITY'"></text>
+			<text color='blue' ng-class="{{profile.user.type === 'INDIVIDUAL' || 'required'}}" ng-model="profile.user.workplace" label="{{(profile.user.type === 'ENTREPRENEUR' || profile.user.type === 'LEGAL_ENTITY') && 'Название компании' || 'Место работы'}}"></text>
+            <text color='blue' ng-model="profile.user.position" label="Должность" ng-hide="profile.user.type === 'ENTREPRENEUR' || profile.user.type === 'LEGAL_ENTITY'"></text>
 
 			<text class="required" color='blue' ng-model="profile.user.emailGeneral" label="Основной e-mail"></text>
             <text label="Контактный email" color='blue' ng-model="profile.user.emailContact"></text>
@@ -31,6 +32,7 @@
             <div class='clearfix'></div>
             
 			<div class="social-link-container">
+                <p>Социальные сети</p>
 				<div data-social="LINKEDIN" style="background: url('../images/icon-linkedin.png')"></div>
 				<div data-social="FACEBOOK" style="background: url('../images/icon-facebook.png')"></div>
 				<div data-social="GOOGLEPLUS" style="background: url('../images/icon-google-plus.png')"></div>
@@ -41,7 +43,7 @@
 			<div class='clearfix'></div>
 
 			<text color='blue' ng-model="profile.user.website" label="Ссылка на сайт"></text>
-			<text-area label="{{(profile.contact.type === 'ENTREPRENEUR' || profile.contact.type === 'LEGAL_ENTITY') && 'О компании' || 'О себе'}}" ng-model="profile.contact.aboutUs"></text-area>
+			<text-area label="{{(profile.user.type === 'ENTREPRENEUR' || profile.user.type === 'LEGAL_ENTITY') && 'О компании' || 'О себе'}}" ng-model="profile.user.aboutUs"></text-area>
             
             <nice-button class="btn-blue" type="submit" ng-submit="profile.updateProfile($event)">СОХРАНИТЬ</nice-button>
 		</form>

@@ -69,7 +69,12 @@ module.exports = function($http, $scope, $location, $timeout, $cookies, $cookieS
 
   this.curr = function(id) {
 		this.idName = id
-		console.log(this.idName, id)
+		console.log("idName = " + this.idName, "id = " +id)
+	}
+	
+	this.curr2 = function(id) {
+		this.idName2 = id
+		console.log("idName2 = " + this.idName2, "id2 = " +id)
 	}
 
   this.resetFilters = function() {

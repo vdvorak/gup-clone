@@ -81,9 +81,16 @@
 		<ul>
 			<li ng-repeat="x in main.searchCategories" ng-click="main.curr(x.id)" ng-class="x.class">
 				<p>{{x.name}}</p>
-				<div class="firstSubcategories" ng-show="main.idName === x.id">
-					<p ng-repeat="child in x.children">{{child.name}}</p>
-				</div>
+				<ul class="firstSubcategories" ng-show="main.idName === x.id">
+					<li ng-repeat="firstChildren in x.children" ng-click="main.curr2(firstChildren.id)">
+						<p>{{firstChildren.name}}</p>
+						<ul class="secondSubcategories" ng-show="main.idName2 === firstChildren.id">
+							<li ng-repeat="secondChildren in firstChildren.children">
+								<p>{{secondChildren.label}}</p>
+							</li>
+						</ul>
+					</li>
+				</ul>
 			</li>
 		</ul>
 	</nav>
@@ -97,7 +104,7 @@
 	</div>
 </div>
 
-<div class="miniContacts" ng-controller="miniContacts as mini" ng-init="mini.init()" ng-show="main.showMiniContacts" ng-drag=".header" style="right:0px; bottom:0px;">
+<div class="miniContacts" ng-controller="miniContacts as mini" ng-init="mini.init()" ng-show="main.showMiniContacts" ng-drag=".header" style="right:0px; bottom:0px;display:none;">
 	<div class="header">
 		<div class="back toContacts" ng-show="mini.showMessages" ng-click="mini.back()"></div>
 		<div class="close" ng-click="main.showMiniContacts = false"></div>
