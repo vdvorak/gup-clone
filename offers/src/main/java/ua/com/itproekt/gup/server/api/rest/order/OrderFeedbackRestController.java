@@ -58,7 +58,7 @@ public class OrderFeedbackRestController {
      */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
-    @RequestMapping(value = "/order/feedback/buyerFeedback", method = RequestMethod.POST,
+    @RequestMapping(value = "/order/feedback/createBuyerFeedback", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> buyerFeedback(@Valid @RequestBody Order order) {
 
@@ -117,6 +117,27 @@ public class OrderFeedbackRestController {
     }
 
 
+    /**
+     * @param order
+     * @return
+     */
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/order/feedback/editBuyerFeedback", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> editBuyerFeedback(@Valid @RequestBody Order order) {
+
+        // Уже должен быть фидбек у этого объявления
+
+        // loggeduser должен быть покупателем
+
+        // Создаём новый отзыв
+
+
+        return ok;
+    }
+
+
     //------------------------------------------ Helpers methods -----------------------------------------------------
 
 
@@ -157,11 +178,15 @@ public class OrderFeedbackRestController {
      * @param oldOrder
      */
     private void feedbackPreparatorFromBuyer(Order order, Order oldOrder) {
+
         OrderFeedback orderFeedback = new OrderFeedback();
-        orderFeedback
-                .setFeedBackDateToCurrentDate()
-                .setFeedback(order.getOrderFeedback().getFeedback())
-                .setPoint(order.getOrderFeedback().getPoint());
+
+        int point = order.getOrderFeedback().getPoint();
+        String feedbackText = order.getOrderFeedback().getBuyerFeedbackList().get(0).getFeedbackText();
+
+
+        orderFeedback.addNewBuyerFeedback(feedbackText, point);
+
 
         oldOrder.setOrderFeedback(orderFeedback);
         oldOrder.setOrderStatus(OrderStatus.WAITING_SELLER_FEEDBACK);
