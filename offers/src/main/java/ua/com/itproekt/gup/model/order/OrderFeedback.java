@@ -49,36 +49,9 @@ public class OrderFeedback {
         this.point = point;
     }
 
-
-    public class BuyerFeedback {
-
-        @Size(min = 5, max = 500)
-        String feedbackText;
-        Long feedBackDate;
-
-
-        public BuyerFeedback(String feedbackText) {
-            this.feedbackText = feedbackText;
-            this.feedBackDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        }
-
-        public String getFeedbackText() {
-            return feedbackText;
-        }
-
-        public void setFeedbackText(String feedbackText) {
-            this.feedbackText = feedbackText;
-        }
-
-        public Long getFeedBackDate() {
-            return feedBackDate;
-        }
-
-        public void setFeedBackDate(Long feedBackDate) {
-            this.feedBackDate = feedBackDate;
-        }
+    public void addUpdatedBuyerFeedback(String feedbackText) {
+        this.buyerFeedbackList.add(new BuyerFeedback(feedbackText));
     }
-
 
     public List<BuyerFeedback> getBuyerFeedbackList() {
         return buyerFeedbackList;
@@ -158,5 +131,51 @@ public class OrderFeedback {
 
     public void setSellerCommentSpamCount(int sellerCommentSpamCount) {
         this.sellerCommentSpamCount = sellerCommentSpamCount;
+    }
+
+    public class BuyerFeedback {
+
+        @Size(min = 5, max = 500)
+        String feedbackText;
+        Long feedBackDate;
+
+
+        public BuyerFeedback(String feedbackText) {
+            this.feedbackText = feedbackText;
+            this.feedBackDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        }
+
+        public String getFeedbackText() {
+            return feedbackText;
+        }
+
+        public void setFeedbackText(String feedbackText) {
+            this.feedbackText = feedbackText;
+        }
+
+        public Long getFeedBackDate() {
+            return feedBackDate;
+        }
+
+        public void setFeedBackDate(Long feedBackDate) {
+            this.feedBackDate = feedBackDate;
+        }
+    }
+
+
+    @Override
+    public String toString() {
+        return "OrderFeedback{" +
+                "buyerFeedbackList=" + buyerFeedbackList +
+                ", point=" + point +
+                ", feedbackLikesCount=" + feedbackLikesCount +
+                ", feedbackDislikesCount=" + feedbackDislikesCount +
+                ", feedbackSpamCount=" + feedbackSpamCount +
+                ", sellerComment='" + sellerComment + '\'' +
+                ", sellerCommentDate=" + sellerCommentDate +
+                ", sellerCommentLikesCount=" + sellerCommentLikesCount +
+                ", sellerCommentDislikesCount=" + sellerCommentDislikesCount +
+                ", sellerCommentSpamCount=" + sellerCommentSpamCount +
+                '}';
     }
 }

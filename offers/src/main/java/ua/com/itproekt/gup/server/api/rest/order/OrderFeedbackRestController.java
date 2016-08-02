@@ -85,6 +85,43 @@ public class OrderFeedbackRestController {
 
 
     /**
+     * @param order
+     * @return
+     */
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/order/feedback/editBuyerFeedback", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> editBuyerFeedback(@Valid @RequestBody Order order) {
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        Order oldOrder = orderService.findById(order.getId());
+        if (oldOrder == null) {
+            return notFound;
+        }
+
+        // Уже должен быть фидбек у этого объявления
+        if (oldOrder.getOrderFeedback() == null) {
+            return notFound;
+        }
+
+        // loggeduser должен быть покупателем
+        if (!userId.equals(oldOrder.getBuyerId())) {
+            return forbidden;
+        }
+
+        if (oldOrder.getOrderStatus() != OrderStatus.COMPLETED) {
+            return badRequest;
+        }
+
+        editFeedbackPreparatorFromBuyer(order, oldOrder);
+
+        return ok;
+    }
+
+
+    /**
      * Method can be called only if order status is WAITING_SELLER_FEEDBACK and oly by seller;
      *
      * @param order - can include only OrderFeedback with String orderId, String feedback, int point;
@@ -112,28 +149,8 @@ public class OrderFeedbackRestController {
             return badRequest;
         }
 
+
         feedbackPreparatorFromSeller(order, oldOrder);
-        return ok;
-    }
-
-
-    /**
-     * @param order
-     * @return
-     */
-    @PreAuthorize("isAuthenticated()")
-    @CrossOrigin
-    @RequestMapping(value = "/order/feedback/editBuyerFeedback", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> editBuyerFeedback(@Valid @RequestBody Order order) {
-
-        // Уже должен быть фидбек у этого объявления
-
-        // loggeduser должен быть покупателем
-
-        // Создаём новый отзыв
-
-
         return ok;
     }
 
@@ -195,6 +212,26 @@ public class OrderFeedbackRestController {
         orderService.findAndUpdate(oldOrder);
     }
 
+
+    /**
+     * Update previous buyer feedback
+     *
+     * @param order
+     * @param oldOrder
+     */
+    private void editFeedbackPreparatorFromBuyer(Order order, Order oldOrder) {
+
+        OrderFeedback oldOrderFeedback = oldOrder.getOrderFeedback();
+
+        String feedbackText = order.getOrderFeedback().getBuyerFeedbackList().get(0).getFeedbackText();
+
+        oldOrderFeedback.addUpdatedBuyerFeedback(feedbackText);
+
+        eventPreparatorForSeller(order, EventType.ORDER_BUYER_COMMENT_EDIT);
+        orderService.findAndUpdate(oldOrder);
+    }
+
+
     /**
      * Prepare feedback from seller, update order with this feedback and send Event notification to seller,
      * change order status to COMPLETED.
@@ -213,5 +250,6 @@ public class OrderFeedbackRestController {
         orderService.findAndUpdate(oldOrder);
 
     }
+
 
 }
