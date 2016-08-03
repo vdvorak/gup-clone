@@ -5,6 +5,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,11 +34,13 @@ public class OrderFeedback {
     /**
      * String - user id
      */
-    private Map<String, OrderFeedbackOptions> sellerFeedbackOptions;
+    private Map<String, OrderFeedbackOptions> sellerFeedbackOptionsMap;
 
 
     // -------------------------------------------------------------------------------------------
     public OrderFeedback() {
+        buyerFeedbackOptionsMap = new HashMap<>();
+        sellerFeedbackOptionsMap = new HashMap<>();
     }
 
     public OrderFeedback setSellerCommentDateToCurrentDate() {
@@ -142,12 +145,12 @@ public class OrderFeedback {
         return this;
     }
 
-    public Map<String, OrderFeedbackOptions> getSellerFeedbackOptions() {
-        return sellerFeedbackOptions;
+    public Map<String, OrderFeedbackOptions> getSellerFeedbackOptionsMap() {
+        return sellerFeedbackOptionsMap;
     }
 
-    public OrderFeedback setSellerFeedbackOptions(Map<String, OrderFeedbackOptions> sellerFeedbackOptions) {
-        this.sellerFeedbackOptions = sellerFeedbackOptions;
+    public OrderFeedback setSellerFeedbackOptionsMap(Map<String, OrderFeedbackOptions> sellerFeedbackOptions) {
+        this.sellerFeedbackOptionsMap = sellerFeedbackOptions;
         return this;
     }
 }

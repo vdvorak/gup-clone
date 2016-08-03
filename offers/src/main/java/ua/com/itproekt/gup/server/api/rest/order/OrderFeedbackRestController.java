@@ -7,14 +7,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
+import ua.com.itproekt.gup.model.order.OrderFeedbackOptions;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
@@ -24,6 +22,7 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 
 @Controller
@@ -87,7 +86,7 @@ public class OrderFeedbackRestController {
 
 
     /**
-     * Method can be called only if order status is WAITING_SELLER_FEEDBACK and oly by seller;
+     * Method can be called only if order status is COMPLETED and oly by seller;
      *
      * @param order - can include only OrderFeedback with String orderId, String feedback, int point;
      * @return - status code 200 if Ok, 400 - user not seller or Order doesn't have status COMPLETE
@@ -128,8 +127,10 @@ public class OrderFeedbackRestController {
     // --------------------------------------------- UPDATE --------------------------------------
 
     /**
-     * @param order
-     * @return
+     * Edit buyer feedback
+     *
+     * @param order - must contain orderID, orderFeedback.buyerFeedbackList
+     * @return - status code 200 if Ok, 404 - not found order or feedback, 403 - user is not buyer in this order
      */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
@@ -157,6 +158,74 @@ public class OrderFeedbackRestController {
         return ok;
     }
 
+
+    /**
+     * @param orderFeedbackOptions - enum LIKE, DISLIKE or SPAM
+     * @param orderId              - order id
+     * @return - status code 200 if all is Ok, 403 - if current user is buyer,
+     * 404 - order or feedback in order is not found.
+     */
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/order/feedback/addBuyerFeedbackOption/{orderId}", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> addBuyerFeedbackOption(@Valid @RequestBody OrderFeedbackOptions orderFeedbackOptions, @PathVariable String orderId) {
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        Order oldOrder = orderService.findById(orderId);
+        if (oldOrder == null) {
+            return notFound;
+        }
+
+        if (oldOrder.getOrderFeedback() == null) {
+            return notFound;
+        }
+
+        if (userId.equals(oldOrder.getBuyerId())) {
+            return forbidden;
+        }
+
+        newBuyerFeedbackOptionPreparator(oldOrder, orderFeedbackOptions, userId);
+
+        return ok;
+    }
+
+    // -------------------------------------------------------- Add options for feedback (like, dislike, spam) ---------
+
+    /**
+     * @param orderFeedbackOptions
+     * @param orderId              - order id
+     * @return - status code 200 if all is Ok, 403 - if current user is seller,
+     * 404 - order or feedback in order is not found.
+     */
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/order/feedback/addSellerFeedbackOption/{orderId}", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> addSellerFeedbackOption(@Valid @RequestBody OrderFeedbackOptions orderFeedbackOptions, @PathVariable String orderId) {
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        Order oldOrder = orderService.findById(orderId);
+        if (oldOrder == null) {
+            return notFound;
+        }
+
+        if (oldOrder.getOrderFeedback() == null) {
+            return notFound;
+        }
+
+        if (userId.equals(oldOrder.getBuyerId())) {
+            return forbidden;
+        }
+
+        newSellerFeedbackOptionPreparator(oldOrder, orderFeedbackOptions, userId);
+
+        return ok;
+    }
+
+
     // --------------------------------------------- DELETE --------------------------------------------------------
 
     @PreAuthorize("isAuthenticated()")
@@ -182,7 +251,7 @@ public class OrderFeedbackRestController {
 
         oldOrder.setOrderFeedback(null);
         orderService.findAndUpdate(oldOrder);
-        eventPreparatorForSeller(oldOrder, EventType.ORDER_BUYER_DELETE_FEEDBACK);
+        activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, EventType.ORDER_BUYER_DELETE_FEEDBACK));
 
         return ok;
     }
@@ -214,7 +283,7 @@ public class OrderFeedbackRestController {
         clearSellerFeedback(oldOrder);
 
         orderService.findAndUpdate(oldOrder);
-        eventPreparatorForSeller(oldOrder, EventType.ORDER_BUYER_DELETE_FEEDBACK);
+        activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, EventType.ORDER_SELLER_DELETE_FEEDBACK));
 
         return ok;
     }
@@ -271,7 +340,8 @@ public class OrderFeedbackRestController {
 
 
         oldOrder.setOrderFeedback(orderFeedback);
-        eventPreparatorForSeller(order, EventType.ORDER_BUYER_COMMENT);
+
+        activityFeedService.createEvent(eventPreparatorForSeller(order, EventType.ORDER_BUYER_COMMENT));
 
         orderService.findAndUpdate(oldOrder);
     }
@@ -291,7 +361,8 @@ public class OrderFeedbackRestController {
 
         oldOrderFeedback.addUpdatedBuyerFeedback(feedbackText);
 
-        eventPreparatorForSeller(order, EventType.ORDER_BUYER_COMMENT_EDIT);
+        activityFeedService.createEvent(eventPreparatorForSeller(order, EventType.ORDER_BUYER_COMMENT_EDIT));
+
         orderService.findAndUpdate(oldOrder);
     }
 
@@ -308,8 +379,7 @@ public class OrderFeedbackRestController {
         oldOrder.getOrderFeedback().setSellerComment(order.getOrderFeedback().getSellerComment());
         oldOrder.getOrderFeedback().setSellerCommentDateToCurrentDate();
 
-        eventPreparatorForBuyer(order, EventType.ORDER_COMPLETED);
-
+        activityFeedService.createEvent(eventPreparatorForBuyer(order, EventType.ORDER_COMPLETED));
         orderService.findAndUpdate(oldOrder);
 
     }
@@ -319,7 +389,81 @@ public class OrderFeedbackRestController {
         oldOrder.getOrderFeedback()
                 .setSellerComment(null)
                 .setSellerCommentDate(null)
-                .setSellerFeedbackOptions(null);
+                .setSellerFeedbackOptionsMap(null);
+    }
+
+    /**
+     * After options will be updated, method will create notification for buyer.
+     *
+     * @param oldOrder
+     * @param orderFeedbackOption
+     * @param userId
+     */
+    private void newBuyerFeedbackOptionPreparator(Order oldOrder, OrderFeedbackOptions orderFeedbackOption, String userId) {
+
+        Map<String, OrderFeedbackOptions> map = oldOrder.getOrderFeedback().getBuyerFeedbackOptionsMap();
+
+        feedbackMapRepeatOptionsResolver(map, userId, orderFeedbackOption);
+
+        oldOrder.getOrderFeedback().setBuyerFeedbackOptionsMap(map);
+        orderService.findAndUpdate(oldOrder);
+
+        switch (orderFeedbackOption) {
+            case LIKE:
+                activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_BUYER_FEEDBACK_LIKE));
+                break;
+            case DISLIKE:
+                activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_BUYER_FEEDBACK_DISLIKE));
+                break;
+            case SPAM:
+                activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_BUYER_FEEDBACK_SPAM));
+                break;
+        }
+    }
+
+
+    private void newSellerFeedbackOptionPreparator(Order oldOrder, OrderFeedbackOptions orderFeedbackOption, String userId) {
+
+        Map<String, OrderFeedbackOptions> map = oldOrder.getOrderFeedback().getSellerFeedbackOptionsMap();
+
+        feedbackMapRepeatOptionsResolver(map, userId, orderFeedbackOption);
+
+        oldOrder.getOrderFeedback().setSellerFeedbackOptionsMap(map);
+        orderService.findAndUpdate(oldOrder);
+
+        switch (orderFeedbackOption) {
+            case LIKE:
+                activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, EventType.ORDER_SELLER_FEEDBACK_LIKE));
+                break;
+            case DISLIKE:
+                activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, EventType.ORDER_SELLER_FEEDBACK_DISLIKE));
+                break;
+            case SPAM:
+                activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, EventType.ORDER_SELLER_FEEDBACK_SPAM));
+                break;
+        }
+    }
+
+
+    /**
+     * If user send exist option he made in past - it will be remove.
+     * If user send another option - it will be create and old option (if exist) will be remove
+     *
+     * @param map
+     * @param userId
+     * @param orderFeedbackOptions
+     */
+    private void feedbackMapRepeatOptionsResolver(Map<String, OrderFeedbackOptions> map, String userId, OrderFeedbackOptions orderFeedbackOptions) {
+        if (map.containsKey(userId)) {
+            if (map.get(userId) == orderFeedbackOptions) {
+                map.remove(userId);
+            } else {
+                map.remove(userId);
+                map.put(userId, orderFeedbackOptions);
+            }
+        } else {
+            map.put(userId, orderFeedbackOptions);
+        }
     }
 
 
