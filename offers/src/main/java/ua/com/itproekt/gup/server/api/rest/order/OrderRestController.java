@@ -30,6 +30,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/api/rest/orderService")
@@ -112,7 +113,7 @@ public class OrderRestController {
             newOrderPreparator(userId, order, offer);
 
             if (order.getPaymentMethod() == PaymentMethod.GUP) {
-                //ToDo перевод денег на счёт Гупа если ввключён safe order
+                //ToDo перевод денег на счёт Гупа если тип оплаты GUP
             }
             orderService.create(order);
             activityFeedService.createEvent(eventPreparatorForSeller(order, EventType.NEW_ORDER));
@@ -416,7 +417,7 @@ public class OrderRestController {
 
     private boolean isShippingMethodsValid(Order order, Offer offer) {
         TransportCompany orderTransportCompany = order.getOrderAddress().getTransportCompany();
-        List<TransportCompany> availableShippingMethodsList = offer.getAvailableShippingMethods();
+        Set<TransportCompany> availableShippingMethodsList = offer.getAvailableShippingMethods();
 
         for (TransportCompany offerTransportCompany : availableShippingMethodsList) {
 
@@ -429,7 +430,7 @@ public class OrderRestController {
 
     private boolean isPaymentMethodsValid(Order order, Offer offer) {
         PaymentMethod orderPaymentMethod = order.getPaymentMethod();
-        List<PaymentMethod> offerPaymentMethodsList = offer.getAvailablePaymentMethods();
+        Set<PaymentMethod> offerPaymentMethodsList = offer.getAvailablePaymentMethods();
         for (PaymentMethod offerPaymentMethod : offerPaymentMethodsList) {
             if (orderPaymentMethod == offerPaymentMethod) {
                 return true;
