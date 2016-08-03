@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.login.FormLoggedUser;
 import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.profiles.verification.VerificationToken;
 import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -136,4 +137,14 @@ public class LoginRestController {
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
     }
+//    @CrossOrigin
+//    @RequestMapping(value = "/register", method = RequestMethod.POST)
+//    public ResponseEntity<Boolean> register(@RequestBody ProfileInfo profileInfo) {
+//        if (profilesService.profileExistsWithEmail(profileInfo.getProfile().getEmail()))
+//            return new ResponseEntity<>(HttpStatus.CONFLICT);
+//
+//        profilesService.createProfile(profileInfo.getProfile());
+//        VerificationToken verificationToken = verificationTokenService.sendEmailRegistrationToken(profileInfo.getProfile().getId());
+//        return new ResponseEntity<>(verificationToken.isVerified(), HttpStatus.CREATED);
+//    }
 }
