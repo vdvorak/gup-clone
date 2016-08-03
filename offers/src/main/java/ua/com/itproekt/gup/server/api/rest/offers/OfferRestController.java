@@ -6,12 +6,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.server.api.rest.dto.OfferInfo;
 import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.server.api.rest.dto.OfferInfo;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
@@ -213,15 +213,14 @@ public class OfferRestController {
     }
 
 
-
     //ToDo удалить перед продакшеном
-    @RequestMapping(value = "/subscription/test/{offerId}", method = RequestMethod.POST)
-    public ResponseEntity<Void> test(@PathVariable String offerId) {
-
-        Offer offer = offersService.findById(offerId);
-//        offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
-        subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(offer);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-    }
+//    @RequestMapping(value = "/subscription/test/{offerId}", method = RequestMethod.POST)
+//    public ResponseEntity<Void> test(@PathVariable String offerId) {
+//
+//        Offer offer = offersService.findById(offerId);
+////        offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+//        subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(offer);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//
+//    }
 }

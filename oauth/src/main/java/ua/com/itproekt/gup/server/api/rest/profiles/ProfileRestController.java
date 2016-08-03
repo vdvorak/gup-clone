@@ -5,8 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.model.profiles.Profile;
@@ -58,13 +56,15 @@ public class ProfileRestController {
     }
 
     @CrossOrigin
-    @RequestMapping(value="/profile/read/loggedInProfile", method=RequestMethod.GET)
+    @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
     public ResponseEntity<ProfileInfo> getLoggedUser() {
         ProfileInfo profileInfo = null;
 
         String loggedUserId = SecurityOperations.getLoggedUserId();
         if (loggedUserId != null) {
             profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(loggedUserId);
+            profileInfo.setUserBalance(bankSession.getUserBalance(loggedUserId));
+            //FixMe - в будущем добавить вывод бонусного счёта
         }
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
