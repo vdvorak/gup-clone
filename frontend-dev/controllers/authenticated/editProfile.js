@@ -44,7 +44,8 @@ class profileCtrl {
         this.user.aboutUs = this.user.aboutUs || "";
         //
         
-        this.image = '../images/avatar.jpg';
+        this.resultImageURI = 'url(../images/avatar.jpg)';
+        this.originalImage = '';
         this.croppedImage = '';
         
         this.contactTypes = [
@@ -75,10 +76,10 @@ class profileCtrl {
     changeAvatar(files){
         var reader = new FileReader();
         
-        reader.onload = function (evt) {
+        reader.onload = (evt) => {
             
             _$timeout(() => {
-              this.image = evt.target.result;
+              this.originalImage = evt.target.result;
             });
             
             angular.element(document.querySelector('.edit-profile-form-foto>p')).text(files[0].name)
@@ -88,12 +89,13 @@ class profileCtrl {
         reader.readAsDataURL(files[0]);
     }
     
-    getCroppedImageSrc(){
-        if(this.croppedImage) {
-            return {'background-image': `url(${this.croppedImage})`};
-        } else {
-            return {'background-image': 'url(../images/avatar.jpg)'};
-        }
+    cropImage(){
+        this.resultImageURI = this.croppedImage;
+    }
+    
+    cancelCrop(){
+        this.image = '';
+        this.croppedImage = '';
     }
     
     updateProfile($event){

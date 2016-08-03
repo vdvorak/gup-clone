@@ -13,7 +13,7 @@
 				<p>{{(profile.user.avatar !== 'DEFAULT_IMAGE' && profile.user.avatar !== '') ? profile.user.avatar : 'Лого'}}</p>
 				<nice-button class="btn-blue" ng-mouseUp="profile.fileUpload()">Обзор</nice-button>
 			</div>
-            <div class="profile-logo-preview" ng-style="profile.getCroppedImageSrc()"></div>
+            <div class="profile-logo-preview" ng-style="{'background-image': profile.resultImageURI}"></div>
             
             <div class='clearfix'></div>
             
@@ -51,16 +51,16 @@
 	</div>
                
    <div class="cropper-modal">
-       <div class="cropper-modal-close"></div>
+       <div class="cropper-modal-close" ng-click="profile.cancelCropp()"></div>
        <div class="cropper-cropp-area">
            <img-crop 
-                     image="profile.image" 
+                     image="profile.originalImage" 
                      result-image="profile.croppedImage" 
                      area-type="square"
-                     change-on-fly="false"
                      result-image-format="image/jpeg"></img-crop>
         </div>
-       <div class="btn-blue">ПОДТВЕРДИТЬ</div>
+       <div ng-src={{profile.croppedImage}} style="width:200px;height:200px"></div>
+       <div class="btn-blue" ng-click="profile.cropImage()">ПОДТВЕРДИТЬ</div>
    </div>
                
 </section>
