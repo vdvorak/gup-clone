@@ -6,35 +6,37 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 
 public class OrderFeedback {
 
-    // ----------------------------------------
-
-
+    /**
+     * History of buyer feedback
+     */
     private List<BuyerFeedback> buyerFeedbackList;
 
     @Min(1)
     @Max(5)
     private int point;
 
-    private int feedbackLikesCount;
-    private int feedbackDislikesCount;
-    private int feedbackSpamCount;
-
-
-    // ----------------------------------------
+    /**
+     * String - user id
+     */
+    private Map<String, OrderFeedbackOptions> buyerFeedbackOptionsMap;
+    // ---------------------------------------------------------------------------------------------
 
 
     @Size(min = 5, max = 500)
     private String sellerComment;
     private Long sellerCommentDate;
 
-    private int sellerCommentLikesCount;
-    private int sellerCommentDislikesCount;
-    private int sellerCommentSpamCount;
+    /**
+     * String - user id
+     */
+    private Map<String, OrderFeedbackOptions> sellerFeedbackOptions;
 
 
+    // -------------------------------------------------------------------------------------------
     public OrderFeedback() {
     }
 
@@ -48,6 +50,12 @@ public class OrderFeedback {
         this.buyerFeedbackList.add(new BuyerFeedback(feedbackText));
         this.point = point;
     }
+
+    public void addUpdatedBuyerFeedback(String feedbackText) {
+        this.buyerFeedbackList.add(new BuyerFeedback(feedbackText));
+    }
+
+
 
 
     public class BuyerFeedback {
@@ -77,86 +85,69 @@ public class OrderFeedback {
         public void setFeedBackDate(Long feedBackDate) {
             this.feedBackDate = feedBackDate;
         }
+
+        @Override
+        public String toString() {
+            return "BuyerFeedback{" +
+                    "feedbackText='" + feedbackText + '\'' +
+                    ", feedBackDate=" + feedBackDate +
+                    '}';
+        }
     }
+// -------------------------------------------------------------------------------------------
 
 
     public List<BuyerFeedback> getBuyerFeedbackList() {
         return buyerFeedbackList;
     }
 
-    public void setBuyerFeedbackList(List<BuyerFeedback> buyerFeedbackList) {
+    public OrderFeedback setBuyerFeedbackList(List<BuyerFeedback> buyerFeedbackList) {
         this.buyerFeedbackList = buyerFeedbackList;
+        return this;
     }
 
     public int getPoint() {
         return point;
     }
 
-    public void setPoint(int point) {
+    public OrderFeedback setPoint(int point) {
         this.point = point;
-    }
-
-    public int getFeedbackLikesCount() {
-        return feedbackLikesCount;
-    }
-
-    public void setFeedbackLikesCount(int feedbackLikesCount) {
-        this.feedbackLikesCount = feedbackLikesCount;
-    }
-
-    public int getFeedbackDislikesCount() {
-        return feedbackDislikesCount;
-    }
-
-    public void setFeedbackDislikesCount(int feedbackDislikesCount) {
-        this.feedbackDislikesCount = feedbackDislikesCount;
-    }
-
-    public int getFeedbackSpamCount() {
-        return feedbackSpamCount;
-    }
-
-    public void setFeedbackSpamCount(int feedbackSpamCount) {
-        this.feedbackSpamCount = feedbackSpamCount;
+        return this;
     }
 
     public String getSellerComment() {
         return sellerComment;
     }
 
-    public void setSellerComment(String sellerComment) {
+    public OrderFeedback setSellerComment(String sellerComment) {
         this.sellerComment = sellerComment;
+        return this;
     }
 
     public Long getSellerCommentDate() {
         return sellerCommentDate;
     }
 
-    public void setSellerCommentDate(Long sellerCommentDate) {
+    public OrderFeedback setSellerCommentDate(Long sellerCommentDate) {
         this.sellerCommentDate = sellerCommentDate;
+        return this;
     }
 
-    public int getSellerCommentLikesCount() {
-        return sellerCommentLikesCount;
+    public Map<String, OrderFeedbackOptions> getBuyerFeedbackOptionsMap() {
+        return buyerFeedbackOptionsMap;
     }
 
-    public void setSellerCommentLikesCount(int sellerCommentLikesCount) {
-        this.sellerCommentLikesCount = sellerCommentLikesCount;
+    public OrderFeedback setBuyerFeedbackOptionsMap(Map<String, OrderFeedbackOptions> buyerFeedbackOptionsMap) {
+        this.buyerFeedbackOptionsMap = buyerFeedbackOptionsMap;
+        return this;
     }
 
-    public int getSellerCommentDislikesCount() {
-        return sellerCommentDislikesCount;
+    public Map<String, OrderFeedbackOptions> getSellerFeedbackOptions() {
+        return sellerFeedbackOptions;
     }
 
-    public void setSellerCommentDislikesCount(int sellerCommentDislikesCount) {
-        this.sellerCommentDislikesCount = sellerCommentDislikesCount;
-    }
-
-    public int getSellerCommentSpamCount() {
-        return sellerCommentSpamCount;
-    }
-
-    public void setSellerCommentSpamCount(int sellerCommentSpamCount) {
-        this.sellerCommentSpamCount = sellerCommentSpamCount;
+    public OrderFeedback setSellerFeedbackOptions(Map<String, OrderFeedbackOptions> sellerFeedbackOptions) {
+        this.sellerFeedbackOptions = sellerFeedbackOptions;
+        return this;
     }
 }

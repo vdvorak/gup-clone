@@ -14,7 +14,6 @@ import ua.com.itproekt.gup.model.offer.Currency;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderComment;
-import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
@@ -31,16 +30,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/api/rest/orderService")
 public class OrderRestController {
-
-    //ToDo В любом изменении ордера нам не нужно получать: id пользователя, который делает апдейт
-    // нам нужны данные, которы меняются исключительно пользователем, а иначе нам могут подсунуть левый id пользователя
-
-    //ToDo возможно стоит в методах, окторые ничего кроме статуса на отправляют, убрать produces = MediaType.APPLICATION_JSON_VALUE
-
 
     private final ResponseEntity<Void> ok = new ResponseEntity<>(HttpStatus.OK);
     private final ResponseEntity<Void> badRequest = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -119,7 +113,7 @@ public class OrderRestController {
             newOrderPreparator(userId, order, offer);
 
             if (order.getPaymentMethod() == PaymentMethod.GUP) {
-                //ToDo перевод денег на счёт Гупа если ввключён safe order
+                //ToDo перевод денег на счёт Гупа если тип оплаты GUP
             }
             orderService.create(order);
             activityFeedService.createEvent(eventPreparatorForSeller(order, EventType.NEW_ORDER));
@@ -298,9 +292,9 @@ public class OrderRestController {
 
     /**
      * @param order - updated order.
-     *              This method can only change order status to RECEIVED from the client (by seller or by buyer).
+     *              This method can only change order status to COMPLETED from the client (by seller or by buyer).
      * @return - return 200 status code if Ok, 400 - user neither seller nor buyer, 404 - not found order,
-     * 406 - buyer can't mark this order like RECEIVED yet
+     * 406 - buyer can't mark this order like COMPLETED yet
      */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
@@ -327,11 +321,11 @@ public class OrderRestController {
             if ((oldOrderTransportCompany != TransportCompany.SELF_PICKED && (timeNow - oldOrder.getSentDate()) > 2678400000L)
                     || (oldOrderTransportCompany == TransportCompany.SELF_PICKED && (timeNow - oldOrder.getAcceptDate()) > 1296000000L)) { //31 or 15 days
                 oldOrder
-                        .setOrderStatus(OrderStatus.RECEIVED)
+                        .setOrderStatus(OrderStatus.COMPLETED)
                         .setReceivedDateEqualsToCurrentDate();
                 orderService.findAndUpdate(oldOrder);
                 //ToDo перевести деньги на счёт продавца
-                activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_RECEIVED));
+                activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_COMPLETED));
             } else {
                 return notAcceptable;
             }
@@ -343,11 +337,11 @@ public class OrderRestController {
                 if ((oldOrder.getOrderStatus() == OrderStatus.SENT && (timeNow - oldOrder.getSentDate() > 43200000L))
                         || (oldOrderTransportCompany == TransportCompany.SELF_PICKED && (timeNow - oldOrder.getAcceptDate() > 43200000L))) { // 12 hours
                     oldOrder
-                            .setOrderStatus(OrderStatus.RECEIVED)
+                            .setOrderStatus(OrderStatus.COMPLETED)
                             .setReceivedDateEqualsToCurrentDate();
                     orderService.findAndUpdate(oldOrder);
                     //ToDo перевести деньги на счёт продавца
-                    activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, EventType.ORDER_RECEIVED));
+                    activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, EventType.ORDER_COMPLETED));
                 }
 
             } else {
@@ -393,7 +387,6 @@ public class OrderRestController {
     }
 
 
-
     //------------------------------------------ Helpers methods -----------------------------------------------------
     private boolean isOrderValid(Order order, Offer offer) {
 
@@ -424,7 +417,7 @@ public class OrderRestController {
 
     private boolean isShippingMethodsValid(Order order, Offer offer) {
         TransportCompany orderTransportCompany = order.getOrderAddress().getTransportCompany();
-        List<TransportCompany> availableShippingMethodsList = offer.getAvailableShippingMethods();
+        Set<TransportCompany> availableShippingMethodsList = offer.getAvailableShippingMethods();
 
         for (TransportCompany offerTransportCompany : availableShippingMethodsList) {
 
@@ -437,7 +430,7 @@ public class OrderRestController {
 
     private boolean isPaymentMethodsValid(Order order, Offer offer) {
         PaymentMethod orderPaymentMethod = order.getPaymentMethod();
-        List<PaymentMethod> offerPaymentMethodsList = offer.getAvailablePaymentMethods();
+        Set<PaymentMethod> offerPaymentMethodsList = offer.getAvailablePaymentMethods();
         for (PaymentMethod offerPaymentMethod : offerPaymentMethodsList) {
             if (orderPaymentMethod == offerPaymentMethod) {
                 return true;

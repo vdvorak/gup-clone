@@ -7,12 +7,13 @@
             <div class='clearfix'></div>
             
 			<select-box ng-model="profile.type" items="{{ profile.contactTypes }}"></select-box>
-
+            
 			<div class="edit-profile-form-foto">
-				<input id="profile-upload-photo-inp" type="file" accept="image/*,image/jpeg" onchange="angular.element(this).controller().changeAvatar(this.files)">
+				<input id="uploadInput" type="file" accept="image/*,image/jpeg" onchange="angular.element(this).controller().changeAvatar(this.files)">
 				<p>{{(profile.user.avatar !== 'DEFAULT_IMAGE' && profile.user.avatar !== '') ? profile.user.avatar : 'Лого'}}</p>
 				<nice-button class="btn-blue" ng-mouseUp="profile.fileUpload()">Обзор</nice-button>
 			</div>
+            <div class="profile-logo-preview" ng-style="{'background-image': profile.resultImageURI}"></div>
             
             <div class='clearfix'></div>
             
@@ -31,6 +32,7 @@
             <div class='clearfix'></div>
             
 			<div class="social-link-container">
+                <p>Социальные сети</p>
 				<div data-social="LINKEDIN" style="background: url('../images/icon-linkedin.png')"></div>
 				<div data-social="FACEBOOK" style="background: url('../images/icon-facebook.png')"></div>
 				<div data-social="GOOGLEPLUS" style="background: url('../images/icon-google-plus.png')"></div>
@@ -47,4 +49,18 @@
 		</form>
         
 	</div>
+               
+   <div class="cropper-modal">
+       <div class="cropper-modal-close" ng-click="profile.cancelCropp()"></div>
+       <div class="cropper-cropp-area">
+           <img-crop 
+                     image="profile.originalImage" 
+                     result-image="profile.croppedImage" 
+                     area-type="square"
+                     result-image-format="image/jpeg"></img-crop>
+        </div>
+       <div ng-src={{profile.croppedImage}} style="width:200px;height:200px"></div>
+       <div class="btn-blue" ng-click="profile.cropImage()">ПОДТВЕРДИТЬ</div>
+   </div>
+               
 </section>

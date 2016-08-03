@@ -13,6 +13,14 @@ module.exports = function($scope, $timeout) {
       "Обмен"
     ]
     this.files = []
+
+    this.selectedCountry = "Страна"
+    this.selectedRegion = "Область"
+    this.selectedCity = "Город"
+
+    this.countries = ["Украина"]
+    this.regions = ["парам пам пам"]
+    this.cities = ["Киев"]
   }
 
   this.showFileUpload = function() {

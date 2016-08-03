@@ -58,6 +58,15 @@ section.editProfile {
 				line-height: 36px;
                 margin: 50px auto 0 auto;             
             }
+            
+            .profile-logo-preview{
+                width:21px;
+                height: 32px;
+                float: right;
+                background-size: contain; 
+                background-repeat: no-repeat;
+                margin: 7px 9px 0 0;
+            }
 			
 			&>.edit-profile-form-foto {
 				float: right;
@@ -91,7 +100,15 @@ section.editProfile {
 		}
 
 	  .social-link-container{
-		div{
+        
+          p {
+            float: left;
+            color: $input-placeholder-color;
+            font: 400 16px / 24.8px Roboto;
+            padding: 0 50px 0 5px;
+          }
+          
+        div{
 		  width: 24px;
 		  height: 24px;
 		  float: left;
@@ -107,4 +124,9 @@ section.editProfile {
 		height:0px;
 	  }
 	}
+    
+    .cropper-cropp-area{
+        width:500px;
+        height:350px;
+    }
 }

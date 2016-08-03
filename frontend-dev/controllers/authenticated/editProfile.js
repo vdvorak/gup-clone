@@ -44,6 +44,10 @@ class profileCtrl {
         this.user.aboutUs = this.user.aboutUs || "";
         //
         
+        this.resultImageURI = 'url(../images/avatar.jpg)';
+        this.originalImage = '';
+        this.croppedImage = '';
+        
         this.contactTypes = [
             'Физическое лицо',
             'Частный предприниматель',
@@ -65,12 +69,33 @@ class profileCtrl {
     
     fileUpload() {
         _$timeout(function(){
-            document.getElementById('profile-upload-photo-inp').click()
+            document.getElementById('uploadInput').click()
         })
     }
     
     changeAvatar(files){
-        angular.element(document.querySelector('.edit-profile-form-foto>p')).text(files[0].name);
+        var reader = new FileReader();
+        
+        reader.onload = (evt) => {
+            
+            _$timeout(() => {
+              this.originalImage = evt.target.result;
+            });
+            
+            angular.element(document.querySelector('.edit-profile-form-foto>p')).text(files[0].name)
+          
+        };
+        
+        reader.readAsDataURL(files[0]);
+    }
+    
+    cropImage(){
+        this.resultImageURI = this.croppedImage;
+    }
+    
+    cancelCrop(){
+        this.image = '';
+        this.croppedImage = '';
     }
     
     updateProfile($event){

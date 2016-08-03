@@ -451,6 +451,7 @@ header {
 		z-index: 1;
 		box-shadow: $boxShadow;
 		animation: animatetop .25s;
+		min-width: 195px;
 
 		&>div {
 			cursor: pointer;
@@ -1066,6 +1067,11 @@ section.bulletinAdd {
 	&>.selectBox {
 		margin-bottom: 45px;
 		margin-top: 15px;
+		
+		&:nth-of-type(6),
+		&:nth-of-type(5) {
+			margin-left: 28px;
+		}
 
 		&>.defaultValue {
 			border-color: grey;
@@ -1260,23 +1266,9 @@ nav {
 	z-index: 2;
 	position: absolute;
 
-	&>.map {
-		background: url(../images/map.png) no-repeat;
+	.map {
 		height: 145px;
 		width: 255px;
-
-		&>.inputForm {
-			width: 215px;
-			margin: 115px auto 0;
-
-			&.required {
-				border-color: black !important;
-			}
-
-			&>input, label, .textOut {
-				color: black !important;
-			}
-		}
 	}
 
 	&>ul {
