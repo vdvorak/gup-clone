@@ -75,7 +75,7 @@ class profileCtrl {
     changeAvatar(files){
         var reader = new FileReader();
         
-        reader.onload = function (evt) {
+        reader.onload = (evt) => {
             
             _$timeout(() => {
               this.image = evt.target.result;

@@ -18,7 +18,7 @@ let app = angular.module('gup', ['ngRoute', 'ngCookies', 'ngImgCrop'])
 
 // App config
 app
-  .config(['$routeProvider', '$locationProvider', function( $routeProvider, $locationProvider){
+  .config(['$routeProvider', '$locationProvider', '$httpProvider', function( $routeProvider, $locationProvider, $httpProvider){
     for(let key in router)
       $routeProvider.when(key, router[key])
 
@@ -30,6 +30,9 @@ app
       enabled : true,
       requireBase : false
     })
+    
+    $httpProvider.useApplyAsync(true);
+      
   }])
   .controller('mainCtrl', require('./controllers/main'))
   .controller('miniContacts', require('./controllers/authenticated/miniContacts'))
