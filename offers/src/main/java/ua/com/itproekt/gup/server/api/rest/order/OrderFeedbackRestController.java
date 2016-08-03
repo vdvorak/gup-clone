@@ -319,10 +319,7 @@ public class OrderFeedbackRestController {
         oldOrder.getOrderFeedback()
                 .setSellerComment(null)
                 .setSellerCommentDate(null)
-                .setSellerCommentDislikesCount(0)
-                .setSellerCommentLikesCount(0)
-                .setSellerCommentSpamCount(0);
-
+                .setSellerFeedbackOptions(null);
     }
 
 

@@ -126,3 +126,29 @@ module.exports.userLogout = function() {
     url : config.api.auth + config.routes.logout.url
   }).then(()=>{}, ()=>{})
 }
+
+module.exports.editProfile = function(data, cb){
+    ctx.transport({
+        method : config.routes.editProfile.method,
+        url : config.api.url + config.routes.editProfile.url,
+        data : data,
+        headers : {
+          "Content-Type" : "application/json",
+        }
+  })
+  .then(data => cb(null, data.data))
+  .catch(cb)
+}
+
+module.exports.uploadProfileAvatar = function(data, cb){
+    ctx.transport({
+        method : config.routes.editProfile.method,
+        url : config.api.url + config.routes.editProfile.url,
+        data : data,
+        headers : {
+          "Content-Type" : "application/json",
+        }
+  })
+  .then(data => cb(null, data.data))
+  .catch(cb)
+}

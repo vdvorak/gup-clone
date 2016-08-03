@@ -11,6 +11,7 @@ import java.time.ZoneOffset;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 //@CompoundIndexes({
 //    @CompoundIndex(name = "user_offers_idx", def = "{'authorId' : 1, 'reservation' : 1}"),// + сортировка
@@ -53,8 +54,8 @@ public class Offer {
     private Boolean canBeReserved;
     private Boolean canBeRented;
     private Integer maximumReservedPeriod;
-    private List<TransportCompany> availableShippingMethods;
-    private List<PaymentMethod> availablePaymentMethods;
+    private Set<TransportCompany> availableShippingMethods;
+    private Set<PaymentMethod> availablePaymentMethods;
 
     /**
      * This parameters for paid services
@@ -369,24 +370,63 @@ public class Offer {
         return this;
     }
 
-    public List<TransportCompany> getAvailableShippingMethods() {
+    public Set<TransportCompany> getAvailableShippingMethods() {
         return availableShippingMethods;
     }
 
-    public Offer setAvailableShippingMethods(List<TransportCompany> availableShippingMethods) {
+    public Offer setAvailableShippingMethods(Set<TransportCompany> availableShippingMethods) {
         this.availableShippingMethods = availableShippingMethods;
         return this;
     }
 
 
-    public List<PaymentMethod> getAvailablePaymentMethods() {
+    public Set<PaymentMethod> getAvailablePaymentMethods() {
         return availablePaymentMethods;
     }
 
-    public Offer setAvailablePaymentMethods(List<PaymentMethod> availablePaymentMethods) {
+    public Offer setAvailablePaymentMethods(Set<PaymentMethod> availablePaymentMethods) {
         this.availablePaymentMethods = availablePaymentMethods;
         return this;
     }
 
 
+    @Override
+    public String toString() {
+        return "Offer{" +
+                "id='" + id + '\'' +
+                ", authorId='" + authorId + '\'' +
+                ", userInfo=" + userInfo +
+                ", active=" + active +
+                ", createdDate=" + createdDate +
+                ", reservation=" + reservation +
+                ", views=" + views +
+                ", rent=" + rent +
+                ", seoUrl='" + seoUrl + '\'' +
+                ", seoKey='" + seoKey + '\'' +
+                ", categories=" + categories +
+                ", seoCategory='" + seoCategory + '\'' +
+                ", properties=" + properties +
+                ", imagesIds=" + imagesIds +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", currency=" + currency +
+                ", address=" + address +
+                ", priceCanBeNegotiated=" + priceCanBeNegotiated +
+                ", used=" + used +
+                ", canBeReserved=" + canBeReserved +
+                ", canBeRented=" + canBeRented +
+                ", maximumReservedPeriod=" + maximumReservedPeriod +
+                ", availableShippingMethods=" + availableShippingMethods +
+                ", availablePaymentMethods=" + availablePaymentMethods +
+                ", isMarked=" + isMarked +
+                ", urgent=" + urgent +
+                ", dateUntilTop=" + dateUntilTop +
+                ", lastUpdateDate=" + lastUpdateDate +
+                ", moderationStatus=" + moderationStatus +
+                ", lastModerationDate=" + lastModerationDate +
+                ", moderationMessage=" + moderationMessage +
+                '}';
+    }
 }

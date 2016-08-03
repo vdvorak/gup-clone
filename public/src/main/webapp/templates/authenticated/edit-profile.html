@@ -9,11 +9,11 @@
 			<select-box ng-model="profile.type" items="{{ profile.contactTypes }}"></select-box>
             
 			<div class="edit-profile-form-foto">
-				<input id="profile-upload-photo-inp" type="file" accept="image/*,image/jpeg" onchange="angular.element(this).controller().changeAvatar(this.files)">
+				<input id="uploadInput" type="file" accept="image/*,image/jpeg" onchange="angular.element(this).controller().changeAvatar(this.files)">
 				<p>{{(profile.user.avatar !== 'DEFAULT_IMAGE' && profile.user.avatar !== '') ? profile.user.avatar : 'Лого'}}</p>
 				<nice-button class="btn-blue" ng-mouseUp="profile.fileUpload()">Обзор</nice-button>
 			</div>
-            <div class="profile-logo-preview"></div>
+            <div class="profile-logo-preview" ng-style="profile.getCroppedImageSrc()"></div>
             
             <div class='clearfix'></div>
             
@@ -49,4 +49,18 @@
 		</form>
         
 	</div>
+               
+   <div class="cropper-modal">
+       <div class="cropper-modal-close"></div>
+       <div class="cropper-cropp-area">
+           <img-crop 
+                     image="profile.image" 
+                     result-image="profile.croppedImage" 
+                     area-type="square"
+                     change-on-fly="false"
+                     result-image-format="image/jpeg"></img-crop>
+        </div>
+       <div class="btn-blue">ПОДТВЕРДИТЬ</div>
+   </div>
+               
 </section>
