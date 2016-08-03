@@ -451,6 +451,7 @@ header {
 		z-index: 1;
 		box-shadow: $boxShadow;
 		animation: animatetop .25s;
+		min-width: 195px;
 
 		&>div {
 			cursor: pointer;
@@ -1066,6 +1067,11 @@ section.bulletinAdd {
 	&>.selectBox {
 		margin-bottom: 45px;
 		margin-top: 15px;
+		
+		&:nth-of-type(6),
+		&:nth-of-type(5) {
+			margin-left: 28px;
+		}
 
 		&>.defaultValue {
 			border-color: grey;
