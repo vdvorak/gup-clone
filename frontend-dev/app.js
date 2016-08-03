@@ -14,7 +14,7 @@ require("./modules/logger")()
 const materials = require('./modules/materials/index.js'),
       router = require('./modules/router')
 
-let app = angular.module('gup', ['ngRoute', 'ngCookies'])
+let app = angular.module('gup', ['ngRoute', 'ngCookies', 'ngImgCrop'])
 
 // App config
 app
@@ -34,7 +34,8 @@ app
   .controller('mainCtrl', require('./controllers/main'))
   .controller('miniContacts', require('./controllers/authenticated/miniContacts'))
   .directive('bulletinList', require('./directives/bulletinList'))
-
+  .directive('mapSmall', require('./directives/mapSmall'))
+  
 materials
   .init(app)
   .run()

@@ -25,11 +25,6 @@ module.exports = {
     controller: require('../controllers/authenticated/bulletinAdd'),
     controllerAs: "badd"
   },
-  '/socketTest' : {
-    templateUrl:"templates/socketTest.html",
-    controller: require('../controllers/socketTest'),
-    controllerAs: "socket"
-  },
   '/login' : {
     templateUrl: "templates/login.html",
     controller: require('../controllers/login'),

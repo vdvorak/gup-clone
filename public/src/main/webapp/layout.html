@@ -6,7 +6,8 @@
 	<link rel="stylesheet" href="lib/normalize.css">
 	<base href="/" />
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
-	<script src="lib/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/ng-img-crop.css">
+    <script src="lib/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
 <body ng-controller="mainCtrl as main" ng-init="main.init()" ng-click="main.click()">
 
@@ -74,10 +75,7 @@
 	<div class="navBtn" ng-click="main.displayFilters()" ></div>
 
 	<nav ng-show="main.showFilters">
-		<div class="map">
-		<div class="clearfix"></div>
-			<text class="required" ng-model="main.hello" label="Киевская обл." color="blue" validate="login.emailIsValid" isValid="login.emailValid"></text>
-		</div>
+		<map-small></map-small>
 		<ul>
 			<li ng-repeat="x in main.searchCategories" ng-click="main.curr(x.id)" ng-class="x.class">
 				<p>{{x.name}}</p>
@@ -137,6 +135,7 @@
 <script type="text/javascript" src="lib/angular.min.js"></script>
 <script type="text/javascript" src="lib/angular-route.js"></script>
 <script type="text/javascript" src="lib/angular-cookies.js"></script>
+<script type="text/javascript" src="lib/ng-img-crop.js"></script>
 
 <!-- JS BUILD -->
 <script type="text/javascript" src="app.js"></script>

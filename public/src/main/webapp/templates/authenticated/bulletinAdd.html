@@ -1,11 +1,14 @@
 <section class="bulletinAdd" ng-init="badd.init()">
 	<h2>Добавить объявление</h2>
-	<select-box ng-model="main.hello" items="{{ main.list }}"></select-box>
+	<select-box ng-model="main.hello" items="{{ main.list }}" style="visibility:hidden;"></select-box>
 	<div class="file clearfix">
 		<input id="uploadFile" type="file">
 		<p>Фото (можно несколько)</p>
 		<nice-button class="btn-blue" ng-mouseUp="badd.showFileUpload()">ОБЗОР</nice-button>
 	</div>
+	<select-box ng-model="badd.selectedCountry" items="{{ badd.countries }}"></select-box>
+	<select-box ng-model="badd.selectedRegion" items="{{ badd.regions }}"></select-box>
+	<select-box ng-model="badd.selectedCity" items="{{ badd.cities }}"></select-box>
 	<text class="required" ng-model="main.hello" label="Название" color="blue"></text>
 	<text ng-model="main.hello" label="Характеристика 1" color="blue"></text>
 	<text class="required" ng-model="main.hello" label="Характеристика 2" color="blue"></text>

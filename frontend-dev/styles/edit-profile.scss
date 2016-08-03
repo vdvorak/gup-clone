@@ -63,8 +63,8 @@ section.editProfile {
                 width:21px;
                 height: 32px;
                 float: right;
-                background: url(../images/avatar.jpg) no-repeat;
                 background-size: contain; 
+                background-repeat: no-repeat;
                 margin: 7px 9px 0 0;
             }
 			
@@ -124,4 +124,9 @@ section.editProfile {
 		height:0px;
 	  }
 	}
+    
+    .cropper-cropp-area{
+        width:500px;
+        height:350px;
+    }
 }
