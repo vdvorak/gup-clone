@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.bank_api.BankSession;
+import ua.com.itproekt.gup.model.login.FormLoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
@@ -18,6 +19,7 @@ import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Set;
 
@@ -110,42 +112,35 @@ public class ProfileRestController {
      */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/edit", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/profile/edit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Profile> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request) {
         if (!profilesService.profileExists(newProfile.getId())) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Profile oldProfile = profilesService.findById(newProfile.getId());
+        Profile  oldProfile = profilesService.findById(newProfile.getId());
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         if (newProfile.getIdSeoWord() != null) {
-
             if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
                 if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
                     changeUserType(newProfile, oldProfile);
                     profilesService.editProfile(newProfile);
                     return new ResponseEntity<>(HttpStatus.OK);
-                } else {
+                } else
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-                }
-            } else {
+            } else
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
-            }
-
-
         } else {
             if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
                 changeUserType(newProfile, oldProfile);
                 profilesService.editProfile(newProfile);
                 return new ResponseEntity<>(HttpStatus.OK);
-            } else {
+            } else
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
         }
     }
-
+    
     @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "/profile/email-check", method = RequestMethod.POST)

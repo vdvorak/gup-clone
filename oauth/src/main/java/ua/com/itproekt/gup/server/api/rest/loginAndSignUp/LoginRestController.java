@@ -124,19 +124,20 @@ public class LoginRestController {
         return (profilesService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
     }
 
-    @CrossOrigin
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Void> register(@RequestBody Profile profile) {
-        if (profilesService.profileExistsWithEmail(profile.getEmail())) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } else {
-            profilesService.createProfile(profile);
-            verificationTokenService.sendEmailRegistrationToken(profile.getId());
-
-
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        }
-    }
+//    @CrossOrigin
+//    @RequestMapping(value = "/register", method = RequestMethod.POST)
+//    public ResponseEntity<Void> register(@RequestBody Profile profile) {
+//        if (profilesService.profileExistsWithEmail(profile.getEmail())) {
+//            return new ResponseEntity<>(HttpStatus.CONFLICT);
+//        } else {
+//            profilesService.createProfile(profile);
+//            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+//
+//
+//            return new ResponseEntity<>(HttpStatus.CREATED);
+//        }
+//    }
+//
 //    @CrossOrigin
 //    @RequestMapping(value = "/register", method = RequestMethod.POST)
 //    public ResponseEntity<Boolean> register(@RequestBody ProfileInfo profileInfo) {
@@ -147,4 +148,25 @@ public class LoginRestController {
 //        VerificationToken verificationToken = verificationTokenService.sendEmailRegistrationToken(profileInfo.getProfile().getId());
 //        return new ResponseEntity<>(verificationToken.isVerified(), HttpStatus.CREATED);
 //    }
+//
+//    @CrossOrigin
+//    @RequestMapping(value = "/register", method = RequestMethod.POST)
+//    public ResponseEntity<Boolean> register(@RequestBody Profile profile) {
+//        if (profilesService.profileExistsWithEmail(profile.getEmail()))
+//            return new ResponseEntity<>(false, HttpStatus.CONFLICT);
+//
+//        profilesService.createProfile(profile);
+//        VerificationToken verificationToken = verificationTokenService.sendEmailRegistrationToken(profile.getId());
+//        return new ResponseEntity<>(verificationToken.isVerified(), HttpStatus.CREATED);
+//    }
+    @CrossOrigin
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<Void> register(@RequestBody Profile profile) {
+        if (profilesService.profileExistsWithEmail(profile.getEmail()))
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+
+        profilesService.createProfile(profile);
+        verificationTokenService.sendEmailRegistrationToken(profile.getId());
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }

@@ -1,6 +1,5 @@
 package ua.com.itproekt.gup.bank_api.repository;
 
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -13,11 +12,7 @@ import ua.com.itproekt.gup.bank_api.SecurityService;
 
 import java.net.URI;
 
-/**
- * Created by RAYANT on 23.10.2015.
- */
 public class UserRepository {
-
     private BankSession session;
 
     public BankSession getSession() {
@@ -29,11 +24,14 @@ public class UserRepository {
     }
 
     public UserRepository(BankSession session) {
-
         this.session = session;
     }
 
     public void saveUser(String login, String userPassword, String role) {
+
+        System.err.println("=====================================[saveUser]");
+        System.err.println("login: "+login+", userPassword: "+userPassword+", role: "+role+";");
+
         DefaultHttpClient client = new DefaultHttpClient();
         try {
             String host;
@@ -54,6 +52,8 @@ public class UserRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        System.err.println("=====================================");
     }
 
     public void updateUser(Long id, String login, String password, String role, String email, String firstName, String lastName, String phone) throws NullPointerException {

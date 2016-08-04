@@ -26,7 +26,7 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public void createProfile(Profile profile) {
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
-        HashSet<UserRole> userRoles = new HashSet<UserRole>() {{ //Fixme - чё?? мои глаза!!! Зачем хешсет?!
+        HashSet<UserRole> userRoles = new HashSet<UserRole>() {{
             add(UserRole.ROLE_USER);
         }};
 
