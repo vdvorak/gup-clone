@@ -73,6 +73,48 @@ public class ProfileRestController {
     }
 
     /**
+     * Update profile response entity.
+     *
+     * @param newProfile the new profile with id of entity in request body
+     * @return the response status
+     */
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/edit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Profile> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request) {
+//        if (!profilesService.profileExists(newProfile.getId())) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//
+//        Profile  oldProfile = profilesService.findById(newProfile.getId());
+//        String loggedUserId = SecurityOperations.getLoggedUserId();
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+        if (loggedUserId == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        Profile oldProfile = profilesService.findById(loggedUserId);
+
+        if (newProfile.getIdSeoWord() != null) {
+            if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
+                if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+                    changeUserType(newProfile, oldProfile);
+                    profilesService.editProfile(newProfile);
+                    return new ResponseEntity<>(HttpStatus.OK);
+                } else
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            } else
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } else {
+            if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+                changeUserType(newProfile, oldProfile);
+                profilesService.editProfile(newProfile);
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+    }
+
+    /**
      * Gets profile by username.
      *
      * @param username the username
@@ -102,43 +144,6 @@ public class ProfileRestController {
     public ResponseEntity<List<ProfileInfo>> listAllProfiles(@RequestBody ProfileFilterOptions profileFilterOptions) {
         List<ProfileInfo> profiles = profilesService.findAllPublicProfilesWithOptions(profileFilterOptions);
         return new ResponseEntity<>(profiles, HttpStatus.OK);
-    }
-
-    /**
-     * Update profile response entity.
-     *
-     * @param newProfile the new profile with id of entity in request body
-     * @return the response status
-     */
-    @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/edit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Profile> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request) {
-        if (!profilesService.profileExists(newProfile.getId())) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        Profile  oldProfile = profilesService.findById(newProfile.getId());
-        String loggedUserId = SecurityOperations.getLoggedUserId();
-
-        if (newProfile.getIdSeoWord() != null) {
-            if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
-                if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
-                    changeUserType(newProfile, oldProfile);
-                    profilesService.editProfile(newProfile);
-                    return new ResponseEntity<>(HttpStatus.OK);
-                } else
-                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            } else
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } else {
-            if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
-                changeUserType(newProfile, oldProfile);
-                profilesService.editProfile(newProfile);
-                return new ResponseEntity<>(HttpStatus.OK);
-            } else
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
     }
 
     @CrossOrigin
