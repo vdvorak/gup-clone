@@ -23,7 +23,11 @@ public class ProfileRestControllerTest {
     private final String           urlLogin = "http://localhost:9090/api/oauth/login";
     private final String          urlLogout = "http://localhost:9090/api/oauth/logout";
     private final String urlLoggedInProfile = "http://localhost:9090/api/rest/profilesService/profile/read/loggedInProfile";
+    private final String     urlProfileEdit = "http://localhost:9090/api/rest/profilesService/profile/edit";
     private final String        requestJson = "{\"email\":\"sss2@gmail.com\",\"password\":\"123456\"}";
+    private final String    requestEditJson = "{\"idSeoWord\":null,\"email\":\"sss2@gmail.com\",\"mainPhoneNumber\":\"\",\"username\":\"NEO\",\"imgId\":\"577530314c8eb310cacffc49\",\"contact\":{\"member\":false,\"naceId\":null,\"type\":\"INDIVIDUAL\",\"position\":\"\",\"companyName\":\"\",\"aboutUs\":\"\",\"skypeUserName\":\"\",\"linkToWebSite\":\"\",\"contactEmails\":[],\"contactPhones\":[],\"socNetLink\":{}},\"contactList\":[\"572368bffb644cbdbcf3cc1c\",\"575697a53880f94fe2ced184\"],\"userProfile\":{\"usreou\":null,\"bankCode\":null,\"vatNumber\":null,\"beneficiaryBank\":null,\"beneficiaryAccount\":null,\"legalEntityLocation\":null,\"idAddFile\":null},\"point\":0,\"profileRating\":[],\"confirmModerator\":null,\"userRoles\":[\"ROLE_USER\"],\"orderAddressList\":null}";
+    private final String   requestEditJson0 = "{\"idSeoWord\":null,\"email\":\"sss2@gmail.com\",\"mainPhoneNumber\":\"0000000\",\"username\":\"NEO\",\"imgId\":\"577530314c8eb310cacffc49\",\"contact\":{\"member\":false,\"naceId\":null,\"type\":\"INDIVIDUAL\",\"position\":\"\",\"companyName\":\"\",\"aboutUs\":\"\",\"skypeUserName\":\"\",\"linkToWebSite\":\"\",\"contactEmails\":[],\"contactPhones\":[],\"socNetLink\":{}},\"contactList\":[\"572368bffb644cbdbcf3cc1c\",\"575697a53880f94fe2ced184\"],\"userProfile\":{\"usreou\":null,\"bankCode\":null,\"vatNumber\":null,\"beneficiaryBank\":null,\"beneficiaryAccount\":null,\"legalEntityLocation\":null,\"idAddFile\":null},\"point\":0,\"profileRating\":[],\"confirmModerator\":null,\"userRoles\":[\"ROLE_USER\"],\"orderAddressList\":null}";
+    private final String   requestEditJson1 = "{\"idSeoWord\":null,\"email\":\"sss2@gmail.com\",\"mainPhoneNumber\":\"1111111\",\"username\":\"NEO\",\"imgId\":\"577530314c8eb310cacffc49\",\"contact\":{\"member\":false,\"naceId\":null,\"type\":\"INDIVIDUAL\",\"position\":\"\",\"companyName\":\"\",\"aboutUs\":\"\",\"skypeUserName\":\"\",\"linkToWebSite\":\"\",\"contactEmails\":[],\"contactPhones\":[],\"socNetLink\":{}},\"contactList\":[\"572368bffb644cbdbcf3cc1c\",\"575697a53880f94fe2ced184\"],\"userProfile\":{\"usreou\":null,\"bankCode\":null,\"vatNumber\":null,\"beneficiaryBank\":null,\"beneficiaryAccount\":null,\"legalEntityLocation\":null,\"idAddFile\":null},\"point\":0,\"profileRating\":[],\"confirmModerator\":null,\"userRoles\":[\"ROLE_USER\"],\"orderAddressList\":null}";
 
     @Before
     public void setUp() {
@@ -67,6 +71,46 @@ public class ProfileRestControllerTest {
         restTemplate.postForObject(urlLogin, new HttpEntity<>(requestJson, headers), ProfileInfo.class);
 
         ResponseEntity<ProfileInfo> actual = restTemplate.exchange(urlLoggedInProfile, HttpMethod.GET, new HttpEntity<>("", headers), ProfileInfo.class);
+        restTemplate.exchange(urlLogout, HttpMethod.GET, new HttpEntity<>("", headers), String.class);
+
+        assertThat(actual.getStatusCode(), equalTo(HttpStatus.OK));
+    }
+
+    /**
+     * test Edit-Profile Check
+     */
+    @Test
+    public void testProfileEditCheck() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        restTemplate.postForObject(urlLogin, new HttpEntity<>(requestJson, headers), ProfileInfo.class);
+
+        restTemplate.postForObject(urlProfileEdit, new HttpEntity<>(requestEditJson0, headers), String.class);
+        ProfileInfo             actual0 = restTemplate.postForObject(urlLogin, new HttpEntity<>(requestJson, headers), ProfileInfo.class);
+        String              expectedId0 = "575697a53880f94fe2ced184";
+        String expectedMainPhoneNumber0 = "0000000";
+        restTemplate.postForObject(urlProfileEdit, new HttpEntity<>(requestEditJson1, headers), String.class);
+        ProfileInfo             actual1 = restTemplate.postForObject(urlLogin, new HttpEntity<>(requestJson, headers), ProfileInfo.class);
+        String              expectedId1 = "575697a53880f94fe2ced184";
+        String expectedMainPhoneNumber1 = "1111111";
+        restTemplate.exchange(urlLogout, HttpMethod.GET, new HttpEntity<>("", headers), String.class);
+
+        assertThat(actual0.getProfile().getId(), equalTo(expectedId0));
+        assertThat(actual1.getProfile().getId(), equalTo(expectedId1));
+        assertThat(actual0.getProfile().getMainPhoneNumber(), equalTo(expectedMainPhoneNumber0));
+        assertThat(actual1.getProfile().getMainPhoneNumber(), equalTo(expectedMainPhoneNumber1));
+    }
+
+    /**
+     * test Edit-Profile Status
+     */
+    @Test
+    public void testProfileEditStatus() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        restTemplate.postForObject(urlLogin, new HttpEntity<>(requestJson, headers), ProfileInfo.class);
+
+        ResponseEntity<String> actual = restTemplate.exchange(urlProfileEdit, HttpMethod.POST, new HttpEntity<>(requestEditJson, headers), String.class);
         restTemplate.exchange(urlLogout, HttpMethod.GET, new HttpEntity<>("", headers), String.class);
 
         assertThat(actual.getStatusCode(), equalTo(HttpStatus.OK));
