@@ -13,6 +13,8 @@ public class ProfileInfo {
     private Profile profile;
     private Integer unreadEventsCount;
     private Integer unreadMessages;
+    private Integer userBalance;
+    private Integer userBonusBalance;
 
 
     public ProfileInfo() {
@@ -49,6 +51,26 @@ public class ProfileInfo {
         return this;
     }
 
+
+    public Integer getUserBalance() {
+        return userBalance;
+    }
+
+    public ProfileInfo setUserBalance(Integer userBalance) {
+        this.userBalance = userBalance;
+        return this;
+    }
+
+    public Integer getUserBonusBalance() {
+        return userBonusBalance;
+    }
+
+    public ProfileInfo setUserBonusBalance(Integer userBonusBalance) {
+        this.userBonusBalance = userBonusBalance;
+        return this;
+    }
+
+
     public List<ProfileInfo> getListOfPublicProfilesWithOptions(List<Profile> profileList) {
         List<ProfileInfo> profileInfoList = new ArrayList<>();
         for (Profile profile : profileList) {
@@ -82,12 +104,4 @@ public class ProfileInfo {
     }
 
 
-    @Override
-    public String toString() {
-        return "ProfileInfo{" +
-                "profile=" + profile +
-                ", unreadEventsCount=" + unreadEventsCount +
-                ", unreadMessages=" + unreadMessages +
-                '}';
-    }
 }
