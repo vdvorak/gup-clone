@@ -140,7 +140,7 @@ public class ProfileRestController {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
-    
+
     @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "/profile/email-check", method = RequestMethod.POST)
