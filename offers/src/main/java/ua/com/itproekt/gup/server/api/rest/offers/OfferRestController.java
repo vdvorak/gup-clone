@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.server.api.rest.dto.OfferInfo;
@@ -65,6 +66,12 @@ public class OfferRestController {
 
     //------------------------------------------ Create ----------------------------------------------------------------
 
+    /**
+     * Create new offer
+     *
+     * @param offer - must contain UserInfo
+     * @return
+     */
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -74,23 +81,27 @@ public class OfferRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        String userId;
-        if (SecurityOperations.isUserLoggedIn()) {
-            userId = SecurityOperations.getLoggedUserId();
-        } else {
-            if (profilesService.profileExistsWithEmail(offer.getUserInfo().getEmail())) {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            }
+        String userId = SecurityOperations.getLoggedUserId();
 
-            Profile profile = new Profile();
-            profile.setEmail(offer.getUserInfo().getEmail());
-            Set<UserRole> offerUserRoleSet = new HashSet<>();
-            offerUserRoleSet.add(UserRole.ROLE_OFFERS_USER_UNCONFIRMED);
-            profile.setUserRoles(offerUserRoleSet);
 
-            profilesService.createProfile(profile);
-            userId = profile.getId();
-        }
+
+        //FixME тут кто-то явно надеялся дать возможность создавать объявления незалогиненному человеку. Наивный. Можно удалять.
+//        if (SecurityOperations.isUserLoggedIn()) {
+//            userId = SecurityOperations.getLoggedUserId();
+//        } else {
+//            if (profilesService.profileExistsWithEmail(offer.getUserInfo().getEmail())) {
+//                return new ResponseEntity<>(HttpStatus.CONFLICT);
+//            }
+//
+//            Profile profile = new Profile();
+//            profile.setEmail(offer.getUserInfo().getEmail());
+//            Set<UserRole> offerUserRoleSet = new HashSet<>();
+//            offerUserRoleSet.add(UserRole.ROLE_OFFERS_USER_UNCONFIRMED);
+//            profile.setUserRoles(offerUserRoleSet);
+//
+//            profilesService.createProfile(profile);
+//            userId = profile.getId();
+//        }
 
         offer.setAuthorId(userId);
 
@@ -98,6 +109,15 @@ public class OfferRestController {
         long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
 
         SeoUtils.makeSeoFieldsForOffer(offer, longValueOfSeoKey);
+
+
+        if (offer.getPaidServices() == null){
+            PaidServices paidServices =  new PaidServices();
+            paidServices.setLastUpdateDateToCurrentDate();
+            offer.setPaidServices(paidServices);
+        }
+
+
 
         offersService.create(offer);
 

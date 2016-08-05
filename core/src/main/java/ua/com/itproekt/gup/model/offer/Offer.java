@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.model.offer;
 
 import org.springframework.data.annotation.Id;
+import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.util.PaymentMethod;
 import ua.com.itproekt.gup.util.TransportCompany;
 
@@ -57,13 +58,8 @@ public class Offer {
     private Set<TransportCompany> availableShippingMethods;
     private Set<PaymentMethod> availablePaymentMethods;
 
-    /**
-     * This parameters for paid services
-     */
-    private Boolean isMarked; // marked offer forever
-    private Boolean urgent; // marked offer with "urgent" forever
-    private Long dateUntilTop; // if dateUntilTop is later than date Now - offer will be in the TOP
-    private Long lastUpdateDate;
+
+    private PaidServices paidServices;
 
     private ModerationStatus moderationStatus;
     private Long lastModerationDate;
@@ -75,10 +71,7 @@ public class Offer {
         return this;
     }
 
-    public Offer setLastUpdateDateToCurrentDate() {
-        this.lastUpdateDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
-        return this;
-    }
+
 
     //--------------------------------------------------------------------------------
 
@@ -253,15 +246,6 @@ public class Offer {
         return this;
     }
 
-    public Boolean getUrgent() {
-        return urgent;
-    }
-
-    public Offer setUrgent(Boolean urgent) {
-        this.urgent = urgent;
-        return this;
-    }
-
     public Boolean getActive() {
         return active;
     }
@@ -343,33 +327,6 @@ public class Offer {
         return this;
     }
 
-    public Long getLastUpdateDate() {
-        return lastUpdateDate;
-    }
-
-    public Offer setLastUpdateDate(Long lastUpdateDate) {
-        this.lastUpdateDate = lastUpdateDate;
-        return this;
-    }
-
-    public Boolean getIsMarked() {
-        return isMarked;
-    }
-
-    public Offer setIsMarked(Boolean isMarked) {
-        this.isMarked = isMarked;
-        return this;
-    }
-
-    public Long getDateUntilTop() {
-        return dateUntilTop;
-    }
-
-    public Offer setDateUntilTop(Long dateUntilTop) {
-        this.dateUntilTop = dateUntilTop;
-        return this;
-    }
-
     public Set<TransportCompany> getAvailableShippingMethods() {
         return availableShippingMethods;
     }
@@ -389,6 +346,14 @@ public class Offer {
         return this;
     }
 
+    public PaidServices getPaidServices() {
+        return paidServices;
+    }
+
+    public Offer setPaidServices(PaidServices paidServices) {
+        this.paidServices = paidServices;
+        return this;
+    }
 
     @Override
     public String toString() {
@@ -420,10 +385,7 @@ public class Offer {
                 ", maximumReservedPeriod=" + maximumReservedPeriod +
                 ", availableShippingMethods=" + availableShippingMethods +
                 ", availablePaymentMethods=" + availablePaymentMethods +
-                ", isMarked=" + isMarked +
-                ", urgent=" + urgent +
-                ", dateUntilTop=" + dateUntilTop +
-                ", lastUpdateDate=" + lastUpdateDate +
+                ", paidServices=" + paidServices +
                 ", moderationStatus=" + moderationStatus +
                 ", lastModerationDate=" + lastModerationDate +
                 ", moderationMessage=" + moderationMessage +

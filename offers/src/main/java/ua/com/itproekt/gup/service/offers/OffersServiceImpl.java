@@ -50,7 +50,6 @@ public class OffersServiceImpl implements OffersService {
                 .setDescription(offer.getDescription())
                 .setPrice(offer.getPrice())
                 .setPriceCanBeNegotiated(offer.getPriceCanBeNegotiated())
-                .setUrgent(offer.getUrgent())
                 .setUsed(offer.getUsed())
                 .setActive(Boolean.TRUE)
                 .setAddress(offer.getAddress())
@@ -58,10 +57,9 @@ public class OffersServiceImpl implements OffersService {
                 .setCanBeReserved(offer.getCanBeReserved())
                 .setMaximumReservedPeriod(offer.getMaximumReservedPeriod())
                 .setCanBeRented(offer.getCanBeRented())
-                .setIsMarked(offer.getIsMarked())
-                .setDateUntilTop(offer.getDateUntilTop())
                 .setAvailableShippingMethods(offer.getAvailableShippingMethods())
-                .setAvailablePaymentMethods(offer.getAvailablePaymentMethods());
+                .setAvailablePaymentMethods(offer.getAvailablePaymentMethods())
+                .setPaidServices(offer.getPaidServices());
 
         offerRepository.create(newOffer);
 
@@ -120,17 +118,16 @@ public class OffersServiceImpl implements OffersService {
                 .setDescription(oldOffer.getDescription())
                 .setPrice(oldOffer.getPrice())
                 .setPriceCanBeNegotiated(oldOffer.getPriceCanBeNegotiated())
-                .setUrgent(oldOffer.getUrgent())
                 .setUsed(oldOffer.getUsed())
                 .setActive(oldOffer.getActive())
                 .setCanBeReserved(oldOffer.getCanBeReserved())
                 .setAddress(oldOffer.getAddress())
                 .setMaximumReservedPeriod(oldOffer.getMaximumReservedPeriod())
                 .setCurrency(oldOffer.getCurrency())
-                .setIsMarked(oldOffer.getIsMarked())
-                .setDateUntilTop(oldOffer.getDateUntilTop())
                 .setAvailableShippingMethods(oldOffer.getAvailableShippingMethods())
-                .setAvailablePaymentMethods(oldOffer.getAvailablePaymentMethods());
+                .setAvailablePaymentMethods(oldOffer.getAvailablePaymentMethods())
+                .setPaidServices(oldOffer.getPaidServices());
+
 
         return offerRepository.findAndUpdate(newOffer);
     }
