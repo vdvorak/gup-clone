@@ -94,9 +94,11 @@ public class ProfileRestController {
 
         Profile oldProfile = profilesService.findById(loggedUserId);
 
+        newProfile.setId(loggedUserId);
+
         if (newProfile.getIdSeoWord() != null) {
             if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
-                if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+                if (request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
                     changeUserType(newProfile, oldProfile);
                     profilesService.editProfile(newProfile);
                     return new ResponseEntity<>(HttpStatus.OK);
@@ -105,7 +107,7 @@ public class ProfileRestController {
             } else
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
-            if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+            if (request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
                 changeUserType(newProfile, oldProfile);
                 profilesService.editProfile(newProfile);
                 return new ResponseEntity<>(HttpStatus.OK);
@@ -205,6 +207,12 @@ public class ProfileRestController {
         return 0;
     }
 
+    /**
+     * Change userType in bank
+     *
+     * @param newProfile
+     * @param oldProfile
+     */
     private void changeUserType(Profile newProfile, Profile oldProfile) {
         if (!newProfile.getContact().getType().equals(oldProfile.getContact().getType())) {
             switch (newProfile.getContact().getType()) {
