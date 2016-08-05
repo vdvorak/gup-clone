@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.model.offer.Offer;
-import ua.com.itproekt.gup.model.offer.OfferUserContactInfo;
+import ua.com.itproekt.gup.util.OfferUserContactInfo;
 import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.offers.OffersService;
@@ -61,8 +61,7 @@ public class OfferReservationRestController {
                 .setUserContactInfo(new OfferUserContactInfo()
                         .setContactName(profile.getUsername())
                         .setEmail(profile.getEmail())
-                        .setPhoneNumbers(profile.getContact().getContactPhones())
-                        .setSkypeLogin(profile.getContact().getSkypeUserName()));
+                        .setPhoneNumbers(profile.getContact().getContactPhones()));
 
 
         if (bankSession.getUserBalance(userId) > 5*period) {

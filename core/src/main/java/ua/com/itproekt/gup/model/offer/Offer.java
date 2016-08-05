@@ -2,6 +2,7 @@ package ua.com.itproekt.gup.model.offer;
 
 import org.springframework.data.annotation.Id;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
+import ua.com.itproekt.gup.util.OfferUserContactInfo;
 import ua.com.itproekt.gup.util.PaymentMethod;
 import ua.com.itproekt.gup.util.TransportCompany;
 

@@ -11,7 +11,7 @@ public class PaidServices {
     private Boolean isCheaper; // marked offer with "cheaper"
 
     private Long lastPaidUpdateDate; // if offer must be on the top, value of this variable must be from the future
-    
+
     public PaidServices setLastUpdateDateToCurrentDate() {
         this.lastPaidUpdateDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;

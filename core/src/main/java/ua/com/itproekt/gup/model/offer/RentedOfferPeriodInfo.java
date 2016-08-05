@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.model.offer;
 
 import org.bson.types.ObjectId;
+import ua.com.itproekt.gup.util.OfferUserContactInfo;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
