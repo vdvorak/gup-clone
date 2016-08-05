@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.model.login.FormLoggedUser;
@@ -80,40 +81,31 @@ public class ProfileRestController {
      */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/edit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Profile> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request) {
-//        if (!profilesService.profileExists(newProfile.getId())) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//        Profile  oldProfile = profilesService.findById(newProfile.getId());
-//        String loggedUserId = SecurityOperations.getLoggedUserId();
+    @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
+    public ResponseEntity<Profile> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request) throws AuthenticationCredentialsNotFoundException {
         String loggedUserId = SecurityOperations.getLoggedUserId();
-        if (loggedUserId == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        Profile oldProfile = profilesService.findById(loggedUserId);
 
         newProfile.setId(loggedUserId);
+        Profile oldProfile = profilesService.findById(loggedUserId);
 
-        if (newProfile.getIdSeoWord() != null) {
-            if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
-                if (request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+        if( newProfile.getIdSeoWord() != null ){ //if( !newProfile.getIdSeoWord().equals(null) ){
+            if( profilesService.isSeoWordFree(newProfile.getIdSeoWord()) ){
+                if( oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString()) ){
                     changeUserType(newProfile, oldProfile);
                     profilesService.editProfile(newProfile);
                     return new ResponseEntity<>(HttpStatus.OK);
-                } else
-                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            } else
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } else {
-            if (request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
-                changeUserType(newProfile, oldProfile);
-                profilesService.editProfile(newProfile);
-                return new ResponseEntity<>(HttpStatus.OK);
-            } else
+                }
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+        if( oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString()) ){
+            changeUserType(newProfile, oldProfile);
+            profilesService.editProfile(newProfile);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     /**

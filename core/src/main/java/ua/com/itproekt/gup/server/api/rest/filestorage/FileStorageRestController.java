@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/rest/fileStorage") //@RequestMapping("/api/rest/fileStorage")
+@RequestMapping("/rest/fileStorage")
 public class FileStorageRestController {
     private static final Logger LOG = Logger.getLogger(FileStorageRestController.class);
 
@@ -34,6 +34,7 @@ public class FileStorageRestController {
      * @param cachedImage boolean parameter. If true - read cached image
      * @return return file
      */
+    @CrossOrigin
     @RequestMapping(value = "{serviceName}/file/read/id/{fileId}", method = RequestMethod.GET)
     public ResponseEntity<InputStreamResource>
     getById2(@PathVariable String serviceName, @PathVariable String fileId,
@@ -68,6 +69,7 @@ public class FileStorageRestController {
      * @return id of uploaded files
      */
     //ToDo поставить ПреАвторайз
+    @CrossOrigin
     @RequestMapping(value = "{serviceName}/file/upload", method = RequestMethod.POST)
     public ResponseEntity<CreatedObjResp>
     fileUpload(@PathVariable String serviceName, @RequestParam MultipartFile file) {
@@ -102,6 +104,7 @@ public class FileStorageRestController {
      */
     //ToDo поставить ПреАвторайз
     //ToDo boolean cachedImage заменить на параметр для определения Профиля или Оффера
+    @CrossOrigin
     @RequestMapping(value = "{serviceName}/photo/upload", method = RequestMethod.POST)
     public ResponseEntity<CreatedObjResp>
     photoUpload(@PathVariable String serviceName, @RequestParam MultipartFile file,
@@ -141,6 +144,7 @@ public class FileStorageRestController {
     }
 
 
+    @CrossOrigin
     @RequestMapping(value = "{serviceName}/file/delete/id/{fileId}", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteFile(@PathVariable String serviceName,
                                            @PathVariable String fileId) {
@@ -153,6 +157,7 @@ public class FileStorageRestController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @CrossOrigin
     @RequestMapping(value = "{serviceName}/file/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteFiles(@PathVariable String serviceName,
                                             @RequestParam(value = "fileId") Set<String> fileIds) {
