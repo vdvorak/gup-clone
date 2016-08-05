@@ -44,7 +44,7 @@ public class OffersTestController {
 //        offer.setAuthorInformation(authorInformation); ///////
         offer.setCanBeReserved(true);
         offer.setPrice(2_000_000);
-        offer.setUrgent(true);
+//        offer.setUrgent(true);
 
         offer.setCanBeRented(true);
             Rent rent = new Rent();
@@ -101,7 +101,7 @@ public class OffersTestController {
                 linkedHashSet.add("" + i % 14);
             offer.setCategories(linkedHashSet);
             offer.setPrice(100+i % 14);
-            offer.setUrgent(i % 10 == 1);
+//            offer.setUrgent(i % 10 == 1);
             offer.setActive(true);
             offer.setTitle("title title" + i % 7);
             offer.setDescription(" description  description  description  description  description  description  description  description " + i % 7);
