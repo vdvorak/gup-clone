@@ -110,14 +110,9 @@ public class OfferRestController {
 
         SeoUtils.makeSeoFieldsForOffer(offer, longValueOfSeoKey);
 
-
-        if (offer.getPaidServices() == null){
             PaidServices paidServices =  new PaidServices();
             paidServices.setLastUpdateDateToCurrentDate();
             offer.setPaidServices(paidServices);
-        }
-
-
 
         offersService.create(offer);
 

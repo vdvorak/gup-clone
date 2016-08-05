@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ua.com.itproekt.gup.dao.offers.OfferRepository;
 import ua.com.itproekt.gup.model.offer.*;
 import ua.com.itproekt.gup.service.offers.OffersService;
+import ua.com.itproekt.gup.util.OfferUserContactInfo;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,7 +28,7 @@ public class OffersTestController {
         OfferUserContactInfo offerUserContactInfo = new OfferUserContactInfo();
         offerUserContactInfo.setContactName("Kiril");
         offerUserContactInfo.setEmail("test@email");
-        offerUserContactInfo.setSkypeLogin("sdkfjckdskc");
+
 
         Offer offer = new Offer();
         offer.setAuthorId("564214c9b2d9c33c4d3bb31f");

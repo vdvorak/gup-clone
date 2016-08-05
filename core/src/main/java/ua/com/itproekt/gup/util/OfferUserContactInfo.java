@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.offer;
+package ua.com.itproekt.gup.util;
 
 
 import javax.validation.constraints.Size;
@@ -9,8 +9,7 @@ public class OfferUserContactInfo {
     private String contactName;
     private String email;
     private Set<String> phoneNumbers;
-    @Size(min = 5, max = 32)
-    private String skypeLogin;
+
 
     public String getEmail() {
         return email;
@@ -39,12 +38,12 @@ public class OfferUserContactInfo {
         return this;
     }
 
-    public String getSkypeLogin() {
-        return skypeLogin;
-    }
-
-    public OfferUserContactInfo setSkypeLogin(String skypeLogin) {
-        this.skypeLogin = skypeLogin;
-        return this;
+    @Override
+    public String toString() {
+        return "OfferUserContactInfo{" +
+                "contactName='" + contactName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumbers=" + phoneNumbers +
+                '}';
     }
 }
