@@ -164,7 +164,7 @@ SELECT * FROM bonus;
 CREATE OR REPLACE FUNCTION fn_check_internal_transactions("current_user_id" CHARACTER VARYING(50), by_type TEXT) RETURNS SETOF internal_transactions AS
   $BODY$
   BEGIN
-    RETURN QUERY SELECT * FROM internal_transactions i_t WHERE sender=current_user_id AND CAST(i_t.trans_type AS varchar(10)) LIKE by_type || '%';
+    RETURN QUERY SELECT * FROM internal_transactions i_t WHERE i_t.sender=current_user_id AND CAST(i_t.trans_type AS varchar(10)) LIKE by_type || '%';
   END;
   $BODY$
 LANGUAGE plpgsql;
