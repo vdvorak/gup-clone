@@ -113,8 +113,58 @@ SELECT fn_activate_invite_code('1a2a3a4a5a6a7a8a9a0abccd', 'sL2bKTh4vW5igYxkDN8p
 SELECT fn_activate_invite_code('1a2a3a4a5a6a7a8a9a0abccd', 'RMpBbHA1Jstn5A9YURw7oxhCr0Oy518SB64vxxLmTPIAPzwwOM') AS answer; -- SUCCESS
 
 
+CREATE OR REPLACE FUNCTION fn_check_bonus_amount("current_user_id" TEXT) RETURNS INTEGER AS
+  $BODY$
+  DECLARE
+    check_amount INTEGER := 0;
+
+  BEGIN
+    check_amount := (SELECT amount FROM bonus WHERE user_id=current_user_id);
+    RETURN check_amount;
+  END;
+  $BODY$
+LANGUAGE plpgsql;
+SELECT fn_check_bonus_amount('1a2a3a4a5a6a7a8a9a0abccd') AS amount;
+
+CREATE OR REPLACE FUNCTION fn_buy_bonus_account(IN "current_user_id" CHARACTER VARYING(50), IN "current_trans_type" INTEGER, IN "current_amount" BIGINT, IN "current_offer_id" INTEGER, OUT "status" character varying, OUT "details" character varying) RETURNS SETOF record AS
+  $BODY$
+  DECLARE
+    bonus_amount BIGINT := 0;
+
+  BEGIN
+    IF (SELECT count(*) FROM bonus WHERE user_id=current_user_id) = 0 THEN
+      status  := 'ERROR';
+      details := 'пользователь не существует';
+    ELSE
+      bonus_amount := (SELECT amount FROM bonus WHERE user_id=current_user_id);
+      IF bonus_amount < current_amount THEN
+        status  := 'ERROR';
+        details := 'недостаточно средств на бонусном счету';
+      ELSE
+        INSERT INTO internal_transactions(code,trans_type,sender,recipient,date_time,amount,status) VALUES (5555,current_trans_type,current_user_id,'organization',CURRENT_TIMESTAMP,current_amount,'id-объявления (' || current_offer_id || ')');
+        UPDATE bonus SET amount=(bonus_amount-current_amount) WHERE user_id=current_user_id;
+        status  := 'SUCCESS';
+        details := 'транзакция прошла успешно';
+      END IF;
+    END IF;
+    RETURN NEXT;
+  END;
+  $BODY$
+LANGUAGE plpgsql;
+SELECT fn_buy_bonus_account('cccccccccccccccccccccccc', 30, 100, 12345) AS answer;   -- пользователь не существует
+SELECT fn_buy_bonus_account('1b2b3b4b5b6b7b8b9b0abccd', 30, 100, 12345) AS answer;   -- транзакция прошла успешно
+SELECT fn_buy_bonus_account('1b2b3b4b5b6b7b8b9b0abccd', 30, 600, 12345) AS answer;   -- транзакция прошла успешно
+SELECT fn_buy_bonus_account('1b2b3b4b5b6b7b8b9b0abccd', 30, 601, 12345) AS answer;   -- недостаточно средств на бонусном счету
+SELECT fn_buy_bonus_account('1b2b3b4b5b6b7b8b9b0abccd', 30, 10000, 12345) AS answer; -- недостаточно средств на бонусном счету
+
+SELECT * FROM internal_transactions;
+SELECT * FROM bonus;
+
+
 DROP FUNCTION fn_generate_invite_code("length" INTEGER, "amount" AMOUNT);
 DROP FUNCTION fn_activate_invite_code("current_user_id" TEXT, "current_code" TEXT);
-DROP TABLE bonus;
+DROP FUNCTION fn_check_bonus_amount("current_user_id" TEXT);
+DROP FUNCTION fn_buy_bonus_account("current_user_id" CHARACTER VARYING(50), "current_trans_type" INTEGER, "current_amount" BIGINT, "current_offer_id" INTEGER);
 DROP TABLE invite_codes;
+DROP TABLE bonus;
 DROP TYPE AMOUNT;
