@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
+import ua.com.itproekt.gup.util.OfferUserContactInfo;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -41,6 +42,7 @@ public class Profile {
     private Long lastLoginDate;
 
     private List<OrderAddress> orderAddressList;
+    private List<OfferUserContactInfo> offerUserContactInfoList;
 
     public boolean hasUserRole(String userRole) {
         return EnumUtils.isValidEnum(UserRole.class, userRole);
@@ -225,6 +227,15 @@ public class Profile {
         return this;
     }
 
+    public List<OfferUserContactInfo> getOfferUserContactInfoList() {
+        return offerUserContactInfoList;
+    }
+
+    public Profile setOfferUserContactInfoList(List<OfferUserContactInfo> offerUserContactInfoList) {
+        this.offerUserContactInfoList = offerUserContactInfoList;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
@@ -246,6 +257,7 @@ public class Profile {
                 ", createdDate=" + createdDate +
                 ", lastLoginDate=" + lastLoginDate +
                 ", orderAddressList=" + orderAddressList +
+                ", offerUserContactInfoList=" + offerUserContactInfoList +
                 '}';
     }
 }

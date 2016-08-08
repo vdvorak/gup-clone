@@ -56,7 +56,10 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setProfileRating(new HashSet<>())
                 .setContactList(new HashSet<>())
                 .setUserProfile(new UserProfile())
-                .setContact(contact);
+                .setContact(contact)
+                .setOfferUserContactInfoList(null)
+                .setOrderAddressList(null);
+
     }
 
     @Override

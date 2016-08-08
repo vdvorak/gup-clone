@@ -5,12 +5,15 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.itproekt.gup.server.api.rest.dto.OfferRegistration;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.Set;
 
 public interface OffersService {
     void create(Offer offer);
+
+    void createWithRegistration(OfferRegistration offerRegistration);
 
     Offer findById(String offerId);
 

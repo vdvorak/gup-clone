@@ -11,11 +11,17 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.server.api.rest.dto.OfferRegistration;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
+import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.ServiceNames;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,14 +29,41 @@ import java.util.Set;
 public class OffersServiceImpl implements OffersService {
 
     @Autowired
+    ProfilesService profilesService;
+    @Autowired
+    VerificationTokenService verificationTokenService;
+    @Autowired
     private OfferRepository offerRepository;
-
     @Autowired
     private StorageRepository storageRepository;
-
     @Autowired
     private ActivityFeedService activityFeedService;
 
+
+    /**
+     * This method allow you to register new user and create offer at the same time.
+     *
+     * @param offerRegistration must contain offer, email and password
+     */
+    @Override
+    public void createWithRegistration(OfferRegistration offerRegistration) {
+
+        Profile profile = new Profile();
+
+        Set<UserRole> offerUserRoleSet = new HashSet<>();
+        offerUserRoleSet.add(UserRole.ROLE_OFFERS_USER_UNCONFIRMED);
+
+        profile
+                .setEmail(offerRegistration.getEmail())
+                .setPassword(offerRegistration.getPassword())
+                .setUserRoles(offerUserRoleSet);
+
+        profilesService.createProfile(profile);
+        verificationTokenService.sendEmailRegistrationToken(profile.getId());
+
+        offerRegistration.getOffer().setAuthorId(profile.getId());
+        create(offerRegistration.getOffer());
+    }
 
     @Override
     public void create(Offer offer) {

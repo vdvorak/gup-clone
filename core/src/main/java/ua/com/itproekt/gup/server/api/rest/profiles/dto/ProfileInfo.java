@@ -88,7 +88,10 @@ public class ProfileInfo {
                 .setContactList(null)
                 .setUserProfile(null)
                 .setOrderAddressList(null)
-                .setUserRoles(null);
+                .setUserRoles(null)
+                .setOfferUserContactInfoList(null);
+
+
         profileInfo.setUnreadEventsCount(null)
                 .setUnreadMessages(null);
         return profileInfo;
