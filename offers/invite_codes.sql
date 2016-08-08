@@ -161,10 +161,24 @@ SELECT * FROM internal_transactions;
 SELECT * FROM bonus;
 
 
+CREATE OR REPLACE FUNCTION fn_check_internal_transactions("current_user_id" CHARACTER VARYING(50), by_type TEXT) RETURNS SETOF internal_transactions AS
+  $BODY$
+  BEGIN
+    RETURN QUERY SELECT * FROM internal_transactions i_t WHERE sender=current_user_id AND CAST(i_t.trans_type AS varchar(10)) LIKE by_type || '%';
+  END;
+  $BODY$
+LANGUAGE plpgsql;
+SELECT fn_check_internal_transactions('1a2a3a4a5a6a7a8a9a0abccd', '');
+SELECT fn_check_internal_transactions('565c64e3e7b876fde83b7489', '');
+SELECT fn_check_internal_transactions('565c64e3e7b876fde83b7489', '1');
+SELECT fn_check_internal_transactions('565c64e3e7b876fde83b7489', '2');
+
+
 DROP FUNCTION fn_generate_invite_code("length" INTEGER, "amount" AMOUNT);
 DROP FUNCTION fn_activate_invite_code("current_user_id" TEXT, "current_code" TEXT);
 DROP FUNCTION fn_check_bonus_amount("current_user_id" TEXT);
 DROP FUNCTION fn_buy_bonus_account("current_user_id" CHARACTER VARYING(50), "current_trans_type" INTEGER, "current_amount" BIGINT, "current_offer_id" INTEGER);
+DROP FUNCTION fn_check_internal_transactions("current_user_id" CHARACTER VARYING(50), by_type TEXT);
 DROP TABLE invite_codes;
 DROP TABLE bonus;
 DROP TYPE AMOUNT;
