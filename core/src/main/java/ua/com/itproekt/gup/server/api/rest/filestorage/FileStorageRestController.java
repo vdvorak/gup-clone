@@ -97,7 +97,7 @@ public class FileStorageRestController {
 
 
     /**
-     * @param serviceName servicename in lowercase or in uppercase
+     * @param serviceName service name in lowercase or in uppercase
      * @param file        file
      * @param cachedImage boolean parameter. If true - read cached image
      * @return id of uploaded files

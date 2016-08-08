@@ -10,11 +10,12 @@ import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
-import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.server.api.rest.dto.OfferInfo;
+import ua.com.itproekt.gup.server.api.rest.dto.OfferRegistration;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
 import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.*;
@@ -23,8 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.HashSet;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/rest/offersService")
@@ -41,6 +40,9 @@ public class OfferRestController {
 
     @Autowired
     SubscriptionService subscriptionService;
+
+    @Autowired
+    VerificationTokenService verificationTokenService;
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
@@ -67,56 +69,38 @@ public class OfferRestController {
     //------------------------------------------ Create ----------------------------------------------------------------
 
     /**
-     * Create new offer
+     * Create new offer with registered or unregistered user
      *
-     * @param offer - must contain UserInfo
-     * @return
+     * @param offerRegistration - must contain Offer and optional email and password
+     * @return - status code 201 if Ok and created
      */
-    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResp> createOffer(@Valid @RequestBody Offer offer) {
-
-        if (offer.getUserInfo() == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<CreatedObjResp> createOffer(@Valid @RequestBody OfferRegistration offerRegistration) {
 
         String userId = SecurityOperations.getLoggedUserId();
+        // if user is not logged in
+        if (userId == null && offerRegistration.getEmail() != null) {
 
+            if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
 
+            offerSeoUrlAndPaidServicePreparator(offerRegistration);
+            offersService.createWithRegistration(offerRegistration);
 
-        //FixME тут кто-то явно надеялся дать возможность создавать объявления незалогиненному человеку. Наивный. Можно удалять.
-//        if (SecurityOperations.isUserLoggedIn()) {
-//            userId = SecurityOperations.getLoggedUserId();
-//        } else {
-//            if (profilesService.profileExistsWithEmail(offer.getUserInfo().getEmail())) {
-//                return new ResponseEntity<>(HttpStatus.CONFLICT);
-//            }
-//
-//            Profile profile = new Profile();
-//            profile.setEmail(offer.getUserInfo().getEmail());
-//            Set<UserRole> offerUserRoleSet = new HashSet<>();
-//            offerUserRoleSet.add(UserRole.ROLE_OFFERS_USER_UNCONFIRMED);
-//            profile.setUserRoles(offerUserRoleSet);
-//
-//            profilesService.createProfile(profile);
-//            userId = profile.getId();
-//        }
+            return new ResponseEntity<>(new CreatedObjResp(offerRegistration.getOffer().getSeoUrl()), HttpStatus.CREATED);
+        } else {
+            // if user is logged in
 
-        offer.setAuthorId(userId);
+            offerRegistration.getOffer().setAuthorId(userId);
 
+            offerSeoUrlAndPaidServicePreparator(offerRegistration);
 
-        long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
+            offersService.create(offerRegistration.getOffer());
 
-        SeoUtils.makeSeoFieldsForOffer(offer, longValueOfSeoKey);
-
-            PaidServices paidServices =  new PaidServices();
-            paidServices.setLastUpdateDateToCurrentDate();
-            offer.setPaidServices(paidServices);
-
-        offersService.create(offer);
-
-        return new ResponseEntity<>(new CreatedObjResp(offer.getSeoUrl()), HttpStatus.CREATED);
+            return new ResponseEntity<>(new CreatedObjResp(offerRegistration.getOffer().getSeoUrl()), HttpStatus.CREATED);
+        }
     }
 
     //------------------------------------------ Update ----------------------------------------------------------------
@@ -225,6 +209,20 @@ public class OfferRestController {
         offersService.edit(offer);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    /**
+     * Add SeoUrl to offer and create new PaidService in offer
+     *
+     * @param offerRegistration
+     */
+    private void offerSeoUrlAndPaidServicePreparator(OfferRegistration offerRegistration) {
+        long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
+        SeoUtils.makeSeoFieldsForOffer(offerRegistration.getOffer(), longValueOfSeoKey);
+
+        PaidServices paidServices = new PaidServices();
+        paidServices.setLastUpdateDateToCurrentDate();
+        offerRegistration.getOffer().setPaidServices(paidServices);
     }
 
 

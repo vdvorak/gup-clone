@@ -9,9 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 import java.util.UUID;
 
-/**
- * Created by Zver on 25.12.2015.
- */
+
 @Document
 public class VerificationToken {
     @Transient
