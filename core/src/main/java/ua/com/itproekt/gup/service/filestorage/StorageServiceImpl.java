@@ -4,10 +4,8 @@ import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
+import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Set;
 
 @Service
@@ -17,33 +15,33 @@ public class StorageServiceImpl implements StorageService {
     StorageRepository storageRepository;
 
     @Override
-    public String save(String serviceName, InputStream inputStream, String contentType, String filename) {
-        return storageRepository.save(serviceName, inputStream, contentType, filename);
-    }
-
-    @Override
-    public GridFSDBFile get(String serviceName, String fileId) {
-        return storageRepository.get(serviceName, fileId);
-    }
-
-    @Override
     public void delete(String serviceName, String fileId) {
-        storageRepository.delete(serviceName, fileId);
+
+        //ToDo логика подстановки filePath
+        // Сейчас тут костыль
+        String kostyl = null;
+
+        storageRepository.delete(serviceName, kostyl, fileId);
     }
 
     @Override
     public void delete(String serviceName, Set<String> fileIds) {
-        storageRepository.delete(serviceName, fileIds);
+
+        //ToDo логика подстановки filePath
+        // Сейчас тут костыль
+        String kostyl = null;
+
+        storageRepository.delete(serviceName,kostyl, fileIds);
     }
 
     @Override
-    public void cacheImage(String serviceName, String originalImageId, BufferedImage bufferedImage, String contentType, String originalFilename) throws IOException {
-        storageRepository.cacheImage( serviceName, originalImageId, bufferedImage, contentType, originalFilename);
+    public GridFSDBFile getCachedImage(String serviceName, String filePath, String fileId) {
+        return storageRepository.getCachedImage(serviceName, filePath, fileId);
     }
 
     @Override
-    public GridFSDBFile getCachedImage(String serviceName, String fileId) {
-        return storageRepository.getCachedImage(serviceName, fileId);
+    public String saveCachedImageProfile(FileUploadWrapper fileUploadWrapper) {
+        return storageRepository.saveCachedImageProfile(fileUploadWrapper);
     }
 
 }

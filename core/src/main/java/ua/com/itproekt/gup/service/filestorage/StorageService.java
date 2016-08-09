@@ -1,22 +1,44 @@
 package ua.com.itproekt.gup.service.filestorage;
 
 import com.mongodb.gridfs.GridFSDBFile;
+import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Set;
 
 public interface StorageService {
-    String save(String serviceName, InputStream inputStream, String contentType, String filename);
 
-    GridFSDBFile get(String serviceName, String fileId);
-
+    /**
+     * @param serviceName
+     * @param fileId
+     */
     void delete(String serviceName, String fileId);
 
+    /**
+     * @param serviceName
+     * @param fileIds
+     */
     void delete(String serviceName, Set<String> fileIds);
 
-    void cacheImage(String serviceName, String originalImageId, BufferedImage bufferedImage, String contentType, String originalFilename) throws IOException;
+    /**
+     * @param serviceName
+     * @param filePath
+     * @param fileId
+     * @return
+     */
+    GridFSDBFile getCachedImage(String serviceName, String filePath, String fileId);
 
-    GridFSDBFile getCachedImage(String serviceName, String fileId);
+    /**
+     * Save photo in two variants: large and small
+     *
+     * @return - id of image
+     */
+    String saveCachedImageProfile(FileUploadWrapper fileUploadWrapper);
+
+
+    /**
+     * Save photo in several size variants.
+     *
+     * @return - id of image
+     */
+//    String saveCachedImageOffer(FileUploadWrapper fileUploadWrapper);
 }
