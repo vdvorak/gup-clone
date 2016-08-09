@@ -17,6 +17,7 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -60,7 +61,18 @@ public class ProfileRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
-    public ResponseEntity<ProfileInfo> getLoggedUser() {
+    public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
+        System.err.println("This is the COOKIES!!!");
+
+        System.err.println("Cookie: " + request.getCookies().toString());
+
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            System.err.println("Cookie name: " + cookie.getName() + " value: " + cookie.getValue());
+        }
+
+
+
         String     loggedUserId = SecurityOperations.getLoggedUserId();
         ProfileInfo profileInfo = null;
         if (loggedUserId != null) {
