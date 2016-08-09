@@ -57,13 +57,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     public List<Order> findOrdersWihOptions(OrderFilterOptions orderFilterOptions) {
         Query query = new Query();
 
-        if (orderFilterOptions.getBuyerId() != null) {
-            query.addCriteria(Criteria.where("buyerId").is(orderFilterOptions.getBuyerId()));
-        }
 
-        if (orderFilterOptions.getSellerId() != null) {
-            query.addCriteria(Criteria.where("sellerId").is(orderFilterOptions.getSellerId()));
-        }
+        query.addCriteria(new Criteria().orOperator(
+                Criteria.where("buyerId").is(orderFilterOptions.getBuyerId()),
+                Criteria.where("sellerId").is(orderFilterOptions.getSellerId())));
+
 
         if (orderFilterOptions.getCreatedDateSortDirection() != null) {
             query.with(new Sort(Sort.Direction.fromString(orderFilterOptions.getCreatedDateSortDirection()), "startDate"));
