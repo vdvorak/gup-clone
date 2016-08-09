@@ -61,13 +61,15 @@ public class ProfileRestController {
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
     public ResponseEntity<ProfileInfo> getLoggedUser() {
+        String     loggedUserId = SecurityOperations.getLoggedUserId();
         ProfileInfo profileInfo = null;
-
-        String loggedUserId = SecurityOperations.getLoggedUserId();
         if (loggedUserId != null) {
             profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(loggedUserId);
-            profileInfo.setUserBalance(bankSession.getUserBalance(loggedUserId));
             //FixMe - в будущем добавить вывод бонусного счёта
+////            bankSession.getUserBalance(loggedUserId);
+////            System.err.println("getUserBalance");
+//            profileInfo.setUserBalance(bankSession.getUserBalance(loggedUserId));
+//            System.err.println("setUserBalance");
         }
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);

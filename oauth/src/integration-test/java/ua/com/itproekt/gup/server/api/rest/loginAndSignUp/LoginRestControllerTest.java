@@ -53,7 +53,7 @@ public class LoginRestControllerTest {
     /**
      * test Login-Status
      */
-    @Test
+    @Test(timeout = 5000)
     public void testLoginStatus() {
         HttpHeaders            headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -66,7 +66,7 @@ public class LoginRestControllerTest {
     /**
      * test Login-Response
      */
-    @Test
+    @Test(timeout = 5000)
     public void testLoginResponse() {
         HttpHeaders             headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -85,7 +85,7 @@ public class LoginRestControllerTest {
     /**
      * test Logout-Status
      */
-    @Test
+    @Test(timeout = 5000)
     public void testLogoutStatus() {
         HttpHeaders           headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -95,5 +95,4 @@ public class LoginRestControllerTest {
 
         assertThat(actual.getStatusCode(), equalTo(HttpStatus.OK));
     }
-
 }
