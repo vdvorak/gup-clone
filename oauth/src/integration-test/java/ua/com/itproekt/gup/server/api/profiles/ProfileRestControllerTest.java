@@ -43,7 +43,7 @@ public class ProfileRestControllerTest {
     /**
      * test Logged-In Profile-Response
      */
-    @Test
+    @Test(timeout = 5000)
     public void testLoggedInProfileResponse() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -64,7 +64,7 @@ public class ProfileRestControllerTest {
     /**
      * test Logged-In Profile-Status
      */
-    @Test
+    @Test(timeout = 5000)
     public void testLoggedInProfileStatus() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -79,7 +79,7 @@ public class ProfileRestControllerTest {
     /**
      * test Edit-Profile Check
      */
-    @Test
+    @Test(timeout = 20000)
     public void testProfileEditCheck() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -104,7 +104,7 @@ public class ProfileRestControllerTest {
     /**
      * test Edit-Profile Status
      */
-    @Test
+    @Test(timeout = 5000)
     public void testProfileEditStatus() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
