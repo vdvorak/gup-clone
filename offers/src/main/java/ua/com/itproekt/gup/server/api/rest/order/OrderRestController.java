@@ -80,7 +80,7 @@ public class OrderRestController {
      */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
-    @RequestMapping(value = "/order/read/all", method = RequestMethod.GET,
+    @RequestMapping(value = "/order/read/all", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Order>> getOrderById(@Valid @RequestBody OrderFilterOptions orderFilterOptions) {
 

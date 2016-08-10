@@ -39,7 +39,6 @@ public class ProfileInfo {
         this.profile = profile;
     }
 
-
     public Integer getUnreadMessages() {
         return unreadMessages;
     }
@@ -48,7 +47,6 @@ public class ProfileInfo {
         this.unreadMessages = unreadMessages;
         return this;
     }
-
 
     public Integer getUserBalance() {
         return userBalance;

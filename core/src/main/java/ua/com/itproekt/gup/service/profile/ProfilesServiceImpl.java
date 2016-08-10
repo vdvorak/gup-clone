@@ -16,8 +16,10 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Autowired
     PasswordEncoder passwordEncoder;
     BankSession bankSession = new BankSession();
+
     @Autowired
     private ProfileRepository profileRepository;
+
 
     //ToDo  make this work after we will repair oauth
 //    @Autowired
@@ -425,6 +427,5 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setOrderAddressList(null);
 
     }
-
 
 }
