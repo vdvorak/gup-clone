@@ -106,10 +106,9 @@ public class FileStorageRestController {
     //ToDo boolean cachedImage заменить на параметр для определения Профиля или Оффера
     @CrossOrigin
     @RequestMapping(value = "{serviceName}/photo/upload", method = RequestMethod.POST)
-    public ResponseEntity<CreatedObjResp>
-    photoUpload(@PathVariable String serviceName, @RequestParam MultipartFile file,
-                @RequestParam(required = false, defaultValue = "false") boolean cachedImage) {
-
+    public ResponseEntity<CreatedObjResp> photoUpload(@PathVariable String serviceName,
+                                                      @RequestParam MultipartFile file,
+                                                      @RequestParam(required = false, defaultValue = "false") boolean cachedImage) {
         if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
