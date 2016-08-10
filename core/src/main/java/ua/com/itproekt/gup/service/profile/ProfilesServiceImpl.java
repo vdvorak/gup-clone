@@ -23,6 +23,9 @@ public class ProfilesServiceImpl implements ProfilesService {
 //    @Autowired
 //    private SessionRegistry sessionRegistry;
 
+    /**
+     * @param profile the profile
+     */
     @Override
     public void createProfile(Profile profile) {
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
@@ -44,74 +47,100 @@ public class ProfilesServiceImpl implements ProfilesService {
         profile.setId(newProfile.getId());
     }
 
-    private void setEmptyFieldsForNewUser(Profile newProfile) {
-        Contact contact = new Contact();
-        contact.setType(UserType.INDIVIDUAL);
-        contact.setContactEmails(new HashSet<>());
-        contact.setContactPhones(new HashSet<>());
-        contact.setNaceId(new ArrayList<>());
-        contact.setSocNetLink(new HashMap<>());
 
-        newProfile.setPoint(0)
-                .setProfileRating(new HashSet<>())
-                .setContactList(new HashSet<>())
-                .setUserProfile(new UserProfile())
-                .setContact(contact)
-                .setOfferUserContactInfoList(null)
-                .setOrderAddressList(null);
-
-    }
-
+    /**
+     * @param id
+     * @return
+     */
     @Override
     public Profile findById(String id) {
         return profileRepository.findById(id);
     }
 
+    /**
+     * @param id the id
+     * @return
+     */
     @Override
     public Profile findWholeProfileById(String id) {
         return profileRepository.findById(id);
     }
 
+    /***
+     * @param profile
+     * @return
+     */
     @Override
     public Profile editProfile(Profile profile) {
         return profileRepository.findProfileAndUpdate(profile);
     }
 
+    /***
+     * @param id the id
+     */
     @Override
     public void deleteProfileById(String id) {
         profileRepository.deleteProfileById(id);
     }
 
+    /***
+     * @param id the id
+     * @return
+     */
     @Override
     public boolean profileExists(String id) {
         return profileRepository.profileExists(id);
     }
 
+    /**
+     * @param email the email
+     * @return
+     */
     @Override
     public boolean profileExistsWithEmail(String email) {
         return profileRepository.profileExistsWithEmail(email);
     }
 
+    /***
+     * @param profileFilterOptions the profile filter options
+     * @return
+     */
     @Override
     public List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions) {
         return profileRepository.findAllProfiles(profileFilterOptions);
     }
 
+    /**
+     * @param username the username
+     * @return
+     */
     @Override
     public Profile findProfileByUsername(String username) {
         return profileRepository.findByUsername(username);
     }
 
+    /**
+     * @param email the email
+     * @return
+     */
     @Override
     public Profile findProfileByEmail(String email) {
         return profileRepository.findByEmail(email);
     }
 
+    /**
+     * @param email
+     * @return
+     */
     @Override
     public Profile findWholeProfileByEmail(String email) {
         return profileRepository.findByEmail(email);
     }
 
+    /**
+     * @param user
+     * @return
+     */
     @Override
     public boolean isUserModerator(Profile user) {
         Set<UserRole> userRoleSet = user.getUserRoles();
@@ -123,18 +152,30 @@ public class ProfilesServiceImpl implements ProfilesService {
         return false;
     }
 
+    /**
+     * @param userId
+     * @return
+     */
     @Override
     public boolean isUserAdminById(String userId) {
         Profile profile = profileRepository.findById(userId);
         return isUserModerator(profile);
     }
 
+    /**
+     * @param seoWord
+     * @return
+     */
     @Override
     public boolean isSeoWordFree(String seoWord) {
         Profile profile = profileRepository.findBySeoWord(seoWord);
         return profile == null;
     }
 
+    /**
+     * @param profileId     the profile id
+     * @param profileRating the profile rating
+     */
     @Override
     public void createProfileRating(String profileId, ProfileRating profileRating) {
         ProfileRating newProfileRating = new ProfileRating()
@@ -147,16 +188,31 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileRating.setProfileRatingId(newProfileRating.getProfileRatingId());
     }
 
+    /**
+     * @param profileId       the profile id
+     * @param profileRatingId the profile rating id
+     * @return
+     */
     @Override
     public int deleteProfileRating(String profileId, String profileRatingId) {
         return profileRepository.deleteProfileRating(profileId, profileRatingId);
     }
 
+    /**
+     * @param profileId       the profile id
+     * @param profileRatingId the profile rating id
+     * @return
+     */
     @Override
     public Profile findProfileRating(String profileId, String profileRatingId) {
         return profileRepository.findProfileRating(profileId, profileRatingId);
     }
 
+    /**
+     * @param profileId       the profile id
+     * @param profileRatingId the profile rating id
+     * @return
+     */
     @Override
     public boolean profileRatingExists(String profileId, String profileRatingId) {
         return profileRepository.profileRatingExists(profileId, profileRatingId);
@@ -167,21 +223,37 @@ public class ProfilesServiceImpl implements ProfilesService {
 //        profileRepository.addFriend(profileId, friendProfileId);
 //    }
 
+    /**
+     * @param term
+     * @return
+     */
     @Override
     public Set<String> getMatchedNames(String term) {
         return profileRepository.getMatchedNames(term);
     }
 
+    /**
+     * @param term
+     * @return
+     */
     @Override
     public List<Profile> getMatchedNamesWithIds(String term) {
         return profileRepository.getMatchedNamesToFindWithId(term);
     }
 
+    /**
+     * @param term
+     * @return
+     */
     @Override
     public List<Profile> getMatchedCompanies(String term) {
         return profileRepository.getMatchedCompanies(term);
     }
 
+    /**
+     * @param profileOwnerContactListId
+     * @param contactId
+     */
     @Override
     public void addContactToContactList(String profileOwnerContactListId, String contactId) {
         profileRepository.addContactToContactList(profileOwnerContactListId, contactId);
@@ -203,11 +275,19 @@ public class ProfilesServiceImpl implements ProfilesService {
         return false;
     }
 
+    /**
+     * @param id
+     * @return
+     */
     @Override
     public ProfileInfo findPrivateProfileById(String id) {
-        return new ProfileInfo().getPrivateProfile(findById(id));
+        return prepareAdditionalFieldForPrivate(findById(id));
     }
 
+    /**
+     * @param id
+     * @return
+     */
     @Override
     public ProfileInfo findPrivateProfileByIdAndUpdateLastLoginDate(String id) {
 
@@ -215,36 +295,136 @@ public class ProfilesServiceImpl implements ProfilesService {
         profile.setLastLoginDateEqualsToCurrentDate();
         profileRepository.findProfileAndUpdate(profile);
 
-        return new ProfileInfo().getPrivateProfile(profile);
+        return prepareAdditionalFieldForPrivate(profile);
     }
 
+    /**
+     * @param email
+     * @return
+     */
     @Override
     public ProfileInfo findPrivateProfileByEmail(String email) {
-        return new ProfileInfo().getPrivateProfile(findProfileByEmail(email));
+        return prepareAdditionalFieldForPrivate(findProfileByEmail(email));
     }
 
+    /**
+     * @param email
+     * @return
+     */
     @Override
     public ProfileInfo findPublicProfileByEmailAndUpdateLastLoginDate(String email) {
+
         Profile profile = findProfileByEmail(email);
         profile.setLastLoginDateEqualsToCurrentDate();
         profileRepository.findProfileAndUpdate(profile);
 
-        return new ProfileInfo().getPrivateProfile(profile);
+        return prepareAdditionalFieldForPublic(profile);
     }
 
+    /**
+     * @param id
+     * @return
+     */
     @Override
     public ProfileInfo findPublicProfileById(String id) {
-        return new ProfileInfo().getPublicProfile(findById(id));
+        return prepareAdditionalFieldForPublic(findById(id));
     }
 
-
+    /**
+     * @param email
+     * @return
+     */
     @Override
     public ProfileInfo findPublicProfileByEmail(String email) {
-        return new ProfileInfo().getPublicProfile(findProfileByEmail(email));
+        return prepareAdditionalFieldForPublic(findProfileByEmail(email));
     }
 
+    /**
+     * @param profileFilterOptions
+     * @return
+     */
     @Override
     public List<ProfileInfo> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions) {
-        return new ProfileInfo().getListOfPublicProfilesWithOptions(profileRepository.findAllProfiles(profileFilterOptions));
+        return getListOfPublicProfilesWithOptions(profileRepository.findAllProfiles(profileFilterOptions));
     }
+
+    /**
+     * @param profile
+     * @return
+     */
+    private ProfileInfo prepareAdditionalFieldForPrivate(Profile profile) {
+        ProfileInfo profileInfo = new ProfileInfo(profile);
+
+
+        // ToDo impl all of this!
+        profileInfo
+                .setUserBalance(0)
+                .setUserBonusBalance(0)
+                .setUnreadMessages(0)
+                .setUnreadMessages(0)
+                .setUserAveragePoints(5);
+
+        profileInfo.getProfile().setPassword(null);
+        return profileInfo;
+    }
+
+    /**
+     * @param profile
+     * @return
+     */
+    private ProfileInfo prepareAdditionalFieldForPublic(Profile profile) {
+        ProfileInfo profileInfo = new ProfileInfo(profile);
+
+        profileInfo.getProfile()
+                .setEmail(null)
+                .setPassword(null)
+                .setContactList(null)
+                .setUserProfile(null)
+                .setOrderAddressList(null)
+                .setUserRoles(null)
+                .setOfferUserContactInfoList(null);
+
+        profileInfo.setUserBalance(null)
+                .setUserBonusBalance(null)
+                .setUnreadMessages(null)
+                .setUnreadMessages(null)
+                .setUserAveragePoints(5); // ToDo impl this!
+
+        return profileInfo;
+    }
+
+    /**
+     * @param profileList
+     * @return
+     */
+    private List<ProfileInfo> getListOfPublicProfilesWithOptions(List<Profile> profileList) {
+        List<ProfileInfo> profileInfoList = new ArrayList<>();
+        for (Profile profile : profileList) {
+            profileInfoList.add(prepareAdditionalFieldForPublic(profile));
+        }
+        return profileInfoList;
+    }
+
+    /**
+     * @param newProfile
+     */
+    private void setEmptyFieldsForNewUser(Profile newProfile) {
+        Contact contact = new Contact();
+        contact.setType(UserType.INDIVIDUAL);
+        contact.setContactEmails(new HashSet<>());
+        contact.setContactPhones(new HashSet<>());
+        contact.setNaceId(new ArrayList<>());
+        contact.setSocNetLink(new HashMap<>());
+
+        newProfile.setPoint(0)
+                .setProfileRating(new HashSet<>())
+                .setContactList(new HashSet<>())
+                .setUserProfile(new UserProfile())
+                .setContact(contact)
+                .setOfferUserContactInfoList(null)
+                .setOrderAddressList(null);
+
+    }
+
+
 }

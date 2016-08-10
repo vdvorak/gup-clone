@@ -182,20 +182,45 @@ public interface ProfilesService {
      */
     boolean isUserOnline(String userId);
 
-
+    /**
+     * @param id
+     * @return
+     */
     ProfileInfo findPublicProfileById(String id);
 
-
+    /**
+     * @param email
+     * @return
+     */
     ProfileInfo findPublicProfileByEmail(String email);
+
+    /**
+     * @param email
+     * @return
+     */
     ProfileInfo findPublicProfileByEmailAndUpdateLastLoginDate(String email);
 
-
+    /**
+     * @param id
+     * @return
+     */
     ProfileInfo findPrivateProfileById(String id);
 
+    /**
+     * @param id
+     * @return
+     */
     ProfileInfo findPrivateProfileByIdAndUpdateLastLoginDate(String id);
 
-
+    /**
+     * @param email
+     * @return
+     */
     ProfileInfo findPrivateProfileByEmail(String email);
 
+    /**
+     * @param profileFilterOptions
+     * @return
+     */
     List<ProfileInfo> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions);
 }
