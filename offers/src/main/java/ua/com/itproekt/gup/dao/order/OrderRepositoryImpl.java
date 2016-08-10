@@ -53,16 +53,18 @@ public class OrderRepositoryImpl implements OrderRepository {
         return result.getN();
     }
 
+
+    /**
+     *
+     * @param orderFilterOptions
+     * @return
+     */
     @Override
     public List<Order> findOrdersWihOptions(OrderFilterOptions orderFilterOptions) {
         Query query = new Query();
 
-        if (orderFilterOptions.getBuyerId() != null) {
-            query.addCriteria(Criteria.where("buyerId").is(orderFilterOptions.getBuyerId()));
-        }
-
-        if (orderFilterOptions.getSellerId() != null) {
-            query.addCriteria(Criteria.where("sellerId").is(orderFilterOptions.getSellerId()));
+        if (orderFilterOptions.getOfferId() != null) {
+            query.addCriteria(Criteria.where("offerId").is(orderFilterOptions.getOfferId()));
         }
 
         if (orderFilterOptions.getCreatedDateSortDirection() != null) {
@@ -72,6 +74,22 @@ public class OrderRepositoryImpl implements OrderRepository {
 
         query.skip(orderFilterOptions.getSkip());
         query.limit(orderFilterOptions.getLimit());
+
+
+        if (orderFilterOptions.getBuyerId() != null && orderFilterOptions.getSellerId() != null) {
+            query.addCriteria(new Criteria().orOperator(
+                    Criteria.where("buyerId").is(orderFilterOptions.getBuyerId()),
+                    Criteria.where("sellerId").is(orderFilterOptions.getSellerId())));
+            return mongoTemplate.find(query, Order.class);
+        }
+
+        if (orderFilterOptions.getBuyerId() != null) {
+            query.addCriteria(Criteria.where("buyerId").is(orderFilterOptions.getBuyerId()));
+        }
+
+        if (orderFilterOptions.getSellerId() != null) {
+            query.addCriteria(Criteria.where("sellerId").is(orderFilterOptions.getSellerId()));
+        }
 
         return mongoTemplate.find(query, Order.class);
     }

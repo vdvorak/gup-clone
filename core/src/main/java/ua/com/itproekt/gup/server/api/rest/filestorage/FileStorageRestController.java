@@ -8,15 +8,20 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
+import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.LogUtil;
+import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.ServiceNames;
 
-import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Set;
 
 @RestController
@@ -27,29 +32,31 @@ public class FileStorageRestController {
     @Autowired
     private StorageService storageService;
 
+    @Autowired
+    private ProfilesService profilesService;
+
 
     /**
-     * @param serviceName servicename in lowercase or in uppercase
-     * @param fileId      file ID to read
-     * @param cachedImage boolean parameter. If true - read cached image
-     * @return return file
+     * @param serviceName
+     * @param fileId
+     * @param cachedSize  - for Profile: large, small. For Offer: large, medium, small.
+     * @return
      */
     @CrossOrigin
-    @RequestMapping(value = "{serviceName}/file/read/id/{fileId}", method = RequestMethod.GET)
+    @RequestMapping(value = "{serviceName}/photo/read/id/{fileId}", method = RequestMethod.GET)
     public ResponseEntity<InputStreamResource>
-    getById2(@PathVariable String serviceName, @PathVariable String fileId,
-             @RequestParam(required = false, defaultValue = "false") boolean cachedImage) {
+    getById(@PathVariable String serviceName, @PathVariable String fileId,
+            @RequestParam(required = true, defaultValue = "large") String cachedSize) {
 
-        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
+        if (!isServiceNameAndRequestParamValid(serviceName, cachedSize)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         GridFSDBFile gridFSDBFile;
-        if (cachedImage) {
-            gridFSDBFile = storageService.getCachedImage(serviceName.toUpperCase(), fileId);
-        } else {
-            gridFSDBFile = storageService.get(serviceName.toUpperCase(), fileId);
-        }
+
+        String path = ".file.storage." + cachedSize + ".cache";
+
+        gridFSDBFile = storageService.getCachedImage(serviceName, path, fileId);
 
         if (gridFSDBFile != null) {
             return ResponseEntity.ok()
@@ -62,110 +69,124 @@ public class FileStorageRestController {
         }
     }
 
-    /**
-     * @param serviceName servicename in lowercase or in uppercase
-     * @param file        file
-     * @param cachedImage boolean parameter. If true - read cached image
-     * @return id of uploaded files
-     */
-    //ToDo поставить ПреАвторайз
-    @CrossOrigin
-    @RequestMapping(value = "{serviceName}/file/upload", method = RequestMethod.POST)
-    public ResponseEntity<CreatedObjResp>
-    fileUpload(@PathVariable String serviceName, @RequestParam MultipartFile file) {
-
-        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        if (!file.isEmpty()) {
-            try {
-                String uploadedFileId = storageService.save(serviceName.toUpperCase(),
-                        file.getInputStream(),
-                        file.getContentType(),
-                        file.getOriginalFilename());
-
-                return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
-            } catch (IOException ex) {
-                LOG.error(LogUtil.getExceptionStackTrace(ex));
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
 
     /**
      * @param serviceName service name in lowercase or in uppercase
      * @param file        file
-     * @param cachedImage boolean parameter. If true - read cached image
      * @return id of uploaded files
      */
-    //ToDo поставить ПреАвторайз
+
     //ToDo boolean cachedImage заменить на параметр для определения Профиля или Оффера
+
+
+    //ToDo включить ПреАвторайз
+//    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
     @RequestMapping(value = "{serviceName}/photo/upload", method = RequestMethod.POST)
-    public ResponseEntity<CreatedObjResp> photoUpload(@PathVariable String serviceName,
-                                                      @RequestParam MultipartFile file,
-                                                      @RequestParam(required = false, defaultValue = "false") boolean cachedImage) {
+    public ResponseEntity<CreatedObjResp>
+    photoUpload(@PathVariable String serviceName, @RequestParam MultipartFile file) {
+
+
         if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        if (!file.isEmpty()) {
-            try {
-                String uploadedFileId = storageService.save(serviceName.toUpperCase(),
-                        file.getInputStream(),
-                        file.getContentType(),
-                        file.getOriginalFilename());
+        if (file.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-                if (cachedImage) {
-                    if (file.getContentType().startsWith("image/")) {
-                        storageService.cacheImage(serviceName.toUpperCase(),
-                                uploadedFileId,
-                                ImageIO.read(file.getInputStream()),
-                                file.getContentType(),
-                                file.getOriginalFilename());
-                    } else {
-                        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-                    }
-                }
+        if (!file.getContentType().startsWith("image/")) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-                return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
-            } catch (IOException ex) {
-                LOG.error(LogUtil.getExceptionStackTrace(ex));
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+        FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
+
+
+        // Prepare file
+        try {
+            fileUploadWrapper
+                    .setServiceName(serviceName.toUpperCase())
+                    .setInputStream(file.getInputStream())
+                    .setContentType(file.getContentType())
+                    .setFilename(file.getOriginalFilename());
+        } catch (IOException ex) {
+            LOG.error(LogUtil.getExceptionStackTrace(ex));
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        // if service is "Profile"
+        if (serviceName.toLowerCase().equals("profile")) {
+            String uploadedFileId = storageService.saveCachedImageProfile(fileUploadWrapper);
+            return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
+
         } else {
+            // if service is "Profile"
+            if (serviceName.toLowerCase().equals("offers")) {
+//                String uploadedFileId = storageService.saveCachedImageOffer(fileUploadWrapper);
+//                return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
+
+                //ToDo saveOfferImage impl
+
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-
-    @CrossOrigin
-    @RequestMapping(value = "{serviceName}/file/delete/id/{fileId}", method = RequestMethod.POST)
-    public ResponseEntity<Void> deleteFile(@PathVariable String serviceName,
-                                           @PathVariable String fileId) {
-
-        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        storageService.delete(serviceName.toUpperCase(), fileId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
+    /**
+     * Method accept set of files Ides
+     *
+     * @param serviceName - service name in uppercase or in lowercase
+     * @param fileIds     - set of files Ides
+     * @return - status code 204 if all is ok, 404 - if id of photo not found
+     */
+    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
     @RequestMapping(value = "{serviceName}/file/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteFiles(@PathVariable String serviceName,
-                                            @RequestParam(value = "fileId") Set<String> fileIds) {
+                                            @RequestParam(value = "param[]") Set<String> fileIds) {
 
         if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if (serviceName.toUpperCase().equals("PROFILE")) {
+            // can be deleted only avatar picture
+            String userId = SecurityOperations.getLoggedUserId();
+            Profile profile = profilesService.findById(userId);
+
+            Iterator iter = fileIds.iterator();
+
+            if (iter.next() != profile.getImgId()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            storageService.delete(serviceName.toUpperCase(), fileIds);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
         storageService.delete(serviceName.toUpperCase(), fileIds);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+    private boolean isServiceNameAndRequestParamValid(String serviceName, String param) {
+
+        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
+            return false;
+        }
+
+        if (serviceName.toLowerCase().equals("profile")) {
+            if (param.equals("large") || param.equals("small")) {
+                return true;
+            }
+        }
+
+        if (serviceName.toLowerCase().equals("offers")) {
+            if (param.equals("large") || param.equals("medium") || param.equals("small")) {
+                return true;
+            }
+        }
+
+        return true;
     }
 }

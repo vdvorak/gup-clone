@@ -124,7 +124,8 @@ public class OffersServiceImpl implements OffersService {
     public void delete(String id) {
         Map<String, String> imagesIds = findById(id).getImagesIds();
         if (imagesIds != null) {
-            storageRepository.delete(ServiceNames.OFFERS.toString(), imagesIds.keySet());
+            //ToDo логику для удаления фотографий с оффера
+//            storageRepository.delete(ServiceNames.OFFERS.toString(), imagesIds.keySet());
         }
         offerRepository.delete(id);
     }
