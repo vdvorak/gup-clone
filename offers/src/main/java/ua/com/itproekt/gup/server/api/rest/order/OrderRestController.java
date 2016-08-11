@@ -82,7 +82,8 @@ public class OrderRestController {
     @CrossOrigin
     @RequestMapping(value = "/order/read/all", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Order>> getOrderById(@Valid @RequestBody OrderFilterOptions orderFilterOptions) {
+    public ResponseEntity<List<Order>> getOrderAll(@RequestBody OrderFilterOptions orderFilterOptions) {
+
 
         String userId = SecurityOperations.getLoggedUserId();
 
@@ -191,7 +192,7 @@ public class OrderRestController {
     @CrossOrigin
     @RequestMapping(value = "/order/update/3", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> updateOrder3(@Valid @RequestBody Order order) {
+    public ResponseEntity<Void> updateOrder3(@RequestBody Order order) {
 
         String userId = SecurityOperations.getLoggedUserId();
 
