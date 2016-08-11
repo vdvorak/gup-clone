@@ -32,6 +32,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
 
+
 public class LoginRestControllerTest {
 
     private RestTemplate restTemplate;
