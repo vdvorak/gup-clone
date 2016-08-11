@@ -195,12 +195,6 @@ public interface ProfilesService {
     ProfileInfo findPublicProfileByEmail(String email);
 
     /**
-     * @param email
-     * @return
-     */
-    ProfileInfo findPublicProfileByEmailAndUpdateLastLoginDate(String email);
-
-    /**
      * @param id
      * @return
      */
@@ -216,7 +210,7 @@ public interface ProfilesService {
      * @param email
      * @return
      */
-    ProfileInfo findPrivateProfileByEmail(String email);
+    ProfileInfo findPrivateProfileByEmailAndUpdateLastLoginDate(String email);
 
     /**
      * @param profileFilterOptions

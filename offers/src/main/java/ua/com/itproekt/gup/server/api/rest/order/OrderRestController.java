@@ -78,12 +78,11 @@ public class OrderRestController {
      * @param orderFilterOptions - order filter options
      * @return - return List of orders and status code 200
      */
-    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
     @RequestMapping(value = "/order/read/all", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Order>> getOrderAll(@RequestBody OrderFilterOptions orderFilterOptions) {
-
 
         String userId = SecurityOperations.getLoggedUserId();
 

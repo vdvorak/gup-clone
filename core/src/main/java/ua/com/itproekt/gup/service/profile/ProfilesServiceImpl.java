@@ -305,22 +305,13 @@ public class ProfilesServiceImpl implements ProfilesService {
      * @return
      */
     @Override
-    public ProfileInfo findPrivateProfileByEmail(String email) {
-        return prepareAdditionalFieldForPrivate(findProfileByEmail(email));
-    }
-
-    /**
-     * @param email
-     * @return
-     */
-    @Override
-    public ProfileInfo findPublicProfileByEmailAndUpdateLastLoginDate(String email) {
+    public ProfileInfo findPrivateProfileByEmailAndUpdateLastLoginDate(String email) {
 
         Profile profile = findProfileByEmail(email);
         profile.setLastLoginDateEqualsToCurrentDate();
         profileRepository.findProfileAndUpdate(profile);
 
-        return prepareAdditionalFieldForPublic(profile);
+        return prepareAdditionalFieldForPrivate(findProfileByEmail(email));
     }
 
     /**
