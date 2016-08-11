@@ -62,6 +62,8 @@ public class ProfileRestController {
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
     public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
+
+
         System.err.println("This is the COOKIES!!!");
 
         System.err.println("Cookie: " + request.getCookies().toString());
@@ -73,7 +75,9 @@ public class ProfileRestController {
 
 
 
-        String     loggedUserId = SecurityOperations.getLoggedUserId();
+
+
+        String loggedUserId = SecurityOperations.getLoggedUserId();
         ProfileInfo profileInfo = null;
         if (loggedUserId != null) {
             profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(loggedUserId);
