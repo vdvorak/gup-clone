@@ -241,6 +241,7 @@ public class ProfileRestController {
      * @return
      */
     private ProfileInfo profileInfoPreparatorFromPrincipal(Object principal) {
+
         ProfileInfo profileInfo = new ProfileInfo();
 
         if (principal instanceof LoggedUser) {
