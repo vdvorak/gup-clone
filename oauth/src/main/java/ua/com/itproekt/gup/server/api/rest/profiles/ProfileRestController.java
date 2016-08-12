@@ -8,7 +8,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.bank_api.BankSession;
-import ua.com.itproekt.gup.model.login.FormLoggedUser;
+import ua.com.itproekt.gup.dao.oauth2.OAuth2AccessTokenRepository;
+import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
@@ -19,7 +20,6 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Set;
 
@@ -37,6 +37,9 @@ public class ProfileRestController {
 
     @Autowired
     BankSession bankSession;
+
+    @Autowired
+    OAuth2AccessTokenRepository oAuth2AccessTokenRepository;
 
 
     /**
@@ -63,32 +66,24 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
     public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
 
+        if (request.getCookies() != null) {
 
-        System.err.println("This is the COOKIES!!!");
+            Cookie[] cookies = request.getCookies();
+            for (Cookie cookie : cookies) {
 
-        System.err.println("Cookie: " + request.getCookies().toString());
+                if (cookie.getName().equals("authToken")) {
+                    Object principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
+                    return new ResponseEntity<>(profileInfoPreparatorFromPrincipal(principal), HttpStatus.OK);
+                }
 
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            System.err.println("Cookie name: " + cookie.getName() + " value: " + cookie.getValue());
+                if (cookie.getName().equals("refreshToken")) {
+                    Object principal = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
+                    return new ResponseEntity<>(profileInfoPreparatorFromPrincipal(principal), HttpStatus.OK);
+                }
+            }
+
         }
-
-
-
-
-
-        String loggedUserId = SecurityOperations.getLoggedUserId();
-        ProfileInfo profileInfo = null;
-        if (loggedUserId != null) {
-            profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(loggedUserId);
-            //FixMe - в будущем добавить вывод бонусного счёта
-////            bankSession.getUserBalance(loggedUserId);
-////            System.err.println("getUserBalance");
-//            profileInfo.setUserBalance(bankSession.getUserBalance(loggedUserId));
-//            System.err.println("setUserBalance");
-        }
-
-        return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
@@ -106,9 +101,9 @@ public class ProfileRestController {
         newProfile.setId(loggedUserId);
         Profile oldProfile = profilesService.findById(loggedUserId);
 
-        if( newProfile.getIdSeoWord() != null ){ //if( !newProfile.getIdSeoWord().equals(null) ){
-            if( profilesService.isSeoWordFree(newProfile.getIdSeoWord()) ){
-                if( oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString()) ){
+        if (newProfile.getIdSeoWord() != null) { //if( !newProfile.getIdSeoWord().equals(null) ){
+            if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
+                if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
                     changeUserType(newProfile, oldProfile);
                     profilesService.editProfile(newProfile);
                     return new ResponseEntity<>(HttpStatus.OK);
@@ -117,7 +112,7 @@ public class ProfileRestController {
             }
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        if( oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString()) ){
+        if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             changeUserType(newProfile, oldProfile);
             profilesService.editProfile(newProfile);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -237,5 +232,21 @@ public class ProfileRestController {
                     break;
             }
         }
+    }
+
+
+    /**
+     *
+     * @param principal
+     * @return
+     */
+    private ProfileInfo profileInfoPreparatorFromPrincipal(Object principal) {
+        ProfileInfo profileInfo = new ProfileInfo();
+
+        if (principal instanceof LoggedUser) {
+            String userId = ((LoggedUser) principal).getProfileId();
+            profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(userId);
+        }
+        return profileInfo;
     }
 }

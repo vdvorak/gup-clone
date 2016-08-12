@@ -62,7 +62,7 @@ public class OAuthFilter implements Filter {
         }
     }
 
-    private boolean isExistAccessToken(String accessTokenValue) {
+    public boolean isExistAccessToken(String accessTokenValue) {
         return (null != tokenServices.readAccessToken(accessTokenValue));
     }
 
