@@ -76,4 +76,8 @@ public class OAuth2AuthenticationAccessToken implements Serializable {
     public String getRefreshToken() {
         return refreshToken;
     }
+
+    public OAuth2Authentication getAuthentication(OAuth2Authentication authentication) {
+       return this.authentication;
+    }
 }

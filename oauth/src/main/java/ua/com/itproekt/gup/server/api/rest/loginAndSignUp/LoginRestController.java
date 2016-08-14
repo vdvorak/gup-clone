@@ -74,7 +74,7 @@ public class LoginRestController {
 
         authenticateByEmailAndPassword(loggedUser, response);
 
-        ProfileInfo profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(formLoggedUser.getEmail());
+        ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
