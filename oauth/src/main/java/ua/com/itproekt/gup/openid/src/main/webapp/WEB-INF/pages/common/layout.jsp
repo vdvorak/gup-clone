@@ -7,10 +7,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="language" content="English" />
 		
-		<title>Welcome - Scribe OAuth</title>
-		
-		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/styles/normalize.css" />" media="all"/>
-		<link rel="stylesheet" type="text/css" href="<c:url value="/resources/styles/global.css" />" media="all"/>
+		<title>Welcome</title>
+
 		
 		<!--[if lt IE 9]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>

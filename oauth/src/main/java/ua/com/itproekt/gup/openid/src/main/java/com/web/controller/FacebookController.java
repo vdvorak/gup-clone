@@ -1,4 +1,4 @@
-package edu.seua.scribe.web.controller;
+package com.web.controller;
 
 
 import org.scribe.model.*;
@@ -12,39 +12,39 @@ import static org.springframework.web.context.request.RequestAttributes.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.seua.scribe.OAuthServiceProvider;
-import static edu.seua.scribe.web.SessionAttributes.*;
+import com.OAuthServiceProvider;
+import static com.web.SessionAttributes.*;
 
 @Controller
-public class LinkedInController {
+public class FacebookController {
 	
 	@Autowired
-	@Qualifier("linkedInServiceProvider")
-	private OAuthServiceProvider linkedInServiceProvider;
+	@Qualifier("facebookServiceProvider")
+	private OAuthServiceProvider facebookServiceProvider;
 	
-	@RequestMapping(value={"/login-linkedin"}, method = RequestMethod.GET)
+	private static final Token EMPTY_TOKEN = null;
+	
+	@RequestMapping(value={"/login-facebook"}, method = RequestMethod.GET)
 	public String login(WebRequest request) {
 		
 		// getting request and access token from session
-		Token requestToken = (Token) request.getAttribute(ATTR_OAUTH_REQUEST_TOKEN, SCOPE_SESSION);
 		Token accessToken = (Token) request.getAttribute(ATTR_OAUTH_ACCESS_TOKEN, SCOPE_SESSION);
-		if(requestToken == null || accessToken == null) {
+		if(accessToken == null) {
 			// generate new request token
-			OAuthService service = linkedInServiceProvider.getService();
-			requestToken = service.getRequestToken();
-			request.setAttribute(ATTR_OAUTH_REQUEST_TOKEN, requestToken, SCOPE_SESSION);
+			OAuthService service = facebookServiceProvider.getService();
+			request.setAttribute(ATTR_OAUTH_REQUEST_TOKEN, EMPTY_TOKEN, SCOPE_SESSION);
 			
-			// redirect to linkedin auth page
-			return "redirect:" + service.getAuthorizationUrl(requestToken);
+			// redirect to facebook auth page
+			return "redirect:" + service.getAuthorizationUrl(EMPTY_TOKEN);
 		}
 		return "welcomePage";
 	}
 	
-	@RequestMapping(value={"/linkedin-callback"}, method = RequestMethod.GET)
-	public ModelAndView callback(@RequestParam(value="oauth_verifier", required=false) String oauthVerifier, WebRequest request) {
+	@RequestMapping(value={"/facebook-callback"}, method = RequestMethod.GET)
+	public ModelAndView callback(@RequestParam(value="code", required=false) String oauthVerifier, WebRequest request) {
 		
-		// getting request tocken
-		OAuthService service = linkedInServiceProvider.getService();
+		// getting request token
+		OAuthService service = facebookServiceProvider.getService();
 		Token requestToken = (Token) request.getAttribute(ATTR_OAUTH_REQUEST_TOKEN, SCOPE_SESSION);
 		
 		// getting access token
@@ -55,7 +55,7 @@ public class LinkedInController {
 		request.setAttribute(ATTR_OAUTH_ACCESS_TOKEN, accessToken, SCOPE_SESSION);
 		
 		// getting user profile
-		OAuthRequest oauthRequest = new OAuthRequest(Verb.GET, "http://api.linkedin.com/v1/people/~:(id,first-name,last-name,industry,headline)");
+		OAuthRequest oauthRequest = new OAuthRequest(Verb.GET, "https://graph.facebook.com/me");
 		service.signRequest(accessToken, oauthRequest);
 		Response oauthResponse = oauthRequest.send();
 		System.out.println(oauthResponse.getBody());

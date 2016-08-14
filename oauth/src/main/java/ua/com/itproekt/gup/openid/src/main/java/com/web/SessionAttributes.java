@@ -1,4 +1,4 @@
-package edu.seua.scribe.web;
+package com.web;
 
 public interface SessionAttributes {
 

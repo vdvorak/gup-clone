@@ -424,6 +424,10 @@
         </profile>
     </profiles>
 
+    <modules>
+        <module>openid</module>
+    </modules>
+
     <build>
         <finalName>api##${project.version}</finalName>
         <filters>

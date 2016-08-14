@@ -1,4 +1,4 @@
-package edu.seua.scribe.web.controller;
+package com.web.controller;
 
 
 import org.scribe.model.*;
@@ -12,8 +12,8 @@ import static org.springframework.web.context.request.RequestAttributes.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.seua.scribe.OAuthServiceProvider;
-import static edu.seua.scribe.web.SessionAttributes.*;
+import com.OAuthServiceProvider;
+import static com.web.SessionAttributes.*;
 
 @Controller
 public class TwitterController {

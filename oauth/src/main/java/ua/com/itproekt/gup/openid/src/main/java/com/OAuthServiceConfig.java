@@ -1,4 +1,4 @@
-package edu.seua.scribe;
+package com;
 
 import org.scribe.builder.api.Api;
 
