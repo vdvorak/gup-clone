@@ -81,6 +81,20 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request, HttpServletResponse response) {
+
+        if (request.getCookies() == null){
+            Cookie cookieAuthToken = new Cookie("authToken", null);
+            cookieAuthToken.setMaxAge(0);
+            cookieAuthToken.setPath("/");
+            response.addCookie(cookieAuthToken);
+
+            Cookie cookieRefreshToken = new Cookie("refreshToken", null);
+            cookieRefreshToken.setMaxAge(0);
+            cookieRefreshToken.setPath("/");
+            response.addCookie(cookieRefreshToken);
+            return "redirect:/index";
+        }
+
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals("authToken")) {
                 tokenServices.revokeToken(cookie.getValue());
