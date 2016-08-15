@@ -12,11 +12,11 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 /**
-* It connects to the server and passes the messages
-*/
+ * It connects to the server and passes the messages
+ */
 
 @Configuration
-@PropertySource("classpath:application.properties")
+//@PropertySource("classpath:tcp.properties")
 public class TcpNotificationClient {
 
     private TcpNotificationClient instance;
@@ -28,11 +28,11 @@ public class TcpNotificationClient {
         return new TcpNotificationClient();
     }
 
-    @Value("${tcp.server.host}")
-    private String DEFAULT_HOST;
+//    @Value("${tcp.server.host}")
+    private String DEFAULT_HOST = "localhost";
 
-    @Value("${tcp.server.port}")
-    private int DEFAULT_PORT;
+//    @Value("${tcp.server.port}")
+    private int DEFAULT_PORT = 3071;
 
     public void transport(String notification) throws IOException {
         /* Create a socket to receive a pair of host:port */
@@ -44,7 +44,7 @@ public class TcpNotificationClient {
         } catch (IOException e) {
             throw new IOException("I/O Error creating socket " + DEFAULT_HOST + ":" + DEFAULT_PORT);
         }
-
+        
       /* Get the output stream, which will be transmitted through the messages to the server */
         OutputStream out = null;
         try {
