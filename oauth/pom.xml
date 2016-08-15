@@ -14,6 +14,7 @@
     <version>${version}</version>
 
     <packaging>war</packaging>
+    <!--<packaging>pom</packaging>-->
 
     <properties>
         <target.jdk>1.8</target.jdk>
@@ -424,9 +425,9 @@
         </profile>
     </profiles>
 
-    <modules>
-        <module>openid</module>
-    </modules>
+    <!--<modules>-->
+        <!--<module>openid</module>-->
+    <!--</modules>-->
 
     <build>
         <finalName>api##${project.version}</finalName>
