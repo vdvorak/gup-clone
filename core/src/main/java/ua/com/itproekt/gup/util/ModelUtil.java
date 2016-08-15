@@ -6,9 +6,7 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
-* Created by jfractal on 10.06.2016.
-*/
+
 public final class ModelUtil {
 
     public static EntityPage<OfferInfo> toModel(EntityPage<Offer> entities){

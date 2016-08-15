@@ -3,6 +3,7 @@
 **/.idea/*
 *.iml
 **/target/**
+**/out/**
 **/startMongo
 frontend-dev/node_modules
 frontend-dev2/node_modules
