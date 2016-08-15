@@ -19,6 +19,15 @@ import java.net.UnknownHostException;
 @PropertySource("classpath:tcp.properties")
 public class TcpNotificationClient {
 
+    private TcpNotificationClient instance;
+
+    private TcpNotificationClient(){
+    }
+
+    public static TcpNotificationClient getInstance(){
+        return new TcpNotificationClient();
+    }
+
     @Value("${tcp.server.host}")
     private String DEFAULT_HOST;
 
