@@ -31,8 +31,7 @@ public class TcpNotificationClient {
         try {
             fromServer = new Socket(DEFAULT_HOST, DEFAULT_PORT);
         } catch (UnknownHostException e) {
-            System.out.println("Unknown host: " + DEFAULT_HOST);
-            System.exit(-1);
+            throw new UnknownHostException("Unknown host: " + DEFAULT_HOST);
         } catch (IOException e) {
             throw new IOException("I/O Error creating socket " + DEFAULT_HOST + ":" + DEFAULT_PORT);
         }
