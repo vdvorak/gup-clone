@@ -12,11 +12,11 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 /**
- * It connects to the server and passes the messages
- */
+* It connects to the server and passes the messages
+*/
 
 @Configuration
-@PropertySource("classpath:tcp.properties")
+@PropertySource("classpath:application.properties")
 public class TcpNotificationClient {
 
     private TcpNotificationClient instance;
