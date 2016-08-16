@@ -20,7 +20,6 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
 
@@ -63,41 +62,15 @@ public class ProfileRestController {
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
+    /**
+     * If User is logged in - return Profile Info, if not - return only status 200 (Ok).
+     *
+     * @param request
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
     public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
-
-        
-        System.err.println("This is Cookie!!!");
-
-        System.err.println("*****************************************************Cookie general: " + request.getCookies());
-
-
-
-
-
-        System.err.println("*****************************************************HEADER NAMES: " + request.getHeaderNames());
-
-        Enumeration<String> enumerationHeader = request.getHeaderNames();
-     while(enumerationHeader.hasMoreElements()){
-         String s = enumerationHeader.nextElement();
-         System.err.println("#42 HeaderNames next: " + s);
-
-         System.err.println("Header " + s + " has value: " + request.getHeader(s));
-     }
-
-
-
-
-
-
-        if (request.getCookies()!=null){
-            Cookie[] cookie3 = request.getCookies();
-            for (Cookie cookie1 : cookie3) {
-                System.err.println("********************#name: " + cookie1.getName() + " |||| ***********************#value: " + cookie1.getValue());
-            }
-        }
-
 
         if (request.getCookies() != null) {
 
@@ -105,24 +78,12 @@ public class ProfileRestController {
             for (Cookie cookie : cookies) {
 
                 if (cookie.getName().equals("authToken")) {
-                    System.err.println("/*/*/*/*/*/*/*/");
-                    System.err.println("/*/*/*/*/*/*/*/");
-                    System.err.println("/*/*/*/*/*/*/*/");
-                    System.err.println("/*/*/*/*/*/*/*/");
-                    System.err.println("We Have AuthToken, we will return smth");
                     Object principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
-                    System.err.println("PROFILE: " + profileInfoPreparatorFromPrincipal(principal).toString());
                     return new ResponseEntity<>(profileInfoPreparatorFromPrincipal(principal), HttpStatus.OK);
                 }
 
                 if (cookie.getName().equals("refreshToken")) {
-                    System.err.println("/*/*/*/*/*/*/*/");
-                    System.err.println("/*/*/*/*/*/*/*/");
-                    System.err.println("/*/*/*/*/*/*/*/");
-                    System.err.println("/*/*/*/*/*/*/*/");
-                    System.err.println("We Have REFRESH, we will return smth");
                     Object principal = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
-                    System.err.println("PROFILE: " + profileInfoPreparatorFromPrincipal(principal).toString());
                     return new ResponseEntity<>(profileInfoPreparatorFromPrincipal(principal), HttpStatus.OK);
                 }
             }
@@ -281,7 +242,6 @@ public class ProfileRestController {
 
 
     /**
-     *
      * @param principal
      * @return
      */
