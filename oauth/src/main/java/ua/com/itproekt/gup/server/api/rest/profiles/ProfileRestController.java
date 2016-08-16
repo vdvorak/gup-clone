@@ -20,6 +20,7 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
 
@@ -66,9 +67,28 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
     public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
 
+        
         System.err.println("This is Cookie!!!");
 
         System.err.println("*****************************************************Cookie general: " + request.getCookies());
+
+
+
+
+
+        System.err.println("*****************************************************HEADER NAMES: " + request.getHeaderNames());
+
+        Enumeration<String> enumerationHeader = request.getHeaderNames();
+     while(enumerationHeader.hasMoreElements()){
+         System.err.println("#42 HeaderNames next: " + enumerationHeader.nextElement());
+
+         System.err.println("Header " + enumerationHeader.nextElement() + " has value: " + request.getHeader(enumerationHeader.nextElement()));
+     }
+
+
+
+
+
 
         if (request.getCookies()!=null){
             Cookie[] cookie3 = request.getCookies();
