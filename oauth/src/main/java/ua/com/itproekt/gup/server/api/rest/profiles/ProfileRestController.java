@@ -66,6 +66,19 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
     public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
 
+        System.err.println("This is Cookie!!!");
+
+        System.err.println("Cookie general: " + request.getCookies());
+
+        Cookie[] cookie3 = request.getCookies();
+        for (Cookie cookie1 : cookie3) {
+            System.err.println("#name: " + cookie1.getName() + " |||| #value: " + cookie1.getValue());
+        }
+
+
+        
+
+
         if (request.getCookies() != null) {
 
             Cookie[] cookies = request.getCookies();
