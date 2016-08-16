@@ -84,12 +84,24 @@ public class ProfileRestController {
             for (Cookie cookie : cookies) {
 
                 if (cookie.getName().equals("authToken")) {
+                    System.err.println("/*/*/*/*/*/*/*/");
+                    System.err.println("/*/*/*/*/*/*/*/");
+                    System.err.println("/*/*/*/*/*/*/*/");
+                    System.err.println("/*/*/*/*/*/*/*/");
+                    System.err.println("We Have AuthToken, we will return smth");
                     Object principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
+                    System.err.println("PROFILE: " + profileInfoPreparatorFromPrincipal(principal).toString());
                     return new ResponseEntity<>(profileInfoPreparatorFromPrincipal(principal), HttpStatus.OK);
                 }
 
                 if (cookie.getName().equals("refreshToken")) {
+                    System.err.println("/*/*/*/*/*/*/*/");
+                    System.err.println("/*/*/*/*/*/*/*/");
+                    System.err.println("/*/*/*/*/*/*/*/");
+                    System.err.println("/*/*/*/*/*/*/*/");
+                    System.err.println("We Have REFRESH, we will return smth");
                     Object principal = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
+                    System.err.println("PROFILE: " + profileInfoPreparatorFromPrincipal(principal).toString());
                     return new ResponseEntity<>(profileInfoPreparatorFromPrincipal(principal), HttpStatus.OK);
                 }
             }
