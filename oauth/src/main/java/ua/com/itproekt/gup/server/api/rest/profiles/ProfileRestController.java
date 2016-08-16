@@ -80,9 +80,10 @@ public class ProfileRestController {
 
         Enumeration<String> enumerationHeader = request.getHeaderNames();
      while(enumerationHeader.hasMoreElements()){
-         System.err.println("#42 HeaderNames next: " + enumerationHeader.nextElement());
+         String s = enumerationHeader.nextElement();
+         System.err.println("#42 HeaderNames next: " + s);
 
-         System.err.println("Header " + enumerationHeader.nextElement() + " has value: " + request.getHeader(enumerationHeader.nextElement()));
+         System.err.println("Header " + s + " has value: " + request.getHeader(s));
      }
 
 
