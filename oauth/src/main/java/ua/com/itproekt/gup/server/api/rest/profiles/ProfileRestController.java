@@ -64,7 +64,7 @@ public class ProfileRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
-    public ResponseEntity<String> getLoggedUser(HttpServletRequest request) {
+    public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
 
         System.err.println("This is Cookie!!!");
 
@@ -91,8 +91,7 @@ public class ProfileRestController {
                     System.err.println("We Have AuthToken, we will return smth");
                     Object principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
                     System.err.println("PROFILE: " + profileInfoPreparatorFromPrincipal(principal).toString());
-//                    return new ResponseEntity<>(profileInfoPreparatorFromPrincipal(principal), HttpStatus.OK);
-                    return new ResponseEntity<>("AzzzazaAzzzazaAzzzazaAzzzazaAzzzazaAzzzazaAzzzaza 111111111111111", HttpStatus.OK);
+                    return new ResponseEntity<>(profileInfoPreparatorFromPrincipal(principal), HttpStatus.OK);
                 }
 
                 if (cookie.getName().equals("refreshToken")) {
@@ -103,13 +102,12 @@ public class ProfileRestController {
                     System.err.println("We Have REFRESH, we will return smth");
                     Object principal = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
                     System.err.println("PROFILE: " + profileInfoPreparatorFromPrincipal(principal).toString());
-//                    return new ResponseEntity<>(profileInfoPreparatorFromPrincipal(principal), HttpStatus.OK);
-                    return new ResponseEntity<>("AzzzazaAzzzazaAzzzazaAzzzazaAzzzazaAzzzazaAzzzaza 222222", HttpStatus.OK);
+                    return new ResponseEntity<>(profileInfoPreparatorFromPrincipal(principal), HttpStatus.OK);
                 }
             }
 
         }
-        return new ResponseEntity<>("AzzzazaAzzzazaAzzzazaAzzzazaAzzzazaAzzzazaAzzzaza 3333333", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
