@@ -62,6 +62,12 @@ public class ProfileRestController {
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
+    /**
+     * If User is logged in - return Profile Info, if not - return only status 200 (Ok).
+     *
+     * @param request
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
     public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
@@ -236,7 +242,6 @@ public class ProfileRestController {
 
 
     /**
-     *
      * @param principal
      * @return
      */
