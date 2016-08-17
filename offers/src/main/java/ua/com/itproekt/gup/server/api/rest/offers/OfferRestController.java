@@ -11,7 +11,6 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.server.api.rest.dto.OfferInfo;
 import ua.com.itproekt.gup.server.api.rest.dto.OfferRegistration;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -59,12 +58,13 @@ public class OfferRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
-    public EntityPage<OfferInfo> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
+    public ResponseEntity<EntityPage<Offer>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
         if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             offerFO.setActive(true);
             offerFO.setModerationStatus(ModerationStatus.COMPLETE);
         }
-        return ModelUtil.toModel(offersService.findOffersWihOptions(offerFO));
+//        return ModelUtil.toModel(offersService.findOffersWihOptions(offerFO));
+        return new ResponseEntity<>(offersService.findOffersWihOptions(offerFO), HttpStatus.OK);
     }
 
     //------------------------------------------ Create ----------------------------------------------------------------
