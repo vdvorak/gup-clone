@@ -12,6 +12,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Properties;
@@ -31,7 +33,7 @@ public class TcpNotificationClient {
 //        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(TcpNotificationClient.class);
 //        TcpNotificationClient tcpNotificationClient = applicationContext.getBean(TcpNotificationClient.class);
 //        try {
-//            tcpNotificationClient.transport("{\"from\":\"TcpNotificationClient\",\"message\":\"This is a String\"}");
+//            tcpNotificationClient.transport("{\"from\":\""+InetAddress.getLocalHost().getHostAddress()+"\",\"message\":\"This is a TcpNotificationClient\"}");
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
