@@ -208,6 +208,24 @@ public class ProfileRestController {
     }
 
     @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/updateFavoriteOffer", method = RequestMethod.POST)
+    public ResponseEntity<Void> updateFavoriteOffers(@RequestParam String offerId) {
+
+        Profile profile = profilesService.findById(SecurityOperations.getLoggedUserId());
+        Set<String> favoriteOffers = profile.getFavoriteOffers();
+        for (String favoriteOffer : favoriteOffers) {
+            if (favoriteOffer.equals(offerId)) {
+                favoriteOffers.remove(offerId);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
+        favoriteOffers.add(offerId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @CrossOrigin
     @RequestMapping(value = "/check-user-balance-by-id", method = RequestMethod.POST)
     @ResponseBody
     public Integer checkBalance(@RequestParam("userId") String userId) {

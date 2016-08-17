@@ -11,7 +11,6 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.server.api.rest.dto.OfferInfo;
 import ua.com.itproekt.gup.server.api.rest.dto.OfferRegistration;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -46,6 +45,7 @@ public class OfferRestController {
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
+    @CrossOrigin
     @RequestMapping(value = "/offer/read/{id}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Offer> getOfferById(@PathVariable String id) {
@@ -58,12 +58,13 @@ public class OfferRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
-    public EntityPage<OfferInfo> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
+    public ResponseEntity<EntityPage<Offer>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
         if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             offerFO.setActive(true);
             offerFO.setModerationStatus(ModerationStatus.COMPLETE);
         }
-        return ModelUtil.toModel(offersService.findOffersWihOptions(offerFO));
+//        return ModelUtil.toModel(offersService.findOffersWihOptions(offerFO));
+        return new ResponseEntity<>(offersService.findOffersWihOptions(offerFO), HttpStatus.OK);
     }
 
     //------------------------------------------ Create ----------------------------------------------------------------
@@ -74,6 +75,7 @@ public class OfferRestController {
      * @param offerRegistration - must contain Offer and optional email and password
      * @return - status code 201 if Ok and created
      */
+    @CrossOrigin
     @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResp> createOffer(@Valid @RequestBody OfferRegistration offerRegistration) {
@@ -105,6 +107,7 @@ public class OfferRestController {
 
     //------------------------------------------ Update ----------------------------------------------------------------
 
+    @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/edit", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -148,6 +151,7 @@ public class OfferRestController {
         return new ResponseEntity<>(new CreatedObjResp(newOffer.getSeoUrl()), HttpStatus.OK);
     }
 
+    @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/{offerId}/setActive/{isActive}", method = RequestMethod.POST)
     public ResponseEntity<Void> setActive(@PathVariable String offerId, @PathVariable boolean isActive) {
@@ -162,6 +166,7 @@ public class OfferRestController {
 
     //------------------------------------------ Delete ----------------------------------------------------------------
 
+    @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/delete/{offerId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteOffer(@PathVariable String offerId) {
@@ -177,6 +182,7 @@ public class OfferRestController {
 
     //------------------------------------------ Rest for admin --------------------------------------------------------
 
+    @CrossOrigin
     @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_SUPPORT','ROLE_MODERATOR')")
     @RequestMapping(value = "/offer/moderateStatus/{offerId}", method = RequestMethod.POST)
     public ResponseEntity<Void> makeOfferComplete(@PathVariable String offerId, @RequestBody ModerationStatus moderationStatus) {

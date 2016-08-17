@@ -375,13 +375,14 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserProfile(null)
                 .setOrderAddressList(null)
                 .setUserRoles(null)
-                .setOfferUserContactInfoList(null);
+                .setOfferUserContactInfoList(null)
+                .setFavoriteOffers(null);
 
         profileInfo.setUserBalance(null)
                 .setUserBonusBalance(null)
                 .setUnreadMessages(null)
                 .setUnreadMessages(null)
-                .setUserAveragePoints(5); // ToDo impl this!
+                .setUserAveragePoints(4); // ToDo impl this!
 
         return profileInfo;
     }
@@ -402,6 +403,8 @@ public class ProfilesServiceImpl implements ProfilesService {
      * @param newProfile
      */
     private void setEmptyFieldsForNewUser(Profile newProfile) {
+        newProfile.setFavoriteOffers(new HashSet<>());
+
         Contact contact = new Contact();
         contact.setType(UserType.INDIVIDUAL);
         contact.setContactEmails(new HashSet<>());
@@ -416,7 +419,6 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setContact(contact)
                 .setOfferUserContactInfoList(null)
                 .setOrderAddressList(null);
-
     }
 
 }

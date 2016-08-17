@@ -31,6 +31,7 @@ public class Profile {
     private Contact contact;
     private Set<String> contactList;
     private UserProfile userProfile;
+    private Set<String> favoriteOffers;
 
     private Integer point;
     private Set<ProfileRating> profileRating;
@@ -236,6 +237,15 @@ public class Profile {
         return this;
     }
 
+    public Set<String> getFavoriteOffers() {
+        return favoriteOffers;
+    }
+
+    public Profile setFavoriteOffers(Set<String> favoriteOffers) {
+        this.favoriteOffers = favoriteOffers;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
@@ -250,6 +260,7 @@ public class Profile {
                 ", contact=" + contact +
                 ", contactList=" + contactList +
                 ", userProfile=" + userProfile +
+                ", favoriteOffers=" + favoriteOffers +
                 ", point=" + point +
                 ", profileRating=" + profileRating +
                 ", confirmModerator=" + confirmModerator +
