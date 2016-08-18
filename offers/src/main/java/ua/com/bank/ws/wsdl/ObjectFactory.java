@@ -6,7 +6,7 @@
 //
 
 
-package com.bank.ws.wsdl;
+package ua.com.bank.ws.wsdl;
 
 import javax.xml.bind.annotation.XmlRegistry;
 

@@ -5,5 +5,5 @@
 // Generated on: 2016.08.18 at 03:20:00 AM EEST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "ws.bank.com/wsdl", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package com.bank.ws.wsdl;
+@javax.xml.bind.annotation.XmlSchema(namespace = "ws.bank.com.ua/wsdl", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+package ua.com.bank.ws.wsdl;

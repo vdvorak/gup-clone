@@ -49,10 +49,6 @@
             <scope>runtime</scope>
         </dependency>
 
-
-
-
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
@@ -280,28 +276,6 @@
                         <spring.profiles.active>tomcat,datajpa</spring.profiles.active>
                     </systemProperties>
                     <protocol>org.apache.coyote.http11.Http11NioProtocol</protocol>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.jvnet.jaxb2.maven2</groupId>
-                <artifactId>maven-jaxb2-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <schemaLanguage>WSDL</schemaLanguage>
-                    <generatePackage>com.bank.service.wsdl</generatePackage>
-                    <forceRegenerate>true</forceRegenerate>
-                    <schemas>
-                        <schema>
-                            <url>http://localhost:8080/ws/bank/students.wsdl</url>
-                        </schema>
-                    </schemas>
                 </configuration>
             </plugin>
         </plugins>

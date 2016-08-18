@@ -134,41 +134,6 @@ public class LoginRestController {
         return (profilesService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
     }
 
-    //    @CrossOrigin
-//    @RequestMapping(value = "/register", method = RequestMethod.POST)
-//    public ResponseEntity<Void> register(@RequestBody Profile profile) {
-//        if (profilesService.profileExistsWithEmail(profile.getEmail())) {
-//            return new ResponseEntity<>(HttpStatus.CONFLICT);
-//        } else {
-//            profilesService.createProfile(profile);
-//            verificationTokenService.sendEmailRegistrationToken(profile.getId());
-//
-//
-//            return new ResponseEntity<>(HttpStatus.CREATED);
-//        }
-//    }
-//
-//    @CrossOrigin
-//    @RequestMapping(value = "/register", method = RequestMethod.POST)
-//    public ResponseEntity<Boolean> register(@RequestBody ProfileInfo profileInfo) {
-//        if (profilesService.profileExistsWithEmail(profileInfo.getProfile().getEmail()))
-//            return new ResponseEntity<>(HttpStatus.CONFLICT);
-//
-//        profilesService.createProfile(profileInfo.getProfile());
-//        VerificationToken verificationToken = verificationTokenService.sendEmailRegistrationToken(profileInfo.getProfile().getId());
-//        return new ResponseEntity<>(verificationToken.isVerified(), HttpStatus.CREATED);
-//    }
-//
-//    @CrossOrigin
-//    @RequestMapping(value = "/register", method = RequestMethod.POST)
-//    public ResponseEntity<Boolean> register(@RequestBody Profile profile) {
-//        if (profilesService.profileExistsWithEmail(profile.getEmail()))
-//            return new ResponseEntity<>(false, HttpStatus.CONFLICT);
-//
-//        profilesService.createProfile(profile);
-//        VerificationToken verificationToken = verificationTokenService.sendEmailRegistrationToken(profile.getId());
-//        return new ResponseEntity<>(verificationToken.isVerified(), HttpStatus.CREATED);
-//    }
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<Void> register(@RequestBody Profile profile) {
@@ -178,5 +143,43 @@ public class LoginRestController {
         profilesService.createProfile(profile);
         verificationTokenService.sendEmailRegistrationToken(profile.getId());
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/register-autologin", method = RequestMethod.POST)
+    public ResponseEntity<ProfileInfo> registerAutoLogin(@RequestBody Profile profile, HttpServletResponse response) {
+
+        // CHECK_EMAIL:
+        String email = profile.getEmail().split("=")[0];
+        try {
+            email = URLDecoder.decode(email, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            LOG.error(LogUtil.getExceptionStackTrace(ex));
+        }
+        if( profilesService.profileExistsWithEmail(email) ){
+
+            // REGISTER:
+            if (profilesService.profileExistsWithEmail(profile.getEmail())) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+            profilesService.createProfile(profile);
+            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+
+            // LOGIN:
+            LoggedUser loggedUser;
+            try {
+                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail());
+            } catch (UsernameNotFoundException ex) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            authenticateByEmailAndPassword(loggedUser, response);
+            ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
+            return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

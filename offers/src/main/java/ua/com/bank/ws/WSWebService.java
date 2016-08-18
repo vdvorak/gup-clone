@@ -1,9 +1,9 @@
-package com.bank.ws;
+package ua.com.bank.ws;
 
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 
-import com.bank.ws.wsdl.*;
+import ua.com.bank.ws.wsdl.*;
 
 public class WSWebService extends WebServiceGatewaySupport {
 
@@ -11,7 +11,7 @@ public class WSWebService extends WebServiceGatewaySupport {
         GetInviteCodeRequest req = new GetInviteCodeRequest();
         req.setId(id);
 
-        GetInviteCodeResponse resp = (GetInviteCodeResponse) getWebServiceTemplate().marshalSendAndReceive(req, new SoapActionCallback("http://localhost:9000/ws/bank/getInviteCodeResponse"));
+        GetInviteCodeResponse resp = (GetInviteCodeResponse) getWebServiceTemplate().marshalSendAndReceive(req, new SoapActionCallback("http://localhost:8081/getInviteCodeResponse"));
 		return resp;
 	}
 
