@@ -1,13 +1,13 @@
-package com.bank.service.client;
+package com.bank.ws;
 
-import com.bank.service.wsdl.GetInviteCodeResponse;
+import com.bank.ws.wsdl.GetInviteCodeResponse;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AppClientTest {
+public class WSWebServiceTest {
 
 
     @Before
@@ -19,24 +19,24 @@ public class AppClientTest {
     }
 
     /**
-     * test SOAP-WS
+     * test (SOAP) WS
      */
     @Test
-    public void testSoapWS() {
+    public void testService() {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-	    ctx.register(AppConfig.class);
+	    ctx.register(WSConfig.class);
 	    ctx.refresh();
 
-		AppClient client = ctx.getBean(AppClient.class);
+		WSWebService service = ctx.getBean(WSWebService.class);
         GetInviteCodeResponse resp = null;
 
-        resp = client.getInviteCode(1);
+        resp = service.getInviteCodeResponse(1);
 		System.err.println("\n    ID: 1");
 		System.err.println("  Code: " + resp.getInviteCode().getCode());
 		System.err.println("Amount: " + resp.getInviteCode().getAmount());
 		System.err.println("UserId: " + resp.getInviteCode().getUserId());
 
-        resp = client.getInviteCode(2);
+        resp = service.getInviteCodeResponse(2);
         System.err.println("\n    ID: 2");
         System.err.println("  Code: " + resp.getInviteCode().getCode());
         System.err.println("Amount: " + resp.getInviteCode().getAmount());
