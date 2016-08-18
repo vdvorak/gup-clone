@@ -15,6 +15,7 @@ public final class OfferFilterOptions extends Offer {
     private String searchField;
     private String priceSortDirection;
     private String createdDateSortDirection;
+    private boolean isMain;
 
     public int getSkip() {
         return skip;
@@ -86,5 +87,29 @@ public final class OfferFilterOptions extends Offer {
 
     public void setCreatedDateSortDirection(String createdDateSortDirection) {
         this.createdDateSortDirection = createdDateSortDirection;
+    }
+
+    public boolean isMain() {
+        return isMain;
+    }
+
+    public void setIsMain(boolean isMain) {
+        this.isMain = isMain;
+    }
+
+    @Override
+    public String toString() {
+        return "OfferFilterOptions{" +
+                "skip=" + skip +
+                ", limit=" + limit +
+                ", fromPrice=" + fromPrice +
+                ", toPrice=" + toPrice +
+                ", showReserved=" + showReserved +
+                ", propertiesInterval=" + propertiesInterval +
+                ", searchField='" + searchField + '\'' +
+                ", priceSortDirection='" + priceSortDirection + '\'' +
+                ", createdDateSortDirection='" + createdDateSortDirection + '\'' +
+                ", isMain=" + isMain +
+                '}';
     }
 }
