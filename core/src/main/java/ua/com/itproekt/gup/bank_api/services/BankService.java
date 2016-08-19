@@ -1,62 +1,24 @@
-package ua.com.itproekt.gup.bank_api;
+package ua.com.itproekt.gup.bank_api.services;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.spec.SecretKeySpec;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import ua.com.itproekt.gup.bank_api.entity.BankUser;
+
 import java.io.ByteArrayOutputStream;
-import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-
-public class SecurityService {
-
-    private static String algorithm = "DES";
-    private static Key key = null;
-    private static Cipher cipher = null;
-    private static HashSet<String> onlineUsers = new HashSet<String>();
+public class BankService {
 
 
-    static {
-        try {
-            byte[] encoded = new byte[]{-89, -39, 58, 84, -75, -27, -80, 46,}; //Key data
-            key = new SecretKeySpec(encoded, "DES");
-            cipher = Cipher.getInstance(algorithm);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static HashSet<String> getOnlineUsers() {
-        return onlineUsers;
-    }
-
-    public static void setOnlineUsers(HashSet<String> onlineUsers) {
-        SecurityService.onlineUsers = onlineUsers;
-    }
-
-    public static byte[] encrypt(String input) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-
-        cipher.init(Cipher.ENCRYPT_MODE, key);
-        byte[] inputBytes = input.getBytes();
-        return cipher.doFinal(inputBytes);
-
-    }
-
-    public static String decrypt(byte[] encryptionBytes) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-
-        cipher.init(Cipher.DECRYPT_MODE, key);
-        byte[] recoveredBytes = cipher.doFinal(encryptionBytes);
-        String recovered = new String(recoveredBytes);
-        return recovered;
-
-    }
-
+    /**
+     * The method returns a string of randomly generated characters
+     */
     public static String getRandomPassword() {
 
 
@@ -147,6 +109,42 @@ public class SecurityService {
         return sb.toString();
     }
 
+    public static HashSet<String> parser(String input) {
 
+        HashSet<String> result = new HashSet<String>();
+        if (!input.isEmpty()) {
+            String[] res = input.substring(0, input.length() - 1).split(" ");
+
+            for (String s : res) {
+                if (result.contains(s)) result.remove(s);
+                else result.add(s);
+            }
+
+        }
+        return result;
+    }
+
+    public static BankUser getUserFromJsonString(String jsonUser) {
+        BankUser bankUser = new BankUser();
+        JSONParser parser = new JSONParser();
+        Object obj = null;
+        try {
+            obj = parser.parse(jsonUser);
+            JSONObject jsonObj = (JSONObject) obj;
+            bankUser.setId((Long) jsonObj.get("id"));
+            bankUser.setLogin((String) jsonObj.get("login"));
+            bankUser.setPassword((String) jsonObj.get("password"));
+            bankUser.setRole((String) jsonObj.get("role"));
+            bankUser.setEmail((String) jsonObj.get("email"));
+            bankUser.setFirstName((String) jsonObj.get("firstName"));
+            bankUser.setLastName((String) jsonObj.get("lastName"));
+            bankUser.setPhone((String) jsonObj.get("phone"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return bankUser;
+    }
 
 }

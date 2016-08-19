@@ -1,5 +1,8 @@
-package ua.com.itproekt.gup.bank_api.service;
+package ua.com.itproekt.gup.bank_api.services;
 
+/**
+ * Created by Optical Illusion on 21.12.2015.
+ */
 public class Pair<K ,V > {
     public K key;
     public V value;
