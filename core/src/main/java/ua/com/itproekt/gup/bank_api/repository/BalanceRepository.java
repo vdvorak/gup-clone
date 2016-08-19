@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.bank_api.repository;
 
-
+import ua.com.itproekt.gup.bank_api.BankSession;
+import ua.com.itproekt.gup.bank_api.SecurityService;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -8,28 +9,23 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.postgresql.util.Base64;
-import ua.com.itproekt.gup.bank_api.BankSession;
-import ua.com.itproekt.gup.bank_api.SecurityService;
 
 import java.net.URI;
 
-/**
- * Created by RAYANT on 20.10.2015.
- */
+
 public class BalanceRepository {
 
     private BankSession session;
+
+    public BalanceRepository(BankSession session) {
+        this.session = session;
+    }
 
     public BankSession getSession() {
         return session;
     }
 
     public void setSession(BankSession session) {
-        this.session = session;
-    }
-
-    public BalanceRepository(BankSession session) {
-
         this.session = session;
     }
 
@@ -80,7 +76,6 @@ public class BalanceRepository {
             if (entity != null) {
                 String result = EntityUtils.toString(entity);
                 EntityUtils.consume(entity);
-                if(result.equals("")) result = "0";
                 return Integer.parseInt(result);
             }
         } catch (Exception e) {
@@ -103,7 +98,6 @@ public class BalanceRepository {
                     .setParameter("password", Base64.encodeBytes(SecurityService.encrypt(String.valueOf(Math.random()))))
                     .setParameter("id", Base64.encodeBytes(SecurityService.encrypt(id)))
                     .build();
-
             HttpPost httpPost = new HttpPost(uri);
             HttpResponse response = client.execute(httpPost);
             HttpEntity entity = response.getEntity();

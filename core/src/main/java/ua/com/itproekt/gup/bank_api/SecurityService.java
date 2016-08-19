@@ -9,18 +9,18 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 
 public class SecurityService {
 
+    public static List<String> responses = new ArrayList<String>();
     private static String algorithm = "DES";
     private static Key key = null;
     private static Cipher cipher = null;
-    private static HashSet<String> onlineUsers = new HashSet<String>();
-
 
     static {
         try {
@@ -32,20 +32,23 @@ public class SecurityService {
         }
     }
 
-    public static HashSet<String> getOnlineUsers() {
-        return onlineUsers;
-    }
+    public static byte[] encrypt(String input) {
 
-    public static void setOnlineUsers(HashSet<String> onlineUsers) {
-        SecurityService.onlineUsers = onlineUsers;
-    }
-
-    public static byte[] encrypt(String input) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-
-        cipher.init(Cipher.ENCRYPT_MODE, key);
+        try {
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
         byte[] inputBytes = input.getBytes();
-        return cipher.doFinal(inputBytes);
 
+
+        try {
+            return cipher.doFinal(inputBytes);
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            e.printStackTrace();
+        }
+
+        return new byte[0];
     }
 
     public static String decrypt(byte[] encryptionBytes) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
@@ -146,7 +149,6 @@ public class SecurityService {
         }
         return sb.toString();
     }
-
 
 
 }

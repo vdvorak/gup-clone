@@ -1,44 +1,36 @@
 package ua.com.itproekt.gup.bank_api;
 
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import org.apache.log4j.Logger;
+import ua.com.itproekt.gup.bank_api.entity.InternalTransaction;
+import ua.com.itproekt.gup.bank_api.repository.*;
+import ua.com.itproekt.gup.bank_api.service.Pair;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.stereotype.Service;
-import ua.com.itproekt.gup.bank_api.entity.BankUser;
-import ua.com.itproekt.gup.bank_api.entity.InternalTransaction;
-import ua.com.itproekt.gup.bank_api.liqpay.LiqPay;
-import ua.com.itproekt.gup.bank_api.repository.BalanceRepository;
-import ua.com.itproekt.gup.bank_api.repository.ExternalTransactionRepository;
-import ua.com.itproekt.gup.bank_api.repository.InternalTransactionRepository;
-import ua.com.itproekt.gup.bank_api.repository.UserRepository;
-import ua.com.itproekt.gup.bank_api.services.BankService;
-import ua.com.itproekt.gup.bank_api.services.Pair;
-import ua.com.itproekt.gup.util.LogUtil;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-@Service
+
 public class BankSession {
-    private static final Logger LOG = Logger.getLogger(BankSession.class);
 
-    private final String URL = "93.73.109.38:8087"; //private final String URL = "e-otg-gup-bank.herokuapp.com";
+    private String url = "localhost:8081";
     private BalanceRepository balanceRepository = new BalanceRepository(this);
     private ExternalTransactionRepository externalTransactionRepository = new ExternalTransactionRepository(this);
     private InternalTransactionRepository internalTransactionRepository = new InternalTransactionRepository(this);
     private UserRepository userRepository = new UserRepository(this);
+    private BonusRepository bonusRepository = new BonusRepository(this);
 
+    public BankSession(String url) {
+        this.url = url;
+    }
 
     public String getUrl() {
-        return URL;
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getAllBalancesJson() {
@@ -89,11 +81,8 @@ public class BankSession {
         return internalTransactionRepository.getInternalTransactionsJsonByUserId(id);
     }
 
-    public List<InternalTransaction> getAllRecipientInternalTransactionsJson(String id) {
-        Gson gson = new Gson();
-        String jsonInternalTransactions = internalTransactionRepository.getAllRecipientTransactionsJson(id);
-        return gson.fromJson(jsonInternalTransactions, new TypeToken<List<InternalTransaction>>() {
-        }.getType());
+    public String getAllRecipientInternalTransactionsJson(String id) {
+        return internalTransactionRepository.getAllRecipientTransactionsJson(id);
     }
 
     public boolean isInternalTransactionExist(String sender, String recipient) {
@@ -112,15 +101,7 @@ public class BankSession {
         userRepository.saveUser(login, userPassword, role);
     }
 
-    public void updateUser(BankUser bankUser) throws NullPointerException {
-        Long id = bankUser.getId();
-        String login = bankUser.getLogin();
-        String password = bankUser.getPassword();
-        String role = bankUser.getRole();
-        String email = bankUser.getEmail();
-        String firstName = bankUser.getFirstName();
-        String lastName = bankUser.getLastName();
-        String phone = bankUser.getPhone();
+    public void updateUser(Long id, String login, String password, String role, String email, String firstName, String lastName, String phone) {
         userRepository.updateUser(id, login, password, role, email, firstName, lastName, phone);
     }
 
@@ -132,40 +113,8 @@ public class BankSession {
         return userRepository.getAllUsersJson();
     }
 
-    public BankUser getUserByLogin(String login) {
-        return BankService.getUserFromJsonString(userRepository.getUserJson(login));
-    }
-
-    public String liqPayRenderHtmlForm(String id, Long amount) throws UnsupportedEncodingException {
-        HashMap params = new HashMap();
-        params.put("version", "3");
-        params.put("amount", amount);
-        params.put("currency", "UAH");
-        params.put("description", new String("Пополнение баланса".getBytes("UTF-8"), "cp1251"));
-        params.put("order_id", BankService.getRandomPassword() + id);
-        params.put("server_url", "http://e-otg-gup-bank.herokuapp.com/callback");
-        params.put("public_key", "i74044182839");
-        params.put("sandbox", "1");
-        LiqPay liqpay = new LiqPay("i74044182839", "psMQcCR32o4TZRZTKI0Yoe4UDNyFHNFHf76Pyedr");
-        String html = liqpay.cnb_form(params);
-        return html;
-    }
-
-    public Map<String, String> liqPayGenerateParamForHtmlForm(String id, Long amount) {
-        HashMap params = new HashMap();
-        params.put("version", "3");
-        params.put("amount", amount);
-        params.put("currency", "UAH");
-        try {
-            params.put("description", new String("Пополнение баланса".getBytes("UTF-8"), "cp1251"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        params.put("order_id", BankService.getRandomPassword() + id);
-        params.put("server_url", "http://e-otg-gup-bank.herokuapp.com/callback");
-        params.put("public_key", "i74044182839");
-        params.put("sandbox", "1");
-        return new LiqPay("i74044182839", "psMQcCR32o4TZRZTKI0Yoe4UDNyFHNFHf76Pyedr").generateData(params);
+    public String getUserJson(String login) {
+        return userRepository.getUserJson(login);
     }
 
     public void accountantRequest(String accountantLogin, String userId, Long amount, String comment) {
@@ -176,8 +125,8 @@ public class BankSession {
         internalTransactionRepository.adminConfirm(internalTransactionId, adminLogin);
     }
 
-    public void createBalanceRecord(String userId, Integer typeEntity) {
-        balanceRepository.createBalanceRecord(userId, typeEntity);
+    public void createBalanceRecord(String user, Integer typeEntity) {
+        balanceRepository.createBalanceRecord(user, typeEntity);
     }
 
     public String getAllPendingTransactionsJson() {
@@ -196,17 +145,29 @@ public class BankSession {
         internalTransactionRepository.accountantCancelRequest(internalTransactionId);
     }
 
-    public List<Pair<String, Long>> projectPayback(String projectId) {
+
+    public String getBonusByUserId(String userId) {
+        return bonusRepository.getBonusByUserId(userId);
+    }
+
+    public String getAllPendingTransactions(String userId, String byType) {
+        return bonusRepository.getAllPendingTransactions(userId, byType);
+    }
+
+
+    public String addBonusByUserId(String userId, String inviteCode) {
+        return bonusRepository.addBonusByUserId(userId, inviteCode);
+    }
+
+    public String buyByBonusAccount(String userId, int transType, int cost, int offerId) {
+        return bonusRepository.buyByBonusAccount(userId, transType, cost, offerId);
+    }
+
+
+    public List<Pair<String, Long>> projectPayback(String projectId) throws ParseException {
         String jsonResponse = internalTransactionRepository.projectPayback(projectId);
         JSONParser parser = new JSONParser();
-
-        Object obj = null;
-        try {
-            obj = parser.parse(jsonResponse);
-        } catch (ParseException e) {
-            LOG.error("EXCEPTION IN projectPayback method - could not parse" + LogUtil.getExceptionStackTrace(e));
-        }
-
+        Object obj = parser.parse(jsonResponse);
         JSONArray response = (JSONArray) obj;
         ArrayList<Pair<String, Long>> result = new ArrayList<>();
         for (Object pairBeforeParse : response) {

@@ -1,5 +1,7 @@
 package ua.com.itproekt.gup.bank_api.repository;
 
+import ua.com.itproekt.gup.bank_api.BankSession;
+import ua.com.itproekt.gup.bank_api.SecurityService;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -7,14 +9,9 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.postgresql.util.Base64;
-import ua.com.itproekt.gup.bank_api.BankSession;
-import ua.com.itproekt.gup.bank_api.SecurityService;
 
 import java.net.URI;
 
-/**
- * Created by RAYANT on 22.10.2015.
- */
 public class InternalTransactionRepository {
 
     private BankSession session;
@@ -424,5 +421,7 @@ public class InternalTransactionRepository {
         }
         return "";
     }
+
+
 
 }
