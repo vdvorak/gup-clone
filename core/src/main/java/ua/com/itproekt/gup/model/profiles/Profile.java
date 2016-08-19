@@ -41,6 +41,7 @@ public class Profile {
 
     private Long createdDate;
     private Long lastLoginDate;
+    private boolean isOnline;
 
     private List<OrderAddress> orderAddressList;
     private List<OfferUserContactInfo> offerUserContactInfoList;
@@ -246,6 +247,15 @@ public class Profile {
         return this;
     }
 
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public Profile setIsOnline(boolean isOnline) {
+        this.isOnline = isOnline;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
@@ -267,6 +277,7 @@ public class Profile {
                 ", userRoles=" + userRoles +
                 ", createdDate=" + createdDate +
                 ", lastLoginDate=" + lastLoginDate +
+                ", isOnline=" + isOnline +
                 ", orderAddressList=" + orderAddressList +
                 ", offerUserContactInfoList=" + offerUserContactInfoList +
                 '}';

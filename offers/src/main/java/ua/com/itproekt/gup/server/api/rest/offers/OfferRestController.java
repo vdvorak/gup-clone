@@ -11,18 +11,23 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.server.api.rest.dto.OfferInfo;
 import ua.com.itproekt.gup.server.api.rest.dto.OfferRegistration;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
 import ua.com.itproekt.gup.service.subscription.SubscriptionService;
-import ua.com.itproekt.gup.util.*;
+import ua.com.itproekt.gup.util.CreatedObjResp;
+import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.itproekt.gup.util.SeoUtils;
+import ua.com.itproekt.gup.util.Translit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/rest/offersService")
@@ -53,18 +58,25 @@ public class OfferRestController {
         if (offer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(offer, HttpStatus.OK);
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        //if user is author - he will receive additional fields
+        if (offer.getAuthorId().equals(userId)) {
+            return new ResponseEntity<>(offersService.getPrivateOfferInfoByOffer(offer), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(offersService.getPublicOfferInfoByOffer(offer), HttpStatus.OK);
     }
 
     @CrossOrigin
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
-    public ResponseEntity<EntityPage<Offer>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
+    public ResponseEntity<List<OfferInfo>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
         if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             offerFO.setActive(true);
             offerFO.setModerationStatus(ModerationStatus.COMPLETE);
         }
-//        return ModelUtil.toModel(offersService.findOffersWihOptions(offerFO));
-        return new ResponseEntity<>(offersService.findOffersWihOptions(offerFO), HttpStatus.OK);
+        return new ResponseEntity<>(offersService.getListOfMiniPublicOffersWithOptions(offerFO), HttpStatus.OK);
     }
 
     //------------------------------------------ Create ----------------------------------------------------------------
@@ -151,16 +163,35 @@ public class OfferRestController {
         return new ResponseEntity<>(new CreatedObjResp(newOffer.getSeoUrl()), HttpStatus.OK);
     }
 
+
+    /**
+     * Change active status of the offer. Allowed only for offer author.
+     *
+     * @param offerId offer id.
+     * @return status 200 is ok, 403 - user is not an author of the offer, 404 - if offer is not found.
+     */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/offer/{offerId}/setActive/{isActive}", method = RequestMethod.POST)
-    public ResponseEntity<Void> setActive(@PathVariable String offerId, @PathVariable boolean isActive) {
+    @RequestMapping(value = "/offer/{offerId}/changeActiveStatus", method = RequestMethod.GET)
+    public ResponseEntity<Void> setActive(@PathVariable String offerId) {
 
-        if (!offersService.offerExists(offerId)) {
+        Offer offer = offersService.findById(offerId);
+        if (offer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        offersService.setActive(offerId, isActive);
+        String userId = SecurityOperations.getLoggedUserId();
+
+        if (offer.getAuthorId().equals(userId)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        if (offer.getActive()) {
+            offer.setActive(false);
+        } else {
+            offer.setActive(true);
+        }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -171,8 +202,15 @@ public class OfferRestController {
     @RequestMapping(value = "/offer/delete/{offerId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteOffer(@PathVariable String offerId) {
 
-        if (!offersService.offerExists(offerId)) {
+        Offer offer = offersService.findById(offerId);
+        if (offer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        if (offer.getAuthorId().equals(userId)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         offersService.delete(offerId);
@@ -220,7 +258,7 @@ public class OfferRestController {
     /**
      * Add SeoUrl to offer and create new PaidService in offer
      *
-     * @param offerRegistration
+     * @param offerRegistration offerRegistration
      */
     private void offerSeoUrlAndPaidServicePreparator(OfferRegistration offerRegistration) {
         long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
