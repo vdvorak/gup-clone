@@ -13,17 +13,15 @@ import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.server.api.rest.dto.OfferInfo;
 import ua.com.itproekt.gup.server.api.rest.dto.OfferRegistration;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
-import ua.com.itproekt.gup.util.ServiceNames;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class OffersServiceImpl implements OffersService {
@@ -214,5 +212,103 @@ public class OffersServiceImpl implements OffersService {
     @Override
     public Set<String> getMatchedNames(String name) {
         return offerRepository.getMatchedNames(name);
+    }
+
+
+    /**
+     * @param offerId - offer id
+     * @return offerInfo object
+     */
+    @Override
+    public OfferInfo getPublicOfferInfoById(String offerId) {
+        return publicOfferPreparator(findById(offerId));
+    }
+
+    /**
+     * @param offer offer
+     * @return OfferInfo
+     */
+    @Override
+    public OfferInfo getPublicOfferInfoByOffer(Offer offer) {
+        return publicOfferPreparator(offer);
+    }
+
+    /**
+     * @param offerId offer id
+     * @return offerInfo object
+     */
+    @Override
+    public OfferInfo getPrivateOfferInfoById(String offerId) {
+        return privateOfferPreparator(offerRepository.findById(offerId));
+    }
+
+
+    /**
+     *
+     * @param offer offer
+     * @return OfferInfo object
+     */
+    @Override
+    public OfferInfo getPrivateOfferInfoByOffer(Offer offer) {
+        return privateOfferPreparator(offer);
+    }
+
+    /**
+     * @param offerFilterOptions - object with filter options
+     * @return list of offerInfo objects
+     */
+    @Override
+    public List<OfferInfo> getListOfMiniPublicOffersWithOptions(OfferFilterOptions offerFilterOptions) {
+        return publicMiniOfferInfoPreparator(offerRepository.findOffersWihOptions(offerFilterOptions).getEntities());
+    }
+
+    /**
+     * Make list of offerInfo from list of offers: delete unnecessary fields, add some additional fields
+     *
+     * @param offerList list of offers
+     * @return offerInfo list
+     */
+    private List<OfferInfo> publicMiniOfferInfoPreparator(List<Offer> offerList) {
+        List<OfferInfo> offerInfoList = new ArrayList<>();
+        for (Offer offer : offerList) {
+            offerInfoList.add(publicOfferPreparator(offer));
+        }
+        return offerInfoList;
+    }
+
+
+    /**
+     * Create OfferInfo and put there public version of offer
+     * and some additional fields
+     *
+     * @param offer Offer
+     * @return OfferInfo
+     */
+    private OfferInfo publicOfferPreparator(Offer offer) {
+        OfferInfo offerInfo = new OfferInfo();
+        Profile profile = profilesService.findById(offer.getAuthorId());
+        offer.setLastModerationDate(null);
+        offer.setModerationMessage(null);
+        offerInfo.setOffer(offer);
+        offerInfo.setIsOnline(profile.isOnline());
+        return offerInfo;
+    }
+
+    /**
+     * Create OfferInfo and put there private version of offer
+     * and some additional fields
+     *
+     * @param offer offer
+     * @return offerInfo object
+     */
+    private OfferInfo privateOfferPreparator(Offer offer) {
+        OfferInfo offerInfo = new OfferInfo();
+        Profile profile = profilesService.findById(offer.getAuthorId());
+
+        //ToDo Maybe here will be smth else in the future. Maybe...
+        offerInfo.setOffer(offer);
+        offerInfo.setIsOnline(profile.isOnline());
+
+        return offerInfo;
     }
 }
