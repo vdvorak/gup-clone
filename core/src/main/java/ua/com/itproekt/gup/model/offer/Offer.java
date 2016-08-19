@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.model.offer;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
@@ -22,6 +23,7 @@ import java.util.Set;
 //    @CompoundIndex(name = "prop_offers_idx", def = "{'reservation' : 1, 'address.city' : 1, 'address.area' : 1, 'address.country' : 1, 'category' : 1, 'properties.key': 1, 'properties.value': 1, 'used' : 1, 'price' : 1, 'createdDate' : 1}"),
 //})
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Offer {
     @Id
     private String id;

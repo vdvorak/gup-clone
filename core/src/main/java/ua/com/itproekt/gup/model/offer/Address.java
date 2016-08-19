@@ -1,7 +1,10 @@
 package ua.com.itproekt.gup.model.offer;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.math.BigDecimal;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Address {
     private String coordinates;
     private String country;

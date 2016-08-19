@@ -1,8 +1,11 @@
 package ua.com.itproekt.gup.server.api.rest.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.com.itproekt.gup.model.offer.Offer;
 
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OfferInfo extends Offer {
     private Offer offer;
     private boolean isOnline;
