@@ -148,38 +148,32 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/autoregister", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> autoRegister(@RequestBody Profile profile, HttpServletResponse response) {
+        ResponseEntity<ProfileInfo> resp = null;
 
         // CHECK_EMAIL:
-        String email = profile.getEmail().split("=")[0];
-        try {
-            email = URLDecoder.decode(email, "UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            LOG.error(LogUtil.getExceptionStackTrace(ex));
-        }
-        if( profilesService.profileExistsWithEmail(email) ){
+        if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
 
             // REGISTER:
-            if (profilesService.profileExistsWithEmail(profile.getEmail())) {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            }
             profilesService.createProfile(profile);
             verificationTokenService.sendEmailRegistrationToken(profile.getId());
 
             // LOGIN:
-            LoggedUser loggedUser;
+            LoggedUser loggedUser = null;
             try {
                 loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail());
+                if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
+                    resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                }
+                authenticateByEmailAndPassword(loggedUser, response);
+                ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
+                resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
             } catch (UsernameNotFoundException ex) {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
-            if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-            authenticateByEmailAndPassword(loggedUser, response);
-            ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
-            return new ResponseEntity<>(profileInfo, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            resp = new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+
+        return resp;
     }
 }
