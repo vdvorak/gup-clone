@@ -67,8 +67,14 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
-    public boolean profileExistsWithEmail(String email) {
+     public boolean profileExistsWithEmail(String email) {
         Query query = new Query(Criteria.where("email").is(email));
+        return mongoTemplate.exists(query, Profile.class);
+    }
+
+    @Override
+    public boolean profileExistsWithSocWendor(String socWendor) {
+        Query query = new Query(Criteria.where("socWendor").is(socWendor));
         return mongoTemplate.exists(query, Profile.class);
     }
 

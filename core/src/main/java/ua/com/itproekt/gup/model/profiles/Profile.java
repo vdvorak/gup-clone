@@ -21,6 +21,7 @@ public class Profile {
 
     @Indexed
     private String email;
+    private String socWendor;
     private String password;
     private String mainPhoneNumber;
 
@@ -256,12 +257,22 @@ public class Profile {
         return this;
     }
 
+    public String getSocWendor() {
+        return socWendor;
+    }
+
+    public Profile setSocWendor(String socWendor) {
+        this.socWendor = socWendor;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
                 "id='" + id + '\'' +
                 ", idSeoWord='" + idSeoWord + '\'' +
                 ", email='" + email + '\'' +
+                ", socWendor='" + socWendor + '\'' +
                 ", password='" + password + '\'' +
                 ", mainPhoneNumber='" + mainPhoneNumber + '\'' +
                 ", username='" + username + '\'' +

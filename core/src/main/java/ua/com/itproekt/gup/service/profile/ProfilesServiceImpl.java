@@ -37,6 +37,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         Profile newProfile = new Profile()
                 .setEmail(profile.getEmail())
+                .setSocWendor(profile.getSocWendor())
                 .setPassword(hashedPassword)
                 .setUserRoles(userRoles)
                 .setCreatedDateEqualsToCurrentDate();
@@ -101,6 +102,15 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public boolean profileExistsWithEmail(String email) {
         return profileRepository.profileExistsWithEmail(email);
+    }
+
+    /**
+     * @param socWendor the socWendor
+     * @return
+     */
+    @Override
+    public boolean profileExistsWithSocWendor(String socWendor) {
+        return profileRepository.profileExistsWithSocWendor(socWendor);
     }
 
     /***
