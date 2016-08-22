@@ -146,8 +146,8 @@ public class LoginRestController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/register-autologin", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> registerAutoLogin(@RequestBody Profile profile, HttpServletResponse response) {
+    @RequestMapping(value = "/autoregister", method = RequestMethod.POST)
+    public ResponseEntity<ProfileInfo> autoRegister(@RequestBody Profile profile, HttpServletResponse response) {
 
         // CHECK_EMAIL:
         String email = profile.getEmail().split("=")[0];
