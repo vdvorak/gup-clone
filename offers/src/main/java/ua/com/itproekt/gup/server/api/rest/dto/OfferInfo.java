@@ -4,12 +4,15 @@ package ua.com.itproekt.gup.server.api.rest.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.com.itproekt.gup.model.offer.Offer;
 
+import java.util.List;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OfferInfo extends Offer {
     private Offer offer;
     private boolean isOnline;
     private String userName;
+    private List<OfferInfo> relevantOffersList;
 
     public Offer getOffer() {
         return offer;
@@ -35,12 +38,21 @@ public class OfferInfo extends Offer {
         this.userName = userName;
     }
 
+    public List<OfferInfo> getRelevantOffersList() {
+        return relevantOffersList;
+    }
+
+    public void setRelevantOffersList(List<OfferInfo> relevantOffersList) {
+        this.relevantOffersList = relevantOffersList;
+    }
+
     @Override
     public String toString() {
         return "OfferInfo{" +
                 "offer=" + offer +
                 ", isOnline=" + isOnline +
                 ", userName='" + userName + '\'' +
+                ", relevantOffersList=" + relevantOffersList +
                 '}';
     }
 }

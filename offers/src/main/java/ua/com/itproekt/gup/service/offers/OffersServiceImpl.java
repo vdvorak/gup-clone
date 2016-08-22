@@ -290,6 +290,7 @@ public class OffersServiceImpl implements OffersService {
         offer.setLastModerationDate(null);
         offer.setModerationMessage(null);
         offerInfo.setOffer(offer);
+        offerInfo.setUserName(profile.getUsername());
         offerInfo.setIsOnline(profile.isOnline());
         return offerInfo;
     }
@@ -307,6 +308,7 @@ public class OffersServiceImpl implements OffersService {
 
         //ToDo Maybe here will be smth else in the future. Maybe...
         offerInfo.setOffer(offer);
+        offerInfo.setUserName(profile.getUsername());
         offerInfo.setIsOnline(profile.isOnline());
 
         return offerInfo;

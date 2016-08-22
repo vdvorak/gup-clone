@@ -53,7 +53,7 @@ public class OfferRestController {
     @CrossOrigin
     @RequestMapping(value = "/offer/read/{id}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Offer> getOfferById(@PathVariable String id) {
+    public ResponseEntity<OfferInfo> getOfferById(@PathVariable String id) {
         Offer offer = offersService.findOfferAndIncViews(id);
         if (offer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -68,6 +68,34 @@ public class OfferRestController {
 
         return new ResponseEntity<>(offersService.getPublicOfferInfoByOffer(offer), HttpStatus.OK);
     }
+
+
+    @CrossOrigin
+    @RequestMapping(value = "/offer/read/relevant/{id}", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<OfferInfo> getOfferByIdWithRelevant(@PathVariable String id) {
+        Offer offer = offersService.findOfferAndIncViews(id);
+        if (offer == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        //if user is author - he will receive additional fields
+        if (offer.getAuthorId().equals(userId)) {
+            return new ResponseEntity<>(offersService.getPrivateOfferInfoByOffer(offer), HttpStatus.OK);
+        }
+
+        // receive list of relevant offer
+        List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptions(offerFilterOptionsPreparatorForRelevantSearch(offer));
+
+
+        OfferInfo offerInfo = offersService.getPublicOfferInfoByOffer(offer);
+        offerInfo.setRelevantOffersList(relevantOffersList);
+
+        return new ResponseEntity<>(offerInfo, HttpStatus.OK);
+    }
+
 
     @CrossOrigin
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
@@ -267,6 +295,23 @@ public class OfferRestController {
         PaidServices paidServices = new PaidServices();
         paidServices.setLastUpdateDateToCurrentDate();
         offerRegistration.getOffer().setPaidServices(paidServices);
+    }
+
+    private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearch(Offer offer) {
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+
+        // add categories in filter
+        offerFilterOptions.setCategories(offer.getCategories());
+
+        // add adress in filter
+        if (offer.getAddress().getCity() != null) {
+            offerFilterOptions.getAddress().setCity(offer.getAddress().getCity());
+        } else {
+            if (offer.getAddress().getArea() != null) {
+                offerFilterOptions.getAddress().setArea(offer.getAddress().getArea());
+            }
+        }
+        return offerFilterOptions;
     }
 
 
