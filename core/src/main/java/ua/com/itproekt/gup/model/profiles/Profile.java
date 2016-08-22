@@ -41,7 +41,7 @@ public class Profile {
 
     private Long createdDate;
     private Long lastLoginDate;
-    private boolean isOnline;
+    private boolean online;
 
     private List<OrderAddress> orderAddressList;
     private List<OfferUserContactInfo> offerUserContactInfoList;
@@ -248,11 +248,11 @@ public class Profile {
     }
 
     public boolean isOnline() {
-        return isOnline;
+        return online;
     }
 
     public Profile setIsOnline(boolean isOnline) {
-        this.isOnline = isOnline;
+        this.online = isOnline;
         return this;
     }
 
@@ -277,7 +277,7 @@ public class Profile {
                 ", userRoles=" + userRoles +
                 ", createdDate=" + createdDate +
                 ", lastLoginDate=" + lastLoginDate +
-                ", isOnline=" + isOnline +
+                ", online=" + online +
                 ", orderAddressList=" + orderAddressList +
                 ", offerUserContactInfoList=" + offerUserContactInfoList +
                 '}';
