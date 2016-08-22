@@ -37,10 +37,10 @@ public class FileStorageRestController {
 
 
     /**
-     * @param serviceName
-     * @param fileId
+     * @param serviceName - service name in lower or upper case
+     * @param fileId      - id of image
      * @param cachedSize  - for Profile: large, small. For Offer: large, medium, small.
-     * @return
+     * @return file
      */
     @CrossOrigin
     @RequestMapping(value = "{serviceName}/photo/read/id/{fileId}", method = RequestMethod.GET)
@@ -75,10 +75,6 @@ public class FileStorageRestController {
      * @param file        file
      * @return id of uploaded files
      */
-
-    //ToDo boolean cachedImage заменить на параметр для определения Профиля или Оффера
-
-
     //ToDo включить ПреАвторайз
 //    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
@@ -120,14 +116,10 @@ public class FileStorageRestController {
             return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
 
         } else {
-            // if service is "Profile"
+            // if service is "offers"
             if (serviceName.toLowerCase().equals("offers")) {
-//                String uploadedFileId = storageService.saveCachedImageOffer(fileUploadWrapper);
-//                return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
-
-                //ToDo saveOfferImage impl
-
-                return new ResponseEntity<>(HttpStatus.OK);
+                String uploadedFileId = storageService.saveCachedImageOffer(fileUploadWrapper);
+                return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

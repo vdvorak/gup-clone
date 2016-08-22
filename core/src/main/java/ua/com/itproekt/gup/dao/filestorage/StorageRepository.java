@@ -29,18 +29,19 @@ public interface StorageRepository {
      */
     GridFSDBFile getCachedImage(String serviceName, String filePath, String imageId);
 
+
     /**
-     * Save photo in two variants: large and small
      *
-     * @return - id of image
+     * @param fileUploadWrapper
+     * @return
      */
     String saveCachedImageProfile(FileUploadWrapper fileUploadWrapper);
 
 
     /**
-     * Save photo in several size variants.
      *
-     * @return - id of image
+     * @param fileUploadWrapper
+     * @return
      */
-//    String saveCachedImageOffer(FileUploadWrapper fileUploadWrapper);
+    String saveCachedImageOffer(FileUploadWrapper fileUploadWrapper);
 }

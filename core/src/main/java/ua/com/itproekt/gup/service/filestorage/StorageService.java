@@ -40,5 +40,5 @@ public interface StorageService {
      *
      * @return - id of image
      */
-//    String saveCachedImageOffer(FileUploadWrapper fileUploadWrapper);
+    String saveCachedImageOffer(FileUploadWrapper fileUploadWrapper);
 }

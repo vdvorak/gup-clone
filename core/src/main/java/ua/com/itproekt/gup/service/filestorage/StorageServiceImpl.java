@@ -44,4 +44,8 @@ public class StorageServiceImpl implements StorageService {
         return storageRepository.saveCachedImageProfile(fileUploadWrapper);
     }
 
+    @Override
+    public String saveCachedImageOffer(FileUploadWrapper fileUploadWrapper) {
+        return storageRepository.saveCachedImageOffer(fileUploadWrapper);
+    }
 }
