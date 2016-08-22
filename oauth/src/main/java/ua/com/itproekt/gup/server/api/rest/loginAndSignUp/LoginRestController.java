@@ -150,10 +150,12 @@ public class LoginRestController {
     public ResponseEntity<ProfileInfo> autoRegister(@RequestBody Profile profile, HttpServletResponse response) {
         ResponseEntity<ProfileInfo> resp = null;
 
-        // CHECK_EMAIL:
+        // CHECK:
         if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
 
             // REGISTER:
+            if( profile.getSocWendor()==null )
+                profile.setSocWendor("GUP");
             profilesService.createProfile(profile);
             verificationTokenService.sendEmailRegistrationToken(profile.getId());
 

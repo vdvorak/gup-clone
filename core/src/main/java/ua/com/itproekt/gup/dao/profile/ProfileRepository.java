@@ -50,6 +50,14 @@ public interface ProfileRepository {
     boolean profileExistsWithEmail(String email);
 
     /**
+     * Profile exists with socWendor boolean.
+     *
+     * @param socWendor the socWendor
+     * @return the boolean
+     */
+    boolean profileExistsWithSocWendor(String socWendor);
+
+    /**
      * Find all profiles entity page.
      *
      * @param profileFilterOptions the profile filter options
