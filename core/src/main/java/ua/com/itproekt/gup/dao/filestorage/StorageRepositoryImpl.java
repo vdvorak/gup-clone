@@ -21,7 +21,7 @@ import java.util.Set;
 public class StorageRepositoryImpl implements StorageRepository {
 
     private static final String LARGE_CACHE_IMAGE_STORAGE_PATH = ".file.storage.large.cache";
-    private static final String MEDIUM_CACHE_IMAGE_STORAGE_PATH = ".file.storage.large.cache";
+    private static final String MEDIUM_CACHE_IMAGE_STORAGE_PATH = ".file.storage.medium.cache";
     private static final String SMALL_CACHE_IMAGE_STORAGE_PATH = ".file.storage.small.cache";
 
     private int profileSmallCachedSize = 40;
@@ -32,7 +32,6 @@ public class StorageRepositoryImpl implements StorageRepository {
     private MongoTemplate mongoTemplate;
 
     private GridFS gridFs;
-
 
 
     @Override
@@ -60,10 +59,69 @@ public class StorageRepositoryImpl implements StorageRepository {
     }
 
 
-    private String cacheImage(FileUploadWrapper fileUploadWrapper,BufferedImage bufferedImage, int size, String originalImageId, String filePath) throws IOException {
-        // Cache image
+    /**
+     * @param fileUploadWrapper
+     * @return
+     */
+    @Override
+    public String saveCachedImageProfile(FileUploadWrapper fileUploadWrapper) {
 
-        BufferedImage scaledImage = Scalr.resize(bufferedImage, size);
+
+        // first call of method with originalImageId = null
+        String originalImageId = null;
+
+        try {
+            BufferedImage bufferedImage = ImageIO.read(fileUploadWrapper.getInputStream());
+
+            originalImageId = cacheImage(fileUploadWrapper, largeBufferedImageProfilePreparator(bufferedImage), originalImageId, LARGE_CACHE_IMAGE_STORAGE_PATH);
+
+            cacheImage(fileUploadWrapper, smallBufferedImageProfilePreparator(bufferedImage), originalImageId, SMALL_CACHE_IMAGE_STORAGE_PATH);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return originalImageId;
+    }
+
+    /**
+     * @param fileUploadWrapper
+     * @return
+     */
+    @Override
+    public String saveCachedImageOffer(FileUploadWrapper fileUploadWrapper) {
+
+
+        // first call of method with originalImageId = null
+        String originalImageId = null;
+
+        try {
+            BufferedImage bufferedImage = ImageIO.read(fileUploadWrapper.getInputStream());
+
+
+            originalImageId = cacheImage(fileUploadWrapper, largeBufferedImageOfferPreparator(bufferedImage), originalImageId, LARGE_CACHE_IMAGE_STORAGE_PATH);
+
+            cacheImage(fileUploadWrapper, mediumBufferedImageOfferPreparator(bufferedImage), originalImageId, MEDIUM_CACHE_IMAGE_STORAGE_PATH);
+
+//            cacheImage(fileUploadWrapper, bufferedImage, offerSmallCachedSize, originalImageId, SMALL_CACHE_IMAGE_STORAGE_PATH);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return originalImageId;
+    }
+
+    /**
+     * @param fileUploadWrapper
+     * @param scaledImage
+     * @param originalImageId
+     * @param filePath
+     * @return
+     * @throws IOException
+     */
+    private String cacheImage(FileUploadWrapper fileUploadWrapper, BufferedImage scaledImage, String originalImageId, String filePath) throws IOException {
+
         String imageFormatName = fileUploadWrapper.getContentType().substring(fileUploadWrapper.getContentType().lastIndexOf("/") + 1);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         ImageIO.write(scaledImage, imageFormatName, os);
@@ -86,26 +144,47 @@ public class StorageRepositoryImpl implements StorageRepository {
         return inputFile.getId().toString();
     }
 
-
-    @Override
-    public String saveCachedImageProfile(FileUploadWrapper fileUploadWrapper) {
-
-
-        // first call of method with originalImageId = null
-        String originalImageId = null;
-
-        try {
-            BufferedImage bufferedImage = ImageIO.read(fileUploadWrapper.getInputStream());
-
-            originalImageId = cacheImage(fileUploadWrapper, bufferedImage, profileLargeCachedSize, originalImageId, LARGE_CACHE_IMAGE_STORAGE_PATH);
-
-            cacheImage(fileUploadWrapper,bufferedImage, profileSmallCachedSize, originalImageId, SMALL_CACHE_IMAGE_STORAGE_PATH);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return originalImageId;
+    /**
+     * @param bufferedImage
+     * @return
+     */
+    private BufferedImage smallBufferedImageProfilePreparator(BufferedImage bufferedImage) {
+        return Scalr.resize(bufferedImage, profileSmallCachedSize);
     }
 
+    /**
+     * @param bufferedImage
+     * @return
+     */
+    private BufferedImage largeBufferedImageProfilePreparator(BufferedImage bufferedImage) {
+        return Scalr.resize(bufferedImage, profileLargeCachedSize);
+    }
+
+
+    /**
+     * @param inputImage
+     * @return
+     */
+    private BufferedImage largeBufferedImageOfferPreparator(BufferedImage inputImage) {
+
+
+        int originHeight = inputImage.getHeight();
+
+
+        if (originHeight > 600) {
+            return Scalr.resize(inputImage, Scalr.Mode.FIT_TO_HEIGHT, 600);
+        } else {
+            return Scalr.resize(inputImage, Scalr.Mode.FIT_TO_HEIGHT, originHeight);
+        }
+    }
+
+
+    /**
+     * @param inputImage
+     * @return
+     */
+    private BufferedImage mediumBufferedImageOfferPreparator(BufferedImage inputImage) {
+        return Scalr.resize(inputImage, Scalr.Mode.AUTOMATIC, 165, 120);
+    }
 
 }
