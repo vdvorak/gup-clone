@@ -30,7 +30,7 @@ import java.util.Map;
 public class BankSession {
     private static final Logger LOG = Logger.getLogger(BankSession.class);
 
-    private final String URL = "93.73.109.38:8087"; //private final String URL = "e-otg-gup-bank.herokuapp.com";
+    private final String URL = "e-otg-gup-bank.herokuapp.com";
     private BalanceRepository balanceRepository = new BalanceRepository(this);
     private ExternalTransactionRepository externalTransactionRepository = new ExternalTransactionRepository(this);
     private InternalTransactionRepository internalTransactionRepository = new InternalTransactionRepository(this);

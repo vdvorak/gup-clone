@@ -40,12 +40,22 @@ public class SecurityService {
         SecurityService.onlineUsers = onlineUsers;
     }
 
-    public static byte[] encrypt(String input) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-
-        cipher.init(Cipher.ENCRYPT_MODE, key);
+    public static byte[] encrypt(String input) {
+        try {
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        }
         byte[] inputBytes = input.getBytes();
-        return cipher.doFinal(inputBytes);
 
+
+        try {
+            return cipher.doFinal(inputBytes);
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            e.printStackTrace();
+        }
+
+        return new byte[0];
     }
 
     public static String decrypt(byte[] encryptionBytes) throws InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
