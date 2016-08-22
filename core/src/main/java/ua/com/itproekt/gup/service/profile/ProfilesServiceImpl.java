@@ -15,7 +15,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
-    BankSession bankSession = new BankSession();
+    BankSession bankSession = new BankSession(); //BankSession bankSession = new BankSession("http://93.73.109.38:8087"); //ToDo need use 'bank_session.properties'
 
     @Autowired
     private ProfileRepository profileRepository;
