@@ -23,6 +23,13 @@ public interface OfferRepository {
 
     EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFilterOptions);
 
+    /**
+     * @param offerFilterOptions
+     * @param excludeOfferId
+     * @return
+     */
+    EntityPage<Offer> findOffersWithOptionsAndExcludes(OfferFilterOptions offerFilterOptions, String excludeOfferId);
+
     void deleteReservation(String offerId);
 
     void rentOffer(String offerId, RentedOfferPeriodInfo rentedOfferPeriodInfo);

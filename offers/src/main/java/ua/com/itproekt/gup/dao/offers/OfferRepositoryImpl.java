@@ -71,7 +71,69 @@ public class OfferRepositoryImpl implements OfferRepository {
     }
 
     @Override
-    public EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFO) {
+    public EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFilterOptions) {
+        Query query = queryPreparator(offerFilterOptions);
+        return new EntityPage<>(mongoTemplate.count(query, Offer.class), mongoTemplate.find(query, Offer.class));
+    }
+
+    @Override
+    public EntityPage<Offer> findOffersWithOptionsAndExcludes(OfferFilterOptions offerFilterOptions, String excludeOfferId) {
+
+        Query query = queryPreparator(offerFilterOptions);
+
+        query.addCriteria(Criteria.where("id").ne(excludeOfferId));
+        return new EntityPage<>(mongoTemplate.count(query, Offer.class), mongoTemplate.find(query, Offer.class));
+    }
+
+
+    @Override
+    public void deleteReservation(String offerId) {
+        mongoTemplate.updateFirst(
+                Query.query(Criteria.where("id").is(offerId)),
+                new Update().set("reservation", null),
+                Offer.class);
+    }
+
+    @Override
+    public void rentOffer(String offerId, RentedOfferPeriodInfo rentedOfferPeriodInfo) {
+        mongoTemplate.updateFirst(
+                Query.query(Criteria.where("id").is(offerId)),
+                new Update().push("rent.rentedOfferPeriodInfo", rentedOfferPeriodInfo),
+                Offer.class);
+    }
+
+    @Override
+    public void incViewsAtOne(String offerId) {
+        mongoTemplate.updateFirst(
+                Query.query(Criteria.where("id").is(offerId)),
+                new Update().inc("views", 1),
+                Offer.class);
+    }
+
+    @Override
+    public void deleteRent(String offerId, String rentId) {
+        mongoTemplate.updateFirst(
+                Query.query(Criteria.where("id").is(offerId)),
+                new Update().pull("rent.rentedOfferPeriodInfo", Query.query(Criteria.where("id").is(rentId))),
+                Offer.class);
+    }
+
+    @Override
+    public Set<String> getMatchedNames(String name) {
+        String searchFieldRegex = "(?i:.*" + name + ".*)";
+        Query query = new Query();
+
+        query.addCriteria(new Criteria().orOperator(Criteria.where("title").regex(searchFieldRegex)));
+
+        query.fields().include("title");
+        query.skip(0);
+        query.limit(10);
+
+        return mongoTemplate.find(query, Offer.class).stream().map(Offer::getTitle).collect(Collectors.toSet());
+    }
+
+
+    private Query queryPreparator(OfferFilterOptions offerFO) {
 
         Query query = new Query();
 
@@ -181,53 +243,7 @@ public class OfferRepositoryImpl implements OfferRepository {
         query.skip(offerFO.getSkip());
         query.limit(offerFO.getLimit());
 
-        return new EntityPage<>(mongoTemplate.count(query, Offer.class), mongoTemplate.find(query, Offer.class));
-    }
-
-    @Override
-    public void deleteReservation(String offerId) {
-        mongoTemplate.updateFirst(
-                Query.query(Criteria.where("id").is(offerId)),
-                new Update().set("reservation", null),
-                Offer.class);
-    }
-
-    @Override
-    public void rentOffer(String offerId, RentedOfferPeriodInfo rentedOfferPeriodInfo) {
-        mongoTemplate.updateFirst(
-                Query.query(Criteria.where("id").is(offerId)),
-                new Update().push("rent.rentedOfferPeriodInfo", rentedOfferPeriodInfo),
-                Offer.class);
-    }
-
-    @Override
-    public void incViewsAtOne(String offerId) {
-        mongoTemplate.updateFirst(
-                Query.query(Criteria.where("id").is(offerId)),
-                new Update().inc("views", 1),
-                Offer.class);
-    }
-
-    @Override
-    public void deleteRent(String offerId, String rentId) {
-        mongoTemplate.updateFirst(
-                Query.query(Criteria.where("id").is(offerId)),
-                new Update().pull("rent.rentedOfferPeriodInfo", Query.query(Criteria.where("id").is(rentId))),
-                Offer.class);
-    }
-
-    @Override
-    public Set<String> getMatchedNames(String name) {
-        String searchFieldRegex = "(?i:.*" + name + ".*)";
-        Query query = new Query();
-
-        query.addCriteria(new Criteria().orOperator(Criteria.where("title").regex(searchFieldRegex)));
-
-        query.fields().include("title");
-        query.skip(0);
-        query.limit(10);
-
-        return mongoTemplate.find(query, Offer.class).stream().map(Offer::getTitle).collect(Collectors.toSet());
+        return query;
     }
 
 

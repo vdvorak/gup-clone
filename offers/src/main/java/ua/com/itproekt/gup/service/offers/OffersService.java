@@ -83,6 +83,14 @@ public interface OffersService {
      */
     List<OfferInfo> getListOfMiniPublicOffersWithOptions(OfferFilterOptions offerFilterOptions);
 
+    /**
+     *
+     * @param offerFilterOptions
+     * @param excludeOfferId
+     * @return
+     */
+    List<OfferInfo> getListOfMiniPublicOffersWithOptionsAndExclude(OfferFilterOptions offerFilterOptions, String excludeOfferId);
+
 
 //    ModerationMessage moderateOffer(ModerationMessage moderationMessage);
 }

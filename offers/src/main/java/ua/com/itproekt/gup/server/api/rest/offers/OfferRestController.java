@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.com.itproekt.gup.model.offer.Address;
 import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
@@ -51,7 +52,7 @@ public class OfferRestController {
     //------------------------------------------ Read -----------------------------------------------------------------
 
     @CrossOrigin
-    @RequestMapping(value = "/offer/read/{id}", method = RequestMethod.POST,
+    @RequestMapping(value = "/offer/read/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferInfo> getOfferById(@PathVariable String id) {
         Offer offer = offersService.findOfferAndIncViews(id);
@@ -71,7 +72,7 @@ public class OfferRestController {
 
 
     @CrossOrigin
-    @RequestMapping(value = "/offer/read/relevant/{id}", method = RequestMethod.POST,
+    @RequestMapping(value = "/offer/read/relevant/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferInfo> getOfferByIdWithRelevant(@PathVariable String id) {
         Offer offer = offersService.findOfferAndIncViews(id);
@@ -81,16 +82,22 @@ public class OfferRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
+        OfferInfo offerInfo;
+
         //if user is author - he will receive additional fields
         if (offer.getAuthorId().equals(userId)) {
-            return new ResponseEntity<>(offersService.getPrivateOfferInfoByOffer(offer), HttpStatus.OK);
+            offerInfo = offersService.getPrivateOfferInfoByOffer(offer);
+        } else {
+            offerInfo = offersService.getPublicOfferInfoByOffer(offer);
         }
 
         // receive list of relevant offer
-        List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptions(offerFilterOptionsPreparatorForRelevantSearch(offer));
+        List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId());
 
+        if (relevantOffersList.size() < 20) {
+            relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithArea(offer), offer.getId());
+        }
 
-        OfferInfo offerInfo = offersService.getPublicOfferInfoByOffer(offer);
         offerInfo.setRelevantOffersList(relevantOffersList);
 
         return new ResponseEntity<>(offerInfo, HttpStatus.OK);
@@ -297,21 +304,51 @@ public class OfferRestController {
         offerRegistration.getOffer().setPaidServices(paidServices);
     }
 
-    private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearch(Offer offer) {
+    private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCity(Offer offer) {
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setAddress(new Address());
 
         // add categories in filter
         offerFilterOptions.setCategories(offer.getCategories());
 
-        // add adress in filter
+        // add address in filter
         if (offer.getAddress().getCity() != null) {
-            offerFilterOptions.getAddress().setCity(offer.getAddress().getCity());
-        } else {
-            if (offer.getAddress().getArea() != null) {
-                offerFilterOptions.getAddress().setArea(offer.getAddress().getArea());
-            }
+            offerFilterOptions
+                    .getAddress()
+                    .setCity(offer.getAddress().getCity());
+            offerFilterOptions.getAddress().setArea(offer.getAddress().getArea());
+
         }
+//        else {
+//            if (offer.getAddress().getArea() != null) {
+//                offerFilterOptions.getAddress().setArea(offer.getAddress().getArea());
+//            }
+//        }
         return offerFilterOptions;
+    }
+
+    private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithArea(Offer offer) {
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setAddress(new Address());
+
+        // add categories in filter
+        offerFilterOptions.setCategories(offer.getCategories());
+
+        // add address in filter
+        if (offer.getAddress().getArea() != null) {
+            offerFilterOptions
+                    .getAddress()
+                    .setArea(offer
+                            .getAddress()
+                            .getArea());
+        }
+//        else {
+//            if (offer.getAddress().getArea() != null) {
+//                offerFilterOptions.getAddress().setArea(offer.getAddress().getArea());
+//            }
+//        }
+        return offerFilterOptions;
+
     }
 
 

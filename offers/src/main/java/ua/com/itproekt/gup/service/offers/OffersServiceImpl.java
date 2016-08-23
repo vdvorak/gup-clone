@@ -244,7 +244,6 @@ public class OffersServiceImpl implements OffersService {
 
 
     /**
-     *
      * @param offer offer
      * @return OfferInfo object
      */
@@ -260,6 +259,12 @@ public class OffersServiceImpl implements OffersService {
     @Override
     public List<OfferInfo> getListOfMiniPublicOffersWithOptions(OfferFilterOptions offerFilterOptions) {
         return publicMiniOfferInfoPreparator(offerRepository.findOffersWihOptions(offerFilterOptions).getEntities());
+    }
+
+
+    @Override
+    public List<OfferInfo> getListOfMiniPublicOffersWithOptionsAndExclude(OfferFilterOptions offerFilterOptions, String excludeOfferId) {
+        return publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptions, excludeOfferId).getEntities());
     }
 
     /**
