@@ -20,6 +20,14 @@ public interface OffersService {
 
     Offer findBySeoKey(String seoKey);
 
+    /**
+     * Methods receive seoUrl as string, parse it and return seoKey. Return offer and increase it numbers of views.
+     *
+     * @param seoUrl Seo URL
+     * @return Offer
+     */
+    Offer findBySeoUrlAndIncViews(String seoUrl);
+
     Offer findOfferAndIncViews(String offerId);
 
     void delete(String id);
@@ -84,7 +92,6 @@ public interface OffersService {
     List<OfferInfo> getListOfMiniPublicOffersWithOptions(OfferFilterOptions offerFilterOptions);
 
     /**
-     *
      * @param offerFilterOptions
      * @param excludeOfferId
      * @return

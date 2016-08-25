@@ -71,11 +71,33 @@ public class OfferRestController {
     }
 
 
+//    @CrossOrigin
+//    @RequestMapping(value = "/offer/read/url/{seoUrl}", method = RequestMethod.GET,
+//            produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<OfferInfo> getOfferBySeoUrl(@PathVariable String seoUrl) {
+//        Offer offer = offersService.findBySeoUrl(seoUrl);
+//
+//        if (offer == null) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//
+//        String userId = SecurityOperations.getLoggedUserId();
+//
+//        //if user is author - he will receive additional fields
+//        if (offer.getAuthorId().equals(userId)) {
+//            return new ResponseEntity<>(offersService.getPrivateOfferInfoByOffer(offer), HttpStatus.OK);
+//        }
+//
+//        return new ResponseEntity<>(offersService.getPublicOfferInfoByOffer(offer), HttpStatus.OK);
+//    }
+
+
     @CrossOrigin
-    @RequestMapping(value = "/offer/read/relevant/{id}", method = RequestMethod.GET,
+    @RequestMapping(value = "/offer/read/relevant/{seoUrl}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferInfo> getOfferByIdWithRelevant(@PathVariable String id) {
-        Offer offer = offersService.findOfferAndIncViews(id);
+    public ResponseEntity<OfferInfo> getOfferByIdWithRelevant(@PathVariable String seoUrl) {
+        Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
+
         if (offer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

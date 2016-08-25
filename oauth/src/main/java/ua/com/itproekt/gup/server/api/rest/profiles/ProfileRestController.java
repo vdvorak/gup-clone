@@ -62,6 +62,7 @@ public class ProfileRestController {
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
+
     /**
      * If User is logged in - return Profile Info, if not - return only status 200 (Ok).
      *

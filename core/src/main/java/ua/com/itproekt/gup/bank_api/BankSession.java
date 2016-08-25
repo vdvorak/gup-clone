@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.entity.BankUser;
 import ua.com.itproekt.gup.bank_api.entity.InternalTransaction;
 import ua.com.itproekt.gup.bank_api.liqpay.LiqPay;
-import ua.com.itproekt.gup.bank_api.repository.BalanceRepository;
-import ua.com.itproekt.gup.bank_api.repository.ExternalTransactionRepository;
-import ua.com.itproekt.gup.bank_api.repository.InternalTransactionRepository;
-import ua.com.itproekt.gup.bank_api.repository.UserRepository;
+import ua.com.itproekt.gup.bank_api.repository.*;
 import ua.com.itproekt.gup.bank_api.services.BankService;
 import ua.com.itproekt.gup.bank_api.services.Pair;
 import ua.com.itproekt.gup.util.LogUtil;
@@ -30,11 +27,12 @@ import java.util.Map;
 public class BankSession {
     private static final Logger LOG = Logger.getLogger(BankSession.class);
 
-    private final String URL = "e-otg-gup-bank.herokuapp.com";
+    private final String URL = "http://93.73.109.38:8087/";
     private BalanceRepository balanceRepository = new BalanceRepository(this);
     private ExternalTransactionRepository externalTransactionRepository = new ExternalTransactionRepository(this);
     private InternalTransactionRepository internalTransactionRepository = new InternalTransactionRepository(this);
     private UserRepository userRepository = new UserRepository(this);
+    private BonusRepository bonusRepository = new BonusRepository(this);
 
 
     public String getUrl() {
@@ -195,6 +193,49 @@ public class BankSession {
     public void accountantCancelRequest(Long internalTransactionId) {
         internalTransactionRepository.accountantCancelRequest(internalTransactionId);
     }
+
+
+    /**
+     *
+     * @param userId
+     * @return
+     */
+    public String getBonusByUserId(String userId) {
+        return bonusRepository.getBonusByUserId(userId);
+    }
+
+    /**
+     *
+     * @param userId
+     * @param byType
+     * @return
+     */
+    public String getAllPendingTransactions(String userId, String byType) {
+        return bonusRepository.getAllPendingTransactions(userId, byType);
+    }
+
+    /**
+     *
+     * @param userId
+     * @param inviteCode
+     * @return
+     */
+    public String addBonusByUserId(String userId, String inviteCode) {
+        return bonusRepository.addBonusByUserId(userId, inviteCode);
+    }
+
+    /**
+     *
+     * @param userId
+     * @param transType
+     * @param cost
+     * @param offerId
+     * @return
+     */
+    public String buyByBonusAccount(String userId, int transType, int cost, int offerId) {
+        return bonusRepository.buyByBonusAccount(userId, transType, cost, offerId);
+    }
+
 
     public List<Pair<String, Long>> projectPayback(String projectId) {
         String jsonResponse = internalTransactionRepository.projectPayback(projectId);
