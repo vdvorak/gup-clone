@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.server.api.rest.offers;
 
+import com.mashape.unirest.request.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -186,11 +187,11 @@ public class OfferRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = { "multipart/mixed", "multipart/form-data" })
-    public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration) {
+    public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, HttpServletRequest request) {
 //    public ResponseEntity<String> createTotalOffer(@RequestParam("offerRegistration") String offerRegistration, @RequestPart("files") MultipartFile[] files) {
 
 
-
+        System.err.println("Azza: " + request);
 
 //        System.err.println("Offer: " + offerRegistration.toString());
         System.err.println("Offer: " + offerRegistration.toString());
