@@ -116,6 +116,9 @@ public class FileStorageRestController {
             return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
 
         } else {
+
+            // ToDo скорее всего часть для оффера можно будет удалить, т.к.
+
             // if service is "offers"
             if (serviceName.toLowerCase().equals("offers")) {
                 String uploadedFileId = storageService.saveCachedImageOffer(fileUploadWrapper);
@@ -181,4 +184,25 @@ public class FileStorageRestController {
 
         return true;
     }
+
+
+
+
+    //---------------------------------------------------------- TEST ------------------------------
+    @CrossOrigin
+    @RequestMapping(value = "{serviceName}/photo/multi/upload", method = RequestMethod.POST)
+    public ResponseEntity<CreatedObjResp>
+    multiplyPhotoUpload(@PathVariable String serviceName, @RequestParam MultipartFile[] files) {
+
+        System.err.println("Now will be file names");
+
+        for (MultipartFile file : files) {
+            System.err.println("File originalname: " + file.getOriginalFilename());
+            System.err.println("File name: " + file.getName());
+        }
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ua.com.itproekt.gup.model.offer.Address;
 import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
@@ -14,6 +15,7 @@ import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.server.api.rest.dto.OfferInfo;
 import ua.com.itproekt.gup.server.api.rest.dto.OfferRegistration;
+import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
@@ -48,6 +50,9 @@ public class OfferRestController {
 
     @Autowired
     VerificationTokenService verificationTokenService;
+
+    @Autowired
+    private StorageService storageService;
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
@@ -138,41 +143,100 @@ public class OfferRestController {
 
     //------------------------------------------ Create ----------------------------------------------------------------
 
-    /**
-     * Create new offer with registered or unregistered user
-     *
-     * @param offerRegistration - must contain Offer and optional email and password
-     * @return - status code 201 if Ok and created
-     */
+//    /**
+//     * Create new offer with registered or unregistered user
+//     *
+//     * @param offerRegistration - must contain Offer and optional email and password
+//     * @return - status code 201 if Ok and created
+//     */
+//    @CrossOrigin
+//    @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
+//            consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<CreatedObjResp> createOffer(@Valid @RequestBody OfferRegistration offerRegistration) {
+//
+//        String userId = SecurityOperations.getLoggedUserId();
+//        // if user is not logged in
+//        if (userId == null && offerRegistration.getEmail() != null) {
+//
+//            if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
+//                return new ResponseEntity<>(HttpStatus.CONFLICT);
+//            }
+//
+//            offerSeoUrlAndPaidServicePreparator(offerRegistration);
+//            offersService.createWithRegistration(offerRegistration);
+//
+//            return new ResponseEntity<>(new CreatedObjResp(offerRegistration.getOffer().getSeoUrl()), HttpStatus.CREATED);
+//        } else {
+//            // if user is logged in
+//
+//            offerRegistration.getOffer().setAuthorId(userId);
+//
+//            offerSeoUrlAndPaidServicePreparator(offerRegistration);
+//
+//            offersService.create(offerRegistration.getOffer());
+//
+//            return new ResponseEntity<>(new CreatedObjResp(offerRegistration.getOffer().getSeoUrl()), HttpStatus.CREATED);
+//        }
+//    }
+
+
+
+
+
+
     @CrossOrigin
-    @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResp> createOffer(@Valid @RequestBody OfferRegistration offerRegistration) {
+    @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = { "multipart/mixed", "multipart/form-data" })
+    public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration) {
+//    public ResponseEntity<String> createTotalOffer(@RequestParam("offerRegistration") String offerRegistration, @RequestPart("files") MultipartFile[] files) {
 
-        String userId = SecurityOperations.getLoggedUserId();
-        // if user is not logged in
-        if (userId == null && offerRegistration.getEmail() != null) {
 
-            if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            }
 
-            offerSeoUrlAndPaidServicePreparator(offerRegistration);
-            offersService.createWithRegistration(offerRegistration);
 
-            return new ResponseEntity<>(new CreatedObjResp(offerRegistration.getOffer().getSeoUrl()), HttpStatus.CREATED);
-        } else {
-            // if user is logged in
+//        System.err.println("Offer: " + offerRegistration.toString());
+        System.err.println("Offer: " + offerRegistration.toString());
 
-            offerRegistration.getOffer().setAuthorId(userId);
+//        for (MultipartFile file : files) {
+//            System.err.println("File originalname: " + file.getOriginalFilename());
+//        }
 
-            offerSeoUrlAndPaidServicePreparator(offerRegistration);
+//        String userId = SecurityOperations.getLoggedUserId();
+//        // if user is not logged in
+//        if (userId == null && offerRegistration.getEmail() != null) {
+//
+//            if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
+//                return new ResponseEntity<>(HttpStatus.CONFLICT);
+//            }
+//
+//            offerSeoUrlAndPaidServicePreparator(offerRegistration);
+//
+//            // Set images id's and their order into offer
+//            offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files));
+//
+//            offersService.createWithRegistration(offerRegistration);
+//
+//            return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
+//        } else {
+//            // if user is logged in
+//
+//            offerRegistration.getOffer().setAuthorId(userId);
+//
+//            offerSeoUrlAndPaidServicePreparator(offerRegistration);
+//
+//            // Set images id's and their order into offer
+//            offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files));
+//
+//            offersService.create(offerRegistration.getOffer());
+//
+//            return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
+//        }
 
-            offersService.create(offerRegistration.getOffer());
-
-            return new ResponseEntity<>(new CreatedObjResp(offerRegistration.getOffer().getSeoUrl()), HttpStatus.CREATED);
-        }
+        return new ResponseEntity<>(offerRegistration.toString(), HttpStatus.OK);
     }
+
+
+
+
+
 
     //------------------------------------------ Update ----------------------------------------------------------------
 
