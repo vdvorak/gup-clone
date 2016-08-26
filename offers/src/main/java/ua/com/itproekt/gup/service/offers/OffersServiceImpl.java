@@ -16,6 +16,7 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.server.api.rest.dto.OfferInfo;
 import ua.com.itproekt.gup.server.api.rest.dto.OfferRegistration;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
+import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.EntityPage;
@@ -31,12 +32,13 @@ public class OffersServiceImpl implements OffersService {
     @Autowired
     VerificationTokenService verificationTokenService;
     @Autowired
+    OrderService orderService;
+    @Autowired
     private OfferRepository offerRepository;
     @Autowired
     private StorageRepository storageRepository;
     @Autowired
     private ActivityFeedService activityFeedService;
-
 
     /**
      * This method allow you to register new user and create offer at the same time.
@@ -305,6 +307,9 @@ public class OffersServiceImpl implements OffersService {
         offerInfo.setOffer(offer);
         offerInfo.setUserName(profile.getUsername());
         offerInfo.setIsOnline(profile.isOnline());
+
+        offerInfo.setOrderFeedbackList(orderService.findAllFeedbacksForOffer(offer.getId()));
+
         return offerInfo;
     }
 
@@ -323,6 +328,8 @@ public class OffersServiceImpl implements OffersService {
         offerInfo.setOffer(offer);
         offerInfo.setUserName(profile.getUsername());
         offerInfo.setIsOnline(profile.isOnline());
+
+        offerInfo.setOrderFeedbackList(orderService.findAllFeedbacksForOffer(offer.getId()));
 
         return offerInfo;
     }

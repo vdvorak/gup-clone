@@ -3,6 +3,7 @@ package ua.com.itproekt.gup.server.api.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.com.itproekt.gup.model.offer.Offer;
+import ua.com.itproekt.gup.model.order.OrderFeedback;
 
 import java.util.List;
 
@@ -13,6 +14,12 @@ public class OfferInfo extends Offer {
     private boolean isOnline;
     private String userName;
     private List<OfferInfo> relevantOffersList;
+
+
+    private List<OrderFeedback> orderFeedbackList;
+
+
+
 
     public Offer getOffer() {
         return offer;
@@ -46,6 +53,14 @@ public class OfferInfo extends Offer {
         this.relevantOffersList = relevantOffersList;
     }
 
+    public List<OrderFeedback> getOrderFeedbackList() {
+        return orderFeedbackList;
+    }
+
+    public void setOrderFeedbackList(List<OrderFeedback> orderFeedbackList) {
+        this.orderFeedbackList = orderFeedbackList;
+    }
+
     @Override
     public String toString() {
         return "OfferInfo{" +
@@ -53,6 +68,7 @@ public class OfferInfo extends Offer {
                 ", isOnline=" + isOnline +
                 ", userName='" + userName + '\'' +
                 ", relevantOffersList=" + relevantOffersList +
+                ", orderFeedbackList=" + orderFeedbackList +
                 '}';
     }
 }

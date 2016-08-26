@@ -1,8 +1,10 @@
 package ua.com.itproekt.gup.service.filestorage;
 
 import com.mongodb.gridfs.GridFSDBFile;
+import org.springframework.web.multipart.MultipartFile;
 import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface StorageService {
@@ -41,4 +43,13 @@ public interface StorageService {
      * @return - id of image
      */
     String saveCachedImageOffer(FileUploadWrapper fileUploadWrapper);
+
+
+    /**
+     * Method save multiply images in different sizes (cached), and return map of <ImagesId, image order></ImagesId,>
+     *
+     * @param files Multipart array
+     * @return Map of images id's and their order.
+     */
+    Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files);
 }
