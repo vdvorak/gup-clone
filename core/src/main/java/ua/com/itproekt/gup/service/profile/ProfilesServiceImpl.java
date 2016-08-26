@@ -30,7 +30,7 @@ public class ProfilesServiceImpl implements ProfilesService {
      */
     @Override
     public void createProfile(Profile profile) {
-        String hashedPassword = passwordEncoder.encode(profile.getPassword());
+        String       hashedPassword = passwordEncoder.encode(profile.getPassword());
         HashSet<UserRole> userRoles = new HashSet<UserRole>() {{
             add(UserRole.ROLE_USER);
         }};
@@ -42,12 +42,36 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserRoles(userRoles)
                 .setCreatedDateEqualsToCurrentDate();
 
-        setEmptyFieldsForNewUser(newProfile);
+        setEmptyFieldsForNewUser( newProfile );
 
-        profileRepository.createProfile(newProfile);
-        bankSession.createBalanceRecord(newProfile.getId(), 3);
+        profileRepository.createProfile( newProfile );
+        bankSession.createBalanceRecord( newProfile.getId(), 3 );
 
-        profile.setId(newProfile.getId());
+        profile.setId( newProfile.getId() );
+    }
+
+    /**
+     * @param profile the profile
+     */
+    @Override
+    public void facebookRegister(Profile profile) {
+        HashSet<UserRole> userRoles = new HashSet<UserRole>() {{
+            add(UserRole.ROLE_USER);
+        }};
+
+        Profile newProfile = new Profile()
+                .setSocWendor(profile.getSocWendor())
+                .setUid(profile.getUid())
+                .setTokenKey(profile.getTokenKey())
+                .setUserRoles(userRoles)
+                .setCreatedDateEqualsToCurrentDate();
+
+        setEmptyFieldsForNewUser( newProfile );
+
+        profileRepository.createProfile( newProfile );
+        bankSession.createBalanceRecord( newProfile.getId(), 3 );
+
+        profile.setId( newProfile.getId() );
     }
 
 
@@ -111,6 +135,25 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Override
     public boolean profileExistsWithSocWendor(String socWendor) {
         return profileRepository.profileExistsWithSocWendor(socWendor);
+    }
+
+    /**
+     * @param uid the socWendor
+     * @return
+     */
+    @Override
+    public boolean profileExistsWithUid(String uid) {
+        return profileRepository.profileExistsWithUid(uid);
+    }
+
+    /**
+     * @param uid the uid
+     * @param socWendor the socWendor
+     * @return
+     */
+    @Override
+    public boolean profileExistsWithUidAndWendor(String uid, String socWendor) {
+        return profileRepository.profileExistsWithUidAndWendor(uid, socWendor);
     }
 
     /***

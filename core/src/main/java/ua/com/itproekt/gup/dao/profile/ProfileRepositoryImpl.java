@@ -79,6 +79,20 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
+    public boolean profileExistsWithUid(String uid) {
+        Query query = new Query(Criteria.where("uid").is(uid));
+        return mongoTemplate.exists(query, Profile.class);
+    }
+
+    @Override
+    public boolean profileExistsWithUidAndWendor(String uid, String socWendor) {
+        Query query = new Query()
+                .addCriteria(Criteria.where("uid").is(uid))
+                .addCriteria(Criteria.where("socWendor").is(socWendor));
+        return mongoTemplate.exists(query, Profile.class);
+    }
+
+    @Override
     public List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions) {
         Query query = new Query();
         if (profileFilterOptions.getSearchField() != null) {

@@ -21,8 +21,10 @@ public class Profile {
 
     @Indexed
     private String email;
-    private String socWendor;
+    private String socWendor = "gup.com.ua";
+    private String uid;
     private String password;
+    private String tokenKey;
     private String mainPhoneNumber;
 
     @Indexed
@@ -266,6 +268,25 @@ public class Profile {
         return this;
     }
 
+
+    public String getUid() {
+        return uid;
+    }
+
+    public Profile setUid(String uid) {
+        this.uid = uid;
+        return this;
+    }
+
+    public String getTokenKey() {
+        return tokenKey;
+    }
+
+    public Profile setTokenKey(String tokenKey) {
+        this.tokenKey = tokenKey;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
@@ -273,7 +294,9 @@ public class Profile {
                 ", idSeoWord='" + idSeoWord + '\'' +
                 ", email='" + email + '\'' +
                 ", socWendor='" + socWendor + '\'' +
+                ", uid='" + uid + '\'' +
                 ", password='" + password + '\'' +
+                ", tokenKey='" + tokenKey + '\'' +
                 ", mainPhoneNumber='" + mainPhoneNumber + '\'' +
                 ", username='" + username + '\'' +
                 ", imgId='" + imgId + '\'' +

@@ -120,6 +120,15 @@ public class LoginRestController {
         CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
     }
 
+    private void authenticateByUidAndToken(User user, HttpServletResponse response) {
+        Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
+        OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
+        OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
+
+        CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+        CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+    }
+
     @CrossOrigin
     @RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
     public String existEmailCheck(@RequestBody String email) {
@@ -145,8 +154,20 @@ public class LoginRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+
     @CrossOrigin
-    @RequestMapping(value = "/autoregister", method = RequestMethod.POST)
+    @RequestMapping(value = "/soc-register", method = RequestMethod.POST)
+    public ResponseEntity<Void>socRegister(@RequestBody Profile profile) {
+        if (profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor()))
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+
+        profilesService.facebookRegister(profile);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
+    @CrossOrigin
+    @RequestMapping(value = "/auto-register", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> autoRegister(@RequestBody Profile profile, HttpServletResponse response) {
         ResponseEntity<ProfileInfo> resp = null;
 

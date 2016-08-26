@@ -58,6 +58,23 @@ public interface ProfileRepository {
     boolean profileExistsWithSocWendor(String socWendor);
 
     /**
+     * Profile exists with uid boolean.
+     *
+     * @param uid the uid
+     * @return the boolean
+     */
+    boolean profileExistsWithUid(String uid);
+
+    /**
+     * Profile exists with tokenKey boolean.
+     *
+     * @param uid the uid
+     * @param socWendor the socWendor
+     * @return the boolean
+     */
+    boolean profileExistsWithUidAndWendor(String uid, String socWendor);
+
+    /**
      * Find all profiles entity page.
      *
      * @param profileFilterOptions the profile filter options

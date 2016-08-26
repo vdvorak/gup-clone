@@ -19,6 +19,13 @@ public interface ProfilesService {
      */
     void createProfile(Profile profile);
 
+    /**
+     * Create profile.
+     *
+     * @param profile the profile
+     */
+    void facebookRegister(Profile profile);
+
     Profile findById(String id);
 
     /**
@@ -59,6 +66,23 @@ public interface ProfilesService {
      * @return the boolean
      */
     boolean profileExistsWithEmail(String email);
+
+    /**
+     * Profile exists with uid boolean.
+     *
+     * @param uid the uid
+     * @return the boolean
+     */
+    boolean profileExistsWithUid(String uid);
+
+    /**
+     * Profile exists with tokenKey boolean.
+     *
+     * @param uid the uid
+     * @param socWendor the socWendor
+     * @return the boolean
+     */
+    boolean profileExistsWithUidAndWendor(String uid, String socWendor);
 
     /**
      * Profile exists with socWendor boolean.
