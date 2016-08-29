@@ -13,7 +13,7 @@
     <artifactId>offers</artifactId>
     <version>${version}</version>
 
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>

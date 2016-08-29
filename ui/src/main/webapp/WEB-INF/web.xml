@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app.xsd"
          version="3.0">
 
-    <display-name>Offers REST-Service</display-name>
+    <display-name>Ui REST-Service</display-name>
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            /WEB-INF/spring/applicationContext.xml
+            /WEB-INF/application-context.xml
         </param-value>
     </context-param>
 
@@ -27,7 +27,7 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>
-                /WEB-INF/spring/dispatcher-servlet.xml
+                /WEB-INF/dispatcherServlet.xml
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>

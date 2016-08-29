@@ -32,5 +32,6 @@
         <module>oauth</module>
         <module>offers</module>
         <module>admin</module>
+        <module>ui</module>
     </modules>
 </project>
