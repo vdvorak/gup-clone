@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.subscription.Subscription;
 import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
@@ -18,9 +16,6 @@ import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
-
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @Controller
 @RequestMapping("/api/rest/")
@@ -89,10 +84,6 @@ public class SubscriptionRestController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-
-
 
 
 }
