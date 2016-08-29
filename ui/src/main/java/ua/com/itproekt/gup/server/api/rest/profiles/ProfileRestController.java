@@ -25,7 +25,7 @@ import java.util.Set;
 
 
 @RestController
-@RequestMapping("/rest/profilesService")
+@RequestMapping("/api/rest/profilesService")
 public class ProfileRestController {
 
 
