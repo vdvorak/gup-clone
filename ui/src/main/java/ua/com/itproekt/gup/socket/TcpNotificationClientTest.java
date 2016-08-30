@@ -1,4 +1,4 @@
-//package ua.com.itproekt.gup.service.socket;
+//package ua.com.itproekt.gup.socket;
 //
 //import java.io.BufferedReader;
 //import java.io.IOException;

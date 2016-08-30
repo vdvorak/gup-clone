@@ -30,7 +30,7 @@
     <modules>
         <module>core</module>
         <module>oauth</module>
-        <module>offers</module>
+        <!--<module>offers</module>-->
         <!--<module>admin</module>-->
         <module>ui</module>
         <module>service</module>

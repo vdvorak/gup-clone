@@ -1,26 +1,17 @@
-package ua.com.itproekt.gup.service.socket;
+package ua.com.itproekt.gup.socket;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Properties;
 
 /**
-* It connects to the server and passes the messages
-*/
+ * It connects to the server and passes the messages
+ */
 
 @Configuration
 @PropertySource("classpath:properties/tcp.properties")

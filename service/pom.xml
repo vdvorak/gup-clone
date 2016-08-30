@@ -244,7 +244,7 @@
         <!-- Core -->
         <dependency>
             <groupId>ua.com.itproekt</groupId>
-            <artifactId>offers</artifactId>
+            <artifactId>core</artifactId>
             <version>${version}</version>
         </dependency>
     </dependencies>
