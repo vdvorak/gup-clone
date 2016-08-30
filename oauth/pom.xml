@@ -9,7 +9,6 @@
         <artifactId>GUP</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>ua.com.itproekt</groupId>
     <artifactId>oauth</artifactId>
     <version>${version}</version>
 
@@ -333,7 +332,7 @@
         <!-- Core -->
         <dependency>
             <groupId>ua.com.itproekt</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>service</artifactId>
             <version>${version}</version>
         </dependency>
     </dependencies>

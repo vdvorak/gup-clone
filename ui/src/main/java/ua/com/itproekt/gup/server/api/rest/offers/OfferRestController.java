@@ -1,6 +1,5 @@
 package ua.com.itproekt.gup.server.api.rest.offers;
 
-import com.mashape.unirest.request.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,8 +13,8 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.server.api.rest.dto.OfferInfo;
-import ua.com.itproekt.gup.server.api.rest.dto.OfferRegistration;
+import ua.com.itproekt.gup.dto.OfferInfo;
+import ua.com.itproekt.gup.dto.OfferRegistration;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -186,19 +185,9 @@ public class OfferRestController {
 
 
     @CrossOrigin
-    @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = { "multipart/mixed", "multipart/form-data" })
-    public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, HttpServletRequest request) {
-//    public ResponseEntity<String> createTotalOffer(@RequestParam("offerRegistration") String offerRegistration, @RequestPart("files") MultipartFile[] files) {
+    @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+    public ResponseEntity<OfferRegistration> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
 
-
-        System.err.println("Azza: " + request);
-
-//        System.err.println("Offer: " + offerRegistration.toString());
-        System.err.println("Offer: " + offerRegistration.toString());
-
-//        for (MultipartFile file : files) {
-//            System.err.println("File originalname: " + file.getOriginalFilename());
-//        }
 
 //        String userId = SecurityOperations.getLoggedUserId();
 //        // if user is not logged in
@@ -231,7 +220,8 @@ public class OfferRestController {
 //            return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
 //        }
 
-        return new ResponseEntity<>(offerRegistration.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(offerRegistration, HttpStatus.OK);
+
     }
 
 
