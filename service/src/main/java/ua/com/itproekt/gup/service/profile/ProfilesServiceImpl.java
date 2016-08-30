@@ -5,8 +5,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
+import ua.com.itproekt.gup.model.offer.Offer;
+import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.profiles.*;
 import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
+import ua.com.itproekt.gup.service.offers.OffersService;
+import ua.com.itproekt.gup.service.order.OrderService;
 
 import java.util.*;
 
@@ -16,7 +21,10 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Autowired
     PasswordEncoder passwordEncoder;
     BankSession bankSession = new BankSession(); //BankSession bankSession = new BankSession("http://93.73.109.38:8087"); //ToDo need use 'bank_session.properties'
-
+    @Autowired
+    OrderService orderService;
+    @Autowired
+    OffersService offersService;
     @Autowired
     private ProfileRepository profileRepository;
 
@@ -30,7 +38,7 @@ public class ProfilesServiceImpl implements ProfilesService {
      */
     @Override
     public void createProfile(Profile profile) {
-        String       hashedPassword = passwordEncoder.encode(profile.getPassword());
+        String hashedPassword = passwordEncoder.encode(profile.getPassword());
         HashSet<UserRole> userRoles = new HashSet<UserRole>() {{
             add(UserRole.ROLE_USER);
         }};
@@ -42,12 +50,12 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserRoles(userRoles)
                 .setCreatedDateEqualsToCurrentDate();
 
-        setEmptyFieldsForNewUser( newProfile );
+        setEmptyFieldsForNewUser(newProfile);
 
-        profileRepository.createProfile( newProfile );
-        bankSession.createBalanceRecord( newProfile.getId(), 3 );
+        profileRepository.createProfile(newProfile);
+        bankSession.createBalanceRecord(newProfile.getId(), 3);
 
-        profile.setId( newProfile.getId() );
+        profile.setId(newProfile.getId());
     }
 
     /**
@@ -66,12 +74,12 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserRoles(userRoles)
                 .setCreatedDateEqualsToCurrentDate();
 
-        setEmptyFieldsForNewUser( newProfile );
+        setEmptyFieldsForNewUser(newProfile);
 
-        profileRepository.createProfile( newProfile );
-        bankSession.createBalanceRecord( newProfile.getId(), 3 );
+        profileRepository.createProfile(newProfile);
+        bankSession.createBalanceRecord(newProfile.getId(), 3);
 
-        profile.setId( newProfile.getId() );
+        profile.setId(newProfile.getId());
     }
 
 
@@ -147,7 +155,7 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     /**
-     * @param uid the uid
+     * @param uid       the uid
      * @param socWendor the socWendor
      * @return
      */
@@ -421,6 +429,23 @@ public class ProfilesServiceImpl implements ProfilesService {
     private ProfileInfo prepareAdditionalFieldForPublic(Profile profile) {
         ProfileInfo profileInfo = new ProfileInfo(profile);
 
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setAuthorId(profile.getId());
+
+
+        List<Offer> offerList = offersService.findOffersWihOptions(offerFilterOptions).getEntities();
+
+        List<OrderFeedback> allOffersFeedbackList = new ArrayList<>();
+
+        for (Offer offer : offerList) {
+            List<OrderFeedback> oneOfferOrderList = orderService.findAllFeedbacksForOffer(offer.getId());
+            for (OrderFeedback orderFeedback : oneOfferOrderList) {
+                allOffersFeedbackList.add(orderFeedback);
+            }
+
+        }
+
         profileInfo.getProfile()
                 .setEmail(null)
                 .setPassword(null)
@@ -435,6 +460,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserBonusBalance(null)
                 .setUnreadMessages(null)
                 .setUnreadMessages(null)
+                .setOrderFeedbackList(allOffersFeedbackList) // all users feedback for his offer
                 .setUserAveragePoints(4); // ToDo impl this!
 
         return profileInfo;
