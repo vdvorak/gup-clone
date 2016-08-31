@@ -7,7 +7,9 @@ import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
+import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.*;
 import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.offers.OffersService;
@@ -415,7 +417,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     /**
-     * @param uid the uid
+     * @param uid       the uid
      * @param socWendor the socWendor
      * @return
      */
@@ -424,29 +426,12 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.findProfileByUidAndWendor(uid, socWendor);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * @param profile
      * @return
      */
     private ProfileInfo prepareAdditionalFieldForPrivate(Profile profile) {
         ProfileInfo profileInfo = new ProfileInfo(profile);
-
 
         // ToDo impl all of this!
         profileInfo
@@ -455,6 +440,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUnreadMessages(0)
                 .setUnreadMessages(0)
                 .setOrderFeedbackList(feedbackListPreparatorForProfile(profile.getId()))
+                .setOrderList(orderListPreparatorForUser(profile.getId()))
                 .setUserAveragePoints(5);
 
         profileInfo.getProfile().setPassword(null);
@@ -524,11 +510,10 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     /**
-     *
      * @param profileId
      * @return
      */
-    private List<OrderFeedback> feedbackListPreparatorForProfile(String profileId){
+    private List<OrderFeedback> feedbackListPreparatorForProfile(String profileId) {
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
         offerFilterOptions.setAuthorId(profileId);
 
@@ -543,6 +528,14 @@ public class ProfilesServiceImpl implements ProfilesService {
             }
         }
         return allOffersFeedbackList;
+    }
+
+    private List<Order> orderListPreparatorForUser(String profileId) {
+        OrderFilterOptions orderFilterOptions = new OrderFilterOptions();
+        orderFilterOptions.setBuyerId(profileId);
+        orderFilterOptions.setSellerId(profileId);
+        List<Order> orderList = orderService.findOrdersWihOptions(orderFilterOptions);
+        return orderList;
     }
 
 }
