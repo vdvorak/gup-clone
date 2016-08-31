@@ -27,5 +27,8 @@ public interface GooglePlusProfile {
 	public Collection<Map<String,String>> getOrganizations();
 	/** A list of places where this person has lived. */
 	public Collection<Map<String,String>> getPlacesLived();
+    /** The user's Facebook email. */
+    public String getEmail();
+
 
 }

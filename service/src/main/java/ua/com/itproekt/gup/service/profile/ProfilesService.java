@@ -85,6 +85,15 @@ public interface ProfilesService {
     boolean profileExistsWithUidAndWendor(String uid, String socWendor);
 
     /**
+     * Profile with tokenKey Profile.
+     *
+     * @param uid the uid
+     * @param socWendor the socWendor
+     * @return the Profile
+     */
+    Profile findProfileByUidAndWendor(String uid, String socWendor);
+
+    /**
      * Profile exists with socWendor boolean.
      *
      * @param socWendor the socWendor
@@ -243,6 +252,12 @@ public interface ProfilesService {
      * @return
      */
     ProfileInfo findPrivateProfileByEmailAndUpdateLastLoginDate(String email);
+
+    /**
+     * @param uid
+     * @return
+     */
+    ProfileInfo findPrivateProfileByUidAndUpdateLastLoginDate(String uid, String socWendor);
 
     /**
      * @param profileFilterOptions

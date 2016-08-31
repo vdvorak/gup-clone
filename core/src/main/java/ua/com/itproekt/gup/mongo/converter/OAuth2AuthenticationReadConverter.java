@@ -35,8 +35,12 @@ public class OAuth2AuthenticationReadConverter implements Converter<DBObject, OA
 
         Object principal = getPrincipalObject(userAuthorization.get("principal"));
 
-        Authentication userAuthentication = new UsernamePasswordAuthenticationToken(principal,
-                (String) userAuthorization.get("credentials"), getAuthorities((List) userAuthorization.get("authorities")));
+        Authentication userAuthentication = null;
+        try {
+            userAuthentication = new UsernamePasswordAuthenticationToken(principal, (String) userAuthorization.get("credentials"), getAuthorities((List) userAuthorization.get("authorities")));
+        } catch (Exception e){
+            userAuthentication = new UsernamePasswordAuthenticationToken(principal, getAuthorities((List) userAuthorization.get("authorities")));
+        }
 
         return new OAuth2Authentication(oAuth2Request, userAuthentication);
     }

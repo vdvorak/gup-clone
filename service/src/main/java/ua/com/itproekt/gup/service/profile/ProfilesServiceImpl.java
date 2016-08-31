@@ -402,6 +402,44 @@ public class ProfilesServiceImpl implements ProfilesService {
         return getListOfPublicProfilesWithOptions(profileRepository.findAllProfiles(profileFilterOptions));
     }
 
+
+    /**
+     * @param uid
+     * @param socWendor
+     * @return
+     */
+    @Override
+    public ProfileInfo findPrivateProfileByUidAndUpdateLastLoginDate(String uid, String socWendor) {
+        return prepareAdditionalFieldForPrivate(profileRepository.findProfileByUidAndWendor(uid, socWendor));
+    }
+
+
+    /**
+     * @param uid the uid
+     * @param socWendor the socWendor
+     * @return
+     */
+    @Override
+    public Profile findProfileByUidAndWendor(String uid, String socWendor) {
+        return profileRepository.findProfileByUidAndWendor(uid, socWendor);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * @param profile
      * @return

@@ -86,6 +86,7 @@ public class FacebookAPI {
 		private String locale;
 		private String type;
         private Map<String,String> image;
+        private String email;
 		
 		public String getId(){ return id; }
 		public String getName(){ return name; }
@@ -98,6 +99,7 @@ public class FacebookAPI {
 		public String getType(){ return type; }
         public void setImage(Map<String,String> image){ this.image = image; }
         public Map<String,String> getImage(){ return image; }
+        public String getEmail(){ return email; }
 	}
 	
 }

@@ -93,6 +93,14 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
+    public Profile findProfileByUidAndWendor(String uid, String socWendor) {
+        Query query = new Query()
+                .addCriteria(Criteria.where("uid").is(uid))
+                .addCriteria(Criteria.where("socWendor").is(socWendor));
+        return mongoTemplate.findOne(query, Profile.class);
+    }
+
+    @Override
     public List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions) {
         Query query = new Query();
         if (profileFilterOptions.getSearchField() != null) {

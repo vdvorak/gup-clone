@@ -24,5 +24,7 @@ public interface FacebookProfile {
 	public String getType();
     /** The representation of the person's profile photo. */
     public Map<String,String> getImage();
+    /** The user's Facebook email. */
+    public String getEmail();
 
 }

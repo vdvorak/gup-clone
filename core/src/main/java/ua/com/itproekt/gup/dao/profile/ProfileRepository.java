@@ -1,7 +1,9 @@
 package ua.com.itproekt.gup.dao.profile;
 
-import ua.com.itproekt.gup.model.profiles.*;
-import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
+import ua.com.itproekt.gup.model.profiles.ProfileRating;
+import ua.com.itproekt.gup.model.profiles.UserRole;
 
 import java.util.List;
 import java.util.Set;
@@ -73,6 +75,15 @@ public interface ProfileRepository {
      * @return the boolean
      */
     boolean profileExistsWithUidAndWendor(String uid, String socWendor);
+
+    /**
+     * Profile exists with tokenKey boolean.
+     *
+     * @param uid the uid
+     * @param socWendor the socWendor
+     * @return the Profile
+     */
+    Profile findProfileByUidAndWendor(String uid, String socWendor);
 
     /**
      * Find all profiles entity page.

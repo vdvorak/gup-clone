@@ -12,7 +12,6 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 
-
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,9 +32,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		return buildUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
 	}
 
+	public UserDetails loadUserByUidAndVendor(String uid, String vendor) throws UsernameNotFoundException {
+		Profile profile = profileService.findProfileByUidAndWendor(uid, vendor);
+		if (profile == null) {
+			throw new UsernameNotFoundException("UID / VENDOR: [" + uid + " / " + vendor + "]");
+		}
+		return buildVendorUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
+	}
+
 	private LoggedUser buildUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
 		return new LoggedUser(profile.getEmail(), profile.getPassword(),
 				true, true, true, true, authorities,
+				profile.getId());
+	}
+
+	private LoggedUser buildVendorUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
+		return new LoggedUser(true, true, true, true, authorities,
 				profile.getId());
 	}
 

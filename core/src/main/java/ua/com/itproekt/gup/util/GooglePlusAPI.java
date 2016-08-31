@@ -66,6 +66,7 @@ public class GooglePlusAPI {
 		private Collection<Map<String,String>> urls;
 		private Collection<Map<String,String>> organizations;
 		private Collection<Map<String,String>> placesLived;
+        private String email;
 		
 		public String getKind(){ return kind; }
 		public String getId(){ return id; }
@@ -78,7 +79,9 @@ public class GooglePlusAPI {
 		public Collection<Map<String,String>> getURLs(){ return urls; }
 		public Collection<Map<String,String>> getOrganizations(){ return organizations; }
 		public Collection<Map<String,String>> getPlacesLived(){ return placesLived; }
-	}
+        public String getEmail(){ return email; }
+
+    }
 	
 }
 

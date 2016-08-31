@@ -1,66 +1,167 @@
 package ua.com.itproekt.gup.util;
 
+import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.model.FacebookProfile;
 import ua.com.itproekt.gup.model.GooglePlusProfile;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Map;
+
 /**
- ** {@link http://shanechism.com/code/2011/10/introduction-to-util-tutorial-java}
- * {@link https://www.mkyong.com/java/java-enum-example/} {@link https://habrahabr.ru/post/128390/}
+ *^ @see https://developers.facebook.com/tools/explorer?method=GET&path=me%3Ffields%3Did%2Cname&version=v2.3
  * * * * * * * * * * * * * * * * * * * * * * *
- * email | UID | ACCESS_TOKEN | API_KEY | socWendor [gup.com.ua : graph.facebook.com : www.googleapis.com : vkontakte.ru]
+ * email | UID | ACCESS_TOKEN | socWendor [gup.com.ua : graph.facebook.com : www.googleapis.com : vk.ru]
  */
+
+@Service
 public class API {
 
-    public void getProfile(String ACCESS_KEY, String UID){
-        getProfile(null, ACCESS_KEY, UID);
+    private String id;
+    private String name;
+    private String username;
+    private String link;
+    private Map<String,String> image;
+    private String email;
+
+    public String getId() {
+        return id;
     }
 
-    public void getProfile(String urlWendor, String ACCESS_KEY, String UID){
+    public String getName() {
+        return name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public Map<String, String> getImage() {
+        return image;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void init(String ACCESS_KEY, String UID){
+        init(null, ACCESS_KEY, UID);
+    }
+
+    public void init(String urlWendor, String ACCESS_KEY, String UID){
         switch (Wendor.getWendor(urlWendor)){
             case FACEBOOK:
-                System.out.println( "\n============== Facebook Graph API Results ==============" );
-                getFacebookProfile(ACCESS_KEY, UID);
+                initFacebook(ACCESS_KEY, UID);
                 break;
             case GOOGLEPLUS:
-                System.out.println( "\n============== Google+ API Results ==============" );
-                getGooglePlusProfile(ACCESS_KEY, UID);
+                initGooglePlus(ACCESS_KEY, UID);
                 break;
-            case VKONTAKTE:
-                System.out.println( "\n============== VKontakte Results ==============" );
+            case VK:
+                try {
+                    initVK();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (AWTException e) {
+                    e.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
-                System.out.println( "\n============== GUP Results ==============" );
+                initGUP(ACCESS_KEY, UID);
                 break;
         }
     }
 
-    private void getFacebookProfile(String ACCESS_TOKEN, String UID){
-        FacebookAPI         api = new FacebookAPI( ACCESS_TOKEN );
+    private void initFacebook(String ACCESS_TOKEN, String UID){
+        FacebookAPI api = new FacebookAPI( ACCESS_TOKEN );
         FacebookProfile profile = api.get( UID );
 
-        System.out.println( "        UID: " + profile.getId() );
-        System.out.println( "  Full Name: " + profile.getName() );
-        System.out.println( "   UserName: " + profile.getUsername());
-        System.out.println( "Profile URL: " + profile.getLink() );
-        System.out.println( "Picture URL: " + profile.getImage().get("url") );
+        this.id = profile.getId();
+        this.name = profile.getName();
+        this.username = profile.getUsername();
+        this.link = profile.getLink();
+        this.image = profile.getImage();
+        this.email = profile.getEmail();
     }
 
-    private void getGooglePlusProfile(String API_KEY, String UID){
-        GooglePlusAPI         api = new GooglePlusAPI( API_KEY );
+    private void initGooglePlus(String API_KEY, String UID){
+        GooglePlusAPI api = new GooglePlusAPI( API_KEY );
         GooglePlusProfile profile = api.get( UID );
 
-        System.out.println( "        UID: " + profile.getId() );
-        System.out.println( "  Full Name: " + profile.getDisplayName() );
-        System.out.println( "   UserName: " + profile.getDisplayName() );
-        System.out.println( "Profile URL: " + profile.getURL() );
-        System.out.println( "Picture URL: " + profile.getImage().get("url") );
+        this.id = profile.getId();
+        this.name = profile.getDisplayName();
+        this.username = profile.getDisplayName();
+        this.link = profile.getURL();
+        this.image = profile.getImage();
+        this.email = profile.getEmail();
+    }
+
+    private void initVK() throws IOException, URISyntaxException, AWTException, InterruptedException, NoSuchAlgorithmException {
+        PopupMenu   popup = new PopupMenu();
+        MenuItem exitItem = new MenuItem("Выход");
+
+        exitItem.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
+        popup.add(exitItem); // Добавим пункт в меню
+        SystemTray systemTray = SystemTray.getSystemTray();
+        Image           image = Toolkit.getDefaultToolkit().getImage("vk_icon.png"); // получим картинку
+        TrayIcon     trayIcon = new TrayIcon(image, "VKNotifer", popup);
+        trayIcon.setImageAutoSize(true);
+
+        systemTray.add(trayIcon); // добавим иконку в трей
+        trayIcon.displayMessage("VKNotifer", "Соединяемся с сервером", TrayIcon.MessageType.INFO);
+
+        VK_api vkAPI = new VK_api();
+        vkAPI.setConnection();
+        trayIcon.displayMessage("VKNotifer", "Соединение установлено", TrayIcon.MessageType.INFO);
+        String oldMessage = vkAPI.getNewMessage();
+        String newMessage;
+
+        int i = 0;
+        for (;;){
+            // Запросы на сервер можно подавать раз в 3 секунды
+            Thread.sleep(3000); // ждем три секунды
+            if (i == 15000){  // Если прошло 45 000 сек (Время взято с запасом, токен дается на день )
+                vkAPI.setConnection(); // Обновляем токен
+                Thread.sleep(3000);    // Запросы шлем только раз в три секунды
+                i = 0;
+            }
+
+            newMessage = vkAPI.getNewMessage(); // Здесь отработка
+            if (!newMessage.equals(oldMessage)) {
+                oldMessage = newMessage;
+                trayIcon.displayMessage("VKNotifer", "Получено новое сообщение",TrayIcon.MessageType.INFO);
+            }
+            i++;
+        }
+    }
+
+    private void initGUP(String ACCESS_TOKEN, String UID){
+//        System.out.println( "\n============== GUP Results ==============" );
     }
 
     public enum Wendor {
         GUP("gup.com.ua"),
         FACEBOOK("graph.facebook.com"),
         GOOGLEPLUS("www.googleapis.com"),
-        VKONTAKTE("vkontakte.ru");
+        VK("vk.ru");
 
         private String url;
 
@@ -74,7 +175,6 @@ public class API {
                     return wendor;
                 }
             }
-//            throw new RuntimeException("unknown wendor");
             return GUP;
         }
 

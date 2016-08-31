@@ -4,6 +4,7 @@ package ua.com.itproekt.gup.model.login;
 import com.mongodb.DBObject;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.mongo.converter.OAuth2AuthenticationReadConverter;
 
 import java.util.Collection;
@@ -32,6 +33,16 @@ public class LoggedUser extends User {
                       String profileId) {
 
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+
+        this.profileId = profileId;
+    }
+
+    public LoggedUser(boolean enabled,
+                      boolean accountNonExpired, boolean credentialsNonExpired,
+                      boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities,
+                      String profileId) {
+
+        super("oooooooooo", "0000000000", enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 
         this.profileId = profileId;
     }
