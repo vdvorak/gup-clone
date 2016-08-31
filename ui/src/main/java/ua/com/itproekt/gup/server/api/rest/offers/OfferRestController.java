@@ -186,41 +186,46 @@ public class OfferRestController {
 
     @CrossOrigin
     @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
-    public ResponseEntity<OfferRegistration> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
+    public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
 
 
-//        String userId = SecurityOperations.getLoggedUserId();
-//        // if user is not logged in
-//        if (userId == null && offerRegistration.getEmail() != null) {
-//
-//            if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
-//                return new ResponseEntity<>(HttpStatus.CONFLICT);
-//            }
-//
-//            offerSeoUrlAndPaidServicePreparator(offerRegistration);
-//
-//            // Set images id's and their order into offer
-//            offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files));
-//
-//            offersService.createWithRegistration(offerRegistration);
-//
-//            return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
-//        } else {
-//            // if user is logged in
-//
-//            offerRegistration.getOffer().setAuthorId(userId);
-//
-//            offerSeoUrlAndPaidServicePreparator(offerRegistration);
-//
-//            // Set images id's and their order into offer
-//            offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files));
-//
-//            offersService.create(offerRegistration.getOffer());
-//
-//            return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
-//        }
+        String userId = SecurityOperations.getLoggedUserId();
 
-        return new ResponseEntity<>(offerRegistration, HttpStatus.OK);
+        // if user is not logged in
+        if (userId == null && offerRegistration.getEmail() != null) {
+
+            if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+
+            offerSeoUrlAndPaidServicePreparator(offerRegistration);
+
+            if (files.length>0){
+                // Set images id's and their order into offer
+                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files));
+            }
+
+            offersService.createWithRegistration(offerRegistration);
+
+            return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
+
+        } else {
+            // if user is logged in
+
+            offerRegistration.getOffer().setAuthorId(userId);
+
+            offerSeoUrlAndPaidServicePreparator(offerRegistration);
+
+            if (files.length>0){
+                // Set images id's and their order into offer
+                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files));
+            }
+
+            offersService.create(offerRegistration.getOffer());
+
+            return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
+        }
+
 
     }
 
