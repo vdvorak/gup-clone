@@ -72,6 +72,86 @@ public class LoginRestController {
     @Autowired
     StorageService storageService;
 
+
+    @CrossOrigin
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<ProfileInfo> register(@RequestBody Profile profile, HttpServletResponse response) {
+        ResponseEntity<ProfileInfo> resp = null;
+
+        // CHECK:
+        if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
+
+            // REGISTER:
+            if( profile.getSocWendor()==null )
+                profile.setSocWendor("GUP");
+            profilesService.createProfile(profile);
+            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+
+            // LOGIN:
+            LoggedUser loggedUser = null;
+            try {
+                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail());
+                if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
+                    resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                }
+                authenticateByEmailAndPassword(loggedUser, response);
+                ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
+                resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
+            } catch (UsernameNotFoundException ex) {
+                resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+        } else {
+            resp = new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        return resp;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/soc-register", method = RequestMethod.POST)
+    public ResponseEntity<ProfileInfo> vendorRegister(@RequestBody Profile profile, HttpServletResponse response) {
+        ResponseEntity<ProfileInfo> resp = null;
+
+        // CHECK:
+        if( !profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor()) ){
+
+            // REGISTER:
+            profilesService.facebookRegister(profile);
+
+            // EDIT:
+            try {
+                profileVendor.init(profile.getSocWendor(), profile.getTokenKey(), profile.getUid());
+                /* Edit Photo Profile */
+                String imgId = storageService.saveCachedImageProfile( getCachedImageProfile("profile", getImageProfile(profileVendor.getImage().get("url")), "profile_" + profile.getId()) );
+                profile.setImgId(imgId);
+                /* Edit Profile */
+                profile.setUsername(profileVendor.getUsername());
+                profilesService.editProfile(profile);
+            } catch (NullPointerException e) {
+                LOG.error(LogUtil.getExceptionStackTrace(e));
+                resp = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            } catch (IOException e) {
+                LOG.error(LogUtil.getExceptionStackTrace(e));
+                resp = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+            // LOGIN:
+            LoggedUser loggedUser = null;
+            try {
+                loggedUser = (LoggedUser) userDetailsService.loadUserByUidAndVendor(profile.getUid(), profile.getSocWendor());
+            } catch (UsernameNotFoundException ex) {
+                resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+            authenticateByUidAndToken(loggedUser, response);
+            ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
+
+            resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
+        } else {
+            resp = new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return resp;
+    }
+
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
@@ -175,6 +255,20 @@ public class LoginRestController {
         return "redirect:/index";
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
+    public String existEmailCheck(@RequestBody String email) {
+        email = email.split("=")[0];
+
+        try {
+            email = URLDecoder.decode(email, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            LOG.error(LogUtil.getExceptionStackTrace(ex));
+        }
+
+        return (profilesService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
+    }
+
 
     private void authenticateByEmailAndPassword(User user, HttpServletResponse response) {
         Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
@@ -192,150 +286,6 @@ public class LoginRestController {
 
         CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
         CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
-    }
-
-    @CrossOrigin
-    @RequestMapping(value = "/login/checkEmail", method = RequestMethod.POST)
-    public String existEmailCheck(@RequestBody String email) {
-        email = email.split("=")[0];
-
-        try {
-            email = URLDecoder.decode(email, "UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            LOG.error(LogUtil.getExceptionStackTrace(ex));
-        }
-
-        return (profilesService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
-    }
-
-    @CrossOrigin
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Void> register(@RequestBody Profile profile) {
-        if (profilesService.profileExistsWithEmail(profile.getEmail()))
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-
-        profilesService.createProfile(profile);
-        verificationTokenService.sendEmailRegistrationToken(profile.getId());
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-
-    @CrossOrigin
-    @RequestMapping(value = "/soc-register", method = RequestMethod.POST)
-    public ResponseEntity<Void>vendorRegister(@RequestBody Profile profile) {
-        if (profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor()))
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-
-        profilesService.facebookRegister(profile);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-
-    @CrossOrigin
-    @RequestMapping(value = "/auto-register", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> autoRegister(@RequestBody Profile profile, HttpServletResponse response) {
-        ResponseEntity<ProfileInfo> resp = null;
-
-        // CHECK:
-        if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
-
-            // REGISTER:
-            if( profile.getSocWendor()==null )
-                profile.setSocWendor("GUP");
-            profilesService.createProfile(profile);
-            verificationTokenService.sendEmailRegistrationToken(profile.getId());
-
-            // LOGIN:
-            LoggedUser loggedUser = null;
-            try {
-                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail());
-                if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
-                    resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-                }
-                authenticateByEmailAndPassword(loggedUser, response);
-                ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
-                resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
-            } catch (UsernameNotFoundException ex) {
-                resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-        } else {
-            resp = new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        return resp;
-    }
-
-//    @CrossOrigin
-//    @RequestMapping(value = "/auto-soc-register", method = RequestMethod.POST)
-//    public ResponseEntity<ProfileInfo> autoVendorRegister(@RequestBody Profile profile, HttpServletResponse response) {
-//        ResponseEntity<ProfileInfo> resp = null;
-//
-//        // CHECK:
-//        if( !profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor()) ){
-//
-//            // REGISTER:
-//            profilesService.facebookRegister(profile);
-//
-//            // LOGIN:
-//            LoggedUser loggedUser = null;
-//            try {
-//                loggedUser = (LoggedUser) userDetailsService.loadUserByUidAndVendor(profile.getUid(), profile.getSocWendor());
-//            } catch (UsernameNotFoundException ex) {
-//                resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//            }
-//
-//            authenticateByUidAndToken(loggedUser, response);
-//            ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
-//            resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
-//        } else {
-//            resp = new ResponseEntity<>(HttpStatus.CONFLICT);
-//        }
-//        return resp;
-//    }
-
-    @CrossOrigin
-    @RequestMapping(value = "/auto-soc-register", method = RequestMethod.POST)
-    public ResponseEntity<ProfileInfo> autoVendorRegister(@RequestBody Profile profile, HttpServletResponse response) {
-        ResponseEntity<ProfileInfo> resp = null;
-
-        // CHECK:
-        if( !profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor()) ){
-
-            // REGISTER:
-            profilesService.facebookRegister(profile);
-
-            // EDIT:
-            try {
-                profileVendor.init(profile.getSocWendor(), profile.getTokenKey(), profile.getUid());
-                /* Edit Photo Profile */
-                String imgId = storageService.saveCachedImageProfile( getCachedImageProfile("profile", getImageProfile(profileVendor.getImage().get("url")), "profile_" + profile.getId()) );
-                profile.setImgId(imgId);
-                /* Edit Profile */
-                profile.setUsername(profileVendor.getUsername());
-                profilesService.editProfile(profile);
-            } catch (NullPointerException e) {
-                LOG.error(LogUtil.getExceptionStackTrace(e));
-                resp = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            } catch (IOException e) {
-                LOG.error(LogUtil.getExceptionStackTrace(e));
-                resp = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-
-            // LOGIN:
-            LoggedUser loggedUser = null;
-            try {
-                loggedUser = (LoggedUser) userDetailsService.loadUserByUidAndVendor(profile.getUid(), profile.getSocWendor());
-            } catch (UsernameNotFoundException ex) {
-                resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-            authenticateByUidAndToken(loggedUser, response);
-            ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
-
-            resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
-        } else {
-            resp = new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        return resp;
     }
 
     private InputStream getImageProfile(String url) throws IOException {

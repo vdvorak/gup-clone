@@ -20,41 +20,42 @@ import java.util.stream.Collectors;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	@Autowired
-	ProfilesService profileService;
+    @Autowired
+    ProfilesService profileService;
 
-	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Profile profile = profileService.findWholeProfileByEmail(email);
-		if (profile == null) {
-			throw new UsernameNotFoundException("Email: [" + email + "]");
-		}
-		return buildUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
-	}
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Profile profile = profileService.findWholeProfileByEmail(email);
+        if (profile == null) {
+            throw new UsernameNotFoundException("Email: [" + email + "]");
+        }
+        return buildUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
+    }
 
-	public UserDetails loadUserByUidAndVendor(String uid, String vendor) throws UsernameNotFoundException {
-		Profile profile = profileService.findProfileByUidAndWendor(uid, vendor);
-		if (profile == null) {
-			throw new UsernameNotFoundException("UID / VENDOR: [" + uid + " / " + vendor + "]");
-		}
-		return buildVendorUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
-	}
+    public UserDetails loadUserByUidAndVendor(String uid, String vendor) throws UsernameNotFoundException {
+        Profile profile = profileService.findProfileByUidAndWendor(uid, vendor);
+        if (profile == null) {
+            throw new UsernameNotFoundException("UID / VENDOR: [" + uid + " / " + vendor + "]");
+        }
+        return buildVendorUserForAuthentication(profile, buildUserAuthority(profile.getUserRoles()));
+    }
 
-	private LoggedUser buildUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
-		return new LoggedUser(profile.getEmail(), profile.getPassword(),
-				true, true, true, true, authorities,
-				profile.getId());
-	}
+    private LoggedUser buildUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
+        return new LoggedUser(profile.getEmail(), profile.getPassword(),
+                true, true, true, true, authorities,
+                profile.getId());
+    }
 
-	private LoggedUser buildVendorUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
-		return new LoggedUser(true, true, true, true, authorities,
-				profile.getId());
-	}
+    private LoggedUser buildVendorUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
+        return new LoggedUser("NONE", "0000000000",
+                true, true, true, true, authorities,
+                profile.getId());
+    }
 
-	private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
-		return userRoles.stream()
-				.map(userRole -> new SimpleGrantedAuthority(userRole.toString()))
-				.collect(Collectors.toList());
-	}
+    private List<GrantedAuthority> buildUserAuthority(Set<UserRole> userRoles) {
+        return userRoles.stream()
+                .map(userRole -> new SimpleGrantedAuthority(userRole.toString()))
+                .collect(Collectors.toList());
+    }
 
 }

@@ -37,7 +37,7 @@ public class APITest {
 
 	public static void main( String[] args ){
         final String FACEBOOK_WENDOR = "graph.facebook.com";
-        final String FACEBOOK_ACCESS_TOKEN = "EAACEdEose0cBAA5RqLq5g6c8EeMYpSRUmBGHq8FByhQfnljHnreGmaXjodwwCED9rUotf3KdlCZBZAXs1Dm0llCx95vbjvxCNpIrWW9ZCJK4HQqP3c82bvAUEy5HlIxB2YAjmZA5AFVhtI8F9lewOxErZBWrTxF5il4U9su1CCgZDZD";
+        final String FACEBOOK_ACCESS_TOKEN = "EAACEdEose0cBAL0Ltj0FWuD4KjsrzZB8LN83GkavPXQwwQnQEcWgijGJMHZCiv6nES8i1BUZAZCkqgZAFmiE0CZCQBvKkp0SuzpZC15CRXUQw6RLvbAwrvzzTxSZCwHVER4YeQmfdxxgpleJMTtFeBgbPxmAZAJxtKQ61l8cturml1QZDZD";
         final String FACEBOOK_UID = "1077154112339703";   // "1106460174";
         final String GOOGLEPLUS_WENDOR = "www.googleapis.com";
         final String GOOGLEPLUS_API_KEY = "AIzaSyAMjpEzLQJDYZdrgBGp-zNQ27xjw_6xEDA";

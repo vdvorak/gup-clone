@@ -37,16 +37,6 @@ public class LoggedUser extends User {
         this.profileId = profileId;
     }
 
-    public LoggedUser(boolean enabled,
-                      boolean accountNonExpired, boolean credentialsNonExpired,
-                      boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities,
-                      String profileId) {
-
-        super("oooooooooo", "0000000000", enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-
-        this.profileId = profileId;
-    }
-
     public String getProfileId() {
         return profileId;
     }
