@@ -416,6 +416,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserBonusBalance(0)
                 .setUnreadMessages(0)
                 .setUnreadMessages(0)
+                .setOrderFeedbackList(feedbackListPreparatorForProfile(profile.getId()))
                 .setUserAveragePoints(5);
 
         profileInfo.getProfile().setPassword(null);
@@ -428,23 +429,6 @@ public class ProfilesServiceImpl implements ProfilesService {
      */
     private ProfileInfo prepareAdditionalFieldForPublic(Profile profile) {
         ProfileInfo profileInfo = new ProfileInfo(profile);
-
-
-        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-        offerFilterOptions.setAuthorId(profile.getId());
-
-
-        List<Offer> offerList = offersService.findOffersWihOptions(offerFilterOptions).getEntities();
-
-        List<OrderFeedback> allOffersFeedbackList = new ArrayList<>();
-
-        for (Offer offer : offerList) {
-            List<OrderFeedback> oneOfferOrderList = orderService.findAllFeedbacksForOffer(offer.getId());
-            for (OrderFeedback orderFeedback : oneOfferOrderList) {
-                allOffersFeedbackList.add(orderFeedback);
-            }
-
-        }
 
         profileInfo.getProfile()
                 .setEmail(null)
@@ -460,7 +444,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserBonusBalance(null)
                 .setUnreadMessages(null)
                 .setUnreadMessages(null)
-                .setOrderFeedbackList(allOffersFeedbackList) // all users feedback for his offer
+                .setOrderFeedbackList(feedbackListPreparatorForProfile(profile.getId())) // all users feedback for his offer
                 .setUserAveragePoints(4); // ToDo impl this!
 
         return profileInfo;
@@ -498,6 +482,29 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setContact(contact)
                 .setOfferUserContactInfoList(null)
                 .setOrderAddressList(null);
+    }
+
+
+    /**
+     *
+     * @param profileId
+     * @return
+     */
+    private List<OrderFeedback> feedbackListPreparatorForProfile(String profileId){
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setAuthorId(profileId);
+
+        List<Offer> offerList = offersService.findOffersWihOptions(offerFilterOptions).getEntities();
+
+        List<OrderFeedback> allOffersFeedbackList = new ArrayList<>();
+
+        for (Offer offer : offerList) {
+            List<OrderFeedback> oneOfferOrderList = orderService.findAllFeedbacksForOffer(offer.getId());
+            for (OrderFeedback orderFeedback : oneOfferOrderList) {
+                allOffersFeedbackList.add(orderFeedback);
+            }
+        }
+        return allOffersFeedbackList;
     }
 
 }
