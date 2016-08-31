@@ -417,7 +417,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     /**
-     * @param uid the uid
+     * @param uid       the uid
      * @param socWendor the socWendor
      * @return
      */
@@ -432,8 +432,7 @@ public class ProfilesServiceImpl implements ProfilesService {
      */
     private ProfileInfo prepareAdditionalFieldForPrivate(Profile profile) {
         ProfileInfo profileInfo = new ProfileInfo(profile);
-
-
+        System.err.println("Balance: " + bankSession.getUserBalance(profile.getId()));
 
         // ToDo impl all of this!
         profileInfo
@@ -442,7 +441,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUnreadMessages(0)
                 .setUnreadMessages(0)
                 .setOrderFeedbackList(feedbackListPreparatorForProfile(profile.getId()))
-//                .setOrderList(orderListPreparatorForUser(profile.getId()))
+                .setOrderList(orderListPreparatorForUser(profile.getId()))
                 .setUserAveragePoints(5);
 
         profileInfo.getProfile().setPassword(null);

@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.server.api.rest.profiles.dto;
 
+import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.profiles.Profile;
 
@@ -17,6 +18,7 @@ public class ProfileInfo {
     private Integer userBonusBalance;
     private Integer userAveragePoints;
     private List<OrderFeedback> orderFeedbackList;
+    private List<Order> orderList;
 
 
     public ProfileInfo() {
@@ -88,6 +90,16 @@ public class ProfileInfo {
         return this;
     }
 
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public ProfileInfo setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "ProfileInfo{" +
@@ -98,6 +110,7 @@ public class ProfileInfo {
                 ", userBonusBalance=" + userBonusBalance +
                 ", userAveragePoints=" + userAveragePoints +
                 ", orderFeedbackList=" + orderFeedbackList +
+                ", orderList=" + orderList +
                 '}';
     }
 }
