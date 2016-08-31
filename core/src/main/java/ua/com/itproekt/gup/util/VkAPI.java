@@ -29,19 +29,36 @@ public final class VkAPI {
             + "&access_token={ACCESS_TOKEN}"
             + "&v=" + API_VERSION;
 
-    public static VkAPI with(String appId, String accessToken) throws IOException {
-        return new VkAPI(appId, accessToken);
-    }
+//    public static VkAPI with(String appId, String accessToken) throws IOException {
+//        return new VkAPI(appId, accessToken);
+//    }
 
     private final String accessToken;
 
-    private VkAPI(String appId, String accessToken) throws IOException {
+    public VkAPI(String appId, String accessToken) throws IOException { //private VkAPI(String appId, String accessToken) throws IOException {
         this.accessToken = accessToken;
         if (accessToken == null || accessToken.isEmpty()) {
             auth(appId);
             throw new Error("Need access token");
         }
     }
+
+
+    public static void main(String[] args) {
+        try {
+            VkAPI vkAPI = new VkAPI("5612442", "386550907e4f00529704d89164ba227331bf67c135208f16cfe262b5cc3df2ffe31a9108ae52a6a37ddf5");
+            System.err.println("Подключился !");
+            System.out.println( "Dialogs: " + vkAPI.getDialogs() );
+//            System.out.println( "Albums: " + vkAPI.getAlbums("381966870") );
+//            System.out.println( "Albums: " + vkAPI.getAlbums("10758791") );
+            System.out.println( "Albums: " + vkAPI.getAlbums("18791") );
+            System.out.println( "History: " + vkAPI.getHistory("381966870", 1, 3, true) );
+            System.out.println( "Profile: " + vkAPI.getProfile("381966870") );
+        } catch (IOException e) {
+            System.err.println("НЕподключился ?");
+        }
+    }
+
 
     private void auth(String appId) throws IOException {
         String reqUrl = AUTH_URL
@@ -59,6 +76,11 @@ public final class VkAPI {
 
     public String getDialogs() throws IOException {
         return invokeApi("messages.getDialogs", null);
+    }
+
+    public String getProfile(String userId) throws IOException {
+        return invokeApi("messages.getProfile", Params.create()
+                .add("photo", "1"));
     }
 
     public String getHistory(String userId, int offset, int count, boolean rev) throws IOException {

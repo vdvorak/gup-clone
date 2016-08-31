@@ -15,16 +15,24 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * see@ http://oauth.vk.com/authorize?client_id=5612442&scope=12&redirect_uri=http://api.vk.com/blank.html&display=touch&response_type=token
+ * http://api.vk.com/blank.html#access_token=386550907e4f00529704d89164ba227331bf67c135208f16cfe262b5cc3df2ffe31a9108ae52a6a37ddf5&expires_in=86400&user_id=381966870
+ *
+ * https://api.vkontakte.ru/method/getProfiles?uid=18791&access_token=386550907e4f00529704d89164ba227331bf67c135208f16cfe262b5cc3df2ffe31a9108ae52a6a37ddf5
+ * https://api.vkontakte.ru/method/getProfiles?uid=381966870&access_token=386550907e4f00529704d89164ba227331bf67c135208f16cfe262b5cc3df2ffe31a9108ae52a6a37ddf5
+ */
+
 public class VK_api {
 
-    private String     client_id = "2971510";
-    private String         scope = "messages";
+    private String     client_id = "5612442"; // ID_приложения
+    private String         scope = "12"; // "messages"
     private String  redirect_uri = "http://oauth.vk.com/blank.html";
     private String       display = "popup";
     private String response_type = "token";
     private String  access_token;
-    private String         email = "******"; // email
-    private String          pass = "******"; // пароль
+    private String         email = "sashakmets@yandex.ru"; // email
+    private String          pass = "a1l9i7e8n"; // пароль
 
     /* Код получения token'a */
     public void setConnection() throws IOException, URISyntaxException {

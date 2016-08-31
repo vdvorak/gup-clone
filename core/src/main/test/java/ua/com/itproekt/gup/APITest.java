@@ -46,10 +46,10 @@ public class APITest {
         APITest test = new APITest();
 
         try {
-            test.testProfileVendor(FACEBOOK_WENDOR, FACEBOOK_ACCESS_TOKEN, FACEBOOK_UID);
-            test.testProfileVendor(GOOGLEPLUS_WENDOR, GOOGLEPLUS_API_KEY, GOOGLEPLUS_UID);
-            test.testProfileVendor(null, "bbbbb@bbb.com", "123456");
-            test.testProfileVendor("bbbbb@bbb.com", "123456");
+//            test.testProfileVendor(FACEBOOK_WENDOR, FACEBOOK_ACCESS_TOKEN, FACEBOOK_UID);
+//            test.testProfileVendor(GOOGLEPLUS_WENDOR, GOOGLEPLUS_API_KEY, GOOGLEPLUS_UID);
+//            test.testProfileVendor(null, "bbbbb@bbb.com", "123456");
+//            test.testProfileVendor("bbbbb@bbb.com", "123456");
             try {
                 test.testProfileVK();
             } catch (IOException e) {
@@ -64,8 +64,8 @@ public class APITest {
                 e.printStackTrace();
             }
 
-            test.testEditProfile(FACEBOOK_WENDOR, FACEBOOK_ACCESS_TOKEN, FACEBOOK_UID);
-            test.testEditProfile(GOOGLEPLUS_WENDOR, GOOGLEPLUS_API_KEY, GOOGLEPLUS_UID);
+//            test.testEditProfile(FACEBOOK_WENDOR, FACEBOOK_ACCESS_TOKEN, FACEBOOK_UID);
+//            test.testEditProfile(GOOGLEPLUS_WENDOR, GOOGLEPLUS_API_KEY, GOOGLEPLUS_UID);
         } catch (NullPointerException e){
             System.err.println(">>> Invalid OAuth access token");
         }
@@ -130,7 +130,7 @@ public class APITest {
         for (;;){
             // Запросы на сервер можно подавать раз в 3 секунды
             Thread.sleep(3000); // ждем три секунды
-            if (i == 15000){    // Если прошло 45 000 сек (время взято с запасом, токен дается на день)
+            if (i == 5000){    // Если прошло 45 000 сек (время взято с запасом, токен дается на день)
                 vkAPI.setConnection(); // Обновляем токен
                 Thread.sleep(3000);    // Запросы шлем только раз в три секунды
                 i = 0;
