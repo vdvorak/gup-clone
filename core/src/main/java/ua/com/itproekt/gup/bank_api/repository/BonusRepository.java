@@ -76,13 +76,6 @@ public class BonusRepository {
     }
 
 
-
-
-
-
-
-
-
     private String generateEncodedPassword() {
         return Base64.encodeBytes(SecurityService.encrypt(String.valueOf(Math.random())));
     }

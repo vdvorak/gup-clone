@@ -437,7 +437,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         // ToDo impl all of this!
         profileInfo
                 .setUserBalance(bankSession.getUserBalance(profile.getId()))
-                .setUserBonusBalance(0)
+                .setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())))
                 .setUnreadMessages(0)
                 .setUnreadMessages(0)
                 .setOrderFeedbackList(feedbackListPreparatorForProfile(profile.getId()))
