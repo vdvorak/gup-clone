@@ -5,13 +5,13 @@ import com.google.gson.Gson;
 import java.util.Collection;
 import java.util.Map;
 
-public class VkException extends Exception {
+public class VKException extends Exception {
 
     private String errType, errMessage;
 
     private static final long serialVersionUID = -4914754445188651128L;
 
-    public VkException(String response){
+    public VKException(String response){
         Gson gson = new Gson();
         try {
             VKErrorContainer requestError = gson.fromJson( response, VKErrorContainer.class );

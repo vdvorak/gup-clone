@@ -3,7 +3,7 @@ package ua.com.itproekt.gup.util;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import ua.com.itproekt.gup.exception.VkException;
+import ua.com.itproekt.gup.exception.VKException;
 import ua.com.itproekt.gup.model.VkProfile;
 
 import java.io.BufferedReader;
@@ -60,9 +60,9 @@ public final class VkAPI {
                 Gson gson = new Gson();
                 result = gson.fromJson( json, VKObject_PublicUser.class );
             } else {
-                throw new VkException( json );
+                throw new VKException( json );
             }
-        } catch (VkException e){
+        } catch (VKException e){
             e.show();
         } catch ( Exception e ){
             System.err.println( "VK API Fatal Error: " + e.getMessage() );
