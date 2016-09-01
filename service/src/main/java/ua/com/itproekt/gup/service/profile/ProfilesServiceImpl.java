@@ -40,7 +40,7 @@ public class ProfilesServiceImpl implements ProfilesService {
      */
     @Override
     public void createProfile(Profile profile) {
-        String       hashedPassword = passwordEncoder.encode(profile.getPassword());
+        String hashedPassword = passwordEncoder.encode(profile.getPassword());
         HashSet<UserRole> userRoles = new HashSet<UserRole>() {{
             add(UserRole.ROLE_USER);
         }};
@@ -52,12 +52,12 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserRoles(userRoles)
                 .setCreatedDateEqualsToCurrentDate();
 
-        setEmptyFieldsForNewUser( newProfile );
+        setEmptyFieldsForNewUser(newProfile);
 
-        profileRepository.createProfile( newProfile );
-        bankSession.createBalanceRecord( newProfile.getId(), 3 );
+        profileRepository.createProfile(newProfile);
+        bankSession.createBalanceRecord(newProfile.getId(), 3);
 
-        profile.setId( newProfile.getId() );
+        profile.setId(newProfile.getId());
     }
 
     /**
@@ -76,12 +76,12 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserRoles(userRoles)
                 .setCreatedDateEqualsToCurrentDate();
 
-        setEmptyFieldsForNewUser( newProfile );
+        setEmptyFieldsForNewUser(newProfile);
 
-        profileRepository.createProfile( newProfile );
-        bankSession.createBalanceRecord( newProfile.getId(), 3 );
+        profileRepository.createProfile(newProfile);
+        bankSession.createBalanceRecord(newProfile.getId(), 3);
 
-        profile.setId( newProfile.getId() );
+        profile.setId(newProfile.getId());
     }
 
 
@@ -157,7 +157,7 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     /**
-     * @param uid the uid
+     * @param uid       the uid
      * @param socWendor the socWendor
      * @return
      */
@@ -432,17 +432,20 @@ public class ProfilesServiceImpl implements ProfilesService {
      */
     private ProfileInfo prepareAdditionalFieldForPrivate(Profile profile) {
         ProfileInfo profileInfo = new ProfileInfo(profile);
-        System.err.println("Balance: " + bankSession.getUserBalance(profile.getId()));
 
         // ToDo impl all of this!
+
+
+        List<Order> orderList = orderListPreparatorForUser(profile.getId());
+
         profileInfo
                 .setUserBalance(bankSession.getUserBalance(profile.getId()))
                 .setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())))
+                .setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()))
                 .setUnreadMessages(0)
                 .setUnreadMessages(0)
-                .setOrderFeedbackList(feedbackListPreparatorForProfile(profile.getId()))
-                .setOrderList(orderListPreparatorForUser(profile.getId()))
-                .setUserAveragePoints(5);
+                .setOrderList(orderList)
+                .setUserAveragePoints(calculateAveragePointsForSellerByUserId(profile.getId())); // ToDo impl this!
 
         profileInfo.getProfile().setPassword(null);
         return profileInfo;
@@ -465,12 +468,14 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setOfferUserContactInfoList(null)
                 .setFavoriteOffers(null);
 
+        List<OrderFeedback> orderFeedbackList = feedbackListPreparatorForProfile(profile.getId());
+
         profileInfo.setUserBalance(null)
                 .setUserBonusBalance(null)
                 .setUnreadMessages(null)
                 .setUnreadMessages(null)
-                .setOrderFeedbackList(feedbackListPreparatorForProfile(profile.getId())) // all users feedback for his offer
-                .setUserAveragePoints(4); // ToDo impl this!
+                .setOrderFeedbackList(orderFeedbackList) // all users feedback for his offer
+                .setUserAveragePoints(calculateAveragePointsForUserFromOrderFeedbackList(orderFeedbackList)); // ToDo impl this!
 
         return profileInfo;
     }
@@ -531,12 +536,55 @@ public class ProfilesServiceImpl implements ProfilesService {
         return allOffersFeedbackList;
     }
 
+
+    /**
+     * @param profileId
+     * @return
+     */
     private List<Order> orderListPreparatorForUser(String profileId) {
         OrderFilterOptions orderFilterOptions = new OrderFilterOptions();
         orderFilterOptions.setBuyerId(profileId);
         orderFilterOptions.setSellerId(profileId);
-        List<Order> orderList = orderService.findOrdersWihOptions(orderFilterOptions);
-        return orderList;
+        return orderService.findOrdersWihOptions(orderFilterOptions);
+    }
+
+
+    /**
+     * Calculate average point of orders for user (seller) from order feedback list
+     *
+     * @param orderFeedback
+     * @return
+     */
+    private int calculateAveragePointsForUserFromOrderFeedbackList(List<OrderFeedback> orderFeedback) {
+
+        if (orderFeedback.size() < 1) {
+            return 0;
+        }
+
+        int res = 0;
+        int count = 0;
+
+        for (OrderFeedback feedback : orderFeedback) {
+            res = res + feedback.getPoint();
+            count++;
+        }
+
+        if (res == 0) {
+            return 0;
+        }
+
+        return (res * 10) / count;
+    }
+
+    /**
+     * Calculate average point of orders for user (seller) from order list
+     *
+     * @param profileId
+     * @return
+     */
+    private int calculateAveragePointsForSellerByUserId(String profileId) {
+        List<OrderFeedback> orderFeedbackList = feedbackListPreparatorForProfile(profileId);
+        return calculateAveragePointsForUserFromOrderFeedbackList(orderFeedbackList);
     }
 
 }

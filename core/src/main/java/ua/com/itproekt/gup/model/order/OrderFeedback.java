@@ -153,4 +153,17 @@ public class OrderFeedback {
         this.sellerFeedbackOptionsMap = sellerFeedbackOptions;
         return this;
     }
+
+
+    @Override
+    public String toString() {
+        return "OrderFeedback{" +
+                "buyerFeedbackList=" + buyerFeedbackList +
+                ", point=" + point +
+                ", buyerFeedbackOptionsMap=" + buyerFeedbackOptionsMap +
+                ", sellerComment='" + sellerComment + '\'' +
+                ", sellerCommentDate=" + sellerCommentDate +
+                ", sellerFeedbackOptionsMap=" + sellerFeedbackOptionsMap +
+                '}';
+    }
 }

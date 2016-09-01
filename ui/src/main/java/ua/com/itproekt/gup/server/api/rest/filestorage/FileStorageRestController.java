@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/rest/fileStorage")
+@RequestMapping("/api/rest/fileStorage")
 public class FileStorageRestController {
     private static final Logger LOG = Logger.getLogger(FileStorageRestController.class);
 
