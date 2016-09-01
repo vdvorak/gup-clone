@@ -19,6 +19,7 @@ public class ProfileInfo {
     private Integer userAveragePoints;
     private List<OrderFeedback> orderFeedbackList;
     private List<Order> orderList;
+    private String internalTransactionHistory;
 
 
     public ProfileInfo() {
@@ -90,13 +91,22 @@ public class ProfileInfo {
         return this;
     }
 
-
     public List<Order> getOrderList() {
         return orderList;
     }
 
+
     public ProfileInfo setOrderList(List<Order> orderList) {
         this.orderList = orderList;
+        return this;
+    }
+
+    public String getInternalTransactionHistory() {
+        return internalTransactionHistory;
+    }
+
+    public ProfileInfo setInternalTransactionHistory(String internalTransactionHistory) {
+        this.internalTransactionHistory = internalTransactionHistory;
         return this;
     }
 
@@ -111,6 +121,7 @@ public class ProfileInfo {
                 ", userAveragePoints=" + userAveragePoints +
                 ", orderFeedbackList=" + orderFeedbackList +
                 ", orderList=" + orderList +
+                ", internalTransactionHistory='" + internalTransactionHistory + '\'' +
                 '}';
     }
 }
