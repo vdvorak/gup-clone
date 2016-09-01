@@ -26,7 +26,7 @@ import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
-import ua.com.itproekt.gup.util.API;
+import ua.com.itproekt.gup.util.APIVendor;
 import ua.com.itproekt.gup.util.CookieUtil;
 import ua.com.itproekt.gup.util.LogUtil;
 import ua.com.itproekt.gup.util.Oauth2Util;
@@ -67,7 +67,7 @@ public class LoginRestController {
     private DefaultTokenServices tokenServices;
 
     @Autowired
-    API profileVendor;
+    APIVendor profileVendor;
 
     @Autowired
     StorageService storageService;

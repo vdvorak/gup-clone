@@ -1,16 +1,21 @@
 package ua.com.itproekt.gup.util;
 
-import java.awt.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import ua.com.itproekt.gup.exception.VkException;
+import ua.com.itproekt.gup.model.VkProfile;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
- * VK API sample implementation for Java 8.
+ * @see http://oauth.vk.com/authorize?client_id=5612442&scope=photos,messages&redirect_uri=http://api.vk.com/blank.html&display=touch&response_type=token
  */
 public final class VkAPI {
 
@@ -27,60 +32,55 @@ public final class VkAPI {
     private static final String API_REQUEST = "https://api.vk.com/method/{METHOD_NAME}"
             + "?{PARAMETERS}"
             + "&access_token={ACCESS_TOKEN}"
-            + "&v=" + API_VERSION;
+            + "&v={API_VERSION}";
 
-//    public static VkAPI with(String appId, String accessToken) throws IOException {
-//        return new VkAPI(appId, accessToken);
-//    }
+    private final String ACCESS_TOKEN;
 
-    private final String accessToken;
-
-    public VkAPI(String appId, String accessToken) throws IOException { //private VkAPI(String appId, String accessToken) throws IOException {
-        this.accessToken = accessToken;
-        if (accessToken == null || accessToken.isEmpty()) {
-            auth(appId);
-            throw new Error("Need access token");
-        }
+    public VkAPI(String ACCESS_TOKEN) {
+        this.ACCESS_TOKEN = ACCESS_TOKEN;
     }
 
+    public String getDialogs(int count) throws IOException {
+        return invokeApi("messages.getDialogs", Params.create()
+                .add("count", String.valueOf(count))
+                .add("start_message_id", "1")
+                .add("preview_length", "1"));
+    }
 
-    public static void main(String[] args) {
+    public VKObject_PublicUser getProfile(String userId, String fields) {
+        String json = "";
+        VKObject_PublicUser result = null;
+
         try {
-            VkAPI vkAPI = new VkAPI("5612442", "386550907e4f00529704d89164ba227331bf67c135208f16cfe262b5cc3df2ffe31a9108ae52a6a37ddf5");
-            System.err.println("Подключился !");
-            System.out.println( "Dialogs: " + vkAPI.getDialogs() );
-//            System.out.println( "Albums: " + vkAPI.getAlbums("381966870") );
-//            System.out.println( "Albums: " + vkAPI.getAlbums("10758791") );
-            System.out.println( "Albums: " + vkAPI.getAlbums("18791") );
-            System.out.println( "History: " + vkAPI.getHistory("381966870", 1, 3, true) );
-            System.out.println( "Profile: " + vkAPI.getProfile("381966870") );
-        } catch (IOException e) {
-            System.err.println("НЕподключился ?");
+            json = invokeApi("getProfiles", Params.create()
+                    .add("uid", userId)
+                    .add("fields", fields));
+
+            if( !json.isEmpty() ) {
+                Gson gson = new Gson();
+                result = gson.fromJson( json, VKObject_PublicUser.class );
+            } else {
+                throw new VkException( json );
+            }
+        } catch (VkException e){
+            e.show();
+        } catch ( Exception e ){
+            System.err.println( "VK API Fatal Error: " + e.getMessage() );
         }
-    }
 
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jo = (JsonObject) jsonParser.parse( json );
+        result.setId(jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("id").getAsString());
+        result.setFirstName(jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("first_name").getAsString());
+        result.setLastName(jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("last_name").getAsString());
+        result.setName(jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("first_name").getAsString() + " " + jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("last_name").getAsString());
+        result.setUsername(jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("nickname").getAsString());
+        Map<String,String> image = new HashMap<String, String>();
+        image.put("url", jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("photo_max").getAsString());
+        result.setImage(image);
+        result.setLink(jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("site").getAsString());
 
-    private void auth(String appId) throws IOException {
-        String reqUrl = AUTH_URL
-                .replace("{APP_ID}", appId)
-                .replace("{PERMISSIONS}", "photos,messages")
-                .replace("{REDIRECT_URI}", "https://oauth.vk.com/blank.html")
-                .replace("{DISPLAY}", "page")
-                .replace("{API_VERSION}", API_VERSION);
-        try {
-            Desktop.getDesktop().browse(new URL(reqUrl).toURI());
-        } catch (URISyntaxException ex) {
-            throw new IOException(ex);
-        }
-    }
-
-    public String getDialogs() throws IOException {
-        return invokeApi("messages.getDialogs", null);
-    }
-
-    public String getProfile(String userId) throws IOException {
-        return invokeApi("messages.getProfile", Params.create()
-                .add("photo", "1"));
+        return result;
     }
 
     public String getHistory(String userId, int offset, int count, boolean rev) throws IOException {
@@ -88,28 +88,31 @@ public final class VkAPI {
                 .add("user_id", userId)
                 .add("offset", String.valueOf(offset))
                 .add("count", String.valueOf(count))
-                .add("rev", rev ? "1" : "0"));
+                .add("rev", rev ? "5" : "5"));
     }
 
-    public String getAlbums(String userId) throws IOException {
+    public String getAlbums(String userId, String albumId) throws IOException {
         return invokeApi("photos.getAlbums", Params.create()
                 .add("owner_id", userId)
-                .add("photo_sizes", "1")
-                .add("thumb_src", "1"));
+                .add("album_ids", albumId)
+                .add("need_system", "1")
+                .add("need_covers", "1")
+                .add("photo_sizes", "1"));
     }
 
     private String invokeApi(String method, Params params) throws IOException {
         final String parameters = (params == null) ? "" : params.build();
         String reqUrl = API_REQUEST
                 .replace("{METHOD_NAME}", method)
-                .replace("{ACCESS_TOKEN}", accessToken)
-                .replace("{PARAMETERS}&", parameters);
+                .replace("{ACCESS_TOKEN}", ACCESS_TOKEN)
+                .replace("{PARAMETERS}&", parameters)
+                .replace("{API_VERSION}", API_VERSION);
         return invokeApi(reqUrl);
     }
 
     private static String invokeApi(String requestUrl) throws IOException {
         final StringBuilder result = new StringBuilder();
-        final URL url = new URL(requestUrl);
+        final URL              url = new URL(requestUrl);
         try (InputStream is = url.openStream()) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             reader.lines().forEach(result::append);
@@ -143,4 +146,44 @@ public final class VkAPI {
             return result.toString();
         }
     }
+
+
+    public class VKObject_PublicUser implements VkProfile {
+
+        private String id;
+        private String name;
+        private String first_name;
+        private String last_name;
+        private String link;
+        private String username;
+        private String gender;
+        private String locale;
+        private String type;
+        private Map<String,String> image;
+        private String email;
+
+        public String getId(){ return id; }
+        public void setId(String id){ this.id=id; }
+        public String getName(){ return name; }
+        public void setName(String name){ this.name=name; }
+        public String getFirstName(){ return first_name; }
+        public void setFirstName(String first_name){ this.first_name=first_name; }
+        public String getLastName(){ return last_name; }
+        public void setLastName(String last_name){ this.last_name=last_name; }
+        public String getLink(){ return link; }
+        public void setLink(String link){ this.link=link; }
+        public String getUsername(){ return username; }
+        public void setUsername(String username){ this.username=username; }
+        public String getGender(){ return gender; }
+        public void setGender(String gender){ this.gender=gender; }
+        public String getLocale(){ return locale; }
+        public void setLocale(String locale){ this.locale=locale; }
+        public String getType(){ return type; }
+        public void setType(String type){ this.type=type; }
+        public void setImage(Map<String,String> image){ this.image = image; }
+        public Map<String,String> getImage(){ return image; }
+        public String getEmail(){ return email; }
+        public void setEmail(String email){ this.email=email; }
+    }
+
 }
