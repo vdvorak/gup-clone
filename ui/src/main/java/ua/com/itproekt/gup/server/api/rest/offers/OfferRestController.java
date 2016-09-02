@@ -7,14 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.itproekt.gup.dto.OfferInfo;
+import ua.com.itproekt.gup.dto.OfferRegistration;
 import ua.com.itproekt.gup.model.offer.Address;
 import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.dto.OfferInfo;
-import ua.com.itproekt.gup.dto.OfferRegistration;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -141,6 +141,25 @@ public class OfferRestController {
         return new ResponseEntity<>(offersService.getListOfMiniPublicOffersWithOptions(offerFO), HttpStatus.OK);
     }
 
+
+    /**
+     * Return user's offers with options
+     *
+     * @param offerFO filter options.
+     * @return status 200 if Ok, 403 - for non authorize
+     */
+    @PreAuthorize("isAuthenticated()")
+    @CrossOrigin
+    @RequestMapping(value = "/offer/read/all/my", method = RequestMethod.POST)
+    public ResponseEntity<List<Offer>> listOfAllOffersForAuthor(@RequestBody OfferFilterOptions offerFO) {
+
+        String userId = SecurityOperations.getLoggedUserId();
+        offerFO.setAuthorId(userId);
+
+        return new ResponseEntity<>(offersService.findOffersWihOptions(offerFO).getEntities(), HttpStatus.OK);
+    }
+
+
     //------------------------------------------ Create ----------------------------------------------------------------
 
 //    /**
@@ -180,10 +199,6 @@ public class OfferRestController {
 //    }
 
 
-
-
-
-
     @CrossOrigin
     @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
@@ -200,7 +215,7 @@ public class OfferRestController {
 
             offerSeoUrlAndPaidServicePreparator(offerRegistration);
 
-            if (files.length>0){
+            if (files.length > 0) {
                 // Set images id's and their order into offer
                 offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files));
             }
@@ -216,7 +231,7 @@ public class OfferRestController {
 
             offerSeoUrlAndPaidServicePreparator(offerRegistration);
 
-            if (files.length>0){
+            if (files.length > 0) {
                 // Set images id's and their order into offer
                 offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files));
             }
@@ -228,10 +243,6 @@ public class OfferRestController {
 
 
     }
-
-
-
-
 
 
     //------------------------------------------ Update ----------------------------------------------------------------

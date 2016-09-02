@@ -21,7 +21,7 @@ public class ProfileInfo {
     private String internalTransactionHistory;
     private List<Order> orderBuyerList; // order's list where user is buyer
     private List<Order> orderSellerList; // order's list where user is seller;
-    
+
     // ToDo подписки
     // ToDo история отзывов
     // ToDo запросы на отзывы (спросить Сашу)
