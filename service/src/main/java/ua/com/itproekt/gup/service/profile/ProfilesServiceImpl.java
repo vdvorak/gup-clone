@@ -440,6 +440,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         OrderFilterOptions orderFilterOptionsForSeller = new OrderFilterOptions();
         orderFilterOptionsForSeller.setSellerId(profile.getId());
 
+        OfferFilterOptions offerFilterOptionsForAuthor = new OfferFilterOptions();
+        offerFilterOptionsForAuthor.setAuthorId(profile.getId());
+        offerFilterOptionsForAuthor.setLimit(20);
+
 
         profileInfo
                 .setUserBalance(bankSession.getUserBalance(profile.getId()))
@@ -447,6 +451,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()))
                 .setUnreadMessages(0)
                 .setUnreadMessages(0)
+                .setUserOfferList(offersService.findOffersWihOptions(offerFilterOptionsForAuthor).getEntities())
                 .setOrderBuyerList(orderService.findOrdersWihOptions(orderFilterOptionsForBuyer))
                 .setOrderSellerList(orderService.findOrdersWihOptions(orderFilterOptionsForSeller))
                 .setUserAveragePoints(calculateAveragePointsForSellerByUserId(profile.getId()));

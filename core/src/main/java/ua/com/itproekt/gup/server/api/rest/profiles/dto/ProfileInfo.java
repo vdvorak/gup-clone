@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.server.api.rest.profiles.dto;
 
+import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.profiles.Profile;
@@ -21,11 +22,12 @@ public class ProfileInfo {
     private String internalTransactionHistory;
     private List<Order> orderBuyerList; // order's list where user is buyer
     private List<Order> orderSellerList; // order's list where user is seller;
+    private List<Offer> userOfferList;
+
 
     // ToDo подписки
     // ToDo история отзывов
     // ToDo запросы на отзывы (спросить Сашу)
-
 
 
     public ProfileInfo() {
@@ -124,6 +126,15 @@ public class ProfileInfo {
         return this;
     }
 
+    public List<Offer> getUserOfferList() {
+        return userOfferList;
+    }
+
+    public ProfileInfo setUserOfferList(List<Offer> userOfferList) {
+        this.userOfferList = userOfferList;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "ProfileInfo{" +
@@ -137,6 +148,7 @@ public class ProfileInfo {
                 ", internalTransactionHistory='" + internalTransactionHistory + '\'' +
                 ", orderBuyerList=" + orderBuyerList +
                 ", orderSellerList=" + orderSellerList +
+                ", userOfferList=" + userOfferList +
                 '}';
     }
 }
