@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.server.api.rest.profiles.dto;
 
+import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.profiles.Profile;
@@ -18,8 +19,15 @@ public class ProfileInfo {
     private Integer userBonusBalance;
     private Integer userAveragePoints;
     private List<OrderFeedback> orderFeedbackList;
-    private List<Order> orderList;
     private String internalTransactionHistory;
+    private List<Order> orderBuyerList; // order's list where user is buyer
+    private List<Order> orderSellerList; // order's list where user is seller;
+    private List<Offer> userOfferList;
+
+
+    // ToDo подписки
+    // ToDo история отзывов
+    // ToDo запросы на отзывы (спросить Сашу)
 
 
     public ProfileInfo() {
@@ -91,22 +99,39 @@ public class ProfileInfo {
         return this;
     }
 
-    public List<Order> getOrderList() {
-        return orderList;
-    }
-
-
-    public ProfileInfo setOrderList(List<Order> orderList) {
-        this.orderList = orderList;
-        return this;
-    }
-
     public String getInternalTransactionHistory() {
         return internalTransactionHistory;
     }
 
     public ProfileInfo setInternalTransactionHistory(String internalTransactionHistory) {
         this.internalTransactionHistory = internalTransactionHistory;
+        return this;
+    }
+
+    public List<Order> getOrderBuyerList() {
+        return orderBuyerList;
+    }
+
+    public ProfileInfo setOrderBuyerList(List<Order> orderBuyerList) {
+        this.orderBuyerList = orderBuyerList;
+        return this;
+    }
+
+    public List<Order> getOrderSellerList() {
+        return orderSellerList;
+    }
+
+    public ProfileInfo setOrderSellerList(List<Order> orderSellerList) {
+        this.orderSellerList = orderSellerList;
+        return this;
+    }
+
+    public List<Offer> getUserOfferList() {
+        return userOfferList;
+    }
+
+    public ProfileInfo setUserOfferList(List<Offer> userOfferList) {
+        this.userOfferList = userOfferList;
         return this;
     }
 
@@ -120,8 +145,10 @@ public class ProfileInfo {
                 ", userBonusBalance=" + userBonusBalance +
                 ", userAveragePoints=" + userAveragePoints +
                 ", orderFeedbackList=" + orderFeedbackList +
-                ", orderList=" + orderList +
                 ", internalTransactionHistory='" + internalTransactionHistory + '\'' +
+                ", orderBuyerList=" + orderBuyerList +
+                ", orderSellerList=" + orderSellerList +
+                ", userOfferList=" + userOfferList +
                 '}';
     }
 }
