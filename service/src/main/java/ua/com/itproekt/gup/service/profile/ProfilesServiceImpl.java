@@ -433,10 +433,13 @@ public class ProfilesServiceImpl implements ProfilesService {
     private ProfileInfo prepareAdditionalFieldForPrivate(Profile profile) {
         ProfileInfo profileInfo = new ProfileInfo(profile);
 
-        // ToDo impl all of this!
 
+        OrderFilterOptions orderFilterOptionsForBuyer = new OrderFilterOptions();
+        orderFilterOptionsForBuyer.setBuyerId(profile.getId());
 
-        List<Order> orderList = orderListPreparatorForUser(profile.getId());
+        OrderFilterOptions orderFilterOptionsForSeller = new OrderFilterOptions();
+        orderFilterOptionsForSeller.setSellerId(profile.getId());
+
 
         profileInfo
                 .setUserBalance(bankSession.getUserBalance(profile.getId()))
@@ -444,8 +447,9 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()))
                 .setUnreadMessages(0)
                 .setUnreadMessages(0)
-                .setOrderList(orderList)
-                .setUserAveragePoints(calculateAveragePointsForSellerByUserId(profile.getId())); // ToDo impl this!
+                .setOrderBuyerList(orderService.findOrdersWihOptions(orderFilterOptionsForBuyer))
+                .setOrderSellerList(orderService.findOrdersWihOptions(orderFilterOptionsForSeller))
+                .setUserAveragePoints(calculateAveragePointsForSellerByUserId(profile.getId()));
 
         profileInfo.getProfile().setPassword(null);
         return profileInfo;
