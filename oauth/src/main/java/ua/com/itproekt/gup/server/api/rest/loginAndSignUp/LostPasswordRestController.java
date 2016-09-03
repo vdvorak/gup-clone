@@ -26,6 +26,7 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CookieUtil;
 import ua.com.itproekt.gup.util.Oauth2Util;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Random;
@@ -92,7 +93,7 @@ public class LostPasswordRestController {
     @CrossOrigin
     @RequestMapping(value = "/" + restorePasswordURL + "/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileInfo> resetPassword(@PathVariable String id, @RequestParam String secret, HttpServletResponse response) {
+    public ResponseEntity<ProfileInfo> resetPassword(@PathVariable String id, @RequestParam String secret, HttpServletResponse response) { //public ResponseEntity<String> resetPassword(@PathVariable String id, @RequestParam String secret, HttpServletResponse response) {
         LoggedUser loggedUser;
         Profile profile = null;
         if( profilesService.profileExists(id) ){
@@ -111,20 +112,20 @@ public class LostPasswordRestController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
-        return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+        return new ResponseEntity<>(profileInfo, HttpStatus.OK); //return new ResponseEntity<>("redirect:/api/oauth/" + restorePasswordURL + "/" + id, HttpStatus.OK);
     }
 
     /**
      * #3 Here the client can edit, change the password to a new Statement
      *
-     * @param id
      * @param secret
      * @return
      */
     @CrossOrigin
-    @RequestMapping(value = "/" + restorePasswordURL + "/{id}", method = RequestMethod.POST,
+    @RequestMapping(value = "/" + restorePasswordURL, method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileInfo> restorePassword(@PathVariable String id, @RequestBody String secret) {
+    public ResponseEntity<ProfileInfo> restorePassword(@RequestBody String secret) {
+        String id = SecurityOperations.getLoggedUserId();
         Profile profile = null;
         if( profilesService.profileExists(id) ){
             profile = profilesService.findById(id);
