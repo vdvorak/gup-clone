@@ -66,7 +66,7 @@ public class LostPasswordRestController {
     @CrossOrigin
     @RequestMapping(value = "/send-lost-password-email", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> sendLostPasswordEmail(@RequestParam String email) {
+    public ResponseEntity<String> sendLostPasswordEmail(@RequestBody String email) {
         Profile profile = null;
         String secret = generateSecret();
         if( profilesService.profileExistsWithEmail(email) ){
