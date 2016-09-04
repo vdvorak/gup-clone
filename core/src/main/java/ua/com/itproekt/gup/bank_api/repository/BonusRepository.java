@@ -58,7 +58,7 @@ public class BonusRepository {
         return "INTERNAL REST ERROR";
     }
 
-    public String buyByBonusAccount(String userId, int transType, int cost, int offerId) {
+    public String buyByBonusAccount(String userId, int transType, int cost, String offerId) { //public String buyByBonusAccount(String userId, int transType, int cost, int offerId) {
         try {
             HttpResponse<String> jsonResponse = Unirest.post(session.getUrl() + "/bonusRest/buyByBonusAccount")
                     .field("password", generateEncodedPassword())

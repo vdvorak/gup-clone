@@ -6,9 +6,9 @@ import java.time.ZoneOffset;
 
 public class PaidServices {
 
-    private Boolean isMarked; // marked offer forever
-    private Boolean isUrgent; // marked offer with "urgent"
-    private Boolean isCheaper; // marked offer with "cheaper"
+    private Marked isMarked; // marked offer forever
+    private Long isUrgent;   // marked offer with "urgent"
+    private Long isCheaper;  // marked offer with "cheaper"
 
     private Long lastPaidUpdateDate; // if offer must be on the top, value of this variable must be from the future
 
@@ -18,29 +18,29 @@ public class PaidServices {
     }
 
 
-    public Boolean getIsMarked() {
+    public Marked getIsMarked() {
         return isMarked;
     }
 
-    public PaidServices setIsMarked(Boolean isMarked) {
+    public PaidServices setIsMarked(Marked isMarked) {
         this.isMarked = isMarked;
         return this;
     }
 
-    public Boolean getIsUrgent() {
+    public Long getIsUrgent() {
         return isUrgent;
     }
 
-    public PaidServices setIsUrgent(Boolean isUrgent) {
+    public PaidServices setIsUrgent(Long isUrgent) {
         this.isUrgent = isUrgent;
         return this;
     }
 
-    public Boolean getIsCheaper() {
+    public Long getIsCheaper() {
         return isCheaper;
     }
 
-    public PaidServices setIsCheaper(Boolean isCheaper) {
+    public PaidServices setIsCheaper(Long isCheaper) {
         this.isCheaper = isCheaper;
         return this;
     }

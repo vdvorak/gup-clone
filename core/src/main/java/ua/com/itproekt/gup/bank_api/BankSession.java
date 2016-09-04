@@ -232,7 +232,7 @@ public class BankSession {
      * @param offerId
      * @return
      */
-    public String buyByBonusAccount(String userId, int transType, int cost, int offerId) {
+    public String buyByBonusAccount(String userId, int transType, int cost, String offerId) { //public String buyByBonusAccount(String userId, int transType, int cost, int offerId) {
         return bonusRepository.buyByBonusAccount(userId, transType, cost, offerId);
     }
 
