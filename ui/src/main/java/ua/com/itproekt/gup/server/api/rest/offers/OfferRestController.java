@@ -206,8 +206,13 @@ public class OfferRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
+
+        if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         // if user is not logged in
-        if (userId == null && offerRegistration.getEmail() != null) {
+        if (userId == null && offerRegistration.getEmail() != null && offerRegistration.getPassword() != null) {
 
             if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
