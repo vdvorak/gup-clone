@@ -304,15 +304,20 @@ public class OffersServiceImpl implements OffersService {
         OfferInfo offerInfo = new OfferInfo();
         Profile profile = profilesService.findById(offer.getAuthorId());
 
-        List<OrderFeedback> orderFeedbackList = orderService.findAllFeedbacksForOffer(offer.getId());
 
         offer.setLastModerationDate(null);
         offer.setModerationMessage(null);
         offerInfo.setOffer(offer);
         offerInfo.setUserName(profile.getUsername());
         offerInfo.setIsOnline(profile.isOnline());
+        List<OrderFeedback> orderFeedbackList = orderService.findAllFeedbacksForOffer(offer.getId());
+
         offerInfo.setOrderFeedbackList(orderFeedbackList);
-        offerInfo.setOrdersCount(orderFeedbackList.size());
+
+        if (offer.isShowOrdersCount()) {
+            offerInfo.setOrdersCount(orderFeedbackList.size());
+        }
+
 
         return offerInfo;
     }

@@ -57,6 +57,7 @@ public class Offer {
     private Boolean used; // б/y
     private Boolean canBeReserved;
     private Boolean canBeRented;
+    private boolean showOrdersCount; //user decide to show offer orders amount or not
     private Integer maximumReservedPeriod;
     private Set<TransportCompany> availableShippingMethods;
     private Set<PaymentMethod> availablePaymentMethods;
@@ -358,6 +359,15 @@ public class Offer {
         return this;
     }
 
+    public boolean isShowOrdersCount() {
+        return showOrdersCount;
+    }
+
+    public Offer setShowOrdersCount(boolean showOrdersCount) {
+        this.showOrdersCount = showOrdersCount;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Offer{" +
@@ -385,6 +395,7 @@ public class Offer {
                 ", used=" + used +
                 ", canBeReserved=" + canBeReserved +
                 ", canBeRented=" + canBeRented +
+                ", showOrdersCount=" + showOrdersCount +
                 ", maximumReservedPeriod=" + maximumReservedPeriod +
                 ", availableShippingMethods=" + availableShippingMethods +
                 ", availablePaymentMethods=" + availablePaymentMethods +
