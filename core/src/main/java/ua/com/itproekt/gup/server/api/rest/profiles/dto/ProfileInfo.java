@@ -4,6 +4,7 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.subscription.Subscription;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class ProfileInfo {
     private List<Order> orderBuyerList; // order's list where user is buyer
     private List<Order> orderSellerList; // order's list where user is seller;
     private List<Offer> userOfferList;
+    private List<Subscription> subscriptionList; // user's subscription list
 
 
     // ToDo подписки
@@ -135,6 +137,15 @@ public class ProfileInfo {
         return this;
     }
 
+    public List<Subscription> getSubscriptionList() {
+        return subscriptionList;
+    }
+
+    public ProfileInfo setSubscriptionList(List<Subscription> subscriptionList) {
+        this.subscriptionList = subscriptionList;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "ProfileInfo{" +
@@ -149,6 +160,7 @@ public class ProfileInfo {
                 ", orderBuyerList=" + orderBuyerList +
                 ", orderSellerList=" + orderSellerList +
                 ", userOfferList=" + userOfferList +
+                ", subscriptionList=" + subscriptionList +
                 '}';
     }
 }

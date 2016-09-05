@@ -11,9 +11,11 @@ import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.*;
+import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
 import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
+import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 
 import java.util.*;
 
@@ -29,6 +31,9 @@ public class ProfilesServiceImpl implements ProfilesService {
     OffersService offersService;
     @Autowired
     private ProfileRepository profileRepository;
+
+    @Autowired
+    private SubscriptionService subscriptionService;
 
 
     //ToDo  make this work after we will repair oauth
@@ -444,6 +449,9 @@ public class ProfilesServiceImpl implements ProfilesService {
         offerFilterOptionsForAuthor.setAuthorId(profile.getId());
         offerFilterOptionsForAuthor.setLimit(20);
 
+        SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions();
+        subscriptionFilterOptions.setUserId(profile.getId());
+
 
         profileInfo
                 .setUserBalance(bankSession.getUserBalance(profile.getId()))
@@ -454,6 +462,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserOfferList(offersService.findOffersWihOptions(offerFilterOptionsForAuthor).getEntities())
                 .setOrderBuyerList(orderService.findOrdersWihOptions(orderFilterOptionsForBuyer))
                 .setOrderSellerList(orderService.findOrdersWihOptions(orderFilterOptionsForSeller))
+                .setSubscriptionList(subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities())//ToDo impl this
                 .setUserAveragePoints(calculateAveragePointsForSellerByUserId(profile.getId()));
 
         profileInfo.getProfile().setPassword(null);
