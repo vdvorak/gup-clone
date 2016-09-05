@@ -56,6 +56,10 @@ public class OfferRestController {
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
+    /**
+     * @param id
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/offer/read/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -75,28 +79,10 @@ public class OfferRestController {
         return new ResponseEntity<>(offersService.getPublicOfferInfoByOffer(offer), HttpStatus.OK);
     }
 
-
-//    @CrossOrigin
-//    @RequestMapping(value = "/offer/read/url/{seoUrl}", method = RequestMethod.GET,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<OfferInfo> getOfferBySeoUrl(@PathVariable String seoUrl) {
-//        Offer offer = offersService.findBySeoUrl(seoUrl);
-//
-//        if (offer == null) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//        String userId = SecurityOperations.getLoggedUserId();
-//
-//        //if user is author - he will receive additional fields
-//        if (offer.getAuthorId().equals(userId)) {
-//            return new ResponseEntity<>(offersService.getPrivateOfferInfoByOffer(offer), HttpStatus.OK);
-//        }
-//
-//        return new ResponseEntity<>(offersService.getPublicOfferInfoByOffer(offer), HttpStatus.OK);
-//    }
-
-
+    /**
+     * @param seoUrl
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/offer/read/relevant/{seoUrl}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -130,7 +116,11 @@ public class OfferRestController {
         return new ResponseEntity<>(offerInfo, HttpStatus.OK);
     }
 
-
+    /**
+     * @param offerFO
+     * @param request
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
     public ResponseEntity<List<OfferInfo>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
@@ -162,43 +152,12 @@ public class OfferRestController {
 
     //------------------------------------------ Create ----------------------------------------------------------------
 
-//    /**
-//     * Create new offer with registered or unregistered user
-//     *
-//     * @param offerRegistration - must contain Offer and optional email and password
-//     * @return - status code 201 if Ok and created
-//     */
-//    @CrossOrigin
-//    @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
-//            consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<CreatedObjResp> createOffer(@Valid @RequestBody OfferRegistration offerRegistration) {
-//
-//        String userId = SecurityOperations.getLoggedUserId();
-//        // if user is not logged in
-//        if (userId == null && offerRegistration.getEmail() != null) {
-//
-//            if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
-//                return new ResponseEntity<>(HttpStatus.CONFLICT);
-//            }
-//
-//            offerSeoUrlAndPaidServicePreparator(offerRegistration);
-//            offersService.createWithRegistration(offerRegistration);
-//
-//            return new ResponseEntity<>(new CreatedObjResp(offerRegistration.getOffer().getSeoUrl()), HttpStatus.CREATED);
-//        } else {
-//            // if user is logged in
-//
-//            offerRegistration.getOffer().setAuthorId(userId);
-//
-//            offerSeoUrlAndPaidServicePreparator(offerRegistration);
-//
-//            offersService.create(offerRegistration.getOffer());
-//
-//            return new ResponseEntity<>(new CreatedObjResp(offerRegistration.getOffer().getSeoUrl()), HttpStatus.CREATED);
-//        }
-//    }
-
-
+    /**
+     * @param offerRegistration
+     * @param files
+     * @param request
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
@@ -207,7 +166,7 @@ public class OfferRestController {
         String userId = SecurityOperations.getLoggedUserId();
 
 
-        if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)){
+        if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -252,6 +211,10 @@ public class OfferRestController {
 
     //------------------------------------------ Update ----------------------------------------------------------------
 
+    /**
+     * @param offer
+     * @return
+     */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/edit", method = RequestMethod.POST,
@@ -330,6 +293,10 @@ public class OfferRestController {
 
     //------------------------------------------ Delete ----------------------------------------------------------------
 
+    /**
+     * @param offerId
+     * @return
+     */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/delete/{offerId}", method = RequestMethod.DELETE)
@@ -353,6 +320,11 @@ public class OfferRestController {
 
     //------------------------------------------ Rest for admin --------------------------------------------------------
 
+    /**
+     * @param offerId
+     * @param moderationStatus
+     * @return
+     */
     @CrossOrigin
     @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_SUPPORT','ROLE_MODERATOR')")
     @RequestMapping(value = "/offer/moderateStatus/{offerId}", method = RequestMethod.POST)
@@ -402,6 +374,10 @@ public class OfferRestController {
         offerRegistration.getOffer().setPaidServices(paidServices);
     }
 
+    /**
+     * @param offer
+     * @return
+     */
     private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCity(Offer offer) {
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
         offerFilterOptions.setAddress(new Address());
@@ -425,6 +401,10 @@ public class OfferRestController {
         return offerFilterOptions;
     }
 
+    /**
+     * @param offer
+     * @return
+     */
     private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithArea(Offer offer) {
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
         offerFilterOptions.setAddress(new Address());

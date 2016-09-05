@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.offers.OfferRepository;
+import ua.com.itproekt.gup.dto.OfferInfo;
+import ua.com.itproekt.gup.dto.OfferRegistration;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.offer.ModerationStatus;
@@ -11,10 +13,9 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.dto.OfferInfo;
-import ua.com.itproekt.gup.dto.OfferRegistration;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -302,13 +303,16 @@ public class OffersServiceImpl implements OffersService {
     private OfferInfo publicOfferPreparator(Offer offer) {
         OfferInfo offerInfo = new OfferInfo();
         Profile profile = profilesService.findById(offer.getAuthorId());
+
+        List<OrderFeedback> orderFeedbackList = orderService.findAllFeedbacksForOffer(offer.getId());
+
         offer.setLastModerationDate(null);
         offer.setModerationMessage(null);
         offerInfo.setOffer(offer);
         offerInfo.setUserName(profile.getUsername());
         offerInfo.setIsOnline(profile.isOnline());
-
-        offerInfo.setOrderFeedbackList(orderService.findAllFeedbacksForOffer(offer.getId()));
+        offerInfo.setOrderFeedbackList(orderFeedbackList);
+        offerInfo.setOrdersCount(orderFeedbackList.size());
 
         return offerInfo;
     }
@@ -324,12 +328,13 @@ public class OffersServiceImpl implements OffersService {
         OfferInfo offerInfo = new OfferInfo();
         Profile profile = profilesService.findById(offer.getAuthorId());
 
-        //ToDo Maybe here will be smth else in the future. Maybe...
+        List<OrderFeedback> orderFeedbackList = orderService.findAllFeedbacksForOffer(offer.getId());
+
         offerInfo.setOffer(offer);
         offerInfo.setUserName(profile.getUsername());
         offerInfo.setIsOnline(profile.isOnline());
-
-        offerInfo.setOrderFeedbackList(orderService.findAllFeedbacksForOffer(offer.getId()));
+        offerInfo.setOrderFeedbackList(orderFeedbackList);
+        offerInfo.setOrdersCount(orderFeedbackList.size());
 
         return offerInfo;
     }

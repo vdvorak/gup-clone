@@ -14,10 +14,8 @@ public class OfferInfo extends Offer {
     private boolean isOnline;
     private String userName;
     private List<OfferInfo> relevantOffersList;
-
-
+    private int ordersCount;
     private List<OrderFeedback> orderFeedbackList;
-
 
 
 
@@ -61,6 +59,15 @@ public class OfferInfo extends Offer {
         this.orderFeedbackList = orderFeedbackList;
     }
 
+    public int getOrdersCount() {
+        return ordersCount;
+    }
+
+    public OfferInfo setOrdersCount(int ordersCount) {
+        this.ordersCount = ordersCount;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "OfferInfo{" +
@@ -68,6 +75,7 @@ public class OfferInfo extends Offer {
                 ", isOnline=" + isOnline +
                 ", userName='" + userName + '\'' +
                 ", relevantOffersList=" + relevantOffersList +
+                ", ordersCount=" + ordersCount +
                 ", orderFeedbackList=" + orderFeedbackList +
                 '}';
     }
