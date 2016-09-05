@@ -1,6 +1,8 @@
 package ua.com.itproekt.gup.server.api.rest.offers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,7 @@ import java.util.Date;
 import java.util.Locale;
 
 @RestController
+@PropertySource("classpath:properties/offer-paid.properties")
 @RequestMapping("/api/rest/offersPaidService")
 public class OfferPaidRestController {
 
@@ -52,8 +55,11 @@ public class OfferPaidRestController {
     @Autowired
     BankSession bankSession;
 
-    private final int marked_cost = 15;
-    private final int urgent_cost = 15;
+    @Autowired
+    Environment env;
+
+//    private final int marked_cost = 15;
+//    private final int urgent_cost = 15;
     private final int cheaper_cost = 15;
 
     @CrossOrigin
@@ -121,6 +127,7 @@ public class OfferPaidRestController {
 
         //if user is author - he will receive additional fields
         if (oldOffer.getAuthorId().equals(userId)) {
+            int marked_cost = Integer.valueOf(env.getProperty("offer-paid.marked.cost"));
             int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
             if (marked_cost < amount){
                 buyByBonusAccount = bankSession.buyByBonusAccount(userId, 2003, marked_cost, offerId);
@@ -161,6 +168,7 @@ public class OfferPaidRestController {
 
         //if user is author - he will receive additional fields
         if (oldOffer.getAuthorId().equals(userId)) {
+            int urgent_cost = Integer.valueOf(env.getProperty("offer-paid.marked.cost"));
             int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
             if (urgent_cost < amount){
                 buyByBonusAccount = bankSession.buyByBonusAccount(userId, 2003, urgent_cost, offerId);
