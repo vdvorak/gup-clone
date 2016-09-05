@@ -81,12 +81,14 @@ public class OfferRestController {
 
     /**
      * @param seoUrl
+     * @param relevant
      * @return
      */
     @CrossOrigin
     @RequestMapping(value = "/offer/read/relevant/{seoUrl}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferInfo> getOfferByIdWithRelevant(@PathVariable String seoUrl) {
+    public ResponseEntity<OfferInfo> getOfferByIdWithRelevant(@PathVariable String seoUrl,
+                                                              @RequestParam(required = false, defaultValue = "false") boolean relevant) {
         Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
 
         if (offer == null) {
@@ -104,14 +106,15 @@ public class OfferRestController {
             offerInfo = offersService.getPublicOfferInfoByOffer(offer);
         }
 
-        // receive list of relevant offer
-        List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId());
 
-        if (relevantOffersList.size() < 20) {
-            relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithArea(offer), offer.getId());
+        if (relevant) {
+            // receive list of relevant offer
+            List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId());
+            if (relevantOffersList.size() < 20) {
+                relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithArea(offer), offer.getId());
+            }
+            offerInfo.setRelevantOffersList(relevantOffersList);
         }
-
-        offerInfo.setRelevantOffersList(relevantOffersList);
 
         return new ResponseEntity<>(offerInfo, HttpStatus.OK);
     }
