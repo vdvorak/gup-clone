@@ -60,7 +60,7 @@ public class OfferPaidRestController {
 
 //    private final int marked_cost = 15;
 //    private final int urgent_cost = 15;
-    private final int cheaper_cost = 15;
+//    private final int cheaper_cost = 15;
 
     @CrossOrigin
     @RequestMapping(value = "/offer/check/{id}", method = RequestMethod.POST,
@@ -121,8 +121,8 @@ public class OfferPaidRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        //String userId = SecurityOperations.getLoggedUserId();
-        String userId = "571a2fdd681db5eee71086c0";
+        String userId = SecurityOperations.getLoggedUserId();
+//        String userId = "571a2fdd681db5eee71086c0";
         String buyByBonusAccount = null;
 
         //if user is author - he will receive additional fields
@@ -162,13 +162,13 @@ public class OfferPaidRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        //String userId = SecurityOperations.getLoggedUserId();
-        String userId = "571a2fdd681db5eee71086c0";
+        String userId = SecurityOperations.getLoggedUserId();
+//        String userId = "571a2fdd681db5eee71086c0";
         String buyByBonusAccount = null;
 
         //if user is author - he will receive additional fields
         if (oldOffer.getAuthorId().equals(userId)) {
-            int urgent_cost = Integer.valueOf(env.getProperty("offer-paid.marked.cost"));
+            int urgent_cost = Integer.valueOf(env.getProperty("offer-paid.urgent.cost"));
             int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
             if (urgent_cost < amount){
                 buyByBonusAccount = bankSession.buyByBonusAccount(userId, 2003, urgent_cost, offerId);
@@ -203,12 +203,13 @@ public class OfferPaidRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        //String userId = SecurityOperations.getLoggedUserId();
-        String userId = "571a2fdd681db5eee71086c0";
+        String userId = SecurityOperations.getLoggedUserId();
+//        String userId = "571a2fdd681db5eee71086c0";
         String buyByBonusAccount = null;
 
         //if user is author - he will receive additional fields
         if (oldOffer.getAuthorId().equals(userId)) {
+            int cheaper_cost = Integer.valueOf(env.getProperty("offer-paid.cheaper.cost"));
             int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
             if (cheaper_cost < amount){
                 buyByBonusAccount = bankSession.buyByBonusAccount(userId, 2003, cheaper_cost, offerId);
