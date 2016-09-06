@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.offers.OfferRepository;
+import ua.com.itproekt.gup.dto.OfferInfo;
+import ua.com.itproekt.gup.dto.OfferRegistration;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.offer.ModerationStatus;
@@ -11,10 +13,9 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.dto.OfferInfo;
-import ua.com.itproekt.gup.dto.OfferRegistration;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -271,10 +272,32 @@ public class OffersServiceImpl implements OffersService {
         return publicMiniOfferInfoPreparator(offerRepository.findOffersWihOptions(offerFilterOptions).getEntities());
     }
 
-
+    /**
+     * @param offerFilterOptions
+     * @param excludeOfferId
+     * @return
+     */
     @Override
     public List<OfferInfo> getListOfMiniPublicOffersWithOptionsAndExclude(OfferFilterOptions offerFilterOptions, String excludeOfferId) {
         return publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptions, excludeOfferId).getEntities());
+    }
+
+
+    /**
+     * @param offerFilterOptions
+     * @return
+     */
+    @Override
+    public List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions) {
+        List<OfferInfo> offerInfoList = new ArrayList<>();
+
+        List<Offer> offerList = offerRepository.findOffersWihOptions(offerFilterOptions).getEntities();
+
+        for (Offer offer : offerList) {
+            offerInfoList.add(privateOfferPreparatorForShortList(offer));
+        }
+
+        return offerInfoList;
     }
 
     /**
@@ -302,13 +325,21 @@ public class OffersServiceImpl implements OffersService {
     private OfferInfo publicOfferPreparator(Offer offer) {
         OfferInfo offerInfo = new OfferInfo();
         Profile profile = profilesService.findById(offer.getAuthorId());
+
+
         offer.setLastModerationDate(null);
         offer.setModerationMessage(null);
         offerInfo.setOffer(offer);
         offerInfo.setUserName(profile.getUsername());
         offerInfo.setIsOnline(profile.isOnline());
+        List<OrderFeedback> orderFeedbackList = orderService.findAllFeedbacksForOffer(offer.getId());
 
-        offerInfo.setOrderFeedbackList(orderService.findAllFeedbacksForOffer(offer.getId()));
+        offerInfo.setOrderFeedbackList(orderFeedbackList);
+        offerInfo.setAverageOrderPoint(orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList));
+
+        if (offer.isShowOrdersCount()) {
+            offerInfo.setOrdersCount(orderFeedbackList.size());
+        }
 
         return offerInfo;
     }
@@ -322,15 +353,30 @@ public class OffersServiceImpl implements OffersService {
      */
     private OfferInfo privateOfferPreparator(Offer offer) {
         OfferInfo offerInfo = new OfferInfo();
-        Profile profile = profilesService.findById(offer.getAuthorId());
 
-        //ToDo Maybe here will be smth else in the future. Maybe...
+        List<OrderFeedback> orderFeedbackList = orderService.findAllFeedbacksForOffer(offer.getId());
+
         offerInfo.setOffer(offer);
-        offerInfo.setUserName(profile.getUsername());
-        offerInfo.setIsOnline(profile.isOnline());
+        offerInfo.setOrderList(orderService.findAllOrdersForOffer(offer.getId()));
+        offerInfo.setAverageOrderPoint(orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList));
+        return offerInfo;
+    }
 
-        offerInfo.setOrderFeedbackList(orderService.findAllFeedbacksForOffer(offer.getId()));
+
+    /**
+     * @param offer
+     * @return
+     */
+    private OfferInfo privateOfferPreparatorForShortList(Offer offer) {
+        OfferInfo offerInfo = new OfferInfo();
+
+        List<OrderFeedback> orderFeedbackList = orderService.findAllFeedbacksForOffer(offer.getId());
+
+        offerInfo.setOffer(offer);
+        offerInfo.setFeedbackCount(orderFeedbackList.size());
+        offerInfo.setOrdersCount(orderService.countOrderAmountForOffer(offer.getId()));
 
         return offerInfo;
     }
+
 }

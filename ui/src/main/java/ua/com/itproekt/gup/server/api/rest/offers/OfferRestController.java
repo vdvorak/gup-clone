@@ -31,6 +31,7 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/rest/offersService")
@@ -56,6 +57,10 @@ public class OfferRestController {
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
+    /**
+     * @param id
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/offer/read/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -75,32 +80,16 @@ public class OfferRestController {
         return new ResponseEntity<>(offersService.getPublicOfferInfoByOffer(offer), HttpStatus.OK);
     }
 
-
-//    @CrossOrigin
-//    @RequestMapping(value = "/offer/read/url/{seoUrl}", method = RequestMethod.GET,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<OfferInfo> getOfferBySeoUrl(@PathVariable String seoUrl) {
-//        Offer offer = offersService.findBySeoUrl(seoUrl);
-//
-//        if (offer == null) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//        String userId = SecurityOperations.getLoggedUserId();
-//
-//        //if user is author - he will receive additional fields
-//        if (offer.getAuthorId().equals(userId)) {
-//            return new ResponseEntity<>(offersService.getPrivateOfferInfoByOffer(offer), HttpStatus.OK);
-//        }
-//
-//        return new ResponseEntity<>(offersService.getPublicOfferInfoByOffer(offer), HttpStatus.OK);
-//    }
-
-
+    /**
+     * @param seoUrl
+     * @param relevant
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/offer/read/relevant/{seoUrl}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferInfo> getOfferByIdWithRelevant(@PathVariable String seoUrl) {
+    public ResponseEntity<OfferInfo> getOfferByIdWithRelevant(@PathVariable String seoUrl,
+                                                              @RequestParam(required = false, defaultValue = "false") boolean relevant) {
         Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
 
         if (offer == null) {
@@ -118,19 +107,24 @@ public class OfferRestController {
             offerInfo = offersService.getPublicOfferInfoByOffer(offer);
         }
 
-        // receive list of relevant offer
-        List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId());
 
-        if (relevantOffersList.size() < 20) {
-            relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithArea(offer), offer.getId());
+        if (relevant) {
+            // receive list of relevant offer
+            List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId());
+            if (relevantOffersList.size() < 20) {
+                relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithArea(offer), offer.getId());
+            }
+            offerInfo.setRelevantOffersList(relevantOffersList);
         }
-
-        offerInfo.setRelevantOffersList(relevantOffersList);
 
         return new ResponseEntity<>(offerInfo, HttpStatus.OK);
     }
 
-
+    /**
+     * @param offerFO
+     * @param request
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
     public ResponseEntity<List<OfferInfo>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
@@ -151,54 +145,23 @@ public class OfferRestController {
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
     @RequestMapping(value = "/offer/read/all/my", method = RequestMethod.POST)
-    public ResponseEntity<List<Offer>> listOfAllOffersForAuthor(@RequestBody OfferFilterOptions offerFO) {
+    public ResponseEntity<List<OfferInfo>> listOfAllOffersForAuthor(@RequestBody OfferFilterOptions offerFO) {
 
         String userId = SecurityOperations.getLoggedUserId();
         offerFO.setAuthorId(userId);
 
-        return new ResponseEntity<>(offersService.findOffersWihOptions(offerFO).getEntities(), HttpStatus.OK);
+        return new ResponseEntity<>(offersService.getListOfPrivateOfferInfoWithOptions(offerFO), HttpStatus.OK);
     }
 
 
     //------------------------------------------ Create ----------------------------------------------------------------
 
-//    /**
-//     * Create new offer with registered or unregistered user
-//     *
-//     * @param offerRegistration - must contain Offer and optional email and password
-//     * @return - status code 201 if Ok and created
-//     */
-//    @CrossOrigin
-//    @RequestMapping(value = "/offer/create", method = RequestMethod.POST,
-//            consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<CreatedObjResp> createOffer(@Valid @RequestBody OfferRegistration offerRegistration) {
-//
-//        String userId = SecurityOperations.getLoggedUserId();
-//        // if user is not logged in
-//        if (userId == null && offerRegistration.getEmail() != null) {
-//
-//            if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
-//                return new ResponseEntity<>(HttpStatus.CONFLICT);
-//            }
-//
-//            offerSeoUrlAndPaidServicePreparator(offerRegistration);
-//            offersService.createWithRegistration(offerRegistration);
-//
-//            return new ResponseEntity<>(new CreatedObjResp(offerRegistration.getOffer().getSeoUrl()), HttpStatus.CREATED);
-//        } else {
-//            // if user is logged in
-//
-//            offerRegistration.getOffer().setAuthorId(userId);
-//
-//            offerSeoUrlAndPaidServicePreparator(offerRegistration);
-//
-//            offersService.create(offerRegistration.getOffer());
-//
-//            return new ResponseEntity<>(new CreatedObjResp(offerRegistration.getOffer().getSeoUrl()), HttpStatus.CREATED);
-//        }
-//    }
-
-
+    /**
+     * @param offerRegistration
+     * @param files
+     * @param request
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
@@ -207,7 +170,11 @@ public class OfferRestController {
         String userId = SecurityOperations.getLoggedUserId();
 
 
-        if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)){
+        System.err.println("User id: " + userId);
+
+
+        if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
+            System.err.println("Ne zalogin");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -237,8 +204,18 @@ public class OfferRestController {
             offerSeoUrlAndPaidServicePreparator(offerRegistration);
 
             if (files.length > 0) {
+
+                for (MultipartFile file : files) {
+                    System.err.println("Filename: " + file.getOriginalFilename() + " ||| " + file.getName());
+                }
+
                 // Set images id's and their order into offer
-                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files));
+                Map<String, String> imagesMap = storageService.saveCachedMultiplyImageOffer(files);
+
+
+                System.err.println("Poluchili: " + imagesMap.toString());
+
+                offerRegistration.getOffer().setImagesIds(imagesMap);
             }
 
             offersService.create(offerRegistration.getOffer());
@@ -252,6 +229,10 @@ public class OfferRestController {
 
     //------------------------------------------ Update ----------------------------------------------------------------
 
+    /**
+     * @param offer
+     * @return
+     */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/edit", method = RequestMethod.POST,
@@ -330,6 +311,10 @@ public class OfferRestController {
 
     //------------------------------------------ Delete ----------------------------------------------------------------
 
+    /**
+     * @param offerId
+     * @return
+     */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/delete/{offerId}", method = RequestMethod.DELETE)
@@ -353,6 +338,11 @@ public class OfferRestController {
 
     //------------------------------------------ Rest for admin --------------------------------------------------------
 
+    /**
+     * @param offerId
+     * @param moderationStatus
+     * @return
+     */
     @CrossOrigin
     @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_SUPPORT','ROLE_MODERATOR')")
     @RequestMapping(value = "/offer/moderateStatus/{offerId}", method = RequestMethod.POST)
@@ -402,6 +392,10 @@ public class OfferRestController {
         offerRegistration.getOffer().setPaidServices(paidServices);
     }
 
+    /**
+     * @param offer
+     * @return
+     */
     private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCity(Offer offer) {
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
         offerFilterOptions.setAddress(new Address());
@@ -425,6 +419,10 @@ public class OfferRestController {
         return offerFilterOptions;
     }
 
+    /**
+     * @param offer
+     * @return
+     */
     private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithArea(Offer offer) {
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
         offerFilterOptions.setAddress(new Address());

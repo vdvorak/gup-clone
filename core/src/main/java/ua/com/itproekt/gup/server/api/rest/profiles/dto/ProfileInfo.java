@@ -26,8 +26,9 @@ public class ProfileInfo {
     private List<Offer> userOfferList;
     private List<Subscription> subscriptionList; // user's subscription list
 
+    private int orderAmount;
+    private int totalFeedbackAmount;
 
-    // ToDo подписки
     // ToDo история отзывов
     // ToDo запросы на отзывы (спросить Сашу)
 
@@ -146,6 +147,24 @@ public class ProfileInfo {
         return this;
     }
 
+    public int getTotalFeedbackAmount() {
+        return totalFeedbackAmount;
+    }
+
+    public ProfileInfo setTotalFeedbackAmount(int totalFeedbackAmount) {
+        this.totalFeedbackAmount = totalFeedbackAmount;
+        return this;
+    }
+
+    public int getOrderAmount() {
+        return orderAmount;
+    }
+
+    public ProfileInfo setOrderAmount(int orderAmount) {
+        this.orderAmount = orderAmount;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "ProfileInfo{" +
@@ -161,6 +180,8 @@ public class ProfileInfo {
                 ", orderSellerList=" + orderSellerList +
                 ", userOfferList=" + userOfferList +
                 ", subscriptionList=" + subscriptionList +
+                ", orderAmount=" + orderAmount +
+                ", totalFeedbackAmount=" + totalFeedbackAmount +
                 '}';
     }
 }

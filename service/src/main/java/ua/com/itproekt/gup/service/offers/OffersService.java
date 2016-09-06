@@ -1,11 +1,11 @@
 package ua.com.itproekt.gup.service.offers;
 
+import ua.com.itproekt.gup.dto.OfferInfo;
+import ua.com.itproekt.gup.dto.OfferRegistration;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.itproekt.gup.dto.OfferInfo;
-import ua.com.itproekt.gup.dto.OfferRegistration;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.List;
@@ -97,6 +97,13 @@ public interface OffersService {
      * @return
      */
     List<OfferInfo> getListOfMiniPublicOffersWithOptionsAndExclude(OfferFilterOptions offerFilterOptions, String excludeOfferId);
+
+
+    /**
+     * @param offerFilterOptions
+     * @return
+     */
+    List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions);
 
 
 //    ModerationMessage moderateOffer(ModerationMessage moderationMessage);

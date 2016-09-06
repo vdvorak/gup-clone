@@ -453,16 +453,21 @@ public class ProfilesServiceImpl implements ProfilesService {
         subscriptionFilterOptions.setUserId(profile.getId());
 
 
+        List<Order> listOfAllOrdersForThisUser = orderService.findAllOrdersForUser(profile.getId());
+        List<OrderFeedback> listOfAllOrderFeedbackListForThisUser = feedbackListPreparatorForProfile(profile.getId());
+
+
         profileInfo
                 .setUserBalance(bankSession.getUserBalance(profile.getId()))
                 .setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())))
                 .setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()))
                 .setUnreadMessages(0)
-                .setUnreadMessages(0)
+                .setTotalFeedbackAmount(listOfAllOrderFeedbackListForThisUser.size())
+                .setOrderAmount(listOfAllOrdersForThisUser.size())
                 .setUserOfferList(offersService.findOffersWihOptions(offerFilterOptionsForAuthor).getEntities())
                 .setOrderBuyerList(orderService.findOrdersWihOptions(orderFilterOptionsForBuyer))
                 .setOrderSellerList(orderService.findOrdersWihOptions(orderFilterOptionsForSeller))
-                .setSubscriptionList(subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities())//ToDo impl this
+                .setSubscriptionList(subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities())
                 .setUserAveragePoints(calculateAveragePointsForSellerByUserId(profile.getId()));
 
         profileInfo.getProfile().setPassword(null);
@@ -493,7 +498,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUnreadMessages(null)
                 .setUnreadMessages(null)
                 .setOrderFeedbackList(orderFeedbackList) // all users feedback for his offer
-                .setUserAveragePoints(calculateAveragePointsForUserFromOrderFeedbackList(orderFeedbackList)); // ToDo impl this!
+                .setUserAveragePoints(orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList)); // ToDo impl this!
 
         return profileInfo;
     }
@@ -568,33 +573,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     /**
-     * Calculate average point of orders for user (seller) from order feedback list
-     *
-     * @param orderFeedback
-     * @return
-     */
-    private int calculateAveragePointsForUserFromOrderFeedbackList(List<OrderFeedback> orderFeedback) {
-
-        if (orderFeedback.size() < 1) {
-            return 0;
-        }
-
-        int res = 0;
-        int count = 0;
-
-        for (OrderFeedback feedback : orderFeedback) {
-            res = res + feedback.getPoint();
-            count++;
-        }
-
-        if (res == 0) {
-            return 0;
-        }
-
-        return (res * 10) / count;
-    }
-
-    /**
      * Calculate average point of orders for user (seller) from order list
      *
      * @param profileId
@@ -602,7 +580,7 @@ public class ProfilesServiceImpl implements ProfilesService {
      */
     private int calculateAveragePointsForSellerByUserId(String profileId) {
         List<OrderFeedback> orderFeedbackList = feedbackListPreparatorForProfile(profileId);
-        return calculateAveragePointsForUserFromOrderFeedbackList(orderFeedbackList);
+        return orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList);
     }
 
 }
