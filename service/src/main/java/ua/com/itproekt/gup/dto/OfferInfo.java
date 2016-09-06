@@ -13,10 +13,10 @@ public class OfferInfo extends Offer {
     private Offer offer;
     private boolean isOnline;
     private String userName;
+    private int averageOrderPoint;
     private List<OfferInfo> relevantOffersList;
     private int ordersCount;
     private List<OrderFeedback> orderFeedbackList;
-
 
 
     public Offer getOffer() {
@@ -68,12 +68,22 @@ public class OfferInfo extends Offer {
         return this;
     }
 
+    public int getAverageOrderPoint() {
+        return averageOrderPoint;
+    }
+
+    public OfferInfo setAverageOrderPoint(int averageOrderPoint) {
+        this.averageOrderPoint = averageOrderPoint;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "OfferInfo{" +
                 "offer=" + offer +
                 ", isOnline=" + isOnline +
                 ", userName='" + userName + '\'' +
+                ", averageOrderPoint=" + averageOrderPoint +
                 ", relevantOffersList=" + relevantOffersList +
                 ", ordersCount=" + ordersCount +
                 ", orderFeedbackList=" + orderFeedbackList +

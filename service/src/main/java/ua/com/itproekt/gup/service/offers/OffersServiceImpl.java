@@ -313,11 +313,11 @@ public class OffersServiceImpl implements OffersService {
         List<OrderFeedback> orderFeedbackList = orderService.findAllFeedbacksForOffer(offer.getId());
 
         offerInfo.setOrderFeedbackList(orderFeedbackList);
+        offerInfo.setAverageOrderPoint(orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList));
 
         if (offer.isShowOrdersCount()) {
             offerInfo.setOrdersCount(orderFeedbackList.size());
         }
-
 
         return offerInfo;
     }
@@ -340,6 +340,7 @@ public class OffersServiceImpl implements OffersService {
         offerInfo.setIsOnline(profile.isOnline());
         offerInfo.setOrderFeedbackList(orderFeedbackList);
         offerInfo.setOrdersCount(orderFeedbackList.size());
+        offerInfo.setAverageOrderPoint(orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList));
 
         return offerInfo;
     }
