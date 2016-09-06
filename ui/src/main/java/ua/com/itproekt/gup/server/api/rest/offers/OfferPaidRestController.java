@@ -13,7 +13,6 @@ import ua.com.itproekt.gup.dto.OfferInfo;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.paidservices.Marked;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
-import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
@@ -21,11 +20,14 @@ import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
 import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -50,50 +52,43 @@ public class OfferPaidRestController {
     VerificationTokenService verificationTokenService;
 
     @Autowired
-    private StorageService storageService;
-
-    @Autowired
     BankSession bankSession;
 
     @Autowired
     Environment env;
 
-//    private final int marked_cost = 15;
-//    private final int urgent_cost = 15;
-//    private final int cheaper_cost = 15;
+    static String formatter = "d.MM.yyyy";
+    static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(formatter, Locale.ENGLISH);
+    static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
 
     @CrossOrigin
-    @RequestMapping(value = "/offer/check/{id}", method = RequestMethod.POST,
+    @RequestMapping(value = "/offer-info/{offerId}", method = RequestMethod.GET,
                   produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferInfo> checkOfferById(@PathVariable String id) {
-        Offer offer = offersService.findOfferAndIncViews(id);
+    public ResponseEntity<OfferInfo> getOfferInfoById(@PathVariable String offerId) {
+        Offer offer = offersService.findOfferAndIncViews(offerId);
         if (offer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        String userId = "571a2fdd681db5eee71086c0"; //String userId = SecurityOperations.getLoggedUserId();
+        String userId = SecurityOperations.getLoggedUserId();
 
-        //if user is author - he will receive additional fields
         if (offer.getAuthorId().equals(userId)) {
             return new ResponseEntity<>(offersService.getPrivateOfferInfoByOffer(offer), HttpStatus.OK);
         }
-
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    //------------------------------------------ Paid -----------------------------------------------------------------
-
     @CrossOrigin
-    @RequestMapping(value = "/offer/get/{id}", method = RequestMethod.POST,
+    @RequestMapping(value = "/offer/{offerId}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getOfferById(@PathVariable String id) {
-        Offer oldOffer = offersService.findOfferAndIncViews(id);
+    public ResponseEntity<String> getOfferById(@PathVariable String offerId) {
+        Offer oldOffer = offersService.findOfferAndIncViews(offerId);
         if (oldOffer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         PaidServices paid = new PaidServices();
-        paid.setIsMarked(Marked.THREE);
+        paid.setIsMarked(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
         paid.setIsUrgent( LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() );
         paid.setIsCheaper( LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() );
         paid.setLastPaidUpdateDate( LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() );
@@ -103,142 +98,238 @@ public class OfferPaidRestController {
         return new ResponseEntity<>(oldOffer.toString(), HttpStatus.OK);
     }
 
+    //------------------------------------------ Paid -----------------------------------------------------------------
+
     /**
      * http://localhost:8084/api/rest/offersPaidService/paid-bonus/marked/offer/57444d787688dcc2ed336db7
-     * isMarked .......... просто красиво выделеное цветом объявление (на 3,6,16 месяцев)
-     * 0 | 3 | 6 | 12
+     * (long) isMarked .......... просто красиво выделеное цветом объявление (указать дату когда истекает срок на 1,3,6,16 месяцев)
+     * period (0 | 1 | 3 | 6 | 12)
+     * (userId=571a2fdd681db5eee71086c0)
      *
      * @param offerId
      * @return
      */
     @CrossOrigin
-//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/paid-bonus/marked/offer/{offerId}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> setMarkedByOfferId(@PathVariable String offerId, @RequestBody String marked) {
+    public ResponseEntity<String> setMarkedByOfferId(@PathVariable String offerId, @RequestBody String period) {
         Offer oldOffer = offersService.findOfferAndIncViews(offerId);
         if (oldOffer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         String userId = SecurityOperations.getLoggedUserId();
-//        String userId = "571a2fdd681db5eee71086c0";
         String buyByBonusAccount = null;
 
-        //if user is author - he will receive additional fields
         if (oldOffer.getAuthorId().equals(userId)) {
             int marked_cost = Integer.valueOf(env.getProperty("offer-paid.marked.cost"));
             int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
-            if (marked_cost < amount){
+            if (marked_cost < amount && 0 < Marked.getMarked(Integer.valueOf(period)).period()){
                 buyByBonusAccount = bankSession.buyByBonusAccount(userId, 2003, marked_cost, offerId);
-                PaidServices paid = new PaidServices();
-                paid.setIsMarked( Marked.getMarked(marked) );
-                paid.setLastPaidUpdateDate( LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() );
+                PaidServices paid = null;
+                try {
+                    if(oldOffer.getPaidServices() != null){
+                        paid = oldOffer.getPaidServices();
+                        paid.setIsMarked( addDate(paid.getIsMarked(), Marked.getMarked(Integer.valueOf(period)).period()) );
+                    } else {
+                        paid = new PaidServices();
+                        paid.setIsMarked( addDate(Marked.getMarked(Integer.valueOf(period)).period()) );
+                        paid.setIsUrgent(0l);
+                        paid.setIsCheaper(0l);
+                        paid.setLastPaidUpdateDate(0l);
+                    }
+                } catch (ParseException e) {
+                    return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"Incorrect Data Format\"}", HttpStatus.BAD_REQUEST);
+                }
                 Offer newOffer = oldOffer.setPaidServices(paid);
                 offersService.edit(newOffer);
+                return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); // TODO result transacrion
             }
-            return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); //return new ResponseEntity<>(oldOffer.toString(), HttpStatus.OK);
-//            int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
-//            return new ResponseEntity<>(oldOffer.toString() + " ============== amount=" + amount, HttpStatus.OK);
+            return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"insufficient funds\"}", HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"not the owner\"}", HttpStatus.FORBIDDEN);
     }
 
     /**
      * http://localhost:8084/api/rest/offersPaidService/paid-bonus/urgent/offer/57444d787688dcc2ed336db7
-     * isUrgent .......... пометить как срочное объявление (указать дату когда истекает срок)
-     * 30.06.2014
+     * (long) isUrgent .......... пометить как срочное объявление (указать дату когда истекает срок на 1,3,6,16 месяцев)
+     * period (0 | 1 | 3 | 6 | 12)
+     * (userId=571a2fdd681db5eee71086c0)
      *
      * @param offerId
      * @return
      */
     @CrossOrigin
-//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/paid-bonus/urgent/offer/{offerId}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> setUrgentByOfferId(@PathVariable String offerId, @RequestBody String urgent) {
+    public ResponseEntity<String> setUrgentByOfferId(@PathVariable String offerId, @RequestBody String period) {
         Offer oldOffer = offersService.findOfferAndIncViews(offerId);
         if (oldOffer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         String userId = SecurityOperations.getLoggedUserId();
-//        String userId = "571a2fdd681db5eee71086c0";
         String buyByBonusAccount = null;
 
-        //if user is author - he will receive additional fields
         if (oldOffer.getAuthorId().equals(userId)) {
             int urgent_cost = Integer.valueOf(env.getProperty("offer-paid.urgent.cost"));
             int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
-            if (urgent_cost < amount){
+            if (urgent_cost < amount && 0 < Marked.getMarked(Integer.valueOf(period)).period()){
                 buyByBonusAccount = bankSession.buyByBonusAccount(userId, 2003, urgent_cost, offerId);
-                PaidServices paid = new PaidServices();
-                paid.setIsUrgent(convertDate(urgent));
-                paid.setLastPaidUpdateDate( LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() );
+                PaidServices paid = null;
+                try {
+                    if(oldOffer.getPaidServices() != null){
+                        paid = oldOffer.getPaidServices();
+                        paid.setIsUrgent(addDate(paid.getIsUrgent(), Marked.getMarked(Integer.valueOf(period)).period()));
+                    } else {
+                        paid = new PaidServices();
+                        paid.setIsMarked(0l);
+                        paid.setIsUrgent(addDate(Marked.getMarked(Integer.valueOf(period)).period()));
+                        paid.setIsCheaper(0l);
+                        paid.setLastPaidUpdateDate(0l);
+                    }
+                } catch (ParseException e) {
+                    return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"Incorrect Data Format\"}", HttpStatus.BAD_REQUEST);
+                }
                 Offer newOffer = oldOffer.setPaidServices(paid);
                 offersService.edit(newOffer);
+                return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); // TODO result transacrion
             }
-            return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); //return new ResponseEntity<>(oldOffer.toString(), HttpStatus.OK);
-//            int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
-//            return new ResponseEntity<>(oldOffer.toString() + " ============== amount=" + amount, HttpStatus.OK);
+            return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"insufficient funds\"}", HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"not the owner\"}", HttpStatus.FORBIDDEN);
     }
 
     /**
      * http://localhost:8084/api/rest/offersPaidService/paid-bonus/cheaper/offer/57444d787688dcc2ed336db7
-     * isCheaper ......... пометить как дешевле объявление (указать дату когда истекает срок)
+     * (long) isCheaper ......... пометить как дешевле объявление (указать дату когда истекает срок на 1,3,6,16 месяцев)
+     * period (0 | 1 | 3 | 6 | 12)
      * 30.06.2014
+     * (userId=571a2fdd681db5eee71086c0)
      *
      * @param offerId
      * @return
      */
     @CrossOrigin
-//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/paid-bonus/cheaper/offer/{offerId}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> setCheaperByOfferId(@PathVariable String offerId, @RequestBody String cheaper) {
+    public ResponseEntity<String> setCheaperByOfferId(@PathVariable String offerId, @RequestBody String period) {
         Offer oldOffer = offersService.findOfferAndIncViews(offerId);
         if (oldOffer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         String userId = SecurityOperations.getLoggedUserId();
-//        String userId = "571a2fdd681db5eee71086c0";
         String buyByBonusAccount = null;
 
-        //if user is author - he will receive additional fields
         if (oldOffer.getAuthorId().equals(userId)) {
             int cheaper_cost = Integer.valueOf(env.getProperty("offer-paid.cheaper.cost"));
             int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
-            if (cheaper_cost < amount){
+            if (cheaper_cost < amount && 0 < Marked.getMarked(Integer.valueOf(period)).period()){
                 buyByBonusAccount = bankSession.buyByBonusAccount(userId, 2003, cheaper_cost, offerId);
-                PaidServices paid = new PaidServices();
-                paid.setIsCheaper(convertDate(cheaper));
-                paid.setLastPaidUpdateDate( LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() );
+                PaidServices paid = null;
+                try {
+                    if(oldOffer.getPaidServices() != null){
+                        paid = oldOffer.getPaidServices();
+                        paid.setIsCheaper(addDate(paid.getIsCheaper(), Marked.getMarked(Integer.valueOf(period)).period()));
+                    } else {
+                        paid = new PaidServices();
+                        paid.setIsMarked(0l);
+                        paid.setIsUrgent(0l);
+                        paid.setIsCheaper(addDate(Marked.getMarked(Integer.valueOf(period)).period()));
+                        paid.setLastPaidUpdateDate(0l);
+                    }
+                } catch (ParseException e) {
+                    return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"Incorrect Data Format\"}", HttpStatus.BAD_REQUEST);
+                }
                 Offer newOffer = oldOffer.setPaidServices(paid);
                 offersService.edit(newOffer);
+                return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); // TODO result transacrion
             }
-            return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); //return new ResponseEntity<>(oldOffer.toString(), HttpStatus.OK);
-//            int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
-//            return new ResponseEntity<>(oldOffer.toString() + " ============== amount=" + amount, HttpStatus.OK);
+            return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"insufficient funds\"}", HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"not the owner\"}", HttpStatus.FORBIDDEN);
     }
 
     /**
-     * <обновить срок> ... поднять-отсортировать вверх списка по дате (одноразово)
+     * http://localhost:8084/api/rest/offersPaidService/paid-bonus/paid-update/offer/57444d787688dcc2ed336db7
+     * <дата платного обновления - обновить срок> ... поднять-отсортировать вверх списка по дате (одноразово)
+     * (userId=571a2fdd681db5eee71086c0)
      *
-     * @param strDate
+     * @param offerId
      * @return
      */
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/paid-bonus/paid-update/offer/{offerId}", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> setPaidUpdateByOfferId(@PathVariable String offerId) {
+        Offer oldOffer = offersService.findOfferAndIncViews(offerId);
+        if (oldOffer == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String userId = SecurityOperations.getLoggedUserId();
+        String buyByBonusAccount = null;
+
+        if (oldOffer.getAuthorId().equals(userId)) {
+            int paid_update_cost = Integer.valueOf(env.getProperty("offer-paid.paid-update.cost"));
+            int amount = Integer.valueOf(bankSession.getBonusByUserId(userId));
+            if (paid_update_cost < amount){
+                buyByBonusAccount = bankSession.buyByBonusAccount(userId, 2003, paid_update_cost, offerId);
+                PaidServices paid = null;
+                if(oldOffer.getPaidServices() != null){
+                    paid = oldOffer.getPaidServices();
+                    paid.setLastPaidUpdateDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+                } else {
+                    paid = new PaidServices();
+                    paid.setIsMarked(0l);
+                    paid.setIsUrgent(0l);
+                    paid.setIsCheaper(0l);
+                    paid.setLastPaidUpdateDate( LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli() );
+                }
+                Offer newOffer = oldOffer.setPaidServices(paid);
+                offersService.edit(newOffer);
+                return new ResponseEntity<>(buyByBonusAccount, HttpStatus.OK); // TODO result transacrion
+            }
+            return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"insufficient funds\"}", HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>("{\"status\":\"ERROR\", \"notification\":\"not the owner\"}", HttpStatus.FORBIDDEN);
+    }
 
 
-    // "30.06.2014" >> 1472936400000
-    private Long convertDate(String strDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy", Locale.ENGLISH);
-        LocalDate localDate = LocalDate.parse(strDate, formatter);
-        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        return date.getTime();
+    long addDate(int iMonth) throws ParseException {
+        Date     currDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(simpleDateFormat.parse(simpleDateFormat.format(currDate)));
+        calendar.add(Calendar.MONTH, iMonth);
+        LocalDate localDate = LocalDate.parse(simpleDateFormat.format(calendar.getTime()), dateTimeFormatter);
+        Date        addDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        return addDate.getTime();
+    }
+
+    long addDate(long lLastDate, int iMonth) throws ParseException {
+        if( isExpired(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli(), lLastDate) ){
+            Date lastDate = new Date(lLastDate);
+            Calendar calendar = Calendar.getInstance();
+
+            calendar.setTime(simpleDateFormat.parse(simpleDateFormat.format(lastDate)));
+            calendar.add(Calendar.MONTH, iMonth);
+            LocalDate localDate = LocalDate.parse(simpleDateFormat.format(calendar.getTime()), dateTimeFormatter);
+            Date addDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            return addDate.getTime();
+        } else {
+            return addDate(iMonth);
+        }
+    }
+
+    private boolean isExpired(long currDate, long lastDate) {
+        return (currDate < lastDate) ? true : false;
     }
 }

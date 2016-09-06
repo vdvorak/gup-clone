@@ -1,27 +1,28 @@
 package ua.com.itproekt.gup.model.offer.paidservices;
 
 public enum Marked {
-    THREE("3"),
-    SIX("6"),
-    TWELVE("12"),
-    NONE("0");
+    ONE(1),
+    THREE(3),
+    SIX(6),
+    TWELVE(12),
+    NONE(0);
 
-    private String period;
+    private int period;
 
-    private Marked(String period) {
+    private Marked(int period) {
         this.period = period;
     }
 
-    static public Marked getMarked(String period) {
+    static public Marked getMarked(int period) {
         for (Marked marked: Marked.values()) {
-            if (marked.period().equals(period)) {
+            if( marked.period()==period ){
                 return marked;
             }
         }
         return NONE;
     }
 
-    public String period() {
+    public int period() {
         return period;
     }
 }

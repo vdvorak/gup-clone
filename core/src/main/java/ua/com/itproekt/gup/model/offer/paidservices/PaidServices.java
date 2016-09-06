@@ -6,10 +6,9 @@ import java.time.ZoneOffset;
 
 public class PaidServices {
 
-    private Marked isMarked; // marked offer forever
+    private Long isMarked; // marked offer forever
     private Long isUrgent;   // marked offer with "urgent"
     private Long isCheaper;  // marked offer with "cheaper"
-
     private Long lastPaidUpdateDate; // if offer must be on the top, value of this variable must be from the future
 
     public PaidServices setLastUpdateDateToCurrentDate() {
@@ -18,11 +17,11 @@ public class PaidServices {
     }
 
 
-    public Marked getIsMarked() {
+    public Long getIsMarked() {
         return isMarked;
     }
 
-    public PaidServices setIsMarked(Marked isMarked) {
+    public PaidServices setIsMarked(Long isMarked) {
         this.isMarked = isMarked;
         return this;
     }

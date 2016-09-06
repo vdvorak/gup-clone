@@ -27,7 +27,8 @@ import java.util.Map;
 public class BankSession {
     private static final Logger LOG = Logger.getLogger(BankSession.class);
 
-    private final String URL = "http://93.73.109.38:8087/";
+    private final String URL = "http://localhost:8081/";
+//    private final String URL = "http://93.73.109.38:8087/";
     private BalanceRepository balanceRepository = new BalanceRepository(this);
     private ExternalTransactionRepository externalTransactionRepository = new ExternalTransactionRepository(this);
     private InternalTransactionRepository internalTransactionRepository = new InternalTransactionRepository(this);
@@ -232,7 +233,7 @@ public class BankSession {
      * @param offerId
      * @return
      */
-    public String buyByBonusAccount(String userId, int transType, int cost, String offerId) { //public String buyByBonusAccount(String userId, int transType, int cost, int offerId) {
+    public String buyByBonusAccount(String userId, int transType, int cost, String offerId) {
         return bonusRepository.buyByBonusAccount(userId, transType, cost, offerId);
     }
 
