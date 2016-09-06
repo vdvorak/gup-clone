@@ -50,4 +50,25 @@ public interface OrderService {
      * @return
      */
     int calculateAveragePointsForOrderFeedbackList(List<OrderFeedback> orderFeedback);
+
+
+    /**
+     * @param offerId
+     * @return
+     */
+    int countOrderAmountForOffer(String offerId);
+
+    /**
+     * @param offerId
+     * @return
+     */
+    List<Order> findAllOrdersForOffer(String offerId);
+
+    /**
+     *
+     * @param orderList
+     * @return
+     */
+    int calculateAveragePointsForListOfOrders(List<Order> orderList);
+
 }

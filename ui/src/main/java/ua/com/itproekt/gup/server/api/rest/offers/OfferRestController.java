@@ -31,6 +31,7 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/rest/offersService")
@@ -144,12 +145,12 @@ public class OfferRestController {
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
     @RequestMapping(value = "/offer/read/all/my", method = RequestMethod.POST)
-    public ResponseEntity<List<Offer>> listOfAllOffersForAuthor(@RequestBody OfferFilterOptions offerFO) {
+    public ResponseEntity<List<OfferInfo>> listOfAllOffersForAuthor(@RequestBody OfferFilterOptions offerFO) {
 
         String userId = SecurityOperations.getLoggedUserId();
         offerFO.setAuthorId(userId);
 
-        return new ResponseEntity<>(offersService.findOffersWihOptions(offerFO).getEntities(), HttpStatus.OK);
+        return new ResponseEntity<>(offersService.getListOfPrivateOfferInfoWithOptions(offerFO), HttpStatus.OK);
     }
 
 
@@ -169,7 +170,11 @@ public class OfferRestController {
         String userId = SecurityOperations.getLoggedUserId();
 
 
+        System.err.println("User id: " + userId);
+
+
         if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
+            System.err.println("Ne zalogin");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -199,8 +204,18 @@ public class OfferRestController {
             offerSeoUrlAndPaidServicePreparator(offerRegistration);
 
             if (files.length > 0) {
+
+                for (MultipartFile file : files) {
+                    System.err.println("Filename: " + file.getOriginalFilename() + " ||| " + file.getName());
+                }
+
                 // Set images id's and their order into offer
-                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files));
+                Map<String, String> imagesMap = storageService.saveCachedMultiplyImageOffer(files);
+
+
+                System.err.println("Poluchili: " + imagesMap.toString());
+
+                offerRegistration.getOffer().setImagesIds(imagesMap);
             }
 
             offersService.create(offerRegistration.getOffer());

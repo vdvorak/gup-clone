@@ -98,7 +98,8 @@ public class OrderServiceImpl implements OrderService {
      * @param orderList
      * @return
      */
-    private int calculateAveragePointsForListOfOrders(List<Order> orderList) {
+    @Override
+    public int calculateAveragePointsForListOfOrders(List<Order> orderList) {
         int res = 0;
         int count = 0;
 
@@ -142,6 +143,30 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return (res * 10) / count;
+    }
+
+    /**
+     *
+     * @param offerId
+     * @return
+     */
+    @Override
+    public int countOrderAmountForOffer(String offerId) {
+        OrderFilterOptions orderFilterOptions = new OrderFilterOptions();
+        orderFilterOptions.setOfferId(offerId);
+        return orderRepository.findOrdersWihOptions(orderFilterOptions).size();
+    }
+
+    /**
+     *
+     * @param offerId
+     * @return
+     */
+    @Override
+    public List<Order> findAllOrdersForOffer(String offerId) {
+        OrderFilterOptions orderFilterOptions = new OrderFilterOptions();
+        orderFilterOptions.setOfferId(offerId);
+        return orderRepository.findOrdersWihOptions(orderFilterOptions);
     }
 
 

@@ -272,10 +272,32 @@ public class OffersServiceImpl implements OffersService {
         return publicMiniOfferInfoPreparator(offerRepository.findOffersWihOptions(offerFilterOptions).getEntities());
     }
 
-
+    /**
+     * @param offerFilterOptions
+     * @param excludeOfferId
+     * @return
+     */
     @Override
     public List<OfferInfo> getListOfMiniPublicOffersWithOptionsAndExclude(OfferFilterOptions offerFilterOptions, String excludeOfferId) {
         return publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptions, excludeOfferId).getEntities());
+    }
+
+
+    /**
+     * @param offerFilterOptions
+     * @return
+     */
+    @Override
+    public List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions) {
+        List<OfferInfo> offerInfoList = new ArrayList<>();
+
+        List<Offer> offerList = offerRepository.findOffersWihOptions(offerFilterOptions).getEntities();
+
+        for (Offer offer : offerList) {
+            offerInfoList.add(privateOfferPreparatorForShortList(offer));
+        }
+
+        return offerInfoList;
     }
 
     /**
@@ -331,17 +353,30 @@ public class OffersServiceImpl implements OffersService {
      */
     private OfferInfo privateOfferPreparator(Offer offer) {
         OfferInfo offerInfo = new OfferInfo();
-        Profile profile = profilesService.findById(offer.getAuthorId());
 
         List<OrderFeedback> orderFeedbackList = orderService.findAllFeedbacksForOffer(offer.getId());
 
         offerInfo.setOffer(offer);
-        offerInfo.setUserName(profile.getUsername());
-        offerInfo.setIsOnline(profile.isOnline());
-        offerInfo.setOrderFeedbackList(orderFeedbackList);
-        offerInfo.setOrdersCount(orderFeedbackList.size());
+        offerInfo.setOrderList(orderService.findAllOrdersForOffer(offer.getId()));
         offerInfo.setAverageOrderPoint(orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList));
+        return offerInfo;
+    }
+
+
+    /**
+     * @param offer
+     * @return
+     */
+    private OfferInfo privateOfferPreparatorForShortList(Offer offer) {
+        OfferInfo offerInfo = new OfferInfo();
+
+        List<OrderFeedback> orderFeedbackList = orderService.findAllFeedbacksForOffer(offer.getId());
+
+        offerInfo.setOffer(offer);
+        offerInfo.setFeedbackCount(orderFeedbackList.size());
+        offerInfo.setOrdersCount(orderService.countOrderAmountForOffer(offer.getId()));
 
         return offerInfo;
     }
+
 }

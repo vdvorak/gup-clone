@@ -3,6 +3,7 @@ package ua.com.itproekt.gup.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ua.com.itproekt.gup.model.offer.Offer;
+import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 
 import java.util.List;
@@ -15,8 +16,10 @@ public class OfferInfo extends Offer {
     private String userName;
     private int averageOrderPoint;
     private List<OfferInfo> relevantOffersList;
+    private int feedbackCount;
     private int ordersCount;
     private List<OrderFeedback> orderFeedbackList;
+    private List<Order> orderList;
 
 
     public Offer getOffer() {
@@ -77,6 +80,24 @@ public class OfferInfo extends Offer {
         return this;
     }
 
+    public int getFeedbackCount() {
+        return feedbackCount;
+    }
+
+    public OfferInfo setFeedbackCount(int feedbackCount) {
+        this.feedbackCount = feedbackCount;
+        return this;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public OfferInfo setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "OfferInfo{" +
@@ -85,8 +106,10 @@ public class OfferInfo extends Offer {
                 ", userName='" + userName + '\'' +
                 ", averageOrderPoint=" + averageOrderPoint +
                 ", relevantOffersList=" + relevantOffersList +
+                ", feedbackCount=" + feedbackCount +
                 ", ordersCount=" + ordersCount +
                 ", orderFeedbackList=" + orderFeedbackList +
+                ", orderList=" + orderList +
                 '}';
     }
 }
