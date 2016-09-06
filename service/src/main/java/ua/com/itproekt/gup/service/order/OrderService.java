@@ -37,6 +37,14 @@ public interface OrderService {
      */
     List<Order> findOrdersWihOptions(OrderFilterOptions orderFilterOptions);
 
+
+    /**
+     * @param userId
+     * @return
+     */
+    List<Order> findAllOrdersForUser(String userId);
+
+
     /**
      * @param offerId
      * @return
@@ -65,7 +73,6 @@ public interface OrderService {
     List<Order> findAllOrdersForOffer(String offerId);
 
     /**
-     *
      * @param orderList
      * @return
      */

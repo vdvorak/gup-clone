@@ -453,16 +453,21 @@ public class ProfilesServiceImpl implements ProfilesService {
         subscriptionFilterOptions.setUserId(profile.getId());
 
 
+        List<Order> listOfAllOrdersForThisUser = orderService.findAllOrdersForUser(profile.getId());
+        List<OrderFeedback> listOfAllOrderFeedbackListForThisUser = feedbackListPreparatorForProfile(profile.getId());
+
+
         profileInfo
                 .setUserBalance(bankSession.getUserBalance(profile.getId()))
                 .setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())))
                 .setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()))
                 .setUnreadMessages(0)
-                .setUnreadMessages(0)
+                .setTotalFeedbackAmount(listOfAllOrderFeedbackListForThisUser.size())
+                .setOrderAmount(listOfAllOrdersForThisUser.size())
                 .setUserOfferList(offersService.findOffersWihOptions(offerFilterOptionsForAuthor).getEntities())
                 .setOrderBuyerList(orderService.findOrdersWihOptions(orderFilterOptionsForBuyer))
                 .setOrderSellerList(orderService.findOrdersWihOptions(orderFilterOptionsForSeller))
-                .setSubscriptionList(subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities())//ToDo impl this
+                .setSubscriptionList(subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities())
                 .setUserAveragePoints(calculateAveragePointsForSellerByUserId(profile.getId()));
 
         profileInfo.getProfile().setPassword(null);

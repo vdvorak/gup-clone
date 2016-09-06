@@ -75,6 +75,14 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findOrdersWihOptions(orderFilterOptions);
     }
 
+    @Override
+    public List<Order> findAllOrdersForUser(String userId) {
+        OrderFilterOptions orderFilterOptions = new OrderFilterOptions();
+        orderFilterOptions.setBuyerId(userId);
+        orderFilterOptions.setBuyerId(userId);
+        return orderRepository.findOrdersWihOptions(orderFilterOptions);
+    }
+
     /**
      * @param offerId
      * @return
@@ -146,7 +154,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     *
      * @param offerId
      * @return
      */
@@ -158,7 +165,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     *
      * @param offerId
      * @return
      */
