@@ -129,6 +129,7 @@ public class OfferRestController {
     @CrossOrigin
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
     public ResponseEntity<List<OfferInfo>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
+
         if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             offerFO.setActive(true);
             offerFO.setModerationStatus(ModerationStatus.COMPLETE);
@@ -156,6 +157,31 @@ public class OfferRestController {
 
 
     //------------------------------------------ Create ----------------------------------------------------------------
+
+//ToDo delete this test shit
+    @CrossOrigin
+    @RequestMapping(value = "/offer/total/test", method = RequestMethod.POST)
+    public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, HttpServletRequest request){
+
+        Cookie[] cookies = request.getCookies();
+
+        System.err.println("Before Cookie check");
+        for (Cookie cookie : cookies) {
+            System.err.println("Cookie name: " + cookie.getName() + " || Cookie value: " + cookie.getValue());
+        }
+
+        return new ResponseEntity<>("azaza", HttpStatus.CREATED);
+    }
+
+
+
+
+
+
+
+
+
+
 
     /**
      * @param offerRegistration
