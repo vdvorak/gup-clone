@@ -20,7 +20,7 @@ import ua.com.itproekt.gup.model.login.FormLoggedUser;
 import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
-import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
+import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;

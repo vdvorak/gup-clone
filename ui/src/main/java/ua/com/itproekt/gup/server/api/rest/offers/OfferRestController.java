@@ -26,6 +26,7 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.SeoUtils;
 import ua.com.itproekt.gup.util.Translit;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -165,6 +166,20 @@ public class OfferRestController {
     @CrossOrigin
     @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
+
+
+
+
+
+       Cookie[] cookies = request.getCookies();
+
+        System.err.println("Before Cookie check");
+        for (Cookie cookie : cookies) {
+            System.err.println("Cookie name: " + cookie.getName() + " || Cookie value: " + cookie.getValue());
+        }
+
+
+
 
 
         String userId = SecurityOperations.getLoggedUserId();

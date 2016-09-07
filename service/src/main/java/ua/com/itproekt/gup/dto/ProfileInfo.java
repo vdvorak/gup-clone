@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.server.api.rest.profiles.dto;
+package ua.com.itproekt.gup.dto;
 
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
@@ -23,7 +23,7 @@ public class ProfileInfo {
     private String internalTransactionHistory;
     private List<Order> orderBuyerList; // order's list where user is buyer
     private List<Order> orderSellerList; // order's list where user is seller;
-    private List<Offer> userOfferList;
+    private List<OfferInfo> userOfferList;
     private List<Subscription> subscriptionList; // user's subscription list
 
     private int orderAmount;
@@ -129,11 +129,12 @@ public class ProfileInfo {
         return this;
     }
 
-    public List<Offer> getUserOfferList() {
+
+    public List<OfferInfo> getUserOfferList() {
         return userOfferList;
     }
 
-    public ProfileInfo setUserOfferList(List<Offer> userOfferList) {
+    public ProfileInfo setUserOfferList(List<OfferInfo> userOfferList) {
         this.userOfferList = userOfferList;
         return this;
     }

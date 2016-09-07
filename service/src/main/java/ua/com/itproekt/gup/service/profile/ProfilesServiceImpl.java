@@ -12,7 +12,7 @@ import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.*;
 import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
-import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
+import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.subscription.SubscriptionService;
@@ -464,7 +464,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUnreadMessages(0)
                 .setTotalFeedbackAmount(listOfAllOrderFeedbackListForThisUser.size())
                 .setOrderAmount(listOfAllOrdersForThisUser.size())
-                .setUserOfferList(offersService.findOffersWihOptions(offerFilterOptionsForAuthor).getEntities())
+                .setUserOfferList(offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor))
                 .setOrderBuyerList(orderService.findOrdersWihOptions(orderFilterOptionsForBuyer))
                 .setOrderSellerList(orderService.findOrdersWihOptions(orderFilterOptionsForSeller))
                 .setSubscriptionList(subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities())
