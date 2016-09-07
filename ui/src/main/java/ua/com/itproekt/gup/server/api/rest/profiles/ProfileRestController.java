@@ -13,7 +13,7 @@ import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.server.api.rest.profiles.dto.ProfileInfo;
+import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.SecurityOperations;

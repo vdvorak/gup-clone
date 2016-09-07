@@ -363,6 +363,8 @@ public class OffersServiceImpl implements OffersService {
     }
 
 
+    // ----------------------------- For offer short list in private profile cabinet ----------------------
+
     /**
      * @param offer
      * @return
