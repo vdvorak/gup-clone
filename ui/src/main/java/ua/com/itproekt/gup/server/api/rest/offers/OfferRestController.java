@@ -158,31 +158,6 @@ public class OfferRestController {
 
     //------------------------------------------ Create ----------------------------------------------------------------
 
-//ToDo delete this test shit
-    @CrossOrigin
-    @RequestMapping(value = "/offer/total/test", method = RequestMethod.POST)
-    public ResponseEntity<String> createTotalOffer(@RequestBody OfferRegistration offerRegistration, HttpServletRequest request){
-
-        Cookie[] cookies = request.getCookies();
-
-        System.err.println("Before Cookie check");
-        for (Cookie cookie : cookies) {
-            System.err.println("Cookie name: " + cookie.getName() + " || Cookie value: " + cookie.getValue());
-        }
-
-        return new ResponseEntity<>("azaza", HttpStatus.CREATED);
-    }
-
-
-
-
-
-
-
-
-
-
-
     /**
      * @param offerRegistration
      * @param files
@@ -194,10 +169,8 @@ public class OfferRestController {
     public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
 
 
-
-
-
-       Cookie[] cookies = request.getCookies();
+        //ToDo delete this shit
+        Cookie[] cookies = request.getCookies();
 
         System.err.println("Before Cookie check");
         for (Cookie cookie : cookies) {
@@ -205,12 +178,9 @@ public class OfferRestController {
         }
 
 
-
-
-
         String userId = SecurityOperations.getLoggedUserId();
 
-
+//ToDo delete this shit
         System.err.println("User id: " + userId);
 
 
@@ -237,6 +207,9 @@ public class OfferRestController {
 
             return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
 
+
+
+
         } else {
             // if user is logged in
 
@@ -246,6 +219,7 @@ public class OfferRestController {
 
             if (files.length > 0) {
 
+
                 for (MultipartFile file : files) {
                     System.err.println("Filename: " + file.getOriginalFilename() + " ||| " + file.getName());
                 }
@@ -253,8 +227,8 @@ public class OfferRestController {
                 // Set images id's and their order into offer
                 Map<String, String> imagesMap = storageService.saveCachedMultiplyImageOffer(files);
 
-
                 System.err.println("Poluchili: " + imagesMap.toString());
+
 
                 offerRegistration.getOffer().setImagesIds(imagesMap);
             }

@@ -65,8 +65,7 @@ public class StorageServiceImpl implements StorageService {
 
         Map<String, String> mapOfImagesIds = new HashMap<>();
 
-
-        for (int i = 0; i < files.length - 1; i++) {
+        for (int i = 0; i < files.length; i++) {
 
             FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
 
@@ -80,7 +79,7 @@ public class StorageServiceImpl implements StorageService {
                 e.printStackTrace();
             }
 
-            mapOfImagesIds.put(saveCachedImageOffer(fileUploadWrapper), String.valueOf(i));
+            mapOfImagesIds.put(saveCachedImageOffer(fileUploadWrapper), String.valueOf(i + 1));
         }
         return mapOfImagesIds;
     }
