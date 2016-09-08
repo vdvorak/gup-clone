@@ -161,7 +161,7 @@ public class OfferRestController {
 //ToDo delete this test shit
     @CrossOrigin
     @RequestMapping(value = "/offer/total/test", method = RequestMethod.POST)
-    public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, HttpServletRequest request){
+    public ResponseEntity<String> createTotalOffer(@RequestBody OfferRegistration offerRegistration, HttpServletRequest request){
 
         Cookie[] cookies = request.getCookies();
 
@@ -337,7 +337,7 @@ public class OfferRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-        if (offer.getAuthorId().equals(userId)) {
+        if (!offer.getAuthorId().equals(userId)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
@@ -368,7 +368,8 @@ public class OfferRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-        if (offer.getAuthorId().equals(userId)) {
+
+        if (!offer.getAuthorId().equals(userId)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 

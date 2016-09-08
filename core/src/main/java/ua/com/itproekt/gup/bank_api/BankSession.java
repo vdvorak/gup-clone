@@ -29,7 +29,7 @@ public class BankSession {
 
 //    private final String URL = "http://localhost:8081/";
 //    private final String URL = "http://93.73.109.38:8087/";
-    private final String URL = "http://192.168.0.103:8081/";
+    private final String URL = "http://192.168.0.106:8081/";
     private BalanceRepository balanceRepository = new BalanceRepository(this);
     private ExternalTransactionRepository externalTransactionRepository = new ExternalTransactionRepository(this);
     private InternalTransactionRepository internalTransactionRepository = new InternalTransactionRepository(this);
