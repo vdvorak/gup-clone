@@ -5,14 +5,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
+import ua.com.itproekt.gup.dto.OfferInfo;
+import ua.com.itproekt.gup.dto.OrderInfo;
+import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.*;
+import ua.com.itproekt.gup.model.subscription.Subscription;
 import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
-import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.subscription.SubscriptionService;
@@ -438,26 +441,35 @@ public class ProfilesServiceImpl implements ProfilesService {
     private ProfileInfo prepareAdditionalFieldForPrivate(Profile profile) {
         ProfileInfo profileInfo = new ProfileInfo(profile);
 
-
         OrderFilterOptions orderFilterOptionsForBuyer = new OrderFilterOptions();
         orderFilterOptionsForBuyer.setBuyerId(profile.getId());
 
         OrderFilterOptions orderFilterOptionsForSeller = new OrderFilterOptions();
         orderFilterOptionsForSeller.setSellerId(profile.getId());
 
+
+
+        //ToDo make me simple
         OfferFilterOptions offerFilterOptionsForAuthor = new OfferFilterOptions();
         offerFilterOptionsForAuthor.setAuthorId(profile.getId());
         offerFilterOptionsForAuthor.setLimit(20);
+        List<OfferInfo> userOfferInfoList = offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor);
+
+
 
         SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions();
         subscriptionFilterOptions.setUserId(profile.getId());
+        List<Subscription> subscriptionList = subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities();
 
+        List<OrderInfo> orderInfoBuyerList = orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForBuyer);
+        List<OrderInfo> orderInfoSellerList = orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForSeller);
 
+        //count total orders amount (buyer and seller)
+        int totalOrdersAmount = orderInfoBuyerList.size() + orderInfoSellerList.size();
 
-
-        //ToDo сделать это как сумму buyer и seller
-        List<Order> listOfAllOrdersForThisUser = orderService.findAllOrdersForUser(profile.getId());
-        List<OrderFeedback> listOfAllOrderFeedbackListForThisUser = feedbackListPreparatorForProfile(profile.getId());
+        int totalFeedbacksAmount =
+                orderService.calculateFeedbackAmountForOrderList(orderInfoBuyerList)
+                        + orderService.calculateFeedbackAmountForOrderList(orderInfoSellerList);
 
 //ToDo turn On bank in the future
         profileInfo
@@ -467,17 +479,12 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserBalance(42)
                 .setUserBonusBalance(54)
                 .setUnreadMessages(0)
-                .setUserOfferList(offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor))
-                .setSubscriptionList(subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities())
-
-
-                .setTotalFeedbackAmount(listOfAllOrderFeedbackListForThisUser.size())//ToDo сделать это как сумму buyer и seller
-
-                .setOrderAmount(listOfAllOrdersForThisUser.size())//ToDo сделать это как сумму buyer и seller
-
-                .setOrderInfoBuyerList(orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForBuyer))
-                .setOrderInfoSellerList(orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForSeller))
-
+                .setUserOfferInfoList(userOfferInfoList)
+                .setSubscriptionList(subscriptionList)
+                .setTotalFeedbackAmount(totalFeedbacksAmount)
+                .setOrderAmount(totalOrdersAmount)
+                .setOrderInfoBuyerList(orderInfoBuyerList)
+                .setOrderInfoSellerList(orderInfoSellerList)
                 .setUserAveragePoints(calculateAveragePointsForSellerByUserId(profile.getId()));
 
         profileInfo.getProfile().setPassword(null);

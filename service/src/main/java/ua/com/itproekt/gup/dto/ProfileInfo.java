@@ -21,7 +21,7 @@ public class ProfileInfo {
     private String internalTransactionHistory;
     private List<OrderInfo> orderInfoBuyerList; // order's list where user is buyer
     private List<OrderInfo> orderInfoSellerList; // order's list where user is seller;
-    private List<OfferInfo> userOfferList;
+    private List<OfferInfo> userOfferInfoList;
     private List<Subscription> subscriptionList; // user's subscription list
 
     private int orderAmount;
@@ -128,12 +128,12 @@ public class ProfileInfo {
         return this;
     }
 
-    public List<OfferInfo> getUserOfferList() {
-        return userOfferList;
+    public List<OfferInfo> getUserOfferInfoList() {
+        return userOfferInfoList;
     }
 
-    public ProfileInfo setUserOfferList(List<OfferInfo> userOfferList) {
-        this.userOfferList = userOfferList;
+    public ProfileInfo setUserOfferInfoList(List<OfferInfo> userOfferInfoList) {
+        this.userOfferInfoList = userOfferInfoList;
         return this;
     }
 
@@ -177,7 +177,7 @@ public class ProfileInfo {
                 ", internalTransactionHistory='" + internalTransactionHistory + '\'' +
                 ", orderInfoBuyerList=" + orderInfoBuyerList +
                 ", orderInfoSellerList=" + orderInfoSellerList +
-                ", userOfferList=" + userOfferList +
+                ", userOfferInfoList=" + userOfferInfoList +
                 ", subscriptionList=" + subscriptionList +
                 ", orderAmount=" + orderAmount +
                 ", totalFeedbackAmount=" + totalFeedbackAmount +

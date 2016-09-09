@@ -197,7 +197,6 @@ public class OrderServiceImpl implements OrderService {
 
 
     /**
-     *
      * @param orderList
      * @return
      */
@@ -231,6 +230,22 @@ public class OrderServiceImpl implements OrderService {
                 .setSellerName(seller.getUsername());
 
         return orderInfo;
+    }
+
+    /**
+     * @param orderList
+     * @return
+     */
+    @Override
+    public int calculateFeedbackAmountForOrderList(List<OrderInfo> orderList) {
+        int result = 0;
+        for (OrderInfo orderInfo : orderList) {
+            if (orderInfo.getOrder().getOrderFeedback() != null) {
+                result++;
+            }
+        }
+
+        return result;
     }
 
 

@@ -88,4 +88,13 @@ public interface OrderService {
      */
     int calculateAveragePointsForListOfOrders(List<Order> orderList);
 
+
+    /**
+     * Calculate feedback amount for list of orders.
+     *
+     * @param orderList
+     * @return
+     */
+    int calculateFeedbackAmountForOrderList(List<OrderInfo> orderList);
+
 }
