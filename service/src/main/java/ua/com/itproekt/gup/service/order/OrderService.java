@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.service.order;
 
 
+import ua.com.itproekt.gup.dto.OrderInfo;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
@@ -36,6 +37,15 @@ public interface OrderService {
      * @return
      */
     List<Order> findOrdersWihOptions(OrderFilterOptions orderFilterOptions);
+
+
+    /**
+     * Return OrderInfo list for private use
+     *
+     * @param orderFilterOptions
+     * @return
+     */
+    List<OrderInfo> findOrderInfoWithOptionsForPrivate(OrderFilterOptions orderFilterOptions);
 
 
     /**

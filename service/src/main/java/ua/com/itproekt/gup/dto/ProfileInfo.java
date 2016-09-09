@@ -1,7 +1,5 @@
 package ua.com.itproekt.gup.dto;
 
-import ua.com.itproekt.gup.model.offer.Offer;
-import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.subscription.Subscription;
@@ -21,8 +19,8 @@ public class ProfileInfo {
     private Integer userAveragePoints;
     private List<OrderFeedback> orderFeedbackList;
     private String internalTransactionHistory;
-    private List<Order> orderBuyerList; // order's list where user is buyer
-    private List<Order> orderSellerList; // order's list where user is seller;
+    private List<OrderInfo> orderInfoBuyerList; // order's list where user is buyer
+    private List<OrderInfo> orderInfoSellerList; // order's list where user is seller;
     private List<OfferInfo> userOfferList;
     private List<Subscription> subscriptionList; // user's subscription list
 
@@ -111,24 +109,24 @@ public class ProfileInfo {
         return this;
     }
 
-    public List<Order> getOrderBuyerList() {
-        return orderBuyerList;
+
+    public List<OrderInfo> getOrderInfoBuyerList() {
+        return orderInfoBuyerList;
     }
 
-    public ProfileInfo setOrderBuyerList(List<Order> orderBuyerList) {
-        this.orderBuyerList = orderBuyerList;
+    public ProfileInfo setOrderInfoBuyerList(List<OrderInfo> orderInfoBuyerList) {
+        this.orderInfoBuyerList = orderInfoBuyerList;
         return this;
     }
 
-    public List<Order> getOrderSellerList() {
-        return orderSellerList;
+    public List<OrderInfo> getOrderInfoSellerList() {
+        return orderInfoSellerList;
     }
 
-    public ProfileInfo setOrderSellerList(List<Order> orderSellerList) {
-        this.orderSellerList = orderSellerList;
+    public ProfileInfo setOrderInfoSellerList(List<OrderInfo> orderInfoSellerList) {
+        this.orderInfoSellerList = orderInfoSellerList;
         return this;
     }
-
 
     public List<OfferInfo> getUserOfferList() {
         return userOfferList;
@@ -177,8 +175,8 @@ public class ProfileInfo {
                 ", userAveragePoints=" + userAveragePoints +
                 ", orderFeedbackList=" + orderFeedbackList +
                 ", internalTransactionHistory='" + internalTransactionHistory + '\'' +
-                ", orderBuyerList=" + orderBuyerList +
-                ", orderSellerList=" + orderSellerList +
+                ", orderInfoBuyerList=" + orderInfoBuyerList +
+                ", orderInfoSellerList=" + orderInfoSellerList +
                 ", userOfferList=" + userOfferList +
                 ", subscriptionList=" + subscriptionList +
                 ", orderAmount=" + orderAmount +

@@ -453,6 +453,9 @@ public class ProfilesServiceImpl implements ProfilesService {
         subscriptionFilterOptions.setUserId(profile.getId());
 
 
+
+
+        //ToDo сделать это как сумму buyer и seller
         List<Order> listOfAllOrdersForThisUser = orderService.findAllOrdersForUser(profile.getId());
         List<OrderFeedback> listOfAllOrderFeedbackListForThisUser = feedbackListPreparatorForProfile(profile.getId());
 
@@ -461,18 +464,20 @@ public class ProfilesServiceImpl implements ProfilesService {
 //                .setUserBalance(bankSession.getUserBalance(profile.getId()))
 //                .setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())))
 //                .setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()))
-
                 .setUserBalance(42)
                 .setUserBonusBalance(54)
-
-
                 .setUnreadMessages(0)
-                .setTotalFeedbackAmount(listOfAllOrderFeedbackListForThisUser.size())
-                .setOrderAmount(listOfAllOrdersForThisUser.size())
                 .setUserOfferList(offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor))
-                .setOrderBuyerList(orderService.findOrdersWihOptions(orderFilterOptionsForBuyer))
-                .setOrderSellerList(orderService.findOrdersWihOptions(orderFilterOptionsForSeller))
                 .setSubscriptionList(subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities())
+
+                
+                .setTotalFeedbackAmount(listOfAllOrderFeedbackListForThisUser.size())//ToDo сделать это как сумму buyer и seller
+
+                .setOrderAmount(listOfAllOrdersForThisUser.size())//ToDo сделать это как сумму buyer и seller
+
+                .setOrderInfoBuyerList(orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForBuyer))
+                .setOrderInfoSellerList(orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForSeller))
+
                 .setUserAveragePoints(calculateAveragePointsForSellerByUserId(profile.getId()));
 
         profileInfo.getProfile().setPassword(null);

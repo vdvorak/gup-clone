@@ -3,10 +3,13 @@ package ua.com.itproekt.gup.service.order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.order.OrderRepository;
+import ua.com.itproekt.gup.dto.OrderInfo;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
+import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderRepository orderRepository;
+
+    @Autowired
+    ProfilesService profilesService;
 
 
     @Override
@@ -74,6 +80,20 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> findOrdersWihOptions(OrderFilterOptions orderFilterOptions) {
         return orderRepository.findOrdersWihOptions(orderFilterOptions);
     }
+
+
+    /**
+     * Return list of order info with additional fields
+     *
+     * @param orderFilterOptions
+     * @return
+     */
+    @Override
+    public List<OrderInfo> findOrderInfoWithOptionsForPrivate(OrderFilterOptions orderFilterOptions) {
+        List<Order> orderList = orderRepository.findOrdersWihOptions(orderFilterOptions);
+        return orderInfoListPreparatorForPrivate(orderList);
+    }
+
 
     @Override
     public List<Order> findAllOrdersForUser(String userId) {
@@ -173,6 +193,44 @@ public class OrderServiceImpl implements OrderService {
         OrderFilterOptions orderFilterOptions = new OrderFilterOptions();
         orderFilterOptions.setOfferId(offerId);
         return orderRepository.findOrdersWihOptions(orderFilterOptions);
+    }
+
+
+    /**
+     *
+     * @param orderList
+     * @return
+     */
+    private List<OrderInfo> orderInfoListPreparatorForPrivate(List<Order> orderList) {
+        List<OrderInfo> orderInfoList = new ArrayList<>();
+
+        for (Order order : orderList) {
+            orderInfoList.add(singleOrderInfoPreparatorForPrivate(order));
+        }
+        return orderInfoList;
+
+    }
+
+
+    /**
+     * Transform single order into orderInfo object with additional field;
+     *
+     * @param order
+     * @return
+     */
+    private OrderInfo singleOrderInfoPreparatorForPrivate(Order order) {
+        OrderInfo orderInfo = new OrderInfo();
+
+        Profile buyer = profilesService.findById(order.getBuyerId());
+        Profile seller = profilesService.findById(order.getSellerId());
+
+        orderInfo.setOrder(order)
+                .setBuyerImg(buyer.getImgId())
+                .setBuyerName(buyer.getUsername())
+                .setSellerImg(seller.getImgId())
+                .setSellerName(seller.getUsername());
+
+        return orderInfo;
     }
 
 
