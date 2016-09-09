@@ -61,7 +61,7 @@ public class OfferRestController {
     /**
      * @param seoUrl
      * @param relevant
-     * @return
+     * @return forbidden (403) if offer is not premoderated
      */
     @CrossOrigin
     @RequestMapping(value = "/offer/read/{seoUrl}", method = RequestMethod.GET,
@@ -69,6 +69,7 @@ public class OfferRestController {
     public ResponseEntity<OfferInfo> getOfferByIdWithRelevant(@PathVariable String seoUrl,
                                                               @RequestParam(required = false, defaultValue = "false") boolean relevant) {
         Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
+
 
         if (offer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -82,6 +83,13 @@ public class OfferRestController {
         if (offer.getAuthorId().equals(userId)) {
             offerInfo = offersService.getPrivateOfferInfoByOffer(offer);
         } else {
+
+
+            if (offer.getModerationStatus() == ModerationStatus.NO || offer.getModerationStatus() == ModerationStatus.FAIL){
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+
+
             offerInfo = offersService.getPublicOfferInfoByOffer(offer);
         }
 
