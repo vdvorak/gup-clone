@@ -4,7 +4,7 @@ $(document).ready(function(){
     offerOptions.skip = 0;
     offerOptions.limit = 4;
 
-    var options = [1,3,6,12];
+    //var options = [1,3,6,12];
 
     $.ajax({
         type: "POST",
@@ -15,13 +15,30 @@ $(document).ready(function(){
         success: function (response) {
             data = response.entities;
 
+            data[0].month = 3;
+            data[1].month = 3;
+            data[2].month = 3;
+            data[3].month = 3;
+            data[0].gup_cost = 15;
+            data[1].gup_cost = 15;
+            data[2].gup_cost = 15;
+            data[3].gup_cost = 15;
+            data[0].olx_cost = 20;
+            data[1].olx_cost = 20;
+            data[2].olx_cost = 20;
+            data[3].olx_cost = 20;
+            data[0].description = "- Виділені оголошенння відразу помітні серед звичайних. - Спецільній [колір] фон на весь час розміщення - Виділене оголошення в результатах запиту та в рубриках";
+            data[1].description = "- Виділені оголошенння відразу помітні серед звичайних. - Спецільній [колір] фон на весь час розміщення - Виділене оголошення в результатах запиту та в рубриках";
+            data[2].description = "Розміщення оголошення над результатами запиту в окремому блоці. Кожен побачить ваше оголошення в результатах запиту. В 15 разів більше переглядів оголошення. В середньому в 5 разів більше відгуків";
+            data[3].description = "Підняття оголошення на перше місце в списку в своїй категорії згідно оплати Ваше поідомлення будуть бачити в десятки більше людей Прекрасний спосіб збільшити кількість переглядів та відгуків. Одноразовое поднятие вверх списка. равноценно загрузке нового объявления - обновление даты";
+
             for (var i = 0; i < data.length; i++) {
                 data[i].createdDate = new Date(parseInt(data[i].createdDate));
                 data[i].createdDate = moment(data[i].createdDate).locale("ru").format('LLL');
                 var newRowContent = "<tr>"
                     + "<td>"
                     + "<div>"
-                    + "<a href=\"#\" class=\"slct" + i + "\">...</a>"
+                    + "<a href=\"#\" class=\"slct" + i + "\">" + data[i].month + "</a>"
                     + "<ul class=\"drop" + i + "\">"
                     + "<li>1</li>"
                     + "<li>3</li>"
@@ -33,22 +50,35 @@ $(document).ready(function(){
                     + "</td>"
                     + "<td>"
                     + "<div>"
-                    + "<input type=\"text\" id=\"text" + i + "\" name=\"text" + i + "\" value=\"" + data[i].userInfo.contactName + "\" />"
+                    + "<input type=\"text\" id=\"text" + i + "\" name=\"text" + i + "\" value=\"" + data[i].gup_cost + "\" />" // data[i].userInfo.contactName
                     + "</div>"
                     + "</td>"
                     + "<td>"
                     + "<div>"
-                    + "<input type=\"text\" id=\"email" + i + "\" name=\"email" + i + "\" value=\"" + data[i].userInfo.email + "\" />"
+                    + "<input type=\"text\" id=\"email" + i + "\" name=\"email" + i + "\" value=\"" + data[i].olx_cost + "\" />" // data[i].userInfo.email
                     + "</div>"
                     + "</td>"
                     + "<td>"
                     + "<div>"
-                    + "<textarea id=\"textarea\">" + data[i].createdDate + "</textarea>"
+                    + "<textarea id=\"textarea\">" + data[i].description + "</textarea>" // data[i].createdDate
                     + "</div>"
                     + "</td>"
                     + "</tr>";
                 $("#tariff tbody").append(newRowContent);
             }
+
+//			$('.slct0').removeClass('active').html(1);
+//			//$('.drop0').find('li').html(3);
+//		    $('.drop0',this).each(function(i){ //$('ul li',this).each(function(i){
+//				var $select = $(this).find('ul li'); //var $select = $(this).find('select');
+//				alert( $select );
+//				//if($select.length)
+//				//   optionTexts[optionTexts.length-1].push($select.attr('name') => $select.val());
+//			    //else {
+//				//   count++;
+//				//   optionTexts.push(new Array(count,$(this).text()));
+//			    //}
+//			});
 
             $('.slct0').click(function(){
                 var dropBlock = $(this).parent().find('.drop0');
