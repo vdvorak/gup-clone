@@ -1,8 +1,10 @@
-$(document).ready(function () {
+$(document).ready(function(){
     var data;
     var offerOptions = {};
     offerOptions.skip = 0;
     offerOptions.limit = 4;
+
+    var options = [1,3,6,12];
 
     $.ajax({
         type: "POST",
@@ -17,13 +19,122 @@ $(document).ready(function () {
                 data[i].createdDate = new Date(parseInt(data[i].createdDate));
                 data[i].createdDate = moment(data[i].createdDate).locale("ru").format('LLL');
                 var newRowContent = "<tr>"
-                    + "<td>" + data[i].userInfo.contactName + "</td>"
-                    + "<td>" + data[i].userInfo.phoneNumbers + "</td>"
-                    + "<td>" + data[i].userInfo.email + "</td>"
-                    + "<td>" + data[i].createdDate + "</td>"
+                    + "<td>"
+                    + "<div>"
+                    + "<a href=\"#\" class=\"slct" + i + "\">...</a>"
+                    + "<ul class=\"drop" + i + "\">"
+                    + "<li>1</li>"
+                    + "<li>3</li>"
+                    + "<li>6</li>"
+                    + "<li>12</li>"
+                    + "</ul>"
+                    + "<input type=\"hidden\" />"
+                    + "</div>"
+                    + "</td>"
+                    + "<td>"
+                    + "<div>"
+                    + "<input type=\"text\" id=\"text" + i + "\" name=\"text" + i + "\" value=\"" + data[i].userInfo.contactName + "\" />"
+                    + "</div>"
+                    + "</td>"
+                    + "<td>"
+                    + "<div>"
+                    + "<input type=\"text\" id=\"email" + i + "\" name=\"email" + i + "\" value=\"" + data[i].userInfo.email + "\" />"
+                    + "</div>"
+                    + "</td>"
+                    + "<td>"
+                    + "<div>"
+                    + "<textarea id=\"textarea\">" + data[i].createdDate + "</textarea>"
+                    + "</div>"
+                    + "</td>"
                     + "</tr>";
                 $("#tariff tbody").append(newRowContent);
             }
+
+            $('.slct0').click(function(){
+                var dropBlock = $(this).parent().find('.drop0');
+                if( dropBlock.is(':hidden') ) {
+                    dropBlock.slideDown();
+                    $(this).addClass('active');
+                    $('.drop0').find('li').click(function(){
+                        var selectResult = $(this).html();
+                        $(this).parent().parent().find('input').val(selectResult);
+                        $('.slct0').removeClass('active').html(selectResult);
+                        dropBlock.slideUp();
+                    });
+                } else {
+                    $(this).removeClass('active');
+                    dropBlock.slideUp();
+                }
+                return false;
+            });
+            $('.slct1').click(function(){
+                var dropBlock = $(this).parent().find('.drop1');
+                if( dropBlock.is(':hidden') ) {
+                    dropBlock.slideDown();
+                    $(this).addClass('active');
+                    $('.drop1').find('li').click(function(){
+                        var selectResult = $(this).html();
+                        $(this).parent().parent().find('input').val(selectResult);
+                        $('.slct1').removeClass('active').html(selectResult);
+                        dropBlock.slideUp();
+                    });
+                } else {
+                    $(this).removeClass('active');
+                    dropBlock.slideUp();
+                }
+                return false;
+            });
+            $('.slct2').click(function(){
+                var dropBlock = $(this).parent().find('.drop2');
+                if( dropBlock.is(':hidden') ) {
+                    dropBlock.slideDown();
+                    $(this).addClass('active');
+                    $('.drop2').find('li').click(function(){
+                        var selectResult = $(this).html();
+                        $(this).parent().parent().find('input').val(selectResult);
+                        $('.slct2').removeClass('active').html(selectResult);
+                        dropBlock.slideUp();
+                    });
+                } else {
+                    $(this).removeClass('active');
+                    dropBlock.slideUp();
+                }
+                return false;
+            });
+            $('.slct3').click(function(){
+                var dropBlock = $(this).parent().find('.drop3');
+                if( dropBlock.is(':hidden') ) {
+                    dropBlock.slideDown();
+                    $(this).addClass('active');
+                    $('.drop3').find('li').click(function(){
+                        var selectResult = $(this).html();
+                        $(this).parent().parent().find('input').val(selectResult);
+                        $('.slct3').removeClass('active').html(selectResult);
+                        dropBlock.slideUp();
+                    });
+                } else {
+                    $(this).removeClass('active');
+                    dropBlock.slideUp();
+                }
+                return false;
+            });
+            $('.slct4').click(function(){
+                var dropBlock = $(this).parent().find('.drop4');
+                if( dropBlock.is(':hidden') ) {
+                    dropBlock.slideDown();
+                    $(this).addClass('active');
+                    $('.drop4').find('li').click(function(){
+                        var selectResult = $(this).html();
+                        $(this).parent().parent().find('input').val(selectResult);
+                        $('.slct4').removeClass('active').html(selectResult);
+                        dropBlock.slideUp();
+                    });
+                } else {
+                    $(this).removeClass('active');
+                    dropBlock.slideUp();
+                }
+                return false;
+            });
         }
     });
 });

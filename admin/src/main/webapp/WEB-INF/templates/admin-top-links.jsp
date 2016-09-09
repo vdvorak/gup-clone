@@ -12,6 +12,9 @@
 <!-- MetisMenu CSS -->
 <link href="/resources/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
+<!-- AdminMenu CSS -->
+<link href="/resources/css/admin_style.css" rel="stylesheet">
+
 <!-- DataTables CSS -->
 <link href="/resources/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css"
       rel="stylesheet">

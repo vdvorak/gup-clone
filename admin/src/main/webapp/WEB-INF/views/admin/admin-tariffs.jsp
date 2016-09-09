@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Редактирование тарифов | Панель управления</title>
+    <title>Тарифы | Панель управления</title>
 
     <!-- Links -->
     <jsp:include page="/WEB-INF/templates/admin-top-links.jsp"/>
@@ -28,41 +28,43 @@
     <jsp:include page="/WEB-INF/templates/admin-left-bar.jsp"/>
     <!-- Navigation -->
 
-    <!-- #page-wrapper -->
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Тарифы</h1>
             </div>
-            <!-- /.col-lg-12 -->
         </div>
-        <!-- /.row -->
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
-                            <table id="tariff" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                            <table id="tariff" class="table table-bordered table-hover" cellspacing="0" width="100%">
                                 <thead>
-                                    <tr>
-                                        <th>Тривалість, міс.</th>
-                                        <th>Вартість, грн</th>
-                                        <th>Вартість на olx.ua</th>
-                                        <th>Переваги, характеристики</th>
-                                    </tr>
+                                <tr>
+                                    <th>Тривалість, міс.</th>
+                                    <th>Вартість, грн</th>
+                                    <th>Вартість на olx.ua</th>
+                                    <th>Переваги, характеристики</th>
+                                </tr>
                                 </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="4" align="center">
+                                        <a href="admin-edit-tariffs"><button class="btn btn-primary disabled" id="editOfferButton">Редактировать</button></a>
+                                    </td>
+                                </tr>
+                                </tfoot>
                             </table>
                         </div>
-                        <!-- /.table -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- /#page-wrapper -->
 </div>
-<!-- /.panel -->
 
 <!-- Bottom Links -->
 <jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>

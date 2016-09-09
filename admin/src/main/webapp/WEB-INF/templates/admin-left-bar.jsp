@@ -56,19 +56,6 @@
           <a href="<c:url value="/admin-users" />"><i class="fa fa-dashboard fa-fw"></i>Пользователи</a>
         </li>
         <li>
-          <a href="<c:url value="/admin-tenders" />"><i class="fa fa-share fa-fw"></i>Тендеры</a>
-        </li>
-
-        <li>
-          <a href="<c:url value="/admin-projects" />"><i class="fa fa-edit fa-fw"></i>Проекты</a>
-        </li>
-        <li>
-          <a href="<c:url value="/admin-blogs" />"><i class="fa fa-edit fa-fw"></i>Блоги</a>
-        </li>
-        <li>
-          <a href="<c:url value="/admin-news" />"><i class="fa fa-edit fa-fw"></i>Новости</a>
-        </li>
-        <li>
           <a href="<c:url value="/admin-admins" />"><i class="fa fa-table fa-fw"></i>Админы</a>
         </li>
         <li>
@@ -77,9 +64,6 @@
           <li>
               <a href="<c:url value="/admin-tariffs" />"><i class="fa fa-credit-card fa-fw"></i>Тарифы</a>
           </li>
-        <%--<li>--%>
-        <%--<a href="<c:url value="/accountant/internal" />"><i class="fa fa-share fa-fw"></i> Внутренние транзакции</a>--%>
-        <%--</li>--%>
       </ul>
     </div>
   </div>
