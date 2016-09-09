@@ -54,7 +54,7 @@ public class StorageRepositoryImpl implements StorageRepository {
 
     @Override
     public GridFSDBFile getCachedImage(String serviceName, String filePath, String imageId) {
-        this.gridFs = new GridFS(mongoTemplate.getDb(), serviceName.toUpperCase() + filePath);
+        this.gridFs = new GridFS(mongoTemplate.getDb(), serviceName + filePath);
         return gridFs.findOne(new ObjectId(imageId));
     }
 
@@ -90,19 +90,17 @@ public class StorageRepositoryImpl implements StorageRepository {
     @Override
     public String saveCachedImageOffer(FileUploadWrapper fileUploadWrapper) {
 
-
         // first call of method with originalImageId = null
         String originalImageId = null;
 
         try {
             BufferedImage bufferedImage = ImageIO.read(fileUploadWrapper.getInputStream());
 
-
             originalImageId = cacheImage(fileUploadWrapper, largeBufferedImageOfferPreparator(bufferedImage), originalImageId, LARGE_CACHE_IMAGE_STORAGE_PATH);
 
             cacheImage(fileUploadWrapper, mediumBufferedImageOfferPreparator(bufferedImage), originalImageId, MEDIUM_CACHE_IMAGE_STORAGE_PATH);
 
-//            cacheImage(fileUploadWrapper, bufferedImage, offerSmallCachedSize, originalImageId, SMALL_CACHE_IMAGE_STORAGE_PATH);
+            cacheImage(fileUploadWrapper, smallBufferedImageOfferPreparator(bufferedImage), originalImageId, SMALL_CACHE_IMAGE_STORAGE_PATH);
 
 
         } catch (IOException e) {
@@ -141,6 +139,11 @@ public class StorageRepositoryImpl implements StorageRepository {
 
         inputFile.setContentType(fileUploadWrapper.getContentType());
         inputFile.save();
+
+
+        //ToDo Delete this in future
+//        System.err.println("FileName: " + fileUploadWrapper.getFilename()  + " filePath: " + filePath + " ||| imgId: " + originalImageId);
+
         return inputFile.getId().toString();
     }
 
@@ -185,6 +188,15 @@ public class StorageRepositoryImpl implements StorageRepository {
      */
     private BufferedImage mediumBufferedImageOfferPreparator(BufferedImage inputImage) {
         return Scalr.resize(inputImage, Scalr.Mode.AUTOMATIC, 165, 120);
+    }
+
+
+    /**
+     * @param inputImage
+     * @return
+     */
+    private BufferedImage smallBufferedImageOfferPreparator(BufferedImage inputImage) {
+        return Scalr.resize(inputImage, Scalr.Mode.AUTOMATIC, 90, 90);
     }
 
 }

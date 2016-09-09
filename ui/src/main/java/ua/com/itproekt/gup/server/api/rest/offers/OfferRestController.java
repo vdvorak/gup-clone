@@ -129,6 +129,7 @@ public class OfferRestController {
     @CrossOrigin
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
     public ResponseEntity<List<OfferInfo>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
+
         if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             offerFO.setActive(true);
             offerFO.setModerationStatus(ModerationStatus.COMPLETE);
@@ -168,10 +169,8 @@ public class OfferRestController {
     public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
 
 
-
-
-
-       Cookie[] cookies = request.getCookies();
+        //ToDo delete this shit
+        Cookie[] cookies = request.getCookies();
 
         System.err.println("Before Cookie check");
         for (Cookie cookie : cookies) {
@@ -179,12 +178,9 @@ public class OfferRestController {
         }
 
 
-
-
-
         String userId = SecurityOperations.getLoggedUserId();
 
-
+//ToDo delete this shit
         System.err.println("User id: " + userId);
 
 
@@ -211,6 +207,9 @@ public class OfferRestController {
 
             return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
 
+
+
+
         } else {
             // if user is logged in
 
@@ -220,6 +219,7 @@ public class OfferRestController {
 
             if (files.length > 0) {
 
+
                 for (MultipartFile file : files) {
                     System.err.println("Filename: " + file.getOriginalFilename() + " ||| " + file.getName());
                 }
@@ -227,8 +227,8 @@ public class OfferRestController {
                 // Set images id's and their order into offer
                 Map<String, String> imagesMap = storageService.saveCachedMultiplyImageOffer(files);
 
-
                 System.err.println("Poluchili: " + imagesMap.toString());
+
 
                 offerRegistration.getOffer().setImagesIds(imagesMap);
             }
@@ -311,7 +311,7 @@ public class OfferRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-        if (offer.getAuthorId().equals(userId)) {
+        if (!offer.getAuthorId().equals(userId)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
@@ -342,7 +342,8 @@ public class OfferRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-        if (offer.getAuthorId().equals(userId)) {
+
+        if (!offer.getAuthorId().equals(userId)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 

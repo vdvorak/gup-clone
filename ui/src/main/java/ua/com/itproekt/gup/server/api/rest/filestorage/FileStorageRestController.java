@@ -101,7 +101,7 @@ public class FileStorageRestController {
         // Prepare file
         try {
             fileUploadWrapper
-                    .setServiceName(serviceName.toUpperCase())
+                    .setServiceName(serviceName.toLowerCase())
                     .setInputStream(file.getInputStream())
                     .setContentType(file.getContentType())
                     .setFilename(file.getOriginalFilename());
@@ -116,14 +116,6 @@ public class FileStorageRestController {
             return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
 
         } else {
-
-            // ToDo скорее всего часть для оффера можно будет удалить, т.к.
-
-            // if service is "offers"
-            if (serviceName.toLowerCase().equals("offers")) {
-                String uploadedFileId = storageService.saveCachedImageOffer(fileUploadWrapper);
-                return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
-            }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -176,16 +168,16 @@ public class FileStorageRestController {
             }
         }
 
-        if (serviceName.toLowerCase().equals("offers")) {
-            if (param.equals("large") || param.equals("medium") || param.equals("small")) {
-                return true;
-            }
-        }
+
+        //ToDo Delete this in future, because offer now uploading not with this method
+//        if (serviceName.toLowerCase().equals("offers")) {
+//            if (param.equals("large") || param.equals("medium") || param.equals("small")) {
+//                return true;
+//            }
+//        }
 
         return true;
     }
-
-
 
 
     //---------------------------------------------------------- TEST ------------------------------

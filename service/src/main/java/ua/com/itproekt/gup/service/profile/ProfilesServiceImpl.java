@@ -456,11 +456,16 @@ public class ProfilesServiceImpl implements ProfilesService {
         List<Order> listOfAllOrdersForThisUser = orderService.findAllOrdersForUser(profile.getId());
         List<OrderFeedback> listOfAllOrderFeedbackListForThisUser = feedbackListPreparatorForProfile(profile.getId());
 
-
+//ToDo turn On bank in the future
         profileInfo
-                .setUserBalance(bankSession.getUserBalance(profile.getId()))
-                .setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())))
-                .setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()))
+//                .setUserBalance(bankSession.getUserBalance(profile.getId()))
+//                .setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())))
+//                .setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()))
+
+                .setUserBalance(42)
+                .setUserBonusBalance(54)
+
+
                 .setUnreadMessages(0)
                 .setTotalFeedbackAmount(listOfAllOrderFeedbackListForThisUser.size())
                 .setOrderAmount(listOfAllOrdersForThisUser.size())

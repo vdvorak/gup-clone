@@ -41,7 +41,7 @@ public class BonusRepository {
         } catch (UnirestException e) {
             e.printStackTrace();
         }
-        return "INTERNAL REST ERROR";
+        return "-1";
     }
 
     public String getBonusByUserId(String userId) {
@@ -72,7 +72,7 @@ public class BonusRepository {
         } catch (UnirestException e) {
             e.printStackTrace();
         }
-        return "INTERNAL REST ERROR";
+        return "-1";
     }
 
 
