@@ -71,6 +71,43 @@ public class FileStorageRestController {
 
 
     /**
+     * Return main user photo (avatar)
+     *
+     * @param userId
+     * @param cachedSize
+     * @return file if ok, 404 if profile is not found or if there is no photo of user
+     */
+    @CrossOrigin
+    @RequestMapping(value = "profile/photo/read/user/{userId}", method = RequestMethod.GET)
+    public ResponseEntity
+    getAvatarPictureByUserId(@PathVariable String userId,
+                             @RequestParam(required = true, defaultValue = "large") String cachedSize) {
+
+        GridFSDBFile gridFSDBFile;
+
+        String path = ".file.storage." + cachedSize + ".cache";
+        gridFSDBFile = storageService.getCachedImage("profile", path, "57d2adcb7d7ad659e014a3cb");
+
+        Profile profile = profilesService.findById(userId);
+        if (profile == null) {
+            return responseEntityPreparator(gridFSDBFile);
+        }
+
+        if (profile.getImgId() == null) {
+            return responseEntityPreparator(gridFSDBFile);
+        }
+
+        gridFSDBFile = storageService.getCachedImage("profile", path, profile.getImgId());
+
+        if (gridFSDBFile != null) {
+            return responseEntityPreparator(gridFSDBFile);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    /**
      * @param serviceName service name in lowercase or in uppercase
      * @param file        file
      * @return id of uploaded files
@@ -193,8 +230,16 @@ public class FileStorageRestController {
             System.err.println("File name: " + file.getName());
         }
 
-
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    private ResponseEntity responseEntityPreparator(GridFSDBFile gridFSDBFile) {
+        return ResponseEntity.ok()
+                .contentLength(gridFSDBFile.getLength())
+                .contentType(MediaType.parseMediaType(gridFSDBFile.getContentType()))
+                .header("Content-Disposition", "attachment; filename=" + gridFSDBFile.getFilename())
+                .body(new InputStreamResource(gridFSDBFile.getInputStream()));
     }
 
 }
