@@ -470,7 +470,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUserOfferList(offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor))
                 .setSubscriptionList(subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities())
 
-                
+
                 .setTotalFeedbackAmount(listOfAllOrderFeedbackListForThisUser.size())//ToDo сделать это как сумму buyer и seller
 
                 .setOrderAmount(listOfAllOrdersForThisUser.size())//ToDo сделать это как сумму buyer и seller

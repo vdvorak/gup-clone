@@ -59,35 +59,12 @@ public class OfferRestController {
     //------------------------------------------ Read -----------------------------------------------------------------
 
     /**
-     * @param id
-     * @return
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/offer/read/{id}", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferInfo> getOfferById(@PathVariable String id) {
-        Offer offer = offersService.findOfferAndIncViews(id);
-        if (offer == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        String userId = SecurityOperations.getLoggedUserId();
-
-        //if user is author - he will receive additional fields
-        if (offer.getAuthorId().equals(userId)) {
-            return new ResponseEntity<>(offersService.getPrivateOfferInfoByOffer(offer), HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(offersService.getPublicOfferInfoByOffer(offer), HttpStatus.OK);
-    }
-
-    /**
      * @param seoUrl
      * @param relevant
      * @return
      */
     @CrossOrigin
-    @RequestMapping(value = "/offer/read/relevant/{seoUrl}", method = RequestMethod.GET,
+    @RequestMapping(value = "/offer/read/{seoUrl}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferInfo> getOfferByIdWithRelevant(@PathVariable String seoUrl,
                                                               @RequestParam(required = false, defaultValue = "false") boolean relevant) {
@@ -206,8 +183,6 @@ public class OfferRestController {
             offersService.createWithRegistration(offerRegistration);
 
             return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
-
-
 
 
         } else {
