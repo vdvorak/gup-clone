@@ -4,8 +4,10 @@ package ua.com.itproekt.gup.model.offer.filter;
 import ua.com.itproekt.gup.model.offer.Offer;
 
 import java.util.List;
+import java.util.Set;
 
 public final class OfferFilterOptions extends Offer {
+    Set<String> cityList;
     private int skip;
     private int limit;
     private Integer fromPrice;
@@ -97,6 +99,14 @@ public final class OfferFilterOptions extends Offer {
         this.isMain = isMain;
     }
 
+    public Set<String> getCityList() {
+        return cityList;
+    }
+
+    public void setCityList(Set<String> cityList) {
+        this.cityList = cityList;
+    }
+
     @Override
     public String toString() {
         return "OfferFilterOptions{" +
@@ -110,6 +120,7 @@ public final class OfferFilterOptions extends Offer {
                 ", priceSortDirection='" + priceSortDirection + '\'' +
                 ", createdDateSortDirection='" + createdDateSortDirection + '\'' +
                 ", isMain=" + isMain +
+                ", cityList=" + cityList +
                 '}';
     }
 }

@@ -163,23 +163,38 @@ public class OfferRepositoryImpl implements OfferRepository {
             query.addCriteria(Criteria.where("reservation").is(null)); // not reserved
         }
 
-        if (offerFO.getAddress() != null) {
-            if (offerFO.getAddress().getCountry() != null) {
-                query.addCriteria(Criteria.where("address.country").is(offerFO.getAddress().getCountry()));
+
+        Set<String> cityList = offerFO.getCityList();
+
+        if (offerFO.getCityList() != null) {
+
+            List<Criteria> criteriaCity = new ArrayList<>();
+
+            for (String city : cityList) {
+                criteriaCity.add(Criteria.where("address.city").is(city));
             }
 
-            if (offerFO.getAddress().getCity() != null) {
-                query.addCriteria(Criteria.where("address.city").is(offerFO.getAddress().getCity()));
-            }
+            Criteria[] criteriaArr = criteriaCity.toArray(new Criteria[cityList.size()]);
 
-            if (offerFO.getAddress().getArea() != null) {
-                query.addCriteria(Criteria.where("address.area").is(offerFO.getAddress().getArea()));
-            }
+            query.addCriteria(new Criteria().orOperator(criteriaArr));
 
-//            if (offerFO.getAddress().getDistrict() != null) {
-//                query.addCriteria(Criteria.where("address.district").is(offerFO.getAddress().getDistrict()));
-//            }
         }
+
+
+        //ToDo it is for old impl of search, where we could find offer with area, city and country
+//        if (offerFO.getAddress() != null) {
+//            if (offerFO.getAddress().getCountry() != null) {
+//                query.addCriteria(Criteria.where("address.country").is(offerFO.getAddress().getCountry()));
+//            }
+//
+//            if (offerFO.getAddress().getCity() != null) {
+//                query.addCriteria(Criteria.where("address.city").is(offerFO.getAddress().getCity()));
+//            }
+//
+//            if (offerFO.getAddress().getArea() != null) {
+//                query.addCriteria(Criteria.where("address.area").is(offerFO.getAddress().getArea()));
+//            }
+//        }
 
         if (offerFO.getSearchField() != null) {
             query.addCriteria(new Criteria().orOperator(
