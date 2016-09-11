@@ -88,7 +88,7 @@ public class OfferRestController {
             if (offer.getModerationStatus() == ModerationStatus.NO || offer.getModerationStatus() == ModerationStatus.FAIL) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
-            
+
             offerInfo = offersService.getPublicOfferInfoByOffer(offer);
         }
 
@@ -126,6 +126,15 @@ public class OfferRestController {
             offerFO.setActive(true);
             offerFO.setModerationStatus(ModerationStatus.COMPLETE);
         }
+
+        if (offerFO.isMain()) {
+            offerFO.setCreatedDateSortDirection("DESC");
+            offerFO.setSkip(0);
+            offerFO.setLimit(18);
+        }
+
+
+
         return new ResponseEntity<>(offersService.getListOfMiniPublicOffersWithOptions(offerFO), HttpStatus.OK);
     }
 
