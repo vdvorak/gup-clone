@@ -85,11 +85,10 @@ public class OfferRestController {
         } else {
 
 
-            if (offer.getModerationStatus() == ModerationStatus.NO || offer.getModerationStatus() == ModerationStatus.FAIL){
+            if (offer.getModerationStatus() == ModerationStatus.NO || offer.getModerationStatus() == ModerationStatus.FAIL) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
-
-
+            
             offerInfo = offersService.getPublicOfferInfoByOffer(offer);
         }
 
@@ -98,8 +97,16 @@ public class OfferRestController {
             // receive list of relevant offer
             List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId());
             if (relevantOffersList.size() < 20) {
-                relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithArea(offer), offer.getId());
+
+                //add extra offers from same area
+                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithCountry(offer), offer.getId()));
             }
+
+            if (relevantOffersList.size() < 20) {
+                // add extra offers from all categories
+                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorOnlyWithSkipAndLimit(), offer.getId()));
+            }
+
             offerInfo.setRelevantOffersList(relevantOffersList);
         }
 
@@ -422,28 +429,43 @@ public class OfferRestController {
      * @param offer
      * @return
      */
-    private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithArea(Offer offer) {
+    private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCountry(Offer offer) {
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
         offerFilterOptions.setAddress(new Address());
 
         // add categories in filter
         offerFilterOptions.setCategories(offer.getCategories());
 
+        offerFilterOptions.getAddress().setCountry(offer.getAddress().getCountry());
+
         // add address in filter
-        if (offer.getAddress().getArea() != null) {
-            offerFilterOptions
-                    .getAddress()
-                    .setArea(offer
-                            .getAddress()
-                            .getArea());
-        }
+//        if (offer.getAddress().getArea() != null) {
+//            offerFilterOptions
+//                    .getAddress()
+//                    .setArea(offer
+//                            .getAddress()
+//                            .getArea());
+//        }
+
+
 //        else {
 //            if (offer.getAddress().getArea() != null) {
 //                offerFilterOptions.getAddress().setArea(offer.getAddress().getArea());
 //            }
 //        }
         return offerFilterOptions;
+    }
 
+    /**
+     * Return OfferFilterOPtion object only with skip and limit parameter
+     *
+     * @return
+     */
+    private OfferFilterOptions offerFilterOptionsPreparatorOnlyWithSkipAndLimit() {
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setSkip(0);
+        offerFilterOptions.setLimit(20);
+        return offerFilterOptions;
     }
 
 
