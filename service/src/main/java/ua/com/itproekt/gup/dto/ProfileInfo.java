@@ -23,11 +23,11 @@ public class ProfileInfo {
     private List<OrderInfo> orderInfoSellerList; // order's list where user is seller;
     private List<OfferInfo> userOfferInfoList;
     private List<Subscription> subscriptionList; // user's subscription list
+    private List<FavoriteOfferInfo> favoriteOfferInfoList; // user's favorite offers list
 
     private int orderAmount;
     private int totalFeedbackAmount;
 
-    // ToDo история отзывов
     // ToDo запросы на отзывы (спросить Сашу)
 
 
@@ -164,6 +164,15 @@ public class ProfileInfo {
         return this;
     }
 
+    public List<FavoriteOfferInfo> getFavoriteOfferInfoList() {
+        return favoriteOfferInfoList;
+    }
+
+    public ProfileInfo setFavoriteOfferInfoList(List<FavoriteOfferInfo> favoriteOfferInfoList) {
+        this.favoriteOfferInfoList = favoriteOfferInfoList;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "ProfileInfo{" +
@@ -179,6 +188,7 @@ public class ProfileInfo {
                 ", orderInfoSellerList=" + orderInfoSellerList +
                 ", userOfferInfoList=" + userOfferInfoList +
                 ", subscriptionList=" + subscriptionList +
+                ", favoriteOfferInfoList=" + favoriteOfferInfoList +
                 ", orderAmount=" + orderAmount +
                 ", totalFeedbackAmount=" + totalFeedbackAmount +
                 '}';

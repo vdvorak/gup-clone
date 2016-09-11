@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
+import ua.com.itproekt.gup.dto.FavoriteOfferInfo;
 import ua.com.itproekt.gup.dto.OfferInfo;
 import ua.com.itproekt.gup.dto.OrderInfo;
 import ua.com.itproekt.gup.dto.ProfileInfo;
@@ -448,13 +449,11 @@ public class ProfilesServiceImpl implements ProfilesService {
         orderFilterOptionsForSeller.setSellerId(profile.getId());
 
 
-
         //ToDo make me simple
         OfferFilterOptions offerFilterOptionsForAuthor = new OfferFilterOptions();
         offerFilterOptionsForAuthor.setAuthorId(profile.getId());
         offerFilterOptionsForAuthor.setLimit(20);
         List<OfferInfo> userOfferInfoList = offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor);
-
 
 
         SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions();
@@ -467,9 +466,11 @@ public class ProfilesServiceImpl implements ProfilesService {
         //count total orders amount (buyer and seller)
         int totalOrdersAmount = orderInfoBuyerList.size() + orderInfoSellerList.size();
 
-        int totalFeedbacksAmount =
+        int totalFeedbackAmount =
                 orderService.calculateFeedbackAmountForOrderList(orderInfoBuyerList)
                         + orderService.calculateFeedbackAmountForOrderList(orderInfoSellerList);
+
+        List<FavoriteOfferInfo> favoriteOfferInfoList = favoriteOfferInfoListPreparator(profile);
 
 //ToDo turn On bank in the future
         profileInfo
@@ -481,11 +482,14 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUnreadMessages(0)
                 .setUserOfferInfoList(userOfferInfoList)
                 .setSubscriptionList(subscriptionList)
-                .setTotalFeedbackAmount(totalFeedbacksAmount)
+                .setTotalFeedbackAmount(totalFeedbackAmount)
                 .setOrderAmount(totalOrdersAmount)
                 .setOrderInfoBuyerList(orderInfoBuyerList)
                 .setOrderInfoSellerList(orderInfoSellerList)
+                .setFavoriteOfferInfoList(favoriteOfferInfoList)
                 .setUserAveragePoints(calculateAveragePointsForSellerByUserId(profile.getId()));
+
+        profileInfo.getProfile().setFavoriteOffers(null);
 
         profileInfo.getProfile().setPassword(null);
         return profileInfo;
@@ -599,5 +603,36 @@ public class ProfilesServiceImpl implements ProfilesService {
         List<OrderFeedback> orderFeedbackList = feedbackListPreparatorForProfile(profileId);
         return orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList);
     }
+
+
+    private List<FavoriteOfferInfo> favoriteOfferInfoListPreparator(Profile profile) {
+        List<FavoriteOfferInfo> favoriteOfferInfoList = new ArrayList<>();
+
+        Set<String> favoriteOffers = profile.getFavoriteOffers();
+
+        if (favoriteOffers == null){
+            return null;
+        }
+
+        for (String favoriteOfferId : favoriteOffers) {
+            favoriteOfferInfoList.add(favoriteOfferInfoPreparator(favoriteOfferId));
+        }
+        return favoriteOfferInfoList;
+    }
+
+
+    private FavoriteOfferInfo favoriteOfferInfoPreparator(String favoriteOfferId) {
+        FavoriteOfferInfo favoriteOfferInfo = new FavoriteOfferInfo();
+
+        Offer offer = offersService.findById(favoriteOfferId);
+
+        favoriteOfferInfo.setFavoriteOfferId(favoriteOfferId);
+        favoriteOfferInfo.setFavoriteOfferSeoUrl(offer.getSeoUrl());
+        favoriteOfferInfo.setFavoriteOfferTitle(offer.getTitle());
+        favoriteOfferInfo.setFavoriteOfferImage(offersService.getMainOfferImage(offer));
+
+        return favoriteOfferInfo;
+    }
+
 
 }

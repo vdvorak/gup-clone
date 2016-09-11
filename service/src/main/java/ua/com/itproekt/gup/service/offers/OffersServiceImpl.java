@@ -381,4 +381,23 @@ public class OffersServiceImpl implements OffersService {
         return offerInfo;
     }
 
+    /**
+     * @param offer
+     * @return
+     */
+    @Override
+    public String getMainOfferImage(Offer offer) {
+
+        Map<String, String> imagesMap;
+
+        imagesMap = offer.getImagesIds();
+
+        for (String s : imagesMap.keySet()) {
+            if (imagesMap.get(s).equals("1")) {
+                return s;
+            }
+        }
+
+        return null;
+    }
 }

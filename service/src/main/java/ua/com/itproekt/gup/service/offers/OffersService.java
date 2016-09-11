@@ -106,5 +106,12 @@ public interface OffersService {
     List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions);
 
 
+    /**
+     * Return id if main offer image
+     *
+     * @return
+     */
+    String getMainOfferImage(Offer offer);
+
 //    ModerationMessage moderateOffer(ModerationMessage moderationMessage);
 }
