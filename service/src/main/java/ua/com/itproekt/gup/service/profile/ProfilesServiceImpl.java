@@ -474,12 +474,12 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 //ToDo turn On bank in the future
         profileInfo
-//                .setUserBalance(bankSession.getUserBalance(profile.getId()))
-//                .setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())))
-//                .setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()))
-                .setUserBalance(42)
-                .setUserBonusBalance(54)
-                .setUnreadMessages(0)
+                .setUserBalance(bankSession.getUserBalance(profile.getId()))
+                .setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())))
+                .setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()))
+//                .setUserBalance(42)
+//                .setUserBonusBalance(54)
+//                .setUnreadMessages(0)
                 .setUserOfferInfoList(userOfferInfoList)
                 .setSubscriptionList(subscriptionList)
                 .setTotalFeedbackAmount(totalFeedbackAmount)
