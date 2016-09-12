@@ -66,13 +66,17 @@ public class OffersServiceImpl implements OffersService {
         create(offerRegistration.getOffer());
     }
 
+    /**
+     * 
+     * @param offer
+     */
     @Override
     public void create(Offer offer) {
         Offer newOffer = new Offer()
                 .setAuthorId(offer.getAuthorId())
                 .setUserInfo(offer.getUserInfo())
                 .setCreatedDateEqualsToCurrentDate()
-                .setModerationStatus(ModerationStatus.NO)
+                .setModerationStatus(ModerationStatus.COMPLETE)
                 .setCategories(offer.getCategories())
                 .setProperties(offer.getProperties())
                 .setImagesIds(offer.getImagesIds())
@@ -93,6 +97,7 @@ public class OffersServiceImpl implements OffersService {
                 .setCanBeRented(offer.getCanBeRented())
                 .setAvailableShippingMethods(offer.getAvailableShippingMethods())
                 .setAvailablePaymentMethods(offer.getAvailablePaymentMethods())
+                .setShowOrdersCount(offer.isShowOrdersCount())
                 .setPaidServices(offer.getPaidServices());
 
         offerRepository.create(newOffer);
@@ -144,6 +149,11 @@ public class OffersServiceImpl implements OffersService {
         return offerRepository.findOffersWihOptions(offerFilterOptions);
     }
 
+    /**
+     *
+     * @param oldOffer
+     * @return
+     */
     @Override
     public Offer edit(Offer oldOffer) {
         Offer newOffer = new Offer()
@@ -169,6 +179,7 @@ public class OffersServiceImpl implements OffersService {
                 .setCurrency(oldOffer.getCurrency())
                 .setAvailableShippingMethods(oldOffer.getAvailableShippingMethods())
                 .setAvailablePaymentMethods(oldOffer.getAvailablePaymentMethods())
+                .setShowOrdersCount(oldOffer.isShowOrdersCount())
                 .setPaidServices(oldOffer.getPaidServices());
 
 
