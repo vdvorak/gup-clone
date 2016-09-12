@@ -122,6 +122,8 @@ public class OfferRestController {
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
     public ResponseEntity<List<OfferInfo>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
 
+        long startTime = System.currentTimeMillis();
+
         if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             offerFO.setActive(true);
             offerFO.setModerationStatus(ModerationStatus.COMPLETE);
@@ -132,10 +134,13 @@ public class OfferRestController {
             offerFO.setSkip(0);
             offerFO.setLimit(18);
         }
+        System.err.println("offer filter preparation time: " + (System.currentTimeMillis() - startTime));
 
+        startTime = System.currentTimeMillis();
+        List<OfferInfo> offerInfoList = offersService.getListOfMiniPublicOffersWithOptions(offerFO);
+        System.err.println("Offer Read All time: " + (System.currentTimeMillis() - startTime));
 
-
-        return new ResponseEntity<>(offersService.getListOfMiniPublicOffersWithOptions(offerFO), HttpStatus.OK);
+        return new ResponseEntity<>(offerInfoList, HttpStatus.OK);
     }
 
 
@@ -263,21 +268,16 @@ public class OfferRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
+
+        // Check if current user is not an author
         if (!offersService.findById(offer.getId()).getAuthorId().equals(userId)) {
-            if (!profilesService.isUserModerator(profilesService.findById(userId))) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
 
-        if (profilesService.isUserModerator(profilesService.findById(userId))) {
-            offer.getModerationMessage().setCreatedDateEqualsToCurrentDate();
-            offer.getModerationMessage().setIsRead(false);
-            offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
-        } else {
-            offer.getModerationMessage().setMessage(oldOffer.getModerationMessage().getMessage());
-            offer.getModerationMessage().setIsRead(true);
-        }
+        // Mark message from moderator as read
+        offer.getModerationMessage().setMessage(oldOffer.getModerationMessage().getMessage());
+        offer.getModerationMessage().setIsRead(true);
 
 
         String newTransiltTitle = Translit.makeTransliteration(offer.getTitle());
@@ -290,6 +290,59 @@ public class OfferRestController {
 
         return new ResponseEntity<>(new CreatedObjResp(newOffer.getSeoUrl()), HttpStatus.OK);
     }
+
+
+    /**
+     * Edit offer by moderator
+     * @param offer
+     * @return
+     */
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/offer/moderator/edit", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CreatedObjResp> editOfferByModerator(@Valid @RequestBody Offer offer) {
+
+        if (offer.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else if (!offersService.offerExists(offer.getId())) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Offer oldOffer = offersService.findById(offer.getId());
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+
+        //ToDo вынести в PreAuthorize проверку на модератора
+            if (!profilesService.isUserModerator(profilesService.findById(userId))) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+
+            offer.getModerationMessage().setCreatedDateEqualsToCurrentDate();
+            offer.getModerationMessage().setIsRead(false);
+            offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
+
+
+
+        String newTransiltTitle = Translit.makeTransliteration(offer.getTitle());
+
+        String newSeoUrl = newTransiltTitle + "-" + oldOffer.getSeoKey();
+
+        offer.setSeoUrl(newSeoUrl);
+
+        Offer newOffer = offersService.edit(offer);
+
+        return new ResponseEntity<>(new CreatedObjResp(newOffer.getSeoUrl()), HttpStatus.OK);
+    }
+
+
+
+
+
+
+
+
 
 
     /**

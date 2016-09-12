@@ -67,7 +67,7 @@ public class OffersServiceImpl implements OffersService {
     }
 
     /**
-     * 
+     *
      * @param offer
      */
     @Override

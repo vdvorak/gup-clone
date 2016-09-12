@@ -453,15 +453,27 @@ public class ProfilesServiceImpl implements ProfilesService {
         OfferFilterOptions offerFilterOptionsForAuthor = new OfferFilterOptions();
         offerFilterOptionsForAuthor.setAuthorId(profile.getId());
         offerFilterOptionsForAuthor.setLimit(20);
+
+        long startTime = System.currentTimeMillis();
+
         List<OfferInfo> userOfferInfoList = offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor);
+        System.err.println("userOfferInfoList time: " + (System.currentTimeMillis() - startTime));
 
 
         SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions();
         subscriptionFilterOptions.setUserId(profile.getId());
-        List<Subscription> subscriptionList = subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities();
 
+        startTime = System.currentTimeMillis();
+        List<Subscription> subscriptionList = subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities();
+        System.err.println("subscriptionList time: " + (System.currentTimeMillis() - startTime));
+
+        startTime = System.currentTimeMillis();
         List<OrderInfo> orderInfoBuyerList = orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForBuyer);
+        System.err.println("orderInfoBuyerList time: " + (System.currentTimeMillis() - startTime));
+
+        startTime = System.currentTimeMillis();
         List<OrderInfo> orderInfoSellerList = orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForSeller);
+        System.err.println("orderInfoSellerList time: " + (System.currentTimeMillis() - startTime));
 
         //count total orders amount (buyer and seller)
         int totalOrdersAmount = orderInfoBuyerList.size() + orderInfoSellerList.size();
@@ -473,21 +485,43 @@ public class ProfilesServiceImpl implements ProfilesService {
         List<FavoriteOfferInfo> favoriteOfferInfoList = favoriteOfferInfoListPreparator(profile);
 
 //ToDo turn On bank in the future
-        profileInfo
-                .setUserBalance(bankSession.getUserBalance(profile.getId()))
-                .setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())))
-                .setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()))
-//                .setUserBalance(42)
-//                .setUserBonusBalance(54)
-//                .setUnreadMessages(0)
-                .setUserOfferInfoList(userOfferInfoList)
-                .setSubscriptionList(subscriptionList)
-                .setTotalFeedbackAmount(totalFeedbackAmount)
-                .setOrderAmount(totalOrdersAmount)
-                .setOrderInfoBuyerList(orderInfoBuyerList)
-                .setOrderInfoSellerList(orderInfoSellerList)
-                .setFavoriteOfferInfoList(favoriteOfferInfoList)
-                .setUserAveragePoints(calculateAveragePointsForSellerByUserId(profile.getId()));
+//        profileInfo
+//                .setUserBalance(bankSession.getUserBalance(profile.getId()))
+//                .setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())))
+//                .setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()))
+////                .setUserBalance(42)
+////                .setUserBonusBalance(54)
+////                .setUnreadMessages(0)
+//                .setUserOfferInfoList(userOfferInfoList)
+//                .setSubscriptionList(subscriptionList)
+//                .setTotalFeedbackAmount(totalFeedbackAmount)
+//                .setOrderAmount(totalOrdersAmount)
+//                .setOrderInfoBuyerList(orderInfoBuyerList)
+//                .setOrderInfoSellerList(orderInfoSellerList)
+//                .setFavoriteOfferInfoList(favoriteOfferInfoList)
+//                .setUserAveragePoints(calculateAveragePointsForSellerByUserId(profile.getId()));
+
+
+        startTime = System.currentTimeMillis();
+        profileInfo.setUserBalance(bankSession.getUserBalance(profile.getId()));
+        System.err.println("user balance time: " + (System.currentTimeMillis() - startTime));
+
+        startTime = System.currentTimeMillis();
+        profileInfo.setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())));
+        System.err.println("user bonus balance time: " + (System.currentTimeMillis() - startTime));
+
+        startTime = System.currentTimeMillis();
+        profileInfo.setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()));
+        System.err.println("Internal Transaction History time: " + (System.currentTimeMillis() - startTime));
+
+        profileInfo.setUserOfferInfoList(userOfferInfoList);
+        profileInfo.setSubscriptionList(subscriptionList);
+        profileInfo.setTotalFeedbackAmount(totalFeedbackAmount);
+        profileInfo.setOrderAmount(totalOrdersAmount);
+        profileInfo.setOrderInfoBuyerList(orderInfoBuyerList);
+        profileInfo.setOrderInfoSellerList(orderInfoSellerList);
+        profileInfo.setFavoriteOfferInfoList(favoriteOfferInfoList);
+        profileInfo.setUserAveragePoints(calculateAveragePointsForSellerByUserId(profile.getId()));
 
         profileInfo.getProfile().setFavoriteOffers(null);
 
@@ -610,7 +644,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         Set<String> favoriteOffers = profile.getFavoriteOffers();
 
-        if (favoriteOffers == null){
+        if (favoriteOffers == null) {
             return null;
         }
 
