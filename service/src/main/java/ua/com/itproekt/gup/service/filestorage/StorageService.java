@@ -22,6 +22,20 @@ public interface StorageService {
     void delete(String serviceName, Set<String> fileIds);
 
     /**
+     * @param imagesId
+     */
+    void deleteListOfOfferImages(Set<String> imagesId);
+
+    /**
+     * Find images in old offer version< that were deleted in new and delete them from base in all cached variants.
+     *
+     * @param oldImagesMap
+     * @param newImagesMap
+     */
+    void deleteDiffImagesAfterOfferUpdate(Map<String, String> oldImagesMap, Map<String, String> newImagesMap);
+
+
+    /**
      * @param serviceName
      * @param filePath
      * @param fileId

@@ -9,6 +9,7 @@ import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,6 +37,23 @@ public class StorageServiceImpl implements StorageService {
         String kostyl = null;
 
         storageRepository.delete(serviceName, kostyl, fileIds);
+    }
+
+    /**
+     * Delete offer images in all cached variants
+     *
+     * @param imagesId
+     */
+    @Override
+    public void deleteListOfOfferImages(Set<String> imagesId) {
+        storageRepository.delete("offers", ".file.storage.large.cache", imagesId);
+        storageRepository.delete("offers", ".file.storage.medium.cache", imagesId);
+        storageRepository.delete("offers", ".file.storage.small.cache", imagesId);
+    }
+
+    @Override
+    public void deleteDiffImagesAfterOfferUpdate(Map<String, String> oldImagesMap, Map<String, String> newImagesMap) {
+        deleteListOfOfferImages(compareTwoMapAndReturnDiffKeys(oldImagesMap, newImagesMap));
     }
 
     @Override
@@ -82,5 +100,32 @@ public class StorageServiceImpl implements StorageService {
             mapOfImagesIds.put(saveCachedImageOffer(fileUploadWrapper), String.valueOf(i + 1));
         }
         return mapOfImagesIds;
+    }
+
+
+    /**
+     * @param oldImagesMap
+     * @param newImagesMap
+     * @return
+     */
+    private Set<String> compareTwoMapAndReturnDiffKeys(Map<String, String> oldImagesMap, Map<String, String> newImagesMap) {
+        Set<String> diffMap = new HashSet<>();
+
+        boolean hasRemove = true;
+
+        for (String s : oldImagesMap.keySet()) {
+
+            for (String s1 : newImagesMap.keySet()) {
+
+                if (s.equals(s1)) {
+                    hasRemove = false;
+                }
+            }
+            if (hasRemove) {
+                diffMap.add(s);
+            }
+            hasRemove = true;
+        }
+        return diffMap;
     }
 }
