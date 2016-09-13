@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -172,7 +173,9 @@ public class OfferRestController {
      */
     @CrossOrigin
     @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
-    public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
+    public ResponseEntity<String> createTotalOffer(
+            @RequestPart("offerRegistration") OfferRegistration offerRegistration,
+            @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
 
 
         //ToDo delete this shit
@@ -186,7 +189,7 @@ public class OfferRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-//ToDo delete this shit
+        //ToDo delete this shit
         System.err.println("User id: " + userId);
 
 
@@ -205,8 +208,8 @@ public class OfferRestController {
             offerSeoUrlAndPaidServicePreparator(offerRegistration);
 
             if (files.length > 0) {
-                // Set images id's and their order into offer
-                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files));
+                // Set images id's and their order into offer. When offer is create - images order start with "1"
+                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files, 1));
             }
 
             offersService.createWithRegistration(offerRegistration);
@@ -228,8 +231,8 @@ public class OfferRestController {
                     System.err.println("Filename: " + file.getOriginalFilename() + " ||| " + file.getName());
                 }
 
-                // Set images id's and their order into offer
-                Map<String, String> imagesMap = storageService.saveCachedMultiplyImageOffer(files);
+                // Set images id's and their order into offer. When offer is create - images order start with "1"
+                Map<String, String> imagesMap = storageService.saveCachedMultiplyImageOffer(files, 1);
 
                 System.err.println("Poluchili: " + imagesMap.toString());
 
@@ -248,52 +251,62 @@ public class OfferRestController {
 
     //------------------------------------------ Update ----------------------------------------------------------------
 
-    /**
-     * @param offer
-     * @return
-     */
+
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/edit", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResp> editOffer(@Valid @RequestBody Offer offer) {
+            consumes = {"multipart/form-data"})
+    public ResponseEntity<String> editOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
 
-        if (offer.getId() == null) {
+        Offer updatedOffer = offerRegistration.getOffer();
+
+
+        // check is offer not null and exist
+        if (updatedOffer.getId() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else if (!offersService.offerExists(offer.getId())) {
+        } else if (!offersService.offerExists(updatedOffer.getId())) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Offer oldOffer = offersService.findById(offer.getId());
+        Offer oldOffer = offersService.findById(updatedOffer.getId());
 
         String userId = SecurityOperations.getLoggedUserId();
 
 
         // Check if current user is not an author
-        if (!offersService.findById(offer.getId()).getAuthorId().equals(userId)) {
+        if (!offersService.findById(updatedOffer.getId()).getAuthorId().equals(userId)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-
         // Mark message from moderator as read
-        offer.getModerationMessage().setMessage(oldOffer.getModerationMessage().getMessage());
-        offer.getModerationMessage().setIsRead(true);
+        updatedOffer.getModerationMessage().setMessage(oldOffer.getModerationMessage().getMessage());
+        updatedOffer.getModerationMessage().setIsRead(true);
 
 
-        String newTransiltTitle = Translit.makeTransliteration(offer.getTitle());
-
+        String newTransiltTitle = Translit.makeTransliteration(updatedOffer.getTitle());
         String newSeoUrl = newTransiltTitle + "-" + oldOffer.getSeoKey();
+        updatedOffer.setSeoUrl(newSeoUrl);
 
-        offer.setSeoUrl(newSeoUrl);
 
-        Offer newOffer = offersService.edit(offer);
+        // If false - means that some pictures were
+        if (!oldOffer.getImagesIds().equals(updatedOffer.getImagesIds())) {
+            storageService.deleteDiffImagesAfterOfferUpdate(oldOffer.getImagesIds(), updatedOffer.getImagesIds());
+        }
 
-        return new ResponseEntity<>(new CreatedObjResp(newOffer.getSeoUrl()), HttpStatus.OK);
+
+        if (files.length > 0) {
+            updatedOffer.setImagesIds(updaterOfferImages(updatedOffer.getImagesIds(), files));
+        }
+
+        Offer newOffer = offersService.edit(updatedOffer);
+
+        return new ResponseEntity<>(newOffer.getSeoUrl(), HttpStatus.OK);
     }
 
 
     /**
      * Edit offer by moderator
+     *
      * @param offer
      * @return
      */
@@ -315,14 +328,13 @@ public class OfferRestController {
 
 
         //ToDo вынести в PreAuthorize проверку на модератора
-            if (!profilesService.isUserModerator(profilesService.findById(userId))) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
+        if (!profilesService.isUserModerator(profilesService.findById(userId))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
-            offer.getModerationMessage().setCreatedDateEqualsToCurrentDate();
-            offer.getModerationMessage().setIsRead(false);
-            offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
-
+        offer.getModerationMessage().setCreatedDateEqualsToCurrentDate();
+        offer.getModerationMessage().setIsRead(false);
+        offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
 
 
         String newTransiltTitle = Translit.makeTransliteration(offer.getTitle());
@@ -335,14 +347,6 @@ public class OfferRestController {
 
         return new ResponseEntity<>(new CreatedObjResp(newOffer.getSeoUrl()), HttpStatus.OK);
     }
-
-
-
-
-
-
-
-
 
 
     /**
@@ -528,6 +532,29 @@ public class OfferRestController {
         offerFilterOptions.setSkip(0);
         offerFilterOptions.setLimit(20);
         return offerFilterOptions;
+    }
+
+    /**
+     * @param updatedOfferImagesMap
+     * @param files
+     * @return
+     */
+    private Map<String, String> updaterOfferImages(Map<String, String> updatedOfferImagesMap, MultipartFile[] files) {
+
+        int newStartPositionForImages = updatedOfferImagesMap.size();
+        Map<String, String> newImageMap = new HashMap<>();
+
+
+        if (newStartPositionForImages == 0) {
+            newStartPositionForImages = 1;
+        }
+
+        Map<String, String> mapWithNewPhoto = storageService.saveCachedMultiplyImageOffer(files, newStartPositionForImages);
+
+        newImageMap.putAll(updatedOfferImagesMap);
+        newImageMap.putAll(mapWithNewPhoto);
+
+        return newImageMap;
     }
 
 

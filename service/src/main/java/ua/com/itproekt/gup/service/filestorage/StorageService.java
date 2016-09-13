@@ -22,6 +22,20 @@ public interface StorageService {
     void delete(String serviceName, Set<String> fileIds);
 
     /**
+     * @param imagesId
+     */
+    void deleteListOfOfferImages(Set<String> imagesId);
+
+    /**
+     * Find images in old offer version< that were deleted in new and delete them from base in all cached variants.
+     *
+     * @param oldImagesMap
+     * @param newImagesMap
+     */
+    void deleteDiffImagesAfterOfferUpdate(Map<String, String> oldImagesMap, Map<String, String> newImagesMap);
+
+
+    /**
      * @param serviceName
      * @param filePath
      * @param fileId
@@ -46,10 +60,11 @@ public interface StorageService {
 
 
     /**
-     * Method save multiply images in different sizes (cached), and return map of <ImagesId, image order></ImagesId,>
+     * Method save multiply images in different sizes (cached), and return map of ImagesId and image position
      *
-     * @param files Multipart array
-     * @return Map of images id's and their order.
+     * @param files
+     * @param firstPosition
+     * @return
      */
-    Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files);
+    Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files, int firstPosition);
 }
