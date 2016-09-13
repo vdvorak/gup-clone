@@ -122,8 +122,8 @@ public class OfferRestController {
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
     public ResponseEntity<List<OfferInfo>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
 
-        long startTime = System.currentTimeMillis();
-
+//        long startTime = System.currentTimeMillis();
+//
         if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             offerFO.setActive(true);
             offerFO.setModerationStatus(ModerationStatus.COMPLETE);
@@ -134,11 +134,11 @@ public class OfferRestController {
             offerFO.setSkip(0);
             offerFO.setLimit(18);
         }
-        System.err.println("offer filter preparation time: " + (System.currentTimeMillis() - startTime));
-
-        startTime = System.currentTimeMillis();
+//        System.err.println("offer filter preparation time: " + (System.currentTimeMillis() - startTime));
+//
+//        startTime = System.currentTimeMillis();
         List<OfferInfo> offerInfoList = offersService.getListOfMiniPublicOffersWithOptions(offerFO);
-        System.err.println("Offer Read All time: " + (System.currentTimeMillis() - startTime));
+//        System.err.println("Offer Read All time: " + (System.currentTimeMillis() - startTime));
 
         return new ResponseEntity<>(offerInfoList, HttpStatus.OK);
     }

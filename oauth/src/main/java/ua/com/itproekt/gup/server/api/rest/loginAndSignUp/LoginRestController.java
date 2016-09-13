@@ -223,35 +223,6 @@ public class LoginRestController {
         cookieRefreshToken.setPath("/");
         response.addCookie(cookieRefreshToken);
 
-        Cookie actVendorAuthToken = new Cookie("act", null);
-        actVendorAuthToken.setMaxAge(0);
-        actVendorAuthToken.setPath("/");
-        response.addCookie(actVendorAuthToken);
-        Cookie c_userVendorAuthToken = new Cookie("c_user", null);
-        c_userVendorAuthToken.setMaxAge(0);
-        c_userVendorAuthToken.setPath("/");
-        response.addCookie(c_userVendorAuthToken);
-        Cookie csmVendorAuthToken = new Cookie("csm", null);
-        csmVendorAuthToken.setMaxAge(0);
-        csmVendorAuthToken.setPath("/");
-        response.addCookie(csmVendorAuthToken);
-        Cookie datrVendorAuthToken = new Cookie("datr", null);
-        datrVendorAuthToken.setMaxAge(0);
-        datrVendorAuthToken.setPath("/");
-        response.addCookie(datrVendorAuthToken);
-        Cookie frVendorAuthToken = new Cookie("fr", null);
-        frVendorAuthToken.setMaxAge(0);
-        frVendorAuthToken.setPath("/");
-        response.addCookie(frVendorAuthToken);
-        Cookie sbVendorAuthToken = new Cookie("sb", null);
-        sbVendorAuthToken.setMaxAge(0);
-        sbVendorAuthToken.setPath("/");
-        response.addCookie(sbVendorAuthToken);
-        Cookie xsVendorAuthToken = new Cookie("xs", null);
-        xsVendorAuthToken.setMaxAge(0);
-        xsVendorAuthToken.setPath("/");
-        response.addCookie(xsVendorAuthToken);
-
         return "redirect:/index";
     }
 
@@ -280,7 +251,7 @@ public class LoginRestController {
     }
 
     private void authenticateByUidAndToken(User user, HttpServletResponse response) {
-        Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, user.getAuthorities());
+        Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities()); // "password":null
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 
