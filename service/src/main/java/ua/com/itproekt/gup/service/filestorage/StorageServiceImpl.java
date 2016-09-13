@@ -79,7 +79,7 @@ public class StorageServiceImpl implements StorageService {
      * @return Map of images id's and their order.
      */
     @Override
-    public Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files) {
+    public Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files, int firstPosition) {
 
         Map<String, String> mapOfImagesIds = new HashMap<>();
 
@@ -97,7 +97,8 @@ public class StorageServiceImpl implements StorageService {
                 e.printStackTrace();
             }
 
-            mapOfImagesIds.put(saveCachedImageOffer(fileUploadWrapper), String.valueOf(i + 1));
+            mapOfImagesIds.put(saveCachedImageOffer(fileUploadWrapper), String.valueOf(firstPosition));
+            firstPosition++;
         }
         return mapOfImagesIds;
     }

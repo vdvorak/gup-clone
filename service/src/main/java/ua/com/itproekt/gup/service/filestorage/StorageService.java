@@ -60,10 +60,11 @@ public interface StorageService {
 
 
     /**
-     * Method save multiply images in different sizes (cached), and return map of <ImagesId, image order></ImagesId,>
+     * Method save multiply images in different sizes (cached), and return map of ImagesId and image position
      *
-     * @param files Multipart array
-     * @return Map of images id's and their order.
+     * @param files
+     * @param firstPosition
+     * @return
      */
-    Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files);
+    Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files, int firstPosition);
 }

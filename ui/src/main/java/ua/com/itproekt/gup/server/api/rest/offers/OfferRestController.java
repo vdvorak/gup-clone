@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -207,8 +208,8 @@ public class OfferRestController {
             offerSeoUrlAndPaidServicePreparator(offerRegistration);
 
             if (files.length > 0) {
-                // Set images id's and their order into offer
-                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files));
+                // Set images id's and their order into offer. When offer is create - images order start with "1"
+                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files, 1));
             }
 
             offersService.createWithRegistration(offerRegistration);
@@ -230,8 +231,8 @@ public class OfferRestController {
                     System.err.println("Filename: " + file.getOriginalFilename() + " ||| " + file.getName());
                 }
 
-                // Set images id's and their order into offer
-                Map<String, String> imagesMap = storageService.saveCachedMultiplyImageOffer(files);
+                // Set images id's and their order into offer. When offer is create - images order start with "1"
+                Map<String, String> imagesMap = storageService.saveCachedMultiplyImageOffer(files, 1);
 
                 System.err.println("Poluchili: " + imagesMap.toString());
 
@@ -286,13 +287,16 @@ public class OfferRestController {
         String newSeoUrl = newTransiltTitle + "-" + oldOffer.getSeoKey();
         updatedOffer.setSeoUrl(newSeoUrl);
 
-        // ToDo редактировать фотографии
 
         // If false - means that some pictures were
         if (!oldOffer.getImagesIds().equals(updatedOffer.getImagesIds())) {
             storageService.deleteDiffImagesAfterOfferUpdate(oldOffer.getImagesIds(), updatedOffer.getImagesIds());
         }
 
+
+        if (files.length > 0) {
+            updatedOffer.setImagesIds(updaterOfferImages(updatedOffer.getImagesIds(), files));
+        }
 
         Offer newOffer = offersService.edit(updatedOffer);
 
@@ -528,6 +532,29 @@ public class OfferRestController {
         offerFilterOptions.setSkip(0);
         offerFilterOptions.setLimit(20);
         return offerFilterOptions;
+    }
+
+    /**
+     * @param updatedOfferImagesMap
+     * @param files
+     * @return
+     */
+    private Map<String, String> updaterOfferImages(Map<String, String> updatedOfferImagesMap, MultipartFile[] files) {
+
+        int newStartPositionForImages = updatedOfferImagesMap.size();
+        Map<String, String> newImageMap = new HashMap<>();
+
+
+        if (newStartPositionForImages == 0) {
+            newStartPositionForImages = 1;
+        }
+
+        Map<String, String> mapWithNewPhoto = storageService.saveCachedMultiplyImageOffer(files, newStartPositionForImages);
+
+        newImageMap.putAll(updatedOfferImagesMap);
+        newImageMap.putAll(mapWithNewPhoto);
+
+        return newImageMap;
     }
 
 
