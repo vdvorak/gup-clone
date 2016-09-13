@@ -335,22 +335,18 @@ public class OffersServiceImpl implements OffersService {
      */
     private OfferInfo publicOfferPreparator(Offer offer) {
         OfferInfo offerInfo = new OfferInfo();
-        Profile profile = profilesService.findById(offer.getAuthorId());
+
+
+//        long startTime = System.currentTimeMillis();
+//
+//        Profile profile = profilesService.findById(offer.getAuthorId());
+//        System.err.println("PROFILE find by id (Offer Read All) time: " + (System.currentTimeMillis() - startTime));
 
 
         offer.setLastModerationDate(null);
         offer.setModerationMessage(null);
         offerInfo.setOffer(offer);
-        offerInfo.setUserName(profile.getUsername());
-        offerInfo.setIsOnline(profile.isOnline());
-        List<OrderFeedback> orderFeedbackList = orderService.findAllFeedbacksForOffer(offer.getId());
-
-        offerInfo.setOrderFeedbackList(orderFeedbackList);
-        offerInfo.setAverageOrderPoint(orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList));
-
-        if (offer.isShowOrdersCount()) {
-            offerInfo.setOrdersCount(orderFeedbackList.size());
-        }
+//        offerInfo.setIsOnline(profile.isOnline());
 
         return offerInfo;
     }

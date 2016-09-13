@@ -73,7 +73,14 @@ public class OfferRepositoryImpl implements OfferRepository {
     @Override
     public EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFilterOptions) {
         Query query = queryPreparator(offerFilterOptions);
-        return new EntityPage<>(mongoTemplate.count(query, Offer.class), mongoTemplate.find(query, Offer.class));
+
+        EntityPage<Offer> offerEntityPage = new EntityPage<>();
+
+        List<Offer> offerList = mongoTemplate.find(query, Offer.class);
+
+        offerEntityPage.setEntities(offerList);
+        offerEntityPage.setTotalEntities(offerList.size());
+        return offerEntityPage;
     }
 
     @Override
