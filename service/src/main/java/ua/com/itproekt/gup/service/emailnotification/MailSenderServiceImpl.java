@@ -62,7 +62,7 @@ public class MailSenderServiceImpl implements MailSenderService {
     public EmailServiceTokenModel sendLostPasswordEmail(final EmailServiceTokenModel emailServiceTokenModel) {
         Map<String, String> resources = new HashMap<>();
          return sendVerificationEmail(emailServiceTokenModel, lostPasswordSubjectText,
-                 "velocity/LostPasswordEmail.vm", resources);
+                 "velocity/NewLostPasswordEmail.vm", resources);
     }
 
     @Override

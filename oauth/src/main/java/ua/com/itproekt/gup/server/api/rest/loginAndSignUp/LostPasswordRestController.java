@@ -2,6 +2,7 @@ package ua.com.itproekt.gup.server.api.rest.loginAndSignUp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -17,10 +18,15 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ua.com.itproekt.gup.dao.profile.VerificationTokenRepository;
 import ua.com.itproekt.gup.model.login.FormLostPassword;
 import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.dto.ProfileInfo;
+import ua.com.itproekt.gup.model.profiles.verification.VerificationToken;
+import ua.com.itproekt.gup.model.profiles.verification.VerificationTokenType;
+import ua.com.itproekt.gup.service.emailnotification.EmailServiceTokenModel;
+import ua.com.itproekt.gup.service.emailnotification.MailSenderService;
 import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
@@ -32,7 +38,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Random;
 
 @Controller
-@PropertySource("classpath:properties/lost_password.properties")
 @RequestMapping("/api/oauth")
 public class LostPasswordRestController {
 
@@ -52,10 +57,26 @@ public class LostPasswordRestController {
     @Autowired
     private DefaultTokenServices tokenServices;
 
-    @Autowired
-    Environment env;
+    @Value("${lost_password.domain.url}")
+    private String domain;
 
+    @Value("${lost_password.restore_password.port.url}")
     private final String restorePasswordURL = "reset-password";
+
+    @Value("${lost_password.restore_password_form.port.url}")
+    private String pageRestorePasswordURL;
+
+    @Value("${verification.token.emailRegistration.timeToLive.inMinutes}")
+    private int emailRegistrationTokenExpiryTimeInMinutes;
+
+    @Value("${hostName.url}")
+    private String hostNameUrl;
+
+    @Autowired
+    private MailSenderService mailSenderService;
+
+    @Autowired
+    private VerificationTokenRepository verificationTokenRepository;
 
     /**
      * #1 Generate new client password
@@ -76,7 +97,8 @@ public class LostPasswordRestController {
             profile.setPassword(hashedPassword);
             profilesService.editProfile(profile);
             // ToDo send to e-mail
-            return new ResponseEntity<>(HttpStatus.OK); //return new ResponseEntity<>(generateURLRecovery(env.getProperty("lost_password.domain.url"), profile.getId(), secret), HttpStatus.OK);
+            mailSenderService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, generateURLRecovery(domain, profile.getId(), secret)));
+            return new ResponseEntity<>(HttpStatus.OK); //return new ResponseEntity<>(generateURLRecovery(domain, profile.getId(), secret), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -194,7 +216,7 @@ public class LostPasswordRestController {
      */
     private String generateURLRecovery(String domain, String id, String secret){
 //        return "http://" + domain + "/api/oauth/" + restorePasswordURL + "/" + id + "?secret=" + secret;
-        return "http://" + domain + "/" + env.getProperty("lost_password.restore_password_form.port.url") + "/" + id + "/" + secret;
+        return "http://" + domain + "/" + pageRestorePasswordURL + "/" + id + "/" + secret;
     }
 
     private String generateSecret(){
