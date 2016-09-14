@@ -30,6 +30,7 @@ public class Profile {
     @Indexed
     private String username;
     private String imgId;
+    private String imgUrl;
     private Long birthDate;
     private Contact contact;
     private Set<String> contactList;
@@ -72,6 +73,15 @@ public class Profile {
 
     public Profile setImgId(String imgId) {
         this.imgId = imgId;
+        return this;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public Profile setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
         return this;
     }
 
@@ -300,6 +310,7 @@ public class Profile {
                 ", mainPhoneNumber='" + mainPhoneNumber + '\'' +
                 ", username='" + username + '\'' +
                 ", imgId='" + imgId + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
                 ", birthDate=" + birthDate +
                 ", contact=" + contact +
                 ", contactList=" + contactList +

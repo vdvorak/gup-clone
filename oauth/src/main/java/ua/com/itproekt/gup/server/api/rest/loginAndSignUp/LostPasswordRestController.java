@@ -3,8 +3,6 @@ package ua.com.itproekt.gup.server.api.rest.loginAndSignUp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +16,10 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.dao.profile.VerificationTokenRepository;
 import ua.com.itproekt.gup.model.login.FormLostPassword;
 import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.dto.ProfileInfo;
-import ua.com.itproekt.gup.model.profiles.verification.VerificationToken;
 import ua.com.itproekt.gup.model.profiles.verification.VerificationTokenType;
 import ua.com.itproekt.gup.service.emailnotification.EmailServiceTokenModel;
 import ua.com.itproekt.gup.service.emailnotification.MailSenderService;
@@ -32,7 +28,6 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CookieUtil;
 import ua.com.itproekt.gup.util.Oauth2Util;
-import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Random;
@@ -75,9 +70,6 @@ public class LostPasswordRestController {
     @Autowired
     private MailSenderService mailSenderService;
 
-    @Autowired
-    private VerificationTokenRepository verificationTokenRepository;
-
     /**
      * #1 Generate new client password
      *    Then generate a link to reset your password and send it to the client email
@@ -96,72 +88,14 @@ public class LostPasswordRestController {
             String hashedPassword = passwordEncoder.encode(secret);
             profile.setPassword(hashedPassword);
             profilesService.editProfile(profile);
-            // ToDo send to e-mail
+            // TODO send to e-mail
             mailSenderService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, generateURLRecovery(domain, profile.getId(), secret)));
-            return new ResponseEntity<>(HttpStatus.OK); //return new ResponseEntity<>(generateURLRecovery(domain, profile.getId(), secret), HttpStatus.OK);
+            // TODO return new ResponseEntity<>(generateURLRecovery(domain, profile.getId(), secret), HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    /**
-     * #2 According to information received from the client the link go to the site file (it automatically client authentication)
-     *    Then the customer receives the right to edit your password
-     *    http://gup.com.ua/restorePassword/{id}/{secret}
-     * **************************************************
-     * @param id
-     * @param secret
-     * @param response
-     * @return
-     */
-//    @CrossOrigin
-//    @RequestMapping(value = "/" + restorePasswordURL + "/{id}", method = RequestMethod.GET,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<ProfileInfo> resetPassword(@PathVariable String id, @RequestParam String secret, HttpServletResponse response) { //public ResponseEntity<String> resetPassword(@PathVariable String id, @RequestParam String secret, HttpServletResponse response) {
-//        LoggedUser loggedUser;
-//        Profile profile = null;
-//        if( profilesService.profileExists(id) ){
-//            profile = profilesService.findById(id);
-//            try {
-//                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail());
-//                if( passwordEncoder.matches(secret,loggedUser.getPassword()) ){
-//                    authenticateByEmailAndPassword(loggedUser, response);
-//                } else {
-//                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//                }
-//            } catch (UsernameNotFoundException ex) {
-//                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//            }
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//        }
-//        ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
-//        return new ResponseEntity<>(profileInfo, HttpStatus.OK); //return new ResponseEntity<>("redirect:/api/oauth/" + restorePasswordURL + "/" + id, HttpStatus.OK);
-//    }
-
-    /**
-     * #3 Here the client can edit, change the password to a new Statement
-     *    http://localhost:8083/api/oauth/reset-password
-     *
-     * @param secret
-     * @return
-     */
-//    @CrossOrigin
-//    @RequestMapping(value = "/" + restorePasswordURL, method = RequestMethod.POST,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<ProfileInfo> restorePassword(@RequestBody String secret) {
-//        String id = SecurityOperations.getLoggedUserId();
-//        Profile profile = null;
-//        if( profilesService.profileExists(id) ){
-//            profile = profilesService.findById(id);
-//            String hashedPassword = passwordEncoder.encode(secret);
-//            profile.setPassword(hashedPassword);
-//            profilesService.editProfile(profile);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//        }
-//        ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
-//        return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-//    }
     /**
      * #3 Here the client can edit, change the password to a new Statement
      *    http://localhost:8083/api/oauth/reset-password
@@ -215,7 +149,6 @@ public class LostPasswordRestController {
      * @return http://gup.com.ua/restorePassword/{id}/{secret}
      */
     private String generateURLRecovery(String domain, String id, String secret){
-//        return "http://" + domain + "/api/oauth/" + restorePasswordURL + "/" + id + "?secret=" + secret;
         return "http://" + domain + "/" + pageRestorePasswordURL + "/" + id + "/" + secret;
     }
 
