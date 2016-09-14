@@ -22,6 +22,13 @@ public class EmailServiceTokenModel implements Serializable {
         this.hostNameUrl = hostNameUrl;
     }
 
+    public EmailServiceTokenModel(String email, String token, VerificationTokenType verificationTokenType, String hostNameUrl)  {
+        this.email = email;
+        this.token = token;
+        this.tokenType = verificationTokenType;
+        this.hostNameUrl = hostNameUrl;
+    }
+
     public String getEmail() {
         return email;
     }

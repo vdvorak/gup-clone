@@ -119,21 +119,22 @@ public class LoginRestController {
             profilesService.facebookRegister(profile);
 
             // EDIT:
-            try {
+            // TODO try {
                 profileVendor.init(profile.getSocWendor(), profile.getTokenKey(), profile.getUid());
                 /* Edit Photo Profile */
-                String imgId = storageService.saveCachedImageProfile( getCachedImageProfile("profile", getImageProfile(profileVendor.getImage().get("url")), "profile_" + profile.getId()) );
-                profile.setImgId(imgId);
+                // TODO String imgId = storageService.saveCachedImageProfile( getCachedImageProfile("profile", getImageProfile(profileVendor.getImage().get("url")), "profile_" + profile.getId()) );
+                // TODO profile.setImgId(imgId);
+                profile.setImgUrl(profileVendor.getImage().get("url"));
                 /* Edit Profile */
                 profile.setUsername(profileVendor.getUsername());
                 profilesService.editProfile(profile);
-            } catch (NullPointerException e) {
-                LOG.error(LogUtil.getExceptionStackTrace(e));
-                resp = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            } catch (IOException e) {
-                LOG.error(LogUtil.getExceptionStackTrace(e));
-                resp = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+            // TODO } catch (NullPointerException e) {
+            // TODO     LOG.error(LogUtil.getExceptionStackTrace(e));
+            // TODO     resp = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            // TODO } catch (IOException e) {
+            // TODO     LOG.error(LogUtil.getExceptionStackTrace(e));
+            // TODO     resp = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            // TODO }
 
             // LOGIN:
             LoggedUser loggedUser = null;
