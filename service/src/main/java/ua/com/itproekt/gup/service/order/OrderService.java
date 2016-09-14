@@ -82,6 +82,7 @@ public interface OrderService {
      */
     List<Order> findAllOrdersForOffer(String offerId);
 
+
     /**
      * @param orderList
      * @return
@@ -96,5 +97,23 @@ public interface OrderService {
      * @return
      */
     int calculateFeedbackAmountForOrderList(List<OrderInfo> orderList);
+
+    /**
+     * Receive order list where user is seller.
+     *
+     * @param orderInfoList
+     * @param sellerId
+     * @return
+     */
+    List<OrderInfo> orderInfoSellerListFromTotalOrderListOfUser(List<OrderInfo> orderInfoList, String sellerId);
+
+    /**
+     * Receive order list where user is buyer.
+     *
+     * @param orderInfoList
+     * @param buyerId
+     * @return
+     */
+    List<OrderInfo> orderInfoBuyerListFromTotalOrderListOfUser(List<OrderInfo> orderInfoList, String buyerId);
 
 }

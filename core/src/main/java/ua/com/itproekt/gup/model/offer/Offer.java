@@ -2,6 +2,9 @@ package ua.com.itproekt.gup.model.offer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
 import ua.com.itproekt.gup.util.PaymentMethod;
@@ -21,6 +24,11 @@ import java.util.Set;
 //    @CompoundIndex(name = "createdDate_offers_idx", def = "{'reservation' : 1, 'createdDate' : 1}"),
 //    @CompoundIndex(name = "category_offers_idx", def = "{'address.area' : 1, 'address.city' : 1, 'address.country' : 1, 'category' : 1, 'reservation' : 1, 'used' : 1, 'price' : 1, 'createdDate' : 1}"),
 //    @CompoundIndex(name = "prop_offers_idx", def = "{'reservation' : 1, 'address.city' : 1, 'address.area' : 1, 'address.country' : 1, 'category' : 1, 'properties.key': 1, 'properties.value': 1, 'used' : 1, 'price' : 1, 'createdDate' : 1}"),
+//})
+
+//@CompoundIndexes({
+//        @CompoundIndex(name = "read_all_main_idx", def = "{'moderationStatus' : 1, 'createdDate' : -1, 'active' : 1}"),// + сортировка
+//        @CompoundIndex(name = "createdDate_offers_idx", def = "{'createdDate' : 1}")
 //})
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

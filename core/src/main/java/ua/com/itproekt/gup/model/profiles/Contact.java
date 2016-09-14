@@ -3,6 +3,7 @@ package ua.com.itproekt.gup.model.profiles;
 import org.springframework.format.annotation.DateTimeFormat;
 import ua.com.itproekt.gup.util.SocialNetwork;
 
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +15,7 @@ public class Contact {
     private UserType type;
     private String position;
     private String companyName;
+    @Size(max = 3500)
     private String aboutUs;
 
     private String skypeUserName;
