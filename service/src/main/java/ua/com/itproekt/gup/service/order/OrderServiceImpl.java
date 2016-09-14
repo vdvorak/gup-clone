@@ -244,10 +244,48 @@ public class OrderServiceImpl implements OrderService {
                 result++;
             }
         }
-
         return result;
     }
 
+    /**
+     *
+     * @param orderInfoList
+     * @param sellerId
+     * @return
+     */
+    @Override
+    public List<OrderInfo> orderInfoSellerListFromTotalOrderListOfUser(List<OrderInfo> orderInfoList, String sellerId) {
+
+        List<OrderInfo> orderInfoListSeller = new ArrayList<>();
+
+        for (OrderInfo orderInfo : orderInfoList) {
+            if (orderInfo.getOrder().getSellerId().equals(sellerId)) {
+                orderInfoListSeller.add(orderInfo);
+            }
+        }
+
+        return orderInfoListSeller;
+    }
+
+    /**
+     *
+     * @param orderInfoList
+     * @param buyerId
+     * @return
+     */
+    @Override
+    public List<OrderInfo> orderInfoBuyerListFromTotalOrderListOfUser(List<OrderInfo> orderInfoList, String buyerId) {
+
+        List<OrderInfo> orderInfoListBuyer = new ArrayList<>();
+
+        for (OrderInfo orderInfo : orderInfoList) {
+            if (orderInfo.getOrder().getSellerId().equals(buyerId)) {
+                orderInfoListBuyer.add(orderInfo);
+            }
+        }
+
+        return orderInfoListBuyer;
+    }
 
     /**
      * Calculate average points for one certain offer

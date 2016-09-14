@@ -442,11 +442,9 @@ public class ProfilesServiceImpl implements ProfilesService {
     private ProfileInfo prepareAdditionalFieldForPrivate(Profile profile) {
         ProfileInfo profileInfo = new ProfileInfo(profile);
 
-        OrderFilterOptions orderFilterOptionsForBuyer = new OrderFilterOptions();
-        orderFilterOptionsForBuyer.setBuyerId(profile.getId());
-
-        OrderFilterOptions orderFilterOptionsForSeller = new OrderFilterOptions();
-        orderFilterOptionsForSeller.setSellerId(profile.getId());
+        OrderFilterOptions orderFilterOptionsForUser = new OrderFilterOptions();
+        orderFilterOptionsForUser.setBuyerId(profile.getId());
+        orderFilterOptionsForUser.setSellerId(profile.getId());
 
 
         //ToDo make me simple
@@ -459,7 +457,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         List<OfferInfo> userOfferInfoList = offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor);
         System.err.println("userOfferInfoList time: " + (System.currentTimeMillis() - startTime));
 
-
         SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions();
         subscriptionFilterOptions.setUserId(profile.getId());
 
@@ -468,19 +465,15 @@ public class ProfilesServiceImpl implements ProfilesService {
         System.err.println("subscriptionList time: " + (System.currentTimeMillis() - startTime));
 
         startTime = System.currentTimeMillis();
-        List<OrderInfo> orderInfoBuyerList = orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForBuyer);
+        List<OrderInfo> orderInfoListForUser = orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForUser);
         System.err.println("orderInfoBuyerList time: " + (System.currentTimeMillis() - startTime));
 
-        startTime = System.currentTimeMillis();
-        List<OrderInfo> orderInfoSellerList = orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForSeller);
-        System.err.println("orderInfoSellerList time: " + (System.currentTimeMillis() - startTime));
+        List<OrderInfo> orderInfoSellerList = orderService.orderInfoSellerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());
+        List<OrderInfo> orderInfoBuyerList = orderService.orderInfoBuyerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());
 
-        //count total orders amount (buyer and seller)
-        int totalOrdersAmount = orderInfoBuyerList.size() + orderInfoSellerList.size();
+        int totalOrdersAmount = orderInfoListForUser.size();
 
-        int totalFeedbackAmount =
-                orderService.calculateFeedbackAmountForOrderList(orderInfoBuyerList)
-                        + orderService.calculateFeedbackAmountForOrderList(orderInfoSellerList);
+        int totalFeedbackAmount = orderService.calculateFeedbackAmountForOrderList(orderInfoListForUser);
 
         List<FavoriteOfferInfo> favoriteOfferInfoList = favoriteOfferInfoListPreparator(profile);
 
@@ -521,7 +514,11 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileInfo.setOrderInfoBuyerList(orderInfoBuyerList);
         profileInfo.setOrderInfoSellerList(orderInfoSellerList);
         profileInfo.setFavoriteOfferInfoList(favoriteOfferInfoList);
-        profileInfo.setUserAveragePoints(calculateAveragePointsForSellerByUserId(profile.getId()));
+
+
+        startTime = System.currentTimeMillis();
+        profileInfo.setUserAveragePoints(orderService.calculateAveragePointsForListOfOrders(orderInfoListToOrderList(orderInfoSellerList)));
+        System.err.println("setUserAveragePoints time: " + (System.currentTimeMillis() - startTime));
 
         profileInfo.getProfile().setFavoriteOffers(null);
 
@@ -553,6 +550,9 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setUnreadMessages(null)
                 .setUnreadMessages(null)
                 .setOrderFeedbackList(orderFeedbackList) // all users feedback for his offer
+
+
+                        //ToDo boost this shit! based on orderFeedbackList
                 .setUserAveragePoints(orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList)); // ToDo impl this!
 
         return profileInfo;
@@ -666,6 +666,15 @@ public class ProfilesServiceImpl implements ProfilesService {
         favoriteOfferInfo.setFavoriteOfferImage(offersService.getMainOfferImage(offer));
 
         return favoriteOfferInfo;
+    }
+
+    private List<Order> orderInfoListToOrderList(List<OrderInfo> orderInfoList) {
+        List<Order> orderList = new ArrayList<>();
+
+        for (OrderInfo orderInfo : orderInfoList) {
+            orderList.add(orderInfo.getOrder());
+        }
+        return orderList;
     }
 
 
