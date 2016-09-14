@@ -354,7 +354,7 @@ public class OrderRestController {
                 }
 
             } else {
-                //ошибка, т.к. ты не покупатель и не продаввец
+                //TODO ошибка, т.к. ты не покупатель и не продаввец
                 return badRequest;
             }
         }

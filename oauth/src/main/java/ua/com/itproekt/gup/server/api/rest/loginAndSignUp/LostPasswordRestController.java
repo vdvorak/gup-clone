@@ -86,7 +86,7 @@ public class LostPasswordRestController {
         if( profilesService.profileExistsWithEmail(email) ){
             profile = profilesService.findProfileByEmail(email);
             String hashedPassword = passwordEncoder.encode(secret);
-            profile.setPassword(hashedPassword);
+            profile.setPasswordRestore(hashedPassword); //profile.setPassword(hashedPassword);
             profilesService.editProfile(profile);
             // TODO send to e-mail
             mailSenderService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, generateURLRecovery(domain, profile.getId(), secret)));
@@ -113,11 +113,12 @@ public class LostPasswordRestController {
         if( profilesService.profileExists(formLostPassword.getId()) ){
             profile = profilesService.findById(formLostPassword.getId());
             try {
-                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail());
-                if( passwordEncoder.matches(formLostPassword.getPassword(),loggedUser.getPassword()) ){
+//                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail());
+                if( passwordEncoder.matches(formLostPassword.getPassword(),profile.getPasswordRestore()) ){ //if( passwordEncoder.matches(formLostPassword.getPassword(),loggedUser.getPassword()) ){
                     String hashedNewPassword = passwordEncoder.encode(formLostPassword.getNewPassword());
                     profile.setPassword(hashedNewPassword);
                     profilesService.editProfile(profile);
+                    loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail()); /////////
                     authenticateByEmailAndPassword(loggedUser, response);
                 } else {
                     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

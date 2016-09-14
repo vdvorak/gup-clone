@@ -24,6 +24,7 @@ public class Profile {
     private String socWendor = "gup.com.ua";
     private String uid;
     private String password;
+    private String passwordRestore;
     private String tokenKey;
     private String mainPhoneNumber;
 
@@ -177,6 +178,19 @@ public class Profile {
     public Profile setPassword(String password) {
         this.password = password;
         return this;
+    }
+
+    public String getPasswordRestore() {
+        return passwordRestore;
+    }
+
+    public Profile setPasswordRestore(String passwordRestore) {
+        this.passwordRestore = passwordRestore;
+        return this;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 
     public Set<UserRole> getUserRoles() {
