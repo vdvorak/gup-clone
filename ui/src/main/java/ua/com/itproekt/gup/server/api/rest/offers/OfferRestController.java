@@ -273,8 +273,11 @@ public class OfferRestController {
         }
 
         // Mark message from moderator as read
-        updatedOffer.getModerationMessage().setMessage(oldOffer.getModerationMessage().getMessage());
-        updatedOffer.getModerationMessage().setIsRead(true);
+
+        if (updatedOffer.getModerationMessage() != null) {
+            updatedOffer.getModerationMessage().setMessage(oldOffer.getModerationMessage().getMessage());
+            updatedOffer.getModerationMessage().setIsRead(true);
+        }
 
 
         String newTransiltTitle = Translit.makeTransliteration(updatedOffer.getTitle());
@@ -283,8 +286,11 @@ public class OfferRestController {
 
 
         // If false - means that some pictures were
-        if (!oldOffer.getImagesIds().equals(updatedOffer.getImagesIds())) {
-            storageService.deleteDiffImagesAfterOfferUpdate(oldOffer.getImagesIds(), updatedOffer.getImagesIds());
+
+        if (oldOffer.getImagesIds() != null) {
+            if (!oldOffer.getImagesIds().equals(updatedOffer.getImagesIds())) {
+                storageService.deleteDiffImagesAfterOfferUpdate(oldOffer.getImagesIds(), updatedOffer.getImagesIds());
+            }
         }
 
 
@@ -371,6 +377,8 @@ public class OfferRestController {
             offer.setActive(true);
         }
 
+        offersService.edit(offer);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -382,7 +390,7 @@ public class OfferRestController {
      */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/offer/delete/{offerId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/offer/delete/{offerId}", method = RequestMethod.GET)
     public ResponseEntity<Void> deleteOffer(@PathVariable String offerId) {
 
         Offer offer = offersService.findById(offerId);
@@ -394,6 +402,7 @@ public class OfferRestController {
 
 
         if (!offer.getAuthorId().equals(userId)) {
+ 
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
