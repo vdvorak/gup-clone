@@ -250,7 +250,9 @@ public class OfferRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/edit", method = RequestMethod.POST,
             consumes = {"multipart/form-data"})
-    public ResponseEntity<String> editOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
+    public ResponseEntity<String> editOffer(
+            @RequestPart("offerRegistration") OfferRegistration offerRegistration,
+            @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
 
         Offer updatedOffer = offerRegistration.getOffer();
 
@@ -402,7 +404,7 @@ public class OfferRestController {
 
 
         if (!offer.getAuthorId().equals(userId)) {
- 
+
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
@@ -544,7 +546,7 @@ public class OfferRestController {
      */
     private Map<String, String> updaterOfferImages(Map<String, String> updatedOfferImagesMap, MultipartFile[] files) {
 
-        int newStartPositionForImages = updatedOfferImagesMap.size();
+        int newStartPositionForImages = updatedOfferImagesMap.size(); // Тут лежать старые фотографии
         Map<String, String> newImageMap = new HashMap<>();
 
 
@@ -552,7 +554,7 @@ public class OfferRestController {
             newStartPositionForImages = 1;
         }
 
-        Map<String, String> mapWithNewPhoto = storageService.saveCachedMultiplyImageOffer(files, newStartPositionForImages);
+        Map<String, String> mapWithNewPhoto = storageService.saveCachedMultiplyImageOffer(files, newStartPositionForImages + 1);
 
         newImageMap.putAll(updatedOfferImagesMap);
         newImageMap.putAll(mapWithNewPhoto);
