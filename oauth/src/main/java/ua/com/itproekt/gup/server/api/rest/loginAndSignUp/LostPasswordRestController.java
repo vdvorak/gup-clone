@@ -123,7 +123,8 @@ public class LostPasswordRestController {
                     loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail()); /////////
                     // RESET Cookie
                     for (Cookie cookie : request.getCookies()) {
-                        if (cookie.getName().equals("authToken")) {
+                        if (cookie.getName().equals("authToken")
+                                || cookie.getName().equals("refreshToken")){
                             tokenServices.revokeToken(cookie.getValue());
                         }
                     }
