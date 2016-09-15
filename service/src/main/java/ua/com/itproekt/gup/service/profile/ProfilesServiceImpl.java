@@ -452,10 +452,24 @@ public class ProfilesServiceImpl implements ProfilesService {
         offerFilterOptionsForAuthor.setAuthorId(profile.getId());
         offerFilterOptionsForAuthor.setLimit(20);
 
-        long startTime = System.currentTimeMillis();
 
-        List<OfferInfo> userOfferInfoList = offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor);
+        long startTime = System.currentTimeMillis();
+//        List<OrderInfo> orderInfoListForUser = orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForUser);
+        List<Order> orderListForUser = orderService.findOrdersWihOptions(orderFilterOptionsForUser);
+        List<OrderInfo> orderInfoListForUser = orderService.orderInfoListPreparatorForPrivate(orderListForUser);
+        System.err.println("orderInfoBuyerList time: " + (System.currentTimeMillis() - startTime));
+
+
+
+        startTime = System.currentTimeMillis();
+        List<OfferInfo> userOfferInfoList = offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor, orderListForUser);
         System.err.println("userOfferInfoList time: " + (System.currentTimeMillis() - startTime));
+
+
+
+
+
+
 
         SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions();
         subscriptionFilterOptions.setUserId(profile.getId());
@@ -464,9 +478,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         List<Subscription> subscriptionList = subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities();
         System.err.println("subscriptionList time: " + (System.currentTimeMillis() - startTime));
 
-        startTime = System.currentTimeMillis();
-        List<OrderInfo> orderInfoListForUser = orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForUser);
-        System.err.println("orderInfoBuyerList time: " + (System.currentTimeMillis() - startTime));
+
 
         List<OrderInfo> orderInfoSellerList = orderService.orderInfoSellerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());
         List<OrderInfo> orderInfoBuyerList = orderService.orderInfoBuyerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());

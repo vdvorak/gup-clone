@@ -48,6 +48,26 @@ public interface OrderService {
     List<OrderInfo> findOrderInfoWithOptionsForPrivate(OrderFilterOptions orderFilterOptions);
 
 
+
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////////
+    /**
+     *
+     * @param orderList
+     * @return
+     */
+    List<OrderInfo> orderInfoListPreparatorForPrivate(List<Order> orderList);
+    /////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
     /**
      * @param userId
      * @return
