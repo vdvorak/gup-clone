@@ -73,7 +73,7 @@ public class Offer {
     private Long lastModerationDate;
     private ModerationMessage moderationMessage;
 
-    boolean isDeleted;
+    boolean deleted;
 
     public Offer setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
@@ -372,11 +372,11 @@ public class Offer {
     }
 
     public boolean isDeleted() {
-        return isDeleted;
+        return deleted;
     }
 
     public Offer setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
+        this.deleted = isDeleted;
         return this;
     }
 
@@ -415,7 +415,7 @@ public class Offer {
                 ", moderationStatus=" + moderationStatus +
                 ", lastModerationDate=" + lastModerationDate +
                 ", moderationMessage=" + moderationMessage +
-                ", isDeleted=" + isDeleted +
+                ", deleted=" + deleted +
                 '}';
     }
 }
