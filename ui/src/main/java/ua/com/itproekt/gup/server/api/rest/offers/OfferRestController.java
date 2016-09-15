@@ -567,11 +567,16 @@ public class OfferRestController {
         Map<String, String> newImageMap = new HashMap<>();
 
 
-        if (newStartPositionForImages == 0) {
-            newStartPositionForImages = 1;
-        }
+//        if (newStartPositionForImages == 0) {
+//            newStartPositionForImages = 1;
+//        }else{
+//            newStartPositionForImages++;
+//        }
 
-        Map<String, String> mapWithNewPhoto = storageService.saveCachedMultiplyImageOffer(files, newStartPositionForImages + 1);
+        // increase by +1
+        newStartPositionForImages++;
+
+        Map<String, String> mapWithNewPhoto = storageService.saveCachedMultiplyImageOffer(files, newStartPositionForImages);
 
         newImageMap.putAll(updatedOfferImagesMap);
         newImageMap.putAll(mapWithNewPhoto);
