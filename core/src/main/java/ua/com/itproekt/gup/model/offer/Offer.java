@@ -30,7 +30,7 @@ import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Offer {
-    boolean isDeleted;
+
     @Id
     private String id;
     private String authorId;
@@ -42,6 +42,7 @@ public class Offer {
     private Rent rent;
     private String seoUrl; // full SEO url with key - for siteMap
     private String seoKey; // only key - for search in DB
+
     private LinkedHashSet<String> categories;
     private String seoCategory; // last category for seo meta tags
     private List<Property> properties;
@@ -56,18 +57,23 @@ public class Offer {
     private Integer price;
     private Currency currency;
     private Address address;
+
     private Boolean priceCanBeNegotiated;
     private Boolean used; // б/y
     private Boolean canBeReserved;
     private Boolean canBeRented;
     private boolean showOrdersCount; //user decide to show offer orders amount or not
     private Integer maximumReservedPeriod;
+
     private Set<TransportCompany> availableShippingMethods;
     private Set<PaymentMethod> availablePaymentMethods;
     private PaidServices paidServices;
+
     private ModerationStatus moderationStatus;
     private Long lastModerationDate;
     private ModerationMessage moderationMessage;
+
+    boolean isDeleted;
 
     public Offer setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();

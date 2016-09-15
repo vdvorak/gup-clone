@@ -420,7 +420,6 @@ public class OfferRestController {
 
         offer.setIsDeleted(true);
 
-
         offersService.edit(offer);
 
 //        offersService.delete(offerId);
