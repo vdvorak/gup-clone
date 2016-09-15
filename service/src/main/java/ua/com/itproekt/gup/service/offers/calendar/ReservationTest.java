@@ -20,12 +20,11 @@ public class ReservationTest {
         System.out.println();
         System.out.println( "6 : " + isDay(6, objCosts) ); //System.out.println( "8 : " + isDay(8, objCosts) );
         int[] days = {1,3,7};
-        foundValues(days, objCosts);
+        System.out.println( foundValues(days,objCosts) );
     }
 
     public static ObjCost days(int value, int[] days){
-        ObjCost objCost = new ObjCost();
-        objCost.setValue(value);
+        ObjCost objCost = new ObjCost(value);
         for (int d=days[0]; d<=days[1]; ++d) objCost.add(d);
         return objCost;
     }
@@ -56,6 +55,8 @@ public class ReservationTest {
         for (ObjCost objCost : objCosts){
             for (Integer d : objCost){
                 if(day == d){
+                    // TODO если элемент в списке существует - то нужно его удаить из списка, потому-что этот элемент перекачивал уже в друго список:
+                    // TODO нужно когда автор объявления пытается в разрез стандартному тарифу добавить свои изменения по ноавм тарифам в специальные дни...
                     return true;
                 }
             }
@@ -63,23 +64,30 @@ public class ReservationTest {
         return false;
     }
 
-    public static void foundValues(int[] days, List<ObjCost> objCosts){
+    public static int foundValues(int[] days, List<ObjCost> objCosts){
+        int values = 0;
         for (ObjCost objCost : objCosts){
             for (Integer d : objCost){
                 for (int day : days){
                     if(day == d){
-                        System.out.print(objCost.getValue() + "(" + d + ") ");
+                        values += objCost.getValue(); //System.out.print(objCost.getValue() + "(" + d + ") ");
                     }
                 }
             }
         }
+        return values;
     }
 
 }
 
 class ObjCost extends ArrayList<Integer> {
 
-    private int value;
+    public ObjCost(){}
+    public ObjCost(int value){
+        this.value = value;
+    }
+
+    private int value = 100;
 
     public int getValue() {
         return value;
