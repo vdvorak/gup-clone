@@ -71,8 +71,11 @@ public class OfferRestController {
                                                               @RequestParam(required = false, defaultValue = "false") boolean relevant) {
         Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
 
-
         if (offer == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (offer.isDeleted()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -125,6 +128,7 @@ public class OfferRestController {
 
         if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             offerFO.setActive(true);
+            offerFO.setIsDeleted(false);
             offerFO.setModerationStatus(ModerationStatus.COMPLETE);
         }
 
@@ -152,6 +156,7 @@ public class OfferRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
         offerFO.setAuthorId(userId);
+        offerFO.setIsDeleted(true);
 
         return new ResponseEntity<>(offersService.getListOfPrivateOfferInfoWithOptions(offerFO), HttpStatus.OK);
     }
@@ -250,7 +255,9 @@ public class OfferRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/edit", method = RequestMethod.POST,
             consumes = {"multipart/form-data"})
-    public ResponseEntity<String> editOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration, @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
+    public ResponseEntity<String> editOffer(
+            @RequestPart("offerRegistration") OfferRegistration offerRegistration,
+            @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
 
         Offer updatedOffer = offerRegistration.getOffer();
 
@@ -308,10 +315,10 @@ public class OfferRestController {
      * Edit offer by moderator
      *
      * @param offer
-     * @return
+     * @return 404 Not Found if offer does not exist or was deleted
      */
     @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_SUPPORT','ROLE_MODERATOR')")
     @RequestMapping(value = "/offer/moderator/edit", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResp> editOfferByModerator(@Valid @RequestBody Offer offer) {
@@ -324,13 +331,17 @@ public class OfferRestController {
 
         Offer oldOffer = offersService.findById(offer.getId());
 
+        if (oldOffer.isDeleted()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         String userId = SecurityOperations.getLoggedUserId();
 
 
-        //ToDo вынести в PreAuthorize проверку на модератора
-        if (!profilesService.isUserModerator(profilesService.findById(userId))) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+//        //ToDo вынести в PreAuthorize проверку на модератора
+//        if (!profilesService.isUserModerator(profilesService.findById(userId))) {
+//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
 
         offer.getModerationMessage().setCreatedDateEqualsToCurrentDate();
         offer.getModerationMessage().setIsRead(false);
@@ -348,12 +359,11 @@ public class OfferRestController {
         return new ResponseEntity<>(new CreatedObjResp(newOffer.getSeoUrl()), HttpStatus.OK);
     }
 
-
     /**
      * Change active status of the offer. Allowed only for offer author.
      *
      * @param offerId offer id.
-     * @return status 200 is ok, 403 - user is not an author of the offer, 404 - if offer is not found.
+     * @return status 200 is ok, 403 - user is not an author of the offer, 404 - if offer is not found or was deleted.
      */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
@@ -362,6 +372,10 @@ public class OfferRestController {
 
         Offer offer = offersService.findById(offerId);
         if (offer == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (offer.isDeleted()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -400,13 +414,15 @@ public class OfferRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-
         if (!offer.getAuthorId().equals(userId)) {
- 
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        offersService.delete(offerId);
+        offer.setIsDeleted(true);
+
+        offersService.edit(offer);
+
+//        offersService.delete(offerId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -423,16 +439,19 @@ public class OfferRestController {
     @RequestMapping(value = "/offer/moderateStatus/{offerId}", method = RequestMethod.POST)
     public ResponseEntity<Void> makeOfferComplete(@PathVariable String offerId, @RequestBody ModerationStatus moderationStatus) {
 
-
-        if (!offersService.offerExists(offerId)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
         if (moderationStatus != ModerationStatus.FAIL && moderationStatus != ModerationStatus.COMPLETE) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         Offer offer = offersService.findById(offerId);
+
+        if (offer == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (offer.isDeleted()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         // if we don't have lastModerationDate => we must check if this offer suite for some of subscriptions
 
@@ -544,13 +563,18 @@ public class OfferRestController {
      */
     private Map<String, String> updaterOfferImages(Map<String, String> updatedOfferImagesMap, MultipartFile[] files) {
 
-        int newStartPositionForImages = updatedOfferImagesMap.size();
+        int newStartPositionForImages = updatedOfferImagesMap.size(); // Тут лежать старые фотографии
         Map<String, String> newImageMap = new HashMap<>();
 
 
-        if (newStartPositionForImages == 0) {
-            newStartPositionForImages = 1;
-        }
+//        if (newStartPositionForImages == 0) {
+//            newStartPositionForImages = 1;
+//        }else{
+//            newStartPositionForImages++;
+//        }
+
+        // increase by +1
+        newStartPositionForImages++;
 
         Map<String, String> mapWithNewPhoto = storageService.saveCachedMultiplyImageOffer(files, newStartPositionForImages);
 

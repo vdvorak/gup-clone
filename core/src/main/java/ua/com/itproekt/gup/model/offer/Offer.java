@@ -2,9 +2,6 @@ package ua.com.itproekt.gup.model.offer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.index.Indexed;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
 import ua.com.itproekt.gup.util.PaymentMethod;
@@ -33,6 +30,7 @@ import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Offer {
+
     @Id
     private String id;
     private String authorId;
@@ -44,7 +42,6 @@ public class Offer {
     private Rent rent;
     private String seoUrl; // full SEO url with key - for siteMap
     private String seoKey; // only key - for search in DB
-
 
     private LinkedHashSet<String> categories;
     private String seoCategory; // last category for seo meta tags
@@ -67,22 +64,21 @@ public class Offer {
     private Boolean canBeRented;
     private boolean showOrdersCount; //user decide to show offer orders amount or not
     private Integer maximumReservedPeriod;
+
     private Set<TransportCompany> availableShippingMethods;
     private Set<PaymentMethod> availablePaymentMethods;
-
-
     private PaidServices paidServices;
 
     private ModerationStatus moderationStatus;
     private Long lastModerationDate;
     private ModerationMessage moderationMessage;
 
+    boolean deleted;
 
     public Offer setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
     }
-
 
 
     //--------------------------------------------------------------------------------
@@ -348,7 +344,6 @@ public class Offer {
         return this;
     }
 
-
     public Set<PaymentMethod> getAvailablePaymentMethods() {
         return availablePaymentMethods;
     }
@@ -373,6 +368,15 @@ public class Offer {
 
     public Offer setShowOrdersCount(boolean showOrdersCount) {
         this.showOrdersCount = showOrdersCount;
+        return this;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public Offer setIsDeleted(boolean isDeleted) {
+        this.deleted = isDeleted;
         return this;
     }
 
@@ -411,6 +415,7 @@ public class Offer {
                 ", moderationStatus=" + moderationStatus +
                 ", lastModerationDate=" + lastModerationDate +
                 ", moderationMessage=" + moderationMessage +
+                ", deleted=" + deleted +
                 '}';
     }
 }
