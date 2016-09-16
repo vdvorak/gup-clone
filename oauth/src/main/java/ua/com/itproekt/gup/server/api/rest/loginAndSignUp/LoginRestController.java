@@ -183,8 +183,8 @@ public class LoginRestController {
         try {
             /* Edit Profile */
             profileVendor.init(profile.getSocWendor(), profile.getTokenKey(), profile.getUid());
-            profile.setUsername(profileVendor.getUsername());
-            profilesService.editProfile(profile);
+//            profile.setUsername("xxxxxxxxxxxx"); //profile.setUsername(profileVendor.getUsername());
+//            profilesService.editProfile(profile);
 
             loggedUser = (LoggedUser) userDetailsService.loadUserByUidAndVendor(profile.getUid(), profile.getSocWendor());
         } catch (UsernameNotFoundException ex) {
