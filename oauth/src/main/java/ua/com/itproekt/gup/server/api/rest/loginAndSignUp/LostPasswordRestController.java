@@ -29,6 +29,8 @@ import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.CookieUtil;
 import ua.com.itproekt.gup.util.Oauth2Util;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Random;
 
@@ -107,7 +109,7 @@ public class LostPasswordRestController {
     @CrossOrigin
     @RequestMapping(value = "/" + restorePasswordURL, method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileInfo> restorePassword(@RequestBody FormLostPassword formLostPassword, HttpServletResponse response) {
+    public ResponseEntity<ProfileInfo> restorePassword(@RequestBody FormLostPassword formLostPassword, HttpServletRequest request, HttpServletResponse response) {
         LoggedUser loggedUser;
         Profile profile = null;
         if( profilesService.profileExists(formLostPassword.getId()) ){
@@ -119,6 +121,14 @@ public class LostPasswordRestController {
                     profile.setPassword(hashedNewPassword);
                     profilesService.editProfile(profile);
                     loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail()); /////////
+                    // RESET Cookie
+                    for (Cookie cookie : request.getCookies()) {
+                        if (cookie.getName().equals("authToken")
+                                || cookie.getName().equals("refreshToken")){
+                            tokenServices.revokeToken(cookie.getValue());
+                        }
+                    }
+                    // CREATE Cookie
                     authenticateByEmailAndPassword(loggedUser, response);
                 } else {
                     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

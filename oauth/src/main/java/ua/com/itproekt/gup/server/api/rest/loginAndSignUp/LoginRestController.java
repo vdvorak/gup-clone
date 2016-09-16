@@ -181,6 +181,11 @@ public class LoginRestController {
 
         LoggedUser loggedUser;
         try {
+            /* Edit Profile */
+            profileVendor.init(profile.getSocWendor(), profile.getTokenKey(), profile.getUid());
+            profile.setUsername(profileVendor.getUsername());
+            profilesService.editProfile(profile);
+
             loggedUser = (LoggedUser) userDetailsService.loadUserByUidAndVendor(profile.getUid(), profile.getSocWendor());
         } catch (UsernameNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
