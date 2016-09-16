@@ -74,6 +74,7 @@ public class ProfileRestController {
     public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
 
         long startTime = System.currentTimeMillis();
+        long startTime2 = System.currentTimeMillis();
 
         if (request.getCookies() != null) {
 
@@ -89,6 +90,7 @@ public class ProfileRestController {
                     ProfileInfo profileInfo = profileInfoPreparatorFromPrincipal(principal);
                     System.err.println("profileInfo auth time: " + (System.currentTimeMillis() - startTime));
 
+                    System.err.println("whole profile time: " + (System.currentTimeMillis() - startTime2));
 
                     return new ResponseEntity<>(profileInfo, HttpStatus.OK);
                 }
@@ -102,6 +104,7 @@ public class ProfileRestController {
                     startTime = System.currentTimeMillis();
                     ProfileInfo profileInfo = profileInfoPreparatorFromPrincipal(principal);
                     System.err.println("profileInfo refresh time: " + (System.currentTimeMillis() - startTime));
+                    System.err.println("whole profile time: " + (System.currentTimeMillis() - startTime2));
 
 
                     return new ResponseEntity<>(profileInfo, HttpStatus.OK);
