@@ -261,6 +261,10 @@ public class OfferRepositoryImpl implements OfferRepository {
             query.addCriteria(Criteria.where("price").lte(offerFO.getToPrice()));
         }
 
+        if(offerFO.getCurrency()!= null){
+            query.addCriteria(Criteria.where("currency").is(offerFO.getCurrency()));
+        }
+
         if (offerFO.getCreatedDateSortDirection() != null) {
             query.with(new Sort(Sort.Direction.fromString(offerFO.getCreatedDateSortDirection()), "createdDate"));
         } else if (offerFO.getPriceSortDirection() != null) {
