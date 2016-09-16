@@ -73,34 +73,38 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
     public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
 
+        long startTime = System.currentTimeMillis();
+        long startTime2 = System.currentTimeMillis();
+
         if (request.getCookies() != null) {
 
             Cookie[] cookies = request.getCookies();
             for (Cookie cookie : cookies) {
 
                 if (cookie.getName().equals("authToken")) {
-                    long startTime = System.currentTimeMillis();
+                    startTime = System.currentTimeMillis();
                     Object principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
-                    System.err.println("principal auth time: " + (System.currentTimeMillis() - startTime));
-
+                    System.err.println("principal time: " + (System.currentTimeMillis() - startTime));
 
                     startTime = System.currentTimeMillis();
                     ProfileInfo profileInfo = profileInfoPreparatorFromPrincipal(principal);
                     System.err.println("profileInfo auth time: " + (System.currentTimeMillis() - startTime));
 
+                    System.err.println("whole profile time: " + (System.currentTimeMillis() - startTime2));
 
                     return new ResponseEntity<>(profileInfo, HttpStatus.OK);
                 }
 
                 if (cookie.getName().equals("refreshToken")) {
-                    long startTime = System.currentTimeMillis();
+                    startTime = System.currentTimeMillis();
                     Object principal = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
-                    System.err.println("principal refresh time: " + (System.currentTimeMillis() - startTime));
+                    System.err.println("principal time: " + (System.currentTimeMillis() - startTime));
 
 
                     startTime = System.currentTimeMillis();
                     ProfileInfo profileInfo = profileInfoPreparatorFromPrincipal(principal);
                     System.err.println("profileInfo refresh time: " + (System.currentTimeMillis() - startTime));
+                    System.err.println("whole profile time: " + (System.currentTimeMillis() - startTime2));
 
 
                     return new ResponseEntity<>(profileInfo, HttpStatus.OK);

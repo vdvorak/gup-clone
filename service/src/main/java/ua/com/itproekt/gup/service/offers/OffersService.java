@@ -6,6 +6,7 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.List;
@@ -100,11 +101,19 @@ public interface OffersService {
 
 
     /**
+     *
+     * @param offerFilterOptions
+     * @param orderTotalList
+     * @return
+     */
+    List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions, List<Order> orderTotalList);
+
+    /**
+     *
      * @param offerFilterOptions
      * @return
      */
     List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions);
-
 
     /**
      * Return id if main offer image

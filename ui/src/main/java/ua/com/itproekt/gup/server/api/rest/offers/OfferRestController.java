@@ -158,6 +158,8 @@ public class OfferRestController {
         offerFO.setAuthorId(userId);
         offerFO.setIsDeleted(true);
 
+
+
         return new ResponseEntity<>(offersService.getListOfPrivateOfferInfoWithOptions(offerFO), HttpStatus.OK);
     }
 
@@ -566,14 +568,6 @@ public class OfferRestController {
         int newStartPositionForImages = updatedOfferImagesMap.size(); // Тут лежать старые фотографии
         Map<String, String> newImageMap = new HashMap<>();
 
-
-//        if (newStartPositionForImages == 0) {
-//            newStartPositionForImages = 1;
-//        }else{
-//            newStartPositionForImages++;
-//        }
-
-        // increase by +1
         newStartPositionForImages++;
 
         Map<String, String> mapWithNewPhoto = storageService.saveCachedMultiplyImageOffer(files, newStartPositionForImages);

@@ -200,7 +200,8 @@ public class OrderServiceImpl implements OrderService {
      * @param orderList
      * @return
      */
-    private List<OrderInfo> orderInfoListPreparatorForPrivate(List<Order> orderList) {
+    @Override
+    public List<OrderInfo> orderInfoListPreparatorForPrivate(List<Order> orderList) {
         List<OrderInfo> orderInfoList = new ArrayList<>();
 
         for (Order order : orderList) {
@@ -248,7 +249,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     *
      * @param orderInfoList
      * @param sellerId
      * @return
@@ -268,7 +268,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     *
      * @param orderInfoList
      * @param buyerId
      * @return
