@@ -49,19 +49,19 @@ public class APIVendorTest {
         final String GOOGLEPLUS_API_KEY = "AIzaSyAMjpEzLQJDYZdrgBGp-zNQ27xjw_6xEDA";
         final String GOOGLEPLUS_UID = "107235630368984173445"; // "117976156812233500456"
         final String VK_WENDOR = "vk.ru";
-        final String VK_ACCESS_TOKEN = "36d4d2f7afb05e980d8e6adaea2ff5572df65356453573e54d7cf9224abe161897d4a16b562d0bc6c5ebb";
-        final String VK_UID = "381966870"; // "123456" "321456" "369852" "741258" "185014513"
+        final String VK_ACCESS_TOKEN = "85c13b8933fe7dc8e693a8787a671f50cd876308cf8172e5e17b18dfe7d023963614fac8cd47bdbf31404"; //"8c2b97902b425ef7c1c2dcb941262208927938a3a868f092ee38f3d89a47efa5c86e19dbe7b0a76b9edb6"; // "23395b4133f2af496bdf01a43ae8dc4e8eba07e7ab0c02a8de95a5202952040ed7dae803686cb42792f80"; //"6408aa7b5df47c550cea4dfbd92decab781ee87c067c7e2b2b406cd9d26fb3b6b38a29ae03e2b7ebc47e5";
+        final String VK_UID = "15185364"; //"381966870"; //"15185364"; //"13650400"; // "123456" "321456" "369852" "741258" "185014513"
 
         try {
-            profileVendor(FACEBOOK_WENDOR, FACEBOOK_ACCESS_TOKEN, FACEBOOK_UID);
-            profileVendor(GOOGLEPLUS_WENDOR, GOOGLEPLUS_API_KEY, GOOGLEPLUS_UID);
+//            profileVendor(FACEBOOK_WENDOR, FACEBOOK_ACCESS_TOKEN, FACEBOOK_UID);
+//            profileVendor(GOOGLEPLUS_WENDOR, GOOGLEPLUS_API_KEY, GOOGLEPLUS_UID);
             profileVendor(VK_WENDOR, VK_ACCESS_TOKEN, VK_UID);
-            profileVendor(null, "bbbbb@bbb.com", "123456");
-            profileVendor("bbbbb@bbb.com", "123456");
+//            profileVendor(null, "bbbbb@bbb.com", "123456");
+//            profileVendor("bbbbb@bbb.com", "123456");
 
-            editProfile(FACEBOOK_WENDOR, FACEBOOK_ACCESS_TOKEN, FACEBOOK_UID);
-            editProfile(GOOGLEPLUS_WENDOR, GOOGLEPLUS_API_KEY, GOOGLEPLUS_UID);
-            editProfile(VK_WENDOR, VK_ACCESS_TOKEN, VK_UID);
+//            editProfile(FACEBOOK_WENDOR, FACEBOOK_ACCESS_TOKEN, FACEBOOK_UID);
+//            editProfile(GOOGLEPLUS_WENDOR, GOOGLEPLUS_API_KEY, GOOGLEPLUS_UID);
+//            editProfile(VK_WENDOR, VK_ACCESS_TOKEN, VK_UID);
         } catch (NullPointerException e){
             System.err.println(">>> Invalid OAuth access token");
         }
