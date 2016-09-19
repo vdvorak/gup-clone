@@ -9,7 +9,7 @@ public class ObjCost  extends ConcurrentLinkedQueue<Integer> {
         this.value = value;
     }
 
-    private int value = 100;
+    private int value = 100; // TODO read from file.properies ???
 
     public int getValue() {
         return value;
