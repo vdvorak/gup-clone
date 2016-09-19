@@ -8,9 +8,11 @@ public class OrderInfo {
 
 
     private String buyerImg;
+    private String buyerImgUrl; // image from social network if it's exist
     private String buyerName;
 
     private String sellerImg;
+    private String sellerImgUrl; // image from social network if it's exist
     private String sellerName;
 
 
@@ -59,13 +61,33 @@ public class OrderInfo {
         return this;
     }
 
+    public String getBuyerImgUrl() {
+        return buyerImgUrl;
+    }
+
+    public OrderInfo setBuyerImgUrl(String buyerImgUrl) {
+        this.buyerImgUrl = buyerImgUrl;
+        return this;
+    }
+
+    public String getSellerImgUrl() {
+        return sellerImgUrl;
+    }
+
+    public OrderInfo setSellerImgUrl(String sellerImgUrl) {
+        this.sellerImgUrl = sellerImgUrl;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "OrderInfo{" +
                 "order=" + order +
                 ", buyerImg='" + buyerImg + '\'' +
+                ", buyerImgUrl='" + buyerImgUrl + '\'' +
                 ", buyerName='" + buyerName + '\'' +
                 ", sellerImg='" + sellerImg + '\'' +
+                ", sellerImgUrl='" + sellerImgUrl + '\'' +
                 ", sellerName='" + sellerName + '\'' +
                 '}';
     }
