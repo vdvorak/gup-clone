@@ -159,7 +159,6 @@ public class OfferRestController {
         offerFO.setIsDeleted(true);
 
 
-
         return new ResponseEntity<>(offersService.getListOfPrivateOfferInfoWithOptions(offerFO), HttpStatus.OK);
     }
 
@@ -337,14 +336,6 @@ public class OfferRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        String userId = SecurityOperations.getLoggedUserId();
-
-
-//        //ToDo вынести в PreAuthorize проверку на модератора
-//        if (!profilesService.isUserModerator(profilesService.findById(userId))) {
-//            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//        }
-
         offer.getModerationMessage().setCreatedDateEqualsToCurrentDate();
         offer.getModerationMessage().setIsRead(false);
         offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
@@ -401,7 +392,9 @@ public class OfferRestController {
     //------------------------------------------ Delete ----------------------------------------------------------------
 
     /**
-     * @param offerId
+     * Delete offer by user.
+     *
+     * @param offerId - offer id.
      * @return
      */
     @CrossOrigin
@@ -432,8 +425,8 @@ public class OfferRestController {
     //------------------------------------------ Rest for admin --------------------------------------------------------
 
     /**
-     * @param offerId
-     * @param moderationStatus
+     * @param offerId          - offer id
+     * @param moderationStatus - moderation status
      * @return
      */
     @CrossOrigin
@@ -507,11 +500,7 @@ public class OfferRestController {
             offerFilterOptions.getAddress().setArea(offer.getAddress().getArea());
 
         }
-//        else {
-//            if (offer.getAddress().getArea() != null) {
-//                offerFilterOptions.getAddress().setArea(offer.getAddress().getArea());
-//            }
-//        }
+
         return offerFilterOptions;
     }
 
@@ -528,26 +517,11 @@ public class OfferRestController {
 
         offerFilterOptions.getAddress().setCountry(offer.getAddress().getCountry());
 
-        // add address in filter
-//        if (offer.getAddress().getArea() != null) {
-//            offerFilterOptions
-//                    .getAddress()
-//                    .setArea(offer
-//                            .getAddress()
-//                            .getArea());
-//        }
-
-
-//        else {
-//            if (offer.getAddress().getArea() != null) {
-//                offerFilterOptions.getAddress().setArea(offer.getAddress().getArea());
-//            }
-//        }
         return offerFilterOptions;
     }
 
     /**
-     * Return OfferFilterOPtion object only with skip and limit parameter
+     * Return OfferFilterOption object only with skip and limit parameter
      *
      * @return
      */
