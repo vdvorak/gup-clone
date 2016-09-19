@@ -31,8 +31,9 @@ public final class VkAPI {
 
     private static final String API_REQUEST = "https://api.vk.com/method/{METHOD_NAME}"
             + "?{PARAMETERS}"
-            + "&access_token={ACCESS_TOKEN}"
-            + "&v={API_VERSION}";
+//            + "&access_token={ACCESS_TOKEN}" //TODO: fix token
+//            + "&v={API_VERSION}"; //TODO: fix token
+            + "&"; //TODO: fix token
 
     private final String ACCESS_TOKEN;
 
@@ -70,7 +71,10 @@ public final class VkAPI {
 
         JsonParser jsonParser = new JsonParser();
         JsonObject jo = (JsonObject) jsonParser.parse( json );
-        result.setId(jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("id").getAsString());
+//        result.setId(jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("id").getAsString()); //TODO: fix token
+        result.setId(jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("uid").getAsString());
+
+
         result.setFirstName(jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("first_name").getAsString());
         result.setLastName(jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("last_name").getAsString());
         result.setName(jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("first_name").getAsString() + " " + jo.get("response").getAsJsonArray().get(0).getAsJsonObject().get("last_name").getAsString());
@@ -104,9 +108,9 @@ public final class VkAPI {
         final String parameters = (params == null) ? "" : params.build();
         String reqUrl = API_REQUEST
                 .replace("{METHOD_NAME}", method)
-                .replace("{ACCESS_TOKEN}", ACCESS_TOKEN)
-                .replace("{PARAMETERS}&", parameters)
-                .replace("{API_VERSION}", API_VERSION);
+//                .replace("{ACCESS_TOKEN}", ACCESS_TOKEN) //TODO: fix token
+                .replace("{PARAMETERS}&", parameters);
+//                .replace("{API_VERSION}", API_VERSION); //TODO: fix token
         return invokeApi(reqUrl);
     }
 
