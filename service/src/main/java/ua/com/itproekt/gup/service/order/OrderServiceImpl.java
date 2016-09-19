@@ -223,22 +223,27 @@ public class OrderServiceImpl implements OrderService {
         String profileId = profile.getId();
         String profileImage = profile.getImgId();
         String profileUserName = profile.getUsername();
+        String profileImageUrl = profile.getImgUrl();
 
 
         if (order.getSellerId().equals(profileId)) {
             Profile buyer = profilesService.findById(order.getBuyerId());
             orderInfo.setOrder(order)
+                    .setBuyerImgUrl(buyer.getImgUrl())
                     .setBuyerImg(buyer.getImgId())
                     .setBuyerName(buyer.getUsername())
                     .setSellerImg(profileImage)
+                    .setSellerImgUrl(profileImageUrl)
                     .setSellerName(profileUserName);
 
             return orderInfo;
         } else {
             Profile seller = profilesService.findById(order.getBuyerId());
             orderInfo.setOrder(order)
+                    .setBuyerImgUrl(profileImageUrl)
                     .setBuyerImg(profileImage)
                     .setBuyerName(profileUserName)
+                    .setSellerImgUrl(seller.getImgUrl())
                     .setSellerImg(seller.getImgId())
                     .setSellerName(seller.getUsername());
 
