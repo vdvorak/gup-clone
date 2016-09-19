@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 public class OfferUserContactInfo {
-    @Size(min = 2, max = 50)
+    @Size(min = 2, max = 70)
     private String contactName;
     private String email;
     private Set<String> phoneNumbers;

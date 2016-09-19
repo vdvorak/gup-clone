@@ -7,6 +7,8 @@ import ua.com.itproekt.gup.util.OfferUserContactInfo;
 import ua.com.itproekt.gup.util.PaymentMethod;
 import ua.com.itproekt.gup.util.TransportCompany;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -46,15 +48,18 @@ public class Offer {
     private LinkedHashSet<String> categories;
     private String seoCategory; // last category for seo meta tags
     private List<Property> properties;
-    @Size(max = 15)
+    @Size(max = 10)
     private Map<String, String> imagesIds;
     private String videoUrl;
-    @Size(min = 5, max = 70)
+    @Size(min = 2, max = 70)
     private String title;
-    @Size(min = 50, max = 4000)
+    @Size(max = 5000)
     private String description;
-    @Min(1)
-    private Integer price;
+
+    @Digits(integer = 10, fraction = 0)
+    private Long price;
+
+
     private Currency currency;
     private Address address;
 
@@ -236,11 +241,11 @@ public class Offer {
         return this;
     }
 
-    public Integer getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public Offer setPrice(Integer price) {
+    public Offer setPrice(Long price) {
         this.price = price;
         return this;
     }

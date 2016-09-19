@@ -17,7 +17,7 @@ public class Order {
     @Id
     private String id;
     private String offerId;
-    private Integer price;
+    private Long price;
     private String buyerId;
     private String sellerId;
     private Long startDate;
@@ -193,11 +193,11 @@ public class Order {
         return this;
     }
 
-    public Integer getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public Order setPrice(Integer price) {
+    public Order setPrice(Long price) {
         this.price = price;
         return this;
     }
