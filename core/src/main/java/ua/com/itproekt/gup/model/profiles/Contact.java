@@ -13,15 +13,24 @@ public class Contact {
     private List<String> naceId;
 
     private UserType type;
+    @Size(min = 2, max = 70)
     private String position;
+    @Size(min = 2, max = 70)
     private String companyName;
-    @Size(max = 3500)
+    @Size(max = 5000)
     private String aboutUs;
 
+    @Size(min = 2, max = 70)
     private String skypeUserName;
+    @Size(max = 256)
     private String linkToWebSite;
+
+    @Size(max = 1)
     private Set<String> contactEmails;
+
+    @Size(max = 5)
     private Set<String> contactPhones;
+
     private Map<SocialNetwork, String> socNetLink;
 
     public Contact() {

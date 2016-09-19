@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -29,11 +30,13 @@ public class Profile {
     private String mainPhoneNumber;
 
     @Indexed
+    @Size(min = 2, max = 70)
     private String username;
     private String imgId;
     private String imgUrl;
     private Long birthDate;
     private Contact contact;
+
     private Set<String> contactList;
     private UserProfile userProfile;
     private Set<String> favoriteOffers;

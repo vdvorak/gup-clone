@@ -5,6 +5,7 @@ import ua.com.itproekt.gup.dto.OrderInfo;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
+import ua.com.itproekt.gup.model.profiles.Profile;
 
 import java.util.List;
 
@@ -38,35 +39,14 @@ public interface OrderService {
      */
     List<Order> findOrdersWihOptions(OrderFilterOptions orderFilterOptions);
 
-
     /**
-     * Return OrderInfo list for private use
-     *
-     * @param orderFilterOptions
-     * @return
-     */
-    List<OrderInfo> findOrderInfoWithOptionsForPrivate(OrderFilterOptions orderFilterOptions);
-
-
-
-
-
-
-    /////////////////////////////////////////////////////////////////////////////////////
-    /**
+     * We pass a profile argument to reduce the number of queries in DB
      *
      * @param orderList
+     * @param profile
      * @return
      */
-    List<OrderInfo> orderInfoListPreparatorForPrivate(List<Order> orderList);
-    /////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
+    List<OrderInfo> orderInfoListPreparatorForPrivate(List<Order> orderList, Profile profile);
 
     /**
      * @param userId
