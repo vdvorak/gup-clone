@@ -82,19 +82,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-//    /**
-//     * Return list of order info with additional fields
-//     *
-//     * @param orderFilterOptions
-//     * @return
-//     */
-//    @Override
-//    public List<OrderInfo> findOrderInfoWithOptionsForPrivate(OrderFilterOptions orderFilterOptions) {
-//        List<Order> orderList = orderRepository.findOrdersWihOptions(orderFilterOptions);
-//        return orderInfoListPreparatorForPrivate(orderList);
-//    }
-
-
     @Override
     public List<Order> findAllOrdersForUser(String userId) {
         OrderFilterOptions orderFilterOptions = new OrderFilterOptions();
@@ -196,16 +183,28 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    /**
-     * @param orderList
-     * @return
-     */
+//    /**
+//     * @param orderList
+//     * @return
+//     */
+//    @Override
+//    public List<OrderInfo> orderInfoListPreparatorForPrivate(List<Order> orderList) {
+//        List<OrderInfo> orderInfoList = new ArrayList<>();
+//
+//        for (Order order : orderList) {
+//            orderInfoList.add(singleOrderInfoPreparatorForPrivate(order));
+//        }
+//        return orderInfoList;
+//
+//    }
+
+
     @Override
-    public List<OrderInfo> orderInfoListPreparatorForPrivate(List<Order> orderList) {
+    public List<OrderInfo> orderInfoListPreparatorForPrivate(List<Order> orderList, Profile profile) {
         List<OrderInfo> orderInfoList = new ArrayList<>();
 
         for (Order order : orderList) {
-            orderInfoList.add(singleOrderInfoPreparatorForPrivate(order));
+            orderInfoList.add(singleOrderInfoPreparatorForPrivate(order, profile));
         }
         return orderInfoList;
 
@@ -218,20 +217,36 @@ public class OrderServiceImpl implements OrderService {
      * @param order
      * @return
      */
-    private OrderInfo singleOrderInfoPreparatorForPrivate(Order order) {
+    private OrderInfo singleOrderInfoPreparatorForPrivate(Order order, Profile profile) {
         OrderInfo orderInfo = new OrderInfo();
 
-        Profile buyer = profilesService.findById(order.getBuyerId());
-        Profile seller = profilesService.findById(order.getSellerId());
+        String profileId = profile.getId();
+        String profileImage = profile.getImgId();
+        String profileUserName = profile.getUsername();
 
-        orderInfo.setOrder(order)
-                .setBuyerImg(buyer.getImgId())
-                .setBuyerName(buyer.getUsername())
-                .setSellerImg(seller.getImgId())
-                .setSellerName(seller.getUsername());
 
-        return orderInfo;
+        if (order.getSellerId().equals(profileId)) {
+            Profile buyer = profilesService.findById(order.getBuyerId());
+            orderInfo.setOrder(order)
+                    .setBuyerImg(buyer.getImgId())
+                    .setBuyerName(buyer.getUsername())
+                    .setSellerImg(profileImage)
+                    .setSellerName(profileUserName);
+
+            return orderInfo;
+        } else {
+            Profile seller = profilesService.findById(order.getBuyerId());
+            orderInfo.setOrder(order)
+                    .setBuyerImg(profileImage)
+                    .setBuyerName(profileUserName)
+                    .setSellerImg(seller.getImgId())
+                    .setSellerName(seller.getUsername());
+
+            return orderInfo;
+        }
+
     }
+
 
     /**
      * @param orderList

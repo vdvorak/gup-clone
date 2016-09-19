@@ -454,21 +454,14 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
         long startTime = System.currentTimeMillis();
-//        List<OrderInfo> orderInfoListForUser = orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForUser);
         List<Order> orderListForUser = orderService.findOrdersWihOptions(orderFilterOptionsForUser);
-        List<OrderInfo> orderInfoListForUser = orderService.orderInfoListPreparatorForPrivate(orderListForUser);
+        List<OrderInfo> orderInfoListForUser = orderService.orderInfoListPreparatorForPrivate(orderListForUser, profile);
         System.err.println("orderInfo time: " + (System.currentTimeMillis() - startTime));
-
 
 
         startTime = System.currentTimeMillis();
         List<OfferInfo> userOfferInfoList = offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor, orderListForUser);
         System.err.println("userOfferInfoList time: " + (System.currentTimeMillis() - startTime));
-
-
-
-
-
 
 
         SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions();
@@ -477,7 +470,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         startTime = System.currentTimeMillis();
         List<Subscription> subscriptionList = subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities();
         System.err.println("subscriptionList time: " + (System.currentTimeMillis() - startTime));
-
 
 
         List<OrderInfo> orderInfoSellerList = orderService.orderInfoSellerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());
