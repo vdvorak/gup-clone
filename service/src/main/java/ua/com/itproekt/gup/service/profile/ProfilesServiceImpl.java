@@ -457,7 +457,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 //        List<OrderInfo> orderInfoListForUser = orderService.findOrderInfoWithOptionsForPrivate(orderFilterOptionsForUser);
         List<Order> orderListForUser = orderService.findOrdersWihOptions(orderFilterOptionsForUser);
         List<OrderInfo> orderInfoListForUser = orderService.orderInfoListPreparatorForPrivate(orderListForUser);
-        System.err.println("orderInfoBuyerList time: " + (System.currentTimeMillis() - startTime));
+        System.err.println("orderInfo time: " + (System.currentTimeMillis() - startTime));
 
 
 

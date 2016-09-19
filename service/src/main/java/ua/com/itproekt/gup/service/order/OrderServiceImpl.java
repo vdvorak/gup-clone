@@ -82,17 +82,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    /**
-     * Return list of order info with additional fields
-     *
-     * @param orderFilterOptions
-     * @return
-     */
-    @Override
-    public List<OrderInfo> findOrderInfoWithOptionsForPrivate(OrderFilterOptions orderFilterOptions) {
-        List<Order> orderList = orderRepository.findOrdersWihOptions(orderFilterOptions);
-        return orderInfoListPreparatorForPrivate(orderList);
-    }
+//    /**
+//     * Return list of order info with additional fields
+//     *
+//     * @param orderFilterOptions
+//     * @return
+//     */
+//    @Override
+//    public List<OrderInfo> findOrderInfoWithOptionsForPrivate(OrderFilterOptions orderFilterOptions) {
+//        List<Order> orderList = orderRepository.findOrdersWihOptions(orderFilterOptions);
+//        return orderInfoListPreparatorForPrivate(orderList);
+//    }
 
 
     @Override

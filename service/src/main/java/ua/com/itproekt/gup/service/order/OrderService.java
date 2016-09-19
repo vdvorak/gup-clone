@@ -39,13 +39,13 @@ public interface OrderService {
     List<Order> findOrdersWihOptions(OrderFilterOptions orderFilterOptions);
 
 
-    /**
-     * Return OrderInfo list for private use
-     *
-     * @param orderFilterOptions
-     * @return
-     */
-    List<OrderInfo> findOrderInfoWithOptionsForPrivate(OrderFilterOptions orderFilterOptions);
+//    /**
+//     * Return OrderInfo list for private use
+//     *
+//     * @param orderFilterOptions
+//     * @return
+//     */
+//    List<OrderInfo> findOrderInfoWithOptionsForPrivate(OrderFilterOptions orderFilterOptions);
 
 
 
