@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.oauth2.OAuth2AccessTokenRepository;
@@ -16,6 +17,7 @@ import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
+import ua.com.itproekt.gup.util.APIVendor;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
@@ -40,6 +42,9 @@ public class ProfileRestController {
 
     @Autowired
     OAuth2AccessTokenRepository oAuth2AccessTokenRepository;
+
+    @Autowired
+    APIVendor profileVendor;
 
 
     /**
@@ -145,6 +150,44 @@ public class ProfileRestController {
             changeUserType(newProfile, oldProfile);
             profilesService.editProfile(newProfile);
             return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/soc-edit", method = RequestMethod.POST)
+    public ResponseEntity<Profile> updateSocProfile(@RequestBody Profile newProfile, HttpServletRequest request) throws AuthenticationCredentialsNotFoundException {
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+
+        newProfile.setId(loggedUserId);
+        Profile oldProfile = profilesService.findById(loggedUserId);
+
+        if (newProfile.getIdSeoWord() != null) { //if( !newProfile.getIdSeoWord().equals(null) ){
+            if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
+                if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+                    changeUserType(newProfile, oldProfile);
+                    profilesService.editProfile(newProfile);
+                    return new ResponseEntity<>(HttpStatus.OK);
+                }
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        LoggedUser loggedUser;
+        try {
+            /* Edit Profile */
+            Profile profileEdit = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(newProfile.getUid(), newProfile.getSocWendor()).getProfile();
+            String id = profileEdit.getId();
+//            String socWendor = profileEdit.getSocWendor();
+//            String username = profileEdit.getUsername();
+//            String imgId = profileEdit.getImgId();
+            profileEdit = newProfile;
+            profileEdit.setId(id);
+            profilesService.editProfile(profileEdit);
+        } catch (UsernameNotFoundException ex) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
