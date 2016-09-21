@@ -185,6 +185,16 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     /**
+     *
+     * @param profileFilterOptions profile filter options
+     * @return
+     */
+    @Override
+    public List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions) {
+        return profileRepository.findAllProfilesForAdmin(profileFilterOptions);
+    }
+
+    /**
      * @param username the username
      * @return
      */

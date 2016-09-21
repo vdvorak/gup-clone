@@ -67,7 +67,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
-     public boolean profileExistsWithEmail(String email) {
+    public boolean profileExistsWithEmail(String email) {
         Query query = new Query(Criteria.where("email").is(email));
         return mongoTemplate.exists(query, Profile.class);
     }
@@ -108,10 +108,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             query.addCriteria(Criteria.where("username").regex(searchFieldRegex));
         }
 
-        if (profileFilterOptions.getUserRoles() != null) {
-            query.addCriteria(Criteria.where("userRoles").all(profileFilterOptions.getUserRoles()));
-        }
-
         if (profileFilterOptions.getContact() != null && profileFilterOptions.getContact().getType() != null) {
             query.addCriteria(Criteria.where("contact.type").is(profileFilterOptions.getContact().getType()));
         }
@@ -124,6 +120,31 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         query.limit(profileFilterOptions.getLimit());
         return mongoTemplate.find(query, Profile.class);
     }
+
+
+    @Override
+    public List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions) {
+        Query query = new Query();
+        if (profileFilterOptions.getSearchField() != null) {
+            String searchFieldRegex = "(?i:.*" + profileFilterOptions.getSearchField() + ".*)";
+            query.addCriteria(Criteria.where("username").regex(searchFieldRegex));
+        }
+
+        if (profileFilterOptions.getUserRoles() != null) {
+            query.addCriteria(Criteria.where("userRoles").all(profileFilterOptions.getUserRoles()));
+        }
+
+        if (profileFilterOptions.getContact() != null && profileFilterOptions.getContact().getType() != null) {
+            query.addCriteria(Criteria.where("contact.type").is(profileFilterOptions.getContact().getType()));
+        }
+
+        query.fields().exclude("password");
+
+        query.skip(profileFilterOptions.getSkip());
+        query.limit(profileFilterOptions.getLimit());
+        return mongoTemplate.find(query, Profile.class);
+    }
+
 
     @Override
     public Set<String> getMatchedNames(String term) {
@@ -228,13 +249,6 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         query.fields().slice("profileRating", 1);
         return mongoTemplate.findOne(query, Profile.class);
     }
-
-//    @Override
-//    public void addFriend(String profileId, String friendProfileId) {
-//        mongoTemplate.updateFirst(
-//                Query.query(Criteria.where("id").is(profileId)),
-//                new Update().push("friendList", friendProfileId), Profile.class);
-//    }
 
     @Override
     public void addUserRole(String profileId, UserRole userRole) {

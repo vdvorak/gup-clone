@@ -1,9 +1,9 @@
 package ua.com.itproekt.gup.service.profile;
 
+import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;
-import ua.com.itproekt.gup.dto.ProfileInfo;
 
 import java.util.List;
 import java.util.Set;
@@ -78,7 +78,7 @@ public interface ProfilesService {
     /**
      * Profile exists with tokenKey boolean.
      *
-     * @param uid the uid
+     * @param uid       the uid
      * @param socWendor the socWendor
      * @return the boolean
      */
@@ -87,7 +87,7 @@ public interface ProfilesService {
     /**
      * Profile with tokenKey Profile.
      *
-     * @param uid the uid
+     * @param uid       the uid
      * @param socWendor the socWendor
      * @return the Profile
      */
@@ -108,6 +108,14 @@ public interface ProfilesService {
      * @return the entity page
      */
     List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions);
+
+    /**
+     * This method provides additional information for admin.
+     *
+     * @param profileFilterOptions profile filter options
+     * @return
+     */
+    List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions);
 
     /**
      * Find profile by username profile.

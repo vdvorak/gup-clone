@@ -411,7 +411,6 @@ public class OffersServiceImpl implements OffersService {
         }
 
 
-//        List<OrderFeedback> orderFeedbackList = orderService.findAllFeedbacksForOffer(offer.getId());
 
 
         offerInfo.setOffer(offer);
