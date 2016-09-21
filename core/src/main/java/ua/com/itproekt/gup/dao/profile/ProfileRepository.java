@@ -70,7 +70,7 @@ public interface ProfileRepository {
     /**
      * Profile exists with tokenKey boolean.
      *
-     * @param uid the uid
+     * @param uid       the uid
      * @param socWendor the socWendor
      * @return the boolean
      */
@@ -79,7 +79,7 @@ public interface ProfileRepository {
     /**
      * Profile exists with tokenKey boolean.
      *
-     * @param uid the uid
+     * @param uid       the uid
      * @param socWendor the socWendor
      * @return the Profile
      */
@@ -91,7 +91,16 @@ public interface ProfileRepository {
      * @param profileFilterOptions the profile filter options
      * @return the entity page
      */
-   List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions);
+    List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions);
+
+
+    /**
+     * This method provides additional information for admin.
+     *
+     * @param profileFilterOptions
+     * @return
+     */
+    List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions);
 
     /**
      * Find by username profile.

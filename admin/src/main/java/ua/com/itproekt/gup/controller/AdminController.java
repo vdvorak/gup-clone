@@ -43,7 +43,7 @@ public class AdminController {
         return "admin/admin-edit-tariffs";
     }
 
-//    @RequestMapping("/admin-admins")
+    @RequestMapping("/admin-admins")
     public String getAdmins() {
         return "admin/admin-admins";
     }
