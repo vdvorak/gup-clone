@@ -177,7 +177,7 @@ public class LoginRestController {
     @RequestMapping(value = "/soc-login", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo>vendorLogin(@RequestBody Profile profile, HttpServletResponse response) {
         if( !profilesService.profileExistsWithUidAndWendor(profile.getUid(), profile.getSocWendor()) )
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); //return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         LoggedUser loggedUser;
         try {
@@ -190,7 +190,7 @@ public class LoginRestController {
 
             loggedUser = (LoggedUser) userDetailsService.loadUserByUidAndVendor(profile.getUid(), profile.getSocWendor());
         } catch (UsernameNotFoundException ex) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); //return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         authenticateByUidAndToken(loggedUser, response);
