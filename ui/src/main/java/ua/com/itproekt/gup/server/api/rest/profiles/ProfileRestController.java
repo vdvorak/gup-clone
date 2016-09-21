@@ -185,6 +185,7 @@ public class ProfileRestController {
 //            String imgId = profileEdit.getImgId();
             profileEdit = newProfile;
             profileEdit.setId(id);
+            profileEdit.setImgUrl(null);
             profilesService.editProfile(profileEdit);
         } catch (UsernameNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
