@@ -126,7 +126,7 @@ public class LoginRestController {
                 // TODO profile.setImgId(imgId);
                 profile.setImgUrl(profileVendor.getImage().get("url"));
                 /* Edit Profile */
-                profile.setUsername(profileVendor.getUsername());
+            profile.setUsername(profileVendor.getName()); //profile.setUsername(profileVendor.getUsername()); //TODO: fix-change 'nickname' on 'name'
                 profilesService.editProfile(profile);
             // TODO } catch (NullPointerException e) {
             // TODO     LOG.error(LogUtil.getExceptionStackTrace(e));
