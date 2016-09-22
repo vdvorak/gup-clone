@@ -2,16 +2,17 @@ package ua.com.itproekt.gup.service.filestorage;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.*;
 
 @Service
 public class StorageServiceImpl implements StorageService {
@@ -103,6 +104,39 @@ public class StorageServiceImpl implements StorageService {
         return mapOfImagesIds;
     }
 
+
+    @Override
+    public MultipartFile[] imageDownloader(List<String> imagesUrlList) {
+        List<MultipartFile> multipartFiles = new ArrayList<>();
+
+        for (String imageUrl : imagesUrlList) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            InputStream is = null;
+
+
+            try {
+                URL url = new URL(imageUrl);
+                is = url.openStream();
+                byte[] byteChunk = new byte[4096]; // Or whatever size you want to read in at a time.
+                int n;
+
+                while ((n = is.read(byteChunk)) > 0) {
+                    baos.write(byteChunk, 0, n);
+                }
+
+                MultipartFile multipartFile = new MockMultipartFile("fileFromImport",
+                        url.getFile(), "image/jpeg", baos.toByteArray());
+
+                multipartFiles.add(multipartFile);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        return multipartFiles.toArray(new MultipartFile[multipartFiles.size()]);
+    }
 
     /**
      * @param oldImagesMap

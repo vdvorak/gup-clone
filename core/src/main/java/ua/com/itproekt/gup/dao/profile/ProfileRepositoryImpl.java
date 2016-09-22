@@ -130,6 +130,9 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             query.addCriteria(Criteria.where("username").regex(searchFieldRegex));
         }
 
+
+
+        // ToDo добавить логиу OR
         if (profileFilterOptions.getUserRoles() != null) {
             query.addCriteria(Criteria.where("userRoles").all(profileFilterOptions.getUserRoles()));
         }

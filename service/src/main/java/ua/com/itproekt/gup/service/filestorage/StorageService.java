@@ -4,6 +4,7 @@ import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -67,4 +68,13 @@ public interface StorageService {
      * @return
      */
     Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files, int firstPosition);
+
+
+    /**
+     * Download images with urls and return array of MultipartFile
+     *
+     * @param imagesUrlList
+     * @return
+     */
+    MultipartFile[] imageDownloader(List<String> imagesUrlList);
 }
