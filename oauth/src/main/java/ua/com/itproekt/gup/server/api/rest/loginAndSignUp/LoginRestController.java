@@ -143,7 +143,7 @@ public class LoginRestController {
             } catch (UsernameNotFoundException ex) {
                 resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
-            authenticateByUidAndToken(loggedUser, response);
+            authenticateByUidAndToken(loggedUser, profile.getUid(), response); //authenticateByUidAndToken(loggedUser, response); //TODO: fix collizion
             ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
 
             resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
@@ -193,7 +193,7 @@ public class LoginRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); //return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        authenticateByUidAndToken(loggedUser, response);
+        authenticateByUidAndToken(loggedUser, profile.getUid(), response); //authenticateByUidAndToken(loggedUser, response); //TODO: fix collizion
 
         ProfileInfo profileInfo = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(profile.getUid(), profile.getSocWendor());
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
@@ -258,8 +258,8 @@ public class LoginRestController {
         CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
     }
 
-    private void authenticateByUidAndToken(User user, HttpServletResponse response) {
-        Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities()); // "password":null
+    private void authenticateByUidAndToken(User user, String uid, HttpServletResponse response) {
+        Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, uid, user.getAuthorities()); //Authentication userAuthentication = new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities()); // "password":null
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(Oauth2Util.getOAuth2Request(), userAuthentication);
         OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 
