@@ -86,7 +86,9 @@ public class FileStorageRestController {
         GridFSDBFile gridFSDBFile;
 
         String path = ".file.storage." + cachedSize + ".cache";
-        gridFSDBFile = storageService.getCachedImage("profile", path, "57d2adcb7d7ad659e014a3cb");
+
+        // image stub for case when user doesn't hav avatar
+        gridFSDBFile = storageService.getCachedImage("profile", path, "57e3d1548f70bc65995fd062");
 
         Profile profile = profilesService.findById(userId);
         if (profile == null) {
@@ -234,6 +236,11 @@ public class FileStorageRestController {
     }
 
 
+    /**
+     *
+     * @param gridFSDBFile
+     * @return
+     */
     private ResponseEntity responseEntityPreparator(GridFSDBFile gridFSDBFile) {
         return ResponseEntity.ok()
                 .contentLength(gridFSDBFile.getLength())

@@ -228,6 +228,8 @@ public class OfferRestController {
 
             offerSeoUrlAndPaidServicePreparator(offerRegistration);
 
+
+
             if (offerRegistration.getImportImagesUrlListl().size() > 0) {
                 MultipartFile[] multipartFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlListl());
                 importImagesMap = storageService.saveCachedMultiplyImageOffer(multipartFiles, 1);
