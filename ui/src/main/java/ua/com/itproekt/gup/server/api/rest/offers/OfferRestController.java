@@ -230,8 +230,12 @@ public class OfferRestController {
 
 
 
-            if (offerRegistration.getImportImagesUrlListl().size() > 0) {
-                MultipartFile[] multipartFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlListl());
+            if (offerRegistration.getImportImagesUrlList() != null){
+                System.err.println("Ne nul");
+            }
+
+            if (offerRegistration.getImportImagesUrlList().size() > 0) {
+                MultipartFile[] multipartFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlList());
                 importImagesMap = storageService.saveCachedMultiplyImageOffer(multipartFiles, 1);
                 firstPositionForImages = importImagesMap.size();
             }

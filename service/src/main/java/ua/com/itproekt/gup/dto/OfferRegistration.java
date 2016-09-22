@@ -36,11 +36,11 @@ public class OfferRegistration {
     }
 
 
-    public List<String> getImportImagesUrlListl() {
+    public List<String> getImportImagesUrlList() {
         return importImagesUrlList;
     }
 
-    public void setImportImagesUrlListl(List<String> importImagesUrlListl) {
+    public void setImportImagesUrlList(List<String> importImagesUrlListl) {
         this.importImagesUrlList = importImagesUrlListl;
     }
 
