@@ -7,7 +7,7 @@ $(document).ready(function () {
     var filterOptions = new Object();
     filterOptions.skip = 0;
     filterOptions.limit = 20;
-    filterOptions.userRoles = ['ROLE_ADMIN', 'ROLE_MODERATOR'];
+    filterOptions.userRoles = ['ROLE_ADMIN'];
 
     $('#myModal').on('shown.bs.modal', function () {
         $('#myInput').focus()
@@ -27,15 +27,22 @@ $(document).ready(function () {
             console.log(response)
 
 
+            // copy object
             users = jQuery.extend(true, {}, response.entities);
-            data = response.entities;
+
+
+            data = response;
             for (var k = 0; k < data.length; k++){
+                console.log(data[k].email)
                 userNames.push(data[k].email);
             }
             for (var i = 0; i < data.length; i++) {
                 if (data[i].contact !== null) {
+
+                    //ToDo проверка на фотографию в монго либо из соц. сети
+
                     if (data[i].imgId !== null &&   data[i].imgId.length > 2) {
-                        data[i].imgId = '<img src="/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].imgId + '" width="100" height="100">';
+                        data[i].imgId = '<img src="http://localhost:8082/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].imgId + '" width="100" height="100">';
                     }
                     else {
                         data[i].imgId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
@@ -45,6 +52,9 @@ $(document).ready(function () {
                     data[i].contact = {};
                     data[i].imgId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
                 }
+
+
+
             }
 
             var admins = [];
