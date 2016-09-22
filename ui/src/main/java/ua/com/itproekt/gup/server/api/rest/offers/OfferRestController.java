@@ -26,11 +26,11 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.SeoUtils;
 import ua.com.itproekt.gup.util.Translit;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -168,33 +168,37 @@ public class OfferRestController {
     /**
      * @param offerRegistration
      * @param files
-     * @param request
      * @return
      */
     @CrossOrigin
     @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public ResponseEntity<String> createTotalOffer(
             @RequestPart("offerRegistration") OfferRegistration offerRegistration,
-            @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
+            @RequestPart("files") MultipartFile[] files) {
 
 
         //ToDo delete this shit
-        Cookie[] cookies = request.getCookies();
-
-        System.err.println("Before Cookie check");
-        for (Cookie cookie : cookies) {
-            System.err.println("Cookie name: " + cookie.getName() + " || Cookie value: " + cookie.getValue());
-        }
+//        Cookie[] cookies = request.getCookies();
+//
+//        System.err.println("Before Cookie check");
+//        for (Cookie cookie : cookies) {
+//            System.err.println("Cookie name: " + cookie.getName() + " || Cookie value: " + cookie.getValue());
+//        }
 
 
         String userId = SecurityOperations.getLoggedUserId();
 
+        Map<String, String> importImagesMap = new HashMap<>();
+        Map<String, String> ownAddedImagesMap = new HashMap<>();
+        int firstPositionForImages = 0;
+
+
         //ToDo delete this shit
-        System.err.println("User id: " + userId);
+//        System.err.println("User id: " + userId);
 
 
         if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
-            System.err.println("Ne zalogin");
+            System.err.println("Not authorize and without date for it");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -224,21 +228,29 @@ public class OfferRestController {
 
             offerSeoUrlAndPaidServicePreparator(offerRegistration);
 
+            if (offerRegistration.getImportImagesUrlListl().size() > 0) {
+                MultipartFile[] multipartFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlListl());
+                importImagesMap = storageService.saveCachedMultiplyImageOffer(multipartFiles, 1);
+                firstPositionForImages = importImagesMap.size();
+            }
+
+
             if (files.length > 0) {
-
-
                 for (MultipartFile file : files) {
                     System.err.println("Filename: " + file.getOriginalFilename() + " ||| " + file.getName());
                 }
-
                 // Set images id's and their order into offer. When offer is create - images order start with "1"
-                Map<String, String> imagesMap = storageService.saveCachedMultiplyImageOffer(files, 1);
-
-                System.err.println("Poluchili: " + imagesMap.toString());
-
-
-                offerRegistration.getOffer().setImagesIds(imagesMap);
+                ownAddedImagesMap = storageService.saveCachedMultiplyImageOffer(files, firstPositionForImages + 1);
             }
+
+
+            Map<String, String> resultImageMap = new HashMap<>();
+
+            resultImageMap.putAll(importImagesMap);
+            resultImageMap.putAll(ownAddedImagesMap);
+
+            offerRegistration.getOffer().setImagesIds(resultImageMap);
+
 
             offersService.create(offerRegistration.getOffer());
 
@@ -561,6 +573,28 @@ public class OfferRestController {
 ////        offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
 //        subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(offer);
 //        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//
+//    }
+
+    //ToDo удалить перед продакшеном
+//    @CrossOrigin
+//    @RequestMapping(value = "/test", method = RequestMethod.GET)
+//    public ResponseEntity<Void> test() {
+//
+//        List<String> testList = new ArrayList<>();
+//
+//        testList.add("https://img22.olx.ua/images_slandocomua/329489008_1_1000x700_detskie-krovatki-natalka-yasen-dostavka-po-ukraine-vinnitsa.jpg");
+//
+//
+//        System.err.println("Eahhhhhh");
+//        MultipartFile[] multipartFiles = storageService.imageDownloader(testList);
+//
+//
+//        Map<String, String> imagesMap = storageService.saveCachedMultiplyImageOffer(multipartFiles, 1);
+//
+//        System.err.println("files: " + imagesMap.toString());
+//
+//        return new ResponseEntity<>(HttpStatus.OK);
 //
 //    }
 }

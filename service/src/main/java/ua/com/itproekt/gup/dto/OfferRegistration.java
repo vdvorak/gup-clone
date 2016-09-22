@@ -3,11 +3,13 @@ package ua.com.itproekt.gup.dto;
 
 import ua.com.itproekt.gup.model.offer.Offer;
 
+import java.util.List;
+
 public class OfferRegistration {
     private Offer offer;
     private String email;
     private String password;
-
+    private List<String> importImagesUrlList;
 
     public Offer getOffer() {
         return offer;
@@ -34,12 +36,21 @@ public class OfferRegistration {
     }
 
 
+    public List<String> getImportImagesUrlListl() {
+        return importImagesUrlList;
+    }
+
+    public void setImportImagesUrlListl(List<String> importImagesUrlListl) {
+        this.importImagesUrlList = importImagesUrlListl;
+    }
+
     @Override
     public String toString() {
         return "OfferRegistration{" +
                 "offer=" + offer +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", importImagesUrlListl=" + importImagesUrlList +
                 '}';
     }
 }
