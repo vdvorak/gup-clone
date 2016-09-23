@@ -63,7 +63,7 @@ public class FacebookAPI {
             JsonParser jsonParser = new JsonParser();
             JsonObject jo = (JsonObject) jsonParser.parse( jsonPicture );
             Map<String,String> image = new HashMap<String, String>();
-            image.put("url", jo.get("picture").getAsJsonObject().get("data").getAsJsonObject().get("url").getAsString());
+            image.put("url", jo.get("data").getAsJsonObject().get("url").getAsString()); //image.put("url", jo.get("picture").getAsJsonObject().get("data").getAsJsonObject().get("url").getAsString());
             result.setImage(image);
 		} catch ( FacebookException e ){
 			e.show();
