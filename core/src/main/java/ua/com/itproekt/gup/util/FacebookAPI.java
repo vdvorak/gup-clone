@@ -1,13 +1,18 @@
 package ua.com.itproekt.gup.util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.internal.bind.JsonTreeReader;
+import com.google.gson.stream.JsonReader;
 import ua.com.itproekt.gup.exception.FacebookException;
 import ua.com.itproekt.gup.model.FacebookProfile;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -31,19 +36,19 @@ public class FacebookAPI {
 		FBObject_PublicUser result = null;
 		try {
             URLConnection fbAPI = new URL( "https://graph.facebook.com/" + UID + "?access_token=" + ACCESS_TOKEN ).openConnection();
-            URLConnection fbAPIpicture = new URL( "https://graph.facebook.com/" + UID + "/picture?type=large&access_token=" + ACCESS_TOKEN ).openConnection(); //URLConnection fbAPIpicture = new URL( "https://graph.facebook.com/" + UID + "//bgolub?fields=picture&access_token=" + ACCESS_TOKEN ).openConnection(); //TODO fix: large photo
+//            URLConnection fbAPIpicture = new URL( "https://graph.facebook.com/" + UID + "/picture?type=large&access_token=" + ACCESS_TOKEN ).openConnection(); //TODO fix: large photo
 			HttpURLConnection fbConnection = ( (HttpURLConnection)fbAPI );
-            HttpURLConnection fbPictureConnection = ( (HttpURLConnection)fbAPIpicture );
+//            HttpURLConnection fbPictureConnection = ( (HttpURLConnection)fbAPIpicture ); //TODO fix: large photo
 
-			if( fbConnection.getResponseCode() != 200 && fbPictureConnection.getResponseCode() != 200 ){
-				BufferedReader reader = new BufferedReader( new InputStreamReader( fbConnection.getErrorStream() ) );
-				String input;
-				while( ( input = reader.readLine() ) != null ){
-                    json += input;
-                }
-				reader.close();
-				throw new FacebookException( json );
-			}
+//			if( fbConnection.getResponseCode() != 200 && fbPictureConnection.getResponseCode() != 200 ){ //TODO fix: large photo
+//				BufferedReader reader = new BufferedReader( new InputStreamReader( fbConnection.getErrorStream() ) ); //TODO fix: large photo
+//				String input; //TODO fix: large photo
+//				while( ( input = reader.readLine() ) != null ){ //TODO fix: large photo
+//                    json += input; //TODO fix: large photo
+//                } //TODO fix: large photo
+//				reader.close(); //TODO fix: large photo
+//				throw new FacebookException( json ); //TODO fix: large photo
+//			} //TODO fix: large photo
 
 			BufferedReader reader = new BufferedReader( new InputStreamReader( fbAPI.getInputStream() ) );
 			String input;
@@ -51,22 +56,22 @@ public class FacebookAPI {
                 json += input;
             }
 			reader.close();
-            BufferedReader readerPicture = new BufferedReader( new InputStreamReader( fbPictureConnection.getInputStream() ) );
-            String inputPicture;
-            while( ( inputPicture = readerPicture.readLine() ) != null ) {
-                jsonPicture += inputPicture;
-            }
-            readerPicture.close();
+//            BufferedReader readerPicture = new BufferedReader( new InputStreamReader( fbPictureConnection.getInputStream() ) ); //TODO fix: large photo
+//            String inputPicture; //TODO fix: large photo
+//            while( ( inputPicture = readerPicture.readLine() ) != null ) { //TODO fix: large photo
+//                jsonPicture += inputPicture; //TODO fix: large photo
+//            } //TODO fix: large photo
+//            readerPicture.close(); //TODO fix: large photo
 
             Gson gson = new Gson();
             result = gson.fromJson( json, FBObject_PublicUser.class );
-            JsonParser jsonParser = new JsonParser();
-            JsonObject jo = (JsonObject) jsonParser.parse( jsonPicture );
+//            JsonParser jsonParser = new JsonParser(); //TODO fix: large photo
+//            JsonObject jo = (JsonObject) jsonParser.parse( jsonPicture ); //TODO fix: large photo
             Map<String,String> image = new HashMap<String, String>();
-            image.put("url", jo.get("data").getAsJsonObject().get("url").getAsString()); //image.put("url", jo.get("picture").getAsJsonObject().get("data").getAsJsonObject().get("url").getAsString());
+            image.put("url", "https://graph.facebook.com/" + UID + "/picture?type=large"); //image.put("url", jo.get("picture").getAsJsonObject().get("data").getAsJsonObject().get("url").getAsString()); //TODO fix: large photo
             result.setImage(image);
-		} catch ( FacebookException e ){
-			e.show();
+//		} catch ( FacebookException e ){ //TODO fix: large photo
+//			e.show(); //TODO fix: large photo
 		} catch ( Exception e ){
 			System.err.println( "Facebook API Fatal Error: " + e.getMessage() );
 		}

@@ -43,7 +43,7 @@ public class APIVendorTest {
     @Test
 	public void testEditProfileVendor(){
         final String FACEBOOK_WENDOR = "graph.facebook.com";
-        final String FACEBOOK_ACCESS_TOKEN = "EAACEdEose0cBAKLwGCeLSaaLWQCmfjNsoe1KAiVXuUbTklg8ammMEBrpnr1ooIRfsoX09AhE9O5EPN2ZASykJcPHgCYlGu9GX66ZCBDBR32ChVIPgpXbfjqPWOq6mY44VevA7JQ6F4ICkxfwLwZAL4bZAexu0gNodVKNoaAKRgZDZD";
+        final String FACEBOOK_ACCESS_TOKEN = "EAACEdEose0cBAOLHyR1fTbKcOEzOvZBMNMjYVJYMryzaadNWI7QVJMryM5sETbELAdH6tnc8BpKOQ0I0V6QfaZAGgyNocqDZCWLceOWYUljP05hM8HaN5Itqtnu3JAX1M0bhHjEo6vr2BJF1ItqPMQamUHfSepGDgWwhaTRAwZDZD";
         final String FACEBOOK_UID = "1077154112339703";   // "1106460174"
         final String GOOGLEPLUS_WENDOR = "www.googleapis.com";
         final String GOOGLEPLUS_API_KEY = "AIzaSyAMjpEzLQJDYZdrgBGp-zNQ27xjw_6xEDA";
@@ -53,9 +53,9 @@ public class APIVendorTest {
         final String VK_UID = "381966870"; //"15185364"; //"15185364"; //"13650400"; // "123456" "321456" "369852" "741258" "185014513"
 
         try {
-//            profileVendor(FACEBOOK_WENDOR, FACEBOOK_ACCESS_TOKEN, FACEBOOK_UID);
+            profileVendor(FACEBOOK_WENDOR, FACEBOOK_ACCESS_TOKEN, FACEBOOK_UID);
 //            profileVendor(GOOGLEPLUS_WENDOR, GOOGLEPLUS_API_KEY, GOOGLEPLUS_UID);
-            profileVendor(VK_WENDOR, VK_ACCESS_TOKEN, VK_UID);
+//            profileVendor(VK_WENDOR, VK_ACCESS_TOKEN, VK_UID);
 //            profileVendor(null, "bbbbb@bbb.com", "123456");
 //            profileVendor("bbbbb@bbb.com", "123456");
 
