@@ -31,7 +31,7 @@ public class FacebookAPI {
 		FBObject_PublicUser result = null;
 		try {
             URLConnection fbAPI = new URL( "https://graph.facebook.com/" + UID + "?access_token=" + ACCESS_TOKEN ).openConnection();
-            URLConnection fbAPIpicture = new URL( "https://graph.facebook.com/" + UID + "//bgolub?fields=picture&access_token=" + ACCESS_TOKEN ).openConnection();
+            URLConnection fbAPIpicture = new URL( "https://graph.facebook.com/" + UID + "/picture?type=large&access_token=" + ACCESS_TOKEN ).openConnection(); //URLConnection fbAPIpicture = new URL( "https://graph.facebook.com/" + UID + "//bgolub?fields=picture&access_token=" + ACCESS_TOKEN ).openConnection(); //TODO fix: large photo
 			HttpURLConnection fbConnection = ( (HttpURLConnection)fbAPI );
             HttpURLConnection fbPictureConnection = ( (HttpURLConnection)fbAPIpicture );
 

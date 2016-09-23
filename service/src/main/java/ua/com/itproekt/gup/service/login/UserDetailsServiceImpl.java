@@ -47,7 +47,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private LoggedUser buildVendorUserForAuthentication(Profile profile, List<GrantedAuthority> authorities) {
-        return new LoggedUser(profile.getUid(), profile.getSocWendor(), //return new LoggedUser("NONE", "0000000000",
+        return new LoggedUser(profile.getUid(), profile.getSocWendor(),
                 true, true, true, true, authorities,
                 profile.getId());
     }
