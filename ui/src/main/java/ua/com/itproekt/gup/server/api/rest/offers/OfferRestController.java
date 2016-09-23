@@ -176,6 +176,8 @@ public class OfferRestController {
             @RequestPart("offerRegistration") OfferRegistration offerRegistration,
             @RequestPart("files") MultipartFile[] files) {
 
+        System.err.println("This is object: " + offerRegistration.toString());
+
 
         //ToDo delete this shit
 //        Cookie[] cookies = request.getCookies();
