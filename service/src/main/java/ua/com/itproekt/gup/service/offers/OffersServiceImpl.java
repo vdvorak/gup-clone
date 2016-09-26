@@ -239,15 +239,6 @@ public class OffersServiceImpl implements OffersService {
 
 
     /**
-     * @param offerId - offer id
-     * @return offerInfo object
-     */
-    @Override
-    public OfferInfo getPublicOfferInfoById(String offerId) {
-        return publicOfferPreparator(findById(offerId));
-    }
-
-    /**
      * @param offer offer
      * @return OfferInfo
      */
