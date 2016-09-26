@@ -18,11 +18,11 @@ public class PriceSchemeTest {
         reservation = null;
     }
 
-//    @Test
-//    public void testToString(){
-//        PriceScheme priceDefault = new PriceScheme();
-//        System.out.println(priceDefault);
-//    }
+    @Test
+    public void testToString(){
+        PriceScheme priceDefault = new PriceScheme();
+        System.out.println(priceDefault);
+    }
 
 //    @Test
 //    public void testPriceScheme(){
@@ -41,30 +41,30 @@ public class PriceSchemeTest {
 //        System.out.println(scheme1);
 //    }
 
-    @Test
-    public void testGetPrice(){
-        PriceScheme scheme1 = new PriceScheme();
-        scheme1.addDays(150, 31);
-        Integer[] days = {22,30};
-        scheme1.addDays(150, days);
-        System.out.println( "price = " + scheme1.getPrice(6) );
-    }
-
-    @Test
-    public void testGetPrices(){
-        PriceScheme scheme1 = new PriceScheme();
-        scheme1.addDays(150, 31);
-        Integer[] days = {22,30};
-        scheme1.addDays(150, days);
-        Integer[] reservDays = {18,25};
-        System.out.println( "price(s) = " + scheme1.getPrice(reservDays) );
-    }
-
-    @Test
-    public void testIsDay(){
-        PriceScheme priceDefault = new PriceScheme();
-        System.out.println( "is price(6): " + priceDefault.isDay(6) );
-    }
+//    @Test
+//    public void testGetPrice(){
+//        PriceScheme scheme1 = new PriceScheme();
+//        scheme1.addDays(150, 31);
+//        Integer[] days = {22,30};
+//        scheme1.addDays(150, days);
+//        System.out.println( "price = " + scheme1.getPrice(6) );
+//    }
+//
+//    @Test
+//    public void testGetPrices(){
+//        PriceScheme scheme1 = new PriceScheme();
+//        scheme1.addDays(150, 31);
+//        Integer[] days = {22,30};
+//        scheme1.addDays(150, days);
+//        Integer[] reservDays = {18,25};
+//        System.out.println( "price(s) = " + scheme1.getPrice(reservDays) );
+//    }
+//
+//    @Test
+//    public void testIsDay(){
+//        PriceScheme priceDefault = new PriceScheme();
+//        System.out.println( "is price(6): " + priceDefault.isDay(6) );
+//    }
 
 //    @Test
 //    public void testFoundPrices(){
