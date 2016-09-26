@@ -3,8 +3,11 @@
     "price": 150
     ,"days": [22,31]
   }
-  ,
-  "scheme2": {
+  ,"scheme2": {
+    "price": 150
+    ,"days": [31]
+  }
+  ,"scheme3": {
     "price": 150
     ,"days": [22,30]
   }
