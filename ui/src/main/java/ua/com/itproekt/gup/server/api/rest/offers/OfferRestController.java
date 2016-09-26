@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -168,13 +167,16 @@ public class OfferRestController {
     /**
      * @param offerRegistration
      * @param files
-     * @return
+     * @return 201 (Created) - created offer, 400 (Bad request) - when user is not authorized,
+     * 409 (Conflict) - when email already exist,
      */
     @CrossOrigin
     @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public ResponseEntity<String> createTotalOffer(
             @RequestPart("offerRegistration") OfferRegistration offerRegistration,
             @RequestPart("files") MultipartFile[] files) {
+
+        System.err.println("This is object: " + offerRegistration.toString());
 
 
         //ToDo delete this shit
@@ -229,8 +231,7 @@ public class OfferRestController {
             offerSeoUrlAndPaidServicePreparator(offerRegistration);
 
 
-
-            if (offerRegistration.getImportImagesUrlList() != null){
+            if (offerRegistration.getImportImagesUrlList() != null) {
                 System.err.println("Ne nul");
             }
 
