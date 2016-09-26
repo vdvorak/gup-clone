@@ -10,11 +10,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.oauth2.OAuth2AccessTokenRepository;
+import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.APIVendor;
@@ -65,6 +65,27 @@ public class ProfileRestController {
         }
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+    }
+
+
+    /**
+     * Gets user name by id.
+     *
+     * @param id the id
+     * @return the profile by id
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/profile/info/{id}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getProfileNameById(@PathVariable String id) {
+
+        Profile profile = profilesService.findById(id);
+
+        if (profile == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(profile.getUsername(), HttpStatus.OK);
     }
 
 

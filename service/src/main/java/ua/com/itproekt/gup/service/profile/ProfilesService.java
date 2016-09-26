@@ -238,18 +238,6 @@ public interface ProfilesService {
     ProfileInfo findPublicProfileById(String id);
 
     /**
-     * @param email
-     * @return
-     */
-    ProfileInfo findPublicProfileByEmail(String email);
-
-    /**
-     * @param id
-     * @return
-     */
-    ProfileInfo findPrivateProfileById(String id);
-
-    /**
      * @param id
      * @return
      */

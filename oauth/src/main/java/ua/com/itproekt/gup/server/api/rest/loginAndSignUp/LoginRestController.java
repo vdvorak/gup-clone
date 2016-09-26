@@ -157,6 +157,8 @@ public class LoginRestController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
         LoggedUser loggedUser;
+        long startTime = System.currentTimeMillis();
+
         try {
             loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {
@@ -167,10 +169,16 @@ public class LoginRestController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+
+        startTime = System.currentTimeMillis();
         authenticateByEmailAndPassword(loggedUser, response);
+        System.err.println("authenticateByEmailAndPassword time: " + (System.currentTimeMillis() - startTime));
 
         ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
+
+        System.err.println("Total login request time: " + (System.currentTimeMillis() - startTime));
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+
     }
 
     @CrossOrigin

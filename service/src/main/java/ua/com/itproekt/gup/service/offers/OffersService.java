@@ -54,14 +54,6 @@ public interface OffersService {
     /**
      * Return one offer for public view
      *
-     * @param offerId - offer id
-     * @return object of OfferInfo class
-     */
-    OfferInfo getPublicOfferInfoById(String offerId);
-
-    /**
-     * Return one offer for public view
-     *
      * @param offer offer
      * @return offer wrapped in OfferInfo class
      */
@@ -101,7 +93,6 @@ public interface OffersService {
 
 
     /**
-     *
      * @param offerFilterOptions
      * @param orderTotalList
      * @return
@@ -109,6 +100,7 @@ public interface OffersService {
     List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions, List<Order> orderTotalList);
 
     /**
+     * Return list of Offer Info objects with private information. Accept offerFilterOptions.
      *
      * @param offerFilterOptions
      * @return
@@ -121,6 +113,4 @@ public interface OffersService {
      * @return
      */
     String getMainOfferImage(Offer offer);
-
-//    ModerationMessage moderateOffer(ModerationMessage moderationMessage);
 }

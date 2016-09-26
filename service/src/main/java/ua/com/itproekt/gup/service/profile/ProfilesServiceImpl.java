@@ -185,7 +185,6 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     /**
-     *
      * @param profileFilterOptions profile filter options
      * @return
      */
@@ -359,14 +358,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         return false;
     }
 
-    /**
-     * @param id
-     * @return
-     */
-    @Override
-    public ProfileInfo findPrivateProfileById(String id) {
-        return prepareAdditionalFieldForPrivate(findById(id));
-    }
 
     /**
      * @param id
@@ -388,12 +379,22 @@ public class ProfilesServiceImpl implements ProfilesService {
      */
     @Override
     public ProfileInfo findPrivateProfileByEmailAndUpdateLastLoginDate(String email) {
+        long startTime = System.currentTimeMillis();
 
         Profile profile = findProfileByEmail(email);
-        profile.setLastLoginDateEqualsToCurrentDate();
-        profileRepository.findProfileAndUpdate(profile);
 
-        return prepareAdditionalFieldForPrivate(findProfileByEmail(email));
+        System.err.println("findProfileByEmail time: " + (System.currentTimeMillis() - startTime));
+
+        profile.setLastLoginDateEqualsToCurrentDate();
+
+        startTime = System.currentTimeMillis();
+        profileRepository.findProfileAndUpdate(profile);
+        System.err.println("findProfileAndUpdate time: " + (System.currentTimeMillis() - startTime));
+
+        ProfileInfo profileInfo = prepareAdditionalFieldForPrivate(findProfileByEmail(email));
+
+
+        return profileInfo;
     }
 
     /**
@@ -405,14 +406,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         return prepareAdditionalFieldForPublic(findById(id));
     }
 
-    /**
-     * @param email
-     * @return
-     */
-    @Override
-    public ProfileInfo findPublicProfileByEmail(String email) {
-        return prepareAdditionalFieldForPublic(findProfileByEmail(email));
-    }
 
     /**
      * @param profileFilterOptions
@@ -491,7 +484,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         List<FavoriteOfferInfo> favoriteOfferInfoList = favoriteOfferInfoListPreparator(profile);
 
-//ToDo turn On bank in the future
+
 //        profileInfo
 //                .setUserBalance(bankSession.getUserBalance(profile.getId()))
 //                .setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())))
