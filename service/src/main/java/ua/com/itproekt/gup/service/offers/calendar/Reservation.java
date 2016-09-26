@@ -1,15 +1,17 @@
 package ua.com.itproekt.gup.service.offers.calendar;
 
+import java.util.Arrays;
+
 public class Reservation {
 
-    private Integer price;
+    private Double price;
     private Integer[] days;
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -21,4 +23,11 @@ public class Reservation {
         this.days = days;
     }
 
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "price=" + price +
+                ", days=" + Arrays.toString(days) +
+                '}';
+    }
 }
