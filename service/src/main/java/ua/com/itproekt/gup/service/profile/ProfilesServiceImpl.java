@@ -388,12 +388,22 @@ public class ProfilesServiceImpl implements ProfilesService {
      */
     @Override
     public ProfileInfo findPrivateProfileByEmailAndUpdateLastLoginDate(String email) {
+        long startTime = System.currentTimeMillis();
 
         Profile profile = findProfileByEmail(email);
-        profile.setLastLoginDateEqualsToCurrentDate();
-        profileRepository.findProfileAndUpdate(profile);
 
-        return prepareAdditionalFieldForPrivate(findProfileByEmail(email));
+        System.err.println("findProfileByEmail time: " + (System.currentTimeMillis() - startTime));
+
+        profile.setLastLoginDateEqualsToCurrentDate();
+
+        startTime = System.currentTimeMillis();
+        profileRepository.findProfileAndUpdate(profile);
+        System.err.println("findProfileAndUpdate time: " + (System.currentTimeMillis() - startTime));
+
+        ProfileInfo profileInfo = prepareAdditionalFieldForPrivate(findProfileByEmail(email));
+
+
+        return profileInfo;
     }
 
     /**
