@@ -4,14 +4,14 @@ import java.util.Arrays;
 
 public class Reservation {
 
-    private Double price;
+    private Integer price;
     private Integer[] days;
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

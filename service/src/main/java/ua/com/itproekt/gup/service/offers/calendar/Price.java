@@ -9,7 +9,7 @@ public class Price extends ConcurrentLinkedQueue<Integer> {
         this.price = price;
     }
 
-    private Integer price = 100; // TODO read from file.properies ???
+    private Integer price;
 
     public Integer get() {
         return price;
