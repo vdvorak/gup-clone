@@ -2,7 +2,7 @@ package ua.com.itproekt.gup.service.offers.calendar;
 
 import java.util.Arrays;
 
-public class Reservation {
+public class Calendar {
 
     private Integer price;
     private Integer[] days;

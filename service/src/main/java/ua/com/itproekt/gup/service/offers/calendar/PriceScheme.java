@@ -114,17 +114,12 @@ public class PriceScheme extends ConcurrentLinkedQueue<Price> {
     }
 
     public void addDays(Integer price, Integer[] days) {
-        Price newPrice = new Price(price);
-
         switch (days.length) {
             case 1:
-                for (Price curPrice : this) {
-                    if (curPrice.remove(days[0])){
-                        newPrice.add(days[0]);
-                    }
-                }
+                addDays(price, days[0]);
                 break;
             case 2:
+                Price newPrice = new Price(price);
                 for (Price curPrice : this) {
                     for (Integer day=days[0]; day<=days[1]; ++day) {
                         if (curPrice.remove(day)){
@@ -132,12 +127,11 @@ public class PriceScheme extends ConcurrentLinkedQueue<Price> {
                         }
                     }
                 }
+                add(newPrice);
                 break;
             default:
                 break;
         }
-
-        add(newPrice);
     }
 
     public void addDays(Integer price, Integer[][] weekdays) {
