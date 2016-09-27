@@ -16,7 +16,7 @@ public class Rent {
 
     @Override
     public String toString() {
-        return "Reservation{" +
+        return "Rent{" +
                 ", days=" + Arrays.toString(days) +
                 '}';
     }

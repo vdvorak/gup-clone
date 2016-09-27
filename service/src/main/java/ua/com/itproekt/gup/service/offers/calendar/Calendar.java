@@ -25,7 +25,7 @@ public class Calendar {
 
     @Override
     public String toString() {
-        return "Reservation{" +
+        return "Calendar{" +
                 "price=" + price +
                 ", days=" + Arrays.toString(days) +
                 '}';

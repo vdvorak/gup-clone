@@ -2,6 +2,7 @@ package ua.com.itproekt.gup.service.offers.calendar;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import javafx.application.Application;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Map;
 import org.apache.log4j.Logger;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 /**
  * @see http://www.javacreed.com/gson-deserialiser-example/
@@ -17,13 +22,13 @@ import org.apache.log4j.Logger;
  */
 
 //@RunWith(SpringJUnit4ClassRunner.class)
-////@SpringApplicationConfiguration(classes = ReservationTest.class)
+//@SpringApplicationConfiguration(classes = Application.class) // java.lang.IllegalStateException: Failed to load ApplicationContext
 //@WebAppConfiguration
 public class CalendarTest {
 
     private Logger logger = Logger.getLogger(CalendarTest.class);
 
-    private final String PATH = "src/test/java/ua/com/itproekt/gup/service/offers/calendar"; // "service/src/test/java/ua/com/itproekt/gup/service/offers/calendar/reservations1.json" //TODO: file.properties
+    private final String PATH = "src/test/resources"; //TODO: file.properties
     private final String RESERVATION_FILE_NAME = "offerCalendar1.json"; //TODO: file.properties
     private final String RENT_FILE_NAME = "offerRents.json"; //TODO: file.properties
 
