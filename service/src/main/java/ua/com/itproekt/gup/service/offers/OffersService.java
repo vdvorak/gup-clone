@@ -13,42 +13,120 @@ import java.util.List;
 import java.util.Set;
 
 public interface OffersService {
+    /**
+     * Create one offer and return it.
+     *
+     * @param offer offer object
+     */
     void create(Offer offer);
 
+    /**
+     * Create offer with registration. For those case where use is not authorized.
+     *
+     * @param offerRegistration Offer Registration class object
+     */
     void createWithRegistration(OfferRegistration offerRegistration);
 
+    /**
+     * Return one offer by it's id.
+     *
+     * @param offerId offer id
+     * @return offer object
+     */
     Offer findById(String offerId);
 
     Offer findBySeoKey(String seoKey);
 
     /**
-     * Methods receive seoUrl as string, parse it and return seoKey. Return offer and increase it numbers of views.
+     * Methods receive seoUrl as string. Return offer and increase it numbers of views.
      *
      * @param seoUrl Seo URL
-     * @return Offer
+     * @return Offer object
      */
     Offer findBySeoUrlAndIncViews(String seoUrl);
 
+    /**
+     * Return offer and increase it's views count.
+     *
+     * @param offerId offer id
+     * @return Offer object
+     */
     Offer findOfferAndIncViews(String offerId);
 
+    /**
+     * Delete offer by it's id.
+     *
+     * @param id offer id
+     */
     void delete(String id);
 
+    /**
+     * Return true if offer exist.
+     *
+     * @param id offer id
+     * @return true or false
+     */
     boolean offerExists(String id);
 
+    /**
+     * Return EntityPage of Offers that received with offer filter options.
+     *
+     * @param offerFilterOptions OfferFilterOptions object
+     * @return EntityPage of Offers
+     */
     EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFilterOptions);
 
+    /**
+     * Edit offer and return new updated one.
+     *
+     * @param oldOffer Offer which we need to update from
+     * @return new Offer
+     */
     Offer edit(Offer oldOffer);
 
+    /**
+     * Reservation of one offer
+     *
+     * @param offerId     Offer id
+     * @param reservation Reservation object
+     */
     void reserveOffer(String offerId, Reservation reservation);
 
+    /**
+     * Delete reservation by offer id
+     *
+     * @param offerId offer id
+     */
     void deleteReservation(String offerId);
 
+    /**
+     * Rent offer for specific period.
+     *
+     * @param offerId               offer id
+     * @param rentedOfferPeriodInfo period of offer rent
+     */
     void rentOffer(String offerId, RentedOfferPeriodInfo rentedOfferPeriodInfo);
 
+    /**
+     * Delete specific rent from offer
+     *
+     * @param offerId offer
+     * @param rentId  id of rent
+     */
     void deleteRent(String offerId, String rentId);
 
+    /**
+     * @param offerId
+     * @param isActive
+     */
     void setActive(String offerId, boolean isActive);
 
+    /**
+     * Method for autocomplete input in frontend
+     *
+     * @param name String input part
+     * @return Set of results string
+     */
     Set<String> getMatchedNames(String name);
 
     /**
