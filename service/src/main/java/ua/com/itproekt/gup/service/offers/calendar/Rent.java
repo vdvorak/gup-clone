@@ -4,13 +4,13 @@ import java.util.Arrays;
 
 public class Rent {
 
-    private Integer[] days;
+    private String[] days;
 
-    public Integer[] getDays() {
+    public String[] getDays() {
         return days;
     }
 
-    public void setDays(Integer[] days) {
+    public void setDays(String[] days) {
         this.days = days;
     }
 
