@@ -1,10 +1,16 @@
-var idCorrect = [];
-var userNames = [];
-var users;
+let userNames = [];
+let users;
+
+let urlAdminProfileReadAll = 'http://localhost:8082/api/rest/admin/profile/read/all';
+let urlProfilePhoto = 'http://localhost:8082/api/rest/fileStorage/profile/photo/read/id/';
+let urlProfileCreate = '/api/rest/profilesService/profile/create';
+let urlProfileUpdBAdmin = '/api/rest/profilesService/profile/updateByAdmin';
+let tagNoPhoto = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+
 
 $(document).ready(function () {
     var data;
-    var filterOptions = new Object();
+    var filterOptions = {};
     filterOptions.skip = 0;
     filterOptions.limit = 20;
     filterOptions.userRoles = ['ROLE_ADMIN'];
@@ -20,11 +26,11 @@ $(document).ready(function () {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "http://localhost:8082/api/rest/admin/profile/read/all",
+        url: urlAdminProfileReadAll,
         data: JSON.stringify(filterOptions),
         success: function (response) {
 
-            console.log(response)
+            console.log(response);
 
 
             // copy object
@@ -41,18 +47,18 @@ $(document).ready(function () {
                     //ToDo проверка на фотографию в монго либо из соц. сети
 
                     if (data[i].imgId !== null && data[i].imgId.length > 2) {
-                        data[i].imgId = '<img src="http://localhost:8082/api/rest/fileStorage/profile/photo/read/id/' + data[i].imgId + '?cachedSize=small" width="100" height="100">';
+                        data[i].imgId = '<img src="' + urlProfilePhoto + data[i].imgId + '?cachedSize=small" width="100" height="100">';
                     } else {
                         if (data[i].imgUrl !== null && data[i].imgUrl.length > 2) {
                             data[i].imgId = '<img src="' + data[i].imgUrl + '" width="100" height="100">';
                         } else {
-                            data[i].imgId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                            data[i].imgId = tagNoPhoto;
                         }
                     }
                 }
                 else {
                     data[i].contact = {};
-                    data[i].imgId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                    data[i].imgId = tagNoPhoto;
                 }
 
 
@@ -81,6 +87,7 @@ $(document).ready(function () {
                 data: admins,
                 "columns": [
                     {"data": "imgId"},
+                    {"data": "username"},
                     {"data": "email"},
                     {"data": "createdDate"}
                 ],
@@ -109,6 +116,7 @@ $(document).ready(function () {
                 data: moderators,
                 "columns": [
                     {"data": "imgId"},
+                    {"data": "username"},
                     {"data": "email"},
                     {"data": "createdDate"}
                 ],
@@ -202,7 +210,7 @@ $('#typeahead').blur(function () {
 
         $.ajax({
             type: "POST",
-            url: "/api/rest/profilesService/profile/updateByAdmin",
+            url: urlProfileUpdBAdmin,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(user),
@@ -244,7 +252,7 @@ $('#create').click(function () {
 
     $.ajax({
         type: "POST",
-        url: "/api/rest/profilesService/profile/create",
+        url: urlProfileCreate,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(user),
