@@ -2,30 +2,30 @@ package ua.com.itproekt.gup.service.offers.calendar;
 
 import java.util.Arrays;
 
-public class Reservation {
+public class Calendar {
 
-    private Integer price;
-    private Integer[] days;
+    private Long price;
+    private String[] days;
 
-    public Integer getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 
-    public Integer[] getDays() {
+    public String[] getDays() {
         return days;
     }
 
-    public void setDays(Integer[] days) {
+    public void setDays(String[] days) {
         this.days = days;
     }
 
     @Override
     public String toString() {
-        return "Reservation{" +
+        return "Calendar{" +
                 "price=" + price +
                 ", days=" + Arrays.toString(days) +
                 '}';

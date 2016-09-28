@@ -2,20 +2,20 @@ package ua.com.itproekt.gup.service.offers.calendar;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class Price extends ConcurrentLinkedQueue<Integer> {
+public class Price extends ConcurrentLinkedQueue<Long> {
 
     public Price(){}
-    public Price(Integer price){
+    public Price(Long price){
         this.price = price;
     }
 
-    private Integer price;
+    private Long price;
 
-    public Integer get() {
+    public Long get() {
         return price;
     }
 
-    public void set(Integer price) {
+    public void set(Long price) {
         this.price = price;
     }
 
