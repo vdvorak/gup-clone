@@ -1,4 +1,4 @@
-let userNames = [];
+let userNames = []; // for Bloodhound suggestion engine
 let users;
 
 let urlAdminProfileReadAll = 'http://localhost:8082/api/rest/admin/profile/read/all';
@@ -38,34 +38,32 @@ $(document).ready(function () {
 
 
             data = response;
+
+
+            // push emails for Bloodhound suggestion engine
             for (var k = 0; k < data.length; k++) {
                 userNames.push(data[k].email);
             }
+
+
+            //prepare photo for data table
             for (var i = 0; i < data.length; i++) {
-                if (data[i].contact !== null) {
-
-                    //ToDo проверка на фотографию в монго либо из соц. сети
-
-                    if (data[i].imgId !== null && data[i].imgId.length > 2) {
-                        data[i].imgId = '<img src="' + urlProfilePhoto + data[i].imgId + '?cachedSize=small" width="100" height="100">';
+                if (data[i].imgId !== null && data[i].imgId.length > 2) {
+                    data[i].imgId = '<img src="' + urlProfilePhoto + data[i].imgId + '?cachedSize=small" width="100" height="100">';
+                } else {
+                    if (data[i].imgUrl !== null && data[i].imgUrl.length > 2) {
+                        data[i].imgId = '<img src="' + data[i].imgUrl + '" width="100" height="100">';
                     } else {
-                        if (data[i].imgUrl !== null && data[i].imgUrl.length > 2) {
-                            data[i].imgId = '<img src="' + data[i].imgUrl + '" width="100" height="100">';
-                        } else {
-                            data[i].imgId = tagNoPhoto;
-                        }
+                        data[i].imgId = tagNoPhoto;
                     }
                 }
-                else {
-                    data[i].contact = {};
-                    data[i].imgId = tagNoPhoto;
-                }
-
-
             }
+
 
             var admins = [];
             var moderators = [];
+
+            // separate moderators and admins into two tables
             for (var m = 0; m < data.length; m++) {
                 if (data[m].userRoles !== undefined && data[m].userRoles !== null) {
                     for (var n = 0; n < data[m].userRoles.length; n++) {
@@ -77,7 +75,11 @@ $(document).ready(function () {
                         }
                     }
                 }
+            }
 
+            // prepare humanlike date
+            for (var i = 0; i < data.length; i++) {
+                data[i].createdDate = new Date(data[i].createdDate).toLocaleDateString();
             }
 
             var tableAdmins = $('#admins').DataTable({
@@ -98,16 +100,18 @@ $(document).ready(function () {
 
             tableAdmins
                 .on('select', function (e, dt, type, indexes) {
-                    var rowData = table.rows(indexes).data().toArray();
-                    $("input[name='transactionId']").attr("value", rowData[0].id);
-                    $('#inp').removeAttr("readonly");
-                    $('#cancelBtn').attr("class", "btn btn-danger");
+                    var rowData = tableAdmins.rows(indexes).data().toArray();
+                    $("input[name='adminId']").attr("value", rowData[0].id);
+                    $('#adminEditHref').attr("href", "http://gup.com.ua/seller/" + rowData[0].id);
+                    $('#input-admin-id').removeAttr("readonly");
+                    $('#editAdminProfileButton').attr("class", "btn btn-danger");
                 })
                 .on('deselect', function (e, dt, type, indexes) {
-                    $("input[name='transactionId']").attr("value", "");
-                    $('#inp').attr("readonly", "readonly");
-                    $('#cancelBtn').attr("class", "btn btn-danger disabled");
+                    $("input[name='adminId']").attr("value", "");
+                    $('#input-admin-id').attr("readonly", "readonly");
+                    $('#editAdminProfileButton').attr("class", "btn btn-danger disabled");
                 });
+
 
             var tableModerators = $('#moderators').DataTable({
                 select: {
@@ -127,15 +131,15 @@ $(document).ready(function () {
 
             tableModerators
                 .on('select', function (e, dt, type, indexes) {
-                    var rowData = table.rows(indexes).data().toArray();
-                    $("input[name='transactionId']").attr("value", rowData[0].id);
+                    var rowData = tableModerators.rows(indexes).data().toArray();
+                    $("input[name='adminId']").attr("value", rowData[0].id);
                     $('#inp').removeAttr("readonly");
-                    $('#cancelBtn').attr("class", "btn btn-danger");
+                    $('#editAdminProfileButton').attr("class", "btn btn-danger");
                 })
                 .on('deselect', function (e, dt, type, indexes) {
-                    $("input[name='transactionId']").attr("value", "");
-                    $('#inp').attr("readonly", "readonly");
-                    $('#cancelBtn').attr("class", "btn btn-danger disabled");
+                    $("input[name='adminId']").attr("value", "");
+                    $('#input-admin-id').attr("readonly", "readonly");
+                    $('#editAdminProfileButton').attr("class", "btn btn-danger disabled");
                 });
 
             var logins = new Bloodhound({

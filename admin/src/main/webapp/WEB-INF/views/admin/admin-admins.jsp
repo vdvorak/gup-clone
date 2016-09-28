@@ -213,6 +213,26 @@
                                                             </tr>
                                                             </thead>
                                                         </table>
+
+
+                                                        <table class="table table-user-information">
+                                                            <tbody>
+                                                            <h3 class="panel-title">Редактировать профиль</h3>
+                                                            <tr>
+                                                                <td>ID профиля:</td>
+                                                                <td><input id="input-admin-id" class="form-control" name="adminId" readonly required>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                        <a id="adminEditHref" href="">
+                                                            <button id="editAdminProfileButton" class="btn btn-primary disabled">
+                                                                Редактировать
+                                                            </button>
+                                                        </a>
+
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -240,6 +260,7 @@
                                                             </tr>
                                                             </thead>
                                                         </table>
+
                                                     </div>
                                                 </div>
                                             </div>
