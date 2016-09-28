@@ -282,6 +282,9 @@ public class OfferRestController {
         Offer updatedOffer = offerRegistration.getOffer();
 
 
+        System.err.println("Incoming offer Id for update: " + updatedOffer.getId());
+
+
         // check is offer not null and exist
         if (updatedOffer.getId() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -326,6 +329,8 @@ public class OfferRestController {
         }
 
         Offer newOffer = offersService.edit(updatedOffer);
+
+        System.err.println("Updated offer id: " + newOffer.getId());
 
         return new ResponseEntity<>(newOffer.getSeoUrl(), HttpStatus.OK);
     }
