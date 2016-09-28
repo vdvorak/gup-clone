@@ -42,7 +42,7 @@ $(document).ready(function () {
                     //ToDo проверка на фотографию в монго либо из соц. сети
 
                     if (data[i].imgId !== null &&   data[i].imgId.length > 2) {
-                        data[i].imgId = '<img src="http://localhost:8082/api/rest/fileStorage/PROFILE/file/read/id/' + data[i].imgId + '" width="100" height="100">';
+                        data[i].imgId = '<img src="http://localhost:8082/api/rest/fileStorage/profile/photo/read/id/' + data[i].imgId + '?cachedSize=small" width="100" height="100">';
                     }
                     else {
                         data[i].imgId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
