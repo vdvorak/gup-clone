@@ -32,8 +32,7 @@ $(document).ready(function () {
 
 
             data = response;
-            for (var k = 0; k < data.length; k++){
-                console.log(data[k].email)
+            for (var k = 0; k < data.length; k++) {
                 userNames.push(data[k].email);
             }
             for (var i = 0; i < data.length; i++) {
@@ -41,11 +40,14 @@ $(document).ready(function () {
 
                     //ToDo проверка на фотографию в монго либо из соц. сети
 
-                    if (data[i].imgId !== null &&   data[i].imgId.length > 2) {
+                    if (data[i].imgId !== null && data[i].imgId.length > 2) {
                         data[i].imgId = '<img src="http://localhost:8082/api/rest/fileStorage/profile/photo/read/id/' + data[i].imgId + '?cachedSize=small" width="100" height="100">';
-                    }
-                    else {
-                        data[i].imgId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                    } else {
+                        if (data[i].imgUrl !== null && data[i].imgUrl.length > 2) {
+                            data[i].imgId = '<img src="' + data[i].imgUrl + '" width="100" height="100">';
+                        } else {
+                            data[i].imgId = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                        }
                     }
                 }
                 else {
@@ -54,13 +56,12 @@ $(document).ready(function () {
                 }
 
 
-
             }
 
             var admins = [];
             var moderators = [];
             for (var m = 0; m < data.length; m++) {
-                if(data[m].userRoles!==undefined && data[m].userRoles!==null){
+                if (data[m].userRoles !== undefined && data[m].userRoles !== null) {
                     for (var n = 0; n < data[m].userRoles.length; n++) {
                         if (data[m].userRoles[n] === 'ROLE_ADMIN') {
                             admins.push(data[m]);
@@ -149,53 +150,53 @@ $(document).ready(function () {
 
 });
 
-$('#typeahead').blur(function(){
+$('#typeahead').blur(function () {
     var user = {};
-    for(var i in users){
-        if (users[i].email === this.value){
+    for (var i in users) {
+        if (users[i].email === this.value) {
             user = users[i];
             break;
         }
     }
 
-    $('.ch2').prop("checked",false);
+    $('.ch2').prop("checked", false);
 
-    for(var j in user.userRoles){
+    for (var j in user.userRoles) {
         switch (user.userRoles[j]) {
             case 'ROLE_ADMIN':
-                $('#adminCheck2').prop("checked",true);
+                $('#adminCheck2').prop("checked", true);
                 break;
             case 'ROLE_SUPPORT':
-                $('#supportCheck2').prop("checked",true);
+                $('#supportCheck2').prop("checked", true);
                 break;
             case 'ROLE_MODERATOR':
-                $('#moderatorCheck2').prop("checked",true);
+                $('#moderatorCheck2').prop("checked", true);
                 break;
             case 'ROLE_USER':
-                $('#userCheck2').prop("checked",true);
+                $('#userCheck2').prop("checked", true);
                 break;
             case 'ROLE_ANONYMOUS':
-                $('#anonymousCheck2').prop("checked",true);
+                $('#anonymousCheck2').prop("checked", true);
                 break;
         }
     }
 
-    $('#update').click(function(){
+    $('#update').click(function () {
         user.userRoles = [];
 
-        if($('#adminCheck2').prop("checked")){
+        if ($('#adminCheck2').prop("checked")) {
             user.userRoles.push('ROLE_ADMIN');
         }
-        if($('#supportCheck2').prop("checked")){
+        if ($('#supportCheck2').prop("checked")) {
             user.userRoles.push('ROLE_SUPPORT');
         }
-        if($('#moderatorCheck2').prop("checked")){
+        if ($('#moderatorCheck2').prop("checked")) {
             user.userRoles.push('ROLE_MODERATOR');
         }
-        if($('#userCheck2').prop("checked")){
+        if ($('#userCheck2').prop("checked")) {
             user.userRoles.push('ROLE_USER');
         }
-        if($('#anonymousCheck2').prop("checked")){
+        if ($('#anonymousCheck2').prop("checked")) {
             user.userRoles.push('ROLE_ANONYMOUS');
         }
 
@@ -213,26 +214,26 @@ $('#typeahead').blur(function(){
 
 });
 
-$('#create').click(function(){
+$('#create').click(function () {
     var user = {};
     var login;
     var password;
     var roles = [];
-    login =$('#newLogin').val();
-    password =$('#newPassword').val();
-    if($('#adminCheck').prop("checked")){
+    login = $('#newLogin').val();
+    password = $('#newPassword').val();
+    if ($('#adminCheck').prop("checked")) {
         roles.push('ROLE_ADMIN');
     }
-    if($('#supportCheck').prop("checked")){
+    if ($('#supportCheck').prop("checked")) {
         roles.push('ROLE_SUPPORT');
     }
-    if($('#moderatorCheck').prop("checked")){
+    if ($('#moderatorCheck').prop("checked")) {
         roles.push('ROLE_MODERATOR');
     }
-    if($('#userCheck').prop("checked")){
+    if ($('#userCheck').prop("checked")) {
         roles.push('ROLE_USER');
     }
-    if($('#anonymousCheck').prop("checked")){
+    if ($('#anonymousCheck').prop("checked")) {
         roles.push('ROLE_ANONYMOUS');
     }
 
