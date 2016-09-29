@@ -28,7 +28,7 @@ public class OfferCalendarRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/id/{offerId}/calendar", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResp> calendarOffer(@PathVariable String offerId,
+    public ResponseEntity<String> calendarOffer(@PathVariable String offerId,
                                                         @RequestBody String firstDate, @RequestBody String lastDate){
         if (!offersService.offerExists(offerId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -39,7 +39,12 @@ public class OfferCalendarRestController {
 //            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); //TODO:
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("{\"" +
+            "  ,\"saint lazy day\": {\"" +
+            "    \"price\": 15000\"" +
+            "    ,\"days\": [\"22.06.2015\",\"30.06.2016\"]\"" +
+            "  }\"" +
+            "}", HttpStatus.OK);
     }
 
 }
