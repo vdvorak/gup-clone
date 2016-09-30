@@ -1,19 +1,25 @@
 package ua.com.itproekt.gup.service.offers.calendar;
 
 public enum TestDays {
-    ONE("06.06.2014");
+    NONE(""),
+    FIRST_DATE("06.06.2014"); // 1402002000000l
 
-    private final String name;
+    private String date;
 
-    TestDays(String s) {
-        name = s;
+    private TestDays(String date) {
+        this.date = date;
     }
 
-    public boolean equalsName(String otherName) {
-        return (otherName != null) && name.equals(otherName);
+    static public TestDays getTestDay(String date) {
+        for (TestDays testDay: TestDays.values()) {
+            if (testDay.date().equals(date)) {
+                return testDay;
+            }
+        }
+        return NONE;
     }
 
-    public String toString() {
-        return this.name;
+    public String date() {
+        return date;
     }
 }
