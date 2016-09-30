@@ -27,6 +27,8 @@ public class Order {
     private Long receivedDate;
     private Long completeDate;
 
+    private String buyerNote; // note which could be used by buyer
+
     private String offerMainImageId;
     private String offerTitle;
     private String seoUrl; // full SEO url with key
@@ -269,6 +271,14 @@ public class Order {
         return this;
     }
 
+    public String getBuyerNote() {
+        return buyerNote;
+    }
+
+    public void setBuyerNote(String buyerNote) {
+        this.buyerNote = buyerNote;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -283,6 +293,7 @@ public class Order {
                 ", sentDate=" + sentDate +
                 ", receivedDate=" + receivedDate +
                 ", completeDate=" + completeDate +
+                ", buyerNote='" + buyerNote + '\'' +
                 ", offerMainImageId='" + offerMainImageId + '\'' +
                 ", offerTitle='" + offerTitle + '\'' +
                 ", seoUrl='" + seoUrl + '\'' +
