@@ -13,7 +13,7 @@ $(document).ready(function () {
     var filterOptions = {};
     filterOptions.skip = 0;
     filterOptions.limit = 20;
-    filterOptions.userRoles = ['ROLE_ADMIN'];
+    filterOptions.userRoles = ['ROLE_ADMIN', 'ROLE_MODERATOR'];
 
     $('#myModal').on('shown.bs.modal', function () {
         $('#myInput').focus()
@@ -32,13 +32,10 @@ $(document).ready(function () {
 
             console.log(response);
 
-
             // copy object
             users = jQuery.extend(true, {}, response.entities);
 
-
             data = response;
-
 
             // push emails for Bloodhound suggestion engine
             for (var k = 0; k < data.length; k++) {
