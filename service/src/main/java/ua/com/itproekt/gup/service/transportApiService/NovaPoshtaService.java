@@ -1,7 +1,7 @@
 package ua.com.itproekt.gup.service.transportApiService;
 
 
-public interface GeneralApi {
+public interface NovaPoshtaService {
 
     /**
      * Receive tracking information about about shipping
