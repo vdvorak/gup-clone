@@ -395,6 +395,39 @@ public class OrderRestController {
         return badRequest;
     }
 
+    /**
+     * Add and update seller note for specific order
+     *
+     * @param orderId
+     * @param sellerNote
+     * @return
+     */
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/order/update/note/{orderId}", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> updateSellerNote(@PathVariable String orderId, @RequestBody String sellerNote) {
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+
+        Order order = orderService.findById(orderId);
+
+        if (order == null) {
+            return notFound;
+        }
+
+        if (!userId.equals(order.getSellerId())) {
+            return forbidden;
+        }
+
+        order.setSellerNote(sellerNote);
+
+        orderService.findAndUpdate(order);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     //------------------------------------------ Helpers methods -----------------------------------------------------
     private boolean isOrderValid(Order order, Offer offer) {

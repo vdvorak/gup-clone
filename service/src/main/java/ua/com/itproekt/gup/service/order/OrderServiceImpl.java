@@ -36,6 +36,7 @@ public class OrderServiceImpl implements OrderService {
                 .setCreatedDateEqualsToCurrentDate()
                 .setOrderAddress(order.getOrderAddress())
                 .setOrderStatus(OrderStatus.NEW)
+                .setSellerNote(null) //when order create - buyer can not change seller note
                 .setOrderType(order.getOrderType())
                 .setOrderComments(order.getOrderComments())
                 .setPaymentMethod(order.getPaymentMethod());
