@@ -27,7 +27,7 @@ public class Order {
     private Long receivedDate;
     private Long completeDate;
 
-    private String buyerNote; // note which could be used by buyer
+    private String sellerNote; // note which could be used by buyer
 
     private String offerMainImageId;
     private String offerTitle;
@@ -42,7 +42,7 @@ public class Order {
     private OrderType orderType;
     private List<OrderComment> orderComments;
 
-    private OrderFeedback  orderFeedback;
+    private OrderFeedback orderFeedback;
 
     public Order setCreatedDateEqualsToCurrentDate() {
         this.startDate = getNowTime();
@@ -271,12 +271,13 @@ public class Order {
         return this;
     }
 
-    public String getBuyerNote() {
-        return buyerNote;
+    public String getSellerNote() {
+        return sellerNote;
     }
 
-    public void setBuyerNote(String buyerNote) {
-        this.buyerNote = buyerNote;
+    public Order setSellerNote(String sellerNote) {
+        this.sellerNote = sellerNote;
+        return this;
     }
 
     @Override
@@ -293,7 +294,7 @@ public class Order {
                 ", sentDate=" + sentDate +
                 ", receivedDate=" + receivedDate +
                 ", completeDate=" + completeDate +
-                ", buyerNote='" + buyerNote + '\'' +
+                ", sellerNote='" + sellerNote + '\'' +
                 ", offerMainImageId='" + offerMainImageId + '\'' +
                 ", offerTitle='" + offerTitle + '\'' +
                 ", seoUrl='" + seoUrl + '\'' +
