@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.transportApi.novaPoshta.requestModels;
+package ua.com.itproekt.gup.service.transportApiService.novaPoshta.requestModels;
 
 
 public class NovaPoshtaRequestObject {

@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.transportApi.novaPoshta;
+package ua.com.itproekt.gup.service.transportApiService.novaPoshta;
 
 
 import com.google.gson.Gson;
@@ -10,34 +10,37 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import ua.com.itproekt.gup.service.transportApi.novaPoshta.requestModels.Document;
-import ua.com.itproekt.gup.service.transportApi.novaPoshta.requestModels.NovaPoshtaRequestObject;
+import ua.com.itproekt.gup.service.transportApiService.GeneralApi;
+import ua.com.itproekt.gup.service.transportApiService.novaPoshta.requestModels.Document;
+import ua.com.itproekt.gup.service.transportApiService.novaPoshta.requestModels.NovaPoshtaRequestObject;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Test {
+public class NovaPoshta implements GeneralApi {
+
+    private final String API_KEY = "8f289b663428f11de59032d558d84ede";
+    private final String API_URL = "https://api.novaposhta.ua/v2.0/json/";
 
 
-    public static void main(String[] args) {
+
+    @Override
+    public String tracking(String trackingNumber, String phoneNumber) {
         HttpClient httpclient = HttpClients.createDefault();
 
         try {
-            URIBuilder builder = new URIBuilder("https://api.novaposhta.ua/v2.0/json/");
-
+            URIBuilder builder = new URIBuilder(API_URL);
 
             URI uri = builder.build();
             HttpPost request = new HttpPost(uri);
             request.setHeader("Content-Type", "application/json");
 
+            NovaPoshtaRequestObject novaPoshtaRequestObject = novaPoshtaRequestObjectPreparator(trackingNumber, phoneNumber);
 
-            NovaPoshtaRequestObject novaPoshtaRequestObject = novaPoshtaRequestObjectPreparator("59000207410866", "380506785935");
-            
             // Request body
 
             Gson gson = new Gson();
-//            System.err.println("This is JSON: " + gson.toJson(novaPoshtaRequestObject));
 
             String requestBody = gson.toJson(novaPoshtaRequestObject); // parse object to JSON
 
@@ -48,16 +51,24 @@ public class Test {
             HttpEntity entity = response.getEntity();
 
             if (entity != null) {
-                System.out.println(EntityUtils.toString(entity));
+                return EntityUtils.toString(entity);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
+        return "not available";
+    }
+
+    @Override
+    public String tracking(String trackingNumber) {
+        return null;
     }
 
 
 
-    private static NovaPoshtaRequestObject novaPoshtaRequestObjectPreparator(String trackingNumber, String phoneNumber){
+
+    private NovaPoshtaRequestObject novaPoshtaRequestObjectPreparator(String trackingNumber, String phoneNumber){
 
         NovaPoshtaRequestObject novaPoshtaRequestObject = new NovaPoshtaRequestObject();
 
@@ -69,7 +80,7 @@ public class Test {
         documentList.add(document);
 
         novaPoshtaRequestObject
-                .setApiKey("8f289b663428f11de59032d558d84ede")
+                .setApiKey(API_KEY)
                 .setCalledMethod("getStatusDocuments")
                 .setModelName("TrackingDocument")
                 .getMethodProperties().setDocuments(documentList).setLanguage("UA");

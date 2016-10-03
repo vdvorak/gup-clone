@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.transportApi;
+package ua.com.itproekt.gup.service.transportApiService;
 
 
 public interface GeneralApi {
