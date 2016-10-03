@@ -19,11 +19,11 @@ public class PriceScheme extends ConcurrentLinkedQueue<Price> {
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
     private Long ONE_DAY = 86400000l;
 
-    @Value("${price.weekdayPrice}")
-    private Long weekdayPrice = 10000l;
+//    @Value("${price.weekdayPrice}")
+    private Long weekdayPrice;
 
-    @Value("${price.weekendPrice}")
-    private Long weekendPrice = 12000l;
+//    @Value("${price.weekendPrice}")
+    private Long weekendPrice;
 
     private boolean isInit = false;
     private ArrayList<Long> listWeekdays = new ArrayList<Long>();
@@ -31,7 +31,14 @@ public class PriceScheme extends ConcurrentLinkedQueue<Price> {
     private Long[][] weekdays; //private Long[][] weekdays = {{1401570000000l,1401915600000l},{1402174800000l,1402520400000l},{1402779600000l,1403125200000l},{1403384400000l,1403730000000l},{1403989200000l,1404075600000l}}; //private Integer[][] weekdays = {{1,5},{8,12},{15,19},{22,26},{29,31}};
     private Long[][] weekends; //private Long[][] weekends = {{1402002000000l,1402088400000l},{1402606800000l,1402693200000l},{1403211600000l,1403298000000l},{1403816400000l,1403902800000l}}; //private Integer[][] weekends = {{6,7},{13,14},{20,21},{27,28}};
 
-    public PriceScheme(){}
+    /**
+     * Long weekdayPrice, Long weekendPrice, Integer currMonth
+     */
+//    public PriceScheme(){}
+    public PriceScheme(Long weekdayPrice, Long weekendPrice){
+        this.weekdayPrice = weekdayPrice;
+        this.weekendPrice = weekendPrice;
+    }
 
 //    public PriceScheme(Long[][] weekdays, Long[][] weekends){
 //        this.weekdays = weekdays;
@@ -55,7 +62,9 @@ public class PriceScheme extends ConcurrentLinkedQueue<Price> {
         }
     }
 
-    public void initDate(int month, int year){
+    private void initDate(int _month, int year){
+        int month = _month-1;
+
         java.util.Calendar cal = new GregorianCalendar(year, month, 1);
         do {
             int day = cal.get(java.util.Calendar.DAY_OF_WEEK);
@@ -116,7 +125,13 @@ public class PriceScheme extends ConcurrentLinkedQueue<Price> {
         weekdays = new Long[1][listWeekdays.size()];
         weekends = new Long[1][listWeekends.size()];
         weekdays[0] = listWeekdays.toArray(new Long[listWeekdays.size()]);
-        weekends[0] = listWeekends.toArray(new Long[listWeekdays.size()]);
+        weekends[0] = listWeekends.toArray(new Long[listWeekends.size()]);
+
+//        for (Long lWeekday:weekdays[0]) System.out.print(convertDate(lWeekday) + " ");
+//        System.out.println();
+//        for (Long lWeekend:weekends[0]) System.out.print(convertDate(lWeekend) + " ");
+//        System.out.println();
+
         init();
 
         switch (days.length) {
