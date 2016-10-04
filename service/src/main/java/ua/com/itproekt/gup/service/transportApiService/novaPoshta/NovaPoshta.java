@@ -10,7 +10,8 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import ua.com.itproekt.gup.service.transportApiService.GeneralApi;
+import org.springframework.stereotype.Service;
+import ua.com.itproekt.gup.service.transportApiService.NovaPoshtaService;
 import ua.com.itproekt.gup.service.transportApiService.novaPoshta.requestModels.Document;
 import ua.com.itproekt.gup.service.transportApiService.novaPoshta.requestModels.NovaPoshtaRequestObject;
 
@@ -18,7 +19,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NovaPoshta implements GeneralApi {
+@Service
+public class NovaPoshta implements NovaPoshtaService {
 
     private final String API_KEY = "8f289b663428f11de59032d558d84ede";
     private final String API_URL = "https://api.novaposhta.ua/v2.0/json/";
@@ -51,6 +53,7 @@ public class NovaPoshta implements GeneralApi {
             HttpEntity entity = response.getEntity();
 
             if (entity != null) {
+
                 return EntityUtils.toString(entity);
             }
         } catch (Exception e) {
