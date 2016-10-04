@@ -1,22 +1,15 @@
 package ua.com.itproekt.gup.service.transportApiService;
 
 
+import ua.com.itproekt.gup.service.transportApiService.novaPoshta.requestModels.MethodProperties;
+
 public interface NovaPoshtaService {
 
     /**
-     * Receive tracking information about about shipping
+     * Receive tracking information about about several parcels
      *
-     * @param trackingNumber - track number
-     * @param phoneNumber - phone number of sender or recipient
+     * @param methodProperties
      * @return
      */
-    String tracking(String trackingNumber, String phoneNumber);
-
-    /**
-     * Receive tracking information about about shipping
-     *
-     * @param trackingNumber - track number
-     * @return
-     */
-    String tracking (String trackingNumber);
+    String tracking(MethodProperties methodProperties);
 }
