@@ -13,32 +13,26 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.service.transportApiService.NovaPoshtaService;
 import ua.com.itproekt.gup.service.transportApiService.novaPoshta.requestModels.Document;
+import ua.com.itproekt.gup.service.transportApiService.novaPoshta.requestModels.MethodProperties;
 import ua.com.itproekt.gup.service.transportApiService.novaPoshta.requestModels.NovaPoshtaRequestObject;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class NovaPoshta implements NovaPoshtaService {
+public class NovaPoshtaServiceImpl implements NovaPoshtaService {
 
     private final String API_KEY = "8f289b663428f11de59032d558d84ede";
     private final String API_URL = "https://api.novaposhta.ua/v2.0/json/";
 
 
-    /**
-     *
-     * @param trackingNumber - track number
-     * @param phoneNumber - phone number of sender or recipient
-     * @return
-     */
     @Override
-    public String tracking(String trackingNumber, String phoneNumber) {
+    public String tracking(MethodProperties methodProperties) {
+
         HttpClient httpclient = HttpClients.createDefault();
 
-
         try {
-            HttpResponse response = httpclient.execute(requestBuilder(trackingNumber, phoneNumber));
+            HttpResponse response = httpclient.execute(requestBuilder(methodProperties));
             HttpEntity entity = response.getEntity();
 
             if (entity != null) {
@@ -53,19 +47,12 @@ public class NovaPoshta implements NovaPoshtaService {
 
 
     /**
-     * @param trackingNumber - track number
+     * Prepare request
+     *
+     * @param methodProperties
      * @return
      */
-    @Override
-    public String tracking(String trackingNumber) {
-        return null;
-    }
-
-
-    /**
-     * @return
-     */
-    private HttpPost requestBuilder(String trackingNumber, String phoneNumber) {
+    private HttpPost requestBuilder(MethodProperties methodProperties) {
 
         try {
 
@@ -75,7 +62,7 @@ public class NovaPoshta implements NovaPoshtaService {
             HttpPost request = new HttpPost(uri);
             request.setHeader("Content-Type", "application/json");
 
-            NovaPoshtaRequestObject novaPoshtaRequestObject = novaPoshtaRequestObjectPreparator(trackingNumber, phoneNumber);
+            NovaPoshtaRequestObject novaPoshtaRequestObject = novaPoshtaRequestObjectPreparator(methodProperties);
 
             // Request body prepare
             Gson gson = new Gson();
@@ -93,27 +80,24 @@ public class NovaPoshta implements NovaPoshtaService {
         return null;
     }
 
+
     /**
-     * @param trackingNumber
-     * @param phoneNumber
+     * Prepare request object
+     *
+     * @param methodProperties
      * @return
      */
-    private NovaPoshtaRequestObject novaPoshtaRequestObjectPreparator(String trackingNumber, String phoneNumber) {
+    private NovaPoshtaRequestObject novaPoshtaRequestObjectPreparator(MethodProperties methodProperties) {
 
         NovaPoshtaRequestObject novaPoshtaRequestObject = new NovaPoshtaRequestObject();
 
-        List<Document> documentList = new ArrayList<>();
-        Document document = new Document();
-        document.setDocumentNumber(trackingNumber);
-        document.setPhone(phoneNumber);
-
-        documentList.add(document);
+        List<Document> documentList = methodProperties.getDocuments();
 
         novaPoshtaRequestObject
                 .setApiKey(API_KEY)
                 .setCalledMethod("getStatusDocuments")
                 .setModelName("TrackingDocument")
-                .getMethodProperties().setDocuments(documentList).setLanguage("UA");
+                .getMethodProperties().setDocuments(documentList).setLanguage(methodProperties.getLanguage());
 
         return novaPoshtaRequestObject;
     }

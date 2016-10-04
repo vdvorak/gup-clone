@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ua.com.itproekt.gup.service.transportApiService.NovaPoshtaService;
-import ua.com.itproekt.gup.service.transportApiService.novaPoshta.requestModels.Document;
+import ua.com.itproekt.gup.service.transportApiService.novaPoshta.requestModels.MethodProperties;
 
 
 @Controller
@@ -19,16 +19,16 @@ public class NovaPoshtaApiRestController {
     @Autowired
     NovaPoshtaService novaPoshtaService;
 
-
     /**
-     * @param document
+     *
+     * @param methodProperties
      * @return
      */
     @CrossOrigin
     @RequestMapping(value = "/np/tracking", method = RequestMethod.POST)
-    public ResponseEntity<String> listOfAllOffers(@RequestBody Document document) {
+    public ResponseEntity<String> listOfAllOffers(@RequestBody MethodProperties methodProperties) {
 
-        String result = novaPoshtaService.tracking(document.getDocumentNumber(), document.getPhone());
+        String result = novaPoshtaService.tracking(methodProperties);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
