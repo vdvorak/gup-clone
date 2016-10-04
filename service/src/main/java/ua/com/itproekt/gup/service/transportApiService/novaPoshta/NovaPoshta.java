@@ -26,11 +26,49 @@ public class NovaPoshta implements NovaPoshtaService {
     private final String API_URL = "https://api.novaposhta.ua/v2.0/json/";
 
 
+    /**
+     *
+     * @param trackingNumber - track number
+     * @param phoneNumber - phone number of sender or recipient
+     * @return
+     */
     @Override
     public String tracking(String trackingNumber, String phoneNumber) {
         HttpClient httpclient = HttpClients.createDefault();
 
+
         try {
+            HttpResponse response = httpclient.execute(requestBuilder(trackingNumber, phoneNumber));
+            HttpEntity entity = response.getEntity();
+
+            if (entity != null) {
+                return EntityUtils.toString(entity);
+            }
+        } catch (Exception e) {
+            System.out.println("Exception during Nova Poshta API use: tracking - " + e.getMessage());
+        }
+
+        return "not available";
+    }
+
+
+    /**
+     * @param trackingNumber - track number
+     * @return
+     */
+    @Override
+    public String tracking(String trackingNumber) {
+        return null;
+    }
+
+
+    /**
+     * @return
+     */
+    private HttpPost requestBuilder(String trackingNumber, String phoneNumber) {
+
+        try {
+
             URIBuilder builder = new URIBuilder(API_URL);
 
             URI uri = builder.build();
@@ -39,35 +77,27 @@ public class NovaPoshta implements NovaPoshtaService {
 
             NovaPoshtaRequestObject novaPoshtaRequestObject = novaPoshtaRequestObjectPreparator(trackingNumber, phoneNumber);
 
-            // Request body
-
+            // Request body prepare
             Gson gson = new Gson();
-
             String requestBody = gson.toJson(novaPoshtaRequestObject); // parse object to JSON
 
             StringEntity reqEntity = new StringEntity(requestBody);
             request.setEntity(reqEntity);
 
-            HttpResponse response = httpclient.execute(request);
-            HttpEntity entity = response.getEntity();
+            return request;
 
-            if (entity != null) {
-
-                return EntityUtils.toString(entity);
-            }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Exception during Nova Poshta API use: tracking - " + e.getMessage());
         }
 
-        return "not available";
-    }
-
-    @Override
-    public String tracking(String trackingNumber) {
         return null;
     }
 
-
+    /**
+     * @param trackingNumber
+     * @param phoneNumber
+     * @return
+     */
     private NovaPoshtaRequestObject novaPoshtaRequestObjectPreparator(String trackingNumber, String phoneNumber) {
 
         NovaPoshtaRequestObject novaPoshtaRequestObject = new NovaPoshtaRequestObject();
