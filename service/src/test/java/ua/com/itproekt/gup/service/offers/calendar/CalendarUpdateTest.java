@@ -53,9 +53,9 @@ public class CalendarUpdateTest {
         calendar1 = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
 
-        schemeDefault = new PriceScheme();
-        scheme1 = new PriceScheme();
-        scheme2 = new PriceScheme();
+        schemeDefault = new PriceScheme(10000l,15000l);
+        scheme1 = new PriceScheme(10000l,15000l);
+        scheme2 = new PriceScheme(10000l,15000l);
     }
 
     @After
