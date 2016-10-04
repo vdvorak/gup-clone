@@ -26,7 +26,6 @@ public class NovaPoshta implements NovaPoshtaService {
     private final String API_URL = "https://api.novaposhta.ua/v2.0/json/";
 
 
-
     @Override
     public String tracking(String trackingNumber, String phoneNumber) {
         HttpClient httpclient = HttpClients.createDefault();
@@ -69,9 +68,7 @@ public class NovaPoshta implements NovaPoshtaService {
     }
 
 
-
-
-    private NovaPoshtaRequestObject novaPoshtaRequestObjectPreparator(String trackingNumber, String phoneNumber){
+    private NovaPoshtaRequestObject novaPoshtaRequestObjectPreparator(String trackingNumber, String phoneNumber) {
 
         NovaPoshtaRequestObject novaPoshtaRequestObject = new NovaPoshtaRequestObject();
 

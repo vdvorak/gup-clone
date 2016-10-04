@@ -20,14 +20,15 @@ public class NovaPoshtaApiRestController {
     NovaPoshtaService novaPoshtaService;
 
 
+    /**
+     * @param document
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/np/tracking", method = RequestMethod.POST)
     public ResponseEntity<String> listOfAllOffers(@RequestBody Document document) {
 
-        String result = "not available";
-
-        result = novaPoshtaService.tracking(document.getDocumentNumber(), document.getPhone());
-
+        String result = novaPoshtaService.tracking(document.getDocumentNumber(), document.getPhone());
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
