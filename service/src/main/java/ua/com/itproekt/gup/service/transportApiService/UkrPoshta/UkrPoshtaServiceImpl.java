@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.transportApiService.UkrPoshta;
+package ua.com.itproekt.gup.service.transportApiService.ukrPoshta;
 
 
 import org.apache.http.HttpEntity;
@@ -16,7 +16,7 @@ import java.net.URI;
 @Service
 public class UkrPoshtaServiceImpl implements UkrPoshtaService {
 
-    // url for making reques
+    // url for making request
     private final String API_URL = "http://services.ukrposhta.com/barcodestatistic/barcodestatistic.asmx/GetBarcodeInfo";
 
     // AP key for making request
@@ -38,7 +38,7 @@ public class UkrPoshtaServiceImpl implements UkrPoshtaService {
 
 
     /**
-     * Prepare and make request to UkrPoshta
+     * Prepare and make request to ukrPoshta
      *
      * @param barcode
      * @return
