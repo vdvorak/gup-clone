@@ -5,6 +5,8 @@ public interface UkrPoshtaService {
 
 
     /**
+     * Return information about parcel of ukrPoshta
+     *
      * @param barcode
      * @return
      */
