@@ -48,7 +48,7 @@ public class CalendarTest {
     private JsonObject jsonCalendars,jsonRents;
     private Map<String, Calendar> calendar1; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
-    private PriceScheme schemeDefault,scheme1,scheme2;
+    private CalendarStatus schemeDefault,scheme1,scheme2;
 
     @Before
     public void setUp() {
@@ -64,9 +64,9 @@ public class CalendarTest {
         calendar1 = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
 
-        schemeDefault = new PriceScheme(10000l,15000l);
-        scheme1 = new PriceScheme(10000l,15000l);
-        scheme2 = new PriceScheme(10000l,15000l);
+        schemeDefault = new CalendarStatus(10000l,15000l);
+        scheme1 = new CalendarStatus(10000l,15000l);
+        scheme2 = new CalendarStatus(10000l,15000l);
     }
 
     @After
@@ -91,66 +91,66 @@ public class CalendarTest {
         System.out.println(schemeDefault);
     }
 
-//    @Test
-//    public void testCalendarIsDayDefault(){
-//        System.out.println("--------------------[ testCalendarIsDayDefault ]");
-//        System.out.println( "Is Calendar-Day(6): " + schemeDefault.isDay(1402002000000l) );
-//    }
-//
-//    @Test
-//    public void testGetPricesDefault(){
-//        System.out.println("--------------------[ testGetPricesDefault ]");
-//        System.out.println( "Days(1,3,7) Get-Prices = " + schemeDefault.getPrice(convertDate(rents.get("rent2").getDays())) );
-//    }
-//
-//
-//    /**
-//     * Test(s) Scheme-1
-//     */
-//    @Test
-//    public void testScheme1(){
-//        System.out.println("--------------------[ testScheme1 ]");
-//        scheme1.addDays(calendar1.get("scheme1").getPrice(), convertDate(calendar1.get("scheme1").getDays()));
-//        System.out.println(scheme1);
-//    }
-//
-//    @Test
-//    public void testGetPriceScheme1(){
-//        System.out.println("--------------------[ testGetPriceScheme1 ]");
-//        scheme1.addDays(calendar1.get("scheme2").getPrice(), convertDate(calendar1.get("scheme2").getDays()));
-//        scheme1.addDays(calendar1.get("scheme3").getPrice(), convertDate(calendar1.get("scheme3").getDays()));
-//        System.out.println( "Day(6) Get-Price = " + scheme1.getPrice(1402002000000l) );
-//    }
-//
-//    @Test
-//    public void testGetPeriodPricesScheme1(){
-//        System.out.println("--------------------[ testGetPeriodPricesScheme1 ]");
-//        scheme1.addDays(calendar1.get("scheme2").getPrice(), convertDate(calendar1.get("scheme2").getDays()));
-//        scheme1.addDays(calendar1.get("scheme3").getPrice(), convertDate(calendar1.get("scheme3").getDays()));
-//        System.out.println( "Period(18-25) Get-Prices = " + scheme1.getPrice(convertDate(rents.get("rent1").getDays())) );
-//    }
-//
-//
-//    /**
-//     * Test(s) Scheme-2
-//     */
-//    @Test
-//    public void testScheme2(){
-//        System.out.println("--------------------[ testScheme2 ]");
-//        scheme2.addDays(calendar1.get("scheme2").getPrice(), convertDate(calendar1.get("scheme2").getDays()));
-//        scheme2.addDays(calendar1.get("scheme3").getPrice(), convertDate(calendar1.get("scheme3").getDays()));
-//        System.out.println(scheme2);
-//    }
-//
-//
-//    @Test
-//    public void testDate() {
-//        System.out.println("--------------------[ testDate ]");
-//        String strDate = "30.06.2014";
-//        long lDate = 1404075600000l;
-//        System.out.println("<DAY.MONTH.YEAR> >> (Long): '" + convertDate(strDate) + "'");
-//        System.out.println("(Long) >> <DAY.MONTH.YEAR>: '" + convertDate(lDate) + "'");
-//    }
+    @Test
+    public void testCalendarIsDayDefault(){
+        System.out.println("--------------------[ testCalendarIsDayDefault ]");
+        System.out.println( "Is Calendar-Day(6): " + schemeDefault.isDay(1402002000000l) );
+    }
+
+    @Test
+    public void testGetPricesDefault(){
+        System.out.println("--------------------[ testGetPricesDefault ]");
+        System.out.println( "Days(1,3,7) Get-Prices = " + schemeDefault.getPrice(convertDate(rents.get("rent2").getDays())) );
+    }
+
+
+    /**
+     * Test(s) Scheme-1
+     */
+    @Test
+    public void testScheme1(){
+        System.out.println("--------------------[ testScheme1 ]");
+        scheme1.addDays(calendar1.get("scheme1").getPrice(), convertDate(calendar1.get("scheme1").getDays()));
+        System.out.println(scheme1);
+    }
+
+    @Test
+    public void testGetPriceScheme1(){
+        System.out.println("--------------------[ testGetPriceScheme1 ]");
+        scheme1.addDays(calendar1.get("scheme2").getPrice(), convertDate(calendar1.get("scheme2").getDays()));
+        scheme1.addDays(calendar1.get("scheme3").getPrice(), convertDate(calendar1.get("scheme3").getDays()));
+        System.out.println( "Day(6) Get-Price = " + scheme1.getPrice(1402002000000l) );
+    }
+
+    @Test
+    public void testGetPeriodPricesScheme1(){
+        System.out.println("--------------------[ testGetPeriodPricesScheme1 ]");
+        scheme1.addDays(calendar1.get("scheme2").getPrice(), convertDate(calendar1.get("scheme2").getDays()));
+        scheme1.addDays(calendar1.get("scheme3").getPrice(), convertDate(calendar1.get("scheme3").getDays()));
+        System.out.println( "Period(18-25) Get-Prices = " + scheme1.getPrice(convertDate(rents.get("rent1").getDays())) );
+    }
+
+
+    /**
+     * Test(s) Scheme-2
+     */
+    @Test
+    public void testScheme2(){
+        System.out.println("--------------------[ testScheme2 ]");
+        scheme2.addDays(calendar1.get("scheme2").getPrice(), convertDate(calendar1.get("scheme2").getDays()));
+        scheme2.addDays(calendar1.get("scheme3").getPrice(), convertDate(calendar1.get("scheme3").getDays()));
+        System.out.println(scheme2);
+    }
+
+
+    @Test
+    public void testDate() {
+        System.out.println("--------------------[ testDate ]");
+        String strDate = "30.06.2014";
+        long lDate = 1404075600000l;
+        System.out.println("<DAY.MONTH.YEAR> >> (Long): '" + convertDate(strDate) + "'");
+        System.out.println("(Long) >> <DAY.MONTH.YEAR>: '" + convertDate(lDate) + "'");
+    }
 
 
     /**

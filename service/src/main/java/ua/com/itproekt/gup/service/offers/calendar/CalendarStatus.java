@@ -1,6 +1,5 @@
 package ua.com.itproekt.gup.service.offers.calendar;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -17,14 +16,10 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
     private Long ONE_DAY = 86400000l;
 
-    private Long weekdayPrice;
-    private Long weekendPrice;
-
-    private boolean isInit = false;
-    private ArrayList<Long> listWeekdays = new ArrayList<Long>();
-    private ArrayList<Long> listWeekends = new ArrayList<Long>();
-    private Long[][] weekdays; //private Long[][] weekdays = {{1401570000000l,1401915600000l},{1402174800000l,1402520400000l},{1402779600000l,1403125200000l},{1403384400000l,1403730000000l},{1403989200000l,1404075600000l}}; //private Integer[][] weekdays = {{1,5},{8,12},{15,19},{22,26},{29,31}};
-    private Long[][] weekends; //private Long[][] weekends = {{1402002000000l,1402088400000l},{1402606800000l,1402693200000l},{1403211600000l,1403298000000l},{1403816400000l,1403902800000l}}; //private Integer[][] weekends = {{6,7},{13,14},{20,21},{27,28}};
+    private static volatile Boolean initDate;
+    private Long weekdayPrice,weekendPrice;
+    private Long[][] weekdays,weekends;
+    private ArrayList<Long> listWeekdays,listWeekends;
 
     /**
      * Long weekdayPrice, Long weekendPrice, Integer currMonth
@@ -32,100 +27,88 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
     public CalendarStatus(Long weekdayPrice, Long weekendPrice){
         this.weekdayPrice = weekdayPrice;
         this.weekendPrice = weekendPrice;
+        initDate = null;
+        listWeekdays = new ArrayList<Long>();
+        listWeekends = new ArrayList<Long>();
     }
 
     public void init(){
-        if(!isInit){
-            addDays(weekdayPrice, weekdays);
-            addDays(weekendPrice, weekends);
-            isInit = true;
-        }
-    }
-
-    private void initDate(int month, int year){
-        java.util.Calendar cal = new GregorianCalendar(year, month, 1);
-        do {
-            int day = cal.get(java.util.Calendar.DAY_OF_WEEK);
-            if (day != java.util.Calendar.SATURDAY && day != java.util.Calendar.SUNDAY) {
-                String strMonth = month<10 ? "0"+month : ""+month;
-                String strDay = cal.get(java.util.Calendar.DAY_OF_MONTH)<10 ? "0"+cal.get(java.util.Calendar.DAY_OF_MONTH) : ""+cal.get(java.util.Calendar.DAY_OF_MONTH);
-                listWeekdays.add(convertDate(strDay + "." + strMonth + "." + year));
-            }
-            cal.add(java.util.Calendar.DAY_OF_YEAR, 1);
-        }  while (cal.get(java.util.Calendar.MONTH) == month);
-
-        cal = new GregorianCalendar(year, (month-1), 1);
-        do {
-            int day = cal.get(java.util.Calendar.DAY_OF_WEEK);
-            if (day == java.util.Calendar.SATURDAY || day == java.util.Calendar.SUNDAY) {
-                String strMonth = month<10 ? "0"+month : ""+month;
-                String strDay = cal.get(java.util.Calendar.DAY_OF_MONTH)<10 ? "0"+cal.get(java.util.Calendar.DAY_OF_MONTH) : ""+cal.get(java.util.Calendar.DAY_OF_MONTH);
-                listWeekends.add(convertDate(strDay + "." + strMonth + "." + year));
-            }
-            cal.add(java.util.Calendar.DAY_OF_YEAR, 1);
-        }  while (cal.get(java.util.Calendar.MONTH) == month);
-    }
-
-    public void initDates(Long day){
-        Integer year=Integer.valueOf(convertDate(day).split("\\.")[2]);
-        Integer month=Integer.valueOf(convertDate(day).split("\\.")[1]);
-        initDate(month, year);
-    }
-
-    public void initDates(Long[] days){
-        Arrays.sort(days);
-        for (Integer year=Integer.valueOf(convertDate(days[0]).split("\\.")[2]); year<=Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[2]); ++year){
-            for (Integer month=Integer.valueOf(convertDate(days[0]).split("\\.")[1]); month<=Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[1]); ++month){
-                initDate(month, year);
-            }
-        }
-    }
-
-    public void addDays(Long price, Long day) {
-        initDates(day);
-        weekdays = new Long[1][listWeekdays.size()];
-        weekends = new Long[1][listWeekends.size()];
-        weekdays[0] = listWeekdays.toArray(new Long[listWeekdays.size()]);
-        weekends[0] = listWeekends.toArray(new Long[listWeekdays.size()]);
-        Price weekdaysPrice = new Price(weekdayPrice);
-        for (Long lWeekday:weekdays[0]) weekdaysPrice.add(lWeekday);
-        add(weekdaysPrice);
-        Price weekendsPrice = new Price(weekendPrice);
-        for (Long lWeekend:weekends[0]) weekendsPrice.add(lWeekend);
-        add(weekendsPrice);
-
-        Price newPrice = new Price(price);
-        for (Price curPrice : this) {
-            if (curPrice.remove(day)){
-                newPrice.add(day);
-            }
-        }
-        add(newPrice);
-    }
-
-    public void addDays(Long price, Long[] days) {
-
-
-        switch (days.length) {
-            case 1:
-                addDays(price, days[0]);
-                break;
-            case 2:
-                initDates(days);
+        synchronized (CalendarStatus.class){
+            if (initDate==null){
                 weekdays = new Long[1][listWeekdays.size()];
                 weekends = new Long[1][listWeekends.size()];
                 weekdays[0] = listWeekdays.toArray(new Long[listWeekdays.size()]);
                 weekends[0] = listWeekends.toArray(new Long[listWeekends.size()]);
+
                 Price weekdaysPrice = new Price(weekdayPrice);
                 for (Long lWeekday:weekdays[0]) weekdaysPrice.add(lWeekday);
                 add(weekdaysPrice);
                 Price weekendsPrice = new Price(weekendPrice);
                 for (Long lWeekend:weekends[0]) weekendsPrice.add(lWeekend);
                 add(weekendsPrice);
+            }
+        }
+    }
 
-                Price newPrice = new Price(price);
+    private void initDate(int month, int year){
+        java.util.Calendar cal = new GregorianCalendar(year, (month-1), 1);
+        do {
+            String strMonth = month<10 ? "0" + month : String.valueOf(month),
+                    strDay = cal.get(java.util.Calendar.DAY_OF_MONTH)<10 ? "0"+cal.get(java.util.Calendar.DAY_OF_MONTH) : String.valueOf(cal.get(java.util.Calendar.DAY_OF_MONTH));
+            int day = cal.get(java.util.Calendar.DAY_OF_WEEK);
+            if (day != java.util.Calendar.SATURDAY && day != java.util.Calendar.SUNDAY)
+                listWeekdays.add(convertDate(strDay + "." + strMonth + "." + year));
+            else
+                listWeekends.add(convertDate(strDay + "." + strMonth + "." + year));
+            cal.add(java.util.Calendar.DAY_OF_YEAR, 1);
+        } while (cal.get(java.util.Calendar.MONTH) == (month-1));
+    }
+
+    public void initDate(Long day){
+        synchronized (CalendarStatus.class) {
+            if (initDate == null) {
+                initDate(Integer.valueOf(convertDate(day).split("\\.")[1]), Integer.valueOf(convertDate(day).split("\\.")[2]));
+                init();
+
+                initDate = new Boolean(true);
+            }
+        }
+    }
+
+    // @see http://stackoverflow.com/questions/4905416/how-do-i-add-one-month-to-current-date-in-java
+    public void initDate(Long[] days){
+        synchronized (CalendarStatus.class) {
+            if (initDate == null) {
+                Arrays.sort(days);
+                java.util.Calendar firstCal = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), 1),
+                        lastCal = new GregorianCalendar(Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[1])-1), 1),
+                        currCal = java.util.Calendar.getInstance();
+                for (currCal = firstCal; currCal.getTimeInMillis()<=lastCal.getTimeInMillis(); firstCal.add(java.util.Calendar.MONTH, 1))
+                    initDate(Integer.valueOf(String.valueOf(simpleDateFormat.format(currCal.getTime())).split("\\.")[1]), Integer.valueOf(String.valueOf(simpleDateFormat.format(currCal.getTime())).split("\\.")[2]));
+                init();
+
+                initDate = new Boolean(true);
+            }
+        }
+    }
+
+    public void addDays(Long price, Long[] days) {
+        Price newPrice = new Price(price);
+
+        switch (days.length) {
+            case 1:
+                initDate(days[0]);
                 for (Price curPrice : this) {
-                    for (Long day=days[0]; day<=days[1]; day+=ONE_DAY) {
+                    if (curPrice.remove(days[0])){
+                        newPrice.add(days[0]);
+                    }
+                }
+                add(newPrice);
+                break;
+            case 2:
+                initDate(days);
+                for (Price curPrice : this) {
+                    for (Long day=days[0]; day<=days[1]; day+=ONE_DAY) { //TODO FIX-ME: ошибка каунта дней в периоде года..
                         if (curPrice.remove(day)){
                             newPrice.add(day);
                         }
@@ -138,29 +121,6 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
         }
     }
 
-    public void addDays(Long price, Long[][] weekdays) {
-        Price newPrice = new Price(price);
-        for (Price thisPrice : this) {
-            for (Long[] days : weekdays) {
-                for (Long day=days[0]; day<=days[1]; day+=ONE_DAY) {
-                    if (thisPrice.remove(day)){
-                        newPrice.add(day);
-                    }
-                }
-            }
-        }
-        add(newPrice);
-        for (Long[] days : weekdays) {
-            Price curPrice = new Price(price);
-            for (Long day=days[0]; day<=days[1]; day+=ONE_DAY) {
-                if (!newPrice.contains(day)) {
-                    curPrice.add(day);
-                }
-            }
-            add(curPrice);
-        }
-    }
-
     public boolean isDay(Long day) {
         for (Price prices : this)
             if (prices.contains(day)) return true;
@@ -170,7 +130,9 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
     public Long getPrice(Long[] days){
         Long price = 0l;
         for (Price prices : this) {
-            for (Long day=days[0]; day<=days[1]; day+=ONE_DAY) if (prices.contains(day)) price += prices.get();
+            for (Long day : days) {
+                if (prices.contains(day)) price += prices.get();
+            }
         }
         return price;
     }
@@ -186,7 +148,6 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
     @Override
     public String toString() {
         StringBuilder data = new StringBuilder();
-
         for (Price prices : this) {
             for (Long price : prices) data.append(prices.get() + "(" + convertDate(price) + ") ");
             if (!prices.isEmpty()) data.append("\n");

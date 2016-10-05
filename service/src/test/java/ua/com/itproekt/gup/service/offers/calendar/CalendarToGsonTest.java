@@ -39,6 +39,7 @@ public class CalendarToGsonTest {
     private final String RENT_FILE_NAME = "offerRents.json"; //TODO: file.properties
 
     private JsonObject jsonCalendars,jsonRents;
+    private Gson gsonSchemeDefault,gsonCalendar1;
     private Map<String, Calendar> priceCalendar; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
     private CalendarStatus statusCalendar;
@@ -56,19 +57,36 @@ public class CalendarToGsonTest {
 
         priceCalendar = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
+        gsonSchemeDefault = new Gson();
+        gsonCalendar1 = new Gson();
 
-        statusCalendar = new CalendarStatus(10000l,15000l);
+        statusCalendar = new CalendarStatus(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
     }
 
     @After
     public void tearDown() {
         jsonCalendars = null;
         jsonRents = null;
+        gsonSchemeDefault = null;
+        gsonCalendar1 = null;
         priceCalendar = null;
         rents = null;
         statusCalendar = null;
     }
 
+    /**
+     * Устанавливаем цену на специальные дни (специальных дней может быть неогрниченно много в пределах выбранного периода..)
+     * (запрос устанавливает: единую стоимость; стоимость на будни и выходные дни; стоимость на специальные дни;)
+     */
+    @Test
+    public void testCalendarToStringDefault(){
+        System.out.println("--------------------[ testCalendarToStringDefault ]");
+//        statusCalendar.addDays(priceCalendar.get("scheme5").getPrice(), convertDate(priceCalendar.get("scheme5").getDays()));
+//        statusCalendar.addDays(priceCalendar.get("scheme4").getPrice(), convertDate(priceCalendar.get("scheme4").getDays()));
+        statusCalendar.addDays(priceCalendar.get("scheme6").getPrice(), convertDate(priceCalendar.get("scheme6").getDays()));
+
+        System.out.println(statusCalendar);
+    }
 
     /**
      * Test(s) Scheme-Default
@@ -78,21 +96,19 @@ public class CalendarToGsonTest {
     public void testCalendarToJSON(){
         System.out.println("--------------------[ testCalendarToJSON ]");
         statusCalendar.addDays(priceCalendar.get("scheme4").getPrice(), convertDate(priceCalendar.get("scheme4").getDays()));
+        statusCalendar.addDays(priceCalendar.get("scheme5").getPrice(), convertDate(priceCalendar.get("scheme5").getDays()));
+
+        System.err.println("Calendar-Status: " + gsonSchemeDefault.toJson(statusCalendar)); // 'PriceScheme'
+        System.err.println("Calendar-Price: " + gsonCalendar1.toJson(priceCalendar)); // 'Calendars'
         System.out.println(statusCalendar);
-
-        Gson gsonSchemeDefault = new Gson(),
-                gsonCalendar1 = new Gson();
-        String jsonSchemeDefault = gsonSchemeDefault.toJson(statusCalendar),
-                jsonCalendar1 = gsonCalendar1.toJson(priceCalendar);
-
-        System.err.println("Calendar-Status: " + jsonSchemeDefault); // 'PriceScheme'
-        System.err.println("Calendar-Price: " + jsonCalendar1); // 'Calendars'
     }
 
     @Test
     public void testCalendarIsDayDefault(){
         System.out.println("--------------------[ testCalendarIsDayDefault ]");
         statusCalendar.addDays(priceCalendar.get("scheme4").getPrice(), convertDate(priceCalendar.get("scheme4").getDays()));
+        statusCalendar.addDays(priceCalendar.get("scheme5").getPrice(), convertDate(priceCalendar.get("scheme5").getDays()));
+
         System.out.println( "Is Calendar-Day(7): " + statusCalendar.isDay(convertDate("07.10.2016")) );
     }
 
@@ -100,7 +116,11 @@ public class CalendarToGsonTest {
     public void testGetPricesDefault(){
         System.out.println("--------------------[ testGetPricesDefault ]");
         statusCalendar.addDays(priceCalendar.get("scheme4").getPrice(), convertDate(priceCalendar.get("scheme4").getDays()));
+        statusCalendar.addDays(priceCalendar.get("scheme5").getPrice(), convertDate(priceCalendar.get("scheme5").getDays()));
+
         System.out.println( "Days(1,3,7) Get-Prices = " + statusCalendar.getPrice(convertDate(rents.get("rent3").getDays())) );
+        System.out.println( "Days(31) Get-Prices = " + statusCalendar.getPrice(convertDate(rents.get("rent4").getDays())) );
+        System.out.println( "Days(1,3,31) Get-Prices = " + statusCalendar.getPrice(convertDate(rents.get("rent5").getDays())) );
     }
 
 
