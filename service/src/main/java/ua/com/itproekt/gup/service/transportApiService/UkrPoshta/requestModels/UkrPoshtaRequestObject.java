@@ -1,5 +1,7 @@
 package ua.com.itproekt.gup.service.transportApiService.UkrPoshta.requestModels;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 
 public class UkrPoshtaRequestObject {
     private String guid;

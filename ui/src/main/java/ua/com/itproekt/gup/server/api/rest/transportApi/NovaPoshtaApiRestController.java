@@ -26,7 +26,7 @@ public class NovaPoshtaApiRestController {
      */
     @CrossOrigin
     @RequestMapping(value = "/np/tracking", method = RequestMethod.POST)
-    public ResponseEntity<String> listOfAllOffers(@RequestBody MethodProperties methodProperties) {
+    public ResponseEntity<String> trackParcels(@RequestBody MethodProperties methodProperties) {
 
         String result = novaPoshtaService.tracking(methodProperties);
 

@@ -1,6 +1,5 @@
 package ua.com.itproekt.gup.service.transportApiService.novaPoshta.requestModels;
 
-
 public class NovaPoshtaRequestObject {
 
     private String apiKey;
