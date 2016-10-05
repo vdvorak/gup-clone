@@ -16,12 +16,14 @@ import ua.com.itproekt.gup.service.transportApiService.novaPoshta.requestModels.
 @RequestMapping("/api/rest/transportService")
 public class UkrPoshtaApiRestController {
 
-
-
     @Autowired
     UkrPoshtaService ukrPoshtaService;
 
-
+    /**
+     * 
+     * @param barcode
+     * @return
+     */
     @CrossOrigin
     @RequestMapping(value = "/up/tracking", method = RequestMethod.POST)
     public ResponseEntity<String> trackParcels(@RequestBody String barcode) {

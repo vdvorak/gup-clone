@@ -16,14 +16,17 @@ import java.net.URI;
 @Service
 public class UkrPoshtaServiceImpl implements UkrPoshtaService {
 
-
+    // url for making reques
     private final String API_URL = "http://services.ukrposhta.com/barcodestatistic/barcodestatistic.asmx/GetBarcodeInfo";
+
+    // AP key for making request
     private final String GUID = "fcc8d9e1-b6f9-438f-9ac8-b67ab44391dd";
+
+    // language of response
     private final String CULTURE = "uk";
 
 
     /**
-     *
      * @param barcode
      * @return
      */
