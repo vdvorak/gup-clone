@@ -1,7 +1,5 @@
 package ua.com.itproekt.gup.service.offers.calendar;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,17 +10,14 @@ import java.util.*;
 import java.util.Calendar;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class PriceScheme extends ConcurrentLinkedQueue<Price> {
+public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
 
     private static String formatter = "d.MM.yyyy";
     private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(formatter, Locale.ENGLISH);
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
     private Long ONE_DAY = 86400000l;
 
-//    @Value("${price.weekdayPrice}")
     private Long weekdayPrice;
-
-//    @Value("${price.weekendPrice}")
     private Long weekendPrice;
 
     private boolean isInit = false;
@@ -34,59 +29,36 @@ public class PriceScheme extends ConcurrentLinkedQueue<Price> {
     /**
      * Long weekdayPrice, Long weekendPrice, Integer currMonth
      */
-//    public PriceScheme(){}
-    public PriceScheme(Long weekdayPrice, Long weekendPrice){
+    public CalendarStatus(Long weekdayPrice, Long weekendPrice){
         this.weekdayPrice = weekdayPrice;
         this.weekendPrice = weekendPrice;
     }
 
-//    public PriceScheme(Long[][] weekdays, Long[][] weekends){
-//        this.weekdays = weekdays;
-//        this.weekends = weekends;
-//        init();
-//    }
-//
-//    public PriceScheme(Long[][] weekdays, Long[][] weekends, Long weekdayPrice, Long weekendPrice){
-//        this.weekdays = weekdays;
-//        this.weekends = weekends;
-//        this.weekdayPrice = weekdayPrice;
-//        this.weekendPrice = weekendPrice;
-//        init();
-//    }
-
     public void init(){
         if(!isInit){
-//            ////////////////////////////////////////////////////////////////////////////////////
-//            for (Long lWeekday:weekdays[0]) System.err.print(convertDate(lWeekday) + " ");
-//            System.err.println();
-//            for (Long lWeekend:weekends[0]) System.err.print(convertDate(lWeekend) + " ");
-//            System.err.println();
-//            ////////////////////////////////////////////////////////////////////////////////////
             addDays(weekdayPrice, weekdays);
             addDays(weekendPrice, weekends);
             isInit = true;
         }
     }
 
-    private void initDate(int month, int year){ //private void initDate(int _month, int year){
-        //int month = _month-1;
-
-        java.util.Calendar cal = new GregorianCalendar(year, month, 1); //java.util.Calendar cal = new GregorianCalendar(year, (month-1), 1);
+    private void initDate(int month, int year){
+        java.util.Calendar cal = new GregorianCalendar(year, month, 1);
         do {
             int day = cal.get(java.util.Calendar.DAY_OF_WEEK);
             if (day != java.util.Calendar.SATURDAY && day != java.util.Calendar.SUNDAY) {
-                String strMonth = month<10 ? "0"+month : ""+month; //String strMonth = month<10 ? "0"+(month+1) : ""+(month+1);
+                String strMonth = month<10 ? "0"+month : ""+month;
                 String strDay = cal.get(java.util.Calendar.DAY_OF_MONTH)<10 ? "0"+cal.get(java.util.Calendar.DAY_OF_MONTH) : ""+cal.get(java.util.Calendar.DAY_OF_MONTH);
                 listWeekdays.add(convertDate(strDay + "." + strMonth + "." + year));
             }
             cal.add(java.util.Calendar.DAY_OF_YEAR, 1);
         }  while (cal.get(java.util.Calendar.MONTH) == month);
 
-        cal = new GregorianCalendar(year, (month-1), 1); //cal = new GregorianCalendar(year, month, 1);
+        cal = new GregorianCalendar(year, (month-1), 1);
         do {
             int day = cal.get(java.util.Calendar.DAY_OF_WEEK);
             if (day == java.util.Calendar.SATURDAY || day == java.util.Calendar.SUNDAY) {
-                String strMonth = month<10 ? "0"+month : ""+month; //String strMonth = month<10 ? "0"+(month+1) : ""+(month+1);
+                String strMonth = month<10 ? "0"+month : ""+month;
                 String strDay = cal.get(java.util.Calendar.DAY_OF_MONTH)<10 ? "0"+cal.get(java.util.Calendar.DAY_OF_MONTH) : ""+cal.get(java.util.Calendar.DAY_OF_MONTH);
                 listWeekends.add(convertDate(strDay + "." + strMonth + "." + year));
             }
@@ -115,15 +87,13 @@ public class PriceScheme extends ConcurrentLinkedQueue<Price> {
         weekends = new Long[1][listWeekends.size()];
         weekdays[0] = listWeekdays.toArray(new Long[listWeekdays.size()]);
         weekends[0] = listWeekends.toArray(new Long[listWeekdays.size()]);
-        //init();
-        ////////////////////////////////////////////////////////////////////////////////////
         Price weekdaysPrice = new Price(weekdayPrice);
         for (Long lWeekday:weekdays[0]) weekdaysPrice.add(lWeekday);
         add(weekdaysPrice);
         Price weekendsPrice = new Price(weekendPrice);
         for (Long lWeekend:weekends[0]) weekendsPrice.add(lWeekend);
         add(weekendsPrice);
-        ////////////////////////////////////////////////////////////////////////////////////
+
         Price newPrice = new Price(price);
         for (Price curPrice : this) {
             if (curPrice.remove(day)){
@@ -138,7 +108,6 @@ public class PriceScheme extends ConcurrentLinkedQueue<Price> {
 
         switch (days.length) {
             case 1:
-//                System.err.println("case 1:");
                 addDays(price, days[0]);
                 break;
             case 2:
@@ -147,20 +116,16 @@ public class PriceScheme extends ConcurrentLinkedQueue<Price> {
                 weekends = new Long[1][listWeekends.size()];
                 weekdays[0] = listWeekdays.toArray(new Long[listWeekdays.size()]);
                 weekends[0] = listWeekends.toArray(new Long[listWeekends.size()]);
-                //init();
-                ////////////////////////////////////////////////////////////////////////////////////
                 Price weekdaysPrice = new Price(weekdayPrice);
                 for (Long lWeekday:weekdays[0]) weekdaysPrice.add(lWeekday);
                 add(weekdaysPrice);
                 Price weekendsPrice = new Price(weekendPrice);
                 for (Long lWeekend:weekends[0]) weekendsPrice.add(lWeekend);
                 add(weekendsPrice);
-                ////////////////////////////////////////////////////////////////////////////////////
+
                 Price newPrice = new Price(price);
                 for (Price curPrice : this) {
                     for (Long day=days[0]; day<=days[1]; day+=ONE_DAY) {
-                        //System.err.print(day + " ");
-                        //System.err.println();
                         if (curPrice.remove(day)){
                             newPrice.add(day);
                         }
