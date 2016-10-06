@@ -104,12 +104,12 @@ public class CalendarToGsonTest {
     }
 
     @Test
-    public void testCalendarIsDayDefault(){
+    public void testCalendarIsPriceDefault(){
         System.out.println("--------------------[ testCalendarIsDayDefault ]");
         statusCalendar.addDays(priceCalendar.get("scheme4").getPrice(), convertDate(priceCalendar.get("scheme4").getDays()));
         statusCalendar.addDays(priceCalendar.get("scheme5").getPrice(), convertDate(priceCalendar.get("scheme5").getDays()));
 
-        System.out.println( "Is Calendar-Day(7): " + statusCalendar.isDay(convertDate("07.10.2016")) );
+        System.out.println( "Is Calendar Day-Price(7): " + statusCalendar.isPrice(convertDate("07.10.2016")) );
     }
 
     @Test

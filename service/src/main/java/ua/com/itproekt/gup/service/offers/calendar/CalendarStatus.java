@@ -14,7 +14,6 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
     private static String formatter = "d.MM.yyyy";
     private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(formatter, Locale.ENGLISH);
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
-    private Long ONE_DAY = 86400000l;
 
     private static volatile Boolean initDate;
     private Long weekdayPrice,weekendPrice;
@@ -50,7 +49,7 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
         }
     }
 
-    private void initDate(int month, int year){
+    private void initDate(int month, int year){ //TODO: Integer
         java.util.Calendar cal = new GregorianCalendar(year, (month-1), 1);
         do {
             String strMonth = month<10 ? "0" + month : String.valueOf(month),
@@ -80,10 +79,8 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
         synchronized (CalendarStatus.class) {
             if (initDate == null) {
                 Arrays.sort(days);
-                java.util.Calendar firstCal = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), 1),
-                        lastCal = new GregorianCalendar(Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[1])-1), 1),
-                        currCal = java.util.Calendar.getInstance();
-                for (currCal = firstCal; currCal.getTimeInMillis()<=lastCal.getTimeInMillis(); firstCal.add(java.util.Calendar.MONTH, 1))
+                java.util.Calendar lastCal = new GregorianCalendar(Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[1])-1), 1);
+                for (java.util.Calendar currCal = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), 1); currCal.getTimeInMillis()<=lastCal.getTimeInMillis(); currCal.add(java.util.Calendar.MONTH, 1))
                     initDate(Integer.valueOf(String.valueOf(simpleDateFormat.format(currCal.getTime())).split("\\.")[1]), Integer.valueOf(String.valueOf(simpleDateFormat.format(currCal.getTime())).split("\\.")[2]));
                 init();
 
@@ -98,21 +95,16 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
         switch (days.length) {
             case 1:
                 initDate(days[0]);
-                for (Price curPrice : this) {
-                    if (curPrice.remove(days[0])){
-                        newPrice.add(days[0]);
-                    }
-                }
+                for (Price curPrice : this)
+                    if (curPrice.remove(days[0])) newPrice.add(days[0]);
                 add(newPrice);
                 break;
             case 2:
                 initDate(days);
-                for (Price curPrice : this) {
-                    for (Long day=days[0]; day<=days[1]; day+=ONE_DAY) { //TODO FIX-ME: ошибка каунта дней в периоде года..
-                        if (curPrice.remove(day)){
-                            newPrice.add(day);
-                        }
-                    }
+                java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(convertDate(days[1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[1]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[1]).split("\\.")[0]));
+                for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)) {
+                    for (Price currPrice : this)
+                        if (currPrice.remove(currDate.getTimeInMillis())) newPrice.add(currDate.getTimeInMillis());
                 }
                 add(newPrice);
                 break;
@@ -121,7 +113,7 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
         }
     }
 
-    public boolean isDay(Long day) {
+    public boolean isPrice(Long day) {
         for (Price prices : this)
             if (prices.contains(day)) return true;
         return false;
@@ -130,18 +122,16 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
     public Long getPrice(Long[] days){
         Long price = 0l;
         for (Price prices : this) {
-            for (Long day : days) {
+            for (Long day : days)
                 if (prices.contains(day)) price += prices.get();
-            }
         }
         return price;
     }
 
     public Long getPrice(Long day){
         Long price = 0l;
-        for (Price prices : this) {
+        for (Price prices : this)
             if (prices.contains(day)) price += prices.get();
-        }
         return price;
     }
 
@@ -152,7 +142,6 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
             for (Long price : prices) data.append(prices.get() + "(" + convertDate(price) + ") ");
             if (!prices.isEmpty()) data.append("\n");
         }
-
         return data.toString();
     }
 
@@ -184,14 +173,16 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
     }
 
     /**
-     * @param strDate
-     * @return
+     * [<DAY.MONTH.YEAR>] >> [(Long)]
+     * ("30.06.2014" >> 1472936400000)
+     *
+     * @param[] strDate
+     * @return[]
      */
     private Long[] convertDate(String[] strDate) {
-        Long[] longDate = new Long[strDate.length];
-        for (int date=0; date<strDate.length; ++date){
-            longDate[date] = convertDate(strDate[date]);
-        }
-        return longDate;
+        Long[] lDate = new Long[strDate.length];
+        for (int date=0; date<strDate.length; ++date)
+            lDate[date] = convertDate(strDate[date]);
+        return lDate;
     }
 }
