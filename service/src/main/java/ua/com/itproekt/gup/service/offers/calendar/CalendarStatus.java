@@ -1,5 +1,7 @@
 package ua.com.itproekt.gup.service.offers.calendar;
 
+import com.google.gson.Gson;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -7,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
+public abstract class CalendarStatus extends ConcurrentLinkedQueue<Price> {
 
     private static volatile Boolean initDate;
     private static String formatter = "d.MM.yyyy";
@@ -15,6 +17,9 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
     private Long weekdayPrice,weekendPrice;
     private Long[][] weekdays,weekends;
     private ArrayList<Long> listWeekdays,listWeekends;
+    private Gson gson;
+
+    private CalendarStatus(){}
 
     public CalendarStatus(Long weekdayPrice, Long weekendPrice){
         this.weekdayPrice = weekdayPrice;
@@ -22,30 +27,63 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
         initDate = null;
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
+        gson = new Gson();
     }
 
-    public void addDays(Long price, Long[] days) {
-        Price newPrice = new Price(price);
-
+    public void addPrices(Long price, Long[] days) {
+        Price newPrice;
         switch (days.length) {
+            case 0:
+                java.util.Calendar calendar = java.util.Calendar.getInstance();
+                initDate(calendar.getTimeInMillis());
+                break;
             case 1:
                 initDate(days[0]);
-                for (Price curPrice : this)
-                    if (curPrice.remove(days[0])) newPrice.add(days[0]);
-                add(newPrice);
+                synchronized (CalendarStatus.class){
+                    newPrice = new Price(price);
+                    for (Price curPrice : this)
+                        if (curPrice.remove(days[0])) newPrice.add(days[0]);
+                    add(newPrice);
+                }
                 break;
             case 2:
                 initDate(days);
-                java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(convertDate(days[1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[1]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[1]).split("\\.")[0]));
-                for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)) {
-                    for (Price currPrice : this)
-                        if (currPrice.remove(currDate.getTimeInMillis())) newPrice.add(currDate.getTimeInMillis());
+                synchronized (CalendarStatus.class){
+                    newPrice = new Price(price);
+                    java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(convertDate(days[1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[1]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[1]).split("\\.")[0]));
+                    for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)) {
+                        for (Price currPrice : this)
+                            if (currPrice.remove(currDate.getTimeInMillis())) newPrice.add(currDate.getTimeInMillis());
+                    }
+                    add(newPrice);
                 }
-                add(newPrice);
                 break;
             default:
                 break;
         }
+    }
+
+    public Integer delPrices(Long[] days) {
+        Integer del;
+        synchronized (CalendarStatus.class){
+            del = 0;
+            switch (days.length) {
+                case 1:
+                    for (Price curPrice : this)
+                        if (curPrice.remove(days[0])) del++;
+                    break;
+                case 2:
+                    java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(convertDate(days[1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[1]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[1]).split("\\.")[0]));
+                    for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)){
+                        for (Price currPrice : this)
+                            if (currPrice.remove(currDate.getTimeInMillis())) del++;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        return del;
     }
 
     public Boolean isPrice(Long day) {
@@ -78,6 +116,10 @@ public class CalendarStatus extends ConcurrentLinkedQueue<Price> {
             if (!prices.isEmpty()) data.append("\n");
         }
         return data.toString();
+    }
+
+    public String toJson() {
+        return gson.toJson(this);
     }
 
 

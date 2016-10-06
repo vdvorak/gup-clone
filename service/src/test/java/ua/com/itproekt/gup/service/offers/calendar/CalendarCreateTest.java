@@ -76,9 +76,9 @@ public class CalendarCreateTest {
         calendar1 = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
 
-        schemeDefault = new CalendarStatus(10000l,15000l);
-        scheme1 = new CalendarStatus(10000l,15000l);
-        scheme2 = new CalendarStatus(10000l,15000l);
+        schemeDefault = new CalendarStatusOwner(10000l,15000l);
+        scheme1 = new CalendarStatusOwner(10000l,15000l);
+        scheme2 = new CalendarStatusOwner(10000l,15000l);
     }
 
     @After
