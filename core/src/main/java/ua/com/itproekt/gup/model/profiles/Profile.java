@@ -40,6 +40,7 @@ public class Profile {
     private Set<String> contactList;
     private UserProfile userProfile;
     private Set<String> favoriteOffers;
+    private String status;
 
     private Integer point;
     private Set<ProfileRating> profileRating;
@@ -192,10 +193,6 @@ public class Profile {
         return this;
     }
 
-    public void setOnline(boolean online) {
-        this.online = online;
-    }
-
     public Set<UserRole> getUserRoles() {
         return userRoles;
     }
@@ -281,6 +278,10 @@ public class Profile {
         return online;
     }
 
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+
     public Profile setIsOnline(boolean isOnline) {
         this.online = isOnline;
         return this;
@@ -314,6 +315,15 @@ public class Profile {
         return this;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public Profile setStatus(String status) {
+        this.status = status;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
@@ -323,6 +333,7 @@ public class Profile {
                 ", socWendor='" + socWendor + '\'' +
                 ", uid='" + uid + '\'' +
                 ", password='" + password + '\'' +
+                ", passwordRestore='" + passwordRestore + '\'' +
                 ", tokenKey='" + tokenKey + '\'' +
                 ", mainPhoneNumber='" + mainPhoneNumber + '\'' +
                 ", username='" + username + '\'' +
@@ -333,6 +344,7 @@ public class Profile {
                 ", contactList=" + contactList +
                 ", userProfile=" + userProfile +
                 ", favoriteOffers=" + favoriteOffers +
+                ", status='" + status + '\'' +
                 ", point=" + point +
                 ", profileRating=" + profileRating +
                 ", confirmModerator=" + confirmModerator +
