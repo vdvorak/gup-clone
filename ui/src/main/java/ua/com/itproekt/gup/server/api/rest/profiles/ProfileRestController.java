@@ -156,7 +156,7 @@ public class ProfileRestController {
         newProfile.setId(loggedUserId);
         Profile oldProfile = profilesService.findById(loggedUserId);
 
-        if (newProfile.getIdSeoWord() != null) { //if( !newProfile.getIdSeoWord().equals(null) ){
+        if (newProfile.getIdSeoWord() != null) {
             if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
                 if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
                     changeUserType(newProfile, oldProfile);
@@ -274,6 +274,26 @@ public class ProfileRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Change profile status
+     * @param status
+     * @return status 200 if ok
+     */
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/status/update", method = RequestMethod.POST)
+    public ResponseEntity<Void> updateStatus(@RequestBody String status) {
+
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+
+        Profile oldProfile = profilesService.findById(loggedUserId);
+        oldProfile.setStatus(status);
+
+        profilesService.editProfile(oldProfile);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/id/{profileId}/myContactList/delete", method = RequestMethod.POST)
