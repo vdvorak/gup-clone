@@ -52,7 +52,7 @@ public class CalendarCreateTest {
     @Test
     public void testCalendarIsDayDefault(){
         System.out.println("--------------------[ testCalendarIsDayDefault ]");
-        System.out.println( "Is Calendar-Day(6): " + schemeDefault.isDay(1402002000000l) );
+        System.out.println( "Is Calendar Day-Price(6): " + schemeDefault.isPrice(1402002000000l) );
     }
 
     @Test
