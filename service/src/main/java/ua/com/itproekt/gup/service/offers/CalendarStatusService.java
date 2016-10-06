@@ -1,6 +1,7 @@
-package ua.com.itproekt.gup.service.offers.calendar;
+package ua.com.itproekt.gup.service.offers;
 
 import com.google.gson.Gson;
+import ua.com.itproekt.gup.service.offers.calendar.Price;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -9,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public abstract class CalendarStatus extends ConcurrentLinkedQueue<Price> {
+public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price> {
 
     private static volatile Boolean initDate;
     private static String formatter = "d.MM.yyyy";
@@ -19,9 +20,9 @@ public abstract class CalendarStatus extends ConcurrentLinkedQueue<Price> {
     private ArrayList<Long> listWeekdays,listWeekends;
     private Gson gson;
 
-    private CalendarStatus(){}
+    private CalendarStatusService(){}
 
-    public CalendarStatus(Long weekdayPrice, Long weekendPrice){
+    public CalendarStatusService(Long weekdayPrice, Long weekendPrice){
         this.weekdayPrice = weekdayPrice;
         this.weekendPrice = weekendPrice;
         initDate = null;
@@ -39,7 +40,7 @@ public abstract class CalendarStatus extends ConcurrentLinkedQueue<Price> {
                 break;
             case 1:
                 initDate(days[0]);
-                synchronized (CalendarStatus.class){
+                synchronized (CalendarStatusService.class){
                     newPrice = new Price(price);
                     for (Price curPrice : this)
                         if (curPrice.remove(days[0])) newPrice.add(days[0]);
@@ -48,7 +49,7 @@ public abstract class CalendarStatus extends ConcurrentLinkedQueue<Price> {
                 break;
             case 2:
                 initDate(days);
-                synchronized (CalendarStatus.class){
+                synchronized (CalendarStatusService.class){
                     newPrice = new Price(price);
                     java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(convertDate(days[1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[1]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[1]).split("\\.")[0]));
                     for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)) {
@@ -65,7 +66,7 @@ public abstract class CalendarStatus extends ConcurrentLinkedQueue<Price> {
 
     public Integer delPrices(Long[] days) {
         Integer del;
-        synchronized (CalendarStatus.class){
+        synchronized (CalendarStatusService.class){
             del = 0;
             switch (days.length) {
                 case 1:
@@ -124,7 +125,7 @@ public abstract class CalendarStatus extends ConcurrentLinkedQueue<Price> {
 
 
     private void init(){
-        synchronized (CalendarStatus.class){
+        synchronized (CalendarStatusService.class){
             if (initDate==null){
                 weekdays = new Long[1][listWeekdays.size()];
                 weekends = new Long[1][listWeekends.size()];
@@ -156,7 +157,7 @@ public abstract class CalendarStatus extends ConcurrentLinkedQueue<Price> {
     }
 
     private void initDate(Long day){
-        synchronized (CalendarStatus.class) {
+        synchronized (CalendarStatusService.class) {
             if (initDate == null) {
                 initDate(Integer.valueOf(convertDate(day).split("\\.")[1]), Integer.valueOf(convertDate(day).split("\\.")[2]));
                 init();
@@ -167,7 +168,7 @@ public abstract class CalendarStatus extends ConcurrentLinkedQueue<Price> {
     }
 
     private void initDate(Long[] days){
-        synchronized (CalendarStatus.class) {
+        synchronized (CalendarStatusService.class) {
             if (initDate == null) {
                 Arrays.sort(days);
                 java.util.Calendar lastCal = new GregorianCalendar(Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[1])-1), 1);

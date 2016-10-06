@@ -4,15 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ua.com.itproekt.gup.service.offers.CalendarStatusService;
+import ua.com.itproekt.gup.service.offers.CalendarStatusServiceImpl;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -40,7 +39,7 @@ public class CalendarToGsonTest {
     private Gson gsonStatusCalendarDefault,gsonStatusCalendar1;
     private Map<String, Calendar> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
-    private CalendarStatus statusCalendar;
+    private CalendarStatusService statusCalendar;
 
     @Before
     public void setUp() {
@@ -58,7 +57,7 @@ public class CalendarToGsonTest {
         gsonStatusCalendarDefault = new Gson();
         gsonStatusCalendar1 = new Gson();
 
-        statusCalendar = new CalendarStatusOwner(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
+        statusCalendar = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
     }
 
     @After
