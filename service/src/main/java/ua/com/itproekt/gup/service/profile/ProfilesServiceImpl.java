@@ -303,11 +303,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.profileRatingExists(profileId, profileRatingId);
     }
 
-//    @Override
-//    public void addFriend(String profileId, String friendProfileId) {
-//        profileRepository.addFriend(profileId, friendProfileId);
-//    }
-
     /**
      * @param term
      * @return
@@ -479,7 +474,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         List<FavoriteOfferInfo> favoriteOfferInfoList = favoriteOfferInfoListPreparator(profile);
 
-        
+
         profileInfo.setUserBalance(bankSession.getUserBalance(profile.getId()))
                 .setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())))
                 .setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()))
@@ -589,28 +584,28 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
 
-    /**
-     * @param profileId
-     * @return
-     */
-    private List<Order> orderListPreparatorForUser(String profileId) {
-        OrderFilterOptions orderFilterOptions = new OrderFilterOptions();
-        orderFilterOptions.setBuyerId(profileId);
-        orderFilterOptions.setSellerId(profileId);
-        return orderService.findOrdersWihOptions(orderFilterOptions);
-    }
+//    /**
+//     * @param profileId
+//     * @return
+//     */
+//    private List<Order> orderListPreparatorForUser(String profileId) {
+//        OrderFilterOptions orderFilterOptions = new OrderFilterOptions();
+//        orderFilterOptions.setBuyerId(profileId);
+//        orderFilterOptions.setSellerId(profileId);
+//        return orderService.findOrdersWihOptions(orderFilterOptions);
+//    }
 
 
-    /**
-     * Calculate average point of orders for user (seller) from order list
-     *
-     * @param profileId
-     * @return
-     */
-    private int calculateAveragePointsForSellerByUserId(String profileId) {
-        List<OrderFeedback> orderFeedbackList = feedbackListPreparatorForProfile(profileId);
-        return orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList);
-    }
+//    /**
+//     * Calculate average point of orders for user (seller) from order list
+//     *
+//     * @param profileId
+//     * @return
+//     */
+//    private int calculateAveragePointsForSellerByUserId(String profileId) {
+//        List<OrderFeedback> orderFeedbackList = feedbackListPreparatorForProfile(profileId);
+//        return orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList);
+//    }
 
     /**
      * @param profile
@@ -661,7 +656,11 @@ public class ProfilesServiceImpl implements ProfilesService {
         return orderList;
     }
 
-
+    /**
+     * Count empty field for profile
+     * @param profile
+     * @return
+     */
     private int countEmptyFields(Profile profile) {
         int result = 0;
 
