@@ -145,7 +145,8 @@ public class ProfileRestController {
      * Update profile response entity.
      *
      * @param newProfile the new profile with id of entity in request body
-     * @return the response status
+     * @return the response status, Forbiden (403) if: main email is empty for profile which has social vendor "gup.com.ua"
+     * 403 can also be if someone profile already exist with new email.
      */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
@@ -156,6 +157,25 @@ public class ProfileRestController {
         newProfile.setId(loggedUserId);
         Profile oldProfile = profilesService.findById(loggedUserId);
 
+
+        if (newProfile.getSocWendor().equals("gup.com.ua")) {
+            if (newProfile.getEmail() == null) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            if (newProfile.getEmail().equals("")) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        }
+
+
+        // check if someone profile already exist with new main email
+        if (newProfile.getEmail() != null) {
+            Profile foundByEmailProfile = profilesService.findProfileByEmail(newProfile.getEmail());
+            if (!loggedUserId.equals(foundByEmailProfile.getId())) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+        }
+        
         if (newProfile.getIdSeoWord() != null) {
             if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
                 if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
@@ -247,6 +267,13 @@ public class ProfileRestController {
         return new ResponseEntity<>(profiles, HttpStatus.OK);
     }
 
+
+    /**
+     * Check if profile with specific email exist
+     *
+     * @param email
+     * @return
+     */
     @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "/profile/email-check", method = RequestMethod.POST)
@@ -276,6 +303,7 @@ public class ProfileRestController {
 
     /**
      * Change profile status
+     *
      * @param status
      * @return status 200 if ok
      */
@@ -293,7 +321,7 @@ public class ProfileRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    
+
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/id/{profileId}/myContactList/delete", method = RequestMethod.POST)

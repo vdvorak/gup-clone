@@ -59,7 +59,8 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setSocWendor(profile.getSocWendor())
                 .setPassword(hashedPassword)
                 .setUserRoles(userRoles)
-                .setCreatedDateEqualsToCurrentDate();
+                .setCreatedDateEqualsToCurrentDate()
+                .setNotCompletedFields(11); // strange and magic number. Actually it is total number of fields, that you can manually filled.
 
         setEmptyFieldsForNewUser(newProfile);
 
@@ -118,6 +119,7 @@ public class ProfilesServiceImpl implements ProfilesService {
      */
     @Override
     public Profile editProfile(Profile profile) {
+        profile.setNotCompletedFields(countEmptyFields(profile));
         return profileRepository.findProfileAndUpdate(profile);
     }
 
@@ -369,7 +371,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         Profile profile = findById(id);
         profile.setLastLoginDateEqualsToCurrentDate();
         profileRepository.findProfileAndUpdate(profile);
-
         return prepareAdditionalFieldForPrivate(profile);
     }
 
@@ -527,6 +528,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileInfo.setUserAveragePoints(orderService.calculateAveragePointsForListOfOrders(orderInfoListToOrderList(orderInfoSellerList)));
         System.err.println("setUserAveragePoints time: " + (System.currentTimeMillis() - startTime));
 
+
+        //ToDo посчитать количество пустых полей
+
+
         profileInfo.getProfile().setFavoriteOffers(null);
 
         profileInfo.getProfile().setPassword(null);
@@ -645,7 +650,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         return orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList);
     }
 
-
+    /**
+     * @param profile
+     * @return
+     */
     private List<FavoriteOfferInfo> favoriteOfferInfoListPreparator(Profile profile) {
         List<FavoriteOfferInfo> favoriteOfferInfoList = new ArrayList<>();
 
@@ -661,7 +669,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         return favoriteOfferInfoList;
     }
 
-
+    /**
+     * @param favoriteOfferId
+     * @return
+     */
     private FavoriteOfferInfo favoriteOfferInfoPreparator(String favoriteOfferId) {
         FavoriteOfferInfo favoriteOfferInfo = new FavoriteOfferInfo();
 
@@ -675,6 +686,10 @@ public class ProfilesServiceImpl implements ProfilesService {
         return favoriteOfferInfo;
     }
 
+    /**
+     * @param orderInfoList
+     * @return
+     */
     private List<Order> orderInfoListToOrderList(List<OrderInfo> orderInfoList) {
         List<Order> orderList = new ArrayList<>();
 
@@ -682,6 +697,65 @@ public class ProfilesServiceImpl implements ProfilesService {
             orderList.add(orderInfo.getOrder());
         }
         return orderList;
+    }
+
+
+    private int countEmptyFields(Profile profile) {
+        int result = 0;
+
+
+        // 1
+        if (profile.getMainPhoneNumber() == null) {
+            result++;
+        }
+
+        // 1
+        if (profile.getUsername() == null) {
+            result++;
+        }
+
+        // 1
+        if (profile.getImgId() == null && profile.getImgUrl() == null) {
+            result++;
+        }
+
+        // 1
+        if (profile.getBirthDate() == null) {
+            result++;
+        }
+
+
+        // 8 maximum
+        if (profile.getContact() == null) {
+            result = result + 8;
+        } else {
+            if (profile.getContact().getPosition() == null) {
+                result++;
+            }
+            if (profile.getContact().getCompanyName() == null) {
+                result++;
+            }
+            if (profile.getContact().getAboutUs() == null) {
+                result++;
+            }
+            if (profile.getContact().getSkypeUserName() == null) {
+                result++;
+            }
+            if (profile.getContact().getLinkToWebSite() == null) {
+                result++;
+            }
+            if (profile.getContact().getContactEmails() == null) {
+                result++;
+            }
+            if (profile.getContact().getContactPhones() == null) {
+                result++;
+            }
+            if (profile.getContact().getSocNetLink() == null) {
+                result++;
+            }
+        }
+
+        return result;
     }
 
 
