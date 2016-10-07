@@ -293,7 +293,7 @@ public class ProfileRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    
+
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/id/{profileId}/myContactList/delete", method = RequestMethod.POST)

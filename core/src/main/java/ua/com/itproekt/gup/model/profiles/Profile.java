@@ -40,6 +40,7 @@ public class Profile {
     private Set<String> contactList;
     private UserProfile userProfile;
     private Set<String> favoriteOffers;
+    @Size(max = 45)
     private String status;
 
     private Integer point;
@@ -51,6 +52,7 @@ public class Profile {
     private Long createdDate;
     private Long lastLoginDate;
     private boolean online;
+    private int notCompletedFields; //how many fields user filled
 
     private List<OrderAddress> orderAddressList;
     private List<OfferUserContactInfo> offerUserContactInfoList;
@@ -324,6 +326,16 @@ public class Profile {
         return this;
     }
 
+
+    public int getNotCompletedFields() {
+        return notCompletedFields;
+    }
+
+    public Profile setNotCompletedFields(int notCompletedFields) {
+        this.notCompletedFields = notCompletedFields;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
@@ -352,6 +364,7 @@ public class Profile {
                 ", createdDate=" + createdDate +
                 ", lastLoginDate=" + lastLoginDate +
                 ", online=" + online +
+                ", notCompletedFields=" + notCompletedFields +
                 ", orderAddressList=" + orderAddressList +
                 ", offerUserContactInfoList=" + offerUserContactInfoList +
                 '}';
