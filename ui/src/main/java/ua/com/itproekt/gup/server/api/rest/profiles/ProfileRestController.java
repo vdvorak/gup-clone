@@ -142,7 +142,7 @@ public class ProfileRestController {
     }
 
     /**
-     * Update profile response entity.
+     * Update profile.
      *
      * @param newProfile the new profile with id of entity in request body
      * @return the response status, Forbiden (403) if: main email is empty for profile which has social vendor "gup.com.ua"
@@ -158,6 +158,8 @@ public class ProfileRestController {
         Profile oldProfile = profilesService.findById(loggedUserId);
 
 
+
+        // we cant't allow empty email field for some cases
         if (newProfile.getSocWendor().equals("gup.com.ua")) {
             if (newProfile.getEmail() == null) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -175,7 +177,7 @@ public class ProfileRestController {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         }
-        
+
         if (newProfile.getIdSeoWord() != null) {
             if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
                 if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
@@ -310,7 +312,7 @@ public class ProfileRestController {
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/status/update", method = RequestMethod.POST)
-    public ResponseEntity<Void> updateStatus(@RequestBody String status) {
+    public ResponseEntity<String> updateStatus(@RequestBody String status) {
 
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
@@ -318,7 +320,10 @@ public class ProfileRestController {
         oldProfile.setStatus(status);
 
         profilesService.editProfile(oldProfile);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        // Fixme delete this bullshit
+        String result = profilesService.findById(loggedUserId).getStatus();
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 
