@@ -23,31 +23,10 @@ import java.util.Map;
 /**
  * Конструктор
  * ===========
- * #1. Две стоимости (будни/выходные); Две даты (начальная/конечная):
- *     --------------------------------------------------------------
- *     - За дефолтный период (три полных месяца) устанавливается стоимость с учетом будней и выходных;
- *       -- дефолтный период (три полных месяца) определяется с учетом указанных дат (начальной/конечной)
- *       -- через конструктор с параметрами
- *     - За указанный период (начальной - конечной даты) устанавливается специальная стоимость;
- *       -- можно через дефолтный конструктор (без параметров)
- *
- * #2. Две стоимости (будни/выходные); Без даты (пустой массив):
- *     ---------------------------------------------------------
- *     - За дефолтный период (три полных месяца) устанавливается стоимость с учетом будней и выходных;
- *       -- дефолтный период (три полных месяца) определяется с учетом текущей даты
- *       -- через конструктор с параметрами
- *
- * #3. Одна стоимость (на каждый день); Две даты (начальная/конечная):
- *     ---------------------------------------------------------------
- *     - Только за указанный период (начальной - конечной даты) устанавливается специальная стоимость;
- *       -- Можно устанавливать специальную стоимость только на один день (начальная/конечная даты совпадают)
- *       -- можно через дефолтный конструктор (без параметров)
- *
- * #4. Одна стоимость (на каждый день); Без даты (пустой массив):
- *     ----------------------------------------------------------
- *     - За дефолтный период (три полных месяца) устанавливается специальная стоимость;
- *       -- дефолтный период (три полных месяца) определяется с учетом текущей даты
- *       -- можно через дефолтный конструктор (без параметров)
+ * #1. Две стоимости (будни/выходные); Две даты (начальная/конечная);
+ * #2. Две стоимости (будни/выходные); Без даты (пустой массив);
+ * #3. Одна стоимость (на каждый день); Две даты (начальная/конечная);
+ * #4. Одна стоимость (на каждый день); Без даты (пустой массив);
  *
  * Иннициализация
  * ==============
@@ -87,8 +66,6 @@ public class CalendarCreateTest {
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
         gsonStatusCalendarDefault = new Gson();
         gsonStatusCalendar1 = new Gson();
-
-        statusCalendar = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
     }
 
     @After
@@ -103,35 +80,83 @@ public class CalendarCreateTest {
     }
 
     /**
-     * Устанавливаем цену на специальные дни (специальных дней может быть неогрниченно много в пределах выбранного периода..)
-     * (запрос устанавливает: единую стоимость; стоимость на будни и выходные дни; стоимость на специальные дни;)
+     * #1. Две стоимости (будни/выходные); Две даты (начальная/конечная):
+     *     --------------------------------------------------------------
+     *     - За дефолтный период (три полных месяца) устанавливается стоимость с учетом будней и выходных;
+     *       -- дефолтный период (три полных месяца) определяется с учетом указанных дат (начальной/конечной)
+     *       -- через конструктор с параметрами
+     *     - За указанный период (начальной - конечной даты) устанавливается специальная стоимость;
+     *       -- можно через дефолтный конструктор (без параметров)
      */
     @Test
-    public void testOwnerToStringPrices(){
-        System.out.println("--------------------[ testOwnerToStringPrices ]");
-//        statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
-//        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
-        statusCalendar.addPrices(calendarPrices.get("scheme6").getPrice(), convertDate(calendarPrices.get("scheme6").getDays()));
-//        statusCalendar.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays()));
+    public void testOwnerCreateCalendarPrices_1(){
+        System.out.println("--------------------[ testOwnerCreateCalendarPrices_1 ]");
 
+        statusCalendar = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
+        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
         System.out.println(statusCalendar);
-//        System.err.println("Calendar-Status (year): " + gsonStatusCalendarDefault.toJson(statusCalendar)); // 'PriceScheme'
     }
 
     /**
-     * Test(s) Scheme-Default
-     * Java object to JSON, and assign to a String
+     * #2. Две стоимости (будни/выходные); Без даты (пустой массив):
+     *     ---------------------------------------------------------
+     *     - За дефолтный период (три полных месяца) устанавливается стоимость с учетом будней и выходных;
+     *       -- дефолтный период (три полных месяца) определяется с учетом текущей даты
+     *       -- через конструктор с параметрами
      */
     @Test
-    public void testOwnerToJSONPrices(){
-        System.out.println("--------------------[ testOwnerToJSONPrices ]");
-//        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
-//        statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
-        statusCalendar.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays()));
+    public void testOwnerCreateCalendarPrices_2(){
+        System.out.println("--------------------[ testOwnerCreateCalendarPrices_2 ]");
 
-//        System.err.println("Calendar-Status: " + gsonStatusCalendarDefault.toJson(statusCalendar)); // 'PriceScheme'
-        System.err.println("Calendar-Status: " + statusCalendar.toJson()); // 'PriceScheme'
-        System.err.println("Calendar-Price: " + gsonStatusCalendar1.toJson(calendarPrices)); // 'Calendars'
+        statusCalendar = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
+        statusCalendar.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays()));
+        System.out.println(statusCalendar);
+    }
+
+    /**
+     * #3.1 Одна стоимость (на каждый день); Две даты (начальная/конечная):
+     *     ---------------------------------------------------------------
+     *     - Только за указанный период (начальной - конечной даты) устанавливается специальная стоимость;
+     *       -- Можно устанавливать специальную стоимость только на один день (начальная/конечная даты совпадают)
+     *       -- можно через дефолтный конструктор (без параметров)
+     */
+    @Test
+    public void testOwnerCreateCalendarPrices_31() {
+        System.out.println("--------------------[ testOwnerCreateCalendarPrices_31 ]");
+
+        statusCalendar = new CalendarStatusServiceImpl();
+        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
+        System.out.println(statusCalendar);
+    }
+
+    /**
+     * #3.2 Одна стоимость; Одна дата (на один день):
+     *     ------------------------------------------
+     *     - Можно устанавливать специальную стоимость только на один день;
+     *       -- можно через дефолтный конструктор (без параметров)
+     */
+    @Test
+    public void testOwnerCreateCalendarPrices_32() {
+        System.out.println("--------------------[ testOwnerCreateCalendarPrices_32 ]");
+
+        statusCalendar = new CalendarStatusServiceImpl();
+        statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
+        System.out.println(statusCalendar);
+    }
+
+    /**
+     * #4. Одна стоимость (на каждый день); Без даты (пустой массив):
+     *     ----------------------------------------------------------
+     *     - За дефолтный период (три полных месяца) устанавливается специальная стоимость;
+     *       -- дефолтный период (три полных месяца) определяется с учетом текущей даты
+     *       -- можно через дефолтный конструктор (без параметров)
+     */
+    @Test
+    public void testOwnerCreateCalendarPrices_4() {
+        System.out.println("--------------------[ testOwnerCreateCalendarPrices_4 ]");
+
+        statusCalendar = new CalendarStatusServiceImpl();
+        statusCalendar.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays()));
         System.out.println(statusCalendar);
     }
 

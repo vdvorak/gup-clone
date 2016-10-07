@@ -10,4 +10,8 @@ public class CalendarStatusServiceImpl extends CalendarStatusService {
         super(weekdayPrice, weekendPrice);
     }
 
+    public CalendarStatusServiceImpl(){
+        super();
+    }
+
 }
