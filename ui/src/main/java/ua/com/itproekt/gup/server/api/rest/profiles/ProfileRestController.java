@@ -142,7 +142,7 @@ public class ProfileRestController {
     }
 
     /**
-     * Update profile response entity.
+     * Update profile.
      *
      * @param newProfile the new profile with id of entity in request body
      * @return the response status, Forbiden (403) if: main email is empty for profile which has social vendor "gup.com.ua"
@@ -158,6 +158,8 @@ public class ProfileRestController {
         Profile oldProfile = profilesService.findById(loggedUserId);
 
 
+
+        // we cant't allow empty email field for some cases
         if (newProfile.getSocWendor().equals("gup.com.ua")) {
             if (newProfile.getEmail() == null) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -175,7 +177,7 @@ public class ProfileRestController {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         }
-        
+
         if (newProfile.getIdSeoWord() != null) {
             if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {
                 if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
