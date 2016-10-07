@@ -22,7 +22,7 @@ public class Profile {
 
     @Indexed
     private String email;
-    private String socWendor = "gup.com.ua";
+    private String socWendor = "gup.com.ua"; // default vendor
     private String uid;
     private String password;
     private String passwordRestore;
