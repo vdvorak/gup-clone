@@ -2,14 +2,14 @@ package ua.com.itproekt.gup.service.offers.calendar;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import javafx.application.Application;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ua.com.itproekt.gup.service.offers.CalendarStatusService;
+import ua.com.itproekt.gup.service.offers.CalendarStatusServiceImpl;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -17,12 +17,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
-import org.apache.log4j.Logger;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import ua.com.itproekt.gup.model.offer.paidservices.Marked;
 
 public class CalendarUpdateTest {
 
@@ -37,7 +31,7 @@ public class CalendarUpdateTest {
     private JsonObject jsonCalendars,jsonRents;
     private Map<String, Calendar> calendar1; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
-    private CalendarStatus schemeDefault,scheme1,scheme2;
+    private CalendarStatusService schemeDefault,scheme1,scheme2;
 
     @Before
     public void setUp() {
@@ -53,9 +47,9 @@ public class CalendarUpdateTest {
         calendar1 = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
 
-        schemeDefault = new CalendarStatus(10000l,15000l);
-        scheme1 = new CalendarStatus(10000l,15000l);
-        scheme2 = new CalendarStatus(10000l,15000l);
+        schemeDefault = new CalendarStatusServiceImpl(10000l,15000l);
+        scheme1 = new CalendarStatusServiceImpl(10000l,15000l);
+        scheme2 = new CalendarStatusServiceImpl(10000l,15000l);
     }
 
     @After
@@ -75,23 +69,23 @@ public class CalendarUpdateTest {
     @Test
     public void testScheme1(){
         System.out.println("--------------------[ testScheme1 ]");
-        scheme1.addDays(calendar1.get("scheme1").getPrice(), convertDate(calendar1.get("scheme1").getDays()));
+        scheme1.addPrices(calendar1.get("scheme1").getPrice(), convertDate(calendar1.get("scheme1").getDays()));
         System.out.println(scheme1);
     }
 
     @Test
     public void testGetPriceScheme1(){
         System.out.println("--------------------[ testGetPriceScheme1 ]");
-        scheme1.addDays(calendar1.get("scheme2").getPrice(), convertDate(calendar1.get("scheme2").getDays()));
-        scheme1.addDays(calendar1.get("scheme3").getPrice(), convertDate(calendar1.get("scheme3").getDays()));
+        scheme1.addPrices(calendar1.get("scheme2").getPrice(), convertDate(calendar1.get("scheme2").getDays()));
+        scheme1.addPrices(calendar1.get("scheme3").getPrice(), convertDate(calendar1.get("scheme3").getDays()));
         System.out.println( "Day(6) Get-Price = " + scheme1.getPrice(1402002000000l) );
     }
 
     @Test
     public void testGetPeriodPricesScheme1(){
         System.out.println("--------------------[ testGetPeriodPricesScheme1 ]");
-        scheme1.addDays(calendar1.get("scheme2").getPrice(), convertDate(calendar1.get("scheme2").getDays()));
-        scheme1.addDays(calendar1.get("scheme3").getPrice(), convertDate(calendar1.get("scheme3").getDays()));
+        scheme1.addPrices(calendar1.get("scheme2").getPrice(), convertDate(calendar1.get("scheme2").getDays()));
+        scheme1.addPrices(calendar1.get("scheme3").getPrice(), convertDate(calendar1.get("scheme3").getDays()));
         System.out.println( "Period(18-25) Get-Prices = " + scheme1.getPrice(convertDate(rents.get("rent1").getDays())) );
     }
 
@@ -102,8 +96,8 @@ public class CalendarUpdateTest {
     @Test
     public void testScheme2(){
         System.out.println("--------------------[ testScheme2 ]");
-        scheme2.addDays(calendar1.get("scheme2").getPrice(), convertDate(calendar1.get("scheme2").getDays()));
-        scheme2.addDays(calendar1.get("scheme3").getPrice(), convertDate(calendar1.get("scheme3").getDays()));
+        scheme2.addPrices(calendar1.get("scheme2").getPrice(), convertDate(calendar1.get("scheme2").getDays()));
+        scheme2.addPrices(calendar1.get("scheme3").getPrice(), convertDate(calendar1.get("scheme3").getDays()));
         System.out.println(scheme2);
     }
 
