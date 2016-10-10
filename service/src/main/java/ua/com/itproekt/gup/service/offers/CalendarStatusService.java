@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.service.offers;
 
 import com.google.gson.Gson;
+import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.service.offers.calendar.Price;
 
 import java.text.SimpleDateFormat;
@@ -10,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@Service
 public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price> {
 
     private static volatile Boolean initDate;
