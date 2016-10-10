@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.server.api.rest.profiles;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -158,7 +159,6 @@ public class ProfileRestController {
         Profile oldProfile = profilesService.findById(loggedUserId);
 
 
-
         // we cant't allow empty email field for some cases
         if (newProfile.getSocWendor().equals("gup.com.ua")) {
             if (newProfile.getEmail() == null) {
@@ -306,18 +306,23 @@ public class ProfileRestController {
     /**
      * Change profile status
      *
-     * @param status
+     * @param profile
      * @return status 200 if ok
      */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/status/update", method = RequestMethod.POST)
-    public ResponseEntity<String> updateStatus(@RequestBody String status) {
+    public ResponseEntity<String> updateStatus(@RequestBody Profile profile) {
 
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         Profile oldProfile = profilesService.findById(loggedUserId);
-        oldProfile.setStatus(status);
+
+        if (StringUtils.isBlank(profile.getStatus())) {
+            oldProfile.setStatus(null);
+        } else {
+            oldProfile.setStatus(profile.getStatus());
+        }
 
         profilesService.editProfile(oldProfile);
 
