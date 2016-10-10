@@ -2,6 +2,8 @@ package ua.com.itproekt.gup.server.api.rest.offers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +18,8 @@ import ua.com.itproekt.gup.service.offers.calendar.Calendar;
 import ua.com.itproekt.gup.service.offers.calendar.CalendarPriceClass;
 import ua.com.itproekt.gup.service.offers.calendar.Rent;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -37,11 +41,11 @@ public class OfferCalendarRestController {
             offerCalendarCreate3 = "OfferCalendarRestController3.json",
             offerCalendarCreate4 = "OfferCalendarRestController4.json",
             offerCalendarCreate5 = "OfferCalendarRestController5.json";
-//
-//    private JsonObject jsonCalendars,jsonRents;
-//    private Gson gsonStatusCalendarDefault,gsonStatusCalendar1;
-//    private Map<String, Calendar> calendarPrices;
-//    private Map<String, Rent> rents;
+
+    private JsonObject jsonCalendars,jsonRents;
+    private Gson gsonStatusCalendarDefault,gsonStatusCalendar1;
+    private Map<String, Calendar> calendarPrices;
+    private Map<String, Rent> rents;
 
 //    @Autowired
     private CalendarStatusService calendarStatusService;
@@ -52,33 +56,32 @@ public class OfferCalendarRestController {
     @Autowired
     private ActivityFeedService activityFeedService;
 
-//    @RequestMapping(value = "/offer/{offerId}/calendar", method = RequestMethod.GET,
-//            consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<String> getCalendar(@PathVariable String offerId){
-//        JsonParser parser = new JsonParser();
-//        Gson gson = new Gson();
-//        try {
-//            jsonCalendars = (JsonObject) parser.parse(new FileReader(PATH + "/" + RENTCALENDAR_FILE_NAME));
-//            jsonRents = (JsonObject) parser.parse(new FileReader(PATH + "/" + RENT_FILE_NAME));
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
-//        rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
-//        gsonStatusCalendarDefault = new Gson();
-//        gsonStatusCalendar1 = new Gson();
-//
-//        if (!offersService.offerExists(offerId)) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-////        Offer offer = offersService.findById(offerId);
-////        if (!offer.getCanBeRented() || (offer.getRent() != null)) {
-////            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-////        }
-//
-//        return new ResponseEntity<>(gsonStatusCalendarDefault.toJson(statusCalendar), HttpStatus.OK);
-//    }
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/offer/{offerId}/calendar", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getCalendar(@PathVariable String offerId){
+        if (!offersService.offerExists(offerId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        JsonParser parser = new JsonParser();
+        Gson gson = new Gson();
+        try {
+            jsonCalendars = (JsonObject) parser.parse(new FileReader(PATH + "/" + offerCalendarCreate1));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
+        gsonStatusCalendarDefault = new Gson();
+        gsonStatusCalendar1 = new Gson();
+
+
+        calendarStatusService = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
+//        calendarStatusService = new CalendarStatusServiceImpl();
+        calendarStatusService.addPrices(calendarPrices.get("specialPrice").getPrice(), convertDate(calendarPrices.get("specialPrice").getDays())); // Устанавливаем специальную цену на отдельные дни
+
+        return new ResponseEntity<>(calendarStatusService.toJson(), HttpStatus.CREATED); //return new ResponseEntity<>(calendarPrice.toString(), HttpStatus.OK);
+    }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/{offerId}/calendar", method = RequestMethod.POST,
