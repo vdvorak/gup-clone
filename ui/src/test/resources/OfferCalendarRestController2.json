@@ -1,0 +1,10 @@
+{
+  "weekdayPrice": 10000,
+  "weekendPrice": 15000,
+  "specialPrice":
+  {
+    "name": "scheme4",
+    "price": 0,
+    "days": []
+  }
+}
