@@ -99,19 +99,19 @@
                                                 </div>
                                                 <div class="checkbox">
                                                     <label><input id="moderatorCheck" type="checkbox"
-                                                                  value="ROLE_MODERATOR">MODERATOR</label>
+                                                                  value="ROLE_MODERATOR">SPECTATOR</label>
                                                 </div>
                                             </div>
                                             <div class="col-xs-4">
                                                 <br>
-                                                <div class="checkbox">
-                                                    <label><input id="anonymousCheck" type="checkbox"
-                                                                  value="ROLE_ANONYMOUS">ANONYMOUS</label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label><input id="userCheck" type="checkbox"
-                                                                  value="ROLE_USER">USER</label>
-                                                </div>
+                                                <%--<div class="checkbox">--%>
+                                                    <%--<label><input id="anonymousCheck" type="checkbox"--%>
+                                                                  <%--value="ROLE_ANONYMOUS">ANONYMOUS</label>--%>
+                                                <%--</div>--%>
+                                                <%--<div class="checkbox">--%>
+                                                    <%--<label><input id="userCheck" type="checkbox"--%>
+                                                                  <%--value="ROLE_USER">USER</label>--%>
+                                                <%--</div>--%>
                                             </div>
 
                                         <div class="modal-footer">

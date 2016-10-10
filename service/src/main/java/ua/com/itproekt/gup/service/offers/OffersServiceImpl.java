@@ -53,7 +53,7 @@ public class OffersServiceImpl implements OffersService {
         Profile profile = new Profile();
 
         Set<UserRole> offerUserRoleSet = new HashSet<>();
-        offerUserRoleSet.add(UserRole.ROLE_OFFERS_USER_UNCONFIRMED);
+        offerUserRoleSet.add(UserRole.ROLE_USER);
 
         profile
                 .setEmail(offerRegistration.getEmail())

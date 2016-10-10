@@ -230,7 +230,7 @@ public class ProfilesServiceImpl implements ProfilesService {
     public boolean isUserModerator(Profile user) {
         Set<UserRole> userRoleSet = user.getUserRoles();
         for (UserRole userRole : userRoleSet) {
-            if (userRole == UserRole.ROLE_MODERATOR || userRole == UserRole.ROLE_ADMIN || userRole == UserRole.ROLE_SUPPORT) {
+            if (userRole == UserRole.ROLE_MODERATOR || userRole == UserRole.ROLE_ADMIN) {
                 return true;
             }
         }
