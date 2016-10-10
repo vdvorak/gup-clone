@@ -1,8 +1,8 @@
 let userNames = []; // for Bloodhound suggestion engine
 let users;
 
-let urlAdminProfileReadAll = 'http://localhost:8082/api/rest/admin/profile/read/all';
-let urlProfilePhoto = 'http://localhost:8082/api/rest/fileStorage/profile/photo/read/id/';
+let urlAdminProfileReadAll = 'http://localhost:8184/api/rest/admin/profile/read/all';
+let urlProfilePhoto = 'http://localhost:8184/api/rest/fileStorage/profile/photo/read/id/';
 let urlProfileCreate = '/api/rest/profilesService/profile/create';
 let urlProfileUpdBAdmin = '/api/rest/profilesService/profile/updateByAdmin';
 let tagNoPhoto = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';

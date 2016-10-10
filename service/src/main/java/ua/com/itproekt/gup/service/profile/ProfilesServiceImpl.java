@@ -1,5 +1,8 @@
 package ua.com.itproekt.gup.service.profile;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -230,7 +233,7 @@ public class ProfilesServiceImpl implements ProfilesService {
     public boolean isUserModerator(Profile user) {
         Set<UserRole> userRoleSet = user.getUserRoles();
         for (UserRole userRole : userRoleSet) {
-            if (userRole == UserRole.ROLE_MODERATOR || userRole == UserRole.ROLE_ADMIN || userRole == UserRole.ROLE_SUPPORT) {
+            if (userRole == UserRole.ROLE_MODERATOR || userRole == UserRole.ROLE_ADMIN) {
                 return true;
             }
         }
@@ -658,25 +661,25 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     /**
      * Count empty field for profile
+     *
      * @param profile
      * @return
      */
     private int countEmptyFields(Profile profile) {
         int result = 0;
 
-
         // 1
-        if (profile.getMainPhoneNumber() == null) {
+        if (StringUtils.isBlank(profile.getMainPhoneNumber())) {
             result++;
         }
 
         // 1
-        if (profile.getUsername() == null) {
+        if (StringUtils.isBlank(profile.getUsername())) {
             result++;
         }
 
         // 1
-        if (profile.getImgId() == null && profile.getImgUrl() == null) {
+        if (StringUtils.isBlank(profile.getImgId()) && StringUtils.isBlank(profile.getImgUrl())) {
             result++;
         }
 
@@ -685,37 +688,35 @@ public class ProfilesServiceImpl implements ProfilesService {
             result++;
         }
 
-
         // 8 maximum
         if (profile.getContact() == null) {
             result = result + 8;
         } else {
-            if (profile.getContact().getPosition() == null) {
+            if (StringUtils.isBlank(profile.getContact().getPosition())) {
                 result++;
             }
-            if (profile.getContact().getCompanyName() == null) {
+            if (StringUtils.isBlank(profile.getContact().getCompanyName())) {
                 result++;
             }
-            if (profile.getContact().getAboutUs() == null) {
+            if (StringUtils.isBlank(profile.getContact().getAboutUs())) {
                 result++;
             }
-            if (profile.getContact().getSkypeUserName() == null) {
+            if (StringUtils.isBlank(profile.getContact().getSkypeUserName())) {
                 result++;
             }
-            if (profile.getContact().getLinkToWebSite() == null) {
+            if (StringUtils.isBlank(profile.getContact().getLinkToWebSite())) {
                 result++;
             }
-            if (profile.getContact().getContactEmails() == null) {
+            if (CollectionUtils.isEmpty(profile.getContact().getContactEmails())) {
                 result++;
             }
-            if (profile.getContact().getContactPhones() == null) {
+            if (CollectionUtils.isEmpty(profile.getContact().getContactPhones())) {
                 result++;
             }
-            if (profile.getContact().getSocNetLink() == null) {
+            if (MapUtils.isEmpty(profile.getContact().getSocNetLink())) {
                 result++;
             }
         }
-
         return result;
     }
 

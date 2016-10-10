@@ -66,7 +66,7 @@ public class SupportDialogueRestController {
             log.log(Level.ERROR, LOGGED_TITLE + "/dialogue/id/{dialogueId}/assign - not logged user try to assign dialogue");
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        if(!(support.getUserRoles().contains(UserRole.ROLE_ADMIN) || support.getUserRoles().contains(UserRole.ROLE_SUPPORT))){
+        if(!(support.getUserRoles().contains(UserRole.ROLE_ADMIN))){
             log.log(Level.ERROR, LOGGED_TITLE + "/dialogue/id/{dialogueId}/assign - not admin id=" + support.getId()
                     + " try to assign dialogue");
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);

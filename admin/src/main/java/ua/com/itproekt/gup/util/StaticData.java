@@ -22,7 +22,6 @@ public final class StaticData {
         SUPPORT_DIALOGUE_ADMIN.setEmail(SUPPORT_EMAIL);
         Set<UserRole> roles = new HashSet<>();
         roles.add(UserRole.ROLE_ADMIN);
-        roles.add(UserRole.ROLE_SUPPORT);
         SUPPORT_DIALOGUE_ADMIN.setUserRoles(roles);
     }
 }
