@@ -340,7 +340,7 @@ public class OfferRestController {
      * @return 404 Not Found if offer does not exist or was deleted
      */
     @CrossOrigin
-    @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_SUPPORT','ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN', 'ROLE_MODERATOR')")
     @RequestMapping(value = "/offer/moderator/edit", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatedObjResp> editOfferByModerator(@Valid @RequestBody Offer offer) {
@@ -451,7 +451,7 @@ public class OfferRestController {
      * @return
      */
     @CrossOrigin
-    @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_SUPPORT','ROLE_MODERATOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_MODERATOR')")
     @RequestMapping(value = "/offer/moderateStatus/{offerId}", method = RequestMethod.POST)
     public ResponseEntity<Void> makeOfferComplete(@PathVariable String offerId, @RequestBody ModerationStatus moderationStatus) {
 
