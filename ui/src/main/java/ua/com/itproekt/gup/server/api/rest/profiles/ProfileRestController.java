@@ -312,23 +312,21 @@ public class ProfileRestController {
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/status/update", method = RequestMethod.POST)
-    public ResponseEntity<String> updateStatus(@RequestBody Profile profile) {
+    public ResponseEntity<Void> updateStatus(@RequestBody Profile profile) {
 
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         Profile oldProfile = profilesService.findById(loggedUserId);
 
         if (StringUtils.isBlank(profile.getStatus())) {
-            oldProfile.setStatus(null);
+            oldProfile.setStatus("");
         } else {
             oldProfile.setStatus(profile.getStatus());
         }
 
         profilesService.editProfile(oldProfile);
 
-        // Fixme delete this bullshit
-        String result = profilesService.findById(loggedUserId).getStatus();
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
