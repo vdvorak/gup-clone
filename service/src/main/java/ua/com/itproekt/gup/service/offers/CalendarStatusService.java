@@ -58,8 +58,11 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
      *       -- через конструктор с параметрами
      */
     protected CalendarStatusService(Long weekdayPrice, Long weekendPrice){
-        this.weekdayPrice = weekdayPrice;
-        this.weekendPrice = weekendPrice;
+        if (weekdayPrice!=null
+                && weekendPrice!=null){
+            this.weekdayPrice = weekdayPrice;
+            this.weekendPrice = weekendPrice;
+        }
         initDate = null;
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();

@@ -18,8 +18,7 @@ import ua.com.itproekt.gup.service.offers.calendar.Calendar;
 import ua.com.itproekt.gup.service.offers.calendar.CalendarPriceClass;
 import ua.com.itproekt.gup.service.offers.calendar.Rent;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -35,7 +34,9 @@ public class OfferCalendarRestController {
     private static final String formatter = "d.MM.yyyy";
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
 
-    private final String PATH = "src/test/resources",
+    private final String PATH = "D:/IdeaProjects/GUP_auto_merge/gup/ui/src/main/resources", ///private final String PATH = "ui/src/main/resources",
+            offerCalendar1 = "offerCalendar1.json",
+            offerRents = "offerRents.json",
             offerCalendarCreate1 = "OfferCalendarRestController1.json",
             offerCalendarCreate2 = "OfferCalendarRestController2.json",
             offerCalendarCreate3 = "OfferCalendarRestController3.json",
@@ -43,7 +44,6 @@ public class OfferCalendarRestController {
             offerCalendarCreate5 = "OfferCalendarRestController5.json";
 
     private JsonObject jsonCalendars,jsonRents;
-    private Gson gsonStatusCalendarDefault,gsonStatusCalendar1;
     private Map<String, Calendar> calendarPrices;
     private Map<String, Rent> rents;
 
@@ -64,23 +64,19 @@ public class OfferCalendarRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        JsonParser parser = new JsonParser();
-        Gson gson = new Gson();
+        JsonParser       parser = new JsonParser();
+        ClassLoader classLoader = getClass().getClassLoader();
+        Gson               gson = new Gson();
         try {
-            jsonCalendars = (JsonObject) parser.parse(new FileReader(PATH + "/" + offerCalendarCreate1));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+            jsonCalendars = (JsonObject) parser.parse(new FileReader(classLoader.getResource(offerCalendar1).getFile())); //jsonCalendars = (JsonObject) parser.parse(new FileReader(PATH + "/" + offerCalendar1));
+        } catch (FileNotFoundException e) { e.printStackTrace(); }
         calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
-        gsonStatusCalendarDefault = new Gson();
-        gsonStatusCalendar1 = new Gson();
 
-
-        calendarStatusService = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
 //        calendarStatusService = new CalendarStatusServiceImpl();
-        calendarStatusService.addPrices(calendarPrices.get("specialPrice").getPrice(), convertDate(calendarPrices.get("specialPrice").getDays())); // Устанавливаем специальную цену на отдельные дни
+        calendarStatusService = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
+        calendarStatusService.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays())); // Устанавливаем специальную цену на отдельные дни
 
-        return new ResponseEntity<>(calendarStatusService.toJson(), HttpStatus.CREATED); //return new ResponseEntity<>(calendarPrice.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(calendarStatusService.toString(), HttpStatus.OK); //return new ResponseEntity<>(calendarStatusService.toJson(), HttpStatus.OK);
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -96,79 +92,66 @@ public class OfferCalendarRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        if (calendarPrice.getWeekdayPrice()!=null
-                && calendarPrice.getWeekendPrice()!=null) {
-            calendarStatusService = new CalendarStatusServiceImpl(calendarPrice.getWeekdayPrice(),calendarPrice.getWeekendPrice()); // Устанавливаем дефолтную цену (на будни и выходные дни)
-        } else {
-            calendarStatusService = new CalendarStatusServiceImpl();
-        }
+        calendarStatusService = new CalendarStatusServiceImpl(calendarPrice.getWeekdayPrice(),calendarPrice.getWeekendPrice()); // Устанавливаем дефолтную цену (на будни и выходные дни)
         calendarStatusService.addPrices(calendarPrice.getSpecialPrice().getPrice(), convertDate(calendarPrice.getSpecialPrice().getDays())); // Устанавливаем специальную цену на отдельные дни
         return new ResponseEntity<>(calendarStatusService.toJson(), HttpStatus.CREATED); //return new ResponseEntity<>(calendarPrice.toString(), HttpStatus.OK);
     }
 
-//    @PreAuthorize("isAuthenticated()")
-//    @RequestMapping(value = "/offer/id/{offerId}/calendar", method = RequestMethod.PUT,
-//            consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<String> updateCalendar(@PathVariable String offerId,
-//                                                 @RequestBody String firstDay,
-//                                                 @RequestBody String lastDay){
-//        JsonParser parser = new JsonParser();
-//        Gson gson = new Gson();
-//        try {
-//            jsonCalendars = (JsonObject) parser.parse(new FileReader(PATH + "/" + RENTCALENDAR_FILE_NAME));
-//            jsonRents = (JsonObject) parser.parse(new FileReader(PATH + "/" + RENT_FILE_NAME));
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
-//        rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
-//        gsonStatusCalendarDefault = new Gson();
-//        gsonStatusCalendar1 = new Gson();
-//
-//        if (!offersService.offerExists(offerId)) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-////        Offer offer = offersService.findById(offerId);
-////        if (!offer.getCanBeRented() || (offer.getRent() != null)) {
-////            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-////        }
-//
-//        statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-//
-//    @PreAuthorize("isAuthenticated()")
-//    @RequestMapping(value = "/offer/id/{offerId}/calendar", method = RequestMethod.DELETE,
-//            consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<String> deleteCalendar(@PathVariable String offerId,
-//                                                 @RequestBody String firstDay,
-//                                                 @RequestBody String lastDay){
-//        JsonParser parser = new JsonParser();
-//        Gson gson = new Gson();
-//        try {
-//            jsonCalendars = (JsonObject) parser.parse(new FileReader(PATH + "/" + RENTCALENDAR_FILE_NAME));
-//            jsonRents = (JsonObject) parser.parse(new FileReader(PATH + "/" + RENT_FILE_NAME));
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
-//        rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
-//        gsonStatusCalendarDefault = new Gson();
-//        gsonStatusCalendar1 = new Gson();
-//
-//        if (!offersService.offerExists(offerId)) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-////        Offer offer = offersService.findById(offerId);
-////        if (!offer.getCanBeRented() || (offer.getRent() != null)) {
-////            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-////        }
-//
-//        return new ResponseEntity<>(String.valueOf(statusCalendar.delPrices(convertDate(rents.get("delete42").getDays()))), HttpStatus.OK);
-//    }
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/offer/{offerId}/calendar", method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updateCalendar(@PathVariable String offerId,
+                                                 @RequestBody CalendarPriceClass calendarPrice){
+        if (!offersService.offerExists(offerId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else if (calendarPrice.getWeekdayPrice()==null
+                && calendarPrice.getWeekendPrice()==null
+                && calendarPrice.getSpecialPrice()==null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        JsonParser       parser = new JsonParser();
+        ClassLoader classLoader = getClass().getClassLoader();
+        Gson               gson = new Gson();
+        try {
+            jsonCalendars = (JsonObject) parser.parse(new FileReader(classLoader.getResource(offerCalendar1).getFile()));
+        } catch (FileNotFoundException e) { e.printStackTrace(); }
+        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
+
+        calendarStatusService = new CalendarStatusServiceImpl(10000l,15000l);
+        calendarStatusService.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
+
+        calendarStatusService.addPrices(calendarPrice.getSpecialPrice().getPrice(), convertDate(calendarPrice.getSpecialPrice().getDays())); // Устанавливаем специальную цену на отдельные дни
+        return new ResponseEntity<>(calendarStatusService.toString(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/offer/{offerId}/calendar", method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> deleteCalendar(@PathVariable String offerId){
+//                                                 @PathVariable String day){
+        if (!offersService.offerExists(offerId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        JsonParser       parser = new JsonParser();
+        ClassLoader classLoader = getClass().getClassLoader();
+        Gson               gson = new Gson();
+        try {
+            jsonCalendars = (JsonObject) parser.parse(new FileReader(classLoader.getResource(offerCalendar1).getFile()));
+            jsonRents = (JsonObject) parser.parse(new FileReader(classLoader.getResource(offerRents).getFile()));
+        } catch (FileNotFoundException e) { e.printStackTrace(); }
+        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
+        rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
+
+        calendarStatusService = new CalendarStatusServiceImpl(10000l,15000l);
+        calendarStatusService.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
+
+//        if (day!=null)
+//            return new ResponseEntity<>(calendarStatusService.delPrices(convertDate(day)).toString(), HttpStatus.OK);
+//        else
+            return new ResponseEntity<>(calendarStatusService.delPrices(convertDate(rents.get("delete42").getDays())).toString(), HttpStatus.OK);
+    }
 
     private Long convertDate(String strDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy", Locale.ENGLISH);
