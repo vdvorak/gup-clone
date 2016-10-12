@@ -226,11 +226,11 @@
         </dependency>
 
         <!-- Module dependency -->
-        <dependency>
-            <groupId>ua.com.itproekt</groupId>
-            <artifactId>service</artifactId>
-            <version>${version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>ua.com.itproekt</groupId>-->
+            <!--<artifactId>service</artifactId>-->
+            <!--<version>${version}</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 

@@ -68,6 +68,9 @@
         <sec:authentication-provider user-service-ref="clientDetailsUserService" />
     </sec:authentication-manager>
 
+
+
+
     <sec:authentication-manager alias="userAuthenticationManager" erase-credentials="false">
         <sec:authentication-provider user-service-ref="userDetailsServiceImpl">
             <sec:password-encoder ref="passwordEncoder"/>
