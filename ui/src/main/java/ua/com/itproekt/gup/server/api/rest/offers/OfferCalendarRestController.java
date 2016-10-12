@@ -76,7 +76,7 @@ public class OfferCalendarRestController {
         calendarStatusService = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
         calendarStatusService.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays())); // Устанавливаем специальную цену на отдельные дни
 
-        return new ResponseEntity<>(calendarStatusService.toString(), HttpStatus.OK); //return new ResponseEntity<>(calendarStatusService.toJson(), HttpStatus.OK);
+        return new ResponseEntity<>(calendarStatusService.toJson(), HttpStatus.OK); //return new ResponseEntity<>(calendarStatusService.toJson(), HttpStatus.OK);
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -122,7 +122,7 @@ public class OfferCalendarRestController {
         calendarStatusService.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
 
         calendarStatusService.addPrices(calendarPrice.getSpecialPrice().getPrice(), convertDate(calendarPrice.getSpecialPrice().getDays())); // Устанавливаем специальную цену на отдельные дни
-        return new ResponseEntity<>(calendarStatusService.toString(), HttpStatus.OK);
+        return new ResponseEntity<>(calendarStatusService.toJson(), HttpStatus.OK);
     }
 
     @PreAuthorize("isAuthenticated()")

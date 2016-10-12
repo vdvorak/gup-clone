@@ -39,7 +39,7 @@ public class CalendarToGsonTest {
     private Gson gsonStatusCalendarDefault,gsonStatusCalendar1;
     private Map<String, Calendar> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
-    private CalendarStatusService statusCalendar;
+    private CalendarStatusService statusCalendar, statusCalendar2;
 
     @Before
     public void setUp() {
@@ -58,6 +58,8 @@ public class CalendarToGsonTest {
         gsonStatusCalendar1 = new Gson();
 
         statusCalendar = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
+        statusCalendar2 = new CalendarStatusServiceImpl(10000l,15000l);
+//        statusCalendar2 = new CalendarStatusServiceImpl();
     }
 
     @After
@@ -94,14 +96,22 @@ public class CalendarToGsonTest {
     @Test
     public void testOwnerToJSONPrices(){
         System.out.println("--------------------[ testOwnerToJSONPrices ]");
-//        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
-//        statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
-        statusCalendar.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays()));
+////        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
+////        statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
+//        statusCalendar.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays()));
+//
+////        System.err.println("Calendar-Status: " + gsonStatusCalendarDefault.toJson(statusCalendar)); // 'PriceScheme'
+//        System.err.println("Calendar-Status: " + statusCalendar.toJson()); // 'PriceScheme'
+//        System.err.println("Calendar-Price: " + gsonStatusCalendar1.toJson(calendarPrices)); // 'Calendars'
+//        System.out.println(statusCalendar);
 
-//        System.err.println("Calendar-Status: " + gsonStatusCalendarDefault.toJson(statusCalendar)); // 'PriceScheme'
-        System.err.println("Calendar-Status: " + statusCalendar.toJson()); // 'PriceScheme'
-        System.err.println("Calendar-Price: " + gsonStatusCalendar1.toJson(calendarPrices)); // 'Calendars'
-        System.out.println(statusCalendar);
+        statusCalendar2.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
+        statusCalendar2.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
+//        statusCalendar2.addPrices(calendarPrices.get("scheme6").getPrice(), convertDate(calendarPrices.get("scheme6").getDays()));
+//        statusCalendar2.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays()));
+
+        System.out.println(statusCalendar2);
+        System.err.println(statusCalendar2.toJson());
     }
 
     @Test

@@ -20,7 +20,7 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
     private Long weekdayPrice,weekendPrice;
     private Long[][] weekdays,weekends;
     private ArrayList<Long> listWeekdays,listWeekends;
-    private Gson gson;
+//    private Gson gson;
 
     /**
      * #3. One cost (per day); Two dates (start/stop):
@@ -39,7 +39,7 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
         initDate = null;
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
-        gson = new Gson();
+//        gson = new Gson();
     }
 
     /**
@@ -66,7 +66,7 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
         initDate = null;
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
-        gson = new Gson();
+//        gson = new Gson();
     }
 
     /**
@@ -165,10 +165,47 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
         return data.toString();
     }
 
+//    public String toJson() {
+//        return gson.toJson(this);
+//    }
     public String toJson() {
-        return gson.toJson(this);
+        int scheme = 0;
+        StringBuilder data = new StringBuilder();
+        data.append("{\n");
+        for (Price prices : this) {
+            if (weekdayPrice==null && weekendPrice==null){
+                if (0<scheme) data.append("  ,\"scheme"+(++scheme)+"\": {\n");
+                else data.append("  \"scheme"+(++scheme)+"\": {\n");
+                data.append("    \"price\": " + prices.get() + "\n");
+                data.append("    ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                if (1<prices.size()){
+                    Long lastPrice = 0l; for (Long price : prices) lastPrice = price;
+                    data.append(",\"" + convertDate(lastPrice) + "\"]\n");
+                } else {
+                    data.append("]\n");
+                }
+                data.append("  }\n");
+            } else {
+                if (0<scheme) data.append("  ,");
+                else data.append("  ");
+                if (0==scheme) data.append("\"weekdays\": {\n");
+                if (1==scheme) data.append("\"weekends\": {\n");
+                if (1<scheme) data.append("\"scheme"+(scheme-1)+"\": {\n");
+                ++scheme;
+                data.append("    \"price\": " + prices.get() + "\n");
+                data.append("    ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                if (1<prices.size()){
+                    Long lastPrice = 0l; for (Long price : prices) lastPrice = price;
+                    data.append(",\"" + convertDate(lastPrice) + "\"]\n");
+                } else {
+                    data.append("]\n");
+                }
+                data.append("  }\n");
+            }
+        }
+        data.append("}");
+        return data.toString();
     }
-
 
     private void init(){
         synchronized (CalendarStatusService.class){
