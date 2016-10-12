@@ -174,8 +174,8 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
         data.append("{\n");
         for (Price prices : this) {
             if (weekdayPrice==null && weekendPrice==null){
-                if (0<scheme) data.append("  ,\"scheme"+(++scheme)+"\": {\n");
-                else data.append("  \"scheme"+(++scheme)+"\": {\n");
+                if (0<scheme) data.append("  ,\"special"+(++scheme)+"\": {\n");
+                else data.append("  \"special"+(++scheme)+"\": {\n");
                 data.append("    \"price\": " + prices.get() + "\n");
                 data.append("    ,\"days\": [\"" + convertDate(prices.element()) + "\"");
                 if (1<prices.size()){
@@ -190,7 +190,7 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
                 else data.append("  ");
                 if (0==scheme) data.append("\"weekdays\": {\n");
                 if (1==scheme) data.append("\"weekends\": {\n");
-                if (1<scheme) data.append("\"scheme"+(scheme-1)+"\": {\n");
+                if (1<scheme) data.append("\"special"+(scheme-1)+"\": {\n");
                 ++scheme;
                 data.append("    \"price\": " + prices.get() + "\n");
                 data.append("    ,\"days\": [\"" + convertDate(prices.element()) + "\"");
