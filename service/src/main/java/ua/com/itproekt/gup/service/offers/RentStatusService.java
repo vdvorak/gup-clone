@@ -21,9 +21,37 @@ public abstract class RentStatusService extends ConcurrentLinkedQueue<Status> {
     private ArrayList<Boolean> listWeekdays,listWeekends;
     private Gson gson;
 
-    private RentStatusService(){}
+    /**
+     * #3. One cost (per day); Two dates (start/stop):
+     *     ---------------------------------------------------------------
+     *     - Only during this period (initial - final date) established a special tax;
+     *       -- it can set a special price of only one day (start/end dates are the same)
+     *       -- possible through the default constructor (without parameters)
+     *
+     * #4. One cost (per day); Undated (empty array):
+     *     ----------------------------------------------------------
+     *     - During the default period (three full months) established a special tax;
+     *       -- default period (three full months) is determined based on the current date
+     *       -- possible through the default constructor (without parameters)
+     */
+    protected RentStatusService(){}
 
-    public RentStatusService(Boolean weekdayStatus, Boolean weekendStatus){
+    /**
+     * #1. One cost (per day); Two dates (start/stop):
+     *     --------------------------------------------------------------
+     *     - During the default period (three full months) is established taking into account the cost of weekdays and weekends;
+     *       -- default period (three full months) is determined based on the specified dates (start/end)
+     *       -- through constructor with parameters
+     *     - During this period (start-end dates) established a special tax;
+     *       -- possible through the default constructor (without parameters)
+     *
+     * #2. Two costs (weekdays/weekend); Undated (empty array):
+     *     ---------------------------------------------------------
+     *     - During the default period (three full months) is established taking into account the cost of weekdays and weekends;
+     *       -- default period (three full months) is determined based on the current date
+     *       -- through constructor with parameters
+     */
+    protected RentStatusService(Boolean weekdayStatus, Boolean weekendStatus){
         this.weekdayStatus = weekdayStatus;
         this.weekendStatus = weekendStatus;
         initDate = null;
@@ -32,6 +60,12 @@ public abstract class RentStatusService extends ConcurrentLinkedQueue<Status> {
         gson = new Gson();
     }
 
+    /**
+     * #1. Setting costs of used constructor with parameters;
+     *     -- (optional)
+     * #2. Initialization-days period, used a method addPrices(), according to the previously specified value;
+     *     -- it can be used with the default constructor (without parameters)
+     */
     public void addStatuses(Boolean status, Long[] days) {
         Status newStatus;
         switch (days.length) {
@@ -189,7 +223,7 @@ public abstract class RentStatusService extends ConcurrentLinkedQueue<Status> {
         return date.getTime();
     }
 
-    private static String convertDate(Long day) {
+    private String convertDate(Long day) {
         Date date = new Date(day);
         String strDate = simpleDateFormat.format(date);
         return strDate;

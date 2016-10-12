@@ -23,17 +23,17 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
     private Gson gson;
 
     /**
-     * #3. Одна стоимость (на каждый день); Две даты (начальная/конечная):
+     * #3. One cost (per day); Two dates (start/stop):
      *     ---------------------------------------------------------------
-     *     - Только за указанный период (начальной - конечной даты) устанавливается специальная стоимость;
-     *       -- Можно устанавливать специальную стоимость только на один день (начальная/конечная даты совпадают)
-     *       -- можно через дефолтный конструктор (без параметров)
+     *     - Only during this period (initial - final date) established a special tax;
+     *       -- it can set a special price of only one day (start/end dates are the same)
+     *       -- possible through the default constructor (without parameters)
      *
-     * #4. Одна стоимость (на каждый день); Без даты (пустой массив):
+     * #4. One cost (per day); Undated (empty array):
      *     ----------------------------------------------------------
-     *     - За дефолтный период (три полных месяца) устанавливается специальная стоимость;
-     *       -- дефолтный период (три полных месяца) определяется с учетом текущей даты
-     *       -- можно через дефолтный конструктор (без параметров)
+     *     - During the default period (three full months) established a special tax;
+     *       -- default period (three full months) is determined based on the current date
+     *       -- possible through the default constructor (without parameters)
      */
     protected CalendarStatusService(){
         initDate = null;
@@ -43,19 +43,19 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
     }
 
     /**
-     * #1. Две стоимости (будни/выходные); Две даты (начальная/конечная):
+     * #1. One cost (per day); Two dates (start/stop):
      *     --------------------------------------------------------------
-     *     - За дефолтный период (три полных месяца) устанавливается стоимость с учетом будней и выходных;
-     *       -- дефолтный период (три полных месяца) определяется с учетом указанных дат (начальной/конечной)
-     *       -- через конструктор с параметрами
-     *     - За указанный период (начальной - конечной даты) устанавливается специальная стоимость;
-     *       -- можно через дефолтный конструктор (без параметров)
+     *     - During the default period (three full months) is established taking into account the cost of weekdays and weekends;
+     *       -- default period (three full months) is determined based on the specified dates (start/end)
+     *       -- through constructor with parameters
+     *     - During this period (start-end dates) established a special tax;
+     *       -- possible through the default constructor (without parameters)
      *
-     * #2. Две стоимости (будни/выходные); Без даты (пустой массив):
+     * #2. Two costs (weekdays/weekend); Undated (empty array):
      *     ---------------------------------------------------------
-     *     - За дефолтный период (три полных месяца) устанавливается стоимость с учетом будней и выходных;
-     *       -- дефолтный период (три полных месяца) определяется с учетом текущей даты
-     *       -- через конструктор с параметрами
+     *     - During the default period (three full months) is established taking into account the cost of weekdays and weekends;
+     *       -- default period (three full months) is determined based on the current date
+     *       -- through constructor with parameters
      */
     protected CalendarStatusService(Long weekdayPrice, Long weekendPrice){
         if (weekdayPrice!=null
@@ -70,10 +70,10 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
     }
 
     /**
-     * #1. Установка стоимости через конструктор с параметрами;
-     *     -- (не является объязательным)
-     * #2. Иннициализация периода-дней, через метод addPrices(), согласно ранее указанной стоимости;
-     *     -- можно использовать с дефолтным конструктором (без параметров)
+     * #1. Setting costs of used constructor with parameters;
+     *     -- (optional)
+     * #2. Initialization-days period, used a method addPrices(), according to the previously specified value;
+     *     -- it can be used with the default constructor (without parameters)
      */
     public void addPrices(Long price, Long[] days) {
         Price newPrice;
@@ -234,7 +234,7 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
         return date.getTime();
     }
 
-    private static String convertDate(Long day) {
+    private String convertDate(Long day) {
         Date date = new Date(day);
         String strDate = simpleDateFormat.format(date);
         return strDate;
