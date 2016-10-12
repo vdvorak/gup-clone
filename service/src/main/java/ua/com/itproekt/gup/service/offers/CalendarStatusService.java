@@ -24,13 +24,13 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
 
     /**
      * #3. One cost (per day); Two dates (start/stop):
-     *     ---------------------------------------------------------------
+     *     -------------------------------------------
      *     - Only during this period (initial - final date) established a special tax;
      *       -- it can set a special price of only one day (start/end dates are the same)
      *       -- possible through the default constructor (without parameters)
      *
      * #4. One cost (per day); Undated (empty array):
-     *     ----------------------------------------------------------
+     *     ------------------------------------------
      *     - During the default period (three full months) established a special tax;
      *       -- default period (three full months) is determined based on the current date
      *       -- possible through the default constructor (without parameters)
@@ -44,7 +44,7 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
 
     /**
      * #1. One cost (per day); Two dates (start/stop):
-     *     --------------------------------------------------------------
+     *     -------------------------------------------
      *     - During the default period (three full months) is established taking into account the cost of weekdays and weekends;
      *       -- default period (three full months) is determined based on the specified dates (start/end)
      *       -- through constructor with parameters
@@ -52,7 +52,7 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
      *       -- possible through the default constructor (without parameters)
      *
      * #2. Two costs (weekdays/weekend); Undated (empty array):
-     *     ---------------------------------------------------------
+     *     ----------------------------------------------------
      *     - During the default period (three full months) is established taking into account the cost of weekdays and weekends;
      *       -- default period (three full months) is determined based on the current date
      *       -- through constructor with parameters
@@ -67,6 +67,14 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
 //        gson = new Gson();
+    }
+
+    /**
+     * Restore from Json to Object-Calendar;
+     * -------------------------------------
+     */
+    protected CalendarStatusService(String jsonRestore){
+
     }
 
     /**
@@ -168,39 +176,99 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
 //    public String toJson() {
 //        return gson.toJson(this);
 //    }
+
+//    public String toJson() {
+//        int scheme = 0;
+//        StringBuilder data = new StringBuilder();
+//        data.append("{\n");
+//        for (Price prices : this) {
+//            if (weekdayPrice==null && weekendPrice==null){
+//                if (0<scheme) data.append("  ,\"special"+(++scheme)+"\": {\n");
+//                else data.append("  \"special"+(++scheme)+"\": {\n");
+//                data.append("    \"price\": " + prices.get() + "\n");
+//                data.append("    ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+//                if (1<prices.size()){
+//                    Long lastPrice = 0l; for (Long price : prices) lastPrice = price;
+//                    data.append(",\"" + convertDate(lastPrice) + "\"]\n");
+//                } else {
+//                    data.append("]\n");
+//                }
+//                data.append("  }\n");
+//            } else {
+//                if (0<scheme) data.append("  ,");
+//                else data.append("  ");
+//                if (0==scheme) data.append("\"weekdays\": {\n");
+//                if (1==scheme) data.append("\"weekends\": {\n");
+//                if (1<scheme) data.append("\"special"+(scheme-1)+"\": {\n");
+//                ++scheme;
+//                data.append("    \"price\": " + prices.get() + "\n");
+//                data.append("    ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+//                if (1<prices.size()){
+//                    Long lastPrice = 0l; for (Long price : prices) lastPrice = price;
+//                    data.append(",\"" + convertDate(lastPrice) + "\"]\n");
+//                } else {
+//                    data.append("]\n");
+//                }
+//                data.append("  }\n");
+//            }
+//        }
+//        data.append("}");
+//        return data.toString();
+//    }
+
     public String toJson() {
         int scheme = 0;
         StringBuilder data = new StringBuilder();
         data.append("{\n");
-        for (Price prices : this) {
-            if (weekdayPrice==null && weekendPrice==null){
-                if (0<scheme) data.append("  ,\"special"+(++scheme)+"\": {\n");
-                else data.append("  \"special"+(++scheme)+"\": {\n");
-                data.append("    \"price\": " + prices.get() + "\n");
-                data.append("    ,\"days\": [\"" + convertDate(prices.element()) + "\"");
-                if (1<prices.size()){
-                    Long lastPrice = 0l; for (Long price : prices) lastPrice = price;
+        if (weekdayPrice==null && weekendPrice==null){
+            data.append("  \"specials\":\n  [\n");
+            for (Price prices : this) {
+                if (0 < scheme) data.append("    ,{\n");
+                else data.append("    {\n");
+                data.append("      \"price\": " + prices.get() + "\n");
+                data.append("      ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                if (1 < prices.size()) {
+                    Long lastPrice = 0l;
+                    for (Long price : prices) lastPrice = price;
                     data.append(",\"" + convertDate(lastPrice) + "\"]\n");
                 } else {
                     data.append("]\n");
                 }
-                data.append("  }\n");
-            } else {
-                if (0<scheme) data.append("  ,");
+                data.append("    }\n");
+            }
+            data.append("  ]\n");
+        } else {
+            for (Price prices : this) {
+                if (0<scheme) {
+                    if (scheme==1) data.append("  ,");
+                    else {
+                        if (scheme==2) data.append("  ,");
+                        else data.append("    ,");
+                    }
+                }
                 else data.append("  ");
                 if (0==scheme) data.append("\"weekdays\": {\n");
                 if (1==scheme) data.append("\"weekends\": {\n");
-                if (1<scheme) data.append("\"special"+(scheme-1)+"\": {\n");
-                ++scheme;
-                data.append("    \"price\": " + prices.get() + "\n");
-                data.append("    ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                if (2==scheme) data.append("\"specials\":\n  [\n");
+                if (1<scheme){
+                    if (scheme==2) data.append("    {\n");
+                    else data.append("{\n");
+                    data.append("      \"price\": " + prices.get() + "\n");
+                    data.append("      ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                } else {
+                    data.append("    \"price\": " + prices.get() + "\n");
+                    data.append("    ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                }
                 if (1<prices.size()){
                     Long lastPrice = 0l; for (Long price : prices) lastPrice = price;
                     data.append(",\"" + convertDate(lastPrice) + "\"]\n");
                 } else {
                     data.append("]\n");
                 }
-                data.append("  }\n");
+                if (1<scheme) data.append("    }\n");
+                else data.append("  }\n");
+                if ((this.size()-1)==scheme) data.append("  ]\n");
+                ++scheme;
             }
         }
         data.append("}");
