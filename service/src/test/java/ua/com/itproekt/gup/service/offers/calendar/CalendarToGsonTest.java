@@ -114,6 +114,19 @@ public class CalendarToGsonTest {
         System.err.println(statusCalendar2.toJson());
     }
 
+    /**
+     * Test(s) Scheme-Default
+     * Restore JSON to Java Object
+     */
+    @Test
+    public void testOwnerRestoreToObjectPrices(){
+        System.out.println("--------------------[ testOwnerRestoreToObjectPrices ]");
+//        statusCalendar2.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
+
+        System.out.println(statusCalendar2);
+        System.err.println(statusCalendar2.toJson());
+    }
+
     @Test
     public void testOwnerIsPrice(){
         System.out.println("--------------------[ testOwnerIsPrice ]");
