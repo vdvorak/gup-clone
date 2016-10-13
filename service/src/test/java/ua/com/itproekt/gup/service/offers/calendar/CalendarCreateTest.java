@@ -47,7 +47,7 @@ public class CalendarCreateTest {
 
     private JsonObject jsonCalendars,jsonRents;
     private Gson gsonStatusCalendarDefault,gsonStatusCalendar1;
-    private Map<String, Calendar> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
+    private Map<String, CalendarPrice> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
     private CalendarStatusService statusCalendar;
 
@@ -62,7 +62,7 @@ public class CalendarCreateTest {
             e.printStackTrace();
         }
 
-        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
+        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, CalendarPrice>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
         gsonStatusCalendarDefault = new Gson();
         gsonStatusCalendar1 = new Gson();

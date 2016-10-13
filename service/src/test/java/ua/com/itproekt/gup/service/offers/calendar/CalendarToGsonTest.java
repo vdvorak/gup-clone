@@ -16,7 +16,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -46,7 +45,7 @@ public class CalendarToGsonTest {
                     "      \"price\": 15000\n" +
                     "      ,\"days\": [\"1.10.2016\",\"30.10.2016\"]\n" +
                     "    }\n" +
-                    "    ,\"specials\": [\n" +
+                    "    ,\"specialdays\": [\n" +
                     "      {\n" +
                     "        \"price\": 11111\n" +
                     "        ,\"days\": [\"31.10.2016\"]\n" +
@@ -61,7 +60,7 @@ public class CalendarToGsonTest {
 
     private JsonObject jsonCalendars,jsonRestore,jsonRents;
     private Gson gsonStatusCalendarDefault,gsonStatusCalendar1;
-    private Map<String, Calendar> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
+    private Map<String, CalendarPrice> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
     private CalendarStatusService statusCalendar,statusCalendar2,restoreCalendar,restoreCalendar2;
     private Map<String, CalendarRestorePriceClassImpl> restore;
@@ -79,7 +78,7 @@ public class CalendarToGsonTest {
             e.printStackTrace();
         }
 
-        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
+        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, CalendarPrice>>(){}.getType());
         restore = gson.fromJson(jsonRestore, new TypeToken<Map<String, CalendarRestorePriceClassImpl>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
         gsonStatusCalendarDefault = new Gson();

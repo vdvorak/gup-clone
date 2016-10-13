@@ -14,7 +14,7 @@ import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.offers.CalendarStatusService;
 import ua.com.itproekt.gup.service.offers.CalendarStatusServiceImpl;
 import ua.com.itproekt.gup.service.offers.OffersService;
-import ua.com.itproekt.gup.service.offers.calendar.Calendar;
+import ua.com.itproekt.gup.service.offers.calendar.CalendarPrice;
 import ua.com.itproekt.gup.service.offers.calendar.CalendarPriceClass;
 import ua.com.itproekt.gup.service.offers.calendar.Rent;
 
@@ -34,17 +34,12 @@ public class OfferCalendarRestController {
     private static final String formatter = "d.MM.yyyy";
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
 
-    private final String PATH = "D:/IdeaProjects/GUP_auto_merge/gup/ui/src/main/resources", ///private final String PATH = "ui/src/main/resources",
+    private final String PATH = "D:/IdeaProjects/GUP_auto_merge/gup/ui/src/main/resources",
             offerCalendar1 = "offerCalendar1.json",
-            offerRents = "offerRents.json",
-            offerCalendarCreate1 = "OfferCalendarRestController1.json",
-            offerCalendarCreate2 = "OfferCalendarRestController2.json",
-            offerCalendarCreate3 = "OfferCalendarRestController3.json",
-            offerCalendarCreate4 = "OfferCalendarRestController4.json",
-            offerCalendarCreate5 = "OfferCalendarRestController5.json";
+            offerRents = "offerRents.json";
 
     private JsonObject jsonCalendars,jsonRents;
-    private Map<String, Calendar> calendarPrices;
+    private Map<String, CalendarPrice> calendarPrices;
     private Map<String, Rent> rents;
 
 //    @Autowired
@@ -70,7 +65,7 @@ public class OfferCalendarRestController {
         try {
             jsonCalendars = (JsonObject) parser.parse(new FileReader(classLoader.getResource(offerCalendar1).getFile())); //jsonCalendars = (JsonObject) parser.parse(new FileReader(PATH + "/" + offerCalendar1));
         } catch (FileNotFoundException e) { e.printStackTrace(); }
-        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
+        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, CalendarPrice>>(){}.getType());
 
 //        calendarStatusService = new CalendarStatusServiceImpl();
         calendarStatusService = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
@@ -116,7 +111,7 @@ public class OfferCalendarRestController {
         try {
             jsonCalendars = (JsonObject) parser.parse(new FileReader(classLoader.getResource(offerCalendar1).getFile()));
         } catch (FileNotFoundException e) { e.printStackTrace(); }
-        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
+        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, CalendarPrice>>(){}.getType());
 
         calendarStatusService = new CalendarStatusServiceImpl(10000l,15000l);
         calendarStatusService.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
@@ -141,7 +136,7 @@ public class OfferCalendarRestController {
             jsonCalendars = (JsonObject) parser.parse(new FileReader(classLoader.getResource(offerCalendar1).getFile()));
             jsonRents = (JsonObject) parser.parse(new FileReader(classLoader.getResource(offerRents).getFile()));
         } catch (FileNotFoundException e) { e.printStackTrace(); }
-        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
+        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, CalendarPrice>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
 
         calendarStatusService = new CalendarStatusServiceImpl(10000l,15000l);

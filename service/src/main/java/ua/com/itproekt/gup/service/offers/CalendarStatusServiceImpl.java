@@ -8,6 +8,7 @@ import ua.com.itproekt.gup.model.offer.Offer;
 
 import java.util.Map;
 
+//FIXME: @Service
 public class CalendarStatusServiceImpl extends CalendarStatusService {
 
     private Logger logger = Logger.getLogger(CalendarStatusServiceImpl.class);

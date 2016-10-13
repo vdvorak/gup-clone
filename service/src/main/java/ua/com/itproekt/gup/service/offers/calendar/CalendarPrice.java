@@ -2,7 +2,7 @@ package ua.com.itproekt.gup.service.offers.calendar;
 
 import java.util.Arrays;
 
-public class CalendarRestorePriceClass {
+public class CalendarPrice {
 
     private Long price;
     private String[] days;
@@ -25,7 +25,7 @@ public class CalendarRestorePriceClass {
 
     @Override
     public String toString() {
-        return "{" +
+        return "CalendarPrice{" +
                 "price=" + price +
                 ", days=" + Arrays.toString(days) +
                 '}';

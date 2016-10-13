@@ -4,14 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
-import ua.com.itproekt.gup.service.offers.calendar.CalendarRestorePriceClass;
+import ua.com.itproekt.gup.service.offers.calendar.CalendarPrice;
 import ua.com.itproekt.gup.service.offers.calendar.CalendarRestorePriceClassImpl;
 import ua.com.itproekt.gup.service.offers.calendar.Price;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -88,16 +84,16 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
         Gson gson = new Gson();
         Map<String, CalendarRestorePriceClassImpl> restore = gson.fromJson(jsonRestore, new TypeToken<Map<String, CalendarRestorePriceClassImpl>>(){}.getType());
         CalendarRestorePriceClassImpl scheme = restore.get(priceCalendar);
-        CalendarRestorePriceClass weekdays = scheme.getWeekdays(),
+        CalendarPrice weekdays = scheme.getWeekdays(),
                 weekends = scheme.getWeekends();
-        CalendarRestorePriceClass[] specials = scheme.getSpecials();
+        CalendarPrice[] specialdays = scheme.getSpecialdays();
 
         weekdayPrice = weekdays.getPrice();
         weekendPrice = weekends.getPrice();
         initDate = null;
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
-        for (CalendarRestorePriceClass special : specials) addPrices(special.getPrice(), convertDate(special.getDays()));
+        for (CalendarPrice specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
     }
 
     /**
@@ -201,7 +197,7 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
 //        return gson.toJson(this);
         int scheme = 0;
         StringBuilder data = new StringBuilder();
-        data.append("\"priceCalendar\": {\n"); //data.append("{\n");
+        data.append("{\n  \"priceCalendar\": {\n"); //data.append("{\n");
         if (weekdayPrice!=null && weekendPrice!=null){
             for (Price prices : this) {
                 if (scheme==0){
@@ -230,7 +226,7 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
                     }
                     data.append("  }\n");
                 }
-                if (scheme==2) data.append("  ,\"specials\": [\n");
+                if (scheme==2) data.append("  ,\"specialdays\": [\n");
                 if (1<scheme){
                     if (scheme==2) data.append("    {\n");
                     if (2<scheme) data.append("    ,{\n");
@@ -269,7 +265,7 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
                 data.append("  ]\n");
             }
         }
-        data.append("}");
+        data.append("}\n}"); //data.append("}");
         return data.toString();
     }
 
