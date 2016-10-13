@@ -15,7 +15,7 @@ import ua.com.itproekt.gup.service.offers.CalendarStatusService;
 import ua.com.itproekt.gup.service.offers.CalendarStatusServiceImpl;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.offers.calendar.CalendarPrice;
-import ua.com.itproekt.gup.service.offers.calendar.CalendarPriceClass;
+import ua.com.itproekt.gup.service.offers.calendar.CalendarPriceObj;
 import ua.com.itproekt.gup.service.offers.calendar.Rent;
 
 import java.io.*;
@@ -78,7 +78,7 @@ public class OfferCalendarRestController {
     @RequestMapping(value = "/offer/{offerId}/calendar", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createCalendar(@PathVariable String offerId,
-                                                 @RequestBody CalendarPriceClass calendarPrice){
+                                                 @RequestBody CalendarPriceObj calendarPrice){
         if (!offersService.offerExists(offerId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else if (calendarPrice.getWeekdayPrice()==null
@@ -96,7 +96,7 @@ public class OfferCalendarRestController {
     @RequestMapping(value = "/offer/{offerId}/calendar", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateCalendar(@PathVariable String offerId,
-                                                 @RequestBody CalendarPriceClass calendarPrice){
+                                                 @RequestBody CalendarPriceObj calendarPrice){
         if (!offersService.offerExists(offerId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else if (calendarPrice.getWeekdayPrice()==null

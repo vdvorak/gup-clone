@@ -6,7 +6,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.service.offers.calendar.CalendarPrice;
-import ua.com.itproekt.gup.service.offers.calendar.CalendarRestorePriceClassImpl;
+import ua.com.itproekt.gup.service.offers.calendar.CalendarPriceRestoreObj;
 import ua.com.itproekt.gup.service.offers.calendar.Price;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -82,8 +82,8 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
         JsonParser parser = new JsonParser();
         JsonObject jsonRestore = (JsonObject) parser.parse(strJsonRestore);
         Gson gson = new Gson();
-        Map<String, CalendarRestorePriceClassImpl> restore = gson.fromJson(jsonRestore, new TypeToken<Map<String, CalendarRestorePriceClassImpl>>(){}.getType());
-        CalendarRestorePriceClassImpl scheme = restore.get(priceCalendar);
+        Map<String, CalendarPriceRestoreObj> restore = gson.fromJson(jsonRestore, new TypeToken<Map<String, CalendarPriceRestoreObj>>(){}.getType());
+        CalendarPriceRestoreObj scheme = restore.get(priceCalendar);
         CalendarPrice weekdays = scheme.getWeekdays(),
                 weekends = scheme.getWeekends();
         CalendarPrice[] specialdays = scheme.getSpecialdays();

@@ -1,6 +1,6 @@
 package ua.com.itproekt.gup.service.offers.calendar;
 
-public class CalendarRestorePriceClassImpl {
+public class CalendarPriceRestoreObj {
 
     private CalendarPrice weekdays;
     private CalendarPrice weekends;

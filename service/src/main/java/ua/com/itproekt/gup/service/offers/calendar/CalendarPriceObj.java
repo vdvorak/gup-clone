@@ -1,6 +1,6 @@
 package ua.com.itproekt.gup.service.offers.calendar;
 
-public class CalendarPriceClass {
+public class CalendarPriceObj {
 
     private Long weekdayPrice;
     private Long weekendPrice;
