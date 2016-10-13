@@ -226,23 +226,25 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
                 ++scheme;
             }
         } else {
-            data.append("  \"specials\":\n  [\n");
-            for (Price prices : this) {
-                if (0 < scheme) data.append("    ,{\n");
-                else data.append("    {\n");
-                data.append("      \"price\": " + prices.get() + "\n");
-                data.append("      ,\"days\": [\"" + convertDate(prices.element()) + "\"");
-                if (1 < prices.size()) {
-                    Long lastPrice = 0l;
-                    for (Long price : prices) lastPrice = price;
-                    data.append(",\"" + convertDate(lastPrice) + "\"]\n");
-                } else {
-                    data.append("]\n");
+            if (!this.isEmpty()){ //TODO
+                data.append("  \"specials\":\n  [\n");
+                for (Price prices : this) {
+                    if (0 < scheme) data.append("    ,{\n");
+                    else data.append("    {\n");
+                    data.append("      \"price\": " + prices.get() + "\n");
+                    data.append("      ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                    if (1 < prices.size()) {
+                        Long lastPrice = 0l;
+                        for (Long price : prices) lastPrice = price;
+                        data.append(",\"" + convertDate(lastPrice) + "\"]\n");
+                    } else {
+                        data.append("]\n");
+                    }
+                    data.append("    }\n");
+                    ++scheme;
                 }
-                data.append("    }\n");
-                ++scheme;
+                data.append("  ]\n");
             }
-            data.append("  ]\n");
         }
         data.append("}");
         return data.toString();

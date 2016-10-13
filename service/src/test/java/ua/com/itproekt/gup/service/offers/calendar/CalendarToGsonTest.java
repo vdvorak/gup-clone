@@ -33,7 +33,7 @@ public class CalendarToGsonTest {
 
     private final String PATH = "src/test/resources",
             RENTCALENDAR_FILE_NAME = "offerCalendar1.json",
-            RESTORECALENDAR_FILE_NAME = "schemeCalendar.json",
+            RESTORECALENDAR_FILE_NAME = "restoreCalendar.json",
             RENT_FILE_NAME = "offerRents.json"; //FIXME: file.properties
 
     private JsonObject jsonCalendars,jsonRestoreCalendars,jsonRents;
@@ -41,7 +41,7 @@ public class CalendarToGsonTest {
     private Map<String, Calendar> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
     private CalendarStatusService statusCalendar,statusCalendar2,statusCalendar3;
-    private Map<String, CalendarPriceClassImpl> restoreCalendar;
+    private Map<String, CalendarRestorePriceClassImpl> restoreCalendar;
 
     @Before
     public void setUp() {
@@ -56,7 +56,7 @@ public class CalendarToGsonTest {
         }
 
         calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
-        restoreCalendar = gson.fromJson(jsonRestoreCalendars, new TypeToken<Map<String, CalendarPriceClassImpl>>(){}.getType()); //...
+        restoreCalendar = gson.fromJson(jsonRestoreCalendars, new TypeToken<Map<String, CalendarRestorePriceClassImpl>>(){}.getType()); //...
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
         gsonStatusCalendarDefault = new Gson();
         gsonStatusCalendar1 = new Gson();
@@ -129,8 +129,10 @@ public class CalendarToGsonTest {
     public void testOwnerRestoreToObjectPrices(){
         System.out.println("--------------------[ testOwnerRestoreToObjectPrices ]");
 
-        System.out.println(statusCalendar3);
-        System.err.println(statusCalendar3.toJson());
+        System.out.println(restoreCalendar.get("scheme1"));
+
+//        System.out.println(statusCalendar3);
+//        System.err.println(statusCalendar3.toJson());
     }
 
     @Test

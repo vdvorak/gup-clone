@@ -1,8 +1,6 @@
 package ua.com.itproekt.gup.service.offers.calendar;
 
-import java.util.Arrays;
-
-public class CalendarSpecialPriceClass2 {
+public class CalendarRestorePriceClass {
 
     private Long price;
     private String[] days;
@@ -23,11 +21,4 @@ public class CalendarSpecialPriceClass2 {
         this.days = days;
     }
 
-    @Override
-    public String toString() {
-        return "specialPrice{" +
-                ", price=" + price +
-                ", days=" + Arrays.toString(days) +
-                '}';
-    }
 }
