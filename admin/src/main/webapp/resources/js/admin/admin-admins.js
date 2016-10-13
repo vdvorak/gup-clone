@@ -129,14 +129,15 @@ $(document).ready(function () {
             tableModerators
                 .on('select', function (e, dt, type, indexes) {
                     var rowData = tableModerators.rows(indexes).data().toArray();
-                    $("input[name='adminId']").attr("value", rowData[0].id);
+                    $("input[name='moderatorId']").attr("value", rowData[0].id);
+                    $('#moderatorEditHref').attr("href", "http://gup.com.ua/seller/" + rowData[0].id);
                     $('#inp').removeAttr("readonly");
-                    $('#editAdminProfileButton').attr("class", "btn btn-danger");
+                    $('#editModeratorProfileButton').attr("class", "btn btn-danger");
                 })
                 .on('deselect', function (e, dt, type, indexes) {
-                    $("input[name='adminId']").attr("value", "");
-                    $('#input-admin-id').attr("readonly", "readonly");
-                    $('#editAdminProfileButton').attr("class", "btn btn-danger disabled");
+                    $("input[name='moderatorId']").attr("value", "");
+                    $('#input-moderator-id').attr("readonly", "readonly");
+                    $('#editModeratorProfileButton').attr("class", "btn btn-danger disabled");
                 });
 
             var logins = new Bloodhound({

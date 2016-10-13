@@ -261,6 +261,25 @@
                                                             </thead>
                                                         </table>
 
+                                                        <table class="table table-user-information">
+                                                            <tbody>
+                                                            <h3 class="panel-title">Редактировать профиль</h3>
+                                                            <tr>
+                                                                <td>ID профиля:</td>
+                                                                <td><input id="input-moderator-id" class="form-control" name="moderatorId" readonly required>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+
+
+                                                        <a id="moderatorEditHref" href="">
+                                                            <button id="editModeratorProfileButton" class="btn btn-primary disabled">
+                                                                Редактировать
+                                                            </button>
+                                                        </a>
+
+
                                                     </div>
                                                 </div>
                                             </div>
