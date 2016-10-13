@@ -56,7 +56,7 @@ public class CalendarToGsonTest {
         }
 
         calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
-//        restoreCalendar = gson.fromJson(jsonRestoreCalendars, new TypeToken<Map<String, CalendarPriceClassImpl>>(){}.getType()); //...
+        restoreCalendar = gson.fromJson(jsonRestoreCalendars, new TypeToken<Map<String, CalendarPriceClassImpl>>(){}.getType()); //...
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
         gsonStatusCalendarDefault = new Gson();
         gsonStatusCalendar1 = new Gson();
@@ -64,7 +64,7 @@ public class CalendarToGsonTest {
         statusCalendar = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
         statusCalendar2 = new CalendarStatusServiceImpl(10000l,15000l);
 //        statusCalendar2 = new CalendarStatusServiceImpl();
-//        statusCalendar3 = new CalendarStatusServiceImpl(restoreCalendar.get("scheme1").toString());
+        statusCalendar3 = new CalendarStatusServiceImpl(restoreCalendar.get("scheme1").toString());
     }
 
     @After
@@ -129,8 +129,8 @@ public class CalendarToGsonTest {
     public void testOwnerRestoreToObjectPrices(){
         System.out.println("--------------------[ testOwnerRestoreToObjectPrices ]");
 
-//        System.out.println(statusCalendar3);
-//        System.err.println(statusCalendar3.toJson());
+        System.out.println(statusCalendar3);
+        System.err.println(statusCalendar3.toJson());
     }
 
     @Test
