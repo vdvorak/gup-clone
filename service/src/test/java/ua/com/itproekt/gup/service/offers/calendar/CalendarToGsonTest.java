@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -36,12 +37,13 @@ public class CalendarToGsonTest {
             RESTORECALENDAR_FILE_NAME = "restoreCalendar.json",
             RENT_FILE_NAME = "offerRents.json"; //FIXME: file.properties
 
-    private JsonObject jsonCalendars,jsonRestoreCalendars,jsonRents;
+    private JsonObject jsonCalendars,jsonRestore,jsonRents;
     private Gson gsonStatusCalendarDefault,gsonStatusCalendar1;
     private Map<String, Calendar> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
-    private CalendarStatusService statusCalendar,statusCalendar2,statusCalendar3;
-    private Map<String, CalendarRestorePriceClassImpl> restoreCalendar;
+    private CalendarStatusService statusCalendar,statusCalendar2,restoreCalendar,restoreCalendar2;
+    private Map<String, CalendarRestorePriceClassImpl> restore;
+    private CalendarRestorePriceClassImpl scheme1;
 
     @Before
     public void setUp() {
@@ -49,14 +51,14 @@ public class CalendarToGsonTest {
         Gson gson = new Gson();
         try {
             jsonCalendars = (JsonObject) parser.parse(new FileReader(PATH + "/" + RENTCALENDAR_FILE_NAME));
-            jsonRestoreCalendars = (JsonObject) parser.parse(new FileReader(PATH + "/" + RESTORECALENDAR_FILE_NAME));
+            jsonRestore = (JsonObject) parser.parse(new FileReader(PATH + "/" + RESTORECALENDAR_FILE_NAME));
             jsonRents = (JsonObject) parser.parse(new FileReader(PATH + "/" + RENT_FILE_NAME));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
         calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, Calendar>>(){}.getType());
-        restoreCalendar = gson.fromJson(jsonRestoreCalendars, new TypeToken<Map<String, CalendarRestorePriceClassImpl>>(){}.getType()); //...
+        restore = gson.fromJson(jsonRestore, new TypeToken<Map<String, CalendarRestorePriceClassImpl>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
         gsonStatusCalendarDefault = new Gson();
         gsonStatusCalendar1 = new Gson();
@@ -64,7 +66,8 @@ public class CalendarToGsonTest {
         statusCalendar = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
         statusCalendar2 = new CalendarStatusServiceImpl(10000l,15000l);
 //        statusCalendar2 = new CalendarStatusServiceImpl();
-        statusCalendar3 = new CalendarStatusServiceImpl(restoreCalendar.get("scheme1").toString());
+        scheme1 = restore.get("scheme1");
+//        restoreCalendar2 = new CalendarStatusServiceImpl(""); //FIXME: java.util.NoSuchElementException
     }
 
     @After
@@ -77,7 +80,9 @@ public class CalendarToGsonTest {
         rents = null;
         statusCalendar = null;
         statusCalendar2 = null;
-        statusCalendar3 = null;
+        restoreCalendar = null;
+        scheme1 = null;
+        restoreCalendar2 = null;
     }
 
     /**
@@ -127,12 +132,28 @@ public class CalendarToGsonTest {
      */
     @Test
     public void testOwnerRestoreToObjectPrices(){
-        System.out.println("--------------------[ testOwnerRestoreToObjectPrices ]");
+        System.err.println("--------------------[ testOwnerRestoreToObjectPrices ]");
 
-        System.out.println(restoreCalendar.get("scheme1"));
+//        CalendarRestorePriceClass weekdays = scheme1.getWeekdays(),
+//                weekends = scheme1.getWeekends();
+//        CalendarRestorePriceClass[] specials = scheme1.getSpecials();
+//
+////        System.out.println("weekdays " + weekdays);
+////        System.out.println("weekends " + weekends);
+////
+////        System.out.print("specials [");
+////        for (CalendarRestorePriceClass special : specials) System.out.print(special);
+////        System.out.println("]");
+//
+//        restoreCalendar = new CalendarStatusServiceImpl(weekdays.getPrice(), weekends.getPrice());
+//        for (CalendarRestorePriceClass special : specials) restoreCalendar.addPrices(special.getPrice(), convertDate(special.getDays()));
+//
+//        System.out.println(restoreCalendar);
+//        System.out.println(restoreCalendar.toJson());
 
-//        System.out.println(statusCalendar3);
-//        System.err.println(statusCalendar3.toJson());
+        restoreCalendar2 = new CalendarStatusServiceImpl("");
+        System.err.println(restoreCalendar2);
+        System.err.println(restoreCalendar2.toJson());
     }
 
     @Test

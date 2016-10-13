@@ -1,9 +1,16 @@
 package ua.com.itproekt.gup.service.offers;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import org.springframework.stereotype.Service;
+import ua.com.itproekt.gup.service.offers.calendar.CalendarRestorePriceClass;
+import ua.com.itproekt.gup.service.offers.calendar.CalendarRestorePriceClassImpl;
 import ua.com.itproekt.gup.service.offers.calendar.Price;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -73,8 +80,27 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
      * Restore from Json to Object-Calendar;
      * -------------------------------------
      */
-    protected CalendarStatusService(String jsonRestore){
-        //TODO:
+    protected CalendarStatusService(String _jsonRestore){
+        CalendarRestorePriceClassImpl scheme = null;
+        try {
+            JsonParser parser = new JsonParser();
+            JsonObject jsonRestore = (JsonObject) parser.parse(new FileReader("src/test/resources/restoreCalendar.json")); //TODO: "src/test/resources/restoreCalendar.json"
+            Gson gson = new Gson();
+            Map<String, CalendarRestorePriceClassImpl> restore = gson.fromJson(jsonRestore, new TypeToken<Map<String, CalendarRestorePriceClassImpl>>(){}.getType());
+            scheme = restore.get("scheme1"); //TODO: "scheme1"
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        CalendarRestorePriceClass weekdays = scheme.getWeekdays(),
+                weekends = scheme.getWeekends();
+        CalendarRestorePriceClass[] specials = scheme.getSpecials();
+
+        weekdayPrice = weekdays.getPrice();
+        weekendPrice = weekends.getPrice();
+        initDate = null;
+        listWeekdays = new ArrayList<Long>();
+        listWeekends = new ArrayList<Long>();
+        for (CalendarRestorePriceClass special : specials) addPrices(special.getPrice(), convertDate(special.getDays()));
     }
 
     /**

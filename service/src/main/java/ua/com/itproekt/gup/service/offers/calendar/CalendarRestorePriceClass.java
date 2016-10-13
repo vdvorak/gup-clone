@@ -1,5 +1,7 @@
 package ua.com.itproekt.gup.service.offers.calendar;
 
+import java.util.Arrays;
+
 public class CalendarRestorePriceClass {
 
     private Long price;
@@ -21,4 +23,11 @@ public class CalendarRestorePriceClass {
         this.days = days;
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+                "price=" + price +
+                ", days=" + Arrays.toString(days) +
+                '}';
+    }
 }
