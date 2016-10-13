@@ -98,16 +98,16 @@ public class OfferRestController {
 
         if (relevant) {
             // receive list of relevant offer
-            List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId());
+            List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId());
             if (relevantOffersList.size() < 20) {
 
                 //add extra offers from same area
-                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorForRelevantSearchWithCountry(offer), offer.getId()));
+                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorForRelevantSearchWithCountry(offer), offer.getId()));
             }
 
             if (relevantOffersList.size() < 20) {
                 // add extra offers from all categories
-                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(offerFilterOptionsPreparatorOnlyWithSkipAndLimit(), offer.getId()));
+                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorOnlyWithSkipAndLimit(), offer.getId()));
             }
 
             offerInfo.setRelevantOffersList(relevantOffersList);
@@ -211,7 +211,7 @@ public class OfferRestController {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
 
-            offerSeoUrlAndPaidServicePreparator(offerRegistration);
+           OfferRestHelper.offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
             if (files.length > 0) {
                 // Set images id's and their order into offer. When offer is create - images order start with "1"
@@ -228,7 +228,7 @@ public class OfferRestController {
 
             offerRegistration.getOffer().setAuthorId(userId);
 
-            offerSeoUrlAndPaidServicePreparator(offerRegistration);
+            OfferRestHelper.offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
 
             if (offerRegistration.getImportImagesUrlList() != null) {
@@ -274,7 +274,7 @@ public class OfferRestController {
             consumes = {"multipart/form-data"})
     public ResponseEntity<String> editOffer(
             @RequestPart("offerRegistration") OfferRegistration offerRegistration,
-            @RequestPart("files") MultipartFile[] files, HttpServletRequest request) {
+            @RequestPart("files") MultipartFile[] files) {
 
         Offer updatedOffer = offerRegistration.getOffer();
 
@@ -488,79 +488,16 @@ public class OfferRestController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    /**
-     * Add SeoUrl to offer and create new PaidService in offer
-     *
-     * @param offerRegistration offerRegistration
-     */
-    private void offerSeoUrlAndPaidServicePreparator(OfferRegistration offerRegistration) {
-        long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
-        SeoUtils.makeSeoFieldsForOffer(offerRegistration.getOffer(), longValueOfSeoKey);
 
-        PaidServices paidServices = new PaidServices();
-        paidServices.setLastUpdateDateToCurrentDate();
-        offerRegistration.getOffer().setPaidServices(paidServices);
-    }
-
-    /**
-     * @param offer
-     * @return
-     */
-    private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCity(Offer offer) {
-        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-        offerFilterOptions.setAddress(new Address());
-
-        // add categories in filter
-        offerFilterOptions.setCategories(offer.getCategories());
-
-        // add address in filter
-        if (offer.getAddress().getCity() != null) {
-            offerFilterOptions
-                    .getAddress()
-                    .setCity(offer.getAddress().getCity());
-            offerFilterOptions.getAddress().setArea(offer.getAddress().getArea());
-
-        }
-
-        return offerFilterOptions;
-    }
-
-    /**
-     * @param offer
-     * @return
-     */
-    private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCountry(Offer offer) {
-        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-        offerFilterOptions.setAddress(new Address());
-
-        // add categories in filter
-        offerFilterOptions.setCategories(offer.getCategories());
-
-        offerFilterOptions.getAddress().setCountry(offer.getAddress().getCountry());
-
-        return offerFilterOptions;
-    }
-
-    /**
-     * Return OfferFilterOption object only with skip and limit parameter
-     *
-     * @return
-     */
-    private OfferFilterOptions offerFilterOptionsPreparatorOnlyWithSkipAndLimit() {
-        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-        offerFilterOptions.setSkip(0);
-        offerFilterOptions.setLimit(20);
-        return offerFilterOptions;
-    }
 
     /**
      * @param updatedOfferImagesMap
      * @param files
-     * @return
+     * @return the Map of images ID and their positions.
      */
     private Map<String, String> updaterOfferImages(Map<String, String> updatedOfferImagesMap, MultipartFile[] files) {
 
-        int newStartPositionForImages = updatedOfferImagesMap.size(); // Тут лежать старые фотографии
+        int newStartPositionForImages = updatedOfferImagesMap.size(); // old images here
         Map<String, String> newImageMap = new HashMap<>();
 
         newStartPositionForImages++;
@@ -572,38 +509,4 @@ public class OfferRestController {
 
         return newImageMap;
     }
-
-
-    //ToDo удалить перед продакшеном
-//    @RequestMapping(value = "/subscription/test/{offerId}", method = RequestMethod.POST)
-//    public ResponseEntity<Void> test(@PathVariable String offerId) {
-//
-//        Offer offer = offersService.findById(offerId);
-////        offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
-//        subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(offer);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//
-//    }
-
-    //ToDo удалить перед продакшеном
-//    @CrossOrigin
-//    @RequestMapping(value = "/test", method = RequestMethod.GET)
-//    public ResponseEntity<Void> test() {
-//
-//        List<String> testList = new ArrayList<>();
-//
-//        testList.add("https://img22.olx.ua/images_slandocomua/329489008_1_1000x700_detskie-krovatki-natalka-yasen-dostavka-po-ukraine-vinnitsa.jpg");
-//
-//
-//        System.err.println("Eahhhhhh");
-//        MultipartFile[] multipartFiles = storageService.imageDownloader(testList);
-//
-//
-//        Map<String, String> imagesMap = storageService.saveCachedMultiplyImageOffer(multipartFiles, 1);
-//
-//        System.err.println("files: " + imagesMap.toString());
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//
-//    }
 }
