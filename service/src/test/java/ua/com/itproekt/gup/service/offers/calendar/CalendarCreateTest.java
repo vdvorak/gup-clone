@@ -7,8 +7,8 @@ import com.google.gson.reflect.TypeToken;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.itproekt.gup.service.offers.CalendarStatusService;
-import ua.com.itproekt.gup.service.offers.CalendarStatusServiceImpl;
+import ua.com.itproekt.gup.service.offers.CalendarPriceService;
+import ua.com.itproekt.gup.service.offers.CalendarPriceServiceImpl;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -49,7 +49,7 @@ public class CalendarCreateTest {
     private Gson gsonStatusCalendarDefault,gsonStatusCalendar1;
     private Map<String, CalendarPrice> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
-    private CalendarStatusService statusCalendar;
+    private CalendarPriceService statusCalendar;
 
     @Before
     public void setUp() {
@@ -106,7 +106,7 @@ public class CalendarCreateTest {
     public void testOwnerCreateCalendarPrices_1(){
         System.out.println("--------------------[ testOwnerCreateCalendarPrices_1 ]");
 
-        statusCalendar = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
+        statusCalendar = new CalendarPriceServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
         statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
         System.out.println(statusCalendar);
     }
@@ -136,7 +136,7 @@ public class CalendarCreateTest {
     public void testOwnerCreateCalendarPrices_2(){
         System.out.println("--------------------[ testOwnerCreateCalendarPrices_2 ]");
 
-        statusCalendar = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
+        statusCalendar = new CalendarPriceServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
         statusCalendar.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays()));
         System.out.println(statusCalendar);
     }
@@ -164,7 +164,7 @@ public class CalendarCreateTest {
     public void testOwnerCreateCalendarPrices_31() {
         System.out.println("--------------------[ testOwnerCreateCalendarPrices_31 ]");
 
-        statusCalendar = new CalendarStatusServiceImpl();
+        statusCalendar = new CalendarPriceServiceImpl();
         statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
         System.out.println(statusCalendar);
     }
@@ -191,7 +191,7 @@ public class CalendarCreateTest {
     public void testOwnerCreateCalendarPrices_32() {
         System.out.println("--------------------[ testOwnerCreateCalendarPrices_32 ]");
 
-        statusCalendar = new CalendarStatusServiceImpl();
+        statusCalendar = new CalendarPriceServiceImpl();
         statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
         System.out.println(statusCalendar);
     }
@@ -219,7 +219,7 @@ public class CalendarCreateTest {
     public void testOwnerCreateCalendarPrices_4() {
         System.out.println("--------------------[ testOwnerCreateCalendarPrices_4 ]");
 
-        statusCalendar = new CalendarStatusServiceImpl();
+        statusCalendar = new CalendarPriceServiceImpl();
         statusCalendar.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays()));
         System.out.println(statusCalendar);
     }

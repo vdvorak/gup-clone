@@ -9,22 +9,22 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import java.util.Map;
 
 //FIXME: @Service
-public class CalendarStatusServiceImpl extends CalendarStatusService {
+public class CalendarPriceServiceImpl extends CalendarPriceService {
 
-    private Logger logger = Logger.getLogger(CalendarStatusServiceImpl.class);
+    private Logger logger = Logger.getLogger(CalendarPriceServiceImpl.class);
 
     @Autowired
     private OfferRepository offerRepository;
 
-    public CalendarStatusServiceImpl(Long weekdayPrice, Long weekendPrice) {
+    public CalendarPriceServiceImpl(Long weekdayPrice, Long weekendPrice) {
         super(weekdayPrice, weekendPrice);
     }
 
-    public CalendarStatusServiceImpl(){
+    public CalendarPriceServiceImpl(){
         super();
     }
 
-    public CalendarStatusServiceImpl(String jsonRestore){
+    public CalendarPriceServiceImpl(String jsonRestore){
         super(jsonRestore);
     }
 

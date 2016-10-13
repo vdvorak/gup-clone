@@ -16,8 +16,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import org.apache.log4j.Logger;
-import ua.com.itproekt.gup.service.offers.CalendarStatusService;
-import ua.com.itproekt.gup.service.offers.CalendarStatusServiceImpl;
+import ua.com.itproekt.gup.service.offers.CalendarPriceService;
+import ua.com.itproekt.gup.service.offers.CalendarPriceServiceImpl;
 
 /**
 * @see http://www.javacreed.com/gson-deserialiser-example/
@@ -43,7 +43,7 @@ public class CalendarTest {
     private JsonObject jsonCalendars,jsonRents;
     private Map<String, CalendarPrice> calendar1; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
-    private CalendarStatusService schemeDefault,scheme1,scheme2;
+    private CalendarPriceService schemeDefault,scheme1,scheme2;
 
     @Before
     public void setUp() {
@@ -59,9 +59,9 @@ public class CalendarTest {
         calendar1 = gson.fromJson(jsonCalendars, new TypeToken<Map<String, CalendarPrice>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
 
-        schemeDefault = new CalendarStatusServiceImpl(10000l,15000l);
-        scheme1 = new CalendarStatusServiceImpl(10000l,15000l);
-        scheme2 = new CalendarStatusServiceImpl(10000l,15000l);
+        schemeDefault = new CalendarPriceServiceImpl(10000l,15000l);
+        scheme1 = new CalendarPriceServiceImpl(10000l,15000l);
+        scheme2 = new CalendarPriceServiceImpl(10000l,15000l);
     }
 
     @After

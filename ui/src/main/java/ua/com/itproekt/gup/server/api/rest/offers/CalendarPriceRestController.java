@@ -11,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
-import ua.com.itproekt.gup.service.offers.CalendarStatusService;
-import ua.com.itproekt.gup.service.offers.CalendarStatusServiceImpl;
+import ua.com.itproekt.gup.service.offers.CalendarPriceService;
+import ua.com.itproekt.gup.service.offers.CalendarPriceServiceImpl;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.offers.calendar.CalendarPrice;
 import ua.com.itproekt.gup.service.offers.calendar.CalendarPriceObj;
@@ -29,7 +29,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/rest/offersService")
-public class OfferCalendarRestController {
+public class CalendarPriceRestController {
 
     private static final String formatter = "d.MM.yyyy";
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
@@ -43,7 +43,7 @@ public class OfferCalendarRestController {
     private Map<String, Rent> rents;
 
 //    @Autowired
-    private CalendarStatusService calendarStatusService;
+    private CalendarPriceService calendarStatusService;
 
     @Autowired
     private OffersService offersService;
@@ -68,7 +68,7 @@ public class OfferCalendarRestController {
         calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, CalendarPrice>>(){}.getType());
 
 //        calendarStatusService = new CalendarStatusServiceImpl();
-        calendarStatusService = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
+        calendarStatusService = new CalendarPriceServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
         calendarStatusService.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays())); // Устанавливаем специальную цену на отдельные дни
 
         return new ResponseEntity<>(calendarStatusService.toJson(), HttpStatus.OK); //return new ResponseEntity<>(calendarStatusService.toJson(), HttpStatus.OK);
@@ -87,7 +87,7 @@ public class OfferCalendarRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        calendarStatusService = new CalendarStatusServiceImpl(calendarPrice.getWeekdayPrice(),calendarPrice.getWeekendPrice()); // Устанавливаем дефолтную цену (на будни и выходные дни)
+        calendarStatusService = new CalendarPriceServiceImpl(calendarPrice.getWeekdayPrice(),calendarPrice.getWeekendPrice()); // Устанавливаем дефолтную цену (на будни и выходные дни)
         calendarStatusService.addPrices(calendarPrice.getSpecialPrice().getPrice(), convertDate(calendarPrice.getSpecialPrice().getDays())); // Устанавливаем специальную цену на отдельные дни
         return new ResponseEntity<>(calendarStatusService.toJson(), HttpStatus.CREATED); //return new ResponseEntity<>(calendarPrice.toString(), HttpStatus.OK);
     }
@@ -113,7 +113,7 @@ public class OfferCalendarRestController {
         } catch (FileNotFoundException e) { e.printStackTrace(); }
         calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, CalendarPrice>>(){}.getType());
 
-        calendarStatusService = new CalendarStatusServiceImpl(10000l,15000l);
+        calendarStatusService = new CalendarPriceServiceImpl(10000l,15000l);
         calendarStatusService.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
 
         calendarStatusService.addPrices(calendarPrice.getSpecialPrice().getPrice(), convertDate(calendarPrice.getSpecialPrice().getDays())); // Устанавливаем специальную цену на отдельные дни
@@ -139,7 +139,7 @@ public class OfferCalendarRestController {
         calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, CalendarPrice>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
 
-        calendarStatusService = new CalendarStatusServiceImpl(10000l,15000l);
+        calendarStatusService = new CalendarPriceServiceImpl(10000l,15000l);
         calendarStatusService.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
 
 //        if (day!=null)

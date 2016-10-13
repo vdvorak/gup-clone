@@ -5,8 +5,8 @@ import com.google.gson.reflect.TypeToken;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.itproekt.gup.service.offers.CalendarStatusService;
-import ua.com.itproekt.gup.service.offers.CalendarStatusServiceImpl;
+import ua.com.itproekt.gup.service.offers.CalendarPriceService;
+import ua.com.itproekt.gup.service.offers.CalendarPriceServiceImpl;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -31,7 +31,7 @@ public class CalendarUpdateTest {
     private JsonObject jsonCalendars,jsonRents;
     private Map<String, CalendarPrice> calendar1; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
-    private CalendarStatusService schemeDefault,scheme1,scheme2;
+    private CalendarPriceService schemeDefault,scheme1,scheme2;
 
     @Before
     public void setUp() {
@@ -47,9 +47,9 @@ public class CalendarUpdateTest {
         calendar1 = gson.fromJson(jsonCalendars, new TypeToken<Map<String, CalendarPrice>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
 
-        schemeDefault = new CalendarStatusServiceImpl(10000l,15000l);
-        scheme1 = new CalendarStatusServiceImpl(10000l,15000l);
-        scheme2 = new CalendarStatusServiceImpl(10000l,15000l);
+        schemeDefault = new CalendarPriceServiceImpl(10000l,15000l);
+        scheme1 = new CalendarPriceServiceImpl(10000l,15000l);
+        scheme2 = new CalendarPriceServiceImpl(10000l,15000l);
     }
 
     @After
