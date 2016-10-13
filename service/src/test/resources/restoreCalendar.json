@@ -1,5 +1,5 @@
 {
-  "scheme1": {
+  "priceCalendar": {
     "weekdays": {
       "price": 10000
       ,"days": ["10.10.2016","28.10.2016"]

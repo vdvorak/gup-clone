@@ -35,7 +35,29 @@ public class CalendarToGsonTest {
     private final String PATH = "src/test/resources",
             RENTCALENDAR_FILE_NAME = "offerCalendar1.json",
             RESTORECALENDAR_FILE_NAME = "restoreCalendar.json",
-            RENT_FILE_NAME = "offerRents.json"; //FIXME: file.properties
+            RENT_FILE_NAME = "offerRents.json", //FIXME: file.properties
+            strJsonRestore = "{\n" +
+                    "  \"priceCalendar\": {\n" +
+                    "    \"weekdays\": {\n" +
+                    "      \"price\": 10000\n" +
+                    "      ,\"days\": [\"10.10.2016\",\"28.10.2016\"]\n" +
+                    "    }\n" +
+                    "    ,\"weekends\": {\n" +
+                    "      \"price\": 15000\n" +
+                    "      ,\"days\": [\"1.10.2016\",\"30.10.2016\"]\n" +
+                    "    }\n" +
+                    "    ,\"specials\": [\n" +
+                    "      {\n" +
+                    "        \"price\": 11111\n" +
+                    "        ,\"days\": [\"31.10.2016\"]\n" +
+                    "      }\n" +
+                    "      ,{\n" +
+                    "        \"price\": 20000\n" +
+                    "        ,\"days\": [\"3.10.2016\",\"7.10.2016\"]\n" +
+                    "      }\n" +
+                    "    ]\n" +
+                    "  }\n" +
+                    "}";
 
     private JsonObject jsonCalendars,jsonRestore,jsonRents;
     private Gson gsonStatusCalendarDefault,gsonStatusCalendar1;
@@ -43,7 +65,7 @@ public class CalendarToGsonTest {
     private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
     private CalendarStatusService statusCalendar,statusCalendar2,restoreCalendar,restoreCalendar2;
     private Map<String, CalendarRestorePriceClassImpl> restore;
-    private CalendarRestorePriceClassImpl scheme1;
+    private CalendarRestorePriceClassImpl priceCalendar;
 
     @Before
     public void setUp() {
@@ -66,7 +88,7 @@ public class CalendarToGsonTest {
         statusCalendar = new CalendarStatusServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
         statusCalendar2 = new CalendarStatusServiceImpl(10000l,15000l);
 //        statusCalendar2 = new CalendarStatusServiceImpl();
-        scheme1 = restore.get("scheme1");
+        priceCalendar = restore.get("priceCalendar");
 //        restoreCalendar2 = new CalendarStatusServiceImpl(""); //FIXME: java.util.NoSuchElementException
     }
 
@@ -81,7 +103,7 @@ public class CalendarToGsonTest {
         statusCalendar = null;
         statusCalendar2 = null;
         restoreCalendar = null;
-        scheme1 = null;
+        priceCalendar = null;
         restoreCalendar2 = null;
     }
 
@@ -123,7 +145,7 @@ public class CalendarToGsonTest {
 //        statusCalendar2.addPrices(calendarPrices.get("scheme6").getPrice(), convertDate(calendarPrices.get("scheme6").getDays()));
 
         System.out.println(statusCalendar2);
-        System.err.println(statusCalendar2.toJson());
+        System.out.println(statusCalendar2.toJson());
     }
 
     /**
@@ -134,9 +156,9 @@ public class CalendarToGsonTest {
     public void testOwnerRestoreToObjectPrices(){
         System.err.println("--------------------[ testOwnerRestoreToObjectPrices ]");
 
-//        CalendarRestorePriceClass weekdays = scheme1.getWeekdays(),
-//                weekends = scheme1.getWeekends();
-//        CalendarRestorePriceClass[] specials = scheme1.getSpecials();
+//        CalendarRestorePriceClass weekdays = priceCalendar.getWeekdays(),
+//                weekends = priceCalendar.getWeekends();
+//        CalendarRestorePriceClass[] specials = priceCalendar.getSpecials();
 //
 ////        System.out.println("weekdays " + weekdays);
 ////        System.out.println("weekends " + weekends);
@@ -151,7 +173,7 @@ public class CalendarToGsonTest {
 //        System.out.println(restoreCalendar);
 //        System.out.println(restoreCalendar.toJson());
 
-        restoreCalendar2 = new CalendarStatusServiceImpl("");
+        restoreCalendar2 = new CalendarStatusServiceImpl(strJsonRestore);
         System.err.println(restoreCalendar2);
         System.err.println(restoreCalendar2.toJson());
     }

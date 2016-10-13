@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.service.offers.calendar.CalendarRestorePriceClass;
 import ua.com.itproekt.gup.service.offers.calendar.CalendarRestorePriceClassImpl;
@@ -22,7 +23,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price> {
 
     private static volatile Boolean initDate;
-    private static String formatter = "d.MM.yyyy";
+    private static String formatter = "d.MM.yyyy",
+            priceCalendar = "priceCalendar";
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
     private Long weekdayPrice,weekendPrice;
     private Long[][] weekdays,weekends;
@@ -80,17 +82,12 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
      * Restore from Json to Object-Calendar;
      * -------------------------------------
      */
-    protected CalendarStatusService(String _jsonRestore){
-        CalendarRestorePriceClassImpl scheme = null;
-        try {
-            JsonParser parser = new JsonParser();
-            JsonObject jsonRestore = (JsonObject) parser.parse(new FileReader("src/test/resources/restoreCalendar.json")); //TODO: "src/test/resources/restoreCalendar.json"
-            Gson gson = new Gson();
-            Map<String, CalendarRestorePriceClassImpl> restore = gson.fromJson(jsonRestore, new TypeToken<Map<String, CalendarRestorePriceClassImpl>>(){}.getType());
-            scheme = restore.get("scheme1"); //TODO: "scheme1"
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    protected CalendarStatusService(String strJsonRestore){
+        JsonParser parser = new JsonParser();
+        JsonObject jsonRestore = (JsonObject) parser.parse(strJsonRestore);
+        Gson gson = new Gson();
+        Map<String, CalendarRestorePriceClassImpl> restore = gson.fromJson(jsonRestore, new TypeToken<Map<String, CalendarRestorePriceClassImpl>>(){}.getType());
+        CalendarRestorePriceClassImpl scheme = restore.get(priceCalendar);
         CalendarRestorePriceClass weekdays = scheme.getWeekdays(),
                 weekends = scheme.getWeekends();
         CalendarRestorePriceClass[] specials = scheme.getSpecials();
@@ -204,7 +201,7 @@ public abstract class CalendarStatusService extends ConcurrentLinkedQueue<Price>
 //        return gson.toJson(this);
         int scheme = 0;
         StringBuilder data = new StringBuilder();
-        data.append("{\n");
+        data.append("\"priceCalendar\": {\n"); //data.append("{\n");
         if (weekdayPrice!=null && weekendPrice!=null){
             for (Price prices : this) {
                 if (scheme==0){
