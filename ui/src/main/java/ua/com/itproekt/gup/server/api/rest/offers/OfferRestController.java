@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.itproekt.gup.dto.OfferInfo;
 import ua.com.itproekt.gup.dto.OfferRegistration;
-import ua.com.itproekt.gup.model.offer.Address;
 import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.offers.OffersService;
@@ -23,7 +21,6 @@ import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
 import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.SecurityOperations;
-import ua.com.itproekt.gup.util.SeoUtils;
 import ua.com.itproekt.gup.util.Translit;
 
 import javax.servlet.http.HttpServletRequest;
@@ -211,7 +208,7 @@ public class OfferRestController {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
 
-           OfferRestHelper.offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
+            OfferRestHelper.offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
             if (files.length > 0) {
                 // Set images id's and their order into offer. When offer is create - images order start with "1"
@@ -322,7 +319,7 @@ public class OfferRestController {
 
 
         if (files.length > 0) {
-            updatedOffer.setImagesIds(updaterOfferImages(updatedOffer.getImagesIds(), files));
+            updatedOffer.setImagesIds(OfferRestHelper.updaterOfferImages(storageService, updatedOffer.getImagesIds(), files));
         }
 
         Offer newOffer = offersService.edit(updatedOffer);
@@ -334,10 +331,10 @@ public class OfferRestController {
 
 
     /**
-     * Edit offer by moderator
+     *              Edit offer by moderator
      *
      * @param offer
-     * @return 404 Not Found if offer does not exist or was deleted
+     * @return      404 Not Found if offer does not exist or was deleted
      */
     @CrossOrigin
     @PreAuthorize("hasRole('ROLE_ADMIN', 'ROLE_MODERATOR')")
@@ -357,18 +354,8 @@ public class OfferRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        offer.getModerationMessage().setCreatedDateEqualsToCurrentDate();
-        offer.getModerationMessage().setIsRead(false);
-        offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
-
-
-        String newTransiltTitle = Translit.makeTransliteration(offer.getTitle());
-
-        String newSeoUrl = newTransiltTitle + "-" + oldOffer.getSeoKey();
-
-        offer.setSeoUrl(newSeoUrl);
-
-        Offer newOffer = offersService.edit(offer);
+        // prepare new offer before update it
+        Offer newOffer = offersService.edit(OfferRestHelper.offerPreparatorForEditOffer(offer, oldOffer));
 
         return new ResponseEntity<>(new CreatedObjResp(newOffer.getSeoUrl()), HttpStatus.OK);
     }
@@ -486,27 +473,5 @@ public class OfferRestController {
         offersService.edit(offer);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-
-
-    /**
-     * @param updatedOfferImagesMap
-     * @param files
-     * @return the Map of images ID and their positions.
-     */
-    private Map<String, String> updaterOfferImages(Map<String, String> updatedOfferImagesMap, MultipartFile[] files) {
-
-        int newStartPositionForImages = updatedOfferImagesMap.size(); // old images here
-        Map<String, String> newImageMap = new HashMap<>();
-
-        newStartPositionForImages++;
-
-        Map<String, String> mapWithNewPhoto = storageService.saveCachedMultiplyImageOffer(files, newStartPositionForImages);
-
-        newImageMap.putAll(updatedOfferImagesMap);
-        newImageMap.putAll(mapWithNewPhoto);
-
-        return newImageMap;
     }
 }
