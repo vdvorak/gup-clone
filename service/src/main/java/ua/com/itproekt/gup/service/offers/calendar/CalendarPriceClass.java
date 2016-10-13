@@ -4,7 +4,7 @@ public class CalendarPriceClass {
 
     private Long weekdayPrice;
     private Long weekendPrice;
-    private CalendarSpecialPriceClass specialPrice;
+    private CalendarPrice specialPrice;
 
     public Long getWeekdayPrice() {
         return weekdayPrice;
@@ -22,11 +22,11 @@ public class CalendarPriceClass {
         this.weekendPrice = weekendPrice;
     }
 
-    public CalendarSpecialPriceClass getSpecialPrice() {
+    public CalendarPrice getSpecialPrice() {
         return specialPrice;
     }
 
-    public void setSpecialPrice(CalendarSpecialPriceClass specialPrice) {
+    public void setSpecialPrice(CalendarPrice specialPrice) {
         this.specialPrice = specialPrice;
     }
 
