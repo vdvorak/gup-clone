@@ -246,7 +246,7 @@ public abstract class CalendarPriceService extends ConcurrentLinkedQueue<Price> 
             }
         } else {
             if (!this.isEmpty()){ //TODO
-                data.append("  \"specials\":\n  [\n");
+                data.append("  \"specialdays\":\n  [\n");
                 for (Price prices : this) {
                     if (0 < scheme) data.append("    ,{\n");
                     else data.append("    {\n");
@@ -345,4 +345,5 @@ public abstract class CalendarPriceService extends ConcurrentLinkedQueue<Price> 
             lDate[date] = convertDate(days[date]);
         return lDate;
     }
+
 }

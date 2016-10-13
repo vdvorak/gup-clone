@@ -29,44 +29,49 @@ public class CalendarPriceServiceImpl extends CalendarPriceService {
     }
 
     /**
+     * (Очень похоже на 'edit()') создаю календарь-цен для уже существующего 'offer'
+     *
      * @param offer
      */
     public void create(Offer offer) {
-        Offer newOffer = new Offer()
-                .setAuthorId(offer.getAuthorId())
-                .setUserInfo(offer.getUserInfo())
-                .setCreatedDateEqualsToCurrentDate()
-                .setModerationStatus(ModerationStatus.COMPLETE)
-                .setCategories(offer.getCategories())
-                .setProperties(offer.getProperties())
-                .setImagesIds(offer.getImagesIds())
-                .setSeoUrl(offer.getSeoUrl())
-                .setSeoKey(offer.getSeoKey())
-                .setSeoCategory(offer.getSeoCategory())
-                .setVideoUrl(offer.getVideoUrl())
-                .setTitle(offer.getTitle())
-                .setDescription(offer.getDescription())
-                .setPrice(offer.getPrice())
-                .setPriceCanBeNegotiated(offer.getPriceCanBeNegotiated())
-                .setUsed(offer.getUsed())
-                .setActive(Boolean.TRUE)
-                .setIsDeleted(false)
-                .setAddress(offer.getAddress())
-                .setCurrency(offer.getCurrency())
-                .setCanBeReserved(offer.getCanBeReserved())
-                .setMaximumReservedPeriod(offer.getMaximumReservedPeriod())
-                .setCanBeRented(offer.getCanBeRented())
-                .setAvailableShippingMethods(offer.getAvailableShippingMethods())
-                .setAvailablePaymentMethods(offer.getAvailablePaymentMethods())
-                .setShowOrdersCount(offer.isShowOrdersCount())
-                .setPaidServices(offer.getPaidServices());
-
-        offerRepository.create(newOffer);
-
-        offer.setId(newOffer.getId());
+//        Offer newOffer = new Offer()
+//                .setAuthorId(offer.getAuthorId())
+//                .setUserInfo(offer.getUserInfo())
+//                .setCreatedDateEqualsToCurrentDate()
+//                .setModerationStatus(ModerationStatus.COMPLETE)
+//                .setCategories(offer.getCategories())
+//                .setProperties(offer.getProperties())
+//                .setImagesIds(offer.getImagesIds())
+//                .setSeoUrl(offer.getSeoUrl())
+//                .setSeoKey(offer.getSeoKey())
+//                .setSeoCategory(offer.getSeoCategory())
+//                .setVideoUrl(offer.getVideoUrl())
+//                .setTitle(offer.getTitle())
+//                .setDescription(offer.getDescription())
+//                .setPrice(offer.getPrice())
+//                .setPriceCanBeNegotiated(offer.getPriceCanBeNegotiated())
+//                .setUsed(offer.getUsed())
+//                .setActive(Boolean.TRUE)
+//                .setIsDeleted(false)
+//                .setAddress(offer.getAddress())
+//                .setCurrency(offer.getCurrency())
+//                .setCanBeReserved(offer.getCanBeReserved())
+//                .setMaximumReservedPeriod(offer.getMaximumReservedPeriod())
+//                .setCanBeRented(offer.getCanBeRented())
+//                .setAvailableShippingMethods(offer.getAvailableShippingMethods())
+//                .setAvailablePaymentMethods(offer.getAvailablePaymentMethods())
+//                .setShowOrdersCount(offer.isShowOrdersCount())
+//                .setPaidServices(offer.getPaidServices())
+//                .setPriceCalendar(offer.getPriceCalendar());
+//
+//        offerRepository.create(newOffer);
+//
+//        offer.setId(newOffer.getId());
     }
 
     /**
+     * (Класс-обвертка) здесь выполняются разные проверки на владение объявлением, права бронирования...
+     *
      * @param oldOffer
      * @return
      */
@@ -96,7 +101,8 @@ public class CalendarPriceServiceImpl extends CalendarPriceService {
                 .setAvailablePaymentMethods(oldOffer.getAvailablePaymentMethods())
                 .setShowOrdersCount(oldOffer.isShowOrdersCount())
                 .setIsDeleted(oldOffer.isDeleted())
-                .setPaidServices(oldOffer.getPaidServices());
+                .setPaidServices(oldOffer.getPaidServices())
+                .setPriceCalendar(oldOffer.getPriceCalendar());
 
 
         return offerRepository.findAndUpdate(newOffer);
