@@ -79,21 +79,26 @@ $(document).ready(function () {
                 data[i].createdDate = new Date(data[i].createdDate).toLocaleDateString();
             }
 
-            var tableAdmins = $('#admins').DataTable({
-                select: {
-                    style: 'single'
-                },
-                data: admins,
-                "columns": [
-                    {"data": "imgId"},
-                    {"data": "username"},
-                    {"data": "email"},
-                    {"data": "createdDate"}
-                ],
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
+
+            let dataTableObjPreparator = function (dataName) {
+                return {
+                    select: {
+                        style: 'single'
+                    },
+                    data: dataName,
+                    "columns": [
+                        {"data": "imgId"},
+                        {"data": "username"},
+                        {"data": "email"},
+                        {"data": "createdDate"}
+                    ],
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
+                    }
                 }
-            });
+            };
+
+            var tableAdmins = $('#admins').DataTable(dataTableObjPreparator(admins));
 
             tableAdmins
                 .on('select', function (e, dt, type, indexes) {
@@ -109,22 +114,7 @@ $(document).ready(function () {
                     $('#editAdminProfileButton').attr("class", "btn btn-danger disabled");
                 });
 
-
-            var tableModerators = $('#moderators').DataTable({
-                select: {
-                    style: 'single'
-                },
-                data: moderators,
-                "columns": [
-                    {"data": "imgId"},
-                    {"data": "username"},
-                    {"data": "email"},
-                    {"data": "createdDate"}
-                ],
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
-                }
-            });
+            var tableModerators = $('#moderators').DataTable(dataTableObjPreparator(moderators));
 
             tableModerators
                 .on('select', function (e, dt, type, indexes) {
