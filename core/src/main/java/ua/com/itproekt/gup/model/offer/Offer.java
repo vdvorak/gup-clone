@@ -3,14 +3,12 @@ package ua.com.itproekt.gup.model.offer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
-import ua.com.itproekt.gup.service.offers.calendar.CalendarPriceRestoreObj;
+import ua.com.itproekt.gup.service.offers.MonthOfPricesRestore;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
 import ua.com.itproekt.gup.util.PaymentMethod;
 import ua.com.itproekt.gup.util.TransportCompany;
 
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -42,7 +40,7 @@ public class Offer {
     private Long createdDate;
     private Reservation reservation;
     private Integer views;
-    private CalendarPriceRestoreObj priceCalendar;
+    private MonthOfPricesRestore monthOfPrices;
     private Rent rent;
     private String seoUrl; // full SEO url with key - for siteMap
     private String seoKey; // only key - for search in DB
@@ -171,12 +169,12 @@ public class Offer {
         return this;
     }
 
-    public CalendarPriceRestoreObj getPriceCalendar() {
-        return priceCalendar;
+    public MonthOfPricesRestore getMonthOfPrices() {
+        return monthOfPrices;
     }
 
-    public Offer setPriceCalendar(CalendarPriceRestoreObj priceCalendar) {
-        this.priceCalendar = priceCalendar;
+    public Offer setMonthOfPrices(MonthOfPricesRestore monthOfPrices) {
+        this.monthOfPrices = monthOfPrices;
         return this;
     }
 

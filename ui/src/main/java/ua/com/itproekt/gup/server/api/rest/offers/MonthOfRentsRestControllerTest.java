@@ -17,7 +17,7 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 
 @RestController
 @RequestMapping("/api/rest/offersService")
-public class CalendarRentRestController {
+public class MonthOfRentsRestControllerTest {
 
     @Autowired
     OffersService offersService;

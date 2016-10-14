@@ -1,8 +1,8 @@
-package ua.com.itproekt.gup.service.offers.calendar;
+package ua.com.itproekt.gup.server.api.rest.offers;
 
 import java.util.Arrays;
 
-public class Rent {
+public class RentTest {
 
     private String[] days;
 

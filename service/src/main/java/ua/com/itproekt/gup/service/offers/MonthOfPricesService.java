@@ -5,9 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.stereotype.Service;
-import ua.com.itproekt.gup.service.offers.calendar.CalendarPrice;
-import ua.com.itproekt.gup.service.offers.calendar.CalendarPriceRestoreObj;
-import ua.com.itproekt.gup.service.offers.calendar.Price;
+import ua.com.itproekt.gup.service.offers.price.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -16,11 +14,11 @@ import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Service
-public abstract class CalendarPriceService extends ConcurrentLinkedQueue<Price> {
+public abstract class MonthOfPricesService extends ConcurrentLinkedQueue<Price> {
 
     private static volatile Boolean initDate;
     private static String formatter = "d.MM.yyyy",
-            priceCalendar = "priceCalendar";
+            monthOfPrices = "monthOfPrices";
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
     private Long weekdayPrice,weekendPrice;
     private Long[][] weekdays,weekends;
@@ -40,7 +38,7 @@ public abstract class CalendarPriceService extends ConcurrentLinkedQueue<Price> 
      *       -- default period (three full months) is determined based on the current date
      *       -- possible through the default constructor (without parameters)
      */
-    protected CalendarPriceService(){
+    protected MonthOfPricesService(){
         initDate = null;
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
@@ -62,7 +60,7 @@ public abstract class CalendarPriceService extends ConcurrentLinkedQueue<Price> 
      *       -- default period (three full months) is determined based on the current date
      *       -- through constructor with parameters
      */
-    protected CalendarPriceService(Long weekdayPrice, Long weekendPrice){
+    protected MonthOfPricesService(Long weekdayPrice, Long weekendPrice){
         if (weekdayPrice!=null
                 && weekendPrice!=null){
             this.weekdayPrice = weekdayPrice;
@@ -78,22 +76,22 @@ public abstract class CalendarPriceService extends ConcurrentLinkedQueue<Price> 
      * Restore from Json to Object-Calendar;
      * -------------------------------------
      */
-    protected CalendarPriceService(String strJsonRestore){
+    protected MonthOfPricesService(String strJsonRestore){
         JsonParser parser = new JsonParser();
         JsonObject jsonRestore = (JsonObject) parser.parse(strJsonRestore);
         Gson gson = new Gson();
-        Map<String, CalendarPriceRestoreObj> restore = gson.fromJson(jsonRestore, new TypeToken<Map<String, CalendarPriceRestoreObj>>(){}.getType());
-        CalendarPriceRestoreObj scheme = restore.get(priceCalendar);
-        CalendarPrice weekdays = scheme.getWeekdays(),
-                weekends = scheme.getWeekends();
-        CalendarPrice[] specialdays = scheme.getSpecialdays();
+        Map<String, MonthOfPricesRestore> restore = gson.fromJson(jsonRestore, new TypeToken<Map<String, MonthOfPricesRestore>>(){}.getType());
+        MonthOfPricesRestore scheme = restore.get(monthOfPrices);
+        MonthOfPrice weekdays = scheme.getWeekday(),
+                weekends = scheme.getWeekend();
+        MonthOfPrice[] specialdays = scheme.getSpecialdays();
 
         weekdayPrice = weekdays.getPrice();
         weekendPrice = weekends.getPrice();
         initDate = null;
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
-        for (CalendarPrice specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
+        for (MonthOfPrice specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
     }
 
     /**
@@ -112,7 +110,7 @@ public abstract class CalendarPriceService extends ConcurrentLinkedQueue<Price> 
                 break;
             case 1:
                 initDate(days[0]);
-                synchronized (CalendarPriceService.class){
+                synchronized (MonthOfPricesService.class){
                     newPrice = new Price(price);
                     for (Price curPrice : this)
                         if (curPrice.remove(days[0])) newPrice.add(days[0]);
@@ -122,7 +120,7 @@ public abstract class CalendarPriceService extends ConcurrentLinkedQueue<Price> 
                 break;
             case 2:
                 initDate(days);
-                synchronized (CalendarPriceService.class){
+                synchronized (MonthOfPricesService.class){
                     newPrice = new Price(price);
                     java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(convertDate(days[1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[1]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[1]).split("\\.")[0]));
                     for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)) {
@@ -140,7 +138,7 @@ public abstract class CalendarPriceService extends ConcurrentLinkedQueue<Price> 
 
     public Integer delPrices(Long[] days) {
         Integer del;
-        synchronized (CalendarPriceService.class){
+        synchronized (MonthOfPricesService.class){
             del = 0;
             switch (days.length) {
                 case 1:
@@ -197,39 +195,11 @@ public abstract class CalendarPriceService extends ConcurrentLinkedQueue<Price> 
 //        return gson.toJson(this);
         int scheme = 0;
         StringBuilder data = new StringBuilder();
-        data.append("{\n  \"priceCalendar\": {\n"); //data.append("{\n");
+        data.append("{\n  \"" + monthOfPrices + "\": {\n"); //data.append("{\n");
         if (weekdayPrice!=null && weekendPrice!=null){
             for (Price prices : this) {
                 if (scheme==0){
-                    data.append("  \"weekdays\": {\n");
-                    data.append("    \"price\": " + prices.get() + "\n");
-                    data.append("    ,\"days\": [\"" + convertDate(prices.element()) + "\"");
-                    if (1 < prices.size()) {
-                        Long lastPrice = 0l;
-                        for (Long price : prices) lastPrice = price;
-                        data.append(",\"" + convertDate(lastPrice) + "\"]\n");
-                    } else {
-                        data.append("]\n");
-                    }
-                    data.append("  }\n");
-                }
-                if (scheme==1){
-                    data.append("  ,\"weekends\": {\n");
-                    data.append("    \"price\": " + prices.get() + "\n");
-                    data.append("    ,\"days\": [\"" + convertDate(prices.element()) + "\"");
-                    if (1 < prices.size()) {
-                        Long lastPrice = 0l;
-                        for (Long price : prices) lastPrice = price;
-                        data.append(",\"" + convertDate(lastPrice) + "\"]\n");
-                    } else {
-                        data.append("]\n");
-                    }
-                    data.append("  }\n");
-                }
-                if (scheme==2) data.append("  ,\"specialdays\": [\n");
-                if (1<scheme){
-                    if (scheme==2) data.append("    {\n");
-                    if (2<scheme) data.append("    ,{\n");
+                    data.append("    \"weekday\": {\n");
                     data.append("      \"price\": " + prices.get() + "\n");
                     data.append("      ,\"days\": [\"" + convertDate(prices.element()) + "\"");
                     if (1 < prices.size()) {
@@ -241,36 +211,64 @@ public abstract class CalendarPriceService extends ConcurrentLinkedQueue<Price> 
                     }
                     data.append("    }\n");
                 }
-                if (scheme==(this.size()-1) && 1<scheme) data.append("  ]\n");
+                if (scheme==1){
+                    data.append("    ,\"weekend\": {\n");
+                    data.append("      \"price\": " + prices.get() + "\n");
+                    data.append("      ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                    if (1 < prices.size()) {
+                        Long lastPrice = 0l;
+                        for (Long price : prices) lastPrice = price;
+                        data.append(",\"" + convertDate(lastPrice) + "\"]\n");
+                    } else {
+                        data.append("]\n");
+                    }
+                    data.append("    }\n");
+                }
+                if (scheme==2) data.append("    ,\"specialdays\": [\n");
+                if (1<scheme){
+                    if (scheme==2) data.append("      {\n");
+                    if (2<scheme) data.append("      ,{\n");
+                    data.append("        \"price\": " + prices.get() + "\n");
+                    data.append("        ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                    if (1 < prices.size()) {
+                        Long lastPrice = 0l;
+                        for (Long price : prices) lastPrice = price;
+                        data.append(",\"" + convertDate(lastPrice) + "\"]\n");
+                    } else {
+                        data.append("]\n");
+                    }
+                    data.append("      }\n");
+                }
+                if (scheme==(this.size()-1) && 1<scheme) data.append("    ]\n");
                 ++scheme;
             }
         } else {
             if (!this.isEmpty()){ //TODO
-                data.append("  \"specialdays\":\n  [\n");
+                data.append("    \"specialdays\":\n  [\n");
                 for (Price prices : this) {
-                    if (0 < scheme) data.append("    ,{\n");
-                    else data.append("    {\n");
+                    if (0 < scheme) data.append("      ,{\n");
+                    else data.append("      {\n");
                     data.append("      \"price\": " + prices.get() + "\n");
-                    data.append("      ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                    data.append("        ,\"days\": [\"" + convertDate(prices.element()) + "\"");
                     if (1 < prices.size()) {
                         Long lastPrice = 0l;
                         for (Long price : prices) lastPrice = price;
-                        data.append(",\"" + convertDate(lastPrice) + "\"]\n");
+                        data.append(",\"" + convertDate(lastPrice) + "\"  ]\n");
                     } else {
-                        data.append("]\n");
+                        data.append("  ]\n");
                     }
-                    data.append("    }\n");
+                    data.append("      }\n");
                     ++scheme;
                 }
-                data.append("  ]\n");
+                data.append("    ]\n");
             }
         }
-        data.append("}\n}"); //data.append("}");
+        data.append("  }\n}"); //data.append("}");
         return data.toString();
     }
 
     private void init(){
-        synchronized (CalendarPriceService.class){
+        synchronized (MonthOfPricesService.class){
             if (initDate==null){
                 weekdays = new Long[1][listWeekdays.size()];
                 weekends = new Long[1][listWeekends.size()];
@@ -302,7 +300,7 @@ public abstract class CalendarPriceService extends ConcurrentLinkedQueue<Price> 
     }
 
     private void initDate(Long day){
-        synchronized (CalendarPriceService.class) {
+        synchronized (MonthOfPricesService.class) {
             if (initDate == null) {
                 initDate(Integer.valueOf(convertDate(day).split("\\.")[1]), Integer.valueOf(convertDate(day).split("\\.")[2]));
                 init();
@@ -313,7 +311,7 @@ public abstract class CalendarPriceService extends ConcurrentLinkedQueue<Price> 
     }
 
     private void initDate(Long[] days){
-        synchronized (CalendarPriceService.class) {
+        synchronized (MonthOfPricesService.class) {
             if (initDate == null) {
                 Arrays.sort(days);
                 java.util.Calendar lastCal = new GregorianCalendar(Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[1])-1), 1);

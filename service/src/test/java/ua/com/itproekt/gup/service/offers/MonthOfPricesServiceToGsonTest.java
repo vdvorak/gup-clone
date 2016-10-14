@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.offers.calendar;
+package ua.com.itproekt.gup.service.offers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -7,8 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.itproekt.gup.service.offers.CalendarPriceService;
-import ua.com.itproekt.gup.service.offers.CalendarPriceServiceImpl;
+import ua.com.itproekt.gup.service.offers.price.MonthOfPrice;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -26,22 +25,22 @@ import java.util.Map;
  * @see http://stackoverflow.com/questions/4905416/how-do-i-add-one-month-to-current-date-in-java
  */
 
-public class CalendarToGsonTest {
+public class MonthOfPricesServiceToGsonTest {
 
     private static final String formatter = "d.MM.yyyy";
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
 
     private final String PATH = "src/test/resources",
-            RENTCALENDAR_FILE_NAME = "offerCalendar1.json",
-            RESTORECALENDAR_FILE_NAME = "restoreCalendar.json",
+            RENTCALENDAR_FILE_NAME = "offerOctoberOfPrices.json",
+            RESTORECALENDAR_FILE_NAME = "restoreMonthOfPrices.json",
             RENT_FILE_NAME = "offerRents.json", //FIXME: file.properties
             strJsonRestore = "{\n" +
-                    "  \"priceCalendar\": {\n" +
-                    "    \"weekdays\": {\n" +
+                    "  \"monthOfPrices\": {\n" +
+                    "    \"weekday\": {\n" +
                     "      \"price\": 10000\n" +
                     "      ,\"days\": [\"10.10.2016\",\"28.10.2016\"]\n" +
                     "    }\n" +
-                    "    ,\"weekends\": {\n" +
+                    "    ,\"weekend\": {\n" +
                     "      \"price\": 15000\n" +
                     "      ,\"days\": [\"1.10.2016\",\"30.10.2016\"]\n" +
                     "    }\n" +
@@ -60,11 +59,11 @@ public class CalendarToGsonTest {
 
     private JsonObject jsonCalendars,jsonRestore,jsonRents;
     private Gson gsonStatusCalendarDefault,gsonStatusCalendar1;
-    private Map<String, CalendarPrice> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
-    private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
-    private CalendarPriceService statusCalendar,statusCalendar2,restoreCalendar,restoreCalendar2;
-    private Map<String, CalendarPriceRestoreObj> restore;
-    private CalendarPriceRestoreObj priceCalendar;
+    private Map<String, MonthOfPrice> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
+    private Map<String, RentTest> rents; //TODO: общая таблица в базе данных для аренды...
+    private MonthOfPricesService statusCalendar,statusCalendar2,restoreCalendar,restoreCalendar2;
+    private Map<String, MonthOfPricesRestore> restore;
+    private MonthOfPricesRestore priceCalendar;
 
     @Before
     public void setUp() {
@@ -78,14 +77,14 @@ public class CalendarToGsonTest {
             e.printStackTrace();
         }
 
-        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, CalendarPrice>>(){}.getType());
-        restore = gson.fromJson(jsonRestore, new TypeToken<Map<String, CalendarPriceRestoreObj>>(){}.getType());
-        rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
+        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, MonthOfPrice>>(){}.getType());
+        restore = gson.fromJson(jsonRestore, new TypeToken<Map<String, MonthOfPricesRestore>>(){}.getType());
+        rents = gson.fromJson(jsonRents, new TypeToken<Map<String, RentTest>>(){}.getType());
         gsonStatusCalendarDefault = new Gson();
         gsonStatusCalendar1 = new Gson();
 
-        statusCalendar = new CalendarPriceServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
-        statusCalendar2 = new CalendarPriceServiceImpl(10000l,15000l);
+        statusCalendar = new MonthOfPricesServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
+        statusCalendar2 = new MonthOfPricesServiceImpl(10000l,15000l);
 //        statusCalendar2 = new CalendarStatusServiceImpl();
         priceCalendar = restore.get("priceCalendar");
 //        restoreCalendar2 = new CalendarStatusServiceImpl(""); //FIXME: java.util.NoSuchElementException
@@ -172,7 +171,7 @@ public class CalendarToGsonTest {
 //        System.out.println(restoreCalendar);
 //        System.out.println(restoreCalendar.toJson());
 
-        restoreCalendar2 = new CalendarPriceServiceImpl(strJsonRestore);
+        restoreCalendar2 = new MonthOfPricesServiceImpl(strJsonRestore);
         System.err.println(restoreCalendar2);
         System.err.println(restoreCalendar2.toJson());
     }

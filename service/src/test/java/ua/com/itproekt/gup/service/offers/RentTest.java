@@ -1,19 +1,10 @@
-package ua.com.itproekt.gup.service.offers.calendar;
+package ua.com.itproekt.gup.service.offers;
 
 import java.util.Arrays;
 
-public class CalendarPrice {
+public class RentTest {
 
-    private Long price;
     private String[] days;
-
-    public Long getPrice() {
-        return price;
-    }
-
-    public void setPrice(Long price) {
-        this.price = price;
-    }
 
     public String[] getDays() {
         return days;
@@ -25,8 +16,7 @@ public class CalendarPrice {
 
     @Override
     public String toString() {
-        return "CalendarPrice{" +
-                "price=" + price +
+        return "Rent{" +
                 ", days=" + Arrays.toString(days) +
                 '}';
     }

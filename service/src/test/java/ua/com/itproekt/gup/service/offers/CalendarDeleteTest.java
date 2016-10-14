@@ -1,11 +1,10 @@
-package ua.com.itproekt.gup.service.offers.calendar;
+package ua.com.itproekt.gup.service.offers;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import org.junit.After;
 import org.junit.Before;
-import ua.com.itproekt.gup.service.offers.CalendarPriceService;
-import ua.com.itproekt.gup.service.offers.CalendarPriceServiceImpl;
+import ua.com.itproekt.gup.service.offers.price.MonthOfPrice;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -24,13 +23,13 @@ public class CalendarDeleteTest {
     static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
 
     private final String PATH = "src/test/resources"; //TODO: file.properties
-    private final String RESERVATION_FILE_NAME = "offerCalendar1.json"; //TODO: file.properties
+    private final String RESERVATION_FILE_NAME = "offerOctoberOfPrices.json"; //TODO: file.properties
     private final String RENT_FILE_NAME = "offerRents.json"; //TODO: file.properties
 
     private JsonObject jsonCalendars,jsonRents;
-    private Map<String, CalendarPrice> calendar1; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
-    private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
-    private CalendarPriceService schemeDefault,scheme1,scheme2;
+    private Map<String, MonthOfPrice> calendar1; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
+    private Map<String, RentTest> rents; //TODO: общая таблица в базе данных для аренды...
+    private MonthOfPricesService schemeDefault,scheme1,scheme2;
 
     @Before
     public void setUp() {
@@ -43,12 +42,12 @@ public class CalendarDeleteTest {
             e.printStackTrace();
         }
 
-        calendar1 = gson.fromJson(jsonCalendars, new TypeToken<Map<String, CalendarPrice>>(){}.getType());
-        rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
+        calendar1 = gson.fromJson(jsonCalendars, new TypeToken<Map<String, MonthOfPrice>>(){}.getType());
+        rents = gson.fromJson(jsonRents, new TypeToken<Map<String, RentTest>>(){}.getType());
 
-        schemeDefault = new CalendarPriceServiceImpl(10000l,15000l);
-        scheme1 = new CalendarPriceServiceImpl(10000l,15000l);
-        scheme2 = new CalendarPriceServiceImpl(10000l,15000l);
+        schemeDefault = new MonthOfPricesServiceImpl(10000l,15000l);
+        scheme1 = new MonthOfPricesServiceImpl(10000l,15000l);
+        scheme2 = new MonthOfPricesServiceImpl(10000l,15000l);
     }
 
     @After

@@ -1,7 +1,7 @@
 package ua.com.itproekt.gup.service.offers;
 
 import com.google.gson.Gson;
-import ua.com.itproekt.gup.service.offers.calendar.Status;
+import ua.com.itproekt.gup.service.offers.price.*;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public abstract class CalendarRentService extends ConcurrentLinkedQueue<Status> {
+public abstract class MonthOfRentsService extends ConcurrentLinkedQueue<Status> {
 
     private static volatile Boolean initDate;
     private static String formatter = "d.MM.yyyy";
@@ -33,7 +33,7 @@ public abstract class CalendarRentService extends ConcurrentLinkedQueue<Status> 
      *       -- default period (three full months) is determined based on the current date
      *       -- possible through the default constructor (without parameters)
      */
-    protected CalendarRentService(){}
+    protected MonthOfRentsService(){}
 
     /**
      * #1. One cost (per day); Two dates (start/stop):
@@ -50,7 +50,7 @@ public abstract class CalendarRentService extends ConcurrentLinkedQueue<Status> 
      *       -- default period (three full months) is determined based on the current date
      *       -- through constructor with parameters
      */
-    protected CalendarRentService(Boolean weekdayStatus, Boolean weekendStatus){
+    protected MonthOfRentsService(Boolean weekdayStatus, Boolean weekendStatus){
         this.weekdayStatus = weekdayStatus;
         this.weekendStatus = weekendStatus;
         initDate = null;
@@ -74,7 +74,7 @@ public abstract class CalendarRentService extends ConcurrentLinkedQueue<Status> 
                 break;
             case 1:
                 initDate(days[0]);
-                synchronized (CalendarPriceService.class){
+                synchronized (MonthOfPricesService.class){
                     newStatus = new Status(status);
                     for (Status curStatus : this)
                         if (curStatus.remove(days[0])) newStatus.add(days[0]);
@@ -83,7 +83,7 @@ public abstract class CalendarRentService extends ConcurrentLinkedQueue<Status> 
                 break;
             case 2:
                 initDate(days);
-                synchronized (CalendarPriceService.class){
+                synchronized (MonthOfPricesService.class){
                     newStatus = new Status(status);
                     java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(convertDate(days[1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[1]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[1]).split("\\.")[0]));
                     for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)) {
@@ -100,7 +100,7 @@ public abstract class CalendarRentService extends ConcurrentLinkedQueue<Status> 
 
     public Integer delStatuses(Long[] days) {
         Integer del;
-        synchronized (CalendarPriceService.class){
+        synchronized (MonthOfPricesService.class){
             del = 0;
             switch (days.length) {
                 case 1:
@@ -159,7 +159,7 @@ public abstract class CalendarRentService extends ConcurrentLinkedQueue<Status> 
 
 
     private void init(){
-        synchronized (CalendarPriceService.class){
+        synchronized (MonthOfPricesService.class){
             if (initDate==null){
                 weekdays = new Boolean[1][listWeekdays.size()];
                 weekends = new Boolean[1][listWeekends.size()];
@@ -191,7 +191,7 @@ public abstract class CalendarRentService extends ConcurrentLinkedQueue<Status> 
     }
 
     private void initDate(Long day){
-        synchronized (CalendarPriceService.class) {
+        synchronized (MonthOfPricesService.class) {
             if (initDate == null) {
                 initDate(Integer.valueOf(convertDate(day).split("\\.")[1]), Integer.valueOf(convertDate(day).split("\\.")[2]));
                 init();
@@ -202,7 +202,7 @@ public abstract class CalendarRentService extends ConcurrentLinkedQueue<Status> 
     }
 
     private void initDate(Long[] days){
-        synchronized (CalendarPriceService.class) {
+        synchronized (MonthOfPricesService.class) {
             if (initDate == null) {
                 Arrays.sort(days);
                 java.util.Calendar lastCal = new GregorianCalendar(Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[1])-1), 1);

@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.offers.calendar;
+package ua.com.itproekt.gup.service.offers.price;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 

@@ -1,10 +1,12 @@
-package ua.com.itproekt.gup.service.offers.calendar;
+package ua.com.itproekt.gup.service.offers;
 
-public class CalendarPriceObj {
+import ua.com.itproekt.gup.service.offers.price.MonthOfPrice;
+
+public class MonthOfPrices {
 
     private Long weekdayPrice;
     private Long weekendPrice;
-    private CalendarPrice specialPrice;
+    private MonthOfPrice specialPrice;
 
     public Long getWeekdayPrice() {
         return weekdayPrice;
@@ -22,17 +24,17 @@ public class CalendarPriceObj {
         this.weekendPrice = weekendPrice;
     }
 
-    public CalendarPrice getSpecialPrice() {
+    public MonthOfPrice getSpecialPrice() {
         return specialPrice;
     }
 
-    public void setSpecialPrice(CalendarPrice specialPrice) {
+    public void setSpecialPrice(MonthOfPrice specialPrice) {
         this.specialPrice = specialPrice;
     }
 
     @Override
     public String toString() {
-        return "prices{" +
+        return "MonthOfPrices{" +
                 "weekdayPrice=" + weekdayPrice +
                 ", weekendPrice=" + weekendPrice +
                 ", specialPrice=" + specialPrice +

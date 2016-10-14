@@ -3,28 +3,27 @@ package ua.com.itproekt.gup.service.offers;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.com.itproekt.gup.dao.offers.OfferRepository;
-import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
 
 import java.util.Map;
 
 //FIXME: @Service
-public class CalendarPriceServiceImpl extends CalendarPriceService {
+public class MonthOfPricesServiceImpl extends MonthOfPricesService {
 
-    private Logger logger = Logger.getLogger(CalendarPriceServiceImpl.class);
+    private Logger logger = Logger.getLogger(MonthOfPricesServiceImpl.class);
 
     @Autowired
     private OfferRepository offerRepository;
 
-    public CalendarPriceServiceImpl(Long weekdayPrice, Long weekendPrice) {
+    public MonthOfPricesServiceImpl(Long weekdayPrice, Long weekendPrice) {
         super(weekdayPrice, weekendPrice);
     }
 
-    public CalendarPriceServiceImpl(){
+    public MonthOfPricesServiceImpl(){
         super();
     }
 
-    public CalendarPriceServiceImpl(String jsonRestore){
+    public MonthOfPricesServiceImpl(String jsonRestore){
         super(jsonRestore);
     }
 
@@ -102,8 +101,7 @@ public class CalendarPriceServiceImpl extends CalendarPriceService {
                 .setShowOrdersCount(oldOffer.isShowOrdersCount())
                 .setIsDeleted(oldOffer.isDeleted())
                 .setPaidServices(oldOffer.getPaidServices())
-                .setPriceCalendar(oldOffer.getPriceCalendar());
-
+                .setMonthOfPrices(oldOffer.getMonthOfPrices());
 
         return offerRepository.findAndUpdate(newOffer);
     }

@@ -1,12 +1,10 @@
-package ua.com.itproekt.gup.service.offers.calendar;
+package ua.com.itproekt.gup.service.offers;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.itproekt.gup.service.offers.CalendarPriceService;
-import ua.com.itproekt.gup.service.offers.CalendarPriceServiceImpl;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,39 +15,52 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import org.apache.log4j.Logger;
+import ua.com.itproekt.gup.service.offers.price.MonthOfPrice;
 
-public class CalendarUpdateTest {
+/**
+* @see http://www.javacreed.com/gson-deserialiser-example/
+* @see http://stackoverflow.com/questions/20523693/how-to-de-serialize-a-mapstring-object-with-gson
+* @see http://stackoverflow.com/questions/6980376/convert-from-days-to-milliseconds
+*/
+
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringApplicationConfiguration(classes = Application.class) // java.lang.IllegalStateException: Failed to load ApplicationContext
+//@WebAppConfiguration
+public class MonthOfPricesServiceTest {
+
+    private Logger logger = Logger.getLogger(MonthOfPricesServiceTest.class);
 
     static String formatter = "d.MM.yyyy";
     static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(formatter, Locale.ENGLISH);
     static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
 
     private final String PATH = "src/test/resources"; //TODO: file.properties
-    private final String RESERVATION_FILE_NAME = "offerCalendar1.json"; //TODO: file.properties
+    private final String RENTCALENDAR_FILE_NAME = "offerOctoberOfPrices.json"; //TODO: file.properties
     private final String RENT_FILE_NAME = "offerRents.json"; //TODO: file.properties
 
     private JsonObject jsonCalendars,jsonRents;
-    private Map<String, CalendarPrice> calendar1; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
-    private Map<String, Rent> rents; //TODO: общая таблица в базе данных для аренды...
-    private CalendarPriceService schemeDefault,scheme1,scheme2;
+    private Map<String, MonthOfPrice> calendar1; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
+    private Map<String, RentTest> rents; //TODO: общая таблица в базе данных для аренды...
+    private MonthOfPricesService schemeDefault,scheme1,scheme2;
 
     @Before
     public void setUp() {
         JsonParser parser = new JsonParser();
         Gson         gson = new Gson();
         try {
-            jsonCalendars = (JsonObject) parser.parse(new FileReader(PATH + "/" + RESERVATION_FILE_NAME));
+            jsonCalendars = (JsonObject) parser.parse(new FileReader(PATH + "/" + RENTCALENDAR_FILE_NAME));
             jsonRents = (JsonObject) parser.parse(new FileReader(PATH + "/" + RENT_FILE_NAME));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        calendar1 = gson.fromJson(jsonCalendars, new TypeToken<Map<String, CalendarPrice>>(){}.getType());
-        rents = gson.fromJson(jsonRents, new TypeToken<Map<String, Rent>>(){}.getType());
+        calendar1 = gson.fromJson(jsonCalendars, new TypeToken<Map<String, MonthOfPrice>>(){}.getType());
+        rents = gson.fromJson(jsonRents, new TypeToken<Map<String, RentTest>>(){}.getType());
 
-        schemeDefault = new CalendarPriceServiceImpl(10000l,15000l);
-        scheme1 = new CalendarPriceServiceImpl(10000l,15000l);
-        scheme2 = new CalendarPriceServiceImpl(10000l,15000l);
+        schemeDefault = new MonthOfPricesServiceImpl(10000l,15000l);
+        scheme1 = new MonthOfPricesServiceImpl(10000l,15000l);
+        scheme2 = new MonthOfPricesServiceImpl(10000l,15000l);
     }
 
     @After
@@ -62,6 +73,30 @@ public class CalendarUpdateTest {
         scheme1 = null;
         scheme2 = null;
     }
+
+
+    /**
+     * Test(s) Scheme-Default
+     */
+    @Test
+    public void testCalendarToStringDefault(){
+        System.out.println("--------------------[ testCalendarToStringDefault ]");
+        schemeDefault.addPrices(calendar1.get("scheme4").getPrice(), convertDate(calendar1.get("scheme4").getDays()));
+        System.out.println(schemeDefault);
+    }
+
+    @Test
+    public void testCalendarIsDayDefault(){
+        System.out.println("--------------------[ testCalendarIsDayDefault ]");
+        System.out.println( "Is Calendar Day-Price(6): " + schemeDefault.isPrice(1402002000000l) );
+    }
+
+    @Test
+    public void testGetPricesDefault(){
+        System.out.println("--------------------[ testGetPricesDefault ]");
+        System.out.println( "Days(1,3,7) Get-Prices = " + schemeDefault.getPrice(convertDate(rents.get("rent2").getDays())) );
+    }
+
 
     /**
      * Test(s) Scheme-1
@@ -100,6 +135,17 @@ public class CalendarUpdateTest {
         scheme2.addPrices(calendar1.get("scheme3").getPrice(), convertDate(calendar1.get("scheme3").getDays()));
         System.out.println(scheme2);
     }
+
+
+    @Test
+    public void testDate() {
+        System.out.println("--------------------[ testDate ]");
+        String strDate = "30.06.2014";
+        long lDate = 1404075600000l;
+        System.out.println("<DAY.MONTH.YEAR> >> (Long): '" + convertDate(strDate) + "'");
+        System.out.println("(Long) >> <DAY.MONTH.YEAR>: '" + convertDate(lDate) + "'");
+    }
+
 
     /**
      * <DAY.MONTH.YEAR> >> (Long)
