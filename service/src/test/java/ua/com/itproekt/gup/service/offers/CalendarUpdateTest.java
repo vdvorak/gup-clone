@@ -30,7 +30,7 @@ public class CalendarUpdateTest {
     private JsonObject jsonCalendars,jsonRents;
     private Map<String, MonthOfPrice> calendar1; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, RentTest> rents; //TODO: общая таблица в базе данных для аренды...
-    private MonthOfPricesService schemeDefault,scheme1,scheme2;
+    private OfferPricesService schemeDefault,scheme1,scheme2;
 
     @Before
     public void setUp() {
@@ -46,9 +46,9 @@ public class CalendarUpdateTest {
         calendar1 = gson.fromJson(jsonCalendars, new TypeToken<Map<String, MonthOfPrice>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, RentTest>>(){}.getType());
 
-        schemeDefault = new MonthOfPricesServiceImpl(10000l,15000l);
-        scheme1 = new MonthOfPricesServiceImpl(10000l,15000l);
-        scheme2 = new MonthOfPricesServiceImpl(10000l,15000l);
+        schemeDefault = new OfferPricesServiceImpl(10000l,15000l);
+        scheme1 = new OfferPricesServiceImpl(10000l,15000l);
+        scheme2 = new OfferPricesServiceImpl(10000l,15000l);
     }
 
     @After

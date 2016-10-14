@@ -34,7 +34,7 @@ public class MonthOfPricesServiceToGsonTest {
             RENTCALENDAR_FILE_NAME = "offerOctoberOfPrices.json",
             RESTORECALENDAR_FILE_NAME = "restoreMonthOfPrices.json",
             RENT_FILE_NAME = "offerRents.json", //FIXME: file.properties
-            strJsonRestore = "{\n" +
+            jsonRestore = "{\n" +
                     "  \"monthOfPrices\": {\n" +
                     "    \"weekday\": {\n" +
                     "      \"price\": 10000\n" +
@@ -57,11 +57,11 @@ public class MonthOfPricesServiceToGsonTest {
                     "  }\n" +
                     "}";
 
-    private JsonObject jsonCalendars,jsonRestore,jsonRents;
+    private JsonObject jsonCalendars,objJsonRestore,jsonRents;
     private Gson gsonStatusCalendarDefault,gsonStatusCalendar1;
     private Map<String, MonthOfPrice> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, RentTest> rents; //TODO: общая таблица в базе данных для аренды...
-    private MonthOfPricesService statusCalendar,statusCalendar2,restoreCalendar,restoreCalendar2;
+    private OfferPricesService statusCalendar,statusCalendar2,restoreCalendar,restoreCalendar2;
     private Map<String, MonthOfPricesRestore> restore;
     private MonthOfPricesRestore priceCalendar;
 
@@ -71,20 +71,20 @@ public class MonthOfPricesServiceToGsonTest {
         Gson gson = new Gson();
         try {
             jsonCalendars = (JsonObject) parser.parse(new FileReader(PATH + "/" + RENTCALENDAR_FILE_NAME));
-            jsonRestore = (JsonObject) parser.parse(new FileReader(PATH + "/" + RESTORECALENDAR_FILE_NAME));
+            objJsonRestore = (JsonObject) parser.parse(new FileReader(PATH + "/" + RESTORECALENDAR_FILE_NAME));
             jsonRents = (JsonObject) parser.parse(new FileReader(PATH + "/" + RENT_FILE_NAME));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
         calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, MonthOfPrice>>(){}.getType());
-        restore = gson.fromJson(jsonRestore, new TypeToken<Map<String, MonthOfPricesRestore>>(){}.getType());
+        restore = gson.fromJson(objJsonRestore, new TypeToken<Map<String, MonthOfPricesRestore>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, RentTest>>(){}.getType());
         gsonStatusCalendarDefault = new Gson();
         gsonStatusCalendar1 = new Gson();
 
-        statusCalendar = new MonthOfPricesServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
-        statusCalendar2 = new MonthOfPricesServiceImpl(10000l,15000l);
+        statusCalendar = new OfferPricesServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
+        statusCalendar2 = new OfferPricesServiceImpl(10000l,15000l);
 //        statusCalendar2 = new CalendarStatusServiceImpl();
         priceCalendar = restore.get("priceCalendar");
 //        restoreCalendar2 = new CalendarStatusServiceImpl(""); //FIXME: java.util.NoSuchElementException
@@ -171,7 +171,7 @@ public class MonthOfPricesServiceToGsonTest {
 //        System.out.println(restoreCalendar);
 //        System.out.println(restoreCalendar.toJson());
 
-        restoreCalendar2 = new MonthOfPricesServiceImpl(strJsonRestore);
+        restoreCalendar2 = new OfferPricesServiceImpl(jsonRestore);
         System.err.println(restoreCalendar2);
         System.err.println(restoreCalendar2.toJson());
     }

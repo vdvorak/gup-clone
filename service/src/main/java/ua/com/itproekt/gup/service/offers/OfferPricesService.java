@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.service.offers.price.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -13,8 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-@Service
-public abstract class MonthOfPricesService extends ConcurrentLinkedQueue<Price> {
+public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 
     private static volatile Boolean initDate;
     private static String formatter = "d.MM.yyyy",
@@ -38,7 +36,7 @@ public abstract class MonthOfPricesService extends ConcurrentLinkedQueue<Price> 
      *       -- default period (three full months) is determined based on the current date
      *       -- possible through the default constructor (without parameters)
      */
-    protected MonthOfPricesService(){
+    protected OfferPricesService(){
         initDate = null;
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
@@ -60,7 +58,7 @@ public abstract class MonthOfPricesService extends ConcurrentLinkedQueue<Price> 
      *       -- default period (three full months) is determined based on the current date
      *       -- through constructor with parameters
      */
-    protected MonthOfPricesService(Long weekdayPrice, Long weekendPrice){
+    protected OfferPricesService(Long weekdayPrice, Long weekendPrice){
         if (weekdayPrice!=null
                 && weekendPrice!=null){
             this.weekdayPrice = weekdayPrice;
@@ -73,18 +71,19 @@ public abstract class MonthOfPricesService extends ConcurrentLinkedQueue<Price> 
     }
 
     /**
-     * Restore from Json to Object-Calendar;
-     * -------------------------------------
+     * Restore from Json to Object-Month:
+     * ----------------------------------
+     * - It restores the state of all prices (previously created) for the entire period;
      */
-    protected MonthOfPricesService(String strJsonRestore){
+    protected OfferPricesService(String jsonRestore){
         JsonParser parser = new JsonParser();
-        JsonObject jsonRestore = (JsonObject) parser.parse(strJsonRestore);
+        JsonObject objJsonObject = (JsonObject) parser.parse(jsonRestore);
         Gson gson = new Gson();
-        Map<String, MonthOfPricesRestore> restore = gson.fromJson(jsonRestore, new TypeToken<Map<String, MonthOfPricesRestore>>(){}.getType());
-        MonthOfPricesRestore scheme = restore.get(monthOfPrices);
-        MonthOfPrice weekdays = scheme.getWeekday(),
-                weekends = scheme.getWeekend();
-        MonthOfPrice[] specialdays = scheme.getSpecialdays();
+        Map<String, MonthOfPricesRestore> restores = gson.fromJson(objJsonObject, new TypeToken<Map<String, MonthOfPricesRestore>>(){}.getType());
+        MonthOfPricesRestore restore = restores.get(monthOfPrices);
+        MonthOfPrice weekdays = restore.getWeekday(),
+                weekends = restore.getWeekend();
+        MonthOfPrice[] specialdays = restore.getSpecialdays();
 
         weekdayPrice = weekdays.getPrice();
         weekendPrice = weekends.getPrice();
@@ -92,6 +91,31 @@ public abstract class MonthOfPricesService extends ConcurrentLinkedQueue<Price> 
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
         for (MonthOfPrice specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
+    }
+
+    /**
+     * Restore from (MonthOfPricesRestore) to Object-Month:
+     * ----------------------------------------------------
+     * - It restores the state of all prices (previously created) for the entire period;
+     */
+    protected OfferPricesService(MonthOfPricesRestore restore){
+        MonthOfPrice weekdays = restore.getWeekday(),
+                weekends = restore.getWeekend();
+        MonthOfPrice[] specialdays = restore.getSpecialdays();
+
+        if (weekdays.getPrice()!=null
+                && weekends.getPrice()!=null){
+            weekdayPrice = weekdays.getPrice();
+            weekendPrice = weekends.getPrice();
+        }
+        initDate = null;
+        listWeekdays = new ArrayList<Long>();
+        listWeekends = new ArrayList<Long>();
+        if (specialdays!=null){
+            for (MonthOfPrice specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
+        } else {
+            addPrices(0l, new Long[]{});
+        }
     }
 
     /**
@@ -110,7 +134,7 @@ public abstract class MonthOfPricesService extends ConcurrentLinkedQueue<Price> 
                 break;
             case 1:
                 initDate(days[0]);
-                synchronized (MonthOfPricesService.class){
+                synchronized (OfferPricesService.class){
                     newPrice = new Price(price);
                     for (Price curPrice : this)
                         if (curPrice.remove(days[0])) newPrice.add(days[0]);
@@ -120,7 +144,7 @@ public abstract class MonthOfPricesService extends ConcurrentLinkedQueue<Price> 
                 break;
             case 2:
                 initDate(days);
-                synchronized (MonthOfPricesService.class){
+                synchronized (OfferPricesService.class){
                     newPrice = new Price(price);
                     java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(convertDate(days[1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[1]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[1]).split("\\.")[0]));
                     for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)) {
@@ -138,7 +162,7 @@ public abstract class MonthOfPricesService extends ConcurrentLinkedQueue<Price> 
 
     public Integer delPrices(Long[] days) {
         Integer del;
-        synchronized (MonthOfPricesService.class){
+        synchronized (OfferPricesService.class){
             del = 0;
             switch (days.length) {
                 case 1:
@@ -267,8 +291,18 @@ public abstract class MonthOfPricesService extends ConcurrentLinkedQueue<Price> 
         return data.toString();
     }
 
+    public MonthOfPricesRestore toRestore(){
+        JsonParser parser = new JsonParser();
+        JsonObject objJsonObject = (JsonObject) parser.parse(toJson());
+        Gson gson = new Gson();
+        Map<String, MonthOfPricesRestore> restores = gson.fromJson(objJsonObject, new TypeToken<Map<String, MonthOfPricesRestore>>(){}.getType());
+        MonthOfPricesRestore restore = restores.get(monthOfPrices);
+//        System.err.println(restore);
+        return restore;
+    }
+
     private void init(){
-        synchronized (MonthOfPricesService.class){
+        synchronized (OfferPricesService.class){
             if (initDate==null){
                 weekdays = new Long[1][listWeekdays.size()];
                 weekends = new Long[1][listWeekends.size()];
@@ -300,7 +334,7 @@ public abstract class MonthOfPricesService extends ConcurrentLinkedQueue<Price> 
     }
 
     private void initDate(Long day){
-        synchronized (MonthOfPricesService.class) {
+        synchronized (OfferPricesService.class) {
             if (initDate == null) {
                 initDate(Integer.valueOf(convertDate(day).split("\\.")[1]), Integer.valueOf(convertDate(day).split("\\.")[2]));
                 init();
@@ -311,7 +345,7 @@ public abstract class MonthOfPricesService extends ConcurrentLinkedQueue<Price> 
     }
 
     private void initDate(Long[] days){
-        synchronized (MonthOfPricesService.class) {
+        synchronized (OfferPricesService.class) {
             if (initDate == null) {
                 Arrays.sort(days);
                 java.util.Calendar lastCal = new GregorianCalendar(Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[1])-1), 1);
