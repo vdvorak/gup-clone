@@ -3,4 +3,9 @@
 **/.idea/*
 *.iml
 **/target/**
+**/out/**
 **/startMongo
+frontend-dev/node_modules
+frontend-dev2/node_modules
+chat/node_modules
+/public/src/main/webapp/app.js
