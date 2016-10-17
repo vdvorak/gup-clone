@@ -76,43 +76,33 @@
                                                 Создать</h4>
                                         </div>
 
-                                            <div class="col-xs-4">
-                                                <br>
-                                                <input id="newLogin" type="text"
-                                                       class="form-control"
-                                                       placeholder="Логин">
-                                                <br>
-                                                <input id="newPassword" type="text"
-                                                       class="form-control"
-                                                       placeholder="Пароль">
-                                            </div>
+                                        <div class="col-xs-4">
+                                            <br>
+                                            <input id="newLogin" type="text"
+                                                   class="form-control"
+                                                   placeholder="email">
+                                            <br>
+                                            <input id="newPassword" type="text"
+                                                   class="form-control"
+                                                   placeholder="Пароль">
+                                        </div>
 
-                                            <div class="col-xs-4">
-                                                <br>
-                                                <div class="checkbox">
-                                                    <label><input id="adminCheck" type="checkbox"
-                                                                  value="ROLE_ADMIN">ADMIN</label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label><input id="supportCheck" type="checkbox"
-                                                                  value="ROLE_SUPPORT">SUPPORT</label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label><input id="moderatorCheck" type="checkbox"
-                                                                  value="ROLE_MODERATOR">SPECTATOR</label>
-                                                </div>
+                                        <div class="col-xs-4">
+                                            <br>
+
+                                            <div class="checkbox">
+                                                <label><input id="adminCheck" type="checkbox"
+                                                              value="ROLE_ADMIN">ADMIN</label>
                                             </div>
-                                            <div class="col-xs-4">
-                                                <br>
-                                                <%--<div class="checkbox">--%>
-                                                    <%--<label><input id="anonymousCheck" type="checkbox"--%>
-                                                                  <%--value="ROLE_ANONYMOUS">ANONYMOUS</label>--%>
-                                                <%--</div>--%>
-                                                <%--<div class="checkbox">--%>
-                                                    <%--<label><input id="userCheck" type="checkbox"--%>
-                                                                  <%--value="ROLE_USER">USER</label>--%>
-                                                <%--</div>--%>
+                                            <div class="checkbox">
+                                                <label><input id="moderatorCheck" type="checkbox"
+                                                              value="ROLE_MODERATOR">MODERATOR</label>
                                             </div>
+                                            <div class="checkbox">
+                                                <label><input id="spectatorCheck" type="checkbox"
+                                                              value="ROLE_SPECTATOR">SPECTATOR</label>
+                                            </div>
+                                        </div>
 
                                         <div class="modal-footer">
 
@@ -143,38 +133,44 @@
                                             <h4 class="modal-title">Редактировать</h4>
                                         </div>
 
-                                            <div class="col-xs-4">
-                                                <br>
-                                                <div id="scrollable-dropdown-menu">
-                                                    <input id="typeahead" class="typeahead tt-input form-control" type="text" placeholder="users" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;">
-                                                </div>
+                                        <div class="col-xs-4">
+                                            <br>
+
+                                            <div id="scrollable-dropdown-menu">
+                                                <input id="typeahead" class="typeahead tt-input form-control"
+                                                       type="text" placeholder="users" autocomplete="off"
+                                                       spellcheck="false" dir="auto"
+                                                       style="position: relative; vertical-align: top; background-color: transparent;">
                                             </div>
-                                            <div class="col-xs-4">
-                                                <br>
-                                                <div class="checkbox">
-                                                    <label><input id="adminCheck2" class="ch2" type="checkbox"
-                                                                  value="ROLE_ADMIN">ADMIN</label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label><input id="supportCheck2" class="ch2" type="checkbox"
-                                                                  value="ROLE_SUPPORT">SUPPORT</label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label><input id="moderatorCheck2" class="ch2" type="checkbox"
-                                                                  value="ROLE_MODERATOR">MODERATOR</label>
-                                                </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <br>
+
+                                            <div class="checkbox">
+                                                <label><input id="adminCheck2" class="ch2" type="checkbox"
+                                                              value="ROLE_ADMIN">ADMIN</label>
                                             </div>
-                                            <div class="col-xs-4">
-                                                <br>
-                                                <div class="checkbox">
-                                                    <label><input id="anonymousCheck2" class="ch2" type="checkbox"
-                                                                  value="ROLE_ANONYMOUS">ANONYMOUS</label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label><input id="userCheck2" class="ch2" type="checkbox"
-                                                                  value="ROLE_USER">USER</label>
-                                                </div>
+                                            <div class="checkbox">
+                                                <label><input id="supportCheck2" class="ch2" type="checkbox"
+                                                              value="ROLE_SUPPORT">SUPPORT</label>
                                             </div>
+                                            <div class="checkbox">
+                                                <label><input id="moderatorCheck2" class="ch2" type="checkbox"
+                                                              value="ROLE_MODERATOR">MODERATOR</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <br>
+
+                                            <div class="checkbox">
+                                                <label><input id="anonymousCheck2" class="ch2" type="checkbox"
+                                                              value="ROLE_ANONYMOUS">ANONYMOUS</label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input id="userCheck2" class="ch2" type="checkbox"
+                                                              value="ROLE_USER">USER</label>
+                                            </div>
+                                        </div>
 
                                         <div class="modal-footer">
                                             <button id="update" type="submit"
@@ -188,7 +184,6 @@
                                     </div>
                                 </div>
                             </div>
-
 
 
                             <div class="tab-content">
@@ -220,14 +215,16 @@
                                                             <h3 class="panel-title">Редактировать профиль</h3>
                                                             <tr>
                                                                 <td>ID профиля:</td>
-                                                                <td><input id="input-admin-id" class="form-control" name="adminId" readonly required>
+                                                                <td><input id="input-admin-id" class="form-control"
+                                                                           name="adminId" readonly required>
                                                                 </td>
                                                             </tr>
                                                             </tbody>
                                                         </table>
 
                                                         <a id="adminEditHref" href="">
-                                                            <button id="editAdminProfileButton" class="btn btn-primary disabled">
+                                                            <button id="editAdminProfileButton"
+                                                                    class="btn btn-primary disabled">
                                                                 Редактировать
                                                             </button>
                                                         </a>
@@ -266,7 +263,8 @@
                                                             <h3 class="panel-title">Редактировать профиль</h3>
                                                             <tr>
                                                                 <td>ID профиля:</td>
-                                                                <td><input id="input-moderator-id" class="form-control" name="moderatorId" readonly required>
+                                                                <td><input id="input-moderator-id" class="form-control"
+                                                                           name="moderatorId" readonly required>
                                                                 </td>
                                                             </tr>
                                                             </tbody>
@@ -274,7 +272,8 @@
 
 
                                                         <a id="moderatorEditHref" href="">
-                                                            <button id="editModeratorProfileButton" class="btn btn-primary disabled">
+                                                            <button id="editModeratorProfileButton"
+                                                                    class="btn btn-primary disabled">
                                                                 Редактировать
                                                             </button>
                                                         </a>
