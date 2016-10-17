@@ -68,6 +68,31 @@ public class ProfilesServiceImpl implements ProfilesService {
         setEmptyFieldsForNewUser(newProfile);
 
         profileRepository.createProfile(newProfile);
+
+        // create new balance for user in the bank
+        bankSession.createBalanceRecord(newProfile.getId(), 3);
+
+        profile.setId(newProfile.getId());
+    }
+
+
+    @Override
+    public void createProfileWithRoles(Profile profile) {
+        String hashedPassword = passwordEncoder.encode(profile.getPassword());
+
+        Profile newProfile = new Profile()
+                .setEmail(profile.getEmail())
+                .setSocWendor(profile.getSocWendor())
+                .setPassword(hashedPassword)
+                .setUserRoles(profile.getUserRoles())
+                .setCreatedDateEqualsToCurrentDate()
+                .setNotCompletedFields(11); // strange and magic number. Actually it is total number of fields, that you can manually filled.
+
+        setEmptyFieldsForNewUser(newProfile);
+
+        profileRepository.createProfile(newProfile);
+
+        // create new balance for user in the bank
         bankSession.createBalanceRecord(newProfile.getId(), 3);
 
         profile.setId(newProfile.getId());

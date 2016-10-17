@@ -20,6 +20,12 @@ public interface ProfilesService {
     void createProfile(Profile profile);
 
     /**
+     * Used for create profile with special roles i.e. admin, moderator, spectator.
+     * @param profile the Profile object with email, password and role.
+     */
+    void createProfileWithRoles(Profile profile);
+
+    /**
      * Create profile.
      *
      * @param profile the profile

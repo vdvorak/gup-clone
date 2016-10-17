@@ -107,6 +107,35 @@ public class LoginRestController {
         return resp;
     }
 
+
+
+
+    //ToDo hide this controller under @PreAuthorize annotation
+    /**
+     * Controller for registration new users under admin panel.
+     * @param profile   the Profile object with email, password and role.
+     * @return          status 2oo (Ok) if user was created; return status 409 if user with current email already exist.
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/admin/register", method = RequestMethod.POST)
+    public ResponseEntity<ProfileInfo> registerForAdminPanel(@RequestBody Profile profile) {
+
+
+        // CHECK:
+        if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
+
+            // REGISTER:
+            if( profile.getSocWendor()==null )
+                profile.setSocWendor("GUP");
+            profilesService.createProfileWithRoles(profile);
+//            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+    }
+
     @CrossOrigin
     @RequestMapping(value = "/soc-register", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> vendorRegister(@RequestBody Profile profile, HttpServletResponse response) {
