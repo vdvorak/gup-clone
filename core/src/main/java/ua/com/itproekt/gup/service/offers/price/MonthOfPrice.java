@@ -30,4 +30,5 @@ public class MonthOfPrice {
                 ", days=" + Arrays.toString(days) +
                 '}';
     }
+
 }

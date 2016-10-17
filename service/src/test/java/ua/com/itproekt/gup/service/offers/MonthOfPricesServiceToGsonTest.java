@@ -207,6 +207,30 @@ public class MonthOfPricesServiceToGsonTest {
         System.err.println(statusCalendar);
     }
 
+    @Test
+    public void testOwnerAddRent(){
+        System.out.println("--------------------[ testOwnerAddRent ]");
+        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
+        statusCalendar.addRent(convertDate(rents.get("delete41").getDays()));
+        statusCalendar.addRent(convertDate(rents.get("delete42").getDays()));
+
+        System.out.println(statusCalendar);
+        System.out.println(statusCalendar.jsonRent());
+        System.out.println(statusCalendar.jsonAvailableRent());
+        System.err.println(statusCalendar.toRent());
+    }
+
+    @Test
+    public void testOwnerAddRent2(){
+        System.out.println("--------------------[ testOwnerAddRent(2) ]");
+        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
+        statusCalendar.addRent(convertDate(rents.get("delete41").getDays()));
+        statusCalendar.addRent(convertDate(rents.get("delete42").getDays()));
+
+        System.out.println(statusCalendar.toJson());
+        System.out.println(statusCalendar.jsonAvailableRent());
+    }
+
 
     /**
      * <DAY.MONTH.YEAR> >> (Long)

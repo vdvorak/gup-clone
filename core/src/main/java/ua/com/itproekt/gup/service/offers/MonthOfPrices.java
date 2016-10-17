@@ -40,4 +40,5 @@ public class MonthOfPrices {
                 ", specialPrice=" + specialPrice +
                 '}';
     }
+
 }

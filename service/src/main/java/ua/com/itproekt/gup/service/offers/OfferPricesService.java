@@ -22,6 +22,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
     private Long[][] weekdays,weekends;
     private ArrayList<Long> listWeekdays,listWeekends;
 //    private Gson gson;
+    private MonthOfRent[] rents; //FIXME: List | ConcurrentLinkedQueue
 
     /**
      * #3. One cost (per day); Two dates (start/stop):
@@ -41,6 +42,9 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
 //        gson = new Gson();
+        rents = new MonthOfRent[2];
+        rents[0] = new MonthOfRent();
+        rents[1] = new MonthOfRent();
     }
 
     /**
@@ -68,6 +72,9 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
 //        gson = new Gson();
+        rents = new MonthOfRent[2];
+        rents[0] = new MonthOfRent();
+        rents[1] = new MonthOfRent();
     }
 
     /**
@@ -91,6 +98,10 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
         for (MonthOfPrice specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
+//
+        rents = new MonthOfRent[2];
+        rents[0] = new MonthOfRent();
+        rents[1] = new MonthOfRent();
     }
 
     /**
@@ -116,6 +127,10 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         } else {
             addPrices(0l, new Long[]{});
         }
+//
+        rents = new MonthOfRent[2];
+        rents[0] = new MonthOfRent();
+        rents[1] = new MonthOfRent();
     }
 
     /**
@@ -189,6 +204,35 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         return false;
     }
 
+    public void addRent(Long[] days) {
+        rents[1].setRent(true);
+        rents[0].setRent(false);
+        List<Long> notRents = new LinkedList<Long>(),
+                isRents = new LinkedList<Long>();
+        if (rents[0].getDays()==null){
+            for (Price prices : this)
+                for (Long price : prices) notRents.add(price);
+            rents[1].setDays(convertDate(days));
+        } else {
+            for (String day : rents[0].getDays()) notRents.add(convertDate(day));
+            for (String day : rents[1].getDays()) isRents.add(convertDate(day));
+            for (Long day : days) isRents.add(day);
+            rents[1].setDays(convertDate(convertDate(isRents)));
+        }
+        for (Long day : days) notRents.remove(day); //TODO: copy to list
+        rents[0].setDays(convertDate(convertDate(notRents)));
+    }
+
+    public Integer delRent(Long[] days) {
+        return 0;
+    }
+
+    public Boolean isRent(Long day) {
+//        for (Price prices : this)
+//            if (prices.contains(day)) return true;
+        return false;
+    }
+
     public Long getPrice(Long day){
         Long price = 0l;
         for (Price prices : this)
@@ -208,10 +252,50 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
     @Override
     public String toString() {
         StringBuilder data = new StringBuilder();
+//        for (Price prices : this) {
+//            for (Long price : prices) data.append(prices.get() + "(" + convertDate(price) + ") ");
+//            if (!prices.isEmpty()) data.append("\n");
+//        }
+        List<Long> isRents = new LinkedList<Long>();
+        if (rents[1].getDays()!=null) for (String day : rents[1].getDays()) isRents.add(convertDate(day));
         for (Price prices : this) {
-            for (Long price : prices) data.append(prices.get() + "(" + convertDate(price) + ") ");
+            for (Long price : prices) data.append(prices.get() + (isRents.contains(price)?"|RENT":"") +"(" + convertDate(price) + ") ");
             if (!prices.isEmpty()) data.append("\n");
         }
+        return data.toString();
+    }
+
+    public String toRent() {
+        StringBuilder data = new StringBuilder();
+        for (String monthOfRent : rents[1].getDays()) data.append("TRUE(" + monthOfRent + ") ");
+        data.append("\n");
+        for (String monthOfRent : rents[0].getDays()) data.append("FALSE(" + monthOfRent + ") ");
+        return data.toString();
+    }
+
+    public String jsonRent() {
+        StringBuilder data = new StringBuilder();
+        int rent = 0;
+        data.append("{\n  \"rents\": [");
+        for (String monthOfRent : rents[1].getDays()) {
+            if (0<rent) data.append(",");
+            data.append("\"" + monthOfRent + "\"");
+            ++rent;
+        }
+        data.append("]\n}");
+        return data.toString();
+    }
+
+    public String jsonAvailableRent() {
+        StringBuilder data = new StringBuilder();
+        int available = 0;
+        data.append("{\n  \"availables\": [");
+        for (String monthOfRent : rents[0].getDays()) {
+            if (0<available) data.append(",");
+            data.append("\"" + monthOfRent + "\"");
+            ++available;
+        }
+        data.append("]\n}");
         return data.toString();
     }
 
@@ -375,6 +459,25 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         Long[] lDate = new Long[days.length];
         for (int date=0; date<days.length; ++date)
             lDate[date] = convertDate(days[date]);
+        return lDate;
+    }
+
+    /////////////////////////
+
+    private String[] convertDate(Long[] days) {
+        String[] strDate = new String[days.length];
+        for (int date=0; date<days.length; ++date)
+            strDate[date] = convertDate(days[date]);
+        return strDate;
+    }
+
+    private Long[] convertDate(List<Long> days) {
+        Long[] lDate = new Long[days.size()];
+        int date=0;
+        for (Long day : days){
+            lDate[date] = day;
+            ++date;
+        }
         return lDate;
     }
 
