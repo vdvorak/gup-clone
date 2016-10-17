@@ -216,7 +216,7 @@ public class MonthOfPricesServiceToGsonTest {
 
         System.out.println(statusCalendar);
         System.out.println(statusCalendar.jsonRent());
-        System.out.println(statusCalendar.jsonAvailableRent());
+//        System.out.println(statusCalendar.jsonAvailableRent());
         System.err.println(statusCalendar.toRent());
     }
 
@@ -228,7 +228,8 @@ public class MonthOfPricesServiceToGsonTest {
         statusCalendar.addRent(convertDate(rents.get("delete42").getDays()));
 
         System.out.println(statusCalendar.toJson());
-        System.out.println(statusCalendar.jsonAvailableRent());
+        System.out.println(statusCalendar.jsonRent());
+        System.err.println(statusCalendar.jsonOfferMonth());
     }
 
 

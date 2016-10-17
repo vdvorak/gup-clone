@@ -16,7 +16,8 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 
     private static volatile Boolean initDate;
     private static String formatter = "d.MM.yyyy",
-            monthOfPrices = "monthOfPrices";
+            monthOfPrices = "monthOfPrices",
+            monthOfRents = "monthOfRents";
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
     private Long weekdayPrice,weekendPrice;
     private Long[][] weekdays,weekends;
@@ -273,29 +274,37 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         return data.toString();
     }
 
+//    public String jsonRent() {
+//        StringBuilder data = new StringBuilder();
+//        int rent = 0;
+//        data.append("{\n  \"rents\": [");
+//        for (String monthOfRent : rents[1].getDays()) {
+//            if (0<rent) data.append(",");
+//            data.append("\"" + monthOfRent + "\"");
+//            ++rent;
+//        }
+//        data.append("]\n}");
+//        return data.toString();
+//    }
     public String jsonRent() {
         StringBuilder data = new StringBuilder();
-        int rent = 0;
-        data.append("{\n  \"rents\": [");
-        for (String monthOfRent : rents[1].getDays()) {
-            if (0<rent) data.append(",");
-            data.append("\"" + monthOfRent + "\"");
-            ++rent;
-        }
-        data.append("]\n}");
-        return data.toString();
-    }
-
-    public String jsonAvailableRent() {
-        StringBuilder data = new StringBuilder();
-        int available = 0;
-        data.append("{\n  \"availables\": [");
+        int available = 0,
+                rent = 0;
+        data.append("{\n  \"" + monthOfRents + "\": {\n");
+        data.append("    \"availables\": [");
         for (String monthOfRent : rents[0].getDays()) {
             if (0<available) data.append(",");
             data.append("\"" + monthOfRent + "\"");
             ++available;
         }
-        data.append("]\n}");
+        data.append("]\n");
+        data.append("    ,\"rents\": [");
+        for (String monthOfRent : rents[1].getDays()) {
+            if (0<rent) data.append(",");
+            data.append("\"" + monthOfRent + "\"");
+            ++rent;
+        }
+        data.append("]\n  }\n}");
         return data.toString();
     }
 
@@ -373,6 +382,13 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         }
         data.append("  }\n}"); //data.append("}");
         return data.toString();
+    }
+
+    public String jsonOfferMonth() throws NoSuchElementException { //FIXME:
+        return "{\n  \"offerMonth\":" +
+                toJson() +
+                "," + jsonRent() +
+                "}";
     }
 
     public MonthOfPricesRestore toRestore(){
