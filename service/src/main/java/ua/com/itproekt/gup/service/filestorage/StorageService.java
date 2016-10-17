@@ -11,8 +11,10 @@ import java.util.Set;
 public interface StorageService {
 
     /**
-     * @param serviceName
-     * @param fileId
+     * Delete file from database
+     *
+     * @param serviceName   the service name
+     * @param fileId        the file ID
      */
     void delete(String serviceName, String fileId);
 
@@ -28,10 +30,10 @@ public interface StorageService {
     void deleteListOfOfferImages(Set<String> imagesId);
 
     /**
-     * Find images in old offer version< that were deleted in new and delete them from base in all cached variants.
+     * Find images in old offer version that were deleted in new and delete them from base in all resized variants.
      *
-     * @param oldImagesMap
-     * @param newImagesMap
+     * @param oldImagesMap  the map of images from old version of offer (images ID and images position)
+     * @param newImagesMap  the map with new images (images ID and images position)
      */
     void deleteDiffImagesAfterOfferUpdate(Map<String, String> oldImagesMap, Map<String, String> newImagesMap);
 

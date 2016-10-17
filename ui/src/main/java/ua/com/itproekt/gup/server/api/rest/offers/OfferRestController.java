@@ -192,10 +192,6 @@ public class OfferRestController {
         int firstPositionForImages = 0;
 
 
-        //ToDo delete this shit
-//        System.err.println("User id: " + userId);
-
-
         if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
             System.err.println("Not authorize and without date for it");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -264,7 +260,15 @@ public class OfferRestController {
 
     //------------------------------------------ Update ----------------------------------------------------------------
 
-
+    /**
+     * Update offer
+     *
+     * @param offerRegistration the OfferRegistration object
+     * @param files the new files uploaded by client
+     * @return the status 400 (Bad Request) if offer ID in request object is null; the status 404 (Not Found)
+     * if offer with specific ID cannot be found; the status 403 (Forbidden) if user which try to update offer is not
+     * it's author; the status 200 (Ok) if offer update was successful
+     */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/edit", method = RequestMethod.POST,
@@ -275,8 +279,7 @@ public class OfferRestController {
 
         Offer updatedOffer = offerRegistration.getOffer();
 
-
-        System.err.println("Incoming offer Id for update: " + updatedOffer.getId());
+//        System.err.println("Incoming offer Id for update: " + updatedOffer.getId());
 
 
         // check is offer not null and exist
@@ -297,26 +300,24 @@ public class OfferRestController {
         }
 
         // Mark message from moderator as read
-
         if (updatedOffer.getModerationMessage() != null) {
             updatedOffer.getModerationMessage().setMessage(oldOffer.getModerationMessage().getMessage());
             updatedOffer.getModerationMessage().setIsRead(true);
         }
 
 
+        // update SEO url title for offer
         String newTransiltTitle = Translit.makeTransliteration(updatedOffer.getTitle());
         String newSeoUrl = newTransiltTitle + "-" + oldOffer.getSeoKey();
         updatedOffer.setSeoUrl(newSeoUrl);
 
 
         // If false - means that some pictures were
-
         if (oldOffer.getImagesIds() != null) {
             if (!oldOffer.getImagesIds().equals(updatedOffer.getImagesIds())) {
                 storageService.deleteDiffImagesAfterOfferUpdate(oldOffer.getImagesIds(), updatedOffer.getImagesIds());
             }
         }
-
 
         if (files.length > 0) {
             updatedOffer.setImagesIds(OfferRestHelper.updaterOfferImages(storageService, updatedOffer.getImagesIds(), files));
@@ -324,16 +325,16 @@ public class OfferRestController {
 
         Offer newOffer = offersService.edit(updatedOffer);
 
-        System.err.println("Updated offer id: " + newOffer.getId());
+//        System.err.println("Updated offer id: " + newOffer.getId());
 
         return new ResponseEntity<>(newOffer.getSeoUrl(), HttpStatus.OK);
     }
 
 
     /**
-     *              Edit offer by moderator
+     * Edit offer by moderator
      *
-     * @param offer
+     * @param offer the offer
      * @return      404 Not Found if offer does not exist or was deleted
      */
     @CrossOrigin
