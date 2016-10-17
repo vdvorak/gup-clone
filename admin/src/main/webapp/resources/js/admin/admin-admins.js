@@ -3,7 +3,7 @@ let users;
 
 let urlAdminProfileReadAll = 'http://localhost:8184/api/rest/admin/profile/read/all';
 let urlProfilePhoto = 'http://localhost:8184/api/rest/fileStorage/profile/photo/read/id/';
-let urlProfileCreate = '/api/rest/profilesService/profile/create';
+let urlProfileCreate = 'http://localhost:8183/api/oauth/register';
 let urlProfileUpdBAdmin = '/api/rest/profilesService/profile/updateByAdmin';
 let tagNoPhoto = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
 
@@ -224,20 +224,14 @@ $('#create').click(function () {
     if ($('#adminCheck').prop("checked")) {
         roles.push('ROLE_ADMIN');
     }
-    if ($('#supportCheck').prop("checked")) {
-        roles.push('ROLE_SUPPORT');
-    }
     if ($('#moderatorCheck').prop("checked")) {
         roles.push('ROLE_MODERATOR');
     }
-    if ($('#userCheck').prop("checked")) {
-        roles.push('ROLE_USER');
-    }
-    if ($('#anonymousCheck').prop("checked")) {
-        roles.push('ROLE_ANONYMOUS');
+    if ($('#spectatorCheck').prop("checked")) {
+        roles.push('ROLE_SPECTATOR');
     }
 
-    user.username = login;
+    //user.username = login;
     user.email = login;
     user.password = password;
     user.userRoles = roles;
