@@ -17,7 +17,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
     private static volatile Boolean initDate;
     private static String formatter = "d.MM.yyyy",
             monthOfPrices = "monthOfPrices",
-            monthOfRents = "monthOfRents";
+            monthOfRents = "rents";
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatter);
     private Long weekdayPrice,weekendPrice;
     private Long[][] weekdays,weekends;
@@ -298,13 +298,16 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
             ++available;
         }
         data.append("]\n");
-        data.append("    ,\"rents\": [");
+        data.append("    ,\"rented\": [");
         for (String monthOfRent : rents[1].getDays()) {
-            if (0<rent) data.append(",");
-            data.append("\"" + monthOfRent + "\"");
+            if (0<rent) data.append(",{");
+            data.append("\n      {");
+            data.append("\n        \"userId\": \"57e440464c8eda79f765532d\"");
+            data.append("\n        ,\"day\": \"" + monthOfRent + "\"");
+            data.append("\n      }");
             ++rent;
         }
-        data.append("]\n  }\n}");
+        data.append("\n    ]\n  }\n}");
         return data.toString();
     }
 
