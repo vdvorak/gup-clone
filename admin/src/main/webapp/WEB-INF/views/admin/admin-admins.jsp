@@ -228,6 +228,10 @@
                                                                 Редактировать
                                                             </button>
                                                         </a>
+                                                        <button id="deleteAdminProfileButton"
+                                                                class="btn btn-primary disabled">
+                                                            Удалить
+                                                        </button>
 
 
                                                     </div>
