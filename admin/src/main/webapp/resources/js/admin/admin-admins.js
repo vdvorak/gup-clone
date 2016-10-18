@@ -215,6 +215,7 @@ $('#typeahead').blur(function () {
 });
 
 $('#create').click(function () {
+
     var user = {};
     var login;
     var password;

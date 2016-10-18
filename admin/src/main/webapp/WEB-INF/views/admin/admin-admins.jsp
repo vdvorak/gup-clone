@@ -91,15 +91,15 @@
                                             <br>
 
                                             <div class="checkbox">
-                                                <label><input id="adminCheck" type="checkbox"
+                                                <label><input name="role_radio" id="adminCheck" type="radio"
                                                               value="ROLE_ADMIN">ADMIN</label>
                                             </div>
                                             <div class="checkbox">
-                                                <label><input id="moderatorCheck" type="checkbox"
+                                                <label><input name="role_radio" id="moderatorCheck" type="radio"
                                                               value="ROLE_MODERATOR">MODERATOR</label>
                                             </div>
                                             <div class="checkbox">
-                                                <label><input id="spectatorCheck" type="checkbox"
+                                                <label><input name="role_radio" id="spectatorCheck" type="radio"
                                                               value="ROLE_SPECTATOR">SPECTATOR</label>
                                             </div>
                                         </div>
@@ -162,10 +162,10 @@
                                         <div class="col-xs-4">
                                             <br>
 
-                                            <div class="checkbox">
-                                                <label><input id="anonymousCheck2" class="ch2" type="checkbox"
-                                                              value="ROLE_ANONYMOUS">ANONYMOUS</label>
-                                            </div>
+                                            <%--<div class="checkbox">--%>
+                                                <%--<label><input id="anonymousCheck2" class="ch2" type="checkbox"--%>
+                                                              <%--value="ROLE_ANONYMOUS">ANONYMOUS</label>--%>
+                                            <%--</div>--%>
                                             <div class="checkbox">
                                                 <label><input id="userCheck2" class="ch2" type="checkbox"
                                                               value="ROLE_USER">USER</label>
