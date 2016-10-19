@@ -173,8 +173,10 @@ public class ProfileRestController {
         // check if someone profile already exist with new main email
         if (newProfile.getEmail() != null) {
             Profile foundByEmailProfile = profilesService.findProfileByEmail(newProfile.getEmail());
-            if (!loggedUserId.equals(foundByEmailProfile.getId())) {
-                return new ResponseEntity<>("3", HttpStatus.FORBIDDEN);
+            if (foundByEmailProfile != null){
+                if (!loggedUserId.equals(foundByEmailProfile.getId())) {
+                    return new ResponseEntity<>("3", HttpStatus.FORBIDDEN);
+                }
             }
         }
 
