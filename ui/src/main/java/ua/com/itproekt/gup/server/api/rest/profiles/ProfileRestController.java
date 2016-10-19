@@ -152,7 +152,7 @@ public class ProfileRestController {
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
-    public ResponseEntity<Profile> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request) throws AuthenticationCredentialsNotFoundException {
+    public ResponseEntity<String> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request) throws AuthenticationCredentialsNotFoundException {
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         newProfile.setId(loggedUserId);
@@ -162,10 +162,10 @@ public class ProfileRestController {
         // we cant't allow empty email field for some cases
         if (newProfile.getSocWendor().equals("gup.com.ua")) {
             if (newProfile.getEmail() == null) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>("1", HttpStatus.FORBIDDEN);
             }
             if (newProfile.getEmail().equals("")) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>("2", HttpStatus.FORBIDDEN);
             }
         }
 
@@ -174,7 +174,7 @@ public class ProfileRestController {
         if (newProfile.getEmail() != null) {
             Profile foundByEmailProfile = profilesService.findProfileByEmail(newProfile.getEmail());
             if (!loggedUserId.equals(foundByEmailProfile.getId())) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>("3", HttpStatus.FORBIDDEN);
             }
         }
 
@@ -185,7 +185,7 @@ public class ProfileRestController {
                     profilesService.editProfile(newProfile);
                     return new ResponseEntity<>(HttpStatus.OK);
                 }
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>("4", HttpStatus.FORBIDDEN);
             }
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -195,7 +195,7 @@ public class ProfileRestController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>("5", HttpStatus.FORBIDDEN);
     }
 
     @CrossOrigin
