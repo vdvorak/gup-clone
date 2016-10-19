@@ -175,7 +175,7 @@ public class ProfileRestController {
             Profile foundByEmailProfile = profilesService.findProfileByEmail(newProfile.getEmail());
             if (foundByEmailProfile != null){
                 if (!loggedUserId.equals(foundByEmailProfile.getId())) {
-                    return new ResponseEntity<>("3", HttpStatus.FORBIDDEN);
+                    return new ResponseEntity<>("Your email + " + newProfile.getEmail() + " profile: " + foundByEmailProfile, HttpStatus.FORBIDDEN);
                 }
             }
         }
