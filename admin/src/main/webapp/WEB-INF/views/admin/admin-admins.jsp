@@ -229,7 +229,7 @@
                                                             </button>
                                                         </a>
                                                         <button id="deleteAdminProfileButton"
-                                                                class="btn btn-primary disabled">
+                                                                class="deleteAdminButton btn btn-primary disabled">
                                                             Удалить
                                                         </button>
 
@@ -281,6 +281,10 @@
                                                                 Редактировать
                                                             </button>
                                                         </a>
+                                                        <button id="deleteModaratorProfileButton"
+                                                                class="deleteAdminButton btn btn-primary disabled ">
+                                                            Удалить
+                                                        </button>
 
 
                                                     </div>
