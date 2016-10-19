@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ua.com.itproekt.gup.service.offers.price.MonthOfPrice;
+import ua.com.itproekt.gup.service.offers.price.MonthOfRent;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,9 +16,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @see http://www.javacreed.com/gson-deserialiser-example/
@@ -105,120 +104,120 @@ public class MonthOfPricesServiceToGsonTest {
         restoreCalendar2 = null;
     }
 
-//    /**
-//     * Устанавливаем цену на специальные дни (специальных дней может быть неогрниченно много в пределах выбранного периода..)
-//     * (запрос устанавливает: единую стоимость; стоимость на будни и выходные дни; стоимость на специальные дни;)
-//     */
-//    @Test
-//    public void testOwnerToStringPrices(){
-//        System.out.println("--------------------[ testOwnerToStringPrices ]");
-////        statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
+    /**
+     * Устанавливаем цену на специальные дни (специальных дней может быть неогрниченно много в пределах выбранного периода..)
+     * (запрос устанавливает: единую стоимость; стоимость на будни и выходные дни; стоимость на специальные дни;)
+     */
+    @Test
+    public void testOwnerToStringPrices(){
+        System.out.println("--------------------[ testOwnerToStringPrices ]");
+//        statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
+//        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
+        statusCalendar.addPrices(calendarPrices.get("scheme6").getPrice(), convertDate(calendarPrices.get("scheme6").getDays()));
+//        statusCalendar.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays()));
+
+        System.out.println(statusCalendar);
+//        System.err.println("Calendar-Status (year): " + gsonStatusCalendarDefault.toJson(statusCalendar)); // 'PriceScheme'
+    }
+
+    /**
+     * Test(s) Scheme-Default
+     * Java object to JSON, and assign to a String
+     */
+    @Test
+    public void testOwnerToJSONPrices(){
+        System.out.println("--------------------[ testOwnerToJSONPrices ]");
 ////        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
-//        statusCalendar.addPrices(calendarPrices.get("scheme6").getPrice(), convertDate(calendarPrices.get("scheme6").getDays()));
-////        statusCalendar.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays()));
+////        statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
+//        statusCalendar.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays()));
 //
+////        System.err.println("Calendar-Status: " + gsonStatusCalendarDefault.toJson(statusCalendar)); // 'PriceScheme'
+//        System.err.println("Calendar-Status: " + statusCalendar.toJson()); // 'PriceScheme'
+//        System.err.println("Calendar-Price: " + gsonStatusCalendar1.toJson(calendarPrices)); // 'Calendars'
 //        System.out.println(statusCalendar);
-////        System.err.println("Calendar-Status (year): " + gsonStatusCalendarDefault.toJson(statusCalendar)); // 'PriceScheme'
-//    }
+
+//        statusCalendar2.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays())); //FIXME !!!
+        statusCalendar2.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
+        statusCalendar2.addPrices(calendarPrices.get("scheme8").getPrice(), convertDate(calendarPrices.get("scheme8").getDays())); //FIXME ???
+//        statusCalendar2.addPrices(calendarPrices.get("scheme6").getPrice(), convertDate(calendarPrices.get("scheme6").getDays()));
+
+        System.out.println(statusCalendar2);
+        System.out.println(statusCalendar2.toJson());
+    }
+
+    /**
+     * Test(s) Scheme-Default
+     * Restore JSON to Java Object
+     */
+    @Test
+    public void testOwnerRestoreToObjectPrices(){
+        System.err.println("--------------------[ testOwnerRestoreToObjectPrices ]");
+
+//        CalendarRestorePriceClass weekdays = priceCalendar.getWeekdays(),
+//                weekends = priceCalendar.getWeekends();
+//        CalendarRestorePriceClass[] specials = priceCalendar.getSpecials();
 //
-//    /**
-//     * Test(s) Scheme-Default
-//     * Java object to JSON, and assign to a String
-//     */
-//    @Test
-//    public void testOwnerToJSONPrices(){
-//        System.out.println("--------------------[ testOwnerToJSONPrices ]");
-//////        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
-//////        statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
-////        statusCalendar.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays()));
+////        System.out.println("weekdays " + weekdays);
+////        System.out.println("weekends " + weekends);
 ////
-//////        System.err.println("Calendar-Status: " + gsonStatusCalendarDefault.toJson(statusCalendar)); // 'PriceScheme'
-////        System.err.println("Calendar-Status: " + statusCalendar.toJson()); // 'PriceScheme'
-////        System.err.println("Calendar-Price: " + gsonStatusCalendar1.toJson(calendarPrices)); // 'Calendars'
-////        System.out.println(statusCalendar);
+////        System.out.print("specials [");
+////        for (CalendarRestorePriceClass special : specials) System.out.print(special);
+////        System.out.println("]");
 //
-////        statusCalendar2.addPrices(calendarPrices.get("scheme7").getPrice(), convertDate(calendarPrices.get("scheme7").getDays())); //FIXME !!!
-//        statusCalendar2.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
-//        statusCalendar2.addPrices(calendarPrices.get("scheme8").getPrice(), convertDate(calendarPrices.get("scheme8").getDays())); //FIXME ???
-////        statusCalendar2.addPrices(calendarPrices.get("scheme6").getPrice(), convertDate(calendarPrices.get("scheme6").getDays()));
+//        restoreCalendar = new CalendarStatusServiceImpl(weekdays.getPrice(), weekends.getPrice());
+//        for (CalendarRestorePriceClass special : specials) restoreCalendar.addPrices(special.getPrice(), convertDate(special.getDays()));
 //
-//        System.out.println(statusCalendar2);
-//        System.out.println(statusCalendar2.toJson());
-//    }
-//
-//    /**
-//     * Test(s) Scheme-Default
-//     * Restore JSON to Java Object
-//     */
-//    @Test
-//    public void testOwnerRestoreToObjectPrices(){
-//        System.err.println("--------------------[ testOwnerRestoreToObjectPrices ]");
-//
-////        CalendarRestorePriceClass weekdays = priceCalendar.getWeekdays(),
-////                weekends = priceCalendar.getWeekends();
-////        CalendarRestorePriceClass[] specials = priceCalendar.getSpecials();
-////
-//////        System.out.println("weekdays " + weekdays);
-//////        System.out.println("weekends " + weekends);
-//////
-//////        System.out.print("specials [");
-//////        for (CalendarRestorePriceClass special : specials) System.out.print(special);
-//////        System.out.println("]");
-////
-////        restoreCalendar = new CalendarStatusServiceImpl(weekdays.getPrice(), weekends.getPrice());
-////        for (CalendarRestorePriceClass special : specials) restoreCalendar.addPrices(special.getPrice(), convertDate(special.getDays()));
-////
-////        System.out.println(restoreCalendar);
-////        System.out.println(restoreCalendar.toJson());
-//
-//        restoreCalendar2 = new OfferPricesServiceImpl(jsonRestore);
-//        System.err.println(restoreCalendar2);
-//        System.err.println(restoreCalendar2.toJson());
-//    }
-//
-//    @Test
-//    public void testOwnerIsPrice(){
-//        System.out.println("--------------------[ testOwnerIsPrice ]");
-//        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
-//        statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
-//
-//        System.out.println( "Is Calendar Day-Price(7): " + statusCalendar.isPrice(convertDate("07.10.2016")) );
-//    }
-//
-//    @Test
-//    public void testOwnerGetPrices(){
-//        System.out.println("--------------------[ testOwnerGetPrices ]");
-//        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
-//        statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
-//
-//        System.out.println( "Days(1,3,7) Get-Prices = " + statusCalendar.getPrice(convertDate(rents.get("rent3").getDays())) );
-//        System.out.println( "Days(31) Get-Prices = " + statusCalendar.getPrice(convertDate(rents.get("rent4").getDays())) );
-//        System.out.println( "Days(1,3,31) Get-Prices = " + statusCalendar.getPrice(convertDate(rents.get("rent5").getDays())) );
-//    }
-//
-//    @Test
-//    public void testOwnerDelPrices(){
-//        System.out.println("--------------------[ testOwnerDelPrices ]");
-//        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
-//        System.out.println(statusCalendar);
-//
-////        System.out.println( "Days(5) Del-Price = " + statusCalendar.delPrices(convertDate(rents.get("delete41").getDays())) );
-//        System.out.println( "Days(10-14) Del-Price = " + statusCalendar.delPrices(convertDate(rents.get("delete42").getDays())) );
-//        System.err.println(statusCalendar);
-//    }
-//
-//    @Test
-//    public void testOwnerAddRent(){
-//        System.out.println("--------------------[ testOwnerAddRent ]");
-//        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
-//        statusCalendar.addRent(convertDate(rents.get("delete41").getDays()));
-//        statusCalendar.addRent(convertDate(rents.get("delete42").getDays()));
-//
-//        System.out.println(statusCalendar);
-//        System.out.println(statusCalendar.jsonRent());
-////        System.out.println(statusCalendar.jsonAvailableRent());
-//        System.err.println(statusCalendar.toRent());
-//    }
+//        System.out.println(restoreCalendar);
+//        System.out.println(restoreCalendar.toJson());
+
+        restoreCalendar2 = new OfferPricesServiceImpl(jsonRestore);
+        System.err.println(restoreCalendar2);
+        System.err.println(restoreCalendar2.toJson());
+    }
+
+    @Test
+    public void testOwnerIsPrice(){
+        System.out.println("--------------------[ testOwnerIsPrice ]");
+        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
+        statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
+
+        System.out.println( "Is Calendar Day-Price(7): " + statusCalendar.isPrice(convertDate("07.10.2016")) );
+    }
+
+    @Test
+    public void testOwnerGetPrices(){
+        System.out.println("--------------------[ testOwnerGetPrices ]");
+        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
+        statusCalendar.addPrices(calendarPrices.get("scheme5").getPrice(), convertDate(calendarPrices.get("scheme5").getDays()));
+
+        System.out.println( "Days(1,3,7) Get-Prices = " + statusCalendar.getPrice(convertDate(rents.get("rent3").getDays())) );
+        System.out.println( "Days(31) Get-Prices = " + statusCalendar.getPrice(convertDate(rents.get("rent4").getDays())) );
+        System.out.println( "Days(1,3,31) Get-Prices = " + statusCalendar.getPrice(convertDate(rents.get("rent5").getDays())) );
+    }
+
+    @Test
+    public void testOwnerDelPrices(){
+        System.out.println("--------------------[ testOwnerDelPrices ]");
+        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
+        System.out.println(statusCalendar);
+
+//        System.out.println( "Days(5) Del-Price = " + statusCalendar.delPrices(convertDate(rents.get("delete41").getDays())) );
+        System.out.println( "Days(10-14) Del-Price = " + statusCalendar.delPrices(convertDate(rents.get("delete42").getDays())) );
+        System.err.println(statusCalendar);
+    }
+
+    @Test
+    public void testOwnerAddRent(){
+        System.out.println("--------------------[ testOwnerAddRent ]");
+        statusCalendar.addPrices(calendarPrices.get("scheme4").getPrice(), convertDate(calendarPrices.get("scheme4").getDays()));
+        statusCalendar.addRent(convertDate(rents.get("delete41").getDays()));
+        statusCalendar.addRent(convertDate(rents.get("delete42").getDays()));
+
+        System.out.println(statusCalendar);
+        System.out.println(statusCalendar.jsonRent());
+//        System.out.println(statusCalendar.jsonAvailableRent());
+        System.err.println(statusCalendar.toRent());
+    }
 
     @Test
     public void testOwnerAddRent2(){
