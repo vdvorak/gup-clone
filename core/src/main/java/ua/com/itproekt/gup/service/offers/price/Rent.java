@@ -1,46 +1,34 @@
-//package ua.com.itproekt.gup.service.offers.price;
-//
-//import java.util.concurrent.ConcurrentLinkedQueue;
-//
-////public class Rent extends ConcurrentLinkedQueue<Boolean> {
-////
-////    public Rent(){}
-////
-////    public Rent(Boolean rent){
-////        this.rent = rent;
-////    }
-////
-////    private Boolean rent;
-////
-////    public Boolean get() { // public Boolean is() {
-////        return rent;
-////    }
-////
-////    public void set(Boolean rent) {
-////        this.rent = rent;
-////    }
-////
-////}
-//
-//public class Rent extends ConcurrentLinkedQueue<Long> {
-//
-//    public Rent(){}
-//
-//    public Rent(Long rent){
-//        this.rent = rent;
-//    }
-//
-//    /**
-//     * Хранит дату (на которую установливается цена услуги)
-//     */
-//    private Long rent;
-//
-//    public Long get() {
-//        return rent;
-//    }
-//
-//    public void set(Long rent) {
-//        this.rent = rent;
-//    }
-//
-//}
+package ua.com.itproekt.gup.service.offers.price;
+
+import java.util.Arrays;
+
+public class Rent {
+
+    private Boolean rent;
+    private String[] days;
+
+    public Boolean getRent() {
+        return rent;
+    }
+
+    public void setRent(Boolean rent) {
+        this.rent = rent;
+    }
+
+    public String[] getDays() {
+        return days;
+    }
+
+    public void setDays(String[] days) {
+        this.days = days;
+    }
+
+    @Override
+    public String toString() {
+        return "MonthOfRent{" +
+                "rent=" + rent +
+                ", days=" + Arrays.toString(days) +
+                '}';
+    }
+
+}

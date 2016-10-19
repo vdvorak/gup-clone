@@ -41,7 +41,7 @@ public class OfferPricesServiceImpl extends OfferPricesService {
         super(jsonRestore);
     }
 
-    public OfferPricesServiceImpl(MonthOfPricesRestore restore){
+    public OfferPricesServiceImpl(PriceOfRentsRestore restore){
         super(restore);
     }
 
@@ -51,7 +51,7 @@ public class OfferPricesServiceImpl extends OfferPricesService {
      * @param offerId
      * @return
      */
-    public Offer edit(String offerId, MonthOfPricesRestore monthOfPrices) {
+    public Offer edit(String offerId, PriceOfRentsRestore monthOfPrices) {
         if (!offerRepository.offerExists(offerId)) System.err.println("Offer (" + offerId + ") is found!");
         else System.err.println("Offer (" + offerId + ") not found?");
 

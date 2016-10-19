@@ -1,12 +1,12 @@
 package ua.com.itproekt.gup.service.offers;
 
-import ua.com.itproekt.gup.service.offers.price.MonthOfPrice;
+import ua.com.itproekt.gup.service.offers.price.PriceOfRent;
 
-public class MonthOfPrices {
+public class PriceOfRents {
 
     private Long weekdayPrice;
     private Long weekendPrice;
-    private MonthOfPrice specialPrice;
+    private PriceOfRent specialPrice;
 
     public Long getWeekdayPrice() {
         return weekdayPrice;
@@ -24,11 +24,11 @@ public class MonthOfPrices {
         this.weekendPrice = weekendPrice;
     }
 
-    public MonthOfPrice getSpecialPrice() {
+    public PriceOfRent getSpecialPrice() {
         return specialPrice;
     }
 
-    public void setSpecialPrice(MonthOfPrice specialPrice) {
+    public void setSpecialPrice(PriceOfRent specialPrice) {
         this.specialPrice = specialPrice;
     }
 

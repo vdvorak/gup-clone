@@ -2,7 +2,7 @@ package ua.com.itproekt.gup.service.offers.price;
 
 import java.util.Arrays;
 
-public class MonthOfPrice {
+public class PriceOfRent {
 
     private Long price;
     private String[] days;
