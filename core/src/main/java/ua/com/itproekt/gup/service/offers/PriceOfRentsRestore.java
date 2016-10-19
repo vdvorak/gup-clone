@@ -1,36 +1,36 @@
 package ua.com.itproekt.gup.service.offers;
 
-import ua.com.itproekt.gup.service.offers.price.MonthOfPrice;
+import ua.com.itproekt.gup.service.offers.price.PriceOfRent;
 
 import java.util.Arrays;
 
-public class MonthOfPricesRestore {
+public class PriceOfRentsRestore {
 
-    private MonthOfPrice weekday;
-    private MonthOfPrice weekend;
-    private MonthOfPrice[] specialdays;
+    private PriceOfRent weekday;
+    private PriceOfRent weekend;
+    private PriceOfRent[] specialdays;
 
-    public MonthOfPrice getWeekday() {
+    public PriceOfRent getWeekday() {
         return weekday;
     }
 
-    public void setWeekday(MonthOfPrice weekday) {
+    public void setWeekday(PriceOfRent weekday) {
         this.weekday = weekday;
     }
 
-    public MonthOfPrice getWeekend() {
+    public PriceOfRent getWeekend() {
         return weekend;
     }
 
-    public void setWeekend(MonthOfPrice weekend) {
+    public void setWeekend(PriceOfRent weekend) {
         this.weekend = weekend;
     }
 
-    public MonthOfPrice[] getSpecialdays() {
+    public PriceOfRent[] getSpecialdays() {
         return specialdays;
     }
 
-    public void setSpecialdays(MonthOfPrice[] specialdays) {
+    public void setSpecialdays(PriceOfRent[] specialdays) {
         this.specialdays = specialdays;
     }
 

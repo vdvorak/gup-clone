@@ -11,10 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.offer.Offer;
-import ua.com.itproekt.gup.service.offers.MonthOfPrices;
+import ua.com.itproekt.gup.service.offers.PriceOfRents;
 import ua.com.itproekt.gup.service.offers.OfferPricesServiceImpl;
 import ua.com.itproekt.gup.service.offers.OffersService;
-import ua.com.itproekt.gup.service.offers.price.MonthOfPrice;
+import ua.com.itproekt.gup.service.offers.price.PriceOfRent;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -36,7 +36,7 @@ public class OfferPricesRestController {
     private final String offerOctober = "offerOctoberOfPrices.json",
             offerRents = "offerRents.json";
     private JsonObject objJsonMonth,objJsonRents;
-    private Map<String, MonthOfPrice> monthOfPrices;
+    private Map<String, PriceOfRent> monthOfPrices;
     private Map<String, RentTest> rents;
 
     @Autowired
@@ -62,7 +62,7 @@ public class OfferPricesRestController {
     @RequestMapping(value = "/offer/{offerId}/price", method = RequestMethod.POST, //@RequestMapping(value = "/offer/{offerId}/calendar", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createOfferPrices(@PathVariable String offerId,
-                                                    @RequestBody MonthOfPrices monthOfPrices){
+                                                    @RequestBody PriceOfRents monthOfPrices){
         if (!offersService.offerExists(offerId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else if (monthOfPrices.getWeekdayPrice()==null
@@ -84,7 +84,7 @@ public class OfferPricesRestController {
     @RequestMapping(value = "/offer/{offerId}/price", method = RequestMethod.PUT, //@RequestMapping(value = "/offer/{offerId}/calendar", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> editOfferPrices(@PathVariable String offerId,
-                                                  @RequestBody MonthOfPrices monthOfPrice){
+                                                  @RequestBody PriceOfRents monthOfPrice){
         if (!offersService.offerExists(offerId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else if (monthOfPrice.getWeekdayPrice()==null
@@ -99,7 +99,7 @@ public class OfferPricesRestController {
         try {
             objJsonMonth = (JsonObject) parser.parse(new FileReader(classLoader.getResource(offerOctober).getFile()));
         } catch (FileNotFoundException e) { e.printStackTrace(); }
-        monthOfPrices = gson.fromJson(objJsonMonth, new TypeToken<Map<String, MonthOfPrice>>(){}.getType());
+        monthOfPrices = gson.fromJson(objJsonMonth, new TypeToken<Map<String, PriceOfRent>>(){}.getType());
 
 //        monthOfPricesService = new OfferPricesServiceImpl(10000l,15000l);
 //        monthOfPricesService.addPrices(monthOfPrices.get("scheme4").getPrice(), convertDate(monthOfPrices.get("scheme4").getDays()));
@@ -132,7 +132,7 @@ public class OfferPricesRestController {
             objJsonMonth = (JsonObject) parser.parse(new FileReader(classLoader.getResource(offerOctober).getFile()));
             objJsonRents = (JsonObject) parser.parse(new FileReader(classLoader.getResource(offerRents).getFile()));
         } catch (FileNotFoundException e) { e.printStackTrace(); }
-        monthOfPrices = gson.fromJson(objJsonMonth, new TypeToken<Map<String, MonthOfPrice>>(){}.getType());
+        monthOfPrices = gson.fromJson(objJsonMonth, new TypeToken<Map<String, PriceOfRent>>(){}.getType());
         rents = gson.fromJson(objJsonRents, new TypeToken<Map<String, RentTest>>(){}.getType());
 
         monthOfPricesService = new OfferPricesServiceImpl(10000l,15000l);

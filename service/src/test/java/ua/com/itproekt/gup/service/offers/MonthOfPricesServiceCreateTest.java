@@ -7,7 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.itproekt.gup.service.offers.price.MonthOfPrice;
+import ua.com.itproekt.gup.service.offers.price.PriceOfRent;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -46,7 +46,7 @@ public class MonthOfPricesServiceCreateTest {
 
     private JsonObject jsonCalendars,jsonRents;
     private Gson gsonStatusCalendarDefault,gsonStatusCalendar1;
-    private Map<String, MonthOfPrice> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
+    private Map<String, PriceOfRent> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, RentTest> rents; //TODO: общая таблица в базе данных для аренды...
     private OfferPricesService statusCalendar;
 
@@ -61,7 +61,7 @@ public class MonthOfPricesServiceCreateTest {
             e.printStackTrace();
         }
 
-        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, MonthOfPrice>>(){}.getType());
+        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, PriceOfRent>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, RentTest>>(){}.getType());
         gsonStatusCalendarDefault = new Gson();
         gsonStatusCalendar1 = new Gson();

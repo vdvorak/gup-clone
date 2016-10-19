@@ -23,7 +23,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
     private Long[][] weekdays,weekends;
     private ArrayList<Long> listWeekdays,listWeekends;
 //    private Gson gson;
-    private Deque<MonthOfRent> rents;
+    private Deque<Rent> rents;
 
     /**
      * #3. One cost (per day); Two dates (start/stop):
@@ -43,9 +43,9 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
 //        gson = new Gson();
-        rents = new ArrayDeque<MonthOfRent>();
-        rents.add(new MonthOfRent());
-        rents.add(new MonthOfRent());
+        rents = new ArrayDeque<Rent>();
+        rents.add(new Rent());
+        rents.add(new Rent());
     }
 
     /**
@@ -73,9 +73,9 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
 //        gson = new Gson();
-        rents = new ArrayDeque<MonthOfRent>();
-        rents.add(new MonthOfRent());
-        rents.add(new MonthOfRent());
+        rents = new ArrayDeque<Rent>();
+        rents.add(new Rent());
+        rents.add(new Rent());
     }
 
     /**
@@ -87,22 +87,22 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         JsonParser parser = new JsonParser();
         JsonObject objJsonObject = (JsonObject) parser.parse(jsonRestore);
         Gson gson = new Gson();
-        Map<String, MonthOfPricesRestore> restores = gson.fromJson(objJsonObject, new TypeToken<Map<String, MonthOfPricesRestore>>(){}.getType());
-        MonthOfPricesRestore restore = restores.get(monthOfPrices);
-        MonthOfPrice weekdays = restore.getWeekday(),
+        Map<String, PriceOfRentsRestore> restores = gson.fromJson(objJsonObject, new TypeToken<Map<String, PriceOfRentsRestore>>(){}.getType());
+        PriceOfRentsRestore restore = restores.get(monthOfPrices);
+        PriceOfRent weekdays = restore.getWeekday(),
                 weekends = restore.getWeekend();
-        MonthOfPrice[] specialdays = restore.getSpecialdays();
+        PriceOfRent[] specialdays = restore.getSpecialdays();
 
         weekdayPrice = weekdays.getPrice();
         weekendPrice = weekends.getPrice();
         initDate = null;
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
-        for (MonthOfPrice specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
+        for (PriceOfRent specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
 //
-        rents = new ArrayDeque<MonthOfRent>();
-        rents.add(new MonthOfRent());
-        rents.add(new MonthOfRent());
+        rents = new ArrayDeque<Rent>();
+        rents.add(new Rent());
+        rents.add(new Rent());
     }
 
     /**
@@ -110,10 +110,10 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      * ----------------------------------------------------
      * - It restores the state of all prices (previously created) for the entire period;
      */
-    protected OfferPricesService(MonthOfPricesRestore restore){
-        MonthOfPrice weekdays = restore.getWeekday(),
+    protected OfferPricesService(PriceOfRentsRestore restore){
+        PriceOfRent weekdays = restore.getWeekday(),
                 weekends = restore.getWeekend();
-        MonthOfPrice[] specialdays = restore.getSpecialdays();
+        PriceOfRent[] specialdays = restore.getSpecialdays();
 
         if (weekdays.getPrice()!=null
                 && weekends.getPrice()!=null){
@@ -124,13 +124,13 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
         if (specialdays!=null)
-            for (MonthOfPrice specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
+            for (PriceOfRent specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
         else
             addPrices(0l, new Long[]{});
 //
-        rents = new ArrayDeque<MonthOfRent>();
-        rents.add(new MonthOfRent());
-        rents.add(new MonthOfRent());
+        rents = new ArrayDeque<Rent>();
+        rents.add(new Rent());
+        rents.add(new Rent());
     }
 
     /**
@@ -306,7 +306,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         return data.toString();
     }
 
-    public synchronized MonthOfRent getAvailables(){
+    public synchronized Rent getAvailables(){
         try {
             return rents.getFirst();
         } catch (NoSuchElementException e){
@@ -314,7 +314,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         }
     }
 
-    public synchronized MonthOfRent getRented(){
+    public synchronized Rent getRented(){
         try {
             return rents.getLast();
         } catch (NoSuchElementException e){
@@ -451,12 +451,12 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
                 "}";
     }
 
-    public MonthOfPricesRestore toRestore(){
+    public PriceOfRentsRestore toRestore(){
         JsonParser parser = new JsonParser();
         JsonObject objJsonObject = (JsonObject) parser.parse(toJson());
         Gson gson = new Gson();
-        Map<String, MonthOfPricesRestore> restores = gson.fromJson(objJsonObject, new TypeToken<Map<String, MonthOfPricesRestore>>(){}.getType());
-        MonthOfPricesRestore restore = restores.get(monthOfPrices);
+        Map<String, PriceOfRentsRestore> restores = gson.fromJson(objJsonObject, new TypeToken<Map<String, PriceOfRentsRestore>>(){}.getType());
+        PriceOfRentsRestore restore = restores.get(monthOfPrices);
 //        System.err.println(restore);
         return restore;
     }

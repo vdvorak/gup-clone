@@ -7,8 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.itproekt.gup.service.offers.price.MonthOfPrice;
-import ua.com.itproekt.gup.service.offers.price.MonthOfRent;
+import ua.com.itproekt.gup.service.offers.price.PriceOfRent;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -58,11 +57,11 @@ public class MonthOfPricesServiceToGsonTest {
 
     private JsonObject jsonCalendars,objJsonRestore,jsonRents;
     private Gson gsonStatusCalendarDefault,gsonStatusCalendar1;
-    private Map<String, MonthOfPrice> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
+    private Map<String, PriceOfRent> calendarPrices; //TODO: правилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, RentTest> rents; //TODO: общая таблица в базе данных для аренды...
     private OfferPricesService statusCalendar,statusCalendar2,restoreCalendar,restoreCalendar2;
-    private Map<String, MonthOfPricesRestore> restore;
-    private MonthOfPricesRestore priceCalendar;
+    private Map<String, PriceOfRentsRestore> restore;
+    private PriceOfRentsRestore priceCalendar;
 
     @Before
     public void setUp() {
@@ -76,8 +75,8 @@ public class MonthOfPricesServiceToGsonTest {
             e.printStackTrace();
         }
 
-        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, MonthOfPrice>>(){}.getType());
-        restore = gson.fromJson(objJsonRestore, new TypeToken<Map<String, MonthOfPricesRestore>>(){}.getType());
+        calendarPrices = gson.fromJson(jsonCalendars, new TypeToken<Map<String, PriceOfRent>>(){}.getType());
+        restore = gson.fromJson(objJsonRestore, new TypeToken<Map<String, PriceOfRentsRestore>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, RentTest>>(){}.getType());
         gsonStatusCalendarDefault = new Gson();
         gsonStatusCalendar1 = new Gson();
