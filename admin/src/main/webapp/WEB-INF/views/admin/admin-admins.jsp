@@ -230,7 +230,7 @@
                                                             </button>
                                                         </a>
                                                         <button id="deleteAdminProfileButton"
-                                                                class="deleteAdminButton btn btn-primary disabled">
+                                                                class="deleteProfileButton btn btn-primary disabled">
                                                             Удалить
                                                         </button>
 
@@ -283,7 +283,7 @@
                                                             </button>
                                                         </a>
                                                         <button id="deleteModaratorProfileButton"
-                                                                class="deleteAdminButton btn btn-primary disabled ">
+                                                                class="deleteProfileButton btn btn-primary disabled ">
                                                             Удалить
                                                         </button>
 
@@ -336,7 +336,7 @@
                                                             </button>
                                                         </a>
                                                         <button id="deleteSpectatorProfileButton"
-                                                                class="deleteSpecctatorButton btn btn-primary disabled ">
+                                                                class="deleteProfileButton btn btn-primary disabled ">
                                                             Удалить
                                                         </button>
 

@@ -14,7 +14,7 @@ $(document).ready(function () {
     var filterOptions = {};
     filterOptions.skip = 0;
     filterOptions.limit = 20;
-    filterOptions.userRoles = ['ROLE_ADMIN', 'ROLE_MODERATOR'];
+    filterOptions.userRoles = ['ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_SPECTATOR'];
 
     $('#myModal').on('shown.bs.modal', function () {
         $('#myInput').focus()
@@ -58,18 +58,23 @@ $(document).ready(function () {
             }
 
 
-            var admins = [];
-            var moderators = [];
+            let admins = [];
+            let moderators = [];
+            let spectators = [];
 
-            // separate moderators and admins into two tables
+            // separate admins, moderators and spectators into three tables
             for (var m = 0; m < data.length; m++) {
                 if (data[m].userRoles !== undefined && data[m].userRoles !== null) {
                     for (var n = 0; n < data[m].userRoles.length; n++) {
+
                         if (data[m].userRoles[n] === 'ROLE_ADMIN') {
                             admins.push(data[m]);
                         }
                         if (data[m].userRoles[n] === 'ROLE_MODERATOR') {
                             moderators.push(data[m]);
+                        }
+                        if (data[m].userRoles[n] === 'ROLE_SPECTATOR') {
+                            spectators.push(data[m]);
                         }
                     }
                 }
@@ -81,6 +86,7 @@ $(document).ready(function () {
             }
 
 
+            // prepare DataTable object with params
             let dataTableObjPreparator = function (dataName) {
                 return {
                     select: {
@@ -99,15 +105,17 @@ $(document).ready(function () {
                 }
             };
 
-            var tableAdmins = $('#admins').DataTable(dataTableObjPreparator(admins));
+            let tableAdmins = $('#admins').DataTable(dataTableObjPreparator(admins));
 
+
+            // logic for rows click in administrators table
             tableAdmins
                 .on('select', function (e, dt, type, indexes) {
                     var rowData = tableAdmins.rows(indexes).data().toArray();
                     $("input[name='adminId']").attr("value", rowData[0].id);
                     $('#adminEditHref').attr("href", "http://gup.com.ua/seller/" + rowData[0].id);
                     $('#editAdminProfileButton').attr("class", "btn btn-danger");
-                    $('#deleteAdminProfileButton').attr("class", "btn btn-danger");
+                    $('#deleteAdminProfileButton').attr("class", "deleteProfileButton btn btn-danger");
                 })
                 .on('deselect', function (e, dt, type, indexes) {
                     $("input[name='adminId']").attr("value", "");
@@ -115,20 +123,38 @@ $(document).ready(function () {
                     $('#deleteAdminProfileButton').attr("class", "btn btn-danger disable");
                 });
 
-            var tableModerators = $('#moderators').DataTable(dataTableObjPreparator(moderators));
+            let tableModerators = $('#moderators').DataTable(dataTableObjPreparator(moderators));
 
+            // logic for rows click in moderators table
             tableModerators
                 .on('select', function (e, dt, type, indexes) {
                     var rowData = tableModerators.rows(indexes).data().toArray();
                     $("input[name='moderatorId']").attr("value", rowData[0].id);
                     $('#moderatorEditHref').attr("href", "http://gup.com.ua/seller/" + rowData[0].id);
                     $('#editModeratorProfileButton').attr("class", "btn btn-danger");
-                    $('#deleteModaratorProfileButton').attr("class", "btn btn-danger");
+                    $('#deleteModaratorProfileButton').attr("class", "deleteProfileButton btn btn-danger");
                 })
                 .on('deselect', function (e, dt, type, indexes) {
                     $("input[name='moderatorId']").attr("value", "");
                     $('#editModeratorProfileButton').attr("class", "btn btn-danger disabled");
                     $('#deleteModaratorProfileButton').attr("class", "btn btn-danger disable");
+                });
+
+            let tableSpectators = $('#spectators').DataTable(dataTableObjPreparator(spectators))
+
+            // logic for rows click in spectators table
+            tableSpectators
+                .on('select', function (e, dt, type, indexes) {
+                    var rowData = tableSpectators.rows(indexes).data().toArray();
+                    $("input[name='spectatorId']").attr("value", rowData[0].id);
+                    $('#spectatorEditHref').attr("href", "http://gup.com.ua/seller/" + rowData[0].id);
+                    $('#editSpectatorProfileButton').attr("class", "btn btn-danger");
+                    $('#deleteSpectatorProfileButton').attr("class", "deleteProfileButton btn btn-danger");
+                })
+                .on('deselect', function (e, dt, type, indexes) {
+                    $("input[name='spectatorId']").attr("value", "");
+                    $('#editSpectatorProfileButton').attr("class", "btn btn-danger disabled");
+                    $('#deleteSpectatorProfileButton').attr("class", "btn btn-danger disable");
                 });
 
             var logins = new Bloodhound({
@@ -239,7 +265,7 @@ $('#create').click(function () {
         roles.push('ROLE_SPECTATOR');
     }
 
-
+    // now you can have only one role
     if (roles.length < 1){
         return alert("Выберите одну роль")
     }
@@ -267,7 +293,7 @@ $('#create').click(function () {
 /**
  * Delete selected user
  */
-$('.deleteAdminButton').click(function(){
+$('.deleteProfileButton').click(function(){
 
     let buttonId = event.target.getAttribute('id');
 
@@ -290,6 +316,8 @@ $('.deleteAdminButton').click(function(){
         case 'deleteAdminProfileButton' : deleteProfile($('#input-admin-id').val());
             break;
         case 'deleteModaratorProfileButton' : deleteProfile($('#input-moderator-id').val());
+            break;
+        case 'deleteSpectatorProfileButton' : deleteProfile($('#input-spectator-id').val());
             break;
     }
 });
