@@ -107,12 +107,12 @@ $(document).ready(function () {
                     $("input[name='adminId']").attr("value", rowData[0].id);
                     $('#adminEditHref').attr("href", "http://gup.com.ua/seller/" + rowData[0].id);
                     $('#editAdminProfileButton').attr("class", "btn btn-danger");
-                    $('#deleteAdminProfileButton').attr("class", "btn btn-danger")
+                    $('#deleteAdminProfileButton').attr("class", "btn btn-danger");
                 })
                 .on('deselect', function (e, dt, type, indexes) {
                     $("input[name='adminId']").attr("value", "");
                     $('#editAdminProfileButton').attr("class", "btn btn-danger disabled");
-                    $('#deleteAdminProfileButton').attr("class", "btn btn-danger disable")
+                    $('#deleteAdminProfileButton').attr("class", "btn btn-danger disable");
                 });
 
             var tableModerators = $('#moderators').DataTable(dataTableObjPreparator(moderators));
@@ -123,10 +123,12 @@ $(document).ready(function () {
                     $("input[name='moderatorId']").attr("value", rowData[0].id);
                     $('#moderatorEditHref').attr("href", "http://gup.com.ua/seller/" + rowData[0].id);
                     $('#editModeratorProfileButton').attr("class", "btn btn-danger");
+                    $('#deleteModaratorProfileButton').attr("class", "btn btn-danger");
                 })
                 .on('deselect', function (e, dt, type, indexes) {
                     $("input[name='moderatorId']").attr("value", "");
                     $('#editModeratorProfileButton').attr("class", "btn btn-danger disabled");
+                    $('#deleteModaratorProfileButton').attr("class", "btn btn-danger disable");
                 });
 
             var logins = new Bloodhound({
@@ -265,18 +267,29 @@ $('#create').click(function () {
 /**
  * Delete selected user
  */
-$('#deleteAdminProfileButton').click(function(){
-let profileId = $('#input-admin-id').val();
-    $.ajax({
-        type: "POST",
-        url: urlProfileDelete,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: profileId,
-        statusCode: {
-            200: function () {
-                window.location.href = '/admin-admins';
+$('.deleteAdminButton').click(function(){
+
+    let buttonId = event.target.getAttribute('id');
+
+    let deleteProfile = function(profileId){
+        $.ajax({
+            type: "POST",
+            url: urlProfileDelete,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: profileId,
+            statusCode: {
+                200: function () {
+                    window.location.href = '/admin-admins';
+                }
             }
-        }
-    });
+        });
+    };
+
+    switch (buttonId) {
+        case 'deleteAdminProfileButton' : deleteProfile($('#input-admin-id').val());
+            break;
+        case 'deleteModaratorProfileButton' : deleteProfile($('#input-moderator-id').val());
+            break;
+    }
 });
