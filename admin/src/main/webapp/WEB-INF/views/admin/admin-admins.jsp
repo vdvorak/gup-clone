@@ -46,6 +46,7 @@
                             <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
                                 <li><a href="#adminsTable" data-toggle="tab">Админы</a></li>
                                 <li><a href="#moderatorsTable" data-toggle="tab">Модераторы</a></li>
+                                <li><a href="#spectatorsTable" data-toggle="tab">Наблюдатели</a></li>
                                 <li>
                                     <button type="button" class="btn btn-default btn-md" data-toggle="modal"
                                             data-target="#charge" style="margin-left: 25px">
@@ -283,6 +284,59 @@
                                                         </a>
                                                         <button id="deleteModaratorProfileButton"
                                                                 class="deleteAdminButton btn btn-primary disabled ">
+                                                            Удалить
+                                                        </button>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="spectatorsTable">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="panel panel-default">
+                                                <!-- /.panel-heading -->
+                                                <div class="panel-body">
+                                                    <div class="dataTable_wrapper">
+
+                                                        <table id="spectators"
+                                                               class="table table-striped table-bordered table-hover"
+                                                               cellspacing="0" width="100%">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Фото</th>
+                                                                <th>Имя</th>
+                                                                <th>Логин</th>
+                                                                <th>Дата регистрации</th>
+                                                            </tr>
+                                                            </thead>
+                                                        </table>
+
+                                                        <table class="table table-user-information">
+                                                            <tbody>
+                                                            <h3 class="panel-title">Редактировать профиль</h3>
+                                                            <tr>
+                                                                <td>ID профиля:</td>
+                                                                <td><input id="input-spectator-id" class="form-control"
+                                                                           name="spectatorId" readonly required>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+
+
+                                                        <a id="spectatorEditHref" href="">
+                                                            <button id="editSpectatorProfileButton"
+                                                                    class="btn btn-primary disabled">
+                                                                Редактировать
+                                                            </button>
+                                                        </a>
+                                                        <button id="deleteSpectatorProfileButton"
+                                                                class="deleteSpecctatorButton btn btn-primary disabled ">
                                                             Удалить
                                                         </button>
 
