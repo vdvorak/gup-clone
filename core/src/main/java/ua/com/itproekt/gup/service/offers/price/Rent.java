@@ -3,7 +3,7 @@ package ua.com.itproekt.gup.service.offers.price;
 import java.util.Arrays;
 
 /**
- * Используется тип списка 'ConcurrentLinkedDeque' потому-что в многопоточном режиме часто выполняются операции с удалением-добавлением элементов списка
+ * Используется тип списка 'ConcurrentLinkedDeque' потому-что в многопоточном режиме будут часто выполнятся операции с добавлением-удалением элементов списка
  */
 public class Rent { //TODO: ConcurrentLinkedDeque<Rent>
 

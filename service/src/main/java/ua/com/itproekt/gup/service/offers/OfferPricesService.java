@@ -44,10 +44,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
 //        gson = new Gson();
-        rents = new ConcurrentLinkedDeque<Rent>(); //rents = new ArrayDeque<Rent>(3);
+        rents = new ConcurrentLinkedDeque<Rent>(); //TODO:
         rents.add(new Rent());
         rents.addFirst(new Rent());
         rents.addLast(new Rent());
+//        addRent(new Long[]{}); //TODO:
     }
 
     /**
@@ -75,10 +76,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
 //        gson = new Gson();
-        rents = new ConcurrentLinkedDeque<Rent>(); //rents = new ArrayDeque<Rent>(3);
+        rents = new ConcurrentLinkedDeque<Rent>(); //TODO:
         rents.add(new Rent());
         rents.addFirst(new Rent());
         rents.addLast(new Rent());
+//        addRent(new Long[]{}); //TODO:
     }
 
     /**
@@ -103,10 +105,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekends = new ArrayList<Long>();
         for (PriceOfRent specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
 //
-        rents = new ConcurrentLinkedDeque<Rent>(); //rents = new ArrayDeque<Rent>(3);
+        rents = new ConcurrentLinkedDeque<Rent>(); //TODO:
         rents.add(new Rent());
         rents.addFirst(new Rent());
         rents.addLast(new Rent());
+//        addRent(new Long[]{}); //TODO:
     }
 
     /**
@@ -132,10 +135,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         else
             addPrices(0l, new Long[]{});
 //
-        rents = new ConcurrentLinkedDeque<Rent>(); //rents = new ArrayDeque<Rent>(3);
+        rents = new ConcurrentLinkedDeque<Rent>(); //TODO:
         rents.add(new Rent());
         rents.addFirst(new Rent());
         rents.addLast(new Rent());
+//        addRent(new Long[]{}); //TODO:
     }
 
     /**
@@ -143,7 +147,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *     -- (optional)
      * #2. Initialization-days period, used a method addPrices(), according to the previously specified value;
      *     -- it can be used with the default constructor (without parameters)
-     * FIXME: it is problem add several specials (if only NULL init month)
+     * FIXME: it is problem when add several specials (if only NULL init month)
+     * #3. Условие:
+     *     -- При добавлении прайса состояние аренды тоже должно обновляться (добавляться);
+     *        --- нужно учитывать что некоторые дни попрайсу могут быть ИЗМЕНЕНЫ А это значит что перед изменением нужно предвариельно проверять состояние аренды на этот день
+     *            (разрешить зменять только для повторяющих-дней: выходные-будни...)
      */
     public void addPrices(Long price, Long[] days) {
         Price newPrice;
@@ -178,6 +186,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
             default:
                 break;
         }
+        addRent(new Long[]{}); // ??????????????????????????????????????????????????????
     }
 
     /**
@@ -191,47 +200,56 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
     public void addRent(Long[] days) {
-        getAvailables().setRent(false);
         Collection<Long> availables = new TreeSet<Long>(),
                 rented = new TreeSet<Long>();
-        if (getAvailables().getDays()==null){
-            for (Price prices : this)
-                for (Long price : prices) availables.add(price);
-            getRented().setDays(convertDate(days));
-        } else {
-            for (String day : getAvailables().getDays()) availables.add(convertDate(day));
-            for (String day : getRented().getDays()) rented.add(convertDate(day));
-            for (Long day : days) rented.add(day);
-            getRented().setDays(convertDate(convertDate(rented)));
+
+        try {
+            if (getAvailables().getDays()==null){
+                for (Price prices : this)
+                    for (Long price : prices) availables.add(price);
+                getRented().setDays(convertDate(days));
+            } else {
+                availables.addAll(Arrays.asList(convertDate(getAvailables().getDays())));
+                rented.addAll(Arrays.asList(convertDate(getRented().getDays())));
+                rented.addAll(Arrays.asList(days));
+                getRented().setDays(convertDate(convertDate(rented)));
+            }
+
+            availables.removeAll(Arrays.asList(days)); //FIXME: copy old list into new list..
+            getAvailables().setDays(convertDate(convertDate(availables)));
+        } catch (NullPointerException e){
+            e.printStackTrace();
         }
-        for (Long day : days) availables.remove(day); //FIXME: copy old list into new list..
-        getAvailables().setDays(convertDate(convertDate(availables)));
     }
 
     /**
      * #1. Условие:
-     *     -- запрещается удалять если день уже был арендован
+     *     -- запрещается удалять день который был арендован
      *     -- запрещается удалять список дней если хотябы один из дней в этом списке арендован
      */
     public Integer delPrices(Long[] days) {
         Integer del;
-        synchronized (OfferPricesService.class){
-            del = 0;
-            switch (days.length) {
-                case 1:
-                    for (Price curPrice : this)
-                        if (curPrice.remove(days[0])) del++;
-                    break;
-                case 2:
-                    java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(convertDate(days[1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[1]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[1]).split("\\.")[0]));
-                    for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)){
-                        for (Price currPrice : this)
-                            if (currPrice.remove(currDate.getTimeInMillis())) del++;
-                    }
-                    break;
-                default:
-                    break;
+        if (isRent(days)) {
+            synchronized (OfferPricesService.class){
+                del = 0;
+                switch (days.length) {
+                    case 1:
+                        for (Price curPrice : this)
+                            if (curPrice.remove(days[0])) del++;
+                        break;
+                    case 2:
+                        java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(convertDate(days[1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[1]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[1]).split("\\.")[0]));
+                        for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)){
+                            for (Price currPrice : this)
+                                if (currPrice.remove(currDate.getTimeInMillis())) del++;
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
+        } else {
+            return 0;
         }
         return del;
     }
@@ -248,7 +266,14 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
     public Integer delRent(Long[] days) {
-        return 0;
+        Collection<Long> availables = new TreeSet<Long>(Arrays.asList(convertDate(getAvailables().getDays()))),
+                rented = new TreeSet<Long>(Arrays.asList(convertDate(getRented().getDays())));
+        boolean isAvailables = availables.addAll(Arrays.asList(days)),
+                isRented = rented.removeAll(Arrays.asList(days));
+        getAvailables().setDays(convertDate(convertDate(availables)));
+        getRented().setDays(convertDate(convertDate(rented)));
+
+        return (isAvailables && isRented) ? days.length : 0;
     }
 
     public Boolean isPrice(Long day) {
@@ -267,7 +292,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
     public Boolean isRent(Long day) {
-        return Arrays.asList(getRented().getDays()).contains(day);
+        return Arrays.asList(convertDate(getRented().getDays())).contains(day);
+    }
+
+    public Boolean isRent(Long[] days) {
+        return Arrays.asList(convertDate(getRented().getDays())).containsAll(Arrays.asList(days));
     }
 
     public Long getPrice(Long day){
@@ -300,6 +329,8 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
             return rents.getFirst();
         } catch (NoSuchElementException e){
             return null;
+        } catch (NullPointerException e){
+            return null;
         }
     }
 
@@ -316,6 +347,8 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         try {
             return rents.getLast();
         } catch (NoSuchElementException e){
+            return null;
+        } catch (NullPointerException e){
             return null;
         }
     }
@@ -336,6 +369,8 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
             return null;
         } catch (NoSuchElementException e){
             return null;
+        } catch (NullPointerException e){
+            return null;
         }
     }
 
@@ -353,9 +388,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 
     public String toRent() {
         StringBuilder data = new StringBuilder();
-        for (String monthOfRent : getRented().getDays()) data.append("TRUE(" + monthOfRent + ") ");
-        data.append("\n");
-        for (String monthOfRent : getAvailables().getDays()) data.append("FALSE(" + monthOfRent + ") ");
+        try {
+            for (String rent : getRented().getDays()) data.append("TRUE(" + rent + ") ");
+            data.append("\n");
+            for (String rent : getAvailables().getDays()) data.append("FALSE(" + rent + ") ");
+        } catch (NullPointerException e){ e.printStackTrace(); }
         return data.toString();
     }
 
