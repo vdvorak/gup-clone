@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
@@ -43,9 +44,10 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
 //        gson = new Gson();
-        rents = new ArrayDeque<Rent>();
+        rents = new ConcurrentLinkedDeque<Rent>(); //rents = new ArrayDeque<Rent>(3);
         rents.add(new Rent());
-        rents.add(new Rent());
+        rents.addFirst(new Rent());
+        rents.addLast(new Rent());
     }
 
     /**
@@ -73,9 +75,10 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
 //        gson = new Gson();
-        rents = new ArrayDeque<Rent>();
+        rents = new ConcurrentLinkedDeque<Rent>(); //rents = new ArrayDeque<Rent>(3);
         rents.add(new Rent());
-        rents.add(new Rent());
+        rents.addFirst(new Rent());
+        rents.addLast(new Rent());
     }
 
     /**
@@ -100,9 +103,10 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekends = new ArrayList<Long>();
         for (PriceOfRent specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
 //
-        rents = new ArrayDeque<Rent>();
+        rents = new ConcurrentLinkedDeque<Rent>(); //rents = new ArrayDeque<Rent>(3);
         rents.add(new Rent());
-        rents.add(new Rent());
+        rents.addFirst(new Rent());
+        rents.addLast(new Rent());
     }
 
     /**
@@ -128,9 +132,10 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         else
             addPrices(0l, new Long[]{});
 //
-        rents = new ArrayDeque<Rent>();
+        rents = new ConcurrentLinkedDeque<Rent>(); //rents = new ArrayDeque<Rent>(3);
         rents.add(new Rent());
-        rents.add(new Rent());
+        rents.addFirst(new Rent());
+        rents.addLast(new Rent());
     }
 
     /**
@@ -175,7 +180,17 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         }
     }
 
-    public synchronized void addRent(Long[] days) {
+    /**
+     * #1. Условия:
+     *     -- все дни которые до текущего числа автоматически являются НЕактивными (переводить в НЕактивное состояние)
+     *     -- делать автоматическую проверку всех НЕактивных дней (переводить в НЕактивное состояние)
+     * #2. Порядок:
+     *     -- (a) при иннициализации, изначально все дни попадают в список - доступных
+     *     -- (b) дни которые клиент арендует попадает в список - арендованых
+     *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
+     *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
+     */
+    public void addRent(Long[] days) {
         getAvailables().setRent(false);
         Collection<Long> availables = new TreeSet<Long>(),
                 rented = new TreeSet<Long>();
@@ -189,10 +204,15 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
             for (Long day : days) rented.add(day);
             getRented().setDays(convertDate(convertDate(rented)));
         }
-        for (Long day : days) availables.remove(day); //TODO: copy to list
+        for (Long day : days) availables.remove(day); //FIXME: copy old list into new list..
         getAvailables().setDays(convertDate(convertDate(availables)));
     }
 
+    /**
+     * #1. Условие:
+     *     -- запрещается удалять если день уже был арендован
+     *     -- запрещается удалять список дней если хотябы один из дней в этом списке арендован
+     */
     public Integer delPrices(Long[] days) {
         Integer del;
         synchronized (OfferPricesService.class){
@@ -216,6 +236,17 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         return del;
     }
 
+    /**
+     * #1. Условие:
+     *     -- удаление арендованного дня (делает обратное) переводит в состояние доступного для аренды
+     *     -- все дни которые до текущего числа автоматически являются НЕактивными (переводить в НЕактивное состояние)
+     *     -- делать автоматическую проверку всех НЕактивных дней (переводить в НЕактивное состояние)
+     * #2. Порядок:
+     *     -- (a) при иннициализации, изначально все дни попадают в список - доступных
+     *     -- (b) дни которые клиент арендует попадает в список - арендованых
+     *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
+     *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
+     */
     public Integer delRent(Long[] days) {
         return 0;
     }
@@ -226,10 +257,17 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         return false;
     }
 
+    /**
+     * #1. Условие:
+     *     -- делать автоматическую проверку всех НЕактивных дней (переводить в НЕактивное состояние)
+     * #2. Порядок:
+     *     -- (a) при иннициализации, изначально все дни попадают в список - доступных
+     *     -- (b) дни которые клиент арендует попадает в список - арендованых
+     *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
+     *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
+     */
     public Boolean isRent(Long day) {
-//        for (Price prices : this)
-//            if (prices.contains(day)) return true;
-        return false;
+        return Arrays.asList(getRented().getDays()).contains(day);
     }
 
     public Long getPrice(Long day){
@@ -246,6 +284,59 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
                 if (prices.contains(day)) price += prices.get();
         }
         return price;
+    }
+
+    /**
+     * #1. Условие:
+     *     -- делать автоматическую проверку всех НЕактивных дней (переводить в НЕактивное состояние)
+     * #2. Порядок:
+     *     -- (a) при иннициализации, изначально все дни попадают в список - доступных
+     *     -- (b) дни которые клиент арендует попадает в список - арендованых
+     *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
+     *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
+     */
+    public Rent getAvailables(){
+        try {
+            return rents.getFirst();
+        } catch (NoSuchElementException e){
+            return null;
+        }
+    }
+
+    /**
+     * #1. Условие:
+     *     -- делать автоматическую проверку всех НЕактивных дней (переводить в НЕактивное состояние)
+     * #2. Порядок:
+     *     -- (a) при иннициализации, изначально все дни попадают в список - доступных
+     *     -- (b) дни которые клиент арендует попадает в список - арендованых
+     *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
+     *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
+     */
+    public Rent getRented(){
+        try {
+            return rents.getLast();
+        } catch (NoSuchElementException e){
+            return null;
+        }
+    }
+
+    /**
+     * #1. Условие:
+     *     -- делать автоматическую проверку всех НЕактивных дней (переводить в НЕактивное состояние)
+     * #2. Порядок:
+     *     -- (a) при иннициализации, изначально все дни попадают в список - доступных
+     *     -- (b) дни которые клиент арендует попадает в список - арендованых
+     *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
+     *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
+     */
+    public Rent getExpired(){
+        try {
+            for (Rent rent:rents)
+                if (rents.contains(getAvailables()) && rents.contains(getRented())) return rent;
+            return null;
+        } catch (NoSuchElementException e){
+            return null;
+        }
     }
 
     @Override
@@ -304,22 +395,6 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         }
         data.append("\n    ]\n  }\n}");
         return data.toString();
-    }
-
-    public synchronized Rent getAvailables(){
-        try {
-            return rents.getFirst();
-        } catch (NoSuchElementException e){
-            return null;
-        }
-    }
-
-    public synchronized Rent getRented(){
-        try {
-            return rents.getLast();
-        } catch (NoSuchElementException e){
-            return null;
-        }
     }
 
     /**
