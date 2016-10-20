@@ -146,26 +146,25 @@ public class ProfileRestController {
      * Update profile.
      *
      * @param newProfile the new profile with id of entity in request body
-     * @return the response status, Forbiden (403) if: main email is empty for profile which has social vendor "gup.com.ua"
+     * @return the response status, Forbidden (403) if: main email is empty for profile which has social vendor "gup.com.ua"
      * 403 can also be if someone profile already exist with new email.
      */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
-    public ResponseEntity<String> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request) throws AuthenticationCredentialsNotFoundException {
+    public ResponseEntity<Void> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request) throws AuthenticationCredentialsNotFoundException {
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         newProfile.setId(loggedUserId);
         Profile oldProfile = profilesService.findById(loggedUserId);
 
-
         // we cant't allow empty email field for some cases
         if (newProfile.getSocWendor().equals("gup.com.ua")) {
             if (newProfile.getEmail() == null) {
-                return new ResponseEntity<>("1", HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
             if (newProfile.getEmail().equals("")) {
-                return new ResponseEntity<>("2", HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         }
 
@@ -173,9 +172,9 @@ public class ProfileRestController {
         // check if someone profile already exist with new main email
         if (newProfile.getEmail() != null) {
             Profile foundByEmailProfile = profilesService.findProfileByEmail(newProfile.getEmail());
-            if (foundByEmailProfile != null){
+            if (foundByEmailProfile != null) {
                 if (!loggedUserId.equals(foundByEmailProfile.getId())) {
-                    return new ResponseEntity<>("Your email + " + newProfile.getEmail() + " profile: " + foundByEmailProfile, HttpStatus.FORBIDDEN);
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
                 }
             }
         }
@@ -187,7 +186,7 @@ public class ProfileRestController {
                     profilesService.editProfile(newProfile);
                     return new ResponseEntity<>(HttpStatus.OK);
                 }
-                return new ResponseEntity<>("4", HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -197,7 +196,7 @@ public class ProfileRestController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
-        return new ResponseEntity<>("5", HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @CrossOrigin
