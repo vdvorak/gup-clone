@@ -159,25 +159,22 @@ public class ProfileRestController {
         Profile oldProfile = profilesService.findById(loggedUserId);
 
         // we cant't allow empty email field for some cases
-        if (newProfile.getSocWendor().equals("gup.com.ua")) {
             if (newProfile.getEmail() == null) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
             if (newProfile.getEmail().equals("")) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
-        }
 
 
         // check if someone profile already exist with new main email
-        if (newProfile.getEmail() != null) {
             Profile foundByEmailProfile = profilesService.findProfileByEmail(newProfile.getEmail());
             if (foundByEmailProfile != null) {
                 if (!loggedUserId.equals(foundByEmailProfile.getId())) {
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
                 }
             }
-        }
+
 
         if (newProfile.getIdSeoWord() != null) {
             if (profilesService.isSeoWordFree(newProfile.getIdSeoWord())) {

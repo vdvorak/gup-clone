@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.model.profiles;
 
 import org.apache.commons.lang3.EnumUtils;
+import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,6 +21,7 @@ public class Profile {
     @Indexed
     private String idSeoWord;
 
+    @Email
     @Indexed
     private String email;
     private String socWendor = "gup.com.ua"; // default vendor
