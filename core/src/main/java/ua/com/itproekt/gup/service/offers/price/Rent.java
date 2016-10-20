@@ -2,9 +2,12 @@ package ua.com.itproekt.gup.service.offers.price;
 
 import java.util.Arrays;
 
-public class Rent {
+/**
+ * Используется тип списка 'ConcurrentLinkedDeque' потому-что в многопоточном режиме часто выполняются операции с удалением-добавлением элементов списка
+ */
+public class Rent { //TODO: ConcurrentLinkedDeque<Rent>
 
-    private Boolean rent;
+    private Boolean rent; //FIXME: the field duplicate with Deque<Rent>..
     private String[] days;
 
     public Boolean getRent() {
