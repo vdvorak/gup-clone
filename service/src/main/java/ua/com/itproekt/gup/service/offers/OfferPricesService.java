@@ -48,7 +48,6 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         rents.add(new Rent());
         rents.addFirst(new Rent());
         rents.addLast(new Rent());
-//        addRent(new Long[]{}); //TODO:
     }
 
     /**
@@ -80,7 +79,6 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         rents.add(new Rent());
         rents.addFirst(new Rent());
         rents.addLast(new Rent());
-//        addRent(new Long[]{}); //TODO:
     }
 
     /**
@@ -89,6 +87,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      * - It restores the state of all prices (previously created) for the entire period;
      */
     protected OfferPricesService(String jsonRestore){
+        rents = new ConcurrentLinkedDeque<Rent>(); //TODO:
+        rents.add(new Rent());
+        rents.addFirst(new Rent());
+        rents.addLast(new Rent());
+//
         JsonParser parser = new JsonParser();
         JsonObject objJsonObject = (JsonObject) parser.parse(jsonRestore);
         Gson gson = new Gson();
@@ -104,12 +107,6 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
         for (PriceOfRent specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
-//
-        rents = new ConcurrentLinkedDeque<Rent>(); //TODO:
-        rents.add(new Rent());
-        rents.addFirst(new Rent());
-        rents.addLast(new Rent());
-//        addRent(new Long[]{}); //TODO:
     }
 
     /**
@@ -118,6 +115,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      * - It restores the state of all prices (previously created) for the entire period;
      */
     protected OfferPricesService(PriceOfRentsRestore restore){
+        rents = new ConcurrentLinkedDeque<Rent>(); //TODO:
+        rents.add(new Rent());
+        rents.addFirst(new Rent());
+        rents.addLast(new Rent());
+//
         PriceOfRent weekdays = restore.getWeekday(),
                 weekends = restore.getWeekend();
         PriceOfRent[] specialdays = restore.getSpecialdays();
@@ -134,12 +136,6 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
             for (PriceOfRent specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
         else
             addPrices(0l, new Long[]{});
-//
-        rents = new ConcurrentLinkedDeque<Rent>(); //TODO:
-        rents.add(new Rent());
-        rents.addFirst(new Rent());
-        rents.addLast(new Rent());
-//        addRent(new Long[]{}); //TODO:
     }
 
     /**
@@ -186,7 +182,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
             default:
                 break;
         }
-        addRent(new Long[]{}); // ??????????????????????????????????????????????????????
+        addRent(new Long[]{}); //TODO:
     }
 
     /**
