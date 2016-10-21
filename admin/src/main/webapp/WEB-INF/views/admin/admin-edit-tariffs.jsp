@@ -15,7 +15,7 @@
     <title>Редактирование тарифов | Панель управления</title>
 
     <!-- Links -->
-    <jsp:include page="/WEB-INF/templates/admin-top-links.jsp"/>
+    <jsp:include page="/WEB-INF/templates/admin-panel/admin-top-links.jsp"/>
     <!-- Links -->
 </head>
 
@@ -24,7 +24,7 @@
 <div id="wrapper">
 
     <!-- Navigation -->
-    <jsp:include page="/WEB-INF/templates/admin-left-bar.jsp"/>
+    <jsp:include page="/WEB-INF/templates/admin-panel/admin-left-bar.jsp"/>
     <!-- Navigation -->
 
     <form action="#" method="post" class="customForm">
@@ -74,7 +74,7 @@
 </div>
 
 <!-- Bottom Links -->
-<jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>
+<jsp:include page="/WEB-INF/templates/admin-panel/admin-bottom-links.jsp"/>
 <!-- Bottom Links -->
 
 <script src="/resources/js/admin/admin-edit-tariffs.js"></script>
