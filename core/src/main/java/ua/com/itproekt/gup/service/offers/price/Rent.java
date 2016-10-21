@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Используется тип списка 'ConcurrentLinkedDeque' потому-что в многопоточном режиме будут часто выполнятся операции с добавлением-удалением элементов списка
  */
-public class Rent { //TODO: ConcurrentLinkedDeque<Rent>
+public class Rent { //public class Rent implements Cloneable { //TODO: ConcurrentLinkedDeque<Rent>
 
     private Boolean rent; //FIXME: the field duplicate with Deque<Rent>..
     private String[] days;
@@ -25,6 +25,11 @@ public class Rent { //TODO: ConcurrentLinkedDeque<Rent>
     public void setDays(String[] days) {
         this.days = days;
     }
+
+//    @Override
+//    public Object clone() throws CloneNotSupportedException {
+//        return super.clone();
+//    }
 
     @Override
     public String toString() {
