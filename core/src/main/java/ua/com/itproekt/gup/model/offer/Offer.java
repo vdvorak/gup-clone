@@ -29,6 +29,12 @@ import java.util.Set;
 //        @CompoundIndex(name = "createdDate_offers_idx", def = "{'createdDate' : 1}")
 //})
 
+
+/**
+ * Class describe offer
+ *
+ * @author Kobylyatskyy Alexander
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Offer {
 
@@ -36,10 +42,10 @@ public class Offer {
     private String                  id;
     private String                  authorId;
     private OfferUserContactInfo    userInfo;
-    private Boolean                 active;
+    private Boolean                 active;                     // offer's status active or not
     private Long                    createdDate;
     private Reservation             reservation;
-    private Integer                 views;
+    private Integer                 views;                      // number of offer views
     private PriceOfRentsRestore     monthOfPrices;
     private Rent                    rent;
     private String                  seoUrl;                     // full SEO url with key - for siteMap
