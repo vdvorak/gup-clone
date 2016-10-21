@@ -122,10 +122,12 @@ public class OrderRestController {
             newOrderPreparator(userId, order, offer);
 
             if (order.getPaymentMethod() == PaymentMethod.GUP) {
-                //ToDo перевод денег на счёт Гупа если тип оплаты GUP
+                //ToDo money transfer on GUP's account if type of order is GUP
             }
             orderService.create(order);
-            activityFeedService.createEvent(eventPreparatorForSeller(order, EventType.NEW_ORDER));
+
+            Profile profile = profilesService.findById(order.getBuyerId());
+            activityFeedService.createEvent(OrderRestHelper.eventPreparatorForSeller(profile ,order, EventType.NEW_ORDER));
         } else {
             return badRequest;
         }
@@ -206,7 +208,8 @@ public class OrderRestController {
 
             //ToDo Веруть деньги покупателю
 
-            activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, EventType.ORDER_CANCEL_BY_BUYER));
+            Profile profile = profilesService.findById(order.getBuyerId());
+            activityFeedService.createEvent(OrderRestHelper.eventPreparatorForSeller(profile, oldOrder, EventType.ORDER_CANCEL_BY_BUYER));
         } else {
             return badRequest;
         }
@@ -349,12 +352,13 @@ public class OrderRestController {
                             .setOrderStatus(OrderStatus.COMPLETED)
                             .setReceivedDateEqualsToCurrentDate();
                     orderService.findAndUpdate(oldOrder);
-                    //ToDo перевести деньги на счёт продавца
-                    activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, EventType.ORDER_COMPLETED));
+                    //ToDo Make money transfer on seller account
+                    Profile profile = profilesService.findById(order.getBuyerId());
+                    activityFeedService.createEvent(OrderRestHelper.eventPreparatorForSeller(profile, oldOrder, EventType.ORDER_COMPLETED));
                 }
 
             } else {
-                //TODO ошибка, т.к. ты не покупатель и не продаввец
+                // you are neither buyer nor the seller
                 return badRequest;
             }
         }
@@ -380,15 +384,18 @@ public class OrderRestController {
             return notFound;
         }
 
-
+        Profile profileOfSeller = profilesService.findById(order.getSellerId());
         if (userId.equals(oldOrder.getBuyerId())) {
-            commentUpdaterAndEventSender(userId, order, oldOrder, EventType.ORDER_BUYER_COMMENT);
+            OrderRestHelper.commentUpdaterAndEventSender(profileOfSeller, orderService,
+                    activityFeedService, userId, order, oldOrder, EventType.ORDER_BUYER_COMMENT);
             return ok;
         }
 
 
+        Profile profileOfBuyer = profilesService.findById(order.getBuyerId());
         if (userId.equals(oldOrder.getSellerId())) {
-            commentUpdaterAndEventSender(userId, order, oldOrder, EventType.ORDER_SELLER_COMMENT);
+            OrderRestHelper.commentUpdaterAndEventSender(profileOfBuyer, orderService,
+                    activityFeedService, userId, order, oldOrder, EventType.ORDER_SELLER_COMMENT);
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
@@ -508,19 +515,19 @@ public class OrderRestController {
     }
 
 
-    private Event eventPreparatorForSeller(Order order, EventType eventType) {
-        Profile profile = profilesService.findById(order.getBuyerId());
-
-        return new Event()
-                .setTargetUId(order.getSellerId())
-                .setType(eventType)
-                .setContentStoreId(order.getOfferId())
-                .setContentStoreTitle(order.getOfferTitle())
-                .setContentId(order.getId())
-                .setMakerId(order.getBuyerId())
-                .setImgId(order.getOfferMainImageId())
-                .setMakerName(profile.getUsername());
-    }
+//    private Event eventPreparatorForSeller(Order order, EventType eventType) {
+//        Profile profile = profilesService.findById(order.getBuyerId());
+//
+//        return new Event()
+//                .setTargetUId(order.getSellerId())
+//                .setType(eventType)
+//                .setContentStoreId(order.getOfferId())
+//                .setContentStoreTitle(order.getOfferTitle())
+//                .setContentId(order.getId())
+//                .setMakerId(order.getBuyerId())
+//                .setImgId(order.getOfferMainImageId())
+//                .setMakerName(profile.getUsername());
+//    }
 
     private Event eventPreparatorForBuyer(Order order, EventType eventType) {
         Profile profile = profilesService.findById(order.getSellerId());
@@ -537,15 +544,15 @@ public class OrderRestController {
     }
 
 
-    private void commentUpdaterAndEventSender(String userId, Order order, Order oldOrder, EventType eventType) {
-
-        OrderComment newComment = order.getOrderComments().get(0)
-                .setDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli())
-                .setUserId(userId);
-
-        oldOrder.getOrderComments().add(newComment);
-        orderService.findAndUpdate(oldOrder);
-
-        activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, eventType));
-    }
+//    private void commentUpdaterAndEventSender(String userId, Order order, Order oldOrder, EventType eventType) {
+//
+//        OrderComment newComment = order.getOrderComments().get(0)
+//                .setDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli())
+//                .setUserId(userId);
+//
+//        oldOrder.getOrderComments().add(newComment);
+//        orderService.findAndUpdate(oldOrder);
+//
+//        activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, eventType));
+//    }
 }
