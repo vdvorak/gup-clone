@@ -33,52 +33,52 @@ import java.util.Set;
 public class Offer {
 
     @Id
-    private String id;
-    private String authorId;
-    private OfferUserContactInfo userInfo;
-    private Boolean active;
-    private Long createdDate;
-    private Reservation reservation;
-    private Integer views;
-    private PriceOfRentsRestore monthOfPrices;
-    private Rent rent;
-    private String seoUrl; // full SEO url with key - for siteMap
-    private String seoKey; // only key - for search in DB
+    private String                  id;
+    private String                  authorId;
+    private OfferUserContactInfo    userInfo;
+    private Boolean                 active;
+    private Long                    createdDate;
+    private Reservation             reservation;
+    private Integer                 views;
+    private PriceOfRentsRestore     monthOfPrices;
+    private Rent                    rent;
+    private String                  seoUrl;                     // full SEO url with key - for siteMap
+    private String                  seoKey;                     // only key - for search in DB
 
-    private LinkedHashSet<String> categories;
-    private String seoCategory; // last category for seo meta tags
-    private List<Property> properties;
+    private LinkedHashSet<String>   categories;
+    private String                  seoCategory;                // last category for seo meta tags
+    private List<Property>          properties;
     @Size(max = 10)
-    private Map<String, String> imagesIds;
-    private String videoUrl;
+    private Map<String, String>     imagesIds;
+    private String                  videoUrl;
     @Size(min = 2, max = 70)
-    private String title;
+    private String                  title;
     @Size(max = 5000)
-    private String description;
+    private String                  description;
 
     @Digits(integer = 10, fraction = 0)
-    private Long price;
+    private Long                    price;
 
 
-    private Currency currency;
-    private Address address;
+    private Currency                currency;
+    private Address                 address;
 
-    private Boolean priceCanBeNegotiated;
-    private Boolean used; // б/y
-    private Boolean canBeReserved;
-    private Boolean canBeRented;
-    private boolean showOrdersCount; //user decide to show offer orders amount or not
-    private Integer maximumReservedPeriod;
+    private Boolean                 priceCanBeNegotiated;
+    private Boolean                 used;                       // б/y
+    private Boolean                 canBeReserved;
+    private Boolean                 canBeRented;
+    private boolean                 showOrdersCount;            //user decide to show offer orders amount or not
+    private Integer                 maximumReservedPeriod;
 
-    private Set<TransportCompany> availableShippingMethods;
-    private Set<PaymentMethod> availablePaymentMethods;
-    private PaidServices paidServices;
+    private Set<TransportCompany>   availableShippingMethods;
+    private Set<PaymentMethod>      availablePaymentMethods;
+    private PaidServices            paidServices;
 
-    private ModerationStatus moderationStatus;
-    private Long lastModerationDate;
-    private ModerationMessage moderationMessage;
+    private ModerationStatus        moderationStatus;
+    private Long                    lastModerationDate;
+    private ModerationMessage       moderationMessage;
 
-    boolean deleted;
+    boolean                         deleted;                    // showing is offer marked as delete or not
 
     public Offer setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
