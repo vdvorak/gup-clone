@@ -15,7 +15,7 @@
     <title>Главная страница | Панель управления</title>
 
     <!-- Top Links -->
-    <jsp:include page="/WEB-INF/templates/admin-top-links.jsp"/>
+    <jsp:include page="/WEB-INF/templates/admin-panel/admin-top-links.jsp"/>
     <!-- Top Links -->
 
 </head>
@@ -25,7 +25,7 @@
 <div id="wrapper">
 
     <!-- Navigation -->
-    <jsp:include page="/WEB-INF/templates/admin-left-bar.jsp"/>
+    <jsp:include page="/WEB-INF/templates/admin-panel/admin-left-bar.jsp"/>
     <!-- Navigation -->
 
     <div id="page-wrapper">
@@ -132,7 +132,7 @@
 </div>
 <!-- /.panel -->
 <!-- Bottom Links -->
-<jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>
+<jsp:include page="/WEB-INF/templates/admin-panel/admin-bottom-links.jsp"/>
 <!-- Bottom Links -->
 
 <script>

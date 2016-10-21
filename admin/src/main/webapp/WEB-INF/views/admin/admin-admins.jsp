@@ -15,7 +15,7 @@
     <title>Редактор админов</title>
 
     <!-- Links -->
-    <jsp:include page="/WEB-INF/templates/admin-top-links.jsp"/>
+    <jsp:include page="/WEB-INF/templates/admin-panel/admin-top-links.jsp"/>
     <!-- Links -->
 </head>
 
@@ -24,7 +24,7 @@
 <div id="wrapper">
 
     <!-- Navigation -->
-    <jsp:include page="/WEB-INF/templates/admin-left-bar.jsp"/>
+    <jsp:include page="/WEB-INF/templates/admin-panel/admin-left-bar.jsp"/>
     <!-- Navigation -->
 
     <div id="page-wrapper">
@@ -340,7 +340,6 @@
                                                             Удалить
                                                         </button>
 
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -358,7 +357,7 @@
 <!-- /.panel -->
 
 <!-- Bottom Links -->
-<jsp:include page="/WEB-INF/templates/admin-bottom-links.jsp"/>
+<jsp:include page="/WEB-INF/templates/admin-panel/admin-bottom-links.jsp"/>
 <script src="/resources/js/typeahead.js"></script>
 <!-- Bottom Links -->
 
