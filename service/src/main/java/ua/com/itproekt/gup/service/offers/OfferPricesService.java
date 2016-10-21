@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import ua.com.itproekt.gup.service.offers.price.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -358,15 +360,119 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
-    public Rent getExpired(){
-        try {
-            for (Rent rent:rents)
-                if (rents.contains(getAvailables()) && rents.contains(getRented())) return rent;
-            return null;
-        } catch (NoSuchElementException e){
-            return null;
-        } catch (NullPointerException e){
-            return null;
+//    public Rent getExpired(){
+////        Collection<Long> availables = new TreeSet<Long>(Arrays.asList(convertDate(getAvailables().getDays()))),
+////                rented = new TreeSet<Long>(Arrays.asList(convertDate(getRented().getDays())));
+////        boolean isAvailables = availables.addAll(Arrays.asList(days)),
+////                isRented = rented.removeAll(Arrays.asList(days));
+////        getAvailables().setDays(convertDate(convertDate(availables)));
+////        getRented().setDays(convertDate(convertDate(rented)));
+//
+//
+//        try {
+////            for (Rent rent:rents)
+////                if (rents.contains(getAvailables()) && rents.contains(getRented())) return rent;
+//            /////////////////////////////
+////            for (Rent rent:rents){
+////////                System.out.println(Arrays.toString(rent.getDays()));
+////                Arrays.asList(rent.getDays()); //ArrayList<String> days = new ArrayList<String>(Arrays.asList(rent.getDays()));
+//////                ArrayList<String> checkDays;
+////
+////                System.out.println("> ");
+//////                System.out.println(days);
+////            }
+//
+//            System.out.println("Size = " + rents.size());
+////            Iterator<Rent> iteratorRents = rents.iterator();
+////            while (iteratorRents.hasNext()){
+////                Rent rent = iteratorRents.next();
+////                Rent cloneRent = (Rent) rent.clone();
+////                ArrayList<String> cloneDays = new ArrayList<String>(Arrays.asList(cloneRent.getDays().clone()));
+////
+////////                String[] days = Arrays.copyOf(rent.getDays(), rent.getDays().length);
+//////                String[] days = rent.getDays().clone();
+////                ArrayList<String> lDays = null;
+//////                lDays = new ArrayList<String>(Arrays.asList(days));
+////                System.out.println("> " + lDays);
+////            }
+//
+////            for (Rent rent:rents){
+////                Rent cloneRent = rent;
+////
+////                System.out.print("> ");
+////                for (String day:cloneRent.getDays()){
+////                    System.out.print(day + " ");
+////                }
+////                System.out.println();
+////            }
+//            /////////////////////////////
+//            return null;
+//        } catch (NoSuchElementException e){
+//            return null;
+//        } catch (NullPointerException e){
+//            return null;
+////        } catch (CloneNotSupportedException e) {
+////            return null;
+//        }
+//    }
+    /////////////////////////
+//    public void getExpired(){
+//        for (Rent rentaa:rents){
+//            System.out.print("> ");
+//            //System.out.print(Arrays.toString(rent.getDays()));
+//
+//            try {
+//                String[] daysaa = rentaa.getDays();
+//                for (int dayaa=0; dayaa<daysaa.length; ++dayaa) {
+//                    System.out.print(daysaa[dayaa] + " ");
+//                }
+//            } catch (NullPointerException e){}
+//            System.out.println();
+//        }
+//    }
+    public void getExpired(){
+        for (Rent rent:rents){
+//            if (rent.getDays()!=null){
+//                System.out.println( "> " + Arrays.toString(rent.getDays()) );
+//                System.out.println( "  " + Arrays.toString(ArrayUtils.removeElement(rent.getDays(), "3.10.2016")));
+//                System.out.println( "  " + Arrays.toString(rent.getDays()) );
+////                ArrayList<Long> days = new ArrayList<Long>( Arrays. )
+//                System.out.println();
+//            } else {
+//                System.out.println("> ");
+//            }
+            //////////////////////////
+//            if (rent.getDays()!=null){
+//                System.out.println( "> " + Arrays.toString(rent.getDays()) );
+////                System.out.println( "  " + Arrays.toString(ArrayUtils.removeElement(rent.getDays(), "3.10.2016")) );
+//                String[] days = (String[]) ArrayUtils.clone(rent.getDays());
+//                Date date = new Date();
+//                for (String day : rent.getDays()){
+//                    if (convertDate(day)<date.getTime()){
+//                        days = (String[]) ArrayUtils.removeElement(days, day);
+//                        System.out.println( "  " + Arrays.toString(days) );
+//                    }
+//                }
+//            } else {
+//                System.out.println("> ");
+//            }
+            //////////////////////////
+            if (!getAvailables().equals(rent) && !getRented().equals(rent)){
+                System.err.println( ">>" + Arrays.toString(rent.getDays()) );
+            }
+            if (rent.getDays()!=null){
+                System.out.println( "> " + Arrays.toString(rent.getDays()) );
+                String[] days = (String[]) ArrayUtils.clone(rent.getDays());
+                Date date = new Date();
+                for (String day : rent.getDays()){
+                    if (convertDate(day)<date.getTime()){
+                        days = (String[]) ArrayUtils.removeElement(days, day);
+                        System.out.println( "  " + Arrays.toString(days) );
+                    }
+                }
+            } else {
+                System.out.println("> ");
+            }
         }
     }
 
