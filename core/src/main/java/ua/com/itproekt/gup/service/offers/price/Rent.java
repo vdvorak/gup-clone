@@ -28,7 +28,7 @@ public class Rent { //TODO: ConcurrentLinkedDeque<Rent>
 
     @Override
     public String toString() {
-        return "MonthOfRent{" +
+        return "Rent{" +
                 "rent=" + rent +
                 ", days=" + Arrays.toString(days) +
                 '}';
