@@ -238,12 +238,15 @@ public class OrderRestController {
             return badRequest;
         }
 
+        Profile profileOfSeller = profilesService.findById(order.getSellerId());
+
         if (order.getOrderStatus() == OrderStatus.ACCEPT) {
             oldOrder.setOrderStatus(OrderStatus.ACCEPT)
                     .setAcceptedDateEqualsToCurrentDate();
 
             orderService.findAndUpdate(oldOrder);
-            activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_ACCEPTED));
+
+            activityFeedService.createEvent(OrderRestHelper.eventPreparatorForBuyer(profileOfSeller,oldOrder, EventType.ORDER_ACCEPTED));
         }
 
         if (order.getOrderStatus() == OrderStatus.REJECTED_BY_SELLER) {
@@ -251,8 +254,8 @@ public class OrderRestController {
                     .setOrderStatus(OrderStatus.REJECTED_BY_SELLER)
                     .setRejectDateEqualsToCurrentDate();
             orderService.findAndUpdate(oldOrder);
-            //ToDo Возврат денег покупателю
-            activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_REJECTED_BY_SELLER));
+            //ToDo Return money to buyer
+            activityFeedService.createEvent(OrderRestHelper.eventPreparatorForBuyer(profileOfSeller, oldOrder, EventType.ORDER_REJECTED_BY_SELLER));
         }
 
         return ok;
@@ -260,11 +263,13 @@ public class OrderRestController {
 
 
     /**
-     * @param order - updated order. This method can only change order status to SENT and onl seller. Due to TransportCompany type
-     *              you need or not put trackNumber.
-     * @return - return 200 status code if Ok, 400 - order doesn't have track number, 401 - not authorized,
-     * 404 - not found order, 405 - if TransportCompany was SELF_PICKED - you can't use this method,
-     * 406 - if you are not seller
+     * This method can only change order status to SENT and onl seller. Due to TransportCompany type
+     * you need or not put trackNumber.
+     *
+     * @param order     - updated order.
+     * @return          - return 200 status code if Ok, 400 - order doesn't have track number, 401 - not authorized,
+     *                  404 - not found order, 405 - if TransportCompany was SELF_PICKED - you can't use this method,
+     *                  406 - if you are not seller
      */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
@@ -290,7 +295,8 @@ public class OrderRestController {
                         .setOrderStatus(OrderStatus.SENT)
                         .setSentDateEqualsToCurrentDate();
                 orderService.findAndUpdate(oldOrder);
-                activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_SENT));
+                Profile profileOfSeller = profilesService.findById(order.getSellerId());
+                activityFeedService.createEvent(OrderRestHelper.eventPreparatorForBuyer(profileOfSeller, oldOrder, EventType.ORDER_SENT));
             } else {
                 return badRequest;
             }
@@ -336,8 +342,9 @@ public class OrderRestController {
                         .setOrderStatus(OrderStatus.COMPLETED)
                         .setReceivedDateEqualsToCurrentDate();
                 orderService.findAndUpdate(oldOrder);
-                //ToDo перевести деньги на счёт продавца
-                activityFeedService.createEvent(eventPreparatorForBuyer(oldOrder, EventType.ORDER_COMPLETED));
+                //ToDo transfer money to the buyer account
+                Profile profileOfSeller = profilesService.findById(order.getSellerId());
+                activityFeedService.createEvent(OrderRestHelper.eventPreparatorForBuyer(profileOfSeller, oldOrder, EventType.ORDER_COMPLETED));
             } else {
                 return notAcceptable;
             }
@@ -515,44 +522,19 @@ public class OrderRestController {
     }
 
 
-//    private Event eventPreparatorForSeller(Order order, EventType eventType) {
-//        Profile profile = profilesService.findById(order.getBuyerId());
+//    private Event eventPreparatorForBuyer(Order order, EventType eventType) {
+//        Profile profile = profilesService.findById(order.getSellerId());
 //
 //        return new Event()
-//                .setTargetUId(order.getSellerId())
+//                .setTargetUId(order.getBuyerId())
 //                .setType(eventType)
 //                .setContentStoreId(order.getOfferId())
 //                .setContentStoreTitle(order.getOfferTitle())
 //                .setContentId(order.getId())
-//                .setMakerId(order.getBuyerId())
+//                .setMakerId(order.getSellerId())
 //                .setImgId(order.getOfferMainImageId())
 //                .setMakerName(profile.getUsername());
 //    }
 
-    private Event eventPreparatorForBuyer(Order order, EventType eventType) {
-        Profile profile = profilesService.findById(order.getSellerId());
 
-        return new Event()
-                .setTargetUId(order.getBuyerId())
-                .setType(eventType)
-                .setContentStoreId(order.getOfferId())
-                .setContentStoreTitle(order.getOfferTitle())
-                .setContentId(order.getId())
-                .setMakerId(order.getSellerId())
-                .setImgId(order.getOfferMainImageId())
-                .setMakerName(profile.getUsername());
-    }
-
-
-//    private void commentUpdaterAndEventSender(String userId, Order order, Order oldOrder, EventType eventType) {
-//
-//        OrderComment newComment = order.getOrderComments().get(0)
-//                .setDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli())
-//                .setUserId(userId);
-//
-//        oldOrder.getOrderComments().add(newComment);
-//        orderService.findAndUpdate(oldOrder);
-//
-//        activityFeedService.createEvent(eventPreparatorForSeller(oldOrder, eventType));
-//    }
 }

@@ -8,7 +8,6 @@ import ua.com.itproekt.gup.model.order.OrderComment;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.order.OrderService;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -19,10 +18,6 @@ import java.time.ZoneOffset;
  * @author Kobylyatskyy Alexander
  */
 public class OrderRestHelper {
-
-
-
-
 
 
     static Event eventPreparatorForSeller(Profile profile, Order order, EventType eventType) {
@@ -39,10 +34,18 @@ public class OrderRestHelper {
     }
 
 
+    static Event eventPreparatorForBuyer(Profile profile, Order order, EventType eventType) {
 
-
-
-
+        return new Event()
+                .setTargetUId(order.getBuyerId())
+                .setType(eventType)
+                .setContentStoreId(order.getOfferId())
+                .setContentStoreTitle(order.getOfferTitle())
+                .setContentId(order.getId())
+                .setMakerId(order.getSellerId())
+                .setImgId(order.getOfferMainImageId())
+                .setMakerName(profile.getUsername());
+    }
 
 
     static void commentUpdaterAndEventSender(Profile profile, OrderService orderService, ActivityFeedService activityFeedService, String userId, Order order, Order oldOrder, EventType eventType) {
