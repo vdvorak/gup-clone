@@ -1,27 +1,27 @@
 package ua.com.itproekt.gup.service.offers.price;
 
-import java.util.Arrays;
-
 /**
  * Используется тип списка 'ConcurrentLinkedDeque' потому-что в многопоточном режиме будут часто выполнятся операции с добавлением-удалением элементов списка
  */
 public class Rent {
 
-    private String[] days;
+    /**
+     * Хранит массив дат (на которые установливается аренда услуги)
+     */
+    private Long[] rents;
 
-    public String[] getDays() {
-        return days;
+    public Rent(){}
+
+    public Rent(Long[] rents){
+        this.rents = rents;
     }
 
-    public void setDays(String[] days) {
-        this.days = days;
+    public Long[] get() {
+        return rents;
     }
 
-    @Override
-    public String toString() {
-        return "Rent{" +
-                ", days=" + Arrays.toString(days) +
-                '}';
+    public void set(Long[] rents) {
+        this.rents = rents;
     }
 
 }

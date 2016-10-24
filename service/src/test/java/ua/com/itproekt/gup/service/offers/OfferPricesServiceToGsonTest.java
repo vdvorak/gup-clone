@@ -15,10 +15,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @see http://docs.oracle.com/javase/6/docs/api/java/util/concurrent/LinkedBlockingDeque.html
@@ -189,11 +186,11 @@ public class OfferPricesServiceToGsonTest {
         service.delRent(convertDate(rents.get("delete42").getDays())); //[-] 10.10.2016,14.10.2016
         service.addRent(convertDate(rents.get("rent4").getDays()));    //[+] 31.10.2016
         // 21.10.2016
-        System.out.println( "Availables: " + Arrays.toString(service.getAvailables().getDays()) );
-        System.out.println( "    Rented: " + Arrays.toString(service.getRented().getDays()) );
-        System.err.println( "   Expired: " + Arrays.toString(service.getExpired().getDays()) );
-        System.err.println( "Availables: " + Arrays.toString(service.getAvailables().getDays()) );
-        System.err.println( "    Rented: " + Arrays.toString(service.getRented().getDays()) );
+        System.out.println( "Availables: " + Arrays.toString(convertDate(service.getAvailables().get())) );
+        System.out.println( "    Rented: " + Arrays.toString(convertDate(service.getRented().get())) );
+        System.err.println( "   Expired: " + Arrays.toString(convertDate(service.getExpired().get())) );
+        System.err.println( "Availables: " + Arrays.toString(convertDate(service.getAvailables().get())) );
+        System.err.println( "    Rented: " + Arrays.toString(convertDate(service.getRented().get())) );
         System.out.println();
         System.out.println(service.toRent());                          //[=] 31.10.2016
         System.out.println();
@@ -239,6 +236,25 @@ public class OfferPricesServiceToGsonTest {
             longDate[date] = convertDate(strDate[date]);
         }
         return longDate;
+    }
+
+    /////////////////////////
+
+    private String[] convertDate(Long[] days) {
+        String[] strDate = new String[days.length];
+        for (int date=0; date<days.length; ++date)
+            strDate[date] = convertDate(days[date]);
+        return strDate;
+    }
+
+    private Long[] convertDate(Collection<Long> days) {
+        Long[] lDate = new Long[days.size()];
+        int date=0;
+        for (Long day : days){
+            lDate[date] = day;
+            ++date;
+        }
+        return lDate;
     }
 
 }
