@@ -449,20 +449,34 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 
 //    public String jsonRent() {
 //        StringBuilder data = new StringBuilder();
-//        int rent = 0;
-//        data.append("{\n  \"rents\": [");
-//        for (String monthOfRent : rents[1].getDays()) {
-//            if (0<rent) data.append(",");
-//            data.append("\"" + monthOfRent + "\"");
+//        int available = 0,
+//                rent = 0;
+//
+//        data.append("{\n  \"" + monthOfRents + "\": {\n");
+//        data.append("    \"availables\": [");
+//        for (Long priceOfRent : getAvailables().get()) {
+//            if (0<available) data.append(",");
+//            data.append("\"" + convertDate(priceOfRent) + "\"");
+//            ++available;
+//        }
+//        data.append("]\n");
+//        data.append("    ,\"rented\": [");
+//        for (Long priceOfRent : getRented().get()) {
+//            if (0<rent) data.append(",{");
+//            data.append("\n      {");
+//            data.append("\n        \"userId\": \"57e440464c8eda79f765532d\"");
+//            data.append("\n        ,\"day\": \"" + convertDate(priceOfRent) + "\"");
+//            data.append("\n      }");
 //            ++rent;
 //        }
-//        data.append("]\n}");
+//        data.append("\n    ]\n  }\n}");
 //        return data.toString();
 //    }
     public String jsonRent() {
         StringBuilder data = new StringBuilder();
         int available = 0,
-                rent = 0;
+                rent = 0,
+                expired = 0;
 
         data.append("{\n  \"" + monthOfRents + "\": {\n");
         data.append("    \"availables\": [");
@@ -481,7 +495,14 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
             data.append("\n      }");
             ++rent;
         }
-        data.append("\n    ]\n  }\n}");
+        data.append("\n    ]\n");
+        data.append("    ,\"expired\": [");
+        for (Long priceOfRent : getExpired().get()) {
+            if (0<expired) data.append(",");
+            data.append("\"" + convertDate(priceOfRent) + "\"");
+            ++expired;
+        }
+        data.append("]\n  }\n}");
         return data.toString();
     }
 
