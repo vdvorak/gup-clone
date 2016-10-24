@@ -5,18 +5,9 @@ import java.util.Arrays;
 /**
  * Используется тип списка 'ConcurrentLinkedDeque' потому-что в многопоточном режиме будут часто выполнятся операции с добавлением-удалением элементов списка
  */
-public class Rent { //public class Rent implements Cloneable { //TODO: ConcurrentLinkedDeque<Rent>
+public class Rent {
 
-    private Boolean rent; //FIXME: the field duplicate with Deque<Rent>..
     private String[] days;
-
-    public Boolean getRent() {
-        return rent;
-    }
-
-    public void setRent(Boolean rent) {
-        this.rent = rent;
-    }
 
     public String[] getDays() {
         return days;
@@ -26,15 +17,9 @@ public class Rent { //public class Rent implements Cloneable { //TODO: Concurren
         this.days = days;
     }
 
-//    @Override
-//    public Object clone() throws CloneNotSupportedException {
-//        return super.clone();
-//    }
-
     @Override
     public String toString() {
         return "Rent{" +
-                "rent=" + rent +
                 ", days=" + Arrays.toString(days) +
                 '}';
     }
