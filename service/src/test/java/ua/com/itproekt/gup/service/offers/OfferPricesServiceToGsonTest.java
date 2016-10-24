@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -188,11 +189,15 @@ public class OfferPricesServiceToGsonTest {
         service.delRent(convertDate(rents.get("delete42").getDays())); //[-] 10.10.2016,14.10.2016
         service.addRent(convertDate(rents.get("rent4").getDays()));    //[+] 31.10.2016
         // 21.10.2016
-//        System.out.println(service.toRent());                          //[=] 05.10.2016,...,31.10.2016
-//        StringBuilder expireds = new StringBuilder();
-//        for (String expired : service.getExpired().getDays()) expireds.append("EXPE.(" + expired + ") ");
-//        System.err.println(expireds.toString());
-        service.getExpired();
+        System.out.println( "Availables: " + Arrays.toString(service.getAvailables().getDays()) );
+        System.out.println( "    Rented: " + Arrays.toString(service.getRented().getDays()) );
+        System.err.println( "   Expired: " + Arrays.toString(service.getExpired().getDays()) );
+        System.err.println( "Availables: " + Arrays.toString(service.getAvailables().getDays()) );
+        System.err.println( "    Rented: " + Arrays.toString(service.getRented().getDays()) );
+        System.out.println();
+        System.out.println(service.toRent());                          //[=] 31.10.2016
+        System.out.println();
+        System.err.println(service);
     }
 
     // ------------------------------------------------------------------[ for Util(s) ]------------------------------------------------------------------ //
