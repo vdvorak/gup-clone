@@ -124,7 +124,7 @@ public class OfferRestController {
 
         if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             offerFO.setActive(true);
-            offerFO.setIsDeleted(false);
+            offerFO.setDeleted(false);
             offerFO.setModerationStatus(ModerationStatus.COMPLETE);
         }
 
@@ -152,7 +152,7 @@ public class OfferRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
         offerFO.setAuthorId(userId);
-        offerFO.setIsDeleted(true);
+        offerFO.setDeleted(true);
 
 
         return new ResponseEntity<>(offersService.getListOfPrivateOfferInfoWithOptions(offerFO), HttpStatus.OK);
@@ -422,7 +422,7 @@ public class OfferRestController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        offer.setIsDeleted(true);
+        offer.setDeleted(true);
 
         offersService.edit(offer);
 
