@@ -79,6 +79,7 @@ public class Offer {
     private Set<TransportCompany>   availableShippingMethods;
     private Set<PaymentMethod>      availablePaymentMethods;
     private PaidServices            paidServices;
+    private ProductReturnsTerms     productReturnsTerms;        //variant of the product return terms
 
     private ModerationStatus        moderationStatus;
     private Long                    lastModerationDate;
@@ -391,12 +392,21 @@ public class Offer {
         return this;
     }
 
+    public ProductReturnsTerms getProductReturnsTerms() {
+        return productReturnsTerms;
+    }
+
+    public Offer setProductReturnsTerms(ProductReturnsTerms productReturnsTerms) {
+        this.productReturnsTerms = productReturnsTerms;
+        return this;
+    }
+
     public boolean isDeleted() {
         return deleted;
     }
 
-    public Offer setIsDeleted(boolean isDeleted) {
-        this.deleted = isDeleted;
+    public Offer setDeleted(boolean deleted) {
+        this.deleted = deleted;
         return this;
     }
 
@@ -410,6 +420,7 @@ public class Offer {
                 ", createdDate=" + createdDate +
                 ", reservation=" + reservation +
                 ", views=" + views +
+                ", monthOfPrices=" + monthOfPrices +
                 ", rent=" + rent +
                 ", seoUrl='" + seoUrl + '\'' +
                 ", seoKey='" + seoKey + '\'' +
@@ -432,6 +443,7 @@ public class Offer {
                 ", availableShippingMethods=" + availableShippingMethods +
                 ", availablePaymentMethods=" + availablePaymentMethods +
                 ", paidServices=" + paidServices +
+                ", productReturnsTerms=" + productReturnsTerms +
                 ", moderationStatus=" + moderationStatus +
                 ", lastModerationDate=" + lastModerationDate +
                 ", moderationMessage=" + moderationMessage +

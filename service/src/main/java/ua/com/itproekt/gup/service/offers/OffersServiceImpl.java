@@ -90,7 +90,7 @@ public class OffersServiceImpl implements OffersService {
                 .setPriceCanBeNegotiated(offer.getPriceCanBeNegotiated())
                 .setUsed(offer.getUsed())
                 .setActive(Boolean.TRUE)
-                .setIsDeleted(false)
+                .setDeleted(false)
                 .setAddress(offer.getAddress())
                 .setCurrency(offer.getCurrency())
                 .setCanBeReserved(offer.getCanBeReserved())
@@ -181,7 +181,7 @@ public class OffersServiceImpl implements OffersService {
                 .setAvailableShippingMethods(oldOffer.getAvailableShippingMethods())
                 .setAvailablePaymentMethods(oldOffer.getAvailablePaymentMethods())
                 .setShowOrdersCount(oldOffer.isShowOrdersCount())
-                .setIsDeleted(oldOffer.isDeleted())
+                .setDeleted(oldOffer.isDeleted())
                 .setPaidServices(oldOffer.getPaidServices())
                 .setMonthOfPrices(oldOffer.getMonthOfPrices());
 
