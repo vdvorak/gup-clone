@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.service.offers;
 
 import org.apache.commons.lang.ArrayUtils;
+import ua.com.itproekt.gup.service.offers.price.Available;
 import ua.com.itproekt.gup.service.offers.price.Rent;
 
 import java.util.Arrays;
@@ -10,17 +11,19 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 /**
  * Используется тип списка 'ConcurrentLinkedDeque' потому-что в многопоточном режиме будут часто выполнятся операции с добавлением-удалением элементов списка
+ *
+ * Закрываем библиотечные методы ('add','get') для внешнего доступа через механизм делигирования..
  */
-public class Rents extends ConcurrentLinkedDeque<Rent> {
+public class Rents extends ConcurrentLinkedDeque<Available> {
 
-    private Rent availables,
+    private Available availables,
             rented,
             expired;
 
     public Rents(){
-        add(new Rent());
-        addFirst(new Rent());
-        addLast(new Rent());
+        add(new Available());
+        addFirst(new Available());
+        addLast(new Available());
         init();
     }
 
@@ -49,7 +52,7 @@ public class Rents extends ConcurrentLinkedDeque<Rent> {
         }
     }
 
-    public Rent getAvailables(){
+    public Available getAvailables(){
         return availables;
     }
 
@@ -72,7 +75,7 @@ public class Rents extends ConcurrentLinkedDeque<Rent> {
         }
     }
 
-    public Rent getRented(){
+    public Available getRented(){
         return rented;
     }
 
@@ -93,7 +96,7 @@ public class Rents extends ConcurrentLinkedDeque<Rent> {
         Long lDate = date.getTime();
 
         try {
-            for (Rent expired:this){
+            for (Available expired:this){
             /*
              * 'Expired'
              */
@@ -147,7 +150,7 @@ public class Rents extends ConcurrentLinkedDeque<Rent> {
         }
     }
 
-    public Rent getExpired(){
+    public Available getExpired(){
         return expired;
     }
 
