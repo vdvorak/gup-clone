@@ -117,13 +117,13 @@ public class OfferPricesServiceToGsonTest {
     public void testIsRented(){
         System.out.println("--------------------[ testIsRented ]");
         service.addPrices(priceRents.get("scheme4").getPrice(), convertDate(priceRents.get("scheme4").getDays()));
-        service.addRent(convertDate(rents.get("delete41").getDays()));
-        service.addRent(convertDate(rents.get("delete42").getDays()));
+        service.addRent(convertDate(rents.get("rent51").getDays()));
+        service.addRent(convertDate(rents.get("rent52").getDays()));
 
         System.out.println("IsRented [31.10.2016] = " + service.isRent(convertDate(rents.get("rent4").getDays())[0]));
-        System.out.println("IsRented [31.10.2016,14.10.2016] = " + service.isRent(convertDate(rents.get("notfound").getDays())));
-        System.out.println("IsRented [05.10.2016] = " + service.isRent(convertDate(rents.get("delete41").getDays())[0]));
-        System.out.println("IsRented [10.10.2016,14.10.2016] = " + service.isRent(convertDate(rents.get("delete42").getDays())));
+        System.out.println("IsRented [16.10.2016,31.10.2016] = " + service.isRent(convertDate(rents.get("notfound").getDays())));
+        System.out.println("IsRented [26.10.2016] = " + service.isRent(convertDate(rents.get("rent51").getDays())[0]));
+        System.out.println("IsRented [28.10.2016,30.10.2016] = " + service.isRent(convertDate(rents.get("rent52").getDays())));
         System.out.println(service.toRent());
     }
 
@@ -180,21 +180,40 @@ public class OfferPricesServiceToGsonTest {
     public void testExpired(){
         System.out.println("--------------------[ testExpired ]");
         service.addPrices(priceRents.get("scheme4").getPrice(), convertDate(priceRents.get("scheme4").getDays()));
-        service.addRent(convertDate(rents.get("delete41").getDays())); //[+] 05.10.2016
-        service.addRent(convertDate(rents.get("delete42").getDays())); //[+] 10.10.2016,14.10.2016
+        service.addRent(convertDate(rents.get("rent51").getDays())); //[+] 26.10.2016
+        service.addRent(convertDate(rents.get("rent52").getDays())); //[+] 28.10.2016,30.10.2016
         //
-        service.delRent(convertDate(rents.get("delete42").getDays())); //[-] 10.10.2016,14.10.2016
-        service.addRent(convertDate(rents.get("rent4").getDays()));    //[+] 31.10.2016
+        service.delRent(convertDate(rents.get("rent52").getDays())); //[-] 28.10.2016,30.10.2016
+        service.addRent(convertDate(rents.get("rent4").getDays()));  //[+] 31.10.2016
         // 21.10.2016
-        System.out.println( "Availables: " + Arrays.toString(convertDate(service.getAvailables().get())) );
-        System.out.println( "    Rented: " + Arrays.toString(convertDate(service.getRented().get())) );
-        System.err.println( "   Expired: " + Arrays.toString(convertDate(service.getExpired().get())) );
-        System.err.println( "Availables: " + Arrays.toString(convertDate(service.getAvailables().get())) );
-        System.err.println( "    Rented: " + Arrays.toString(convertDate(service.getRented().get())) );
+        System.out.println( "Availables: " + Arrays.toString(convertDate(service.getRents().getAvailables().get())) );
+        System.out.println( "    Rented: " + Arrays.toString(convertDate(service.getRents().getRented().get())) );
+        System.err.println("   Expired: " + Arrays.toString(convertDate(service.getRents().getExpired().get())));
+        System.err.println( "Availables: " + Arrays.toString(convertDate(service.getRents().getAvailables().get())) );
+        System.err.println( "    Rented: " + Arrays.toString(convertDate(service.getRents().getRented().get())) );
         System.out.println();
         System.out.println(service.toRent());                          //[=] 31.10.2016
         System.out.println();
         System.err.println(service);
+    }
+
+    @Test
+    public void testExpired2(){
+        System.out.println("--------------------[ testExpired (2) ]");
+        service.addPrices(priceRents.get("scheme4").getPrice(), convertDate(priceRents.get("scheme4").getDays()));
+        service.addRent(convertDate(rents.get("rent51").getDays())); //[+] 26.10.2016
+        service.addRent(convertDate(rents.get("rent52").getDays())); //[+] 28.10.2016,30.10.2016
+        //
+        service.delRent(convertDate(rents.get("rent52").getDays())); //[-] 28.10.2016,30.10.2016
+        service.addRent(convertDate(rents.get("rent4").getDays()));  //[+] 31.10.2016
+        // 21.10.2016
+        System.out.println( "   Expired: " + Arrays.toString(convertDate(service.getRents().getExpired().get())) );
+        System.out.println( "Availables: " + Arrays.toString(convertDate(service.getRents().getAvailables().get())) );
+        System.out.println( "    Rented: " + Arrays.toString(convertDate(service.getRents().getRented().get())) );
+        System.out.println();
+        System.err.println(service.toJson());
+        System.err.println();
+        System.err.println(service.jsonRent());
     }
 
     // ------------------------------------------------------------------[ for Util(s) ]------------------------------------------------------------------ //
