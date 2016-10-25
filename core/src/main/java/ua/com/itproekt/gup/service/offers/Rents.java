@@ -8,6 +8,9 @@ import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
+/**
+ * Используется тип списка 'ConcurrentLinkedDeque' потому-что в многопоточном режиме будут часто выполнятся операции с добавлением-удалением элементов списка
+ */
 public class Rents extends ConcurrentLinkedDeque<Rent> {
 
     private Rent availables,

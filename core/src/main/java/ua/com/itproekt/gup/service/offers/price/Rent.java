@@ -1,7 +1,7 @@
 package ua.com.itproekt.gup.service.offers.price;
 
 /**
- * Используется тип списка 'ConcurrentLinkedDeque' потому-что в многопоточном режиме будут часто выполнятся операции с добавлением-удалением элементов списка
+ * ...
  */
 public class Rent {
 
