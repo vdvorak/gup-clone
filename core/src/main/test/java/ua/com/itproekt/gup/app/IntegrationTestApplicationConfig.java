@@ -1,4 +1,4 @@
-package java.ua.com.itproekt.gup.app;
+package ua.com.itproekt.gup.app;
 
 import com.mongodb.Mongo;
 import cz.jirutka.spring.embedmongo.EmbeddedMongoBuilder;
