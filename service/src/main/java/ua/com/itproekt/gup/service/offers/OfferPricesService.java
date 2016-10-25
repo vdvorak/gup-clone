@@ -489,8 +489,8 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         data.append("    ,\"rented\": [");
         for (Long priceOfRent : getRented().get()) {
             if (0<rent) data.append(",{");
-            data.append("\n      {");
-            data.append("\n        \"userId\": \"57e440464c8eda79f765532d\"");
+            else data.append("\n      {");
+            data.append("\n        \"orderId\": \"57e440464c8eda79f765532d\"");
             data.append("\n        ,\"day\": \"" + convertDate(priceOfRent) + "\"");
             data.append("\n      }");
             ++rent;
@@ -498,11 +498,14 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         data.append("\n    ]\n");
         data.append("    ,\"expired\": [");
         for (Long priceOfRent : getExpired().get()) {
-            if (0<expired) data.append(",");
-            data.append("\"" + convertDate(priceOfRent) + "\"");
+            if (0<expired) data.append(",{");
+            else data.append("\n      {");
+            data.append("\n        \"orderId\": \"57e440464c8eda79f765532d\"");
+            data.append("\n        ,\"day\": \"" + convertDate(priceOfRent) + "\"");
+            data.append("\n      }");
             ++expired;
         }
-        data.append("]\n  }\n}");
+        data.append("\n    ]\n  }\n}");
         return data.toString();
     }
 
@@ -526,14 +529,27 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *         "rents": {
      *             "availables": ["11.10.2016", "12.10.2016", "13.10.2016", "17.10.2016", "18.10.2016", "19.10.2016", "20.10.2016", "21.10.2016", "24.10.2016", "25.10.2016", "26.10.2016", "27.10.2016", "28.10.2016", "31.10.2016", "1.10.2016", "2.10.2016", "8.10.2016", "9.10.2016", "15.10.2016", "16.10.2016", "22.10.2016", "23.10.2016", "29.10.2016", "30.10.2016", "3.10.2016", "4.10.2016", "6.10.2016", "7.10.2016"],
      *             "rented": [{
-     *                 "userId": "57e440464c8eda79f765532d",
+     *                 "orderId": "57e440464c8eda79f765532d",
      *                 "day": "5.10.2016"
      *             }, {
-     *                 "userId": "57e440464c8eda79f765532d",
+     *                 "orderId": "57e440464c8eda79f765532d",
      *                 "day": "10.10.2016"
      *             }, {
-     *                 "userId": "57e440464c8eda79f765532d",
+     *                 "orderId": "57e440464c8eda79f765532d",
      *                 "day": "14.10.2016"
+     *             }],
+     *             "expired": [{
+     *                 "orderId": "",
+     *                 "day": "1.10.2016"
+     *             }, {
+     *                 "orderId": "",
+     *                 "day": "2.10.2016"
+     *             }, {
+     *                 "orderId": "57e440464c8eda79f765532d",
+     *                 "day": "3.10.2016"
+     *             }, {
+     *                 "orderId": "57e440464c8eda79f765532d",
+     *                 "day": "4.10.2016"
      *             }]
      *         },
      *         "orders": [{
