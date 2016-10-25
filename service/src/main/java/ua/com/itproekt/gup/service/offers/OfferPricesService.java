@@ -202,19 +202,19 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
                 rented = new TreeSet<Long>();
 
         try {
-            if (getAvailables().getDays()==null){
+            if (getAvailables().get()==null){
                 for (Price prices : this)
                     for (Long price : prices) availables.add(price);
-                getRented().setDays(convertDate(days));
+                getRented().set(days);
             } else {
-                availables.addAll(Arrays.asList(convertDate(getAvailables().getDays())));
-                rented.addAll(Arrays.asList(convertDate(getRented().getDays())));
+                availables.addAll(Arrays.asList(getAvailables().get()));
+                rented.addAll(Arrays.asList(getRented().get()));
                 rented.addAll(Arrays.asList(days));
-                getRented().setDays(convertDate(convertDate(rented)));
+                getRented().set(convertDate(rented));
             }
 
             availables.removeAll(Arrays.asList(days)); //FIXME: copy old list into new list..
-            getAvailables().setDays(convertDate(convertDate(availables)));
+            getAvailables().set(convertDate(availables));
         } catch (NullPointerException e){
             e.printStackTrace();
         }
@@ -264,12 +264,12 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
     public Integer delRent(Long[] days) {
-        Collection<Long> availables = new TreeSet<Long>(Arrays.asList(convertDate(getAvailables().getDays()))),
-                rented = new TreeSet<Long>(Arrays.asList(convertDate(getRented().getDays())));
+        Collection<Long> availables = new TreeSet<Long>(Arrays.asList(getAvailables().get())),
+                rented = new TreeSet<Long>(Arrays.asList(getRented().get()));
         boolean isAvailables = availables.addAll(Arrays.asList(days)),
                 isRented = rented.removeAll(Arrays.asList(days));
-        getAvailables().setDays(convertDate(convertDate(availables)));
-        getRented().setDays(convertDate(convertDate(rented)));
+        getAvailables().set(convertDate(availables));
+        getRented().set(convertDate(rented));
 
         return (isAvailables && isRented) ? days.length : 0;
     }
@@ -290,11 +290,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
     public Boolean isRent(Long day) {
-        return Arrays.asList(convertDate(getRented().getDays())).contains(day);
+        return Arrays.asList(getRented().get()).contains(day);
     }
 
     public Boolean isRent(Long[] days) {
-        return Arrays.asList(convertDate(getRented().getDays())).containsAll(Arrays.asList(days));
+        return Arrays.asList(getRented().get()).containsAll(Arrays.asList(days));
     }
 
     public Long getPrice(Long day){
@@ -360,129 +360,78 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
-//    public Rent getExpired(){
-////        Collection<Long> availables = new TreeSet<Long>(Arrays.asList(convertDate(getAvailables().getDays()))),
-////                rented = new TreeSet<Long>(Arrays.asList(convertDate(getRented().getDays())));
-////        boolean isAvailables = availables.addAll(Arrays.asList(days)),
-////                isRented = rented.removeAll(Arrays.asList(days));
-////        getAvailables().setDays(convertDate(convertDate(availables)));
-////        getRented().setDays(convertDate(convertDate(rented)));
-//
-//
-//        try {
-////            for (Rent rent:rents)
-////                if (rents.contains(getAvailables()) && rents.contains(getRented())) return rent;
-//            /////////////////////////////
-////            for (Rent rent:rents){
-////////                System.out.println(Arrays.toString(rent.getDays()));
-////                Arrays.asList(rent.getDays()); //ArrayList<String> days = new ArrayList<String>(Arrays.asList(rent.getDays()));
-//////                ArrayList<String> checkDays;
-////
-////                System.out.println("> ");
-//////                System.out.println(days);
-////            }
-//
-//            System.out.println("Size = " + rents.size());
-////            Iterator<Rent> iteratorRents = rents.iterator();
-////            while (iteratorRents.hasNext()){
-////                Rent rent = iteratorRents.next();
-////                Rent cloneRent = (Rent) rent.clone();
-////                ArrayList<String> cloneDays = new ArrayList<String>(Arrays.asList(cloneRent.getDays().clone()));
-////
-////////                String[] days = Arrays.copyOf(rent.getDays(), rent.getDays().length);
-//////                String[] days = rent.getDays().clone();
-////                ArrayList<String> lDays = null;
-//////                lDays = new ArrayList<String>(Arrays.asList(days));
-////                System.out.println("> " + lDays);
-////            }
-//
-////            for (Rent rent:rents){
-////                Rent cloneRent = rent;
-////
-////                System.out.print("> ");
-////                for (String day:cloneRent.getDays()){
-////                    System.out.print(day + " ");
-////                }
-////                System.out.println();
-////            }
-//            /////////////////////////////
-//            return null;
-//        } catch (NoSuchElementException e){
-//            return null;
-//        } catch (NullPointerException e){
-//            return null;
-////        } catch (CloneNotSupportedException e) {
-////            return null;
-//        }
-//    }
-    /////////////////////////
-//    public void getExpired(){
-//        for (Rent rentaa:rents){
-//            System.out.print("> ");
-//            //System.out.print(Arrays.toString(rent.getDays()));
-//
-//            try {
-//                String[] daysaa = rentaa.getDays();
-//                for (int dayaa=0; dayaa<daysaa.length; ++dayaa) {
-//                    System.out.print(daysaa[dayaa] + " ");
-//                }
-//            } catch (NullPointerException e){}
-//            System.out.println();
-//        }
-//    }
-    public void getExpired(){
-        for (Rent rent:rents){
-//            if (rent.getDays()!=null){
-//                System.out.println( "> " + Arrays.toString(rent.getDays()) );
-//                System.out.println( "  " + Arrays.toString(ArrayUtils.removeElement(rent.getDays(), "3.10.2016")));
-//                System.out.println( "  " + Arrays.toString(rent.getDays()) );
-////                ArrayList<Long> days = new ArrayList<Long>( Arrays. )
-//                System.out.println();
-//            } else {
-//                System.out.println("> ");
-//            }
-            //////////////////////////
-//            if (rent.getDays()!=null){
-//                System.out.println( "> " + Arrays.toString(rent.getDays()) );
-////                System.out.println( "  " + Arrays.toString(ArrayUtils.removeElement(rent.getDays(), "3.10.2016")) );
-//                String[] days = (String[]) ArrayUtils.clone(rent.getDays());
-//                Date date = new Date();
-//                for (String day : rent.getDays()){
-//                    if (convertDate(day)<date.getTime()){
-//                        days = (String[]) ArrayUtils.removeElement(days, day);
-//                        System.out.println( "  " + Arrays.toString(days) );
-//                    }
-//                }
-//            } else {
-//                System.out.println("> ");
-//            }
-            //////////////////////////
-            if (!getAvailables().equals(rent) && !getRented().equals(rent)){
-                System.err.println( ">>" + Arrays.toString(rent.getDays()) );
-            }
-            if (rent.getDays()!=null){
-                System.out.println( "> " + Arrays.toString(rent.getDays()) );
-                String[] days = (String[]) ArrayUtils.clone(rent.getDays());
-                Date date = new Date();
-                for (String day : rent.getDays()){
-                    if (convertDate(day)<date.getTime()){
-                        days = (String[]) ArrayUtils.removeElement(days, day);
-                        System.out.println( "  " + Arrays.toString(days) );
+    public Rent getExpired(){
+        Long[] availables = (Long[]) ArrayUtils.clone(getAvailables().get()),
+                renteds = (Long[]) ArrayUtils.clone(getRented().get()),
+                expireds = null;
+        Date date = new Date();
+
+        try {
+            for (Rent expired:rents){
+            /*
+             * 'Expired'
+             */
+                if (!getAvailables().equals(expired) && !getRented().equals(expired)){
+                /*
+                 * 'Availables'
+                 */
+                    if (getAvailables().get()!=null){
+                    /*
+                     * Найти все ID-элементов дял совпадающих дат, И сформировать новый суб-массив (по условию найденных ID...)
+                     */
+                        for (Long day : getAvailables().get()){
+                            if (day<date.getTime()){
+                                availables = (Long[]) ArrayUtils.removeElement(availables, day);
+                                expireds = (Long[]) ArrayUtils.add(expireds, day);
+                            }
+                        }
+                        if (expireds!=null){
+                            Arrays.sort( availables );
+                            Arrays.sort( expireds );
+                            getAvailables().set(availables);
+                            expired.set(expireds);
+                        }
                     }
+                /*
+                 * 'Rented'
+                 */
+                    if (getRented().get()!=null){
+                    /*
+                     * Найти все ID-элементов дял совпадающих дат, И сформировать новый суб-массив (по условию найденных ID...)
+                     */
+                        for (Long day : getRented().get()){
+                            if (day<date.getTime()){
+                                renteds = (Long[]) ArrayUtils.removeElement(renteds, day);
+                                expireds = (Long[]) ArrayUtils.add(expireds, day);
+                            }
+                        }
+                        if (expireds!=null){
+                            Arrays.sort( availables );
+                            Arrays.sort( expireds );
+                            getRented().set(renteds);
+                            expired.set(expireds);
+                        }
+                    }
+                    return expired;
                 }
-            } else {
-                System.out.println("> ");
             }
+            return null;
+        } catch (NoSuchElementException e){
+            return null;
+        } catch (NullPointerException e){
+            return null;
         }
     }
 
     @Override
     public String toString() throws NoSuchElementException {
         StringBuilder data = new StringBuilder();
-        List<Long> isRents = new LinkedList<Long>();
-        if (getRented().getDays()!=null) for (String day : getRented().getDays()) isRents.add(convertDate(day));
+        List<Long> isRents = new LinkedList<Long>(),
+                isExpireds = new LinkedList<Long>();
+        if (getExpired().get()!=null) for (Long day : getExpired().get()) isExpireds.add(day);
+        if (getRented().get()!=null) for (Long day : getRented().get()) isRents.add(day);
         for (Price prices : this) {
-            for (Long price : prices) data.append(prices.get() + (isRents.contains(price)?"|RENT":"") +"(" + convertDate(price) + ") ");
+            for (Long price : prices) data.append(prices.get() + (isExpireds.contains(price)?"|EXPIRED":isRents.contains(price)?"|RENT":"") +"(" + convertDate(price) + ") ");
             if (!prices.isEmpty()) data.append("\n");
         }
         return data.toString();
@@ -491,46 +440,70 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
     public String toRent() {
         StringBuilder data = new StringBuilder();
         try {
-            for (String rent : getRented().getDays()) data.append("TRUE(" + rent + ") ");
+            for (Long rent : getRented().get()) data.append("TRUE(" + convertDate(rent) + ") ");
             data.append("\n");
-            for (String rent : getAvailables().getDays()) data.append("FALSE(" + rent + ") ");
+            for (Long rent : getAvailables().get()) data.append("FALSE(" + convertDate(rent) + ") ");
         } catch (NullPointerException e){ e.printStackTrace(); }
         return data.toString();
     }
 
 //    public String jsonRent() {
 //        StringBuilder data = new StringBuilder();
-//        int rent = 0;
-//        data.append("{\n  \"rents\": [");
-//        for (String monthOfRent : rents[1].getDays()) {
-//            if (0<rent) data.append(",");
-//            data.append("\"" + monthOfRent + "\"");
+//        int available = 0,
+//                rent = 0;
+//
+//        data.append("{\n  \"" + monthOfRents + "\": {\n");
+//        data.append("    \"availables\": [");
+//        for (Long priceOfRent : getAvailables().get()) {
+//            if (0<available) data.append(",");
+//            data.append("\"" + convertDate(priceOfRent) + "\"");
+//            ++available;
+//        }
+//        data.append("]\n");
+//        data.append("    ,\"rented\": [");
+//        for (Long priceOfRent : getRented().get()) {
+//            if (0<rent) data.append(",{");
+//            data.append("\n      {");
+//            data.append("\n        \"userId\": \"57e440464c8eda79f765532d\"");
+//            data.append("\n        ,\"day\": \"" + convertDate(priceOfRent) + "\"");
+//            data.append("\n      }");
 //            ++rent;
 //        }
-//        data.append("]\n}");
+//        data.append("\n    ]\n  }\n}");
 //        return data.toString();
 //    }
     public String jsonRent() {
         StringBuilder data = new StringBuilder();
         int available = 0,
-                rent = 0;
+                rent = 0,
+                expired = 0;
 
         data.append("{\n  \"" + monthOfRents + "\": {\n");
         data.append("    \"availables\": [");
-        for (String monthOfRent : getAvailables().getDays()) {
+        for (Long priceOfRent : getAvailables().get()) {
             if (0<available) data.append(",");
-            data.append("\"" + monthOfRent + "\"");
+            data.append("\"" + convertDate(priceOfRent) + "\"");
             ++available;
         }
         data.append("]\n");
         data.append("    ,\"rented\": [");
-        for (String monthOfRent : getRented().getDays()) {
+        for (Long priceOfRent : getRented().get()) {
             if (0<rent) data.append(",{");
-            data.append("\n      {");
-            data.append("\n        \"userId\": \"57e440464c8eda79f765532d\"");
-            data.append("\n        ,\"day\": \"" + monthOfRent + "\"");
+            else data.append("\n      {");
+            data.append("\n        \"orderId\": \"57e440464c8eda79f765532d\"");
+            data.append("\n        ,\"day\": \"" + convertDate(priceOfRent) + "\"");
             data.append("\n      }");
             ++rent;
+        }
+        data.append("\n    ]\n");
+        data.append("    ,\"expired\": [");
+        for (Long priceOfRent : getExpired().get()) {
+            if (0<expired) data.append(",{");
+            else data.append("\n      {");
+            data.append("\n        \"orderId\": \"57e440464c8eda79f765532d\"");
+            data.append("\n        ,\"day\": \"" + convertDate(priceOfRent) + "\"");
+            data.append("\n      }");
+            ++expired;
         }
         data.append("\n    ]\n  }\n}");
         return data.toString();
@@ -556,14 +529,27 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *         "rents": {
      *             "availables": ["11.10.2016", "12.10.2016", "13.10.2016", "17.10.2016", "18.10.2016", "19.10.2016", "20.10.2016", "21.10.2016", "24.10.2016", "25.10.2016", "26.10.2016", "27.10.2016", "28.10.2016", "31.10.2016", "1.10.2016", "2.10.2016", "8.10.2016", "9.10.2016", "15.10.2016", "16.10.2016", "22.10.2016", "23.10.2016", "29.10.2016", "30.10.2016", "3.10.2016", "4.10.2016", "6.10.2016", "7.10.2016"],
      *             "rented": [{
-     *                 "userId": "57e440464c8eda79f765532d",
+     *                 "orderId": "57e440464c8eda79f765532d",
      *                 "day": "5.10.2016"
      *             }, {
-     *                 "userId": "57e440464c8eda79f765532d",
+     *                 "orderId": "57e440464c8eda79f765532d",
      *                 "day": "10.10.2016"
      *             }, {
-     *                 "userId": "57e440464c8eda79f765532d",
+     *                 "orderId": "57e440464c8eda79f765532d",
      *                 "day": "14.10.2016"
+     *             }],
+     *             "expired": [{
+     *                 "orderId": "",
+     *                 "day": "1.10.2016"
+     *             }, {
+     *                 "orderId": "",
+     *                 "day": "2.10.2016"
+     *             }, {
+     *                 "orderId": "57e440464c8eda79f765532d",
+     *                 "day": "3.10.2016"
+     *             }, {
+     *                 "orderId": "57e440464c8eda79f765532d",
+     *                 "day": "4.10.2016"
      *             }]
      *         },
      *         "orders": [{

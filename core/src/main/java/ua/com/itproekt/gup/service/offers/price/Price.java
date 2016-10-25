@@ -4,16 +4,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Price extends ConcurrentLinkedQueue<Long> implements Comparable<Price> {
 
+    /**
+     * Хранит дату (на которую установливается цена услуги)
+     */
+    private Long price;
+
     public Price(){}
 
     public Price(Long price){
         this.price = price;
     }
-
-    /**
-     * Хранит дату (на которую установливается цена услуги)
-     */
-    private Long price;
 
     public Long get() {
         return price;

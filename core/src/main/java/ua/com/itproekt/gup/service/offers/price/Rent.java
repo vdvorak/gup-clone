@@ -1,42 +1,27 @@
 package ua.com.itproekt.gup.service.offers.price;
 
-import java.util.Arrays;
-
 /**
  * Используется тип списка 'ConcurrentLinkedDeque' потому-что в многопоточном режиме будут часто выполнятся операции с добавлением-удалением элементов списка
  */
-public class Rent { //public class Rent implements Cloneable { //TODO: ConcurrentLinkedDeque<Rent>
+public class Rent {
 
-    private Boolean rent; //FIXME: the field duplicate with Deque<Rent>..
-    private String[] days;
+    /**
+     * Хранит массив дат (на которые установливается аренда услуги)
+     */
+    private Long[] rents;
 
-    public Boolean getRent() {
-        return rent;
+    public Rent(){}
+
+    public Rent(Long[] rents){
+        this.rents = rents;
     }
 
-    public void setRent(Boolean rent) {
-        this.rent = rent;
+    public Long[] get() {
+        return rents;
     }
 
-    public String[] getDays() {
-        return days;
-    }
-
-    public void setDays(String[] days) {
-        this.days = days;
-    }
-
-//    @Override
-//    public Object clone() throws CloneNotSupportedException {
-//        return super.clone();
-//    }
-
-    @Override
-    public String toString() {
-        return "Rent{" +
-                "rent=" + rent +
-                ", days=" + Arrays.toString(days) +
-                '}';
+    public void set(Long[] rents) {
+        this.rents = rents;
     }
 
 }
