@@ -46,26 +46,26 @@
             "7.10.2016"
           ],
           "rented": [{
-              "orderId": "57e440464c8eda79f765532d",
+              "userId": "57e440464c8eda79f765532d",
               "day": "5.10.2016"
             }, {
-              "orderId": "57e440464c8eda79f765532d",
+              "userId": "57e440464c8eda79f765532d",
               "day": "10.10.2016"
             }, {
-              "orderId": "57e440464c8eda79f765532d",
+              "userId": "57e440464c8eda79f765532d",
               "day": "14.10.2016"
             }],
           "expired": [{
-            "orderId": "",
+            "userId": "",
             "day": "1.10.2016"
             }, {
-              "orderId": "",
+              "userId": "",
             "day": "2.10.2016"
             }, {
-              "orderId": "57e440464c8eda79f765532d",
+              "userId": "57e440464c8eda79f765532d",
             "day": "3.10.2016"
             }, {
-              "orderId": "57e440464c8eda79f765532d",
+              "userId": "57e440464c8eda79f765532d",
             "day": "4.10.2016"
             }]
 		},

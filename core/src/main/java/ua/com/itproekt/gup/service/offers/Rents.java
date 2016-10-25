@@ -88,7 +88,7 @@ public class Rents extends ConcurrentLinkedDeque<Available> {
      *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
-    public void setExpired(){
+    public void setExpired(){ //FIXME: EXPIRED(10.10.2016) EXPIRED(14.10.2016)
         Long[] availables = (Long[]) ArrayUtils.clone(getAvailables().get()),
                 renteds = (Long[]) ArrayUtils.clone(getRented().get()),
                 expireds = null;
