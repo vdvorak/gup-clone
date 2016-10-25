@@ -1,9 +1,9 @@
-package ua.com.itproekt.gup.dao;
-
-
-
-public class OfferRepositoryTest {
-
-
-
-}
+//package ua.com.itproekt.gup.dao;
+//
+//
+//
+//public class OfferRepositoryTest {
+//
+//
+//
+//}
