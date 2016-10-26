@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 @Repository
 public class OfferRepositoryImpl implements OfferRepository {
 
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -282,4 +283,11 @@ public class OfferRepositoryImpl implements OfferRepository {
     }
 
 
+    public MongoTemplate getMongoTemplate() {
+        return mongoTemplate;
+    }
+
+    public void setMongoTemplate(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 }
