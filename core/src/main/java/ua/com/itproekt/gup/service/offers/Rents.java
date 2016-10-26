@@ -2,7 +2,6 @@ package ua.com.itproekt.gup.service.offers;
 
 import org.apache.commons.lang.ArrayUtils;
 import ua.com.itproekt.gup.service.offers.price.Available;
-import ua.com.itproekt.gup.service.offers.price.Rent;
 
 import java.util.Arrays;
 import java.util.Date;
