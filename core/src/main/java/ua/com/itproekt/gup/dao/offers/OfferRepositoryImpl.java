@@ -283,11 +283,8 @@ public class OfferRepositoryImpl implements OfferRepository {
     }
 
 
-    public MongoTemplate getMongoTemplate() {
-        return mongoTemplate;
-    }
-
-    public void setMongoTemplate(MongoTemplate mongoTemplate) {
-        this.mongoTemplate = mongoTemplate;
+    @Override
+    public void setMongoTemplateInstanceForTests(MongoTemplate mongoTemplateInstanceForTests) {
+        this.mongoTemplate = mongoTemplateInstanceForTests;
     }
 }
