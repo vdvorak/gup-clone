@@ -3,7 +3,7 @@ package ua.com.itproekt.gup.service.offers.price;
 /**
  * ...
  */
-public class Available implements Rent {
+public class Available {
 
     /**
      * Хранит массив дат (на которые установливается аренда услуги)

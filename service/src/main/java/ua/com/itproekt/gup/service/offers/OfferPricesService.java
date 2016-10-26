@@ -359,12 +359,13 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         data.append("    \"availables\": [");
         for (Long availableDays : getRents().getAvailables().get()) {
             if (0<available) data.append(",");
-            data.append("\"" + convertDate(availableDays) + "\""); //FIXME: {"day": "26.10.2016", "prepaid": null, "userId": null}
+            data.append("\"" + convertDate(availableDays) + "\""); //FIXME: {"day": "26.10.2016", "isPrepaid": true, "dayPrepaid": null, "user": null}
             ++available;
         }
         data.append("]\n");
         data.append("    ,\"rented\": [");
-        for (Long rentedDays : getRents().getRented().get()) { //FIXME: {"day": "27.10.2016", "prepaid": "21.10.2016", "userId": "57e440464c8eda79f765532d"} /// предоплата вносится на срок один-день, либо она есть либо ее нет (и всегда указывается срок до которого она действительна - начиная с текущего момента предоплаты и даже если срока остается менее одного дня = но при условии что допустимый срок предоплаты ЕСТЬ-остается..)
+        for (Long rentedDays : getRents().getRented().get()) { //FIXME: {"day": "27.10.2016", "isPrepaid": true, "dayPrepaid": "21.10.2016", "user": {"userId": "57e440464c8eda79f765532d", "fullName": "57e440464c8eda79f765532d", "imgID": "57e440464c8eda79f765532d"} }
+                                                               //FIXME: предоплата вносится на срок один-день, либо она есть либо ее нет (и всегда указывается срок до которого она действительна - начиная с текущего момента предоплаты и даже если срока остается менее одного дня = но при условии что допустимый срок предоплаты ЕСТЬ-остается..)
             if (0<rent) data.append(",{");
             else data.append("\n      {");
             data.append("\n        \"userId\": \"57e440464c8eda79f765532d\"");
@@ -404,29 +405,88 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *             }]
      *         },
      *         "rents": {
-     *             "availables": ["11.10.2016", "12.10.2016", "13.10.2016", "17.10.2016", "18.10.2016", "19.10.2016", "20.10.2016", "21.10.2016", "24.10.2016", "25.10.2016", "26.10.2016", "27.10.2016", "28.10.2016", "31.10.2016", "1.10.2016", "2.10.2016", "8.10.2016", "9.10.2016", "15.10.2016", "16.10.2016", "22.10.2016", "23.10.2016", "29.10.2016", "30.10.2016", "3.10.2016", "4.10.2016", "6.10.2016", "7.10.2016"],
+     *             "availables": [{
+     *                 "day": "4.10.2016",
+     *                 "isPrepaid": true,
+     *                 "dayPrepaid": null,
+     *                 "user": null
+     *             }, {
+     *                 "day": "6.10.2016",
+     *                 "isPrepaid": true,
+     *                 "dayPrepaid": null,
+     *                 "user": null
+     *             }, {
+     *                 "day": "7.10.2016",
+     *                 "isPrepaid": true,
+     *                 "dayPrepaid": null,
+     *                 "user": null
+     *             }, {
+     *                 "day": "8.10.2016",
+     *                 "isPrepaid": true,
+     *                 "dayPrepaid": null,
+     *                 "user": null
+     *             }, {
+     *                 "day": "9.10.2016",
+     *                 "isPrepaid": true,
+     *                 "dayPrepaid": null,
+     *                 "user": null
+     *             }, {
+     *                 "day": "11.10.2016",
+     *                 "isPrepaid": true,
+     *                 "dayPrepaid": null,
+     *                 "user": null
+     *             }],
      *             "rented": [{
-     *                 "userId": "57e440464c8eda79f765532d",
-     *                 "day": "5.10.2016"
+     *                 "day": "5.10.2016",
+     *                 "isPrepaid": true,
+     *                 "dayPrepaid": "1.10.2016",
+     *                 "user": {
+     *                      "userId": "57e440464c8eda79f765532d",
+     *                      "fullName": "Мирошник Александр Петрович",
+     *                      "imgID": "57e440464c8eda79f765532d"
+     *                 }
      *             }, {
-     *                 "userId": "57e440464c8eda79f765532d",
-     *                 "day": "10.10.2016"
+     *                 "day": "10.10.2016",
+     *                 "isPrepaid": true,
+     *                 "dayPrepaid": null,
+     *                 "user": {
+     *                      "userId": "57e440464c8eda79f765532d",
+     *                      "fullName": "Петренко Юрий Владимирович",
+     *                      "imgID": "57e440464c8eda79f765532d"
+     *                 }
      *             }, {
-     *                 "userId": "57e440464c8eda79f765532d",
-     *                 "day": "14.10.2016"
+     *                 "day": "14.10.2016",
+     *                 "isPrepaid": true,
+     *                 "dayPrepaid": null,
+     *                 "user": {
+     *                      "userId": "57e440464c8eda79f765532d",
+     *                      "fullName": "Калиниченко Иван Дмитриевич",
+     *                      "imgID": "57e440464c8eda79f765532d"
+     *                 }
      *             }],
      *             "expired": [{
-     *                 "userId": null,
-     *                 "day": "1.10.2016"
+     *                 "day": "1.10.2016",
+     *                 "isPrepaid": true,
+     *                 "dayPrepaid": "30.09.2016",
+     *                 "user": {
+     *                      "userId": "57e440464c8eda79f765532d",
+     *                      "fullName": "Мирошник Александр Петрович",
+     *                      "imgID": "57e440464c8eda79f765532d"
+     *                 }
      *             }, {
-     *                 "userId": null,
-     *                 "day": "2.10.2016"
+     *                 "day": "2.10.2016",
+     *                 "isPrepaid": true,
+     *                 "dayPrepaid": null,
+     *                 "user": {
+     *                      "userId": "57e440464c8eda79f765532d",
+     *                      "fullName": "Петренко Юрий Владимирович",
+     *                      "imgID": "57e440464c8eda79f765532d"
+     *                 }
      *             }, {
-     *                 "userId": "57e440464c8eda79f765532d",
-     *                 "day": "3.10.2016"
-     *             }, {
-     *                 "userId": "57e440464c8eda79f765532d",
-     *                 "day": "4.10.2016"
+     *                 "day": "3.10.2016",
+     *                 "isPrepaid": true,
+     *                 "dayPrepaid": null,
+     *                 "user": null
      *             }]
      *         },
      *         "orders": [{

@@ -1,6 +1,6 @@
 package ua.com.itproekt.gup.service.offers.price;
 
-public class Expired implements Rent {
+public class Expired {
 
     /**
      * Хранит дату (на которую установливается аренда услуги)
