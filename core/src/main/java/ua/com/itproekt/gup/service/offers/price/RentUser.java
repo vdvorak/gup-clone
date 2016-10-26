@@ -1,6 +1,6 @@
 package ua.com.itproekt.gup.service.offers.price;
 
-public class RentUser {
+public class RentUser implements Cloneable {
 
     private Long userId;
     private String fullName;
@@ -31,8 +31,13 @@ public class RentUser {
     }
 
     @Override
+    public RentUser clone() throws CloneNotSupportedException {
+        return this.clone();
+    }
+
+    @Override
     public String toString() {
-        return "User{" +
+        return "{" +
                 "id=" + userId +
                 ", FullName='" + fullName + '\'' +
                 ", imgId=" + imgId +
