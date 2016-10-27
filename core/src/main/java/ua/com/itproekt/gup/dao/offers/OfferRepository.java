@@ -57,6 +57,7 @@ public interface OfferRepository {
     boolean offerExists(String offerId);
 
     /**
+     * Find offers based on filter options.
      *
      * @param offerFilterOptions    - the OfferFilterOptions object contain options from filter.
      * @return                      - the EntityPage object which contain
@@ -65,22 +66,27 @@ public interface OfferRepository {
     EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFilterOptions);
 
     /**
-     * @param offerFilterOptions
-     * @param excludeOfferId
-     * @return
+     * Find offers based on filter options.
+     *
+     * @param offerFilterOptions    - the OfferFilter object
+     * @param excludeOfferId        - the offer ID which must be exclude from result set.
+     * @return                      - the EntityPage object which contain
+     *                              list of found offers which relevant to filterOption object.
      */
     EntityPage<Offer> findOffersWithOptionsAndExcludes(OfferFilterOptions offerFilterOptions, String excludeOfferId);
 
     /**
+     * Delete reservation information
      *
-     * @param offerId
+     * @param offerId   - the offer ID
      */
     void deleteReservation(String offerId);
 
     /**
+     * Create Rent object for specific Offer.
      *
-     * @param offerId
-     * @param rentedOfferPeriodInfo
+     * @param offerId               - the offer ID which must be rented.
+     * @param rentedOfferPeriodInfo - the rented period.
      */
     void rentOffer(String offerId, RentedOfferPeriodInfo rentedOfferPeriodInfo);
 
@@ -92,16 +98,17 @@ public interface OfferRepository {
     void incViewsAtOne(String offerId);
 
     /**
+     * Delete specific Rent object by it's ID.
      *
-     * @param offerId   - the offer ID
+     * @param offerId   - the offer ID.
      * @param rentId    - the ID of rent object.
      */
     void deleteRent(String offerId, String rentId);
 
     /**
-     *
-     * @param name
-     * @return
+     * Return collection of matched names in String.
+     * @param name  - the name which must.
+     * @return      - collection of matched names in String.
      */
     Set<String> getMatchedNames(String name);
 
