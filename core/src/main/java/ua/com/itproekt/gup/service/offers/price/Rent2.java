@@ -194,4 +194,20 @@ public class Rent2 implements Comparable<Rent2>, Cloneable {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Rent2 rent2 = (Rent2) o;
+
+        if (!day.equals(rent2.day)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return day.hashCode();
+    }
 }
