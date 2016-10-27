@@ -131,5 +131,124 @@ public class OfferRepositoryTest {
         assertEquals(true, true);
     }
 
+    //ToDo impl this
+//    @Test
+//    public void findOffersWihOptions_filterOption_shouldSFindRelevantToFilterOptionsOffers() {
+//
+//        //given
+//        mongoTemplate.insert(oneOfferFile, "offer");
+//        Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
+//        String actualId = offer.getId();
+//
+//        //when
+//        boolean isExist = offerRepository.offerExists(actualId);
+//
+//        //then
+//        assertEquals(true, true);
+//    }
+
+    //ToDo impl this
+//    @Test
+//    public void findOffersWithOptionsAndExcludes_filterOption_shouldSFindRelevantToFilterOptionsOffersAndExcludeOne() {
+//
+//        //given
+//        mongoTemplate.insert(oneOfferFile, "offer");
+//        Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
+//        String actualId = offer.getId();
+//
+//        //when
+//        boolean isExist = offerRepository.offerExists(actualId);
+//
+//        //then
+//        assertEquals(true, true);
+//    }
+
+
+    //ToDo impl this
+//    @Test
+//    public void deleteReservation_offerId_ShouldMarkedOneOfferAsDeleted() {
+//
+//        //given
+//        mongoTemplate.insert(oneOfferFile, "offer");
+//        Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
+//        String actualId = offer.getId();
+//
+//        //when
+//        boolean isExist = offerRepository.offerExists(actualId);
+//
+//        //then
+//        assertEquals(true, true);
+//    }
+
+    //ToDo impl this
+//    @Test
+//    public void rentOffer_ShouldCreateRentDocument() {
+//
+//        //given
+//        mongoTemplate.insert(oneOfferFile, "offer");
+//        Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
+//        String actualId = offer.getId();
+//
+//        //when
+//        boolean isExist = offerRepository.offerExists(actualId);
+//
+//        //then
+//        assertEquals(true, true);
+//    }
+
+
+
+    //FixMe
+//    @Test
+//    public void incViewsAtOne_ShouldIncreaseViewsValueOfTheOfferByOne() {
+//
+//        //given
+//        mongoTemplate.insert(oneOfferFile, "offer");
+//        Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
+//        String actualId = offer.getId();
+//        Integer oldViewsCount = offer.getViews();
+//
+//        //when
+//        offerRepository.incViewsAtOne(actualId);
+//        Integer actualViewsCount = offer.getViews();
+//
+//        //then
+//        assertEquals(++oldViewsCount, actualViewsCount);
+//    }
+
+    //ToDo impl this
+//    @Test
+//    public void deleteRent_ShouldDeleteRentDocument() {
+//
+//        //given
+//        mongoTemplate.insert(oneOfferFile, "offer");
+//        Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
+//        String actualId = offer.getId();
+//
+//        //when
+//        boolean isExist = offerRepository.offerExists(actualId);
+//
+//        //then
+//        assertEquals(true, true);
+//    }
+
+    //ToDo impl this
+//    @Test
+//    public void getMatchedNames_ShouldReturnOffersTHatMatchedToInputName() {
+//
+//        //given
+//        mongoTemplate.insert(oneOfferFile, "offer");
+//        Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
+//        String actualId = offer.getId();
+//
+//        //when
+//        boolean isExist = offerRepository.offerExists(actualId);
+//
+//        //then
+//        assertEquals(true, true);
+//    }
+
+
+
 
 }
