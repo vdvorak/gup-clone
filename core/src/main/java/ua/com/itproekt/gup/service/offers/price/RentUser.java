@@ -5,6 +5,7 @@ public class RentUser implements Cloneable {
     private Long userId;
     private String fullName;
     private Long imgId;
+    private Integer rating;
 
     public Long getUserId() {
         return userId;
@@ -30,6 +31,14 @@ public class RentUser implements Cloneable {
         this.imgId = imgId;
     }
 
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
     @Override
     public RentUser clone() throws CloneNotSupportedException {
         return this.clone();
@@ -41,6 +50,7 @@ public class RentUser implements Cloneable {
                 "id=" + userId +
                 ", FullName='" + fullName + '\'' +
                 ", imgId=" + imgId +
+                ", rating=" + rating +
                 '}';
     }
 }
