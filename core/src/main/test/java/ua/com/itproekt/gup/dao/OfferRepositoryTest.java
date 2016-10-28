@@ -10,11 +10,18 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import ua.com.itproekt.gup.dao.offers.OfferRepository;
 import ua.com.itproekt.gup.dao.offers.OfferRepositoryImpl;
 import ua.com.itproekt.gup.model.offer.Offer;
+import ua.com.itproekt.gup.model.offer.Reservation;
+import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 
-import java.io.File;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
+/**
+ * JUnit tests using Fongo (fake mongo) library. Testing of OfferRepository interface.
+ *
+ * @author Kobylyatskyy Alexander
+ */
 public class OfferRepositoryTest {
 
     OfferRepository offerRepository = new OfferRepositoryImpl();
@@ -52,15 +59,16 @@ public class OfferRepositoryTest {
         mongoTemplate.insert(seedOffer);
 
         Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
-        String actualId = offer.getId();
+        String expectedId = offer.getId();
 
         //when
-        Offer foundOffer = offerRepository.findById(actualId);
-        String expectedId = foundOffer.getId();
+        Offer foundOffer = offerRepository.findById(expectedId);
+        String actualId = foundOffer.getId();
 
         //then
         assertEquals(expectedId, actualId);
     }
+
 
     @Test
     public void findBySeoKey_oneDocument_shouldFindDocumentByItsSeoKEy() {
@@ -71,34 +79,39 @@ public class OfferRepositoryTest {
         mongoTemplate.insert(seedOffer);
 
         Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
-        String actualId = offer.getId();
+        String expectedId = offer.getId();
 
         //when
         Offer foundOffer = offerRepository.findBySeoKey("a1");
-        String expectedId = foundOffer.getId();
+        String actualId = foundOffer.getId();
 
         //then
         assertEquals(expectedId, actualId);
     }
 
 
-    //ToDo make this
-//    @Test
-//    public void findAndUpdate_oneDocument_shouldUpdateFields() {
-//
-//        //given
-//        mongoTemplate.insert(oneOfferFile, "offer");
-//        Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
-//        String actualSeoKey = offer.getSeoKey();
-//        String actualId = offer.getId();
-//
-//        //when
-//        Offer foundOffer = offerRepository.findBySeoKey(actualSeoKey);
-//        String expectedId = foundOffer.getId();
-//
-//        //then
-//        assertEquals(expectedId, actualId);
-//    }
+    @Test
+    public void findAndUpdate_oneDocument_shouldUpdateFields() {
+
+        //given
+        Offer seedOffer = new Offer();
+        seedOffer.setDescription("test description");
+        mongoTemplate.insert(seedOffer);
+
+        Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
+        String expectedId = offer.getId();
+
+        //when
+        Offer foundOffer = offerRepository.findById(expectedId);
+        foundOffer.setDescription("updated description");
+        offerRepository.findAndUpdate(foundOffer);
+
+        Offer offerAfterUpdate = offerRepository.findById(expectedId);
+        String newDescription = offerAfterUpdate.getDescription();
+
+        //then
+        assertEquals("updated description", newDescription);
+    }
 
 
     @Test
@@ -109,14 +122,14 @@ public class OfferRepositoryTest {
         mongoTemplate.insert(seedOffer);
 
         Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
-        String actualId = offer.getId();
+        String expectedId = offer.getId();
 
         //when
-        offerRepository.delete(actualId);
-        int expectedSize = mongoTemplate.findAll(Offer.class, "offer").size();
+        offerRepository.delete(expectedId);
+        int actualSize = mongoTemplate.findAll(Offer.class, "offer").size();
 
         //then
-        assertEquals(0, expectedSize);
+        assertEquals(0, actualSize);
     }
 
     @Test
@@ -127,30 +140,182 @@ public class OfferRepositoryTest {
         mongoTemplate.insert(seedOffer);
 
         Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
-        String actualId = offer.getId();
+        String expectedId = offer.getId();
 
         //when
-        boolean isExist = offerRepository.offerExists(actualId);
+        boolean isExist = offerRepository.offerExists(expectedId);
 
         //then
-        assertEquals(true, isExist);
+        assertTrue(isExist);
     }
 
-    //ToDo impl this
-//    @Test
-//    public void findOffersWihOptions_filterOption_shouldSFindRelevantToFilterOptionsOffers() {
-//
-//        //given
-//        mongoTemplate.insert(oneOfferFile, "offer");
-//        Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
-//        String actualId = offer.getId();
-//
-//        //when
-//        boolean isExist = offerRepository.offerExists(actualId);
-//
-//        //then
-//        assertEquals(true, true);
-//    }
+
+    @Test
+    public void findOffersWihOptions_filterOption_shouldFindAmountOfOffersAsLimitValue() {
+
+        //given
+        for (int i = 0; i < 10; i++) {
+            Offer seedOffer = new Offer();
+            mongoTemplate.insert(seedOffer);
+        }
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setLimit(3);
+
+        //when
+        int size = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities().size();
+
+        //then
+        assertEquals(3, size);
+    }
+
+
+    @Test
+    public void findOffersWihOptions_filterOption_shouldFindAmountOfOffersAsSkipValue() {
+
+        //given
+        for (int i = 0; i < 10; i++) {
+            Offer seedOffer = new Offer();
+            mongoTemplate.insert(seedOffer);
+        }
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setSkip(3);
+
+        //when
+        int size = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities().size();
+
+        //then
+        assertEquals(7, size);
+    }
+
+    @Test
+    public void findOffersWihOptions_filterOption_ShouldShowReservedOffersIfTheCorrespondingValueIsSet() {
+
+        //given
+        Offer firstSeedOffer = new Offer(); // with reservation
+        firstSeedOffer.setReservation(new Reservation());
+
+        Offer secondSeedOffer = new Offer(); // without reservation
+        mongoTemplate.insert(firstSeedOffer);
+        mongoTemplate.insert(secondSeedOffer);
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setShowReserved(true);
+
+        //when
+        int size = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities().size();
+        Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
+
+        //then
+        assertEquals(1, size);
+        assertNotNull(offer.getReservation());
+    }
+
+
+    @Test
+    public void findOffersWihOptions_filterOption_ShouldShowOfferInFromToPriceGap() {
+
+        //given
+        Offer firstSeedOffer = new Offer().setPrice(200l);
+        Offer secondSeedOffer = new Offer().setPrice(100l);
+        Offer thirdSeedOffer = new Offer().setPrice(300l);
+
+        mongoTemplate.insert(firstSeedOffer);
+        mongoTemplate.insert(secondSeedOffer);
+        mongoTemplate.insert(thirdSeedOffer);
+
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setFromPrice(101l);
+        offerFilterOptions.setToPrice(299l);
+
+        //when
+        List<Offer> offers = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
+        int size = offers.size();
+        Offer resultOffer = mongoTemplate.findAll(Offer.class, "offer").get(0);
+        long actualPrice = resultOffer.getPrice();
+
+        //then
+        assertEquals(1, size);
+        assertEquals(200l, actualPrice);
+    }
+
+    @Test
+    public void findOffersWihOptions_filterOption_ShouldShowOfferInFromToPriceGapIncluded() {
+
+        //given
+        Offer firstSeedOffer = new Offer().setPrice(200l);
+        Offer secondSeedOffer = new Offer().setPrice(100l);
+        Offer thirdSeedOffer = new Offer().setPrice(300l);
+        Offer fourthSeedOffer = new Offer().setPrice(400l);
+
+        mongoTemplate.insert(firstSeedOffer);
+        mongoTemplate.insert(secondSeedOffer);
+        mongoTemplate.insert(thirdSeedOffer);
+        mongoTemplate.insert(fourthSeedOffer);
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setFromPrice(100l);
+        offerFilterOptions.setToPrice(300l);
+
+        //when
+        List<Offer> offers = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
+        int size = offers.size();
+        Offer resultOffer = mongoTemplate.findAll(Offer.class, "offer").get(0);
+
+        //then
+        assertEquals(3, size);
+    }
+
+    @Test
+    public void findOffersWihOptions_filterOption_ShouldReturnOffersInAscensiveOrderByTheirDateCreation() {
+
+        //given
+        Offer firstSeedOffer = new Offer().setCreatedDate(20000l);
+        Offer secondSeedOffer = new Offer().setCreatedDate(40000l);
+        Offer thirdSeedOffer = new Offer().setCreatedDate(30000l);
+
+        mongoTemplate.insert(firstSeedOffer);
+        mongoTemplate.insert(secondSeedOffer);
+        mongoTemplate.insert(thirdSeedOffer);
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setCreatedDateSortDirection("ASC");
+
+        //when
+        List<Offer> offers = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
+        //then
+
+        assertEquals((Long) 20000l, offers.get(0).getCreatedDate());
+        assertEquals((Long) 30000l, offers.get(1).getCreatedDate());
+        assertEquals((Long) 40000l, offers.get(2).getCreatedDate());
+    }
+
+    @Test
+    public void findOffersWihOptions_filterOption_ShouldReturnOffersInDescendingOrderByTheirDateCreation() {
+
+        //given
+        Offer firstSeedOffer = new Offer().setCreatedDate(20000l);
+        Offer secondSeedOffer = new Offer().setCreatedDate(40000l);
+        Offer thirdSeedOffer = new Offer().setCreatedDate(30000l);
+
+        mongoTemplate.insert(firstSeedOffer);
+        mongoTemplate.insert(secondSeedOffer);
+        mongoTemplate.insert(thirdSeedOffer);
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setCreatedDateSortDirection("DESC");
+
+        //when
+        List<Offer> offers = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
+        //then
+
+        assertEquals((Long) 40000l, offers.get(0).getCreatedDate());
+        assertEquals((Long) 30000l, offers.get(1).getCreatedDate());
+        assertEquals((Long) 20000l, offers.get(2).getCreatedDate());
+    }
+
 
     //ToDo impl this
 //    @Test
@@ -238,7 +403,7 @@ public class OfferRepositoryTest {
 
     //ToDo impl this
 //    @Test
-//    public void getMatchedNames_ShouldReturnOffersTHatMatchedToInputName() {
+//    public void getMatchedNames_ShouldReturnOffersThatMatchedToInputName() {
 //
 //        //given
 //        mongoTemplate.insert(oneOfferFile, "offer");

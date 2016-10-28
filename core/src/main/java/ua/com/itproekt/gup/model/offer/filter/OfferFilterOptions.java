@@ -10,8 +10,8 @@ public final class OfferFilterOptions extends Offer {
     Set<String> cityList;
     private int skip;
     private int limit;
-    private Integer fromPrice;
-    private Integer toPrice;
+    private Long fromPrice;
+    private Long toPrice;
     private Boolean showReserved; // allow to get reserved offers (by default it is not allowed)
     private List<PropertyWithValuesInterval> propertiesInterval;
     private String searchField;
@@ -35,19 +35,19 @@ public final class OfferFilterOptions extends Offer {
         this.limit = limit;
     }
 
-    public Integer getFromPrice() {
+    public Long getFromPrice() {
         return fromPrice;
     }
 
-    public void setFromPrice(Integer fromPrice) {
+    public void setFromPrice(Long fromPrice) {
         this.fromPrice = fromPrice;
     }
 
-    public Integer getToPrice() {
+    public Long getToPrice() {
         return toPrice;
     }
 
-    public void setToPrice(Integer toPrice) {
+    public void setToPrice(Long toPrice) {
         this.toPrice = toPrice;
     }
 
