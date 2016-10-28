@@ -72,7 +72,7 @@ public class OfferRepositoryImpl implements OfferRepository {
     }
 
     @Override
-    public EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFilterOptions) {
+    public EntityPage<Offer> findOffersWithOptions(OfferFilterOptions offerFilterOptions) {
         Query query = queryPreparator(offerFilterOptions);
 
         EntityPage<Offer> offerEntityPage = new EntityPage<>();

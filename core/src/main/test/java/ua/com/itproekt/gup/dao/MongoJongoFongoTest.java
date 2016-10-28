@@ -70,7 +70,7 @@
 //
 //        offerRepository.create(offer);
 //
-//        System.err.println("kuka" + offerRepository.findOffersWihOptions(offerFilterOptions));
+//        System.err.println("kuka" + offerRepository.findOffersWithOptions(offerFilterOptions));
 //
 //        System.err.println("azza" + mongoTemplate.toString());
 //    }

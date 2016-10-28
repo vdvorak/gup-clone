@@ -63,7 +63,7 @@ public interface OfferRepository {
      * @return                      - the EntityPage object which contain
      *                              list of found offers which relevant to filterOption object.
      */
-    EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFilterOptions);
+    EntityPage<Offer> findOffersWithOptions(OfferFilterOptions offerFilterOptions);
 
     /**
      * Find offers based on filter options.

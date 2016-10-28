@@ -148,7 +148,7 @@ public class OffersServiceImpl implements OffersService {
 
     @Override
     public EntityPage<Offer> findOffersWihOptions(OfferFilterOptions offerFilterOptions) {
-        return offerRepository.findOffersWihOptions(offerFilterOptions);
+        return offerRepository.findOffersWithOptions(offerFilterOptions);
     }
 
     /**
@@ -273,7 +273,7 @@ public class OffersServiceImpl implements OffersService {
      */
     @Override
     public List<OfferInfo> getListOfMiniPublicOffersWithOptions(OfferFilterOptions offerFilterOptions) {
-        return publicMiniOfferInfoPreparator(offerRepository.findOffersWihOptions(offerFilterOptions).getEntities());
+        return publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptions(offerFilterOptions).getEntities());
     }
 
     /**
@@ -295,7 +295,7 @@ public class OffersServiceImpl implements OffersService {
     public List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions, List<Order> orderTotalList) {
         List<OfferInfo> offerInfoList = new ArrayList<>();
 
-        List<Offer> offerList = offerRepository.findOffersWihOptions(offerFilterOptions).getEntities();
+        List<Offer> offerList = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
 
         for (Offer offer : offerList) {
             offerInfoList.add(privateOfferPreparatorForShortList(offer, orderTotalList));
@@ -309,7 +309,7 @@ public class OffersServiceImpl implements OffersService {
     public List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions) {
         List<OfferInfo> offerInfoList = new ArrayList<>();
 
-        List<Offer> offerList = offerRepository.findOffersWihOptions(offerFilterOptions).getEntities();
+        List<Offer> offerList = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
 
         List<Order> orderTotalList = orderService.findAllOrdersForUser(offerFilterOptions.getAuthorId());
 

@@ -10,8 +10,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import ua.com.itproekt.gup.dao.offers.OfferRepository;
 import ua.com.itproekt.gup.dao.offers.OfferRepositoryImpl;
 import ua.com.itproekt.gup.model.offer.Offer;
-
-import java.io.File;
+import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 
 import static org.junit.Assert.assertEquals;
 
@@ -143,20 +142,24 @@ public class OfferRepositoryTest {
     }
 
     //ToDo impl this
-//    @Test
-//    public void findOffersWihOptions_filterOption_shouldSFindRelevantToFilterOptionsOffers() {
-//
-//        //given
-//        mongoTemplate.insert(oneOfferFile, "offer");
-//        Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
-//        String actualId = offer.getId();
-//
-//        //when
-//        boolean isExist = offerRepository.offerExists(actualId);
-//
-//        //then
-//        assertEquals(true, true);
-//    }
+    @Test
+    public void findOffersWihOptions_filterOption_shouldFindAmountOfOffersAsLimitValue() {
+
+        //given
+        for (int i = 0; i < 10; i++) {
+            Offer seedOffer = new Offer();
+            mongoTemplate.insert(seedOffer);
+        }
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setLimit(3);
+
+        //when
+        int size = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities().size();
+
+        //then
+        assertEquals(3, size);
+    }
 
     //ToDo impl this
 //    @Test
@@ -244,7 +247,7 @@ public class OfferRepositoryTest {
 
     //ToDo impl this
 //    @Test
-//    public void getMatchedNames_ShouldReturnOffersTHatMatchedToInputName() {
+//    public void getMatchedNames_ShouldReturnOffersThatMatchedToInputName() {
 //
 //        //given
 //        mongoTemplate.insert(oneOfferFile, "offer");
