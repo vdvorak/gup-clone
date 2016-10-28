@@ -14,6 +14,11 @@ import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * JUnit tests using Fongo (fake mongo) library. Testing of OfferRepository interface.
+ *
+ * @author Kobylyatskyy Alexander
+ */
 public class OfferRepositoryTest {
 
     OfferRepository offerRepository = new OfferRepositoryImpl();
@@ -61,6 +66,7 @@ public class OfferRepositoryTest {
         assertEquals(expectedId, actualId);
     }
 
+
     @Test
     public void findBySeoKey_oneDocument_shouldFindDocumentByItsSeoKEy() {
 
@@ -81,7 +87,6 @@ public class OfferRepositoryTest {
     }
 
 
-    //ToDo make this
     @Test
     public void findAndUpdate_oneDocument_shouldUpdateFields() {
 
@@ -141,7 +146,7 @@ public class OfferRepositoryTest {
         assertEquals(true, isExist);
     }
 
-    //ToDo impl this
+
     @Test
     public void findOffersWihOptions_filterOption_shouldFindAmountOfOffersAsLimitValue() {
 
@@ -160,6 +165,27 @@ public class OfferRepositoryTest {
         //then
         assertEquals(3, size);
     }
+
+
+    @Test
+    public void findOffersWihOptions_filterOption_shouldFindAmountOfOffersAsSkipValue() {
+
+        //given
+        for (int i = 0; i < 10; i++) {
+            Offer seedOffer = new Offer();
+            mongoTemplate.insert(seedOffer);
+        }
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setSkip(3);
+
+        //when
+        int size = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities().size();
+
+        //then
+        assertEquals(7, size);
+    }
+
 
     //ToDo impl this
 //    @Test
