@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.service.offers.price;
 
 import ua.com.itproekt.gup.model.order.Order;
+import ua.com.itproekt.gup.util.ConvertUtil;
 
 public class Rent2 implements Comparable<Rent2>, Cloneable {
 
@@ -180,7 +181,7 @@ public class Rent2 implements Comparable<Rent2>, Cloneable {
     @Override
     public String toString() {
         return "{" +
-                "day=" + day +
+                "day=" + ConvertUtil.toDate(day) +
                 ", user=" + user +
                 ", confirm=" + confirm +
                 ", prepaid=" + prepaid +
@@ -195,14 +196,12 @@ public class Rent2 implements Comparable<Rent2>, Cloneable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object that) {
+//        if (this == that) return true;
+//        if (that == null || getClass() != that.getClass()) return false;
 
-        Rent2 rent2 = (Rent2) o;
-
+        Rent2 rent2 = (Rent2) that;
         if (!day.equals(rent2.day)) return false;
-
         return true;
     }
 
