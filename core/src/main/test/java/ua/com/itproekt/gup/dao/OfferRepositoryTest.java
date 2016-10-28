@@ -15,9 +15,7 @@ import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * JUnit tests using Fongo (fake mongo) library. Testing of OfferRepository interface.
@@ -215,33 +213,109 @@ public class OfferRepositoryTest {
     }
 
 
-//    @Test
-//    public void findOffersWihOptions_filterOption_ShouldShowOfferInFromToPriceGap() {
-//
-//        //given
-//        Offer firstSeedOffer = new Offer().setPrice(200l);
-//        Offer secondSeedOffer = new Offer().setPrice(100l);
-//        Offer thirdSeedOffer =  new Offer().setPrice(300l);
-//
-//        mongoTemplate.insert(firstSeedOffer);
-//        mongoTemplate.insert(secondSeedOffer);
-//        mongoTemplate.insert(thirdSeedOffer);
-//
-//
-//        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-//        offerFilterOptions.setFromPrice(99);
-//        offerFilterOptions.setToPrice(301);
-//
-//        //when
-//        List<Offer> offers = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
-//        int size = offers.size();
-//        Offer resultOffer = mongoTemplate.findAll(Offer.class, "offer").get(0);
-//        long actualPrice = resultOffer.getPrice();
-//
-//        //then
-//        assertEquals(1, size);
-//        assertEquals(200l,actualPrice);
-//    }
+    @Test
+    public void findOffersWihOptions_filterOption_ShouldShowOfferInFromToPriceGap() {
+
+        //given
+        Offer firstSeedOffer = new Offer().setPrice(200l);
+        Offer secondSeedOffer = new Offer().setPrice(100l);
+        Offer thirdSeedOffer = new Offer().setPrice(300l);
+
+        mongoTemplate.insert(firstSeedOffer);
+        mongoTemplate.insert(secondSeedOffer);
+        mongoTemplate.insert(thirdSeedOffer);
+
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setFromPrice(101l);
+        offerFilterOptions.setToPrice(299l);
+
+        //when
+        List<Offer> offers = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
+        int size = offers.size();
+        Offer resultOffer = mongoTemplate.findAll(Offer.class, "offer").get(0);
+        long actualPrice = resultOffer.getPrice();
+
+        //then
+        assertEquals(1, size);
+        assertEquals(200l, actualPrice);
+    }
+
+    @Test
+    public void findOffersWihOptions_filterOption_ShouldShowOfferInFromToPriceGapIncluded() {
+
+        //given
+        Offer firstSeedOffer = new Offer().setPrice(200l);
+        Offer secondSeedOffer = new Offer().setPrice(100l);
+        Offer thirdSeedOffer = new Offer().setPrice(300l);
+        Offer fourthSeedOffer = new Offer().setPrice(400l);
+
+        mongoTemplate.insert(firstSeedOffer);
+        mongoTemplate.insert(secondSeedOffer);
+        mongoTemplate.insert(thirdSeedOffer);
+        mongoTemplate.insert(fourthSeedOffer);
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setFromPrice(100l);
+        offerFilterOptions.setToPrice(300l);
+
+        //when
+        List<Offer> offers = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
+        int size = offers.size();
+        Offer resultOffer = mongoTemplate.findAll(Offer.class, "offer").get(0);
+
+        //then
+        assertEquals(3, size);
+    }
+
+    @Test
+    public void findOffersWihOptions_filterOption_ShouldReturnOffersInAscensiveOrderByTheirDateCreation() {
+
+        //given
+        Offer firstSeedOffer = new Offer().setCreatedDate(20000l);
+        Offer secondSeedOffer = new Offer().setCreatedDate(40000l);
+        Offer thirdSeedOffer = new Offer().setCreatedDate(30000l);
+
+        mongoTemplate.insert(firstSeedOffer);
+        mongoTemplate.insert(secondSeedOffer);
+        mongoTemplate.insert(thirdSeedOffer);
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setCreatedDateSortDirection("ASC");
+
+        //when
+        List<Offer> offers = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
+        //then
+
+        assertEquals((Long) 20000l, offers.get(0).getCreatedDate());
+        assertEquals((Long) 30000l, offers.get(1).getCreatedDate());
+        assertEquals((Long) 40000l, offers.get(2).getCreatedDate());
+    }
+
+    @Test
+    public void findOffersWihOptions_filterOption_ShouldReturnOffersInDescendingOrderByTheirDateCreation() {
+
+        //given
+        Offer firstSeedOffer = new Offer().setCreatedDate(20000l);
+        Offer secondSeedOffer = new Offer().setCreatedDate(40000l);
+        Offer thirdSeedOffer = new Offer().setCreatedDate(30000l);
+
+        mongoTemplate.insert(firstSeedOffer);
+        mongoTemplate.insert(secondSeedOffer);
+        mongoTemplate.insert(thirdSeedOffer);
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setCreatedDateSortDirection("DESC");
+
+        //when
+        List<Offer> offers = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
+        //then
+
+        assertEquals((Long) 40000l, offers.get(0).getCreatedDate());
+        assertEquals((Long) 30000l, offers.get(1).getCreatedDate());
+        assertEquals((Long) 20000l, offers.get(2).getCreatedDate());
+    }
+
 
     //ToDo impl this
 //    @Test
