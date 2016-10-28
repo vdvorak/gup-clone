@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta contentType="text/html; charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>GUP - объявления</title>
+  </head>
+  <body style="margin: 0px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333333; background-color: #F2F2F2;">
+    <table style="width: 100%; background-color: #F2F2F2; height: 100%;">
+      <tr><td style="width: 100%;">
+
+        <table style="background-color: #ffffff; border-radius: 10px; width: 935px;">
+          <tr>
+
+            <!-- HEADER MESSAGE -->
+            <td style="padding-left: 30px; padding-bottom: 20px; padding-top: 10px;"><h2>Найдены новые объявления на GUP по Вашему запросу</h2></td>
+
+          </tr>
+
+          <tr>
+            <td style="padding-left: 30px; border-left: 2px solid #E7E7E8;">
+              <!-- MESSAGE -->
+              <p>
+              <br>
+              <!-- LEGALESE -->
+
+              <div style="font-size: 12px;">
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </td></tr>
+    </table>
+  </body>
+</html>

@@ -6,7 +6,10 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.service.offers.price.*;
+import ua.com.itproekt.gup.util.ConvertUtil;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -210,7 +213,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
             default:
                 break;
         }
-        addRent(new Long[]{}); //TODO:
+        addRent(new Long[]{}); //FIXME: в момент иннициализации нужно добавить все существующие даты как 'AVAILABLE'
     }
 
     /**
@@ -245,13 +248,25 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 //            e.printStackTrace();
 //        }
 //////////////////////////////////////////
-        for (Long day : days) {
-            Rent2 findAvailables = new Rent2();
-            findAvailables.setDay(day);
-            if( getRents().getAvailables().contains(findAvailables) ){
-                Rent2 objAvailables = getRents().getAvailables().get(getRents().getAvailables().indexOf(findAvailables));
-                if( getRents().getAvailables().remove(objAvailables) ){
-                    getRents().getRented().add(objAvailables);
+        System.err.println("#0");
+        if( getRents().getAvailables().isEmpty() ){
+            System.err.println("#1 (" + days.length + ")");
+            for (Long day : days) {
+                System.err.println("#2");
+                Rent2 newAvailables = new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null);
+                getRents().getAvailables().add(newAvailables);
+            }
+        } else {
+            for (Long day : days) {
+                Rent2 findAvailables = new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null);
+                System.err.println("#3 (" + getRents().getAvailables().size() + ") " + ConvertUtil.toDate(day) + "==" + ConvertUtil.toDate(findAvailables.getDay()));
+                if( getRents().getAvailables().contains(findAvailables) ){
+                    System.err.println("4");
+                    Rent2 objAvailables = getRents().getAvailables().get(getRents().getAvailables().indexOf(findAvailables));
+                    if( getRents().getAvailables().remove(objAvailables) ){
+                        System.err.println("5");
+                        getRents().getRented().add(objAvailables);
+                    }
                 }
             }
         }

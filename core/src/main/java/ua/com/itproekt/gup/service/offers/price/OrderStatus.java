@@ -2,6 +2,12 @@ package ua.com.itproekt.gup.service.offers.price;
 
 public enum OrderStatus {
 
+    NONE(0){
+        @Override
+        public String description() {
+            return "Отсутствует";
+        }
+    },
     SUBMIT_REQUEST(1){
         @Override
         public String description() {
