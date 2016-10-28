@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.dao;
 
+
 import com.github.fakemongo.Fongo;
 import com.mongodb.Mongo;
 import org.junit.After;
@@ -21,21 +22,17 @@ public class OfferRepositoryTest {
     Mongo mongo;
     Fongo fongo = new Fongo("TestOffer");
 
-    File oneOfferFile = new File("src/main/test/resources/", "OffersMongoSeeds.json");
-
     @Before
     public void setup() {
 
         // create fake mongo database
         mongo = fongo.getMongo();
         mongoTemplate = new MongoTemplate(mongo, "dbName");
+        mongoTemplate.createCollection(Offer.class);
 
         fongo.dropDatabase("dbName");
 
         offerRepository.setMongoTemplateInstanceForTests(mongoTemplate);
-
-//        System.err.println("Saving to the file");
-//        mongoTemplate.insert(oneOfferFile, "offer");
 
 //        System.err.println("All Collections: " + mongoTemplate.getCollectionNames());
 //        System.err.println("All documents in offer collection: " + mongoTemplate.findAll(Offer.class, "offer"));
@@ -51,7 +48,9 @@ public class OfferRepositoryTest {
     public void findById_oneDocument_shouldFindDocument() {
 
         //given
-        mongoTemplate.insert(oneOfferFile, "offer");
+        Offer seedOffer = new Offer();
+        mongoTemplate.insert(seedOffer);
+
         Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
         String actualId = offer.getId();
 
@@ -64,16 +63,18 @@ public class OfferRepositoryTest {
     }
 
     @Test
-    public void findBySeoKey_oneDocument_shouldFindDocumentByItsSeo() {
+    public void findBySeoKey_oneDocument_shouldFindDocumentByItsSeoKEy() {
 
         //given
-        mongoTemplate.insert(oneOfferFile, "offer");
+        Offer seedOffer = new Offer();
+        seedOffer.setSeoKey("a1");
+        mongoTemplate.insert(seedOffer);
+
         Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
-        String actualSeoKey = offer.getSeoKey();
         String actualId = offer.getId();
 
         //when
-        Offer foundOffer = offerRepository.findBySeoKey(actualSeoKey);
+        Offer foundOffer = offerRepository.findBySeoKey("a1");
         String expectedId = foundOffer.getId();
 
         //then
@@ -104,7 +105,9 @@ public class OfferRepositoryTest {
     public void delete_oneDocument_shouldDeleteOneDocumentFromCollection() {
 
         //given
-        mongoTemplate.insert(oneOfferFile, "offer");
+        Offer seedOffer = new Offer();
+        mongoTemplate.insert(seedOffer);
+
         Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
         String actualId = offer.getId();
 
@@ -120,7 +123,9 @@ public class OfferRepositoryTest {
     public void offerExists_oneDocument_shouldShowIfOrderExist() {
 
         //given
-        mongoTemplate.insert(oneOfferFile, "offer");
+        Offer seedOffer = new Offer();
+        mongoTemplate.insert(seedOffer);
+
         Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
         String actualId = offer.getId();
 
@@ -128,7 +133,7 @@ public class OfferRepositoryTest {
         boolean isExist = offerRepository.offerExists(actualId);
 
         //then
-        assertEquals(true, true);
+        assertEquals(true, isExist);
     }
 
     //ToDo impl this
@@ -197,7 +202,6 @@ public class OfferRepositoryTest {
 //    }
 
 
-
     //FixMe
 //    @Test
 //    public void incViewsAtOne_ShouldIncreaseViewsValueOfTheOfferByOne() {
@@ -247,8 +251,6 @@ public class OfferRepositoryTest {
 //        //then
 //        assertEquals(true, true);
 //    }
-
-
 
 
 }
