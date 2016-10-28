@@ -1,5 +1,7 @@
 package ua.com.itproekt.gup.service.offers.price;
 
+import ua.com.itproekt.gup.model.order.Order;
+
 public class Rent2 implements Comparable<Rent2>, Cloneable {
 
     private Long day;
@@ -7,15 +9,27 @@ public class Rent2 implements Comparable<Rent2>, Cloneable {
     private Boolean confirm;
     private Boolean prepaid;
     private Long dayPrepaid;
+    private Long orderDate;
+    private Long updateDate;
+    private RentStatus rentStatus;
+    private OrderStatus orderStatus;
+    private Integer salesRemained;
+    private Order order;
 
     public Rent2(){}
 
-    public Rent2(Long day, RentUser user, Boolean confirm, Boolean prepaid, Long dayPrepaid){
+    public Rent2(Long day, RentUser user, Boolean confirm, Boolean prepaid, Long dayPrepaid, Long orderDate, Long updateDate, RentStatus rentStatus, OrderStatus orderStatus, Integer salesRemained, Order order){
         this.day = day;
         this.user = user;
         this.confirm = confirm;
         this.prepaid = prepaid;
         this.dayPrepaid = dayPrepaid;
+        this.orderDate = orderDate;
+        this.updateDate = updateDate;
+        this.rentStatus = rentStatus;
+        this.orderStatus = orderStatus;
+        this.salesRemained = salesRemained;
+        this.order = order;
     }
 
     public Rent2(Rent2 rent){
@@ -24,6 +38,12 @@ public class Rent2 implements Comparable<Rent2>, Cloneable {
         this.confirm = rent.isConfirm();
         this.prepaid = rent.isPrepaid();
         this.dayPrepaid = rent.getDayPrepaid();
+        this.orderDate = rent.getOrderDate();
+        this.updateDate = rent.getUpdateDate();
+        this.rentStatus = rent.getRentStatus();
+        this.orderStatus = rent.getOrderStatus();
+        this.salesRemained = rent.getSalesRemained();
+        this.order = rent.getOrder();
     }
 
     /**
@@ -81,6 +101,72 @@ public class Rent2 implements Comparable<Rent2>, Cloneable {
         this.dayPrepaid = dayPrepaid;
     }
 
+    /**
+     * Дата создания заказа (одна-единственная)
+     */
+    public Long getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Long orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    /**
+     * Дата обновление заказа (чтобы следить за активностью выполнения...)
+     */
+    public Long getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Long updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    /**
+     * Отображает ход выполнения заказа (начиная с подачи заявки и заканчивая выдачей товара...)
+     */
+    public RentStatus getRentStatus() {
+        return rentStatus;
+    }
+
+    public void setRentStatus(RentStatus rentStatus) {
+        this.rentStatus = rentStatus;
+    }
+
+    /**
+     * Это предыдущее состояние заказа (чтобы избежать похожих-дублей заявок)
+     */
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    /**
+     * Предложенный товаров может существовать как во множественном количестве так и в единственном количестве
+     */
+    public Integer getSalesRemained() {
+        return salesRemained;
+    }
+
+    public void setSalesRemained(Integer salesRemained) {
+        this.salesRemained = salesRemained;
+    }
+
+    /**
+     * Хранит короткую информацию о заказе
+     */
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
     @Override
     public int compareTo(Rent2 that) {
         return day.compareTo(that.getDay());
@@ -99,7 +185,29 @@ public class Rent2 implements Comparable<Rent2>, Cloneable {
                 ", confirm=" + confirm +
                 ", prepaid=" + prepaid +
                 ", dayPrepaid=" + dayPrepaid +
+                ", orderDate=" + orderDate +
+                ", updateDate=" + updateDate +
+                ", rentStatus=" + rentStatus +
+                ", orderStatus=" + orderStatus +
+                ", salesRemained=" + salesRemained +
+                ", order=" + order +
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Rent2 rent2 = (Rent2) o;
+
+        if (!day.equals(rent2.day)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return day.hashCode();
+    }
 }

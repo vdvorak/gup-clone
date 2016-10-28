@@ -80,23 +80,24 @@ public class OfferPricesServiceToGsonTest {
     @Test
     public void testAdd(){
         System.out.println("--------------------[ testAdd (Rents) ]");
-//        service.addPrices(priceRents.get("scheme4").getPrice(), ConvertUtil.toDate(priceRents.get("scheme4").getDays()));
-//        service.addRent(ConvertUtil.toDate(rents.get("delete41").getDays()));
-//        service.addRent(ConvertUtil.toDate(rents.get("delete42").getDays()));
-//
-//        System.out.println(service.toJson());
+        service.addPrices(priceRents.get("scheme4").getPrice(), ConvertUtil.toDate(priceRents.get("scheme4").getDays()));
+        service.addRent(ConvertUtil.toDate(rents.get("delete41").getDays()));
+        service.addRent(ConvertUtil.toDate(rents.get("delete42").getDays()));
+
+        System.out.println(service.toJson());
+        System.out.println(service.toRent());
 //        System.out.println(service.jsonRent());
 ////        System.out.println(service.jsonOfferMonth());
     }
 
-//    @Test
-//    public void testInit(){
-//        System.out.println("--------------------[ testInit (Availables) ]");
-//        service.addPrices(priceRents.get("scheme4").getPrice(), ConvertUtil.toDate(priceRents.get("scheme4").getDays()));
-//
-//        System.out.println(service.toRent());
-//    }
-//
+    @Test
+    public void testInit(){
+        System.out.println("--------------------[ testInit (Availables) ]");
+        service.addPrices(priceRents.get("scheme4").getPrice(), ConvertUtil.toDate(priceRents.get("scheme4").getDays()));
+
+        System.out.println(service.toRent());
+    }
+
 //    @Test
 //    public void testRented(){
 //        System.out.println("--------------------[ testRented (s) ]");

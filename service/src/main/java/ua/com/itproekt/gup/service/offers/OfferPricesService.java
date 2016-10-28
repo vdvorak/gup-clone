@@ -210,7 +210,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
             default:
                 break;
         }
-//        addRent(new Long[]{}); //TODO:
+        addRent(new Long[]{}); //TODO:
     }
 
     /**
@@ -244,13 +244,17 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 //        } catch (NullPointerException e){
 //            e.printStackTrace();
 //        }
-////////////////////////////////////////////
-//        for (Rent2 objAvailables : getRents().getAvailables()) {
-//            if (Arrays.asList(days).contains(objAvailables.getDay())) {
-//                Rent2 available = new Rent2();
-//                getRents().getAvailables().add(new )
-//            }
-//        }
+//////////////////////////////////////////
+        for (Long day : days) {
+            Rent2 findAvailables = new Rent2();
+            findAvailables.setDay(day);
+            if( getRents().getAvailables().contains(findAvailables) ){
+                Rent2 objAvailables = getRents().getAvailables().get(getRents().getAvailables().indexOf(findAvailables));
+                if( getRents().getAvailables().remove(objAvailables) ){
+                    getRents().getRented().add(objAvailables);
+                }
+            }
+        }
     }
 
     /**
@@ -365,17 +369,24 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 //        return data.toString();
 //    }
 
-//    public String toRent() {
-//        StringBuilder data = new StringBuilder();
-//        try {
+    public String toRent() {
+        StringBuilder data = new StringBuilder();
+        try {
 //            for (Long rented : getRents().getRented().get()) data.append("RENTED(" + convertDate(rented) + ") ");
 //            data.append("\n");
 //            for (Long available : getRents().getAvailables().get()) data.append("AVAILABLE(" + convertDate(available) + ") ");
 //            data.append("\n");
 //            for (Long expired : getRents().getExpired().get()) data.append("EXPIRED(" + convertDate(expired) + ") ");
-//        } catch (NullPointerException e){ e.printStackTrace(); }
-//        return data.toString();
-//    }
+///////////////////////////////////////////////
+            for (Rent2 rented : getRents().getRented()) data.append("RENTED(" + rented + ") ");
+            data.append("\n");
+            for (Rent2 available : getRents().getAvailables()) data.append("AVAILABLE(" + available + ") ");
+            data.append("\n");
+//            for (Rent2 expired : getRents().getExpired()) data.append("EXPIRED(" + expired + ") ");
+//            data.append("\n");
+        } catch (NullPointerException e){ e.printStackTrace(); }
+        return data.toString();
+    }
 
 //    public String jsonRent() {
 //        StringBuilder data = new StringBuilder();
