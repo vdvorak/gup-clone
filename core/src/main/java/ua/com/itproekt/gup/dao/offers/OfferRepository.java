@@ -112,6 +112,9 @@ public interface OfferRepository {
      */
     Set<String> getMatchedNames(String name);
 
+
+    //FixMe smth really strange
+    //For tests
     /**
      * Method for testing offerRepository.
      *

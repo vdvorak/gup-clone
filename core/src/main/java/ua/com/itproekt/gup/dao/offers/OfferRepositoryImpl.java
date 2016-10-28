@@ -282,9 +282,9 @@ public class OfferRepositoryImpl implements OfferRepository {
         return query;
     }
 
-
     @Override
     public void setMongoTemplateInstanceForTests(MongoTemplate mongoTemplateInstanceForTests) {
         this.mongoTemplate = mongoTemplateInstanceForTests;
+        MongoTemplateOperations.setStaticMongoTemplate(mongoTemplateInstanceForTests);
     }
 }

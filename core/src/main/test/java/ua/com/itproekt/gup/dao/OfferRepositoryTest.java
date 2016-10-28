@@ -83,22 +83,28 @@ public class OfferRepositoryTest {
 
 
     //ToDo make this
-//    @Test
-//    public void findAndUpdate_oneDocument_shouldUpdateFields() {
-//
-//        //given
-//        mongoTemplate.insert(oneOfferFile, "offer");
-//        Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
-//        String actualSeoKey = offer.getSeoKey();
-//        String actualId = offer.getId();
-//
-//        //when
-//        Offer foundOffer = offerRepository.findBySeoKey(actualSeoKey);
-//        String expectedId = foundOffer.getId();
-//
-//        //then
-//        assertEquals(expectedId, actualId);
-//    }
+    @Test
+    public void findAndUpdate_oneDocument_shouldUpdateFields() {
+
+        //given
+        Offer seedOffer = new Offer();
+        seedOffer.setDescription("test description");
+        mongoTemplate.insert(seedOffer);
+
+        Offer offer = mongoTemplate.findAll(Offer.class, "offer").get(0);
+        String actualId = offer.getId();
+
+        //when
+        Offer foundOffer = offerRepository.findById(actualId);
+        foundOffer.setDescription("updated description");
+        offerRepository.findAndUpdate(foundOffer);
+
+        Offer offerAfterUpdate = offerRepository.findById(actualId);
+        String newDescription = offerAfterUpdate.getDescription();
+
+        //then
+        assertEquals("updated description", newDescription);
+    }
 
 
     @Test

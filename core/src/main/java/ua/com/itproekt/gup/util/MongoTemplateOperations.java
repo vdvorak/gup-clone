@@ -74,4 +74,9 @@ public final class MongoTemplateOperations {
         DBCursor cursor = collection.find(query.getQueryObject());
         return cursor.explain().toMap();
     }
+
+    //for tests
+    public static void setStaticMongoTemplate(MongoTemplate staticMongoTemplate) {
+        MongoTemplateOperations.staticMongoTemplate = staticMongoTemplate;
+    }
 }
