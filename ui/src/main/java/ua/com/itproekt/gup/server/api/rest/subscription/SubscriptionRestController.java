@@ -56,7 +56,7 @@ public class SubscriptionRestController {
 //    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/subscription/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedObjResp> createSubscription(@RequestBody OfferFilterOptions offerFilterOptions) {
+         public ResponseEntity<CreatedObjResp> createSubscription(@RequestBody OfferFilterOptions offerFilterOptions) {
 
 //        if (!SecurityOperations.isUserLoggedIn()) {
 //            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -64,6 +64,15 @@ public class SubscriptionRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
         subscriptionService.create(userId, offerFilterOptions);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(value = "/simplesubscription/create", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CreatedObjResp> createSimpleSubscription(@RequestBody OfferFilterOptions offerFilterOptions) { //TODO: SimpleSubscription..
+
+        String email = SecurityOperations.getLoggedUserId();
+        subscriptionService.create(email, offerFilterOptions);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
