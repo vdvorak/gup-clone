@@ -7,8 +7,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * JUnit tests using Fongo (fake mongo) library. Testing of ProfileRepository interface.
@@ -119,5 +123,143 @@ public class ProfileRepositoryTest {
     }
 
 
+    @Test
+         public void deleteProfileById_shouldDeleteProfileById() {
+
+        //given
+        Profile seedProfile = new Profile();
+        mongoTemplate.insert(seedProfile);
+
+        Profile profile = mongoTemplate.findAll(Profile.class, "users").get(0);
+        String expectedId = profile.getId();
+
+        //when
+        profileRepository.deleteProfileById(expectedId);
+
+        List<Profile> profiles = mongoTemplate.findAll(Profile.class, "users");
+        int actualSize = profiles.size();
+
+        //then
+        assertEquals(0, actualSize);
+    }
+
+    @Test
+    public void profileExists_shouldShowIfProfileExistWithId() {
+
+        //given
+        Profile seedProfile = new Profile();
+        mongoTemplate.insert(seedProfile);
+
+        Profile profile = mongoTemplate.findAll(Profile.class, "users").get(0);
+        String expectedId = profile.getId();
+
+        //when
+        boolean isProfileExist = profileRepository.profileExists(expectedId);
+
+        //then
+        assertTrue(isProfileExist);
+    }
+
+    @Test
+    public void profileExists_shouldShowIfProfileExistWithEmail() {
+
+        //given
+        Profile seedProfile = new Profile();
+        seedProfile.setEmail("test@gmail.com");
+        mongoTemplate.insert(seedProfile);
+
+        //when
+        boolean isProfileExist = profileRepository.profileExistsWithEmail("test@gmail.com");
+
+        //then
+        assertTrue(isProfileExist);
+    }
+
+    @Test
+    public void profileExists_shouldShowIfProfileExistWithSocWendor() {
+
+        //given
+        Profile seedProfile = new Profile();
+        seedProfile.setSocWendor("gup.com.ua");
+        mongoTemplate.insert(seedProfile);
+
+        //when
+        boolean isProfileExist = profileRepository.profileExistsWithSocWendor("gup.com.ua");
+
+        //then
+        assertTrue(isProfileExist);
+    }
+
+
+    @Test
+    public void profileExists_shouldShowIfProfileExistWithprofileExistsWithUid() {
+
+        //given
+        Profile seedProfile = new Profile();
+        seedProfile.setUid("123456");
+        mongoTemplate.insert(seedProfile);
+
+        //when
+        boolean isProfileExist = profileRepository.profileExistsWithUid("123456");
+
+        //then
+        assertTrue(isProfileExist);
+    }
+
+
+    @Test
+    public void profileExists_shouldShowIfProfileExistWithUidAndWendor() {
+
+        //given
+        Profile seedProfile = new Profile();
+        seedProfile.setSocWendor("gup.com.ua");
+        seedProfile.setUid("123456");
+        mongoTemplate.insert(seedProfile);
+
+        //when
+        boolean isProfileExist = profileRepository.profileExistsWithUidAndWendor("123456", "gup.com.ua");
+
+        //then
+        assertTrue(isProfileExist);
+    }
+
+
+    @Test
+    public void findAllProfilesForAdmin_shouldFindProfilesWithFilterOptionsSkip() {
+
+        //given
+        mongoTemplate.insert(new Profile());
+        mongoTemplate.insert(new Profile());
+        mongoTemplate.insert(new Profile());
+
+        //when
+        ProfileFilterOptions profileFilterOptions = new ProfileFilterOptions();
+        profileFilterOptions.setSkip(1);
+
+        List<Profile> profiles = profileRepository.findAllProfiles(profileFilterOptions);
+        int resultSize = profiles.size();
+
+        //then
+        assertEquals(2, resultSize);
+    }
+
+    @Test
+    public void findAllProfilesForAdmin_shouldFindProfilesWithFilterOptionsLimit() {
+
+        //given
+        mongoTemplate.insert(new Profile());
+        mongoTemplate.insert(new Profile());
+        mongoTemplate.insert(new Profile());
+
+        //when
+        ProfileFilterOptions profileFilterOptions = new ProfileFilterOptions();
+        profileFilterOptions.setLimit(1);
+
+        List<Profile> profiles = profileRepository.findAllProfiles(profileFilterOptions);
+        int resultSize = profiles.size();
+
+        //then
+        assertEquals(1, resultSize);
+    }
 }
 
