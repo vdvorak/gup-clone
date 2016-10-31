@@ -263,4 +263,12 @@ public class ProfileRepositoryImpl implements ProfileRepository {
                 Query.query(Criteria.where("id").is(profileId)),
                 new Update().pull("userRoles", userRole), Profile.class);
     }
+
+
+    //ToDo delete this bulshit in the future
+    @Override
+    public void setMongoTemplateInstanceForTests(MongoTemplate mongoTemplateInstanceForTests) {
+        this.mongoTemplate = mongoTemplateInstanceForTests;
+        MongoTemplateOperations.setStaticMongoTemplate(mongoTemplateInstanceForTests);
+    }
 }

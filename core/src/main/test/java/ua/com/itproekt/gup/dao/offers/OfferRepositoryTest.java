@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.dao;
+package ua.com.itproekt.gup.dao.offers;
 
 
 import com.github.fakemongo.Fongo;
@@ -7,12 +7,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import ua.com.itproekt.gup.dao.offers.OfferRepository;
-import ua.com.itproekt.gup.dao.offers.OfferRepositoryImpl;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -35,7 +34,9 @@ public class OfferRepositoryTest {
         // create fake mongo database
         mongo = fongo.getMongo();
         mongoTemplate = new MongoTemplate(mongo, "dbName");
-        mongoTemplate.createCollection(Offer.class);
+
+        //FixMe maby this important, maybe no
+//        mongoTemplate.createCollection(Offer.class);
 
         fongo.dropDatabase("dbName");
 
@@ -316,6 +317,123 @@ public class OfferRepositoryTest {
         assertEquals((Long) 20000l, offers.get(2).getCreatedDate());
     }
 
+
+    @Test
+    public void findOffersWihOptions_filterOption_ShouldReturnOffersInAscensiveOrderByTheirPrice() {
+
+        //given
+        Offer firstSeedOffer = new Offer().setPrice(100l);
+        Offer secondSeedOffer = new Offer().setPrice(400l);
+        Offer thirdSeedOffer = new Offer().setPrice(200l);
+
+        mongoTemplate.insert(firstSeedOffer);
+        mongoTemplate.insert(secondSeedOffer);
+        mongoTemplate.insert(thirdSeedOffer);
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setPriceSortDirection("ASC");
+
+        //when
+        List<Offer> offers = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
+        //then
+
+        assertEquals((Long) 100l, offers.get(0).getPrice());
+        assertEquals((Long) 200l, offers.get(1).getPrice());
+        assertEquals((Long) 400l, offers.get(2).getPrice());
+    }
+
+    @Test
+    public void findOffersWihOptions_filterOption_ShouldReturnOffersInDescendingOrderByTheirPrice() {
+
+        //given
+        Offer firstSeedOffer = new Offer().setPrice(100l);
+        Offer secondSeedOffer = new Offer().setPrice(400l);
+        Offer thirdSeedOffer = new Offer().setPrice(200l);
+
+        mongoTemplate.insert(firstSeedOffer);
+        mongoTemplate.insert(secondSeedOffer);
+        mongoTemplate.insert(thirdSeedOffer);
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setPriceSortDirection("DESC");
+
+        //when
+        List<Offer> offers = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
+        //then
+
+        assertEquals((Long) 400l, offers.get(0).getPrice());
+        assertEquals((Long) 200l, offers.get(1).getPrice());
+        assertEquals((Long) 100l, offers.get(2).getPrice());
+    }
+
+
+    @Test
+    public void findOffersWihOptions_filterOption_ShouldReturnOffersWithRelevantCategories() {
+
+        //given
+        LinkedHashSet<String> categories1 = new LinkedHashSet<>();
+        categories1.add("35");
+        categories1.add("64");
+        LinkedHashSet<String> categories2 = new LinkedHashSet<>();
+        categories2.add("38");
+        LinkedHashSet<String> categories3 = new LinkedHashSet<>();
+        categories3.add("35");
+        categories3.add("121");
+        categories3.add("225");
+
+        Offer firstSeedOffer = new Offer().setCategories(categories1);
+        Offer secondSeedOffer = new Offer().setCategories(categories2);
+        Offer thirdSeedOffer = new Offer().setCategories(categories3);
+
+        mongoTemplate.insert(firstSeedOffer);
+        mongoTemplate.insert(secondSeedOffer);
+        mongoTemplate.insert(thirdSeedOffer);
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        LinkedHashSet<String> categoriesForFilter = new LinkedHashSet<>();
+        categoriesForFilter.add("35");
+        offerFilterOptions.setCategories(categoriesForFilter);
+
+        //when
+        List<Offer> offers = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
+        //then
+
+        assertEquals(2, offers.size());
+    }
+
+    @Test
+    public void findOffersWihOptions_filterOption_ShouldReturnOffersWithThirdLeveRelevantCategorie() {
+
+        //given
+        LinkedHashSet<String> categories1 = new LinkedHashSet<>();
+        categories1.add("35");
+        categories1.add("64");
+        LinkedHashSet<String> categories2 = new LinkedHashSet<>();
+        categories2.add("38");
+        LinkedHashSet<String> categories3 = new LinkedHashSet<>();
+        categories3.add("35");
+        categories3.add("121");
+        categories3.add("225");
+
+        Offer firstSeedOffer = new Offer().setCategories(categories1);
+        Offer secondSeedOffer = new Offer().setCategories(categories2);
+        Offer thirdSeedOffer = new Offer().setCategories(categories3);
+
+        mongoTemplate.insert(firstSeedOffer);
+        mongoTemplate.insert(secondSeedOffer);
+        mongoTemplate.insert(thirdSeedOffer);
+
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        LinkedHashSet<String> categoriesForFilter = new LinkedHashSet<>();
+        categoriesForFilter.add("225");
+        offerFilterOptions.setCategories(categoriesForFilter);
+
+        //when
+        List<Offer> offers = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
+        //then
+
+        assertEquals(1, offers.size());
+    }
 
     //ToDo impl this
 //    @Test
