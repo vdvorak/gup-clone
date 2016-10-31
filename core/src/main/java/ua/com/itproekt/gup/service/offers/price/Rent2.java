@@ -180,18 +180,21 @@ public class Rent2 implements Comparable<Rent2>, Cloneable {
 
     @Override
     public String toString() {
+//        return "{" +
+//                "day=" + ConvertUtil.toDate(day) +
+//                ", user=" + user +
+//                ", confirm=" + confirm +
+//                ", prepaid=" + prepaid +
+//                ", dayPrepaid=" + dayPrepaid +
+//                ", orderDate=" + orderDate +
+//                ", updateDate=" + updateDate +
+//                ", rentStatus=" + rentStatus +
+//                ", orderStatus=" + orderStatus +
+//                ", salesRemained=" + salesRemained +
+//                ", order=" + order +
+//                '}';
         return "{" +
-                "day=" + ConvertUtil.toDate(day) +
-                ", user=" + user +
-                ", confirm=" + confirm +
-                ", prepaid=" + prepaid +
-                ", dayPrepaid=" + dayPrepaid +
-                ", orderDate=" + orderDate +
-                ", updateDate=" + updateDate +
-                ", rentStatus=" + rentStatus +
-                ", orderStatus=" + orderStatus +
-                ", salesRemained=" + salesRemained +
-                ", order=" + order +
+                ConvertUtil.toDate(day) +
                 '}';
     }
 

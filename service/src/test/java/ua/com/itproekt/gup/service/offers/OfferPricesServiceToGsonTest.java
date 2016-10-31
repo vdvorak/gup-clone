@@ -81,10 +81,12 @@ public class OfferPricesServiceToGsonTest {
     public void testContains(){
         System.out.println("--------------------[ testContains (Rent) ]");
         service.addPrices(priceRents.get("scheme4").getPrice(), ConvertUtil.toDate(priceRents.get("scheme4").getDays()));
+//        service.getRents().setExpired(); //FIXME: java.util.ConcurrentModificationException
         service.addRent(ConvertUtil.toDate(rents.get("delete41").getDays()));
         service.addRent(ConvertUtil.toDate(rents.get("delete42").getDays()));
 
         System.out.println(service.toJson());
+        System.out.println(service);
         System.out.println(service.toRent());
     }
 

@@ -226,7 +226,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
-    public void addRent(Long[] days) {
+    public void addRent(Long[] days) throws ConcurrentModificationException {
 //        Collection<Long> availables = new TreeSet<Long>(),
 //                rented = new TreeSet<Long>(); //TODO:...
 //
@@ -248,28 +248,22 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 //            e.printStackTrace();
 //        }
 //////////////////////////////////////////
-        System.err.println("#0");
         if( getRents().getAvailables().isEmpty() ){
-            System.err.println("#1 (" + days.length + ")");
-            for (Long day : days) {
-                System.err.println("#2");
-                Rent2 newAvailables = new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null);
-                getRents().getAvailables().add(newAvailables);
+            for (Price prices : this) {
+                for (Long day : prices) getRents().getAvailables().add(new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
             }
         } else {
             for (Long day : days) {
                 Rent2 findAvailables = new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null);
-                System.err.println("#3 (" + getRents().getAvailables().size() + ") " + ConvertUtil.toDate(day) + "==" + ConvertUtil.toDate(findAvailables.getDay()));
                 if( getRents().getAvailables().contains(findAvailables) ){
-                    System.err.println("4");
                     Rent2 objAvailables = getRents().getAvailables().get(getRents().getAvailables().indexOf(findAvailables));
                     if( getRents().getAvailables().remove(objAvailables) ){
-                        System.err.println("5");
                         getRents().getRented().add(objAvailables);
                     }
                 }
             }
         }
+//        getRents().setExpired();
     }
 
     /**
@@ -366,10 +360,19 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
     }
 
     public Rents2 getRents(){
-        rents.init();
+//        rents.init();
         return rents;
     }
 
+    @Override
+    public String toString() throws NoSuchElementException {
+        StringBuilder data = new StringBuilder();
+        for (Price prices : this) {
+            for (Long price : prices) data.append("(" + prices.get() + ")" + convertDate(price) + " ");
+            if (!prices.isEmpty()) data.append("\n");
+        }
+        return data.toString();
+    }
 //    @Override
 //    public String toString() throws NoSuchElementException {
 //        StringBuilder data = new StringBuilder();
@@ -392,14 +395,27 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 //            for (Long available : getRents().getAvailables().get()) data.append("AVAILABLE(" + convertDate(available) + ") ");
 //            data.append("\n");
 //            for (Long expired : getRents().getExpired().get()) data.append("EXPIRED(" + convertDate(expired) + ") ");
-///////////////////////////////////////////////
-            for (Rent2 rented : getRents().getRented()) data.append("RENTED(" + rented + ") ");
-            data.append("\n");
-            for (Rent2 available : getRents().getAvailables()) data.append("AVAILABLE(" + available + ") ");
-            data.append("\n");
-//            for (Rent2 expired : getRents().getExpired()) data.append("EXPIRED(" + expired + ") ");
-//            data.append("\n");
-        } catch (NullPointerException e){ e.printStackTrace(); }
+/////////////////////////////////////////////////
+            if(getRents().getRented()!=null){
+                Iterator<Rent2> rented = getRents().getRented().iterator();
+                while (rented.hasNext()) data.append("RENTED" + rented.next() + " ");
+                data.append("\n");
+            }
+            if(getRents().getAvailables()!=null){
+                Iterator<Rent2> availables = getRents().getAvailables().iterator();
+                while (availables.hasNext()) data.append("AVAILABLE" + availables.next() + " ");
+                data.append("\n");
+            }
+            if(getRents().getExpired()!=null){
+                Iterator<Rent2> expired = getRents().getExpired().iterator();
+                while (expired.hasNext()) data.append("EXPIRED" + expired.next() + " ");
+                data.append("\n");
+            }
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        } catch (ConcurrentModificationException e){
+            e.printStackTrace();
+        }
         return data.toString();
     }
 

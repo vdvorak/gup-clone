@@ -2,10 +2,7 @@ package ua.com.itproekt.gup.service.offers;
 
 import ua.com.itproekt.gup.service.offers.price.Rent2;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Rents2 extends ConcurrentLinkedDeque<List<Rent2>> {
@@ -90,28 +87,46 @@ public class Rents2 extends ConcurrentLinkedDeque<List<Rent2>> {
         Long lDate = date.getTime();
 
         try {
+            System.err.println( "-3" );
+            int countExpired = 0;
             for (List<Rent2> expired:this){
+                System.err.println( "-2 (=" + expired.size() + " " + getAvailables().equals(expired) + "=" + getAvailables().size() + " & " + getRented().equals(expired) + "=" + getRented().size() + ")" );
                 /*
                  * 'Expired'
                  */
-                if (!getAvailables().equals(expired) && !getRented().equals(expired)){
+////                if (!getAvailables().equals(expired) && !getRented().equals(expired)){
+//                if ((0<getAvailables().size() && !getAvailables().equals(expired))
+//                        && (0<getRented().size() && !getRented().equals(expired))){
+                if(++countExpired==2){
+                    System.err.println( "-1" );
                     /*
                      * 'Availables'
                      */
-                    for (Rent2 objAvailables : getAvailables()){
-                        if (objAvailables.getDay()<lDate){
-                            expired.add(objAvailables);
-                            getAvailables().remove(objAvailables);
+                    if(getAvailables()!=null){
+                        System.err.println( "#0" );
+                        Iterator<Rent2> availables = getAvailables().iterator();
+                        while (availables.hasNext()){
+                            Rent2 objAvailables = availables.next();
+                            System.err.println( "#1" );
+                            if (objAvailables.getDay()<lDate){
+                                System.err.println( "#2" );
+                                expired.add(objAvailables);
+                                getAvailables().remove(objAvailables);
+                            }
                         }
                     }
 
                     /*
                      * 'Rented'
                      */
-                    for (Rent2 objRented : getRented()){
-                        if (objRented.getDay()<lDate){
-                            expired.add(objRented);
-                            getRented().remove(objRented);
+                    if(getRented()!=null){
+                        Iterator<Rent2> rented = getRented().iterator();
+                        while (rented.hasNext()){
+                            Rent2 objRented = rented.next();
+                            if (objRented.getDay()<lDate){
+                                expired.add(objRented);
+                                getRented().remove(objRented);
+                            }
                         }
                     }
 
