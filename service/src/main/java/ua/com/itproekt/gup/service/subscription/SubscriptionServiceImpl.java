@@ -43,6 +43,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    public void create(Subscription subscription) {
+        subscriptionRepository.create(subscription);
+    }
+
+    @Override
     public Subscription find(String subscriptionId) {
         return subscriptionRepository.find(subscriptionId);
     }
@@ -86,7 +91,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             if (offerList.size() > 0) {
                 // go through results and send them for user email
 
-                profile = profilesService.findWholeProfileById(subscription.getUserId());
+                profile = profilesService.findWholeProfileById(subscription.getEmail());
 
                 for (Offer offer : offerList) {
                     Map<String, String> resources = new HashMap<>();
