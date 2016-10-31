@@ -34,7 +34,9 @@ public class OfferRepositoryTest {
         // create fake mongo database
         mongo = fongo.getMongo();
         mongoTemplate = new MongoTemplate(mongo, "dbName");
-        mongoTemplate.createCollection(Offer.class);
+
+        //FixMe maby this important, maybe no
+//        mongoTemplate.createCollection(Offer.class);
 
         fongo.dropDatabase("dbName");
 

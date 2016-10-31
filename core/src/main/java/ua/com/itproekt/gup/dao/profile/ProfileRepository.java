@@ -162,14 +162,32 @@ public interface ProfileRepository {
 //     */
 //    void addFriend(String profileId, String friendProfileId);
 
+    /**
+     * Add new role to user.
+     *
+     * @param profileId - the profile ID.
+     * @param userRole - the user role.
+     */
     void addUserRole(String profileId, UserRole userRole);
 
+    /**
+     * Remove specific role from user.
+     *
+     * @param profileId     - the profile ID
+     * @param userRole      - the user role which need to be remove
+     */
     void deleteUserRole(String profileId, UserRole userRole);
 
     Set<String> getMatchedNames(String term);
 
     List<Profile> getMatchedNamesToFindWithId(String term);
 
+    /**
+     * Find and return profiles with matched companies to input string argument.
+     *
+     * @param term  - the input string argument with companies name.
+     * @return      - the profile list.
+     */
     List<Profile> getMatchedCompanies(String term);
 
     /**
