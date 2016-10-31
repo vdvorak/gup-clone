@@ -13,7 +13,11 @@ public class Subscription {
     @Id
     private String id;
 
-    private String userId;
+    private String email;
+
+    private String authEmail;
+    private String notAuthEmail;
+
     private OfferFilterOptions offerFilterOptions;
     private Long createDate;
     private Long lastCheckDate;
@@ -22,8 +26,8 @@ public class Subscription {
     public Subscription() {
     }
 
-    public Subscription(String userId, OfferFilterOptions offerFilterOptions) {
-        this.userId = userId;
+    public Subscription(String email, OfferFilterOptions offerFilterOptions) {
+        this.email = email;
         this.offerFilterOptions = offerFilterOptions;
     }
 
@@ -41,12 +45,12 @@ public class Subscription {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public OfferFilterOptions getOfferFilterOptions() {
@@ -73,11 +77,28 @@ public class Subscription {
         this.createDate = createDate;
     }
 
+
+    public String getAuthEmail() {
+        return authEmail;
+    }
+
+    public void setAuthEmail(String authEmail) {
+        this.authEmail = authEmail;
+    }
+
+    public String getNotAuthEmail() {
+        return notAuthEmail;
+    }
+
+    public void setNotAuthEmail(String notAuthEmail) {
+        this.notAuthEmail = notAuthEmail;
+    }
+
     @Override
     public String toString() {
         return "Subscription{" +
                 "id='" + id + '\'' +
-                ", userId='" + userId + '\'' +
+                ", email='" + email + '\'' +
                 ", offerFilterOptions=" + offerFilterOptions +
                 ", createDate=" + createDate +
                 ", lastCheckDate=" + lastCheckDate +
