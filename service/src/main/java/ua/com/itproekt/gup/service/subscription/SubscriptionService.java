@@ -14,8 +14,6 @@ public interface SubscriptionService {
      */
     void create(String userId, OfferFilterOptions offerFilterOptions);
 
-
-
     void create(Subscription subscription);
 
     /**
