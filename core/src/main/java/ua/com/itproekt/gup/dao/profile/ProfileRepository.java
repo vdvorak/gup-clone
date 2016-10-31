@@ -89,8 +89,8 @@ public interface ProfileRepository {
     /**
      * Find all profiles entity page.
      *
-     * @param profileFilterOptions the profile filter options
-     * @return the entity page
+     * @param profileFilterOptions  - the profile filter options
+     * @return                      - the list of profiles
      */
     List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions);
 
@@ -98,7 +98,7 @@ public interface ProfileRepository {
     /**
      * This method provides additional information for admin.
      *
-     * @param profileFilterOptions - the ProfileFilterOptions object
+     * @param profileFilterOptions  - the ProfileFilterOptions object
      * @return                      - the list of relevant to filter profiles
      */
     List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions);
@@ -122,17 +122,17 @@ public interface ProfileRepository {
     /**
      * Profile rating exists boolean.
      *
-     * @param profileId       the profile id
-     * @param profileRatingId the profile rating id
-     * @return the boolean
+     * @param profileId         - the profile id
+     * @param profileRatingId   - the profile rating id
+     * @return                  - the boolean result
      */
     boolean profileRatingExists(String profileId, String profileRatingId);
 
     /**
      * Create profile rating with incrementation field "point".
      *
-     * @param profileId     the profile id
-     * @param profileRating the profile rating
+     * @param profileId         - the profile id
+     * @param profileRating     - the profile rating
      */
     void createProfileRating(String profileId, ProfileRating profileRating);
 
