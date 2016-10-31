@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.dao;
+package ua.com.itproekt.gup.dao.offers;
 
 
 import com.github.fakemongo.Fongo;
@@ -7,8 +7,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import ua.com.itproekt.gup.dao.offers.OfferRepository;
-import ua.com.itproekt.gup.dao.offers.OfferRepositoryImpl;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
