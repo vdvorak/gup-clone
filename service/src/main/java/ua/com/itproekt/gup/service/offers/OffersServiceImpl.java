@@ -42,11 +42,7 @@ public class OffersServiceImpl implements OffersService {
     @Autowired
     private ActivityFeedService activityFeedService;
 
-    /**
-     * This method allow you to register new user and create offer at the same time.
-     *
-     * @param offerRegistration must contain offer, email and password
-     */
+
     @Override
     public void createWithRegistration(OfferRegistration offerRegistration) {
 
@@ -67,9 +63,7 @@ public class OffersServiceImpl implements OffersService {
         create(offerRegistration.getOffer());
     }
 
-    /**
-     * @param offer
-     */
+
     @Override
     public void create(Offer offer) {
         Offer newOffer = new Offer()
@@ -151,10 +145,7 @@ public class OffersServiceImpl implements OffersService {
         return offerRepository.findOffersWithOptions(offerFilterOptions);
     }
 
-    /**
-     * @param oldOffer
-     * @return
-     */
+
     @Override
     public Offer edit(Offer oldOffer) {
         Offer newOffer = new Offer()
@@ -239,44 +230,30 @@ public class OffersServiceImpl implements OffersService {
     }
 
 
-    /**
-     * @param offer offer
-     * @return OfferInfo
-     */
     @Override
     public OfferInfo getPublicOfferInfoByOffer(Offer offer) {
         return publicOfferPreparator(offer);
     }
 
-    /**
-     * @param offerId offer id
-     * @return offerInfo object
-     */
+
     @Override
     public OfferInfo getPrivateOfferInfoById(String offerId) {
         return privateOfferPreparator(offerRepository.findById(offerId));
     }
 
 
-    /**
-     * @param offer offer
-     * @return OfferInfo object
-     */
     @Override
     public OfferInfo getPrivateOfferInfoByOffer(Offer offer) {
         return privateOfferPreparator(offer);
     }
 
-    /**
-     * @param offerFilterOptions - object with filter options
-     * @return list of offerInfo objects
-     */
+
     @Override
     public List<OfferInfo> getListOfMiniPublicOffersWithOptions(OfferFilterOptions offerFilterOptions) {
 
         // here we receive list of offers but with redundant information
         List<Offer> notPreparedOfferList;
-        
+
         if (offerFilterOptions.getFavouriteCategories() == null){
             notPreparedOfferList = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
         }else{
@@ -287,21 +264,13 @@ public class OffersServiceImpl implements OffersService {
         return publicMiniOfferInfoPreparator(notPreparedOfferList);
     }
 
-    /**
-     * @param offerFilterOptions
-     * @param excludeOfferId
-     * @return
-     */
+
     @Override
     public List<OfferInfo> getListOfMiniPublicOffersWithOptionsAndExclude(OfferFilterOptions offerFilterOptions, String excludeOfferId) {
         return publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptions, excludeOfferId).getEntities());
     }
 
 
-    /**
-     * @param offerFilterOptions
-     * @return
-     */
     @Override
     public List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions, List<Order> orderTotalList) {
         List<OfferInfo> offerInfoList = new ArrayList<>();
@@ -335,8 +304,10 @@ public class OffersServiceImpl implements OffersService {
 
 
     /**
-     * @param offer
-     * @return
+     * Return main image of the offer.
+     *
+     * @param offer     - the offer
+     * @return          - the ID of the main image
      */
     @Override
     public String getMainOfferImage(Offer offer) {
@@ -422,8 +393,10 @@ public class OffersServiceImpl implements OffersService {
     // ----------------------------- For offer short list in private profile cabinet ----------------------
 
     /**
-     * @param offer
-     * @return
+     *
+     * @param offer             - the offer.
+     * @param orderTotalList    - the order of the offer.
+     * @return                  - the OfferInfo object.
      */
     private OfferInfo privateOfferPreparatorForShortList(Offer offer, List<Order> orderTotalList) {
         OfferInfo offerInfo = new OfferInfo();
