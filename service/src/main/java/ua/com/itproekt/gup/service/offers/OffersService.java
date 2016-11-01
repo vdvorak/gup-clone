@@ -163,9 +163,9 @@ public interface OffersService {
     List<OfferInfo> getListOfMiniPublicOffersWithOptions(OfferFilterOptions offerFilterOptions);
 
     /**
-     * @param offerFilterOptions
-     * @param excludeOfferId
-     * @return
+     * @param offerFilterOptions    - the offer filter object
+     * @param excludeOfferId        - the ID of the offer which must be excluded from result set.
+     * @return                      - the list of OfferInfo object.
      */
     List<OfferInfo> getListOfMiniPublicOffersWithOptionsAndExclude(OfferFilterOptions offerFilterOptions, String excludeOfferId);
 

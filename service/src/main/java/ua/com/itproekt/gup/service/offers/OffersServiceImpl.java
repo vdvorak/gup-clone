@@ -273,7 +273,18 @@ public class OffersServiceImpl implements OffersService {
      */
     @Override
     public List<OfferInfo> getListOfMiniPublicOffersWithOptions(OfferFilterOptions offerFilterOptions) {
-        return publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptions(offerFilterOptions).getEntities());
+
+        // here we receive list of offers but with redundant information
+        List<Offer> notPreparedOfferList;
+        
+        if (offerFilterOptions.getFavouriteCategories() == null){
+            notPreparedOfferList = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
+        }else{
+            // if we have favourite categories in FO object - we must find offer relevant for each category
+            notPreparedOfferList = prepareListOfOffersRelevantToFavouriteCategories(offerFilterOptions);
+        }
+
+        return publicMiniOfferInfoPreparator(notPreparedOfferList);
     }
 
     /**
@@ -320,6 +331,34 @@ public class OffersServiceImpl implements OffersService {
 
         return offerInfoList;
     }
+
+
+
+    /**
+     * @param offer
+     * @return
+     */
+    @Override
+    public String getMainOfferImage(Offer offer) {
+
+        Map<String, String> imagesMap;
+
+        imagesMap = offer.getImagesIds();
+
+        for (String s : imagesMap.keySet()) {
+            if (imagesMap.get(s).equals("1")) {
+                return s;
+            }
+        }
+
+        return null;
+    }
+
+
+
+    //----------------------------------------------------- Helpers -----------------------------------------
+    //-------------------------------------------------------------------------------------------------------
+
 
     /**
      * Make list of offerInfo from list of offers: delete unnecessary fields, add some additional fields
@@ -402,9 +441,6 @@ public class OffersServiceImpl implements OffersService {
             }
         }
 
-
-
-
         offerInfo.setOffer(offer);
         offerInfo.setFeedbackCount(orderFeedbackList.size());
         offerInfo.setOrdersCount(orderAmountForOffer);
@@ -413,23 +449,40 @@ public class OffersServiceImpl implements OffersService {
         return offerInfo;
     }
 
+
     /**
-     * @param offer
-     * @return
+     * Prepare LIst of Offers relevant to favourite categories.
+     *
+     * @param offerFilterOptions    - the FilterOptions object.
+     * @return                      - the list of the offers.
      */
-    @Override
-    public String getMainOfferImage(Offer offer) {
+    private List<Offer> prepareListOfOffersRelevantToFavouriteCategories(OfferFilterOptions offerFilterOptions){
+        List<Offer> resultList = new ArrayList<>();
+        LinkedHashSet<String> currentCategory = new LinkedHashSet<>();
+        int newLimit = 18;
 
-        Map<String, String> imagesMap;
-
-        imagesMap = offer.getImagesIds();
-
-        for (String s : imagesMap.keySet()) {
-            if (imagesMap.get(s).equals("1")) {
-                return s;
-            }
+        List<String> favouriteCategories = offerFilterOptions.getFavouriteCategories();
+        int categoriesAmount = favouriteCategories.size();
+        if (categoriesAmount == 1){
+            newLimit = 18;
+        }else if(categoriesAmount == 2){
+            newLimit = 9;
+        }else if(categoriesAmount == 3){
+            newLimit = 6;
         }
 
-        return null;
+        offerFilterOptions.setLimit(newLimit);
+
+        for (String favouriteCategory : favouriteCategories) {
+            currentCategory.clear();
+            currentCategory.add(favouriteCategory);
+            offerFilterOptions.setCategories(currentCategory);
+
+            // add to result list new portion of offers
+            resultList.addAll(offerRepository.findOffersWithOptions(offerFilterOptions).getEntities());
+
+        }
+        return resultList;
     }
+
 }

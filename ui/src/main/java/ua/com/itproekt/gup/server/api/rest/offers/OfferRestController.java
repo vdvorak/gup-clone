@@ -114,9 +114,11 @@ public class OfferRestController {
     }
 
     /**
-     * @param offerFO
-     * @param request
-     * @return
+     *
+     *
+     * @param offerFO - the offer filter option
+     * @param request - the HttpServletRequest object for detecting user role
+     * @return - the OK status (200) if all is ok )
      */
     @CrossOrigin
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
@@ -133,6 +135,8 @@ public class OfferRestController {
             offerFO.setSkip(0);
             offerFO.setLimit(18);
         }
+
+
         List<OfferInfo> offerInfoList = offersService.getListOfMiniPublicOffersWithOptions(offerFO);
 
         return new ResponseEntity<>(offerInfoList, HttpStatus.OK);

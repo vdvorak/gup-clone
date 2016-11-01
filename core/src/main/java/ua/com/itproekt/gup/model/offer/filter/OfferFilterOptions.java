@@ -6,6 +6,12 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import java.util.List;
 import java.util.Set;
 
+
+/**
+ * Class describe options for searching offers.
+ *
+ * @author Kobylyatskyy Alexander
+ */
 public final class OfferFilterOptions extends Offer {
     Set<String> cityList;
     private int skip;
@@ -18,6 +24,7 @@ public final class OfferFilterOptions extends Offer {
     private String priceSortDirection;
     private String createdDateSortDirection;
     private boolean isMain;
+    private List<String> favouriteCategories;
 
     public int getSkip() {
         return skip;
@@ -107,10 +114,20 @@ public final class OfferFilterOptions extends Offer {
         this.cityList = cityList;
     }
 
+
+    public List<String> getFavouriteCategories() {
+        return favouriteCategories;
+    }
+
+    public void setFavouriteCategories(List<String> favouriteCategories) {
+        this.favouriteCategories = favouriteCategories;
+    }
+
     @Override
     public String toString() {
         return "OfferFilterOptions{" +
-                "skip=" + skip +
+                "cityList=" + cityList +
+                ", skip=" + skip +
                 ", limit=" + limit +
                 ", fromPrice=" + fromPrice +
                 ", toPrice=" + toPrice +
@@ -120,7 +137,7 @@ public final class OfferFilterOptions extends Offer {
                 ", priceSortDirection='" + priceSortDirection + '\'' +
                 ", createdDateSortDirection='" + createdDateSortDirection + '\'' +
                 ", isMain=" + isMain +
-                ", cityList=" + cityList +
+                ", favouriteCategories=" + favouriteCategories +
                 '}';
     }
 }
