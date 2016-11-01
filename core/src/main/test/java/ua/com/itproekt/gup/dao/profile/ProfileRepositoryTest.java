@@ -10,6 +10,7 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -124,7 +125,7 @@ public class ProfileRepositoryTest {
 
 
     @Test
-         public void deleteProfileById_shouldDeleteProfileById() {
+    public void deleteProfileById_shouldDeleteProfileById() {
 
         //given
         Profile seedProfile = new Profile();
@@ -261,5 +262,31 @@ public class ProfileRepositoryTest {
         //then
         assertEquals(1, resultSize);
     }
+
+    @Test
+    public void addContactToContactList_shouldAddContactToContactList() {
+
+        //given
+        mongoTemplate.insert(new Profile());
+
+        Profile profile = mongoTemplate.findAll(Profile.class, "users").get(0);
+        String userId = profile.getId();
+
+
+        //when
+        profileRepository.addContactToContactList(userId, "123");
+
+        Profile updatedProfile = mongoTemplate.findAll(Profile.class, "users").get(0);
+        Set<String> contactList = updatedProfile.getContactList();
+        String contactResult = null;
+        for (String s : contactList) {
+            contactResult = s;
+        }
+
+        //then
+        assertEquals("123", contactResult);
+    }
+
+
 }
 
