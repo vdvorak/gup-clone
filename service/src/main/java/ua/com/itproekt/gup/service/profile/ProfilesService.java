@@ -226,20 +226,26 @@ public interface ProfilesService {
     boolean isUserAdminById(String userId);
 
     /**
-     * @param seoWord
-     * @return
+     * Check is SeoWord is free.
+     *
+     * @param seoWord - the seoWord
+     * @return - true or false
      */
     boolean isSeoWordFree(String seoWord);
 
     /**
-     * @param userId
-     * @return
+     * Check is user online or not.
+     *
+     * @param userId - the user ID.
+     * @return - true or false.
      */
     boolean isUserOnline(String userId);
 
     /**
-     * @param id
-     * @return
+     * This method find and return profile by it's ID but previously delete some fields.
+     *
+     * @param id - the profile ID.
+     * @return - the profile.
      */
     ProfileInfo findPublicProfileById(String id);
 

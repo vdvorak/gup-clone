@@ -47,9 +47,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 //    @Autowired
 //    private SessionRegistry sessionRegistry;
 
-    /**
-     * @param profile the profile
-     */
+
     @Override
     public void createProfile(Profile profile) {
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
@@ -98,9 +96,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         profile.setId(newProfile.getId());
     }
 
-    /**
-     * @param profile the profile
-     */
+
     @Override
     public void facebookRegister(Profile profile) {
         HashSet<UserRole> userRoles = new HashSet<UserRole>() {{
@@ -123,137 +119,91 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
 
-    /**
-     * @param id
-     * @return
-     */
     @Override
     public Profile findById(String id) {
         return profileRepository.findById(id);
     }
 
-    /**
-     * @param id the id
-     * @return
-     */
+
     @Override
     public Profile findWholeProfileById(String id) {
         return profileRepository.findById(id);
     }
 
-    /***
-     * @param profile
-     * @return
-     */
+
     @Override
     public Profile editProfile(Profile profile) {
         profile.setNotCompletedFields(countEmptyFields(profile));
         return profileRepository.findProfileAndUpdate(profile);
     }
 
-    /***
-     * @param id the id
-     */
+
     @Override
     public void deleteProfileById(String id) {
         profileRepository.deleteProfileById(id);
     }
 
-    /***
-     * @param id the id
-     * @return
-     */
+
     @Override
     public boolean profileExists(String id) {
         return profileRepository.profileExists(id);
     }
 
-    /**
-     * @param email the email
-     * @return
-     */
+
     @Override
     public boolean profileExistsWithEmail(String email) {
         return profileRepository.profileExistsWithEmail(email);
     }
 
-    /**
-     * @param socWendor the socWendor
-     * @return
-     */
+
     @Override
     public boolean profileExistsWithSocWendor(String socWendor) {
         return profileRepository.profileExistsWithSocWendor(socWendor);
     }
 
-    /**
-     * @param uid the socWendor
-     * @return
-     */
+
     @Override
     public boolean profileExistsWithUid(String uid) {
         return profileRepository.profileExistsWithUid(uid);
     }
 
-    /**
-     * @param uid       the uid
-     * @param socWendor the socWendor
-     * @return
-     */
+
     @Override
     public boolean profileExistsWithUidAndWendor(String uid, String socWendor) {
         return profileRepository.profileExistsWithUidAndWendor(uid, socWendor);
     }
 
-    /***
-     * @param profileFilterOptions the profile filter options
-     * @return
-     */
+
     @Override
     public List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions) {
         return profileRepository.findAllProfiles(profileFilterOptions);
     }
 
-    /**
-     * @param profileFilterOptions profile filter options
-     * @return
-     */
+
     @Override
     public List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions) {
         return profileRepository.findAllProfilesForAdmin(profileFilterOptions);
     }
 
-    /**
-     * @param username the username
-     * @return
-     */
+
     @Override
     public Profile findProfileByUsername(String username) {
         return profileRepository.findByUsername(username);
     }
 
-    /**
-     * @param email the email
-     * @return
-     */
+
     @Override
     public Profile findProfileByEmail(String email) {
         return profileRepository.findByEmail(email);
     }
 
-    /**
-     * @param email
-     * @return
-     */
+
     @Override
     public Profile findWholeProfileByEmail(String email) {
         return profileRepository.findByEmail(email);
     }
 
-    /**
-     * @param user
-     * @return
-     */
+
     @Override
     public boolean isUserModerator(Profile user) {
         Set<UserRole> userRoleSet = user.getUserRoles();
@@ -265,30 +215,21 @@ public class ProfilesServiceImpl implements ProfilesService {
         return false;
     }
 
-    /**
-     * @param userId
-     * @return
-     */
+
     @Override
     public boolean isUserAdminById(String userId) {
         Profile profile = profileRepository.findById(userId);
         return isUserModerator(profile);
     }
 
-    /**
-     * @param seoWord
-     * @return
-     */
+
     @Override
     public boolean isSeoWordFree(String seoWord) {
         Profile profile = profileRepository.findBySeoWord(seoWord);
         return profile == null;
     }
 
-    /**
-     * @param profileId     the profile id
-     * @param profileRating the profile rating
-     */
+
     @Override
     public void createProfileRating(String profileId, ProfileRating profileRating) {
         ProfileRating newProfileRating = new ProfileRating()
@@ -301,67 +242,43 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileRating.setProfileRatingId(newProfileRating.getProfileRatingId());
     }
 
-    /**
-     * @param profileId       the profile id
-     * @param profileRatingId the profile rating id
-     * @return
-     */
+
     @Override
     public int deleteProfileRating(String profileId, String profileRatingId) {
         return profileRepository.deleteProfileRating(profileId, profileRatingId);
     }
 
-    /**
-     * @param profileId       the profile id
-     * @param profileRatingId the profile rating id
-     * @return
-     */
+
     @Override
     public Profile findProfileRating(String profileId, String profileRatingId) {
         return profileRepository.findProfileRating(profileId, profileRatingId);
     }
 
-    /**
-     * @param profileId       the profile id
-     * @param profileRatingId the profile rating id
-     * @return
-     */
+
     @Override
     public boolean profileRatingExists(String profileId, String profileRatingId) {
         return profileRepository.profileRatingExists(profileId, profileRatingId);
     }
 
-    /**
-     * @param term
-     * @return
-     */
+
     @Override
     public Set<String> getMatchedNames(String term) {
         return profileRepository.getMatchedNames(term);
     }
 
-    /**
-     * @param term
-     * @return
-     */
+
     @Override
     public List<Profile> getMatchedNamesWithIds(String term) {
         return profileRepository.getMatchedNamesToFindWithId(term);
     }
 
-    /**
-     * @param term
-     * @return
-     */
+
     @Override
     public List<Profile> getMatchedCompanies(String term) {
         return profileRepository.getMatchedCompanies(term);
     }
 
-    /**
-     * @param profileOwnerContactListId
-     * @param contactId
-     */
+
     @Override
     public void addContactToContactList(String profileOwnerContactListId, String contactId) {
         profileRepository.addContactToContactList(profileOwnerContactListId, contactId);
@@ -384,10 +301,6 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
 
-    /**
-     * @param id
-     * @return
-     */
     @Override
     public ProfileInfo findPrivateProfileByIdAndUpdateLastLoginDate(String id) {
 
@@ -397,10 +310,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         return prepareAdditionalFieldForPrivate(profile);
     }
 
-    /**
-     * @param email
-     * @return
-     */
+
     @Override
     public ProfileInfo findPrivateProfileByEmailAndUpdateLastLoginDate(String email) {
         long startTime = System.currentTimeMillis();
@@ -421,46 +331,34 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileInfo;
     }
 
-    /**
-     * @param id
-     * @return
-     */
+
     @Override
     public ProfileInfo findPublicProfileById(String id) {
         return prepareAdditionalFieldForPublic(findById(id));
     }
 
 
-    /**
-     * @param profileFilterOptions
-     * @return
-     */
     @Override
     public List<ProfileInfo> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions) {
         return getListOfPublicProfilesWithOptions(profileRepository.findAllProfiles(profileFilterOptions));
     }
 
 
-    /**
-     * @param uid
-     * @param socWendor
-     * @return
-     */
     @Override
     public ProfileInfo findPrivateProfileByUidAndUpdateLastLoginDate(String uid, String socWendor) {
         return prepareAdditionalFieldForPrivate(profileRepository.findProfileByUidAndWendor(uid, socWendor));
     }
 
 
-    /**
-     * @param uid       the uid
-     * @param socWendor the socWendor
-     * @return
-     */
     @Override
     public Profile findProfileByUidAndWendor(String uid, String socWendor) {
         return profileRepository.findProfileByUidAndWendor(uid, socWendor);
     }
+
+
+
+    // -------------------------------------------- Helper methods ------------------------------------------
+    //-------------------------------------------------------------------------------------------------------
 
     /**
      * @param profile
@@ -524,8 +422,8 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     /**
-     * @param profile
-     * @return
+     * @param profile - the profile.
+     * @return - the ProfileInfo object.
      */
     private ProfileInfo prepareAdditionalFieldForPublic(Profile profile) {
         ProfileInfo profileInfo = new ProfileInfo(profile);
