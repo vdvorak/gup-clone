@@ -7,6 +7,7 @@ import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -66,7 +67,7 @@ public interface OfferRepository {
     EntityPage<Offer> findOffersWithOptions(OfferFilterOptions offerFilterOptions);
 
     /**
-     * Find offers based on filter options.
+     * Find offers based on filter options without excluded one.
      *
      * @param offerFilterOptions    - the OfferFilter object
      * @param excludeOfferId        - the offer ID which must be exclude from result set.
@@ -74,6 +75,17 @@ public interface OfferRepository {
      *                              list of found offers which relevant to filterOption object.
      */
     EntityPage<Offer> findOffersWithOptionsAndExcludes(OfferFilterOptions offerFilterOptions, String excludeOfferId);
+
+
+    /**
+     *  Find offers based on filter options with excluded some offers.
+     *
+     * @param offerFilterOptions    - the Offer filter options.
+     * @param excludeOffersId       - the id's of the offers which must be excluded from result list.
+     * @return                      - the entityPage object with offers inside.
+     */
+    EntityPage<Offer> findOffersWithOptionsAndExcludes(OfferFilterOptions offerFilterOptions, List<String> excludeOffersId);
+
 
     /**
      * Delete reservation information

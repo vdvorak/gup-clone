@@ -40,7 +40,7 @@ public class Profile {
     private Contact contact;
 
     private Set<String> contactList;
-    private UserProfile userProfile;
+    private UserProfile userProfile; // info about bank etc.
     private Set<String> favoriteOffers;
     @Size(max = 45)
     private String status;

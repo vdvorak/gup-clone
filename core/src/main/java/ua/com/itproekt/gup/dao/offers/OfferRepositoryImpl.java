@@ -95,6 +95,15 @@ public class OfferRepositoryImpl implements OfferRepository {
 
 
     @Override
+    public EntityPage<Offer> findOffersWithOptionsAndExcludes(OfferFilterOptions offerFilterOptions, List<String> excludeOffersId) {
+
+        Query query = queryPreparator(offerFilterOptions);
+
+        query.addCriteria(Criteria.where("id").nin(excludeOffersId));
+        return new EntityPage<>(mongoTemplate.count(query, Offer.class), mongoTemplate.find(query, Offer.class));
+    }
+
+    @Override
     public void deleteReservation(String offerId) {
         mongoTemplate.updateFirst(
                 Query.query(Criteria.where("id").is(offerId)),
