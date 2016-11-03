@@ -29,6 +29,15 @@ public class ProfileTestBuilder {
     private static final String PROFILE_BENEFICIARYBANK = "Privat Bank";
     private static final String PROFILE_BENEFICIARYACCOUNT = "3242";
     private static final String PROFILE_LEGALENTITYLOCATION = "Kiev";
+    private static final String PROFILE_IDSEOWORD = "val";
+    private static final String PROFILE_IMGID = "23423534543654654";
+    private static final String PROFILE_MAINPHONENUMBER = "38054654689";
+    private static final Long PROFILE_BIRTHDAY = 849879846846l;
+    private static final String PROFILE_STATUS = "Hello world!";
+    private static final int PROFILE_POINT = 8;
+    private static final boolean PROFILE_CONFIRMMODERATOR = true;
+    private static final Long PROFILE_CREATEDATE = 8498794846844l;
+
     private static final UserRole PROFIlE_USERROLE = UserRole.ROLE_USER;
     private static final String PROFILE_FAVOURITEOFFER_FIRST = "23432423";
     private static final String PROFILE_FAVOURITEOFFER_SECOND = "768786786";
@@ -40,6 +49,7 @@ public class ProfileTestBuilder {
     private static final String PROFILE_ADDRESS_NAME = "home";
     private static final String PROFILE_ADDRESS_ADDRESS = "Kiev";
     private static final String PROFILE_ADDRESS_PHONENUMBER = "380505665793";
+
     private static final TransportCompany PROFILE_ADDRESS_TRANSPORTCOMPANY = TransportCompany.NOVA_POSHTA;
     static Profile profile;
     private static Set<String> phoneNumbers = new HashSet<>();
@@ -89,6 +99,14 @@ public class ProfileTestBuilder {
             profile = new Profile();
             profile.setId(PROFILE_ID)
                     .setPassword(PROFILE_PASSWORD)
+                    .setIdSeoWord(PROFILE_IDSEOWORD)
+                    .setMainPhoneNumber(PROFILE_MAINPHONENUMBER)
+                    .setImgId(PROFILE_IMGID)
+                    .setBirthDate(PROFILE_BIRTHDAY)
+                    .setStatus(PROFILE_STATUS)
+                    .setPoint(PROFILE_POINT)
+                    .setConfirmModerator(PROFILE_CONFIRMMODERATOR)
+                    .setCreatedDate(PROFILE_CREATEDATE)
                     .setEmail(PROFILE_EMAIL)
                     .setUsername(PROFILE_USERNAME)
                     .setContactList(contactList)

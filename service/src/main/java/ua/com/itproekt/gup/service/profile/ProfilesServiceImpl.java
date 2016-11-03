@@ -23,6 +23,7 @@ import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.subscription.SubscriptionService;
+import ua.com.itproekt.gup.util.EntityPage;
 
 import java.util.*;
 
@@ -356,7 +357,6 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
 
-
     // -------------------------------------------- Helper methods ------------------------------------------
     //-------------------------------------------------------------------------------------------------------
 
@@ -489,16 +489,24 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     /**
-     * @param profileId
-     * @return
+     * Prepare feedback list
+     *
+     * @param profileId - the profileID
+     * @return          - the list of order's feedback
      */
     private List<OrderFeedback> feedbackListPreparatorForProfile(String profileId) {
+        List<OrderFeedback> allOffersFeedbackList = new ArrayList<>();
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
         offerFilterOptions.setAuthorId(profileId);
 
-        List<Offer> offerList = offersService.findOffersWihOptions(offerFilterOptions).getEntities();
+        EntityPage<Offer> offerEntityPage = offersService.findOffersWihOptions(offerFilterOptions);
 
-        List<OrderFeedback> allOffersFeedbackList = new ArrayList<>();
+        if (offerEntityPage == null) {
+            return allOffersFeedbackList;
+        }
+
+        List<Offer> offerList = offerEntityPage.getEntities();
+
 
         for (Offer offer : offerList) {
             List<OrderFeedback> oneOfferOrderList = orderService.findAllFeedbacksForOffer(offer.getId());
