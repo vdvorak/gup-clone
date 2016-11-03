@@ -254,9 +254,9 @@ public class OffersServiceImpl implements OffersService {
         // here we receive list of offers but with redundant information
         List<Offer> notPreparedOfferList;
 
-        if (offerFilterOptions.getFavouriteCategories() == null){
+        if (offerFilterOptions.getFavouriteCategories() == null) {
             notPreparedOfferList = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
-        }else{
+        } else {
             // if we have favourite categories in FO object - we must find offer relevant for each category
             notPreparedOfferList = prepareListOfOffersRelevantToFavouriteCategories(offerFilterOptions);
         }
@@ -269,7 +269,6 @@ public class OffersServiceImpl implements OffersService {
     public List<OfferInfo> getListOfMiniPublicOffersWithOptionsAndExclude(OfferFilterOptions offerFilterOptions, String excludeOfferId) {
         return publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptions, excludeOfferId).getEntities());
     }
-
 
     @Override
     public List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions, List<Order> orderTotalList) {
@@ -302,12 +301,11 @@ public class OffersServiceImpl implements OffersService {
     }
 
 
-
     /**
      * Return main image of the offer.
      *
-     * @param offer     - the offer
-     * @return          - the ID of the main image
+     * @param offer - the offer
+     * @return - the ID of the main image
      */
     @Override
     public String getMainOfferImage(Offer offer) {
@@ -324,7 +322,6 @@ public class OffersServiceImpl implements OffersService {
 
         return null;
     }
-
 
 
     //----------------------------------------------------- Helpers -----------------------------------------
@@ -393,10 +390,9 @@ public class OffersServiceImpl implements OffersService {
     // ----------------------------- For offer short list in private profile cabinet ----------------------
 
     /**
-     *
-     * @param offer             - the offer.
-     * @param orderTotalList    - the order of the offer.
-     * @return                  - the OfferInfo object.
+     * @param offer          - the offer.
+     * @param orderTotalList - the order of the offer.
+     * @return - the OfferInfo object.
      */
     private OfferInfo privateOfferPreparatorForShortList(Offer offer, List<Order> orderTotalList) {
         OfferInfo offerInfo = new OfferInfo();
@@ -426,21 +422,21 @@ public class OffersServiceImpl implements OffersService {
     /**
      * Prepare LIst of Offers relevant to favourite categories.
      *
-     * @param offerFilterOptions    - the FilterOptions object.
-     * @return                      - the list of the offers.
+     * @param offerFilterOptions - the FilterOptions object.
+     * @return - the list of the offers.
      */
-    private List<Offer> prepareListOfOffersRelevantToFavouriteCategories(OfferFilterOptions offerFilterOptions){
+    private List<Offer> prepareListOfOffersRelevantToFavouriteCategories(OfferFilterOptions offerFilterOptions) {
         List<Offer> resultList = new ArrayList<>();
         LinkedHashSet<String> currentCategory = new LinkedHashSet<>();
         int newLimit = 18;
 
         List<String> favouriteCategories = offerFilterOptions.getFavouriteCategories();
         int categoriesAmount = favouriteCategories.size();
-        if (categoriesAmount == 1){
+        if (categoriesAmount == 1) {
             newLimit = 18;
-        }else if(categoriesAmount == 2){
+        } else if (categoriesAmount == 2) {
             newLimit = 9;
-        }else if(categoriesAmount == 3){
+        } else if (categoriesAmount == 3) {
             newLimit = 6;
         }
 
@@ -455,6 +451,23 @@ public class OffersServiceImpl implements OffersService {
             resultList.addAll(offerRepository.findOffersWithOptions(offerFilterOptions).getEntities());
 
         }
+
+
+        if (resultList.size() < 18) {
+
+            // create list of the current offer's ID
+            List<String> currentOfferIds = new ArrayList<>();
+            for (Offer offer : resultList) {
+                currentOfferIds.add(offer.getId());
+            }
+
+            offerFilterOptions.setLimit(18 - resultList.size());
+            offerFilterOptions.setCategories(null);
+
+            // add the missing offers amount to result list
+            resultList.addAll(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptions, currentOfferIds).getEntities());
+        }
+
         return resultList;
     }
 
