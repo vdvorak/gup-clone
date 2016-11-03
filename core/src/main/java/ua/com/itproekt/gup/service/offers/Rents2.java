@@ -1,147 +1,48 @@
 package ua.com.itproekt.gup.service.offers;
 
+import ua.com.itproekt.gup.service.offers.price.ARents2;
 import ua.com.itproekt.gup.service.offers.price.Rent2;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
-public class Rents2 extends ConcurrentLinkedDeque<List<Rent2>> {
+/**
+ * @see http://ru.stackoverflow.com/questions/27770/Зачем-нужны-статические-не-вложенные-классы
+ * ********************************************************************************************
+ * Вы не сможете скомпилировать static class A { }, если он не объявлен внутри другого класса. Просто такая конструкция не поддерживается в java.
+ * Статические классы не могут быть созданы на верхнем уровне. Если речь о Static Nested Classes, то:
+   class OuterClass {
+       static class StaticNestedClass {
+       }
+       class InnerClass {
+       }
+   }
+ *
+ * Статические классы можно создавать без экземпляра класса(enclosing class), в котором он (статический класс) описан.
+   OuterClass.StaticNestedClass nestedObject = new OuterClass.StaticNestedClass();
+ *
+ * Однако это не отменяет того факта, что статический класс (как паттерн) в java присутствует. Достаточно написать ненаследуемый класс с закрытым конструктором.
+ *
+ * Статические классы верхнего уровня нельзя создавать.
+ * Что касается nested классов, то они имеют несколько различий по сравнению с Inner классами:
+ * - Объекты данных классов не содержат ссылки на объект класса в котором он находится (enclosing class). Соответственно, меньше overhead'а по памяти.
+ * - Создание объекта Nested класса не требует объекта enclosing класса, т.е. создается только один объект: new Enclosing.Nested()
+ */
+public class Rents2 extends ARents2 {
 
-    private List<Rent2> availables,
-            rented,
-            expired;
+    private static volatile Rents2 instance;
 
-    public Rents2(){
-        add(new ArrayList<Rent2>());
-        addFirst(new ArrayList<Rent2>());
-        addLast(new ArrayList<Rent2>());
-        init();
-    }
-
-    public void init(){
-        setAvailables();
-        setRented();
-        setExpired();
-    }
-
-    /**
-     * #1. Условие:
-     *     -- делать автоматическую проверку всех НЕактивных дней (переводить в НЕактивное состояние)
-     * #2. Порядок:
-     *     -- (a) при иннициализации, изначально все дни попадают в список - доступных
-     *     -- (b) дни которые клиент арендует попадает в список - арендованых
-     *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
-     *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
-     */
-    public void setAvailables(){
-        try {
-            availables = getFirst();
-        } catch (NoSuchElementException e){
-            e.printStackTrace();
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        }
-    }
-
-    public List<Rent2> getAvailables(){
-        return availables;
-    }
-
-    /**
-     * #1. Условие:
-     *     -- делать автоматическую проверку всех НЕактивных дней (переводить в НЕактивное состояние)
-     * #2. Порядок:
-     *     -- (a) при иннициализации, изначально все дни попадают в список - доступных
-     *     -- (b) дни которые клиент арендует попадает в список - арендованых
-     *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
-     *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
-     */
-    public void setRented(){
-        try {
-            rented = getLast();
-        } catch (NoSuchElementException e){
-            e.printStackTrace();
-        } catch (NullPointerException e){
-            e.printStackTrace();
-        }
-    }
-
-    public List<Rent2> getRented(){
-        return rented;
-    }
-
-    /**
-     * #1. Условие:
-     *     -- делать автоматическую проверку всех НЕактивных дней (переводить в НЕактивное состояние)
-     * #2. Порядок:
-     *     -- (a) при иннициализации, изначально все дни попадают в список - доступных
-     *     -- (b) дни которые клиент арендует попадает в список - арендованых
-     *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
-     *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
-     */
-    public void setExpired(){
-//        List<Rent2> availables = getAvailables(),
-//                renteds = getRented(),
-//                expireds = null;
-        Date date = new Date();
-        Long lDate = date.getTime();
-
-        try {
-            System.err.println( "-3" );
-            int countExpired = 0;
-            for (List<Rent2> expired:this){
-                System.err.println( "-2 (=" + expired.size() + " " + getAvailables().equals(expired) + "=" + getAvailables().size() + " & " + getRented().equals(expired) + "=" + getRented().size() + ")" );
-                /*
-                 * 'Expired'
-                 */
-////                if (!getAvailables().equals(expired) && !getRented().equals(expired)){
-//                if ((0<getAvailables().size() && !getAvailables().equals(expired))
-//                        && (0<getRented().size() && !getRented().equals(expired))){
-                if(++countExpired==2){
-                    System.err.println( "-1" );
-                    /*
-                     * 'Availables'
-                     */
-                    if(getAvailables()!=null){
-                        System.err.println( "#0" );
-                        Iterator<Rent2> availables = getAvailables().iterator();
-                        while (availables.hasNext()){
-                            Rent2 objAvailables = availables.next();
-                            System.err.println( "#1" );
-                            if (objAvailables.getDay()<lDate){
-                                System.err.println( "#2" );
-                                expired.add(objAvailables);
-                                getAvailables().remove(objAvailables);
-                            }
-                        }
-                    }
-
-                    /*
-                     * 'Rented'
-                     */
-                    if(getRented()!=null){
-                        Iterator<Rent2> rented = getRented().iterator();
-                        while (rented.hasNext()){
-                            Rent2 objRented = rented.next();
-                            if (objRented.getDay()<lDate){
-                                expired.add(objRented);
-                                getRented().remove(objRented);
-                            }
-                        }
-                    }
-
-                    this.expired = expired;
+    public static Rents2 getInstance() {
+        Rents2 localInstance = instance;
+        if (localInstance == null) {
+            synchronized (Rents2.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new Rents2();
                 }
             }
-        } catch (NoSuchElementException e){
-            e.printStackTrace();
-        } catch (NullPointerException e){
-            e.printStackTrace();
         }
-    }
-
-    public List<Rent2> getExpired(){
-        return expired;
+        return localInstance;
     }
 
 }
