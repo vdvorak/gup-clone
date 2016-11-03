@@ -12,27 +12,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.testng.annotations.BeforeMethod;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.dto.ProfileInfo;
-import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.service.offers.OffersServiceImpl;
 import ua.com.itproekt.gup.service.order.OrderServiceImpl;
 import ua.com.itproekt.gup.util.EntityPage;
-
-import java.util.List;
 
 import static org.junit.Assert.assertNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProfileServiceTest {
 
-    @InjectMocks
-    private ProfilesServiceImpl profilesService;
-
     @Mock
     OffersServiceImpl offersService;
     @Mock
     OrderServiceImpl orderService;
-
+    @InjectMocks
+    private ProfilesServiceImpl profilesService;
     @Mock
     private ProfileRepository profileRepository;
     @Mock
@@ -51,23 +46,29 @@ public class ProfileServiceTest {
     @Test
     public void findPublicProfileById_shouldFindProfileAndDeleteSomeFieldsThenWrapItIntoProfileInfo() {
 
-
         // given
         Mockito.when(profileRepository.findById("123")).thenReturn(ProfileTestBuilder.buildOneProfile());
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
         offerFilterOptions.setAuthorId("123");
 
-        Mockito.when(offersService.findOffersWihOptions(offerFilterOptions)).thenReturn(new EntityPage<Offer>());
-
-        List<Offer> offerList = offersService.findOffersWihOptions(offerFilterOptions).getEntities();
+        Mockito.when(offersService.findOffersWihOptions(offerFilterOptions)).thenReturn(new EntityPage<>());
 
         // when
         ProfileInfo profileInfo = profilesService.findPublicProfileById("123");
+
         // then
-
         assertNull(profileInfo.getProfile().getPassword());
-
-//        System.err.println("Test: " + profilesService.findById(PROFILE_ID));
+        assertNull(profileInfo.getProfile().getEmail());
+        assertNull(profileInfo.getProfile().getContactList());
+        assertNull(profileInfo.getProfile().getUserProfile());
+        assertNull(profileInfo.getProfile().getOrderAddressList());
+        assertNull(profileInfo.getProfile().getUserRoles());
+        assertNull(profileInfo.getProfile().getOfferUserContactInfoList());
+        assertNull(profileInfo.getProfile().getFavoriteOffers());
+        assertNull(profileInfo.getUserBalance());
+        assertNull(profileInfo.getUserBonusBalance());
+        assertNull(profileInfo.getUnreadMessages());
+        assertNull(profileInfo.getUnreadEventsCount());
     }
 
 

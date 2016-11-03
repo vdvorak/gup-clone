@@ -443,7 +443,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileInfo.setUserBalance(null)
                 .setUserBonusBalance(null)
                 .setUnreadMessages(null)
-                .setUnreadMessages(null)
+                .setUnreadEventsCount(null)
                 .setOrderFeedbackList(orderFeedbackList) // all users feedback for his offer
 
 
