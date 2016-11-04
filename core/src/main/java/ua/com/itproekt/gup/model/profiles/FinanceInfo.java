@@ -2,7 +2,7 @@ package ua.com.itproekt.gup.model.profiles;
 
 import java.util.Set;
 
-public class UserProfile {
+public class FinanceInfo {
     private String usreou; //ЄДРПОУ
     private String bankCode; //МФО
     private String vatNumber; //ІПН
@@ -11,37 +11,37 @@ public class UserProfile {
     private String legalEntityLocation; //Місцезнаходження юридичної особи
     private Set<String> idAddFile;
 
-    public UserProfile setLegalEntityLocation(String legalEntityLocation) {
+    public FinanceInfo setLegalEntityLocation(String legalEntityLocation) {
         this.legalEntityLocation = legalEntityLocation;
         return this;
     }
 
-    public UserProfile setUsreou(String usreou) {
+    public FinanceInfo setUsreou(String usreou) {
         this.usreou = usreou;
         return this;
     }
 
-    public UserProfile setBeneficiaryAccount(String beneficiaryAccount) {
+    public FinanceInfo setBeneficiaryAccount(String beneficiaryAccount) {
         this.beneficiaryAccount = beneficiaryAccount;
         return this;
     }
 
-    public UserProfile setBankCode(String bankCode) {
+    public FinanceInfo setBankCode(String bankCode) {
         this.bankCode = bankCode;
         return this;
     }
 
-    public UserProfile setBeneficiaryBank(String beneficiaryBank) {
+    public FinanceInfo setBeneficiaryBank(String beneficiaryBank) {
         this.beneficiaryBank = beneficiaryBank;
         return this;
     }
 
-    public UserProfile setVatNumber(String vatNumber) {
+    public FinanceInfo setVatNumber(String vatNumber) {
         this.vatNumber = vatNumber;
         return this;
     }
 
-    public UserProfile setIdAddFile(Set<String> idAddFile) {
+    public FinanceInfo setIdAddFile(Set<String> idAddFile) {
         this.idAddFile = idAddFile;
         return this;
     }
@@ -76,7 +76,7 @@ public class UserProfile {
 
     @Override
     public String toString() {
-        return "UserProfile{" +
+        return "FinanceInfo{" +
                 ", legalEntityLocation='" + legalEntityLocation + '\'' +
                 ", usreou='" + usreou + '\'' +
                 ", beneficiaryAccount='" + beneficiaryAccount + '\'' +

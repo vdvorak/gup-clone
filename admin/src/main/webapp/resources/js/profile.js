@@ -36,25 +36,6 @@ $.ajax({
 
             $('#profileName').text(getProfileName(profile));
 
-            // Leave it until extended version of userprofile will be -----------------
-
-//                        if (profile.userProfile && profile.userProfile.birthDate) {
-//                            var birthDate = new Date(profile.userProfile.birthDate);
-//                            var readableBirthDate = birthDate.getDate() + '.' + (birthDate.getMonth() + 1) + '.' + birthDate.getFullYear();
-//                            $('#birthDate').append(
-//                                    '<ul class="DateOfBirth">' +
-//                                        '<li>' +
-//                                            '<p>Дата рождения:</p>' +
-//                                        '</li>' +
-//                                        '<li>' +
-//                                            '<p>&nbsp;' + readableBirthDate + '</p>' +
-//                                        '</li>' +
-//                                    '</ul>'
-//                            );
-//                        }
-//                        else {
-//                            $('#birthDate').hide();
-//                        }
 
             if (profile.contact.aboutUs) {
                 $('.AboutMe-p').append(profile.contact.aboutUs);

@@ -123,7 +123,7 @@ $(document).ready(function () {
             200: function (profile) {
                 loadedProfile = profile;
                 updatedProfile.contact = loadedProfile.contact;
-                updatedProfile.userProfile = loadedProfile.userProfile;
+                updatedProfile.financeInfo = loadedProfile.financeInfo;
 
                 setValuesForFieldsFromProfile(profile);
 
