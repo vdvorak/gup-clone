@@ -1,7 +1,7 @@
 let userNames = []; // for Bloodhound suggestion engine
 let users;
 
-let urlAdminProfileReadAll = 'http://localhost:8184/api/rest/admin/profile/read/all';
+let urlAdminProfileReadAll = 'http://localhost:8184/api/rest/admin/profile/read/short/all';
 let urlProfilePhoto = 'http://localhost:8184/api/rest/fileStorage/profile/photo/read/id/';
 let urlProfileCreate = 'http://localhost:8183/api/oauth/admin/register';
 let urlProfileUpdBAdmin = '/api/rest/profilesService/profile/updateByAdmin'; //FixMe add domain
@@ -46,10 +46,10 @@ $(document).ready(function () {
 
             //prepare photo for data table
             for (var i = 0; i < data.length; i++) {
-                if (data[i].imgId !== null && data[i].imgId.length > 2) {
+                if (data[i].imgId && data[i].imgId.length > 2) {
                     data[i].imgId = '<img src="' + urlProfilePhoto + data[i].imgId + '?cachedSize=small" width="100" height="100">';
                 } else {
-                    if (data[i].imgUrl !== null && data[i].imgUrl.length > 2) {
+                    if (data[i].imgUrl && data[i].imgUrl.length > 2) {
                         data[i].imgId = '<img src="' + data[i].imgUrl + '" width="100" height="100">';
                     } else {
                         data[i].imgId = tagNoPhoto;
@@ -61,6 +61,16 @@ $(document).ready(function () {
             let admins = [];
             let moderators = [];
             let spectators = [];
+
+            for (var i = 0; i < data.length; i++){
+                if (!data[i].email){
+                    data[i].email = '';
+                }
+                if (!data[i].username){
+                    data[i].username = '';
+                }
+
+            }
 
             // separate admins, moderators and spectators into three tables
             for (var m = 0; m < data.length; m++) {

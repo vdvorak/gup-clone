@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.model.profiles;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.EnumUtils;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.Id;
@@ -14,6 +15,7 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Set;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Document(collection = "users")
 public class Profile {
     @Id
