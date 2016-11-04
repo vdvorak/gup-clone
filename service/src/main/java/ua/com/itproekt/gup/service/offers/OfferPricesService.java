@@ -89,7 +89,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
 //        gson = new Gson();
-        rents = new Rents2();
+        //rents = Rents2.getInstance(); //rents = new Rents2();
     }
 
     /**
@@ -117,7 +117,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
 //        gson = new Gson();
-        rents = new Rents2();
+        //rents = Rents2.getInstance(); //rents = new Rents2();
     }
 
     /**
@@ -126,7 +126,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      * - It restores the state of all prices (previously created) for the entire period;
      */
     protected OfferPricesService(String jsonRestore){
-        rents = new Rents2();
+        //rents = Rents2.getInstance(); //rents = new Rents2();
         JsonParser parser = new JsonParser();
         JsonObject objJsonObject = (JsonObject) parser.parse(jsonRestore);
         Gson gson = new Gson();
@@ -150,7 +150,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      * - It restores the state of all prices (previously created) for the entire period;
      */
     protected OfferPricesService(PriceOfRentsRestore restore){
-        rents = new Rents2();
+        //rents = Rents2.getInstance(); //rents = new Rents2();
         PriceOfRent weekdays = restore.getWeekday(),
                 weekends = restore.getWeekend();
         PriceOfRent[] specialdays = restore.getSpecialdays();
@@ -213,7 +213,29 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
             default:
                 break;
         }
-        addRent(new Long[]{}); //FIXME: в момент иннициализации нужно добавить все существующие даты как 'AVAILABLE'
+
+////        System.err.println( Arrays.toString( toArray() ) );
+////        for (Price p : (Price[]) toArray()){
+////            System.err.print(p + " ");
+////        }
+//        long[] allDays = null;
+//        for (Price prices : this) {
+//            for (long p : prices) {
+//                System.err.print(convertDate(p) + " ");
+//                allDays = ArrayUtils.add(allDays, p);
+//            }
+//        }
+//        System.err.println();
+//        System.err.println( allDays.length );
+//        System.err.println();
+        long[] availablesDays = null,
+                rentedDays = null;
+        for (Price prices : this) {
+            for (long p : prices) availablesDays = ArrayUtils.add(availablesDays, p);
+        }
+        rents = Rents2.getInstance(availablesDays); //addRent(new Long[]{}); //FIXME: в момент иннициализации нужно добавить все существующие даты как 'AVAILABLE'
+//        System.err.println( rents.size() );
+//        System.err.println( rents.getAvailables().size() );
     }
 
     /**
@@ -396,9 +418,28 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 //            data.append("\n");
 //            for (Long expired : getRents().getExpired().get()) data.append("EXPIRED(" + convertDate(expired) + ") ");
 /////////////////////////////////////////////////
-            if(getRents().getRented()!=null){
-                Iterator<Rent2> rented = getRents().getRented().iterator();
-                while (rented.hasNext()) data.append("RENTED" + rented.next() + " ");
+//            if(getRents().getRented()!=null){
+//                Iterator<Rent2> rented = getRents().getRented().iterator();
+//                while (rented.hasNext()) data.append("RENTED" + rented.next() + " ");
+//                data.append("\n");
+//            }
+//            if(getRents().getAvailables()!=null){
+//                Iterator<Rent2> availables = getRents().getAvailables().iterator();
+//                while (availables.hasNext()) data.append("AVAILABLE" + availables.next() + " ");
+//                data.append("\n");
+//            }
+//            if(getRents().getExpired()!=null){
+//                Iterator<Rent2> expired = getRents().getExpired().iterator();
+//                while (expired.hasNext()) data.append("EXPIRED" + expired.next() + " ");
+//                data.append("\n");
+//            }
+/////////////////////////////////////////////////
+//            System.err.println( "> " + rents.getAvailables().size() );
+//            System.err.println( ">> " + getRents().getAvailables().size() );
+
+            if(getRents().getExpired()!=null){
+                Iterator<Rent2> expired = getRents().getExpired().iterator();
+                while (expired.hasNext()) data.append("EXPIRED" + expired.next() + " ");
                 data.append("\n");
             }
             if(getRents().getAvailables()!=null){
@@ -406,9 +447,9 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
                 while (availables.hasNext()) data.append("AVAILABLE" + availables.next() + " ");
                 data.append("\n");
             }
-            if(getRents().getExpired()!=null){
-                Iterator<Rent2> expired = getRents().getExpired().iterator();
-                while (expired.hasNext()) data.append("EXPIRED" + expired.next() + " ");
+            if(getRents().getRented()!=null){
+                Iterator<Rent2> rented = getRents().getRented().iterator();
+                while (rented.hasNext()) data.append("RENTED" + rented.next() + " ");
                 data.append("\n");
             }
         } catch (NullPointerException e){

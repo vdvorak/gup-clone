@@ -1,6 +1,7 @@
 package ua.com.itproekt.gup.service.offers;
 
 import ua.com.itproekt.gup.service.offers.price.ARents2;
+import ua.com.itproekt.gup.service.offers.price.Price;
 import ua.com.itproekt.gup.service.offers.price.Rent2;
 
 import java.util.*;
@@ -32,6 +33,18 @@ public class Rents2 extends ARents2 {
 
     private static volatile Rents2 instance;
 
+    private Rents2(){
+        super();
+    }
+
+    private Rents2(long[] availables){
+        super(availables);
+    }
+
+    private Rents2(long[] availables, long[] rented){
+        super(availables, rented);
+    }
+
     public static Rents2 getInstance() {
         Rents2 localInstance = instance;
         if (localInstance == null) {
@@ -39,6 +52,32 @@ public class Rents2 extends ARents2 {
                 localInstance = instance;
                 if (localInstance == null) {
                     instance = localInstance = new Rents2();
+                }
+            }
+        }
+        return localInstance;
+    }
+
+    public static Rents2 getInstance(long[] availables) {
+        Rents2 localInstance = instance;
+        if (localInstance == null) {
+            synchronized (Rents2.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new Rents2(availables);
+                }
+            }
+        }
+        return localInstance;
+    }
+
+    public static Rents2 getInstance(long[] availables, long[] rented) {
+        Rents2 localInstance = instance;
+        if (localInstance == null) {
+            synchronized (Rents2.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new Rents2(availables, rented);
                 }
             }
         }
