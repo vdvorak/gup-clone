@@ -1,7 +1,7 @@
 package ua.com.itproekt.gup.service.profile;
 
 import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.UserProfile;
+import ua.com.itproekt.gup.model.profiles.FinanceInfo;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
@@ -54,7 +54,7 @@ public class ProfileTestBuilder {
     static Profile profile;
     private static Set<String> phoneNumbers = new HashSet<>();
     private static Set<String> contactList = new HashSet<>();
-    private static UserProfile userProfile = new UserProfile();
+    private static FinanceInfo financeInfo = new FinanceInfo();
     private static List<OrderAddress> orderAddressList = new ArrayList<>();
     private static OrderAddress orderAddress = new OrderAddress();
     private static Set<UserRole> userRoleSet = new HashSet<>();
@@ -69,7 +69,7 @@ public class ProfileTestBuilder {
 
         contactList.add(CONTACT_FIRST);
         contactList.add(CONTACT_SECOND);
-        userProfile.setBankCode(PROFILE_BANKCODE)
+        financeInfo.setBankCode(PROFILE_BANKCODE)
                 .setUsreou(PROFILE_USREUO)
                 .setVatNumber(PROFILE_VATNUMBER)
                 .setBeneficiaryAccount(PROFILE_BENEFICIARYACCOUNT)
@@ -110,7 +110,7 @@ public class ProfileTestBuilder {
                     .setEmail(PROFILE_EMAIL)
                     .setUsername(PROFILE_USERNAME)
                     .setContactList(contactList)
-                    .setUserProfile(userProfile)
+                    .setFinanceInfo(financeInfo)
                     .setOrderAddressList(orderAddressList)
                     .setUserRoles(userRoleSet)
                     .setOfferUserContactInfoList(userContactInfoList)

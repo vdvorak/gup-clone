@@ -432,7 +432,7 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setEmail(null)
                 .setPassword(null)
                 .setContactList(null)
-                .setUserProfile(null)
+                .setFinanceInfo(null)
                 .setOrderAddressList(null)
                 .setUserRoles(null)
                 .setOfferUserContactInfoList(null)
@@ -481,7 +481,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         newProfile.setPoint(0)
                 .setProfileRating(new HashSet<>())
                 .setContactList(new HashSet<>())
-                .setUserProfile(new UserProfile())
+                .setFinanceInfo(new FinanceInfo())
                 .setContact(contact)
                 .setOfferUserContactInfoList(null)
                 .setOrderAddressList(null);

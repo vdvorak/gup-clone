@@ -38,7 +38,7 @@ public class Profile {
     private Contact contact;
 
     private Set<String> contactList;
-    private UserProfile userProfile;
+    private FinanceInfo financeInfo;
     private Set<String> favoriteOffers;
     @Size(max = 45)
     private String status;
@@ -231,12 +231,12 @@ public class Profile {
         return this;
     }
 
-    public UserProfile getUserProfile() {
-        return userProfile;
+    public FinanceInfo getFinanceInfo() {
+        return financeInfo;
     }
 
-    public Profile setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
+    public Profile setFinanceInfo(FinanceInfo financeInfo) {
+        this.financeInfo = financeInfo;
         return this;
     }
 
@@ -354,7 +354,7 @@ public class Profile {
                 ", birthDate=" + birthDate +
                 ", contact=" + contact +
                 ", contactList=" + contactList +
-                ", userProfile=" + userProfile +
+                ", financeInfo=" + financeInfo +
                 ", favoriteOffers=" + favoriteOffers +
                 ", status='" + status + '\'' +
                 ", point=" + point +

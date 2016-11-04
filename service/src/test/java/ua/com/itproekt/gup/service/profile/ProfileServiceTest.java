@@ -60,7 +60,7 @@ public class ProfileServiceTest {
         assertNull(profileInfo.getProfile().getPassword());
         assertNull(profileInfo.getProfile().getEmail());
         assertNull(profileInfo.getProfile().getContactList());
-        assertNull(profileInfo.getProfile().getUserProfile());
+        assertNull(profileInfo.getProfile().getFinanceInfo());
         assertNull(profileInfo.getProfile().getOrderAddressList());
         assertNull(profileInfo.getProfile().getUserRoles());
         assertNull(profileInfo.getProfile().getOfferUserContactInfoList());
