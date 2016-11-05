@@ -401,7 +401,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         return data.toString();
     }
 
-//    public String jsonRent() {
+    public String jsonRent() {
 //        StringBuilder data = new StringBuilder();
 //        int available = 0,
 //                rent = 0,
@@ -437,7 +437,43 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 //        }
 //        data.append("\n    ]\n  }\n}");
 //        return data.toString();
-//    }
+/////////////////////////////////////////////////
+        StringBuilder data = new StringBuilder();
+        int available = 0,
+                rent = 0,
+                expired = 0;
+
+        data.append("{\n  \"" + monthOfRents + "\": {\n");
+        data.append("    \"availables\": [");
+        for (Rent2 availableDays : getRents().getAvailables()) {
+            if (0<available) data.append(",");
+            data.append("\"" + convertDate(availableDays.getDay()) + "\""); //FIXME: {"day": "26.10.2016", "isPrepaid": true, "dayPrepaid": null, "user": null}
+            ++available;
+        }
+        data.append("]\n");
+        data.append("    ,\"rented\": [");
+        for (Rent2 rentedDays : getRents().getRented()) { //FIXME: {"day": "27.10.2016", "isPrepaid": true, "dayPrepaid": "21.10.2016", "user": {"userId": "57e440464c8eda79f765532d", "fullName": "57e440464c8eda79f765532d", "imgID": "57e440464c8eda79f765532d"} }
+                                                               //FIXME: предоплата вносится на срок один-день, либо она есть либо ее нет (и всегда указывается срок до которого она действительна - начиная с текущего момента предоплаты и даже если срока остается менее одного дня = но при условии что допустимый срок предоплаты ЕСТЬ-остается..)
+            if (0<rent) data.append(",{");
+            else data.append("\n      {");
+            data.append("\n        \"userId\": \"57e440464c8eda79f765532d\"");
+            data.append("\n        ,\"day\": \"" + convertDate(rentedDays.getDay()) + "\"");
+            data.append("\n      }");
+            ++rent;
+        }
+        data.append("\n    ]\n");
+        data.append("    ,\"expired\": [");
+//        for (Rent2 expiredDays : getRents().getExpired()) {
+//            if (0<expired) data.append(",{");
+//            else data.append("\n      {");
+//            data.append("\n        \"userId\": \"57e440464c8eda79f765532d\"");
+//            data.append("\n        ,\"day\": \"" + convertDate(expiredDays.getDay()) + "\"");
+//            data.append("\n      }");
+//            ++expired;
+//        }
+        data.append("\n    ]\n  }\n}");
+        return data.toString();
+    }
 
     /**
      * {

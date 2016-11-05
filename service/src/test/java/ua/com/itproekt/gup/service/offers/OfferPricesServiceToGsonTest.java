@@ -88,6 +88,7 @@ public class OfferPricesServiceToGsonTest {
         System.out.println(service.toJson());
         System.out.println(service);
         System.err.println(service.toRent());
+        System.out.println(service.jsonRent());
 
 //        System.out.println( Arrays.toString( service.toArray() ) );
     }
