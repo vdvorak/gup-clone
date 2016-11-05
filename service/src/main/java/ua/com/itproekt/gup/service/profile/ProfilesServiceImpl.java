@@ -188,6 +188,16 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
+    public List<Profile> findAllProfilesForAdminShort(ProfileFilterOptions profileFilterOptions) {
+
+        List<Profile> fullProfiles = profileRepository.findAllProfilesForAdmin(profileFilterOptions);
+
+        removeUnnecessaryFieldsFromProfileForAdminUse(fullProfiles);
+
+        return fullProfiles;
+    }
+
+    @Override
     public Profile findProfileByUsername(String username) {
         return profileRepository.findByUsername(username);
     }
@@ -453,6 +463,32 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileInfo;
     }
 
+
+    /**
+     * Remove unnecessary fields from profiles for admin use.
+     *
+     * @param profileList - the list of profiles
+     */
+    private void removeUnnecessaryFieldsFromProfileForAdminUse(List<Profile> profileList) {
+
+        for (Profile profile : profileList) {
+            profile.setPassword(null)
+                    .setContact(null)
+                    .setContactList(null)
+                    .setFinanceInfo(null)
+                    .setOrderAddressList(null)
+                    .setOfferUserContactInfoList(null)
+                    .setFavoriteOffers(null)
+                    .setBirthDate(null)
+                    .setMainPhoneNumber(null)
+                    .setLastLoginDate(null)
+                    .setProfileRating(null)
+                    .setStatus(null);
+        }
+
+    }
+
+
     /**
      * @param profileList
      * @return
@@ -492,7 +528,7 @@ public class ProfilesServiceImpl implements ProfilesService {
      * Prepare feedback list
      *
      * @param profileId - the profileID
-     * @return          - the list of order's feedback
+     * @return - the list of order's feedback
      */
     private List<OrderFeedback> feedbackListPreparatorForProfile(String profileId) {
         List<OrderFeedback> allOffersFeedbackList = new ArrayList<>();

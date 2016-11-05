@@ -124,6 +124,14 @@ public interface ProfilesService {
     List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions);
 
     /**
+     * Return list of profiles for admin-panel in short and light version without unnecessary fields.
+     *
+     * @param profileFilterOptions  - the profile filter options
+     * @return                      - the list of profiles
+     */
+    List<Profile> findAllProfilesForAdminShort(ProfileFilterOptions profileFilterOptions);
+
+    /**
      * Find profile by username profile.
      *
      * @param username the username
