@@ -50,7 +50,7 @@ public class Profile {
     private Integer point;
     private Set<ProfileRating> profileRating;
 
-    private Boolean confirmModerator;
+    private Boolean confirmModerator; // show is verified or not user profile
     private Set<UserRole> userRoles;
 
     private Long createdDate;
