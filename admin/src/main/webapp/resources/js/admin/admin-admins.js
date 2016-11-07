@@ -195,35 +195,27 @@ $(document).ready(function () {
 });
 
 
-$(document).on('click', '.adminFastEditRoles input', function () {
+
+function userPreparator(inputElement, inputName){
     var user = {};
     user.userRoles = [];
-    user.userRoles.push($(this).val());
-    user.id = $("input[name='adminId']").val();
-    makePostRequest(urlProfileRoleEdit, JSON.stringify(user));
-});
+    user.userRoles.push(inputElement.val());
+    user.id = $("input[name='" + inputName + "']").val();
+    return user
+}
 
+
+$(document).on('click', '.adminFastEditRoles input', function () {
+    makePostRequest(urlProfileRoleEdit, JSON.stringify(userPreparator($(this), 'adminId')));
+});
 
 $(document).on('click', '.moderatorFastEditRoles input', function () {
-    var user = {};
-    user.userRoles = [];
-    user.userRoles.push($(this).val());
-    user.id = $("input[name='moderatorId']").val();
-    makePostRequest(urlProfileRoleEdit, JSON.stringify(user));
+    makePostRequest(urlProfileRoleEdit, JSON.stringify(userPreparator($(this), 'moderatorId')));
 });
-
 
 $(document).on('click', '.spectatorFastEditRoles input', function () {
-    var user = {};
-    user.userRoles = [];
-    user.userRoles.push($(this).val());
-    user.id = $("input[name='spectatorId']").val();
-    makePostRequest(urlProfileRoleEdit, JSON.stringify(user));
+    makePostRequest(urlProfileRoleEdit, JSON.stringify(userPreparator($(this), 'spectatorId')));
 });
-
-
-
-
 
 $('#typeahead').blur(function () {
     var user = {};
