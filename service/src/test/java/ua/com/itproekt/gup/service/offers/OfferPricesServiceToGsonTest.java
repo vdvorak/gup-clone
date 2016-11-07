@@ -27,20 +27,20 @@ public class OfferPricesServiceToGsonTest {
                     "  \"monthOfPrices\": {\n" +
                     "    \"weekday\": {\n" +
                     "      \"price\": 10000\n" +
-                    "      ,\"days\": [\"10.10.2016\",\"28.10.2016\"]\n" +
+                    "      ,\"days\": [\"10.11.2016\",\"28.11.2016\"]\n" +
                     "    }\n" +
                     "    ,\"weekend\": {\n" +
                     "      \"price\": 15000\n" +
-                    "      ,\"days\": [\"1.10.2016\",\"30.10.2016\"]\n" +
+                    "      ,\"days\": [\"1.11.2016\",\"30.11.2016\"]\n" +
                     "    }\n" +
                     "    ,\"specialdays\": [\n" +
                     "      {\n" +
                     "        \"price\": 11111\n" +
-                    "        ,\"days\": [\"31.10.2016\"]\n" +
+                    "        ,\"days\": [\"31.11.2016\"]\n" +
                     "      }\n" +
                     "      ,{\n" +
                     "        \"price\": 20000\n" +
-                    "        ,\"days\": [\"3.10.2016\",\"7.10.2016\"]\n" +
+                    "        ,\"days\": [\"3.11.2016\",\"7.11.2016\"]\n" +
                     "      }\n" +
                     "    ]\n" +
                     "  }\n" +
@@ -88,6 +88,7 @@ public class OfferPricesServiceToGsonTest {
         System.out.println(service.toJson());
         System.out.println(service);
         System.err.println(service.toRent());
+        System.out.println(service.jsonRent());
 
 //        System.out.println( Arrays.toString( service.toArray() ) );
     }
