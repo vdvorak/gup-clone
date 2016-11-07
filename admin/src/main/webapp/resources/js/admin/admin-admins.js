@@ -4,7 +4,8 @@ let users;
 let urlAdminProfileReadAll = 'http://localhost:8184/api/rest/admin/profile/read/short/all';
 let urlProfilePhoto = 'http://localhost:8184/api/rest/fileStorage/profile/photo/read/id/';
 let urlProfileCreate = 'http://localhost:8183/api/oauth/admin/register';
-let urlProfileUpdBAdmin = '/api/rest/profilesService/profile/updateByAdmin'; //FixMe add domain
+let urlProfileUpdBAdmin = 'http://localhost:8184//api/rest/profilesService/profile/updateByAdmin';
+let urlProfileRoleEdit = 'http://localhost:8184/api/rest/admin/profile/role/edit';
 let urlProfileDelete = 'http://localhost:8184/api/rest/admin/profile/admin/admin-delete';
 let tagNoPhoto = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
 
@@ -62,11 +63,11 @@ $(document).ready(function () {
             let moderators = [];
             let spectators = [];
 
-            for (var i = 0; i < data.length; i++){
-                if (!data[i].email){
+            for (var i = 0; i < data.length; i++) {
+                if (!data[i].email) {
                     data[i].email = '';
                 }
-                if (!data[i].username){
+                if (!data[i].username) {
                     data[i].username = '';
                 }
 
@@ -125,12 +126,14 @@ $(document).ready(function () {
                     $("input[name='adminId']").attr("value", rowData[0].id);
                     $('#adminEditHref').attr("href", "http://gup.com.ua/seller/" + rowData[0].id);
                     $('#editAdminProfileButton').attr("class", "btn btn-danger");
+                    $('.adminFastEditRoles input').attr("disabled", false);
                     $('#deleteAdminProfileButton').attr("class", "deleteProfileButton btn btn-danger");
                 })
                 .on('deselect', function (e, dt, type, indexes) {
                     $("input[name='adminId']").attr("value", "");
                     $('#editAdminProfileButton').attr("class", "btn btn-danger disabled");
                     $('#deleteAdminProfileButton').attr("class", "btn btn-danger disable");
+                    $('.adminFastEditRoles input').attr("disabled", true);
                 });
 
             let tableModerators = $('#moderators').DataTable(dataTableObjPreparator(moderators));
@@ -142,12 +145,14 @@ $(document).ready(function () {
                     $("input[name='moderatorId']").attr("value", rowData[0].id);
                     $('#moderatorEditHref').attr("href", "http://gup.com.ua/seller/" + rowData[0].id);
                     $('#editModeratorProfileButton').attr("class", "btn btn-danger");
+                    $('.moderatorFastEditRoles input').attr("disabled", false);
                     $('#deleteModaratorProfileButton').attr("class", "deleteProfileButton btn btn-danger");
                 })
                 .on('deselect', function (e, dt, type, indexes) {
                     $("input[name='moderatorId']").attr("value", "");
                     $('#editModeratorProfileButton').attr("class", "btn btn-danger disabled");
                     $('#deleteModaratorProfileButton').attr("class", "btn btn-danger disable");
+                    $('.moderatorFastEditRoles input').attr("disabled", true);
                 });
 
             let tableSpectators = $('#spectators').DataTable(dataTableObjPreparator(spectators))
@@ -159,12 +164,14 @@ $(document).ready(function () {
                     $("input[name='spectatorId']").attr("value", rowData[0].id);
                     $('#spectatorEditHref').attr("href", "http://gup.com.ua/seller/" + rowData[0].id);
                     $('#editSpectatorProfileButton').attr("class", "btn btn-danger");
+                    $('.spectatorFastEditRoles input').attr("disabled", false);
                     $('#deleteSpectatorProfileButton').attr("class", "deleteProfileButton btn btn-danger");
                 })
                 .on('deselect', function (e, dt, type, indexes) {
                     $("input[name='spectatorId']").attr("value", "");
                     $('#editSpectatorProfileButton').attr("class", "btn btn-danger disabled");
                     $('#deleteSpectatorProfileButton').attr("class", "btn btn-danger disable");
+                    $('.spectatorFastEditRoles input').attr("disabled", true);
                 });
 
             var logins = new Bloodhound({
@@ -186,6 +193,37 @@ $(document).ready(function () {
 
 
 });
+
+
+$(document).on('click', '.adminFastEditRoles input', function () {
+    var user = {};
+    user.userRoles = [];
+    user.userRoles.push($(this).val());
+    user.id = $("input[name='adminId']").val();
+    makePostRequest(urlProfileRoleEdit, JSON.stringify(user));
+});
+
+
+$(document).on('click', '.moderatorFastEditRoles input', function () {
+    var user = {};
+    user.userRoles = [];
+    user.userRoles.push($(this).val());
+    user.id = $("input[name='moderatorId']").val();
+    makePostRequest(urlProfileRoleEdit, JSON.stringify(user));
+});
+
+
+$(document).on('click', '.spectatorFastEditRoles input', function () {
+    var user = {};
+    user.userRoles = [];
+    user.userRoles.push($(this).val());
+    user.id = $("input[name='spectatorId']").val();
+    makePostRequest(urlProfileRoleEdit, JSON.stringify(user));
+});
+
+
+
+
 
 $('#typeahead').blur(function () {
     var user = {};
@@ -219,7 +257,6 @@ $('#typeahead').blur(function () {
     }
 
 
-
     $('#update').click(function () {
         user.userRoles = [];
 
@@ -235,9 +272,6 @@ $('#typeahead').blur(function () {
         if ($('#userCheck2').prop("checked")) {
             user.userRoles.push('ROLE_USER');
         }
-        if ($('#anonymousCheck2').prop("checked")) {
-            user.userRoles.push('ROLE_ANONYMOUS');
-        }
 
         $.ajax({
             type: "POST",
@@ -245,8 +279,10 @@ $('#typeahead').blur(function () {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify(user),
-            success: function (response) {
-                window.location.href = '/admin-admins';
+            statusCode: {
+                200: function () {
+                    window.location.href = '/admin-admins';
+                }
             }
         });
     });
@@ -276,7 +312,7 @@ $('#create').click(function () {
     }
 
     // now you can have only one role
-    if (roles.length < 1){
+    if (roles.length < 1) {
         return alert("Выберите одну роль")
     }
 
@@ -303,11 +339,11 @@ $('#create').click(function () {
 /**
  * Delete selected user
  */
-$('.deleteProfileButton').click(function(){
+$('.deleteProfileButton').click(function () {
 
     let buttonId = event.target.getAttribute('id');
 
-    let deleteProfile = function(profileId){
+    let deleteProfile = function (profileId) {
         $.ajax({
             type: "POST",
             url: urlProfileDelete,
@@ -323,11 +359,32 @@ $('.deleteProfileButton').click(function(){
     };
 
     switch (buttonId) {
-        case 'deleteAdminProfileButton' : deleteProfile($('#input-admin-id').val());
+        case 'deleteAdminProfileButton' :
+            deleteProfile($('#input-admin-id').val());
             break;
-        case 'deleteModaratorProfileButton' : deleteProfile($('#input-moderator-id').val());
+        case 'deleteModaratorProfileButton' :
+            deleteProfile($('#input-moderator-id').val());
             break;
-        case 'deleteSpectatorProfileButton' : deleteProfile($('#input-spectator-id').val());
+        case 'deleteSpectatorProfileButton' :
+            deleteProfile($('#input-spectator-id').val());
             break;
     }
 });
+
+
+function makePostRequest(url, data){
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: data,
+        statusCode: {
+            200: function () {
+                window.location.href = '/admin-admins';
+            }
+        }
+    });
+
+}

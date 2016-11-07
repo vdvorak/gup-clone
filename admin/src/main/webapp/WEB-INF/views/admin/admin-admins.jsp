@@ -164,8 +164,8 @@
                                             <br>
 
                                             <%--<div class="checkbox">--%>
-                                                <%--<label><input id="anonymousCheck2" class="ch2" type="checkbox"--%>
-                                                              <%--value="ROLE_ANONYMOUS">ANONYMOUS</label>--%>
+                                            <%--<label><input id="anonymousCheck2" class="ch2" type="checkbox"--%>
+                                            <%--value="ROLE_ANONYMOUS">ANONYMOUS</label>--%>
                                             <%--</div>--%>
                                             <div class="checkbox">
                                                 <label><input id="userCheck2" class="ch2" type="checkbox"
@@ -186,6 +186,8 @@
                                 </div>
                             </div>
 
+
+                            <!-- Admin ----------------------------------->
 
                             <div class="tab-content">
                                 <div class="tab-pane active" id="adminsTable">
@@ -234,6 +236,20 @@
                                                             Удалить
                                                         </button>
 
+                                                        <div class="adminFastEditRoles">
+                                                            <div class="checkbox">
+                                                                <label><input name="admin_pan_role_radio" type="radio"
+                                                                              value="ROLE_ADMIN" disabled>ADMIN</label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label><input name="admin_pan_role_radio" type="radio"
+                                                                              value="ROLE_MODERATOR" disabled>MODERATOR</label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label><input name="admin_pan_role_radio" type="radio"
+                                                                              value="ROLE_SPECTATOR" disabled>SPECTATOR</label>
+                                                            </div>
+                                                        </div>
 
                                                     </div>
                                                 </div>
@@ -241,6 +257,7 @@
                                         </div>
                                     </div>
                                 </div>
+
 
                                 <div class="tab-pane" id="moderatorsTable">
                                     <div class="row">
@@ -286,6 +303,25 @@
                                                                 class="deleteProfileButton btn btn-primary disabled ">
                                                             Удалить
                                                         </button>
+
+
+                                                        <div class="moderatorFastEditRoles">
+                                                            <div class="checkbox">
+                                                                <label><input name="moderator_pan_role_radio"
+                                                                              type="radio"
+                                                                              value="ROLE_ADMIN" disabled>ADMIN</label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label><input name="moderator_pan_role_radio"
+                                                                              type="radio"
+                                                                              value="ROLE_MODERATOR" disabled>MODERATOR</label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label><input name="moderator_pan_role_radio"
+                                                                              type="radio"
+                                                                              value="ROLE_SPECTATOR" disabled>SPECTATOR</label>
+                                                            </div>
+                                                        </div>
 
 
                                                     </div>
@@ -340,12 +376,34 @@
                                                             Удалить
                                                         </button>
 
+
+                                                        <div class="spectatorFastEditRoles">
+                                                            <div class="checkbox">
+                                                                <label><input name="spectator_pan_role_radio"
+                                                                              type="radio"
+                                                                              value="ROLE_ADMIN" disabled>ADMIN</label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label><input name="spectator_pan_role_radio"
+                                                                              type="radio"
+                                                                              value="ROLE_MODERATOR" disabled>MODERATOR</label>
+                                                            </div>
+                                                            <div class="checkbox">
+                                                                <label><input name="spectator_pan_role_radio"
+                                                                              type="radio"
+                                                                              value="ROLE_SPECTATOR" disabled>SPECTATOR</label>
+                                                            </div>
+                                                        </div>
+
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
