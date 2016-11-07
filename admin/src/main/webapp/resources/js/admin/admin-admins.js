@@ -4,7 +4,7 @@ let users;
 let urlAdminProfileReadAll = 'http://localhost:8184/api/rest/admin/profile/read/short/all';
 let urlProfilePhoto = 'http://localhost:8184/api/rest/fileStorage/profile/photo/read/id/';
 let urlProfileCreate = 'http://localhost:8183/api/oauth/admin/register';
-let urlProfileUpdBAdmin = 'http://localhost:8184//api/rest/profilesService/profile/updateByAdmin';
+let urlProfileUpdBAdmin = 'http://localhost:8184/api/rest/profilesService/profile/updateByAdmin';
 let urlProfileRoleEdit = 'http://localhost:8184/api/rest/admin/profile/role/edit';
 let urlProfileDelete = 'http://localhost:8184/api/rest/admin/profile/admin/admin-delete';
 let tagNoPhoto = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
@@ -265,18 +265,8 @@ $('#typeahead').blur(function () {
             user.userRoles.push('ROLE_USER');
         }
 
-        $.ajax({
-            type: "POST",
-            url: urlProfileUpdBAdmin,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(user),
-            statusCode: {
-                200: function () {
-                    window.location.href = '/admin-admins';
-                }
-            }
-        });
+
+        makePostRequest(urlProfileUpdBAdmin, JSON.stringify(user));
     });
 
 });
@@ -313,18 +303,7 @@ $('#create').click(function () {
     user.password = password;
     user.userRoles = roles;
 
-    $.ajax({
-        type: "POST",
-        url: urlProfileCreate,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(user),
-        statusCode: {
-            200: function () {
-                window.location.href = '/admin-admins';
-            }
-        }
-    });
+    makePostRequest(urlProfileCreate, JSON.stringify(user));
 });
 
 
@@ -335,37 +314,21 @@ $('.deleteProfileButton').click(function () {
 
     let buttonId = event.target.getAttribute('id');
 
-    let deleteProfile = function (profileId) {
-        $.ajax({
-            type: "POST",
-            url: urlProfileDelete,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: profileId,
-            statusCode: {
-                200: function () {
-                    window.location.href = '/admin-admins';
-                }
-            }
-        });
-    };
-
     switch (buttonId) {
         case 'deleteAdminProfileButton' :
-            deleteProfile($('#input-admin-id').val());
+            makePostRequest(urlProfileDelete, $('#input-admin-id').val());
             break;
         case 'deleteModaratorProfileButton' :
-            deleteProfile($('#input-moderator-id').val());
+            makePostRequest(urlProfileDelete, $('#input-moderator-id').val());
             break;
         case 'deleteSpectatorProfileButton' :
-            deleteProfile($('#input-spectator-id').val());
+            makePostRequest(urlProfileDelete, $('#input-spectator-id').val());
             break;
     }
 });
 
 
 function makePostRequest(url, data){
-
     $.ajax({
         type: "POST",
         url: url,
@@ -378,5 +341,4 @@ function makePostRequest(url, data){
             }
         }
     });
-
 }

@@ -44,7 +44,7 @@
                     <div class="panel-body">
 
                         <div class="dataTable_wrapper">
-                            <table id="accountant" class="table table-striped table-bordered table-hover"
+                            <table id="offersTable" class="table table-striped table-bordered table-hover"
                                    cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
