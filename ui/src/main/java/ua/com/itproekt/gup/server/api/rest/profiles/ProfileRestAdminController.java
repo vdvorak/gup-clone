@@ -12,6 +12,12 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import java.util.List;
 
+
+/**
+ * Rest controllers for using by administrative module.
+ *
+ * @author Kobylyatskyy Alexander
+ */
 @RestController
 @RequestMapping("/api/rest/admin")
 public class ProfileRestAdminController {
@@ -26,6 +32,7 @@ public class ProfileRestAdminController {
      *                             Use "skip" and "limit" in JSON object request body
      * @return the response entity
      */
+    //ToDo add Preauthorize
     @CrossOrigin
     @RequestMapping(value = "/profile/read/all", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,6 +49,7 @@ public class ProfileRestAdminController {
      *                             Use "skip" and "limit" in JSON object request body
      * @return the response entity
      */
+    //ToDo add Preauthorize
     @CrossOrigin
     @RequestMapping(value = "/profile/read/short/all", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,6 +59,16 @@ public class ProfileRestAdminController {
     }
 
 
+    //ToDo add Preauthorize
+    @CrossOrigin
+    @RequestMapping(value = "/profile/role/edit", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> editAdminRole(@RequestBody Profile profile) {
+
+        profilesService.editProfile(profile);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
     //ToDo add Preauthorize
@@ -63,7 +81,7 @@ public class ProfileRestAdminController {
         //additional check before delete profile. Only for administrative staff
         Profile profile = profilesService.findById(profileId);
 
-        if (profile == null){
+        if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

@@ -1,10 +1,16 @@
+let urlRussianLanguageForTables = '//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json';
+let urlReadAllOffer = 'http://localhost:8184/api/rest/offersService/offer/read/all';
+let ulrImg = 'http://localhost:8184/api/rest/fileStorage/OFFERS/file/read/id/';
+let urlNoPhotoImg = 'http://localhost:8185/resources/images/no_photo.jpg';
+
+
 function findFirstImg(arr) {
-    var url = '/resources/images/no_photo.jpg';
+    var url = urlNoPhotoImg;
     var imgId = '';
     for (var i in arr) {
         if (arr[i] === 'pic1') {
             imgId = i;
-            url = '/api/rest/fileStorage/OFFERS/file/read/id/' + imgId;
+            url = ulrImg + imgId;
             break;
         }
     }
@@ -20,19 +26,29 @@ $(document).ready(function () {
     $.ajax({
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        url: "/api/rest/offersService/offer/read/all",
+        url: urlReadAllOffer,
         data: JSON.stringify(offerFilterOptions),
 
         success: function (response) {
 
-            data = response.entities;
+
+            // because we have offer wrapper
+            var arr = [];
+            response.forEach(el => {
+                arr.push(el.offer)
+            });
+
+
+            //console.log(response);
+            data = arr;
 
             for (var i = 0; i < data.length; i++) {
+
                 if (data[i].imagesIds !== null) {
                     data[i].imagesIds = '<img src="' + findFirstImg(data[i].imagesIds) + '" width="100" height="100">';
                 }
                 else {
-                    data[i].imagesIds = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
+                    data[i].imagesIds = `<img src="${urlNoPhotoImg}" width="100" height="100">`;
                 }
             }
 
@@ -43,8 +59,7 @@ $(document).ready(function () {
             }
 
 
-
-            var table = $('#accountant').DataTable({
+            var table = $('#offersTable').DataTable({
                 select: {
                     style: 'single'
                 },
@@ -56,7 +71,7 @@ $(document).ready(function () {
                     {"data": "moderationStatus"}
                 ],
                 "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json"
+                    "url": urlRussianLanguageForTables
                 }
             });
 
