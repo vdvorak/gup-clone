@@ -229,8 +229,13 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      */
     public void addRent(Long[] days) throws ConcurrentModificationException {
         if( getRents().getAvailables().isEmpty() ){
+            List<Rent2> a = getRents().getAvailables();
             for (Price prices : this) {
-                for (Long day : prices) getRents().getAvailables().add(new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
+                for (Long day : prices) {
+                    System.out.println(">");
+//                    getRents().getAvailables().add(new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
+                    a.add(0, new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
+                }
             }
         } else {
             for (Long day : days) {
@@ -298,7 +303,6 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 //
 //        return (isAvailables && isRented) ? days.length : 0;
 ///////////////////////////////////////////////// FIXME: предварительно создавать полный список удаляемых элементов И удалять этот список (НЕ по одному элементу...)
-//        getRents().getExpired();
         int del = 0;
         if( !getRents().getRented().isEmpty() ){
             for (Long day : days) {
