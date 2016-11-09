@@ -1,9 +1,22 @@
 package ua.com.itproekt.gup.model.activityfeed;
 
-
+/**
+ * This class describe all types of events type for notifications.
+ *
+ * @author Kobylyatskyy Alexander
+ */
 public enum EventType {
     OFFER_RESERVATION,
     OFFER_RENT,
+
+    OFFER_FAIL_PROFANITY,
+    OFFER_FAIL_ADULT_CONTENT,
+    OFFER_FAIL_MISMATCH_DESCRIBE,
+    OFFER_FAIL_PROHIBITED_CONTENT,
+
+    OFFER_COMPLETE,
+
+    OFFER_MODERATOR_CHANGE_CATEGORY,
 
     MONEY_TRANSFER_TO_USER,
 

@@ -11,22 +11,21 @@ import ua.com.itproekt.gup.dto.OfferInfo;
 import ua.com.itproekt.gup.dto.OfferRegistration;
 import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
+import ua.com.itproekt.gup.model.offer.OfferModerationReports;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
+import ua.com.itproekt.gup.service.offers.OfferModerationService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
-import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.Translit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,13 +38,14 @@ public class OfferRestController {
     OffersService offersService;
 
     @Autowired
+    OfferModerationService offerModerationService;
+
+    @Autowired
     ProfilesService profilesService;
 
     @Autowired
     SeoSequenceService seoSequenceService;
 
-    @Autowired
-    SubscriptionService subscriptionService;
 
     @Autowired
     VerificationTokenService verificationTokenService;
@@ -84,8 +84,7 @@ public class OfferRestController {
             offerInfo = offersService.getPrivateOfferInfoByOffer(offer);
         } else {
 
-
-            if (offer.getModerationStatus() == ModerationStatus.NO || offer.getModerationStatus() == ModerationStatus.FAIL) {
+            if (offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO || offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
 
@@ -114,8 +113,6 @@ public class OfferRestController {
     }
 
     /**
-     *
-     *
      * @param offerFO - the offer filter option
      * @param request - the HttpServletRequest object for detecting user role
      * @return - the OK status (200) if all is ok )
@@ -124,10 +121,15 @@ public class OfferRestController {
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
     public ResponseEntity<List<OfferInfo>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
 
+        // we can show only offers which have Complete status (approve by moderators)
+        OfferModerationReports offerModerationReports = new OfferModerationReports();
+        offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
+
+
         if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             offerFO.setActive(true);
             offerFO.setDeleted(false);
-            offerFO.setModerationStatus(ModerationStatus.COMPLETE);
+            offerFO.setOfferModerationReports(offerModerationReports);
         }
 
         if (offerFO.isMain()) {
@@ -268,7 +270,7 @@ public class OfferRestController {
      * Update offer
      *
      * @param offerRegistration the OfferRegistration object
-     * @param files the new files uploaded by client
+     * @param files             the new files uploaded by client
      * @return the status 400 (Bad Request) if offer ID in request object is null; the status 404 (Not Found)
      * if offer with specific ID cannot be found; the status 403 (Forbidden) if user which try to update offer is not
      * it's author; the status 200 (Ok) if offer update was successful
@@ -303,13 +305,6 @@ public class OfferRestController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        // Mark message from moderator as read
-        if (updatedOffer.getModerationMessage() != null) {
-            updatedOffer.getModerationMessage().setMessage(oldOffer.getModerationMessage().getMessage());
-            updatedOffer.getModerationMessage().setIsRead(true);
-        }
-
-
         // update SEO url title for offer
         String newTransiltTitle = Translit.makeTransliteration(updatedOffer.getTitle());
         String newSeoUrl = newTransiltTitle + "-" + oldOffer.getSeoKey();
@@ -339,7 +334,7 @@ public class OfferRestController {
      * Edit offer by moderator
      *
      * @param offer the offer
-     * @return      404 Not Found if offer does not exist or was deleted
+     * @return 404 Not Found if offer does not exist or was deleted
      */
     @CrossOrigin
     @PreAuthorize("hasRole('ROLE_ADMIN', 'ROLE_MODERATOR')")
@@ -438,45 +433,19 @@ public class OfferRestController {
     //------------------------------------------ Rest for admin --------------------------------------------------------
 
     /**
-     * @param offerId          - offer id
-     * @param moderationStatus - moderation status
-     * @return
+     * This controller allow administrator or moderator edit offer (change categories), change moderation status
+     * and leave comments.
+     *
+     * @param inputOffer - the offer from moderator with.
+     * @return - the status.
      */
     @CrossOrigin
     @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_MODERATOR')")
     @RequestMapping(value = "/offer/moderateStatus/{offerId}", method = RequestMethod.POST)
-    public ResponseEntity<Void> makeOfferComplete(@PathVariable String offerId, @RequestBody ModerationStatus moderationStatus) {
+    public ResponseEntity<Void> makeOfferComplete(@RequestBody Offer inputOffer) {
 
-        if (moderationStatus != ModerationStatus.FAIL && moderationStatus != ModerationStatus.COMPLETE) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        Offer offer = offersService.findById(offerId);
-
-        if (offer == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        if (offer.isDeleted()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        // if we don't have lastModerationDate => we must check if this offer suite for some of subscriptions
-
-        if (offer.getLastModerationDate() == null && moderationStatus == ModerationStatus.COMPLETE) {
-            offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
-            offer.setModerationStatus(moderationStatus);
-            offersService.edit(offer);
-            subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(offer);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-
-        offer
-                .setModerationStatus(moderationStatus)
-                .setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
-        offersService.edit(offer);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(offerModerationService.editOfferByModerator(inputOffer));
     }
+
+
 }

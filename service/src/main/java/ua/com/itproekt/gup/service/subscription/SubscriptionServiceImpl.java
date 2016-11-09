@@ -69,7 +69,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public void checkIfOfferSuiteForSubscriptionAndSendEmail(Offer newOffer) {
-        Long newOfferLastModerationDate = newOffer.getLastModerationDate();
+//        Long newOfferLastModerationDate = newOffer.getLastModerationDate();
 
         List<Subscription> subscriptionList = subscriptionRepository.findAll().getEntities();
 
@@ -79,9 +79,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         for (Subscription subscription : subscriptionList) {
 
             subscription.getOfferFilterOptions()
-                    .setLastModerationDate(newOfferLastModerationDate)
-                    .setModerationStatus(ModerationStatus.COMPLETE)
-                    .setActive(true);
+                    .getOfferModerationReports()
+                    .setModerationStatus(ModerationStatus.COMPLETE);
+            subscription.getOfferFilterOptions().setActive(true);
+
+
+//                    .setLastModerationDate(newOfferLastModerationDate)
+
 
 
             // make search among offers with our filterOptions

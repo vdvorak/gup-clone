@@ -8,10 +8,7 @@ import ua.com.itproekt.gup.dto.OfferInfo;
 import ua.com.itproekt.gup.dto.OfferRegistration;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
-import ua.com.itproekt.gup.model.offer.ModerationStatus;
-import ua.com.itproekt.gup.model.offer.Offer;
-import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
-import ua.com.itproekt.gup.model.offer.Reservation;
+import ua.com.itproekt.gup.model.offer.*;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
@@ -66,11 +63,14 @@ public class OffersServiceImpl implements OffersService {
 
     @Override
     public void create(Offer offer) {
+        OfferModerationReports offerModerationReports = new OfferModerationReports();
+        offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
+
         Offer newOffer = new Offer()
                 .setAuthorId(offer.getAuthorId())
                 .setUserInfo(offer.getUserInfo())
                 .setCreatedDateEqualsToCurrentDate()
-                .setModerationStatus(ModerationStatus.COMPLETE)
+                .setOfferModerationReports(offerModerationReports)
                 .setCategories(offer.getCategories())
                 .setProperties(offer.getProperties())
                 .setImagesIds(offer.getImagesIds())
@@ -150,14 +150,13 @@ public class OffersServiceImpl implements OffersService {
     public Offer edit(Offer oldOffer) {
         Offer newOffer = new Offer()
                 .setId(oldOffer.getId())
-                .setModerationStatus(oldOffer.getModerationStatus())
+                .setOfferModerationReports(oldOffer.getOfferModerationReports())
                 .setUserInfo(oldOffer.getUserInfo())
                 .setCategories(oldOffer.getCategories())
                 .setProperties(oldOffer.getProperties())
                 .setImagesIds(oldOffer.getImagesIds())
                 .setVideoUrl(oldOffer.getVideoUrl())
                 .setSeoUrl(oldOffer.getSeoUrl())
-                .setModerationMessage(oldOffer.getModerationMessage())
                 .setSeoCategory(oldOffer.getSeoCategory())
                 .setTitle(oldOffer.getTitle())
                 .setDescription(oldOffer.getDescription())
@@ -178,13 +177,6 @@ public class OffersServiceImpl implements OffersService {
 
         return offerRepository.findAndUpdate(newOffer);
     }
-
-//    @Override
-//    public ModerationMessage moderateOffer(ModerationMessage moderationMessage) {
-//        moderationMessage.setCreatedDateEqualsToCurrentDate();
-//        moderationMessage.setIsRead(false);
-//        return moderationMessage;
-//    }
 
     @Override
     public void reserveOffer(String offerId, Reservation reservation) {
@@ -360,8 +352,8 @@ public class OffersServiceImpl implements OffersService {
 //        System.err.println("PROFILE find by id (Offer Read All) time: " + (System.currentTimeMillis() - startTime));
 
 
-        offer.setLastModerationDate(null);
-        offer.setModerationMessage(null);
+        offer.setOfferModerationReports(null);
+
         offerInfo.setOffer(offer);
 //        offerInfo.setIsOnline(profile.isOnline());
 

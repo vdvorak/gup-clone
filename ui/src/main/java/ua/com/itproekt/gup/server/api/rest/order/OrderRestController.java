@@ -46,10 +46,13 @@ public class OrderRestController {
 
     @Autowired
     OrderService orderService;
+
     @Autowired
     ProfilesService profilesService;
+
     @Autowired
     OffersService offersService;
+
     @Autowired
     ActivityFeedService activityFeedService;
 

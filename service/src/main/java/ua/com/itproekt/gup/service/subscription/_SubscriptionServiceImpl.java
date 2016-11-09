@@ -3,7 +3,6 @@
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Service;
 //import ua.com.itproekt.gup.dao.subscription.SubscriptionRepository;
-//import ua.com.itproekt.gup.model.offer.ModerationStatus;
 //import ua.com.itproekt.gup.model.offer.Offer;
 //import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 //import ua.com.itproekt.gup.model.profiles.Profile;
@@ -74,8 +73,7 @@
 //        for (Subscription subscription : subscriptionList) {
 //
 //            subscription.getOfferFilterOptions()
-//                    .setLastModerationDate(newOfferLastModerationDate)
-//                    .setModerationStatus(ModerationStatus.COMPLETE)
+//FixMe тут были штуки с модерацией оффера
 //                    .setActive(true);
 //
 //

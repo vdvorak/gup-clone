@@ -25,7 +25,7 @@ import java.util.Set;
 //})
 
 //@CompoundIndexes({
-//        @CompoundIndex(name = "read_all_main_idx", def = "{'moderationStatus' : 1, 'createdDate' : -1, 'active' : 1}"),// + сортировка
+//        @CompoundIndex(name = "read_all_main_idx", def = "{'createdDate' : -1, 'active' : 1}"),// + сортировка
 //        @CompoundIndex(name = "createdDate_offers_idx", def = "{'createdDate' : 1}")
 //})
 
@@ -81,9 +81,7 @@ public class Offer {
     private PaidServices            paidServices;
     private ProductReturnsTerms     productReturnsTerms;        //variant of the product return terms
 
-    private ModerationStatus        moderationStatus;
-    private Long                    lastModerationDate;
-    private ModerationMessage       moderationMessage;
+    private OfferModerationReports offerModerationReports;      // all moderator activity is here
 
     boolean                         deleted;                    // showing is offer marked as delete or not
 
@@ -94,15 +92,6 @@ public class Offer {
 
 
     //--------------------------------------------------------------------------------
-
-    public ModerationStatus getModerationStatus() {
-        return moderationStatus;
-    }
-
-    public Offer setModerationStatus(ModerationStatus moderationStatus) {
-        this.moderationStatus = moderationStatus;
-        return this;
-    }
 
     public Boolean getPriceCanBeNegotiated() {
         return priceCanBeNegotiated;
@@ -329,30 +318,12 @@ public class Offer {
         return this;
     }
 
-    public ModerationMessage getModerationMessage() {
-        return moderationMessage;
-    }
-
-    public Offer setModerationMessage(ModerationMessage moderationMessage) {
-        this.moderationMessage = moderationMessage;
-        return this;
-    }
-
     public Integer getMaximumReservedPeriod() {
         return maximumReservedPeriod;
     }
 
     public Offer setMaximumReservedPeriod(Integer maximumReservedPeriod) {
         this.maximumReservedPeriod = maximumReservedPeriod;
-        return this;
-    }
-
-    public Long getLastModerationDate() {
-        return lastModerationDate;
-    }
-
-    public Offer setLastModerationDate(Long lastModerationDate) {
-        this.lastModerationDate = lastModerationDate;
         return this;
     }
 
@@ -410,44 +381,14 @@ public class Offer {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return "Offer{" +
-                "id='" + id + '\'' +
-                ", authorId='" + authorId + '\'' +
-                ", userInfo=" + userInfo +
-                ", active=" + active +
-                ", createdDate=" + createdDate +
-                ", reservation=" + reservation +
-                ", views=" + views +
-                ", monthOfPrices=" + monthOfPrices +
-                ", rent=" + rent +
-                ", seoUrl='" + seoUrl + '\'' +
-                ", seoKey='" + seoKey + '\'' +
-                ", categories=" + categories +
-                ", seoCategory='" + seoCategory + '\'' +
-                ", properties=" + properties +
-                ", imagesIds=" + imagesIds +
-                ", videoUrl='" + videoUrl + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", currency=" + currency +
-                ", address=" + address +
-                ", priceCanBeNegotiated=" + priceCanBeNegotiated +
-                ", used=" + used +
-                ", canBeReserved=" + canBeReserved +
-                ", canBeRented=" + canBeRented +
-                ", showOrdersCount=" + showOrdersCount +
-                ", maximumReservedPeriod=" + maximumReservedPeriod +
-                ", availableShippingMethods=" + availableShippingMethods +
-                ", availablePaymentMethods=" + availablePaymentMethods +
-                ", paidServices=" + paidServices +
-                ", productReturnsTerms=" + productReturnsTerms +
-                ", moderationStatus=" + moderationStatus +
-                ", lastModerationDate=" + lastModerationDate +
-                ", moderationMessage=" + moderationMessage +
-                ", deleted=" + deleted +
-                '}';
+    public OfferModerationReports getOfferModerationReports() {
+        return offerModerationReports;
     }
+
+    public Offer setOfferModerationReports(OfferModerationReports offerModerationReports) {
+        this.offerModerationReports = offerModerationReports;
+        return this;
+    }
+
+
 }
