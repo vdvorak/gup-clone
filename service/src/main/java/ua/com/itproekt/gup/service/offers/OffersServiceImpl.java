@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.service.offers;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
@@ -12,6 +13,7 @@ import ua.com.itproekt.gup.model.offer.*;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
+import ua.com.itproekt.gup.model.profiles.Contact;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
@@ -52,6 +54,12 @@ public class OffersServiceImpl implements OffersService {
                 .setEmail(offerRegistration.getEmail())
                 .setPassword(offerRegistration.getPassword())
                 .setUserRoles(offerUserRoleSet);
+        if(!StringUtils.isNotBlank(offerRegistration.getUsername())) profile.setUsername(offerRegistration.getUsername());
+        if(0<offerRegistration.getContactPhones().size()){
+            Contact contact = new Contact();
+            contact.setContactPhones(offerRegistration.getContactPhones());
+            profile.setContact(contact);
+        }
 
         profilesService.createProfile(profile);
         verificationTokenService.sendEmailRegistrationToken(profile.getId());

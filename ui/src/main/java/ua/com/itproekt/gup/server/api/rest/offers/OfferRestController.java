@@ -190,7 +190,6 @@ public class OfferRestController {
 //            System.err.println("Cookie name: " + cookie.getName() + " || Cookie value: " + cookie.getValue());
 //        }
 
-
         String userId = SecurityOperations.getLoggedUserId();
 
         Map<String, String> importImagesMap = new HashMap<>();
@@ -220,15 +219,12 @@ public class OfferRestController {
             offersService.createWithRegistration(offerRegistration);
 
             return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
-
-
         } else {
             // if user is logged in
 
             offerRegistration.getOffer().setAuthorId(userId);
 
             OfferRestHelper.offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
-
 
             if (offerRegistration.getImportImagesUrlList() != null) {
                 if (offerRegistration.getImportImagesUrlList().size() > 0) {
@@ -246,7 +242,6 @@ public class OfferRestController {
                 ownAddedImagesMap = storageService.saveCachedMultiplyImageOffer(files, firstPositionForImages + 1);
             }
 
-
             Map<String, String> resultImageMap = new HashMap<>();
 
             resultImageMap.putAll(importImagesMap);
@@ -259,11 +254,9 @@ public class OfferRestController {
 
             return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
         }
-
-
     }
 
-
+    
     //------------------------------------------ Update ----------------------------------------------------------------
 
     /**
