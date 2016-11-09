@@ -281,7 +281,7 @@ public class OfferRepositoryImpl implements OfferRepository {
             query.with(new Sort(Sort.Direction.fromString(offerFO.getPriceSortDirection()), "price"));
         }
 
-        if (offerFO.getOfferModerationReports().getLastModifiedDate() != null) {
+        if (offerFO.getOfferModerationReports() !=null && offerFO.getOfferModerationReports().getLastModifiedDate() != null) {
             query.addCriteria(Criteria.where("lastModerationDate").is(offerFO.getOfferModerationReports().getLastModifiedDate()));
         }
 
