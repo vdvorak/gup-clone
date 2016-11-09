@@ -210,9 +210,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
                 break;
         }
 
+        // FIXME: to constructor...START
         long[] availablesDays = null;
         for (Price prices : this) for (long p : prices) availablesDays = ArrayUtils.add(availablesDays, p);
         rents = Rents2.getInstance(availablesDays); //FIXME: в момент иннициализации нужно добавить все существующие даты как 'AVAILABLE'
+        // FIXME: to constructor...FINISH
     }
 
     /**
@@ -227,8 +229,13 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      */
     public void addRent(Long[] days) throws ConcurrentModificationException {
         if( getRents().getAvailables().isEmpty() ){
+            List<Rent2> a = getRents().getAvailables();
             for (Price prices : this) {
-                for (Long day : prices) getRents().getAvailables().add(new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
+                for (Long day : prices) {
+                    System.out.println(">");
+//                    getRents().getAvailables().add(new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
+                    a.add(0, new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
+                }
             }
         } else {
             for (Long day : days) {
@@ -286,7 +293,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
-//    public Integer delRent(Long[] days) {
+    public Integer delRent(Long[] days) {
 //        Collection<Long> availables = new TreeSet<Long>(Arrays.asList(getRents().getAvailables().get())),
 //                rented = new TreeSet<Long>(Arrays.asList(getRents().getRented().get()));
 //        boolean isAvailables = availables.addAll(Arrays.asList(days)),
@@ -295,7 +302,22 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 //        getRents().getRented().set(convertDate(rented));
 //
 //        return (isAvailables && isRented) ? days.length : 0;
-//    }
+///////////////////////////////////////////////// FIXME: предварительно создавать полный список удаляемых элементов И удалять этот список (НЕ по одному элементу...)
+        int del = 0;
+        if( !getRents().getRented().isEmpty() ){
+            for (Long day : days) {
+                Rent2 findRented = new Rent2(day, null, true, true, null, null, null, RentStatus.RENTED, OrderStatus.NONE, 1, null);
+                if( getRents().getRented().contains(findRented) ){
+                    Rent2 objRented = getRents().getRented().get(getRents().getRented().indexOf(findRented));
+                    if( getRents().getRented().remove(objRented) ){
+                        getRents().getAvailables().add(objRented);
+                        del++;
+                    }
+                }
+            }
+        }
+        return del;
+    }
 
     public Boolean isPrice(Long day) {
         for (Price prices : this)

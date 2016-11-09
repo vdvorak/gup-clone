@@ -3,12 +3,12 @@ package ua.com.itproekt.gup.service.offers.price;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
-public abstract class ARents2 extends ConcurrentLinkedDeque<List<Rent2>> { //FIXME: ArrayList<List<Rent2>>
+public abstract class ARents2 extends ArrayList<List<Rent2>> { //public abstract class ARents2 extends ConcurrentLinkedDeque<List<Rent2>> { //FIXME: ArrayList<List<Rent2>>
 
     public ARents2(){
         add(new ArrayList<Rent2>());
-        addFirst(new ArrayList<Rent2>());
-        addLast(new ArrayList<Rent2>());
+        add(new ArrayList<Rent2>()); //addFirst(new ArrayList<Rent2>());
+        add(new ArrayList<Rent2>()); //addLast(new ArrayList<Rent2>());
     }
 
     public ARents2(long[] availables){
@@ -16,8 +16,8 @@ public abstract class ARents2 extends ConcurrentLinkedDeque<List<Rent2>> { //FIX
         for (long day : availables) lAvailables.add(new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
 
         add(new ArrayList<Rent2>());
-        addFirst(lAvailables);
-        addLast(new ArrayList<Rent2>());
+        add(lAvailables); //addFirst(lAvailables);
+        add(new ArrayList<Rent2>()); //addLast(new ArrayList<Rent2>());
     }
 
     public ARents2(long[] availables, long[] rented){
@@ -27,8 +27,8 @@ public abstract class ARents2 extends ConcurrentLinkedDeque<List<Rent2>> { //FIX
         for (long day : rented) lAvailables.add(new Rent2(day, null, true, true, null, null, null, RentStatus.RENTED, OrderStatus.NONE, 1, null));
 
         add(new ArrayList<Rent2>());
-        addFirst(lAvailables);
-        addLast(lRented);
+        add(lAvailables); //addFirst(lAvailables);
+        add(lRented); //addLast(lRented);
     }
 
     /**
@@ -41,8 +41,8 @@ public abstract class ARents2 extends ConcurrentLinkedDeque<List<Rent2>> { //FIX
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
     public List<Rent2> getAvailables(){
-        Collections.sort(getFirst());
-        return getFirst();
+        Collections.sort(get(0)); //Collections.sort(getFirst());
+        return get(0); //return getFirst();
     }
 
     /**
@@ -55,8 +55,8 @@ public abstract class ARents2 extends ConcurrentLinkedDeque<List<Rent2>> { //FIX
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
     public List<Rent2> getRented(){
-        Collections.sort(getLast());
-        return getLast();
+        Collections.sort(get(2)); //Collections.sort(getLast());
+        return get(2); //return getLast();
     }
 
     /**
@@ -107,6 +107,11 @@ public abstract class ARents2 extends ConcurrentLinkedDeque<List<Rent2>> { //FIX
                             }
                         }
                     }
+
+                    /*
+                     * 'Expired'
+                     */
+                    //remove(e); add(expired); //e = expired;
                 }
             }
         } catch (NoSuchElementException e){
