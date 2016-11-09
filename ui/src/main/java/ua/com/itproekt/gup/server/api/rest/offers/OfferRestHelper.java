@@ -123,9 +123,6 @@ public final class OfferRestHelper {
      * @return          the Offer object.
      */
     static Offer offerPreparatorForEditOffer(Offer offer, Offer oldOffer){
-        offer.getModerationMessage().setCreatedDateEqualsToCurrentDate();
-        offer.getModerationMessage().setIsRead(false);
-        offer.setLastModerationDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
 
         String newTransiltTitle = Translit.makeTransliteration(offer.getTitle());
 

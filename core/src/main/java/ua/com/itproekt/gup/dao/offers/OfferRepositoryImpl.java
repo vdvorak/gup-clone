@@ -155,20 +155,20 @@ public class OfferRepositoryImpl implements OfferRepository {
         Query query = new Query();
 
         //ToDo In the future this maybe will be work. But now we don't show deleted offers.
-        if (offerFO.isDeleted()){
+        if (offerFO.isDeleted()) {
             query.addCriteria(Criteria.where("deleted").ne(true));
-        }else{
+        } else {
             query.addCriteria(Criteria.where("deleted").is(false));
         }
-
 
 
         if (offerFO.getAuthorId() != null) {
             query.addCriteria(Criteria.where("authorId").is(offerFO.getAuthorId()));
         }
 
-        if (offerFO.getModerationStatus() != null) {
-            query.addCriteria(Criteria.where("moderationStatus").is(offerFO.getModerationStatus()));
+
+        if (offerFO.getOfferModerationReports() != null && offerFO.getOfferModerationReports().getModerationStatus() != null) {
+            query.addCriteria(Criteria.where("moderationStatus").is(offerFO.getOfferModerationReports().getModerationStatus()));
         }
 
         if (offerFO.getActive() != null) {
@@ -271,7 +271,7 @@ public class OfferRepositoryImpl implements OfferRepository {
             query.addCriteria(Criteria.where("price").lte(offerFO.getToPrice()));
         }
 
-        if(offerFO.getCurrency()!= null){
+        if (offerFO.getCurrency() != null) {
             query.addCriteria(Criteria.where("currency").is(offerFO.getCurrency()));
         }
 
@@ -281,8 +281,8 @@ public class OfferRepositoryImpl implements OfferRepository {
             query.with(new Sort(Sort.Direction.fromString(offerFO.getPriceSortDirection()), "price"));
         }
 
-        if (offerFO.getLastModerationDate() != null) {
-            query.addCriteria(Criteria.where("lastModerationDate").is(offerFO.getLastModerationDate()));
+        if (offerFO.getOfferModerationReports().getLastModifiedDate() != null) {
+            query.addCriteria(Criteria.where("lastModerationDate").is(offerFO.getOfferModerationReports().getLastModifiedDate()));
         }
 
         query.skip(offerFO.getSkip());
