@@ -166,7 +166,8 @@ public class OfferRepositoryImpl implements OfferRepository {
             query.addCriteria(Criteria.where("authorId").is(offerFO.getAuthorId()));
         }
 
-        if (offerFO.getOfferModerationReports().getModerationStatus() != null) {
+
+        if (offerFO.getOfferModerationReports() != null && offerFO.getOfferModerationReports().getModerationStatus() != null) {
             query.addCriteria(Criteria.where("moderationStatus").is(offerFO.getOfferModerationReports().getModerationStatus()));
         }
 
