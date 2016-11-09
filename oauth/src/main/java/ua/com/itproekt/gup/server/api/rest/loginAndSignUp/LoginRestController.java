@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -16,20 +17,21 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import ua.com.itproekt.gup.model.login.FormChangePassword;
 import ua.com.itproekt.gup.model.login.FormLoggedUser;
 import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.profiles.verification.VerificationTokenType;
 import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
+import ua.com.itproekt.gup.service.emailnotification.EmailServiceTokenModel;
+import ua.com.itproekt.gup.service.emailnotification.MailSenderService;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
-import ua.com.itproekt.gup.util.APIVendor;
-import ua.com.itproekt.gup.util.CookieUtil;
-import ua.com.itproekt.gup.util.LogUtil;
-import ua.com.itproekt.gup.util.Oauth2Util;
+import ua.com.itproekt.gup.util.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -71,6 +73,9 @@ public class LoginRestController {
 
     @Autowired
     StorageService storageService;
+
+    @Autowired
+    private MailSenderService mailSenderService;
 
 
     @CrossOrigin
@@ -186,8 +191,6 @@ public class LoginRestController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
         LoggedUser loggedUser;
-        long startTime = System.currentTimeMillis();
-
         try {
             loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {
@@ -197,17 +200,43 @@ public class LoginRestController {
         if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-
-
-        startTime = System.currentTimeMillis();
         authenticateByEmailAndPassword(loggedUser, response);
-        System.err.println("authenticateByEmailAndPassword time: " + (System.currentTimeMillis() - startTime));
-
         ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
 
-        System.err.println("Total login request time: " + (System.currentTimeMillis() - startTime));
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+    }
 
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/change-password", method = RequestMethod.POST)
+    public String changePassword(@RequestBody FormChangePassword formChangePassword, HttpServletRequest request, HttpServletResponse response) {
+        Profile profile = profilesService.findWholeProfileById(SecurityOperations.getLoggedUser().getProfileId());
+
+        /* Edit Profile | change password */
+        if( passwordEncoder.matches(formChangePassword.getPassword(),profile.getPassword()) ){
+            profile.setPassword(passwordEncoder.encode(formChangePassword.getNewPassword()));
+            profilesService.editProfile(profile);
+            mailSenderService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, formChangePassword.getNewPassword()));
+
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("authToken")) {
+                    tokenServices.revokeToken(cookie.getValue());
+                }
+            }
+
+            Cookie cookieAuthToken = new Cookie("authToken", null);
+            cookieAuthToken.setMaxAge(0);
+            cookieAuthToken.setPath("/");
+            response.addCookie(cookieAuthToken);
+
+            Cookie cookieRefreshToken = new Cookie("refreshToken", null);
+            cookieRefreshToken.setMaxAge(0);
+            cookieRefreshToken.setPath("/");
+            response.addCookie(cookieRefreshToken);
+
+            return "redirect:/login";
+        }
+        return String.valueOf(HttpStatus.UNAUTHORIZED);
     }
 
     @CrossOrigin
