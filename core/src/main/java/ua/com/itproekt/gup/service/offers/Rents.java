@@ -1,6 +1,9 @@
 package ua.com.itproekt.gup.service.offers;
 
+import ua.com.itproekt.gup.service.offers.price.Rent;
 import ua.com.itproekt.gup.service.offers.price.ARents;
+
+import java.util.List;
 
 /**
  * @see http://ru.stackoverflow.com/questions/27770/Зачем-нужны-статические-не-вложенные-классы
@@ -36,21 +39,12 @@ public class Rents extends ARents {
         super(availables);
     }
 
-    private Rents(long[] availables, long[] rented){
-        super(availables, rented);
-    }
+//    private Rents(long[] availables, long[] rented){
+//        super(availables, rented);
+//    }
 
-    public static Rents getInstance() {
-        Rents localInstance = instance;
-        if (localInstance == null) {
-            synchronized (Rents.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new Rents();
-                }
-            }
-        }
-        return localInstance;
+    private Rents(List<Rent> availables, List<Rent> rented, List<Rent> expired){
+        super(availables, rented, expired);
     }
 
     public static Rents getInstance(long[] availables) {
@@ -66,13 +60,26 @@ public class Rents extends ARents {
         return localInstance;
     }
 
-    public static Rents getInstance(long[] availables, long[] rented) {
+//    public static Rents getInstance(long[] availables, long[] rented) {
+//        Rents localInstance = instance;
+//        if (localInstance == null) {
+//            synchronized (Rents.class) {
+//                localInstance = instance;
+//                if (localInstance == null) {
+//                    instance = localInstance = new Rents(availables, rented);
+//                }
+//            }
+//        }
+//        return localInstance;
+//    }
+
+    public static Rents getInstance(List<Rent> availables, List<Rent> rented, List<Rent> expired) {
         Rents localInstance = instance;
         if (localInstance == null) {
             synchronized (Rents.class) {
                 localInstance = instance;
                 if (localInstance == null) {
-                    instance = localInstance = new Rents(availables, rented);
+                    instance = localInstance = new Rents(availables, rented, expired);
                 }
             }
         }

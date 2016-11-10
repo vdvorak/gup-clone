@@ -7,7 +7,6 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang.ArrayUtils;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.service.offers.price.*;
-import ua.com.itproekt.gup.util.ConvertUtil;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -139,6 +138,31 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         for (PriceOfRent specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
     }
 
+    protected OfferPricesService(final String jsonPriceRestore, final String jsonRentsRestore){
+        JsonParser parser = new JsonParser();
+        JsonObject objJsonObject = (JsonObject) parser.parse(jsonPriceRestore);
+        Gson gson = new Gson();
+        Map<String, PriceOfRentsRestore> restores = gson.fromJson(objJsonObject, new TypeToken<Map<String, PriceOfRentsRestore>>(){}.getType());
+        PriceOfRentsRestore restore = restores.get(monthOfPrices);
+        PriceOfRent weekdays = restore.getWeekday(),
+                weekends = restore.getWeekend();
+        PriceOfRent[] specialdays = restore.getSpecialdays();
+
+        weekdayPrice = weekdays.getPrice();
+        weekendPrice = weekends.getPrice();
+        initDate = null;
+        listWeekdays = new ArrayList<Long>();
+        listWeekends = new ArrayList<Long>();
+        for (PriceOfRent specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
+
+        JsonParser parser2 = new JsonParser();
+        JsonObject objJsonObject2 = (JsonObject) parser.parse(jsonRentsRestore);
+        Gson gson2 = new Gson();
+//        Map<String, RentsRestore> restores2 = gson.fromJson(objJsonObject2, new TypeToken<Map<String, RentsRestore>>(){}.getType());
+//        RentsRestore restore2 = restores2.get(monthOfRents);
+//        rents = Rents.getInstance(restore2.getAvailables(), restore2.getRented(), restore2.getExpired());
+    }
+
     /**
      * Restore from (MonthOfPricesRestore) to Object-Month:
      * ----------------------------------------------------
@@ -161,6 +185,27 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
             for (PriceOfRent specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
         else
             addPrices(0l, new Long[]{});
+    }
+
+    protected OfferPricesService(final PriceOfRentsRestore priceRestore, final RentsRestore rentsRestore){
+        PriceOfRent weekdays = priceRestore.getWeekday(),
+                weekends = priceRestore.getWeekend();
+        PriceOfRent[] specialdays = priceRestore.getSpecialdays();
+
+        if (weekdays.getPrice()!=null
+                && weekends.getPrice()!=null){
+            weekdayPrice = weekdays.getPrice();
+            weekendPrice = weekends.getPrice();
+        }
+        initDate = null;
+        listWeekdays = new ArrayList<Long>();
+        listWeekends = new ArrayList<Long>();
+        if (specialdays!=null)
+            for (PriceOfRent specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
+        else
+            addPrices(0l, new Long[]{});
+
+        rents = Rents.getInstance(rentsRestore.getAvailables(), rentsRestore.getRented(), rentsRestore.getExpired());
     }
 
     /**
@@ -235,11 +280,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 
         if( getRents().getAvailables().isEmpty() ){
             for (Price prices : this) {
-                for (Long day : prices) getRents().getAvailables().add(new Rent(day, user, true, true, null, (date.getTime() - 111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, order));
+                for (Long day : prices) getRents().getAvailables().add(new Rent(day, user, true, true, null, (date.getTime() - 111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null)); //for (Long day : prices) getRents().getAvailables().add(new Rent(day, user, true, true, null, (date.getTime() - 111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, order));
             }
         } else {
             for (Long day : days) {
-                Rent findAvailables = new Rent(day, user, true, true, null, (date.getTime()-111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, order);
+                Rent findAvailables = new Rent(day, user, true, true, null, (date.getTime()-111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null); //Rent findAvailables = new Rent(day, user, true, true, null, (date.getTime()-111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, order);
                 if( getRents().getAvailables().contains(findAvailables) ){
                     Rent objAvailables = getRents().getAvailables().get(getRents().getAvailables().indexOf(findAvailables));
                     if( getRents().getAvailables().remove(objAvailables) ) getRents().getRented().add(findAvailables);
@@ -453,7 +498,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 //            ++rent;
 //        }
 //        data.append("\n    ]\n");
-        data.append("    \"rented\": [");
+        data.append(",   \"rented\": [");
         for (Rent rentedDays : getRents().getRented()) {
             if (0<rent) data.append(",{");
             else data.append("\n      {");
