@@ -226,6 +226,7 @@ public class OfferRestController {
 
             OfferRestHelper.offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
+            
             if (offerRegistration.getImportImagesUrlList() != null) {
                 if (offerRegistration.getImportImagesUrlList().size() > 0) {
                     MultipartFile[] multipartFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlList());
@@ -299,14 +300,20 @@ public class OfferRestController {
         }
 
         // update SEO url title for offer
-        String newTransiltTitle = Translit.makeTransliteration(updatedOffer.getTitle());
-        String newSeoUrl = newTransiltTitle + "-" + oldOffer.getSeoKey();
+        String newTranslitTitle = Translit.makeTransliteration(updatedOffer.getTitle());
+        String newSeoUrl = newTranslitTitle + "-" + oldOffer.getSeoKey();
         updatedOffer.setSeoUrl(newSeoUrl);
 
 
-        // If false - means that some pictures were
+        // If false - means that some pictures were added
         if (oldOffer.getImagesIds() != null) {
+
+            /**
+             * If old images list is NOT equal with new - it means that some of the old pictures must be deleted.
+             */
             if (!oldOffer.getImagesIds().equals(updatedOffer.getImagesIds())) {
+                //Find images in old offer version that were deleted in new
+                // and delete them from base in all resized variants.
                 storageService.deleteDiffImagesAfterOfferUpdate(oldOffer.getImagesIds(), updatedOffer.getImagesIds());
             }
         }
