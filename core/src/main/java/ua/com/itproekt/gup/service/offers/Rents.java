@@ -36,9 +36,9 @@ public class Rents extends ARents {
         super(availables);
     }
 
-    private Rents(long[] availables, long[] rented){
-        super(availables, rented);
-    }
+//    private Rents(long[] availables, long[] rented){
+//        super(availables, rented);
+//    }
 
     public static Rents getInstance() {
         Rents localInstance = instance;
@@ -66,18 +66,18 @@ public class Rents extends ARents {
         return localInstance;
     }
 
-    public static Rents getInstance(long[] availables, long[] rented) {
-        Rents localInstance = instance;
-        if (localInstance == null) {
-            synchronized (Rents.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new Rents(availables, rented);
-                }
-            }
-        }
-        return localInstance;
-    }
+//    public static Rents getInstance(long[] availables, long[] rented) {
+//        Rents localInstance = instance;
+//        if (localInstance == null) {
+//            synchronized (Rents.class) {
+//                localInstance = instance;
+//                if (localInstance == null) {
+//                    instance = localInstance = new Rents(availables, rented);
+//                }
+//            }
+//        }
+//        return localInstance;
+//    }
 
 //    ///////////////////////////////////////////////////////////////////////
 //    // http://javaconceptoftheday.com/how-to-modify-an-arraylist/
