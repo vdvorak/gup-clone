@@ -213,7 +213,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         // FIXME: to constructor...START
         long[] availablesDays = null;
         for (Price prices : this) for (long p : prices) availablesDays = ArrayUtils.add(availablesDays, p);
-        rents = Rents2.getInstance(availablesDays); //FIXME: в момент иннициализации нужно добавить все существующие даты как 'AVAILABLE'
+        rents = Rents2.getInstance(availablesDays);
         // FIXME: to constructor...FINISH
     }
 
@@ -231,20 +231,14 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         if( getRents().getAvailables().isEmpty() ){
             List<Rent2> a = getRents().getAvailables();
             for (Price prices : this) {
-                for (Long day : prices) {
-                    System.out.println(">");
-//                    getRents().getAvailables().add(new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
-                    a.add(0, new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
-                }
+                for (Long day : prices) a.add(new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
             }
         } else {
             for (Long day : days) {
                 Rent2 findAvailables = new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null);
                 if( getRents().getAvailables().contains(findAvailables) ){
                     Rent2 objAvailables = getRents().getAvailables().get(getRents().getAvailables().indexOf(findAvailables));
-                    if( getRents().getAvailables().remove(objAvailables) ){
-                        getRents().getRented().add(objAvailables);
-                    }
+                    if( getRents().getAvailables().remove(objAvailables) ) getRents().getRented().add(objAvailables);
                 }
             }
         }
@@ -294,15 +288,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
     public Integer delRent(Long[] days) {
-//        Collection<Long> availables = new TreeSet<Long>(Arrays.asList(getRents().getAvailables().get())),
-//                rented = new TreeSet<Long>(Arrays.asList(getRents().getRented().get()));
-//        boolean isAvailables = availables.addAll(Arrays.asList(days)),
-//                isRented = rented.removeAll(Arrays.asList(days));
-//        getRents().getAvailables().set(convertDate(availables));
-//        getRents().getRented().set(convertDate(rented));
-//
-//        return (isAvailables && isRented) ? days.length : 0;
-///////////////////////////////////////////////// FIXME: предварительно создавать полный список удаляемых элементов И удалять этот список (НЕ по одному элементу...)
+        //FIXME: предварительно создавать полный список удаляемых элементов И удалять этот список (НЕ по одному элементу...)
         int del = 0;
         if( !getRents().getRented().isEmpty() ){
             for (Long day : days) {
@@ -335,12 +321,10 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
     public Boolean isRent(Long day) {
-        //return Arrays.asList(getRents().getRented().get()).contains(day);
         return getRents().getRented().contains(new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
     }
 
     public Boolean isRent(Long[] days) {
-        //return Arrays.asList(getRents().getRented().get()).containsAll(Arrays.asList(days));
         for (Long day : days) if(!isRent(day)) return false;
         return true;
     }
@@ -365,28 +349,31 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         return rents;
     }
 
-    @Override
-    public String toString() throws NoSuchElementException {
-        StringBuilder data = new StringBuilder();
-        for (Price prices : this) {
-            for (Long price : prices) data.append("(" + prices.get() + ")" + convertDate(price) + " ");
-            if (!prices.isEmpty()) data.append("\n");
-        }
-        return data.toString();
-    }
 //    @Override
 //    public String toString() throws NoSuchElementException {
 //        StringBuilder data = new StringBuilder();
-//        List<Long> isRents = new LinkedList<Long>(),
-//                isExpireds = new LinkedList<Long>();
-//        if (getRents().getExpired().get()!=null) for (Long day : getRents().getExpired().get()) isExpireds.add(day);
-//        if (getRents().getRented().get()!=null) for (Long day : getRents().getRented().get()) isRents.add(day);
 //        for (Price prices : this) {
-//            for (Long price : prices) data.append(prices.get() + (isExpireds.contains(price)?"|EXPIRED":isRents.contains(price)?"|RENTED":"") +"(" + convertDate(price) + ") ");
+//            for (Long price : prices) data.append("(" + prices.get() + ")" + convertDate(price) + " ");
 //            if (!prices.isEmpty()) data.append("\n");
 //        }
 //        return data.toString();
 //    }
+    @Override
+    public String toString() throws NoSuchElementException {
+        StringBuilder data = new StringBuilder();
+        List<Long> isRents = new LinkedList<Long>(),
+                isExpireds = new LinkedList<Long>();
+        List<Rent2> e = getRents().getExpired(),
+                a = getRents().getAvailables(),
+                r = getRents().getRented();
+        if (e!=null) for (Rent2 experied : e) isExpireds.add(experied.getDay());
+        if (r!=null) for (Rent2 rented : r) isRents.add(rented.getDay());
+        for (Price prices : this) {
+            for (Long price : prices) data.append(prices.get() + (isExpireds.contains(price)?"|EXPIRED":isRents.contains(price)?"|RENTED":"") +"(" + convertDate(price) + ") ");
+            if (!prices.isEmpty()) data.append("\n");
+        }
+        return data.toString();
+    }
 
     public String toRent() {
         StringBuilder data = new StringBuilder();
