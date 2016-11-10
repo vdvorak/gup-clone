@@ -1,23 +1,22 @@
 package ua.com.itproekt.gup.service.offers.price;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
-public abstract class ARents2 extends ArrayList<List<Rent2>> { //public abstract class ARents2 extends ConcurrentLinkedDeque<List<Rent2>> { //FIXME: ArrayList<List<Rent2>>
+public abstract class ARents2 extends ArrayList<List<Rent2>> {
 
     public ARents2(){
         add(new ArrayList<Rent2>());
-        add(new ArrayList<Rent2>()); //addFirst(new ArrayList<Rent2>());
-        add(new ArrayList<Rent2>()); //addLast(new ArrayList<Rent2>());
+        add(new ArrayList<Rent2>());
+        add(new ArrayList<Rent2>());
     }
 
     public ARents2(long[] availables){
         List<Rent2> lAvailables = new ArrayList<Rent2>();
         for (long day : availables) lAvailables.add(new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
 
+        add(lAvailables);
         add(new ArrayList<Rent2>());
-        add(lAvailables); //addFirst(lAvailables);
-        add(new ArrayList<Rent2>()); //addLast(new ArrayList<Rent2>());
+        add(new ArrayList<Rent2>());
     }
 
     public ARents2(long[] availables, long[] rented){
@@ -26,9 +25,9 @@ public abstract class ARents2 extends ArrayList<List<Rent2>> { //public abstract
         for (long day : availables) lAvailables.add(new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
         for (long day : rented) lAvailables.add(new Rent2(day, null, true, true, null, null, null, RentStatus.RENTED, OrderStatus.NONE, 1, null));
 
+        add(lAvailables);
+        add(lRented);
         add(new ArrayList<Rent2>());
-        add(lAvailables); //addFirst(lAvailables);
-        add(lRented); //addLast(lRented);
     }
 
     /**
@@ -55,8 +54,8 @@ public abstract class ARents2 extends ArrayList<List<Rent2>> { //public abstract
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
     public List<Rent2> getRented(){
-        Collections.sort(get(2)); //Collections.sort(getLast());
-        return get(2); //return getLast();
+        Collections.sort(get(1)); //Collections.sort(getLast());
+        return get(1); //return getLast();
     }
 
     /**
@@ -107,11 +106,6 @@ public abstract class ARents2 extends ArrayList<List<Rent2>> { //public abstract
                             }
                         }
                     }
-
-                    /*
-                     * 'Expired'
-                     */
-                    //remove(e); add(expired); //e = expired;
                 }
             }
         } catch (NoSuchElementException e){
@@ -119,9 +113,9 @@ public abstract class ARents2 extends ArrayList<List<Rent2>> { //public abstract
         } catch (NullPointerException e){
             e.printStackTrace();
         }
-//        set(1, expired); //FIXME:
-        Collections.sort(expired);
-        return !expired.isEmpty() ? expired : null;
+        if(!expired.isEmpty()) set(2, expired);
+        Collections.sort(get(2));
+        return get(2);
     }
 
 
