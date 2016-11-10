@@ -3,7 +3,7 @@ package ua.com.itproekt.gup.service.offers.price;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.util.ConvertUtil;
 
-public class Rent2 implements Comparable<Rent2>, Cloneable {
+public class Rent implements Comparable<Rent>, Cloneable {
 
     private Long day;
     private RentUser user;
@@ -17,9 +17,9 @@ public class Rent2 implements Comparable<Rent2>, Cloneable {
     private Integer salesRemained;
     private Order order;
 
-    public Rent2(){}
+    public Rent(){}
 
-    public Rent2(Long day, RentUser user, Boolean confirm, Boolean prepaid, Long dayPrepaid, Long orderDate, Long updateDate, RentStatus rentStatus, OrderStatus orderStatus, Integer salesRemained, Order order){
+    public Rent(Long day, RentUser user, Boolean confirm, Boolean prepaid, Long dayPrepaid, Long orderDate, Long updateDate, RentStatus rentStatus, OrderStatus orderStatus, Integer salesRemained, Order order){
         this.day = day;
         this.user = user;
         this.confirm = confirm;
@@ -33,7 +33,7 @@ public class Rent2 implements Comparable<Rent2>, Cloneable {
         this.order = order;
     }
 
-    public Rent2(Rent2 rent){
+    public Rent(Rent rent){
         this.day = rent.getDay();
         this.user = rent.getUser();
         this.confirm = rent.isConfirm();
@@ -169,12 +169,12 @@ public class Rent2 implements Comparable<Rent2>, Cloneable {
     }
 
     @Override
-    public int compareTo(Rent2 that) {
+    public int compareTo(Rent that) {
         return day.compareTo(that.getDay());
     }
 
     @Override
-    public Rent2 clone() throws CloneNotSupportedException {
+    public Rent clone() throws CloneNotSupportedException {
         return this.clone();
     }
 
@@ -203,7 +203,7 @@ public class Rent2 implements Comparable<Rent2>, Cloneable {
 //        if (this == that) return true;
 //        if (that == null || getClass() != that.getClass()) return false;
 
-        Rent2 rent2 = (Rent2) that;
+        Rent rent2 = (Rent) that;
         if (!day.equals(rent2.day)) return false;
         return true;
     }

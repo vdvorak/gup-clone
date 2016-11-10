@@ -150,7 +150,7 @@ public class OfferPricesServiceToGsonTest {
         service.addRent(ConvertUtil.toDate(rents.get("delete41").getDays()));
         service.addRent(ConvertUtil.toDate(rents.get("delete42").getDays()));
 
-        System.out.println("Del [31.11.2016] = " + service.delRent(ConvertUtil.toDate(rents.get("rent4").getDays())));
+        System.out.println("Del [1.11.2016] = " + service.delRent(ConvertUtil.toDate(rents.get("rent41").getDays()))); //FIXME: проблеа конвертара с невалидными числами в месяцк...
         System.out.println(service.toRent());
     }
 
@@ -239,16 +239,16 @@ public class OfferPricesServiceToGsonTest {
         System.out.println(service.jsonRent());
     }
 
-//    @Test
-//    public void testRestore(){
-//        System.out.println("--------------------[ testRestore ]");
-//        service.addPrices(priceRents.get("scheme4").getPrice(), ConvertUtil.toDate(priceRents.get("scheme4").getDays()));
-//        service.addRent(ConvertUtil.toDate(rents.get("rent51").getDays())); //[+] 26.10.2016
-//        service.addRent(ConvertUtil.toDate(rents.get("rent52").getDays())); //[+] 28.10.2016,30.10.2016
-//        //
-//        System.err.println(service.toJson());
-//        System.err.println();
-//        System.err.println(service.jsonRent());
-//    }
+////    @Test
+////    public void testRestore(){
+////        System.out.println("--------------------[ testRestore ]");
+////        service.addPrices(priceRents.get("scheme4").getPrice(), ConvertUtil.toDate(priceRents.get("scheme4").getDays()));
+////        service.addRent(ConvertUtil.toDate(rents.get("rent51").getDays())); //[+] 26.10.2016
+////        service.addRent(ConvertUtil.toDate(rents.get("rent52").getDays())); //[+] 28.10.2016,30.10.2016
+////        //
+////        System.err.println(service.toJson());
+////        System.err.println();
+////        System.err.println(service.jsonRent());
+////    }
 
 }
