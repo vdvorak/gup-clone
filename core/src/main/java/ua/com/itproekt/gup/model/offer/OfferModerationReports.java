@@ -1,5 +1,7 @@
 package ua.com.itproekt.gup.model.offer;
 
+import java.util.List;
+
 /**
  * Class contains information relating to moderator activity to the offer.
  *
@@ -11,7 +13,7 @@ public class OfferModerationReports {
     Long lastModifiedDate; // last modified date when moderator modified profile
     ModerationStatus moderationStatus; // mpderation status
 
-    OfferRefusalReasons offerRefusalReasons; // the reason why moderator refuse offer
+    List<OfferRefusalReason> offerRefusalReasons; // the reason why moderator refuse offer
 
 
     public String getModeratorId() {
@@ -30,12 +32,12 @@ public class OfferModerationReports {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public OfferRefusalReasons getOfferRefusalReasons() {
+    public List<OfferRefusalReason> getOfferRefusalReasonses() {
         return offerRefusalReasons;
     }
 
-    public void setOfferRefusalReasons(OfferRefusalReasons offerRefusalReasons) {
-        this.offerRefusalReasons = offerRefusalReasons;
+    public void setOfferRefusalReasonses(List<OfferRefusalReason> offerRefusalReasonses) {
+        this.offerRefusalReasons = offerRefusalReasonses;
     }
 
     public ModerationStatus getModerationStatus() {

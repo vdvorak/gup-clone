@@ -7,7 +7,7 @@ import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
-import ua.com.itproekt.gup.model.offer.OfferRefusalReasons;
+import ua.com.itproekt.gup.model.offer.OfferRefusalReason;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.subscription.SubscriptionService;
@@ -73,25 +73,16 @@ public class OfferModerationServiceImpl implements OfferModerationService {
         }
 
 
-        // if status is Fail but reason is not valid - this method can not ba complete.
-        if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL && inputOffer.getOfferModerationReports().getOfferRefusalReasons() != null) {
+        // we must have not only status FAIL but also reasons
+        if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL && inputOffer.getOfferModerationReports().getOfferRefusalReasonses() != null) {
 
-            if (inputOffer.getOfferModerationReports().getOfferRefusalReasons() == OfferRefusalReasons.ADULT_CONTENT) {
-                activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_FAIL_ADULT_CONTENT));
-            }
+            // clear old reasons
+            offerAfterUpdate.getOfferModerationReports().getOfferRefusalReasonses().clear();
 
-            if (inputOffer.getOfferModerationReports().getOfferRefusalReasons() == OfferRefusalReasons.MISMATCH_DESCRIBE) {
-                activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_FAIL_MISMATCH_DESCRIBE));
-            }
-
-            if (inputOffer.getOfferModerationReports().getOfferRefusalReasons() == OfferRefusalReasons.PROFANITY) {
-                activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_FAIL_PROFANITY));
-            }
-
-            if (inputOffer.getOfferModerationReports().getOfferRefusalReasons() == OfferRefusalReasons.PROHIBITED_CONTENT) {
-                activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_FAIL_PROHIBITED_CONTENT));
-            }
-
+            // add new reasons
+            offerAfterUpdate.getOfferModerationReports().setOfferRefusalReasonses(inputOffer.getOfferModerationReports().getOfferRefusalReasonses());
+            
+            activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_FAIL));
         }
 
 
