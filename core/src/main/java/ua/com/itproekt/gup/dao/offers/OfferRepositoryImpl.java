@@ -168,7 +168,7 @@ public class OfferRepositoryImpl implements OfferRepository {
 
 
         if (offerFO.getOfferModerationReports() != null && offerFO.getOfferModerationReports().getModerationStatus() != null) {
-            query.addCriteria(Criteria.where("moderationStatus").is(offerFO.getOfferModerationReports().getModerationStatus()));
+            query.addCriteria(Criteria.where("offerModerationReports.moderationStatus").is(offerFO.getOfferModerationReports().getModerationStatus()));
         }
 
         if (offerFO.getActive() != null) {
@@ -282,7 +282,7 @@ public class OfferRepositoryImpl implements OfferRepository {
         }
 
         if (offerFO.getOfferModerationReports() !=null && offerFO.getOfferModerationReports().getLastModifiedDate() != null) {
-            query.addCriteria(Criteria.where("lastModerationDate").is(offerFO.getOfferModerationReports().getLastModifiedDate()));
+            query.addCriteria(Criteria.where("offerModerationReports.lastModerationDate").is(offerFO.getOfferModerationReports().getLastModifiedDate()));
         }
 
         query.skip(offerFO.getSkip());
