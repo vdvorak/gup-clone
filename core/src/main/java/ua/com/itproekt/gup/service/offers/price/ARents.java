@@ -2,32 +2,32 @@ package ua.com.itproekt.gup.service.offers.price;
 
 import java.util.*;
 
-public abstract class ARents2 extends ArrayList<List<Rent2>> {
+public abstract class ARents extends ArrayList<List<Rent>> {
 
-    public ARents2(){
-        add(new ArrayList<Rent2>());
-        add(new ArrayList<Rent2>());
-        add(new ArrayList<Rent2>());
+    public ARents(){
+        add(new ArrayList<Rent>());
+        add(new ArrayList<Rent>());
+        add(new ArrayList<Rent>());
     }
 
-    public ARents2(long[] availables){
-        List<Rent2> lAvailables = new ArrayList<Rent2>();
-        for (long day : availables) lAvailables.add(new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
+    public ARents(long[] availables){
+        List<Rent> lAvailables = new ArrayList<Rent>();
+        for (long day : availables) lAvailables.add(new Rent(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
 
         add(lAvailables);
-        add(new ArrayList<Rent2>());
-        add(new ArrayList<Rent2>());
+        add(new ArrayList<Rent>());
+        add(new ArrayList<Rent>());
     }
 
-    public ARents2(long[] availables, long[] rented){
-        List<Rent2> lAvailables = new ArrayList<Rent2>(),
-                lRented = new ArrayList<Rent2>();
-        for (long day : availables) lAvailables.add(new Rent2(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
-        for (long day : rented) lAvailables.add(new Rent2(day, null, true, true, null, null, null, RentStatus.RENTED, OrderStatus.NONE, 1, null));
+    public ARents(long[] availables, long[] rented){
+        List<Rent> lAvailables = new ArrayList<Rent>(),
+                lRented = new ArrayList<Rent>();
+        for (long day : availables) lAvailables.add(new Rent(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
+        for (long day : rented) lAvailables.add(new Rent(day, null, true, true, null, null, null, RentStatus.RENTED, OrderStatus.NONE, 1, null));
 
         add(lAvailables);
         add(lRented);
-        add(new ArrayList<Rent2>());
+        add(new ArrayList<Rent>());
     }
 
     /**
@@ -39,7 +39,7 @@ public abstract class ARents2 extends ArrayList<List<Rent2>> {
      *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
-    public List<Rent2> getAvailables(){
+    public List<Rent> getAvailables(){
         Collections.sort(get(0)); //Collections.sort(getFirst());
         return get(0); //return getFirst();
     }
@@ -53,7 +53,7 @@ public abstract class ARents2 extends ArrayList<List<Rent2>> {
      *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
-    public List<Rent2> getRented(){
+    public List<Rent> getRented(){
         Collections.sort(get(1)); //Collections.sort(getLast());
         return get(1); //return getLast();
     }
@@ -67,14 +67,14 @@ public abstract class ARents2 extends ArrayList<List<Rent2>> {
      *     -- (c) после удаления арендованого дня он снова может вернуться в список - доступных
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
-    public List<Rent2> getExpired(){
-        List<Rent2> expired = new ArrayList<Rent2>();
+    public List<Rent> getExpired(){
+        List<Rent> expired = new ArrayList<Rent>();
         Date date = new Date();
         Long lDate = date.getTime();
 
         try {
             int countExpired = 0;
-            for (List<Rent2> e:this){
+            for (List<Rent> e:this){
                 /*
                  * 'Expired'
                  */
@@ -83,9 +83,9 @@ public abstract class ARents2 extends ArrayList<List<Rent2>> {
                      * 'Availables'
                      */
                     if(getAvailables()!=null){
-                        Iterator<Rent2> iAvailables = getAvailables().iterator();
+                        Iterator<Rent> iAvailables = getAvailables().iterator();
                         while (iAvailables.hasNext()){
-                            Rent2 objAvailables = iAvailables.next();
+                            Rent objAvailables = iAvailables.next();
                             if (objAvailables.getDay()<lDate){
                                 iAvailables.remove();
                                 expired.add(objAvailables);
@@ -97,9 +97,9 @@ public abstract class ARents2 extends ArrayList<List<Rent2>> {
                      * 'Rented'
                      */
                     if(getAvailables()!=null){
-                        Iterator<Rent2> iRented = getRented().iterator();
+                        Iterator<Rent> iRented = getRented().iterator();
                         while (iRented.hasNext()){
-                            Rent2 objRented = iRented.next();
+                            Rent objRented = iRented.next();
                             if (objRented.getDay()<lDate){
                                 iRented.remove();
                                 expired.add(objRented);
