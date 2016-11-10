@@ -5,7 +5,7 @@ package ua.com.itproekt.gup.model.offer;
  *
  * @author Kobylyatskyy Alexander
  */
-public enum OfferRefusalReasons {
+public enum OfferRefusalReason {
     PROFANITY,
     ADULT_CONTENT,
     MISMATCH_DESCRIBE,
