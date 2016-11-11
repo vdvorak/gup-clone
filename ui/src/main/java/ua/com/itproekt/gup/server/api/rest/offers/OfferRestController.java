@@ -180,24 +180,12 @@ public class OfferRestController {
             @RequestPart("offerRegistration") OfferRegistration offerRegistration,
             @RequestPart("files") MultipartFile[] files) {
 
-        System.err.println("This is object: " + offerRegistration.toString());
-
-
-        //ToDo delete this shit
-//        Cookie[] cookies = request.getCookies();
-//
-//        System.err.println("Before Cookie check");
-//        for (Cookie cookie : cookies) {
-//            System.err.println("Cookie name: " + cookie.getName() + " || Cookie value: " + cookie.getValue());
-//        }
-
         String userId = SecurityOperations.getLoggedUserId();
 
         Map<String, String> importImagesMap = new HashMap<>();
         Map<String, String> ownAddedImagesMap = new HashMap<>();
         int firstPositionForImages = 0;
-
-
+        
         if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
             System.err.println("Not authorize and without date for it");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
