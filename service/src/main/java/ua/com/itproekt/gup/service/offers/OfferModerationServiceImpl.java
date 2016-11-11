@@ -81,7 +81,7 @@ public class OfferModerationServiceImpl implements OfferModerationService {
 
             // add new reasons
             offerAfterUpdate.getOfferModerationReports().setOfferRefusalReasonses(inputOffer.getOfferModerationReports().getOfferRefusalReasonses());
-            
+
             activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_FAIL));
         }
 

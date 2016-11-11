@@ -20,12 +20,10 @@ import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
-import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.Translit;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -168,10 +166,13 @@ public class OfferRestController {
     //------------------------------------------ Create ----------------------------------------------------------------
 
     /**
-     * @param offerRegistration
-     * @param files
+     * This controller allow to create new offer and register new profile at the same time.
+     *
+     * @param offerRegistration - the OfferRegistration object with inforamtion about offer
+     *                          and with registration information.
+     * @param files             - the array of the multipart files.
      * @return 201 (Created) - created offer, 400 (Bad request) - when user is not authorized,
-     * 409 (Conflict) - when email already exist,
+     * 409 (Conflict) - when email already exist.
      */
     @CrossOrigin
     @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
@@ -179,23 +180,11 @@ public class OfferRestController {
             @RequestPart("offerRegistration") OfferRegistration offerRegistration,
             @RequestPart("files") MultipartFile[] files) {
 
-        System.err.println("This is object: " + offerRegistration.toString());
-
-
-        //ToDo delete this shit
-//        Cookie[] cookies = request.getCookies();
-//
-//        System.err.println("Before Cookie check");
-//        for (Cookie cookie : cookies) {
-//            System.err.println("Cookie name: " + cookie.getName() + " || Cookie value: " + cookie.getValue());
-//        }
-
         String userId = SecurityOperations.getLoggedUserId();
 
         Map<String, String> importImagesMap = new HashMap<>();
         Map<String, String> ownAddedImagesMap = new HashMap<>();
         int firstPositionForImages = 0;
-
 
         if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
             System.err.println("Not authorize and without date for it");
@@ -205,16 +194,18 @@ public class OfferRestController {
         // if user is not logged in
         if (userId == null && offerRegistration.getEmail() != null && offerRegistration.getPassword() != null) {
 
+            // FixMe для незалогиненного пока что не работает импорт фотографий!
+
             if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
 
             OfferRestHelper.offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
-            if (files.length > 0) {
-                // Set images id's and their order into offer. When offer is create - images order start with "1"
-                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files, 1));
-            }
+//            if (files.length > 0) {
+//                // Set images id's and their order into offer. When offer is create - images order start with "1"
+//                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files, 1));
+//            }
 
             offersService.createWithRegistration(offerRegistration);
 
@@ -226,22 +217,39 @@ public class OfferRestController {
 
             OfferRestHelper.offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
+            MultipartFile[] multipartImportFiles = null; // here will be files from OLX
 
-            if (offerRegistration.getImportImagesUrlList() != null) {
-                if (offerRegistration.getImportImagesUrlList().size() > 0) {
-                    MultipartFile[] multipartFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlList());
-                    importImagesMap = storageService.saveCachedMultiplyImageOffer(multipartFiles, 1);
+
+            // ToDo скачаиваем и подготавливаем фото с OlX
+            if (offerRegistration.getImportImagesUrlList() != null && offerRegistration.getImportImagesUrlList().size() > 0) {
+                multipartImportFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlList());
+            }
+
+            // ToDo проверить, если главная фотка среди ОЛХ
+            if (offerRegistration.getSelectedImageType().equals("olx")) {
+
+                if (multipartImportFiles != null) {
+                    importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, 1, offerRegistration.getSelectedImageIndex());
                     firstPositionForImages = importImagesMap.size();
                 }
+
+                if (files.length > 1) {
+                    ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, firstPositionForImages + 1, 0);
+                }
+
+                // ToDo проверка на то, если главная фоткка среди загруженных руками
+            } else if (offerRegistration.getSelectedImageType().equals("file")) {
+
+                if (files.length > 1) {
+                    ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, 1, offerRegistration.getSelectedImageIndex());
+                    firstPositionForImages = ownAddedImagesMap.size();
+                }
+
+                if (multipartImportFiles != null) {
+                    importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, firstPositionForImages + 1, 0);
+                }
             }
 
-            if (files.length > 0) {
-                for (MultipartFile file : files) {
-                    System.err.println("Filename: " + file.getOriginalFilename() + " ||| " + file.getName());
-                }
-                // Set images id's and their order into offer. When offer is create - images order start with "1"
-                ownAddedImagesMap = storageService.saveCachedMultiplyImageOffer(files, firstPositionForImages + 1);
-            }
 
             Map<String, String> resultImageMap = new HashMap<>();
 
@@ -249,7 +257,6 @@ public class OfferRestController {
             resultImageMap.putAll(ownAddedImagesMap);
 
             offerRegistration.getOffer().setImagesIds(resultImageMap);
-
 
             offersService.create(offerRegistration.getOffer());
 

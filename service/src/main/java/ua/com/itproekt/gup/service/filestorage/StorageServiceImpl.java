@@ -80,8 +80,61 @@ public class StorageServiceImpl implements StorageService {
      * @return Map of images id's and their order.
      */
     @Override
-    public Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files, int firstPosition) {
+    public Map<String, String> saveCachedMultiplyImageOfferWithIndex(MultipartFile[] files, int startPosition, int firstImageIndexInArray) {
 
+
+        MultipartFile[] newFileArray = new MultipartFile[files.length];
+        // if firstImageIndexInArray == 1 - that's what we need, if < 1 - we ignore it.
+        if (firstImageIndexInArray > 0) {
+
+            // here we take element with firstImageIndexInArray and put it in the first place in the new array
+
+            newFileArray[0] = files[firstImageIndexInArray];
+
+
+            for (int i = 0; i < firstImageIndexInArray; i++) {
+                newFileArray[i + 1] = files[i];
+            }
+
+            for (int i = firstImageIndexInArray + 1; i < files.length; i++) {
+                newFileArray[i] = files[i];
+            }
+
+        }
+
+
+        Map<String, String> mapOfImagesIds = new HashMap<>();
+
+        for (int i = 0; i < newFileArray.length; i++) {
+
+            FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
+
+            try {
+                fileUploadWrapper
+                        .setServiceName("offers")
+                        .setInputStream(newFileArray[i].getInputStream())
+                        .setContentType(newFileArray[i].getContentType())
+                        .setFilename(newFileArray[i].getOriginalFilename());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            mapOfImagesIds.put(saveCachedImageOffer(fileUploadWrapper), String.valueOf(startPosition));
+            startPosition++;
+        }
+        return mapOfImagesIds;
+    }
+
+
+    /**
+     * Method save multiply images in different sizes (cached), and return map of ImagesId and image position
+     *
+     * @param files
+     * @param startPosition
+     * @return
+     */
+    @Override
+    public Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files, int startPosition) {
         Map<String, String> mapOfImagesIds = new HashMap<>();
 
         for (int i = 0; i < files.length; i++) {
@@ -98,12 +151,11 @@ public class StorageServiceImpl implements StorageService {
                 e.printStackTrace();
             }
 
-            mapOfImagesIds.put(saveCachedImageOffer(fileUploadWrapper), String.valueOf(firstPosition));
-            firstPosition++;
+            mapOfImagesIds.put(saveCachedImageOffer(fileUploadWrapper), String.valueOf(startPosition));
+            startPosition++;
         }
         return mapOfImagesIds;
     }
-
 
     @Override
     public MultipartFile[] imageDownloader(List<String> imagesUrlList) {

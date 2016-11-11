@@ -63,13 +63,26 @@ public interface StorageService {
 
 
     /**
+     * Method save multiply images in different sizes (cached), and return map of ImagesId and image position. You must
+     * input index of main photo.
+     *
+     * @param files
+     * @param startPosition
+     * @return
+     */
+    Map<String, String> saveCachedMultiplyImageOfferWithIndex(MultipartFile[] files, int startPosition, int firstImageIndexInArray);
+
+
+    /**
      * Method save multiply images in different sizes (cached), and return map of ImagesId and image position
      *
      * @param files
-     * @param firstPosition
+     * @param startPosition
      * @return
      */
-    Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files, int firstPosition);
+    Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files, int startPosition);
+
+
 
 
     /**
