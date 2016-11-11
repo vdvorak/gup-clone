@@ -102,7 +102,8 @@ public class OffersServiceImpl implements OffersService {
                 .setAvailablePaymentMethods(offer.getAvailablePaymentMethods())
                 .setShowOrdersCount(offer.isShowOrdersCount())
                 .setPaidServices(offer.getPaidServices())
-                .setMonthOfPrices(offer.getMonthOfPrices());
+                .setMonthOfPrices(offer.getMonthOfPrices())
+                .setMonthOfRents(offer.getMonthOfRents());
 
         offerRepository.create(newOffer);
 
@@ -181,7 +182,8 @@ public class OffersServiceImpl implements OffersService {
                 .setShowOrdersCount(oldOffer.isShowOrdersCount())
                 .setDeleted(oldOffer.isDeleted())
                 .setPaidServices(oldOffer.getPaidServices())
-                .setMonthOfPrices(oldOffer.getMonthOfPrices());
+                .setMonthOfPrices(oldOffer.getMonthOfPrices())
+                .setMonthOfRents(oldOffer.getMonthOfRents());
 
         return offerRepository.findAndUpdate(newOffer);
     }

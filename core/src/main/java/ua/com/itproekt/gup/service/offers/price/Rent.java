@@ -180,28 +180,28 @@ public class Rent implements Comparable<Rent>, Cloneable {
 
     @Override
     public String toString() {
-        return "\"day\": \"" + ConvertUtil.toDate(day) + "\"" +
-                ", \"user\": " + user +
-                ", \"confirm\": " + confirm +
-                ", \"prepaid\": " + prepaid +
-                ", \"dayPrepaid\": " +((dayPrepaid==null) ? dayPrepaid : "\"" + ConvertUtil.toDate(dayPrepaid) + "\"") +
-                ", \"orderDate\": " +((orderDate==null) ? orderDate : "\"" + ConvertUtil.toDate(orderDate) + "\"") +
-                ", \"updateDate\": " +((updateDate==null) ? updateDate : "\"" + ConvertUtil.toDate(updateDate) + "\"") +
-                ", \"rentStatus\": \"" + rentStatus + "\"" +
-                ", \"orderStatus\": \"" + orderStatus + "\"" +
-                ", \"salesRemained\": \"" + salesRemained + "\"" +
-                ", \"order\": " + order;
-//        return "\"day\": \"" + day + "\"" +
+//        return "\"day\": \"" + ConvertUtil.toDate(day) + "\"" +
 //                ", \"user\": " + user +
 //                ", \"confirm\": " + confirm +
 //                ", \"prepaid\": " + prepaid +
-//                ", \"dayPrepaid\": " +((dayPrepaid==null) ? dayPrepaid : "\"" + dayPrepaid + "\"") +
-//                ", \"orderDate\": " +((orderDate==null) ? orderDate : "\"" + orderDate + "\"") +
-//                ", \"updateDate\": " +((updateDate==null) ? updateDate : "\"" + updateDate + "\"") +
+//                ", \"dayPrepaid\": " +((dayPrepaid==null) ? dayPrepaid : "\"" + ConvertUtil.toDate(dayPrepaid) + "\"") +
+//                ", \"orderDate\": " +((orderDate==null) ? orderDate : "\"" + ConvertUtil.toDate(orderDate) + "\"") +
+//                ", \"updateDate\": " +((updateDate==null) ? updateDate : "\"" + ConvertUtil.toDate(updateDate) + "\"") +
 //                ", \"rentStatus\": \"" + rentStatus + "\"" +
 //                ", \"orderStatus\": \"" + orderStatus + "\"" +
 //                ", \"salesRemained\": \"" + salesRemained + "\"" +
 //                ", \"order\": " + order;
+        return "\"day\": \"" + day + "\"" +
+                ", \"user\": " + user +
+                ", \"confirm\": " + confirm +
+                ", \"prepaid\": " + prepaid +
+                ", \"dayPrepaid\": " +((dayPrepaid==null) ? dayPrepaid : "\"" + dayPrepaid + "\"") +
+                ", \"orderDate\": " +((orderDate==null) ? orderDate : "\"" + orderDate + "\"") +
+                ", \"updateDate\": " +((updateDate==null) ? updateDate : "\"" + updateDate + "\"") +
+                ", \"rentStatus\": \"" + rentStatus + "\"" +
+                ", \"orderStatus\": \"" + orderStatus + "\"" +
+                ", \"salesRemained\": \"" + salesRemained + "\"" +
+                ", \"order\": " + order;
 //        return "{" +
 //                ConvertUtil.toDate(day) +
 //                '}';
