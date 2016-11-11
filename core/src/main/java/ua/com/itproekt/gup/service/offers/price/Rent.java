@@ -5,7 +5,7 @@ import ua.com.itproekt.gup.util.ConvertUtil;
 
 public class Rent implements Comparable<Rent>, Cloneable {
 
-    private Long day;
+    private Long day; //FIXME: com.google.gson.JsonSyntaxException: java.lang.NumberFormatException: For input string: "1.11.2016"
     private RentUser user;
     private Boolean confirm;
     private Boolean prepaid;
@@ -180,22 +180,20 @@ public class Rent implements Comparable<Rent>, Cloneable {
 
     @Override
     public String toString() {
+        return "\"day\": \"" + ConvertUtil.toDate(day) + "\"" +
+                ", \"user\": " + user +
+                ", \"confirm\": " + confirm +
+                ", \"prepaid\": " + prepaid +
+                ", \"dayPrepaid\": " +((dayPrepaid==null) ? dayPrepaid : "\"" + ConvertUtil.toDate(dayPrepaid) + "\"") +
+                ", \"orderDate\": " +((orderDate==null) ? orderDate : "\"" + ConvertUtil.toDate(orderDate) + "\"") +
+                ", \"updateDate\": " +((updateDate==null) ? updateDate : "\"" + ConvertUtil.toDate(updateDate) + "\"") +
+                ", \"rentStatus\": \"" + rentStatus + "\"" +
+                ", \"orderStatus\": \"" + orderStatus + "\"" +
+                ", \"salesRemained\": \"" + salesRemained + "\"" +
+                ", \"order\": " + order;
 //        return "{" +
-//                "day=" + ConvertUtil.toDate(day) +
-//                ", user=" + user +
-//                ", confirm=" + confirm +
-//                ", prepaid=" + prepaid +
-//                ", dayPrepaid=" + dayPrepaid +
-//                ", orderDate=" + orderDate +
-//                ", updateDate=" + updateDate +
-//                ", rentStatus=" + rentStatus +
-//                ", orderStatus=" + orderStatus +
-//                ", salesRemained=" + salesRemained +
-//                ", order=" + order +
+//                ConvertUtil.toDate(day) +
 //                '}';
-        return "{" +
-                ConvertUtil.toDate(day) +
-                '}';
     }
 
     @Override

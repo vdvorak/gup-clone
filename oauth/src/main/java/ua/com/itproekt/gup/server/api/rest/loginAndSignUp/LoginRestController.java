@@ -209,7 +209,7 @@ public class LoginRestController {
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/change-password", method = RequestMethod.POST)
-    public String changePassword(@RequestBody FormChangePassword formChangePassword, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<String> changePassword(@RequestBody FormChangePassword formChangePassword, HttpServletRequest request, HttpServletResponse response) {
         Profile profile = profilesService.findWholeProfileById(SecurityOperations.getLoggedUser().getProfileId());
 
         /* Edit Profile | change password */
@@ -234,9 +234,9 @@ public class LoginRestController {
             cookieRefreshToken.setPath("/");
             response.addCookie(cookieRefreshToken);
 
-            return "redirect:/login";
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        return String.valueOf(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @CrossOrigin

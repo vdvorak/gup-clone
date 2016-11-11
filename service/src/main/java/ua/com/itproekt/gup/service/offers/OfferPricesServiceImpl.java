@@ -41,6 +41,10 @@ public class OfferPricesServiceImpl extends OfferPricesService {
         super(jsonRestore);
     }
 
+    public OfferPricesServiceImpl(String jsonRestore, String jsonRentsRestore){
+        super(jsonRestore, jsonRentsRestore);
+    }
+
     public OfferPricesServiceImpl(PriceOfRentsRestore restore){
         super(restore);
     }

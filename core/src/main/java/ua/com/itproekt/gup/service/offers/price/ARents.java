@@ -19,15 +19,21 @@ public abstract class ARents extends ArrayList<List<Rent>> {
         add(new ArrayList<Rent>());
     }
 
-    public ARents(long[] availables, long[] rented){
-        List<Rent> lAvailables = new ArrayList<Rent>(),
-                lRented = new ArrayList<Rent>();
-        for (long day : availables) lAvailables.add(new Rent(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
-        for (long day : rented) lAvailables.add(new Rent(day, null, true, true, null, null, null, RentStatus.RENTED, OrderStatus.NONE, 1, null));
+//    public ARents(long[] availables, long[] rented){
+//        List<Rent> lAvailables = new ArrayList<Rent>(),
+//                lRented = new ArrayList<Rent>();
+//        for (long day : availables) lAvailables.add(new Rent(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
+//        for (long day : rented) lAvailables.add(new Rent(day, null, true, true, null, null, null, RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 1, null));
+//
+//        add(lAvailables);
+//        add(lRented);
+//        add(new ArrayList<Rent>());
+//    }
 
-        add(lAvailables);
-        add(lRented);
-        add(new ArrayList<Rent>());
+    public ARents(List<Rent> availables, List<Rent> rented, List<Rent> expired){
+        add(availables);
+        add(rented);
+        add(expired);
     }
 
     /**

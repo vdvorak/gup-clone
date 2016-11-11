@@ -2,16 +2,16 @@ package ua.com.itproekt.gup.service.offers.price;
 
 public class RentUser implements Cloneable {
 
-    private Long userId;
+    private String userId;
     private String fullName;
-    private Long imgId;
+    private String imgId;
     private Integer rating;
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -23,11 +23,11 @@ public class RentUser implements Cloneable {
         this.fullName = fullName;
     }
 
-    public Long getImgId() {
+    public String getImgId() {
         return imgId;
     }
 
-    public void setImgId(Long imgId) {
+    public void setImgId(String imgId) {
         this.imgId = imgId;
     }
 
@@ -47,10 +47,10 @@ public class RentUser implements Cloneable {
     @Override
     public String toString() {
         return "{" +
-                "id=" + userId +
-                ", FullName='" + fullName + '\'' +
-                ", imgId=" + imgId +
-                ", rating=" + rating +
+                "\"id\": \"" + userId + "\"" +
+                ", \"fullName\": " +((fullName==null) ? fullName : "\"" + fullName + "\"") +
+                ", \"imgId\": " +((imgId==null) ? imgId : "\"" + imgId + "\"") +
+                ", \"rating\": " +((rating==null) ? rating : "\"" + rating + "\"") +
                 '}';
     }
 }

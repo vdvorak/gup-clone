@@ -1,0 +1,53 @@
+{
+  "rents": {
+    "availables": [
+      {"day": "1.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "2.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "3.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "4.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "5.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "6.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "7.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "8.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "9.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "10.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "11.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "12.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "13.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "14.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "15.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "16.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "17.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "18.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "19.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "20.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "21.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "22.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "23.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "24.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "25.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "28.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "30.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      }
+    ]
+  ,"rented": [
+      {"day": "26.11.2016", "user": {"id": "57e440464c8eda79f765532d", "fullName": "Петренко Юрий Владимирович", "imgId": "57e440464c8eda79f765532d", "rating": null}, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": "10.11.2016", "updateDate": "10.11.2016", "rentStatus": "RENTED", "orderStatus": "SUCCESSFULLY_ORDER", "salesRemained": "0", "order": null
+      },{"day": "27.11.2016", "user": {"id": "57e440464c8eda79f765532d", "fullName": "Петренко Юрий Владимирович", "imgId": "57e440464c8eda79f765532d", "rating": null}, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": "10.11.2016", "updateDate": "10.11.2016", "rentStatus": "RENTED", "orderStatus": "SUCCESSFULLY_ORDER", "salesRemained": "0", "order": null
+      },{"day": "29.11.2016", "user": {"id": "57e440464c8eda79f765532d", "fullName": "Петренко Юрий Владимирович", "imgId": "57e440464c8eda79f765532d", "rating": null}, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": "10.11.2016", "updateDate": "10.11.2016", "rentStatus": "RENTED", "orderStatus": "SUCCESSFULLY_ORDER", "salesRemained": "0", "order": null
+      }
+    ]
+  ,"expired": [
+      {"day": "1.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "2.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "3.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "4.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "5.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "6.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "7.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "8.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "9.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      },{"day": "10.11.2016", "user": null, "confirm": true, "prepaid": true, "dayPrepaid": null, "orderDate": null, "updateDate": null, "rentStatus": "AVAILABLE", "orderStatus": "NONE", "salesRemained": "1", "order": null
+      }
+    ]
+  }
+}
