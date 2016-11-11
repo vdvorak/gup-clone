@@ -185,7 +185,7 @@ public class OfferRestController {
         Map<String, String> importImagesMap = new HashMap<>();
         Map<String, String> ownAddedImagesMap = new HashMap<>();
         int firstPositionForImages = 0;
-        
+
         if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
             System.err.println("Not authorize and without date for it");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -238,7 +238,7 @@ public class OfferRestController {
                 }
 
                 // ToDo проверка на то, если главная фоткка среди загруженных руками
-            } else if (offerRegistration.getSelectedImageType().equals("gup")) {
+            } else if (offerRegistration.getSelectedImageType().equals("file")) {
 
                 if (files.length > 1) {
                     ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, 1, offerRegistration.getSelectedImageIndex());

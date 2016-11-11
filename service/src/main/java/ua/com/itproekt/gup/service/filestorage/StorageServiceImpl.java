@@ -85,7 +85,7 @@ public class StorageServiceImpl implements StorageService {
 
         MultipartFile[] newFileArray = new MultipartFile[files.length];
         // if firstImageIndexInArray == 1 - that's what we need, if < 1 - we ignore it.
-        if (firstImageIndexInArray > 1) {
+        if (firstImageIndexInArray > 0) {
 
             // here we take element with firstImageIndexInArray and put it in the first place in the new array
 
