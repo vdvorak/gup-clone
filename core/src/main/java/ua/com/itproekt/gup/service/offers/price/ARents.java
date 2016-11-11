@@ -30,10 +30,10 @@ public abstract class ARents extends ArrayList<List<Rent>> {
 //        add(new ArrayList<Rent>());
 //    }
 
-    public ARents(List<Rent> availables, List<Rent> rented, List<Rent> expired){
-        add(availables);
-        add(rented);
-        add(expired);
+    public ARents(List<Rent> lAvailables, List<Rent> lRented, List<Rent> lExpired){
+        add(lAvailables);
+        add(lRented);
+        add(lExpired);
     }
 
     /**

@@ -35,16 +35,16 @@ public class Rents extends ARents {
         super();
     }
 
-    private Rents(long[] availables){
-        super(availables);
+    private Rents(long[] lAvailables){
+        super(lAvailables);
     }
 
 //    private Rents(long[] availables, long[] rented){
 //        super(availables, rented);
 //    }
 
-    private Rents(List<Rent> availables, List<Rent> rented, List<Rent> expired){
-        super(availables, rented, expired);
+    private Rents(List<Rent> lAvailables, List<Rent> lRented, List<Rent> lExpired){
+        super(lAvailables, lRented, lExpired);
     }
 
     public static Rents getInstance(long[] availables) {
@@ -73,13 +73,13 @@ public class Rents extends ARents {
 //        return localInstance;
 //    }
 
-    public static Rents getInstance(List<Rent> availables, List<Rent> rented, List<Rent> expired) {
+    public static Rents getInstance(List<Rent> lAvailables, List<Rent> lRented, List<Rent> lExpired) {
         Rents localInstance = instance;
         if (localInstance == null) {
             synchronized (Rents.class) {
                 localInstance = instance;
                 if (localInstance == null) {
-                    instance = localInstance = new Rents(availables, rented, expired);
+                    instance = localInstance = new Rents(lAvailables, lRented, lExpired);
                 }
             }
         }

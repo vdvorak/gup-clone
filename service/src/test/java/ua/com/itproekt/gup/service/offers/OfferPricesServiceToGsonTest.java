@@ -44,52 +44,42 @@ public class OfferPricesServiceToGsonTest {
             jsonRestore2 = "{\n" +
                     "  \"rents\": {\n" +
                     "    \"availables\": [\n" +
-                    "      {\"day\": \"1.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"2.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"3.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"4.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"5.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"6.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"7.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"8.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"9.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"10.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"11.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"12.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"13.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"14.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"15.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"16.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"17.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"18.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"19.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"20.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"21.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"22.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"23.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"24.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"25.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"28.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"30.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      {\"day\": \"1478901600000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1478988000000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1479074400000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1479160800000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1479247200000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1479333600000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1479420000000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1479506400000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1479592800000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1479679200000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1479765600000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1479852000000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1479938400000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1480024800000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1480284000000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1480456800000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
                     "      }\n" +
                     "    ]\n" +
                     "  ,\"rented\": [\n" +
-                    "      {\"day\": \"26.11.2016\", \"user\": {\"id\": \"57e440464c8eda79f765532d\", \"fullName\": \"Петренко Юрий Владимирович\", \"imgId\": \"57e440464c8eda79f765532d\", \"rating\": null}, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": \"10.11.2016\", \"updateDate\": \"10.11.2016\", \"rentStatus\": \"RENTED\", \"orderStatus\": \"SUCCESSFULLY_ORDER\", \"salesRemained\": \"0\", \"order\": null\n" +
-                    "      },{\"day\": \"27.11.2016\", \"user\": {\"id\": \"57e440464c8eda79f765532d\", \"fullName\": \"Петренко Юрий Владимирович\", \"imgId\": \"57e440464c8eda79f765532d\", \"rating\": null}, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": \"10.11.2016\", \"updateDate\": \"10.11.2016\", \"rentStatus\": \"RENTED\", \"orderStatus\": \"SUCCESSFULLY_ORDER\", \"salesRemained\": \"0\", \"order\": null\n" +
-                    "      },{\"day\": \"29.11.2016\", \"user\": {\"id\": \"57e440464c8eda79f765532d\", \"fullName\": \"Петренко Юрий Владимирович\", \"imgId\": \"57e440464c8eda79f765532d\", \"rating\": null}, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": \"10.11.2016\", \"updateDate\": \"10.11.2016\", \"rentStatus\": \"RENTED\", \"orderStatus\": \"SUCCESSFULLY_ORDER\", \"salesRemained\": \"0\", \"order\": null\n" +
+                    "      {\"day\": \"1480111200000\", \"user\": {\"id\": \"57e440464c8eda79f765532d\", \"fullName\": \"Петренко Юрий Владимирович\", \"imgId\": \"57e440464c8eda79f765532d\", \"rating\": null}, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": \"1478865887983\", \"updateDate\": \"1478865999094\", \"rentStatus\": \"RENTED\", \"orderStatus\": \"SUCCESSFULLY_ORDER\", \"salesRemained\": \"0\", \"order\": null\n" +
+                    "      },{\"day\": \"1480197600000\", \"user\": {\"id\": \"57e440464c8eda79f765532d\", \"fullName\": \"Петренко Юрий Владимирович\", \"imgId\": \"57e440464c8eda79f765532d\", \"rating\": null}, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": \"1478865887984\", \"updateDate\": \"1478865999095\", \"rentStatus\": \"RENTED\", \"orderStatus\": \"SUCCESSFULLY_ORDER\", \"salesRemained\": \"0\", \"order\": null\n" +
+                    "      },{\"day\": \"1480370400000\", \"user\": {\"id\": \"57e440464c8eda79f765532d\", \"fullName\": \"Петренко Юрий Владимирович\", \"imgId\": \"57e440464c8eda79f765532d\", \"rating\": null}, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": \"1478865887984\", \"updateDate\": \"1478865999095\", \"rentStatus\": \"RENTED\", \"orderStatus\": \"SUCCESSFULLY_ORDER\", \"salesRemained\": \"0\", \"order\": null\n" +
                     "      }\n" +
                     "    ]\n" +
                     "  ,\"expired\": [\n" +
-                    "      {\"day\": \"1.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"2.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"3.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"4.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"5.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"6.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"7.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"8.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"9.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
-                    "      },{\"day\": \"10.11.2016\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      {\"day\": \"1477951200000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1478037600000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1478124000000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1478210400000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1478296800000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1478383200000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1478469600000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1478556000000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1478642400000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1478728800000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
+                    "      },{\"day\": \"1478815200000\", \"user\": null, \"confirm\": true, \"prepaid\": true, \"dayPrepaid\": null, \"orderDate\": null, \"updateDate\": null, \"rentStatus\": \"AVAILABLE\", \"orderStatus\": \"NONE\", \"salesRemained\": \"1\", \"order\": null\n" +
                     "      }\n" +
                     "    ]\n" +
                     "  }\n" +
@@ -98,7 +88,7 @@ public class OfferPricesServiceToGsonTest {
     private JsonObject jsonPriceRents,jsonRents;
     private Map<String, PriceOfRent> priceRents; //TODO: ПравилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, RentTest> rents;         //TODO: информация об состоянии аренды для клиентов...будут хранится в базе
-    private OfferPricesService service;
+    private OfferPricesService service, service2;
 
     @Before
     public void setUp() {
@@ -124,6 +114,7 @@ public class OfferPricesServiceToGsonTest {
         priceRents = null;
         rents = null;
         service = null;
+        service2 = null;
     }
 
 //    @Test
@@ -166,17 +157,26 @@ public class OfferPricesServiceToGsonTest {
 //
 //        System.out.println(service.toRent());
 //    }
-//
-//    @Test
-//    public void testRented(){
-//        System.out.println("--------------------[ testRented (s) ]");
-//        service.addPrices(priceRents.get("scheme4").getPrice(), ConvertUtil.toDate(priceRents.get("scheme4").getDays()));
-//        service.addRent(ConvertUtil.toDate(rents.get("rent51").getDays()), "57e440464c8eda79f765532d");
-//        service.addRent(ConvertUtil.toDate(rents.get("rent52").getDays()), "57e440464c8eda79f765532d");
-//
+
+    /**
+     * Data to output use json-format
+     */
+    @Test
+    public void testRented(){
+        System.out.println("--------------------[ testRented (s) ]");
+        service.addPrices(priceRents.get("scheme4").getPrice(), ConvertUtil.toDate(priceRents.get("scheme4").getDays()));
+        service.addRent(ConvertUtil.toDate(rents.get("rent51").getDays()), "57e440464c8eda79f765532d");
+        service.addRent(ConvertUtil.toDate(rents.get("rent52").getDays()), "57e440464c8eda79f765532d");
+
 //        System.out.println(service.toRent());
-//    }
-//
+//        System.out.println();
+        System.out.println(service);
+        System.out.println();
+//        System.out.println(service.toJson());
+//        System.out.println();
+        System.out.println(service.jsonRent());
+    }
+
 //    @Test
 //    public void testIsRented(){
 //        System.out.println("--------------------[ testIsRented ]");
@@ -287,29 +287,32 @@ public class OfferPricesServiceToGsonTest {
 //        System.out.println(service.jsonRent());
 //    }
 
-//////    @Test
-//////    public void testRestore(){
-//////        System.out.println("--------------------[ testRestore ]");
-//////        service.addPrices(priceRents.get("scheme4").getPrice(), ConvertUtil.toDate(priceRents.get("scheme4").getDays()));
-//////        service.addRent(ConvertUtil.toDate(rents.get("rent51").getDays())); //[+] 26.10.2016
-//////        service.addRent(ConvertUtil.toDate(rents.get("rent52").getDays())); //[+] 28.10.2016,30.10.2016
-//////        //
-//////        System.err.println(service.toJson());
-//////        System.err.println();
-//////        System.err.println(service.jsonRent());
-//////    }
+//    @Test
+//    public void testRestore(){
+//        System.out.println("--------------------[ testRestore ]");
+//        service2 = new OfferPricesServiceImpl(jsonRestore, jsonRestore2);
+//        System.err.println(service2);
+//        System.err.println();
+////        System.err.println(service2.toRent());
+////        System.err.println();
+////        System.out.println(service2.toJson());
+////        System.out.println();
+//        System.out.println(service2.jsonRent());
+//    }
 
     @Test
-    public void testRestore(){
-        System.out.println("--------------------[ testRestore ]");
+    public void testRestore2(){
+        System.err.println("--------------------[ testRestore (2) ]");
+        service2 = new OfferPricesServiceImpl(jsonRestore, jsonRestore2);
 
-//        service = new OfferPricesServiceImpl(jsonRestore);
-        service = new OfferPricesServiceImpl(jsonRestore, jsonRestore2);
-        System.err.println(service);
+//        System.err.println(service2);
+//        System.err.println();
+        System.err.println(service2.jsonRent());
+
+        service2.addRent(ConvertUtil.toDate(rents.get("delete42").getDays()), "57e440464c8eda79f765532d"); //[+] 12.11.2016,14.11.2016
+        System.err.println(service2.jsonRent());
         System.err.println();
-        System.err.println(service.toJson());
-        System.err.println();
-        System.err.println(service.jsonRent());
+        service2.delRent(ConvertUtil.toDate(rents.get("rent51").getDays()));                               //[-] 26.11.2016
+        System.err.println(service2.jsonRent());
     }
-
 }

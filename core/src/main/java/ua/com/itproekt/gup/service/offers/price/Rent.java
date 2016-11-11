@@ -191,6 +191,17 @@ public class Rent implements Comparable<Rent>, Cloneable {
                 ", \"orderStatus\": \"" + orderStatus + "\"" +
                 ", \"salesRemained\": \"" + salesRemained + "\"" +
                 ", \"order\": " + order;
+//        return "\"day\": \"" + day + "\"" +
+//                ", \"user\": " + user +
+//                ", \"confirm\": " + confirm +
+//                ", \"prepaid\": " + prepaid +
+//                ", \"dayPrepaid\": " +((dayPrepaid==null) ? dayPrepaid : "\"" + dayPrepaid + "\"") +
+//                ", \"orderDate\": " +((orderDate==null) ? orderDate : "\"" + orderDate + "\"") +
+//                ", \"updateDate\": " +((updateDate==null) ? updateDate : "\"" + updateDate + "\"") +
+//                ", \"rentStatus\": \"" + rentStatus + "\"" +
+//                ", \"orderStatus\": \"" + orderStatus + "\"" +
+//                ", \"salesRemained\": \"" + salesRemained + "\"" +
+//                ", \"order\": " + order;
 //        return "{" +
 //                ConvertUtil.toDate(day) +
 //                '}';
