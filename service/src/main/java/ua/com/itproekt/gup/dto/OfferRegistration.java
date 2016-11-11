@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 public class OfferRegistration {
+    int selectedImageIndex; // index of the first image if it is exist
+    String selectedImageType; // type of the first image if it is exist
     private Offer offer;
     private String username;
     private String email;
@@ -63,6 +65,22 @@ public class OfferRegistration {
         this.contactPhones = contactPhones;
     }
 
+    public int getSelectedImageIndex() {
+        return selectedImageIndex;
+    }
+
+    public void setSelectedImageIndex(int selectedImageIndex) {
+        this.selectedImageIndex = selectedImageIndex;
+    }
+
+    public String getSelectedImageType() {
+        return selectedImageType;
+    }
+
+    public void setSelectedImageType(String selectedImageType) {
+        this.selectedImageType = selectedImageType;
+    }
+
     @Override
     public String toString() {
         return "OfferRegistration{" +
@@ -72,6 +90,8 @@ public class OfferRegistration {
                 ", password='" + password + '\'' +
                 ", importImagesUrlList=" + importImagesUrlList +
                 ", contactPhones=" + contactPhones +
+                ", selectedImageIndex=" + selectedImageIndex +
+                ", selectedImageType='" + selectedImageType + '\'' +
                 '}';
     }
 }
