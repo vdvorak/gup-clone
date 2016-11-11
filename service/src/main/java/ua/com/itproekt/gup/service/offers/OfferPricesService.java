@@ -309,16 +309,17 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         user.setId(userId); //TODO: ...
         user.setFullName("Петренко Юрий Владимирович"); //TODO: ...
         user.setImgId("57e440464c8eda79f765532d"); //TODO: ...
+        user.setRating(10);
         Order order = new Order(); //TODO: ...
         Date date = new Date(); //TODO: ...
 
         if( getRents().getAvailables().isEmpty() ){
             for (Price prices : this) {
-                for (Long day : prices) getRents().getAvailables().add(new Rent(day, user, true, true, null, (date.getTime() - 111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null)); //for (Long day : prices) getRents().getAvailables().add(new Rent(day, user, true, true, null, (date.getTime() - 111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, order));
+                for (Long day : prices) getRents().getAvailables().add(new Rent(day, user, true, true, null, (date.getTime() - 111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null));
             }
         } else {
             for (Long day : days) {
-                Rent findAvailables = new Rent(day, user, true, true, null, (date.getTime()-111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null); //Rent findAvailables = new Rent(day, user, true, true, null, (date.getTime()-111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, order);
+                Rent findAvailables = new Rent(day, user, true, true, null, (date.getTime()-111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null);
                 if( getRents().getAvailables().contains(findAvailables) ){
                     Rent objAvailables = getRents().getAvailables().get(getRents().getAvailables().indexOf(findAvailables));
                     if( getRents().getAvailables().remove(objAvailables) ) getRents().getRented().add(findAvailables);
@@ -487,82 +488,6 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         return data.toString();
     }
 
-//    public String jsonRent() {
-//        StringBuilder data = new StringBuilder();
-//        int available = 0,
-//                rent = 0,
-//                expired = 0;
-//
-//        data.append("{\n  \"" + monthOfRents + "\": {\n");
-//////        data.append("    \"availables\": [");
-//////        for (Rent availableDays : getRents().getAvailables()) {
-//////            if (0<available) data.append(",");
-//////            data.append("\"" + convertDate(availableDays.getDay()) + "\""); //FIXME: {"day": "26.10.2016", "isPrepaid": true, "dayPrepaid": null, "user": null}
-//////            ++available;
-//////        }
-//////        data.append("]\n");
-////        data.append("    \"availables\": [");
-////        for (Rent availableDays : getRents().getAvailables()) {
-////            if (0<available) data.append(",{");
-////            else data.append("\n      {");
-////            data.append("\n        \"userId\": " + null);
-////            data.append("\n        ,\"day\": \"" + convertDate(availableDays.getDay()) + "\"");
-////            data.append("\n      }");
-////            ++available;
-////        }
-////        data.append("\n    ]\n");
-//        data.append("    \"availables\": [");
-//        for (Rent availableDays : getRents().getAvailables()) {
-//            if (0<available) data.append(",{");
-//            else data.append("\n      {");
-//            data.append(availableDays);
-//            data.append("\n      }");
-//            ++available;
-//        }
-//        data.append("\n    ]\n");
-//
-////        data.append("    ,\"rented\": [");
-////        for (Rent rentedDays : getRents().getRented()) { //FIXME: {"day": "27.10.2016", "isPrepaid": true, "dayPrepaid": "21.10.2016", "user": {"userId": "57e440464c8eda79f765532d", "fullName": "57e440464c8eda79f765532d", "imgID": "57e440464c8eda79f765532d"} }
-////                                                         //FIXME: предоплата вносится на срок один-день, либо она есть либо ее нет (и всегда указывается срок до которого она действительна - начиная с текущего момента предоплаты и даже если срока остается менее одного дня = но при условии что допустимый срок предоплаты ЕСТЬ-остается..)
-////            if (0<rent) data.append(",{");
-////            else data.append("\n      {");
-////            data.append("\n        \"userId\": \"57e440464c8eda79f765532d\"");
-////            data.append("\n        ,\"day\": \"" + convertDate(rentedDays.getDay()) + "\"");
-////            data.append("\n      }");
-////            ++rent;
-////        }
-////        data.append("\n    ]\n");
-//        data.append("   ,\"rented\": [");
-//        for (Rent rentedDays : getRents().getRented()) {
-//            if (0<rent) data.append(",{");
-//            else data.append("\n      {");
-//            data.append(rentedDays);
-//            data.append("\n      }");
-//            ++rent;
-//        }
-//        data.append("\n    ]\n");
-//
-////        data.append("    ,\"expired\": [");
-////        for (Rent expiredDays : getRents().getExpired()) {
-////            if (0<expired) data.append(",{");
-////            else data.append("\n      {");
-////            data.append("\n        \"userId\": \"57e440464c8eda79f765532d\"");
-////            data.append("\n        ,\"day\": \"" + convertDate(expiredDays.getDay()) + "\"");
-////            data.append("\n      }");
-////            ++expired;
-////        }
-////        data.append("\n    ]\n  }\n}");
-//        data.append("    ,\"expired\": [");
-//        for (Rent expiredDays : getRents().getExpired()) {
-//            if (0<expired) data.append(",{");
-//            else data.append("\n      {");
-//            data.append(expiredDays);
-//            data.append("\n      }");
-//            ++expired;
-//        }
-//        data.append("\n    ]\n  }\n}");
-//        return data.toString();
-//    }
     public String jsonRent() {
         StringBuilder data = new StringBuilder();
         int available = 0,
@@ -579,7 +504,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         }
         data.append("\n    ]\n");
         data.append("   ,\"rented\": [");
-        for (Rent rentedDays : getRents().getRented()) {
+        for (Rent rentedDays : getRents().getRented()) { //FIXME: предоплата вносится на срок один-день, либо она есть либо ее нет (и всегда указывается срок до которого она действительна - начиная с текущего момента предоплаты и даже если срока остается менее одного дня = но при условии что допустимый срок предоплаты ЕСТЬ-остается..)
             if (0<rent) data.append(",{");
             else data.append("\n      {");
             data.append("\n        " + rentedDays);
@@ -793,12 +718,120 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         return data.toString();
     }
 
-//    public String jsonOfferMonth() throws NoSuchElementException { //FIXME:
-//        return "{\n  \"offerMonth\":" +
-//                toJson() +
-//                "," + jsonRent() +
-//                "}";
-//    }
+    public String toJsonFull() throws NoSuchElementException {
+        int scheme = 0;
+        int available = 0,
+                rent = 0,
+                expired = 0;
+        StringBuilder data = new StringBuilder();
+
+        /**
+         * monthOfPrices
+         */
+        data.append("{\n  \"" + monthOfPrices + "\": {\n");
+        if (weekdayPrice!=null && weekendPrice!=null){
+            for (Price prices : this) {
+                if (scheme==0){
+                    data.append("    \"weekday\": {\n");
+                    data.append("      \"price\": " + prices.get() + "\n");
+                    data.append("      ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                    if (1 < prices.size()) {
+                        Long lastPrice = 0l;
+                        for (Long price : prices) lastPrice = price;
+                        data.append(",\"" + convertDate(lastPrice) + "\"]\n");
+                    } else {
+                        data.append("]\n");
+                    }
+                    data.append("    }\n");
+                }
+                if (scheme==1){
+                    data.append("    ,\"weekend\": {\n");
+                    data.append("      \"price\": " + prices.get() + "\n");
+                    data.append("      ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                    if (1 < prices.size()) {
+                        Long lastPrice = 0l;
+                        for (Long price : prices) lastPrice = price;
+                        data.append(",\"" + convertDate(lastPrice) + "\"]\n");
+                    } else {
+                        data.append("]\n");
+                    }
+                    data.append("    }\n");
+                }
+                if (scheme==2) data.append("    ,\"specialdays\": [\n");
+                if (1<scheme){
+                    if (scheme==2) data.append("      {\n");
+                    if (2<scheme) data.append("      ,{\n");
+                    data.append("        \"price\": " + prices.get() + "\n");
+                    data.append("        ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                    if (1 < prices.size()) {
+                        Long lastPrice = 0l;
+                        for (Long price : prices) lastPrice = price;
+                        data.append(",\"" + convertDate(lastPrice) + "\"]\n");
+                    } else {
+                        data.append("]\n");
+                    }
+                    data.append("      }\n");
+                }
+                if (scheme==(this.size()-1) && 1<scheme) data.append("    ]\n");
+                ++scheme;
+            }
+        } else {
+            if (!this.isEmpty()){ //TODO
+                data.append("    \"specialdays\":\n  [\n");
+                for (Price prices : this) {
+                    if (0 < scheme) data.append("      ,{\n");
+                    else data.append("      {\n");
+                    data.append("      \"price\": " + prices.get() + "\n");
+                    data.append("        ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                    if (1 < prices.size()) {
+                        Long lastPrice = 0l;
+                        for (Long price : prices) lastPrice = price;
+                        data.append(",\"" + convertDate(lastPrice) + "\"  ]\n");
+                    } else {
+                        data.append("  ]\n");
+                    }
+                    data.append("      }\n");
+                    ++scheme;
+                }
+                data.append("    ]\n");
+            }
+        }
+        data.append("  }\n");
+
+        /**
+         * monthOfRents
+         */
+        data.append("  ,\"" + monthOfRents + "\": {\n");
+        data.append("    \"availables\": [");
+        for (Rent availableDays : getRents().getAvailables()) {
+            if (0<available) data.append(",{");
+            else data.append("\n      {");
+            data.append("\n        " + availableDays);
+            data.append("\n      }");
+            ++available;
+        }
+        data.append("\n    ]\n");
+        data.append("   ,\"rented\": [");
+        for (Rent rentedDays : getRents().getRented()) { //FIXME: предоплата вносится на срок один-день, либо она есть либо ее нет (и всегда указывается срок до которого она действительна - начиная с текущего момента предоплаты и даже если срока остается менее одного дня = но при условии что допустимый срок предоплаты ЕСТЬ-остается..)
+            if (0<rent) data.append(",{");
+            else data.append("\n      {");
+            data.append("\n        " + rentedDays);
+            data.append("\n      }");
+            ++rent;
+        }
+        data.append("\n    ]\n");
+        data.append("    ,\"expired\": [");
+        for (Rent expiredDays : getRents().getExpired()) {
+            if (0<expired) data.append(",{");
+            else data.append("\n      {");
+            data.append("\n        " + expiredDays);
+            data.append("\n      }");
+            ++expired;
+        }
+        data.append("\n    ]\n  }\n}");
+
+        return data.toString();
+    }
 
     public PriceOfRentsRestore toRestore(){
         JsonParser parser = new JsonParser();

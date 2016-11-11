@@ -5,7 +5,7 @@ import ua.com.itproekt.gup.util.ConvertUtil;
 
 public class Rent implements Comparable<Rent>, Cloneable {
 
-    private Long day; //FIXME: com.google.gson.JsonSyntaxException: java.lang.NumberFormatException: For input string: "1.11.2016"
+    private Long day;
     private RentUser user;
     private Boolean confirm;
     private Boolean prepaid;
