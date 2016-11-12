@@ -7,11 +7,9 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang.ArrayUtils;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.service.offers.price.*;
+import ua.com.itproekt.gup.util.ConvertUtil;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -135,7 +133,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         initDate = null;
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
-        for (PriceOfRent specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
+        for (PriceOfRent specialday : specialdays) restorePrices(specialday.getPrice(), ConvertUtil.toDate(specialday.getDays()));
     }
 
     protected OfferPricesService(final String jsonPriceRestore, final String jsonRentsRestore){
@@ -153,14 +151,14 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         initDate = null;
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
-        for (PriceOfRent specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
+        for (PriceOfRent specialday : specialdays) restorePrices(specialday.getPrice(), ConvertUtil.toDate(specialday.getDays()));
 
         JsonParser parser2 = new JsonParser();
-        JsonObject objJsonObject2 = (JsonObject) parser.parse(jsonRentsRestore);
+        JsonObject objJsonObject2 = (JsonObject) parser2.parse(jsonRentsRestore);
         Gson gson2 = new Gson();
-//        Map<String, RentsRestore> restores2 = gson.fromJson(objJsonObject2, new TypeToken<Map<String, RentsRestore>>(){}.getType());
-//        RentsRestore restore2 = restores2.get(monthOfRents);
-//        rents = Rents.getInstance(restore2.getAvailables(), restore2.getRented(), restore2.getExpired());
+        Map<String, RentsRestore> restores2 = gson2.fromJson(objJsonObject2, new TypeToken<Map<String, RentsRestore>>(){}.getType());
+        RentsRestore restore2 = restores2.get(monthOfRents);
+        rents = Rents.getInstance(restore2.getAvailables(), restore2.getRented(), restore2.getExpired()); //TODO: #1
     }
 
     /**
@@ -182,9 +180,9 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
         if (specialdays!=null)
-            for (PriceOfRent specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
+        for (PriceOfRent specialday : specialdays) restorePrices(specialday.getPrice(), ConvertUtil.toDate(specialday.getDays()));
         else
-            addPrices(0l, new Long[]{});
+            restorePrices(0l, new Long[]{});
     }
 
     protected OfferPricesService(final PriceOfRentsRestore priceRestore, final RentsRestore rentsRestore){
@@ -201,11 +199,10 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         listWeekdays = new ArrayList<Long>();
         listWeekends = new ArrayList<Long>();
         if (specialdays!=null)
-            for (PriceOfRent specialday : specialdays) addPrices(specialday.getPrice(), convertDate(specialday.getDays()));
+        for (PriceOfRent specialday : specialdays) restorePrices(specialday.getPrice(), ConvertUtil.toDate(specialday.getDays()));
         else
-            addPrices(0l, new Long[]{});
-
-        rents = Rents.getInstance(rentsRestore.getAvailables(), rentsRestore.getRented(), rentsRestore.getExpired());
+            restorePrices(0l, new Long[]{});
+        rents = Rents.getInstance(rentsRestore.getAvailables(), rentsRestore.getRented(), rentsRestore.getExpired()); //TODO: #2
     }
 
     /**
@@ -240,8 +237,8 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
                 initDate(days);
                 synchronized (OfferPricesService.class){
                     newPrice = new Price(price);
-                    java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(convertDate(days[1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[1]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[1]).split("\\.")[0]));
-                    for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)) {
+                    java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(ConvertUtil.toDate(days[1]).split("\\.")[2]), (Integer.valueOf(ConvertUtil.toDate(days[1]).split("\\.")[1])-1), Integer.valueOf(ConvertUtil.toDate(days[1]).split("\\.")[0]));
+                    for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(ConvertUtil.toDate(days[0]).split("\\.")[2]), (Integer.valueOf(ConvertUtil.toDate(days[0]).split("\\.")[1])-1), Integer.valueOf(ConvertUtil.toDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)) {
                         for (Price currPrice : this)
                             if (currPrice.remove(currDate.getTimeInMillis())) newPrice.add(currDate.getTimeInMillis());
                     }
@@ -256,8 +253,43 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         // FIXME: to constructor...START
         long[] availablesDays = null;
         for (Price prices : this) for (long p : prices) availablesDays = ArrayUtils.add(availablesDays, p);
-        rents = Rents.getInstance(availablesDays);
+        rents = Rents.getInstance(availablesDays); //TODO: #3
         // FIXME: to constructor...FINISH
+    }
+
+    public void restorePrices(Long price, Long[] days) {
+        Price newPrice;
+        switch (days.length) {
+            case 0:
+                if (weekdayPrice==null && weekendPrice==null) weekdayPrice = weekendPrice = price; //TODO:
+                initDate(java.util.Calendar.getInstance().getTimeInMillis());
+                break;
+            case 1:
+                initDate(days[0]);
+                synchronized (OfferPricesService.class){
+                    newPrice = new Price(price);
+                    for (Price curPrice : this)
+                        if (curPrice.remove(days[0])) newPrice.add(days[0]);
+                    if (weekdayPrice==null && weekendPrice==null) removeAll(this); //TODO:
+                    add(newPrice);
+                }
+                break;
+            case 2:
+                initDate(days);
+                synchronized (OfferPricesService.class){
+                    newPrice = new Price(price);
+                    java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(ConvertUtil.toDate(days[1]).split("\\.")[2]), (Integer.valueOf(ConvertUtil.toDate(days[1]).split("\\.")[1])-1), Integer.valueOf(ConvertUtil.toDate(days[1]).split("\\.")[0]));
+                    for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(ConvertUtil.toDate(days[0]).split("\\.")[2]), (Integer.valueOf(ConvertUtil.toDate(days[0]).split("\\.")[1])-1), Integer.valueOf(ConvertUtil.toDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)) {
+                        for (Price currPrice : this)
+                            if (currPrice.remove(currDate.getTimeInMillis())) newPrice.add(currDate.getTimeInMillis());
+                    }
+                    if (weekdayPrice==null && weekendPrice==null) removeAll(this); //TODO:
+                    add(newPrice);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -272,19 +304,20 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      */
     public void addRent(Long[] days, String userId) throws ConcurrentModificationException {
         RentUser user = new RentUser(); //TODO: ...
-        user.setUserId(userId); //TODO: ...
+        user.setId(userId); //TODO: ...
         user.setFullName("Петренко Юрий Владимирович"); //TODO: ...
         user.setImgId("57e440464c8eda79f765532d"); //TODO: ...
+        user.setRating(10);
         Order order = new Order(); //TODO: ...
         Date date = new Date(); //TODO: ...
 
         if( getRents().getAvailables().isEmpty() ){
             for (Price prices : this) {
-                for (Long day : prices) getRents().getAvailables().add(new Rent(day, user, true, true, null, (date.getTime() - 111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null)); //for (Long day : prices) getRents().getAvailables().add(new Rent(day, user, true, true, null, (date.getTime() - 111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, order));
+                for (Long day : prices) getRents().getAvailables().add(new Rent(day, user, true, true, null, (date.getTime() - 111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null));
             }
         } else {
             for (Long day : days) {
-                Rent findAvailables = new Rent(day, user, true, true, null, (date.getTime()-111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null); //Rent findAvailables = new Rent(day, user, true, true, null, (date.getTime()-111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, order);
+                Rent findAvailables = new Rent(day, user, true, true, null, (date.getTime()-111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null);
                 if( getRents().getAvailables().contains(findAvailables) ){
                     Rent objAvailables = getRents().getAvailables().get(getRents().getAvailables().indexOf(findAvailables));
                     if( getRents().getAvailables().remove(objAvailables) ) getRents().getRented().add(findAvailables);
@@ -309,8 +342,8 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
                             if (curPrice.remove(days[0])) del++;
                         break;
                     case 2:
-                        java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(convertDate(days[1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[1]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[1]).split("\\.")[0]));
-                        for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)){
+                        java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(ConvertUtil.toDate(days[1]).split("\\.")[2]), (Integer.valueOf(ConvertUtil.toDate(days[1]).split("\\.")[1])-1), Integer.valueOf(ConvertUtil.toDate(days[1]).split("\\.")[0])); //java.util.Calendar lastDate = new GregorianCalendar(Integer.valueOf(convertDate(days[1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[1]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[1]).split("\\.")[0]));
+                        for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(ConvertUtil.toDate(days[0]).split("\\.")[2]), (Integer.valueOf(ConvertUtil.toDate(days[0]).split("\\.")[1])-1), Integer.valueOf(ConvertUtil.toDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)){ //for (java.util.Calendar currDate = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), Integer.valueOf(convertDate(days[0]).split("\\.")[0])); currDate.getTimeInMillis()<=lastDate.getTimeInMillis(); currDate.add(java.util.Calendar.DATE, 1)){
                             for (Price currPrice : this)
                                 if (currPrice.remove(currDate.getTimeInMillis())) del++;
                         }
@@ -418,7 +451,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         if (e!=null) for (Rent experied : e) isExpireds.add(experied.getDay());
         if (r!=null) for (Rent rented : r) isRents.add(rented.getDay());
         for (Price prices : this) {
-            for (Long price : prices) data.append(prices.get() + (isExpireds.contains(price)?"|EXPIRED":isRents.contains(price)?"|RENTED":"") +"(" + convertDate(price) + ") ");
+            for (Long price : prices) data.append(prices.get() + (isExpireds.contains(price)?"|EXPIRED":isRents.contains(price)?"|RENTED":"") +"(" + ConvertUtil.toDate(price) + ") "); //for (Long price : prices) data.append(prices.get() + (isExpireds.contains(price)?"|EXPIRED":isRents.contains(price)?"|RENTED":"") +"(" + convertDate(price) + ") ");
             if (!prices.isEmpty()) data.append("\n");
         }
         return data.toString();
@@ -458,71 +491,30 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         int available = 0,
                 rent = 0,
                 expired = 0;
-
         data.append("{\n  \"" + monthOfRents + "\": {\n");
-////        data.append("    \"availables\": [");
-////        for (Rent availableDays : getRents().getAvailables()) {
-////            if (0<available) data.append(",");
-////            data.append("\"" + convertDate(availableDays.getDay()) + "\""); //FIXME: {"day": "26.10.2016", "isPrepaid": true, "dayPrepaid": null, "user": null}
-////            ++available;
-////        }
-////        data.append("]\n");
-//        data.append("    \"availables\": [");
-//        for (Rent availableDays : getRents().getAvailables()) {
-//            if (0<available) data.append(",{");
-//            else data.append("\n      {");
-//            data.append("\n        \"userId\": " + null);
-//            data.append("\n        ,\"day\": \"" + convertDate(availableDays.getDay()) + "\"");
-//            data.append("\n      }");
-//            ++available;
-//        }
-//        data.append("\n    ]\n");
         data.append("    \"availables\": [");
         for (Rent availableDays : getRents().getAvailables()) {
             if (0<available) data.append(",{");
             else data.append("\n      {");
-            data.append(availableDays);
+            data.append("\n        " + availableDays);
             data.append("\n      }");
             ++available;
         }
         data.append("\n    ]\n");
-
-//        data.append("    ,\"rented\": [");
-//        for (Rent rentedDays : getRents().getRented()) { //FIXME: {"day": "27.10.2016", "isPrepaid": true, "dayPrepaid": "21.10.2016", "user": {"userId": "57e440464c8eda79f765532d", "fullName": "57e440464c8eda79f765532d", "imgID": "57e440464c8eda79f765532d"} }
-//                                                         //FIXME: предоплата вносится на срок один-день, либо она есть либо ее нет (и всегда указывается срок до которого она действительна - начиная с текущего момента предоплаты и даже если срока остается менее одного дня = но при условии что допустимый срок предоплаты ЕСТЬ-остается..)
-//            if (0<rent) data.append(",{");
-//            else data.append("\n      {");
-//            data.append("\n        \"userId\": \"57e440464c8eda79f765532d\"");
-//            data.append("\n        ,\"day\": \"" + convertDate(rentedDays.getDay()) + "\"");
-//            data.append("\n      }");
-//            ++rent;
-//        }
-//        data.append("\n    ]\n");
-        data.append(",   \"rented\": [");
-        for (Rent rentedDays : getRents().getRented()) {
+        data.append("   ,\"rented\": [");
+        for (Rent rentedDays : getRents().getRented()) { //FIXME: предоплата вносится на срок один-день, либо она есть либо ее нет (и всегда указывается срок до которого она действительна - начиная с текущего момента предоплаты и даже если срока остается менее одного дня = но при условии что допустимый срок предоплаты ЕСТЬ-остается..)
             if (0<rent) data.append(",{");
             else data.append("\n      {");
-            data.append(rentedDays);
+            data.append("\n        " + rentedDays);
             data.append("\n      }");
             ++rent;
         }
         data.append("\n    ]\n");
-
-//        data.append("    ,\"expired\": [");
-//        for (Rent expiredDays : getRents().getExpired()) {
-//            if (0<expired) data.append(",{");
-//            else data.append("\n      {");
-//            data.append("\n        \"userId\": \"57e440464c8eda79f765532d\"");
-//            data.append("\n        ,\"day\": \"" + convertDate(expiredDays.getDay()) + "\"");
-//            data.append("\n      }");
-//            ++expired;
-//        }
-//        data.append("\n    ]\n  }\n}");
         data.append("    ,\"expired\": [");
         for (Rent expiredDays : getRents().getExpired()) {
             if (0<expired) data.append(",{");
             else data.append("\n      {");
-            data.append(expiredDays);
+            data.append("\n        " + expiredDays);
             data.append("\n      }");
             ++expired;
         }
@@ -658,11 +650,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
                 if (scheme==0){
                     data.append("    \"weekday\": {\n");
                     data.append("      \"price\": " + prices.get() + "\n");
-                    data.append("      ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                    data.append("      ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
                     if (1 < prices.size()) {
                         Long lastPrice = 0l;
                         for (Long price : prices) lastPrice = price;
-                        data.append(",\"" + convertDate(lastPrice) + "\"]\n");
+                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
                     } else {
                         data.append("]\n");
                     }
@@ -671,11 +663,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
                 if (scheme==1){
                     data.append("    ,\"weekend\": {\n");
                     data.append("      \"price\": " + prices.get() + "\n");
-                    data.append("      ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                    data.append("      ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
                     if (1 < prices.size()) {
                         Long lastPrice = 0l;
                         for (Long price : prices) lastPrice = price;
-                        data.append(",\"" + convertDate(lastPrice) + "\"]\n");
+                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
                     } else {
                         data.append("]\n");
                     }
@@ -686,11 +678,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
                     if (scheme==2) data.append("      {\n");
                     if (2<scheme) data.append("      ,{\n");
                     data.append("        \"price\": " + prices.get() + "\n");
-                    data.append("        ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                    data.append("        ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
                     if (1 < prices.size()) {
                         Long lastPrice = 0l;
                         for (Long price : prices) lastPrice = price;
-                        data.append(",\"" + convertDate(lastPrice) + "\"]\n");
+                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
                     } else {
                         data.append("]\n");
                     }
@@ -706,11 +698,11 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
                     if (0 < scheme) data.append("      ,{\n");
                     else data.append("      {\n");
                     data.append("      \"price\": " + prices.get() + "\n");
-                    data.append("        ,\"days\": [\"" + convertDate(prices.element()) + "\"");
+                    data.append("        ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
                     if (1 < prices.size()) {
                         Long lastPrice = 0l;
                         for (Long price : prices) lastPrice = price;
-                        data.append(",\"" + convertDate(lastPrice) + "\"  ]\n");
+                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"  ]\n");
                     } else {
                         data.append("  ]\n");
                     }
@@ -724,12 +716,120 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         return data.toString();
     }
 
-//    public String jsonOfferMonth() throws NoSuchElementException { //FIXME:
-//        return "{\n  \"offerMonth\":" +
-//                toJson() +
-//                "," + jsonRent() +
-//                "}";
-//    }
+    public String toJsonFull() throws NoSuchElementException {
+        int scheme = 0;
+        int available = 0,
+                rent = 0,
+                expired = 0;
+        StringBuilder data = new StringBuilder();
+
+        /**
+         * monthOfPrices
+         */
+        data.append("{\n  \"" + monthOfPrices + "\": {\n");
+        if (weekdayPrice!=null && weekendPrice!=null){
+            for (Price prices : this) {
+                if (scheme==0){
+                    data.append("    \"weekday\": {\n");
+                    data.append("      \"price\": " + prices.get() + "\n");
+                    data.append("      ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
+                    if (1 < prices.size()) {
+                        Long lastPrice = 0l;
+                        for (Long price : prices) lastPrice = price;
+                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
+                    } else {
+                        data.append("]\n");
+                    }
+                    data.append("    }\n");
+                }
+                if (scheme==1){
+                    data.append("    ,\"weekend\": {\n");
+                    data.append("      \"price\": " + prices.get() + "\n");
+                    data.append("      ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
+                    if (1 < prices.size()) {
+                        Long lastPrice = 0l;
+                        for (Long price : prices) lastPrice = price;
+                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
+                    } else {
+                        data.append("]\n");
+                    }
+                    data.append("    }\n");
+                }
+                if (scheme==2) data.append("    ,\"specialdays\": [\n");
+                if (1<scheme){
+                    if (scheme==2) data.append("      {\n");
+                    if (2<scheme) data.append("      ,{\n");
+                    data.append("        \"price\": " + prices.get() + "\n");
+                    data.append("        ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
+                    if (1 < prices.size()) {
+                        Long lastPrice = 0l;
+                        for (Long price : prices) lastPrice = price;
+                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"]\n");
+                    } else {
+                        data.append("]\n");
+                    }
+                    data.append("      }\n");
+                }
+                if (scheme==(this.size()-1) && 1<scheme) data.append("    ]\n");
+                ++scheme;
+            }
+        } else {
+            if (!this.isEmpty()){ //TODO
+                data.append("    \"specialdays\":\n  [\n");
+                for (Price prices : this) {
+                    if (0 < scheme) data.append("      ,{\n");
+                    else data.append("      {\n");
+                    data.append("      \"price\": " + prices.get() + "\n");
+                    data.append("        ,\"days\": [\"" + ConvertUtil.toDate(prices.element()) + "\"");
+                    if (1 < prices.size()) {
+                        Long lastPrice = 0l;
+                        for (Long price : prices) lastPrice = price;
+                        data.append(",\"" + ConvertUtil.toDate(lastPrice) + "\"  ]\n");
+                    } else {
+                        data.append("  ]\n");
+                    }
+                    data.append("      }\n");
+                    ++scheme;
+                }
+                data.append("    ]\n");
+            }
+        }
+        data.append("  }\n");
+
+        /**
+         * monthOfRents
+         */
+        data.append("  ,\"" + monthOfRents + "\": {\n");
+        data.append("    \"availables\": [");
+        for (Rent availableDays : getRents().getAvailables()) {
+            if (0<available) data.append(",{");
+            else data.append("\n      {");
+            data.append("\n        " + availableDays);
+            data.append("\n      }");
+            ++available;
+        }
+        data.append("\n    ]\n");
+        data.append("   ,\"rented\": [");
+        for (Rent rentedDays : getRents().getRented()) { //FIXME: предоплата вносится на срок один-день, либо она есть либо ее нет (и всегда указывается срок до которого она действительна - начиная с текущего момента предоплаты и даже если срока остается менее одного дня = но при условии что допустимый срок предоплаты ЕСТЬ-остается..)
+            if (0<rent) data.append(",{");
+            else data.append("\n      {");
+            data.append("\n        " + rentedDays);
+            data.append("\n      }");
+            ++rent;
+        }
+        data.append("\n    ]\n");
+        data.append("    ,\"expired\": [");
+        for (Rent expiredDays : getRents().getExpired()) {
+            if (0<expired) data.append(",{");
+            else data.append("\n      {");
+            data.append("\n        " + expiredDays);
+            data.append("\n      }");
+            ++expired;
+        }
+        data.append("\n    ]\n  }\n}");
+
+        return data.toString();
+    }
 
     public PriceOfRentsRestore toRestore(){
         JsonParser parser = new JsonParser();
@@ -739,6 +839,16 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         PriceOfRentsRestore restore = restores.get(monthOfPrices);
 //        System.err.println(restore);
         return restore;
+    }
+
+    public RentsRestore toRestore2(){
+        JsonParser parser2 = new JsonParser();
+        JsonObject objJsonObject = (JsonObject) parser2.parse(toJson());
+        Gson gson2 = new Gson();
+        Map<String, RentsRestore> restores2 = gson2.fromJson(objJsonObject, new TypeToken<Map<String, RentsRestore>>(){}.getType());
+        RentsRestore restore2 = restores2.get(monthOfRents);
+//        System.err.println(restore2);
+        return restore2;
     }
 
     private void init(){
@@ -766,9 +876,9 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
                     strDay = cal.get(java.util.Calendar.DAY_OF_MONTH)<10 ? "0"+cal.get(java.util.Calendar.DAY_OF_MONTH) : String.valueOf(cal.get(java.util.Calendar.DAY_OF_MONTH));
             int day = cal.get(java.util.Calendar.DAY_OF_WEEK);
             if (day != java.util.Calendar.SATURDAY && day != java.util.Calendar.SUNDAY)
-                listWeekdays.add(convertDate(strDay + "." + strMonth + "." + year));
+            listWeekdays.add(ConvertUtil.toDate(strDay + "." + strMonth + "." + year));
             else
-                listWeekends.add(convertDate(strDay + "." + strMonth + "." + year));
+                listWeekends.add(ConvertUtil.toDate(strDay + "." + strMonth + "." + year));
             cal.add(java.util.Calendar.DAY_OF_YEAR, 1);
         } while (cal.get(java.util.Calendar.MONTH) == (month-1));
     }
@@ -776,7 +886,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
     private void initDate(Long day){
         synchronized (OfferPricesService.class) {
             if (initDate == null) {
-                initDate(Integer.valueOf(convertDate(day).split("\\.")[1]), Integer.valueOf(convertDate(day).split("\\.")[2]));
+                initDate(Integer.valueOf(ConvertUtil.toDate(day).split("\\.")[1]), Integer.valueOf(ConvertUtil.toDate(day).split("\\.")[2]));
                 init();
 
                 initDate = new Boolean(true);
@@ -788,8 +898,8 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
         synchronized (OfferPricesService.class) {
             if (initDate == null) {
                 Arrays.sort(days);
-                java.util.Calendar lastCal = new GregorianCalendar(Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[2]), (Integer.valueOf(convertDate(days[days.length-1]).split("\\.")[1])-1), 1);
-                for (java.util.Calendar currCal = new GregorianCalendar(Integer.valueOf(convertDate(days[0]).split("\\.")[2]), (Integer.valueOf(convertDate(days[0]).split("\\.")[1])-1), 1); currCal.getTimeInMillis()<=lastCal.getTimeInMillis(); currCal.add(java.util.Calendar.MONTH, 1))
+                java.util.Calendar lastCal = new GregorianCalendar(Integer.valueOf(ConvertUtil.toDate(days[days.length - 1]).split("\\.")[2]), (Integer.valueOf(ConvertUtil.toDate(days[days.length - 1]).split("\\.")[1])-1), 1);
+                for (java.util.Calendar currCal = new GregorianCalendar(Integer.valueOf(ConvertUtil.toDate(days[0]).split("\\.")[2]), (Integer.valueOf(ConvertUtil.toDate(days[0]).split("\\.")[1])-1), 1); currCal.getTimeInMillis()<=lastCal.getTimeInMillis(); currCal.add(java.util.Calendar.MONTH, 1))
                     initDate(Integer.valueOf(String.valueOf(simpleDateFormat.format(currCal.getTime())).split("\\.")[1]), Integer.valueOf(String.valueOf(simpleDateFormat.format(currCal.getTime())).split("\\.")[2]));
                 init();
 
@@ -797,44 +907,4 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
             }
         }
     }
-
-    private Long convertDate(String day) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy", Locale.ENGLISH);
-        LocalDate localDate = LocalDate.parse(day, formatter);
-        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        return date.getTime();
-    }
-
-    private String convertDate(Long day) {
-        Date date = new Date(day);
-        String strDate = simpleDateFormat.format(date);
-        return strDate;
-    }
-
-    private Long[] convertDate(String[] days) {
-        Long[] lDate = new Long[days.length];
-        for (int date=0; date<days.length; ++date)
-            lDate[date] = convertDate(days[date]);
-        return lDate;
-    }
-
-    /////////////////////////
-
-    private String[] convertDate(Long[] days) {
-        String[] strDate = new String[days.length];
-        for (int date=0; date<days.length; ++date)
-            strDate[date] = convertDate(days[date]);
-        return strDate;
-    }
-
-    private Long[] convertDate(Collection<Long> days) {
-        Long[] lDate = new Long[days.size()];
-        int date=0;
-        for (Long day : days){
-            lDate[date] = day;
-            ++date;
-        }
-        return lDate;
-    }
-
 }

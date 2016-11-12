@@ -19,21 +19,10 @@ public abstract class ARents extends ArrayList<List<Rent>> {
         add(new ArrayList<Rent>());
     }
 
-//    public ARents(long[] availables, long[] rented){
-//        List<Rent> lAvailables = new ArrayList<Rent>(),
-//                lRented = new ArrayList<Rent>();
-//        for (long day : availables) lAvailables.add(new Rent(day, null, true, true, null, null, null, RentStatus.AVAILABLE, OrderStatus.NONE, 1, null));
-//        for (long day : rented) lAvailables.add(new Rent(day, null, true, true, null, null, null, RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 1, null));
-//
-//        add(lAvailables);
-//        add(lRented);
-//        add(new ArrayList<Rent>());
-//    }
-
-    public ARents(List<Rent> availables, List<Rent> rented, List<Rent> expired){
-        add(availables);
-        add(rented);
-        add(expired);
+    public ARents(List<Rent> lAvailables, List<Rent> lRented, List<Rent> lExpired){
+        add(lAvailables);
+        add(lRented);
+        add(lExpired);
     }
 
     /**
@@ -46,8 +35,8 @@ public abstract class ARents extends ArrayList<List<Rent>> {
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
     public List<Rent> getAvailables(){
-        Collections.sort(get(0)); //Collections.sort(getFirst());
-        return get(0); //return getFirst();
+        Collections.sort(get(0));
+        return get(0);
     }
 
     /**
@@ -60,8 +49,8 @@ public abstract class ARents extends ArrayList<List<Rent>> {
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
     public List<Rent> getRented(){
-        Collections.sort(get(1)); //Collections.sort(getLast());
-        return get(1); //return getLast();
+        Collections.sort(get(1));
+        return get(1);
     }
 
     /**
@@ -84,7 +73,7 @@ public abstract class ARents extends ArrayList<List<Rent>> {
                 /*
                  * 'Expired'
                  */
-                if(++countExpired==2){ // |-1| |0| |1|
+                if(++countExpired==2){ //TODO |-1| |0| |1|
                     /*
                      * 'Availables'
                      */
@@ -124,9 +113,8 @@ public abstract class ARents extends ArrayList<List<Rent>> {
         return get(2);
     }
 
-
     /**
-     * add Exception on getAvailables() + getRended() to getExpired()
+     * TODO: add Exception on getAvailables() + getRended() to getExpired()
      */
 
 }

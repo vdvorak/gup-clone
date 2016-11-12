@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.service.offers.PriceOfRentsRestore;
+import ua.com.itproekt.gup.service.offers.RentsRestore;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
 import ua.com.itproekt.gup.util.PaymentMethod;
 import ua.com.itproekt.gup.util.TransportCompany;
@@ -47,6 +48,7 @@ public class Offer {
     private Reservation             reservation;
     private Integer                 views;                      // number of offer views
     private PriceOfRentsRestore     monthOfPrices;
+    private RentsRestore            monthOfRents;
     private Rent                    rent;
     private String                  seoUrl;                     // full SEO url with key - for siteMap
     private String                  seoKey;                     // only key - for search in DB
@@ -171,6 +173,15 @@ public class Offer {
 
     public Offer setMonthOfPrices(PriceOfRentsRestore monthOfPrices) {
         this.monthOfPrices = monthOfPrices;
+        return this;
+    }
+
+    public RentsRestore getMonthOfRents() {
+        return monthOfRents;
+    }
+
+    public Offer setMonthOfRents(RentsRestore monthOfRents) {
+        this.monthOfRents = monthOfRents;
         return this;
     }
 

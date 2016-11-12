@@ -2,17 +2,17 @@ package ua.com.itproekt.gup.service.offers.price;
 
 public class RentUser implements Cloneable {
 
-    private String userId;
+    private String id;
     private String fullName;
     private String imgId;
     private Integer rating;
 
-    public String getUserId() {
-        return userId;
+    public String getId() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFullName() {
@@ -47,7 +47,7 @@ public class RentUser implements Cloneable {
     @Override
     public String toString() {
         return "{" +
-                "\"id\": \"" + userId + "\"" +
+                "\"id\": \"" + id + "\"" +
                 ", \"fullName\": " +((fullName==null) ? fullName : "\"" + fullName + "\"") +
                 ", \"imgId\": " +((imgId==null) ? imgId : "\"" + imgId + "\"") +
                 ", \"rating\": " +((rating==null) ? rating : "\"" + rating + "\"") +
