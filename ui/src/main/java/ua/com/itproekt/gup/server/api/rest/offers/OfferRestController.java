@@ -54,8 +54,10 @@ public class OfferRestController {
     //------------------------------------------ Read -----------------------------------------------------------------
 
     /**
-     * @param seoUrl
-     * @param relevant
+     * Return one offer and some relevant offers to this one.
+     *
+     * @param seoUrl - the seo url of the specific offer.
+     * @param relevant - the boolean flag - to show or not to show relevant offers.
      * @return forbidden (403) if offer is not premoderated
      */
     @CrossOrigin
@@ -91,20 +93,22 @@ public class OfferRestController {
 
 
         if (relevant) {
-            // receive list of relevant offer
-            List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId());
-            if (relevantOffersList.size() < 20) {
 
-                //add extra offers from same area
-                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorForRelevantSearchWithCountry(offer), offer.getId()));
-            }
+            // FixMe delete this after testing
+//            // receive list of relevant offer
+//            List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId());
+//            if (relevantOffersList.size() < 20) {
+//
+//                //add extra offers from same area
+//                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorForRelevantSearchWithCountry(offer), offer.getId()));
+//            }
+//
+//            if (relevantOffersList.size() < 20) {
+//                // add extra offers from all categories
+//                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorOnlyWithSkipAndLimit(), offer.getId()));
+//            }
 
-            if (relevantOffersList.size() < 20) {
-                // add extra offers from all categories
-                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorOnlyWithSkipAndLimit(), offer.getId()));
-            }
-
-            offerInfo.setRelevantOffersList(relevantOffersList);
+            offerInfo.setRelevantOffersList(offersService.getListOfRelevantPublicOffersForSpecificOffer(offerInfo.getOffer()));
         }
 
         return new ResponseEntity<>(offerInfo, HttpStatus.OK);

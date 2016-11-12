@@ -19,61 +19,64 @@ import java.util.Map;
 
 public final class OfferRestHelper {
 
-    /**
-     * Create OfferFilterOption object for search offers relevant to current on it's city.
-     *
-     * @param offer the offer to which we must find relevant offers.
-     * @return      the OfferFilterOptions object.
-     */
-    static OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCity(Offer offer) {
-        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-        offerFilterOptions.setAddress(new Address());
-
-        // add categories in filter
-        offerFilterOptions.setCategories(offer.getCategories());
-
-        // add address in filter
-        if (offer.getAddress().getCity() != null) {
-            offerFilterOptions
-                    .getAddress()
-                    .setCity(offer.getAddress().getCity());
-            offerFilterOptions.getAddress().setArea(offer.getAddress().getArea());
-        }
-
-        return offerFilterOptions;
-    }
 
 
-    /**
-     * Create OfferFilterOption object for search offers relevant to current on it's country.
-     *
-     * @param offer the offer to which we must find relevant offers.
-     * @return      the OfferFilterOptions object.
-     */
-    static OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCountry(Offer offer) {
-        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-        offerFilterOptions.setAddress(new Address());
-
-        // add categories in filter
-        offerFilterOptions.setCategories(offer.getCategories());
-
-        offerFilterOptions.getAddress().setCountry(offer.getAddress().getCountry());
-
-        return offerFilterOptions;
-    }
-
-
-    /**
-     * Return OfferFilterOption object only with skip and limit parameter/
-     *
-     * @return  the OfferFilterOptions object
-     */
-    static OfferFilterOptions offerFilterOptionsPreparatorOnlyWithSkipAndLimit() {
-        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
-        offerFilterOptions.setSkip(0);
-        offerFilterOptions.setLimit(20);
-        return offerFilterOptions;
-    }
+    // FixMe delete this if relevant offers work fine!
+//    /**
+//     * Create OfferFilterOption object for search offers relevant to current on it's city.
+//     *
+//     * @param offer the offer to which we must find relevant offers.
+//     * @return      the OfferFilterOptions object.
+//     */
+//    static OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCity(Offer offer) {
+//        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+//        offerFilterOptions.setAddress(new Address());
+//
+//        // add categories in filter
+//        offerFilterOptions.setCategories(offer.getCategories());
+//
+//        // add address in filter
+//        if (offer.getAddress().getCity() != null) {
+//            offerFilterOptions
+//                    .getAddress()
+//                    .setCity(offer.getAddress().getCity());
+//            offerFilterOptions.getAddress().setArea(offer.getAddress().getArea());
+//        }
+//
+//        return offerFilterOptions;
+//    }
+//
+//
+//    /**
+//     * Create OfferFilterOption object for search offers relevant to current on it's country.
+//     *
+//     * @param offer the offer to which we must find relevant offers.
+//     * @return      the OfferFilterOptions object.
+//     */
+//    static OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCountry(Offer offer) {
+//        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+//        offerFilterOptions.setAddress(new Address());
+//
+//        // add categories in filter
+//        offerFilterOptions.setCategories(offer.getCategories());
+//
+//        offerFilterOptions.getAddress().setCountry(offer.getAddress().getCountry());
+//
+//        return offerFilterOptions;
+//    }
+//
+//
+//    /**
+//     * Return OfferFilterOption object only with skip and limit parameter/
+//     *
+//     * @return  the OfferFilterOptions object
+//     */
+//    static OfferFilterOptions offerFilterOptionsPreparatorOnlyWithSkipAndLimit() {
+//        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+//        offerFilterOptions.setSkip(0);
+//        offerFilterOptions.setLimit(20);
+//        return offerFilterOptions;
+//    }
 
     /**
      * Add SeoUrl to offer and create new PaidService in offer

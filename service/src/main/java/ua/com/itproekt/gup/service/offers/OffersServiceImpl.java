@@ -302,6 +302,52 @@ public class OffersServiceImpl implements OffersService {
 
 
     /**
+     * Return List of offers which are relevant to specific one.
+     *
+     * @param offer - the offer to which we must find relevant offers.
+     * @return - the list of the offers.
+     */
+    @Override
+    public List<OfferInfo> getListOfRelevantPublicOffersForSpecificOffer(Offer offer) {
+
+
+        // receive list of relevant offer then transform it into offerInfo list
+        List<OfferInfo> relevantOffersList =  publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId()).getEntities());
+
+
+        if (relevantOffersList.size() < 20) {
+
+            // prepare list of the offers ID's which must be excluded in the next iterations of search
+            List<String> currentOffersIds = new ArrayList<>();
+            for (OfferInfo offerInfo : relevantOffersList) {
+                currentOffersIds.add(offerInfo.getOffer().getId());
+            }
+
+
+            //add extra offers from same area
+            relevantOffersList.addAll(publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptionsPreparatorForRelevantSearchWithCountry(offer), currentOffersIds).getEntities()));
+        }
+
+
+
+        if (relevantOffersList.size() < 20) {
+
+            // prepare list of the offers ID's which must be excluded in the next iterations of search
+            List<String> currentOffersIds = new ArrayList<>();
+            for (OfferInfo offerInfo : relevantOffersList) {
+                currentOffersIds.add(offerInfo.getOffer().getId());
+            }
+
+            int limit = 20 - relevantOffersList.size();
+
+            // add extra offers from all categories
+            relevantOffersList.addAll(publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptionsPreparatorOnlyWithSkipAndLimit(limit), currentOffersIds).getEntities()));
+        }
+
+        return relevantOffersList;
+    }
+
+    /**
      * Return main image of the offer.
      *
      * @param offer - the offer
@@ -328,6 +374,61 @@ public class OffersServiceImpl implements OffersService {
     //-------------------------------------------------------------------------------------------------------
 
 
+
+    /**
+     * Create OfferFilterOption object for search offers relevant to current on it's city.
+     *
+     * @param offer the offer to which we must find relevant offers.
+     * @return      the OfferFilterOptions object.
+     */
+    private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCity(Offer offer) {
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setAddress(new Address());
+
+        // add categories in filter
+        offerFilterOptions.setCategories(offer.getCategories());
+
+        // add address in filter
+        if (offer.getAddress().getCity() != null) {
+            offerFilterOptions
+                    .getAddress()
+                    .setCity(offer.getAddress().getCity());
+            offerFilterOptions.getAddress().setArea(offer.getAddress().getArea());
+        }
+
+        return offerFilterOptions;
+    }
+
+    /**
+     * Create OfferFilterOption object for search offers relevant to current on it's country.
+     *
+     * @param offer the offer to which we must find relevant offers.
+     * @return      the OfferFilterOptions object.
+     */
+    private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCountry(Offer offer) {
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setAddress(new Address());
+
+        // add categories in filter
+        offerFilterOptions.setCategories(offer.getCategories());
+
+        offerFilterOptions.getAddress().setCountry(offer.getAddress().getCountry());
+
+        return offerFilterOptions;
+    }
+
+    /**
+     * Return OfferFilterOption object only with skip and limit parameter/
+     *
+     * @return  the OfferFilterOptions object
+     */
+    private OfferFilterOptions offerFilterOptionsPreparatorOnlyWithSkipAndLimit(int limit) {
+        OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
+        offerFilterOptions.setSkip(0);
+        offerFilterOptions.setLimit(limit);
+        return offerFilterOptions;
+    }
+
     /**
      * Make list of offerInfo from list of offers: delete unnecessary fields, add some additional fields
      *
@@ -341,7 +442,6 @@ public class OffersServiceImpl implements OffersService {
         }
         return offerInfoList;
     }
-
 
     /**
      * Create OfferInfo and put there public version of offer
@@ -456,16 +556,16 @@ public class OffersServiceImpl implements OffersService {
         if (resultList.size() < 18) {
 
             // create list of the current offer's ID
-            List<String> currentOfferIds = new ArrayList<>();
+            List<String> currentOffersIds = new ArrayList<>();
             for (Offer offer : resultList) {
-                currentOfferIds.add(offer.getId());
+                currentOffersIds.add(offer.getId());
             }
 
             offerFilterOptions.setLimit(18 - resultList.size());
             offerFilterOptions.setCategories(null);
 
             // add the missing offers amount to result list
-            resultList.addAll(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptions, currentOfferIds).getEntities());
+            resultList.addAll(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptions, currentOffersIds).getEntities());
         }
 
         return resultList;

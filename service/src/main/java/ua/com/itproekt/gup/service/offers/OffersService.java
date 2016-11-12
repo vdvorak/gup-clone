@@ -116,8 +116,10 @@ public interface OffersService {
     void deleteRent(String offerId, String rentId);
 
     /**
-     * @param offerId
-     * @param isActive
+     * Change the active status of the offer.
+     *
+     * @param offerId   - the offer ID.
+     * @param isActive  - the true or false.
      */
     void setActive(String offerId, boolean isActive);
 
@@ -184,6 +186,15 @@ public interface OffersService {
      * @return
      */
     List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions);
+
+
+    /**
+     * Return List of offers which are relevant to specific one.
+     *
+     * @param offer     - the offer to which we must find relevant offers.
+     * @return          - the list of the offers.
+     */
+    List<OfferInfo> getListOfRelevantPublicOffersForSpecificOffer(Offer offer);
 
     /**
      * Return id if main offer image
