@@ -192,35 +192,37 @@ public class OfferRepositoryImpl implements OfferRepository {
 
         Set<String> cityList = offerFO.getCityList();
 
-        if (offerFO.getCityList() != null) {
 
-            List<Criteria> criteriaCity = new ArrayList<>();
-
-            for (String city : cityList) {
-                criteriaCity.add(Criteria.where("address.city").is(city));
-            }
-
-            Criteria[] criteriaArr = criteriaCity.toArray(new Criteria[cityList.size()]);
-
-            query.addCriteria(new Criteria().orOperator(criteriaArr));
-
-        }
+        // ToDo it is for search in multiply city. Ask Sasha
+//        if (offerFO.getCityList() != null) {
+//
+//            List<Criteria> criteriaCity = new ArrayList<>();
+//
+//            for (String city : cityList) {
+//                criteriaCity.add(Criteria.where("address.city").is(city));
+//            }
+//
+//            Criteria[] criteriaArr = criteriaCity.toArray(new Criteria[cityList.size()]);
+//
+//            query.addCriteria(new Criteria().orOperator(criteriaArr));
+//
+//        }
 
 
         //ToDo it is for old impl of search, where we could find offer with area, city and country
-//        if (offerFO.getAddress() != null) {
+        if (offerFO.getAddress() != null) {
 //            if (offerFO.getAddress().getCountry() != null) {
 //                query.addCriteria(Criteria.where("address.country").is(offerFO.getAddress().getCountry()));
 //            }
-//
-//            if (offerFO.getAddress().getCity() != null) {
-//                query.addCriteria(Criteria.where("address.city").is(offerFO.getAddress().getCity()));
-//            }
-//
-//            if (offerFO.getAddress().getArea() != null) {
-//                query.addCriteria(Criteria.where("address.area").is(offerFO.getAddress().getArea()));
-//            }
-//        }
+
+            if (offerFO.getAddress().getCity() != null) {
+                query.addCriteria(Criteria.where("address.city").is(offerFO.getAddress().getCity()));
+            }
+
+            if (offerFO.getAddress().getArea() != null) {
+                query.addCriteria(Criteria.where("address.area").is(offerFO.getAddress().getArea()));
+            }
+        }
 
         if (offerFO.getSearchField() != null) {
             query.addCriteria(new Criteria().orOperator(
