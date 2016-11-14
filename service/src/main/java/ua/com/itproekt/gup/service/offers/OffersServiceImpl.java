@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.offers.OfferRepository;
 import ua.com.itproekt.gup.dto.OfferInfo;
 import ua.com.itproekt.gup.dto.OfferRegistration;
@@ -37,17 +36,15 @@ public class OffersServiceImpl implements OffersService {
 
     @Autowired
     ProfilesService profilesService;
+
     @Autowired
     VerificationTokenService verificationTokenService;
+
     @Autowired
     OrderService orderService;
+
     @Autowired
     private OfferRepository offerRepository;
-
-    //FixMe delete this
-//    @Autowired
-//    private StorageRepository storageRepository;
-
 
     @Autowired
     private ActivityFeedService activityFeedService;
@@ -89,31 +86,15 @@ public class OffersServiceImpl implements OffersService {
 //                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files, 1));
 //            }
 
+            // create new profile
+            Profile newProfile = profilesService.createProfileFromOfferRegistration(offerRegistration);
 
+            // set author to new offer
+            offerRegistration.getOffer().setAuthorId(newProfile.getId());
 
-// -------------------------------------------- //ToDo Вынести это в отдельный метод //-----------------------------
-            Profile profile = new Profile();
-
-            Set<UserRole> offerUserRoleSet = new HashSet<>();
-            offerUserRoleSet.add(UserRole.ROLE_USER);
-
-            profile
-                    .setEmail(offerRegistration.getEmail())
-                    .setPassword(offerRegistration.getPassword())
-                    .setUserRoles(offerUserRoleSet);
-            if(!StringUtils.isNotBlank(offerRegistration.getUsername())) profile.setUsername(offerRegistration.getUsername());
-            if(0<offerRegistration.getContactPhones().size()){
-                Contact contact = new Contact();
-                contact.setContactPhones(offerRegistration.getContactPhones());
-                profile.setContact(contact);
-            }
-
-            profilesService.createProfile(profile);
-            verificationTokenService.sendEmailRegistrationToken(profile.getId());
-
-            offerRegistration.getOffer().setAuthorId(profile.getId());
+            // create new offer
             create(offerRegistration.getOffer());
-            // -------------------------------------------- //END ToDo Вынести это в отдельный метод //-----------------------------
+
 
 
             return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);

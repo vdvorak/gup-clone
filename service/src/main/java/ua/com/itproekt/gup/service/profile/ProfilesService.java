@@ -1,5 +1,7 @@
 package ua.com.itproekt.gup.service.profile;
 
+import ua.com.itproekt.gup.dao.offers.OfferRepository;
+import ua.com.itproekt.gup.dto.OfferRegistration;
 import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
@@ -24,6 +26,14 @@ public interface ProfilesService {
      * @param profile the Profile object with email, password and role.
      */
     void createProfileWithRoles(Profile profile);
+
+    /**
+     * Create profile based on information contains in the OfferRegistration object.
+     *
+     * @param offerRegistration - the OfferRegistration obejct.
+     * @return                  - the registered profile
+     */
+    Profile createProfileFromOfferRegistration(OfferRegistration offerRegistration);
 
     /**
      * Create profile.
