@@ -1,5 +1,7 @@
 package ua.com.itproekt.gup.service.offers;
 
+
+
 import ua.com.itproekt.gup.service.offers.price.Rent;
 
 import java.util.List;
@@ -33,4 +35,5 @@ public class RentsRestore {
     public void setExpired(List<Rent> expired) {
         this.expired = expired;
     }
+
 }

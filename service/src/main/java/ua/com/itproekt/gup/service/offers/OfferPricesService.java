@@ -5,9 +5,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import ua.com.itproekt.gup.model.order.Order;
+import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.offers.price.*;
+import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.ConvertUtil;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -54,6 +58,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * FIXME: Закрываем библиотечные методы ('add','get') для внешнего доступа через механизм делигирования..
  */
 public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
+
+    @Autowired
+    ProfilesService profilesService;
 
     private static volatile Boolean initDate;
     private static String formatter = "d.MM.yyyy",
@@ -303,6 +310,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
     public void addRent(Long[] days, String userId) throws ConcurrentModificationException {
+//        Profile profile = profilesService.findWholeProfileById(userId); //FIXME: ...
         RentUser user = new RentUser(); //TODO: ...
         user.setId(userId); //TODO: ...
         user.setFullName("Петренко Юрий Владимирович"); //TODO: ...
@@ -843,7 +851,7 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 
     public RentsRestore toRestore2(){
         JsonParser parser2 = new JsonParser();
-        JsonObject objJsonObject = (JsonObject) parser2.parse(toJson());
+        JsonObject objJsonObject = (JsonObject) parser2.parse(jsonRent());
         Gson gson2 = new Gson();
         Map<String, RentsRestore> restores2 = gson2.fromJson(objJsonObject, new TypeToken<Map<String, RentsRestore>>(){}.getType());
         RentsRestore restore2 = restores2.get(monthOfRents);
