@@ -54,8 +54,10 @@ public class OfferRestController {
     //------------------------------------------ Read -----------------------------------------------------------------
 
     /**
-     * @param seoUrl
-     * @param relevant
+     * Return one offer and some relevant offers to this one.
+     *
+     * @param seoUrl - the seo url of the specific offer.
+     * @param relevant - the boolean flag - to show or not to show relevant offers.
      * @return forbidden (403) if offer is not premoderated
      */
     @CrossOrigin
@@ -91,20 +93,22 @@ public class OfferRestController {
 
 
         if (relevant) {
-            // receive list of relevant offer
-            List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId());
-            if (relevantOffersList.size() < 20) {
 
-                //add extra offers from same area
-                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorForRelevantSearchWithCountry(offer), offer.getId()));
-            }
+            // FixMe delete this after testing
+//            // receive list of relevant offer
+//            List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId());
+//            if (relevantOffersList.size() < 20) {
+//
+//                //add extra offers from same area
+//                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorForRelevantSearchWithCountry(offer), offer.getId()));
+//            }
+//
+//            if (relevantOffersList.size() < 20) {
+//                // add extra offers from all categories
+//                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorOnlyWithSkipAndLimit(), offer.getId()));
+//            }
 
-            if (relevantOffersList.size() < 20) {
-                // add extra offers from all categories
-                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorOnlyWithSkipAndLimit(), offer.getId()));
-            }
-
-            offerInfo.setRelevantOffersList(relevantOffersList);
+            offerInfo.setRelevantOffersList(offersService.getListOfRelevantPublicOffersForSpecificOffer(offerInfo.getOffer()));
         }
 
         return new ResponseEntity<>(offerInfo, HttpStatus.OK);
@@ -168,7 +172,7 @@ public class OfferRestController {
     /**
      * This controller allow to create new offer and register new profile at the same time.
      *
-     * @param offerRegistration - the OfferRegistration object with inforamtion about offer
+     * @param offerRegistration - the OfferRegistration object with informmation about offer
      *                          and with registration information.
      * @param files             - the array of the multipart files.
      * @return 201 (Created) - created offer, 400 (Bad request) - when user is not authorized,
@@ -179,89 +183,7 @@ public class OfferRestController {
     public ResponseEntity<String> createTotalOffer(
             @RequestPart("offerRegistration") OfferRegistration offerRegistration,
             @RequestPart("files") MultipartFile[] files) {
-
-        String userId = SecurityOperations.getLoggedUserId();
-
-        Map<String, String> importImagesMap = new HashMap<>();
-        Map<String, String> ownAddedImagesMap = new HashMap<>();
-        int firstPositionForImages = 0;
-
-        if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
-            System.err.println("Not authorize and without date for it");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        // if user is not logged in
-        if (userId == null && offerRegistration.getEmail() != null && offerRegistration.getPassword() != null) {
-
-            // FixMe для незалогиненного пока что не работает импорт фотографий!
-
-            if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            }
-
-            OfferRestHelper.offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
-
-//            if (files.length > 0) {
-//                // Set images id's and their order into offer. When offer is create - images order start with "1"
-//                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files, 1));
-//            }
-
-            offersService.createWithRegistration(offerRegistration);
-
-            return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
-        } else {
-            // if user is logged in
-
-            offerRegistration.getOffer().setAuthorId(userId);
-
-            OfferRestHelper.offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
-
-            MultipartFile[] multipartImportFiles = null; // here will be files from OLX
-
-
-            // ToDo скачаиваем и подготавливаем фото с OlX
-            if (offerRegistration.getImportImagesUrlList() != null && offerRegistration.getImportImagesUrlList().size() > 0) {
-                multipartImportFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlList());
-            }
-
-            // ToDo проверить, если главная фотка среди ОЛХ
-            if (offerRegistration.getSelectedImageType().equals("olx")) {
-
-                if (multipartImportFiles != null) {
-                    importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, 1, offerRegistration.getSelectedImageIndex());
-                    firstPositionForImages = importImagesMap.size();
-                }
-
-                if (files.length > 1) {
-                    ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, firstPositionForImages + 1, 0);
-                }
-
-                // ToDo проверка на то, если главная фоткка среди загруженных руками
-            } else if (offerRegistration.getSelectedImageType().equals("file")) {
-
-                if (files.length > 1) {
-                    ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, 1, offerRegistration.getSelectedImageIndex());
-                    firstPositionForImages = ownAddedImagesMap.size();
-                }
-
-                if (multipartImportFiles != null) {
-                    importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, firstPositionForImages + 1, 0);
-                }
-            }
-
-
-            Map<String, String> resultImageMap = new HashMap<>();
-
-            resultImageMap.putAll(importImagesMap);
-            resultImageMap.putAll(ownAddedImagesMap);
-
-            offerRegistration.getOffer().setImagesIds(resultImageMap);
-
-            offersService.create(offerRegistration.getOffer());
-
-            return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
-        }
+        return offersService.createWithRegistration(offerRegistration, files);
     }
 
 
