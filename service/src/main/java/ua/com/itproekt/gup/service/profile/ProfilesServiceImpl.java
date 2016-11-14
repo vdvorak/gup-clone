@@ -8,10 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
-import ua.com.itproekt.gup.dto.FavoriteOfferInfo;
-import ua.com.itproekt.gup.dto.OfferInfo;
-import ua.com.itproekt.gup.dto.OrderInfo;
-import ua.com.itproekt.gup.dto.ProfileInfo;
+import ua.com.itproekt.gup.dto.*;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.order.Order;
@@ -38,8 +35,9 @@ public class ProfilesServiceImpl implements ProfilesService {
     @Autowired
     OffersService offersService;
     @Autowired
+    VerificationTokenService verificationTokenService;
+    @Autowired
     private ProfileRepository profileRepository;
-
     @Autowired
     private SubscriptionService subscriptionService;
 
@@ -47,7 +45,6 @@ public class ProfilesServiceImpl implements ProfilesService {
     //ToDo  make this work after we will repair oauth
 //    @Autowired
 //    private SessionRegistry sessionRegistry;
-
 
     @Override
     public void createProfile(Profile profile) {
@@ -97,6 +94,30 @@ public class ProfilesServiceImpl implements ProfilesService {
         profile.setId(newProfile.getId());
     }
 
+
+    @Override
+    public Profile createProfileFromOfferRegistration(OfferRegistration offerRegistration) {
+        Profile profile = new Profile();
+
+        Set<UserRole> offerUserRoleSet = new HashSet<>();
+        offerUserRoleSet.add(UserRole.ROLE_USER);
+
+        profile
+                .setEmail(offerRegistration.getEmail())
+                .setPassword(offerRegistration.getPassword())
+                .setUserRoles(offerUserRoleSet);
+        if (!org.apache.commons.lang.StringUtils.isNotBlank(offerRegistration.getUsername()))
+            profile.setUsername(offerRegistration.getUsername());
+        if (0 < offerRegistration.getContactPhones().size()) {
+            Contact contact = new Contact();
+            contact.setContactPhones(offerRegistration.getContactPhones());
+            profile.setContact(contact);
+        }
+
+        createProfile(profile);
+        verificationTokenService.sendEmailRegistrationToken(profile.getId());
+        return profile;
+    }
 
     @Override
     public void facebookRegister(Profile profile) {

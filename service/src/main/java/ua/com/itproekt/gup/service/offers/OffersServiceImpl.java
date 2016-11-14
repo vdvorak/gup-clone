@@ -1,12 +1,10 @@
 package ua.com.itproekt.gup.service.offers;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.offers.OfferRepository;
 import ua.com.itproekt.gup.dto.OfferInfo;
 import ua.com.itproekt.gup.dto.OfferRegistration;
@@ -17,9 +15,7 @@ import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
-import ua.com.itproekt.gup.model.profiles.Contact;
 import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.order.OrderService;
@@ -37,24 +33,18 @@ public class OffersServiceImpl implements OffersService {
 
     @Autowired
     ProfilesService profilesService;
+
     @Autowired
     VerificationTokenService verificationTokenService;
+
     @Autowired
     OrderService orderService;
     @Autowired
+    SeoSequenceService seoSequenceService;
+    @Autowired
     private OfferRepository offerRepository;
-
-    //FixMe delete this
-//    @Autowired
-//    private StorageRepository storageRepository;
-
-
     @Autowired
     private ActivityFeedService activityFeedService;
-
-    @Autowired
-    SeoSequenceService seoSequenceService;
-
     @Autowired
     private StorageService storageService;
 
@@ -64,9 +54,6 @@ public class OffersServiceImpl implements OffersService {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-        Map<String, String> importImagesMap = new HashMap<>();
-        Map<String, String> ownAddedImagesMap = new HashMap<>();
-        int firstPositionForImages = 0;
 
         if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
             System.err.println("Not authorize and without date for it");
@@ -76,44 +63,31 @@ public class OffersServiceImpl implements OffersService {
         // if user is not logged in
         if (userId == null && offerRegistration.getEmail() != null && offerRegistration.getPassword() != null) {
 
-            // FixMe для незалогиненного пока что не работает импорт фотографий!
-
             if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
 
-           offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
+            offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
-//            if (files.length > 0) {
-//                // Set images id's and their order into offer. When offer is create - images order start with "1"
-//                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files, 1));
-//            }
+            // create new profile
+            Profile newProfile = profilesService.createProfileFromOfferRegistration(offerRegistration);
+
+            // set author to new offer
+            offerRegistration.getOffer().setAuthorId(newProfile.getId());
 
 
 
-// -------------------------------------------- //ToDo Вынести это в отдельный метод //-----------------------------
-            Profile profile = new Profile();
 
-            Set<UserRole> offerUserRoleSet = new HashSet<>();
-            offerUserRoleSet.add(UserRole.ROLE_USER);
 
-            profile
-                    .setEmail(offerRegistration.getEmail())
-                    .setPassword(offerRegistration.getPassword())
-                    .setUserRoles(offerUserRoleSet);
-            if(!StringUtils.isNotBlank(offerRegistration.getUsername())) profile.setUsername(offerRegistration.getUsername());
-            if(0<offerRegistration.getContactPhones().size()){
-                Contact contact = new Contact();
-                contact.setContactPhones(offerRegistration.getContactPhones());
-                profile.setContact(contact);
-            }
 
-            profilesService.createProfile(profile);
-            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+            // prepare images
+            Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
 
-            offerRegistration.getOffer().setAuthorId(profile.getId());
+            // add prepared image to the offer
+            offerRegistration.getOffer().setImagesIds(resultImageMap);
+
+            // create new offer
             create(offerRegistration.getOffer());
-            // -------------------------------------------- //END ToDo Вынести это в отдельный метод //-----------------------------
 
 
             return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
@@ -124,47 +98,18 @@ public class OffersServiceImpl implements OffersService {
 
             offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
-            MultipartFile[] multipartImportFiles = null; // here will be files from OLX
 
 
-            // ToDo скачаиваем и подготавливаем фото с OlX
-            if (offerRegistration.getImportImagesUrlList() != null && offerRegistration.getImportImagesUrlList().size() > 0) {
-                multipartImportFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlList());
-            }
-
-            // ToDo проверить, если главная фотка среди ОЛХ
-            if (offerRegistration.getSelectedImageType().equals("olx")) {
-
-                if (multipartImportFiles != null) {
-                    importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, 1, offerRegistration.getSelectedImageIndex());
-                    firstPositionForImages = importImagesMap.size();
-                }
-
-                if (files.length > 1) {
-                    ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, firstPositionForImages + 1, 0);
-                }
-
-                // ToDo проверка на то, если главная фоткка среди загруженных руками
-            } else if (offerRegistration.getSelectedImageType().equals("file")) {
-
-                if (files.length > 1) {
-                    ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, 1, offerRegistration.getSelectedImageIndex());
-                    firstPositionForImages = ownAddedImagesMap.size();
-                }
-
-                if (multipartImportFiles != null) {
-                    importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, firstPositionForImages + 1, 0);
-                }
-            }
 
 
-            Map<String, String> resultImageMap = new HashMap<>();
 
-            resultImageMap.putAll(importImagesMap);
-            resultImageMap.putAll(ownAddedImagesMap);
+            // prepare images
+            Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
 
+            // add prepared image to the offer
             offerRegistration.getOffer().setImagesIds(resultImageMap);
 
+            // create new offer
             create(offerRegistration.getOffer());
 
             return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
@@ -418,7 +363,7 @@ public class OffersServiceImpl implements OffersService {
 
 
         // receive list of relevant offer then transform it into offerInfo list
-        List<OfferInfo> relevantOffersList =  publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId()).getEntities());
+        List<OfferInfo> relevantOffersList = publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId()).getEntities());
 
 
         if (relevantOffersList.size() < 20) {
@@ -433,7 +378,6 @@ public class OffersServiceImpl implements OffersService {
             //add extra offers from same area
             relevantOffersList.addAll(publicMiniOfferInfoPreparator(offerRepository.findOffersWithOptionsAndExcludes(offerFilterOptionsPreparatorForRelevantSearchWithCountry(offer), currentOffersIds).getEntities()));
         }
-
 
 
         if (relevantOffersList.size() < 20) {
@@ -480,12 +424,11 @@ public class OffersServiceImpl implements OffersService {
     //-------------------------------------------------------------------------------------------------------
 
 
-
     /**
      * Create OfferFilterOption object for search offers relevant to current on it's city.
      *
      * @param offer the offer to which we must find relevant offers.
-     * @return      the OfferFilterOptions object.
+     * @return the OfferFilterOptions object.
      */
     private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCity(Offer offer) {
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
@@ -509,7 +452,7 @@ public class OffersServiceImpl implements OffersService {
      * Create OfferFilterOption object for search offers relevant to current on it's country.
      *
      * @param offer the offer to which we must find relevant offers.
-     * @return      the OfferFilterOptions object.
+     * @return the OfferFilterOptions object.
      */
     private OfferFilterOptions offerFilterOptionsPreparatorForRelevantSearchWithCountry(Offer offer) {
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
@@ -526,7 +469,7 @@ public class OffersServiceImpl implements OffersService {
     /**
      * Return OfferFilterOption object only with skip and limit parameter/
      *
-     * @return  the OfferFilterOptions object
+     * @return the OfferFilterOptions object
      */
     private OfferFilterOptions offerFilterOptionsPreparatorOnlyWithSkipAndLimit(int limit) {
         OfferFilterOptions offerFilterOptions = new OfferFilterOptions();
@@ -678,12 +621,11 @@ public class OffersServiceImpl implements OffersService {
     }
 
 
-
     /**
      * Add SeoUrl to offer and create new PaidService in offer
      *
-     * @param seoSequenceService    the link to seoSequenceService instance
-     * @param offerRegistration     offerRegistration object
+     * @param seoSequenceService the link to seoSequenceService instance
+     * @param offerRegistration  offerRegistration object
      */
     private void offerSeoUrlAndPaidServicePreparator(SeoSequenceService seoSequenceService, OfferRegistration offerRegistration) {
         long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
@@ -692,6 +634,59 @@ public class OffersServiceImpl implements OffersService {
         PaidServices paidServices = new PaidServices();
         paidServices.setLastUpdateDateToCurrentDate();
         offerRegistration.getOffer().setPaidServices(paidServices);
+    }
+
+
+    /**
+     * @param offerRegistration - the OfferRegistration object
+     * @param files             - the array of Multipart files
+     * @return - the Map of images ID's and teir positions
+     */
+    private Map<String, String> prepareImageBeforeOfferCreate(OfferRegistration offerRegistration, MultipartFile[] files) {
+        Map<String, String> importImagesMap = new HashMap<>();
+        Map<String, String> ownAddedImagesMap = new HashMap<>();
+        int firstPositionForImages = 0;
+
+        MultipartFile[] multipartImportFiles = null; // here will be files from OLX
+
+
+        // ToDo скачаиваем и подготавливаем фото с OlX
+        if (offerRegistration.getImportImagesUrlList() != null && offerRegistration.getImportImagesUrlList().size() > 0) {
+            multipartImportFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlList());
+        }
+
+        // ToDo проверить, если главная фотка среди ОЛХ
+        if (offerRegistration.getSelectedImageType().equals("olx")) {
+
+            if (multipartImportFiles != null) {
+                importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, 1, offerRegistration.getSelectedImageIndex());
+                firstPositionForImages = importImagesMap.size();
+            }
+
+            if (files.length > 1) {
+                ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, firstPositionForImages + 1, 0);
+            }
+
+            // ToDo проверка на то, если главная фоткка среди загруженных руками
+        } else if (offerRegistration.getSelectedImageType().equals("file")) {
+
+            if (files.length > 1) {
+                ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, 1, offerRegistration.getSelectedImageIndex());
+                firstPositionForImages = ownAddedImagesMap.size();
+            }
+
+            if (multipartImportFiles != null) {
+                importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, firstPositionForImages + 1, 0);
+            }
+        }
+
+
+        Map<String, String> resultImageMap = new HashMap<>();
+
+        resultImageMap.putAll(importImagesMap);
+        resultImageMap.putAll(ownAddedImagesMap);
+
+        return resultImageMap;
     }
 
 }
