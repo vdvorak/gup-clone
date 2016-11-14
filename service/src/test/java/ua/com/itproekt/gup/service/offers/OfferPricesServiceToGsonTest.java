@@ -22,6 +22,7 @@ public class OfferPricesServiceToGsonTest {
     private final String PATH = "src/test/resources",
             RENTCALENDAR_FILE_NAME = "offerOctoberOfPrices.json",
             RESTORECALENDAR_FILE_NAME = "restoreMonthOfPrices.json",
+            RESTORERENTS_FILE_NAME = "restoreRents2.json",
             RENT_FILE_NAME = "offerRents.json", //FIXME: file.properties
             jsonRestore = "{\n" +
                     "  \"monthOfPrices\": {\n" +
@@ -115,9 +116,11 @@ public class OfferPricesServiceToGsonTest {
                     "  }\n" +
                     "}";
 
-    private JsonObject jsonPriceRents,jsonRents;
+    private JsonObject jsonPriceRents,objJsonRestore,jsonRents;
+
     private Map<String, PriceOfRent> priceRents; //TODO: ПравилА будут хранится в базе (из низ потом будет строиться объект-календаря с ценой за все дни...)
     private Map<String, RentTest> rents;         //TODO: информация об состоянии аренды для клиентов...будут хранится в базе
+    private Map<String, RentsRestore> restore2;
     private OfferPricesService service, service2;
 
     @Before
@@ -127,12 +130,14 @@ public class OfferPricesServiceToGsonTest {
         try {
             jsonPriceRents = (JsonObject) parser.parse(new FileReader(PATH + "/" + RENTCALENDAR_FILE_NAME));
             jsonRents = (JsonObject) parser.parse(new FileReader(PATH + "/" + RENT_FILE_NAME));
+            objJsonRestore = (JsonObject) parser.parse(new FileReader(PATH + "/" + RESTORECALENDAR_FILE_NAME));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
         priceRents = gson.fromJson(jsonPriceRents, new TypeToken<Map<String, PriceOfRent>>(){}.getType());
         rents = gson.fromJson(jsonRents, new TypeToken<Map<String, RentTest>>(){}.getType());
+        restore2 = gson.fromJson(objJsonRestore, new TypeToken<Map<String, RentsRestore>>(){}.getType());
 
         service = new OfferPricesServiceImpl(10000l,15000l); // Устанавливаем цену по умолчанию (на будни и выходные дни)
     }

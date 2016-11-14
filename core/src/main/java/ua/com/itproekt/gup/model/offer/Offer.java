@@ -48,7 +48,7 @@ public class Offer {
     private Reservation             reservation;
     private Integer                 views;                      // number of offer views
     private PriceOfRentsRestore     monthOfPrices;
-    private RentsRestore            monthOfRents;
+    private RentsRestore            rents;
     private Rent                    rent;
     private String                  seoUrl;                     // full SEO url with key - for siteMap
     private String                  seoKey;                     // only key - for search in DB
@@ -176,12 +176,12 @@ public class Offer {
         return this;
     }
 
-    public RentsRestore getMonthOfRents() {
-        return monthOfRents;
+    public RentsRestore getRents() {
+        return rents;
     }
 
-    public Offer setMonthOfRents(RentsRestore monthOfRents) {
-        this.monthOfRents = monthOfRents;
+    public Offer setRents(RentsRestore rents) {
+        this.rents = rents;
         return this;
     }
 

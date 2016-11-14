@@ -45,7 +45,7 @@ public class OfferPricesRestController {
     private OfferPricesServiceImpl monthOfPricesService;
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/offer/{offerId}/price", method = RequestMethod.GET, //@RequestMapping(value = "/offer/{offerId}/calendar", method = RequestMethod.GET,
+    @RequestMapping(value = "/offer/{offerId}/price", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> viewOfferPrices(@PathVariable String offerId){
         if (!offersService.offerExists(offerId)) {
@@ -59,7 +59,7 @@ public class OfferPricesRestController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/offer/{offerId}/price", method = RequestMethod.POST, //@RequestMapping(value = "/offer/{offerId}/calendar", method = RequestMethod.POST,
+    @RequestMapping(value = "/offer/{offerId}/price", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createOfferPrices(@PathVariable String offerId,
                                                     @RequestBody PriceOfRents monthOfPrices){
@@ -81,7 +81,7 @@ public class OfferPricesRestController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/offer/{offerId}/price", method = RequestMethod.PUT, //@RequestMapping(value = "/offer/{offerId}/calendar", method = RequestMethod.PUT,
+    @RequestMapping(value = "/offer/{offerId}/price", method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> editOfferPrices(@PathVariable String offerId,
                                                   @RequestBody PriceOfRents monthOfPrice){
@@ -117,7 +117,7 @@ public class OfferPricesRestController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/offer/{offerId}/price", method = RequestMethod.DELETE, //@RequestMapping(value = "/offer/{offerId}/calendar", method = RequestMethod.DELETE,
+    @RequestMapping(value = "/offer/{offerId}/price", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteOfferPrices(@PathVariable String offerId){
     //FIXME:                                        @PathVariable String day){
