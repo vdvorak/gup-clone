@@ -2,7 +2,10 @@ package ua.com.itproekt.gup.service.offers;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.dao.offers.OfferRepository;
 import ua.com.itproekt.gup.dto.OfferInfo;
@@ -11,17 +14,21 @@ import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.offer.*;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.profiles.Contact;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
+import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
+import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.itproekt.gup.util.SeoUtils;
 
 import java.util.*;
 
@@ -36,36 +43,133 @@ public class OffersServiceImpl implements OffersService {
     OrderService orderService;
     @Autowired
     private OfferRepository offerRepository;
-    @Autowired
-    private StorageRepository storageRepository;
+
+    //FixMe delete this
+//    @Autowired
+//    private StorageRepository storageRepository;
+
+
     @Autowired
     private ActivityFeedService activityFeedService;
 
+    @Autowired
+    SeoSequenceService seoSequenceService;
+
+    @Autowired
+    private StorageService storageService;
+
 
     @Override
-    public void createWithRegistration(OfferRegistration offerRegistration) {
+    public ResponseEntity<String> createWithRegistration(OfferRegistration offerRegistration, MultipartFile[] files) {
 
-        Profile profile = new Profile();
+        String userId = SecurityOperations.getLoggedUserId();
 
-        Set<UserRole> offerUserRoleSet = new HashSet<>();
-        offerUserRoleSet.add(UserRole.ROLE_USER);
+        Map<String, String> importImagesMap = new HashMap<>();
+        Map<String, String> ownAddedImagesMap = new HashMap<>();
+        int firstPositionForImages = 0;
 
-        profile
-                .setEmail(offerRegistration.getEmail())
-                .setPassword(offerRegistration.getPassword())
-                .setUserRoles(offerUserRoleSet);
-        if(!StringUtils.isNotBlank(offerRegistration.getUsername())) profile.setUsername(offerRegistration.getUsername());
-        if(0<offerRegistration.getContactPhones().size()){
-            Contact contact = new Contact();
-            contact.setContactPhones(offerRegistration.getContactPhones());
-            profile.setContact(contact);
+        if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
+            System.err.println("Not authorize and without date for it");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        profilesService.createProfile(profile);
-        verificationTokenService.sendEmailRegistrationToken(profile.getId());
+        // if user is not logged in
+        if (userId == null && offerRegistration.getEmail() != null && offerRegistration.getPassword() != null) {
 
-        offerRegistration.getOffer().setAuthorId(profile.getId());
-        create(offerRegistration.getOffer());
+            // FixMe для незалогиненного пока что не работает импорт фотографий!
+
+            if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+
+           offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
+
+//            if (files.length > 0) {
+//                // Set images id's and their order into offer. When offer is create - images order start with "1"
+//                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files, 1));
+//            }
+
+
+
+// -------------------------------------------- //ToDo Вынести это в отдельный метод //-----------------------------
+            Profile profile = new Profile();
+
+            Set<UserRole> offerUserRoleSet = new HashSet<>();
+            offerUserRoleSet.add(UserRole.ROLE_USER);
+
+            profile
+                    .setEmail(offerRegistration.getEmail())
+                    .setPassword(offerRegistration.getPassword())
+                    .setUserRoles(offerUserRoleSet);
+            if(!StringUtils.isNotBlank(offerRegistration.getUsername())) profile.setUsername(offerRegistration.getUsername());
+            if(0<offerRegistration.getContactPhones().size()){
+                Contact contact = new Contact();
+                contact.setContactPhones(offerRegistration.getContactPhones());
+                profile.setContact(contact);
+            }
+
+            profilesService.createProfile(profile);
+            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+
+            offerRegistration.getOffer().setAuthorId(profile.getId());
+            create(offerRegistration.getOffer());
+            // -------------------------------------------- //END ToDo Вынести это в отдельный метод //-----------------------------
+
+
+            return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
+        } else {
+            // if user is logged in
+
+            offerRegistration.getOffer().setAuthorId(userId);
+
+            offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
+
+            MultipartFile[] multipartImportFiles = null; // here will be files from OLX
+
+
+            // ToDo скачаиваем и подготавливаем фото с OlX
+            if (offerRegistration.getImportImagesUrlList() != null && offerRegistration.getImportImagesUrlList().size() > 0) {
+                multipartImportFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlList());
+            }
+
+            // ToDo проверить, если главная фотка среди ОЛХ
+            if (offerRegistration.getSelectedImageType().equals("olx")) {
+
+                if (multipartImportFiles != null) {
+                    importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, 1, offerRegistration.getSelectedImageIndex());
+                    firstPositionForImages = importImagesMap.size();
+                }
+
+                if (files.length > 1) {
+                    ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, firstPositionForImages + 1, 0);
+                }
+
+                // ToDo проверка на то, если главная фоткка среди загруженных руками
+            } else if (offerRegistration.getSelectedImageType().equals("file")) {
+
+                if (files.length > 1) {
+                    ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, 1, offerRegistration.getSelectedImageIndex());
+                    firstPositionForImages = ownAddedImagesMap.size();
+                }
+
+                if (multipartImportFiles != null) {
+                    importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, firstPositionForImages + 1, 0);
+                }
+            }
+
+
+            Map<String, String> resultImageMap = new HashMap<>();
+
+            resultImageMap.putAll(importImagesMap);
+            resultImageMap.putAll(ownAddedImagesMap);
+
+            offerRegistration.getOffer().setImagesIds(resultImageMap);
+
+            create(offerRegistration.getOffer());
+
+            return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
+        }
+
     }
 
 
@@ -571,6 +675,23 @@ public class OffersServiceImpl implements OffersService {
         }
 
         return resultList;
+    }
+
+
+
+    /**
+     * Add SeoUrl to offer and create new PaidService in offer
+     *
+     * @param seoSequenceService    the link to seoSequenceService instance
+     * @param offerRegistration     offerRegistration object
+     */
+    private void offerSeoUrlAndPaidServicePreparator(SeoSequenceService seoSequenceService, OfferRegistration offerRegistration) {
+        long longValueOfSeoKey = seoSequenceService.getNextSequenceId();
+        SeoUtils.makeSeoFieldsForOffer(offerRegistration.getOffer(), longValueOfSeoKey);
+
+        PaidServices paidServices = new PaidServices();
+        paidServices.setLastUpdateDateToCurrentDate();
+        offerRegistration.getOffer().setPaidServices(paidServices);
     }
 
 }

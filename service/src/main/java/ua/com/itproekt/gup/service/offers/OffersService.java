@@ -1,5 +1,7 @@
 package ua.com.itproekt.gup.service.offers;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 import ua.com.itproekt.gup.dto.OfferInfo;
 import ua.com.itproekt.gup.dto.OfferRegistration;
 import ua.com.itproekt.gup.model.offer.Offer;
@@ -20,12 +22,16 @@ public interface OffersService {
      */
     void create(Offer offer);
 
+
     /**
-     * Create offer with registration. For those case where use is not authorized.
+     * Create offer with registration. For those case where user is not authorized.
+     * User who authorized also can create offer with this method
      *
-     * @param offerRegistration Offer Registration class object
+     * @param offerRegistration - the OfferRegistration object contain information about offer
+     *                          and if need - information about user registration.
+     * @return                  - the ResponseEntity object
      */
-    void createWithRegistration(OfferRegistration offerRegistration);
+    ResponseEntity<String> createWithRegistration(OfferRegistration offerRegistration, MultipartFile[] files);
 
     /**
      * Return one offer by it's id.
