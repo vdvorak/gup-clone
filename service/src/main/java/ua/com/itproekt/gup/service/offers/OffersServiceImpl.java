@@ -69,19 +69,22 @@ public class OffersServiceImpl implements OffersService {
 
             offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
-//            if (files.length > 0) {
-//                // Set images id's and their order into offer. When offer is create - images order start with "1"
-//                offerRegistration.getOffer().setImagesIds(storageService.saveCachedMultiplyImageOffer(files, 1));
-//            }
-
-
-            // FixMe для незалогиненного пока что не работает импорт фотографий!
-
             // create new profile
             Profile newProfile = profilesService.createProfileFromOfferRegistration(offerRegistration);
 
             // set author to new offer
             offerRegistration.getOffer().setAuthorId(newProfile.getId());
+
+
+
+
+
+
+            // prepare images
+            Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
+
+            // add prepared image to the offer
+            offerRegistration.getOffer().setImagesIds(resultImageMap);
 
             // create new offer
             create(offerRegistration.getOffer());
@@ -95,11 +98,18 @@ public class OffersServiceImpl implements OffersService {
 
             offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
+
+
+
+
+
             // prepare images
             Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
 
+            // add prepared image to the offer
             offerRegistration.getOffer().setImagesIds(resultImageMap);
 
+            // create new offer
             create(offerRegistration.getOffer());
 
             return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
