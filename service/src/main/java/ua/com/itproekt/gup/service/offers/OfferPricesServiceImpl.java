@@ -49,6 +49,10 @@ public class OfferPricesServiceImpl extends OfferPricesService {
         super(restore);
     }
 
+    public OfferPricesServiceImpl(PriceOfRentsRestore priceRestore, RentsRestore rentsRestore){
+        super(priceRestore,rentsRestore);
+    }
+
     /**
      * (Класс-обвертка) здесь выполняются разные проверки на владение объявлением, права бронирования...
      *
