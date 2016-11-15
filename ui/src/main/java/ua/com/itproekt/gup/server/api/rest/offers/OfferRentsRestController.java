@@ -7,7 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.offer.Offer;
+import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.offers.*;
+import ua.com.itproekt.gup.service.offers.price.RentUser;
+import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.ConvertUtil;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
@@ -26,6 +29,8 @@ public class OfferRentsRestController {
     private OffersService offersService;
     @Autowired
     private OfferPricesServiceImpl monthOfPricesService;
+    @Autowired
+    ProfilesService profilesService;
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/{offerId}/rents", method = RequestMethod.GET,
@@ -61,7 +66,14 @@ public class OfferRentsRestController {
         String userId = SecurityOperations.getLoggedUser().getProfileId();
         monthOfPricesService = new OfferPricesServiceImpl(editOffer.getMonthOfPrices(), editOffer.getRents());
 
-        monthOfPricesService.addRent(ConvertUtil.toDate(rentNew.getDays()), userId);
+//        monthOfPricesService.addRent(ConvertUtil.toDate(rentNew.getDays()), userId);
+        Profile profile = profilesService.findWholeProfileById(userId);
+        RentUser user = new RentUser();
+        user.setId(userId);
+        user.setFullName(profile.getUsername());
+        user.setImgId(profile.getImgId());
+        user.setRating(11); //TODO: ...
+        monthOfPricesService.addRent(ConvertUtil.toDate(rentNew.getDays()), user);
         editOffer.setRents(monthOfPricesService.toRestore2());
         offersService.edit(editOffer);
 
