@@ -371,7 +371,7 @@ public class OffersServiceImpl implements OffersService {
             // prepare list of the offers ID's which must be excluded in the next iterations of search
             List<String> currentOffersIds = new ArrayList<>();
 
-            // add curre offer's ID to exclude list
+            // add current offer's ID to exclude list
             currentOffersIds.add(offer.getId());
 
             for (OfferInfo offerInfo : relevantOffersList) {
@@ -389,7 +389,7 @@ public class OffersServiceImpl implements OffersService {
             // prepare list of the offers ID's which must be excluded in the next iterations of search
             List<String> currentOffersIds = new ArrayList<>();
 
-            // add curre offer's ID to exclude list
+            // add current offer's ID to exclude list
             currentOffersIds.add(offer.getId());
 
             for (OfferInfo offerInfo : relevantOffersList) {
