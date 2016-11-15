@@ -25,6 +25,7 @@ import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.SeoUtils;
+import ua.com.itproekt.gup.util.Translit;
 
 import java.util.*;
 
@@ -206,6 +207,7 @@ public class OffersServiceImpl implements OffersService {
 
     @Override
     public Offer edit(Offer oldOffer) {
+
         Offer newOffer = new Offer()
                 .setId(oldOffer.getId())
                 .setOfferModerationReports(oldOffer.getOfferModerationReports())
@@ -236,6 +238,69 @@ public class OffersServiceImpl implements OffersService {
 
         return offerRepository.findAndUpdate(newOffer);
     }
+
+
+    @Override
+    public ResponseEntity<String> editByUser(OfferRegistration offerRegistration, MultipartFile[] files) {
+
+
+
+        // ToDo если поменялось название, описание, категория, фото, хар-ки
+
+
+        Offer updatedOffer = offerRegistration.getOffer();
+
+//        System.err.println("Incoming offer Id for update: " + updatedOffer.getId());
+
+
+        // check is offer not null and exist
+        if (updatedOffer.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else if (!offerExists(updatedOffer.getId())) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Offer oldOffer = findById(updatedOffer.getId());
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+
+        // Check if current user is not an author
+        if (!findById(updatedOffer.getId()).getAuthorId().equals(userId)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        // update SEO url title for offer
+        String newTranslitTitle = Translit.makeTransliteration(updatedOffer.getTitle());
+        String newSeoUrl = newTranslitTitle + "-" + oldOffer.getSeoKey();
+        updatedOffer.setSeoUrl(newSeoUrl);
+
+
+        // If false - means that some pictures were added
+        if (oldOffer.getImagesIds() != null) {
+
+            /**
+             * If old images list is NOT equal with new - it means that some of the old pictures must be deleted.
+             */
+            if (!oldOffer.getImagesIds().equals(updatedOffer.getImagesIds())) {
+
+                //Find images in old offer version that were deleted in new
+                // and delete them from base in all resized variants.
+                storageService.deleteDiffImagesAfterOfferUpdate(oldOffer.getImagesIds(), updatedOffer.getImagesIds());
+            }
+        }
+
+        if (files.length > 0) {
+            updatedOffer.setImagesIds(updaterOfferImages(storageService, updatedOffer.getImagesIds(), files));
+        }
+
+        Offer newOffer = edit(updatedOffer);
+
+        return new ResponseEntity<>(newOffer.getSeoUrl(), HttpStatus.OK);
+    }
+
+
+
 
     @Override
     public void reserveOffer(String offerId, Reservation reservation) {
@@ -695,6 +760,30 @@ public class OffersServiceImpl implements OffersService {
         resultImageMap.putAll(ownAddedImagesMap);
 
         return resultImageMap;
+    }
+
+
+    /**
+     * Update and save images for offer into DB.
+     *
+     * @param storageService        - the link to storageService instance.
+     * @param updatedOfferImagesMap - the updated map of images.
+     * @param files                 - the images for update.
+     * @return                      - the Map of images ID and their positions.
+     */
+    private Map<String, String> updaterOfferImages(StorageService storageService, Map<String, String> updatedOfferImagesMap, MultipartFile[] files) {
+
+        int newStartPositionForImages = updatedOfferImagesMap.size(); // old images here
+        Map<String, String> newImageMap = new HashMap<>();
+
+        newStartPositionForImages++;
+
+        Map<String, String> mapWithNewPhoto = storageService.saveCachedMultiplyImageOffer(files, newStartPositionForImages);
+
+        newImageMap.putAll(updatedOfferImagesMap);
+        newImageMap.putAll(mapWithNewPhoto);
+
+        return newImageMap;
     }
 
 }

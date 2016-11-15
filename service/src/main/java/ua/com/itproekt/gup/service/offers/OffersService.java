@@ -102,6 +102,10 @@ public interface OffersService {
      */
     Offer edit(Offer oldOffer);
 
+
+
+    ResponseEntity<String> editByUser(OfferRegistration offerRegistration, MultipartFile[] files);
+
     /**
      * Reservation of the one offer.
      *

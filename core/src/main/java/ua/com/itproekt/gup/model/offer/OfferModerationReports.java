@@ -11,7 +11,7 @@ public class OfferModerationReports {
 
     String moderatorId; // moderator ID whose last modified profile
     Long lastModifiedDate; // last modified date when moderator modified profile
-    ModerationStatus moderationStatus; // mpderation status
+    ModerationStatus moderationStatus; // moderation status
 
     List<OfferRefusalReason> offerRefusalReasons; // the reason why moderator refuse offer
 

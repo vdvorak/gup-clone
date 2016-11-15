@@ -9,28 +9,28 @@ import java.util.Map;
 
 public final class OfferRestHelper {
 
-    /**
-     * Update and save images into DB
-     *
-     * @param storageService        - the link to storageService instance
-     * @param updatedOfferImagesMap - the updated map of images
-     * @param files                 - the images for update
-     * @return - the Map of images ID and their positions.
-     */
-    static Map<String, String> updaterOfferImages(StorageService storageService, Map<String, String> updatedOfferImagesMap, MultipartFile[] files) {
-
-        int newStartPositionForImages = updatedOfferImagesMap.size(); // old images here
-        Map<String, String> newImageMap = new HashMap<>();
-
-        newStartPositionForImages++;
-
-        Map<String, String> mapWithNewPhoto = storageService.saveCachedMultiplyImageOffer(files, newStartPositionForImages);
-
-        newImageMap.putAll(updatedOfferImagesMap);
-        newImageMap.putAll(mapWithNewPhoto);
-
-        return newImageMap;
-    }
+//    /**
+//     * Update and save images for offer into DB
+//     *
+//     * @param storageService        - the link to storageService instance
+//     * @param updatedOfferImagesMap - the updated map of images
+//     * @param files                 - the images for update
+//     * @return - the Map of images ID and their positions.
+//     */
+//    static Map<String, String> updaterOfferImages(StorageService storageService, Map<String, String> updatedOfferImagesMap, MultipartFile[] files) {
+//
+//        int newStartPositionForImages = updatedOfferImagesMap.size(); // old images here
+//        Map<String, String> newImageMap = new HashMap<>();
+//
+//        newStartPositionForImages++;
+//
+//        Map<String, String> mapWithNewPhoto = storageService.saveCachedMultiplyImageOffer(files, newStartPositionForImages);
+//
+//        newImageMap.putAll(updatedOfferImagesMap);
+//        newImageMap.putAll(mapWithNewPhoto);
+//
+//        return newImageMap;
+//    }
 
 // FixMe delete this shit
 //    /**

@@ -21,12 +21,9 @@ import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
 import ua.com.itproekt.gup.util.SecurityOperations;
-import ua.com.itproekt.gup.util.Translit;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/rest/offersService")
@@ -56,7 +53,7 @@ public class OfferRestController {
     /**
      * Return one offer and some relevant offers to this one.
      *
-     * @param seoUrl - the seo url of the specific offer.
+     * @param seoUrl   - the seo url of the specific offer.
      * @param relevant - the boolean flag - to show or not to show relevant offers.
      * @return forbidden (403) if offer is not premoderated
      */
@@ -206,56 +203,7 @@ public class OfferRestController {
             @RequestPart("offerRegistration") OfferRegistration offerRegistration,
             @RequestPart("files") MultipartFile[] files) {
 
-        Offer updatedOffer = offerRegistration.getOffer();
-
-//        System.err.println("Incoming offer Id for update: " + updatedOffer.getId());
-
-
-        // check is offer not null and exist
-        if (updatedOffer.getId() == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else if (!offersService.offerExists(updatedOffer.getId())) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        Offer oldOffer = offersService.findById(updatedOffer.getId());
-
-        String userId = SecurityOperations.getLoggedUserId();
-
-
-        // Check if current user is not an author
-        if (!offersService.findById(updatedOffer.getId()).getAuthorId().equals(userId)) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-
-        // update SEO url title for offer
-        String newTranslitTitle = Translit.makeTransliteration(updatedOffer.getTitle());
-        String newSeoUrl = newTranslitTitle + "-" + oldOffer.getSeoKey();
-        updatedOffer.setSeoUrl(newSeoUrl);
-
-
-        // If false - means that some pictures were added
-        if (oldOffer.getImagesIds() != null) {
-
-            /**
-             * If old images list is NOT equal with new - it means that some of the old pictures must be deleted.
-             */
-            if (!oldOffer.getImagesIds().equals(updatedOffer.getImagesIds())) {
-                //Find images in old offer version that were deleted in new
-                // and delete them from base in all resized variants.
-                storageService.deleteDiffImagesAfterOfferUpdate(oldOffer.getImagesIds(), updatedOffer.getImagesIds());
-            }
-        }
-
-        if (files.length > 0) {
-            updatedOffer.setImagesIds(OfferRestHelper.updaterOfferImages(storageService, updatedOffer.getImagesIds(), files));
-        }
-
-        Offer newOffer = offersService.edit(updatedOffer);
-
-//        System.err.println("Updated offer id: " + newOffer.getId());
-
-        return new ResponseEntity<>(newOffer.getSeoUrl(), HttpStatus.OK);
+        return offersService.editByUser(offerRegistration, files);
     }
 
 

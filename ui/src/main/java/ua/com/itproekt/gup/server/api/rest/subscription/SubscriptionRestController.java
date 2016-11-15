@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.server.api.rest.subscription;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -56,20 +57,26 @@ public class SubscriptionRestController {
 //    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/subscription/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-         public ResponseEntity<CreatedObjResp> createSubscription(@RequestBody OfferFilterOptions offerFilterOptions, @RequestBody String notAuthEmail) {
+         public ResponseEntity<Void> createSubscription(@RequestBody SubscriptionCreateWrapper subscriptionCreateWrapper) {
+
+
+        // we can not have empty filter options object
+        if (subscriptionCreateWrapper.getOfferFilterOptions() == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         Subscription subscription = new Subscription();
-        subscription.setOfferFilterOptions(offerFilterOptions);
+        subscription.setOfferFilterOptions(subscriptionCreateWrapper.getOfferFilterOptions());
 
-        if (!SecurityOperations.isUserLoggedIn()) {
-            subscription.setNotAuthEmail(notAuthEmail);
-            subscriptionService.create(subscription);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (!SecurityOperations.isUserLoggedIn() && StringUtils.isNotBlank(subscriptionCreateWrapper.getNotAuthEmail())) {
+                subscription.setNotAuthEmail(subscriptionCreateWrapper.getNotAuthEmail());
+                subscriptionService.create(subscription);
+                return new ResponseEntity<>(HttpStatus.OK);
         }
 
         String userId = SecurityOperations.getLoggedUserId();
-        subscriptionService.create(userId, offerFilterOptions);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        subscriptionService.create(userId, subscriptionCreateWrapper.getOfferFilterOptions());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 //    @RequestMapping(value = "/subscription/create", method = RequestMethod.POST,
