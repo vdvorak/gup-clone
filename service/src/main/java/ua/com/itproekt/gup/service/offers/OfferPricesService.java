@@ -59,9 +59,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 
-    @Autowired
-    ProfilesService profilesService;
-
     private static volatile Boolean initDate;
     private static String formatter = "d.MM.yyyy",
             monthOfPrices = "monthOfPrices",
@@ -310,7 +307,6 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
      *     -- (d) все просроченные дни попадают в список - просроченых (и больше из списка-просроченых они уже НЕмогут вернуться в другие списки-доступных-арендованых)
      */
     public void addRent(Long[] days, String userId) throws ConcurrentModificationException {
-//        Profile profile = profilesService.findWholeProfileById(userId); //FIXME: ...
         RentUser user = new RentUser(); //TODO: ...
         user.setId(userId); //TODO: ...
         user.setFullName("Петренко Юрий Владимирович"); //TODO: ...
@@ -321,11 +317,30 @@ public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 
         if( getRents().getAvailables().isEmpty() ){
             for (Price prices : this) {
-                for (Long day : prices) getRents().getAvailables().add(new Rent(day, user, true, true, null, (date.getTime() - 111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null));
+                for (Long day : prices) getRents().getAvailables().add(new Rent(day, user, true, true, null, (date.getTime()), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null));
             }
         } else {
             for (Long day : days) {
-                Rent findAvailables = new Rent(day, user, true, true, null, (date.getTime()-111111), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null);
+                Rent findAvailables = new Rent(day, user, true, true, null, (date.getTime()), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null);
+                if( getRents().getAvailables().contains(findAvailables) ){
+                    Rent objAvailables = getRents().getAvailables().get(getRents().getAvailables().indexOf(findAvailables));
+                    if( getRents().getAvailables().remove(objAvailables) ) getRents().getRented().add(findAvailables);
+                }
+            }
+        }
+    }
+
+    public void addRent(Long[] days, RentUser user) throws ConcurrentModificationException {
+        Order order = new Order(); //TODO: ...
+        Date date = new Date(); //TODO: ...
+
+        if( getRents().getAvailables().isEmpty() ){
+            for (Price prices : this) {
+                for (Long day : prices) getRents().getAvailables().add(new Rent(day, user, true, true, null, (date.getTime()), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null));
+            }
+        } else {
+            for (Long day : days) {
+                Rent findAvailables = new Rent(day, user, true, true, null, (date.getTime()), date.getTime(), RentStatus.RENTED, OrderStatus.SUCCESSFULLY_ORDER, 0, null);
                 if( getRents().getAvailables().contains(findAvailables) ){
                     Rent objAvailables = getRents().getAvailables().get(getRents().getAvailables().indexOf(findAvailables));
                     if( getRents().getAvailables().remove(objAvailables) ) getRents().getRented().add(findAvailables);
