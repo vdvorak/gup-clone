@@ -90,21 +90,6 @@ public class OfferRestController {
 
 
         if (relevant) {
-
-            // FixMe delete this after testing
-//            // receive list of relevant offer
-//            List<OfferInfo> relevantOffersList = offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorForRelevantSearchWithCity(offer), offer.getId());
-//            if (relevantOffersList.size() < 20) {
-//
-//                //add extra offers from same area
-//                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorForRelevantSearchWithCountry(offer), offer.getId()));
-//            }
-//
-//            if (relevantOffersList.size() < 20) {
-//                // add extra offers from all categories
-//                relevantOffersList.addAll(offersService.getListOfMiniPublicOffersWithOptionsAndExclude(OfferRestHelper.offerFilterOptionsPreparatorOnlyWithSkipAndLimit(), offer.getId()));
-//            }
-
             offerInfo.setRelevantOffersList(offersService.getListOfRelevantPublicOffersForSpecificOffer(offerInfo.getOffer()));
         }
 
@@ -205,37 +190,6 @@ public class OfferRestController {
 
         return offersService.editByUser(offerRegistration, files);
     }
-
-
-//    /**
-//     * Edit offer by moderator
-//     *
-//     * @param offer the offer
-//     * @return 404 Not Found if offer does not exist or was deleted
-//     */
-//    @CrossOrigin
-//    @PreAuthorize("hasRole('ROLE_ADMIN', 'ROLE_MODERATOR')")
-//    @RequestMapping(value = "/offer/moderator/edit", method = RequestMethod.POST,
-//            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<CreatedObjResp> editOfferByModerator(@Valid @RequestBody Offer offer) {
-//
-//        if (offer.getId() == null) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        } else if (!offersService.offerExists(offer.getId())) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//        Offer oldOffer = offersService.findById(offer.getId());
-//
-//        if (oldOffer.isDeleted()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//        // prepare new offer before update it
-//        Offer newOffer = offersService.edit(OfferRestHelper.offerPreparatorForEditOffer(offer, oldOffer));
-//
-//        return new ResponseEntity<>(new CreatedObjResp(newOffer.getSeoUrl()), HttpStatus.OK);
-//    }
 
     /**
      * Change active status of the offer. Allowed only for offer author.
