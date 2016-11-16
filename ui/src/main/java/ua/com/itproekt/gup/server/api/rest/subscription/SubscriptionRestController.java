@@ -6,10 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.subscription.Subscription;
 import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
@@ -27,6 +24,7 @@ public class SubscriptionRestController {
 
 
     //------------------------------------------ Read -----------------------------------------------------------------
+    @CrossOrigin
     @RequestMapping(value = "/subscription/read/{subscriptionId}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Subscription> getSubscriptionById(@PathVariable String subscriptionId) {
@@ -54,6 +52,7 @@ public class SubscriptionRestController {
 
 
     //------------------------------------------ Create ----------------------------------------------------------------
+    @CrossOrigin
 //    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/subscription/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -93,6 +92,7 @@ public class SubscriptionRestController {
 
 
     //------------------------------------------ Delete ----------------------------------------------------------------
+    @CrossOrigin
 //    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/subscription/delete/{subscriptionId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteOffer(@PathVariable String subscriptionId) {
