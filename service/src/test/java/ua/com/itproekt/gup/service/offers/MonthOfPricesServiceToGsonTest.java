@@ -138,35 +138,35 @@ public class MonthOfPricesServiceToGsonTest {
         System.out.println(statusCalendar2.toJson());
     }
 
-    /**
-     * Test(s) Scheme-Default
-     * Restore JSON to Java Object
-     */
-    @Test
-    public void testOwnerRestoreToObjectPrices(){
-        System.err.println("--------------------[ testOwnerRestoreToObjectPrices ]");
-
-//        CalendarRestorePriceClass weekdays = priceCalendar.getWeekdays(),
-//                weekends = priceCalendar.getWeekends();
-//        CalendarRestorePriceClass[] specials = priceCalendar.getSpecials();
+//    /**
+//     * Test(s) Scheme-Default
+//     * Restore JSON to Java Object
+//     */
+//    @Test
+//    public void testOwnerRestoreToObjectPrices(){
+//        System.err.println("--------------------[ testOwnerRestoreToObjectPrices ]");
 //
-////        System.out.println("weekdays " + weekdays);
-////        System.out.println("weekends " + weekends);
+////        CalendarRestorePriceClass weekdays = priceCalendar.getWeekdays(),
+////                weekends = priceCalendar.getWeekends();
+////        CalendarRestorePriceClass[] specials = priceCalendar.getSpecials();
 ////
-////        System.out.print("specials [");
-////        for (CalendarRestorePriceClass special : specials) System.out.print(special);
-////        System.out.println("]");
+//////        System.out.println("weekdays " + weekdays);
+//////        System.out.println("weekends " + weekends);
+//////
+//////        System.out.print("specials [");
+//////        for (CalendarRestorePriceClass special : specials) System.out.print(special);
+//////        System.out.println("]");
+////
+////        restoreCalendar = new CalendarStatusServiceImpl(weekdays.getPrice(), weekends.getPrice());
+////        for (CalendarRestorePriceClass special : specials) restoreCalendar.addPrices(special.getPrice(), Convert.toDate(special.getDays()));
+////
+////        System.out.println(restoreCalendar);
+////        System.out.println(restoreCalendar.toJson());
 //
-//        restoreCalendar = new CalendarStatusServiceImpl(weekdays.getPrice(), weekends.getPrice());
-//        for (CalendarRestorePriceClass special : specials) restoreCalendar.addPrices(special.getPrice(), Convert.toDate(special.getDays()));
-//
-//        System.out.println(restoreCalendar);
-//        System.out.println(restoreCalendar.toJson());
-
-        restoreCalendar2 = new OfferPricesServiceImpl(jsonRestore);
-        System.err.println(restoreCalendar2);
-        System.err.println(restoreCalendar2.toJson());
-    }
+//        restoreCalendar2 = new OfferPricesServiceImpl(jsonRestore);
+//        System.err.println(restoreCalendar2);
+//        System.err.println(restoreCalendar2.toJson());
+//    }
 
     @Test
     public void testOwnerIsPrice(){
