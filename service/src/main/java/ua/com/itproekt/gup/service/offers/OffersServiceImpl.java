@@ -279,7 +279,7 @@ public class OffersServiceImpl implements OffersService {
 
 
         // if critical information was changed in the offer - we must resubmit this offer for the moderation
-        if (isOfferWasCriticalChanged(oldOffer, updatedOffer)){
+        if (isOfferWasCriticalChanged(oldOffer, updatedOffer, files)){
             updatedOffer.getOfferModerationReports().setModerationStatus(ModerationStatus.NO);
         }
 
