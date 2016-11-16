@@ -102,8 +102,14 @@ public interface OffersService {
      */
     Offer edit(Offer oldOffer);
 
-
-
+    /**
+     * This method edit offer and previously check specific fields for update and can change moderator status if some
+     * of the field were updated.
+     *
+     * @param offerRegistration     - the OfferRegistration object.
+     * @param files                 - the array fo MultiPartFile - images from client side.
+     * @return                      - the ResponseEntity object for the REST controller.
+     */
     ResponseEntity<String> editByUser(OfferRegistration offerRegistration, MultipartFile[] files);
 
     /**

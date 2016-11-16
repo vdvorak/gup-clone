@@ -76,11 +76,6 @@ public class OffersServiceImpl implements OffersService {
             // set author to new offer
             offerRegistration.getOffer().setAuthorId(newProfile.getId());
 
-
-
-
-
-
             // prepare images
             Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
 
@@ -98,11 +93,6 @@ public class OffersServiceImpl implements OffersService {
             offerRegistration.getOffer().setAuthorId(userId);
 
             offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
-
-
-
-
-
 
             // prepare images
             Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
@@ -243,15 +233,7 @@ public class OffersServiceImpl implements OffersService {
     @Override
     public ResponseEntity<String> editByUser(OfferRegistration offerRegistration, MultipartFile[] files) {
 
-
-
-        // ToDo если поменялось название, описание, категория, фото, хар-ки
-
-
         Offer updatedOffer = offerRegistration.getOffer();
-
-//        System.err.println("Incoming offer Id for update: " + updatedOffer.getId());
-
 
         // check is offer not null and exist
         if (updatedOffer.getId() == null) {
@@ -279,6 +261,7 @@ public class OffersServiceImpl implements OffersService {
         // If false - means that some pictures were added
         if (oldOffer.getImagesIds() != null) {
 
+            // ToDo - Тут будет меняться логика когда поймём как фотки редактировать
             /**
              * If old images list is NOT equal with new - it means that some of the old pictures must be deleted.
              */
@@ -292,6 +275,12 @@ public class OffersServiceImpl implements OffersService {
 
         if (files.length > 0) {
             updatedOffer.setImagesIds(updaterOfferImages(storageService, updatedOffer.getImagesIds(), files));
+        }
+
+
+        // if critical information was changed in the offer - we must resubmit this offer for the moderation
+        if (isOfferWasCriticalChanged(oldOffer, updatedOffer)){
+            updatedOffer.getOfferModerationReports().setModerationStatus(ModerationStatus.NO);
         }
 
         Offer newOffer = edit(updatedOffer);
@@ -711,9 +700,9 @@ public class OffersServiceImpl implements OffersService {
 
 
     /**
-     * @param offerRegistration - the OfferRegistration object
-     * @param files             - the array of Multipart files
-     * @return - the Map of images ID's and teir positions
+     * @param offerRegistration - the OfferRegistration object.
+     * @param files             - the array of Multipart files.
+     * @return - the Map of images ID's and their positions.
      */
     private Map<String, String> prepareImageBeforeOfferCreate(OfferRegistration offerRegistration, MultipartFile[] files) {
         Map<String, String> importImagesMap = new HashMap<>();
@@ -723,12 +712,12 @@ public class OffersServiceImpl implements OffersService {
         MultipartFile[] multipartImportFiles = null; // here will be files from OLX
 
 
-        // ToDo скачаиваем и подготавливаем фото с OlX
+        // download and prepare images from the web
         if (offerRegistration.getImportImagesUrlList() != null && offerRegistration.getImportImagesUrlList().size() > 0) {
             multipartImportFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlList());
         }
 
-        // ToDo проверить, если главная фотка среди ОЛХ
+        // check if is the main image among the importded photos
         if (offerRegistration.getSelectedImageType().equals("olx")) {
 
             if (multipartImportFiles != null) {
@@ -740,7 +729,7 @@ public class OffersServiceImpl implements OffersService {
                 ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, firstPositionForImages + 1, 0);
             }
 
-            // ToDo проверка на то, если главная фоткка среди загруженных руками
+            // check if the main image among the manual upload photos
         } else if (offerRegistration.getSelectedImageType().equals("file")) {
 
             if (files.length > 1) {
@@ -784,6 +773,33 @@ public class OffersServiceImpl implements OffersService {
         newImageMap.putAll(mapWithNewPhoto);
 
         return newImageMap;
+    }
+
+    /**
+     * Show does new offer have critical changes or not.
+     *
+     * @param oldOffer - the old offer version - before update.
+     * @param newOffer - the new offer version - candidate to update.
+     * @return - true if offer has critical changes, and false - if not.
+     */
+    private boolean isOfferWasCriticalChanged(Offer oldOffer, Offer newOffer){
+        if (!oldOffer.getTitle().equals(newOffer.getTitle())){
+            return true;
+        }
+
+        if (!oldOffer.getDescription().equals(newOffer.getDescription())){
+            return true;
+        }
+
+        if (!oldOffer.getCategories().equals(newOffer.getCategories())){
+            return true;
+        }
+
+        if (!oldOffer.getProperties().equals(newOffer.getProperties())){
+            return true;
+        }
+
+        return false;
     }
 
 }
