@@ -782,7 +782,7 @@ public class OffersServiceImpl implements OffersService {
      * @param newOffer - the new offer version - candidate to update.
      * @return - true if offer has critical changes, and false - if not.
      */
-    private boolean isOfferWasCriticalChanged(Offer oldOffer, Offer newOffer){
+    private boolean isOfferWasCriticalChanged(Offer oldOffer, Offer newOffer, MultipartFile[] files){
         if (!oldOffer.getTitle().equals(newOffer.getTitle())){
             return true;
         }
@@ -796,6 +796,11 @@ public class OffersServiceImpl implements OffersService {
         }
 
         if (!oldOffer.getProperties().equals(newOffer.getProperties())){
+            return true;
+        }
+
+        // if we have new images uploaded manual
+        if (files.length > 0){
             return true;
         }
 
