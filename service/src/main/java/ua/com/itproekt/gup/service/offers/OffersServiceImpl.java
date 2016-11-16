@@ -55,20 +55,17 @@ public class OffersServiceImpl implements OffersService {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-
         if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
             System.err.println("Not authorize and without date for it");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         // if user is not logged in
-        if (userId == null && offerRegistration.getEmail() != null && offerRegistration.getPassword() != null) {
+        if (userId == null) {
 
             if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
-
-            offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
             // create new profile
             Profile newProfile = profilesService.createProfileFromOfferRegistration(offerRegistration);
@@ -76,36 +73,24 @@ public class OffersServiceImpl implements OffersService {
             // set author to new offer
             offerRegistration.getOffer().setAuthorId(newProfile.getId());
 
-            // prepare images
-            Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
-
-            // add prepared image to the offer
-            offerRegistration.getOffer().setImagesIds(resultImageMap);
-
-            // create new offer
-            create(offerRegistration.getOffer());
-
-
-            return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
         } else {
             // if user is logged in
-
             offerRegistration.getOffer().setAuthorId(userId);
-
-            offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
-
-            // prepare images
-            Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
-
-            // add prepared image to the offer
-            offerRegistration.getOffer().setImagesIds(resultImageMap);
-
-            // create new offer
-            create(offerRegistration.getOffer());
-
-            return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
         }
 
+
+        offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
+
+        // prepare images
+        Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
+
+        // add prepared image to the offer
+        offerRegistration.getOffer().setImagesIds(resultImageMap);
+
+        // create new offer
+        create(offerRegistration.getOffer());
+
+        return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
     }
 
 
@@ -280,7 +265,8 @@ public class OffersServiceImpl implements OffersService {
 
         // if critical information was changed in the offer - we must resubmit this offer for the moderation
         if (isOfferWasCriticalChanged(oldOffer, updatedOffer, files)){
-            updatedOffer.getOfferModerationReports().setModerationStatus(ModerationStatus.NO);
+            oldOffer.getOfferModerationReports().setModerationStatus(ModerationStatus.NO);
+            updatedOffer.setOfferModerationReports(oldOffer.getOfferModerationReports());
         }
 
         Offer newOffer = edit(updatedOffer);
