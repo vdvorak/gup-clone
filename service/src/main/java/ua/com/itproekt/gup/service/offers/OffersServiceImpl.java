@@ -57,15 +57,14 @@ public class OffersServiceImpl implements OffersService {
         String userId = SecurityOperations.getLoggedUserId();
 
         if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
-            System.err.println("Not authorize and without date for it");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("You don't have userId or email or password", HttpStatus.BAD_REQUEST);
         }
 
         // if user is not logged in
         if (userId == null) {
 
             if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return new ResponseEntity<>("Someone user still have this email", HttpStatus.CONFLICT);
             }
 
             // create new profile
