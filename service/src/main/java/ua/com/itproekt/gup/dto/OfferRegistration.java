@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public class OfferRegistration {
-    int selectedImageIndex; // index of the first image if it is exist
+    String selectedImageIndex; // index of the first image if it is exist
     String selectedImageType; // type of the first image if it is exist
     private Offer offer;
     private String username;
@@ -65,11 +65,11 @@ public class OfferRegistration {
         this.contactPhones = contactPhones;
     }
 
-    public int getSelectedImageIndex() {
+    public String getSelectedImageIndex() {
         return selectedImageIndex;
     }
 
-    public void setSelectedImageIndex(int selectedImageIndex) {
+    public void setSelectedImageIndex(String selectedImageIndex) {
         this.selectedImageIndex = selectedImageIndex;
     }
 

@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.service.offers;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -242,29 +243,11 @@ public class OffersServiceImpl implements OffersService {
         String newSeoUrl = newTranslitTitle + "-" + oldOffer.getSeoKey();
         updatedOffer.setSeoUrl(newSeoUrl);
 
-
-        // If false - means that some pictures were added
-        if (oldOffer.getImagesIds() != null) {
-
-            // ToDo - Тут будет меняться логика когда поймём как фотки редактировать
-            /**
-             * If old images list is NOT equal with new - it means that some of the old pictures must be deleted.
-             */
-            if (!oldOffer.getImagesIds().equals(updatedOffer.getImagesIds())) {
-
-                //Find images in old offer version that were deleted in new
-                // and delete them from base in all resized variants.
-                storageService.deleteDiffImagesAfterOfferUpdate(oldOffer.getImagesIds(), updatedOffer.getImagesIds());
-            }
-        }
-
-        if (files.length > 0) {
-            updatedOffer.setImagesIds(updaterOfferImages(storageService, updatedOffer.getImagesIds(), files));
-        }
+        updatedOffer.setImagesIds(prepareImageBeforeOfferUpdate(oldOffer, offerRegistration, files));
 
 
         // if critical information was changed in the offer - we must resubmit this offer for the moderation
-        if (isOfferWasCriticalChanged(oldOffer, updatedOffer, files)){
+        if (isOfferWasCriticalChanged(oldOffer, updatedOffer, files)) {
             oldOffer.getOfferModerationReports().setModerationStatus(ModerationStatus.NO);
             updatedOffer.setOfferModerationReports(oldOffer.getOfferModerationReports());
         }
@@ -273,8 +256,6 @@ public class OffersServiceImpl implements OffersService {
 
         return new ResponseEntity<>(newOffer.getSeoUrl(), HttpStatus.OK);
     }
-
-
 
 
     @Override
@@ -703,11 +684,11 @@ public class OffersServiceImpl implements OffersService {
             multipartImportFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlList());
         }
 
-        // check if is the main image among the importded photos
+        // check if is the main image among the imported photos
         if (offerRegistration.getSelectedImageType().equals("olx")) {
 
             if (multipartImportFiles != null) {
-                importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, 1, offerRegistration.getSelectedImageIndex());
+                importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, 1, Integer.parseInt(offerRegistration.getSelectedImageIndex()));
                 firstPositionForImages = importImagesMap.size();
             }
 
@@ -719,7 +700,7 @@ public class OffersServiceImpl implements OffersService {
         } else if (offerRegistration.getSelectedImageType().equals("file")) {
 
             if (files.length > 1) {
-                ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, 1, offerRegistration.getSelectedImageIndex());
+                ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, 1, Integer.parseInt(offerRegistration.getSelectedImageIndex()));
                 firstPositionForImages = ownAddedImagesMap.size();
             }
 
@@ -738,13 +719,95 @@ public class OffersServiceImpl implements OffersService {
     }
 
 
+    private Map<String, String> prepareImageBeforeOfferUpdate(Offer oldOffer, OfferRegistration newOfferRegistration, MultipartFile[] files) {
+
+        Map<String, String> ownAddedImagesMap = new HashMap<>();
+        Map<String, String> updatedOldImagesMap = new HashMap<>();
+
+        int firstPositionForImages = 0;
+
+
+        // ToDo физически удаляем фото из базы, если нужно
+        //Find images in old offer version that were deleted in new
+        // and delete them from base in all resized variants.
+        storageService.deleteDiffImagesAfterOfferUpdate(oldOffer.getImagesIds(), newOfferRegistration.getOffer().getImagesIds());
+
+
+        // если "главная" фотка выбрана среди "старых"
+        if (newOfferRegistration.getSelectedImageType().equals("old")) {
+
+            if (newOfferRegistration.getOffer().getImagesIds() != null) {
+                updatedOldImagesMap = replaceImagesForFirst(newOfferRegistration.getOffer().getImagesIds(), 2, newOfferRegistration.getSelectedImageIndex());
+                firstPositionForImages = updatedOldImagesMap.size();
+            }
+
+            if (files.length > 1) {
+                // меряем size карты и со следующего индекса грузим фотки
+                ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, firstPositionForImages + 1, 0);
+            }
+
+        }
+
+
+        if (newOfferRegistration.getSelectedImageType().equals("file")) {
+
+            if (files.length > 1) {
+                // ToDo тут всё просто - как и в случае создания - делаем карту с первой фоткой
+                ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, 1, Integer.parseInt(newOfferRegistration.getSelectedImageIndex()));
+                firstPositionForImages = ownAddedImagesMap.size();
+            }
+
+            if (newOfferRegistration.getOffer().getImagesIds() != null) {
+                // ToDo меряем size предыдущей карты и со следующего индекса - перекладываем эту карту
+                updatedOldImagesMap = replaceImagesForFirst(newOfferRegistration.getOffer().getImagesIds(), firstPositionForImages + 1, Integer.toString(0));
+
+            }
+
+        }
+
+
+        Map<String, String> resultImageMap = new HashMap<>();
+        resultImageMap.putAll(updatedOldImagesMap);
+        resultImageMap.putAll(ownAddedImagesMap);
+
+        return resultImageMap;
+    }
+
+
+    private Map<String, String> replaceImagesForFirst(Map<String, String> oldMap, int startImageIndex, String firstImageKey) {
+
+        Map<String, String> resultMap = new HashMap<>();
+
+        if (StringUtils.isNotEmpty(firstImageKey)) {
+            // главной делаем фотку, которая пришла в firstImageKey, а остальные перекладываем с новым индексом
+            for (String s : oldMap.keySet()) {
+                if (oldMap.get(s).equals(firstImageKey)) {
+                    resultMap.put(firstImageKey, "1");
+                } else {
+                    resultMap.put(s, Integer.toString(startImageIndex));
+                    startImageIndex++;
+                }
+            }
+            // если < 1 - значит "главной" фотки среди этой карты нет
+        } else if (Integer.parseInt(firstImageKey) < 1) {
+            for (String s : oldMap.keySet()) {
+                resultMap.put(s, Integer.toString(startImageIndex));
+                startImageIndex++;
+            }
+
+        }
+
+        return resultMap;
+    }
+
+
     /**
      * Update and save images for offer into DB.
      *
      * @param storageService        - the link to storageService instance.
      * @param updatedOfferImagesMap - the updated map of images.
      * @param files                 - the images for update.
-     * @return                      - the Map of images ID and their positions.
+     * @return - the Map of images ID and their positions.
      */
     private Map<String, String> updaterOfferImages(StorageService storageService, Map<String, String> updatedOfferImagesMap, MultipartFile[] files) {
 
@@ -768,25 +831,25 @@ public class OffersServiceImpl implements OffersService {
      * @param newOffer - the new offer version - candidate to update.
      * @return - true if offer has critical changes, and false - if not.
      */
-    private boolean isOfferWasCriticalChanged(Offer oldOffer, Offer newOffer, MultipartFile[] files){
-        if (!oldOffer.getTitle().equals(newOffer.getTitle())){
+    private boolean isOfferWasCriticalChanged(Offer oldOffer, Offer newOffer, MultipartFile[] files) {
+        if (!oldOffer.getTitle().equals(newOffer.getTitle())) {
             return true;
         }
 
-        if (!oldOffer.getDescription().equals(newOffer.getDescription())){
+        if (!oldOffer.getDescription().equals(newOffer.getDescription())) {
             return true;
         }
 
-        if (!oldOffer.getCategories().equals(newOffer.getCategories())){
+        if (!oldOffer.getCategories().equals(newOffer.getCategories())) {
             return true;
         }
 
-        if (!oldOffer.getProperties().equals(newOffer.getProperties())){
+        if (!oldOffer.getProperties().equals(newOffer.getProperties())) {
             return true;
         }
 
         // if we have new images uploaded manual
-        if (files.length > 0){
+        if (files.length > 0) {
             return true;
         }
 
