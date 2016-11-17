@@ -82,11 +82,15 @@ public class OffersServiceImpl implements OffersService {
 
         offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
-        // prepare images
-        Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
+        if (StringUtils.isNotBlank(offerRegistration.getSelectedImageType())){
+            // prepare images
+            Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
 
-        // add prepared image to the offer
-        offerRegistration.getOffer().setImagesIds(resultImageMap);
+            // add prepared image to the offer
+            offerRegistration.getOffer().setImagesIds(resultImageMap);
+        }
+
+
 
         // create new offer
         create(offerRegistration.getOffer());
