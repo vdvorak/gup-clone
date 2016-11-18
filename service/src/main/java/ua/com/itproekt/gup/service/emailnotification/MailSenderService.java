@@ -8,11 +8,32 @@ import java.util.Map;
 
 public interface MailSenderService {
 
+    /**
+     *
+     * @param emailServiceTokenModel
+     * @return
+     */
     EmailServiceTokenModel sendVerificationEmail(EmailServiceTokenModel emailServiceTokenModel);
 
+    /**
+     *
+     * @param emailServiceTokenModel
+     * @return
+     */
     EmailServiceTokenModel sendRegistrationEmail(EmailServiceTokenModel emailServiceTokenModel);
 
+    /**
+     *
+     * @param emailServiceTokenModel
+     * @return
+     */
     EmailServiceTokenModel sendLostPasswordEmail(EmailServiceTokenModel emailServiceTokenModel);
 
-    void sendSubscriptionOfferEmail(Profile profile, Offer offer, Map<String, String> resources);
+    /**
+     *
+     * @param email
+     * @param offer
+     * @param resources
+     */
+    void sendSubscriptionOfferEmail(String email, Offer offer, Map<String, String> resources);
 }

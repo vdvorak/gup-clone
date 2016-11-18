@@ -23,6 +23,7 @@ import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
+import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.SeoUtils;
@@ -41,14 +42,21 @@ public class OffersServiceImpl implements OffersService {
 
     @Autowired
     OrderService orderService;
+
     @Autowired
     SeoSequenceService seoSequenceService;
+
     @Autowired
     private OfferRepository offerRepository;
+
     @Autowired
     private ActivityFeedService activityFeedService;
+
     @Autowired
     private StorageService storageService;
+
+    @Autowired
+    private SubscriptionService subscriptionService;
 
 
     @Override
@@ -134,7 +142,13 @@ public class OffersServiceImpl implements OffersService {
                 .setMonthOfPrices(offer.getMonthOfPrices())
                 .setRents(offer.getRents());
 
+
+
+
         offerRepository.create(newOffer);
+
+        // FixMe delete this in release, because this method must called only by moderator duirng offer moderation.
+        subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(newOffer);
 
         offer.setId(newOffer.getId());
     }

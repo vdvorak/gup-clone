@@ -154,6 +154,11 @@ public class OfferRepositoryImpl implements OfferRepository {
 
         Query query = new Query();
 
+        if (offerFO.getId()!=null){
+            query.addCriteria(Criteria.where("id").is(offerFO.getId()));
+        }
+
+
         //ToDo In the future this maybe will be work. But now we don't show deleted offers.
         if (offerFO.isDeleted()) {
             query.addCriteria(Criteria.where("deleted").ne(true));

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.subscription.SubscriptionRepository;
 import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
+import ua.com.itproekt.gup.model.offer.OfferModerationReports;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.subscription.Subscription;
@@ -80,34 +81,28 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
         List<Subscription> subscriptionList = subscriptionRepository.findAll();
 
-
-        Profile profile;
-
+        OfferModerationReports offerModerationReports = new OfferModerationReports();
+        offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
+        
         for (Subscription subscription : subscriptionList) {
 
-            subscription.getOfferFilterOptions()
-                    .getOfferModerationReports()
-                    .setModerationStatus(ModerationStatus.COMPLETE);
+            subscription.getOfferFilterOptions().setOfferModerationReports(offerModerationReports);
+
             subscription.getOfferFilterOptions().setActive(true);
 
-
-//                    .setLastModerationDate(newOfferLastModerationDate)
-
+            subscription.getOfferFilterOptions().setId(newOffer.getId());// Добовляем ID текущего ОБ
 
 
             // make search among offers with our filterOptions
+            // для одной конкретной подписки ищем по фильтру Объявления, и там должно быть лишь одно - наше.
             List<Offer> offerList = offersService.findOffersWihOptions(subscription.getOfferFilterOptions()).getEntities();
 
 
             if (offerList.size() > 0) {
                 // go through results and send them for user email
 
-                profile = profilesService.findWholeProfileById(subscription.getEmail());
-
-                for (Offer offer : offerList) {
-                    Map<String, String> resources = new HashMap<>();
-                    mailSenderService.sendSubscriptionOfferEmail(profile, offer, resources);
-                }
+                Map<String, String> resources = new HashMap<>();
+                mailSenderService.sendSubscriptionOfferEmail(subscription.getEmail(), offerList.get(0), resources);
             }
 
             // change sinceDate of the current subscription to time.Now() and update it
