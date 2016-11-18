@@ -5,39 +5,55 @@ import ua.com.itproekt.gup.model.subscription.Subscription;
 import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
 
+import java.util.List;
+
+/**
+ * @author Kobylatskyy Alexander
+ */
 public interface SubscriptionRepository {
     /**
-     * @param subscription the subscription
+     * Create subscription.
+     *
+     * @param subscription - the subscription.
      */
     void create(Subscription subscription);
 
     /**
-     * @param subscriptionId the subscription ID
-     * @return one subscription
+     * Find and return specific subscription by it's ID.
+     *
+     * @param subscriptionId            - the subscription ID.
+     * @return                          - the one subscription.
      */
     Subscription find(String subscriptionId);
 
     /**
-     * @param subscription the subscription
-     * @return the updated subscription
+     * Update one specific subscription.
+     *
+     * @param subscription              - the subscription.
+     * @return                          - the updated subscription.
      */
     Subscription findAndUpdate(Subscription subscription);
 
     /**
-     * @param subscriptionId the subscription
-     * @return the int
+     * Delete one specific subscription by it ID.
+     *
+     * @param subscriptionId            - the subscription's ID.
+     * @return                          - the int.
      */
     int delete(String subscriptionId);
 
     /**
-     * @param subscriptionFilterOptions subscription filter options
-     * @return List of subscriptions satisfying the filter
+     * Return list of subscriptions.
+     *
+     * @param subscriptionFilterOptions - the subscription filter options.
+     * @return                          - the list of subscriptions satisfying the filter.
      */
-    EntityPage<Subscription> findWithFilterOption(SubscriptionFilterOptions subscriptionFilterOptions);
+   List<Subscription> findWithFilterOption(SubscriptionFilterOptions subscriptionFilterOptions);
 
     /**
+     * Return all subscriptions.
      *
-     * @return
+     * @return                          - the list of all subscriptions.
      */
-    EntityPage<Subscription> findAll();
+    List<Subscription> findAll();
 }

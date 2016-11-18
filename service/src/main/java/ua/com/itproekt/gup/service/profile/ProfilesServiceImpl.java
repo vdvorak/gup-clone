@@ -419,7 +419,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions();
         subscriptionFilterOptions.setUserId(profile.getId());
 
-        List<Subscription> subscriptionList = subscriptionService.findWithFilterOption(subscriptionFilterOptions).getEntities();
+        List<Subscription> subscriptionList = subscriptionService.findWithFilterOption(subscriptionFilterOptions);
 
 
         List<OrderInfo> orderInfoSellerList = orderService.orderInfoSellerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());

@@ -8,11 +8,14 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import ua.com.itproekt.gup.model.subscription.Subscription;
 import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
-import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import java.util.List;
 
+
+/**
+ * @author Kobylyatskyy Alexander
+ */
 @Repository
 public class SubscriptionRepositoryImpl implements SubscriptionRepository {
 
@@ -44,7 +47,7 @@ public class SubscriptionRepositoryImpl implements SubscriptionRepository {
     }
 
     @Override
-    public EntityPage<Subscription> findWithFilterOption(SubscriptionFilterOptions subscriptionFilterOptions) {
+    public List<Subscription> findWithFilterOption(SubscriptionFilterOptions subscriptionFilterOptions) {
         Query query = new Query();
 
         if (subscriptionFilterOptions.getUserId() != null) {
@@ -54,12 +57,11 @@ public class SubscriptionRepositoryImpl implements SubscriptionRepository {
         query.skip(subscriptionFilterOptions.getSkip());
         query.limit(subscriptionFilterOptions.getLimit());
 
-        return new EntityPage<>(mongoTemplate.count(query, Subscription.class), mongoTemplate.find(query, Subscription.class));
+        return mongoTemplate.find(query, Subscription.class);
     }
 
     @Override
-    public EntityPage<Subscription> findAll() {
-        List<Subscription> subscriptionList = mongoTemplate.findAll(Subscription.class);
-        return new EntityPage<>(subscriptionList.size(), subscriptionList);
+    public List<Subscription> findAll() {
+        return mongoTemplate.findAll(Subscription.class);
     }
 }

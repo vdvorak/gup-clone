@@ -70,7 +70,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public EntityPage<Subscription> findWithFilterOption(SubscriptionFilterOptions subscriptionFilterOptions) {
+    public List<Subscription> findWithFilterOption(SubscriptionFilterOptions subscriptionFilterOptions) {
         return subscriptionRepository.findWithFilterOption(subscriptionFilterOptions);
     }
 
@@ -78,7 +78,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public void checkIfOfferSuiteForSubscriptionAndSendEmail(Offer newOffer) {
 //        Long newOfferLastModerationDate = newOffer.getLastModerationDate();
 
-        List<Subscription> subscriptionList = subscriptionRepository.findAll().getEntities();
+        List<Subscription> subscriptionList = subscriptionRepository.findAll();
 
 
         Profile profile;

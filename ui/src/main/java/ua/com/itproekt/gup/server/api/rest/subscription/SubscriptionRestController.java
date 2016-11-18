@@ -15,6 +15,14 @@ import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
+import java.util.List;
+
+
+/**
+ * REST controllers for work with subscriptions.
+ *
+ * @author Kobylyatskyy Alexander
+ */
 @Controller
 @RequestMapping("/api/rest/")
 public class SubscriptionRestController {
@@ -39,11 +47,11 @@ public class SubscriptionRestController {
 
     @RequestMapping(value = "/subscription/read/all", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EntityPage<Subscription>> getSubscriptionWithFilter(@RequestBody SubscriptionFilterOptions subscriptionFilterOptions) {
+    public ResponseEntity<List<Subscription>> getSubscriptionWithFilter(@RequestBody SubscriptionFilterOptions subscriptionFilterOptions) {
 
-        EntityPage<Subscription> subscriptions = subscriptionService.findWithFilterOption(subscriptionFilterOptions);
+        List<Subscription> subscriptions = subscriptionService.findWithFilterOption(subscriptionFilterOptions);
 
-        if (subscriptions.getTotalEntities() == 0) {
+        if (subscriptions.size() == 0) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
