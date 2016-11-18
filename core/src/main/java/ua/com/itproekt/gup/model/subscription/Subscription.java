@@ -8,6 +8,10 @@ import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+
+/**
+ * @author Kobylyatskyy Alexander
+ */
 @Document(collection = "subscription")
 public class Subscription {
     @Id
@@ -22,11 +26,6 @@ public class Subscription {
     private Long lastCheckDate;
 
     public Subscription() {
-    }
-
-    public Subscription(String email, OfferFilterOptions offerFilterOptions) {
-        this.email = email;
-        this.offerFilterOptions = offerFilterOptions;
     }
 
     public Subscription setLastCheckDateAndCreateDateEqualsToCurrentDate() {

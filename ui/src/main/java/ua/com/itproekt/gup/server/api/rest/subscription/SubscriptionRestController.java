@@ -53,38 +53,18 @@ public class SubscriptionRestController {
 
     //------------------------------------------ Create ----------------------------------------------------------------
     @CrossOrigin
-//    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/subscription/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-         public ResponseEntity<Void> createSubscription(@RequestBody SubscriptionCreateWrapper subscriptionCreateWrapper) {
-
+         public ResponseEntity<String> createSubscription(@RequestBody SubscriptionCreateWrapper subscriptionCreateWrapper) {
 
         // we can not have empty filter options object
-        if (subscriptionCreateWrapper.getOfferFilterOptions() == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (subscriptionCreateWrapper.getOfferFilterOptions() == null || StringUtils.isBlank(subscriptionCreateWrapper.getEmail())){
+            return new ResponseEntity<>("FilterOption or email is not present in your request.", HttpStatus.BAD_REQUEST);
         }
 
-        Subscription subscription = new Subscription();
-        subscription.setOfferFilterOptions(subscriptionCreateWrapper.getOfferFilterOptions());
-
-        if (!SecurityOperations.isUserLoggedIn() && StringUtils.isNotBlank(subscriptionCreateWrapper.getNotAuthEmail())) {
-                subscription.setNotAuthEmail(subscriptionCreateWrapper.getNotAuthEmail());
-                subscriptionService.create(subscription);
-                return new ResponseEntity<>(HttpStatus.OK);
-        }
-
-        String userId = SecurityOperations.getLoggedUserId();
-        subscriptionService.create(userId, subscriptionCreateWrapper.getOfferFilterOptions());
+        subscriptionService.create(subscriptionCreateWrapper.getEmail(), subscriptionCreateWrapper.getOfferFilterOptions());
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-//    @RequestMapping(value = "/subscription/create", method = RequestMethod.POST,
-//            consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<CreatedObjResp> createSubscription(@RequestBody OfferFilterOptions offerFilterOptions) {
-//        String email = SecurityOperations.getLoggedUserId();
-//        subscriptionService.create(email, offerFilterOptions);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
 
 
     //------------------------------------------ Update ----------------------------------------------------------------

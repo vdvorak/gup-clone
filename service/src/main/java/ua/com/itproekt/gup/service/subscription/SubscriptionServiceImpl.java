@@ -13,6 +13,7 @@ import ua.com.itproekt.gup.service.emailnotification.MailSenderService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -37,15 +38,21 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 
     @Override
-    public void create(String userId, OfferFilterOptions offerFilterOptions) {
-        Subscription newSubscription = new Subscription(userId, offerFilterOptions).setLastCheckDateAndCreateDateEqualsToCurrentDate();
-        subscriptionRepository.create(newSubscription);
-    }
+    public void create(String email, OfferFilterOptions offerFilterOptions) {
+        Subscription subscription = new Subscription();
+        subscription.setEmail(email);
+        subscription.setOfferFilterOptions(offerFilterOptions);
+        subscription.setLastCheckDateAndCreateDateEqualsToCurrentDate();
 
-    @Override
-    public void create(Subscription subscription) {
+        String userId = SecurityOperations.getLoggedUserId();
+
+        if (userId!= null){
+            subscription.setId(userId);
+        }
+
         subscriptionRepository.create(subscription);
     }
+
 
     @Override
     public Subscription find(String subscriptionId) {
