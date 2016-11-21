@@ -55,7 +55,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         String userId = SecurityOperations.getLoggedUserId();
 
         if (userId!= null){
-            subscription.setId(userId);
+            subscription.setUserId(userId);
         }
 
         subscriptionRepository.create(subscription);
