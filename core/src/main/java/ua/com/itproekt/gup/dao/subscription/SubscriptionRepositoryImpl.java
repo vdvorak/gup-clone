@@ -14,6 +14,8 @@ import java.util.List;
 
 
 /**
+ * Implementation of the repository for work with subscriptions.
+ *
  * @author Kobylyatskyy Alexander
  */
 @Repository
@@ -52,6 +54,10 @@ public class SubscriptionRepositoryImpl implements SubscriptionRepository {
 
         if (subscriptionFilterOptions.getUserId() != null) {
             query.addCriteria(Criteria.where("userId").is(subscriptionFilterOptions.getUserId()));
+        }
+
+        if (subscriptionFilterOptions.getOfferFilterOptionsCheckSum() != null){
+            query.addCriteria(Criteria.where("offerFilterOptionsCheckSum").is(subscriptionFilterOptions.getOfferFilterOptionsCheckSum()));
         }
 
         query.skip(subscriptionFilterOptions.getSkip());

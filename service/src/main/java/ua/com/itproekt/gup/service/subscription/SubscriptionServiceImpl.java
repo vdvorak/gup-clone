@@ -39,10 +39,17 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 
     @Override
-    public void create(String email, OfferFilterOptions offerFilterOptions) {
+    public boolean create(String email, OfferFilterOptions offerFilterOptions) {
+
+        // check if user has the same subscription
+       if (ifUserAlreadyHasTheSameSubscription(email, offerFilterOptions)){
+            return false;
+        }
+
         Subscription subscription = new Subscription();
         subscription.setEmail(email);
         subscription.setOfferFilterOptions(offerFilterOptions);
+        subscription.setOfferFilterOptionsCheckSum(Integer.toString(offerFilterOptions.hashCode()));
         subscription.setLastCheckDateAndCreateDateEqualsToCurrentDate();
 
         String userId = SecurityOperations.getLoggedUserId();
@@ -52,6 +59,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         }
 
         subscriptionRepository.create(subscription);
+        return true;
     }
 
 
@@ -109,6 +117,30 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 
         }
-
     }
+
+
+    /**
+     * Check if person already has the same subscription
+     *
+     * @param email                 - the person email.
+     * @param offerFilterOptions    - the OfferFilterOption object.
+     * @return                      - the true or false.
+     */
+    private boolean ifUserAlreadyHasTheSameSubscription(String email, OfferFilterOptions offerFilterOptions){
+
+        SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions();
+        subscriptionFilterOptions.setOfferFilterOptionsCheckSum(Integer.toString(offerFilterOptions.hashCode()));
+
+        List<Subscription> subscriptionList = findWithFilterOption(subscriptionFilterOptions);
+
+        for (Subscription subscription : subscriptionList) {
+            if (subscription.getEmail().equals(email)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

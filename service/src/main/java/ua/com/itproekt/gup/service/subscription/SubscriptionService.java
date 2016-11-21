@@ -16,13 +16,16 @@ import java.util.List;
  */
 public interface SubscriptionService {
 
+
     /**
      * Create subscription with specific filterOption for user.
      *
      * @param email                     - the email of the user.
      * @param offerFilterOptions        - the OfferFilterOptions object.
+     * @return                          - true if all is Ok, false - if user has the same subscription already
+     *                                  for the current email.
      */
-    void create(String email, OfferFilterOptions offerFilterOptions);
+    boolean create(String email, OfferFilterOptions offerFilterOptions);
 
     /**
      * Find and return one subscriptions by it's ID.
