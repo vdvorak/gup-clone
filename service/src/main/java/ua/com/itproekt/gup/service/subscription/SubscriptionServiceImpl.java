@@ -83,7 +83,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
         OfferModerationReports offerModerationReports = new OfferModerationReports();
         offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
-        
+
         for (Subscription subscription : subscriptionList) {
 
             subscription.getOfferFilterOptions().setOfferModerationReports(offerModerationReports);
@@ -97,10 +97,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             // для одной конкретной подписки ищем по фильтру Объявления, и там должно быть лишь одно - наше.
             List<Offer> offerList = offersService.findOffersWihOptions(subscription.getOfferFilterOptions()).getEntities();
 
-
+            // here we can receive only one offer - our offer< if it is match to the filter
             if (offerList.size() > 0) {
-                // go through results and send them for user email
-
                 Map<String, String> resources = new HashMap<>();
                 mailSenderService.sendSubscriptionOfferEmail(subscription.getEmail(), offerList.get(0), resources);
             }
