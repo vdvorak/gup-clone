@@ -7,3 +7,9 @@
 
 
 * `telerik/kendo-examples-java` [http://docs.telerik.com/kendo-ui/jsp/tags/scheduler/overview](http://docs.telerik.com/kendo-ui/jsp/tags/scheduler/overview) | [http://docs.telerik.com/kendo-ui/jsp/introduction](http://docs.telerik.com/kendo-ui/jsp/introduction) | [https://github.com/telerik/kendo-examples-java](https://github.com/telerik/kendo-examples-java)
+
+
+
+* `fullcalendar-3.0.1.zip` [http://ourcodeworld.com/articles/read/55/top-5-best-jquery-scheduler-and-events-calendar-for-web-applications](http://ourcodeworld.com/articles/read/55/top-5-best-jquery-scheduler-and-events-calendar-for-web-applications)
+                                                                           | [https://fullcalendar.io/js/fullcalendar-2.6.1/demos/agenda-views.html](https://fullcalendar.io/js/fullcalendar-2.6.1/demos/agenda-views.html)
+                                                                           | [https://fullcalendar.io/download/](https://fullcalendar.io/download/)

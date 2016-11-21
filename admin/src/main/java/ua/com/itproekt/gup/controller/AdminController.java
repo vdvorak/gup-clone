@@ -38,6 +38,12 @@ public class AdminController {
         return "admin/admin-edit-tariffs";
     }
 
+    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping("/admin-rents")
+    public String getAdminRents() {
+        return "admin/admin-rents";
+    }
+
     @RequestMapping("/admin-admins")
     public String getAdmins() {
         return "admin/admin-admins";
