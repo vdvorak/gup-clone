@@ -402,4 +402,43 @@ public class Offer {
     }
 
 
+    @Override
+    public String toString() {
+        return "Offer{" +
+                "id='" + id + '\'' +
+                ", authorId='" + authorId + '\'' +
+                ", userInfo=" + userInfo +
+                ", active=" + active +
+                ", createdDate=" + createdDate +
+                ", reservation=" + reservation +
+                ", views=" + views +
+                ", monthOfPrices=" + monthOfPrices +
+                ", rents=" + rents +
+                ", rent=" + rent +
+                ", seoUrl='" + seoUrl + '\'' +
+                ", seoKey='" + seoKey + '\'' +
+                ", categories=" + categories +
+                ", seoCategory='" + seoCategory + '\'' +
+                ", properties=" + properties +
+                ", imagesIds=" + imagesIds +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", currency=" + currency +
+                ", address=" + address +
+                ", priceCanBeNegotiated=" + priceCanBeNegotiated +
+                ", used=" + used +
+                ", canBeReserved=" + canBeReserved +
+                ", canBeRented=" + canBeRented +
+                ", showOrdersCount=" + showOrdersCount +
+                ", maximumReservedPeriod=" + maximumReservedPeriod +
+                ", availableShippingMethods=" + availableShippingMethods +
+                ", availablePaymentMethods=" + availablePaymentMethods +
+                ", paidServices=" + paidServices +
+                ", productReturnsTerms=" + productReturnsTerms +
+                ", offerModerationReports=" + offerModerationReports +
+                ", deleted=" + deleted +
+                '}';
+    }
 }
