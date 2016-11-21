@@ -28,7 +28,7 @@
 
                         <p>Объявление, которое вы ждёте!<br/></p>
 
-                        <p><a href="/obyavlenie/${model.getSeoUrl()}">${model.getTitle()}</a></p>
+                        <p><a href="http://gup.com.ua:55555/bulletinDetails/${model.getSeoUrl()}">${model.getTitle()}</a></p>
 
                         <p>Цена:${model.getPrice()}</p>
 

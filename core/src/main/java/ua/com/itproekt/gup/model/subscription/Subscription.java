@@ -8,6 +8,10 @@ import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+
+/**
+ * @author Kobylyatskyy Alexander
+ */
 @Document(collection = "subscription")
 public class Subscription {
     @Id
@@ -21,12 +25,9 @@ public class Subscription {
     private Long createDate;
     private Long lastCheckDate;
 
-    public Subscription() {
-    }
+    private String offerFilterOptionsCheckSum; // hash code of the offer filter option
 
-    public Subscription(String email, OfferFilterOptions offerFilterOptions) {
-        this.email = email;
-        this.offerFilterOptions = offerFilterOptions;
+    public Subscription() {
     }
 
     public Subscription setLastCheckDateAndCreateDateEqualsToCurrentDate() {
@@ -100,14 +101,26 @@ public class Subscription {
         this.notAuthEmail = notAuthEmail;
     }
 
+    public String getOfferFilterOptionsCheckSum() {
+        return offerFilterOptionsCheckSum;
+    }
+
+    public void setOfferFilterOptionsCheckSum(String offerFilterOptionsCheckSum) {
+        this.offerFilterOptionsCheckSum = offerFilterOptionsCheckSum;
+    }
+
     @Override
     public String toString() {
         return "Subscription{" +
                 "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
                 ", email='" + email + '\'' +
+                ", authEmail='" + authEmail + '\'' +
+                ", notAuthEmail='" + notAuthEmail + '\'' +
                 ", offerFilterOptions=" + offerFilterOptions +
                 ", createDate=" + createDate +
                 ", lastCheckDate=" + lastCheckDate +
+                ", offerFilterOptionsCheckSum='" + offerFilterOptionsCheckSum + '\'' +
                 '}';
     }
 }

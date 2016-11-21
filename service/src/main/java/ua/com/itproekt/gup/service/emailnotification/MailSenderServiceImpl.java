@@ -66,12 +66,12 @@ public class MailSenderServiceImpl implements MailSenderService {
     }
 
     @Override
-    public void sendSubscriptionOfferEmail(Profile profile, Offer offer, final Map<String, String> resources) {
+    public void sendSubscriptionOfferEmail(String email, Offer offer, final Map<String, String> resources) {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,
                         MimeMessageHelper.MULTIPART_MODE_RELATED, "UTF-8");
-                messageHelper.setTo(profile.getEmail());
+                messageHelper.setTo(email);
                 messageHelper.setFrom(emailFromAddress);
                 messageHelper.setReplyTo(emailReplyToAddress);
                 messageHelper.setSubject("Результаты поиска по подписке с сайта GUP");

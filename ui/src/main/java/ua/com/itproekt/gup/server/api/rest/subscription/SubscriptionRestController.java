@@ -15,6 +15,14 @@ import ua.com.itproekt.gup.util.CreatedObjResp;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
+import java.util.List;
+
+
+/**
+ * REST controllers for work with subscriptions.
+ *
+ * @author Kobylyatskyy Alexander
+ */
 @Controller
 @RequestMapping("/api/rest/")
 public class SubscriptionRestController {
@@ -39,11 +47,11 @@ public class SubscriptionRestController {
 
     @RequestMapping(value = "/subscription/read/all", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EntityPage<Subscription>> getSubscriptionWithFilter(@RequestBody SubscriptionFilterOptions subscriptionFilterOptions) {
+    public ResponseEntity<List<Subscription>> getSubscriptionWithFilter(@RequestBody SubscriptionFilterOptions subscriptionFilterOptions) {
 
-        EntityPage<Subscription> subscriptions = subscriptionService.findWithFilterOption(subscriptionFilterOptions);
+        List<Subscription> subscriptions = subscriptionService.findWithFilterOption(subscriptionFilterOptions);
 
-        if (subscriptions.getTotalEntities() == 0) {
+        if (subscriptions.size() == 0) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
@@ -53,38 +61,21 @@ public class SubscriptionRestController {
 
     //------------------------------------------ Create ----------------------------------------------------------------
     @CrossOrigin
-//    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/subscription/create", method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-         public ResponseEntity<Void> createSubscription(@RequestBody SubscriptionCreateWrapper subscriptionCreateWrapper) {
-
+         public ResponseEntity<String> createSubscription(@RequestBody SubscriptionCreateWrapper subscriptionCreateWrapper) {
 
         // we can not have empty filter options object
-        if (subscriptionCreateWrapper.getOfferFilterOptions() == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (subscriptionCreateWrapper.getOfferFilterOptions() == null || StringUtils.isBlank(subscriptionCreateWrapper.getEmail())){
+            return new ResponseEntity<>("FilterOption or email is not present in your request.", HttpStatus.BAD_REQUEST);
         }
 
-        Subscription subscription = new Subscription();
-        subscription.setOfferFilterOptions(subscriptionCreateWrapper.getOfferFilterOptions());
-
-        if (!SecurityOperations.isUserLoggedIn() && StringUtils.isNotBlank(subscriptionCreateWrapper.getNotAuthEmail())) {
-                subscription.setNotAuthEmail(subscriptionCreateWrapper.getNotAuthEmail());
-                subscriptionService.create(subscription);
-                return new ResponseEntity<>(HttpStatus.OK);
+        if (subscriptionService.create(subscriptionCreateWrapper.getEmail(), subscriptionCreateWrapper.getOfferFilterOptions())){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("The user already has the same subscription for the current email.", HttpStatus.BAD_REQUEST);
         }
-
-        String userId = SecurityOperations.getLoggedUserId();
-        subscriptionService.create(userId, subscriptionCreateWrapper.getOfferFilterOptions());
-        return new ResponseEntity<>(HttpStatus.OK);
     }
-
-//    @RequestMapping(value = "/subscription/create", method = RequestMethod.POST,
-//            consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<CreatedObjResp> createSubscription(@RequestBody OfferFilterOptions offerFilterOptions) {
-//        String email = SecurityOperations.getLoggedUserId();
-//        subscriptionService.create(email, offerFilterOptions);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
 
 
     //------------------------------------------ Update ----------------------------------------------------------------

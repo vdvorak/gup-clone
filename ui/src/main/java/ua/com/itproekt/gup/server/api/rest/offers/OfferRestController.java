@@ -45,9 +45,6 @@ public class OfferRestController {
     @Autowired
     VerificationTokenService verificationTokenService;
 
-    @Autowired
-    private StorageService storageService;
-
     //------------------------------------------ Read -----------------------------------------------------------------
 
     /**

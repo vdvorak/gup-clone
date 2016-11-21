@@ -1,6 +1,8 @@
 package ua.com.itproekt.gup.model.offer.filter;
 
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import ua.com.itproekt.gup.model.offer.Offer;
 
 import java.util.List;
@@ -139,5 +141,52 @@ public final class OfferFilterOptions extends Offer {
                 ", isMain=" + isMain +
                 ", favouriteCategories=" + favouriteCategories +
                 '}';
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        OfferFilterOptions that = (OfferFilterOptions) o;
+
+        if (getSkip() != that.getSkip()) return false;
+        if (getLimit() != that.getLimit()) return false;
+        if (isMain() != that.isMain()) return false;
+        if (getCityList() != null ? !getCityList().equals(that.getCityList()) : that.getCityList() != null)
+            return false;
+        if (getFromPrice() != null ? !getFromPrice().equals(that.getFromPrice()) : that.getFromPrice() != null)
+            return false;
+        if (getToPrice() != null ? !getToPrice().equals(that.getToPrice()) : that.getToPrice() != null) return false;
+        if (getShowReserved() != null ? !getShowReserved().equals(that.getShowReserved()) : that.getShowReserved() != null)
+            return false;
+        if (getPropertiesInterval() != null ? !getPropertiesInterval().equals(that.getPropertiesInterval()) : that.getPropertiesInterval() != null)
+            return false;
+        if (getSearchField() != null ? !getSearchField().equals(that.getSearchField()) : that.getSearchField() != null)
+            return false;
+        if (getPriceSortDirection() != null ? !getPriceSortDirection().equals(that.getPriceSortDirection()) : that.getPriceSortDirection() != null)
+            return false;
+        if (getCreatedDateSortDirection() != null ? !getCreatedDateSortDirection().equals(that.getCreatedDateSortDirection()) : that.getCreatedDateSortDirection() != null)
+            return false;
+        return !(getFavouriteCategories() != null ? !getFavouriteCategories().equals(that.getFavouriteCategories()) : that.getFavouriteCategories() != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 31 * (getCityList() != null ? getCityList().hashCode() : 0);
+        result = 31 * result + getSkip();
+        result = 31 * result + getLimit();
+        result = 31 * result + (getFromPrice() != null ? getFromPrice().hashCode() : 0);
+        result = 31 * result + (getToPrice() != null ? getToPrice().hashCode() : 0);
+        result = 31 * result + (getShowReserved() != null ? getShowReserved().hashCode() : 0);
+        result = 31 * result + (getPropertiesInterval() != null ? getPropertiesInterval().hashCode() : 0);
+        result = 31 * result + (getSearchField() != null ? getSearchField().hashCode() : 0);
+        result = 31 * result + (getPriceSortDirection() != null ? getPriceSortDirection().hashCode() : 0);
+        result = 31 * result + (getCreatedDateSortDirection() != null ? getCreatedDateSortDirection().hashCode() : 0);
+        result = 31 * result + (getCategories() != null ? getCategories().hashCode() : 0);
+        return result;
     }
 }

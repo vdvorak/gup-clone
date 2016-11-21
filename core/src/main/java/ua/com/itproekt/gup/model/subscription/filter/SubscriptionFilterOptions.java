@@ -3,6 +3,10 @@ package ua.com.itproekt.gup.model.subscription.filter;
 
 import ua.com.itproekt.gup.model.subscription.Subscription;
 
+
+/**
+ * @author Kobylyatsky Aexander
+ */
 public final class SubscriptionFilterOptions extends Subscription {
     private int skip;
     private int limit;
