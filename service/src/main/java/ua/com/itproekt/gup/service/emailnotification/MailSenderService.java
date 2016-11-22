@@ -40,9 +40,10 @@ public interface MailSenderService {
     /**
      * Send email to the subscription.
      *
+     * @param subscriptionId            - the ID of the subscription.
      * @param email                     - the email of the addressee.
      * @param offer                     - the Offer object.
      * @param resources                 - the resource.
      */
-    void sendSubscriptionOfferEmail(String email, Offer offer, Map<String, String> resources);
+    void sendSubscriptionOfferEmail(String subscriptionId, String email, Offer offer, Map<String, String> resources);
 }

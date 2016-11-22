@@ -18,6 +18,8 @@
                     <td style="padding-left: 30px; padding-bottom: 20px; padding-top: 10px;"><h2>Добро пожаловать на
                         GUP</h2></td>
 
+                    ${model.getUserName()}
+
                 </tr>
 
                 <tr>
@@ -28,12 +30,12 @@
 
                         <p>Объявление, которое вы ждёте!<br/></p>
 
-                        <p><a href="http://gup.com.ua:55555/bulletinDetails/${model.getSeoUrl()}">${model.getTitle()}</a></p>
+                        <p><a href="http://gup.com.ua:55555/bulletinDetails/${model.getOffer().getSeoUrl()}">${model.getOffer().getTitle()}</a></p>
 
-                        <p>Цена:${model.getPrice()}</p>
+                        <p>Цена:${model.getOffer().getPrice()}</p>
 
                         <p><a href="/obyavlenie/${model.getSeoUrl()}"><img
-                                src="http://93.73.109.38:8084/api/rest/fileStorage/OFFERS/file/read/id/${model.getTitle()}"></a></p>
+                                src="http://93.73.109.38:8084/api/rest/fileStorage/OFFERS/file/read/id/${model.getOffer().getTitle()}"></a></p>
                         <br>
                         <!-- LEGALESE -->
 
