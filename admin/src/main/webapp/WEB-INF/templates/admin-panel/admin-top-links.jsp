@@ -41,3 +41,12 @@
 <script src="/resources/js/html5shiv.js"></script>
 <script src="/resources/js/respond.min.js"></script>
 <![endif]-->
+
+<!-- Full Calendar 3.0.1 -->
+<link href='../../../resources/fullcalendar/fullcalendar.css' rel='stylesheet' />
+<link href='../../../resources/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='../../../resources/fullcalendar/lib/moment.min.js'></script>
+<script src='../../../resources/fullcalendar/lib/jquery.min.js'></script>
+<script src='../../../resources/fullcalendar/fullcalendar.min.js'></script>
+<script src='../../../resources/fullcalendar/locale-all.js'></script>
+
