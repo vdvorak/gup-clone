@@ -108,11 +108,12 @@ public class MailSenderServiceImpl implements MailSenderService {
 
 
     /**
+     * Prepare email for body.
      *
-     * @param subscriptionId
-     * @param email
-     * @param offer
-     * @return
+     * @param subscriptionId    - the subscription ID.
+     * @param email             - the email of the addressee.
+     * @param offer             - the Offer object.
+     * @return                  - the SubscribeOfferEmail object.
      */
     private SubscribeOfferEmail subscribeEmailBodyPreparator(String subscriptionId, String email, Offer offer){
         SubscribeOfferEmail subscribeOfferEmail = new SubscribeOfferEmail();
