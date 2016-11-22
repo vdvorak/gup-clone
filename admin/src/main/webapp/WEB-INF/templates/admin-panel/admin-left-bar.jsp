@@ -61,9 +61,12 @@
         <li>
           <a href="<c:url value="/admin-offers" />"><i class="fa fa-credit-card fa-fw"></i>Объявления</a>
         </li>
-          <li>
-              <a href="<c:url value="/admin-tariffs" />"><i class="fa fa-credit-card fa-fw"></i>Тарифы</a>
-          </li>
+        <li>
+          <a href="<c:url value="/admin-tariffs" />"><i class="fa fa-credit-card fa-fw"></i>Тарифы</a>
+        </li>
+        <li>
+          <a href="<c:url value="/admin-rents" />"><i class="fa fa-credit-card fa-fw"></i>Аренда</a>
+        </li>
       </ul>
     </div>
   </div>
