@@ -12,25 +12,36 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
+import ua.com.itproekt.gup.dto.SubscribeOfferEmail;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * Implementation of the mail service.
+ *
+ * @author Kobylyatskyy Alexander
+ */
 @Service
 public class MailSenderServiceImpl implements MailSenderService {
 
     private static Logger LOG = LoggerFactory.getLogger(MailSenderServiceImpl.class);
 
     @Autowired
+    private ProfilesService profilesService;
+
+    @Autowired
     private JavaMailSender mailSender;
 
     @Autowired
     private VelocityEngine velocityEngine;
+
+    private final String deleteThisSubscribeLInk = "http://gup.com.ua:8184/api/rest/subscription/delete/";
 
     @Value("${email.services.emailVerificationSubjectText}")
     private String emailVerificationSubjectText;
@@ -47,18 +58,22 @@ public class MailSenderServiceImpl implements MailSenderService {
     @Value("${email.services.replyToAddress}")
     private String emailReplyToAddress;
 
+
+    @Override
     public EmailServiceTokenModel sendVerificationEmail(final EmailServiceTokenModel emailVerificationModel) {
         Map<String, String> resources = new HashMap<>();
           return sendVerificationEmail(emailVerificationModel, emailVerificationSubjectText,
                   "velocity/VerifyEmail.vm", resources);
     }
 
+    @Override
     public EmailServiceTokenModel sendRegistrationEmail(final EmailServiceTokenModel emailVerificationModel) {
         Map<String, String> resources = new HashMap<>();
           return sendVerificationEmail(emailVerificationModel, emailRegistrationSubjectText,
                   "velocity/RegistrationEmail.vm", resources);
     }
 
+    @Override
     public EmailServiceTokenModel sendLostPasswordEmail(final EmailServiceTokenModel emailServiceTokenModel) {
         Map<String, String> resources = new HashMap<>();
          return sendVerificationEmail(emailServiceTokenModel, lostPasswordSubjectText,
@@ -66,7 +81,9 @@ public class MailSenderServiceImpl implements MailSenderService {
     }
 
     @Override
-    public void sendSubscriptionOfferEmail(String email, Offer offer, final Map<String, String> resources) {
+    public void sendSubscriptionOfferEmail(String subscriptionId,String email, Offer offer, final Map<String, String> resources) {
+
+
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,
@@ -76,7 +93,7 @@ public class MailSenderServiceImpl implements MailSenderService {
                 messageHelper.setReplyTo(emailReplyToAddress);
                 messageHelper.setSubject("Результаты поиска по подписке с сайта GUP");
                 Map<String, Object> model = new HashMap<>();
-                model.put("model", offer);
+                model.put("model", subscribeEmailBodyPreparator(subscriptionId, email, offer));
                 String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "velocity/OfferSubscriptionEmail.vm", "UTF-8", model);
                 messageHelper.setText(text, true);
 
@@ -84,12 +101,36 @@ public class MailSenderServiceImpl implements MailSenderService {
                     addInlineResource(messageHelper, resources.get(resourceIdentifier), resourceIdentifier);
                 }
             }
-
         };
 
      mailSender.send(preparator);
+    }
 
 
+    /**
+     * Prepare email for body.
+     *
+     * @param subscriptionId    - the subscription ID.
+     * @param email             - the email of the addressee.
+     * @param offer             - the Offer object.
+     * @return                  - the SubscribeOfferEmail object.
+     */
+    private SubscribeOfferEmail subscribeEmailBodyPreparator(String subscriptionId, String email, Offer offer){
+        SubscribeOfferEmail subscribeOfferEmail = new SubscribeOfferEmail();
+
+        Profile profile = profilesService.findProfileByEmail(email);
+
+        if (profile!=null && profile.getUsername()!=null){
+            subscribeOfferEmail.setUserName(profile.getUsername());
+        }else{
+            subscribeOfferEmail.setUserName("Уважаемый пользователь портала GUP");
+        }
+
+        subscribeOfferEmail.setOffer(offer);
+        subscribeOfferEmail.setDeleteThisSubscribeLink(deleteThisSubscribeLInk+subscriptionId);
+
+
+        return subscribeOfferEmail;
     }
 
 

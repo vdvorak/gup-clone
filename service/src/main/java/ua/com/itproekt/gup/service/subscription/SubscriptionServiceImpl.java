@@ -108,7 +108,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             // here we can receive only one offer - our offer< if it is match to the filter
             if (offerList.size() > 0) {
                 Map<String, String> resources = new HashMap<>();
-                mailSenderService.sendSubscriptionOfferEmail(subscription.getEmail(), offerList.get(0), resources);
+
+                mailSenderService.sendSubscriptionOfferEmail(subscription.getId() ,subscription.getEmail(), offerList.get(0), resources);
             }
 
             // change sinceDate of the current subscription to time.Now() and update it

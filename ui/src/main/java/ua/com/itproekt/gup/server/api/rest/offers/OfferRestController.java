@@ -151,7 +151,7 @@ public class OfferRestController {
     /**
      * This controller allow to create new offer and register new profile at the same time.
      *
-     * @param offerRegistration - the OfferRegistration object with informmation about offer
+     * @param offerRegistration - the OfferRegistration object with information about offer
      *                          and with registration information.
      * @param files             - the array of the multipart files.
      * @return 201 (Created) - created offer, 400 (Bad request) - when user is not authorized,

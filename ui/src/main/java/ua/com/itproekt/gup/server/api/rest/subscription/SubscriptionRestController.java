@@ -84,7 +84,6 @@ public class SubscriptionRestController {
 
     //------------------------------------------ Delete ----------------------------------------------------------------
     @CrossOrigin
-//    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/subscription/delete/{subscriptionId}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteOffer(@PathVariable String subscriptionId) {
 

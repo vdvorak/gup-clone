@@ -1,6 +1,6 @@
 let urlRussianLanguageForTables = '//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json';
 let urlReadAllOffer = 'http://localhost:8184/api/rest/offersService/offer/read/all';
-let ulrImg = 'http://localhost:8184/api/rest/fileStorage/OFFERS/file/read/id/';
+let ulrImg = 'http://localhost:8184/api/rest/fileStorage/offers/photo/read/id/';
 let urlNoPhotoImg = 'http://localhost:8185/resources/images/no_photo.jpg';
 
 
@@ -8,9 +8,9 @@ function findFirstImg(arr) {
     var url = urlNoPhotoImg;
     var imgId = '';
     for (var i in arr) {
-        if (arr[i] === 'pic1') {
+        if (arr[i] === '1') {
             imgId = i;
-            url = ulrImg + imgId;
+            url = ulrImg + imgId + "?cachedSize=small";
             break;
         }
     }
@@ -39,12 +39,12 @@ $(document).ready(function () {
             });
 
 
-            //console.log(response);
             data = arr;
 
             for (var i = 0; i < data.length; i++) {
 
                 if (data[i].imagesIds !== null) {
+                    console.log(data[i].imagesIds)
                     data[i].imagesIds = '<img src="' + findFirstImg(data[i].imagesIds) + '" width="100" height="100">';
                 }
                 else {
