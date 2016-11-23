@@ -58,7 +58,7 @@ public class OfferRestController {
     @RequestMapping(value = "/offer/read/{seoUrl}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferInfo> getOfferByIdWithRelevant(@PathVariable String seoUrl,
-                                                              @RequestParam(required = false, defaultValue = "false") boolean relevant) {
+                                                              @RequestParam(required = false, defaultValue = "false") boolean relevant, HttpServletRequest request) {
         Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
 
         if (offer == null) {
@@ -83,6 +83,13 @@ public class OfferRestController {
             }
 
             offerInfo = offersService.getPublicOfferInfoByOffer(offer);
+        }
+
+
+         //if user is moderator or administrator
+        if (!(request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString()))){
+            offerInfo.setIsForAdmin(true);
+            return new ResponseEntity<>(offerInfo, HttpStatus.OK);
         }
 
 
