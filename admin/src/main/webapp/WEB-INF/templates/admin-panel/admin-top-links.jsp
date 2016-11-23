@@ -48,5 +48,6 @@
 <script src='../../../resources/fullcalendar/lib/moment.min.js'></script>
 <script src='../../../resources/fullcalendar/lib/jquery.min.js'></script>
 <script src='../../../resources/fullcalendar/fullcalendar.min.js'></script>
-<script src='../../../resources/fullcalendar/locale-all.js'></script>
+<script src='../../../resources/fullcalendar/locale/ru.js'></script>
+<script src='../../../resources/fullcalendar/locale/uk.js'></script>
 
