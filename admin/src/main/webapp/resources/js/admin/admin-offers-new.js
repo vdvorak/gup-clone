@@ -22,6 +22,9 @@ $(document).ready(function () {
     var offerFilterOptions = {};
     offerFilterOptions.skip = 0;
     offerFilterOptions.limit = 50;
+    //ToDo добавить только те, у которых статус NO
+
+
 
     $.ajax({
         type: "POST",
@@ -53,13 +56,15 @@ $(document).ready(function () {
             }
 
 
+            // ToDo нужо оставить только те, у которых нет даты последней модерации (т.е. которые только что созданные)
+
             for (var i = 0; i < data.length; i++) {
                 data[i].createdDate = new Date(parseInt(data[i].createdDate));
                 data[i].createdDate = moment(data[i].createdDate).locale("ru").format('LLL');
             }
 
 
-            var table = $('#offersTable').DataTable({
+            var newOffers = $('#offersTable').DataTable({
                 select: {
                     style: 'single'
                 },
@@ -75,7 +80,7 @@ $(document).ready(function () {
                 }
             });
 
-            table
+            newOffers
                 .on('select', function (e, dt, type, indexes) {
                     var rowData = table.rows(indexes).data().toArray();
                     $("input[name='transactionId']").attr("value", rowData[0].seoUrl);
