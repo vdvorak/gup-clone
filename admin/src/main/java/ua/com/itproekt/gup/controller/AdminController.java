@@ -3,10 +3,8 @@ package ua.com.itproekt.gup.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 @Controller
 public class AdminController {
-
 
     //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin")
@@ -43,6 +41,11 @@ public class AdminController {
     public String getAdminRents() {
         return "admin/admin-rents";
     }
+
+//    @RequestMapping("/account")
+//    public String getAccount() {
+//        return "account";
+//    }
 
     @RequestMapping("/admin-admins")
     public String getAdmins() {

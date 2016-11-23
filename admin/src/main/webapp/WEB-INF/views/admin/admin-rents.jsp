@@ -5,22 +5,19 @@
 <html lang="ru">
 
 <head>
-
-    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href='fullcalendar/fullcalendar.css' rel='stylesheet' />
-    <link href='fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-    <script src='fullcalendar/lib/moment.min.js'></script>
-    <script src='fullcalendar/lib/jquery.min.js'></script>
-    <script src='fullcalendar/fullcalendar.min.js'></script>
-    <script src='fullcalendar/locale-all.js'></script>
+    <title>Аренда | Панель управления</title>
+    <meta charset='utf-8' />
+
+    <!-- Links -->
+    <jsp:include page="/WEB-INF/templates/admin-panel/admin-top-links.jsp"/>
+    <!-- Links -->
 
     <script>
-
         $(document).ready(function() {
             var initialLocaleCode = 'en';
 
@@ -98,10 +95,10 @@
             // build the locale selector's options
             $.each($.fullCalendar.locales, function(localeCode) {
                 $('#locale-selector').append(
-                        $('<option/>')
-                                .attr('value', localeCode)
-                                .prop('selected', localeCode == initialLocaleCode)
-                                .text(localeCode)
+                    $('<option/>')
+                        .attr('value', localeCode)
+                        .prop('selected', localeCode == initialLocaleCode)
+                        .text(localeCode)
                 );
             });
 
@@ -112,10 +109,8 @@
                 }
             });
         });
-
     </script>
     <style>
-
         body {
             margin: 0;
             padding: 0;
@@ -136,52 +131,43 @@
             margin: 40px auto;
             padding: 0 10px;
         }
-
     </style>
+    </head>
+    <body>
 
-    <title>Аренда | Панель управления</title>
+        <div id="wrapper">
 
-    <!-- Links -->
-    <jsp:include page="/WEB-INF/templates/admin-panel/admin-top-links.jsp"/>
-    <!-- Links -->
+            <!-- Navigation -->
+            <jsp:include page="/WEB-INF/templates/admin-panel/admin-left-bar.jsp"/>
+            <!-- Navigation -->
 
-</head>
-
-<body>
-
-<div id="wrapper">
-
-    <!-- Navigation -->
-    <jsp:include page="/WEB-INF/templates/admin-panel/admin-left-bar.jsp"/>
-    <!-- Navigation -->
-
-    <div id="page-wrapper">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Аренда</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="dataTable_wrapper">
-                            <div id='top'>
-                                Locales:
-                                <select id='locale-selector'></select>
+            <div id="page-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Аренда</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="dataTable_wrapper">
+                                    <div id='top'>
+                                        Locales:
+                                        <select id='locale-selector'></select>
+                                    </div>
+                                    <div id='calendar'></div>
+                                </div>
                             </div>
-                            <div id='calendar'></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- Bottom Links -->
-<jsp:include page="/WEB-INF/templates/admin-panel/admin-bottom-links.jsp"/>
-<!-- Bottom Links -->
+    </body>
 
-</body>
+    <!-- Bottom Links -->
+    <jsp:include page="/WEB-INF/templates/admin-panel/admin-bottom-links2.jsp"/>
+    <!-- Bottom Links -->
 </html>

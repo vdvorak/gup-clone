@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!-- jQuery -->
-<script src="/resources/bower_components/jquery/dist/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="/resources/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
