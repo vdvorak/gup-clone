@@ -94,24 +94,23 @@ public class OfferRestController {
     }
 
     /**
+     * Return list of the offers which relevant to offer filter option.
+     *
      * @param offerFO - the offer filter option
-     * @param request - the HttpServletRequest object for detecting user role
      * @return - the OK status (200) if all is ok )
      */
     @CrossOrigin
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
-    public ResponseEntity<List<OfferInfo>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
+    public ResponseEntity<List<OfferInfo>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO) {
 
         // we can show only offers which have Complete status (approve by moderators)
         OfferModerationReports offerModerationReports = new OfferModerationReports();
         offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
 
-
-        if (!request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             offerFO.setActive(true);
             offerFO.setDeleted(false);
             offerFO.setOfferModerationReports(offerModerationReports);
-        }
+
 
         if (offerFO.isMain()) {
             offerFO.setCreatedDateSortDirection("DESC");
@@ -259,6 +258,32 @@ public class OfferRestController {
 
 
     //------------------------------------------ Rest for admin --------------------------------------------------------
+
+
+    /**
+     * Return the list of the offers which are relevant to offer filter options. Only for admin.
+     *
+     * @param offerFO - the offer filter option
+     * @param request - the HttpServletRequest object for detecting user role
+     * @return - the OK status (200) if all is ok )
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/offer/read/admin/all", method = RequestMethod.POST)
+    public ResponseEntity<List<OfferInfo>> listOfAllOffersForAdmin(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
+
+        // ToDo Turn this ON in release!!!!!!!
+        // if user not admin nor the moderator
+//        if (!(request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString()))){
+//            return new ResponseEntity<>( HttpStatus.UNAUTHORIZED);
+//        }
+
+        List<OfferInfo> offerInfoList = offersService.getListOfMiniPublicOffersWithOptions(offerFO);
+
+        return new ResponseEntity<>(offerInfoList, HttpStatus.OK);
+    }
+
+
+
 
     /**
      * This controller allow administrator or moderator edit offer (change categories), change moderation status

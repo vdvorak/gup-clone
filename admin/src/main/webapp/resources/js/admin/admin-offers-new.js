@@ -1,5 +1,5 @@
 let urlRussianLanguageForTables = '//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json';
-let urlReadAllOffer = 'http://localhost:8184/api/rest/offersService/offer/read/all';
+let urlReadAllOffer = 'http://localhost:8184/api/rest/offersService/offer/read/admin/all';
 let ulrImg = 'http://localhost:8184/api/rest/fileStorage/offers/photo/read/id/';
 let urlNoPhotoImg = 'http://localhost:8185/resources/images/no_photo.jpg';
 
@@ -22,9 +22,10 @@ $(document).ready(function () {
     var offerFilterOptions = {};
     offerFilterOptions.skip = 0;
     offerFilterOptions.limit = 50;
-    //ToDo добавить только те, у которых статус NO
-
-
+    offerFilterOptions.offerModerationReports = {}
+    offerFilterOptions.offerModerationReports.moderationStatus = 'NO';
+    offerFilterOptions.active = true;
+    offerFilterOptions.deleted = false;
 
     $.ajax({
         type: "POST",
