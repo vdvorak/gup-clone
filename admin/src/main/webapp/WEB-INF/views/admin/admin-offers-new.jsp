@@ -88,7 +88,7 @@
 <jsp:include page="/WEB-INF/templates/admin-panel/admin-bottom-links.jsp"/>
 <!-- Bottom Links -->
 
-<script src="/resources/js/admin/admin-offers.js"></script>
+<script src="/resources/js/admin/admin-offers-new.js"></script>
 
 </body>
 </html>

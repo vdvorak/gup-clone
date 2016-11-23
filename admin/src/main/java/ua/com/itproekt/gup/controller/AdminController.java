@@ -19,9 +19,9 @@ public class AdminController {
     }
 
     //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping("/admin-offers")
+    @RequestMapping("/admin-offers-new")
     public String getAdminOffers() {
-        return "admin/admin-offers";
+        return "admin/admin-offers-new";
     }
 
     //    @PreAuthorize("hasRole('ROLE_ADMIN')")

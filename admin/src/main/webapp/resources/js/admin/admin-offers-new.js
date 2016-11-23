@@ -1,5 +1,5 @@
 let urlRussianLanguageForTables = '//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json';
-let urlReadAllOffer = 'http://localhost:8184/api/rest/offersService/offer/read/all';
+let urlReadAllOffer = 'http://localhost:8184/api/rest/offersService/offer/read/admin/all';
 let ulrImg = 'http://localhost:8184/api/rest/fileStorage/offers/photo/read/id/';
 let urlNoPhotoImg = 'http://localhost:8185/resources/images/no_photo.jpg';
 
@@ -22,6 +22,10 @@ $(document).ready(function () {
     var offerFilterOptions = {};
     offerFilterOptions.skip = 0;
     offerFilterOptions.limit = 50;
+    offerFilterOptions.offerModerationReports = {}
+    offerFilterOptions.offerModerationReports.moderationStatus = 'NO';
+    offerFilterOptions.active = true;
+    offerFilterOptions.deleted = false;
 
     $.ajax({
         type: "POST",
@@ -53,13 +57,15 @@ $(document).ready(function () {
             }
 
 
+            // ToDo нужо оставить только те, у которых нет даты последней модерации (т.е. которые только что созданные)
+
             for (var i = 0; i < data.length; i++) {
                 data[i].createdDate = new Date(parseInt(data[i].createdDate));
                 data[i].createdDate = moment(data[i].createdDate).locale("ru").format('LLL');
             }
 
 
-            var table = $('#offersTable').DataTable({
+            var newOffers = $('#offersTable').DataTable({
                 select: {
                     style: 'single'
                 },
@@ -75,7 +81,7 @@ $(document).ready(function () {
                 }
             });
 
-            table
+            newOffers
                 .on('select', function (e, dt, type, indexes) {
                     var rowData = table.rows(indexes).data().toArray();
                     $("input[name='transactionId']").attr("value", rowData[0].seoUrl);

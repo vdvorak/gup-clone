@@ -59,7 +59,7 @@
           <a href="<c:url value="/admin-admins" />"><i class="fa fa-table fa-fw"></i>Админы</a>
         </li>
         <li>
-          <a href="<c:url value="/admin-offers" />"><i class="fa fa-credit-card fa-fw"></i>Объявления</a>
+          <a href="<c:url value="/admin-offers-new" />"><i class="fa fa-credit-card fa-fw"></i>Объявления</a>
         </li>
         <li>
           <a href="<c:url value="/admin-tariffs" />"><i class="fa fa-credit-card fa-fw"></i>Тарифы</a>
