@@ -22,7 +22,7 @@ $(document).ready(function () {
     var offerFilterOptions = {};
     offerFilterOptions.skip = 0;
     offerFilterOptions.limit = 50;
-    offerFilterOptions.offerModerationReports = {}
+    offerFilterOptions.offerModerationReports = {};
     offerFilterOptions.offerModerationReports.moderationStatus = 'NO';
     offerFilterOptions.active = true;
     offerFilterOptions.deleted = false;
@@ -73,8 +73,7 @@ $(document).ready(function () {
                 "columns": [
                     {"data": "imagesIds"},
                     {"data": "title"},
-                    {"data": "createdDate"},
-                    {"data": "moderationStatus"}
+                    {"data": "createdDate"}
                 ],
                 "language": {
                     "url": urlRussianLanguageForTables
@@ -83,15 +82,15 @@ $(document).ready(function () {
 
             newOffers
                 .on('select', function (e, dt, type, indexes) {
-                    var rowData = table.rows(indexes).data().toArray();
-                    $("input[name='transactionId']").attr("value", rowData[0].seoUrl);
+                    var rowData = newOffers.rows(indexes).data().toArray();
+                    $("input[name='offerId']").attr("value", rowData[0].id);
+                    $("input[name='offerUrl']").attr("value", rowData[0].seoUrl);
                     $('#offerIdhref').attr("href", "/edit-offer/" + rowData[0].seoUrl);
-                    $('#inp').removeAttr("readonly");
                     $('#editOfferButton').attr("class", "btn btn-danger");
                 })
                 .on('deselect', function (e, dt, type, indexes) {
-                    $("input[name='transactionId']").attr("value", "");
-                    $('#inp').attr("readonly", "readonly");
+                    $("input[name='offerId']").attr("value", "");
+                    $("input[name='offerUrl']").attr("value", "");
                     $('#editOfferButton').attr("class", "btn btn-danger disabled");
                 });
         }

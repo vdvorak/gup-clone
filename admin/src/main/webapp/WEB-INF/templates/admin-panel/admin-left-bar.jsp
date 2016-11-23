@@ -27,9 +27,9 @@
         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
       </a>
       <ul class="dropdown-menu dropdown-user">
-        <li><a href="<c:url value="/profileEditor" />"><i class="fa fa-user fa-fw"></i> Профиль</a>
-        </li>
-        <li class="divider"></li>
+        <%--<li><a href="<c:url value="/profileEditor" />"><i class="fa fa-user fa-fw"></i> Профиль</a>--%>
+        <%--</li>--%>
+        <%--<li class="divider"></li>--%>
         <li><a href="<c:url value="/logout" />"><i class="fa fa-sign-out fa-fw"></i> Выход</a>
         </li>
       </ul>
@@ -59,7 +59,7 @@
           <a href="<c:url value="/admin-admins" />"><i class="fa fa-table fa-fw"></i>Админы</a>
         </li>
         <li>
-          <a href="<c:url value="/admin-offers-new" />"><i class="fa fa-credit-card fa-fw"></i>Объявления</a>
+          <a href="<c:url value="/admin-offers-new" />"><i class="fa fa-credit-card fa-fw"></i>Новые объявления</a>
         </li>
         <li>
           <a href="<c:url value="/admin-tariffs" />"><i class="fa fa-credit-card fa-fw"></i>Тарифы</a>

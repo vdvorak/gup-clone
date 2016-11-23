@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Редактирование объявлений | Панель управления</title>
+    <title>Модерация новых объявлений | Панель управления</title>
 
     <!-- Links -->
     <jsp:include page="/WEB-INF/templates/admin-panel/admin-top-links.jsp"/>
@@ -32,7 +32,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Объявления</h1>
+                <h1 class="page-header">Новые объявления</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -51,7 +51,6 @@
                                     <th>Фото</th>
                                     <th>Заголовок</th>
                                     <th>Дата создания</th>
-                                    <th>Статус</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -61,7 +60,12 @@
                                     <h3 class="panel-title">Редактировать объявление</h3>
                                     <tr>
                                         <td>ID объявления:</td>
-                                        <td><input id="inp" class="form-control" name="transactionId" readonly required>
+                                        <td><input id="inpId" class="form-control" name="offerId" readonly required>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>URL объявления:</td>
+                                        <td><input id="inpUrl" class="form-control" name="offerUrl" readonly required>
                                         </td>
                                     </tr>
                                     </tbody>
