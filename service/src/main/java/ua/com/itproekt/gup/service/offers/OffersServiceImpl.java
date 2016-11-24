@@ -868,9 +868,11 @@ public class OffersServiceImpl implements OffersService {
             offerModifiedFields.add(OfferModifiedField.MODIFIED_CATEGORIES);
         }
 
-        if (!oldOffer.getProperties().equals(newOffer.getProperties())) {
-            offerModifiedFields.add(OfferModifiedField.MODIFIED_PROPERTIES);
-        }
+
+//FixMe this bullshit doesn't work properly - it's show not equals in the same lists
+//        if (!oldOffer.getProperties().equals(newOffer.getProperties())) {
+//            offerModifiedFields.add(OfferModifiedField.MODIFIED_PROPERTIES);
+//        }
 
         // if we have new images uploaded manual
         if (files.length > 0) {
