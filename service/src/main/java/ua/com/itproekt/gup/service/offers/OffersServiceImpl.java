@@ -748,7 +748,10 @@ public class OffersServiceImpl implements OffersService {
         //Find images in old offer version that were deleted in new
         // and delete them from base in all resized variants.
         storageService.deleteDiffImagesAfterOfferUpdate(oldOffer.getImagesIds(), newOfferRegistration.getOffer().getImagesIds());
-
+        
+        if (newOfferRegistration.getSelectedImageType() == null){
+            newOfferRegistration.setSelectedImageType("old");
+        }
 
         // если "главная" фотка выбрана среди "старых"
         if (newOfferRegistration.getSelectedImageType().equals("old")) {
