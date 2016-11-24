@@ -240,9 +240,9 @@ public class OffersServiceImpl implements OffersService {
 
         // check is offer not null and exist
         if (updatedOffer.getId() == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("You did not sent offer ID", HttpStatus.BAD_REQUEST);
         } else if (!offerExists(updatedOffer.getId())) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Offer with this ID: " + updatedOffer.getId() +" is not exist", HttpStatus.NOT_FOUND);
         }
 
         Offer oldOffer = findById(updatedOffer.getId());
@@ -252,7 +252,7 @@ public class OffersServiceImpl implements OffersService {
 
         // Check if current user is not an author
         if (!findById(updatedOffer.getId()).getAuthorId().equals(userId)) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("You are not author of this offer", HttpStatus.FORBIDDEN);
         }
 
         // update SEO url title for offer
