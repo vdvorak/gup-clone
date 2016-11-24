@@ -15,6 +15,7 @@ public class OfferModerationReports {
 
     List<OfferRefusalReason> offerRefusalReasons; // the reason why moderator refuse offer
 
+    List<OfferModifiedField> offerModifiedFieldLIst; // the list of the last modified fields
 
     public String getModeratorId() {
         return moderatorId;
@@ -48,6 +49,22 @@ public class OfferModerationReports {
         this.moderationStatus = moderationStatus;
     }
 
+    public List<OfferRefusalReason> getOfferRefusalReasons() {
+        return offerRefusalReasons;
+    }
+
+    public void setOfferRefusalReasons(List<OfferRefusalReason> offerRefusalReasons) {
+        this.offerRefusalReasons = offerRefusalReasons;
+    }
+
+    public List<OfferModifiedField> getOfferModifiedFieldLIst() {
+        return offerModifiedFieldLIst;
+    }
+
+    public void setOfferModifiedFieldLIst(List<OfferModifiedField> offerModifiedFieldLIst) {
+        this.offerModifiedFieldLIst = offerModifiedFieldLIst;
+    }
+
     @Override
     public String toString() {
         return "OfferModerationReports{" +
@@ -55,6 +72,7 @@ public class OfferModerationReports {
                 ", lastModifiedDate=" + lastModifiedDate +
                 ", moderationStatus=" + moderationStatus +
                 ", offerRefusalReasons=" + offerRefusalReasons +
+                ", offerModifiedFieldLIst=" + offerModifiedFieldLIst +
                 '}';
     }
 }

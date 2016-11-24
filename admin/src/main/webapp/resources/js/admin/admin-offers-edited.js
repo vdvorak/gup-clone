@@ -4,7 +4,7 @@ let ulrImg = 'http://localhost:8184/api/rest/fileStorage/offers/photo/read/id/';
 let urlNoPhotoImg = 'http://localhost:8185/resources/images/no_photo.jpg';
 
 /**
- * Find first image from the whole arraye of images of the offer
+ * Find first image from the whole array of images of the offer
  *
  * @param arr           - the array with images.
  * @returns {string}    - the url of the main photo.

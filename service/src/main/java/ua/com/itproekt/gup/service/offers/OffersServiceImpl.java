@@ -842,31 +842,39 @@ public class OffersServiceImpl implements OffersService {
     }
 
     /**
-     * Show does new offer have critical changes or not.
+     * Show does new offer have critical changes or not and add information about them into new offer object.
      *
      * @param oldOffer - the old offer version - before update.
      * @param newOffer - the new offer version - candidate to update.
      * @return - true if offer has critical changes, and false - if not.
      */
     private boolean isOfferWasCriticalChanged(Offer oldOffer, Offer newOffer, MultipartFile[] files) {
+
+        List<OfferModifiedField> offerModifiedFields = new ArrayList<>();
+
         if (!oldOffer.getTitle().equals(newOffer.getTitle())) {
-            return true;
+            offerModifiedFields.add(OfferModifiedField.MODIFIED_TITLE);
         }
 
         if (!oldOffer.getDescription().equals(newOffer.getDescription())) {
-            return true;
+            offerModifiedFields.add(OfferModifiedField.MODIFIED_DESCRIPTION);
         }
 
         if (!oldOffer.getCategories().equals(newOffer.getCategories())) {
-            return true;
+            offerModifiedFields.add(OfferModifiedField.MODIFIED_CATEGORIES);
         }
 
         if (!oldOffer.getProperties().equals(newOffer.getProperties())) {
-            return true;
+            offerModifiedFields.add(OfferModifiedField.MODIFIED_PROPERTIES);
         }
 
         // if we have new images uploaded manual
         if (files.length > 0) {
+            offerModifiedFields.add(OfferModifiedField.MODIFIED_IMAGES);
+        }
+
+        if (offerModifiedFields.size() > 0 ){
+            newOffer.getOfferModerationReports().setOfferModifiedFieldLIst(offerModifiedFields);
             return true;
         }
 
