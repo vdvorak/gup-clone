@@ -877,8 +877,13 @@ public class OffersServiceImpl implements OffersService {
             offerModifiedFields.add(OfferModifiedField.MODIFIED_IMAGES);
         }
 
+
+        // take old offerModerationReports, add offerModifiedFields and put it into new Offer
+        OfferModerationReports offerModerationReports = oldOffer.getOfferModerationReports();
+        offerModerationReports.setOfferModifiedFieldLIst(offerModifiedFields);
+
         if (offerModifiedFields.size() > 0 ){
-            newOffer.getOfferModerationReports().setOfferModifiedFieldLIst(offerModifiedFields);
+            newOffer.setOfferModerationReports(offerModerationReports);
             return true;
         }
 
