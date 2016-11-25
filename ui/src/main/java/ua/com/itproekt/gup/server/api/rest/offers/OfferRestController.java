@@ -87,7 +87,7 @@ public class OfferRestController {
 
 
          //if user is moderator or administrator
-        if (!(request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString()))){
+        if (request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString())){
             offerInfo.setIsForAdmin(true);
             return new ResponseEntity<>(offerInfo, HttpStatus.OK);
         }
