@@ -66,19 +66,55 @@ $(document).ready(function () {
             //}
 
 
+            /**
+             * Parse offer changes variants.
+             *
+             * @param currentString
+             * @param change
+             * @param position
+             * @returns {string}
+             */
+            let changesPreparator = function (currentString, change, position) {
+                let result = '';
+
+
+                switch (change) {
+                    case 'MODIFIED_TITLE' :
+                        result = 'заголовок';
+                        break;
+                    case 'MODIFIED_DESCRIPTION' :
+                        result = 'описание';
+                        break;
+                    case 'MODIFIED_CATEGORIES' :
+                        result = 'категория';
+                        break;
+                    case 'MODIFIED_PROPERTIES' :
+                        result = 'хар-ки';
+                        break;
+                    case 'MODIFIED_IMAGES' :
+                        result = 'фото';
+                        break;
+                }
+
+                if (currentString != '') {
+                    result = ', ' + result;
+                }
+
+                return result;
+            };
+
+
             // here we put changes
             for (var i = 0; i < data.length; i++) {
 
                 let offerChanges = data[i].offerModerationReports.offerModifiedFieldLIst;
 
+                data[i].changes = '';
                 if (offerChanges) {
                     for (var j = 0; j < offerChanges.length; j++) {
-                        data[i].changes = [];
-                        data[i].changes.push(offerChanges[j]);
-                        console.log(offerChanges[j])
+                        data[i].changes = data[i].changes + (changesPreparator(data[i].changes, offerChanges[j], j));
                     }
                 }
-
             }
 
 
