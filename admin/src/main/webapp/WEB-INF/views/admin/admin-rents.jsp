@@ -23,22 +23,30 @@
 
             $('#calendar').fullCalendar({
                 header: {
-                    left: 'prev,next today',
+                    left: 'prev,today,next',
                     center: 'title',
-                    right: 'month,agendaWeek,agendaDay,listWeek'
+                    right: 'month,agendaWeek,agendaDay'
                 },
-                defaultDate: '2016-09-12',
+                defaultDate: '2016-11-25',
                 locale: initialLocaleCode,
-//                buttonIcons: false, // show the prev/next text
-                weekNumbers: true,
+//                buttonIcons: false,      // show the prev/next text
+                weekNumbers: false,
                 editable: true,
-                navLinks: true, // can click day/week names to navigate views
-                eventLimit: true, // allow "more" link when too many events
+                navLinks: true,          // can click day/week names to navigate views
+                eventLimit: true,        // allow "more" link when too many events
+                businessHours: true,     // display business hours
+                displayEventTime: false, // don't show the time column in list view
+                googleCalendarApiKey: 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE', // To make your own Google API key, follow the directions here: http://fullcalendar.io/docs/google_calendar/
                 events: {
                     url: 'resources/fullcalendar/demos/json/events.json',
                     error: function() {
                         $('#script-warning').show();
                     }
+                },
+                eventClick: function(event) {
+                    // opens events in a popup window
+                    window.open(event.url, 'gcalevent', 'width=700,height=600');
+                    return false;
                 },
                 loading: function(bool) {
                     $('#loading').toggle(bool);
@@ -54,7 +62,6 @@
                         .text(localeCode)
                 );
             });
-
             // when the selected option changes, dynamically change the calendar option
             $('#locale-selector').on('change', function() {
                 if (this.value) {
@@ -64,21 +71,6 @@
         });
     </script>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-            font-size: 14px;
-        }
-
-        #top {
-            background: #eee;
-            border-bottom: 1px solid #ddd;
-            padding: 0 10px;
-            line-height: 40px;
-            font-size: 12px;
-        }
-
         #calendar {
             max-width: 900px;
             margin: 40px auto;
@@ -105,9 +97,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="dataTable_wrapper">
-                                    <div id='top'>
-                                        <select id='locale-selector'></select>
-                                    </div>
+                                    <select id='locale-selector'></select>
                                     <div id='calendar'></div>
                                 </div>
                             </div>

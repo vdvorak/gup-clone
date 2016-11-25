@@ -43,11 +43,13 @@
 <![endif]-->
 
 <!-- Full Calendar 3.0.1 -->
+<link rel='stylesheet' href='../../../resources/fullcalendar/lib/cupertino/jquery-ui.min.css' />
 <link href='../../../resources/fullcalendar/fullcalendar.css' rel='stylesheet' />
 <link href='../../../resources/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
 <script src='../../../resources/fullcalendar/lib/moment.min.js'></script>
 <script src='../../../resources/fullcalendar/lib/jquery.min.js'></script>
 <script src='../../../resources/fullcalendar/fullcalendar.min.js'></script>
+<script src='../../../resources/fullcalendar/gcal.js'></script>
 <script src='../../../resources/fullcalendar/locale/ru.js'></script>
 <script src='../../../resources/fullcalendar/locale/uk.js'></script>
 
