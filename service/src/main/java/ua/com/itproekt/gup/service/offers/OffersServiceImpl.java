@@ -89,14 +89,13 @@ public class OffersServiceImpl implements OffersService {
 
         offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
-        if (StringUtils.isNotBlank(offerRegistration.getSelectedImageType())){
+        if (StringUtils.isNotBlank(offerRegistration.getSelectedImageType())) {
             // prepare images
             Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
 
             // add prepared image to the offer
             offerRegistration.getOffer().setImagesIds(resultImageMap);
         }
-
 
 
         // create new offer
@@ -141,8 +140,6 @@ public class OffersServiceImpl implements OffersService {
                 .setPaidServices(offer.getPaidServices())
                 .setMonthOfPrices(offer.getMonthOfPrices())
                 .setRents(offer.getRents());
-
-
 
 
         offerRepository.create(newOffer);
@@ -242,7 +239,7 @@ public class OffersServiceImpl implements OffersService {
         if (updatedOffer.getId() == null) {
             return new ResponseEntity<>("You did not sent offer ID", HttpStatus.BAD_REQUEST);
         } else if (!offerExists(updatedOffer.getId())) {
-            return new ResponseEntity<>("Offer with this ID: " + updatedOffer.getId() +" is not exist", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Offer with this ID: " + updatedOffer.getId() + " is not exist", HttpStatus.NOT_FOUND);
         }
 
         Offer oldOffer = findById(updatedOffer.getId());
@@ -749,7 +746,7 @@ public class OffersServiceImpl implements OffersService {
         // and delete them from base in all resized variants.
         storageService.deleteDiffImagesAfterOfferUpdate(oldOffer.getImagesIds(), newOfferRegistration.getOffer().getImagesIds());
 
-        if (newOfferRegistration.getSelectedImageType() == null){
+        if (newOfferRegistration.getSelectedImageType() == null) {
             newOfferRegistration.setSelectedImageType("old");
             newOfferRegistration.setSelectedImageIndex("0");
         }
@@ -854,38 +851,49 @@ public class OffersServiceImpl implements OffersService {
      */
     private boolean isOfferWasCriticalChanged(Offer oldOffer, Offer newOffer, MultipartFile[] files) {
 
-        List<OfferModifiedField> offerModifiedFields = new ArrayList<>();
+        Set<OfferModifiedField> newOfferModifiedFields = new HashSet<>();
 
         if (!oldOffer.getTitle().equals(newOffer.getTitle())) {
-            offerModifiedFields.add(OfferModifiedField.MODIFIED_TITLE);
+            newOfferModifiedFields.add(OfferModifiedField.MODIFIED_TITLE);
         }
 
         if (!oldOffer.getDescription().equals(newOffer.getDescription())) {
-            offerModifiedFields.add(OfferModifiedField.MODIFIED_DESCRIPTION);
+            newOfferModifiedFields.add(OfferModifiedField.MODIFIED_DESCRIPTION);
         }
 
         if (!oldOffer.getCategories().equals(newOffer.getCategories())) {
-            offerModifiedFields.add(OfferModifiedField.MODIFIED_CATEGORIES);
+            newOfferModifiedFields.add(OfferModifiedField.MODIFIED_CATEGORIES);
         }
 
 
-//FixMe this bullshit doesn't work properly - it's show not equals in the same lists
-//        if (!oldOffer.getProperties().equals(newOffer.getProperties())) {
-//            offerModifiedFields.add(OfferModifiedField.MODIFIED_PROPERTIES);
-//        }
+        //FixMe this bullshit doesn't work properly - it's show not equals in the same lists
+        //        if (!oldOffer.getProperties().equals(newOffer.getProperties())) {
+        //            offerModifiedFields.add(OfferModifiedField.MODIFIED_PROPERTIES);
+        //        }
 
         // if we have new images uploaded manual
         if (files.length > 0) {
-            offerModifiedFields.add(OfferModifiedField.MODIFIED_IMAGES);
+            newOfferModifiedFields.add(OfferModifiedField.MODIFIED_IMAGES);
         }
 
 
-        // take old offerModerationReports, add offerModifiedFields and put it into new Offer
-        OfferModerationReports offerModerationReports = oldOffer.getOfferModerationReports();
-        offerModerationReports.setOfferModifiedFieldLIst(offerModifiedFields);
+        // Если в старой версии статус модерации был NO - то изменённые поля мы добавляем, если COMPLETE - то заменяем
 
-        if (offerModifiedFields.size() > 0 ){
-            newOffer.setOfferModerationReports(offerModerationReports);
+
+
+        if (oldOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO) {
+            if (oldOffer.getOfferModerationReports().getOfferModifiedFieldLIst() != null) {
+                newOfferModifiedFields.addAll(oldOffer.getOfferModerationReports().getOfferModifiedFieldLIst());
+            }
+        }
+
+        // take old offerModerationReports, add offerModifiedFields and put it into new Offer
+        OfferModerationReports resultOfferModerationReports = oldOffer.getOfferModerationReports();
+
+        resultOfferModerationReports.setOfferModifiedFieldLIst(newOfferModifiedFields);
+
+        if (newOfferModifiedFields.size() > 0) {
+            newOffer.setOfferModerationReports(resultOfferModerationReports);
             return true;
         }
 
