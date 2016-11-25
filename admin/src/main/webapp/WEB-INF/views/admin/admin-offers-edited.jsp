@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Модерация новых объявлений | Панель управления</title>
+    <title>Модерация отредактированных объявлений объявлений | Панель управления</title>
 
     <!-- Links -->
     <jsp:include page="/WEB-INF/templates/admin-panel/admin-top-links.jsp"/>
@@ -32,7 +32,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Новые объявления</h1>
+                <h1 class="page-header">Отредактированные объявления</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -50,7 +50,7 @@
                                 <tr>
                                     <th>Фото</th>
                                     <th>Заголовок</th>
-                                    <th>Дата создания</th>
+                                    <th>Изменения</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -92,7 +92,7 @@
 <jsp:include page="/WEB-INF/templates/admin-panel/admin-bottom-links.jsp"/>
 <!-- Bottom Links -->
 
-<script src="/resources/js/admin/admin-offers-new.js"></script>
+<script src="/resources/js/admin/admin-offers-edited.js"></script>
 
 </body>
 </html>

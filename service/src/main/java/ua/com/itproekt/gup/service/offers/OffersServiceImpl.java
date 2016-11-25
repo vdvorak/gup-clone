@@ -89,14 +89,13 @@ public class OffersServiceImpl implements OffersService {
 
         offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
-        if (StringUtils.isNotBlank(offerRegistration.getSelectedImageType())){
+        if (StringUtils.isNotBlank(offerRegistration.getSelectedImageType())) {
             // prepare images
             Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
 
             // add prepared image to the offer
             offerRegistration.getOffer().setImagesIds(resultImageMap);
         }
-
 
 
         // create new offer
@@ -141,8 +140,6 @@ public class OffersServiceImpl implements OffersService {
                 .setPaidServices(offer.getPaidServices())
                 .setMonthOfPrices(offer.getMonthOfPrices())
                 .setRents(offer.getRents());
-
-
 
 
         offerRepository.create(newOffer);
@@ -240,9 +237,9 @@ public class OffersServiceImpl implements OffersService {
 
         // check is offer not null and exist
         if (updatedOffer.getId() == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("You did not sent offer ID", HttpStatus.BAD_REQUEST);
         } else if (!offerExists(updatedOffer.getId())) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Offer with this ID: " + updatedOffer.getId() + " is not exist", HttpStatus.NOT_FOUND);
         }
 
         Offer oldOffer = findById(updatedOffer.getId());
@@ -252,7 +249,7 @@ public class OffersServiceImpl implements OffersService {
 
         // Check if current user is not an author
         if (!findById(updatedOffer.getId()).getAuthorId().equals(userId)) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("You are not author of this offer", HttpStatus.FORBIDDEN);
         }
 
         // update SEO url title for offer
@@ -749,6 +746,10 @@ public class OffersServiceImpl implements OffersService {
         // and delete them from base in all resized variants.
         storageService.deleteDiffImagesAfterOfferUpdate(oldOffer.getImagesIds(), newOfferRegistration.getOffer().getImagesIds());
 
+        if (newOfferRegistration.getSelectedImageType() == null) {
+            newOfferRegistration.setSelectedImageType("old");
+            newOfferRegistration.setSelectedImageIndex("0");
+        }
 
         // если "главная" фотка выбрана среди "старых"
         if (newOfferRegistration.getSelectedImageType().equals("old")) {
@@ -842,31 +843,54 @@ public class OffersServiceImpl implements OffersService {
     }
 
     /**
-     * Show does new offer have critical changes or not.
+     * Show does new offer have critical changes or not and add information about them into new offer object.
      *
      * @param oldOffer - the old offer version - before update.
      * @param newOffer - the new offer version - candidate to update.
      * @return - true if offer has critical changes, and false - if not.
      */
     private boolean isOfferWasCriticalChanged(Offer oldOffer, Offer newOffer, MultipartFile[] files) {
+
+        Set<OfferModifiedField> newOfferModifiedFields = new HashSet<>();
+
         if (!oldOffer.getTitle().equals(newOffer.getTitle())) {
-            return true;
+            newOfferModifiedFields.add(OfferModifiedField.MODIFIED_TITLE);
         }
 
         if (!oldOffer.getDescription().equals(newOffer.getDescription())) {
-            return true;
+            newOfferModifiedFields.add(OfferModifiedField.MODIFIED_DESCRIPTION);
         }
 
         if (!oldOffer.getCategories().equals(newOffer.getCategories())) {
-            return true;
+            newOfferModifiedFields.add(OfferModifiedField.MODIFIED_CATEGORIES);
         }
 
-        if (!oldOffer.getProperties().equals(newOffer.getProperties())) {
-            return true;
-        }
+
+        //FixMe this bullshit doesn't work properly - it's show not equals in the same lists
+        //        if (!oldOffer.getProperties().equals(newOffer.getProperties())) {
+        //            offerModifiedFields.add(OfferModifiedField.MODIFIED_PROPERTIES);
+        //        }
 
         // if we have new images uploaded manual
         if (files.length > 0) {
+            newOfferModifiedFields.add(OfferModifiedField.MODIFIED_IMAGES);
+        }
+
+
+        // Если в старой версии статус модерации был NO - то изменённые поля мы добавляем, если COMPLETE - то заменяем
+        if (oldOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO) {
+            if (oldOffer.getOfferModerationReports().getOfferModifiedFieldLIst() != null) {
+                newOfferModifiedFields.addAll(oldOffer.getOfferModerationReports().getOfferModifiedFieldLIst());
+            }
+        }
+
+        // take old offerModerationReports, add offerModifiedFields and put it into new Offer
+        OfferModerationReports resultOfferModerationReports = oldOffer.getOfferModerationReports();
+
+        resultOfferModerationReports.setOfferModifiedFieldLIst(newOfferModifiedFields);
+
+        if (newOfferModifiedFields.size() > 0) {
+            newOffer.setOfferModerationReports(resultOfferModerationReports);
             return true;
         }
 

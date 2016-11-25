@@ -4,7 +4,7 @@ let ulrImg = 'http://localhost:8184/api/rest/fileStorage/offers/photo/read/id/';
 let urlNoPhotoImg = 'http://localhost:8185/resources/images/no_photo.jpg';
 
 /**
- * Find first image from the whole arraye of images of the offer
+ * Find first image from the whole array of images of the offer
  *
  * @param arr           - the array with images.
  * @returns {string}    - the url of the main photo.
@@ -44,13 +44,12 @@ $(document).ready(function () {
 
         success: function (response) {
 
-
             data = response;
 
             for (var i = 0; i < data.length; i++) {
 
                 if (data[i].imagesIds !== null) {
-                    console.log(data[i].imagesIds);
+                    //console.log(data[i].imagesIds);
                     data[i].imagesIds = '<img src="' + findFirstImg(data[i].imagesIds) + '" width="100" height="100">';
                 }
                 else {
@@ -59,11 +58,63 @@ $(document).ready(function () {
             }
 
 
-            // ToDo нужо оставить только те, у которых нет даты последней модерации (т.е. которые только что созданные)
+            //// ToDo нужо оставить только те, у которых нет даты последней модерации (т.е. которые только что созданные)
+            //
+            //for (var i = 0; i < data.length; i++) {
+            //    data[i].createdDate = new Date(parseInt(data[i].createdDate));
+            //    data[i].createdDate = moment(data[i].createdDate).locale("ru").format('LLL');
+            //}
 
+
+            /**
+             * Parse offer changes variants.
+             *
+             * @param currentString
+             * @param change
+             * @param position
+             * @returns {string}
+             */
+            let changesPreparator = function (currentString, change, position) {
+                let result = '';
+
+
+                switch (change) {
+                    case 'MODIFIED_TITLE' :
+                        result = 'заголовок';
+                        break;
+                    case 'MODIFIED_DESCRIPTION' :
+                        result = 'описание';
+                        break;
+                    case 'MODIFIED_CATEGORIES' :
+                        result = 'категория';
+                        break;
+                    case 'MODIFIED_PROPERTIES' :
+                        result = 'хар-ки';
+                        break;
+                    case 'MODIFIED_IMAGES' :
+                        result = 'фото';
+                        break;
+                }
+
+                if (currentString != '') {
+                    result = ', ' + result;
+                }
+
+                return result;
+            };
+
+
+            // here we put changes
             for (var i = 0; i < data.length; i++) {
-                data[i].createdDate = new Date(parseInt(data[i].createdDate));
-                data[i].createdDate = moment(data[i].createdDate).locale("ru").format('LLL');
+
+                let offerChanges = data[i].offerModerationReports.offerModifiedFieldLIst;
+
+                data[i].changes = '';
+                if (offerChanges) {
+                    for (var j = 0; j < offerChanges.length; j++) {
+                        data[i].changes = data[i].changes + (changesPreparator(data[i].changes, offerChanges[j], j));
+                    }
+                }
             }
 
 
@@ -75,7 +126,7 @@ $(document).ready(function () {
                 "columns": [
                     {"data": "imagesIds"},
                     {"data": "title"},
-                    {"data": "createdDate"}
+                    {"data": "changes"}
                 ],
                 "language": {
                     "url": urlRussianLanguageForTables

@@ -9,6 +9,11 @@ import ua.com.itproekt.gup.model.order.OrderFeedback;
 import java.util.List;
 
 
+/**
+ * Wrapper class for Offer.
+ *
+ * @author Kobylyatskyy Alexander
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OfferInfo extends Offer {
     private Offer offer;
@@ -20,6 +25,8 @@ public class OfferInfo extends Offer {
     private int ordersCount;
     private List<OrderFeedback> orderFeedbackList;
     private List<Order> orderList;
+
+    private boolean isForAdmin; // is this offer will show for administrator
 
 
     public Offer getOffer() {
@@ -98,6 +105,14 @@ public class OfferInfo extends Offer {
         return this;
     }
 
+    public boolean isForAdmin() {
+        return isForAdmin;
+    }
+
+    public void setIsForAdmin(boolean isForAdmin) {
+        this.isForAdmin = isForAdmin;
+    }
+
     @Override
     public String toString() {
         return "OfferInfo{" +
@@ -110,6 +125,7 @@ public class OfferInfo extends Offer {
                 ", ordersCount=" + ordersCount +
                 ", orderFeedbackList=" + orderFeedbackList +
                 ", orderList=" + orderList +
+                ", isForAdmin=" + isForAdmin +
                 '}';
     }
 }

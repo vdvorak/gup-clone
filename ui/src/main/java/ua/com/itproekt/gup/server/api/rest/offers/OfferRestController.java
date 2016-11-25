@@ -58,7 +58,7 @@ public class OfferRestController {
     @RequestMapping(value = "/offer/read/{seoUrl}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OfferInfo> getOfferByIdWithRelevant(@PathVariable String seoUrl,
-                                                              @RequestParam(required = false, defaultValue = "false") boolean relevant) {
+                                                              @RequestParam(required = false, defaultValue = "false") boolean relevant, HttpServletRequest request) {
         Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
 
         if (offer == null) {
@@ -83,6 +83,13 @@ public class OfferRestController {
             }
 
             offerInfo = offersService.getPublicOfferInfoByOffer(offer);
+        }
+
+
+         //if user is moderator or administrator
+        if (request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString())){
+            offerInfo.setIsForAdmin(true);
+            return new ResponseEntity<>(offerInfo, HttpStatus.OK);
         }
 
 
@@ -269,7 +276,7 @@ public class OfferRestController {
      */
     @CrossOrigin
     @RequestMapping(value = "/offer/read/admin/all", method = RequestMethod.POST)
-    public ResponseEntity<List<OfferInfo>> listOfAllOffersForAdmin(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
+    public ResponseEntity<List<Offer>> listOfAllOffersForAdmin(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
 
         // ToDo Turn this ON in release!!!!!!!
         // if user not admin nor the moderator
@@ -277,11 +284,10 @@ public class OfferRestController {
 //            return new ResponseEntity<>( HttpStatus.UNAUTHORIZED);
 //        }
 
-        List<OfferInfo> offerInfoList = offersService.getListOfMiniPublicOffersWithOptions(offerFO);
+        List<Offer> offerList = offersService.findOffersWihOptions(offerFO).getEntities();
 
-        return new ResponseEntity<>(offerInfoList, HttpStatus.OK);
+        return new ResponseEntity<>(offerList, HttpStatus.OK);
     }
-
 
 
 

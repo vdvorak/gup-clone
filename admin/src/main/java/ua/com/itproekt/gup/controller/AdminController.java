@@ -3,6 +3,9 @@ package ua.com.itproekt.gup.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * @author Kobylyatskyy Alexander
+ */
 @Controller
 public class AdminController {
 
@@ -20,8 +23,14 @@ public class AdminController {
 
     //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/admin-offers-new")
-    public String getAdminOffers() {
+    public String getAdminNewOffers() {
         return "admin/admin-offers-new";
+    }
+
+    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping("/admin-offers-edited")
+    public String getAdminEditedOffers() {
+        return "admin/admin-offers-edited";
     }
 
     //    @PreAuthorize("hasRole('ROLE_ADMIN')")
