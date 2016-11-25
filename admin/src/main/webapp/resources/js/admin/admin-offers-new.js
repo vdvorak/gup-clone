@@ -23,8 +23,6 @@ function findFirstImg(arr) {
 }
 
 
-
-
 $(document).ready(function () {
     var data;
     var offerFilterOptions = {
@@ -47,19 +45,12 @@ $(document).ready(function () {
         success: function (response) {
 
 
-            // because we have offer wrapper
-            var arr = [];
-            response.forEach(el => {
-                arr.push(el.offer)
-            });
-
-
-            data = arr;
+            data = response;
 
             for (var i = 0; i < data.length; i++) {
 
                 if (data[i].imagesIds !== null) {
-                    console.log(data[i].imagesIds)
+                    console.log(data[i].imagesIds);
                     data[i].imagesIds = '<img src="' + findFirstImg(data[i].imagesIds) + '" width="100" height="100">';
                 }
                 else {
@@ -74,7 +65,6 @@ $(document).ready(function () {
                 data[i].createdDate = new Date(parseInt(data[i].createdDate));
                 data[i].createdDate = moment(data[i].createdDate).locale("ru").format('LLL');
             }
-
 
 
             var newOffers = $('#offersTable').DataTable({

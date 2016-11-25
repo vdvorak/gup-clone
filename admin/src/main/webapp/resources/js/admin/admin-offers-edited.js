@@ -23,8 +23,6 @@ function findFirstImg(arr) {
 }
 
 
-
-
 $(document).ready(function () {
     var data;
     var offerFilterOptions = {
@@ -46,20 +44,12 @@ $(document).ready(function () {
 
         success: function (response) {
 
-
-            // because we have offer wrapper
-            var arr = [];
-            response.forEach(el => {
-                arr.push(el.offer)
-            });
-
-
-            data = arr;
+            data = response;
 
             for (var i = 0; i < data.length; i++) {
 
                 if (data[i].imagesIds !== null) {
-                    console.log(data[i].imagesIds)
+                    //console.log(data[i].imagesIds);
                     data[i].imagesIds = '<img src="' + findFirstImg(data[i].imagesIds) + '" width="100" height="100">';
                 }
                 else {
@@ -68,13 +58,28 @@ $(document).ready(function () {
             }
 
 
-            // ToDo нужо оставить только те, у которых нет даты последней модерации (т.е. которые только что созданные)
+            //// ToDo нужо оставить только те, у которых нет даты последней модерации (т.е. которые только что созданные)
+            //
+            //for (var i = 0; i < data.length; i++) {
+            //    data[i].createdDate = new Date(parseInt(data[i].createdDate));
+            //    data[i].createdDate = moment(data[i].createdDate).locale("ru").format('LLL');
+            //}
 
+
+            // here we put changes
             for (var i = 0; i < data.length; i++) {
-                data[i].createdDate = new Date(parseInt(data[i].createdDate));
-                data[i].createdDate = moment(data[i].createdDate).locale("ru").format('LLL');
-            }
 
+                let offerChanges = data[i].offerModerationReports.offerModifiedFieldLIst;
+
+                if (offerChanges) {
+                    for (var j = 0; j < offerChanges.length; j++) {
+                        data[i].changes = [];
+                        data[i].changes.push(offerChanges[j]);
+                        console.log(offerChanges[j])
+                    }
+                }
+
+            }
 
 
             var newOffers = $('#offersTable').DataTable({
@@ -85,7 +90,7 @@ $(document).ready(function () {
                 "columns": [
                     {"data": "imagesIds"},
                     {"data": "title"},
-                    {"data": "createdDate"}
+                    {"data": "changes"}
                 ],
                 "language": {
                     "url": urlRussianLanguageForTables

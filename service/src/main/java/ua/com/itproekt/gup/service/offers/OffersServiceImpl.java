@@ -878,9 +878,6 @@ public class OffersServiceImpl implements OffersService {
 
 
         // Если в старой версии статус модерации был NO - то изменённые поля мы добавляем, если COMPLETE - то заменяем
-
-
-
         if (oldOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO) {
             if (oldOffer.getOfferModerationReports().getOfferModifiedFieldLIst() != null) {
                 newOfferModifiedFields.addAll(oldOffer.getOfferModerationReports().getOfferModifiedFieldLIst());

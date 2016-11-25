@@ -276,7 +276,7 @@ public class OfferRestController {
      */
     @CrossOrigin
     @RequestMapping(value = "/offer/read/admin/all", method = RequestMethod.POST)
-    public ResponseEntity<List<OfferInfo>> listOfAllOffersForAdmin(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
+    public ResponseEntity<List<Offer>> listOfAllOffersForAdmin(@RequestBody OfferFilterOptions offerFO, HttpServletRequest request) {
 
         // ToDo Turn this ON in release!!!!!!!
         // if user not admin nor the moderator
@@ -284,11 +284,10 @@ public class OfferRestController {
 //            return new ResponseEntity<>( HttpStatus.UNAUTHORIZED);
 //        }
 
-        List<OfferInfo> offerInfoList = offersService.getListOfMiniPublicOffersWithOptions(offerFO);
+        List<Offer> offerList = offersService.findOffersWihOptions(offerFO).getEntities();
 
-        return new ResponseEntity<>(offerInfoList, HttpStatus.OK);
+        return new ResponseEntity<>(offerList, HttpStatus.OK);
     }
-
 
 
 
