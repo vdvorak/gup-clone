@@ -2,6 +2,7 @@ let urlRussianLanguageForTables = '//cdn.datatables.net/plug-ins/1.10.9/i18n/Rus
 let urlReadAllOffer = 'http://localhost:8184/api/rest/offersService/offer/read/admin/all';
 let ulrImg = 'http://localhost:8184/api/rest/fileStorage/offers/photo/read/id/';
 let urlNoPhotoImg = 'http://localhost:8185/resources/images/no_photo.jpg';
+let urlEditOffer = 'http://gup.com.ua:55555/editBulletin/';
 
 /**
  * Find first image from the whole arraye of images of the offer
@@ -44,26 +45,22 @@ $(document).ready(function () {
 
         success: function (response) {
 
-
             data = response;
 
             for (var i = 0; i < data.length; i++) {
 
+                data[i].title = '<a href="' + urlEditOffer + data[i].seoUrl + '">' + data[i].title + '</a>';
+
+                // ToDo нужо оставить только те, у которых нет даты последней модерации (т.е. которые только что созданные)
+                data[i].createdDate = new Date(parseInt(data[i].createdDate));
+                data[i].createdDate = moment(data[i].createdDate).locale("ru").format('LLL');
+
                 if (data[i].imagesIds !== null) {
-                    console.log(data[i].imagesIds);
                     data[i].imagesIds = '<img src="' + findFirstImg(data[i].imagesIds) + '" width="100" height="100">';
                 }
                 else {
                     data[i].imagesIds = `<img src="${urlNoPhotoImg}" width="100" height="100">`;
                 }
-            }
-
-
-            // ToDo нужо оставить только те, у которых нет даты последней модерации (т.е. которые только что созданные)
-
-            for (var i = 0; i < data.length; i++) {
-                data[i].createdDate = new Date(parseInt(data[i].createdDate));
-                data[i].createdDate = moment(data[i].createdDate).locale("ru").format('LLL');
             }
 
 
@@ -87,7 +84,7 @@ $(document).ready(function () {
                     var rowData = newOffers.rows(indexes).data().toArray();
                     $("input[name='offerId']").attr("value", rowData[0].id);
                     $("input[name='offerUrl']").attr("value", rowData[0].seoUrl);
-                    $('#offerIdhref').attr("href", "/bulletinDetails/" + rowData[0].seoUrl);
+                    $('#offerIdhref').attr("href", urlEditOffer + rowData[0].seoUrl);
                     $('#editOfferButton').attr("class", "btn btn-danger");
                 })
                 .on('deselect', function (e, dt, type, indexes) {

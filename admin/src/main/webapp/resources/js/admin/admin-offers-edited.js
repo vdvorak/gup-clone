@@ -2,6 +2,7 @@ let urlRussianLanguageForTables = '//cdn.datatables.net/plug-ins/1.10.9/i18n/Rus
 let urlReadAllOffer = 'http://localhost:8184/api/rest/offersService/offer/read/admin/all';
 let ulrImg = 'http://localhost:8184/api/rest/fileStorage/offers/photo/read/id/';
 let urlNoPhotoImg = 'http://localhost:8185/resources/images/no_photo.jpg';
+let urlEditOffer = 'http://gup.com.ua:55555/editBulletin/';
 
 /**
  * Find first image from the whole array of images of the offer
@@ -23,6 +24,44 @@ function findFirstImg(arr) {
 }
 
 
+/**
+ * Parse offer changes variants.
+ *
+ * @param currentString
+ * @param change
+ * @param position
+ * @returns {string}
+ */
+let changesPreparator = function (currentString, change, position) {
+    let result = '';
+
+
+    switch (change) {
+        case 'MODIFIED_TITLE' :
+            result = 'заголовок';
+            break;
+        case 'MODIFIED_DESCRIPTION' :
+            result = 'описание';
+            break;
+        case 'MODIFIED_CATEGORIES' :
+            result = 'категория';
+            break;
+        case 'MODIFIED_PROPERTIES' :
+            result = 'хар-ки';
+            break;
+        case 'MODIFIED_IMAGES' :
+            result = 'фото';
+            break;
+    }
+
+    if (currentString != '') {
+        result = ', ' + result;
+    }
+
+    return result;
+};
+
+
 $(document).ready(function () {
     var data;
     var offerFilterOptions = {
@@ -33,7 +72,7 @@ $(document).ready(function () {
         },
         active: true,
         deleted: false,
-        isOfferModifiedAfterModeratorCheck : true
+        isOfferModifiedAfterModeratorCheck: true
     };
 
 
@@ -49,63 +88,24 @@ $(document).ready(function () {
 
             for (var i = 0; i < data.length; i++) {
 
-                if (data[i].imagesIds !== null) {
-                    //console.log(data[i].imagesIds);
-                    data[i].imagesIds = '<img src="' + findFirstImg(data[i].imagesIds) + '" width="100" height="100">';
-                }
-                else {
-                    data[i].imagesIds = `<img src="${urlNoPhotoImg}" width="100" height="100">`;
-                }
-            }
 
-            /**
-             * Parse offer changes variants.
-             *
-             * @param currentString
-             * @param change
-             * @param position
-             * @returns {string}
-             */
-            let changesPreparator = function (currentString, change, position) {
-                let result = '';
-
-
-                switch (change) {
-                    case 'MODIFIED_TITLE' :
-                        result = 'заголовок';
-                        break;
-                    case 'MODIFIED_DESCRIPTION' :
-                        result = 'описание';
-                        break;
-                    case 'MODIFIED_CATEGORIES' :
-                        result = 'категория';
-                        break;
-                    case 'MODIFIED_PROPERTIES' :
-                        result = 'хар-ки';
-                        break;
-                    case 'MODIFIED_IMAGES' :
-                        result = 'фото';
-                        break;
-                }
-
-                if (currentString != '') {
-                    result = ', ' + result;
-                }
-
-                return result;
-            };
-
-
-            // here we put changes
-            for (var i = 0; i < data.length; i++) {
-
+                // here we put changes
                 let offerChanges = data[i].offerModerationReports.offerModifiedFieldLIst;
-
                 data[i].changes = '';
                 if (offerChanges) {
                     for (var j = 0; j < offerChanges.length; j++) {
                         data[i].changes = data[i].changes + (changesPreparator(data[i].changes, offerChanges[j], j));
                     }
+                }
+
+                data[i].title = '<a href="' + urlEditOffer + data[i].seoUrl + '">' + data[i].title + '</a>';
+
+                // fill with photo
+                if (data[i].imagesIds !== null) {
+                    data[i].imagesIds = '<img src="' + findFirstImg(data[i].imagesIds) + '" width="100" height="100">';
+                }
+                else {
+                    data[i].imagesIds = `<img src="${urlNoPhotoImg}" width="100" height="100">`;
                 }
             }
 
@@ -130,7 +130,7 @@ $(document).ready(function () {
                     var rowData = newOffers.rows(indexes).data().toArray();
                     $("input[name='offerId']").attr("value", rowData[0].id);
                     $("input[name='offerUrl']").attr("value", rowData[0].seoUrl);
-                    $('#offerIdhref').attr("href", "/bulletinDetails/" + rowData[0].seoUrl);
+                    $('#offerIdhref').attr("href", urlEditOffer + rowData[0].seoUrl);
                     $('#editOfferButton').attr("class", "btn btn-danger");
                 })
                 .on('deselect', function (e, dt, type, indexes) {
