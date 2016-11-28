@@ -192,7 +192,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         Объявление (<b>ID</b>) &nbsp;
-                        <select>
+                        <select style="border:1px solid #aed0ea;">
                             <option value="57f37a5e6032233325b9f8c9">57f37a5e6032233325b9f8c9</option>
                         </select>
                         &nbsp;
