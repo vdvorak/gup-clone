@@ -1,8 +1,6 @@
 package ua.com.itproekt.gup.model.offer.filter;
 
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import ua.com.itproekt.gup.model.offer.Offer;
 
 import java.util.List;
@@ -27,6 +25,8 @@ public final class OfferFilterOptions extends Offer {
     private String createdDateSortDirection;
     private boolean isMain;
     private List<String> favouriteCategories;
+    private boolean isOfferModifiedAfterModeratorCheck; // is offer was modified after moderator has checked it
+
 
     public int getSkip() {
         return skip;
@@ -125,6 +125,14 @@ public final class OfferFilterOptions extends Offer {
         this.favouriteCategories = favouriteCategories;
     }
 
+    public boolean isOfferModifiedAfterModeratorCheck() {
+        return isOfferModifiedAfterModeratorCheck;
+    }
+
+    public void setIsOfferModifiedAfterModeratorCheck(boolean isOfferModifiedAfterModeratorCheck) {
+        this.isOfferModifiedAfterModeratorCheck = isOfferModifiedAfterModeratorCheck;
+    }
+
     @Override
     public String toString() {
         return "OfferFilterOptions{" +
@@ -140,9 +148,9 @@ public final class OfferFilterOptions extends Offer {
                 ", createdDateSortDirection='" + createdDateSortDirection + '\'' +
                 ", isMain=" + isMain +
                 ", favouriteCategories=" + favouriteCategories +
+                ", isOfferModifiedAfterModeratorCheck=" + isOfferModifiedAfterModeratorCheck +
                 '}';
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -168,9 +176,7 @@ public final class OfferFilterOptions extends Offer {
             return false;
         if (getPriceSortDirection() != null ? !getPriceSortDirection().equals(that.getPriceSortDirection()) : that.getPriceSortDirection() != null)
             return false;
-        if (getCreatedDateSortDirection() != null ? !getCreatedDateSortDirection().equals(that.getCreatedDateSortDirection()) : that.getCreatedDateSortDirection() != null)
-            return false;
-        return !(getFavouriteCategories() != null ? !getFavouriteCategories().equals(that.getFavouriteCategories()) : that.getFavouriteCategories() != null);
+        return !(getCreatedDateSortDirection() != null ? !getCreatedDateSortDirection().equals(that.getCreatedDateSortDirection()) : that.getCreatedDateSortDirection() != null) && !(getFavouriteCategories() != null ? !getFavouriteCategories().equals(that.getFavouriteCategories()) : that.getFavouriteCategories() != null);
 
     }
 

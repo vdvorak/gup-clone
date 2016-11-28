@@ -18,6 +18,10 @@ public class OfferModerationReports {
 
     Set<OfferModifiedField> offerModifiedFieldLIst; // the list of the last modified fields
 
+
+
+
+
     public String getModeratorId() {
         return moderatorId;
     }

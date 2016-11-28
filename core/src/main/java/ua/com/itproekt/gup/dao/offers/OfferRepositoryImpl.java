@@ -171,9 +171,18 @@ public class OfferRepositoryImpl implements OfferRepository {
             query.addCriteria(Criteria.where("authorId").is(offerFO.getAuthorId()));
         }
 
+        if (offerFO.getOfferModerationReports() != null) {
+            if (offerFO.getOfferModerationReports().getModerationStatus() != null){
+                query.addCriteria(Criteria.where("offerModerationReports.moderationStatus").is(offerFO.getOfferModerationReports().getModerationStatus()));
+            }
 
-        if (offerFO.getOfferModerationReports() != null && offerFO.getOfferModerationReports().getModerationStatus() != null) {
-            query.addCriteria(Criteria.where("offerModerationReports.moderationStatus").is(offerFO.getOfferModerationReports().getModerationStatus()));
+            if (offerFO.getOfferModerationReports().getLastModifiedDate() != null){
+                query.addCriteria(Criteria.where("offerModerationReports.lastModifiedDate").is(offerFO.getOfferModerationReports().getLastModifiedDate()));
+            }
+        }
+
+        if (offerFO.isOfferModifiedAfterModeratorCheck()){
+            query.addCriteria(Criteria.where("offerModerationReports.lastModifiedDate").ne(null));
         }
 
         if (offerFO.getActive() != null) {
@@ -286,10 +295,6 @@ public class OfferRepositoryImpl implements OfferRepository {
             query.with(new Sort(Sort.Direction.fromString(offerFO.getCreatedDateSortDirection()), "createdDate"));
         } else if (offerFO.getPriceSortDirection() != null) {
             query.with(new Sort(Sort.Direction.fromString(offerFO.getPriceSortDirection()), "price"));
-        }
-
-        if (offerFO.getOfferModerationReports() !=null && offerFO.getOfferModerationReports().getLastModifiedDate() != null) {
-            query.addCriteria(Criteria.where("offerModerationReports.lastModerationDate").is(offerFO.getOfferModerationReports().getLastModifiedDate()));
         }
 
         query.skip(offerFO.getSkip());
