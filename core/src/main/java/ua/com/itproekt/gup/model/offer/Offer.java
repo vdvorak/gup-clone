@@ -66,6 +66,7 @@ public class Offer {
 
     @Digits(integer = 10, fraction = 0)
     private Long                    price;
+    private boolean                 priceWithVat;               // showing is the price with VAT (NDS)
 
 
     private Currency                currency;
@@ -401,6 +402,14 @@ public class Offer {
         return this;
     }
 
+    public boolean isPriceWithVat() {
+        return priceWithVat;
+    }
+
+    public Offer setPriceWithVat(boolean priceWithVat) {
+        this.priceWithVat = priceWithVat;
+        return this;
+    }
 
     @Override
     public String toString() {
@@ -425,6 +434,7 @@ public class Offer {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
+                ", priceWithVat=" + priceWithVat +
                 ", currency=" + currency +
                 ", address=" + address +
                 ", priceCanBeNegotiated=" + priceCanBeNegotiated +

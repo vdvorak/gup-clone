@@ -279,6 +279,12 @@ public class OfferRepositoryImpl implements OfferRepository {
             query.addCriteria(criteria);
         }
 
+
+        if (offerFO.isPriceWithVat()){
+            query.addCriteria(Criteria.where("priceWithVat").is(true));
+        }
+
+
         if (offerFO.getFromPrice() != null && offerFO.getToPrice() != null) {
             query.addCriteria(Criteria.where("price").gte(offerFO.getFromPrice()).lte(offerFO.getToPrice()));
         } else if (offerFO.getFromPrice() != null) {
