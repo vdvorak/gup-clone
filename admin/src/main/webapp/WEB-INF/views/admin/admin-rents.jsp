@@ -40,7 +40,7 @@
                 header: {
                     left: 'prev,today,next',
                     center: 'title',
-                    right: 'month,agendaDay,listWeek' ////right: 'month,agendaWeek,agendaDay'
+                    right: 'listWeek,month,agendaDay' ////right: 'month,agendaWeek,agendaDay'
                 },
                 defaultDate: '2016-11-25',
                 locale: initialLocaleCode,
