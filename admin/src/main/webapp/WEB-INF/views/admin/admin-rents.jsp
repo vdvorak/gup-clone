@@ -145,6 +145,17 @@
             color: #ffffff;
         }
 
+        #offers-selector {
+            background: #3baae3 url("../../../resources/fullcalendar/lib/cupertino/images/ui-bg_glass_50_3baae3_1x400.png") repeat-x scroll 50% 50%;
+            border: 1px solid #2694e8;
+            border-radius: 5px;
+            color: #ffffff;
+            float: left;
+            font-size: 20px;
+            padding: 2px 8px;
+            width: 300px;
+        }
+
         #external-events {
             float: left;
             width: 150px;
@@ -191,15 +202,22 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        Объявление (<b>ID</b>) &nbsp;
-                        <select style="border:1px solid #aed0ea;">
-                            <option value="57f37a5e6032233325b9f8c9">57f37a5e6032233325b9f8c9</option>
-                        </select>
-                        &nbsp;
-                        <a id="offerIdhref" href="">
-                            <button id="viewOfferButton" class="btn btn-primary disabled">Показать</button>
-                        </a>
-                        <br><br>
+                        <table>
+                            <tr>
+                                <td>
+                                    &nbsp;&nbsp; Объявление (<b>ID</b>) &nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    <select id="offers-selector">
+                                        <option value="57f37a5e6032233325b9f8c9">57f37a5e6032233325b9f8c9</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    &nbsp;&nbsp; <a id="offerIdhref" href=""><button id="viewOfferButton" class="btn btn-primary disabled">Показать</button></a>
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="dataTable_wrapper">
