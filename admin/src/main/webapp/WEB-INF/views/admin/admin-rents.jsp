@@ -31,7 +31,7 @@
                 $(this).draggable({
                     zIndex: 999,
                     revert: true,                  // will cause the event to go back to its
-                    revertDuration: 0              //  original position after the drag
+                    revertDuration: 0              // original position after the drag
                 });
             });
 
@@ -159,6 +159,14 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
+                        Объявление (<b>ID</b>) &nbsp;
+                        <select>
+                            <option value="57f37a5e6032233325b9f8c9">57f37a5e6032233325b9f8c9</option>
+                        </select>
+                        &nbsp;
+                        <a id="offerIdhref" href="">
+                            <button id="viewOfferButton" class="btn btn-primary disabled">Показать</button>
+                        </a>
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="dataTable_wrapper">
