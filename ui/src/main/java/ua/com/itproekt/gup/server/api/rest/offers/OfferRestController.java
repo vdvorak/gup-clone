@@ -57,16 +57,16 @@ public class OfferRestController {
     @CrossOrigin
     @RequestMapping(value = "/offer/read/{seoUrl}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<OfferInfo> getOfferByIdWithRelevant(@PathVariable String seoUrl,
+    public ResponseEntity<Object> getOfferByIdWithRelevant(@PathVariable String seoUrl,
                                                               @RequestParam(required = false, defaultValue = "false") boolean relevant, HttpServletRequest request) {
         Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
 
         if (offer == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Offer with this seoUrl is not exist", HttpStatus.NOT_FOUND);
         }
 
         if (offer.isDeleted()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Offer with this seoUrl was deleted", HttpStatus.NOT_FOUND);
         }
 
         String userId = SecurityOperations.getLoggedUserId();
@@ -79,7 +79,7 @@ public class OfferRestController {
         } else {
 
             if (offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO || offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>("Moderation status is NO or FAIL", HttpStatus.FORBIDDEN);
             }
 
             offerInfo = offersService.getPublicOfferInfoByOffer(offer);

@@ -8,12 +8,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.exception.ResourceNotFoundException;
-import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.offer.Currency;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
-import ua.com.itproekt.gup.model.order.OrderComment;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
@@ -130,7 +128,7 @@ public class OrderRestController {
             orderService.create(order);
 
             Profile profile = profilesService.findById(order.getBuyerId());
-            activityFeedService.createEvent(OrderRestHelper.eventPreparatorForSeller(profile ,order, EventType.NEW_ORDER));
+            activityFeedService.createEvent(OrderRestHelper.eventPreparatorForSeller(profile, order, EventType.NEW_ORDER));
         } else {
             return badRequest;
         }
@@ -249,7 +247,7 @@ public class OrderRestController {
 
             orderService.findAndUpdate(oldOrder);
 
-            activityFeedService.createEvent(OrderRestHelper.eventPreparatorForBuyer(profileOfSeller,oldOrder, EventType.ORDER_ACCEPTED));
+            activityFeedService.createEvent(OrderRestHelper.eventPreparatorForBuyer(profileOfSeller, oldOrder, EventType.ORDER_ACCEPTED));
         }
 
         if (order.getOrderStatus() == OrderStatus.REJECTED_BY_SELLER) {
@@ -269,10 +267,10 @@ public class OrderRestController {
      * This method can only change order status to SENT and onl seller. Due to TransportCompany type
      * you need or not put trackNumber.
      *
-     * @param order     - updated order.
-     * @return          - return 200 status code if Ok, 400 - order doesn't have track number, 401 - not authorized,
-     *                  404 - not found order, 405 - if TransportCompany was SELF_PICKED - you can't use this method,
-     *                  406 - if you are not seller
+     * @param order - updated order.
+     * @return - return 200 status code if Ok, 400 - order doesn't have track number, 401 - not authorized,
+     * 404 - not found order, 405 - if TransportCompany was SELF_PICKED - you can't use this method,
+     * 406 - if you are not seller
      */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin

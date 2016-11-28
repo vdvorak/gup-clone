@@ -12,10 +12,12 @@ let tagNoPhoto = '<img src="/resources/images/no_photo.jpg" width="100" height="
 
 $(document).ready(function () {
     var data;
-    var filterOptions = {};
-    filterOptions.skip = 0;
-    filterOptions.limit = 20;
-    filterOptions.userRoles = ['ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_SPECTATOR'];
+    var filterOptions = {
+        skip: 0,
+        limit: 20,
+        userRoles: ['ROLE_ADMIN', 'ROLE_MODERATOR', 'ROLE_SPECTATOR']
+    };
+
 
     $('#myModal').on('shown.bs.modal', function () {
         $('#myInput').focus()
@@ -32,21 +34,49 @@ $(document).ready(function () {
         data: JSON.stringify(filterOptions),
         success: function (response) {
 
-            console.log(response);
-
             // copy object
             users = jQuery.extend(true, {}, response.entities);
 
             data = response;
 
-            // push emails for Bloodhound suggestion engine
-            for (var k = 0; k < data.length; k++) {
-                userNames.push(data[k].email);
-            }
-
+            let admins = [];
+            let moderators = [];
+            let spectators = [];
 
             //prepare photo for data table
             for (var i = 0; i < data.length; i++) {
+
+                // push emails for Bloodhound suggestion engine
+                userNames.push(data[i].email);
+
+                // prepare humanlike date
+                data[i].createdDate = new Date(data[i].createdDate).toLocaleDateString();
+
+                if (!data[i].email) {
+                    data[i].email = '';
+                }
+                if (!data[i].username) {
+                    data[i].username = '';
+                }
+
+
+                // separate admins, moderators and spectators into three tables
+                if (data[i].userRoles !== undefined && data[i].userRoles !== null) {
+                    for (var n = 0; n < data[i].userRoles.length; n++) {
+
+                        if (data[i].userRoles[n] === 'ROLE_ADMIN') {
+                            admins.push(data[i]);
+                        }
+                        if (data[i].userRoles[n] === 'ROLE_MODERATOR') {
+                            moderators.push(data[i]);
+                        }
+                        if (data[i].userRoles[n] === 'ROLE_SPECTATOR') {
+                            spectators.push(data[i]);
+                        }
+                    }
+                }
+
+
                 if (data[i].imgId && data[i].imgId.length > 2) {
                     data[i].imgId = '<img src="' + urlProfilePhoto + data[i].imgId + '?cachedSize=small" width="100" height="100">';
                 } else {
@@ -57,45 +87,6 @@ $(document).ready(function () {
                     }
                 }
             }
-
-
-            let admins = [];
-            let moderators = [];
-            let spectators = [];
-
-            for (var i = 0; i < data.length; i++) {
-                if (!data[i].email) {
-                    data[i].email = '';
-                }
-                if (!data[i].username) {
-                    data[i].username = '';
-                }
-
-            }
-
-            // separate admins, moderators and spectators into three tables
-            for (var m = 0; m < data.length; m++) {
-                if (data[m].userRoles !== undefined && data[m].userRoles !== null) {
-                    for (var n = 0; n < data[m].userRoles.length; n++) {
-
-                        if (data[m].userRoles[n] === 'ROLE_ADMIN') {
-                            admins.push(data[m]);
-                        }
-                        if (data[m].userRoles[n] === 'ROLE_MODERATOR') {
-                            moderators.push(data[m]);
-                        }
-                        if (data[m].userRoles[n] === 'ROLE_SPECTATOR') {
-                            spectators.push(data[m]);
-                        }
-                    }
-                }
-            }
-
-            // prepare humanlike date
-            for (var i = 0; i < data.length; i++) {
-                data[i].createdDate = new Date(data[i].createdDate).toLocaleDateString();
-            }
-
 
             // prepare DataTable object with params
             let dataTableObjPreparator = function (dataName) {
@@ -195,8 +186,7 @@ $(document).ready(function () {
 });
 
 
-
-function userPreparator(inputElement, inputName){
+function userPreparator(inputElement, inputName) {
     var user = {};
     user.userRoles = [];
     user.userRoles.push(inputElement.val());
@@ -328,7 +318,7 @@ $('.deleteProfileButton').click(function () {
 });
 
 
-function makePostRequest(url, data){
+function makePostRequest(url, data) {
     $.ajax({
         type: "POST",
         url: url,
