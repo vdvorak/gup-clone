@@ -925,7 +925,11 @@ a.fc-more:hover {
 
 .fc-basic-view .fc-week-number,
 .fc-basic-view .fc-day-number {
-	padding: 2px;
+	/*padding: 2px;*/
+    background: #ccc none repeat scroll 0 0;
+    border: 1px solid #999;
+    border-radius: 10px;
+    padding: 0 6px;
 }
 
 .fc-basic-view th.fc-week-number,
