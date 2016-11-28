@@ -48,6 +48,7 @@
 <link href='../../../resources/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
 <script src='../../../resources/fullcalendar/lib/moment.min.js'></script>
 <script src='../../../resources/fullcalendar/lib/jquery.min.js'></script>
+<script src='../../../resources/fullcalendar/lib/jquery-ui.min.js'></script>
 <script src='../../../resources/fullcalendar/fullcalendar.min.js'></script>
 <script src='../../../resources/fullcalendar/gcal.js'></script>
 <script src='../../../resources/fullcalendar/locale/ru.js'></script>
