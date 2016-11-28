@@ -14,3 +14,4 @@
                                                                            | [https://fullcalendar.io/js/fullcalendar-2.6.1/demos/agenda-views.html](https://fullcalendar.io/js/fullcalendar-2.6.1/demos/agenda-views.html)
                                                                            | [https://fullcalendar.io/download/](https://fullcalendar.io/download/)
 * `fullcalendar-scheduler-1.4.0.zip` [https://github.com/fullcalendar/fullcalendar-scheduler/releases/tag/v1.4.0](https://github.com/fullcalendar/fullcalendar-scheduler/releases/tag/v1.4.0)
+                                     | [https://codepen.io/subodhghulaxe/pen/qEXLLr](https://codepen.io/subodhghulaxe/pen/qEXLLr)
