@@ -102,7 +102,6 @@ $(document).ready(function () {
 
                 // fill with photo
                 if (data[i].imagesIds !== null) {
-                    //console.log(data[i].imagesIds);
                     data[i].imagesIds = '<img src="' + findFirstImg(data[i].imagesIds) + '" width="100" height="100">';
                 }
                 else {
