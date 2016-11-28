@@ -44,7 +44,6 @@ $(document).ready(function () {
 
         success: function (response) {
 
-
             data = response;
 
             for (var i = 0; i < data.length; i++) {
