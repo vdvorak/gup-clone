@@ -6,6 +6,7 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ public interface ProfilesService {
     /**
      * Create profile.
      *
-     * @param profile                   - the profile
+     * @param profile                   - the profile.
      */
     void createProfile(Profile profile);
 
@@ -321,4 +322,12 @@ public interface ProfilesService {
      * @return                          - the list of the ProfileInfo objects.
      */
     List<ProfileInfo> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions);
+
+    /**
+     * If User is logged in - return Profile Info, if not - return null;
+     *
+     * @param request                   - the HttpServletRequest object.
+     * @return                          - the ProfileInfo object if user is loggedIn, or null if not.
+     */
+    ProfileInfo getLoggedUser(HttpServletRequest request);
 }

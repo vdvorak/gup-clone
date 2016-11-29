@@ -21,7 +21,6 @@ import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.APIVendor;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
@@ -93,36 +92,23 @@ public class ProfileRestController {
     /**
      * If User is logged in - return Profile Info, if not - return only status 200 (Ok).
      *
-     * @param request   - the HttpServletRequest object.
-     * @return          - in any case return status 200 (OK), but it will be with ProfileInfo object in the response body if
+     * @param request - the HttpServletRequest object.
+     * @return - in any case return status 200 (OK), but it will be with ProfileInfo object in the response body if
      * the user is loggedIn, and there will empty response body if the user is not loggedIn.
      */
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
     public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
 
-        if (request.getCookies() != null) {
+        ProfileInfo profileInfo = profilesService.getLoggedUser(request);
 
-            Cookie[] cookies = request.getCookies();
-            for (Cookie cookie : cookies) {
-
-                if (cookie.getName().equals("authToken")) {
-                    Object principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
-                    ProfileInfo profileInfo = profileInfoPreparatorFromPrincipal(principal);
-                    return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-                }
-
-                if (cookie.getName().equals("refreshToken")) {
-                    Object principal = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
-
-                    ProfileInfo profileInfo = profileInfoPreparatorFromPrincipal(principal);
-
-                    return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-                }
-            }
-
+        if (profileInfo != null) {
+            return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+
+
     }
 
     /**
@@ -384,18 +370,4 @@ public class ProfileRestController {
     }
 
 
-    /**
-     * @param principal
-     * @return
-     */
-    private ProfileInfo profileInfoPreparatorFromPrincipal(Object principal) {
-
-        ProfileInfo profileInfo = new ProfileInfo();
-
-        if (principal instanceof LoggedUser) {
-            String userId = ((LoggedUser) principal).getProfileId();
-            profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(userId);
-        }
-        return profileInfo;
-    }
 }
