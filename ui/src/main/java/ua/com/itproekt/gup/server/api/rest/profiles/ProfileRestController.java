@@ -93,15 +93,13 @@ public class ProfileRestController {
     /**
      * If User is logged in - return Profile Info, if not - return only status 200 (Ok).
      *
-     * @param request
-     * @return
+     * @param request   - the HttpServletRequest object.
+     * @return          - in any case return status 200 (OK), but it will be with ProfileInfo object in the response body if
+     * the user is loggedIn, and there will empty response body if the user is not loggedIn.
      */
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
     public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
-
-        long startTime = System.currentTimeMillis();
-        long startTime2 = System.currentTimeMillis();
 
         if (request.getCookies() != null) {
 
@@ -109,30 +107,15 @@ public class ProfileRestController {
             for (Cookie cookie : cookies) {
 
                 if (cookie.getName().equals("authToken")) {
-                    startTime = System.currentTimeMillis();
                     Object principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
-                    System.err.println("principal time: " + (System.currentTimeMillis() - startTime));
-
-                    startTime = System.currentTimeMillis();
                     ProfileInfo profileInfo = profileInfoPreparatorFromPrincipal(principal);
-                    System.err.println("profileInfo auth time: " + (System.currentTimeMillis() - startTime));
-
-                    System.err.println("whole profile time: " + (System.currentTimeMillis() - startTime2));
-
                     return new ResponseEntity<>(profileInfo, HttpStatus.OK);
                 }
 
                 if (cookie.getName().equals("refreshToken")) {
-                    startTime = System.currentTimeMillis();
                     Object principal = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
-                    System.err.println("principal time: " + (System.currentTimeMillis() - startTime));
 
-
-                    startTime = System.currentTimeMillis();
                     ProfileInfo profileInfo = profileInfoPreparatorFromPrincipal(principal);
-                    System.err.println("profileInfo refresh time: " + (System.currentTimeMillis() - startTime));
-                    System.err.println("whole profile time: " + (System.currentTimeMillis() - startTime2));
-
 
                     return new ResponseEntity<>(profileInfo, HttpStatus.OK);
                 }
@@ -159,21 +142,21 @@ public class ProfileRestController {
         Profile oldProfile = profilesService.findById(loggedUserId);
 
         // we cant't allow empty email field for some cases
-            if (newProfile.getEmail() == null) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-            if (newProfile.getEmail().equals("")) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
+        if (newProfile.getEmail() == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        if (newProfile.getEmail().equals("")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
 
         // check if someone profile already exist with new main email
-            Profile foundByEmailProfile = profilesService.findProfileByEmail(newProfile.getEmail());
-            if (foundByEmailProfile != null) {
-                if (!loggedUserId.equals(foundByEmailProfile.getId())) {
-                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-                }
+        Profile foundByEmailProfile = profilesService.findProfileByEmail(newProfile.getEmail());
+        if (foundByEmailProfile != null) {
+            if (!loggedUserId.equals(foundByEmailProfile.getId())) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
+        }
 
 
         if (newProfile.getIdSeoWord() != null) {
