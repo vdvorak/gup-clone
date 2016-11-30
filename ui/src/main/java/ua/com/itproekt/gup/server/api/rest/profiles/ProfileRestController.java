@@ -23,7 +23,6 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Set;
 
 
 @RestController
@@ -297,6 +296,12 @@ public class ProfileRestController {
     }
 
 
+    /**
+     * Delete one contact from user contact list.
+     *
+     * @param profileId - the ID of the profile which must be deleted.
+     * @return - status 404 if target profile was not found, status 200 if profile was deleted from contact list.
+     */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/id/{profileId}/myContactList/delete", method = RequestMethod.POST)
@@ -306,32 +311,22 @@ public class ProfileRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        String userId = SecurityOperations.getLoggedUserId();
-
-        Profile profile = profilesService.findById(userId);
-
-        Set<String> contactList = profile.getContactList();
-
-        contactList.remove(profileId);
-
-        profilesService.editProfile(profile);
+        profilesService.deleteFromMyContactList(profileId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    /**
+     * Add or delete offer into offer favorite list.
+     *
+     * @param offerId - the offer ID which must be add or delete to/from offer favorite list.
+     * @return - status OK in the all cases.
+     */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/updateFavoriteOffer", method = RequestMethod.POST)
     public ResponseEntity<Void> updateFavoriteOffers(@RequestParam String offerId) {
-
-        Profile profile = profilesService.findById(SecurityOperations.getLoggedUserId());
-        Set<String> favoriteOffers = profile.getFavoriteOffers();
-        for (String favoriteOffer : favoriteOffers) {
-            if (favoriteOffer.equals(offerId)) {
-                favoriteOffers.remove(offerId);
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-        }
-        favoriteOffers.add(offerId);
+        profilesService.updateFavoriteOffers(offerId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

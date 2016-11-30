@@ -4,6 +4,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.BankSession;
@@ -23,6 +25,7 @@ import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -425,6 +428,33 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileInfo;
     }
 
+
+    @Override
+    public void deleteFromMyContactList(String profileId) {
+        String userId = SecurityOperations.getLoggedUserId();
+
+        Profile profile = findById(userId);
+
+        Set<String> contactList = profile.getContactList();
+
+        contactList.remove(profileId);
+
+        editProfile(profile);
+    }
+
+
+    @Override
+    public void updateFavoriteOffers(String offerId) {
+        Profile profile = findById(SecurityOperations.getLoggedUserId());
+        Set<String> favoriteOffers = profile.getFavoriteOffers();
+        for (String favoriteOffer : favoriteOffers) {
+            if (favoriteOffer.equals(offerId)) {
+                favoriteOffers.remove(offerId);
+                return;
+            }
+        }
+        favoriteOffers.add(offerId);
+    }
 
     // -------------------------------------------- Helper methods ------------------------------------------
     //-------------------------------------------------------------------------------------------------------

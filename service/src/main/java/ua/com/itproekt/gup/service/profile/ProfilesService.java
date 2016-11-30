@@ -330,4 +330,19 @@ public interface ProfilesService {
      * @return                          - the ProfileInfo object if user is loggedIn, or null if not.
      */
     ProfileInfo getLoggedUser(HttpServletRequest request);
+
+
+    /**
+     * Delete one contact from user contact list.
+     *
+     * @param profileId                 - the ID of the profile which must be deleted.
+     */
+    void deleteFromMyContactList(String profileId);
+
+    /**
+     * Add or delete offer into offer favorite list.
+     *
+     * @param offerId - the offer ID which must be add or delete to/from offer favorite list.
+     */
+    void updateFavoriteOffers(String offerId);
 }
