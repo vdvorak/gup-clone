@@ -118,7 +118,9 @@ public class OrderRestController {
 //------------------------------------------ Update -------------------------------------------------------------
 
     /**
-     * @param order - updated order. This method can only update order Address, payment method only before seller will accept Order.
+     * This method can only update order Address, payment method only before seller will accept Order.
+     *
+     * @param order - updated order.
      * @return - return status 200 code if Ok, 401 - not authorized, 400 - user is not buyer or not valid payment or shipping method,
      * 404 - not found order or offer, 405 - OrderStatus isn't NEW
      */
@@ -166,7 +168,9 @@ public class OrderRestController {
 
 
     /**
-     * @param order - updated order. This method can only cancel order by buyer (before seller accept)
+     * This method can only cancel order by buyer (before seller accept).
+     *
+     * @param order - updated order.
      * @return - return 200 status code if Ok, 400 - if status not NEW jr if user is not buyer, 401 - not authorized, 404 - not found order
      */
     @PreAuthorize("isAuthenticated()")
@@ -183,13 +187,8 @@ public class OrderRestController {
         }
 
         if (userId.equals(oldOrder.getBuyerId()) && oldOrder.getOrderStatus() == OrderStatus.NEW) {
-            oldOrder.setOrderStatus(OrderStatus.CANCELED_BY_BUYER);
-            orderService.findAndUpdate(oldOrder);
-
-            //ToDo Веруть деньги покупателю
-
-            Profile profile = profilesService.findById(order.getBuyerId());
-            activityFeedService.createEvent(OrderRestHelper.eventPreparatorForSeller(profile, oldOrder, EventType.ORDER_CANCEL_BY_BUYER));
+            // cancel order and send notification to seller
+            orderService.cancelOrderByBuyer(oldOrder);
         } else {
             return badRequest;
         }
@@ -199,7 +198,9 @@ public class OrderRestController {
 
 
     /**
-     * @param order - updated order. This method can only change Order Status to ACCEPT or ORDER_REJECTED_BY_SELLER (only by seller)
+     * This method can only change Order Status to ACCEPT or ORDER_REJECTED_BY_SELLER (only by seller).
+     *
+     * @param order - updated order.
      * @return - return 200 status code if Ok, 400 - user is not seller, 401 - not authorized, 404 - not found order
      */
     @PreAuthorize("isAuthenticated()")

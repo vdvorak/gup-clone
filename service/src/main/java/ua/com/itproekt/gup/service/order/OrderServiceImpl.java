@@ -366,6 +366,17 @@ public class OrderServiceImpl implements OrderService {
         findAndUpdate(order);
     }
 
+    @Override
+    public void cancelOrderByBuyer(Order oldOrder) {
+        oldOrder.setOrderStatus(OrderStatus.CANCELED_BY_BUYER);
+       findAndUpdate(oldOrder);
+
+        //ToDo Веруть деньги покупателю
+
+        Profile profile = profilesService.findById(oldOrder.getSellerId());
+        activityFeedService.createEvent(eventPreparatorForSeller(profile, oldOrder, EventType.ORDER_CANCEL_BY_BUYER));
+    }
+
     // --------------------------------------- Helpers methods --------------------------------------------------
 
 

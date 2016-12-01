@@ -206,8 +206,19 @@ public interface OrderService {
     /**
      * Add and update seller note for specific order.
      *
-     * @param order - the order.
-     * @param sellerNote - the seller note.
+     * @param order                                     - the order.
+     * @param sellerNote                                - the seller note.
      */
     void updateSellerNote(Order order, String sellerNote);
+
+
+    // --------------------------- Orders stage -----------------------------------------------------------------
+
+
+    /**
+     * This method cancel order by buyer.
+     *
+     * @param oldOrder                                  - the order.
+     */
+    void cancelOrderByBuyer(Order oldOrder);
 }
