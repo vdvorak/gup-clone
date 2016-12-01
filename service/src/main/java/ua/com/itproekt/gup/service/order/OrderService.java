@@ -231,7 +231,7 @@ public interface OrderService {
      */
     void acceptOrderBySeller(Order oldOrder);
 
-    
+
     /**
      * This method change Order Status ORDER_REJECTED_BY_SELLER and send notification to seller.
      *
