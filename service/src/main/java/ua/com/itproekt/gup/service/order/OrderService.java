@@ -2,6 +2,7 @@ package ua.com.itproekt.gup.service.order;
 
 
 import ua.com.itproekt.gup.dto.OrderInfo;
+import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
@@ -9,83 +10,127 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 
 import java.util.List;
 
+
+/**
+ * Interface for working with orders.
+ *
+ * @author Kobylyatsky Alexander
+ */
 public interface OrderService {
+
+
     /**
-     * @param order
+     * Create new order.
+     *
+     * @param order                                     - the order.
      */
     void create(Order order);
 
+
     /**
-     * @param id
-     * @return
+     * Find and return one order by it's ID.
+     *
+     * @param id                                        - the order ID.
+     * @return - the order.
      */
     Order findById(String id);
 
+
     /**
-     * @param order
-     * @return
+     * Update one order.
+     *
+     * @param order                                     - the order which must be updated.
+     * @return                                          - the order after update.
      */
     Order findAndUpdate(Order order);
 
+
     /**
-     * @param id
-     * @return
+     * Delete one order by it's ID.
+     *
+     * @param id                                        - the ID of the order which must be deleted.
+     * @return                                          - the int.
      */
     int delete(String id);
 
+
     /**
-     * @param orderFilterOptions
-     * @return
+     * Find and return orders relevant to the OrderFilterOptions.
+     *
+     * @param orderFilterOptions                        - the OrderFilterOptions.
+     * @return                                          - the order list.
      */
     List<Order> findOrdersWihOptions(OrderFilterOptions orderFilterOptions);
+
+
+    /**
+     * Return only current user's orders.
+     *
+     * @param orderFilterOptions                        - the OrderFilterOptions object.
+     * @return                                          - the list of orders.
+     */
+    List<Order> getAllOrders(OrderFilterOptions orderFilterOptions);
+
 
     /**
      * We pass a profile argument to reduce the number of queries in DB
      *
-     * @param orderList
-     * @param profile
-     * @return
+     * @param orderList                                 - the order list.
+     * @param profile                                   - the profile.
+     * @return                                          - the OrderInfo list.
      */
     List<OrderInfo> orderInfoListPreparatorForPrivate(List<Order> orderList, Profile profile);
 
+
     /**
-     * @param userId
-     * @return
+     * Find and return all orders relative to the specific user.
+     *
+     * @param userId                                    - the user ID for whom we must find all orders.
+     * @return                                          - the order list.
      */
     List<Order> findAllOrdersForUser(String userId);
 
 
     /**
-     * @param offerId
-     * @return
+     * Find and return the list of the feedback relatives to the specific offer.
+     *
+     * @param offerId                                   - the offer ID.
+     * @return                                          - the list of the OrderFeedback.
      */
     List<OrderFeedback> findAllFeedbacksForOffer(String offerId);
 
+
     /**
-     * Calculate average point of orders for user (seller) from order feedback list
+     * Calculate average point of orders for user (seller) from order feedback list.
      *
-     * @param orderFeedback
-     * @return
+     * @param orderFeedback                             - the list of the OrderFeedbackList.
+     * @return                                          - the average point.
      */
     int calculateAveragePointsForOrderFeedbackList(List<OrderFeedback> orderFeedback);
 
 
     /**
-     * @param offerId
-     * @return
+     * Count order amount relates for specific offer.
+     *
+     * @param offerId                                   - offer ID in which we must count order's amount.
+     * @return                                          - the orders amount.
      */
     int countOrderAmountForOffer(String offerId);
 
     /**
-     * @param offerId
-     * @return
+     * Find and returns all orders which relates to the specific offer.
+     *
+     * @param offerId                                   - the offer ID to which we must find orders.
+     * @return                                          - the list of the orders.
      */
     List<Order> findAllOrdersForOffer(String offerId);
 
 
     /**
-     * @param orderList
-     * @return
+     * Calculate average points for the lists of the orders.
+     *
+     * @param orderList                                 - the Order list.
+     * @return                                          - the average amount.
      */
     int calculateAveragePointsForListOfOrders(List<Order> orderList);
 
@@ -93,27 +138,59 @@ public interface OrderService {
     /**
      * Calculate feedback amount for list of orders.
      *
-     * @param orderList
-     * @return
+     * @param orderList                                 - the list of the orders.
+     * @return                                          - the int result.
      */
     int calculateFeedbackAmountForOrderList(List<OrderInfo> orderList);
+
 
     /**
      * Receive order list where user is seller.
      *
-     * @param orderInfoList
-     * @param sellerId
-     * @return
+     * @param orderInfoList                             - the list of the OrderInfo.
+     * @param sellerId                                  - the seller ID.
+     * @return                                          - the list of the OrderInfo objects.
      */
     List<OrderInfo> orderInfoSellerListFromTotalOrderListOfUser(List<OrderInfo> orderInfoList, String sellerId);
+
 
     /**
      * Receive order list where user is buyer.
      *
-     * @param orderInfoList
-     * @param buyerId
-     * @return
+     * @param orderInfoList                             - the list of the OrderInfo.
+     * @param buyerId                                   - the buyer ID.
+     * @return                                          - the list of the OrderInfo objects.
      */
     List<OrderInfo> orderInfoBuyerListFromTotalOrderListOfUser(List<OrderInfo> orderInfoList, String buyerId);
+
+
+    /**
+     * Check is offer valid.
+     *
+     * @param order                                     - the order.
+     * @param offer                                     - the correspond offer.
+     * @return                                          - the true or false.
+     */
+    boolean isOrderValid(Order order, Offer offer);
+
+
+    /**
+     * Check is shipping methods in the order is valid
+     *
+     * @param order                                     - the order.
+     * @param offer                                     - the correspond offer.
+     * @return                                          - the true or false.
+     */
+    boolean isShippingMethodsValid(Order order, Offer offer);
+
+
+    /**
+     * Check is payment method
+     *
+     * @param order                                     - the order.
+     * @param offer                                     - the correspondent offer.
+     * @return                                          - the true or false.
+     */
+    boolean isPaymentMethodsValid(Order order, Offer offer);
 
 }

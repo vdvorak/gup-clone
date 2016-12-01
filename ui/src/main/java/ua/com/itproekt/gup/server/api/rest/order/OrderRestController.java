@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.exception.ResourceNotFoundException;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
-import ua.com.itproekt.gup.model.offer.Currency;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderStatus;
@@ -28,7 +27,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/api/rest/orderService")
@@ -84,16 +82,7 @@ public class OrderRestController {
     @RequestMapping(value = "/order/read/all", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Order>> getOrderAll(@RequestBody OrderFilterOptions orderFilterOptions) {
-
-        String userId = SecurityOperations.getLoggedUserId();
-
-        orderFilterOptions
-                .setBuyerId(userId)
-                .setSellerId(userId);
-
-        List<Order> orderList = orderService.findOrdersWihOptions(orderFilterOptions);
-
-        return new ResponseEntity<>(orderList, HttpStatus.OK);
+        return new ResponseEntity<>(orderService.getAllOrders(orderFilterOptions), HttpStatus.OK);
     }
 
 
@@ -119,7 +108,7 @@ public class OrderRestController {
             return forbidden;
         }
 
-        if (isOrderValid(order, offer)) {
+        if (orderService.isOrderValid(order, offer)) {
             newOrderPreparator(userId, order, offer);
 
             if (order.getPaymentMethod() == PaymentMethod.GUP) {
@@ -168,12 +157,11 @@ public class OrderRestController {
             return methodNotAllowed;
         }
 
-        if (!isShippingMethodsValid(order, offer)) {
+        if (!orderService.isShippingMethodsValid(order, offer)) {
             return badRequest;
         }
 
-
-        if (!isPaymentMethodsValid(order, offer)) {
+        if (!orderService.isPaymentMethodsValid(order, offer)) {
             return badRequest;
         }
 
@@ -445,56 +433,6 @@ public class OrderRestController {
 
 
     //------------------------------------------ Helpers methods -----------------------------------------------------
-    private boolean isOrderValid(Order order, Offer offer) {
-
-        if (offer.getCurrency() != Currency.UAH) {
-            return false;
-        }
-
-        if (offer.getPrice() == null) {
-            return false;
-        }
-        if (offer.getPrice() < 1) {
-            return false;
-        }
-
-        if (!isShippingMethodsValid(order, offer)) {
-            return false;
-        }
-
-        if (!isPaymentMethodsValid(order, offer)) {
-            return false;
-        }
-
-        order.setPrice(offer.getPrice());
-
-        return true;
-    }
-
-
-    private boolean isShippingMethodsValid(Order order, Offer offer) {
-        TransportCompany orderTransportCompany = order.getOrderAddress().getTransportCompany();
-        Set<TransportCompany> availableShippingMethodsList = offer.getAvailableShippingMethods();
-
-        for (TransportCompany offerTransportCompany : availableShippingMethodsList) {
-
-            if (orderTransportCompany == offerTransportCompany) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isPaymentMethodsValid(Order order, Offer offer) {
-        PaymentMethod orderPaymentMethod = order.getPaymentMethod();
-        Set<PaymentMethod> offerPaymentMethodsList = offer.getAvailablePaymentMethods();
-        for (PaymentMethod offerPaymentMethod : offerPaymentMethodsList) {
-            if (orderPaymentMethod == offerPaymentMethod) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 
     private void newOrderPreparator(String userId, Order order, Offer offer) {

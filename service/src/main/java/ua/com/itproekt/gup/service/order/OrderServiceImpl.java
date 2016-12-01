@@ -4,16 +4,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.order.OrderRepository;
 import ua.com.itproekt.gup.dto.OrderInfo;
+import ua.com.itproekt.gup.model.offer.Currency;
+import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.util.PaymentMethod;
+import ua.com.itproekt.gup.util.SecurityOperations;
+import ua.com.itproekt.gup.util.TransportCompany;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+
+/**
+ * Implementation of the OrderService interface.
+ *
+ * @author Kobylyatskyy Alexander
+ */
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -91,10 +103,7 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findOrdersWihOptions(orderFilterOptions);
     }
 
-    /**
-     * @param offerId
-     * @return
-     */
+
     @Override
     public List<OrderFeedback> findAllFeedbacksForOffer(String offerId) {
         List<OrderFeedback> orderFeedbackList = new ArrayList<>();
@@ -110,10 +119,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    /**
-     * @param orderList
-     * @return
-     */
     @Override
     public int calculateAveragePointsForListOfOrders(List<Order> orderList) {
         int res = 0;
@@ -133,12 +138,7 @@ public class OrderServiceImpl implements OrderService {
         return (res * 10) / count;
     }
 
-    /**
-     * Calculate average point of orders for user (seller) from order feedback list
-     *
-     * @param orderFeedback
-     * @return
-     */
+
     @Override
     public int calculateAveragePointsForOrderFeedbackList(List<OrderFeedback> orderFeedback) {
 
@@ -161,10 +161,7 @@ public class OrderServiceImpl implements OrderService {
         return (res * 10) / count;
     }
 
-    /**
-     * @param offerId
-     * @return
-     */
+
     @Override
     public int countOrderAmountForOffer(String offerId) {
         OrderFilterOptions orderFilterOptions = new OrderFilterOptions();
@@ -172,10 +169,7 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findOrdersWihOptions(orderFilterOptions).size();
     }
 
-    /**
-     * @param offerId
-     * @return
-     */
+
     @Override
     public List<Order> findAllOrdersForOffer(String offerId) {
         OrderFilterOptions orderFilterOptions = new OrderFilterOptions();
@@ -211,6 +205,116 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+
+    @Override
+    public int calculateFeedbackAmountForOrderList(List<OrderInfo> orderList) {
+        int result = 0;
+        for (OrderInfo orderInfo : orderList) {
+            if (orderInfo.getOrder().getOrderFeedback() != null) {
+                result++;
+            }
+        }
+        return result;
+    }
+
+
+    @Override
+    public List<OrderInfo> orderInfoSellerListFromTotalOrderListOfUser(List<OrderInfo> orderInfoList, String sellerId) {
+
+        List<OrderInfo> orderInfoListSeller = new ArrayList<>();
+
+        for (OrderInfo orderInfo : orderInfoList) {
+            if (orderInfo.getOrder().getSellerId().equals(sellerId)) {
+                orderInfoListSeller.add(orderInfo);
+            }
+        }
+
+        return orderInfoListSeller;
+    }
+
+
+    @Override
+    public List<OrderInfo> orderInfoBuyerListFromTotalOrderListOfUser(List<OrderInfo> orderInfoList, String buyerId) {
+
+        List<OrderInfo> orderInfoListBuyer = new ArrayList<>();
+
+        for (OrderInfo orderInfo : orderInfoList) {
+            if (orderInfo.getOrder().getSellerId().equals(buyerId)) {
+                orderInfoListBuyer.add(orderInfo);
+            }
+        }
+
+        return orderInfoListBuyer;
+    }
+
+
+    @Override
+    public List<Order> getAllOrders(OrderFilterOptions orderFilterOptions) {
+        String userId = SecurityOperations.getLoggedUserId();
+
+        orderFilterOptions
+                .setBuyerId(userId)
+                .setSellerId(userId);
+
+        return findOrdersWihOptions(orderFilterOptions);
+    }
+
+
+    @Override
+    public boolean isOrderValid(Order order, Offer offer) {
+        if (offer.getCurrency() != Currency.UAH) {
+            return false;
+        }
+
+        if (offer.getPrice() == null) {
+            return false;
+        }
+        if (offer.getPrice() < 1) {
+            return false;
+        }
+
+        if (!isShippingMethodsValid(order, offer)) {
+            return false;
+        }
+
+        if (!isPaymentMethodsValid(order, offer)) {
+            return false;
+        }
+
+        order.setPrice(offer.getPrice());
+
+        return true;
+    }
+
+
+    @Override
+    public boolean isShippingMethodsValid(Order order, Offer offer) {
+        TransportCompany orderTransportCompany = order.getOrderAddress().getTransportCompany();
+        Set<TransportCompany> availableShippingMethodsList = offer.getAvailableShippingMethods();
+
+        for (TransportCompany offerTransportCompany : availableShippingMethodsList) {
+
+            if (orderTransportCompany == offerTransportCompany) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isPaymentMethodsValid(Order order, Offer offer) {
+        PaymentMethod orderPaymentMethod = order.getPaymentMethod();
+        Set<PaymentMethod> offerPaymentMethodsList = offer.getAvailablePaymentMethods();
+        for (PaymentMethod offerPaymentMethod : offerPaymentMethodsList) {
+            if (orderPaymentMethod == offerPaymentMethod) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    // --------------------------------------- Helpers methods --------------------------------------------------
 
     /**
      * Transform single order into orderInfo object with additional field;
@@ -250,62 +354,8 @@ public class OrderServiceImpl implements OrderService {
 
             return orderInfo;
         }
-
     }
 
-
-    /**
-     * @param orderList
-     * @return
-     */
-    @Override
-    public int calculateFeedbackAmountForOrderList(List<OrderInfo> orderList) {
-        int result = 0;
-        for (OrderInfo orderInfo : orderList) {
-            if (orderInfo.getOrder().getOrderFeedback() != null) {
-                result++;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * @param orderInfoList
-     * @param sellerId
-     * @return
-     */
-    @Override
-    public List<OrderInfo> orderInfoSellerListFromTotalOrderListOfUser(List<OrderInfo> orderInfoList, String sellerId) {
-
-        List<OrderInfo> orderInfoListSeller = new ArrayList<>();
-
-        for (OrderInfo orderInfo : orderInfoList) {
-            if (orderInfo.getOrder().getSellerId().equals(sellerId)) {
-                orderInfoListSeller.add(orderInfo);
-            }
-        }
-
-        return orderInfoListSeller;
-    }
-
-    /**
-     * @param orderInfoList
-     * @param buyerId
-     * @return
-     */
-    @Override
-    public List<OrderInfo> orderInfoBuyerListFromTotalOrderListOfUser(List<OrderInfo> orderInfoList, String buyerId) {
-
-        List<OrderInfo> orderInfoListBuyer = new ArrayList<>();
-
-        for (OrderInfo orderInfo : orderInfoList) {
-            if (orderInfo.getOrder().getSellerId().equals(buyerId)) {
-                orderInfoListBuyer.add(orderInfo);
-            }
-        }
-
-        return orderInfoListBuyer;
-    }
 
     /**
      * Calculate average points for one certain offer
