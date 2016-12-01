@@ -203,6 +203,11 @@ public interface OrderService {
      */
     boolean isPaymentMethodsValid(Order order, Offer offer);
 
-
-
+    /**
+     * Add and update seller note for specific order.
+     *
+     * @param order - the order.
+     * @param sellerNote - the seller note.
+     */
+    void updateSellerNote(Order order, String sellerNote);
 }

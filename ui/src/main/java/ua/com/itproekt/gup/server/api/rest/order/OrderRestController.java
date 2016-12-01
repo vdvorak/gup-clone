@@ -18,7 +18,6 @@ import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.PaymentMethod;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.TransportCompany;
 
@@ -26,7 +25,6 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/api/rest/orderService")
@@ -109,12 +107,8 @@ public class OrderRestController {
         }
 
         if (orderService.isOrderValid(order, offer)) {
-
             // create order
             orderService.create(userId, order, offer);
-
-            Profile profile = profilesService.findById(order.getBuyerId());
-            activityFeedService.createEvent(OrderRestHelper.eventPreparatorForSeller(profile, order, EventType.NEW_ORDER));
         } else {
             return badRequest;
         }
@@ -396,11 +390,11 @@ public class OrderRestController {
     }
 
     /**
-     * Add and update seller note for specific order
+     * Add and update seller note for specific order.
      *
-     * @param orderId
-     * @param sellerNote
-     * @return
+     * @param orderId    - the seller ID.
+     * @param sellerNote - the text of the seller note.
+     * @return - status 200 (OK), 404 (Not Found) - if order was not found, 403 (Forbidden) - if user is not seller.
      */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
@@ -409,7 +403,6 @@ public class OrderRestController {
     public ResponseEntity<Void> updateSellerNote(@PathVariable String orderId, @RequestBody String sellerNote) {
 
         String userId = SecurityOperations.getLoggedUserId();
-
 
         Order order = orderService.findById(orderId);
 
@@ -421,31 +414,8 @@ public class OrderRestController {
             return forbidden;
         }
 
-        order.setSellerNote(sellerNote);
-
-        orderService.findAndUpdate(order);
+        orderService.updateSellerNote(order, sellerNote);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-    //------------------------------------------ Helpers methods -----------------------------------------------------
-
-
-
-//    private Event eventPreparatorForBuyer(Order order, EventType eventType) {
-//        Profile profile = profilesService.findById(order.getSellerId());
-//
-//        return new Event()
-//                .setTargetUId(order.getBuyerId())
-//                .setType(eventType)
-//                .setContentStoreId(order.getOfferId())
-//                .setContentStoreTitle(order.getOfferTitle())
-//                .setContentId(order.getId())
-//                .setMakerId(order.getSellerId())
-//                .setImgId(order.getOfferMainImageId())
-//                .setMakerName(profile.getUsername());
-//    }
-
-
 }

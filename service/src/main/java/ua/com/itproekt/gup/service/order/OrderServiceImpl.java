@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.order.OrderRepository;
 import ua.com.itproekt.gup.dto.OrderInfo;
+import ua.com.itproekt.gup.model.activityfeed.Event;
+import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.offer.Currency;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
@@ -11,6 +13,7 @@ import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.PaymentMethod;
 import ua.com.itproekt.gup.util.SecurityOperations;
@@ -35,6 +38,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     ProfilesService profilesService;
+
+    @Autowired
+    ActivityFeedService activityFeedService;
 
 
     /**
@@ -91,6 +97,10 @@ public class OrderServiceImpl implements OrderService {
 
         orderRepository.create(newOrder);
         order.setId(newOrder.getId());
+
+        // prepare send notifications
+        Profile profile = profilesService.findById(order.getBuyerId());
+        activityFeedService.createEvent(eventPreparatorForSeller(profile, order, EventType.NEW_ORDER));
     }
 
     @Override
@@ -350,6 +360,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
+    @Override
+    public void updateSellerNote(Order order, String sellerNote) {
+        order.setSellerNote(sellerNote);
+        findAndUpdate(order);
+    }
+
     // --------------------------------------- Helpers methods --------------------------------------------------
 
 
@@ -430,6 +446,50 @@ public class OrderServiceImpl implements OrderService {
 
             return orderInfo;
         }
+    }
+
+
+    /**
+     * Prepare event for buer.
+     *
+     * @param profile   - the profile.
+     * @param order     - the order.
+     * @param eventType - the event type.
+     * @return - the prepared event.
+     */
+    private Event eventPreparatorForSeller(Profile profile, Order order, EventType eventType) {
+
+        return new Event()
+                .setTargetUId(order.getSellerId())
+                .setType(eventType)
+                .setContentStoreId(order.getOfferId())
+                .setContentStoreTitle(order.getOfferTitle())
+                .setContentId(order.getId())
+                .setMakerId(order.getBuyerId())
+                .setImgId(order.getOfferMainImageId())
+                .setMakerName(profile.getUsername());
+    }
+
+
+    /**
+     * Prepare event for seller.
+     *
+     * @param profile   - the profile.
+     * @param order     - the order.
+     * @param eventType - the event type.
+     * @return - the prepared event.
+     */
+    private Event eventPreparatorForBuyer(Profile profile, Order order, EventType eventType) {
+
+        return new Event()
+                .setTargetUId(order.getBuyerId())
+                .setType(eventType)
+                .setContentStoreId(order.getOfferId())
+                .setContentStoreTitle(order.getOfferTitle())
+                .setContentId(order.getId())
+                .setMakerId(order.getSellerId())
+                .setImgId(order.getOfferMainImageId())
+                .setMakerName(profile.getUsername());
     }
 
 
