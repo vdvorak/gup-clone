@@ -18,6 +18,7 @@ import ua.com.itproekt.gup.util.TransportCompany;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -36,8 +37,43 @@ public class OrderServiceImpl implements OrderService {
     ProfilesService profilesService;
 
 
+    /**
+     * Create new order.
+     *
+     * @param order - the order.
+     */
     @Override
     public void create(Order order) {
+        Order newOrder = new Order()
+                .setOfferId(order.getOfferId())
+                .setBuyerId(order.getBuyerId())
+                .setSellerId(order.getSellerId())
+                .setPrice(order.getPrice())
+                .setOfferTitle(order.getOfferTitle())
+                .setOfferMainImageId(order.getOfferMainImageId())
+                .setCreatedDateEqualsToCurrentDate()
+                .setOrderAddress(order.getOrderAddress())
+                .setOrderStatus(OrderStatus.NEW)
+                .setSellerNote(null) //when order create - buyer can not change seller note
+                .setOrderType(order.getOrderType())
+                .setOrderComments(order.getOrderComments())
+                .setPaymentMethod(order.getPaymentMethod());
+
+        orderRepository.create(newOrder);
+        order.setId(newOrder.getId());
+    }
+
+    @Override
+    public void create(String userId, Order order, Offer offer) {
+
+
+        // fill order with additional data
+        newOrderPreparator(userId, order, offer);
+
+        if (order.getPaymentMethod() == PaymentMethod.GUP) {
+            //ToDo money transfer on GUP's account if type of order is GUP
+        }
+
         Order newOrder = new Order()
                 .setOfferId(order.getOfferId())
                 .setBuyerId(order.getBuyerId())
@@ -316,11 +352,51 @@ public class OrderServiceImpl implements OrderService {
 
     // --------------------------------------- Helpers methods --------------------------------------------------
 
+
     /**
-     * Transform single order into orderInfo object with additional field;
+     * Prepare new order - filling with additional data.
      *
-     * @param order
-     * @return
+     * @param userId - the user ID.
+     * @param order  - the order.
+     * @param offer  - the offer.
+     */
+    private void newOrderPreparator(String userId, Order order, Offer offer) {
+        order
+                .setBuyerId(userId)
+                .setSellerId(offer.getAuthorId())
+                .setOfferTitle(offer.getTitle())
+                .setPrice(offer.getPrice())
+                .setSeoKey(offer.getSeoKey())
+                .setSeoUrl(offer.getSeoUrl())
+                .setOfferMainImageId(findMainOfferPhoto(offer));
+    }
+
+
+    /**
+     * Find and return main image ID.
+     *
+     * @param offer - the offer.
+     * @return - the main photo ID.
+     */
+    private String findMainOfferPhoto(Offer offer) {
+
+        Map<String, String> imagesMap = offer.getImagesIds();
+
+        for (String key : imagesMap.keySet()) {
+            if (imagesMap.get(key).equals("1")) {
+                return key;
+            }
+        }
+
+        return null;
+    }
+
+
+    /**
+     * Transform single order into orderInfo object with additional field.
+     *
+     * @param order - the order.
+     * @return - the OrderInfo object.
      */
     private OrderInfo singleOrderInfoPreparatorForPrivate(Order order, Profile profile) {
         OrderInfo orderInfo = new OrderInfo();

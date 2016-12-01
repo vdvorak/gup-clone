@@ -109,12 +109,9 @@ public class OrderRestController {
         }
 
         if (orderService.isOrderValid(order, offer)) {
-            newOrderPreparator(userId, order, offer);
 
-            if (order.getPaymentMethod() == PaymentMethod.GUP) {
-                //ToDo money transfer on GUP's account if type of order is GUP
-            }
-            orderService.create(order);
+            // create order
+            orderService.create(userId, order, offer);
 
             Profile profile = profilesService.findById(order.getBuyerId());
             activityFeedService.createEvent(OrderRestHelper.eventPreparatorForSeller(profile, order, EventType.NEW_ORDER));
@@ -434,31 +431,6 @@ public class OrderRestController {
 
     //------------------------------------------ Helpers methods -----------------------------------------------------
 
-
-    private void newOrderPreparator(String userId, Order order, Offer offer) {
-        order
-                .setBuyerId(userId)
-                .setSellerId(offer.getAuthorId())
-                .setOfferTitle(offer.getTitle())
-                .setPrice(offer.getPrice())
-                .setSeoKey(offer.getSeoKey())
-                .setSeoUrl(offer.getSeoUrl())
-                .setOfferMainImageId(findMainOfferPhoto(offer));
-    }
-
-
-    private String findMainOfferPhoto(Offer offer) {
-
-        Map<String, String> imagesMap = offer.getImagesIds();
-
-        for (String key : imagesMap.keySet()) {
-            if (imagesMap.get(key).equals("1")) {
-                return key;
-            }
-        }
-
-        return null;
-    }
 
 
 //    private Event eventPreparatorForBuyer(Order order, EventType eventType) {

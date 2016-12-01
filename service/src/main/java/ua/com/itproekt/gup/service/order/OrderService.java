@@ -22,7 +22,17 @@ public interface OrderService {
     /**
      * Create new order.
      *
-     * @param order                                     - the order.
+     * @param userId - the user ID.
+     * @param order - the order.
+     * @param offer - the offer.
+     */
+    void create(String userId, Order order, Offer offer);
+
+
+    /**
+     * Create new order.
+     *
+     * @param order - the order.
      */
     void create(Order order);
 
@@ -192,5 +202,7 @@ public interface OrderService {
      * @return                                          - the true or false.
      */
     boolean isPaymentMethodsValid(Order order, Offer offer);
+
+
 
 }
