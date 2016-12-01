@@ -219,24 +219,12 @@ public class OrderRestController {
             return badRequest;
         }
 
-        Profile profileOfSeller = profilesService.findById(order.getSellerId());
-
         if (order.getOrderStatus() == OrderStatus.ACCEPT) {
-            oldOrder.setOrderStatus(OrderStatus.ACCEPT)
-                    .setAcceptedDateEqualsToCurrentDate();
-
-            orderService.findAndUpdate(oldOrder);
-
-            activityFeedService.createEvent(OrderRestHelper.eventPreparatorForBuyer(profileOfSeller, oldOrder, EventType.ORDER_ACCEPTED));
+            orderService.acceptOrderBySeller(oldOrder);
         }
 
         if (order.getOrderStatus() == OrderStatus.REJECTED_BY_SELLER) {
-            oldOrder
-                    .setOrderStatus(OrderStatus.REJECTED_BY_SELLER)
-                    .setRejectDateEqualsToCurrentDate();
-            orderService.findAndUpdate(oldOrder);
-            //ToDo Return money to buyer
-            activityFeedService.createEvent(OrderRestHelper.eventPreparatorForBuyer(profileOfSeller, oldOrder, EventType.ORDER_REJECTED_BY_SELLER));
+            orderService.rejectedOrderBySeller(oldOrder);
         }
 
         return ok;

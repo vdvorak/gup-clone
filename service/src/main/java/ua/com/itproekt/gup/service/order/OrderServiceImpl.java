@@ -369,12 +369,41 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void cancelOrderByBuyer(Order oldOrder) {
         oldOrder.setOrderStatus(OrderStatus.CANCELED_BY_BUYER);
-       findAndUpdate(oldOrder);
+        findAndUpdate(oldOrder);
 
         //ToDo Веруть деньги покупателю
 
-        Profile profile = profilesService.findById(oldOrder.getSellerId());
+        Profile profile = profilesService.findById(oldOrder.getBuyerId());
         activityFeedService.createEvent(eventPreparatorForSeller(profile, oldOrder, EventType.ORDER_CANCEL_BY_BUYER));
+    }
+
+
+    @Override
+    public void acceptOrderBySeller(Order oldOrder) {
+        oldOrder.setOrderStatus(OrderStatus.ACCEPT)
+                .setAcceptedDateEqualsToCurrentDate();
+
+        findAndUpdate(oldOrder);
+
+        Profile profileOfSeller = profilesService.findById(oldOrder.getSellerId());
+
+        // send notification to buyer
+        activityFeedService.createEvent(eventPreparatorForBuyer(profileOfSeller, oldOrder, EventType.ORDER_ACCEPTED));
+    }
+
+
+    @Override
+    public void rejectedOrderBySeller(Order oldOrder) {
+        oldOrder
+                .setOrderStatus(OrderStatus.REJECTED_BY_SELLER)
+                .setRejectDateEqualsToCurrentDate();
+
+        findAndUpdate(oldOrder);
+        //ToDo Return money to buyer
+
+        Profile profileOfSeller = profilesService.findById(oldOrder.getSellerId());
+        activityFeedService.createEvent(
+                eventPreparatorForBuyer(profileOfSeller, oldOrder, EventType.ORDER_REJECTED_BY_SELLER));
     }
 
     // --------------------------------------- Helpers methods --------------------------------------------------

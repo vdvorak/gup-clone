@@ -203,6 +203,7 @@ public interface OrderService {
      */
     boolean isPaymentMethodsValid(Order order, Offer offer);
 
+
     /**
      * Add and update seller note for specific order.
      *
@@ -216,9 +217,25 @@ public interface OrderService {
 
 
     /**
-     * This method cancel order by buyer.
+     * This method cancel order by buyer and send notification to seller.
      *
      * @param oldOrder                                  - the order.
      */
     void cancelOrderByBuyer(Order oldOrder);
+
+
+    /**
+     * This method change Order Status to ACCEPT and send notification to buyer.
+     *
+     * @param oldOrder                                  - the order.
+     */
+    void acceptOrderBySeller(Order oldOrder);
+
+    
+    /**
+     * This method change Order Status ORDER_REJECTED_BY_SELLER and send notification to seller.
+     *
+     * @param oldOrder - the order.
+     */
+    void rejectedOrderBySeller(Order oldOrder);
 }
