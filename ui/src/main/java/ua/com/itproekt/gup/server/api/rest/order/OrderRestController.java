@@ -26,13 +26,7 @@ import java.util.List;
 @RequestMapping("/api/rest/orderService")
 public class OrderRestController {
 
-    private final ResponseEntity<Void> ok = new ResponseEntity<>(HttpStatus.OK);
-    private final ResponseEntity<Void> badRequest = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    private final ResponseEntity<Void> forbidden = new ResponseEntity<>(HttpStatus.FORBIDDEN);
-    private final ResponseEntity<Void> notFound = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    private final ResponseEntity<Void> methodNotAllowed = new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
-    private final ResponseEntity<Void> notAcceptable = new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-
+    private final ResponseEntity<String> ok = new ResponseEntity<>(HttpStatus.OK);
 
     @Autowired
     OrderService orderService;
@@ -90,23 +84,23 @@ public class OrderRestController {
     @CrossOrigin
     @RequestMapping(value = "/order/create", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createOrder(@Valid @RequestBody Order order) {
+    public ResponseEntity<String> createOrder(@Valid @RequestBody Order order) {
 
         Offer offer = offersService.findById(order.getOfferId());
         if (offer == null) {
-            return notFound;
+            return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
         }
 
         String userId = SecurityOperations.getLoggedUserId();
         if (userId.equals(offer.getAuthorId())) {
-            return forbidden;
+            return new ResponseEntity<>("You are not an offer author.", HttpStatus.FORBIDDEN);
         }
 
         if (orderService.isOrderValid(order, offer)) {
             // create order
             orderService.create(userId, order, offer);
         } else {
-            return badRequest;
+            return new ResponseEntity<>("Order is not valid", HttpStatus.BAD_REQUEST);
         }
         return ok;
     }
@@ -114,7 +108,7 @@ public class OrderRestController {
 //------------------------------------------ Update -------------------------------------------------------------
 
     /**
-     * This method can only update order Address, payment method only before seller will accept Order.
+     * This method can only update order Address and/or payment method only before seller will accept Order.
      *
      * @param order - updated order.
      * @return - return status 200 code if Ok, 401 - not authorized, 400 - user is not buyer or not valid payment or shipping method,
@@ -124,34 +118,34 @@ public class OrderRestController {
     @CrossOrigin
     @RequestMapping(value = "/order/update/2", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> updateOrder2(@Valid @RequestBody Order order) {
+    public ResponseEntity<String> updateOrder2(@Valid @RequestBody Order order) {
 
         String userId = SecurityOperations.getLoggedUserId();
 
         Offer offer = offersService.findById(order.getOfferId());
         if (offer == null) {
-            return notFound;
+            return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
         }
 
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
-            return notFound;
+            return new ResponseEntity<>("Order was not found", HttpStatus.NOT_FOUND);
         }
 
         if (!userId.equals(oldOrder.getBuyerId())) {
-            return badRequest;
+            return new ResponseEntity<>("Current user is not a buyer", HttpStatus.BAD_REQUEST);
         }
 
         if (oldOrder.getOrderStatus() != OrderStatus.NEW) {
-            return methodNotAllowed;
+            return new ResponseEntity<>("You can change address or payment only of the order which has status New", HttpStatus.BAD_REQUEST);
         }
 
         if (!orderService.isShippingMethodsValid(order, offer)) {
-            return badRequest;
+            return new ResponseEntity<>("Shipping method is not valid", HttpStatus.BAD_REQUEST);
         }
 
         if (!orderService.isPaymentMethodsValid(order, offer)) {
-            return badRequest;
+            return new ResponseEntity<>("Payment method is not valid", HttpStatus.BAD_REQUEST);
         }
 
 
@@ -173,20 +167,20 @@ public class OrderRestController {
     @CrossOrigin
     @RequestMapping(value = "/order/update/3", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> updateOrder3(@RequestBody Order order) {
+    public ResponseEntity<String> updateOrder3(@RequestBody Order order) {
 
         String userId = SecurityOperations.getLoggedUserId();
 
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
-            return notFound;
+            return new ResponseEntity<>("Order was not found", HttpStatus.NOT_FOUND);
         }
 
         if (userId.equals(oldOrder.getBuyerId()) && oldOrder.getOrderStatus() == OrderStatus.NEW) {
             // cancel order and send notification to seller
             orderService.cancelOrderByBuyer(oldOrder);
         } else {
-            return badRequest;
+            return new ResponseEntity<>("Current user is not a buyer or previous Order Status is not a New", HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -203,16 +197,16 @@ public class OrderRestController {
     @CrossOrigin
     @RequestMapping(value = "/order/update/4", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> updateOrder4(@Valid @RequestBody Order order) {
+    public ResponseEntity<String> updateOrder4(@Valid @RequestBody Order order) {
 
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
-            return notFound;
+            return new ResponseEntity<>("Order was not found", HttpStatus.NOT_FOUND);
         }
 
         String userId = SecurityOperations.getLoggedUserId();
         if (!userId.equals(oldOrder.getSellerId())) {
-            return badRequest;
+            return new ResponseEntity<>("Current user is not a seller", HttpStatus.BAD_REQUEST);
         }
 
         if (order.getOrderStatus() == OrderStatus.ACCEPT) {
@@ -240,23 +234,24 @@ public class OrderRestController {
     @CrossOrigin
     @RequestMapping(value = "/order/update/5", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> updateOrder5(@Valid @RequestBody Order order) {
+    public ResponseEntity<String> updateOrder5(@Valid @RequestBody Order order) {
 
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
-            return notFound;
+            return new ResponseEntity<>("Order was not found", HttpStatus.NOT_FOUND);
         }
 
         String userId = SecurityOperations.getLoggedUserId();
+
         if (!userId.equals(oldOrder.getSellerId())) {
-            return notAcceptable;
+            return new ResponseEntity<>("You are not an seller.", HttpStatus.FORBIDDEN);
         }
 
         if (oldOrder.getOrderAddress().getTransportCompany() != TransportCompany.SELF_PICKED && order.getTrackNumber() != null) {
             oldOrder.setTrackNumber(order.getTrackNumber());
             orderService.sendOrderBySeller(oldOrder);
         } else {
-            return badRequest;
+            return new ResponseEntity<>("In the previous order TransportCompany was Self_Picked and the truckNumber in the order is null", HttpStatus.BAD_REQUEST);
         }
         return ok;
     }
@@ -273,11 +268,11 @@ public class OrderRestController {
     @CrossOrigin
     @RequestMapping(value = "/order/update/6", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> updateOrder6(@Valid @RequestBody Order order) {
+    public ResponseEntity<String> updateOrder6(@Valid @RequestBody Order order) {
 
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
-            return notFound;
+            return new ResponseEntity<>("Order was not found", HttpStatus.NOT_FOUND);
         }
 
         String userId = SecurityOperations.getLoggedUserId();
@@ -287,7 +282,7 @@ public class OrderRestController {
             if (orderService.completeOrderBySeller(oldOrder)) {
                 return ok;
             } else {
-                return badRequest;
+                return new ResponseEntity<>("Order can't be complete now. To early to make it complete.", HttpStatus.BAD_REQUEST);
             }
 
         } else {
@@ -296,12 +291,12 @@ public class OrderRestController {
                 if (orderService.completeOrderByBuyer(oldOrder)) {
                     return ok;
                 } else {
-                    return badRequest;
+                    return new ResponseEntity<>("Order can't be complete now. To early to make it complete.", HttpStatus.BAD_REQUEST);
                 }
 
             } else {
                 // you are neither buyer nor the seller
-                return badRequest;
+                return new ResponseEntity<>("You are neither buyer nor the seller.", HttpStatus.BAD_REQUEST);
             }
         }
     }
@@ -318,17 +313,17 @@ public class OrderRestController {
     @CrossOrigin
     @RequestMapping(value = "/order/update/7", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> updateOrder7(@Valid @RequestBody Order order) {
+    public ResponseEntity<String> updateOrder7(@Valid @RequestBody Order order) {
 
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
-            return notFound;
+            return new ResponseEntity<>("Order was not found", HttpStatus.NOT_FOUND);
         }
 
         if (orderService.commentUpdateInOrder(oldOrder, order)) {
             return ok;
         }
-        return badRequest;
+        return new ResponseEntity<>("You are neither buyer nor the seller.", HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -342,18 +337,18 @@ public class OrderRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/order/update/note/{orderId}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> updateSellerNote(@PathVariable String orderId, @RequestBody String sellerNote) {
+    public ResponseEntity<String> updateSellerNote(@PathVariable String orderId, @RequestBody String sellerNote) {
 
         String userId = SecurityOperations.getLoggedUserId();
 
         Order order = orderService.findById(orderId);
 
         if (order == null) {
-            return notFound;
+            return new ResponseEntity<>("Order was not found", HttpStatus.NOT_FOUND);
         }
 
         if (!userId.equals(order.getSellerId())) {
-            return forbidden;
+            new ResponseEntity<>("Current user is not seller in this order", HttpStatus.FORBIDDEN);
         }
 
         orderService.updateSellerNote(order, sellerNote);

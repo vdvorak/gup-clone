@@ -482,7 +482,6 @@ public class OrderServiceImpl implements OrderService {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-
         Profile profileOfSeller = profilesService.findById(oldOrder.getSellerId());
 
         if (userId.equals(oldOrder.getBuyerId())) {

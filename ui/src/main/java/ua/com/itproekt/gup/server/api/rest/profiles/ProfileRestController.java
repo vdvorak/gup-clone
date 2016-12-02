@@ -155,6 +155,7 @@ public class ProfileRestController {
             }
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+
         if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             changeUserType(newProfile, oldProfile);
             profilesService.editProfile(newProfile);
