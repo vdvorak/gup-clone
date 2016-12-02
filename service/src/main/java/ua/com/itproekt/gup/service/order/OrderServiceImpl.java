@@ -19,6 +19,8 @@ import ua.com.itproekt.gup.util.PaymentMethod;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.TransportCompany;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -420,6 +422,58 @@ public class OrderServiceImpl implements OrderService {
         activityFeedService.createEvent(eventPreparatorForBuyer(profileOfSeller, oldOrder, EventType.ORDER_SENT));
     }
 
+
+    @Override
+    public boolean completeOrderBySeller(Order oldOrder) {
+
+        Long timeNow = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        TransportCompany oldOrderTransportCompany = oldOrder.getOrderAddress().getTransportCompany();
+
+        //логика для продавца. Может нажать, если прошёл 31 день с момента отправки (через ТК),
+        // либо через 15 дней, если SELF_PICKED
+
+        if ((oldOrderTransportCompany != TransportCompany.SELF_PICKED && (timeNow - oldOrder.getSentDate()) > 2678400000L)
+                || (oldOrderTransportCompany == TransportCompany.SELF_PICKED && (timeNow - oldOrder.getAcceptDate()) > 1296000000L)) { //31 or 15 days
+            oldOrder
+                    .setOrderStatus(OrderStatus.COMPLETED)
+                    .setReceivedDateEqualsToCurrentDate();
+
+            findAndUpdate(oldOrder);
+            //ToDo transfer money to the buyer account
+            Profile profileOfSeller = profilesService.findById(oldOrder.getSellerId());
+
+            // send notification to the buyer
+            activityFeedService.createEvent(eventPreparatorForBuyer(profileOfSeller, oldOrder, EventType.ORDER_COMPLETED));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    @Override
+    public boolean completeOrderByBuyer(Order oldOrder) {
+
+        Long timeNow = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
+        TransportCompany oldOrderTransportCompany = oldOrder.getOrderAddress().getTransportCompany();
+
+
+        if ((oldOrder.getOrderStatus() == OrderStatus.SENT && (timeNow - oldOrder.getSentDate() > 43200000L))
+                || (oldOrderTransportCompany == TransportCompany.SELF_PICKED && (timeNow - oldOrder.getAcceptDate() > 43200000L))) { // 12 hours
+            oldOrder
+                    .setOrderStatus(OrderStatus.COMPLETED)
+                    .setReceivedDateEqualsToCurrentDate();
+            findAndUpdate(oldOrder);
+            //ToDo Make money transfer on seller account
+            Profile profile = profilesService.findById(oldOrder.getBuyerId());
+
+            // send notification to the seller
+            activityFeedService.createEvent(eventPreparatorForSeller(profile, oldOrder, EventType.ORDER_COMPLETED));
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     // --------------------------------------- Helpers methods --------------------------------------------------
 

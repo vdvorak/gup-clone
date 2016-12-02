@@ -267,8 +267,9 @@ public class OrderRestController {
 
 
     /**
+     * This method can only change order status to COMPLETED from the client (by seller or by buyer).
+     *
      * @param order - updated order.
-     *              This method can only change order status to COMPLETED from the client (by seller or by buyer).
      * @return - return 200 status code if Ok, 400 - user neither seller nor buyer, 404 - not found order,
      * 406 - buyer can't mark this order like COMPLETED yet
      */
@@ -278,48 +279,28 @@ public class OrderRestController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateOrder6(@Valid @RequestBody Order order) {
 
-
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
             return notFound;
         }
 
-        Long timeNow = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         String userId = SecurityOperations.getLoggedUserId();
-        TransportCompany oldOrderTransportCompany = oldOrder.getOrderAddress().getTransportCompany();
 
         if (userId.equals(oldOrder.getSellerId())) {
 
-            //логика для продавца. Может нажать, если прошёл 31 день с момента отправки (через ТК),
-            // либо через 15 дней, если SELF_PICKED
-
-
-            if ((oldOrderTransportCompany != TransportCompany.SELF_PICKED && (timeNow - oldOrder.getSentDate()) > 2678400000L)
-                    || (oldOrderTransportCompany == TransportCompany.SELF_PICKED && (timeNow - oldOrder.getAcceptDate()) > 1296000000L)) { //31 or 15 days
-                oldOrder
-                        .setOrderStatus(OrderStatus.COMPLETED)
-                        .setReceivedDateEqualsToCurrentDate();
-                orderService.findAndUpdate(oldOrder);
-                //ToDo transfer money to the buyer account
-                Profile profileOfSeller = profilesService.findById(order.getSellerId());
-                activityFeedService.createEvent(OrderRestHelper.eventPreparatorForBuyer(profileOfSeller, oldOrder, EventType.ORDER_COMPLETED));
+            if (orderService.completeOrderBySeller(oldOrder)) {
+                return ok;
             } else {
-                return notAcceptable;
+                return badRequest;
             }
-
 
         } else {
             if (userId.equals(oldOrder.getBuyerId())) {
 
-                if ((oldOrder.getOrderStatus() == OrderStatus.SENT && (timeNow - oldOrder.getSentDate() > 43200000L))
-                        || (oldOrderTransportCompany == TransportCompany.SELF_PICKED && (timeNow - oldOrder.getAcceptDate() > 43200000L))) { // 12 hours
-                    oldOrder
-                            .setOrderStatus(OrderStatus.COMPLETED)
-                            .setReceivedDateEqualsToCurrentDate();
-                    orderService.findAndUpdate(oldOrder);
-                    //ToDo Make money transfer on seller account
-                    Profile profile = profilesService.findById(order.getBuyerId());
-                    activityFeedService.createEvent(OrderRestHelper.eventPreparatorForSeller(profile, oldOrder, EventType.ORDER_COMPLETED));
+                if (orderService.completeOrderByBuyer(oldOrder)) {
+                    return ok;
+                } else {
+                    return badRequest;
                 }
 
             } else {
@@ -327,7 +308,6 @@ public class OrderRestController {
                 return badRequest;
             }
         }
-        return ok;
     }
 
 

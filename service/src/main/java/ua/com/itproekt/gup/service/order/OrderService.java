@@ -248,4 +248,23 @@ public interface OrderService {
      * @param oldOrder                                  - the old order.
      */
     void sendOrderBySeller(Order oldOrder);
+
+
+    /**
+     * This method can only change order status to COMPLETED by seller.
+     * Send notification to the buyer.
+     *
+     * @param oldOrder                                  - the old order (version of the order before update).
+     * @return                                          - the true if order was "Complete", false - if not.
+     */
+    boolean completeOrderBySeller(Order oldOrder);
+
+    /**
+     * This method can only change order status to COMPLETED by buyer.
+     * Send notification to the seller.
+     *
+     * @param oldOrder                                  - the old order (version of the order before update).
+     * @return                                          - the true if order was "Complete", false - if not.
+     */
+    boolean completeOrderByBuyer(Order oldOrder);
 }
