@@ -8,12 +8,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.exception.ResourceNotFoundException;
-import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
-import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
@@ -22,8 +20,6 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.TransportCompany;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 
 @Controller
@@ -312,6 +308,8 @@ public class OrderRestController {
 
 
     /**
+     * This method for add comment to the order.
+     *
      * @param order - updated order. Can received only one comment from buyer or from seller to certain order.
      *              Comment length can be from 10 to 500 letters.
      * @return - return 200 status code if Ok, 400 - user neither seller nor buyer, 404 - not found order.
@@ -322,28 +320,14 @@ public class OrderRestController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateOrder7(@Valid @RequestBody Order order) {
 
-        String userId = SecurityOperations.getLoggedUserId();
-
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
             return notFound;
         }
 
-        Profile profileOfSeller = profilesService.findById(order.getSellerId());
-        if (userId.equals(oldOrder.getBuyerId())) {
-            OrderRestHelper.commentUpdaterAndEventSender(profileOfSeller, orderService,
-                    activityFeedService, userId, order, oldOrder, EventType.ORDER_BUYER_COMMENT);
+        if (orderService.commentUpdateInOrder(oldOrder, order)) {
             return ok;
         }
-
-
-        Profile profileOfBuyer = profilesService.findById(order.getBuyerId());
-        if (userId.equals(oldOrder.getSellerId())) {
-            OrderRestHelper.commentUpdaterAndEventSender(profileOfBuyer, orderService,
-                    activityFeedService, userId, order, oldOrder, EventType.ORDER_SELLER_COMMENT);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-
         return badRequest;
     }
 

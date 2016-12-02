@@ -22,9 +22,9 @@ public interface OrderService {
     /**
      * Create new order.
      *
-     * @param userId - the user ID.
-     * @param order - the order.
-     * @param offer - the offer.
+     * @param userId                                    - the user ID.
+     * @param order                                     - the order.
+     * @param offer                                     - the offer.
      */
     void create(String userId, Order order, Offer offer);
 
@@ -32,7 +32,7 @@ public interface OrderService {
     /**
      * Create new order.
      *
-     * @param order - the order.
+     * @param order                                     - the order.
      */
     void create(Order order);
 
@@ -245,7 +245,7 @@ public interface OrderService {
      * you need or not put trackNumber. Also this method update sentDate field of the order.
      * Also this method send notification to the buyer.
      *
-     * @param oldOrder                                  - the old order.
+     * @param oldOrder                                  - the old order (version of the order before update).
      */
     void sendOrderBySeller(Order oldOrder);
 
@@ -259,6 +259,7 @@ public interface OrderService {
      */
     boolean completeOrderBySeller(Order oldOrder);
 
+
     /**
      * This method can only change order status to COMPLETED by buyer.
      * Send notification to the seller.
@@ -267,4 +268,14 @@ public interface OrderService {
      * @return                                          - the true if order was "Complete", false - if not.
      */
     boolean completeOrderByBuyer(Order oldOrder);
+
+
+    /**
+     * This method for add comment to the order.
+     *
+     * @param oldOrder                                  - the old order (version of the order before update).
+     * @param newOrder                                  - the updated order with new comment.
+     * @return                                          - the true if comment was update, false - if not.
+     */
+    boolean commentUpdateInOrder(Order oldOrder, Order newOrder);
 }

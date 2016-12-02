@@ -9,6 +9,7 @@ import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.offer.Currency;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
+import ua.com.itproekt.gup.model.order.OrderComment;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
@@ -475,7 +476,47 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+
+    @Override
+    public boolean commentUpdateInOrder(Order oldOrder, Order newOrder) {
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+
+        Profile profileOfSeller = profilesService.findById(oldOrder.getSellerId());
+
+        if (userId.equals(oldOrder.getBuyerId())) {
+            commentUpdaterAndEventSender(profileOfSeller, userId, newOrder, oldOrder, EventType.ORDER_BUYER_COMMENT);
+            return true;
+        }
+
+
+        Profile profileOfBuyer = profilesService.findById(oldOrder.getBuyerId());
+        if (userId.equals(oldOrder.getSellerId())) {
+            commentUpdaterAndEventSender(profileOfBuyer, userId, newOrder, oldOrder, EventType.ORDER_SELLER_COMMENT);
+            return true;
+        }
+
+        return false;
+    }
+
+
     // --------------------------------------- Helpers methods --------------------------------------------------
+
+
+    private void commentUpdaterAndEventSender(Profile profile, String userId, Order order, Order oldOrder, EventType eventType) {
+
+        // get comment from new order
+        OrderComment newComment = order.getOrderComments().get(0)
+                .setDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli())
+                .setUserId(userId);
+
+        oldOrder.getOrderComments().add(newComment);
+        findAndUpdate(oldOrder);
+
+        // send notification to user
+        activityFeedService.createEvent(eventPreparatorForSeller(profile, oldOrder, eventType));
+    }
 
 
     /**
