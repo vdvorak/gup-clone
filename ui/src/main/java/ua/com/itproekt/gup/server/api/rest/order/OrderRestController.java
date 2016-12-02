@@ -232,7 +232,7 @@ public class OrderRestController {
 
 
     /**
-     * This method can only change order status to SENT and onl seller. Due to TransportCompany type
+     * This method can only change order status to SENT and only by seller. Due to the TransportCompany type
      * you need or not put trackNumber.
      *
      * @param order - updated order.
@@ -246,7 +246,6 @@ public class OrderRestController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateOrder5(@Valid @RequestBody Order order) {
 
-
         Order oldOrder = orderService.findById(order.getId());
         if (oldOrder == null) {
             return notFound;
@@ -257,22 +256,12 @@ public class OrderRestController {
             return notAcceptable;
         }
 
-        if (oldOrder.getOrderAddress().getTransportCompany() != TransportCompany.SELF_PICKED) {
-            if (order.getTrackNumber() != null) {
-                oldOrder
-                        .setTrackNumber(order.getTrackNumber())
-                        .setOrderStatus(OrderStatus.SENT)
-                        .setSentDateEqualsToCurrentDate();
-                orderService.findAndUpdate(oldOrder);
-                Profile profileOfSeller = profilesService.findById(order.getSellerId());
-                activityFeedService.createEvent(OrderRestHelper.eventPreparatorForBuyer(profileOfSeller, oldOrder, EventType.ORDER_SENT));
-            } else {
-                return badRequest;
-            }
+        if (oldOrder.getOrderAddress().getTransportCompany() != TransportCompany.SELF_PICKED && order.getTrackNumber() != null) {
+            oldOrder.setTrackNumber(order.getTrackNumber());
+            orderService.sendOrderBySeller(oldOrder);
         } else {
-            return methodNotAllowed;
+            return badRequest;
         }
-
         return ok;
     }
 

@@ -406,6 +406,21 @@ public class OrderServiceImpl implements OrderService {
                 eventPreparatorForBuyer(profileOfSeller, oldOrder, EventType.ORDER_REJECTED_BY_SELLER));
     }
 
+
+    @Override
+    public void sendOrderBySeller(Order oldOrder) {
+
+        oldOrder.setOrderStatus(OrderStatus.SENT)
+                .setSentDateEqualsToCurrentDate();
+        findAndUpdate(oldOrder);
+
+        Profile profileOfSeller = profilesService.findById(oldOrder.getSellerId());
+
+        // send notification to the buyer
+        activityFeedService.createEvent(eventPreparatorForBuyer(profileOfSeller, oldOrder, EventType.ORDER_SENT));
+    }
+
+
     // --------------------------------------- Helpers methods --------------------------------------------------
 
 

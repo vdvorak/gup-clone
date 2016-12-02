@@ -235,7 +235,17 @@ public interface OrderService {
     /**
      * This method change Order Status ORDER_REJECTED_BY_SELLER and send notification to seller.
      *
-     * @param oldOrder - the order.
+     * @param oldOrder                                  - the order.
      */
     void rejectedOrderBySeller(Order oldOrder);
+
+
+    /**
+     * This method can only change order status to SENT and only by seller. Due to the TransportCompany type
+     * you need or not put trackNumber. Also this method update sentDate field of the order.
+     * Also this method send notification to the buyer.
+     *
+     * @param oldOrder                                  - the old order.
+     */
+    void sendOrderBySeller(Order oldOrder);
 }
