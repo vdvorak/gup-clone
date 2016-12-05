@@ -70,8 +70,8 @@ public class ProfileRestController {
     /**
      * Gets user name by id.
      *
-     * @param id the id
-     * @return the profile by id
+     * @param id - the user ID.
+     * @return - the user profile.
      */
     @CrossOrigin
     @RequestMapping(value = "/profile/info/{id}", method = RequestMethod.GET,

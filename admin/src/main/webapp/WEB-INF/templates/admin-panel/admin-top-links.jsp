@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Optical Illusion
-  Date: 04.01.2016
-  Time: 10:53
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Bootstrap Core CSS -->
 <link href="/resources/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -43,9 +36,9 @@
 <![endif]-->
 
 <!-- Full Calendar 3.0.1 -->
-<link rel='stylesheet' href='../../../resources/fullcalendar/lib/cupertino/jquery-ui.min.css' />
-<link href='../../../resources/fullcalendar/fullcalendar.css' rel='stylesheet' />
-<link href='../../../resources/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+<link rel='stylesheet' href='../../../resources/fullcalendar/lib/cupertino/jquery-ui.min.css'/>
+<link href='../../../resources/fullcalendar/fullcalendar.css' rel='stylesheet'/>
+<link href='../../../resources/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print'/>
 <script src='../../../resources/fullcalendar/lib/moment.min.js'></script>
 <script src='../../../resources/fullcalendar/lib/jquery.min.js'></script>
 <script src='../../../resources/fullcalendar/lib/jquery-ui.min.js'></script>
@@ -53,4 +46,19 @@
 <script src='../../../resources/fullcalendar/gcal.js'></script>
 <script src='../../../resources/fullcalendar/locale/ru.js'></script>
 <script src='../../../resources/fullcalendar/locale/uk.js'></script>
+
+
+<!-- Here we ara getting service url from properties files and then put them into global variables. -->
+<script>
+    <%@ page language="java" import="java.util.ResourceBundle" %>
+    <% ResourceBundle resource = ResourceBundle.getBundle("config-host");
+      String apiUi=resource.getString("apiUi");
+      String apiOauth=resource.getString("apiOauth");
+      String host=resource.getString("host");
+      %>
+
+    let apiOauth = '<%=apiOauth %>';
+    let apiUi = '<%=apiUi%>';
+    let host = '<%=host%>';
+</script>
 

@@ -1,12 +1,12 @@
 let userNames = []; // for Bloodhound suggestion engine
 let users;
 
-let urlAdminProfileReadAll = 'http://localhost:8184/api/rest/admin/profile/read/short/all';
-let urlProfilePhoto = 'http://localhost:8184/api/rest/fileStorage/profile/photo/read/id/';
-let urlProfileCreate = 'http://localhost:8183/api/oauth/admin/register';
-let urlProfileUpdBAdmin = 'http://localhost:8184/api/rest/profilesService/profile/updateByAdmin';
-let urlProfileRoleEdit = 'http://localhost:8184/api/rest/admin/profile/role/edit';
-let urlProfileDelete = 'http://localhost:8184/api/rest/admin/profile/admin/admin-delete';
+let urlAdminProfileReadAll = apiUi + '/api/rest/admin/profile/read/short/all';
+let urlProfilePhoto = apiUi + '/api/rest/fileStorage/profile/photo/read/id/';
+let urlProfileCreate = apiOauth + '/api/oauth/admin/register';
+let urlProfileUpdBAdmin = apiUi + '/api/rest/profilesService/profile/updateByAdmin';
+let urlProfileRoleEdit = apiUi + '/api/rest/admin/profile/role/edit';
+let urlProfileDelete = apiUi + '/api/rest/admin/profile/admin/admin-delete';
 let tagNoPhoto = '<img src="/resources/images/no_photo.jpg" width="100" height="100">';
 
 
