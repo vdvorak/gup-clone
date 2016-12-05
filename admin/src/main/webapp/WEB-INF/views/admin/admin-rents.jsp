@@ -18,7 +18,45 @@
     <!-- Links -->
 
     <script>
+        var offerResult;
+
+        function getval(){
+            var index = document.getElementById('offers-selector').selectedIndex
+            $('#offers-result').html(JSON.stringify(offerResult[index]));
+        }
+
         $(document).ready(function() {
+            /* select offer(s)
+             -----------------------------------------------------------------*/
+            var emptyObj = {};
+
+            var request = $.ajax({
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                url: 'http://gup.com.ua:8184/api/rest/offersService/offer/read/all',
+                data: JSON.stringify(emptyObj),
+                error: function(offers) {
+                    console.log(offers.responseText);
+                },
+                success: function(offers){
+                    offerResult = JSON.parse( JSON.stringify(offers) );
+
+                    // "id":"57f37a5e6032233325b9f8c9"
+                    offerResult.forEach(function(el) {
+                        if (el.offer.id  === '57f37a5e6032233325b9f8c9'){
+                            $('#offers-selector').append('<option title="' + el.offer.id + '" selected>'+el.offer.title+'</option>')
+                        }else{
+                            $('#offers-selector').append('<option title="' + el.offer.id + '">'+el.offer.title+'</option>')
+                        }
+                    })
+
+                    var index = document.getElementById('offers-selector').selectedIndex
+                    $('#offers-result').html(JSON.stringify(offerResult[index]));
+                }
+            });
+
+
+
             var initialLocaleCode = 'ru';
 
             /* initialize the external events
@@ -154,7 +192,7 @@
             float: left;
             font-size: 20px;
             padding: 2px 8px;
-            width: 300px;
+            width: 700px;
         }
 
         #external-events {
@@ -205,17 +243,8 @@
                     <div class="col-lg-12">
                         <table>
                             <tr>
-                                <td>
-                                    &nbsp;&nbsp; Объявление (<b>ID</b>) &nbsp;&nbsp;
-                                </td>
-                                <td>
-                                    <select id="offers-selector">
-                                        <option value="57f37a5e6032233325b9f8c9">57f37a5e6032233325b9f8c9</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    &nbsp;&nbsp; <a id="offerIdhref" href=""><button id="viewOfferButton" class="btn btn-primary disabled">Показать</button></a>
-                                </td>
+                                <td> &nbsp;&nbsp; Объявление &nbsp;&nbsp; </td>
+                                <td> <select id="offers-selector" name="offers-selector" onchange="getval()"></select> </td>
                             </tr>
                         </table>
                         <br>
@@ -237,6 +266,10 @@
                                 </div>
                             </div>
                         </div>
+                        <table>
+                            <tr><td> <div id="offers-result"></div> </td></tr>
+                        </table>
+                        <br>
                     </div>
                 </div>
             </div>
