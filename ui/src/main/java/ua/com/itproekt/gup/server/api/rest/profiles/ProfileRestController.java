@@ -21,10 +21,8 @@ import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.APIVendor;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Set;
 
 
 @RestController
@@ -93,53 +91,23 @@ public class ProfileRestController {
     /**
      * If User is logged in - return Profile Info, if not - return only status 200 (Ok).
      *
-     * @param request
-     * @return
+     * @param request - the HttpServletRequest object.
+     * @return - in any case return status 200 (OK), but it will be with ProfileInfo object in the response body if
+     * the user is loggedIn, and there will empty response body if the user is not loggedIn.
      */
     @CrossOrigin
     @RequestMapping(value = "/profile/read/loggedInProfile", method = RequestMethod.GET)
     public ResponseEntity<ProfileInfo> getLoggedUser(HttpServletRequest request) {
 
-        long startTime = System.currentTimeMillis();
-        long startTime2 = System.currentTimeMillis();
+        ProfileInfo profileInfo = profilesService.getLoggedUser(request);
 
-        if (request.getCookies() != null) {
-
-            Cookie[] cookies = request.getCookies();
-            for (Cookie cookie : cookies) {
-
-                if (cookie.getName().equals("authToken")) {
-                    startTime = System.currentTimeMillis();
-                    Object principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
-                    System.err.println("principal time: " + (System.currentTimeMillis() - startTime));
-
-                    startTime = System.currentTimeMillis();
-                    ProfileInfo profileInfo = profileInfoPreparatorFromPrincipal(principal);
-                    System.err.println("profileInfo auth time: " + (System.currentTimeMillis() - startTime));
-
-                    System.err.println("whole profile time: " + (System.currentTimeMillis() - startTime2));
-
-                    return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-                }
-
-                if (cookie.getName().equals("refreshToken")) {
-                    startTime = System.currentTimeMillis();
-                    Object principal = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
-                    System.err.println("principal time: " + (System.currentTimeMillis() - startTime));
-
-
-                    startTime = System.currentTimeMillis();
-                    ProfileInfo profileInfo = profileInfoPreparatorFromPrincipal(principal);
-                    System.err.println("profileInfo refresh time: " + (System.currentTimeMillis() - startTime));
-                    System.err.println("whole profile time: " + (System.currentTimeMillis() - startTime2));
-
-
-                    return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-                }
-            }
-
+        if (profileInfo != null) {
+            return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+
+
     }
 
     /**
@@ -159,21 +127,21 @@ public class ProfileRestController {
         Profile oldProfile = profilesService.findById(loggedUserId);
 
         // we cant't allow empty email field for some cases
-            if (newProfile.getEmail() == null) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-            if (newProfile.getEmail().equals("")) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
+        if (newProfile.getEmail() == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        if (newProfile.getEmail().equals("")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
 
         // check if someone profile already exist with new main email
-            Profile foundByEmailProfile = profilesService.findProfileByEmail(newProfile.getEmail());
-            if (foundByEmailProfile != null) {
-                if (!loggedUserId.equals(foundByEmailProfile.getId())) {
-                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-                }
+        Profile foundByEmailProfile = profilesService.findProfileByEmail(newProfile.getEmail());
+        if (foundByEmailProfile != null) {
+            if (!loggedUserId.equals(foundByEmailProfile.getId())) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
+        }
 
 
         if (newProfile.getIdSeoWord() != null) {
@@ -187,6 +155,7 @@ public class ProfileRestController {
             }
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+
         if (oldProfile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
             changeUserType(newProfile, oldProfile);
             profilesService.editProfile(newProfile);
@@ -328,6 +297,12 @@ public class ProfileRestController {
     }
 
 
+    /**
+     * Delete one contact from user contact list.
+     *
+     * @param profileId - the ID of the profile which must be deleted.
+     * @return - status 404 if target profile was not found, status 200 if profile was deleted from contact list.
+     */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/id/{profileId}/myContactList/delete", method = RequestMethod.POST)
@@ -337,32 +312,22 @@ public class ProfileRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        String userId = SecurityOperations.getLoggedUserId();
-
-        Profile profile = profilesService.findById(userId);
-
-        Set<String> contactList = profile.getContactList();
-
-        contactList.remove(profileId);
-
-        profilesService.editProfile(profile);
+        profilesService.deleteFromMyContactList(profileId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    /**
+     * Add or delete offer into offer favorite list.
+     *
+     * @param offerId - the offer ID which must be add or delete to/from offer favorite list.
+     * @return - status OK in the all cases.
+     */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/updateFavoriteOffer", method = RequestMethod.POST)
     public ResponseEntity<Void> updateFavoriteOffers(@RequestParam String offerId) {
-
-        Profile profile = profilesService.findById(SecurityOperations.getLoggedUserId());
-        Set<String> favoriteOffers = profile.getFavoriteOffers();
-        for (String favoriteOffer : favoriteOffers) {
-            if (favoriteOffer.equals(offerId)) {
-                favoriteOffers.remove(offerId);
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-        }
-        favoriteOffers.add(offerId);
+        profilesService.updateFavoriteOffers(offerId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -401,18 +366,4 @@ public class ProfileRestController {
     }
 
 
-    /**
-     * @param principal
-     * @return
-     */
-    private ProfileInfo profileInfoPreparatorFromPrincipal(Object principal) {
-
-        ProfileInfo profileInfo = new ProfileInfo();
-
-        if (principal instanceof LoggedUser) {
-            String userId = ((LoggedUser) principal).getProfileId();
-            profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate(userId);
-        }
-        return profileInfo;
-    }
 }

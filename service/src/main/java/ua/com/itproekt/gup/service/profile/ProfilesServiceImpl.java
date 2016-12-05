@@ -4,11 +4,15 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.BankSession;
+import ua.com.itproekt.gup.dao.oauth2.OAuth2AccessTokenRepository;
 import ua.com.itproekt.gup.dao.profile.ProfileRepository;
 import ua.com.itproekt.gup.dto.*;
+import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.order.Order;
@@ -21,7 +25,10 @@ import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.EntityPage;
+import ua.com.itproekt.gup.util.SecurityOperations;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -36,6 +43,8 @@ public class ProfilesServiceImpl implements ProfilesService {
     OffersService offersService;
     @Autowired
     VerificationTokenService verificationTokenService;
+    @Autowired
+    OAuth2AccessTokenRepository oAuth2AccessTokenRepository;
     @Autowired
     private ProfileRepository profileRepository;
     @Autowired
@@ -387,13 +396,93 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.findProfileByUidAndWendor(uid, socWendor);
     }
 
+    /**
+     * If User is logged in - return Profile Info, if not - return null;
+     *
+     * @param request - the HttpServletRequest object.
+     * @return - the ProfileInfo object if user is loggedIn, or null if not.
+     */
+    @Override
+    public ProfileInfo getLoggedUser(HttpServletRequest request) {
+
+        ProfileInfo profileInfo = null;
+
+        if (request.getCookies() != null) {
+
+            Cookie[] cookies = request.getCookies();
+            for (Cookie cookie : cookies) {
+
+                Object principal = null;
+
+                if (cookie.getName().equals("authToken")) {
+                    principal = oAuth2AccessTokenRepository.findByTokenId(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
+                } else if (cookie.getName().equals("authToken")) {
+                    principal = oAuth2AccessTokenRepository.findByRefreshToken(cookie.getValue()).getAuthentication().getUserAuthentication().getPrincipal();
+                }
+                if (principal != null) {
+                    profileInfo = profileInfoPreparatorFromPrincipal(principal);
+                }
+            }
+        }
+
+        return profileInfo;
+    }
+
+
+    @Override
+    public void deleteFromMyContactList(String profileId) {
+        String userId = SecurityOperations.getLoggedUserId();
+
+        Profile profile = findById(userId);
+
+        Set<String> contactList = profile.getContactList();
+
+        contactList.remove(profileId);
+
+        editProfile(profile);
+    }
+
+
+    @Override
+    public void updateFavoriteOffers(String offerId) {
+        Profile profile = findById(SecurityOperations.getLoggedUserId());
+        Set<String> favoriteOffers = profile.getFavoriteOffers();
+        for (String favoriteOffer : favoriteOffers) {
+            if (favoriteOffer.equals(offerId)) {
+                favoriteOffers.remove(offerId);
+                return;
+            }
+        }
+        favoriteOffers.add(offerId);
+    }
 
     // -------------------------------------------- Helper methods ------------------------------------------
     //-------------------------------------------------------------------------------------------------------
 
+
     /**
-     * @param profile
-     * @return
+     * Create and prepare ProfileInfo object from Principal object.
+     *
+     * @param principal     - the principal object.
+     * @return              - the Profile info object.
+     */
+    private ProfileInfo profileInfoPreparatorFromPrincipal(Object principal) {
+
+        ProfileInfo profileInfo = new ProfileInfo();
+
+        if (principal instanceof LoggedUser) {
+            String userId = ((LoggedUser) principal).getProfileId();
+            profileInfo = findPrivateProfileByIdAndUpdateLastLoginDate(userId);
+        }
+        return profileInfo;
+    }
+
+
+    /**
+     * Add additional field to ProfileInfo object.
+     *
+     * @param profile - the profile.
+     * @return - the ProfileInfo object.
      */
     private ProfileInfo prepareAdditionalFieldForPrivate(Profile profile) {
         ProfileInfo profileInfo = new ProfileInfo(profile);

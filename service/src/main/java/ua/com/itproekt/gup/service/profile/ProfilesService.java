@@ -1,12 +1,12 @@
 package ua.com.itproekt.gup.service.profile;
 
-import ua.com.itproekt.gup.dao.offers.OfferRepository;
 import ua.com.itproekt.gup.dto.OfferRegistration;
 import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.ProfileRating;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
 
@@ -17,178 +17,194 @@ public interface ProfilesService {
     /**
      * Create profile.
      *
-     * @param profile the profile
+     * @param profile                   - the profile.
      */
     void createProfile(Profile profile);
 
     /**
      * Used for create profile with special roles i.e. admin, moderator, spectator.
-     * @param profile the Profile object with email, password and role.
+     *
+     * @param profile                   - the Profile object with email, password and role.
      */
     void createProfileWithRoles(Profile profile);
 
     /**
      * Create profile based on information contains in the OfferRegistration object.
      *
-     * @param offerRegistration - the OfferRegistration obejct.
-     * @return                  - the registered profile
+     * @param offerRegistration         - the OfferRegistration object.
+     * @return                          - the registered profile.
      */
     Profile createProfileFromOfferRegistration(OfferRegistration offerRegistration);
 
     /**
      * Create profile.
      *
-     * @param profile the profile
+     * @param profile                   - the Profile object.
      */
     void facebookRegister(Profile profile);
 
+
+    /**
+     * Find profile by it's ID.
+     *
+     * @param id                        - the profile ID.
+     * @return                          - the profile.
+     */
     Profile findById(String id);
 
     /**
-     * Read by id profile.
+     * Find and return whole profile by it's ID.
      *
-     * @param id the id
-     * @return the profile
+     * @param id                        - the profile ID.
+     * @return                          - the profile.
      */
     Profile findWholeProfileById(String id);
 
     /**
+     * Find whole profile by email.
+     *
+     * @param email                     - the profile email.
+     * @return                          - the profile.
+     */
+    Profile findWholeProfileByEmail(String email);
+
+
+    /**
      * Update profile profile.
      *
-     * @param currentProfile the current profile
-     * @return the profile
+     * @param currentProfile            - the profile with updated data.
+     * @return                          - the updated profile.
      */
     Profile editProfile(Profile currentProfile);
 
     /**
-     * Delete profile by id.
+     * Delete profile by it's ID.
      *
-     * @param id the id
+     * @param id                        - the profile ID.
      */
     void deleteProfileById(String id);
 
     /**
      * Profile exists boolean.
      *
-     * @param id the id
-     * @return the boolean
+     * @param id                        - the profile ID.
+     * @return                          - the boolean answer.
      */
     boolean profileExists(String id);
 
     /**
      * Profile exists with email boolean.
      *
-     * @param email the email
-     * @return the boolean
+     * @param email                     - the profile email.
+     * @return                          - the boolean
      */
     boolean profileExistsWithEmail(String email);
 
     /**
      * Profile exists with uid boolean.
      *
-     * @param uid the uid
-     * @return the boolean
+     * @param uid                       - the uid.
+     * @return                          - the boolean.
      */
     boolean profileExistsWithUid(String uid);
 
     /**
      * Profile exists with tokenKey boolean.
      *
-     * @param uid       the uid
-     * @param socWendor the socWendor
-     * @return the boolean
+     * @param uid                       - the uid.
+     * @param socWendor                 - the socWendor.
+     * @return                          - the boolean.
      */
     boolean profileExistsWithUidAndWendor(String uid, String socWendor);
 
     /**
      * Profile with tokenKey Profile.
      *
-     * @param uid       the uid
-     * @param socWendor the socWendor
-     * @return the Profile
+     * @param uid                       - the uid.
+     * @param socWendor                 - the socWendor.
+     * @return                          - the Profile.
      */
     Profile findProfileByUidAndWendor(String uid, String socWendor);
 
     /**
      * Profile exists with socWendor boolean.
      *
-     * @param socWendor the socWendor
-     * @return the boolean
+     * @param socWendor                 - the socWendor.
+     * @return                          - the boolean.
      */
     boolean profileExistsWithSocWendor(String socWendor);
 
     /**
      * Find all profiles entity page.
      *
-     * @param profileFilterOptions the profile filter options
-     * @return the entity page
+     * @param profileFilterOptions      - the profile filter options.
+     * @return                          - the list of profiles.
      */
     List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions);
 
     /**
      * This method provides additional information for admin.
      *
-     * @param profileFilterOptions profile filter options
-     * @return
+     * @param profileFilterOptions      - the profile filter options.
+     * @return                          - the list of profiles.
      */
     List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions);
 
     /**
      * Return list of profiles for admin-panel in short and light version without unnecessary fields.
      *
-     * @param profileFilterOptions  - the profile filter options
-     * @return                      - the list of profiles
+     * @param profileFilterOptions      - the profile filter options
+     * @return                          - the list of profiles
      */
     List<Profile> findAllProfilesForAdminShort(ProfileFilterOptions profileFilterOptions);
 
     /**
-     * Find profile by username profile.
+     * Find profile by profile's username.
      *
-     * @param username the username
-     * @return the profile
+     * @param username                  - the username.
+     * @return                          - the profile.
      */
-/*For message service*/
     Profile findProfileByUsername(String username);
 
     /**
      * Find profile by email profile.
      *
-     * @param email the email
-     * @return the profile
+     * @param email                     - the email.
+     * @return                          - the profile.
      */
     Profile findProfileByEmail(String email);
 
     /**
      * Create profile rating.
      *
-     * @param profileId     the profile id
-     * @param profileRating the profile rating
+     * @param profileId                 - the profile ID.
+     * @param profileRating             - the profile rating.
      */
     void createProfileRating(String profileId, ProfileRating profileRating);
 
     /**
      * Delete profile rating int.
      *
-     * @param profileId       the profile id
-     * @param profileRatingId the profile rating id
-     * @return the int
+     * @param profileId                 - the profile ID
+     * @param profileRatingId           - the profile rating ID
+     * @return - the int.
      */
     int deleteProfileRating(String profileId, String profileRatingId);
 
     /**
      * Find profile rating profile.
      *
-     * @param profileId       the profile id
-     * @param profileRatingId the profile rating id
-     * @return the profile
+     * @param profileId                 - the profile id.
+     * @param profileRatingId           - the profile rating id.
+     * @return                          - the profile
      */
     Profile findProfileRating(String profileId, String profileRatingId);
 
     /**
      * Profile rating exists boolean.
      *
-     * @param profileId       the profile id
-     * @param profileRatingId the profile rating id
+     * @param profileId                 - the profile id.
+     * @param profileRatingId           - the profile rating id.
      * @return the boolean
      */
     boolean profileRatingExists(String profileId, String profileRatingId);
@@ -196,98 +212,137 @@ public interface ProfilesService {
 //    /**
 //     * Add friend.
 //     *
-//     * @param profileId       the profile id
-//     * @param friendProfileId the friend profile id
+//     * @param profileId               - the profile id.
+//     * @param friendProfileId         - the friend profile id.
 //     */
 //    void addFriend(String profileId, String friendProfileId);
 
     /**
-     * @param term
-     * @return
+     * Search for matched user names and return set of them.
+     *
+     * @param term                      - the part of name that must be searched.
+     * @return                          - the set of the user names.
      */
     Set<String> getMatchedNames(String term);
 
     /**
-     * @param term
-     * @return
+     * Search for matched user ID's and return set of them.
+     *
+     * @param term                      - the ID or ID's part of the user.
+     * @return                          - the list of matched profiles.
      */
     List<Profile> getMatchedNamesWithIds(String term);
 
     /**
-     * @param term
-     * @return
+     * Search for matched companies and return set of the profiles.
+     *
+     * @param term                      - the company name or it's part.
+     * @return                          - the list of profiles.
      */
     List<Profile> getMatchedCompanies(String term);
 
     /**
-     * @param profileOwnerContactListId
-     * @param contactId
+     * Add contact (profile) to eht contact list.
+     *
+     * @param profileOwnerContactListId - the profile which add contact.
+     * @param contactId                 - the profile ID which must be added.
      */
     void addContactToContactList(String profileOwnerContactListId, String contactId);
 
-    /**
-     * @param email
-     * @return
-     */
-    Profile findWholeProfileByEmail(String email);
 
     /**
-     * @param user
-     * @return
+     * Check is user moderator or not.
+     *
+     * @param user                      - the profile.
+     * @return                          - the true or false.
      */
     boolean isUserModerator(Profile user);
 
     /**
-     * @param userId
-     * @return
+     * Check is user Administrator by it's ID.
+     *
+     * @param userId                    - the user ID.
+     * @return                          - the true or false.
      */
     boolean isUserAdminById(String userId);
 
     /**
      * Check is SeoWord is free.
      *
-     * @param seoWord - the seoWord
-     * @return - true or false
+     * @param seoWord                   - the seoWord.
+     * @return                          - true or false.
      */
     boolean isSeoWordFree(String seoWord);
 
     /**
      * Check is user online or not.
      *
-     * @param userId - the user ID.
-     * @return - true or false.
+     * @param userId                    - the user ID.
+     * @return                          - true or false.
      */
     boolean isUserOnline(String userId);
 
     /**
      * This method find and return profile by it's ID but previously delete some fields.
      *
-     * @param id - the profile ID.
-     * @return - the profile.
+     * @param id                        - the profile ID.
+     * @return                          - the profile.
      */
     ProfileInfo findPublicProfileById(String id);
 
     /**
-     * @param id
-     * @return
+     * Find private profile by ID and update login date.
+     *
+     * @param id                        - the profile ID.
+     * @return                          - the ProfileInfo object.
      */
     ProfileInfo findPrivateProfileByIdAndUpdateLastLoginDate(String id);
 
     /**
-     * @param email
-     * @return
+     * Find private profile by email and update login date.
+     *
+     * @param email                     - the profile email.
+     * @return                          - the ProfileInfo object.
      */
     ProfileInfo findPrivateProfileByEmailAndUpdateLastLoginDate(String email);
 
     /**
-     * @param uid
-     * @return
+     * Find private profile by UID and socVendor and update login date.
+     *
+     * @param uid                       - the profile UID.
+     * @param socWendor                 - the profile socVendor.
+     * @return                          - the ProfileInfo object.
      */
     ProfileInfo findPrivateProfileByUidAndUpdateLastLoginDate(String uid, String socWendor);
 
     /**
-     * @param profileFilterOptions
-     * @return
+     * Find public profiles with filter options.
+     *
+     * @param profileFilterOptions      - the ProfileFilterOptions object.
+     * @return                          - the list of the ProfileInfo objects.
      */
     List<ProfileInfo> findAllPublicProfilesWithOptions(ProfileFilterOptions profileFilterOptions);
+
+    /**
+     * If User is logged in - return Profile Info, if not - return null;
+     *
+     * @param request                   - the HttpServletRequest object.
+     * @return                          - the ProfileInfo object if user is loggedIn, or null if not.
+     */
+    ProfileInfo getLoggedUser(HttpServletRequest request);
+
+
+    /**
+     * Delete one contact from user contact list.
+     *
+     * @param profileId                 - the ID of the profile which must be deleted.
+     */
+    void deleteFromMyContactList(String profileId);
+
+    /**
+     * Add or delete offer into offer favorite list.
+     *
+     * @param offerId - the offer ID which must be add or delete to/from offer favorite list.
+     */
+    void updateFavoriteOffers(String offerId);
 }
