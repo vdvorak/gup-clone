@@ -1,8 +1,8 @@
 let urlRussianLanguageForTables = '//cdn.datatables.net/plug-ins/1.10.9/i18n/Russian.json';
-let urlReadAllOffer = 'http://localhost:8184/api/rest/offersService/offer/read/admin/all';
-let ulrImg = 'http://localhost:8184/api/rest/fileStorage/offers/photo/read/id/';
-let urlNoPhotoImg = 'http://localhost:8185/resources/images/no_photo.jpg';
-let urlEditOffer = 'http://gup.com.ua:55555/editBulletin/';
+let urlReadAllOffer = apiUi + '/api/rest/offersService/offer/read/admin/all';
+let ulrImg = apiUi + '/api/rest/fileStorage/offers/photo/read/id/';
+let urlNoPhotoImg = '/resources/images/no_photo.jpg';
+let urlEditOffer = host + '/editBulletin/';
 
 /**
  * Find first image from the whole array of images of the offer
