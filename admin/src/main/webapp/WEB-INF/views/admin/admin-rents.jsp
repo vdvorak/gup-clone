@@ -127,6 +127,7 @@
     </script>
     <style>
         #calendar {
+            min-width: 1075px;
             max-width: 1075px;
             margin: 0px auto;
             padding: 0 10px;
