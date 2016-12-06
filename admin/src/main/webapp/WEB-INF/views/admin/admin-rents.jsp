@@ -25,6 +25,42 @@
 
         $(document).ready(function() {
 
+
+
+            /*
+             alert( 'weekday: ' + monthOfPrices.weekday.days[0] + ' - ' + monthOfPrices.weekday.days[1] );
+             alert( 'weekend: ' + monthOfPrices.weekend.days[0] + ' - ' + monthOfPrices.weekend.days[1] );
+             alert( 'specialdays: ' + monthOfPrices.specialdays[0].days[0] );
+
+             // https://bytes.com/topic/javascript/answers/876446-checking-if-date-entered-weekend
+             var yourDateObject = new Date(2016,12,19); // false
+             //var yourDateObject = new Date(2016,12,20); // false
+             //var yourDateObject = new Date(2016,12,21); // false
+             //var yourDateObject = new Date(2016,12,22); // false
+             //var yourDateObject = new Date(2016,12,23); // false
+             //var yourDateObject = new Date(2016,12,24); // true
+             //var yourDateObject = new Date(2016,12,25); // true
+
+             if( ((yourDateObject.getDay() + 4)%6==0) || ((yourDateObject.getDay() + 4)%7==0) ){
+             alert('true'); // is true if the day is 'Saturday' or 'Sunday'
+             } else {
+             alert('false');
+             }
+
+
+             // http://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
+             var start = new Date("02/05/2013");
+             var end = new Date("02/10/2013");
+
+             while(start < end){
+             alert(start);
+             var newDate = start.setDate(start.getDate() + 1);
+             start = new Date(newDate);
+             }
+             */
+
+
+
             /* select offer(s)
              -----------------------------------------------------------------*/
             var emptyObj = {};
@@ -251,6 +287,7 @@
                     $('#offers-result42').html(JSON.stringify(offerResult[index].offer.rents) + '<br>');
                 }
 
+                //////////////////////////////////////////////////////////////
                 gupEvents = [
                     {
                         title: '$ 1000',
@@ -316,56 +353,14 @@
                         color: '#ff9f89'
                     }
                 ];
-            }).then(l=> {
 
                 /* change the calendar
                  -----------------------------------------------------------------*/
                 $('#calendar').fullCalendar({
-                    theme: true,
-                    header: {
-                        left: 'prev,today,next',
-                        center: 'title',
-                        right: 'listWeek,month,agendaDay' ////right: 'month,agendaWeek,agendaDay'
-                    },
-                    defaultDate: '2016-11-25',
-                    locale: initialLocaleCode,
-//                buttonIcons: false,      // show the prev/next text
-                    weekNumbers: false,
-                    editable: true,
-                    navLinks: true,          // can click day/week names to navigate views
-                    eventLimit: true,        // allow "more" link when too many events
-                    businessHours: true,     // display business hours
-                    displayEventTime: false, // don't show the time column in list view
-                    droppable: true,         // this allows things to be dropped onto the calendar
-                    dragRevertDuration: 0,
-                    googleCalendarApiKey: 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE', // To make your own Google API key, follow the directions here: http://fullcalendar.io/docs/google_calendar/
-                    events: gupEvents,
-                    drop: function() {
-                        // is the "remove after drop" checkbox checked?
-                        if ($('#drop-remove').is(':checked')) {
-                            // if so, remove the element from the "Draggable Events" list
-                            $(this).remove();
-                        }
-                    },
-                    eventDragStop: function( event, jsEvent, ui, view ) {
-                        if(isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
-                            $('#calendar').fullCalendar('removeEvents', event._id);
-                            var el = $( "<div class='fc-event'>" ).appendTo( '#external-events-listing' ).text( event.title );
-                            el.draggable({
-                                zIndex: 999,
-                                revert: true,
-                                revertDuration: 0
-                            });
-                            el.data('event', { title: event.title, id :event.id, stick: true });
-                        }
-                    },
-                    eventClick: function(event) {
-                        // opens events in a popup window
-                        window.open(event.url, 'gcalevent', 'width=700,height=600');
-                        return false;
-                    },
-                    loading: function(bool) {
-                        $('#loading').toggle(bool);
+                    //other options
+                    eventClick: function(calEvent, jsEvent, view) {
+                        //update the calEvent
+                        $('#calendar').fullCalendar('updateEvent', calEvent);
                     }
                 });
             });
@@ -391,10 +386,10 @@
             // build the locale selector's options
             $.each($.fullCalendar.locales, function(localeCode) {
                 $('#locale-selector').append(
-                    $('<option/>')
-                        .attr('value', localeCode)
-                        .prop('selected', localeCode == initialLocaleCode)
-                        .text(localeCode)
+                        $('<option/>')
+                                .attr('value', localeCode)
+                                .prop('selected', localeCode == initialLocaleCode)
+                                .text(localeCode)
                 );
             });
             // when the selected option changes, dynamically change the calendar option
@@ -470,69 +465,69 @@
             vertical-align: middle;
         }
     </style>
-    </head>
-    <body>
+</head>
+<body>
 
-        <div id="wrapper">
+<div id="wrapper">
 
-            <!-- Navigation -->
-            <jsp:include page="/WEB-INF/templates/admin-panel/admin-left-bar.jsp"/>
-            <!-- Navigation -->
+    <!-- Navigation -->
+    <jsp:include page="/WEB-INF/templates/admin-panel/admin-left-bar.jsp"/>
+    <!-- Navigation -->
 
-            <div id="page-wrapper">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Аренда</h1>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-
-                        <table>
-                            <tr>
-                                <td> &nbsp;&nbsp; Объявление: &nbsp;&nbsp; </td>
-                                <td> <select id="offers-selector" name="offers-selector"></select> </td>
-                                <td> &nbsp;&nbsp; | &nbsp;&nbsp; </td>
-                                <td> Владелец: &nbsp;&nbsp; </td>
-                                <td> <legend id="offers-result3"></legend> </td>
-                            </tr>
-                        </table>
-
-                        <br>
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="dataTable_wrapper">
-                                    <select id='locale-selector'></select>
-
-                                    <div id='external-events'>
-                                        <p><label>Стоимость аренды</label></p>
-                                        <div class='fc-event'>$ 1000.00</div>
-                                        <div class='fc-event'>$ 1111.00</div>
-                                        <div class='fc-event'>$ 1500.00</div>
-                                        <div class='fc-event'>$ 2000.00</div>
-                                        <div class='fc-event'>$ 2222.00</div>
-                                    </div>
-
-                                    <div id='calendar'></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <fieldset>
-                            <legend id="offers-result2"></legend>
-                            <div id='monthOfPrices'></div>
-                            <font color="#2980b9" id="offers-result41"></font>
-                            <font color="#FF5733" id="offers-result42"></font>
-                            <!--<font color="gray" id="offers-result1"></font>-->
-                        </fieldset>
-                    </div>
-                </div>
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Аренда</h1>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12">
 
-    </body>
+                <table>
+                    <tr>
+                        <td> &nbsp;&nbsp; Объявление: &nbsp;&nbsp; </td>
+                        <td> <select id="offers-selector" name="offers-selector"></select> </td>
+                        <td> &nbsp;&nbsp; | &nbsp;&nbsp; </td>
+                        <td> Владелец: &nbsp;&nbsp; </td>
+                        <td> <legend id="offers-result3"></legend> </td>
+                    </tr>
+                </table>
 
-    <!-- Bottom Links -->
-    <jsp:include page="/WEB-INF/templates/admin-panel/admin-bottom-links2.jsp"/>
-    <!-- Bottom Links -->
+                <br>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="dataTable_wrapper">
+                            <select id='locale-selector'></select>
+
+                            <div id='external-events'>
+                                <p><label>Стоимость аренды</label></p>
+                                <div class='fc-event'>$ 1000.00</div>
+                                <div class='fc-event'>$ 1111.00</div>
+                                <div class='fc-event'>$ 1500.00</div>
+                                <div class='fc-event'>$ 2000.00</div>
+                                <div class='fc-event'>$ 2222.00</div>
+                            </div>
+
+                            <div id='calendar'></div>
+                        </div>
+                    </div>
+                </div>
+
+                <fieldset>
+                    <legend id="offers-result2"></legend>
+                    <div id='monthOfPrices'></div>
+                    <font color="#2980b9" id="offers-result41"></font>
+                    <font color="#FF5733" id="offers-result42"></font>
+                    <!--<font color="gray" id="offers-result1"></font>-->
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<!-- Bottom Links -->
+<jsp:include page="/WEB-INF/templates/admin-panel/admin-bottom-links2.jsp"/>
+<!-- Bottom Links -->
 </html>
