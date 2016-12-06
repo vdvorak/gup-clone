@@ -23,25 +23,8 @@
 
         var offerResult;
 
-        function getval(){
-            var index = document.getElementById('offers-selector').selectedIndex
-//            $('#offers-result1').html(JSON.stringify(offerResult[index]));
-            $('#offers-result2').html(offerResult[index].offer.id);
-            $('#offers-result3').html(offerResult[index].offer.userInfo.contactName);
-
-            if(offerResult[index].offer.monthOfPrices === undefined){
-                $('#offers-result41').html('');
-            }else{
-                $('#offers-result41').html(JSON.stringify(offerResult[index].offer.monthOfPrices) + '<br><br>');
-            }
-            if(offerResult[index].offer.rents === undefined){
-                $('#offers-result42').html('');
-            }else{
-                $('#offers-result42').html(JSON.stringify(offerResult[index].offer.rents) + '<br>');
-            }
-        }
-
         $(document).ready(function() {
+
             /* select offer(s)
              -----------------------------------------------------------------*/
             var emptyObj = {};
@@ -249,6 +232,148 @@
 
 
 
+
+
+            $('#offers-selector').change(function() {
+                var index = document.getElementById('offers-selector').selectedIndex
+//            $('#offers-result1').html(JSON.stringify(offerResult[index]));
+                $('#offers-result2').html(offerResult[index].offer.id);
+                $('#offers-result3').html(offerResult[index].offer.userInfo.contactName);
+
+                if(offerResult[index].offer.monthOfPrices === undefined){
+                    $('#offers-result41').html('');
+                }else{
+                    $('#offers-result41').html(JSON.stringify(offerResult[index].offer.monthOfPrices) + '<br><br>');
+                }
+                if(offerResult[index].offer.rents === undefined){
+                    $('#offers-result42').html('');
+                }else{
+                    $('#offers-result42').html(JSON.stringify(offerResult[index].offer.rents) + '<br>');
+                }
+
+                gupEvents = [
+                    {
+                        title: '$ 1000',
+                        start: '2016-11-01',
+                        end: '2016-11-05',
+                        color: '#2980b9'
+                    },
+                    {
+                        title: '$ 1000',
+                        start: '2016-11-10',
+                        end: '2016-11-12',
+                        color: '#2980b9'
+                    },
+                    {
+                        title: '$ 1000',
+                        start: '2016-11-14',
+                        end: '2016-11-19',
+                        color: '#2980b9'
+                    },
+                    {
+                        title: '$ 1000',
+                        start: '2016-11-21',
+                        end: '2016-11-26',
+                        color: '#2980b9'
+                    },
+                    {
+                        title: '$ 1000',
+                        start: '2016-11-28',
+                        end: '2016-12-1',
+                        color: '#2980b9'
+                    },
+
+                    {
+                        title: '$ 1500',
+                        start: '2016-11-05',
+                        end: '2016-11-07',
+                        color: '#2980b9'
+                    },
+                    {
+                        title: '$ 1500',
+                        start: '2016-11-12',
+                        end: '2016-11-14',
+                        color: '#2980b9'
+                    },
+                    {
+                        title: '$ 1500',
+                        start: '2016-11-19',
+                        end: '2016-11-21',
+                        color: '#2980b9'
+                    },
+                    {
+                        title: '$ 1500',
+                        start: '2016-11-26',
+                        end: '2016-11-28',
+                        color: '#2980b9'
+                    },
+
+                    {
+                        start: '2016-11-07',
+                        end: '2016-11-10',
+                        overlap: false,
+                        rendering: 'background',
+                        color: '#ff9f89'
+                    }
+                ];
+            }).then(l=> {
+
+                /* change the calendar
+                 -----------------------------------------------------------------*/
+                $('#calendar').fullCalendar({
+                    theme: true,
+                    header: {
+                        left: 'prev,today,next',
+                        center: 'title',
+                        right: 'listWeek,month,agendaDay' ////right: 'month,agendaWeek,agendaDay'
+                    },
+                    defaultDate: '2016-11-25',
+                    locale: initialLocaleCode,
+//                buttonIcons: false,      // show the prev/next text
+                    weekNumbers: false,
+                    editable: true,
+                    navLinks: true,          // can click day/week names to navigate views
+                    eventLimit: true,        // allow "more" link when too many events
+                    businessHours: true,     // display business hours
+                    displayEventTime: false, // don't show the time column in list view
+                    droppable: true,         // this allows things to be dropped onto the calendar
+                    dragRevertDuration: 0,
+                    googleCalendarApiKey: 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE', // To make your own Google API key, follow the directions here: http://fullcalendar.io/docs/google_calendar/
+                    events: gupEvents,
+                    drop: function() {
+                        // is the "remove after drop" checkbox checked?
+                        if ($('#drop-remove').is(':checked')) {
+                            // if so, remove the element from the "Draggable Events" list
+                            $(this).remove();
+                        }
+                    },
+                    eventDragStop: function( event, jsEvent, ui, view ) {
+                        if(isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
+                            $('#calendar').fullCalendar('removeEvents', event._id);
+                            var el = $( "<div class='fc-event'>" ).appendTo( '#external-events-listing' ).text( event.title );
+                            el.draggable({
+                                zIndex: 999,
+                                revert: true,
+                                revertDuration: 0
+                            });
+                            el.data('event', { title: event.title, id :event.id, stick: true });
+                        }
+                    },
+                    eventClick: function(event) {
+                        // opens events in a popup window
+                        window.open(event.url, 'gcalevent', 'width=700,height=600');
+                        return false;
+                    },
+                    loading: function(bool) {
+                        $('#loading').toggle(bool);
+                    }
+                });
+            });
+
+
+
+
+
             var isEventOverDiv = function(x, y) {
                 var external_events = $( '#external-events' );
                 var offset = external_events.offset();
@@ -366,7 +491,7 @@
                         <table>
                             <tr>
                                 <td> &nbsp;&nbsp; Объявление: &nbsp;&nbsp; </td>
-                                <td> <select id="offers-selector" name="offers-selector" onchange="getval()"></select> </td>
+                                <td> <select id="offers-selector" name="offers-selector"></select> </td>
                                 <td> &nbsp;&nbsp; | &nbsp;&nbsp; </td>
                                 <td> Владелец: &nbsp;&nbsp; </td>
                                 <td> <legend id="offers-result3"></legend> </td>
