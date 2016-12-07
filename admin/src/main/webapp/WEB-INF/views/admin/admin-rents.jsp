@@ -31,33 +31,44 @@
              alert( 'weekday: ' + monthOfPrices.weekday.days[0] + ' - ' + monthOfPrices.weekday.days[1] );
              alert( 'weekend: ' + monthOfPrices.weekend.days[0] + ' - ' + monthOfPrices.weekend.days[1] );
              alert( 'specialdays: ' + monthOfPrices.specialdays[0].days[0] );
+             */
 
              // https://bytes.com/topic/javascript/answers/876446-checking-if-date-entered-weekend
-             var yourDateObject = new Date(2016,12,19); // false
-             //var yourDateObject = new Date(2016,12,20); // false
-             //var yourDateObject = new Date(2016,12,21); // false
-             //var yourDateObject = new Date(2016,12,22); // false
-             //var yourDateObject = new Date(2016,12,23); // false
-             //var yourDateObject = new Date(2016,12,24); // true
-             //var yourDateObject = new Date(2016,12,25); // true
-
-             if( ((yourDateObject.getDay() + 4)%6==0) || ((yourDateObject.getDay() + 4)%7==0) ){
-             alert('true'); // is true if the day is 'Saturday' or 'Sunday'
-             } else {
-             alert('false');
-             }
-
-
              // http://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
-             var start = new Date("02/05/2013");
-             var end = new Date("02/10/2013");
+             // https://bytes.com/topic/javascript/answers/876446-checking-if-date-entered-weekend
+             // http://stackoverflow.com/questions/13459866/javascript-change-date-into-format-of-dd-mm-yyyy
+             // http://stackoverflow.com/questions/7151543/convert-dd-mm-yyyy-string-to-date
+             function formattedDate(date) {
+                 var d = new Date(date || Date.now()),
+                 month = '' + (d.getMonth() + 1),
+                 day = '' + d.getDate(),
+                 year = d.getFullYear();
+                 if (month.length < 2) month = '0' + month;
+                 if (day.length < 2) day = '0' + day;
 
-             while(start < end){
-             alert(start);
-             var newDate = start.setDate(start.getDate() + 1);
-             start = new Date(newDate);
+                 return [month, day, year].join('/');
              }
-             */
+
+             var START_DATE = monthOfPrices.weekday.days[0].split(".");
+             var END_DATE = monthOfPrices.weekday.days[1].split(".");
+             var F_START_DATE = new Date(START_DATE[2], START_DATE[1] - 1, START_DATE[0]);
+             var F_END_DATE = new Date(END_DATE[2], END_DATE[1] - 1, END_DATE[0]);
+
+             //alert( F_START_DATE );                //console.log( F_START_DATE );
+             //alert( formattedDate(F_START_DATE) ); //console.log( formattedDate(F_START_DATE) );
+
+             var D_START = new Date(F_START_DATE);
+             var D_END = new Date(F_END_DATE);
+
+             while(D_START.getDate() < (D_END.getDate()+1)){
+                 if( D_START.getDay()%6 && D_START.getDay()%7 ){
+                    alert('(weekday) ' + D_START); // console.log('(weekday) ' + D_START);
+                 } else {
+                    alert('(weekend) ' + D_START); // console.log('(weekend) ' + D_START);
+                 }
+                 var newDate = D_START.setDate(D_START.getDate() + 1);
+                 D_START = new Date(newDate);
+             }
 
 
 
