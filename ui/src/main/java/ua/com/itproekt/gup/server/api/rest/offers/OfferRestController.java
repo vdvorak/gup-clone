@@ -20,6 +20,7 @@ import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
+import ua.com.itproekt.gup.service.siteMap.SiteMapGeneratorService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +41,9 @@ public class OfferRestController {
 
     @Autowired
     SeoSequenceService seoSequenceService;
+
+    @Autowired
+    SiteMapGeneratorService siteMapGeneratorService;
 
 
     @Autowired
@@ -306,5 +310,18 @@ public class OfferRestController {
         return new ResponseEntity<>(offerModerationService.editOfferByModerator(inputOffer));
     }
 
+
+
+
+    // ---------------------------------------- Test controller for generating siteMap.xml
+
+    @CrossOrigin
+    @RequestMapping(value = "/offer/xmltest", method = RequestMethod.GET)
+    public ResponseEntity<Void> xmlTest() {
+
+        siteMapGeneratorService.generateSiteMap();
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
