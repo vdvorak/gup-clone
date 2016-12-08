@@ -36,7 +36,7 @@
                 return [year, month, day].join('-');
             }
 
-            function parseJson(monthOfPrices) {
+            function parseJsonWeekend(monthOfPrices) {
                 var   START_DATE = monthOfPrices.weekday.days[0].split(".");
                 var     END_DATE = monthOfPrices.weekday.days[1].split(".");
                 var F_START_DATE = new Date(START_DATE[2], START_DATE[1] - 1, START_DATE[0]);
@@ -110,7 +110,7 @@
                 return gupEvents2
             }
 
-            //console.log( parseJson(monthOfPrices2) )
+            //console.log( parseJsonWeekend(monthOfPrices2) )
 
 
 
@@ -160,8 +160,8 @@
                     //////////////////////////////////////////////////////////////////////////////////////////
                     var index = document.getElementById('offers-selector').selectedIndex
 //					console.log( offerResult[index].offer.monthOfPrices )
-//					console.log( parseJson(offerResult[index].offer.monthOfPrices) )
-                    gupEvents = parseJson(offerResult[index].offer.monthOfPrices)
+//					console.log( parseJsonWeekend(offerResult[index].offer.monthOfPrices) )
+                    gupEvents = parseJsonWeekend(offerResult[index].offer.monthOfPrices)
 //					console.log( gupEvents )
 //                    $('#offers-result1').html(JSON.stringify(offerResult[index]));
                     $('#offers-result2').html(offerResult[index].offer.id);
@@ -170,7 +170,7 @@
                     $('#offers-result42').html(JSON.stringify(offerResult[index].offer.rents) + '<br>');
                 }
             }).then(l=> {
-//                console.log( gupEvents )
+                console.log( gupEvents )
 
                 /* initialize the calendar
                  -----------------------------------------------------------------*/
