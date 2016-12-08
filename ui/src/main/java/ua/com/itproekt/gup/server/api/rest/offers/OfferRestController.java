@@ -168,8 +168,8 @@ public class OfferRestController {
      * 409 (Conflict) - when email already exist.
      */
     @CrossOrigin
-    @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
-    public ResponseEntity<String> createTotalOffer(
+    @RequestMapping(value = "/offer/total/OLD", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+    public ResponseEntity<String> oldVersion(
             @RequestPart("offerRegistration") OfferRegistration offerRegistration,
             @RequestPart("files") MultipartFile[] files) {
         return offersService.createWithRegistration(offerRegistration, files);
@@ -322,6 +322,22 @@ public class OfferRestController {
         siteMapGeneratorService.generateSiteMap();
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    // ---------------------------------------- Test controller for new Offer createion ------------------------
+
+
+
+
+    // ToDo Добавить Preauthorize
+    @CrossOrigin
+    @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+    public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration,
+                                                   @RequestPart("files") MultipartFile[] files) {
+
+
+        return offersService.createWithRegistration(offerRegistration, files);
     }
 
 }

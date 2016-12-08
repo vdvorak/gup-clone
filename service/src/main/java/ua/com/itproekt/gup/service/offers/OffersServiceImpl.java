@@ -16,7 +16,7 @@ import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
-import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.order.OrderService;
@@ -29,6 +29,7 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.SeoUtils;
 import ua.com.itproekt.gup.util.Translit;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -59,42 +60,75 @@ public class OffersServiceImpl implements OffersService {
     private SubscriptionService subscriptionService;
 
 
+//    @Override
+//    public ResponseEntity<String> createWithRegistration(OfferRegistration offerRegistration, MultipartFile[] files) {
+//
+//        String userId = SecurityOperations.getLoggedUserId();
+//
+//        if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
+//            return new ResponseEntity<>("You don't have userId or email or password", HttpStatus.BAD_REQUEST);
+//        }
+//
+//        // if user is not logged in
+//        if (userId == null) {
+//
+//            if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
+//                return new ResponseEntity<>("Someone user still have this email", HttpStatus.CONFLICT);
+//            }
+//
+//            // create new profile
+//            Profile newProfile = profilesService.createProfileFromOfferRegistration(offerRegistration);
+//
+//            // set author to new offer
+//            offerRegistration.getOffer().setAuthorId(newProfile.getId());
+//
+//        } else {
+//            // if user is logged in
+//            offerRegistration.getOffer().setAuthorId(userId);
+//        }
+//
+//
+//        offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
+//
+//        if (StringUtils.isNotBlank(offerRegistration.getSelectedImageType())) {
+//            // prepare images
+//            Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
+//
+//            // add prepared image to the offer
+//            offerRegistration.getOffer().setImagesIds(resultImageMap);
+//        }
+//
+//
+//        // create new offer
+//        create(offerRegistration.getOffer());
+//
+//        return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
+//    }
+
+
+
+    // ToDo переименовать, т.к. теперь регистрация отдельно идёт
     @Override
     public ResponseEntity<String> createWithRegistration(OfferRegistration offerRegistration, MultipartFile[] files) {
 
+        // ------------------------------------------------------------
+        // ToDo из контроллера наверное нужно брать. Тут этому не место.
         String userId = SecurityOperations.getLoggedUserId();
-
-        if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
-            return new ResponseEntity<>("You don't have userId or email or password", HttpStatus.BAD_REQUEST);
-        }
-
-        // if user is not logged in
-        if (userId == null) {
-
-            if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
-                return new ResponseEntity<>("Someone user still have this email", HttpStatus.CONFLICT);
-            }
-
-            // create new profile
-            Profile newProfile = profilesService.createProfileFromOfferRegistration(offerRegistration);
-
-            // set author to new offer
-            offerRegistration.getOffer().setAuthorId(newProfile.getId());
-
-        } else {
-            // if user is logged in
-            offerRegistration.getOffer().setAuthorId(userId);
-        }
-
+        // set userId to the offer
+        offerRegistration.getOffer().setAuthorId(userId);
+        // ------------------------------------------------------------
 
         offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
-        if (StringUtils.isNotBlank(offerRegistration.getSelectedImageType())) {
+
+        if (offerRegistration.getOffer().getImages() !=null) {
+
             // prepare images
-            Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
+            List<Image> resultImageList = prepareImageBeforeOfferCreate(offerRegistration, files);
+
 
             // add prepared image to the offer
-            offerRegistration.getOffer().setImagesIds(resultImageMap);
+            offerRegistration.getOffer().setImages(resultImageList);
         }
 
 
@@ -117,7 +151,7 @@ public class OffersServiceImpl implements OffersService {
                 .setOfferModerationReports(offerModerationReports)
                 .setCategories(offer.getCategories())
                 .setProperties(offer.getProperties())
-                .setImagesIds(offer.getImagesIds())
+                .setImages(offer.getImages())
                 .setSeoUrl(offer.getSeoUrl())
                 .setSeoKey(offer.getSeoKey())
                 .setSeoCategory(offer.getSeoCategory())
@@ -680,56 +714,42 @@ public class OffersServiceImpl implements OffersService {
     }
 
 
-    /**
-     * @param offerRegistration - the OfferRegistration object.
-     * @param files             - the array of Multipart files.
-     * @return - the Map of images ID's and their positions.
-     */
-    private Map<String, String> prepareImageBeforeOfferCreate(OfferRegistration offerRegistration, MultipartFile[] files) {
-        Map<String, String> importImagesMap = new HashMap<>();
-        Map<String, String> ownAddedImagesMap = new HashMap<>();
-        int firstPositionForImages = 0;
 
-        MultipartFile[] multipartImportFiles = null; // here will be files from OLX
+    private List<Image> prepareImageBeforeOfferCreate(OfferRegistration offerRegistration, MultipartFile[] files) {
+        List<Image> images = offerRegistration.getOffer().getImages();
 
+        List<Image> resultImages = new ArrayList<>();
 
-        // download and prepare images from the web
-        if (offerRegistration.getImportImagesUrlList() != null && offerRegistration.getImportImagesUrlList().size() > 0) {
-            multipartImportFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlList());
-        }
+        FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
 
-        // check if is the main image among the imported photos
-        if (offerRegistration.getSelectedImageType().equals("olx")) {
+        for (Image image : images) {
 
-            if (multipartImportFiles != null) {
-                importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, 1, Integer.parseInt(offerRegistration.getSelectedImageIndex()));
-                firstPositionForImages = importImagesMap.size();
-            }
+           Integer currentImageIndex = image.getIndex();
 
-            if (files.length > 1) {
-                ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, firstPositionForImages + 1, 0);
-            }
+            if (currentImageIndex !=null){
+                Image newImage = new Image();
 
-            // check if the main image among the manual upload photos
-        } else if (offerRegistration.getSelectedImageType().equals("file")) {
+                // Сохраняем одну фотографию, которая лежит по указанному индексу
 
-            if (files.length > 1) {
-                ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, 1, Integer.parseInt(offerRegistration.getSelectedImageIndex()));
-                firstPositionForImages = ownAddedImagesMap.size();
-            }
+                try {
+                    fileUploadWrapper
+                            .setServiceName("offers")
+                            .setInputStream(files[currentImageIndex].getInputStream())
+                    .setContentType(files[currentImageIndex].getContentType())
+                            .setFilename(files[currentImageIndex].getOriginalFilename());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-            if (multipartImportFiles != null) {
-                importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, firstPositionForImages + 1, 0);
+                String newImageId = storageService.saveCachedImageOffer(fileUploadWrapper);
+
+                newImage.setImageId(newImageId);
+
+                resultImages.add(newImage);
+
             }
         }
-
-
-        Map<String, String> resultImageMap = new HashMap<>();
-
-        resultImageMap.putAll(importImagesMap);
-        resultImageMap.putAll(ownAddedImagesMap);
-
-        return resultImageMap;
+        return resultImages;
     }
 
 

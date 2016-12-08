@@ -1,6 +1,6 @@
 package ua.com.itproekt.gup.dto;
 
-
+import ua.com.itproekt.gup.model.offer.Image;
 import ua.com.itproekt.gup.model.offer.Offer;
 
 import java.util.List;
@@ -15,6 +15,9 @@ public class OfferRegistration {
     private String password;
     private List<String> importImagesUrlList;
     private Set<String> contactPhones;
+
+
+    private List<Image> images;
 
     public Offer getOffer() {
         return offer;
@@ -81,17 +84,27 @@ public class OfferRegistration {
         this.selectedImageType = selectedImageType;
     }
 
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
     @Override
     public String toString() {
         return "OfferRegistration{" +
-                "offer=" + offer +
+                "selectedImageIndex='" + selectedImageIndex + '\'' +
+                ", selectedImageType='" + selectedImageType + '\'' +
+                ", offer=" + offer +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", importImagesUrlList=" + importImagesUrlList +
                 ", contactPhones=" + contactPhones +
-                ", selectedImageIndex=" + selectedImageIndex +
-                ", selectedImageType='" + selectedImageType + '\'' +
+                ", images=" + images +
                 '}';
     }
 }
