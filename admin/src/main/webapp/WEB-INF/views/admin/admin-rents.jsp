@@ -26,19 +26,6 @@
 
         $(document).ready(function() {
 
-
-
-            /*
-             alert( 'weekday: ' + monthOfPrices.weekday.days[0] + ' - ' + monthOfPrices.weekday.days[1] );
-             alert( 'weekend: ' + monthOfPrices.weekend.days[0] + ' - ' + monthOfPrices.weekend.days[1] );
-             alert( 'specialdays: ' + monthOfPrices.specialdays[0].days[0] );
-             */
-
-             // https://bytes.com/topic/javascript/answers/876446-checking-if-date-entered-weekend
-             // http://stackoverflow.com/questions/4345045/javascript-loop-between-date-ranges
-             // https://bytes.com/topic/javascript/answers/876446-checking-if-date-entered-weekend
-             // http://stackoverflow.com/questions/13459866/javascript-change-date-into-format-of-dd-mm-yyyy
-             // http://stackoverflow.com/questions/7151543/convert-dd-mm-yyyy-string-to-date
             function formattedDate(date) {
                 var d = new Date(date || Date.now()),
                         month = '' + (d.getMonth() + 1),
@@ -50,68 +37,71 @@
                 return [month, day, year].join('/');
             }
 
-            var START_DATE = monthOfPrices.weekday.days[0].split(".");
-            var END_DATE = monthOfPrices.weekday.days[1].split(".");
-            var F_START_DATE = new Date(START_DATE[2], START_DATE[1] - 1, START_DATE[0]);
-            var F_END_DATE = new Date(END_DATE[2], END_DATE[1] - 1, END_DATE[0]);
+            function parseJson() {
+                var   START_DATE = monthOfPrices.weekday.days[0].split(".");
+                var     END_DATE = monthOfPrices.weekday.days[1].split(".");
+                var F_START_DATE = new Date(START_DATE[2], START_DATE[1] - 1, START_DATE[0]);
+                var   F_END_DATE = new Date(END_DATE[2], END_DATE[1] - 1, END_DATE[0]);
 
-            //alert( F_START_DATE );                //console.log( F_START_DATE );
-            //alert( formattedDate(F_START_DATE) ); //console.log( formattedDate(F_START_DATE) );
+                var D_START = new Date(F_START_DATE);
+                var   D_END = new Date(F_END_DATE);
 
-
-
-
-            var D_START = new Date(F_START_DATE);
-            var D_END = new Date(F_END_DATE);
-
-            var WEEKDAY = -1;
-            var isWEEKDAY = true;
-            while(D_START.getDate() < D_END.getDate()){
-                //console.log( D_START )
-                if( D_START.getDay()%6 && D_START.getDay()%7 ){
-                    //gupEvents2[counter] = { title:monthOfPrices.weekday.price, start:D_START, color:'#2980b9' };
-                    if( isWEEKDAY ){
-                        WEEKDAY++;
-                        console.log( '(1) ' + D_START )
-                        isWEEKDAY = false;
+                var   WEEKDAY = -1;
+                var isWEEKDAY = true;
+                while(D_START.getDate() < D_END.getDate()){
+                    if( D_START.getDay()%6 && D_START.getDay()%7 ){
+                        if( isWEEKDAY ){
+                            WEEKDAY++;
+//				            console.log( '(1) ' + D_START ) //...
+                            var tmpDate2 = D_START.setDate(D_START.getDate());
+                            TMP_START2 = new Date(tmpDate2);
+                            gupEvents2[WEEKDAY] = { title:monthOfPrices.weekday.price, start:TMP_START2, color:'#2980b9' };
+                            isWEEKDAY = false;
+                        }
+                    } else {
+                        if( !isWEEKDAY ){
+                            var tmpDate = D_START.setDate(D_START.getDate() - 1);
+                            TMP_START = new Date(tmpDate);
+//				            console.log( '(2) ' + TMP_START ) //...
+//				            console.log( ) //...
+                            gupEvents2[WEEKDAY].end = TMP_START;
+                            isWEEKDAY = true;
+                        }
                     }
-                } else {
-                    if( !isWEEKDAY ){
-                        var tmpDate = D_START.setDate(D_START.getDate() - 1);
+                    var newDate = D_START.setDate(D_START.getDate() + 1);
+                    D_START = new Date(newDate);
+                }
+
+                if( !isWEEKDAY ){
+                    if( D_START.getDay()%6 && D_START.getDay()%7 ){
+                        tmpDate = D_START.setDate(D_START.getDate());
                         TMP_START = new Date(tmpDate);
-                        console.log( '(2) ' + TMP_START )
-                        isWEEKDAY = true;
-                        console.log( )
-                        //D_START.setDate(D_START.getDate() + 1);
+//				        console.log( '(3) ' + TMP_START ) //...
+                        gupEvents2[WEEKDAY].end = TMP_START;
+                    } else {
+                        tmpDate = D_START.setDate(D_START.getDate() - 1);
+                        TMP_START = new Date(tmpDate);
+//				        console.log( '(4) ' + TMP_START ) //...
+                        gupEvents2[WEEKDAY].end = TMP_START;
                     }
                 }
-                var newDate = D_START.setDate(D_START.getDate() + 1);
-                D_START = new Date(newDate);
+                if( isWEEKDAY ){
+                    if( D_START.getDay()%6 && D_START.getDay()%7 ){
+                        WEEKDAY++;
+                        tmpDate = D_START.setDate(D_START.getDate());
+                        TMP_START = new Date(tmpDate);
+//				        console.log( '(5) ' + TMP_START ) //...
+                        gupEvents2[WEEKDAY] = { title:monthOfPrices.weekday.price, start:TMP_START, color:'#2980b9' };
+                    }
+                }
+
+//				//console.log( 'WEEKDAY = ' + WEEKDAY )
+//				console.log( Object.keys(gupEvents2).length )
+//				console.log( gupEvents2 )
+                return gupEvents2
             }
 
-            if( !isWEEKDAY ){
-                if( D_START.getDay()%6 && D_START.getDay()%7 ){
-                    tmpDate = D_START.setDate(D_START.getDate());
-                    TMP_START = new Date(tmpDate);
-                    console.log( '(3) ' + TMP_START )
-                } else {
-                    tmpDate = D_START.setDate(D_START.getDate() - 1);
-                    TMP_START = new Date(tmpDate);
-                    console.log( '(4) ' + TMP_START )
-                }
-            }
-            if( isWEEKDAY ){
-                if( D_START.getDay()%6 && D_START.getDay()%7 ){
-                    WEEKDAY++;
-                    tmpDate = D_START.setDate(D_START.getDate());
-                    TMP_START = new Date(tmpDate);
-                    console.log( '(5) ' + TMP_START )
-                }
-            }
-
-            console.log( 'WEEKDAY = ' + WEEKDAY )
-            //console.log( gupEvents2.length )
-            //console.log( gupEvents2 )
+            console.log( parseJson() )
 
 
 
