@@ -728,9 +728,7 @@ public class OffersServiceImpl implements OffersService {
 
             if (currentImageIndex !=null){
                 Image newImage = new Image();
-
                 // Сохраняем одну фотографию, которая лежит по указанному индексу
-
                 try {
                     fileUploadWrapper
                             .setServiceName("offers")
@@ -740,14 +738,30 @@ public class OffersServiceImpl implements OffersService {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
                 String newImageId = storageService.saveCachedImageOffer(fileUploadWrapper);
-
                 newImage.setImageId(newImageId);
+                resultImages.add(newImage);
+            }else if(StringUtils.isNotBlank(image.getUrl())){
 
+                MultipartFile multipartFile = storageService.imageDownloader(image.getUrl());
+
+                Image newImage = new Image();
+                // Сохраняем одну фотографию, которая лежит по указанному индексу
+                try {
+                    fileUploadWrapper
+                            .setServiceName("offers")
+                            .setInputStream(multipartFile.getInputStream())
+                            .setContentType(multipartFile.getContentType())
+                            .setFilename(multipartFile.getOriginalFilename());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String newImageId = storageService.saveCachedImageOffer(fileUploadWrapper);
+                newImage.setImageId(newImageId);
                 resultImages.add(newImage);
 
             }
+
         }
         return resultImages;
     }

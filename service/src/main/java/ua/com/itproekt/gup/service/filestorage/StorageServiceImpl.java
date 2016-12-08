@@ -40,11 +40,7 @@ public class StorageServiceImpl implements StorageService {
         storageRepository.delete(serviceName, kostyl, fileIds);
     }
 
-    /**
-     * Delete offer images in all cached variants
-     *
-     * @param imagesId
-     */
+
     @Override
     public void deleteListOfOfferImages(Set<String> imagesId) {
         storageRepository.delete("offers", ".file.storage.large.cache", imagesId);
@@ -73,12 +69,7 @@ public class StorageServiceImpl implements StorageService {
     }
 
 
-    /**
-     * All files from multipart array saved in cached size
-     *
-     * @param files Multipart array
-     * @return Map of images id's and their order.
-     */
+
     @Override
     public Map<String, String> saveCachedMultiplyImageOfferWithIndex(MultipartFile[] files, int startPosition, int firstImageIndexInArray) {
 
@@ -126,13 +117,6 @@ public class StorageServiceImpl implements StorageService {
     }
 
 
-    /**
-     * Method save multiply images in different sizes (cached), and return map of ImagesId and image position
-     *
-     * @param files
-     * @param startPosition
-     * @return
-     */
     @Override
     public Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files, int startPosition) {
         Map<String, String> mapOfImagesIds = new HashMap<>();
@@ -157,44 +141,44 @@ public class StorageServiceImpl implements StorageService {
         return mapOfImagesIds;
     }
 
+
     @Override
     public MultipartFile[] imageDownloader(List<String> imagesUrlList) {
         List<MultipartFile> multipartFiles = new ArrayList<>();
 
         for (String imageUrl : imagesUrlList) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            InputStream is = null;
-
-
-            try {
-                URL url = new URL(imageUrl);
-                is = url.openStream();
-                byte[] byteChunk = new byte[4096]; // Or whatever size you want to read in at a time.
-                int n;
-
-                while ((n = is.read(byteChunk)) > 0) {
-                    baos.write(byteChunk, 0, n);
-                }
-
-                MultipartFile multipartFile = new MockMultipartFile("fileFromImport",
-                        url.getFile(), "image/jpeg", baos.toByteArray());
-
-                multipartFiles.add(multipartFile);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            multipartFiles.add(imageDownloader(imageUrl));
         }
-
-
         return multipartFiles.toArray(new MultipartFile[multipartFiles.size()]);
     }
 
-    /**
-     * @param oldImagesMap
-     * @param newImagesMap
-     * @return
-     */
+
+    @Override
+    public MultipartFile imageDownloader(String imageUrl) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        InputStream is = null;
+
+        try {
+            URL url = new URL(imageUrl);
+            is = url.openStream();
+            byte[] byteChunk = new byte[4096]; // Or whatever size you want to read in at a time.
+            int n;
+
+            while ((n = is.read(byteChunk)) > 0) {
+                baos.write(byteChunk, 0, n);
+            }
+
+            return new MockMultipartFile("fileFromImport", url.getFile(), "image/jpeg", baos.toByteArray());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
     private Set<String> compareTwoMapAndReturnDiffKeys(Map<String, String> oldImagesMap, Map<String, String> newImagesMap) {
         Set<String> diffMap = new HashSet<>();
 

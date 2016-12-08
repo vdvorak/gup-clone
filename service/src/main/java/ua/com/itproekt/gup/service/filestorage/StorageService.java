@@ -92,4 +92,14 @@ public interface StorageService {
      * @return
      */
     MultipartFile[] imageDownloader(List<String> imagesUrlList);
+
+
+    /**
+     * Download one image with urls and return one multipartfile.
+     *
+     * @param imageUrl
+     * @return
+     */
+    MultipartFile imageDownloader(String imageUrl);
+
 }
