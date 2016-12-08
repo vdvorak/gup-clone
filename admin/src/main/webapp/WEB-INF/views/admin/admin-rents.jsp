@@ -18,9 +18,7 @@
     <!-- Links -->
 
     <script>
-        var gupEvents;
-        var gupEvents2 = [];
-
+        var gupEvents = [];
         var offerResult;
 
         $(document).ready(function() {
@@ -36,7 +34,9 @@
                 return [year, month, day].join('-');
             }
 
-            function parseJsonWeekend(monthOfPrices) {
+            function parseJsonWeekday(monthOfPrices) {
+                var gupEvents2 = [];
+
                 var   START_DATE = monthOfPrices.weekday.days[0].split(".");
                 var     END_DATE = monthOfPrices.weekday.days[1].split(".");
                 var F_START_DATE = new Date(START_DATE[2], START_DATE[1] - 1, START_DATE[0]);
@@ -110,6 +110,73 @@
                 return gupEvents2
             }
 
+            function parseJsonWeekend(monthOfPrices) {
+                var gupEvents2 = [];
+
+                var   START_DATE = monthOfPrices.weekend.days[0].split(".");
+                var     END_DATE = monthOfPrices.weekend.days[1].split(".");
+                var F_START_DATE = new Date(START_DATE[2], START_DATE[1] - 1, START_DATE[0]);
+                var   F_END_DATE = new Date(END_DATE[2], END_DATE[1] - 1, END_DATE[0]);
+
+                var D_START = new Date(F_START_DATE);
+                var   D_END = new Date(F_END_DATE);
+
+                var   WEEKEND = -1;
+                var isWEEKEND = true;
+                while(D_START.getDate() < D_END.getDate()){
+                    if( !(D_START.getDay()%6 && D_START.getDay()%7) ){
+                        if( isWEEKEND ){
+                            WEEKEND++;
+//				        	console.log( '(1) ' + D_START ) //...
+                            var tmpDate2 = D_START.setDate(D_START.getDate());
+                            TMP_START2 = new Date(tmpDate2);
+                            gupEvents2[WEEKEND] = { title:monthOfPrices.weekend.price, start:formattedDate(TMP_START2), color:'#2980b9' };
+                            isWEEKEND = false;
+                        }
+                    } else {
+                        if( !isWEEKEND ){
+                            var tmpDate = D_START.setDate(D_START.getDate());
+                            TMP_START = new Date(tmpDate);
+//				            console.log( '(2) ' + TMP_START ) //...
+//				            console.log( ) //...
+                            gupEvents2[WEEKEND].end = formattedDate(TMP_START);
+                            isWEEKEND = true;
+                        }
+                    }
+                    var newDate = D_START.setDate(D_START.getDate() + 1);
+                    D_START = new Date(newDate);
+                }
+
+                if( !isWEEKEND ){
+                    if( !(D_START.getDay()%6 && D_START.getDay()%7) ){
+                        tmpDate = D_START.setDate(D_START.getDate() + 1);
+                        TMP_START = new Date(tmpDate);
+//				    	console.log( '(3) ' + TMP_START ) //...
+                        gupEvents2[WEEKEND].end = formattedDate(TMP_START);
+                    } else {
+                        tmpDate = D_START.setDate(D_START.getDate());
+                        TMP_START = new Date(tmpDate);
+//				     	console.log( '(4) ' + TMP_START ) //...
+                        gupEvents2[WEEKEND].end = formattedDate(TMP_START);
+                    }
+                }
+                if( isWEEKEND ){
+                    if( !(D_START.getDay()%6 && D_START.getDay()%7) ){
+                        WEEKEND++;
+                        tmpDate = D_START.setDate(D_START.getDate() + 1);
+                        TMP_START = new Date(tmpDate);
+//				    	console.log( '(5) ' + TMP_START ) //...
+                        gupEvents2[WEEKEND] = { title:monthOfPrices.weekend.price, start:formattedDate(TMP_START), color:'#2980b9' };
+                    }
+                }
+
+//				//console.log( 'WEEKEND = ' + WEEKEND )
+//				console.log( Object.keys(gupEvents2).length )
+//				console.log( gupEvents2 )
+                return gupEvents2
+            }
+
+            //console.log( parseJsonWeekday(monthOfPrices2) )
             //console.log( parseJsonWeekend(monthOfPrices2) )
 
 
@@ -160,8 +227,9 @@
                     //////////////////////////////////////////////////////////////////////////////////////////
                     var index = document.getElementById('offers-selector').selectedIndex
 //					console.log( offerResult[index].offer.monthOfPrices )
-//					console.log( parseJsonWeekend(offerResult[index].offer.monthOfPrices) )
-                    gupEvents = parseJsonWeekend(offerResult[index].offer.monthOfPrices)
+//					console.log( parseJsonWeekday(offerResult[index].offer.monthOfPrices) )
+                    var gupEventWeekday = parseJsonWeekday(offerResult[index].offer.monthOfPrices), gupEventWeekend = parseJsonWeekend(offerResult[index].offer.monthOfPrices);
+                    gupEvents = gupEvents.concat(gupEventWeekday, gupEventWeekend);
 //					console.log( gupEvents )
 //                    $('#offers-result1').html(JSON.stringify(offerResult[index]));
                     $('#offers-result2').html(offerResult[index].offer.id);
