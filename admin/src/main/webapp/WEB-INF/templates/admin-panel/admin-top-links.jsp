@@ -47,11 +47,6 @@
 <script src='../../../resources/fullcalendar/locale/ru.js'></script>
 <script src='../../../resources/fullcalendar/locale/uk.js'></script>
 
-<link href='../../../resources/json2html/css/main.css' media='all' type='text/css' rel='stylesheet'/>
-<script src='../../../resources/json2html/js/json2html.js' type='text/javascript'></script>
-<script src='../../../resources/json2html/js/jquery.json2html.js' type='text/javascript'></script>
-<script src='../../../resources/json2html/visualize-monthOfPrices.js' type='text/javascript'></script>
-
 
 <!-- Here we ara getting service url from properties files and then put them into global variables. -->
 <script>

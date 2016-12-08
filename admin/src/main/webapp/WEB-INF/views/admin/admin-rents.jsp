@@ -18,9 +18,8 @@
     <!-- Links -->
 
     <script>
-        var monthOfPrices = {"weekday":{"price":11111,"days":["3.10.2016","28.10.2016"]},"weekend":{"price":11111,"days":["1.10.2016","30.10.2016"]},"specialdays":[{"price":11111,"days":["31.10.2016"]}]}; //var monthOfPrices;
-        var gupEvents = {};
-        var gupEvents2 = {};
+        var gupEvents;
+        var gupEvents2 = [];
 
         var offerResult;
 
@@ -34,10 +33,10 @@
                 if (month.length < 2) month = '0' + month;
                 if (day.length < 2) day = '0' + day;
 
-                return [month, day, year].join('/');
+                return [year, month, day].join('-');
             }
 
-            function parseJson() {
+            function parseJson(monthOfPrices) {
                 var   START_DATE = monthOfPrices.weekday.days[0].split(".");
                 var     END_DATE = monthOfPrices.weekday.days[1].split(".");
                 var F_START_DATE = new Date(START_DATE[2], START_DATE[1] - 1, START_DATE[0]);
@@ -55,7 +54,7 @@
 //				            console.log( '(1) ' + D_START ) //...
                             var tmpDate2 = D_START.setDate(D_START.getDate());
                             TMP_START2 = new Date(tmpDate2);
-                            gupEvents2[WEEKDAY] = { title:monthOfPrices.weekday.price, start:TMP_START2, color:'#2980b9' };
+                            gupEvents2[WEEKDAY] = { title:monthOfPrices.weekday.price, start:formattedDate(TMP_START2), color:'#2980b9' };
                             isWEEKDAY = false;
                         }
                     } else {
@@ -64,7 +63,11 @@
                             TMP_START = new Date(tmpDate);
 //				            console.log( '(2) ' + TMP_START ) //...
 //				            console.log( ) //...
-                            gupEvents2[WEEKDAY].end = TMP_START;
+                            //gupEvents2[WEEKDAY].end = formattedDate(TMP_START); //...
+                            tmpDate2 = TMP_START.setDate(TMP_START.getDate()+1); //...
+                            TMP_START2 = new Date(tmpDate2); //...
+                            gupEvents2[WEEKDAY].end = formattedDate(TMP_START2); //...
+
                             isWEEKDAY = true;
                         }
                     }
@@ -77,12 +80,18 @@
                         tmpDate = D_START.setDate(D_START.getDate());
                         TMP_START = new Date(tmpDate);
 //				        console.log( '(3) ' + TMP_START ) //...
-                        gupEvents2[WEEKDAY].end = TMP_START;
+                        //gupEvents2[WEEKDAY].end = formattedDate(TMP_START); //...
+                        tmpDate2 = TMP_START.setDate(TMP_START.getDate()+1); //...
+                        TMP_START2 = new Date(tmpDate2); //...
+                        gupEvents2[WEEKDAY].end = formattedDate(TMP_START2); //...
                     } else {
                         tmpDate = D_START.setDate(D_START.getDate() - 1);
                         TMP_START = new Date(tmpDate);
 //				        console.log( '(4) ' + TMP_START ) //...
-                        gupEvents2[WEEKDAY].end = TMP_START;
+                        //gupEvents2[WEEKDAY].end = formattedDate(TMP_START); //...
+                        tmpDate2 = TMP_START.setDate(TMP_START.getDate()+1); //...
+                        TMP_START2 = new Date(tmpDate2); //...
+                        gupEvents2[WEEKDAY].end = formattedDate(TMP_START2); //...
                     }
                 }
                 if( isWEEKDAY ){
@@ -91,7 +100,7 @@
                         tmpDate = D_START.setDate(D_START.getDate());
                         TMP_START = new Date(tmpDate);
 //				        console.log( '(5) ' + TMP_START ) //...
-                        gupEvents2[WEEKDAY] = { title:monthOfPrices.weekday.price, start:TMP_START, color:'#2980b9' };
+                        gupEvents2[WEEKDAY] = { title:monthOfPrices.weekday.price, start:formattedDate(TMP_START), color:'#2980b9' };
                     }
                 }
 
@@ -101,7 +110,7 @@
                 return gupEvents2
             }
 
-            console.log( parseJson() )
+            //console.log( parseJson(monthOfPrices2) )
 
 
 
@@ -148,108 +157,12 @@
                         }
                     })
 
-                    gupEvents = [
-                        {
-                            title: '$ 1000',
-                            start: '2016-11-01',
-                            end: '2016-11-05',
-                            color: '#2980b9'
-                        },
-                        {
-                            title: '$ 1000',
-                            start: '2016-11-10',
-                            end: '2016-11-12',
-                            color: '#2980b9'
-                        },
-                        {
-                            title: '$ 1000',
-                            start: '2016-11-14',
-                            end: '2016-11-19',
-                            color: '#2980b9'
-                        },
-                        {
-                            title: '$ 1000',
-                            start: '2016-11-21',
-                            end: '2016-11-26',
-                            color: '#2980b9'
-                        },
-                        {
-                            title: '$ 1000',
-                            start: '2016-11-28',
-                            end: '2016-12-1',
-                            color: '#2980b9'
-                        },
-
-                        {
-                            title: '$ 1500',
-                            start: '2016-11-05',
-                            end: '2016-11-07',
-                            color: '#2980b9'
-                        },
-                        {
-                            title: '$ 1500',
-                            start: '2016-11-12',
-                            end: '2016-11-14',
-                            color: '#2980b9'
-                        },
-                        {
-                            title: '$ 1500',
-                            start: '2016-11-19',
-                            end: '2016-11-21',
-                            color: '#2980b9'
-                        },
-                        {
-                            title: '$ 1500',
-                            start: '2016-11-26',
-                            end: '2016-11-28',
-                            color: '#2980b9'
-                        },
-
-                        {
-                            start: '2016-11-07',
-                            end: '2016-11-10',
-                            overlap: false,
-                            rendering: 'background',
-                            color: '#ff9f89'
-                        },
-
-
-                        {
-                            title: 'Пупкин Иван Василевич',
-                            start: '2016-11-13T12:00:00-23:30:00',
-                            color: '#FF5733'
-                        },
-
-                        {
-                            title: 'Борисенко Алексей Васильевич',
-                            start: '2016-11-16T12:00:00-23:30:00',
-                            color: '#f39c12'
-                        },
-
-                        {
-                            title: 'Третяков Валерий Дмитрович',
-                            start: '2016-11-26T12:00:00-23:30:00',
-                            color: '#257e4a'
-                        },
-                        {
-                            title: 'Третяков Валерий Дмитрович',
-                            start: '2016-11-27T12:00:00-23:30:00',
-                            color: '#257e4a'
-                        },
-
-                        {
-                            title: 'Сорока Людмила Александровна',
-                            start: '2016-11-28T12:00:00-23:30:00',
-                            color: '#900C3F'
-                        },
-                        {
-                            title: 'Сорока Людмила Александровна',
-                            start: '2016-11-29T12:00:00-23:30:00',
-                            color: '#900C3F'
-                        }
-                    ];
                     //////////////////////////////////////////////////////////////////////////////////////////
                     var index = document.getElementById('offers-selector').selectedIndex
+//					console.log( offerResult[index].offer.monthOfPrices )
+//					console.log( parseJson(offerResult[index].offer.monthOfPrices) )
+                    gupEvents = parseJson(offerResult[index].offer.monthOfPrices)
+//					console.log( gupEvents )
 //                    $('#offers-result1').html(JSON.stringify(offerResult[index]));
                     $('#offers-result2').html(offerResult[index].offer.id);
                     $('#offers-result3').html(offerResult[index].offer.userInfo.contactName);
@@ -257,6 +170,7 @@
                     $('#offers-result42').html(JSON.stringify(offerResult[index].offer.rents) + '<br>');
                 }
             }).then(l=> {
+//                console.log( gupEvents )
 
                 /* initialize the calendar
                  -----------------------------------------------------------------*/
