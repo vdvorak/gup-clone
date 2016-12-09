@@ -176,8 +176,33 @@
                 return gupEvents2
             }
 
+            function parseJsonSpecialdays(monthOfPrices) {
+                var gupEvents2 = [];
+
+                var SPECIALDAY = -1;
+                while(SPECIALDAY < (Object.keys(monthOfPrices.specialdays).length - 1)){
+                    SPECIALDAY++;
+
+                    var   START_DATE = monthOfPrices.specialdays[SPECIALDAY].days[0].split(".");
+                    var F_START_DATE = new Date(START_DATE[2], START_DATE[1] - 1, START_DATE[0]);
+
+                    var      D_START = new Date(F_START_DATE);
+
+//	  			  console.log( '(1) ' + D_START ) //...
+                    var tmpDate2 = D_START.setDate(D_START.getDate());
+                    TMP_START2 = new Date(tmpDate2);
+                    gupEvents2[SPECIALDAY] = { title:monthOfPrices.specialdays[SPECIALDAY].price, start:formattedDate(TMP_START2), color:'#2980b9' };
+
+                    var newDate = D_START.setDate(D_START.getDate() + 1);
+                    D_START = new Date(newDate);
+                }
+
+                return gupEvents2
+            }
+
             //console.log( parseJsonWeekday(monthOfPrices2) )
             //console.log( parseJsonWeekend(monthOfPrices2) )
+            //console.log( parseJsonSpecialdays(monthOfPrices2) )
 
 
 
@@ -228,8 +253,8 @@
                     var index = document.getElementById('offers-selector').selectedIndex
 //					console.log( offerResult[index].offer.monthOfPrices )
 //					console.log( parseJsonWeekday(offerResult[index].offer.monthOfPrices) )
-                    var gupEventWeekday = parseJsonWeekday(offerResult[index].offer.monthOfPrices), gupEventWeekend = parseJsonWeekend(offerResult[index].offer.monthOfPrices);
-                    gupEvents = gupEvents.concat(gupEventWeekday, gupEventWeekend);
+                    var gupEventWeekday = parseJsonWeekday(offerResult[index].offer.monthOfPrices), gupEventWeekend = parseJsonWeekend(offerResult[index].offer.monthOfPrices), gupEventSpecialdays = parseJsonSpecialdays(offerResult[index].offer.monthOfPrices);
+                    gupEvents = gupEvents.concat(gupEventWeekday, gupEventWeekend, gupEventSpecialdays);
 //					console.log( gupEvents )
 //                    $('#offers-result1').html(JSON.stringify(offerResult[index]));
                     $('#offers-result2').html(offerResult[index].offer.id);
