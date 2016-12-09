@@ -261,6 +261,11 @@
                     $('#offers-result3').html(offerResult[index].offer.userInfo.contactName);
                     $('#offers-result41').html(JSON.stringify(offerResult[index].offer.monthOfPrices) + '<br><br>'); //monthOfPrices = JSON.stringify(offerResult[index].offer.monthOfPrices);
                     $('#offers-result42').html(JSON.stringify(offerResult[index].offer.rents) + '<br>');
+
+                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.weekday.price + ' $</div>');
+                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.weekend.price + ' $</div>');
+                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.specialdays[0].price + ' $</div>');
+                    //////////////////////////////////////////////////////////////////////////////////////////
                 }
             }).then(l=> {
                 console.log( gupEvents )
@@ -552,11 +557,13 @@
 
                             <div id='external-events'>
                                 <p><label>Стоимость аренды</label></p>
+                                <!--
                                 <div class='fc-event'>$ 1000.00</div>
                                 <div class='fc-event'>$ 1111.00</div>
                                 <div class='fc-event'>$ 1500.00</div>
                                 <div class='fc-event'>$ 2000.00</div>
                                 <div class='fc-event'>$ 2222.00</div>
+                                -->
                             </div>
 
                             <div id='calendar'></div>
