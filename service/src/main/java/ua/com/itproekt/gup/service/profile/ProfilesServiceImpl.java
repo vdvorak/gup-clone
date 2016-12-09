@@ -495,7 +495,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         //ToDo make me simple
         OfferFilterOptions offerFilterOptionsForAuthor = new OfferFilterOptions();
         offerFilterOptionsForAuthor.setAuthorId(profile.getId());
-        offerFilterOptionsForAuthor.setLimit(20);
+        //offerFilterOptionsForAuthor.setLimit(20); // turn off limit 'offer-s'...
 
 
         List<Order> orderListForUser = orderService.findOrdersWihOptions(orderFilterOptionsForUser);
