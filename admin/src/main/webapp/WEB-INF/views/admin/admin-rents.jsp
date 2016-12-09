@@ -204,6 +204,10 @@
             //console.log( parseJsonWeekend(monthOfPrices2) )
             //console.log( parseJsonSpecialdays(monthOfPrices2) )
 
+            $( "#addPriceButton" ).click(function() {
+                $('#external-events').append('<div class="fc-event">2000 $</div>');
+            });
+
 
 
             /* select offer(s)
@@ -565,6 +569,8 @@
                                 <div class='fc-event'>$ 2222.00</div>
                                 -->
                             </div>
+
+                            <button class="btn btn-primary" style="position:absolute; margin:200px -120px;" id="addPriceButton">Добавить</button>
 
                             <div id='calendar'></div>
                         </div>
