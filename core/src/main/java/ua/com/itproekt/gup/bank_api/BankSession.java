@@ -27,7 +27,7 @@ import java.util.Map;
 public class BankSession {
     private static final Logger LOG = Logger.getLogger(BankSession.class);
 
-    private final String URL = "http://62.80.167.162:8087/";
+    private final String URL = "http://62.80.167.164:8087/";
     private BalanceRepository balanceRepository = new BalanceRepository(this);
     private ExternalTransactionRepository externalTransactionRepository = new ExternalTransactionRepository(this);
     private InternalTransactionRepository internalTransactionRepository = new InternalTransactionRepository(this);
