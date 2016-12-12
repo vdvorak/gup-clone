@@ -39,10 +39,12 @@ public interface StorageService {
 
 
     /**
-     * @param serviceName
-     * @param filePath
-     * @param fileId
-     * @return
+     * Find and return one image.
+     *
+     * @param serviceName   - the service name.
+     * @param filePath      - the file path.
+     * @param fileId        - the file ID.
+     * @return              - the image in the GridFSDBFile format.
      */
     GridFSDBFile getCachedImage(String serviceName, String filePath, String fileId);
 
