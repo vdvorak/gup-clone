@@ -501,13 +501,13 @@
 
         #external-events {
             float: left;
-            width: 150px;
+            width: 160px; /*width: 150px;*/
             padding: 0 10px;
             border: 1px solid #aed0ea;
             background: #deedf7;
             text-align: left;
             margin-top: 52px;
-            margin-left: -150px;
+            margin-left: 0; /*margin-left: -150px;*/
         }
         #external-events h4 {
             font-size: 16px;
