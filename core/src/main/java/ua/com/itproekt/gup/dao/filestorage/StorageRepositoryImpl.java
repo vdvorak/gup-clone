@@ -175,9 +175,9 @@ public class StorageRepositoryImpl implements StorageRepository {
 
 
         if (originHeight > 600) {
-            return Scalr.resize(inputImage, Scalr.Mode.FIT_TO_HEIGHT, 600);
+            return Scalr.resize(inputImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_HEIGHT, 600);
         } else {
-            return Scalr.resize(inputImage, Scalr.Mode.FIT_TO_HEIGHT, originHeight);
+            return Scalr.resize(inputImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.FIT_TO_HEIGHT, originHeight);
         }
     }
 
@@ -187,7 +187,7 @@ public class StorageRepositoryImpl implements StorageRepository {
      * @return
      */
     private BufferedImage mediumBufferedImageOfferPreparator(BufferedImage inputImage) {
-        return Scalr.resize(inputImage, Scalr.Mode.AUTOMATIC, 165, 120);
+        return Scalr.resize(inputImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.AUTOMATIC, 165, 120);
     }
 
 
@@ -196,7 +196,7 @@ public class StorageRepositoryImpl implements StorageRepository {
      * @return
      */
     private BufferedImage smallBufferedImageOfferPreparator(BufferedImage inputImage) {
-        return Scalr.resize(inputImage, Scalr.Mode.AUTOMATIC, 90, 90);
+        return Scalr.resize(inputImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.AUTOMATIC, 90, 90);
     }
 
 }
