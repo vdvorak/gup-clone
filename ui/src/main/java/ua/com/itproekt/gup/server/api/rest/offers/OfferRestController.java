@@ -157,23 +157,48 @@ public class OfferRestController {
 
     //------------------------------------------ Create ----------------------------------------------------------------
 
+//    /**
+//     * This controller allow to create new offer and register new profile at the same time.
+//     *
+//     * @param offerRegistration - the OfferRegistration object with information about offer
+//     *                          and with registration information.
+//     * @param files             - the array of the multipart files.
+//     * @return 201 (Created) - created offer, 400 (Bad request) - when user is not authorized,
+//     * 409 (Conflict) - when email already exist.
+//     */
+//    @CrossOrigin
+//    @RequestMapping(value = "/offer/total/OLD", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+//    public ResponseEntity<String> oldVersion(
+//            @RequestPart("offerRegistration") OfferRegistration offerRegistration,
+//            @RequestPart("files") MultipartFile[] files) {
+//        return offersService.createWithRegistration(offerRegistration, files);
+//    }
+
+
     /**
-     * This controller allow to create new offer and register new profile at the same time.
+     * This controller allow to create new offer.
      *
-     * @param offerRegistration - the OfferRegistration object with information about offer
-     *                          and with registration information.
+     * @param offerRegistration - the OfferRegistration object with information about offer.
      * @param files             - the array of the multipart files.
-     * @return 201 (Created) - created offer, 400 (Bad request) - when user is not authorized,
-     * 409 (Conflict) - when email already exist.
+     * @return - the status 200 (OK), the status 401 if user is unauthorized.
      */
     @CrossOrigin
-    @RequestMapping(value = "/offer/total/OLD", method = RequestMethod.POST, consumes = {"multipart/form-data"})
-    public ResponseEntity<String> oldVersion(
-            @RequestPart("offerRegistration") OfferRegistration offerRegistration,
-            @RequestPart("files") MultipartFile[] files) {
+    @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+    public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration,
+                                                   @RequestPart("files") MultipartFile[] files) {
+
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        if (userId == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        // set userId to the offer
+        offerRegistration.getOffer().setAuthorId(userId);
+
         return offersService.createWithRegistration(offerRegistration, files);
     }
-
 
     //------------------------------------------ Update ----------------------------------------------------------------
 
@@ -322,20 +347,4 @@ public class OfferRestController {
 
 
     // ---------------------------------------- Test controller for new Offer createion ------------------------
-
-
-    // ToDo Добавить Preauthorize
-    @CrossOrigin
-    @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
-    public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration,
-                                                   @RequestPart("files") MultipartFile[] files) {
-
-
-        String userId = SecurityOperations.getLoggedUserId();
-        // set userId to the offer
-        offerRegistration.getOffer().setAuthorId(userId);
-
-        return offersService.createWithRegistration(offerRegistration, files);
-    }
-
 }

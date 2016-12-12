@@ -60,52 +60,6 @@ public class OffersServiceImpl implements OffersService {
     private SubscriptionService subscriptionService;
 
 
-//    @Override
-//    public ResponseEntity<String> createWithRegistration(OfferRegistration offerRegistration, MultipartFile[] files) {
-//
-//        String userId = SecurityOperations.getLoggedUserId();
-//
-//        if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
-//            return new ResponseEntity<>("You don't have userId or email or password", HttpStatus.BAD_REQUEST);
-//        }
-//
-//        // if user is not logged in
-//        if (userId == null) {
-//
-//            if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
-//                return new ResponseEntity<>("Someone user still have this email", HttpStatus.CONFLICT);
-//            }
-//
-//            // create new profile
-//            Profile newProfile = profilesService.createProfileFromOfferRegistration(offerRegistration);
-//
-//            // set author to new offer
-//            offerRegistration.getOffer().setAuthorId(newProfile.getId());
-//
-//        } else {
-//            // if user is logged in
-//            offerRegistration.getOffer().setAuthorId(userId);
-//        }
-//
-//
-//        offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
-//
-//        if (StringUtils.isNotBlank(offerRegistration.getSelectedImageType())) {
-//            // prepare images
-//            Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
-//
-//            // add prepared image to the offer
-//            offerRegistration.getOffer().setImagesIds(resultImageMap);
-//        }
-//
-//
-//        // create new offer
-//        create(offerRegistration.getOffer());
-//
-//        return new ResponseEntity<>(offerRegistration.getOffer().getSeoUrl(), HttpStatus.CREATED);
-//    }
-
-
     // ToDo переименовать, т.к. теперь регистрация отдельно идёт
     @Override
     public ResponseEntity<String> createWithRegistration(OfferRegistration offerRegistration, MultipartFile[] files) {
