@@ -62,7 +62,7 @@ public class OffersServiceImpl implements OffersService {
 
     // ToDo переименовать, т.к. теперь регистрация отдельно идёт
     @Override
-    public ResponseEntity<String> createWithRegistration(OfferRegistration offerRegistration, MultipartFile[] files) {
+    public ResponseEntity<String> createFullOffer(OfferRegistration offerRegistration, MultipartFile[] files) {
 
         offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
