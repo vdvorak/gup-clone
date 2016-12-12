@@ -14,7 +14,6 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.OfferModerationReports;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.offers.OfferModerationService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -62,7 +61,7 @@ public class OfferRestController {
     @RequestMapping(value = "/offer/read/{seoUrl}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getOfferByIdWithRelevant(@PathVariable String seoUrl,
-                                                              @RequestParam(required = false, defaultValue = "false") boolean relevant, HttpServletRequest request) {
+                                                           @RequestParam(required = false, defaultValue = "false") boolean relevant, HttpServletRequest request) {
         Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
 
         if (offer == null) {
@@ -90,8 +89,8 @@ public class OfferRestController {
         }
 
 
-         //if user is moderator or administrator
-        if (request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString())){
+        //if user is moderator or administrator
+        if (request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString())) {
             offerInfo.setIsForAdmin(true);
             return new ResponseEntity<>(offerInfo, HttpStatus.OK);
         }
@@ -118,9 +117,9 @@ public class OfferRestController {
         OfferModerationReports offerModerationReports = new OfferModerationReports();
         offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
 
-            offerFO.setActive(true);
-            offerFO.setDeleted(false);
-            offerFO.setOfferModerationReports(offerModerationReports);
+        offerFO.setActive(true);
+        offerFO.setDeleted(false);
+        offerFO.setOfferModerationReports(offerModerationReports);
 
 
         if (offerFO.isMain()) {
@@ -194,6 +193,7 @@ public class OfferRestController {
     public ResponseEntity<String> editOffer(
             @RequestPart("offerRegistration") OfferRegistration offerRegistration,
             @RequestPart("files") MultipartFile[] files) {
+
 
         return offersService.editByUser(offerRegistration, files);
     }
@@ -294,7 +294,6 @@ public class OfferRestController {
     }
 
 
-
     /**
      * This controller allow administrator or moderator edit offer (change categories), change moderation status
      * and leave comments.
@@ -309,8 +308,6 @@ public class OfferRestController {
 
         return new ResponseEntity<>(offerModerationService.editOfferByModerator(inputOffer));
     }
-
-
 
 
     // ---------------------------------------- Test controller for generating siteMap.xml
@@ -328,14 +325,16 @@ public class OfferRestController {
     // ---------------------------------------- Test controller for new Offer createion ------------------------
 
 
-
-
     // ToDo Добавить Preauthorize
     @CrossOrigin
     @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration,
                                                    @RequestPart("files") MultipartFile[] files) {
 
+
+        String userId = SecurityOperations.getLoggedUserId();
+        // set userId to the offer
+        offerRegistration.getOffer().setAuthorId(userId);
 
         return offersService.createWithRegistration(offerRegistration, files);
     }
