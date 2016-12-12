@@ -37,7 +37,7 @@ public interface OffersService {
      *                          and if need - information about user registration.
      * @return                      - the ResponseEntity object
      */
-    ResponseEntity<String> createWithRegistration(OfferRegistration offerRegistration, MultipartFile[] files);
+    ResponseEntity<String> createFullOffer(OfferRegistration offerRegistration, MultipartFile[] files);
 
     /**
      * Return one offer by it's id.
