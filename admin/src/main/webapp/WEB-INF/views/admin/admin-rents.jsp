@@ -256,7 +256,7 @@
                 }
             }).then(l=> {
                 console.log( gupEvents )
-                
+
                 /* initialize the external events
                  -----------------------------------------------------------------*/
                 $('#external-events .fc-event').each(function() {
