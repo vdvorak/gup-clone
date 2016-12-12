@@ -58,6 +58,9 @@ public class Offer {
     private List<Property>          properties;
     @Size(max = 10)
     private Map<String, String>     imagesIds;
+
+    private List<Image>             images; // new format for image stor
+
     private String                  videoUrl;
     @Size(min = 2, max = 70)
     private String                  title;
@@ -411,6 +414,15 @@ public class Offer {
         return this;
     }
 
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public Offer setImages(List<Image> images) {
+        this.images = images;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Offer{" +
@@ -430,6 +442,7 @@ public class Offer {
                 ", seoCategory='" + seoCategory + '\'' +
                 ", properties=" + properties +
                 ", imagesIds=" + imagesIds +
+                ", images=" + images +
                 ", videoUrl='" + videoUrl + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +

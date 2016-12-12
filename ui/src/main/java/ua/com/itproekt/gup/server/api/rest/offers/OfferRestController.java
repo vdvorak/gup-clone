@@ -14,7 +14,6 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.OfferModerationReports;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.offers.OfferModerationService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
@@ -62,7 +61,7 @@ public class OfferRestController {
     @RequestMapping(value = "/offer/read/{seoUrl}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getOfferByIdWithRelevant(@PathVariable String seoUrl,
-                                                              @RequestParam(required = false, defaultValue = "false") boolean relevant, HttpServletRequest request) {
+                                                           @RequestParam(required = false, defaultValue = "false") boolean relevant, HttpServletRequest request) {
         Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
 
         if (offer == null) {
@@ -90,8 +89,8 @@ public class OfferRestController {
         }
 
 
-         //if user is moderator or administrator
-        if (request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString())){
+        //if user is moderator or administrator
+        if (request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString())) {
             offerInfo.setIsForAdmin(true);
             return new ResponseEntity<>(offerInfo, HttpStatus.OK);
         }
@@ -118,9 +117,9 @@ public class OfferRestController {
         OfferModerationReports offerModerationReports = new OfferModerationReports();
         offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
 
-            offerFO.setActive(true);
-            offerFO.setDeleted(false);
-            offerFO.setOfferModerationReports(offerModerationReports);
+        offerFO.setActive(true);
+        offerFO.setDeleted(false);
+        offerFO.setOfferModerationReports(offerModerationReports);
 
 
         if (offerFO.isMain()) {
@@ -158,23 +157,48 @@ public class OfferRestController {
 
     //------------------------------------------ Create ----------------------------------------------------------------
 
+//    /**
+//     * This controller allow to create new offer and register new profile at the same time.
+//     *
+//     * @param offerRegistration - the OfferRegistration object with information about offer
+//     *                          and with registration information.
+//     * @param files             - the array of the multipart files.
+//     * @return 201 (Created) - created offer, 400 (Bad request) - when user is not authorized,
+//     * 409 (Conflict) - when email already exist.
+//     */
+//    @CrossOrigin
+//    @RequestMapping(value = "/offer/total/OLD", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+//    public ResponseEntity<String> oldVersion(
+//            @RequestPart("offerRegistration") OfferRegistration offerRegistration,
+//            @RequestPart("files") MultipartFile[] files) {
+//        return offersService.createWithRegistration(offerRegistration, files);
+//    }
+
+
     /**
-     * This controller allow to create new offer and register new profile at the same time.
+     * This controller allow to create new offer.
      *
-     * @param offerRegistration - the OfferRegistration object with information about offer
-     *                          and with registration information.
+     * @param offerRegistration - the OfferRegistration object with information about offer.
      * @param files             - the array of the multipart files.
-     * @return 201 (Created) - created offer, 400 (Bad request) - when user is not authorized,
-     * 409 (Conflict) - when email already exist.
+     * @return - the status 200 (OK), the status 401 if user is unauthorized.
      */
     @CrossOrigin
     @RequestMapping(value = "/offer/total/create", method = RequestMethod.POST, consumes = {"multipart/form-data"})
-    public ResponseEntity<String> createTotalOffer(
-            @RequestPart("offerRegistration") OfferRegistration offerRegistration,
-            @RequestPart("files") MultipartFile[] files) {
+    public ResponseEntity<String> createTotalOffer(@RequestPart("offerRegistration") OfferRegistration offerRegistration,
+                                                   @RequestPart("files") MultipartFile[] files) {
+
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        if (userId == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        // set userId to the offer
+        offerRegistration.getOffer().setAuthorId(userId);
+
         return offersService.createWithRegistration(offerRegistration, files);
     }
-
 
     //------------------------------------------ Update ----------------------------------------------------------------
 
@@ -294,7 +318,6 @@ public class OfferRestController {
     }
 
 
-
     /**
      * This controller allow administrator or moderator edit offer (change categories), change moderation status
      * and leave comments.
@@ -311,8 +334,6 @@ public class OfferRestController {
     }
 
 
-
-
     // ---------------------------------------- Test controller for generating siteMap.xml
 
     @CrossOrigin
@@ -324,4 +345,6 @@ public class OfferRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    // ---------------------------------------- Test controller for new Offer createion ------------------------
 }

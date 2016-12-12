@@ -16,7 +16,7 @@ import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.model.offer.paidservices.PaidServices;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderFeedback;
-import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.order.OrderService;
@@ -29,6 +29,7 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.SeoUtils;
 import ua.com.itproekt.gup.util.Translit;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -59,42 +60,21 @@ public class OffersServiceImpl implements OffersService {
     private SubscriptionService subscriptionService;
 
 
+    // ToDo переименовать, т.к. теперь регистрация отдельно идёт
     @Override
     public ResponseEntity<String> createWithRegistration(OfferRegistration offerRegistration, MultipartFile[] files) {
 
-        String userId = SecurityOperations.getLoggedUserId();
-
-        if (userId == null && (offerRegistration.getEmail() == null || offerRegistration.getPassword() == null)) {
-            return new ResponseEntity<>("You don't have userId or email or password", HttpStatus.BAD_REQUEST);
-        }
-
-        // if user is not logged in
-        if (userId == null) {
-
-            if (profilesService.profileExistsWithEmail(offerRegistration.getEmail())) {
-                return new ResponseEntity<>("Someone user still have this email", HttpStatus.CONFLICT);
-            }
-
-            // create new profile
-            Profile newProfile = profilesService.createProfileFromOfferRegistration(offerRegistration);
-
-            // set author to new offer
-            offerRegistration.getOffer().setAuthorId(newProfile.getId());
-
-        } else {
-            // if user is logged in
-            offerRegistration.getOffer().setAuthorId(userId);
-        }
-
-
         offerSeoUrlAndPaidServicePreparator(seoSequenceService, offerRegistration);
 
-        if (StringUtils.isNotBlank(offerRegistration.getSelectedImageType())) {
+
+        if (offerRegistration.getOffer().getImages() != null) {
+
             // prepare images
-            Map<String, String> resultImageMap = prepareImageBeforeOfferCreate(offerRegistration, files);
+            List<Image> resultImageList = prepareImageBeforeOfferCreate(offerRegistration, files);
+
 
             // add prepared image to the offer
-            offerRegistration.getOffer().setImagesIds(resultImageMap);
+            offerRegistration.getOffer().setImages(resultImageList);
         }
 
 
@@ -117,7 +97,7 @@ public class OffersServiceImpl implements OffersService {
                 .setOfferModerationReports(offerModerationReports)
                 .setCategories(offer.getCategories())
                 .setProperties(offer.getProperties())
-                .setImagesIds(offer.getImagesIds())
+                .setImages(offer.getImages())
                 .setSeoUrl(offer.getSeoUrl())
                 .setSeoKey(offer.getSeoKey())
                 .setSeoCategory(offer.getSeoCategory())
@@ -204,7 +184,7 @@ public class OffersServiceImpl implements OffersService {
                 .setUserInfo(oldOffer.getUserInfo())
                 .setCategories(oldOffer.getCategories())
                 .setProperties(oldOffer.getProperties())
-                .setImagesIds(oldOffer.getImagesIds())
+                .setImages(oldOffer.getImages())
                 .setVideoUrl(oldOffer.getVideoUrl())
                 .setSeoUrl(oldOffer.getSeoUrl())
                 .setSeoCategory(oldOffer.getSeoCategory())
@@ -229,7 +209,6 @@ public class OffersServiceImpl implements OffersService {
         return offerRepository.findAndUpdate(newOffer);
     }
 
-
     @Override
     public ResponseEntity<String> editByUser(OfferRegistration offerRegistration, MultipartFile[] files) {
 
@@ -252,12 +231,14 @@ public class OffersServiceImpl implements OffersService {
             return new ResponseEntity<>("You are not author of this offer", HttpStatus.FORBIDDEN);
         }
 
+
         // update SEO url title for offer
         String newTranslitTitle = Translit.makeTransliteration(updatedOffer.getTitle());
         String newSeoUrl = newTranslitTitle + "-" + oldOffer.getSeoKey();
         updatedOffer.setSeoUrl(newSeoUrl);
 
-        updatedOffer.setImagesIds(prepareImageBeforeOfferUpdate(oldOffer, offerRegistration, files));
+
+        updatedOffer.setImages(prepareImageBeforeOfferUpdate(oldOffer, offerRegistration, files));
 
 
         // if critical information was changed in the offer - we must resubmit this offer for the moderation
@@ -270,7 +251,6 @@ public class OffersServiceImpl implements OffersService {
 
         return new ResponseEntity<>(newOffer.getSeoUrl(), HttpStatus.OK);
     }
-
 
     @Override
     public void reserveOffer(String offerId, Reservation reservation) {
@@ -387,12 +367,6 @@ public class OffersServiceImpl implements OffersService {
     }
 
 
-    /**
-     * Return List of offers which are relevant to specific one.
-     *
-     * @param offer - the offer to which we must find relevant offers.
-     * @return - the list of the offers.
-     */
     @Override
     public List<OfferInfo> getListOfRelevantPublicOffersForSpecificOffer(Offer offer) {
 
@@ -440,12 +414,7 @@ public class OffersServiceImpl implements OffersService {
         return relevantOffersList;
     }
 
-    /**
-     * Return main image of the offer.
-     *
-     * @param offer - the offer
-     * @return - the ID of the main image
-     */
+
     @Override
     public String getMainOfferImage(Offer offer) {
 
@@ -680,167 +649,128 @@ public class OffersServiceImpl implements OffersService {
     }
 
 
+    private List<Image> prepareImageBeforeOfferCreate(OfferRegistration offerRegistration, MultipartFile[] files) {
+        List<Image> images = offerRegistration.getOffer().getImages();
+
+        List<Image> resultImages = new ArrayList<>();
+
+        for (Image image : images) {
+
+            Integer currentImageIndex = image.getIndex();
+
+            if (currentImageIndex != null) {
+
+                addImageToTheImageLIst(resultImages, files[currentImageIndex]);
+
+            } else if (StringUtils.isNotBlank(image.getUrl())) {
+
+                MultipartFile multipartFile = storageService.imageDownloader(image.getUrl());
+
+                addImageToTheImageLIst(resultImages, multipartFile);
+            }
+
+        }
+        return resultImages;
+    }
+
+
     /**
-     * @param offerRegistration - the OfferRegistration object.
-     * @param files             - the array of Multipart files.
-     * @return - the Map of images ID's and their positions.
+     * This method get image from the web (download it), or take image from client side. Than method save image
+     * in the DB and put image's ID to the result Image list.
+     *
+     * @param resultImages  - the result image list.
+     * @param multipartFile - the multipart file.
      */
-    private Map<String, String> prepareImageBeforeOfferCreate(OfferRegistration offerRegistration, MultipartFile[] files) {
-        Map<String, String> importImagesMap = new HashMap<>();
-        Map<String, String> ownAddedImagesMap = new HashMap<>();
-        int firstPositionForImages = 0;
+    private void addImageToTheImageLIst(List<Image> resultImages, MultipartFile multipartFile) {
+        FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
+        Image newImage = new Image();
 
-        MultipartFile[] multipartImportFiles = null; // here will be files from OLX
-
-
-        // download and prepare images from the web
-        if (offerRegistration.getImportImagesUrlList() != null && offerRegistration.getImportImagesUrlList().size() > 0) {
-            multipartImportFiles = storageService.imageDownloader(offerRegistration.getImportImagesUrlList());
+        try {
+            fileUploadWrapper
+                    .setServiceName("offers")
+                    .setInputStream(multipartFile.getInputStream())
+                    .setContentType(multipartFile.getContentType())
+                    .setFilename(multipartFile.getOriginalFilename());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        String newImageId = storageService.saveCachedImageOffer(fileUploadWrapper);
+        newImage.setImageId(newImageId);
+        resultImages.add(newImage);
 
-        // check if is the main image among the imported photos
-        if (offerRegistration.getSelectedImageType().equals("olx")) {
-
-            if (multipartImportFiles != null) {
-                importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, 1, Integer.parseInt(offerRegistration.getSelectedImageIndex()));
-                firstPositionForImages = importImagesMap.size();
-            }
-
-            if (files.length > 1) {
-                ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, firstPositionForImages + 1, 0);
-            }
-
-            // check if the main image among the manual upload photos
-        } else if (offerRegistration.getSelectedImageType().equals("file")) {
-
-            if (files.length > 1) {
-                ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, 1, Integer.parseInt(offerRegistration.getSelectedImageIndex()));
-                firstPositionForImages = ownAddedImagesMap.size();
-            }
-
-            if (multipartImportFiles != null) {
-                importImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(multipartImportFiles, firstPositionForImages + 1, 0);
-            }
-        }
-
-
-        Map<String, String> resultImageMap = new HashMap<>();
-
-        resultImageMap.putAll(importImagesMap);
-        resultImageMap.putAll(ownAddedImagesMap);
-
-        return resultImageMap;
     }
 
 
-    private Map<String, String> prepareImageBeforeOfferUpdate(Offer oldOffer, OfferRegistration newOfferRegistration, MultipartFile[] files) {
+    private List<Image> prepareImageBeforeOfferUpdate(Offer oldOffer, OfferRegistration newOfferRegistration, MultipartFile[] files) {
 
-        Map<String, String> ownAddedImagesMap = new HashMap<>();
-        Map<String, String> updatedOldImagesMap = new HashMap<>();
+        List<Image> resultImages = new ArrayList<>();
+        FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
 
-        int firstPositionForImages = 0;
+        List<Image> newImageList = newOfferRegistration.getOffer().getImages();
+        List<Image> oldImageList = oldOffer.getImages();
 
 
-        // ToDo физически удаляем фото из базы, если нужно
-        //Find images in old offer version that were deleted in new
-        // and delete them from base in all resized variants.
-        storageService.deleteDiffImagesAfterOfferUpdate(oldOffer.getImagesIds(), newOfferRegistration.getOffer().getImagesIds());
+        deleteImages(oldImageList, newImageList); // delete unnecessary images
 
-        if (newOfferRegistration.getSelectedImageType() == null) {
-            newOfferRegistration.setSelectedImageType("old");
-            newOfferRegistration.setSelectedImageIndex("0");
+
+        for (Image image : newImageList) {
+
+            Integer currentImageIndex = image.getIndex();
+            Image newImage = new Image();
+
+            if (currentImageIndex != null) {
+
+                // Сохраняем одну фотографию, которая лежит по указанному индексу
+                try {
+                    fileUploadWrapper
+                            .setServiceName("offers")
+                            .setInputStream(files[currentImageIndex].getInputStream())
+                            .setContentType(files[currentImageIndex].getContentType())
+                            .setFilename(files[currentImageIndex].getOriginalFilename());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String newImageId = storageService.saveCachedImageOffer(fileUploadWrapper);
+                newImage.setImageId(newImageId);
+                resultImages.add(newImage);
+            } else if (StringUtils.isNotBlank(image.getImageId())) {
+                newImage.setImageId(image.getImageId());
+                resultImages.add(newImage);
+            }
         }
 
-        // если "главная" фотка выбрана среди "старых"
-        if (newOfferRegistration.getSelectedImageType().equals("old")) {
-
-            if (newOfferRegistration.getOffer().getImagesIds() != null) {
-                updatedOldImagesMap = replaceImagesForFirst(newOfferRegistration.getOffer().getImagesIds(), 2, newOfferRegistration.getSelectedImageIndex());
-                firstPositionForImages = updatedOldImagesMap.size();
-            }
-
-            if (files.length > 1) {
-                // меряем size карты и со следующего индекса грузим фотки
-                ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, firstPositionForImages + 1, 0);
-            }
-
-        }
-
-
-        if (newOfferRegistration.getSelectedImageType().equals("file")) {
-
-            if (files.length > 1) {
-                // ToDo тут всё просто - как и в случае создания - делаем карту с первой фоткой
-                ownAddedImagesMap = storageService.saveCachedMultiplyImageOfferWithIndex(files, 1, Integer.parseInt(newOfferRegistration.getSelectedImageIndex()));
-                firstPositionForImages = ownAddedImagesMap.size();
-            }
-
-            if (newOfferRegistration.getOffer().getImagesIds() != null) {
-                // ToDo меряем size предыдущей карты и со следующего индекса - перекладываем эту карту
-                updatedOldImagesMap = replaceImagesForFirst(newOfferRegistration.getOffer().getImagesIds(), firstPositionForImages + 1, Integer.toString(0));
-
-            }
-
-        }
-
-
-        Map<String, String> resultImageMap = new HashMap<>();
-        resultImageMap.putAll(updatedOldImagesMap);
-        resultImageMap.putAll(ownAddedImagesMap);
-
-        return resultImageMap;
+        return resultImages;
     }
 
 
-    private Map<String, String> replaceImagesForFirst(Map<String, String> oldMap, int startImageIndex, String firstImageKey) {
+    /**
+     * Find if in the new ImageList some images were deleted and delete them from the DB.
+     *
+     * @param oldImageList - the old Image list.
+     * @param newImageList - the new Image list.
+     */
+    private void deleteImages(List<Image> oldImageList, List<Image> newImageList) {
+        Set<String> setOfTheImagesForDelete = new HashSet<>();
 
-        Map<String, String> resultMap = new HashMap<>();
+        boolean isDeleted;
 
-        if (StringUtils.isNotEmpty(firstImageKey)) {
-            // главной делаем фотку, которая пришла в firstImageKey, а остальные перекладываем с новым индексом
-            for (String s : oldMap.keySet()) {
-                if (oldMap.get(s).equals(firstImageKey)) {
-                    resultMap.put(firstImageKey, "1");
-                } else {
-                    resultMap.put(s, Integer.toString(startImageIndex));
-                    startImageIndex++;
+        for (Image oldImage : oldImageList) {
+            isDeleted = true;
+
+            for (Image newImage : newImageList) {
+                if (oldImage.getImageId().equals(newImage.getImageId())) {
+                    isDeleted = false;
                 }
             }
-            // если < 1 - значит "главной" фотки среди этой карты нет
-        } else if (Integer.parseInt(firstImageKey) < 1) {
-            for (String s : oldMap.keySet()) {
-                resultMap.put(s, Integer.toString(startImageIndex));
-                startImageIndex++;
+
+            if (isDeleted) {
+                setOfTheImagesForDelete.add(oldImage.getImageId());
             }
 
         }
-
-        return resultMap;
+        storageService.deleteListOfOfferImages(setOfTheImagesForDelete);
     }
 
-
-    /**
-     * Update and save images for offer into DB.
-     *
-     * @param storageService        - the link to storageService instance.
-     * @param updatedOfferImagesMap - the updated map of images.
-     * @param files                 - the images for update.
-     * @return - the Map of images ID and their positions.
-     */
-    private Map<String, String> updaterOfferImages(StorageService storageService, Map<String, String> updatedOfferImagesMap, MultipartFile[] files) {
-
-        int newStartPositionForImages = updatedOfferImagesMap.size(); // old images here
-        Map<String, String> newImageMap = new HashMap<>();
-
-        newStartPositionForImages++;
-
-        Map<String, String> mapWithNewPhoto = storageService.saveCachedMultiplyImageOffer(files, newStartPositionForImages);
-
-        newImageMap.putAll(updatedOfferImagesMap);
-        newImageMap.putAll(mapWithNewPhoto);
-
-        return newImageMap;
-    }
 
     /**
      * Show does new offer have critical changes or not and add information about them into new offer object.
