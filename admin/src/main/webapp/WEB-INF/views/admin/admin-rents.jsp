@@ -564,6 +564,11 @@
                         </div>
                     </div>
                 </div>
+                <center>
+                    <a href=""><button class="btn btn-primary">Отменить</button></a>
+                    &nbsp;&nbsp;&nbsp;
+                    <button id="savePriceButton" class="btn btn-primary">Сохранить</button>
+                </center>
 
                 <!--
                 <fieldset>
