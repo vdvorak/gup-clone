@@ -204,8 +204,11 @@
             //console.log( parseJsonWeekend(monthOfPrices2) )
             //console.log( parseJsonSpecialdays(monthOfPrices2) )
 
-            $( "#addPriceButton" ).click(function() {
-                $('#external-events').append('<div class="fc-event">2000 $</div>');
+            $( "#addPriceButton" ).bind('keypress', function(e) {
+                var code = e.keyCode || e.which;
+                if(code == 13) {
+                    $('#external-events').append('<div class="fc-event">' + $(this).val() + ' $</div>');
+                }
             });
 
 
@@ -498,13 +501,13 @@
 
         #external-events {
             float: left;
-            width: 150px;
+            width: 160px; /*width: 150px;*/
             padding: 0 10px;
             border: 1px solid #aed0ea;
             background: #deedf7;
             text-align: left;
             margin-top: 52px;
-            margin-left: -150px;
+            margin-left: 0; /*margin-left: -150px;*/
         }
         #external-events h4 {
             font-size: 16px;
@@ -557,26 +560,37 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
-                            <select id='locale-selector'></select>
+                            <!--<select id='locale-selector'></select>-->
 
                             <div id='external-events'>
-                                <p><label>Стоимость аренды</label></p>
+                                <p>
+                                    <select id="set-price">
+                                        <option>Настраиваемая цена</option>
+                                        <option value="single">Единная цена</option>
+                                        <option value="weekend">Цена на выходные</option>
+                                        <option value="weekday">Цена на будние</option>
+                                        <option value="specialdays" selected>Специальная цена</option>
+                                    </select>
+                                    <br/><br/><input type="text" id="addPriceButton" size="16" value="0" /> &nbsp; <b>$</b>
+                                </p>
                             </div>
-
-                            <button class="btn btn-primary" style="position:absolute; margin:200px -120px;" id="addPriceButton">Добавить</button>
 
                             <div id='calendar'></div>
                         </div>
                     </div>
                 </div>
 
+                <!--
                 <fieldset>
-                    <legend id="offers-result2"></legend>
-                    <div id='monthOfPrices'></div>
-                    <font color="#2980b9" id="offers-result41"></font>
-                    <font color="#FF5733" id="offers-result42"></font>
-                    <!--<font color="gray" id="offers-result1"></font>-->
+                <legend id="offers-result2"></legend>
+                <div id='monthOfPrices'></div>
+                <font color="#2980b9" id="offers-result41"></font>
+                <font color="#FF5733" id="offers-result42"></font>
+                -->
+                <!--<font color="gray" id="offers-result1"></font>-->
+                <!--
                 </fieldset>
+                -->
             </div>
         </div>
     </div>
