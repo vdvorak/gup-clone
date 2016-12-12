@@ -13,29 +13,21 @@ public interface StorageService {
     /**
      * Delete file from database
      *
-     * @param serviceName   the service name
-     * @param fileId        the file ID
+     * @param serviceName   - the service name
+     * @param fileId        - the file ID
      */
     void delete(String serviceName, String fileId);
 
     /**
-     * @param serviceName
-     * @param fileIds
+     * @param serviceName   - the service name.
+     * @param fileIds       - the set of the fields ID.
      */
     void delete(String serviceName, Set<String> fileIds);
 
     /**
-     * @param imagesId
+     * @param imagesId - the image ID.
      */
     void deleteListOfOfferImages(Set<String> imagesId);
-
-    /**
-     * Find images in old offer version that were deleted in new and delete them from base in all resized variants.
-     *
-     * @param oldImagesMap  the map of images from old version of offer (images ID and images position)
-     * @param newImagesMap  the map with new images (images ID and images position)
-     */
-    void deleteDiffImagesAfterOfferUpdate(Map<String, String> oldImagesMap, Map<String, String> newImagesMap);
 
 
     /**
@@ -51,7 +43,7 @@ public interface StorageService {
     /**
      * Save photo in two variants: large and small
      *
-     * @return - id of image
+     * @return              - id of image
      */
     String saveCachedImageProfile(FileUploadWrapper fileUploadWrapper);
 
@@ -59,39 +51,16 @@ public interface StorageService {
     /**
      * Save photo in several size variants.
      *
-     * @return - id of image
+     * @return              - id of image
      */
     String saveCachedImageOffer(FileUploadWrapper fileUploadWrapper);
 
 
     /**
-     * Method save multiply images in different sizes (cached), and return map of ImagesId and image position. You must
-     * input index of main photo.
-     *
-     * @param files
-     * @param startPosition
-     * @return
-     */
-    Map<String, String> saveCachedMultiplyImageOfferWithIndex(MultipartFile[] files, int startPosition, int firstImageIndexInArray);
-
-
-    /**
-     * Method save multiply images in different sizes (cached), and return map of ImagesId and image position
-     *
-     * @param files
-     * @param startPosition
-     * @return
-     */
-    Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files, int startPosition);
-
-
-
-
-    /**
      * Download images with urls and return array of MultipartFile
      *
-     * @param imagesUrlList
-     * @return
+     * @param imagesUrlList - the list of the images URLs
+     * @return              - the files array.
      */
     MultipartFile[] imageDownloader(List<String> imagesUrlList);
 
@@ -99,8 +68,8 @@ public interface StorageService {
     /**
      * Download one image with urls and return one multipartfile.
      *
-     * @param imageUrl
-     * @return
+     * @param imageUrl      - the image url.
+     * @return              - the multipart file.
      */
     MultipartFile imageDownloader(String imageUrl);
 

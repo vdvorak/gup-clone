@@ -194,7 +194,6 @@ public class OfferRestController {
             @RequestPart("offerRegistration") OfferRegistration offerRegistration,
             @RequestPart("files") MultipartFile[] files) {
 
-
         return offersService.editByUser(offerRegistration, files);
     }
 

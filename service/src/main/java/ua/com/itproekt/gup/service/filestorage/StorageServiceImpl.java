@@ -48,10 +48,6 @@ public class StorageServiceImpl implements StorageService {
         storageRepository.delete("offers", ".file.storage.small.cache", imagesId);
     }
 
-    @Override
-    public void deleteDiffImagesAfterOfferUpdate(Map<String, String> oldImagesMap, Map<String, String> newImagesMap) {
-        deleteListOfOfferImages(compareTwoMapAndReturnDiffKeys(oldImagesMap, newImagesMap));
-    }
 
     @Override
     public GridFSDBFile getCachedImage(String serviceName, String filePath, String fileId) {
@@ -66,79 +62,6 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public String saveCachedImageOffer(FileUploadWrapper fileUploadWrapper) {
         return storageRepository.saveCachedImageOffer(fileUploadWrapper);
-    }
-
-
-
-    @Override
-    public Map<String, String> saveCachedMultiplyImageOfferWithIndex(MultipartFile[] files, int startPosition, int firstImageIndexInArray) {
-
-
-        MultipartFile[] newFileArray = new MultipartFile[files.length];
-        // if firstImageIndexInArray == 1 - that's what we need, if < 1 - we ignore it.
-        if (firstImageIndexInArray > 0) {
-
-            // here we take element with firstImageIndexInArray and put it in the first place in the new array
-
-            newFileArray[0] = files[firstImageIndexInArray];
-
-
-            for (int i = 0; i < firstImageIndexInArray; i++) {
-                newFileArray[i + 1] = files[i];
-            }
-
-            for (int i = firstImageIndexInArray + 1; i < files.length; i++) {
-                newFileArray[i] = files[i];
-            }
-
-        }
-
-
-        Map<String, String> mapOfImagesIds = new HashMap<>();
-
-        for (int i = 0; i < newFileArray.length; i++) {
-
-            FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
-
-            try {
-                fileUploadWrapper
-                        .setServiceName("offers")
-                        .setInputStream(newFileArray[i].getInputStream())
-                        .setContentType(newFileArray[i].getContentType())
-                        .setFilename(newFileArray[i].getOriginalFilename());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            mapOfImagesIds.put(saveCachedImageOffer(fileUploadWrapper), String.valueOf(startPosition));
-            startPosition++;
-        }
-        return mapOfImagesIds;
-    }
-
-
-    @Override
-    public Map<String, String> saveCachedMultiplyImageOffer(MultipartFile[] files, int startPosition) {
-        Map<String, String> mapOfImagesIds = new HashMap<>();
-
-        for (int i = 0; i < files.length; i++) {
-
-            FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
-
-            try {
-                fileUploadWrapper
-                        .setServiceName("offers")
-                        .setInputStream(files[i].getInputStream())
-                        .setContentType(files[i].getContentType())
-                        .setFilename(files[i].getOriginalFilename());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            mapOfImagesIds.put(saveCachedImageOffer(fileUploadWrapper), String.valueOf(startPosition));
-            startPosition++;
-        }
-        return mapOfImagesIds;
     }
 
 
