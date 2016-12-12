@@ -216,23 +216,6 @@
 
             var initialLocaleCode = 'ru';
 
-            /* initialize the external events
-             -----------------------------------------------------------------*/
-            $('#external-events .fc-event').each(function() {
-                // store data so the calendar knows to render an event upon drop
-                $(this).data('event', {
-                    title: $.trim($(this).text()), // use the element's text as the event title
-                    stick: true                    // maintain when user navigates (see docs on the renderEvent method)
-                });
-                // make the event draggable using jQuery UI
-                $(this).draggable({
-                    zIndex: 999,
-                    revert: true,                  // will cause the event to go back to its
-                    revertDuration: 0              // original position after the drag
-                });
-
-            });
-
             var request = $.ajax({
                 type: 'POST',
                 contentType: "application/json; charset=utf-8",
@@ -273,6 +256,23 @@
                 }
             }).then(l=> {
                 console.log( gupEvents )
+                
+                /* initialize the external events
+                 -----------------------------------------------------------------*/
+                $('#external-events .fc-event').each(function() {
+                    // store data so the calendar knows to render an event upon drop
+                    $(this).data('event', {
+                        title: $.trim($(this).text()), // use the element's text as the event title
+                        stick: true                    // maintain when user navigates (see docs on the renderEvent method)
+                    });
+                    // make the event draggable using jQuery UI
+                    $(this).draggable({
+                        zIndex: 999,
+                        revert: true,                  // will cause the event to go back to its
+                        revertDuration: 0              // original position after the drag
+                    });
+
+                });
 
                 /* initialize the calendar
                  -----------------------------------------------------------------*/
@@ -561,13 +561,6 @@
 
                             <div id='external-events'>
                                 <p><label>Стоимость аренды</label></p>
-                                <!--
-                                <div class='fc-event'>$ 1000.00</div>
-                                <div class='fc-event'>$ 1111.00</div>
-                                <div class='fc-event'>$ 1500.00</div>
-                                <div class='fc-event'>$ 2000.00</div>
-                                <div class='fc-event'>$ 2222.00</div>
-                                -->
                             </div>
 
                             <button class="btn btn-primary" style="position:absolute; margin:200px -120px;" id="addPriceButton">Добавить</button>
