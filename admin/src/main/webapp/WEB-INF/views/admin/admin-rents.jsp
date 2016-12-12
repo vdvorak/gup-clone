@@ -569,7 +569,7 @@
                                         <option value="single">Единная цена</option>
                                         <option value="weekend">Цена на выходные</option>
                                         <option value="weekday">Цена на будние</option>
-                                        <option value="specialdays">Специальная цена</option>
+                                        <option value="specialdays" selected>Специальная цена</option>
                                     </select>
                                     <br/><br/><input type="text" id="addPriceButton" size="16" value="0" /> &nbsp; <b>$</b>
                                 </p>
@@ -580,13 +580,17 @@
                     </div>
                 </div>
 
+                <!--
                 <fieldset>
-                    <legend id="offers-result2"></legend>
-                    <div id='monthOfPrices'></div>
-                    <font color="#2980b9" id="offers-result41"></font>
-                    <font color="#FF5733" id="offers-result42"></font>
-                    <!--<font color="gray" id="offers-result1"></font>-->
+                <legend id="offers-result2"></legend>
+                <div id='monthOfPrices'></div>
+                <font color="#2980b9" id="offers-result41"></font>
+                <font color="#FF5733" id="offers-result42"></font>
+                -->
+                <!--<font color="gray" id="offers-result1"></font>-->
+                <!--
                 </fieldset>
+                -->
             </div>
         </div>
     </div>
