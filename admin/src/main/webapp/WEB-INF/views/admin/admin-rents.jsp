@@ -204,14 +204,6 @@
             //console.log( parseJsonWeekend(monthOfPrices2) )
             //console.log( parseJsonSpecialdays(monthOfPrices2) )
 
-            $( "#addPriceButton" ).bind('keypress', function(e) {
-                var code = e.keyCode || e.which;
-                if(code == 13) {
-                    $('#external-events').append('<div class="fc-event">' + $(this).val() + ' $</div>');
-                }
-            });
-
-
 
             /* select offer(s)
              -----------------------------------------------------------------*/
@@ -293,7 +285,7 @@
                     locale: initialLocaleCode,
 //                buttonIcons: false,      // show the prev/next text
                     weekNumbers: false,
-                    editable: true,
+                    editable: false,
                     navLinks: true,          // can click day/week names to navigate views
                     eventLimit: true,        // allow "more" link when too many events
                     businessHours: true,     // display business hours
@@ -328,6 +320,13 @@
                     },
                     loading: function(bool) {
                         $('#loading').toggle(bool);
+                    }
+                });
+
+                $( "#addPriceButton" ).bind('keypress', function(e) {
+                    var code = e.keyCode || e.which;
+                    if(code == 13) {
+                        $('#external-events').append('<div class="fc-event">' + $(this).val() + ' $</div>');
                     }
                 });
             });
@@ -387,7 +386,7 @@
                     locale: initialLocaleCode,
 //                buttonIcons: false,      // show the prev/next text
                     weekNumbers: false,
-                    editable: true,
+                    editable: false,
                     navLinks: true,          // can click day/week names to navigate views
                     eventLimit: true,        // allow "more" link when too many events
                     businessHours: true,     // display business hours
@@ -464,11 +463,11 @@
     </script>
     <style>
         #calendar {
-            min-width: 1075px;
-            max-width: 1075px;
+            min-width: 100%;
+            max-width: 100%;
             margin: 0px auto;
             padding: 0 10px;
-            float: right;
+            float: left;
         }
 
         #locale-selector {

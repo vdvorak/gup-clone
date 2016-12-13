@@ -204,14 +204,6 @@
             //console.log( parseJsonWeekend(monthOfPrices2) )
             //console.log( parseJsonSpecialdays(monthOfPrices2) )
 
-            $( "#addPriceButton" ).bind('keypress', function(e) {
-                var code = e.keyCode || e.which;
-                if(code == 13) {
-                    $('#external-events').append('<div class="fc-event">' + $(this).val() + ' $</div>');
-                }
-            });
-
-
 
             /* select offer(s)
              -----------------------------------------------------------------*/
@@ -328,6 +320,13 @@
                     },
                     loading: function(bool) {
                         $('#loading').toggle(bool);
+                    }
+                });
+
+                $( "#addPriceButton" ).bind('keypress', function(e) {
+                    var code = e.keyCode || e.which;
+                    if(code == 13) {
+                        $('#external-events').append('<div class="fc-event">' + $(this).val() + ' $</div>');
                     }
                 });
             });
@@ -464,8 +463,8 @@
     </script>
     <style>
         #calendar {
-            min-width: 1075px;
-            max-width: 1075px;
+            min-width: 85%;
+            max-width: 85%;
             margin: 0px auto;
             padding: 0 10px;
             float: right;
@@ -500,7 +499,7 @@
 
         #external-events {
             float: left;
-            width: 160px; /*width: 150px;*/
+            width: 15%; /*width: 150px;*/
             padding: 0 10px;
             border: 1px solid #aed0ea;
             background: #deedf7;
