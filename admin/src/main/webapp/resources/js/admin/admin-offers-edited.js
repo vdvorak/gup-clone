@@ -7,17 +7,22 @@ let urlEditOffer = host + '/editBulletin/';
 /**
  * Find first image from the whole array of images of the offer
  *
- * @param arr           - the array with images.
+ * @param imageArr           - the array with images.
  * @returns {string}    - the url of the main photo.
  */
-function findFirstImg(arr) {
+function findFirstImg(imageArr) {
+
     var url = urlNoPhotoImg;
-    var imgId = '';
-    for (var i in arr) {
-        if (arr[i] === '1') {
-            imgId = i;
-            url = ulrImg + imgId + "?cachedSize=small";
-            break;
+
+    function isEmpty(str) {
+        return (!str || 0 === str.length);
+    }
+
+    for (var i in imageArr){
+
+        if (!isEmpty(imageArr[i].imageId)){
+
+            return ulrImg + imageArr[i].imageId + "?cachedSize=small";
         }
     }
     return url;
@@ -101,11 +106,11 @@ $(document).ready(function () {
                 data[i].title = '<a href="' + urlEditOffer + data[i].seoUrl + '">' + data[i].title + '</a>';
 
                 // fill with photo
-                if (data[i].imagesIds !== null) {
-                    data[i].imagesIds = '<img src="' + findFirstImg(data[i].imagesIds) + '" width="100" height="100">';
+                if (data[i].images !== null) {
+                    data[i].images = '<img src="' + findFirstImg(data[i].images) + '" width="100" height="100">';
                 }
                 else {
-                    data[i].imagesIds = `<img src="${urlNoPhotoImg}" width="100" height="100">`;
+                    data[i].images = `<img src="${urlNoPhotoImg}" width="100" height="100">`;
                 }
             }
 
@@ -116,7 +121,7 @@ $(document).ready(function () {
                 },
                 data: data,
                 "columns": [
-                    {"data": "imagesIds"},
+                    {"data": "images"},
                     {"data": "title"},
                     {"data": "changes"}
                 ],
