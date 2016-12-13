@@ -201,6 +201,12 @@ public class OfferRestController {
             @RequestPart("offerRegistration") OfferRegistration offerRegistration,
             @RequestPart("files") MultipartFile[] files) {
 
+        String userId = SecurityOperations.getLoggedUserId();
+
+        if (userId == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
         return offersService.editByUser(offerRegistration, files);
     }
 

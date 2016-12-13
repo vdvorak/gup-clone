@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.service.order;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.dao.order.OrderRepository;
@@ -7,6 +8,7 @@ import ua.com.itproekt.gup.dto.OrderInfo;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
 import ua.com.itproekt.gup.model.offer.Currency;
+import ua.com.itproekt.gup.model.offer.Image;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderComment;
@@ -545,14 +547,15 @@ public class OrderServiceImpl implements OrderService {
      */
     private String findMainOfferPhoto(Offer offer) {
 
-        Map<String, String> imagesMap = offer.getImagesIds();
+        List<Image> imageList = offer.getImages();
 
-        for (String key : imagesMap.keySet()) {
-            if (imagesMap.get(key).equals("1")) {
-                return key;
+        if (imageList != null){
+            for (Image image : imageList) {
+                if (StringUtils.isNotBlank(image.getImageId())){
+                    return image.getImageId();
+                }
             }
         }
-
         return null;
     }
 

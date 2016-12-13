@@ -59,8 +59,6 @@ public class OffersServiceImpl implements OffersService {
     @Autowired
     private SubscriptionService subscriptionService;
 
-
-    // ToDo переименовать, т.к. теперь регистрация отдельно идёт
     @Override
     public ResponseEntity<String> createFullOffer(OfferRegistration offerRegistration, MultipartFile[] files) {
 
@@ -302,10 +300,10 @@ public class OffersServiceImpl implements OffersService {
     }
 
 
-    @Override
-    public OfferInfo getPrivateOfferInfoById(String offerId) {
-        return privateOfferPreparator(offerRepository.findById(offerId));
-    }
+//    @Override
+//    public OfferInfo getPrivateOfferInfoById(String offerId) {
+//        return privateOfferPreparator(offerRepository.findById(offerId));
+//    }
 
 
     @Override
@@ -418,16 +416,15 @@ public class OffersServiceImpl implements OffersService {
     @Override
     public String getMainOfferImage(Offer offer) {
 
-        Map<String, String> imagesMap;
+        List<Image> imageList = offer.getImages();
 
-        imagesMap = offer.getImagesIds();
-
-        for (String s : imagesMap.keySet()) {
-            if (imagesMap.get(s).equals("1")) {
-                return s;
+        if (imageList != null){
+            for (Image image : imageList) {
+                if (StringUtils.isNotBlank(image.getImageId())){
+                    return image.getImageId();
+                }
             }
         }
-
         return null;
     }
 
