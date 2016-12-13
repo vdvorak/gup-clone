@@ -255,11 +255,11 @@
 
                     $('#external-events').html('<p>'
                     + '<select id="set-price">'
-                    + '<option>Настраиваемая цена</option>'
+                    + '<option></option>'
                     + '<option value="single">Единная цена</option>'
                     + '<option value="weekend">Цена на выходные</option>'
                     + '<option value="weekday">Цена на будние</option>'
-                    + '<option value="specialdays">Специальная цена</option>'
+                    + '<option value="specialdays" selected>Специальная цена</option>'
                     + '</select>'
                     + '<br/><br/><input type="text" id="addPriceButton" size="16" value="0" /> &nbsp; <b>$</b>'
                     + '</p>');
@@ -372,11 +372,11 @@
 
                 $('#external-events').html('<p>'
                 + '<select id="set-price">'
-                + '<option>Настраиваемая цена</option>'
+                + '<option></option>'
                 + '<option value="single">Единная цена</option>'
                 + '<option value="weekend">Цена на выходные</option>'
                 + '<option value="weekday">Цена на будние</option>'
-                + '<option value="specialdays">Специальная цена</option>'
+                + '<option value="specialdays" selected>Специальная цена</option>'
                 + '</select>'
                 + '<br/><br/><input type="text" id="addPriceButton" size="16" value="0" /> &nbsp; <b>$</b>'
                 + '</p>');
