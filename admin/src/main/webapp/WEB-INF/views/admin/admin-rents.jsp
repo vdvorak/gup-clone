@@ -285,7 +285,7 @@
                     locale: initialLocaleCode,
 //                buttonIcons: false,      // show the prev/next text
                     weekNumbers: false,
-                    editable: true,
+                    editable: false,
                     navLinks: true,          // can click day/week names to navigate views
                     eventLimit: true,        // allow "more" link when too many events
                     businessHours: true,     // display business hours
@@ -386,7 +386,7 @@
                     locale: initialLocaleCode,
 //                buttonIcons: false,      // show the prev/next text
                     weekNumbers: false,
-                    editable: true,
+                    editable: false,
                     navLinks: true,          // can click day/week names to navigate views
                     eventLimit: true,        // allow "more" link when too many events
                     businessHours: true,     // display business hours
