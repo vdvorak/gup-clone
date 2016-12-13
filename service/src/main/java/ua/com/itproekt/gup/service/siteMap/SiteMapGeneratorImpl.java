@@ -29,6 +29,8 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
     private final String host = "http://gup.com.ua/";
     private final String imageHost = "http://gup.com.ua:8084/api/rest/fileStorage/offers/photo/read/id/";
 
+    // FixMe need to be changed
+    private final String MAIN_SITEMAP_DESTINATION = "C:\\My Downloads\\file.xml";
 
     @Autowired
     OffersService offersService;
@@ -38,10 +40,8 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
     public void generateSiteMap() {
 
 
-        UrlSet resultUrlSet = new UrlSet();
         List<Url> urlList = new ArrayList<>();
-        resultUrlSet.setXmlns(xmlns);
-        resultUrlSet.setXmlnsImage(xmlnsImage);
+
 
         // we can show only offers which have Complete status (approve by moderators)
         OfferModerationReports offerModerationReports = new OfferModerationReports();
@@ -54,6 +54,40 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
         offerFilterOptions.setOfferModerationReports(offerModerationReports);
 
         List<Offer> offerList = offersService.findOffersWihOptions(offerFilterOptions).getEntities();
+
+
+        // Посчитать кол-во объявлений. Если до 50 000 - делать обычный siteMap, если больше - генерировать
+        // обычный, в котором будут ссылки на каждый последующий (в котором не более 50 000 объявлений)
+
+
+        UrlSet resultUrlSet = prepareResultSet(offerList);
+
+
+        try {
+
+            File file = new File(MAIN_SITEMAP_DESTINATION);
+
+            JAXBContext jaxbContext = JAXBContext.newInstance(UrlSet.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            // output pretty printed
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            jaxbMarshaller.marshal(resultUrlSet, file);
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private UrlSet prepareResultSet(List<Offer> offerList) {
+        UrlSet resultUrlSet = new UrlSet();
+        resultUrlSet.setXmlns(xmlns);
+        resultUrlSet.setXmlnsImage(xmlnsImage);
+
+        List<Url> urlList = new ArrayList<>();
 
         for (Offer offer : offerList) {
 
@@ -83,26 +117,9 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
             }
         }
 
-
         resultUrlSet.setUrlList(urlList);
 
-
-        try {
-
-            // ToDo need to be changed
-            File file = new File("C:\\My Downloads\\file.xml");
-
-            JAXBContext jaxbContext = JAXBContext.newInstance(UrlSet.class);
-            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-
-            // output pretty printed
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-            jaxbMarshaller.marshal(resultUrlSet, file);
-
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
+        return resultUrlSet;
 
     }
 

@@ -168,13 +168,13 @@ public interface OffersService {
     OfferInfo getPublicOfferInfoByOffer(Offer offer);
 
 
-    /**
-     * One offer that can contain privet information for it's author.
-     *
-     * @param offerId               - the offer's ID.
-     * @return                      - the offer wrapped in OfferInfo class.
-     */
-    OfferInfo getPrivateOfferInfoById(String offerId);
+//    /**
+//     * One offer that can contain privet information for it's author.
+//     *
+//     * @param offerId               - the offer's ID.
+//     * @return                      - the offer wrapped in OfferInfo class.
+//     */
+//    OfferInfo getPrivateOfferInfoById(String offerId);
 
     /**
      * One offer that can contain privet information for it's author.

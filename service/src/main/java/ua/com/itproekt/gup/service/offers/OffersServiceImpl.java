@@ -59,8 +59,6 @@ public class OffersServiceImpl implements OffersService {
     @Autowired
     private SubscriptionService subscriptionService;
 
-
-    // ToDo переименовать, т.к. теперь регистрация отдельно идёт
     @Override
     public ResponseEntity<String> createFullOffer(OfferRegistration offerRegistration, MultipartFile[] files) {
 
@@ -302,10 +300,10 @@ public class OffersServiceImpl implements OffersService {
     }
 
 
-    @Override
-    public OfferInfo getPrivateOfferInfoById(String offerId) {
-        return privateOfferPreparator(offerRepository.findById(offerId));
-    }
+//    @Override
+//    public OfferInfo getPrivateOfferInfoById(String offerId) {
+//        return privateOfferPreparator(offerRepository.findById(offerId));
+//    }
 
 
     @Override
