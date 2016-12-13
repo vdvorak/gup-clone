@@ -559,13 +559,15 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
-                            <!--<div id='external-events'></div>-->
+                            <div id='external-events'></div>
                             <div id='calendar'></div>
                         </div>
                     </div>
                 </div>
                 <center>
-                    <a href="admin-rents-edit"><button class="btn btn-primary">Редактировать</button></a>
+                    <a href="admin-rents"><button class="btn btn-primary">Отменить</button></a>
+                    &nbsp;&nbsp;&nbsp;
+                    <button id="savePriceButton" class="btn btn-primary">Сохранить</button>
                 </center>
                 <br>
 

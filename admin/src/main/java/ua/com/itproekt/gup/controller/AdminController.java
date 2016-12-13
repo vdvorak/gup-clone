@@ -51,6 +51,12 @@ public class AdminController {
         return "admin/admin-rents";
     }
 
+    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping("/admin-rents-edit")
+    public String getAdminRentsEdit() {
+        return "admin/admin-rents-edit";
+    }
+
 //    @RequestMapping("/account")
 //    public String getAccount() {
 //        return "account";
