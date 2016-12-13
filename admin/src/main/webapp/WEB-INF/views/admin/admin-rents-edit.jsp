@@ -204,14 +204,6 @@
             //console.log( parseJsonWeekend(monthOfPrices2) )
             //console.log( parseJsonSpecialdays(monthOfPrices2) )
 
-            $( "#addPriceButton" ).bind('keypress', function(e) {
-                var code = e.keyCode || e.which;
-                if(code == 13) {
-                    $('#external-events').append('<div class="fc-event">' + $(this).val() + ' $</div>');
-                }
-            });
-
-
 
             /* select offer(s)
              -----------------------------------------------------------------*/
@@ -328,6 +320,13 @@
                     },
                     loading: function(bool) {
                         $('#loading').toggle(bool);
+                    }
+                });
+
+                $( "#addPriceButton" ).bind('keypress', function(e) {
+                    var code = e.keyCode || e.which;
+                    if(code == 13) {
+                        $('#external-events').append('<div class="fc-event">' + $(this).val() + ' $</div>');
                     }
                 });
             });
