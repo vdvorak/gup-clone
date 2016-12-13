@@ -463,11 +463,11 @@
     </script>
     <style>
         #calendar {
-            min-width: 1075px;
-            max-width: 1075px;
+            min-width: 100%;
+            max-width: 100%;
             margin: 0px auto;
             padding: 0 10px;
-            float: right;
+            float: left;
         }
 
         #locale-selector {
