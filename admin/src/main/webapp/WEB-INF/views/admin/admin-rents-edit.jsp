@@ -204,6 +204,20 @@
             //console.log( parseJsonWeekend(monthOfPrices2) )
             //console.log( parseJsonSpecialdays(monthOfPrices2) )
 
+            var isEventOverDiv = function(x, y) {
+                var external_events = $( '#external-events' );
+                var offset = external_events.offset();
+                offset.right = external_events.width() + offset.left;
+                offset.bottom = external_events.height() + offset.top;
+
+                // Compare
+                if (x >= offset.left
+                        && y >= offset.top
+                        && x <= offset.right
+                        && y <= offset .bottom) { return true; }
+                return false;
+            }
+
 
             /* select offer(s)
              -----------------------------------------------------------------*/
@@ -241,11 +255,11 @@
 
                     $('#external-events').html('<p>'
                     + '<select id="set-price">'
-                    + '<option>Настраиваемая цена</option>'
+                    + '<option></option>'
                     + '<option value="single">Единная цена</option>'
                     + '<option value="weekend">Цена на выходные</option>'
                     + '<option value="weekday">Цена на будние</option>'
-                    + '<option value="specialdays">Специальная цена</option>'
+                    + '<option value="specialdays" selected>Специальная цена</option>'
                     + '</select>'
                     + '<br/><br/><input type="text" id="addPriceButton" size="16" value="0" /> &nbsp; <b>$</b>'
                     + '</p>');
@@ -323,10 +337,26 @@
                     }
                 });
 
+                /////////////////////////////////////////////////////////
                 $( "#addPriceButton" ).bind('keypress', function(e) {
                     var code = e.keyCode || e.which;
                     if(code == 13) {
                         $('#external-events').append('<div class="fc-event">' + $(this).val() + ' $</div>');
+
+                        /////////////////////////////////////////////////
+                        $('#external-events .fc-event').each(function() {
+                            // store data so the calendar knows to render an event upon drop
+                            $(this).data('event', {
+                                title: $.trim($(this).text()), // use the element's text as the event title
+                                stick: true                    // maintain when user navigates (see docs on the renderEvent method)
+                            });
+                            // make the event draggable using jQuery UI
+                            $(this).draggable({
+                                zIndex: 999,
+                                revert: true,                  // will cause the event to go back to its
+                                revertDuration: 0              // original position after the drag
+                            });
+                        });
                     }
                 });
             });
@@ -342,11 +372,11 @@
 
                 $('#external-events').html('<p>'
                 + '<select id="set-price">'
-                + '<option>Настраиваемая цена</option>'
+                + '<option></option>'
                 + '<option value="single">Единная цена</option>'
                 + '<option value="weekend">Цена на выходные</option>'
                 + '<option value="weekday">Цена на будние</option>'
-                + '<option value="specialdays">Специальная цена</option>'
+                + '<option value="specialdays" selected>Специальная цена</option>'
                 + '</select>'
                 + '<br/><br/><input type="text" id="addPriceButton" size="16" value="0" /> &nbsp; <b>$</b>'
                 + '</p>');
@@ -424,25 +454,50 @@
                     }
                 });
                 $('#calendar').fullCalendar('render');
+
+                /////////////////////////////////////////////////////////
+                $('#external-events .fc-event').each(function() {
+                    // store data so the calendar knows to render an event upon drop
+                    $(this).data('event', {
+                        title: $.trim($(this).text()), // use the element's text as the event title
+                        stick: true                    // maintain when user navigates (see docs on the renderEvent method)
+                    });
+                    // make the event draggable using jQuery UI
+                    $(this).draggable({
+                        zIndex: 999,
+                        revert: true,                  // will cause the event to go back to its
+                        revertDuration: 0              // original position after the drag
+                    });
+                });
+                /////////////////////////////////////////////////////////
+                $( "#addPriceButton" ).bind('keypress', function(e) {
+                    var code = e.keyCode || e.which;
+                    if(code == 13) {
+                        $('#external-events').append('<div class="fc-event">' + $(this).val() + ' $</div>');
+
+                        /////////////////////////////////////////////////
+                        $('#external-events .fc-event').each(function() {
+                            // store data so the calendar knows to render an event upon drop
+                            $(this).data('event', {
+                                title: $.trim($(this).text()), // use the element's text as the event title
+                                stick: true                    // maintain when user navigates (see docs on the renderEvent method)
+                            });
+                            // make the event draggable using jQuery UI
+                            $(this).draggable({
+                                zIndex: 999,
+                                revert: true,                  // will cause the event to go back to its
+                                revertDuration: 0              // original position after the drag
+                            });
+                        });
+                    }
+                });
             });
 
 
 
 
 
-            var isEventOverDiv = function(x, y) {
-                var external_events = $( '#external-events' );
-                var offset = external_events.offset();
-                offset.right = external_events.width() + offset.left;
-                offset.bottom = external_events.height() + offset.top;
 
-                // Compare
-                if (x >= offset.left
-                        && y >= offset.top
-                        && x <= offset.right
-                        && y <= offset .bottom) { return true; }
-                return false;
-            }
 
             // build the locale selector's options
             $.each($.fullCalendar.locales, function(localeCode) {
