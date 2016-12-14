@@ -253,19 +253,20 @@
                     $('#offers-result41').html(JSON.stringify(offerResult[index].offer.monthOfPrices) + '<br><br>');
                     $('#offers-result42').html(JSON.stringify(offerResult[index].offer.rents) + '<br>');
 
-                    $('#external-events').html('<p>'
-                    + '<select id="set-price">'
+                    $('#external-events').html('<p><center><input type="checkbox" id="drop-remove" checked="checked" /> &nbsp; <img src="../../../resources/fullcalendar/img/trashcan.png" id="trash" alt=""/></center></p>'
+                    + '<p>'
+                    + '<select id="set-price" style="width:100%">'
                     + '<option></option>'
                     + '<option value="single">Единная цена</option>'
                     + '<option value="weekend">Цена на выходные</option>'
                     + '<option value="weekday">Цена на будние</option>'
                     + '<option value="specialdays" selected>Специальная цена</option>'
                     + '</select>'
-                    + '<br/><br/><input type="text" id="addPriceButton" size="16" value="0" /> &nbsp; <b>$</b>'
+                    + '<br/><br/><input type="text" id="addPriceButton" style="width:100%" value="0" />'
                     + '</p>');
-                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.weekday.price + ' $</div>');
-                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.weekend.price + ' $</div>');
-                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.specialdays[0].price + ' $</div>');
+                    $('#external-events').append('<div class="fc-event" style="background:#aba">' + offerResult[index].offer.monthOfPrices.weekday.price + '</div>');
+                    $('#external-events').append('<div class="fc-event" style="background:#aca">' + offerResult[index].offer.monthOfPrices.weekend.price + '</div>');
+                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.specialdays[0].price + '</div>');
                 }
             }).then(l=> {
                 console.log( gupEvents )
@@ -341,7 +342,7 @@
                 $( "#addPriceButton" ).bind('keypress', function(e) {
                     var code = e.keyCode || e.which;
                     if(code == 13) {
-                        $('#external-events').append('<div class="fc-event">' + $(this).val() + ' $</div>');
+                        $('#external-events').append('<div class="fc-event">' + $(this).val() + '</div>');
 
                         /////////////////////////////////////////////////
                         $('#external-events .fc-event').each(function() {
@@ -370,15 +371,16 @@
                 $('#offers-result2').html(offerResult[index].offer.id);
                 $('#offers-result3').html(offerResult[index].offer.userInfo.contactName);
 
-                $('#external-events').html('<p>'
-                + '<select id="set-price">'
+                $('#external-events').html('<p><center><input type="checkbox" id="drop-remove" checked="checked" /> &nbsp; <img src="../../../resources/fullcalendar/img/trashcan.png" id="trash" alt=""/></center></p>'
+                + '<p>'
+                + '<select id="set-price" style="width:100%">'
                 + '<option></option>'
                 + '<option value="single">Единная цена</option>'
                 + '<option value="weekend">Цена на выходные</option>'
                 + '<option value="weekday">Цена на будние</option>'
                 + '<option value="specialdays" selected>Специальная цена</option>'
                 + '</select>'
-                + '<br/><br/><input type="text" id="addPriceButton" size="16" value="0" /> &nbsp; <b>$</b>'
+                + '<br/><br/><input type="text" id="addPriceButton" style="width:100%" value="0" />'
                 + '</p>');
                 if(offerResult[index].offer.monthOfPrices === undefined){
                     gupEvents = [];
@@ -389,9 +391,9 @@
                     var gupEventWeekday = parseJsonWeekday(offerResult[index].offer.monthOfPrices), gupEventWeekend = parseJsonWeekend(offerResult[index].offer.monthOfPrices), gupEventSpecialdays = parseJsonSpecialdays(offerResult[index].offer.monthOfPrices);
                     gupEvents = gupEvents.concat(gupEventWeekday, gupEventWeekend, gupEventSpecialdays);
 
-                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.weekday.price + ' $</div>');
-                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.weekend.price + ' $</div>');
-                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.specialdays[0].price + ' $</div>');
+                    $('#external-events').append('<div class="fc-event" style="background:#aba">' + offerResult[index].offer.monthOfPrices.weekday.price + '</div>');
+                    $('#external-events').append('<div class="fc-event" style="background:#aca">' + offerResult[index].offer.monthOfPrices.weekend.price + '</div>');
+                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.specialdays[0].price + '</div>');
                 }
                 if(offerResult[index].offer.rents === undefined){
                     $('#offers-result42').html('');
@@ -473,7 +475,7 @@
                 $( "#addPriceButton" ).bind('keypress', function(e) {
                     var code = e.keyCode || e.which;
                     if(code == 13) {
-                        $('#external-events').append('<div class="fc-event">' + $(this).val() + ' $</div>');
+                        $('#external-events').append('<div class="fc-event">' + $(this).val() + '</div>');
 
                         /////////////////////////////////////////////////
                         $('#external-events .fc-event').each(function() {
