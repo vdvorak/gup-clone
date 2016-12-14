@@ -279,7 +279,7 @@
                     header: {
                         left: 'prev,today,next',
                         center: 'title',
-                        right: 'listWeek,month,agendaDay' ////right: 'month,agendaWeek,agendaDay'
+                        right: 'agendaDay,month,listWeek' ////right: 'month,agendaWeek,agendaDay'
                     },
                     defaultDate: '2016-11-25',
                     locale: initialLocaleCode,
@@ -380,7 +380,7 @@
                     header: {
                         left: 'prev,today,next',
                         center: 'title',
-                        right: 'listWeek,month,agendaDay' ////right: 'month,agendaWeek,agendaDay'
+                        right: 'agendaDay,month,listWeek' ////right: 'month,agendaWeek,agendaDay'
                     },
                     defaultDate: '2016-11-25',
                     locale: initialLocaleCode,
