@@ -13,6 +13,8 @@ import ua.com.itproekt.gup.service.siteMap.siteMapContent.ChangeFreq;
 import ua.com.itproekt.gup.service.siteMap.siteMapContent.ImageMap;
 import ua.com.itproekt.gup.service.siteMap.siteMapContent.Url;
 import ua.com.itproekt.gup.service.siteMap.siteMapContent.UrlSet;
+import ua.com.itproekt.gup.service.siteMap.siteMapIndex.SiteMap;
+import ua.com.itproekt.gup.service.siteMap.siteMapIndex.SiteMapIndex;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -40,7 +42,7 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
     public void generateSiteMap() {
 
 
-        List<Url> urlList = new ArrayList<>();
+//        List<Url> urlList = new ArrayList<>();
 
 
         // we can show only offers which have Complete status (approve by moderators)
@@ -52,6 +54,8 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
         offerFilterOptions.setDeleted(false);
 
         offerFilterOptions.setOfferModerationReports(offerModerationReports);
+
+
 
         List<Offer> offerList = offersService.findOffersWihOptions(offerFilterOptions).getEntities();
 
@@ -120,6 +124,22 @@ public class SiteMapGeneratorImpl implements SiteMapGeneratorService {
         resultUrlSet.setUrlList(urlList);
 
         return resultUrlSet;
+
+    }
+
+    private SiteMapIndex prepareSiteMapIndex(){
+        SiteMapIndex siteMapIndex = new SiteMapIndex();
+        List<SiteMap> siteMapList = new ArrayList<>();
+
+        for (int i = 0; i < 40000; i++){
+            SiteMap siteMap = new SiteMap();
+            siteMap.setLoc("azazzaza");
+            siteMapList.add(siteMap);
+        }
+
+
+        siteMapIndex.setSiteMapList(siteMapList);
+        return siteMapIndex;
 
     }
 
