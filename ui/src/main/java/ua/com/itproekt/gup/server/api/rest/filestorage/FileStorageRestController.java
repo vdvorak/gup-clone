@@ -38,9 +38,9 @@ public class FileStorageRestController {
 
     /**
      * @param serviceName - service name in lower or upper case
-     * @param fileId      - id of image
+     * @param fileId      - id of image.
      * @param cachedSize  - for Profile: large, small. For Offer: large, medium, small.
-     * @return file
+     * @return - the file/
      */
     @CrossOrigin
     @RequestMapping(value = "{serviceName}/photo/read/id/{fileId}", method = RequestMethod.GET)
@@ -52,21 +52,7 @@ public class FileStorageRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        GridFSDBFile gridFSDBFile;
-
-        String path = ".file.storage." + cachedSize + ".cache";
-
-        gridFSDBFile = storageService.getCachedImage(serviceName, path, fileId);
-
-        if (gridFSDBFile != null) {
-            return ResponseEntity.ok()
-                    .contentLength(gridFSDBFile.getLength())
-                    .contentType(MediaType.parseMediaType(gridFSDBFile.getContentType()))
-                    .header("Content-Disposition", "attachment; filename=" + gridFSDBFile.getFilename())
-                    .body(new InputStreamResource(gridFSDBFile.getInputStream()));
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return storageService.readCachedImage(serviceName, fileId, cachedSize);
     }
 
 
@@ -237,7 +223,6 @@ public class FileStorageRestController {
 
 
     /**
-     *
      * @param gridFSDBFile
      * @return
      */

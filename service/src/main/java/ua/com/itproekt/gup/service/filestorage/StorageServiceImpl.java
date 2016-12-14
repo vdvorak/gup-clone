@@ -2,6 +2,10 @@ package ua.com.itproekt.gup.service.filestorage;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,6 +56,27 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public GridFSDBFile getCachedImage(String serviceName, String filePath, String fileId) {
         return storageRepository.getCachedImage(serviceName, filePath, fileId);
+    }
+
+
+    @Override
+    public ResponseEntity<InputStreamResource> readCachedImage(String serviceName, String fileId, String cachedSize) {
+
+        GridFSDBFile gridFSDBFile;
+
+        String path = ".file.storage." + cachedSize + ".cache";
+
+        gridFSDBFile = storageRepository.getCachedImage(serviceName, path, fileId);
+
+        if (gridFSDBFile != null) {
+            return ResponseEntity.ok()
+                    .contentLength(gridFSDBFile.getLength())
+                    .contentType(MediaType.parseMediaType(gridFSDBFile.getContentType()))
+                    .header("Content-Disposition", "attachment; filename=" + gridFSDBFile.getFilename())
+                    .body(new InputStreamResource(gridFSDBFile.getInputStream()));
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Override
