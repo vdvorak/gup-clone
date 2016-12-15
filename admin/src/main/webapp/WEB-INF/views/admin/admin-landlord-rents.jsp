@@ -268,8 +268,8 @@
                     + ' &nbsp; <input type="checkbox" id="drop-remove" checked="checked" style="float:right; margin-top:2px;" />'
                     + '<br/><br/><input type="text" id="addPriceButton" style="width:100%" value="0" />'
                     + '</p>');
-                    $('#external-events').append('<div class="fc-event" style="background:#aca;" title="Цена на выходные">' + offerResult[index].offer.monthOfPrices.weekend.price + '</div>');
-                    $('#external-events').append('<div class="fc-event" style="background:#aba;" title="Цена на будние">' + offerResult[index].offer.monthOfPrices.weekday.price + '</div>');
+                    $('#external-events').append('<div class="" style="background:#aca; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на выходные">' + offerResult[index].offer.monthOfPrices.weekend.price + '</div>');
+                    $('#external-events').append('<div class="" style="background:#aba; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на будние">' + offerResult[index].offer.monthOfPrices.weekday.price + '</div>');
                     $('#external-events').append('<div class="fc-event" title="Специальная цена">' + offerResult[index].offer.monthOfPrices.specialdays[0].price + '</div>');
                 }
             }).then(l=> {
@@ -463,15 +463,16 @@
                     if(code == 13) {
                         if (document.getElementById('set-price').value === 'specialdays'){
                             $('#external-events').append('<div class="fc-event" title="Специальная цена">' + $(this).val() + '</div>');
+                            $("#savePriceButton").attr('class', 'btn btn-primary');
                         }
                         if (document.getElementById('set-price').value === 'weekday'){
-                            $('#external-events').append('<div class="fc-event" style="background:#aba;" title="Цена на будние">' + $(this).val() + '</div>');
+                            $('#external-events').append('<div class="" style="background:#aba; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на будние">' + $(this).val() + '</div>');
                         }
                         if (document.getElementById('set-price').value === 'weekend'){
-                            $('#external-events').append('<div class="fc-event" style="background:#aca;" title="Цена на выходные">' + $(this).val() + '</div>');
+                            $('#external-events').append('<div class="" style="background:#aca; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на выходные">' + $(this).val() + '</div>');
                         }
                         if (document.getElementById('set-price').value === 'single'){
-                            $('#external-events').append('<div class="fc-event" style="background:#ada;" title="Единная цена">' + $(this).val() + '</div>');
+                            $('#external-events').append('<div class="" style="background:#ada; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Единная цена">' + $(this).val() + '</div>');
                         }
 
                         /////////////////////////////////////////////////
@@ -523,8 +524,8 @@
                     var gupEventWeekday = parseJsonWeekday(offerResult[index].offer.monthOfPrices), gupEventWeekend = parseJsonWeekend(offerResult[index].offer.monthOfPrices), gupEventSpecialdays = parseJsonSpecialdays(offerResult[index].offer.monthOfPrices);
                     gupEvents = gupEvents.concat(gupEventWeekday, gupEventWeekend, gupEventSpecialdays);
 
-                    $('#external-events').append('<div class="fc-event" style="background:#aca;" title="Цена на выходные">' + offerResult[index].offer.monthOfPrices.weekend.price + '</div>');
-                    $('#external-events').append('<div class="fc-event" style="background:#aba;" title="Цена на будние">' + offerResult[index].offer.monthOfPrices.weekday.price + '</div>');
+                    $('#external-events').append('<div class="" style="background:#aca; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на выходные">' + offerResult[index].offer.monthOfPrices.weekend.price + '</div>');
+                    $('#external-events').append('<div class="" style="background:#aba; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на будние">' + offerResult[index].offer.monthOfPrices.weekday.price + '</div>');
                     $('#external-events').append('<div class="fc-event" title="Специальная цена">' + offerResult[index].offer.monthOfPrices.specialdays[0].price + '</div>');
                 }
                 if(offerResult[index].offer.rents === undefined){
@@ -532,6 +533,7 @@
                 }else{
                     $('#offers-result42').html(JSON.stringify(offerResult[index].offer.rents) + '<br>');
                 }
+                $("#savePriceButton").attr('class', 'btn btn-primary disabled');
                 //////////////////////////////////////////////////////////////
                 console.log( gupEvents )
 
@@ -703,7 +705,6 @@
                     }
                 });
                 $('#calendar').fullCalendar('render');
-
                 /////////////////////////////////////////////////////////
                 $('#external-events .fc-event').each(function() {
                     // store data so the calendar knows to render an event upon drop
@@ -724,15 +725,16 @@
                     if(code == 13) {
                         if (document.getElementById('set-price').value === 'specialdays'){
                             $('#external-events').append('<div class="fc-event" title="Специальная цена">' + $(this).val() + '</div>');
+                            $("#savePriceButton").attr('class', 'btn btn-primary');
                         }
                         if (document.getElementById('set-price').value === 'weekday'){
-                            $('#external-events').append('<div class="fc-event" style="background:#aba;" title="Цена на будние">' + $(this).val() + '</div>');
+                            $('#external-events').append('<div class="" style="background:#aba; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на будние">' + $(this).val() + '</div>');
                         }
                         if (document.getElementById('set-price').value === 'weekend'){
-                            $('#external-events').append('<div class="fc-event" style="background:#aca;" title="Цена на выходные">' + $(this).val() + '</div>');
+                            $('#external-events').append('<div class="" style="background:#aca; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на выходные">' + $(this).val() + '</div>');
                         }
                         if (document.getElementById('set-price').value === 'single'){
-                            $('#external-events').append('<div class="fc-event" style="background:#ada;" title="Единная цена">' + $(this).val() + '</div>');
+                            $('#external-events').append('<div class="" style="background:#ada; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Единная цена">' + $(this).val() + '</div>');
                         }
 
                         /////////////////////////////////////////////////
@@ -876,7 +878,7 @@
                             <table style="float:left;">
                                 <tr><td> <div id='external-events'></div> </td></tr>
                                 <tr><td> <br/> </td></tr>
-                                <tr><td> <button id="savePriceButton" class="btn btn-primary" style="width:100%;">Применить</button> </td></tr>
+                                <tr><td> <button id="savePriceButton" class="btn btn-primary disabled" style="margin-left:20%; width:60%;">Применить</button> </td></tr>
                             </table>
                             <div id='calendar'></div>
                         </div>
