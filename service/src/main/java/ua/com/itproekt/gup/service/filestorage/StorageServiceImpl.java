@@ -10,7 +10,9 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
+import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
+import ua.com.itproekt.gup.service.profile.ProfilesService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,6 +25,9 @@ public class StorageServiceImpl implements StorageService {
 
     @Autowired
     StorageRepository storageRepository;
+
+    @Autowired
+    ProfilesService profilesService;
 
     @Override
     public void delete(String serviceName, String fileId) {
@@ -58,6 +63,35 @@ public class StorageServiceImpl implements StorageService {
         return storageRepository.getCachedImage(serviceName, filePath, fileId);
     }
 
+
+
+    @Override
+    public ResponseEntity<InputStreamResource> readProfileCachedImage(String userId, String cachedSize) {
+
+        GridFSDBFile gridFSDBFile;
+
+        String path = ".file.storage." + cachedSize + ".cache";
+
+        // image stub for case when user doesn't hav avatar
+        gridFSDBFile = getCachedImage("profile", path, "57e3d1548f70bc65995fd062");
+
+        Profile profile = profilesService.findById(userId);
+        if (profile == null) {
+            return responseEntityPreparator(gridFSDBFile);
+        }
+
+        if (profile.getImgId() == null) {
+            return responseEntityPreparator(gridFSDBFile);
+        }
+
+        gridFSDBFile = getCachedImage("profile", path, profile.getImgId());
+
+        if (gridFSDBFile != null) {
+            return responseEntityPreparator(gridFSDBFile);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @Override
     public ResponseEntity<InputStreamResource> readCachedImage(String serviceName, String fileId, String cachedSize) {

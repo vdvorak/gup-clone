@@ -59,41 +59,17 @@ public class FileStorageRestController {
     /**
      * Return main user photo (avatar)
      *
-     * @param userId
-     * @param cachedSize
+     * @param userId     - the user ID which photo need to be downloaded.
+     * @param cachedSize - the cacheSize of the image.
      * @return file if ok, 404 if profile is not found or if there is no photo of user
      */
     @CrossOrigin
     @RequestMapping(value = "profile/photo/read/user/{userId}", method = RequestMethod.GET)
-    public ResponseEntity
+    public ResponseEntity<InputStreamResource>
     getAvatarPictureByUserId(@PathVariable String userId,
                              @RequestParam(required = true, defaultValue = "large") String cachedSize) {
 
-
-
-        GridFSDBFile gridFSDBFile;
-
-        String path = ".file.storage." + cachedSize + ".cache";
-
-        // image stub for case when user doesn't hav avatar
-        gridFSDBFile = storageService.getCachedImage("profile", path, "57e3d1548f70bc65995fd062");
-
-        Profile profile = profilesService.findById(userId);
-        if (profile == null) {
-            return responseEntityPreparator(gridFSDBFile);
-        }
-
-        if (profile.getImgId() == null) {
-            return responseEntityPreparator(gridFSDBFile);
-        }
-
-        gridFSDBFile = storageService.getCachedImage("profile", path, profile.getImgId());
-
-        if (gridFSDBFile != null) {
-            return responseEntityPreparator(gridFSDBFile);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return storageService.readProfileCachedImage(userId, cachedSize);
     }
 
 
@@ -201,6 +177,7 @@ public class FileStorageRestController {
 
 
     //---------------------------------------------------------- Helper ------------------------------
+
     /**
      * @param gridFSDBFile
      * @return

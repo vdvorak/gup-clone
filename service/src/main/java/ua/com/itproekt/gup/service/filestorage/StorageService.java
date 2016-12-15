@@ -45,12 +45,21 @@ public interface StorageService {
 
     /**
      *
+     * @param userId
+     * @param cachedSize
+     * @return
+     */
+    ResponseEntity<InputStreamResource> readProfileCachedImage(String userId, String cachedSize);
+
+
+    /**
+     *
      * @param serviceName
      * @param fileId
      * @param cachedSize
      * @return
      */
-    ResponseEntity readCachedImage(String serviceName, String fileId, String cachedSize);
+    ResponseEntity<InputStreamResource> readCachedImage(String serviceName, String fileId, String cachedSize);
 
     /**
      * Save photo in two variants: large and small
