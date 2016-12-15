@@ -69,6 +69,8 @@ public class FileStorageRestController {
     getAvatarPictureByUserId(@PathVariable String userId,
                              @RequestParam(required = true, defaultValue = "large") String cachedSize) {
 
+
+
         GridFSDBFile gridFSDBFile;
 
         String path = ".file.storage." + cachedSize + ".cache";
@@ -194,34 +196,11 @@ public class FileStorageRestController {
         }
 
 
-        //ToDo Delete this in future, because offer now uploading not with this method
-//        if (serviceName.toLowerCase().equals("offers")) {
-//            if (param.equals("large") || param.equals("medium") || param.equals("small")) {
-//                return true;
-//            }
-//        }
-
         return true;
     }
 
 
-    //---------------------------------------------------------- TEST ------------------------------
-    @CrossOrigin
-    @RequestMapping(value = "{serviceName}/photo/multi/upload", method = RequestMethod.POST)
-    public ResponseEntity<CreatedObjResp>
-    multiplyPhotoUpload(@PathVariable String serviceName, @RequestParam MultipartFile[] files) {
-
-        System.err.println("Now will be file names");
-
-        for (MultipartFile file : files) {
-            System.err.println("File originalname: " + file.getOriginalFilename());
-            System.err.println("File name: " + file.getName());
-        }
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
+    //---------------------------------------------------------- Helper ------------------------------
     /**
      * @param gridFSDBFile
      * @return
