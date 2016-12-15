@@ -69,11 +69,7 @@ public class StorageServiceImpl implements StorageService {
         gridFSDBFile = storageRepository.getCachedImage(serviceName, path, fileId);
 
         if (gridFSDBFile != null) {
-            return ResponseEntity.ok()
-                    .contentLength(gridFSDBFile.getLength())
-                    .contentType(MediaType.parseMediaType(gridFSDBFile.getContentType()))
-                    .header("Content-Disposition", "attachment; filename=" + gridFSDBFile.getFilename())
-                    .body(new InputStreamResource(gridFSDBFile.getInputStream()));
+            return responseEntityPreparator(gridFSDBFile);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -127,24 +123,42 @@ public class StorageServiceImpl implements StorageService {
     }
 
 
-    private Set<String> compareTwoMapAndReturnDiffKeys(Map<String, String> oldImagesMap, Map<String, String> newImagesMap) {
-        Set<String> diffMap = new HashSet<>();
+    // ------------------------------------------ Helper methods ----------------------------------------
 
-        boolean hasRemove = true;
-
-        for (String s : oldImagesMap.keySet()) {
-
-            for (String s1 : newImagesMap.keySet()) {
-
-                if (s.equals(s1)) {
-                    hasRemove = false;
-                }
-            }
-            if (hasRemove) {
-                diffMap.add(s);
-            }
-            hasRemove = true;
-        }
-        return diffMap;
+    /**
+     * Method prepare response for the client from the GridFSDBFile.
+     *
+     * @param gridFSDBFile - the GridFSDBFile.
+     * @return - the ResponseEntity object which will be sent to the client side.
+     */
+    private ResponseEntity<InputStreamResource> responseEntityPreparator(GridFSDBFile gridFSDBFile) {
+        return ResponseEntity.ok()
+                .contentLength(gridFSDBFile.getLength())
+                .contentType(MediaType.parseMediaType(gridFSDBFile.getContentType()))
+                .header("Content-Disposition", "attachment; filename=" + gridFSDBFile.getFilename())
+                .body(new InputStreamResource(gridFSDBFile.getInputStream()));
     }
+
+
+
+//    private Set<String> compareTwoMapAndReturnDiffKeys(Map<String, String> oldImagesMap, Map<String, String> newImagesMap) {
+//        Set<String> diffMap = new HashSet<>();
+//
+//        boolean hasRemove = true;
+//
+//        for (String s : oldImagesMap.keySet()) {
+//
+//            for (String s1 : newImagesMap.keySet()) {
+//
+//                if (s.equals(s1)) {
+//                    hasRemove = false;
+//                }
+//            }
+//            if (hasRemove) {
+//                diffMap.add(s);
+//            }
+//            hasRemove = true;
+//        }
+//        return diffMap;
+//    }
 }
