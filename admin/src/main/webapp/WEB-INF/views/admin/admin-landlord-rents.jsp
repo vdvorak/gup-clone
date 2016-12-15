@@ -452,9 +452,6 @@
                             }
                         }
                     },
-
-
-
                     loading: function(bool) {
                         $('#loading').toggle(bool);
                     }
@@ -569,22 +566,137 @@
                             $(this).remove();
                         }
                     },
-                    eventDragStop: function( event, jsEvent, ui, view ) {
-                        if(isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
-                            $('#calendar').fullCalendar('removeEvents', event._id);
-                            var el = $( "<div class='fc-event'>" ).appendTo( '#external-events-listing' ).text( event.title );
-                            el.draggable({
-                                zIndex: 999,
-                                revert: true,
-                                revertDuration: 0
+                    eventReceive: function(event){
+                        var title = event.title;
+                        var start = event.start.format("YYYY-MM-DD[T]HH:mm:SS");
+                        $.ajax({
+                            url: 'http://956804.rb242731.web.hosting-test.net/process.php', // !!!!!
+                            data: 'type=new&title='+title+'&startdate='+start+'&zone='+zone,
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function(response){
+                                event.id = response.eventid;
+                                $('#calendar').fullCalendar('updateEvent',event);
+                            },
+                            error: function(e){
+                                console.log(e.responseText);
+                            }
+                        });
+                        $('#calendar').fullCalendar('updateEvent',event);
+                        console.log(event);
+                    },
+                    eventDrop: function(event, delta, revertFunc) {
+                        var title = event.title;
+                        var start = event.start.format();
+                        var end = (event.end == null) ? start : event.end.format();
+                        $.ajax({
+                            url: 'http://956804.rb242731.web.hosting-test.net/process.php', // !!!!!
+                            data: 'type=resetdate&title='+title+'&start='+start+'&end='+end+'&eventid='+event.id,
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function(response){
+                                if(response.status != 'success')
+                                    revertFunc();
+                            },
+                            error: function(e){
+                                revertFunc();
+                                alert('Error processing your request: '+e.responseText);
+                            }
+                        });
+                    },
+                    /*
+                     eventClick: function(event) {
+                     // opens events in a popup window
+                     window.open(event.url, 'gcalevent', 'width=700,height=600');
+                     return false;
+                     },
+                     */
+                    eventClick: function(event, jsEvent, view) {
+                        console.log(event.id);
+                        var title = prompt('Event Title:', event.title, { buttons: { Ok: true, Cancel: false} });
+                        if (title){
+                            event.title = title;
+                            console.log('type=changetitle&title='+title+'&eventid='+event.id);
+                            $.ajax({
+                                url: 'http://956804.rb242731.web.hosting-test.net/process.php', // !!!!!
+                                data: 'type=changetitle&title='+title+'&eventid='+event.id,
+                                type: 'POST',
+                                dataType: 'json',
+                                success: function(response){
+                                    if(response.status == 'success')
+                                        $('#calendar').fullCalendar('updateEvent',event);
+                                },
+                                error: function(e){
+                                    alert('Error processing your request: '+e.responseText);
+                                }
                             });
-                            el.data('event', { title: event.title, id :event.id, stick: true });
                         }
                     },
-                    eventClick: function(event) {
-                        // opens events in a popup window
-                        window.open(event.url, 'gcalevent', 'width=700,height=600');
-                        return false;
+                    eventResize: function(event, delta, revertFunc) {
+                        console.log(event);
+                        var title = event.title;
+                        var end = event.end.format();
+                        var start = event.start.format();
+                        $.ajax({
+                            url: 'http://956804.rb242731.web.hosting-test.net/process.php', // !!!!!
+                            data: 'type=resetdate&title='+title+'&start='+start+'&end='+end+'&eventid='+event.id,
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function(response){
+                                if(response.status != 'success')
+                                    revertFunc();
+                            },
+                            error: function(e){
+                                revertFunc();
+                                alert('Error processing your request: '+e.responseText);
+                            }
+                        });
+                    },
+                    /*
+                     eventDragStop: function( event, jsEvent, ui, view ) {
+                     if(isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
+                     $('#calendar').fullCalendar('removeEvents', event._id);
+                     var el = $( "<div class='fc-event'>" ).appendTo( '#external-events-listing' ).text( event.title );
+                     el.draggable({
+                     zIndex: 999,
+                     revert: true,
+                     revertDuration: 0
+                     });
+                     el.data('event', { title: event.title, id :event.id, stick: true });
+                     }
+                     },
+                     */
+                    eventDragStop: function (event, jsEvent, ui, view) {
+                        if(isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
+                            var con = confirm('Are you sure to delete this event permanently?');
+                            if(con == true) {
+                                $('#calendar').fullCalendar('removeEvents', event._id);
+                                var el = $( "<div class='fc-event'>" ).appendTo( '#external-events-listing' ).text( event.title );
+                                el.draggable({
+                                    zIndex: 999,
+                                    revert: true,
+                                    revertDuration: 0
+                                });
+                                el.data('event', { title: event.title, id :event.id, stick: true });
+                                //////////////////////////////////////////////////////////////////////
+                                $.ajax({
+                                    url: 'http://956804.rb242731.web.hosting-test.net/process.php', // !!!!!
+                                    data: 'type=remove&eventid='+event.id,
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    success: function(response){
+                                        console.log(response);
+                                        if(response.status == 'success'){
+                                            $('#calendar').fullCalendar('removeEvents');
+                                            getFreshEvents();
+                                        }
+                                    },
+                                    error: function(e){
+                                        alert('Error processing your request: '+e.responseText);
+                                    }
+                                });
+                            }
+                        }
                     },
                     loading: function(bool) {
                         $('#loading').toggle(bool);
