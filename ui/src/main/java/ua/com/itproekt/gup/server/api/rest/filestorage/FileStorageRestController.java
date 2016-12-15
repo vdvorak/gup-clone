@@ -38,9 +38,9 @@ public class FileStorageRestController {
 
     /**
      * @param serviceName - service name in lower or upper case
-     * @param fileId      - id of image
+     * @param fileId      - id of image.
      * @param cachedSize  - for Profile: large, small. For Offer: large, medium, small.
-     * @return file
+     * @return - the file/
      */
     @CrossOrigin
     @RequestMapping(value = "{serviceName}/photo/read/id/{fileId}", method = RequestMethod.GET)
@@ -52,60 +52,24 @@ public class FileStorageRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        GridFSDBFile gridFSDBFile;
-
-        String path = ".file.storage." + cachedSize + ".cache";
-
-        gridFSDBFile = storageService.getCachedImage(serviceName, path, fileId);
-
-        if (gridFSDBFile != null) {
-            return ResponseEntity.ok()
-                    .contentLength(gridFSDBFile.getLength())
-                    .contentType(MediaType.parseMediaType(gridFSDBFile.getContentType()))
-                    .header("Content-Disposition", "attachment; filename=" + gridFSDBFile.getFilename())
-                    .body(new InputStreamResource(gridFSDBFile.getInputStream()));
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return storageService.readCachedImage(serviceName, fileId, cachedSize);
     }
 
 
     /**
      * Return main user photo (avatar)
      *
-     * @param userId
-     * @param cachedSize
+     * @param userId     - the user ID which photo need to be downloaded.
+     * @param cachedSize - the cacheSize of the image.
      * @return file if ok, 404 if profile is not found or if there is no photo of user
      */
     @CrossOrigin
     @RequestMapping(value = "profile/photo/read/user/{userId}", method = RequestMethod.GET)
-    public ResponseEntity
+    public ResponseEntity<InputStreamResource>
     getAvatarPictureByUserId(@PathVariable String userId,
                              @RequestParam(required = true, defaultValue = "large") String cachedSize) {
 
-        GridFSDBFile gridFSDBFile;
-
-        String path = ".file.storage." + cachedSize + ".cache";
-
-        // image stub for case when user doesn't hav avatar
-        gridFSDBFile = storageService.getCachedImage("profile", path, "57e3d1548f70bc65995fd062");
-
-        Profile profile = profilesService.findById(userId);
-        if (profile == null) {
-            return responseEntityPreparator(gridFSDBFile);
-        }
-
-        if (profile.getImgId() == null) {
-            return responseEntityPreparator(gridFSDBFile);
-        }
-
-        gridFSDBFile = storageService.getCachedImage("profile", path, profile.getImgId());
-
-        if (gridFSDBFile != null) {
-            return responseEntityPreparator(gridFSDBFile);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return storageService.readProfileCachedImage(userId, cachedSize);
     }
 
 
@@ -208,36 +172,13 @@ public class FileStorageRestController {
         }
 
 
-        //ToDo Delete this in future, because offer now uploading not with this method
-//        if (serviceName.toLowerCase().equals("offers")) {
-//            if (param.equals("large") || param.equals("medium") || param.equals("small")) {
-//                return true;
-//            }
-//        }
-
         return true;
     }
 
 
-    //---------------------------------------------------------- TEST ------------------------------
-    @CrossOrigin
-    @RequestMapping(value = "{serviceName}/photo/multi/upload", method = RequestMethod.POST)
-    public ResponseEntity<CreatedObjResp>
-    multiplyPhotoUpload(@PathVariable String serviceName, @RequestParam MultipartFile[] files) {
-
-        System.err.println("Now will be file names");
-
-        for (MultipartFile file : files) {
-            System.err.println("File originalname: " + file.getOriginalFilename());
-            System.err.println("File name: " + file.getName());
-        }
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
+    //---------------------------------------------------------- Helper ------------------------------
 
     /**
-     *
      * @param gridFSDBFile
      * @return
      */
