@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Аренда | Панель управления</title>
+    <title>Арендатор | Панель управления</title>
     <meta charset='utf-8' />
 
     <!-- Links -->
@@ -22,8 +22,6 @@
         var offerResult;
 
         $(document).ready(function() {
-
-            var zone = "05:30";
 
             function formattedDate(date) {
                 var d = new Date(date || Date.now()),
@@ -206,20 +204,6 @@
             //console.log( parseJsonWeekend(monthOfPrices2) )
             //console.log( parseJsonSpecialdays(monthOfPrices2) )
 
-            var isEventOverDiv = function(x, y) {
-                var external_events = $( '#external-events' );
-                var offset = external_events.offset();
-                offset.right = external_events.width() + offset.left;
-                offset.bottom = external_events.height() + offset.top;
-
-                // Compare
-                if (x >= offset.left
-                        && y >= offset.top
-                        && x <= offset.right
-                        && y <= offset .bottom) { return true; }
-                return false;
-            }
-
 
             /* select offer(s)
              -----------------------------------------------------------------*/
@@ -256,21 +240,18 @@
                     $('#offers-result42').html(JSON.stringify(offerResult[index].offer.rents) + '<br>');
 
                     $('#external-events').html('<p>'
-                    + '<center><img src="../../../resources/fullcalendar/img/trashcan.png" id="trash" alt=""/></center>'
-                    + '</p><p>'
                     + '<select id="set-price">'
-                    + '<option></option>'
+                    + '<option>Настраиваемая цена</option>'
                     + '<option value="single">Единная цена</option>'
                     + '<option value="weekend">Цена на выходные</option>'
                     + '<option value="weekday">Цена на будние</option>'
-                    + '<option value="specialdays" selected>Специальная цена</option>'
+                    + '<option value="specialdays">Специальная цена</option>'
                     + '</select>'
-                    + ' &nbsp; <input type="checkbox" id="drop-remove" checked="checked" style="float:right; margin-top:2px;" />'
-                    + '<br/><br/><input type="text" id="addPriceButton" style="width:100%" value="0" />'
+                    + '<br/><br/><input type="text" id="addPriceButton" size="16" value="0" /> &nbsp; <b>$</b>'
                     + '</p>');
-                    $('#external-events').append('<div class="fc-event" style="background:#aca;" title="Цена на выходные">' + offerResult[index].offer.monthOfPrices.weekend.price + '</div>');
-                    $('#external-events').append('<div class="fc-event" style="background:#aba;" title="Цена на будние">' + offerResult[index].offer.monthOfPrices.weekday.price + '</div>');
-                    $('#external-events').append('<div class="fc-event" title="Специальная цена">' + offerResult[index].offer.monthOfPrices.specialdays[0].price + '</div>');
+                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.weekday.price + ' $</div>');
+                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.weekend.price + ' $</div>');
+                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.specialdays[0].price + ' $</div>');
                 }
             }).then(l=> {
                 console.log( gupEvents )
@@ -304,7 +285,7 @@
                     locale: initialLocaleCode,
 //                buttonIcons: false,      // show the prev/next text
                     weekNumbers: false,
-                    editable: true,
+                    editable: false,
                     navLinks: true,          // can click day/week names to navigate views
                     eventLimit: true,        // allow "more" link when too many events
                     businessHours: true,     // display business hours
@@ -320,177 +301,32 @@
                             $(this).remove();
                         }
                     },
-                    eventReceive: function(event){
-                        var title = event.title;
-                        var start = event.start.format("YYYY-MM-DD[T]HH:mm:SS");
-                        $.ajax({
-                            url: 'http://956804.rb242731.web.hosting-test.net/process.php', // !!!!!
-                            data: 'type=new&title='+title+'&startdate='+start+'&zone='+zone,
-                            type: 'POST',
-                            dataType: 'json',
-                            success: function(response){
-                                event.id = response.eventid;
-                                $('#calendar').fullCalendar('updateEvent',event);
-                            },
-                            error: function(e){
-                                console.log(e.responseText);
-                            }
-                        });
-                        $('#calendar').fullCalendar('updateEvent',event);
-                        console.log(event);
-                    },
-                    eventDrop: function(event, delta, revertFunc) {
-                        var title = event.title;
-                        var start = event.start.format();
-                        var end = (event.end == null) ? start : event.end.format();
-                        $.ajax({
-                            url: 'http://956804.rb242731.web.hosting-test.net/process.php', // !!!!!
-                            data: 'type=resetdate&title='+title+'&start='+start+'&end='+end+'&eventid='+event.id,
-                            type: 'POST',
-                            dataType: 'json',
-                            success: function(response){
-                                if(response.status != 'success')
-                                    revertFunc();
-                            },
-                            error: function(e){
-                                revertFunc();
-                                alert('Error processing your request: '+e.responseText);
-                            }
-                        });
-                    },
-                    /*
-                     eventClick: function(event) {
-                     // opens events in a popup window
-                     window.open(event.url, 'gcalevent', 'width=700,height=600');
-                     return false;
-                     },
-                     */
-                    eventClick: function(event, jsEvent, view) {
-                        console.log(event.id);
-                        var title = prompt('Event Title:', event.title, { buttons: { Ok: true, Cancel: false} });
-                        if (title){
-                            event.title = title;
-                            console.log('type=changetitle&title='+title+'&eventid='+event.id);
-                            $.ajax({
-                                url: 'http://956804.rb242731.web.hosting-test.net/process.php', // !!!!!
-                                data: 'type=changetitle&title='+title+'&eventid='+event.id,
-                                type: 'POST',
-                                dataType: 'json',
-                                success: function(response){
-                                    if(response.status == 'success')
-                                        $('#calendar').fullCalendar('updateEvent',event);
-                                },
-                                error: function(e){
-                                    alert('Error processing your request: '+e.responseText);
-                                }
-                            });
-                        }
-                    },
-                    eventResize: function(event, delta, revertFunc) {
-                        console.log(event);
-                        var title = event.title;
-                        var end = event.end.format();
-                        var start = event.start.format();
-                        $.ajax({
-                            url: 'http://956804.rb242731.web.hosting-test.net/process.php', // !!!!!
-                            data: 'type=resetdate&title='+title+'&start='+start+'&end='+end+'&eventid='+event.id,
-                            type: 'POST',
-                            dataType: 'json',
-                            success: function(response){
-                                if(response.status != 'success')
-                                    revertFunc();
-                            },
-                            error: function(e){
-                                revertFunc();
-                                alert('Error processing your request: '+e.responseText);
-                            }
-                        });
-                    },
-                    /*
-                     eventDragStop: function( event, jsEvent, ui, view ) {
-                     if(isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
-                     $('#calendar').fullCalendar('removeEvents', event._id);
-                     var el = $( "<div class='fc-event'>" ).appendTo( '#external-events-listing' ).text( event.title );
-                     el.draggable({
-                     zIndex: 999,
-                     revert: true,
-                     revertDuration: 0
-                     });
-                     el.data('event', { title: event.title, id :event.id, stick: true });
-                     }
-                     },
-                     */
-                    eventDragStop: function (event, jsEvent, ui, view) {
+                    eventDragStop: function( event, jsEvent, ui, view ) {
                         if(isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
-                            var con = confirm('Are you sure to delete this event permanently?');
-                            if(con == true) {
-                                $('#calendar').fullCalendar('removeEvents', event._id);
-                                var el = $( "<div class='fc-event'>" ).appendTo( '#external-events-listing' ).text( event.title );
-                                el.draggable({
-                                    zIndex: 999,
-                                    revert: true,
-                                    revertDuration: 0
-                                });
-                                el.data('event', { title: event.title, id :event.id, stick: true });
-                                //////////////////////////////////////////////////////////////////////
-                                $.ajax({
-                                    url: 'http://956804.rb242731.web.hosting-test.net/process.php', // !!!!!
-                                    data: 'type=remove&eventid='+event.id,
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    success: function(response){
-                                        console.log(response);
-                                        if(response.status == 'success'){
-                                            $('#calendar').fullCalendar('removeEvents');
-                                            getFreshEvents();
-                                        }
-                                    },
-                                    error: function(e){
-                                        alert('Error processing your request: '+e.responseText);
-                                    }
-                                });
-                            }
+                            $('#calendar').fullCalendar('removeEvents', event._id);
+                            var el = $( "<div class='fc-event'>" ).appendTo( '#external-events-listing' ).text( event.title );
+                            el.draggable({
+                                zIndex: 999,
+                                revert: true,
+                                revertDuration: 0
+                            });
+                            el.data('event', { title: event.title, id :event.id, stick: true });
                         }
                     },
-
-
-
+                    eventClick: function(event) {
+                        // opens events in a popup window
+                        window.open(event.url, 'gcalevent', 'width=700,height=600');
+                        return false;
+                    },
                     loading: function(bool) {
                         $('#loading').toggle(bool);
                     }
                 });
 
-                /////////////////////////////////////////////////////////
                 $( "#addPriceButton" ).bind('keypress', function(e) {
                     var code = e.keyCode || e.which;
                     if(code == 13) {
-                        if (document.getElementById('set-price').value === 'specialdays'){
-                            $('#external-events').append('<div class="fc-event" title="Специальная цена">' + $(this).val() + '</div>');
-                        }
-                        if (document.getElementById('set-price').value === 'weekday'){
-                            $('#external-events').append('<div class="fc-event" style="background:#aba;" title="Цена на будние">' + $(this).val() + '</div>');
-                        }
-                        if (document.getElementById('set-price').value === 'weekend'){
-                            $('#external-events').append('<div class="fc-event" style="background:#aca;" title="Цена на выходные">' + $(this).val() + '</div>');
-                        }
-                        if (document.getElementById('set-price').value === 'single'){
-                            $('#external-events').append('<div class="fc-event" style="background:#ada;" title="Единная цена">' + $(this).val() + '</div>');
-                        }
-
-                        /////////////////////////////////////////////////
-                        $('#external-events .fc-event').each(function() {
-                            // store data so the calendar knows to render an event upon drop
-                            $(this).data('event', {
-                                title: $.trim($(this).text()), // use the element's text as the event title
-                                stick: true                    // maintain when user navigates (see docs on the renderEvent method)
-                            });
-                            // make the event draggable using jQuery UI
-                            $(this).draggable({
-                                zIndex: 999,
-                                revert: true,                  // will cause the event to go back to its
-                                revertDuration: 0              // original position after the drag
-                            });
-                        });
+                        $('#external-events').append('<div class="fc-event">' + $(this).val() + ' $</div>');
                     }
                 });
             });
@@ -505,17 +341,14 @@
                 $('#offers-result3').html(offerResult[index].offer.userInfo.contactName);
 
                 $('#external-events').html('<p>'
-                + '<center><img src="../../../resources/fullcalendar/img/trashcan.png" id="trash" alt=""/></center>'
-                + '</p><p>'
                 + '<select id="set-price">'
-                + '<option></option>'
+                + '<option>Настраиваемая цена</option>'
                 + '<option value="single">Единная цена</option>'
                 + '<option value="weekend">Цена на выходные</option>'
                 + '<option value="weekday">Цена на будние</option>'
-                + '<option value="specialdays" selected>Специальная цена</option>'
+                + '<option value="specialdays">Специальная цена</option>'
                 + '</select>'
-                + ' &nbsp; <input type="checkbox" id="drop-remove" checked="checked" style="float:right; margin-top:2px;" />'
-                + '<br/><br/><input type="text" id="addPriceButton" style="width:100%" value="0" />'
+                + '<br/><br/><input type="text" id="addPriceButton" size="16" value="0" /> &nbsp; <b>$</b>'
                 + '</p>');
                 if(offerResult[index].offer.monthOfPrices === undefined){
                     gupEvents = [];
@@ -526,9 +359,9 @@
                     var gupEventWeekday = parseJsonWeekday(offerResult[index].offer.monthOfPrices), gupEventWeekend = parseJsonWeekend(offerResult[index].offer.monthOfPrices), gupEventSpecialdays = parseJsonSpecialdays(offerResult[index].offer.monthOfPrices);
                     gupEvents = gupEvents.concat(gupEventWeekday, gupEventWeekend, gupEventSpecialdays);
 
-                    $('#external-events').append('<div class="fc-event" style="background:#aca;" title="Цена на выходные">' + offerResult[index].offer.monthOfPrices.weekend.price + '</div>');
-                    $('#external-events').append('<div class="fc-event" style="background:#aba;" title="Цена на будние">' + offerResult[index].offer.monthOfPrices.weekday.price + '</div>');
-                    $('#external-events').append('<div class="fc-event" title="Специальная цена">' + offerResult[index].offer.monthOfPrices.specialdays[0].price + '</div>');
+                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.weekday.price + ' $</div>');
+                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.weekend.price + ' $</div>');
+                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.specialdays[0].price + ' $</div>');
                 }
                 if(offerResult[index].offer.rents === undefined){
                     $('#offers-result42').html('');
@@ -553,7 +386,7 @@
                     locale: initialLocaleCode,
 //                buttonIcons: false,      // show the prev/next text
                     weekNumbers: false,
-                    editable: true,
+                    editable: false,
                     navLinks: true,          // can click day/week names to navigate views
                     eventLimit: true,        // allow "more" link when too many events
                     businessHours: true,     // display business hours
@@ -591,61 +424,25 @@
                     }
                 });
                 $('#calendar').fullCalendar('render');
-
-                /////////////////////////////////////////////////////////
-                $('#external-events .fc-event').each(function() {
-                    // store data so the calendar knows to render an event upon drop
-                    $(this).data('event', {
-                        title: $.trim($(this).text()), // use the element's text as the event title
-                        stick: true                    // maintain when user navigates (see docs on the renderEvent method)
-                    });
-                    // make the event draggable using jQuery UI
-                    $(this).draggable({
-                        zIndex: 999,
-                        revert: true,                  // will cause the event to go back to its
-                        revertDuration: 0              // original position after the drag
-                    });
-                });
-                /////////////////////////////////////////////////////////
-                $( "#addPriceButton" ).bind('keypress', function(e) {
-                    var code = e.keyCode || e.which;
-                    if(code == 13) {
-                        if (document.getElementById('set-price').value === 'specialdays'){
-                            $('#external-events').append('<div class="fc-event" title="Специальная цена">' + $(this).val() + '</div>');
-                        }
-                        if (document.getElementById('set-price').value === 'weekday'){
-                            $('#external-events').append('<div class="fc-event" style="background:#aba;" title="Цена на будние">' + $(this).val() + '</div>');
-                        }
-                        if (document.getElementById('set-price').value === 'weekend'){
-                            $('#external-events').append('<div class="fc-event" style="background:#aca;" title="Цена на выходные">' + $(this).val() + '</div>');
-                        }
-                        if (document.getElementById('set-price').value === 'single'){
-                            $('#external-events').append('<div class="fc-event" style="background:#ada;" title="Единная цена">' + $(this).val() + '</div>');
-                        }
-
-                        /////////////////////////////////////////////////
-                        $('#external-events .fc-event').each(function() {
-                            // store data so the calendar knows to render an event upon drop
-                            $(this).data('event', {
-                                title: $.trim($(this).text()), // use the element's text as the event title
-                                stick: true                    // maintain when user navigates (see docs on the renderEvent method)
-                            });
-                            // make the event draggable using jQuery UI
-                            $(this).draggable({
-                                zIndex: 999,
-                                revert: true,                  // will cause the event to go back to its
-                                revertDuration: 0              // original position after the drag
-                            });
-                        });
-                    }
-                });
             });
 
 
 
 
 
+            var isEventOverDiv = function(x, y) {
+                var external_events = $( '#external-events' );
+                var offset = external_events.offset();
+                offset.right = external_events.width() + offset.left;
+                offset.bottom = external_events.height() + offset.top;
 
+                // Compare
+                if (x >= offset.left
+                        && y >= offset.top
+                        && x <= offset.right
+                        && y <= offset .bottom) { return true; }
+                return false;
+            }
 
             // build the locale selector's options
             $.each($.fullCalendar.locales, function(localeCode) {
@@ -666,11 +463,11 @@
     </script>
     <style>
         #calendar {
-            min-width: 85%;
-            max-width: 85%;
+            min-width: 100%;
+            max-width: 100%;
             margin: 0px auto;
             padding: 0 10px;
-            float: right;
+            float: left;
         }
 
         #locale-selector {
@@ -702,7 +499,7 @@
 
         #external-events {
             float: left;
-            width: 15%; /*width: 150px;*/
+            width: 160px; /*width: 150px;*/
             padding: 0 10px;
             border: 1px solid #aed0ea;
             background: #deedf7;
@@ -741,7 +538,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Аренда</h1>
+                <h1 class="page-header"><u>Арендатор</u> &rarr; <a href="admin-landlord-rents" style="font-size:40px;">Арендодатель</a></h1>
             </div>
         </div>
         <div class="row">
@@ -752,7 +549,7 @@
                         <td> &nbsp;&nbsp; Объявление: &nbsp;&nbsp; </td>
                         <td> <select id="offers-selector" name="offers-selector"></select> </td>
                         <td> &nbsp;&nbsp; | &nbsp;&nbsp; </td>
-                        <td> Владелец: &nbsp;&nbsp; </td>
+                        <td> Арендодатель: &nbsp;&nbsp; </td>
                         <td> <legend id="offers-result3"></legend> </td>
                     </tr>
                 </table>
@@ -761,29 +558,20 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
-                            <div id='external-events'></div>
+                            <!--<div id='external-events'></div>-->
                             <div id='calendar'></div>
                         </div>
                     </div>
                 </div>
-                <center>
-                    <a href="admin-rents"><button class="btn btn-primary">Отменить</button></a>
-                    &nbsp;&nbsp;&nbsp;
-                    <button id="savePriceButton" class="btn btn-primary">Сохранить</button>
-                </center>
                 <br>
 
-                <!--
                 <fieldset>
-                <legend id="offers-result2"></legend>
-                <div id='monthOfPrices'></div>
-                <font color="#2980b9" id="offers-result41"></font>
-                <font color="#FF5733" id="offers-result42"></font>
-                -->
-                <!--<font color="gray" id="offers-result1"></font>-->
-                <!--
+                    <legend id="offers-result2"></legend>
+                    <div id='monthOfPrices'></div>
+                    <!--<font color="#2980b9" id="offers-result41"></font>-->
+                    <font color="#FF5733" id="offers-result42"></font>
+                    <!--<font color="gray" id="offers-result1"></font>-->
                 </fieldset>
-                -->
             </div>
         </div>
     </div>

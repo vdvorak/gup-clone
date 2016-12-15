@@ -46,15 +46,15 @@ public class AdminController {
     }
 
     //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping("/admin-rents")
+    @RequestMapping("/admin-landlord-rents")
     public String getAdminRents() {
-        return "admin/admin-rents";
+        return "admin/admin-landlord-rents";
     }
 
     //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping("/admin-rents-edit")
+    @RequestMapping("/admin-tenant-rents")
     public String getAdminRentsEdit() {
-        return "admin/admin-rents-edit";
+        return "admin/admin-tenant-rents";
     }
 
 //    @RequestMapping("/account")
