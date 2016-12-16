@@ -200,9 +200,45 @@
                 return gupEvents2
             }
 
-            //console.log( parseJsonWeekday(monthOfPrices2) )
-            //console.log( parseJsonWeekend(monthOfPrices2) )
-            //console.log( parseJsonSpecialdays(monthOfPrices2) )
+            function parseJsonExpired(rents) {
+                var gupEvents2 = [];
+
+                var EXPIRED = -1;
+                while(EXPIRED < (Object.keys(rents.expired).length - 1)){
+                    EXPIRED++;
+                    //console.log( formattedDate(rents.expired[EXPIRED].day) )
+                    gupEvents2[EXPIRED] = { start:formattedDate(rents.expired[EXPIRED].day), overlap:false, rendering:'background', color:'#333333' };
+                }
+
+                return gupEvents2
+            }
+
+            function parseJsonRented(rents) {
+                var gupEvents2 = [];
+
+                var RENTED = -1;
+                while(RENTED < (Object.keys(rents.rented).length - 1)){
+                    RENTED++;
+                    //console.log( formattedDate(rents.rented[RENTED].day) )
+                    gupEvents2[RENTED] = { start:formattedDate(rents.rented[RENTED].day), overlap:false, rendering:'background', color:'#ff9f89' };
+                }
+
+                return gupEvents2
+            }
+
+            function parseJsonRentedName(rents) {
+                var gupEvents2 = [];
+
+                var RENTED = -1;
+                while(RENTED < (Object.keys(rents.rented).length - 1)){
+                    RENTED++;
+                    //console.log( rents.rented[RENTED].user.fullName )
+                    gupEvents2[RENTED] = { title:rents.rented[RENTED].user.fullName, start:formattedDate(rents.rented[RENTED].day), color:'#2980b9' };
+                }
+
+                return gupEvents2
+            }
+
 
 
             /* select offer(s)
@@ -232,15 +268,18 @@
                     })
                     //////////////////////////////////////////////////////////////////////////////////////////
                     var index = document.getElementById('offers-selector').selectedIndex
-                    var gupEventWeekday = parseJsonWeekday(offerResult[index].offer.monthOfPrices), gupEventWeekend = parseJsonWeekend(offerResult[index].offer.monthOfPrices), gupEventSpecialdays = parseJsonSpecialdays(offerResult[index].offer.monthOfPrices);
-//                    gupEvents = gupEvents.concat(gupEventWeekday, gupEventWeekend, gupEventSpecialdays);
+//					console.log( parseJsonExpired(offerResult[index].offer.rents) )
+//					console.log( parseJsonRented(offerResult[index].offer.rents) )
+//					console.log( parseJsonRentedName(offerResult[index].offer.rents) )
+                    var gupEventExpired = parseJsonExpired(offerResult[index].offer.rents), gupEventRented = parseJsonRented(offerResult[index].offer.rents), gupEventRentedName = parseJsonRentedName(offerResult[index].offer.rents);
+                    gupEvents = gupEvents.concat(gupEventExpired, gupEventRented, gupEventRentedName);
                     $('#offers-result2').html(offerResult[index].offer.id);
                     $('#offers-result3').html(offerResult[index].offer.userInfo.contactName);
                     $('#offers-result41').html(JSON.stringify(offerResult[index].offer.monthOfPrices) + '<br><br>');
                     $('#offers-result42').html(JSON.stringify(offerResult[index].offer.rents) + '<br>');
                 }
             }).then(l=> {
-                console.log( gupEvents )
+                //console.log( gupEvents )
 
                 /* initialize the external events
                  -----------------------------------------------------------------*/
@@ -271,7 +310,7 @@
                     locale: initialLocaleCode,
 //                buttonIcons: false,      // show the prev/next text
                     weekNumbers: false,
-                    editable: false,
+                    editable: true,
                     navLinks: true,          // can click day/week names to navigate views
                     eventLimit: true,        // allow "more" link when too many events
                     businessHours: true,     // display business hours
@@ -333,8 +372,8 @@
                 }else{
                     $('#offers-result41').html(JSON.stringify(offerResult[index].offer.monthOfPrices) + '<br><br>');
 
-                    var gupEventWeekday = parseJsonWeekday(offerResult[index].offer.monthOfPrices), gupEventWeekend = parseJsonWeekend(offerResult[index].offer.monthOfPrices), gupEventSpecialdays = parseJsonSpecialdays(offerResult[index].offer.monthOfPrices);
-//                    gupEvents = gupEvents.concat(gupEventWeekday, gupEventWeekend, gupEventSpecialdays);
+                    var gupEventExpired = parseJsonExpired(offerResult[index].offer.rents), gupEventRented = parseJsonRented(offerResult[index].offer.rents), gupEventRentedName = parseJsonRentedName(offerResult[index].offer.rents);
+                    gupEvents = gupEvents.concat(gupEventExpired, gupEventRented, gupEventRentedName);
                 }
                 if(offerResult[index].offer.rents === undefined){
                     $('#offers-result42').html('');
@@ -342,7 +381,7 @@
                     $('#offers-result42').html(JSON.stringify(offerResult[index].offer.rents) + '<br>');
                 }
                 //////////////////////////////////////////////////////////////
-                console.log( gupEvents )
+                //console.log( gupEvents )
 
                 /* change the calendar
                  -----------------------------------------------------------------*/
@@ -359,7 +398,7 @@
                     locale: initialLocaleCode,
 //                buttonIcons: false,      // show the prev/next text
                     weekNumbers: false,
-                    editable: false,
+                    editable: true,
                     navLinks: true,          // can click day/week names to navigate views
                     eventLimit: true,        // allow "more" link when too many events
                     businessHours: true,     // display business hours
@@ -443,7 +482,6 @@
             padding: 0 10px;
             /*float: left;*/
         }
-
         .fc-basic-view .fc-week-number,
         .fc-basic-view .fc-day-number {
             background: none;
@@ -453,7 +491,16 @@
             color: #362b36;
             font-size: 24px;
             font-weight: bold;
-            margin: 20%;
+            margin: 17%;
+        }
+        .fc-event .fc-content {
+            background: #36f;
+            border-radius: 3px;
+            font-size: 10px;
+            margin: -60px -12px 0;
+        }
+        .ui-widget-content a:hover {
+            text-decoration: none;
         }
         /*
                 .fc-row .fc-content-skeleton td,
@@ -566,13 +613,13 @@
                 </div>
                 <br>
 
-                <fieldset>
+                <!--<fieldset>
                     <legend id="offers-result2"></legend>
                     <div id='monthOfPrices'></div>
-                    <!--<font color="#2980b9" id="offers-result41"></font>-->
-                    <font color="#FF5733" id="offers-result42"></font>
-                    <!--<font color="gray" id="offers-result1"></font>-->
-                </fieldset>
+                    --><!--<font color="#2980b9" id="offers-result41"></font>-->
+                <!--<font color="#FF5733" id="offers-result42"></font>-->
+                <!--<font color="gray" id="offers-result1"></font>--><!--
+                </fieldset>-->
             </div>
         </div>
     </div>
