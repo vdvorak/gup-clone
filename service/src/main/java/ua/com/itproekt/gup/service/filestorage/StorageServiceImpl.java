@@ -13,6 +13,8 @@ import ua.com.itproekt.gup.dao.filestorage.StorageRepository;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
+import ua.com.itproekt.gup.util.CreatedObjResp;
+import ua.com.itproekt.gup.util.LogUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -22,6 +24,9 @@ import java.util.*;
 
 @Service
 public class StorageServiceImpl implements StorageService {
+
+    private final String PROFILE_SERVICE_NAME = "profile";
+    private final String PROFILE_IMAGE_STUB_ID = "57e3d1548f70bc65995fd062";
 
     @Autowired
     StorageRepository storageRepository;
@@ -73,7 +78,7 @@ public class StorageServiceImpl implements StorageService {
         String path = ".file.storage." + cachedSize + ".cache";
 
         // image stub for case when user doesn't hav avatar
-        gridFSDBFile = getCachedImage("profile", path, "57e3d1548f70bc65995fd062");
+        gridFSDBFile = getCachedImage(PROFILE_SERVICE_NAME, path, PROFILE_IMAGE_STUB_ID);
 
         Profile profile = profilesService.findById(userId);
         if (profile == null) {
@@ -84,7 +89,7 @@ public class StorageServiceImpl implements StorageService {
             return responseEntityPreparator(gridFSDBFile);
         }
 
-        gridFSDBFile = getCachedImage("profile", path, profile.getImgId());
+        gridFSDBFile = getCachedImage(PROFILE_SERVICE_NAME, path, profile.getImgId());
 
         if (gridFSDBFile != null) {
             return responseEntityPreparator(gridFSDBFile);
@@ -113,6 +118,28 @@ public class StorageServiceImpl implements StorageService {
     public String saveCachedImageProfile(FileUploadWrapper fileUploadWrapper) {
         return storageRepository.saveCachedImageProfile(fileUploadWrapper);
     }
+
+
+    @Override
+    public ResponseEntity<CreatedObjResp> saveCachedImageProfile(MultipartFile file) {
+        FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
+
+        // Prepare file
+        try {
+            fileUploadWrapper
+                    .setServiceName(PROFILE_SERVICE_NAME)
+                    .setInputStream(file.getInputStream())
+                    .setContentType(file.getContentType())
+                    .setFilename(file.getOriginalFilename());
+        } catch (IOException ex) {
+           ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+            String uploadedFileId = saveCachedImageProfile(fileUploadWrapper);
+            return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
+    }
+
 
     @Override
     public String saveCachedImageOffer(FileUploadWrapper fileUploadWrapper) {

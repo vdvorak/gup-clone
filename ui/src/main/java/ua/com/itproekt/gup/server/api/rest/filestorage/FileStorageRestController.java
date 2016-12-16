@@ -81,14 +81,9 @@ public class FileStorageRestController {
     //ToDo включить ПреАвторайз
 //    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
-    @RequestMapping(value = "{serviceName}/photo/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "profile/photo/upload", method = RequestMethod.POST)
     public ResponseEntity<CreatedObjResp>
     photoUpload(@PathVariable String serviceName, @RequestParam MultipartFile file) {
-
-
-        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
 
         if (file.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -98,29 +93,8 @@ public class FileStorageRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        FileUploadWrapper fileUploadWrapper = new FileUploadWrapper();
 
-
-        // Prepare file
-        try {
-            fileUploadWrapper
-                    .setServiceName(serviceName.toLowerCase())
-                    .setInputStream(file.getInputStream())
-                    .setContentType(file.getContentType())
-                    .setFilename(file.getOriginalFilename());
-        } catch (IOException ex) {
-            LOG.error(LogUtil.getExceptionStackTrace(ex));
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        // if service is "Profile"
-        if (serviceName.toLowerCase().equals("profile")) {
-            String uploadedFileId = storageService.saveCachedImageProfile(fileUploadWrapper);
-            return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
-
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+       return storageService.saveCachedImageProfile(file);
     }
 
     /**
