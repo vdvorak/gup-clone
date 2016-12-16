@@ -5,6 +5,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
+import ua.com.itproekt.gup.util.CreatedObjResp;
 
 import java.util.List;
 import java.util.Map;
@@ -67,6 +68,14 @@ public interface StorageService {
      * @return              - id of image
      */
     String saveCachedImageProfile(FileUploadWrapper fileUploadWrapper);
+
+    /**
+     * Save photo in two variants: large and small
+     *
+     * @param file - the image.
+     * @return
+     */
+    ResponseEntity<CreatedObjResp> saveCachedImageProfile(MultipartFile file);
 
 
     /**
