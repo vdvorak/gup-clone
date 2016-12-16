@@ -28,7 +28,14 @@ public interface StorageService {
     void delete(String serviceName, Set<String> fileIds);
 
     /**
-     * @param imagesId - the image ID.
+     * Delete profile photo (avatar) and replace it with stub image.
+     *
+     * @param userId        - the user ID.
+     */
+    void deleteProfileImage(String userId);
+
+    /**
+     * @param imagesId      - the image ID.
      */
     void deleteListOfOfferImages(Set<String> imagesId);
 

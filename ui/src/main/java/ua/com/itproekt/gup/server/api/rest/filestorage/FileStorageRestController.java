@@ -11,18 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.itproekt.gup.model.profiles.Profile;
-import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.CreatedObjResp;
-import ua.com.itproekt.gup.util.LogUtil;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.ServiceNames;
-
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/rest/fileStorage")
@@ -31,10 +24,6 @@ public class FileStorageRestController {
 
     @Autowired
     private StorageService storageService;
-
-    @Autowired
-    private ProfilesService profilesService;
-
 
     /**
      * @param serviceName - service name in lower or upper case
@@ -93,44 +82,64 @@ public class FileStorageRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-
-       return storageService.saveCachedImageProfile(file);
+        return storageService.saveCachedImageProfile(file);
     }
 
+
     /**
-     * Method accept set of files Ides
+     * Delete profile photo (avatar), and replace it with stub.
      *
-     * @param serviceName - service name in uppercase or in lowercase
-     * @param fileIds     - set of files Ides
-     * @return - status code 204 if all is ok, 404 - if id of photo not found
+     * @return - status Ok or Bad Request
      */
     @PreAuthorize("isAuthenticated()")
     @CrossOrigin
-    @RequestMapping(value = "{serviceName}/file/delete", method = RequestMethod.POST)
-    public ResponseEntity<Void> deleteFiles(@PathVariable String serviceName,
-                                            @RequestParam(value = "param[]") Set<String> fileIds) {
+    @RequestMapping(value = "profile/photo/delete", method = RequestMethod.POST)
+    public ResponseEntity<Void> deleteProfilePhoto() {
 
-        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        String userId = SecurityOperations.getLoggedUserId();
+
+        if (userId != null){
+            storageService.deleteProfileImage(userId);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
 
-        if (serviceName.toUpperCase().equals("PROFILE")) {
-            // can be deleted only avatar picture
-            String userId = SecurityOperations.getLoggedUserId();
-            Profile profile = profilesService.findById(userId);
-
-            Iterator iter = fileIds.iterator();
-
-            if (iter.next() != profile.getImgId()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            storageService.delete(serviceName.toUpperCase(), fileIds);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-        storageService.delete(serviceName.toUpperCase(), fileIds);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+//    /**
+//     * Method accept set of files Ides
+//     *
+//     * @param serviceName - service name in uppercase or in lowercase
+//     * @param fileIds     - set of files Ides
+//     * @return - status code 204 if all is ok, 404 - if id of photo not found
+//     */
+//    @PreAuthorize("isAuthenticated()")
+//    @CrossOrigin
+//    @RequestMapping(value = "{serviceName}/file/delete", method = RequestMethod.POST)
+//    public ResponseEntity<Void> deleteFiles(@PathVariable String serviceName,
+//                                            @RequestParam(value = "param[]") Set<String> fileIds) {
+//
+//        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//
+//        if (serviceName.toUpperCase().equals("PROFILE")) {
+//            // can be deleted only avatar picture
+//            String userId = SecurityOperations.getLoggedUserId();
+//            Profile profile = profilesService.findById(userId);
+//
+//            Iterator iter = fileIds.iterator();
+//
+//            if (iter.next() != profile.getImgId()) {
+//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//            }
+//            storageService.delete(serviceName.toUpperCase(), fileIds);
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//
+//        storageService.delete(serviceName.toUpperCase(), fileIds);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 
 
     private boolean isServiceNameAndRequestParamValid(String serviceName, String param) {
