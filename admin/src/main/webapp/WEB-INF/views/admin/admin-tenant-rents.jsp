@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Аренда | Панель управления</title>
+    <title>Арендатор | Панель управления</title>
     <meta charset='utf-8' />
 
     <!-- Links -->
@@ -538,7 +538,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Аренда</h1>
+                <h1 class="page-header"><u>Арендатор</u> &rarr; <a href="admin-landlord-rents" style="font-size:40px;">Арендодатель</a></h1>
             </div>
         </div>
         <div class="row">
@@ -549,7 +549,7 @@
                         <td> &nbsp;&nbsp; Объявление: &nbsp;&nbsp; </td>
                         <td> <select id="offers-selector" name="offers-selector"></select> </td>
                         <td> &nbsp;&nbsp; | &nbsp;&nbsp; </td>
-                        <td> Владелец: &nbsp;&nbsp; </td>
+                        <td> Арендодатель: &nbsp;&nbsp; </td>
                         <td> <legend id="offers-result3"></legend> </td>
                     </tr>
                 </table>
@@ -563,22 +563,15 @@
                         </div>
                     </div>
                 </div>
-                <center>
-                    <a href="admin-rents-edit"><button class="btn btn-primary">Редактировать</button></a>
-                </center>
                 <br>
 
-                <!--
                 <fieldset>
-                <legend id="offers-result2"></legend>
-                <div id='monthOfPrices'></div>
-                <font color="#2980b9" id="offers-result41"></font>
-                <font color="#FF5733" id="offers-result42"></font>
-                -->
-                <!--<font color="gray" id="offers-result1"></font>-->
-                <!--
+                    <legend id="offers-result2"></legend>
+                    <div id='monthOfPrices'></div>
+                    <!--<font color="#2980b9" id="offers-result41"></font>-->
+                    <font color="#FF5733" id="offers-result42"></font>
+                    <!--<font color="gray" id="offers-result1"></font>-->
                 </fieldset>
-                -->
             </div>
         </div>
     </div>

@@ -63,7 +63,7 @@
                     <a href="<c:url value="/admin-tariffs" />"><i class="fa fa-shopping-cart fa-fw"></i>Тарифы</a>
                 </li>
                 <li>
-                    <a href="<c:url value="/admin-rents" />"><i class="fa fa-calendar fa-fw"></i>Аренда</a>
+                    <a href="<c:url value="/admin-tenant-rents" />"><i class="fa fa-calendar fa-fw"></i>Аренда</a>
                 </li>
             </ul>
         </div>
