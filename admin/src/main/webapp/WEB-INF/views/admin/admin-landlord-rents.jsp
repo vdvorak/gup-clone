@@ -257,7 +257,7 @@
 
                     $('#external-events').html('<p>'
                     + '<center><img src="../../../resources/fullcalendar/img/trashcan.png" id="trash" alt=""/></center>'
-                    + '</p><p>'
+                    + '</p><p style="padding-bottom: 16px; border-bottom:1px solid #aed0ea;">'
                     + '<select id="set-price">'
                     + '<option></option>'
                     + '<option value="single">Единная цена</option>'
@@ -463,16 +463,21 @@
                     if(code == 13) {
                         if (document.getElementById('set-price').value === 'specialdays'){
                             $('#external-events').append('<div class="fc-event" title="Специальная цена">' + $(this).val() + '</div>');
-                            $("#savePriceButton").attr('class', 'btn btn-primary');
                         }
                         if (document.getElementById('set-price').value === 'weekday'){
                             $('#external-events').append('<div class="" style="background:#aba; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на будние">' + $(this).val() + '</div>');
+                            $("#savePriceButton").attr('class', 'btn btn-primary');
+                            $("#cancelPriceButton").attr('class', 'btn btn-primary');
                         }
                         if (document.getElementById('set-price').value === 'weekend'){
                             $('#external-events').append('<div class="" style="background:#aca; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на выходные">' + $(this).val() + '</div>');
+                            $("#savePriceButton").attr('class', 'btn btn-primary');
+                            $("#cancelPriceButton").attr('class', 'btn btn-primary');
                         }
                         if (document.getElementById('set-price').value === 'single'){
                             $('#external-events').append('<div class="" style="background:#ada; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Единная цена">' + $(this).val() + '</div>');
+                            $("#savePriceButton").attr('class', 'btn btn-primary');
+                            $("#cancelPriceButton").attr('class', 'btn btn-primary');
                         }
 
                         /////////////////////////////////////////////////
@@ -495,6 +500,100 @@
 
 
 
+            $('#savePriceButton').click(function() {
+                console.log('type=resetdate&title=1000&start=2016-11-02&end=2016-11-04&eventid=undefined');
+                $.ajax({
+                    url: 'http://956804.rb242731.web.hosting-test.net/process.php', // !!!!!
+                    data: 'type=resetdate&title=1000&start=2016-11-02&end=2016-11-04&eventid=undefined',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(response){
+                        if(response.status != 'success')
+                            revertFunc();
+                    },
+                    error: function(e){
+                        revertFunc();
+                        alert('Error processing your request: '+e.responseText);
+                    }
+                });
+                $("#savePriceButton").attr('class', 'btn btn-primary disabled');
+                $("#cancelPriceButton").attr('class', 'btn btn-primary disabled');
+            });
+
+            $('#cancelPriceButton').click(function() {
+                index = document.getElementById('offers-selector').selectedIndex
+                $('#external-events').html('<p>'
+                + '<center><img src="../../../resources/fullcalendar/img/trashcan.png" id="trash" alt=""/></center>'
+                + '</p><p style="padding-bottom: 16px; border-bottom:1px solid #aed0ea;">'
+                + '<select id="set-price">'
+                + '<option></option>'
+                + '<option value="single">Единная цена</option>'
+                + '<option value="weekend">Цена на выходные</option>'
+                + '<option value="weekday">Цена на будние</option>'
+                + '<option value="specialdays" selected>Специальная цена</option>'
+                + '</select>'
+                + ' &nbsp; <input type="checkbox" id="drop-remove" checked="checked" style="float:right; margin-top:2px;" />'
+                + '<br/><br/><input type="text" id="addPriceButton" style="width:100%" value="0" />'
+                + '</p>');
+                $('#external-events').append('<div class="" style="background:#aca; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на выходные">' + offerResult[index].offer.monthOfPrices.weekend.price + '</div>');
+                $('#external-events').append('<div class="" style="background:#aba; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на будние">' + offerResult[index].offer.monthOfPrices.weekday.price + '</div>');
+                $('#external-events').append('<div class="fc-event" title="Специальная цена">' + offerResult[index].offer.monthOfPrices.specialdays[0].price + '</div>');
+                $("#savePriceButton").attr('class', 'btn btn-primary disabled');
+                $("#cancelPriceButton").attr('class', 'btn btn-primary disabled');
+                /////////////////////////////////////////////////
+                $('#external-events .fc-event').each(function() {
+                    // store data so the calendar knows to render an event upon drop
+                    $(this).data('event', {
+                        title: $.trim($(this).text()), // use the element's text as the event title
+                        stick: true                    // maintain when user navigates (see docs on the renderEvent method)
+                    });
+                    // make the event draggable using jQuery UI
+                    $(this).draggable({
+                        zIndex: 999,
+                        revert: true,                  // will cause the event to go back to its
+                        revertDuration: 0              // original position after the drag
+                    });
+                });
+                /////////////////////////////////////////////////
+                $( "#addPriceButton" ).bind('keypress', function(e) {
+                    var code = e.keyCode || e.which;
+                    if(code == 13) {
+                        if (document.getElementById('set-price').value === 'specialdays'){
+                            $('#external-events').append('<div class="fc-event" title="Специальная цена">' + $(this).val() + '</div>');
+                        }
+                        if (document.getElementById('set-price').value === 'weekday'){
+                            $('#external-events').append('<div class="" style="background:#aba; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на будние">' + $(this).val() + '</div>');
+                            $("#savePriceButton").attr('class', 'btn btn-primary');
+                            $("#cancelPriceButton").attr('class', 'btn btn-primary');
+                        }
+                        if (document.getElementById('set-price').value === 'weekend'){
+                            $('#external-events').append('<div class="" style="background:#aca; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на выходные">' + $(this).val() + '</div>');
+                            $("#savePriceButton").attr('class', 'btn btn-primary');
+                            $("#cancelPriceButton").attr('class', 'btn btn-primary');
+                        }
+                        if (document.getElementById('set-price').value === 'single'){
+                            $('#external-events').append('<div class="" style="background:#ada; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Единная цена">' + $(this).val() + '</div>');
+                            $("#savePriceButton").attr('class', 'btn btn-primary');
+                            $("#cancelPriceButton").attr('class', 'btn btn-primary');
+                        }
+                        /////////////////////////////////////////////////
+                        $('#external-events .fc-event').each(function() {
+                            // store data so the calendar knows to render an event upon drop
+                            $(this).data('event', {
+                                title: $.trim($(this).text()), // use the element's text as the event title
+                                stick: true                    // maintain when user navigates (see docs on the renderEvent method)
+                            });
+                            // make the event draggable using jQuery UI
+                            $(this).draggable({
+                                zIndex: 999,
+                                revert: true,                  // will cause the event to go back to its
+                                revertDuration: 0              // original position after the drag
+                            });
+                        });
+                    }
+                });
+            });
+
 
 
             $('#offers-selector').change(function() {
@@ -504,7 +603,7 @@
 
                 $('#external-events').html('<p>'
                 + '<center><img src="../../../resources/fullcalendar/img/trashcan.png" id="trash" alt=""/></center>'
-                + '</p><p>'
+                + '</p><p style="padding-bottom: 16px; border-bottom:1px solid #aed0ea;">'
                 + '<select id="set-price">'
                 + '<option></option>'
                 + '<option value="single">Единная цена</option>'
@@ -534,6 +633,7 @@
                     $('#offers-result42').html(JSON.stringify(offerResult[index].offer.rents) + '<br>');
                 }
                 $("#savePriceButton").attr('class', 'btn btn-primary disabled');
+                $("#cancelPriceButton").attr('class', 'btn btn-primary disabled');
                 //////////////////////////////////////////////////////////////
                 console.log( gupEvents )
 
@@ -725,16 +825,21 @@
                     if(code == 13) {
                         if (document.getElementById('set-price').value === 'specialdays'){
                             $('#external-events').append('<div class="fc-event" title="Специальная цена">' + $(this).val() + '</div>');
-                            $("#savePriceButton").attr('class', 'btn btn-primary');
                         }
                         if (document.getElementById('set-price').value === 'weekday'){
                             $('#external-events').append('<div class="" style="background:#aba; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на будние">' + $(this).val() + '</div>');
+                            $("#savePriceButton").attr('class', 'btn btn-primary');
+                            $("#cancelPriceButton").attr('class', 'btn btn-primary');
                         }
                         if (document.getElementById('set-price').value === 'weekend'){
                             $('#external-events').append('<div class="" style="background:#aca; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Цена на выходные">' + $(this).val() + '</div>');
+                            $("#savePriceButton").attr('class', 'btn btn-primary');
+                            $("#cancelPriceButton").attr('class', 'btn btn-primary');
                         }
                         if (document.getElementById('set-price').value === 'single'){
                             $('#external-events').append('<div class="" style="background:#ada; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;" title="Единная цена">' + $(this).val() + '</div>');
+                            $("#savePriceButton").attr('class', 'btn btn-primary');
+                            $("#cancelPriceButton").attr('class', 'btn btn-primary');
                         }
 
                         /////////////////////////////////////////////////
@@ -821,7 +926,7 @@
             border: 1px solid #aed0ea;
             background: #deedf7;
             text-align: left;
-            margin-top: 52px;
+            /*margin-top: 52px;*/
             margin-left: 0; /*margin-left: -150px;*/
         }
         #external-events h4 {
@@ -876,17 +981,25 @@
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
                             <table style="float:left;">
+                                <tr><td>
+                                    <div class="" style="background:#aca; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;">Цена на выходные</div>
+                                    <div class="" style="background:#aba; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;">Цена на будние</div>
+                                    <div class="" style="background:#ada; margin:0px 0px 10px; padding:0px 3px; color:#fff; font-size:12px;">Единная цена</div>
+                                    <div class="fc-event" style="padding:0px 3px; color:#fff; font-size:12px;">Специальная цена</div>
+                                </td></tr>
+                                <tr><td> <br/> </td></tr>
                                 <tr><td> <div id='external-events'></div> </td></tr>
                                 <tr><td> <br/> </td></tr>
-                                <tr><td> <button id="savePriceButton" class="btn btn-primary disabled" style="margin-left:20%; width:60%;">Применить</button> </td></tr>
+                                <tr><td> <button id="savePriceButton" class="btn btn-primary disabled" style="margin-left:20%; width:60%;">Применить</button>
+                                </td></tr>
+                                <tr><td> <br/> </td></tr>
+                                <tr><td> <button id="cancelPriceButton" class="btn btn-primary disabled" style="margin-left:20%; width:60%;">Отменить</button>
+                                </td></tr>
                             </table>
                             <div id='calendar'></div>
                         </div>
                     </div>
                 </div>
-                <center>
-                    <!--<button id="savePriceButton" class="btn btn-primary">Применить</button>-->
-                </center>
                 <br>
 
                 <!--
