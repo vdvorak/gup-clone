@@ -23,6 +23,9 @@ import java.util.*;
 @Service
 public class StorageServiceImpl implements StorageService {
 
+    private final String PROFILE_SERVICE_NAME = "profile";
+    private final String PROFILE_IMAGE_STUB_ID = "57e3d1548f70bc65995fd062";
+
     @Autowired
     StorageRepository storageRepository;
 
@@ -73,7 +76,7 @@ public class StorageServiceImpl implements StorageService {
         String path = ".file.storage." + cachedSize + ".cache";
 
         // image stub for case when user doesn't hav avatar
-        gridFSDBFile = getCachedImage("profile", path, "57e3d1548f70bc65995fd062");
+        gridFSDBFile = getCachedImage(PROFILE_SERVICE_NAME, path, PROFILE_IMAGE_STUB_ID);
 
         Profile profile = profilesService.findById(userId);
         if (profile == null) {
@@ -84,7 +87,7 @@ public class StorageServiceImpl implements StorageService {
             return responseEntityPreparator(gridFSDBFile);
         }
 
-        gridFSDBFile = getCachedImage("profile", path, profile.getImgId());
+        gridFSDBFile = getCachedImage(PROFILE_SERVICE_NAME, path, profile.getImgId());
 
         if (gridFSDBFile != null) {
             return responseEntityPreparator(gridFSDBFile);
