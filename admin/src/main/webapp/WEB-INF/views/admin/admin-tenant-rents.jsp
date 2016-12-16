@@ -392,7 +392,7 @@
                     header: {
                         left: 'prev,today,next',
                         center: 'title',
-                        right: 'agendaDay,month,listWeek' ////right: 'month,agendaWeek,agendaDay'
+                        right: 'agendaDay,month' ////right: 'month,agendaWeek,agendaDay'
                     },
                     defaultDate: '2016-11-25',
                     locale: initialLocaleCode,
