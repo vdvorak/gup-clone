@@ -14,13 +14,14 @@ import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.CreatedObjResp;
-import ua.com.itproekt.gup.util.LogUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class StorageServiceImpl implements StorageService {
@@ -56,6 +57,19 @@ public class StorageServiceImpl implements StorageService {
 
 
     @Override
+    public void deleteProfileImage(String userId) {
+        Profile profile = profilesService.findById(userId);
+        String imageId = profile.getImgId();
+
+        if (imageId != null) {
+            delete(PROFILE_SERVICE_NAME, profile.getId());
+        }
+
+        profile.setImgId(PROFILE_IMAGE_STUB_ID);
+        profilesService.editProfile(profile);
+    }
+
+    @Override
     public void deleteListOfOfferImages(Set<String> imagesId) {
         storageRepository.delete("offers", ".file.storage.large.cache", imagesId);
         storageRepository.delete("offers", ".file.storage.medium.cache", imagesId);
@@ -67,7 +81,6 @@ public class StorageServiceImpl implements StorageService {
     public GridFSDBFile getCachedImage(String serviceName, String filePath, String fileId) {
         return storageRepository.getCachedImage(serviceName, filePath, fileId);
     }
-
 
 
     @Override
@@ -132,12 +145,12 @@ public class StorageServiceImpl implements StorageService {
                     .setContentType(file.getContentType())
                     .setFilename(file.getOriginalFilename());
         } catch (IOException ex) {
-           ex.printStackTrace();
+            ex.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-            String uploadedFileId = saveCachedImageProfile(fileUploadWrapper);
-            return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
+        String uploadedFileId = saveCachedImageProfile(fileUploadWrapper);
+        return new ResponseEntity<>(new CreatedObjResp(uploadedFileId), HttpStatus.CREATED);
     }
 
 
@@ -199,7 +212,6 @@ public class StorageServiceImpl implements StorageService {
                 .header("Content-Disposition", "attachment; filename=" + gridFSDBFile.getFilename())
                 .body(new InputStreamResource(gridFSDBFile.getInputStream()));
     }
-
 
 
 //    private Set<String> compareTwoMapAndReturnDiffKeys(Map<String, String> oldImagesMap, Map<String, String> newImagesMap) {
