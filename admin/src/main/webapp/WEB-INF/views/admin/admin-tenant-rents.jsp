@@ -233,25 +233,11 @@
                     //////////////////////////////////////////////////////////////////////////////////////////
                     var index = document.getElementById('offers-selector').selectedIndex
                     var gupEventWeekday = parseJsonWeekday(offerResult[index].offer.monthOfPrices), gupEventWeekend = parseJsonWeekend(offerResult[index].offer.monthOfPrices), gupEventSpecialdays = parseJsonSpecialdays(offerResult[index].offer.monthOfPrices);
-                    gupEvents = gupEvents.concat(gupEventWeekday, gupEventWeekend, gupEventSpecialdays);
+//                    gupEvents = gupEvents.concat(gupEventWeekday, gupEventWeekend, gupEventSpecialdays);
                     $('#offers-result2').html(offerResult[index].offer.id);
                     $('#offers-result3').html(offerResult[index].offer.userInfo.contactName);
                     $('#offers-result41').html(JSON.stringify(offerResult[index].offer.monthOfPrices) + '<br><br>');
                     $('#offers-result42').html(JSON.stringify(offerResult[index].offer.rents) + '<br>');
-
-                    $('#external-events').html('<p>'
-                    + '<select id="set-price">'
-                    + '<option>Настраиваемая цена</option>'
-                    + '<option value="single">Единная цена</option>'
-                    + '<option value="weekend">Цена на выходные</option>'
-                    + '<option value="weekday">Цена на будние</option>'
-                    + '<option value="specialdays">Специальная цена</option>'
-                    + '</select>'
-                    + '<br/><br/><input type="text" id="addPriceButton" size="16" value="0" /> &nbsp; <b>$</b>'
-                    + '</p>');
-                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.weekday.price + ' $</div>');
-                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.weekend.price + ' $</div>');
-                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.specialdays[0].price + ' $</div>');
                 }
             }).then(l=> {
                 console.log( gupEvents )
@@ -279,7 +265,7 @@
                     header: {
                         left: 'prev,today,next',
                         center: 'title',
-                        right: 'agendaDay,month,listWeek' ////right: 'month,agendaWeek,agendaDay'
+                        right: 'agendaDay,month' ////right: 'month,agendaWeek,agendaDay'
                     },
                     defaultDate: '2016-11-25',
                     locale: initialLocaleCode,
@@ -292,6 +278,7 @@
                     displayEventTime: false, // don't show the time column in list view
                     droppable: true,         // this allows things to be dropped onto the calendar
                     dragRevertDuration: 0,
+                    height: "auto",
                     googleCalendarApiKey: 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE', // To make your own Google API key, follow the directions here: http://fullcalendar.io/docs/google_calendar/
                     events: gupEvents,
                     drop: function() {
@@ -340,16 +327,6 @@
                 $('#offers-result2').html(offerResult[index].offer.id);
                 $('#offers-result3').html(offerResult[index].offer.userInfo.contactName);
 
-                $('#external-events').html('<p>'
-                + '<select id="set-price">'
-                + '<option>Настраиваемая цена</option>'
-                + '<option value="single">Единная цена</option>'
-                + '<option value="weekend">Цена на выходные</option>'
-                + '<option value="weekday">Цена на будние</option>'
-                + '<option value="specialdays">Специальная цена</option>'
-                + '</select>'
-                + '<br/><br/><input type="text" id="addPriceButton" size="16" value="0" /> &nbsp; <b>$</b>'
-                + '</p>');
                 if(offerResult[index].offer.monthOfPrices === undefined){
                     gupEvents = [];
                     $('#offers-result41').html('');
@@ -357,11 +334,7 @@
                     $('#offers-result41').html(JSON.stringify(offerResult[index].offer.monthOfPrices) + '<br><br>');
 
                     var gupEventWeekday = parseJsonWeekday(offerResult[index].offer.monthOfPrices), gupEventWeekend = parseJsonWeekend(offerResult[index].offer.monthOfPrices), gupEventSpecialdays = parseJsonSpecialdays(offerResult[index].offer.monthOfPrices);
-                    gupEvents = gupEvents.concat(gupEventWeekday, gupEventWeekend, gupEventSpecialdays);
-
-                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.weekday.price + ' $</div>');
-                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.weekend.price + ' $</div>');
-                    $('#external-events').append('<div class="fc-event">' + offerResult[index].offer.monthOfPrices.specialdays[0].price + ' $</div>');
+//                    gupEvents = gupEvents.concat(gupEventWeekday, gupEventWeekend, gupEventSpecialdays);
                 }
                 if(offerResult[index].offer.rents === undefined){
                     $('#offers-result42').html('');
@@ -393,6 +366,7 @@
                     displayEventTime: false, // don't show the time column in list view
                     droppable: true,         // this allows things to be dropped onto the calendar
                     dragRevertDuration: 0,
+                    height: "auto",
                     googleCalendarApiKey: 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE', // To make your own Google API key, follow the directions here: http://fullcalendar.io/docs/google_calendar/
                     events: gupEvents,
                     drop: function() {
@@ -463,12 +437,39 @@
     </script>
     <style>
         #calendar {
-            min-width: 100%;
-            max-width: 100%;
+            min-width: 42%;
+            max-width: 42%;
             margin: 0px auto;
             padding: 0 10px;
-            float: left;
+            /*float: left;*/
         }
+
+        .fc-basic-view .fc-week-number,
+        .fc-basic-view .fc-day-number {
+            background: none;
+            border: none;
+        }
+        .ui-widget-content a {
+            color: #362b36;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20%;
+        }
+        /*
+                .fc-row .fc-content-skeleton td,
+                .fc-row .fc-helper-skeleton td {
+                    background: #33f;
+                    border-radius: 35px;
+                    padding: 0;
+                }
+                .fc table {
+                    font-size: 16px;
+                    width: 100%;
+                }
+                .fc td {
+                    border-width: 0;
+                }
+        */
 
         #locale-selector {
             float: left;
