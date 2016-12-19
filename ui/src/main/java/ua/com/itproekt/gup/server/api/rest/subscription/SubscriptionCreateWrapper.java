@@ -9,8 +9,8 @@ import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
  */
 public class SubscriptionCreateWrapper {
 
-    OfferFilterOptions offerFilterOptions;
-    String email; // email for not authorized person
+    private OfferFilterOptions offerFilterOptions;
+    private String email; // email for not authorized person
 
     public OfferFilterOptions getOfferFilterOptions() {
         return offerFilterOptions;

@@ -15,7 +15,7 @@ import java.util.Set;
 public class ProfileSearchRestController {
 
     @Autowired
-    ProfilesService profilesService;
+    private ProfilesService profilesService;
 
     @RequestMapping("/search/autocomplete/profile")
     public Set<String> getMachedNames(@RequestParam String term) {

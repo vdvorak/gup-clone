@@ -22,7 +22,7 @@ public class ProfileRatingRestController {
      * The Profiles service.
      */
     @Autowired
-    ProfilesService profilesService;
+    private ProfilesService profilesService;
 
     /**
      * Gets profile rating by profile id and profile rating id. All params in path variables.

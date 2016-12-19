@@ -16,7 +16,7 @@ import ua.com.itproekt.gup.service.transportApiService.DeliveryService;
 public class DeliveryApiRestController {
 
     @Autowired
-    DeliveryService deliveryService;
+    private DeliveryService deliveryService;
 
 
     /**

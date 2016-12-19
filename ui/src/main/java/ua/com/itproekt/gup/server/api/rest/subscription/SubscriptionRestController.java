@@ -28,7 +28,7 @@ import java.util.List;
 public class SubscriptionRestController {
 
     @Autowired
-    SubscriptionService subscriptionService;
+    private SubscriptionService subscriptionService;
 
 
     //------------------------------------------ Read -----------------------------------------------------------------

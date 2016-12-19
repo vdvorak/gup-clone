@@ -17,7 +17,7 @@ import ua.com.itproekt.gup.service.transportApiService.novaPoshta.requestModels.
 public class UkrPoshtaApiRestController {
 
     @Autowired
-    UkrPoshtaService ukrPoshtaService;
+    private UkrPoshtaService ukrPoshtaService;
 
     /**
      *

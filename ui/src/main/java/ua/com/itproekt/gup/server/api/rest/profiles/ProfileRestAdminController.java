@@ -23,7 +23,7 @@ import java.util.List;
 public class ProfileRestAdminController {
 
     @Autowired
-    ProfilesService profilesService;
+    private ProfilesService profilesService;
 
     /**
      * List all profiles response entity for admins.
