@@ -2,7 +2,6 @@ package ua.com.itproekt.gup.server.api.rest.filestorage;
 
 
 import com.mongodb.gridfs.GridFSDBFile;
-import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.ServiceNames;
 
 
 /**
@@ -32,8 +30,8 @@ public class FileStorageForReadRestController {
     /**
      * Return main user photo (avatar)
      *
-     * @param userId
-     * @param cachedSize
+     * @param userId     - the user ID.
+     * @param cachedSize - the available cached sized parameter.
      * @return file if ok, 404 if profile is not found or if there is no photo of user
      */
     @CrossOrigin
@@ -76,11 +74,7 @@ public class FileStorageForReadRestController {
     @CrossOrigin
     @RequestMapping(value = "/obyavlenie/image/{fileId}", method = RequestMethod.GET)
     public ResponseEntity<InputStreamResource>
-    getById(@PathVariable String fileId, @RequestParam(required = true, defaultValue = "large") String cachedSize) {
-
-        if (!isServiceNameAndRequestParamValid("offers", cachedSize)) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    getById(@PathVariable String fileId, @RequestParam(defaultValue = "large") String cachedSize) {
 
         GridFSDBFile gridFSDBFile;
 
@@ -98,28 +92,6 @@ public class FileStorageForReadRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-
-    /**
-     * @param serviceName
-     * @param param
-     * @return
-     */
-    private boolean isServiceNameAndRequestParamValid(String serviceName, String param) {
-
-        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
-            return false;
-        }
-
-        if (serviceName.toLowerCase().equals("profile")) {
-            if (param.equals("large") || param.equals("small")) {
-                return true;
-            }
-        }
-
-        return true;
-    }
-
 
     /**
      * @param gridFSDBFile
