@@ -12,10 +12,8 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
-import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.TransportCompany;
 
@@ -29,17 +27,10 @@ public class OrderRestController {
     private final ResponseEntity<String> ok = new ResponseEntity<>(HttpStatus.OK);
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @Autowired
-    ProfilesService profilesService;
-
-    @Autowired
-    OffersService offersService;
-
-    @Autowired
-    ActivityFeedService activityFeedService;
-
+    private OffersService offersService;
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
@@ -132,7 +123,7 @@ public class OrderRestController {
             return new ResponseEntity<>("Order was not found", HttpStatus.NOT_FOUND);
         }
 
-        if (!userId.equals(oldOrder.getBuyerId())) {
+        if (!oldOrder.getBuyerId().equals(userId)) {
             return new ResponseEntity<>("Current user is not a buyer", HttpStatus.BAD_REQUEST);
         }
 
@@ -176,7 +167,7 @@ public class OrderRestController {
             return new ResponseEntity<>("Order was not found", HttpStatus.NOT_FOUND);
         }
 
-        if (userId.equals(oldOrder.getBuyerId()) && oldOrder.getOrderStatus() == OrderStatus.NEW) {
+        if (oldOrder.getBuyerId().equals(userId) && oldOrder.getOrderStatus() == OrderStatus.NEW) {
             // cancel order and send notification to seller
             orderService.cancelOrderByBuyer(oldOrder);
         } else {
@@ -205,7 +196,7 @@ public class OrderRestController {
         }
 
         String userId = SecurityOperations.getLoggedUserId();
-        if (!userId.equals(oldOrder.getSellerId())) {
+        if (!oldOrder.getSellerId().equals(userId)) {
             return new ResponseEntity<>("Current user is not a seller", HttpStatus.BAD_REQUEST);
         }
 
@@ -243,7 +234,7 @@ public class OrderRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-        if (!userId.equals(oldOrder.getSellerId())) {
+        if (!oldOrder.getSellerId().equals(userId)) {
             return new ResponseEntity<>("You are not an seller.", HttpStatus.FORBIDDEN);
         }
 
@@ -277,7 +268,7 @@ public class OrderRestController {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-        if (userId.equals(oldOrder.getSellerId())) {
+        if (oldOrder.getSellerId().equals(userId)) {
 
             if (orderService.completeOrderBySeller(oldOrder)) {
                 return ok;
@@ -286,7 +277,7 @@ public class OrderRestController {
             }
 
         } else {
-            if (userId.equals(oldOrder.getBuyerId())) {
+            if (oldOrder.getBuyerId().equals(userId)) {
 
                 if (orderService.completeOrderByBuyer(oldOrder)) {
                     return ok;
@@ -347,7 +338,7 @@ public class OrderRestController {
             return new ResponseEntity<>("Order was not found", HttpStatus.NOT_FOUND);
         }
 
-        if (!userId.equals(order.getSellerId())) {
+        if (!order.getSellerId().equals(userId)) {
             new ResponseEntity<>("Current user is not seller in this order", HttpStatus.FORBIDDEN);
         }
 
