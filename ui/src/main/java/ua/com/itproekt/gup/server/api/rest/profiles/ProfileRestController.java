@@ -10,14 +10,12 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.bank_api.BankSession;
-import ua.com.itproekt.gup.dao.oauth2.OAuth2AccessTokenRepository;
 import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.util.APIVendor;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
@@ -31,19 +29,13 @@ public class ProfileRestController {
 
 
     @Autowired
-    ProfilesService profilesService;
+    private ProfilesService profilesService;
 
     @Autowired
-    VerificationTokenService verificationTokenService;
+    private BankSession bankSession;
 
     @Autowired
-    BankSession bankSession;
-
-    @Autowired
-    OAuth2AccessTokenRepository oAuth2AccessTokenRepository;
-
-    @Autowired
-    APIVendor profileVendor;
+    private APIVendor profileVendor;
 
 
     /**
@@ -106,8 +98,6 @@ public class ProfileRestController {
         } else {
             return new ResponseEntity<>(HttpStatus.OK);
         }
-
-
     }
 
     /**
@@ -138,7 +128,7 @@ public class ProfileRestController {
         // check if someone profile already exist with new main email
         Profile foundByEmailProfile = profilesService.findProfileByEmail(newProfile.getEmail());
         if (foundByEmailProfile != null) {
-            if (!loggedUserId.equals(foundByEmailProfile.getId())) {
+            if (!foundByEmailProfile.getId().equals(loggedUserId)) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
         }
@@ -273,7 +263,7 @@ public class ProfileRestController {
     /**
      * Change profile status
      *
-     * @param profile
+     * @param profile - the profile.
      * @return status 200 if ok
      */
     @CrossOrigin
@@ -346,8 +336,8 @@ public class ProfileRestController {
     /**
      * Change userType in bank
      *
-     * @param newProfile
-     * @param oldProfile
+     * @param newProfile - the new version of the profile.
+     * @param oldProfile - the old profile.
      */
     private void changeUserType(Profile newProfile, Profile oldProfile) {
         if (!newProfile.getContact().getType().equals(oldProfile.getContact().getType())) {

@@ -106,42 +106,6 @@ public class FileStorageRestController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-//    /**
-//     * Method accept set of files Ides
-//     *
-//     * @param serviceName - service name in uppercase or in lowercase
-//     * @param fileIds     - set of files Ides
-//     * @return - status code 204 if all is ok, 404 - if id of photo not found
-//     */
-//    @PreAuthorize("isAuthenticated()")
-//    @CrossOrigin
-//    @RequestMapping(value = "{serviceName}/file/delete", method = RequestMethod.POST)
-//    public ResponseEntity<Void> deleteFiles(@PathVariable String serviceName,
-//                                            @RequestParam(value = "param[]") Set<String> fileIds) {
-//
-//        if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//
-//        if (serviceName.toUpperCase().equals("PROFILE")) {
-//            // can be deleted only avatar picture
-//            String userId = SecurityOperations.getLoggedUserId();
-//            Profile profile = profilesService.findById(userId);
-//
-//            Iterator iter = fileIds.iterator();
-//
-//            if (iter.next() != profile.getImgId()) {
-//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//            }
-//            storageService.delete(serviceName.toUpperCase(), fileIds);
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
-//
-//        storageService.delete(serviceName.toUpperCase(), fileIds);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
-
-
     private boolean isServiceNameAndRequestParamValid(String serviceName, String param) {
 
         if (!EnumUtils.isValidEnum(ServiceNames.class, serviceName.toUpperCase())) {
