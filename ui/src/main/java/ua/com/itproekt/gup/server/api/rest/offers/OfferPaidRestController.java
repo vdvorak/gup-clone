@@ -37,25 +37,13 @@ import java.util.Locale;
 public class OfferPaidRestController {
 
     @Autowired
-    OffersService offersService;
+    private OffersService offersService;
 
     @Autowired
-    ProfilesService profilesService;
+    private BankSession bankSession;
 
     @Autowired
-    SeoSequenceService seoSequenceService;
-
-    @Autowired
-    SubscriptionService subscriptionService;
-
-    @Autowired
-    VerificationTokenService verificationTokenService;
-
-    @Autowired
-    BankSession bankSession;
-
-    @Autowired
-    Environment env;
+    private Environment env;
 
     static String formatter = "d.MM.yyyy";
     static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(formatter, Locale.ENGLISH);
