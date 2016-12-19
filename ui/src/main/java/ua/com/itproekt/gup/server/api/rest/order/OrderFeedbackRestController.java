@@ -16,7 +16,6 @@ import ua.com.itproekt.gup.model.order.OrderFeedbackOptions;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
-import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
@@ -29,23 +28,20 @@ import java.util.Map;
 @RequestMapping("/api/rest/orderService")
 public class OrderFeedbackRestController {
 
-
     private final ResponseEntity<Void> ok = new ResponseEntity<>(HttpStatus.OK);
     private final ResponseEntity<Void> badRequest = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     private final ResponseEntity<Void> forbidden = new ResponseEntity<>(HttpStatus.FORBIDDEN);
     private final ResponseEntity<Void> notFound = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    private final ResponseEntity<Void> methodNotAllowed = new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
-    private final ResponseEntity<Void> notAcceptable = new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
+
     @Autowired
-    ProfilesService profilesService;
+    private ProfilesService profilesService;
+
     @Autowired
-    OffersService offersService;
-    @Autowired
-    ActivityFeedService activityFeedService;
+    private ActivityFeedService activityFeedService;
 
 
     // --------------------------------------------- CREATE --------------------------------------
@@ -70,12 +66,11 @@ public class OrderFeedbackRestController {
             return notFound;
         }
 
-
         if (oldOrder.getOrderStatus() != OrderStatus.COMPLETED) {
             return badRequest;
         }
 
-        if (!userId.equals(oldOrder.getBuyerId())) {
+        if (!oldOrder.getBuyerId().equals(userId)) {
             return badRequest;
         }
 
@@ -114,7 +109,7 @@ public class OrderFeedbackRestController {
             return badRequest;
         }
 
-        if (!userId.equals(oldOrder.getSellerId())) {
+        if (!oldOrder.getSellerId().equals(userId)) {
             return badRequest;
         }
 
@@ -149,7 +144,7 @@ public class OrderFeedbackRestController {
             return notFound;
         }
 
-        if (!userId.equals(oldOrder.getBuyerId())) {
+        if (!oldOrder.getBuyerId().equals(userId)) {
             return forbidden;
         }
 
@@ -182,7 +177,7 @@ public class OrderFeedbackRestController {
             return notFound;
         }
 
-        if (userId.equals(oldOrder.getBuyerId())) {
+        if (oldOrder.getBuyerId().equals(userId)) {
             return forbidden;
         }
 
@@ -194,7 +189,7 @@ public class OrderFeedbackRestController {
     // -------------------------------------------------------- Add options for feedback (like, dislike, spam) ---------
 
     /**
-     * @param orderFeedbackOptions
+     * @param orderFeedbackOptions - the order feedback option.
      * @param orderId              - order id
      * @return - status code 200 if all is Ok, 403 - if current user is seller,
      * 404 - order or feedback in order is not found.
@@ -216,7 +211,7 @@ public class OrderFeedbackRestController {
             return notFound;
         }
 
-        if (userId.equals(oldOrder.getBuyerId())) {
+        if (oldOrder.getBuyerId().equals(userId)) {
             return forbidden;
         }
 
@@ -245,7 +240,7 @@ public class OrderFeedbackRestController {
             return notFound;
         }
 
-        if (!userId.equals(oldOrder.getBuyerId())) {
+        if (!oldOrder.getBuyerId().equals(userId)) {
             return forbidden;
         }
 
@@ -274,7 +269,7 @@ public class OrderFeedbackRestController {
             return notFound;
         }
 
-        if (!userId.equals(oldOrder.getSellerId())) {
+        if (!oldOrder.getSellerId().equals(userId)) {
             return forbidden;
         }
 

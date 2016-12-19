@@ -14,7 +14,7 @@ public class OfferSearchRestController {
 
 
     @Autowired
-    OffersService offersService;
+    private OffersService offersService;
 
     @CrossOrigin
     @RequestMapping("/search/autocomplete/offer")
