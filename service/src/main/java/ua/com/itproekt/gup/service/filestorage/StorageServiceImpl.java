@@ -30,10 +30,10 @@ public class StorageServiceImpl implements StorageService {
     private final String PROFILE_IMAGE_STUB_ID = "57e3d1548f70bc65995fd062";
 
     @Autowired
-    StorageRepository storageRepository;
+    private StorageRepository storageRepository;
 
     @Autowired
-    ProfilesService profilesService;
+    private ProfilesService profilesService;
 
     @Override
     public void delete(String serviceName, String fileId) {

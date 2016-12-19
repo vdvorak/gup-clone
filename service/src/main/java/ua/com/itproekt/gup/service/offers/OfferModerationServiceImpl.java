@@ -27,16 +27,16 @@ public class OfferModerationServiceImpl implements OfferModerationService {
 
 
     @Autowired
-    OffersService offersService;
+    private OffersService offersService;
 
     @Autowired
-    ActivityFeedService activityFeedService;
+    private ActivityFeedService activityFeedService;
 
     @Autowired
-    SubscriptionService subscriptionService;
+    private SubscriptionService subscriptionService;
 
     @Autowired
-    ProfilesService profilesService;
+    private ProfilesService profilesService;
 
 
     @Override
@@ -86,10 +86,10 @@ public class OfferModerationServiceImpl implements OfferModerationService {
         }
 
 
-        /**
-         * When offer approved by moderator we send notification to user.
-         * Then we change offer status to Complete.
-         * Then we find if this offer suit for subscriptions.
+        /*
+          When offer approved by moderator we send notification to user.
+          Then we change offer status to Complete.
+          Then we find if this offer suit for subscriptions.
          */
         if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.COMPLETE) {
             activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_COMPLETE));

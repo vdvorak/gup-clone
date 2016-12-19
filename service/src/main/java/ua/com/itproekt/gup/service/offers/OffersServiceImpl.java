@@ -20,8 +20,6 @@ import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.itproekt.gup.service.activityfeed.ActivityFeedService;
 import ua.com.itproekt.gup.service.filestorage.StorageService;
 import ua.com.itproekt.gup.service.order.OrderService;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.service.profile.VerificationTokenService;
 import ua.com.itproekt.gup.service.seosequence.SeoSequenceService;
 import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.EntityPage;
@@ -35,17 +33,12 @@ import java.util.*;
 @Service
 public class OffersServiceImpl implements OffersService {
 
-    @Autowired
-    ProfilesService profilesService;
 
     @Autowired
-    VerificationTokenService verificationTokenService;
+    private OrderService orderService;
 
     @Autowired
-    OrderService orderService;
-
-    @Autowired
-    SeoSequenceService seoSequenceService;
+    private SeoSequenceService seoSequenceService;
 
     @Autowired
     private OfferRepository offerRepository;
@@ -418,9 +411,9 @@ public class OffersServiceImpl implements OffersService {
 
         List<Image> imageList = offer.getImages();
 
-        if (imageList != null){
+        if (imageList != null) {
             for (Image image : imageList) {
-                if (StringUtils.isNotBlank(image.getImageId())){
+                if (StringUtils.isNotBlank(image.getImageId())) {
                     return image.getImageId();
                 }
             }

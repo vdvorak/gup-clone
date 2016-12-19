@@ -26,7 +26,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 
@@ -39,13 +38,13 @@ import java.util.Set;
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    OrderRepository orderRepository;
+    private OrderRepository orderRepository;
 
     @Autowired
-    ProfilesService profilesService;
+    private ProfilesService profilesService;
 
     @Autowired
-    ActivityFeedService activityFeedService;
+    private ActivityFeedService activityFeedService;
 
 
     /**
@@ -486,14 +485,14 @@ public class OrderServiceImpl implements OrderService {
 
         Profile profileOfSeller = profilesService.findById(oldOrder.getSellerId());
 
-        if (userId.equals(oldOrder.getBuyerId())) {
+        if (oldOrder.getBuyerId().equals(userId)) {
             commentUpdaterAndEventSender(profileOfSeller, userId, newOrder, oldOrder, EventType.ORDER_BUYER_COMMENT);
             return true;
         }
 
 
         Profile profileOfBuyer = profilesService.findById(oldOrder.getBuyerId());
-        if (userId.equals(oldOrder.getSellerId())) {
+        if (oldOrder.getSellerId().equals(userId)) {
             commentUpdaterAndEventSender(profileOfBuyer, userId, newOrder, oldOrder, EventType.ORDER_SELLER_COMMENT);
             return true;
         }
@@ -549,9 +548,9 @@ public class OrderServiceImpl implements OrderService {
 
         List<Image> imageList = offer.getImages();
 
-        if (imageList != null){
+        if (imageList != null) {
             for (Image image : imageList) {
-                if (StringUtils.isNotBlank(image.getImageId())){
+                if (StringUtils.isNotBlank(image.getImageId())) {
                     return image.getImageId();
                 }
             }
