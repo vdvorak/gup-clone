@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ua.com.itproekt.gup.bank_api.BankSession;
-import ua.com.itproekt.gup.service.offers.OffersService;
-import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 
@@ -19,15 +17,8 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 @RequestMapping("/api/rest/inviteCodes")
 public class InviteCodeRestController {
 
-
     @Autowired
-    OffersService offersService;
-
-    @Autowired
-    ProfilesService profilesService;
-
-    @Autowired
-    BankSession bankSession;
+    private BankSession bankSession;
 
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")

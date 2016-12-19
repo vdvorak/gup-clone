@@ -17,7 +17,7 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 public class ActivityFeedRestController {
 
     @Autowired
-    ActivityFeedService activityFeedService;
+    private ActivityFeedService activityFeedService;
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/event/read/all", method = RequestMethod.POST,
