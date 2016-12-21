@@ -366,6 +366,8 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileRepository.findProfileAndUpdate(profile);
         System.err.println("findProfileAndUpdate time: " + (System.currentTimeMillis() - startTime));
 
+
+
         ProfileInfo profileInfo = prepareAdditionalFieldForPrivate(findProfileByEmail(email));
 
 
@@ -485,6 +487,10 @@ public class ProfilesServiceImpl implements ProfilesService {
      * @return - the ProfileInfo object.
      */
     private ProfileInfo prepareAdditionalFieldForPrivate(Profile profile) {
+
+
+        Long startTime = System.currentTimeMillis();
+
         ProfileInfo profileInfo = new ProfileInfo(profile);
 
         OrderFilterOptions orderFilterOptionsForUser = new OrderFilterOptions();
@@ -497,34 +503,71 @@ public class ProfilesServiceImpl implements ProfilesService {
         offerFilterOptionsForAuthor.setAuthorId(profile.getId());
 //        offerFilterOptionsForAuthor.setLimit(20);
 
+        System.err.println("#1 Different filters prepare: " + (System.currentTimeMillis()-startTime));
 
+
+
+
+
+        Long orderListForUserStartTime = System.currentTimeMillis();
         List<Order> orderListForUser = orderService.findOrdersWihOptions(orderFilterOptionsForUser);
+        System.err.println("#2 orderListForUser: " + (System.currentTimeMillis()-orderListForUserStartTime));
+
+        Long orderInfoListForUserStartTime = System.currentTimeMillis();
         List<OrderInfo> orderInfoListForUser = orderService.orderInfoListPreparatorForPrivate(orderListForUser, profile);
+        System.err.println("#3 orderInfoListForUser: " + (System.currentTimeMillis()-orderInfoListForUserStartTime));
 
 
+        Long userOfferInfoListStartTime = System.currentTimeMillis();
         List<OfferInfo> userOfferInfoList = offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor, orderListForUser);
+        System.err.println("#4 userOfferInfoList: " + (System.currentTimeMillis()-userOfferInfoListStartTime));
 
 
+        Long subscriptionListStartTime = System.currentTimeMillis();
         SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions();
         subscriptionFilterOptions.setUserId(profile.getId());
-
         List<Subscription> subscriptionList = subscriptionService.findWithFilterOption(subscriptionFilterOptions);
+        System.err.println("#5 subscriptionList: " + (System.currentTimeMillis()-subscriptionListStartTime));
 
-
+        Long orderInfoSellerListStartTime = System.currentTimeMillis();
         List<OrderInfo> orderInfoSellerList = orderService.orderInfoSellerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());
+        System.err.println("#6 orderInfoSellerList: " + (System.currentTimeMillis()-orderInfoSellerListStartTime));
+
+        Long orderInfoBuyerListStartTime = System.currentTimeMillis();
         List<OrderInfo> orderInfoBuyerList = orderService.orderInfoBuyerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());
+        System.err.println("#7 orderInfoBuyerList: " + (System.currentTimeMillis()-orderInfoBuyerListStartTime));
 
         int totalOrdersAmount = orderInfoListForUser.size();
 
+
+        Long calculateFeedbackAmountStartTime = System.currentTimeMillis();
         int totalFeedbackAmount = orderService.calculateFeedbackAmountForOrderList(orderInfoListForUser);
+        System.err.println("#8 calculateFeedbackAmount: " + (System.currentTimeMillis() - calculateFeedbackAmountStartTime));
 
+
+        Long favoriteOfferInfoListPreparatorStartTime = System.currentTimeMillis();
         List<FavoriteOfferInfo> favoriteOfferInfoList = favoriteOfferInfoListPreparator(profile);
+        System.err.println("#9 favoriteOfferInfoListPreparator: " + (System.currentTimeMillis() - favoriteOfferInfoListPreparatorStartTime));
 
 
-        profileInfo.setUserBalance(bankSession.getUserBalance(profile.getId()))
-                .setUserBonusBalance(Integer.parseInt(bankSession.getBonusByUserId(profile.getId())))
-                .setInternalTransactionHistory(bankSession.getInternalTransactionsJsonByUserId(profile.getId()))
-                .setUserOfferInfoList(userOfferInfoList)
+        System.err.println("#10 Prepare profile without bank: " + (System.currentTimeMillis()-startTime));
+
+
+
+//        Long bankTImeStart = System.currentTimeMillis();
+//        Integer userBalance = bankSession.getUserBalance(profile.getId());
+//        Integer userBonus = Integer.parseInt(bankSession.getBonusByUserId(profile.getId()));
+//        String internalTransactionHistory = bankSession.getInternalTransactionsJsonByUserId(profile.getId());
+//        System.err.println("#11 Whole bank time: " + (System.currentTimeMillis() - bankTImeStart));
+
+
+//        profileInfo.setUserBalance(userBalance)
+//                .setUserBonusBalance(userBonus)
+//                .setInternalTransactionHistory(internalTransactionHistory);
+
+
+
+        profileInfo.setUserOfferInfoList(userOfferInfoList)
                 .setSubscriptionList(subscriptionList)
                 .setTotalFeedbackAmount(totalFeedbackAmount)
                 .setOrderAmount(totalOrdersAmount)
@@ -533,11 +576,16 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setFavoriteOfferInfoList(favoriteOfferInfoList);
 
 
+
+
         profileInfo.setUserAveragePoints(orderService.calculateAveragePointsForListOfOrders(orderInfoListToOrderList(orderInfoSellerList)));
 
         profileInfo.getProfile().setFavoriteOffers(null);
 
         profileInfo.getProfile().setPassword(null);
+
+        System.err.println("#12 All prepareAdditionalFieldForPrivate is: " + (System.currentTimeMillis() - startTime));
+
         return profileInfo;
     }
 
