@@ -72,7 +72,7 @@ public class FileStorageRestController {
     @CrossOrigin
     @RequestMapping(value = "profile/photo/upload", method = RequestMethod.POST)
     public ResponseEntity<CreatedObjResp>
-    photoUpload(@PathVariable String serviceName, @RequestParam MultipartFile file) {
+    photoUpload(@RequestParam MultipartFile file) {
 
         if (file.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
