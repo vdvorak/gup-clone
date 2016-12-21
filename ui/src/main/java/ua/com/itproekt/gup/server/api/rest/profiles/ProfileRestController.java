@@ -247,10 +247,10 @@ public class ProfileRestController {
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/id/{profileId}/myContactList/add", method = RequestMethod.POST)
-    public ResponseEntity<Void> addToMyContactList(@PathVariable String profileId) {
+    public ResponseEntity<String> addToMyContactList(@PathVariable String profileId) {
 
         if (!profilesService.profileExists(profileId)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Target profile was not found", HttpStatus.NOT_FOUND);
         }
 
         String userId = SecurityOperations.getLoggedUserId();
