@@ -244,6 +244,13 @@ public class ProfileRestController {
         return profile.getId();
     }
 
+    /**
+     * Add one contact (user) to the current user contact list.
+     *
+     * @param profileId - the profile ID of the user, which must be added to the contact list.
+     * @return - the status code Not_Found if target user was not fount,
+     * status code OK if user was successfully deleted.
+     */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/id/{profileId}/myContactList/add", method = RequestMethod.POST)
@@ -257,6 +264,25 @@ public class ProfileRestController {
         profilesService.addContactToContactList(userId, profileId);
 
 
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * Delete one contact from user contact list.
+     *
+     * @param profileId - the ID of the profile which must be deleted.
+     * @return - status 404 if target profile was not found, status 200 if profile was deleted from contact list.
+     */
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/id/{profileId}/myContactList/delete", method = RequestMethod.POST)
+    public ResponseEntity<Void> deleteFromMyContactList(@PathVariable String profileId) {
+
+        if (!profilesService.profileExists(profileId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        profilesService.deleteFromMyContactList(profileId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -283,26 +309,6 @@ public class ProfileRestController {
 
         profilesService.editProfile(oldProfile);
 
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
-    /**
-     * Delete one contact from user contact list.
-     *
-     * @param profileId - the ID of the profile which must be deleted.
-     * @return - status 404 if target profile was not found, status 200 if profile was deleted from contact list.
-     */
-    @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/id/{profileId}/myContactList/delete", method = RequestMethod.POST)
-    public ResponseEntity<Void> deleteFromMyContactList(@PathVariable String profileId) {
-
-        if (!profilesService.profileExists(profileId)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        profilesService.deleteFromMyContactList(profileId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

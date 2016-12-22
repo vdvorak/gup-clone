@@ -4,8 +4,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.BankSession;
@@ -367,7 +365,6 @@ public class ProfilesServiceImpl implements ProfilesService {
         System.err.println("findProfileAndUpdate time: " + (System.currentTimeMillis() - startTime));
 
 
-
         ProfileInfo profileInfo = prepareAdditionalFieldForPrivate(findProfileByEmail(email));
 
 
@@ -377,7 +374,13 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public ProfileInfo findPublicProfileById(String id) {
-        return prepareAdditionalFieldForPublic(findById(id));
+
+        Profile profile = findById(id);
+        if (profile != null) {
+            return prepareAdditionalFieldForPublic(profile);
+        } else {
+            return null;
+        }
     }
 
 
@@ -465,8 +468,8 @@ public class ProfilesServiceImpl implements ProfilesService {
     /**
      * Create and prepare ProfileInfo object from Principal object.
      *
-     * @param principal     - the principal object.
-     * @return              - the Profile info object.
+     * @param principal - the principal object.
+     * @return - the Profile info object.
      */
     private ProfileInfo profileInfoPreparatorFromPrincipal(Object principal) {
 
@@ -503,39 +506,36 @@ public class ProfilesServiceImpl implements ProfilesService {
         offerFilterOptionsForAuthor.setAuthorId(profile.getId());
 //        offerFilterOptionsForAuthor.setLimit(20);
 
-        System.err.println("#1 Different filters prepare: " + (System.currentTimeMillis()-startTime));
-
-
-
+        System.err.println("#1 Different filters prepare: " + (System.currentTimeMillis() - startTime));
 
 
         Long orderListForUserStartTime = System.currentTimeMillis();
         List<Order> orderListForUser = orderService.findOrdersWihOptions(orderFilterOptionsForUser);
-        System.err.println("#2 orderListForUser: " + (System.currentTimeMillis()-orderListForUserStartTime));
+        System.err.println("#2 orderListForUser: " + (System.currentTimeMillis() - orderListForUserStartTime));
 
         Long orderInfoListForUserStartTime = System.currentTimeMillis();
         List<OrderInfo> orderInfoListForUser = orderService.orderInfoListPreparatorForPrivate(orderListForUser, profile);
-        System.err.println("#3 orderInfoListForUser: " + (System.currentTimeMillis()-orderInfoListForUserStartTime));
+        System.err.println("#3 orderInfoListForUser: " + (System.currentTimeMillis() - orderInfoListForUserStartTime));
 
 
         Long userOfferInfoListStartTime = System.currentTimeMillis();
         List<OfferInfo> userOfferInfoList = offersService.getListOfPrivateOfferInfoWithOptions(offerFilterOptionsForAuthor, orderListForUser);
-        System.err.println("#4 userOfferInfoList: " + (System.currentTimeMillis()-userOfferInfoListStartTime));
+        System.err.println("#4 userOfferInfoList: " + (System.currentTimeMillis() - userOfferInfoListStartTime));
 
 
         Long subscriptionListStartTime = System.currentTimeMillis();
         SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions();
         subscriptionFilterOptions.setUserId(profile.getId());
         List<Subscription> subscriptionList = subscriptionService.findWithFilterOption(subscriptionFilterOptions);
-        System.err.println("#5 subscriptionList: " + (System.currentTimeMillis()-subscriptionListStartTime));
+        System.err.println("#5 subscriptionList: " + (System.currentTimeMillis() - subscriptionListStartTime));
 
         Long orderInfoSellerListStartTime = System.currentTimeMillis();
         List<OrderInfo> orderInfoSellerList = orderService.orderInfoSellerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());
-        System.err.println("#6 orderInfoSellerList: " + (System.currentTimeMillis()-orderInfoSellerListStartTime));
+        System.err.println("#6 orderInfoSellerList: " + (System.currentTimeMillis() - orderInfoSellerListStartTime));
 
         Long orderInfoBuyerListStartTime = System.currentTimeMillis();
         List<OrderInfo> orderInfoBuyerList = orderService.orderInfoBuyerListFromTotalOrderListOfUser(orderInfoListForUser, profile.getId());
-        System.err.println("#7 orderInfoBuyerList: " + (System.currentTimeMillis()-orderInfoBuyerListStartTime));
+        System.err.println("#7 orderInfoBuyerList: " + (System.currentTimeMillis() - orderInfoBuyerListStartTime));
 
         int totalOrdersAmount = orderInfoListForUser.size();
 
@@ -550,8 +550,7 @@ public class ProfilesServiceImpl implements ProfilesService {
         System.err.println("#9 favoriteOfferInfoListPreparator: " + (System.currentTimeMillis() - favoriteOfferInfoListPreparatorStartTime));
 
 
-        System.err.println("#10 Prepare profile without bank: " + (System.currentTimeMillis()-startTime));
-
+        System.err.println("#10 Prepare profile without bank: " + (System.currentTimeMillis() - startTime));
 
 
 //        Long bankTImeStart = System.currentTimeMillis();
@@ -566,7 +565,6 @@ public class ProfilesServiceImpl implements ProfilesService {
 //                .setInternalTransactionHistory(internalTransactionHistory);
 
 
-
         profileInfo.setUserOfferInfoList(userOfferInfoList)
                 .setSubscriptionList(subscriptionList)
                 .setTotalFeedbackAmount(totalFeedbackAmount)
@@ -574,8 +572,6 @@ public class ProfilesServiceImpl implements ProfilesService {
                 .setOrderInfoBuyerList(orderInfoBuyerList)
                 .setOrderInfoSellerList(orderInfoSellerList)
                 .setFavoriteOfferInfoList(favoriteOfferInfoList);
-
-
 
 
         profileInfo.setUserAveragePoints(orderService.calculateAveragePointsForListOfOrders(orderInfoListToOrderList(orderInfoSellerList)));
