@@ -68,6 +68,8 @@ public class OfferReservationRestController {
             offersService.reserveOffer(offerId, reservation);
             bankSession.investInOrganization(5555, userId, (long) (5 * period), 30, "success");
             reservationScheduleService.add(offerId);
+        }else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
 

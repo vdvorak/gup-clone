@@ -134,20 +134,20 @@ public class BankSession {
         return BankService.getUserFromJsonString(userRepository.getUserJson(login));
     }
 
-    public String liqPayRenderHtmlForm(String id, Long amount) throws UnsupportedEncodingException {
-        HashMap params = new HashMap();
-        params.put("version", "3");
-        params.put("amount", amount);
-        params.put("currency", "UAH");
-        params.put("description", new String("Пополнение баланса".getBytes("UTF-8"), "cp1251"));
-        params.put("order_id", BankService.getRandomPassword() + id);
-        params.put("server_url", "http://e-otg-gup-bank.herokuapp.com/callback");
-        params.put("public_key", "i74044182839");
-        params.put("sandbox", "1");
-        LiqPay liqpay = new LiqPay("i74044182839", "psMQcCR32o4TZRZTKI0Yoe4UDNyFHNFHf76Pyedr");
-        String html = liqpay.cnb_form(params);
-        return html;
-    }
+//    public String liqPayRenderHtmlForm(String id, Long amount) throws UnsupportedEncodingException {
+//        HashMap params = new HashMap();
+//        params.put("version", "3");
+//        params.put("amount", amount);
+//        params.put("currency", "UAH");
+//        params.put("description", new String("Пополнение баланса".getBytes("UTF-8"), "cp1251"));
+//        params.put("order_id", BankService.getRandomPassword() + id);
+//        params.put("server_url", "http://e-otg-gup-bank.herokuapp.com/callback");
+//        params.put("public_key", "i74044182839");
+//        params.put("sandbox", "1");
+//        LiqPay liqpay = new LiqPay("i74044182839", "psMQcCR32o4TZRZTKI0Yoe4UDNyFHNFHf76Pyedr");
+//        String html = liqpay.cnb_form(params);
+//        return html;
+//    }
 
     public Map<String, String> liqPayGenerateParamForHtmlForm(String id, Long amount) {
         HashMap params = new HashMap();
