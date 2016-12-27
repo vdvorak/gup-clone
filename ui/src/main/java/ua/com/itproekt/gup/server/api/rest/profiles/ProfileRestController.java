@@ -362,4 +362,16 @@ public class ProfileRestController {
     }
 
 
+
+
+     // ------------------------ Test controller for testing bank ------------------------
+
+    @CrossOrigin
+    @RequestMapping(value = "/bank/financeInfo/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<String> bankTest(@PathVariable String userId) {
+
+        bankSession.getFinanceInfo(userId);
+
+        return new ResponseEntity<>(bankSession.getFinanceInfo(userId), HttpStatus.OK);
+    }
 }

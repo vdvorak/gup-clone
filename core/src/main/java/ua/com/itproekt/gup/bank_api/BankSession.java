@@ -10,6 +10,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.bank_api.entity.BankUser;
+import ua.com.itproekt.gup.bank_api.entity.FinanceInfo;
 import ua.com.itproekt.gup.bank_api.entity.InternalTransaction;
 import ua.com.itproekt.gup.bank_api.liqpay.LiqPay;
 import ua.com.itproekt.gup.bank_api.repository.*;
@@ -28,11 +29,13 @@ public class BankSession {
     private static final Logger LOG = Logger.getLogger(BankSession.class);
 
     private final String URL = "http://62.80.167.164:8087/";
+//    private final String URL = "http://localhost:8081/";
     private BalanceRepository balanceRepository = new BalanceRepository(this);
     private ExternalTransactionRepository externalTransactionRepository = new ExternalTransactionRepository(this);
     private InternalTransactionRepository internalTransactionRepository = new InternalTransactionRepository(this);
     private UserRepository userRepository = new UserRepository(this);
     private BonusRepository bonusRepository = new BonusRepository(this);
+    private FinanceInfoRepository financeInfoRepository = new FinanceInfoRepository(this);
 
 
     public String getUrl() {
@@ -134,21 +137,6 @@ public class BankSession {
         return BankService.getUserFromJsonString(userRepository.getUserJson(login));
     }
 
-//    public String liqPayRenderHtmlForm(String id, Long amount) throws UnsupportedEncodingException {
-//        HashMap params = new HashMap();
-//        params.put("version", "3");
-//        params.put("amount", amount);
-//        params.put("currency", "UAH");
-//        params.put("description", new String("Пополнение баланса".getBytes("UTF-8"), "cp1251"));
-//        params.put("order_id", BankService.getRandomPassword() + id);
-//        params.put("server_url", "http://e-otg-gup-bank.herokuapp.com/callback");
-//        params.put("public_key", "i74044182839");
-//        params.put("sandbox", "1");
-//        LiqPay liqpay = new LiqPay("i74044182839", "psMQcCR32o4TZRZTKI0Yoe4UDNyFHNFHf76Pyedr");
-//        String html = liqpay.cnb_form(params);
-//        return html;
-//    }
-
     public Map<String, String> liqPayGenerateParamForHtmlForm(String id, Long amount) {
         HashMap params = new HashMap();
         params.put("version", "3");
@@ -195,43 +183,25 @@ public class BankSession {
     }
 
 
-    /**
-     *
-     * @param userId
-     * @return
-     */
+    public String getFinanceInfo(String userId){
+        return financeInfoRepository.getFinancialInfo(userId);
+    }
+
     public String getBonusByUserId(String userId) {
         return bonusRepository.getBonusByUserId(userId);
     }
 
-    /**
-     *
-     * @param userId
-     * @param byType
-     * @return
-     */
+
     public String getAllPendingTransactions(String userId, String byType) {
         return bonusRepository.getAllPendingTransactions(userId, byType);
     }
 
-    /**
-     *
-     * @param userId
-     * @param inviteCode
-     * @return
-     */
+
     public String addBonusByUserId(String userId, String inviteCode) {
         return bonusRepository.addBonusByUserId(userId, inviteCode);
     }
 
-    /**
-     *
-     * @param userId
-     * @param transType
-     * @param cost
-     * @param offerId
-     * @return
-     */
+
     public String buyByBonusAccount(String userId, int transType, int cost, String offerId) {
         return bonusRepository.buyByBonusAccount(userId, transType, cost, offerId);
     }
