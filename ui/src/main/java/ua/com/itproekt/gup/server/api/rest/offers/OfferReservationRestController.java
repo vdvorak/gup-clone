@@ -24,16 +24,16 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 public class OfferReservationRestController {
 
     @Autowired
-    OffersService offersService;
+    private OffersService offersService;
 
     @Autowired
-    ProfilesService profilesService;
+    private ProfilesService profilesService;
 
     @Autowired
-    BankSession bankSession;
+    private BankSession bankSession;
 
     @Autowired
-    ReservationScheduleService reservationScheduleService;
+    private ReservationScheduleService reservationScheduleService;
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/id/{offerId}/{period}/reserve", method = RequestMethod.POST)

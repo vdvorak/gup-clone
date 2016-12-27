@@ -160,7 +160,7 @@ public class BankSession {
             e.printStackTrace();
         }
         params.put("order_id", BankService.getRandomPassword() + id);
-        params.put("server_url", "http://62.80.167.164:8087/callback");
+        params.put("server_url", URL + "/callback");
         params.put("public_key", "i74044182839");
         params.put("sandbox", "1");
         return new LiqPay("i74044182839", "psMQcCR32o4TZRZTKI0Yoe4UDNyFHNFHf76Pyedr").generateData(params);
