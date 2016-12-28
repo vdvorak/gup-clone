@@ -11,12 +11,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dto.ProfileInfo;
-import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.APIVendor;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,10 +31,6 @@ public class ProfileRestController {
 
     @Autowired
     private BankSession bankSession;
-
-    @Autowired
-    private APIVendor profileVendor;
-
 
     /**
      * Gets profile by id.
@@ -175,7 +169,6 @@ public class ProfileRestController {
             }
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        LoggedUser loggedUser;
         try {
             /* Edit Profile */
             Profile profileEdit = profilesService.findPrivateProfileByUidAndUpdateLastLoginDate(newProfile.getUid(), newProfile.getSocWendor()).getProfile();
@@ -230,8 +223,8 @@ public class ProfileRestController {
     /**
      * Check if profile with specific email exist
      *
-     * @param email
-     * @return
+     * @param email - the email of the target profile.
+     * @return - string "NOT FOUND" or user ID.
      */
     @CrossOrigin
     @ResponseBody
@@ -328,15 +321,18 @@ public class ProfileRestController {
     }
 
 
+    /**
+     * Return current users balance.
+     *
+     * @return - the user balance.
+     */
     @CrossOrigin
     @RequestMapping(value = "/check-user-balance-by-id", method = RequestMethod.POST)
     @ResponseBody
-    public Integer checkBalance(@RequestParam("userId") String userId) {
+    public Integer checkBalance() {
 
-        if (profilesService.profileExists(userId)) {
-            return bankSession.getUserBalance(userId);
-        }
-        return 0;
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+        return bankSession.getUserBalance(loggedUserId);
     }
 
     /**
@@ -362,16 +358,19 @@ public class ProfileRestController {
     }
 
 
-
-
-     // ------------------------ Test controller for testing bank ------------------------
-
+    /**
+     * Find and return all financial information for current user. It is include fields: "balance", "bonusBalance" and
+     * "internalTransactionList" - history of the users transactions.
+     *
+     * @return - the result and status 200 (OK).
+     */
+    @PreAuthorize("isAuthenticated()")
     @CrossOrigin
-    @RequestMapping(value = "/bank/financeInfo/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<String> bankTest(@PathVariable String userId) {
+    @RequestMapping(value = "/bank/financeInfo/read", method = RequestMethod.GET)
+    public ResponseEntity<String> bankTest() {
 
-        bankSession.getFinanceInfo(userId);
+        String loggedUserId = SecurityOperations.getLoggedUserId();
 
-        return new ResponseEntity<>(bankSession.getFinanceInfo(userId), HttpStatus.OK);
+        return new ResponseEntity<>(bankSession.getFinanceInfo(loggedUserId), HttpStatus.OK);
     }
 }
