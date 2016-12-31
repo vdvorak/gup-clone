@@ -7,7 +7,7 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class AppControllerSpecTest extends Specification {
 
-  "Calling ScalaJavaController.ping" should {
+  "Calling AppController.ping" should {
     "return pong" in {
       new AppController().ping() must be equalTo "pong"
     }
