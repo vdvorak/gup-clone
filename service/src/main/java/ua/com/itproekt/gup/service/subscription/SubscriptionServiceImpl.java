@@ -13,7 +13,6 @@ import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
 import ua.com.itproekt.gup.service.emailnotification.MailSenderService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
-import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.time.LocalDateTime;
@@ -42,7 +41,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public boolean create(String email, OfferFilterOptions offerFilterOptions) {
 
         // check if user has the same subscription
-       if (ifUserAlreadyHasTheSameSubscription(email, offerFilterOptions)){
+        if (ifUserAlreadyHasTheSameSubscription(email, offerFilterOptions)) {
             return false;
         }
 
@@ -54,7 +53,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
         String userId = SecurityOperations.getLoggedUserId();
 
-        if (userId!= null){
+        if (userId != null) {
             subscription.setUserId(userId);
         }
 
@@ -87,6 +86,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public void checkIfOfferSuiteForSubscriptionAndSendEmail(Offer newOffer) {
 //        Long newOfferLastModerationDate = newOffer.getLastModerationDate();
 
+        String offerOwnerId = newOffer.getAuthorId();
+
+        Profile profile = profilesService.findById(offerOwnerId);
+
+
         List<Subscription> subscriptionList = subscriptionRepository.findAll();
 
         OfferModerationReports offerModerationReports = new OfferModerationReports();
@@ -94,29 +98,39 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
         for (Subscription subscription : subscriptionList) {
 
+
+            if (subscription.getId() != null) {
+                if (subscription.getId().equals(offerOwnerId)) {
+                    //we don't need to send the notification email if it's current user's subscription
+                    continue;
+                }
+            }
+
+            if (subscription.getEmail() != null && profile.getEmail() != null) {
+                if (subscription.getEmail().equals(profile.getEmail())) {
+                    //we don't need to send the notification email if it's current user's subscription
+                    continue;
+                }
+            }
+
             subscription.getOfferFilterOptions().setOfferModerationReports(offerModerationReports);
-
             subscription.getOfferFilterOptions().setActive(true);
-
-            subscription.getOfferFilterOptions().setId(newOffer.getId());// Добовляем ID текущего ОБ
+            subscription.getOfferFilterOptions().setId(newOffer.getId());// add current offer ID
 
 
             // make search among offers with our filterOptions
             // для одной конкретной подписки ищем по фильтру Объявления, и там должно быть лишь одно - наше.
             List<Offer> offerList = offersService.findOffersWihOptions(subscription.getOfferFilterOptions()).getEntities();
 
-            // here we can receive only one offer - our offer< if it is match to the filter
+            // here we can receive only one offer - our offer if it is match to the filter
             if (offerList.size() > 0) {
                 Map<String, String> resources = new HashMap<>();
-
-                mailSenderService.sendSubscriptionOfferEmail(subscription.getId() ,subscription.getEmail(), offerList.get(0), resources);
+                mailSenderService.sendSubscriptionOfferEmail(subscription.getId(), subscription.getEmail(), offerList.get(0), resources);
             }
 
             // change sinceDate of the current subscription to time.Now() and update it
             subscription.setLastCheckDate(LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli());
             subscriptionRepository.findAndUpdate(subscription);
-
-
         }
     }
 
@@ -124,11 +138,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     /**
      * Check if person already has the same subscription
      *
-     * @param email                 - the person email.
-     * @param offerFilterOptions    - the OfferFilterOption object.
-     * @return                      - the true or false.
+     * @param email              - the person email.
+     * @param offerFilterOptions - the OfferFilterOption object.
+     * @return - the true or false.
      */
-    private boolean ifUserAlreadyHasTheSameSubscription(String email, OfferFilterOptions offerFilterOptions){
+    private boolean ifUserAlreadyHasTheSameSubscription(String email, OfferFilterOptions offerFilterOptions) {
 
         SubscriptionFilterOptions subscriptionFilterOptions = new SubscriptionFilterOptions();
         subscriptionFilterOptions.setOfferFilterOptionsCheckSum(Integer.toString(offerFilterOptions.hashCode()));
@@ -136,12 +150,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         List<Subscription> subscriptionList = findWithFilterOption(subscriptionFilterOptions);
 
         for (Subscription subscription : subscriptionList) {
-            if (subscription.getEmail().equals(email)){
+            if (subscription.getEmail().equals(email)) {
                 return true;
             }
         }
         return false;
     }
-
-
 }
