@@ -1,0 +1,98 @@
+#calendar {
+    min-width: 42%;
+    max-width: 42%;
+    margin: 0px auto;
+    padding: 0 10px;
+    /*float: left;*/
+}
+.fc-basic-view .fc-week-number,
+.fc-basic-view .fc-day-number {
+    background: none;
+    border: none;
+}
+.ui-widget-content a {
+    color: #362b36;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 17%;
+}
+.fc-event .fc-content {
+    background: #36f;
+    border-radius: 3px;
+    font-size: 10px;
+    margin: -60px -12px 0;
+}
+.ui-widget-content a:hover {
+    text-decoration: none;
+}
+/*
+        .fc-row .fc-content-skeleton td,
+        .fc-row .fc-helper-skeleton td {
+            background: #33f;
+            border-radius: 35px;
+            padding: 0;
+        }
+        .fc table {
+            font-size: 16px;
+            width: 100%;
+        }
+        .fc td {
+            border-width: 0;
+        }
+*/
+
+#locale-selector {
+    float: left;
+    width: 150px;
+    background: #3baae3 url("../../../resources/fullcalendar/lib/cupertino/images/ui-bg_glass_50_3baae3_1x400.png") repeat-x scroll 50% 50%;
+    border: 1px solid #2694e8;
+    border-radius: 5px;
+    padding: 0px 8px;
+    font-weight: bold;
+    font-size: 20px;
+    color: #ffffff;
+}
+
+#offers-selector {
+    background: #3baae3 url("../../../resources/fullcalendar/lib/cupertino/images/ui-bg_glass_50_3baae3_1x400.png") repeat-x scroll 50% 50%;
+    border: 1px solid #2694e8;
+    border-radius: 5px;
+    color: #ffffff;
+    float: left;
+    font-size: 20px;
+    padding: 2px 8px;
+    width: 700px;
+}
+
+legend {
+    margin-bottom: 0;
+}
+
+#external-events {
+    float: left;
+    width: 160px; /*width: 150px;*/
+    padding: 0 10px;
+    border: 1px solid #aed0ea;
+    background: #deedf7;
+    text-align: left;
+    margin-top: 52px;
+    margin-left: 0; /*margin-left: -150px;*/
+}
+#external-events h4 {
+    font-size: 16px;
+    margin-top: 0;
+    padding-top: 1em;
+}
+#external-events .fc-event {
+    margin: 10px 0;
+    cursor: pointer;
+}
+#external-events p {
+    margin: 1.5em 0;
+    font-size: 11px;
+    color: #666;
+}
+#external-events p input {
+    margin: 0;
+    vertical-align: middle;
+}
