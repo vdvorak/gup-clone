@@ -1,18 +1,19 @@
-package samples
+package ua.com.itproekt.gup.server.api.rest.samples
 
-import org.springframework.stereotype.Controller
 import java.text.SimpleDateFormat
-import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation._
-import org.slf4j.LoggerFactory
 import java.util.Date
 import javax.validation.Valid
 
+import org.slf4j.LoggerFactory
+import org.springframework.http.HttpStatus
+import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation._
+
 @RequestMapping(Array("/scala"))
 @Controller
-class AppController {
+class CalendarController {
 
-  private val logger = LoggerFactory.getLogger(classOf[AppController])
+  private val logger = LoggerFactory.getLogger(classOf[CalendarController])
 
   @RequestMapping(Array("/ping"))
   @ResponseBody
@@ -25,7 +26,7 @@ class AppController {
   }
 
   @RequestMapping(value = Array("/indata"), method = Array(RequestMethod.POST))
-  @ResponseStatus(HttpStatus.OK) def receiveData(@RequestBody @Valid inData: AppIndata): Unit = {
+  @ResponseStatus(HttpStatus.OK) def receiveData(@RequestBody @Valid inData: CalendarData): Unit = {
     logger.debug("Got valid POSTed data: {}", inData)
   }
 
