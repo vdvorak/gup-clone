@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta contentType="text/html; charset=" UTF-8"/>
+    <meta contentType="text/html; charset=" UTF-8
+    "/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>GUP - результаты поиска по подписке</title>
 </head>
@@ -30,7 +31,7 @@
                         <p>Объявление, которое вы ждёте!<br/></p>
 
                         <p>
-                            <a href="http://gup.com.ua:55555/bulletinDetails/${model.getOffer().getSeoUrl()}">${model.getOffer().getTitle()}</a>
+                            <a href="http://gup.com.ua/bulletinDetails/${model.getOffer().getSeoUrl()}">${model.getOffer().getTitle()}</a>
                         </p>
 
                         <p>Цена:${model.getOffer().getPrice()}</p>
@@ -39,8 +40,8 @@
                                 src="http://93.73.109.38:8084/api/rest/fileStorage/OFFERS/file/read/id/${model.getOffer().getTitle()}"></a>
                         </p>
                         <br>
-                        <!-- LEGALESE -->
 
+                        <!-- LEGALESE -->
                         <div style="font-size: 12px;">
                             <p>Для того, чтобы удалить рассылку по этому фильтру, перейдите по
                                 ссылке: ${model.getDeleteThisSubscribeLink()}</p>
@@ -49,7 +50,7 @@
 
 
                         <div style="font-size: 12px;">
-                            <p>Пожалуйста не отвечайте на этот email, он автоматически сгенерирован.</p>
+                            <p>Это письмо создано автоматически. Пожалуйста не отвечайте на него.</p>
                         </div>
                     </td>
                 </tr>
