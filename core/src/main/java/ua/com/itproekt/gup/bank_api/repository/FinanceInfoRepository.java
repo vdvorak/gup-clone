@@ -29,9 +29,6 @@ public class FinanceInfoRepository {
     }
 
 
-
-
-
     public String getFinancialInfo(String userId){
         DefaultHttpClient client = new DefaultHttpClient();
         try {

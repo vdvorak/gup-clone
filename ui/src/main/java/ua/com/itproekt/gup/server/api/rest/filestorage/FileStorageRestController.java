@@ -63,7 +63,6 @@ public class FileStorageRestController {
 
 
     /**
-     * @param serviceName service name in lowercase or in uppercase
      * @param file        file
      * @return id of uploaded files
      */
