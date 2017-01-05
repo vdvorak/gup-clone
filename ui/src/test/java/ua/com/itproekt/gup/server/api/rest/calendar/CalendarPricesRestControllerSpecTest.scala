@@ -10,35 +10,33 @@ import org.specs2.mutable.Specification
 
 
 /**
-* ScalaController SpecTest
-* ************************
-* InvocationTargetException for 'Start' in MyNotifierRunner; cause: org/specs2/specification/TagsAssociation
+* The SpecTest for CalendarPricesRest-Controller
 */
 
 @RunWith(classOf[JUnitRunner])
-class CalendarControllerSpecTest extends Specification {
+class CalendarPricesRestControllerSpecTest extends Specification {
 
   val logger = LoggerFactory.getLogger(getClass)
 
   /**
-   * Calling CalendarController.ping should
+   * Calling CalendarPricesRestController.ping should
    * return pong
    */
-  "Calling CalendarController.ping" should {
+  "Calling CalendarPricesRestController.ping" should {
     "return pong" in {
-      new CalendarController().ping() must be equalTo "pong"
+      new CalendarPricesRestController().ping() must be equalTo "pong"
     }
   }
 
   /**
    * Calling CalendarController.echo should
    * return echo name and week day
-   * DEBUG: ua.com.itproekt.gup.server.api.rest.calendar.CalendarControllerSpecTest - CalendarEcho was: CalendarEcho(Daniel,ср)
+   * DEBUG: ua.com.itproekt.gup.server.api.rest.calendar.CalendarPricesRestController - CalendarEcho was: CalendarEcho(Daniel,ср)
    */
-  "Calling CalendarController.echo" should {
+  "Calling CalendarPricesRestController.echo" should {
     "echo name and week day" in {
       val weekDay = new SimpleDateFormat("E").format(new Date());
-      val echo: CalendarEcho = new CalendarController().echo("Daniel")
+      val echo: CalendarEcho = new CalendarPricesRestController().echo("Daniel")
       echo.name must be equalTo "Daniel"
       echo.weekDay must be equalTo weekDay
 
