@@ -57,7 +57,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  *
  * FIXME: Закрываем библиотечные методы ('add','get') для внешнего доступа через механизм делигирования..
  */
-public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
+public class OfferPricesService extends ConcurrentLinkedQueue<Price> { //public abstract class OfferPricesService extends ConcurrentLinkedQueue<Price> {
 
     private static volatile Boolean initDate;
     private static String formatter = "d.MM.yyyy",

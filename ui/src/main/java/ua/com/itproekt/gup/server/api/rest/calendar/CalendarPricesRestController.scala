@@ -7,10 +7,12 @@ import javax.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{ResponseEntity, MediaType, HttpStatus}
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation._
 import ua.com.itproekt.gup.model.offer.Offer
-import ua.com.itproekt.gup.service.offers.{OfferPricesServiceImpl, OffersService}
+import ua.com.itproekt.gup.server.api.rest.offers.RentTest
+import ua.com.itproekt.gup.service.offers.{OffersServiceImpl, OfferPricesServiceImpl, OffersService}
 
 @RequestMapping(Array("/api/rest/calendarService"))
 @Controller
@@ -18,27 +20,22 @@ class CalendarPricesRestController {
 
   private val logger = LoggerFactory.getLogger(classOf[CalendarPricesRestController])
 
-//  private val formatter: String = "d.MM.yyyy"
-//  private val simpleDateFormat: SimpleDateFormat = new SimpleDateFormat(formatter)
-//
-//  private var rents: Map
-//  @Autowired private var offersService: OffersService
-//  @Autowired private var monthOfPricesService: OfferPricesServiceImpl
-//
-//
-//  @PreAuthorize("isAuthenticated()")
-//  @RequestMapping(value = Array("/offer/{offerId}/price"),
-//    method = Array(RequestMethod.GET),
-//    produces = Array(MediaType.APPLICATION_JSON_VALUE))
-//
-//  def viewOfferPrices(@PathVariable val offerId: String): ResponseEntity<String> = {
-//    if (!offersService offerExists(offerId)) new ResponseEntity<>(HttpStatus.NOT_FOUND)
-//
-//    viewOffer: Offer = offersService findById(offerId);
-//    monthOfPricesService = new OfferPricesServiceImpl(viewOffer.getMonthOfPrices());
-//
-//    new ResponseEntity<>(monthOfPricesService.toJson(), HttpStatus.OK);
-//  }
+  private val formatter: String = "d.MM.yyyy"
+  private val simpleDateFormat: SimpleDateFormat = new SimpleDateFormat(formatter)
+
+  val offersService: OffersServiceImpl = new OffersServiceImpl() //@Autowired val offersService: OffersService
+
+  @PreAuthorize("isAuthenticated()")
+  @RequestMapping(value = Array("/offer/{offerId}/price"), method = Array(RequestMethod.GET), produces = Array(MediaType.APPLICATION_JSON_VALUE))
+  def viewOfferPrices(@PathVariable offerId: String): ResponseEntity[String] = { //def viewOfferPrices(@PathVariable offerId: String): Unit = {
+    if( !offersService.offerExists(offerId) ){
+      new ResponseEntity(HttpStatus.NOT_FOUND)
+    } else {
+      val viewOffer: Offer = offersService findById(offerId)
+      val monthOfPricesService: OfferPricesServiceImpl = new OfferPricesServiceImpl(viewOffer getMonthOfPrices)
+      new ResponseEntity( monthOfPricesService.toJson(), HttpStatus.OK )
+    }
+  }
 
 
   /**
