@@ -18,6 +18,7 @@ import static org.junit.Assert.*;
 
 /**
  * JUnit tests using Fongo (fake mongo) library. Testing of OfferRepository interface.
+ * Fongo - it is 'fake Mongo'. It is imitate mongo.
  *
  * @author Kobylyatskyy Alexander
  */

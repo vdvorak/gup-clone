@@ -36,7 +36,7 @@ public class BankSession {
 //    private final String URL = "http://localhost:8081/";
 
 
-    
+
     private BalanceRepository balanceRepository = new BalanceRepository(this);
     private ExternalTransactionRepository externalTransactionRepository = new ExternalTransactionRepository(this);
     private InternalTransactionRepository internalTransactionRepository = new InternalTransactionRepository(this);

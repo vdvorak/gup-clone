@@ -57,9 +57,9 @@ public class Offer {
     private String                  seoCategory;                // last category for seo meta tags
     private List<Property>          properties;
     @Size(max = 10)
-    private Map<String, String>     imagesIds;
+    private Map<String, String>     imagesIds;                  // old place for images store
 
-    private List<Image>             images; // new format for image stor
+    private List<Image>             images;                     // new format for image store
 
     private String                  videoUrl;
     @Size(min = 2, max = 70)
