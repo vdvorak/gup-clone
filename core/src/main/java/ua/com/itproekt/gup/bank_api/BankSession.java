@@ -28,8 +28,15 @@ import java.util.Map;
 public class BankSession {
     private static final Logger LOG = Logger.getLogger(BankSession.class);
 
+
+    /*
+     * The URL of the bank server
+     */
     private final String URL = "http://62.80.167.164:8087/";
 //    private final String URL = "http://localhost:8081/";
+
+
+    
     private BalanceRepository balanceRepository = new BalanceRepository(this);
     private ExternalTransactionRepository externalTransactionRepository = new ExternalTransactionRepository(this);
     private InternalTransactionRepository internalTransactionRepository = new InternalTransactionRepository(this);
@@ -137,6 +144,16 @@ public class BankSession {
         return BankService.getUserFromJsonString(userRepository.getUserJson(login));
     }
 
+
+    /**
+     * Here we generate two attributes for the client-side: data and signature as pair of two strings.
+     * More details for parameters you can
+     * read here @see <a href="https://www.liqpay.com/en/doc/checkout">https://www.liqpay.com/en/doc/checkout</a>
+     *
+     * @param id - the user ID which make request to fill up his account balance.
+     * @param amount - the amount of the fill up request.
+     * @return - the pair of the data and signature attributes.
+     */
     public Map<String, String> liqPayGenerateParamForHtmlForm(String id, Long amount) {
         HashMap params = new HashMap();
         params.put("version", "3");
@@ -148,8 +165,14 @@ public class BankSession {
             e.printStackTrace();
         }
         params.put("order_id", BankService.getRandomPassword() + id);
+
+        /**
+         * Here we put url on which bank will send request (callback).
+         */
         params.put("server_url", URL + "/callback");
+
         params.put("public_key", "i74044182839");
+
         params.put("sandbox", "1");
         return new LiqPay("i74044182839", "psMQcCR32o4TZRZTKI0Yoe4UDNyFHNFHf76Pyedr").generateData(params);
     }

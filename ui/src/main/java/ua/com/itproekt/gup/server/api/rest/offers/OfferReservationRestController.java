@@ -11,14 +11,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.model.offer.Offer;
-import ua.com.itproekt.gup.util.OfferUserContactInfo;
 import ua.com.itproekt.gup.model.offer.Reservation;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.service.reservationSchedule.ReservationScheduleService;
+import ua.com.itproekt.gup.util.OfferUserContactInfo;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
+
+/**
+ * REST methods for offer reservation.
+ *
+ * @author Kobylyatskyy Alexander
+ */
 @RestController
 @RequestMapping("/api/rest/offersService")
 public class OfferReservationRestController {
@@ -35,6 +41,14 @@ public class OfferReservationRestController {
     @Autowired
     private ReservationScheduleService reservationScheduleService;
 
+
+    /**
+     * With this method we can reserve offer for specific period.
+     *
+     * @param offerId - the offer ID.
+     * @param period  - the period in days.
+     * @return - the status.
+     */
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/id/{offerId}/{period}/reserve", method = RequestMethod.POST)
     public ResponseEntity<Void> reserveOffer(@PathVariable String offerId, Integer period) {
@@ -47,7 +61,7 @@ public class OfferReservationRestController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        if (period < 1 || period > offer.getMaximumReservedPeriod()){
+        if (period < 1 || period > offer.getMaximumReservedPeriod()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
@@ -64,11 +78,11 @@ public class OfferReservationRestController {
                         .setPhoneNumbers(profile.getContact().getContactPhones()));
 
 
-        if (bankSession.getUserBalance(userId) > 5*period) {
+        if (bankSession.getUserBalance(userId) > 5 * period) {
             offersService.reserveOffer(offerId, reservation);
             bankSession.investInOrganization(5555, userId, (long) (5 * period), 30, "success");
             reservationScheduleService.add(offerId);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -76,6 +90,13 @@ public class OfferReservationRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    /**
+     * Delete reservation.
+     *
+     * @param offerId - the offer ID.
+     * @return - the status.
+     */
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/offer/id/{offerId}/deleteReservation", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteReservation(@PathVariable String offerId) {
