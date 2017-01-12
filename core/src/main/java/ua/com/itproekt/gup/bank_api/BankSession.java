@@ -171,10 +171,10 @@ public class BankSession {
          */
         params.put("server_url", URL + "/callback");
 
-        params.put("public_key", "i74044182839");
+        params.put("public_key", "i74044182839"); /* https://www.liqpay.com/ru/  (https://privat24.privatbank.ua/p24/) */
 
-        params.put("sandbox", "1");
-        return new LiqPay("i74044182839", "psMQcCR32o4TZRZTKI0Yoe4UDNyFHNFHf76Pyedr").generateData(params);
+        params.put("sandbox", "1"); /* '0' - real | '1' - test */
+        return new LiqPay("i74044182839", "psMQcCR32o4TZRZTKI0Yoe4UDNyFHNFHf76Pyedr").generateData(params); /* https://www.liqpay.com/ru/  (https://privat24.privatbank.ua/p24/) */
     }
 
     public void accountantRequest(String accountantLogin, String userId, Long amount, String comment) {
