@@ -20,12 +20,12 @@ public class Order {
     private Long price;
     private String buyerId;
     private String sellerId;
-    private Long startDate;
-    private Long acceptDate;
-    private Long rejectDate;
-    private Long sentDate;
-    private Long receivedDate;
-    private Long completeDate;
+    private Long startDate; //новый
+    private Long acceptDate; //принятый
+    private Long rejectDate; //отклоненный
+    private Long sentDate; //отправленно
+    private Long receivedDate; //полученно
+    private Long completeDate; //завершенно
 
     private String sellerNote; // note which could be used by buyer
 
@@ -40,9 +40,9 @@ public class Order {
     private String trackNumber;
     private OrderStatus orderStatus;
     private OrderType orderType;
-    private List<OrderComment> orderComments;
+    private List<OrderComment> orderComments; //комментарий-сопровождающий
 
-    private OrderFeedback orderFeedback;
+    private OrderFeedback orderFeedback; //фидбэк покупателя
 
     public Order setCreatedDateEqualsToCurrentDate() {
         this.startDate = getNowTime();
