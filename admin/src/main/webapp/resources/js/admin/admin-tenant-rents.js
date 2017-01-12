@@ -3,7 +3,7 @@ var offerResult;
 
 $(document).ready(function() {
 
-    ///////////////////////////////////////////////// admin-rents ///////////////////////////////////////////////////
+    ///////////////////////////////////////////////// admin-rents.js ///////////////////////////////////////////////////
 
 
 
@@ -24,9 +24,9 @@ $(document).ready(function() {
         success: function(offers){
             offerResult = JSON.parse( JSON.stringify(offers) );
 
-            // "id":"57f37a5e6032233325b9f8c9"
+            // "id":"587659524c8ef1b9713b5ca3"
             offerResult.forEach(function(el) {
-                if (el.offer.id  === '57f37a5e6032233325b9f8c9'){
+                if (el.offer.id  === '587659524c8ef1b9713b5ca3'){
                     $('#offers-selector').append('<option title="' + el.offer.id + '" selected>'+el.offer.title+'</option>')
                 }else{
                     $('#offers-selector').append('<option title="' + el.offer.id + '">'+el.offer.title+'</option>')
