@@ -24,8 +24,8 @@ import ua.com.itproekt.gup.service.offers.price.PriceOfRent
 import ua.com.itproekt.gup.service.offers.{PriceOfRents, OfferPricesServiceImpl, OffersServiceImpl, OffersService}
 import ua.com.itproekt.gup.util.ConvertUtil
 
+@RestController
 @RequestMapping(Array("/api/rest/calendarService"))
-@Controller
 class CalendarPricesRestController {
   private val logger = LoggerFactory.getLogger(classOf[CalendarPricesRestController])
   private val formatter = "d.MM.yyyy"
