@@ -3,9 +3,7 @@ package ua.com.itproekt.gup.server.api.rest.calendar
 import java.text.SimpleDateFormat
 import java.util.Date
 import javax.validation.Valid
-import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
+import com.google.gson.{JsonElement, Gson, JsonObject, JsonParser}
 import com.google.gson.reflect.TypeToken
 import java.io.FileNotFoundException
 import java.io.FileReader
@@ -30,8 +28,9 @@ class CalendarPricesRestController {
   private val logger = LoggerFactory.getLogger(classOf[CalendarPricesRestController])
   private val formatter = "d.MM.yyyy"
   private val simpleDateFormat = new SimpleDateFormat(formatter)
-//  private[this] val offerOctober,offerRents = "offerOctoberOfPrices.json";"offerRents.json"
-//  private[this] var objJsonMonth,objJsonRents: JsonObject = null
+  private[this] val offerOctober,offerRents = "offerOctoberOfPrices.json";"offerRents.json"
+  private[this] var objJsonMonth: JsonElement = null
+  private[this] var objJsonRents: JsonObject = null
 
   private[this] var monthOfPrices: Map[String,PriceOfRent] = _
   def setMonthOfPrices(key:String, value:PriceOfRent) = this.monthOfPrices = monthOfPrices
@@ -47,7 +46,7 @@ class CalendarPricesRestController {
 
 
   /**
-   *    URL: http://localhost:8184/api/rest/calendarService/offer/57f37a5e6032233325b9f8c9/price
+   *    URL: http://localhost:8184/api/rest/calendarService/offer/587659524c8ef1b9713b5ca3/price
    * method: GET
    * @return Status: 200 OK | Text: {...}
    */
@@ -59,7 +58,7 @@ class CalendarPricesRestController {
   }
 
   /**
-   *    URL: http://localhost:8184/api/rest/calendarService/offer/57f37a5e6032233325b9f8c9/price
+   *    URL: http://localhost:8184/api/rest/calendarService/offer/587659524c8ef1b9713b5ca3/price
    * method: POST
    *   body: { "specialPrice":{"name": "scheme4","price": 11111,"days": []} }
    * @return Status: 201 Created | Text: {...}
@@ -68,7 +67,7 @@ class CalendarPricesRestController {
   @RequestMapping(value = Array("/offer/{offerId}/price"), method = Array(RequestMethod.POST), consumes = Array(MediaType.APPLICATION_JSON_VALUE))
   def createOfferPrices(@PathVariable offerId: String, @RequestBody monthOfPrices: PriceOfRents): ResponseEntity[String] = {
     if( !(offersServiceImpl offerExists(offerId)) ) new ResponseEntity(HttpStatus NOT_FOUND)
-    else (monthOfPrices getWeekendPrice, monthOfPrices getSpecialPrice, monthOfPrices getSpecialPrice) match {case null => new ResponseEntity(HttpStatus BAD_REQUEST)}
+    else if (monthOfPrices.getWeekendPrice() == null && monthOfPrices.getSpecialPrice() == null && monthOfPrices.getSpecialPrice() == null) new ResponseEntity(HttpStatus BAD_REQUEST)
     offerPricesServiceImpl = new OfferPricesServiceImpl(monthOfPrices getWeekdayPrice, monthOfPrices getWeekendPrice)                     // Устанавливаем дефолтную цену (на будни и выходные дни)
     offerPricesServiceImpl addPrices( monthOfPrices.getSpecialPrice getPrice, ConvertUtil toDate(monthOfPrices.getSpecialPrice getDays) ) // Устанавливаем специальную цену на отдельные дни
     offersServiceImpl edit(offersServiceImpl findById(offerId) setMonthOfPrices(offerPricesServiceImpl toRestore))
@@ -76,34 +75,34 @@ class CalendarPricesRestController {
   }
 
   /**
-   *    URL: http://localhost:8184/api/rest/calendarService/offer/57f37a5e6032233325b9f8c9/price
+   *    URL: http://localhost:8184/api/rest/calendarService/offer/587659524c8ef1b9713b5ca3/price
    * method: PUT
    *   body: { "specialPrice":{"name":"scheme4","price":11111,"days":["31.10.2016"]} }
    * @return Status: 200 OK | Text: {...}
    */
-//  @PreAuthorize("isAuthenticated()")
-//  @RequestMapping(value = Array("/offer/{offerId}/price"), method = Array(RequestMethod.PUT), consumes = Array(MediaType.APPLICATION_JSON_VALUE))
-//  def editOfferPrices(@PathVariable offerId: String, @RequestBody monthOfPrice: PriceOfRents): ResponseEntity[String] = {
-//    if( !(offersServiceImpl offerExists(offerId)) ) new ResponseEntity(HttpStatus NOT_FOUND)
-//    else (monthOfPrice getWeekendPrice, monthOfPrice getSpecialPrice, monthOfPrice getSpecialPrice) match {case null => new ResponseEntity(HttpStatus BAD_REQUEST)}
-//
-//    val parser: JsonParser = JsonParser
-//    val classLoader: ClassLoader = getClass getClassLoader
-//    val gson: Gson = Gson
-//    try { objJsonMonth = (parser parse(new FileReader(classLoader getResource(offerOctober) getFile))) [JsonObject] }
-//    catch { case e: FileNotFoundException => e printStackTrace }
-//    monthOfPrices = gson fromJson(objJsonMonth, new TypeToken[Map[String, PriceOfRent]]{} getType)
-//
-//    val editOffer: Offer = offersServiceImpl findById(offerId)
-//    offerPricesServiceImpl = new OfferPricesServiceImpl(editOffer getMonthOfPrices)
-//    offerPricesServiceImpl addPrices(monthOfPrice.getSpecialPrice getPrice, ConvertUtil toDate(monthOfPrice.getSpecialPrice getDays))
-//    editOffer setMonthOfPrices(offerPricesServiceImpl toRestore)
-//    offersServiceImpl edit(editOffer)
-//    new ResponseEntity(offerPricesServiceImpl toJson, HttpStatus OK)
-//  }
+  @PreAuthorize("isAuthenticated()")
+  @RequestMapping(value = Array("/offer/{offerId}/price"), method = Array(RequestMethod.PUT), consumes = Array(MediaType.APPLICATION_JSON_VALUE))
+  def editOfferPrices(@PathVariable offerId: String, @RequestBody monthOfPrice: PriceOfRents): ResponseEntity[String] = {
+    if( !(offersServiceImpl offerExists(offerId)) ) new ResponseEntity(HttpStatus NOT_FOUND)
+    else if (monthOfPrice.getWeekendPrice() == null && monthOfPrice.getSpecialPrice() == null && monthOfPrice.getSpecialPrice() == null) new ResponseEntity(HttpStatus BAD_REQUEST)
+
+    var parser = new JsonParser() //var parser: JsonParser = JsonParser
+    var classLoader: ClassLoader = getClass getClassLoader
+    var gson = new Gson() //var gson: Gson = Gson
+    try { objJsonMonth = parser parse(new FileReader(classLoader getResource(offerOctober) getFile)) } //try { objJsonMonth = (parser parse(new FileReader(classLoader getResource(offerOctober) getFile))) [JsonObject] }
+    catch { case e: FileNotFoundException => e printStackTrace }
+    new TypeToken[HashMap[String, PriceOfRent]]{} getType //gson fromJson(objJsonMonth, new TypeToken[HashMap[String, PriceOfRent]]{} getType) //monthOfPrices = gson fromJson(objJsonMonth, new TypeToken[Map[String, PriceOfRent]]{} getType)
+
+    val editOffer: Offer = offersServiceImpl findById(offerId)
+    offerPricesServiceImpl = new OfferPricesServiceImpl(editOffer getMonthOfPrices)
+    offerPricesServiceImpl addPrices(monthOfPrice.getSpecialPrice getPrice, ConvertUtil toDate(monthOfPrice.getSpecialPrice getDays))
+    editOffer setMonthOfPrices(offerPricesServiceImpl toRestore)
+    offersServiceImpl edit(editOffer)
+    new ResponseEntity(offerPricesServiceImpl toJson, HttpStatus OK)
+  }
 
   /**
-   *    URL: http://localhost:8184/api/rest/calendarService/offer/57f37a5e6032233325b9f8c9/price
+   *    URL: http://localhost:8184/api/rest/calendarService/offer/587659524c8ef1b9713b5ca3/price
    * method: DELETE
    * @return Status: 200 OK | Text: 5
    */
