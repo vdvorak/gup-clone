@@ -28,11 +28,11 @@ class CalendarPricesRestController {
   private val logger = LoggerFactory.getLogger(classOf[CalendarPricesRestController])
   private val formatter = "d.MM.yyyy"
   private val simpleDateFormat = new SimpleDateFormat(formatter)
-  private[this] val offerOctober,offerRents = "offerOctoberOfPrices.json";"offerRents.json"
+  private[this] val offerOctober,offerRents = "offerOctoberOfPrices.json";"offerRents.json" //???
   private[this] var objJsonMonth: JsonElement = null
   private[this] var objJsonRents: JsonObject = null
 
-  private[this] var monthOfPrices: Map[String,PriceOfRent] = _
+  private[this] var monthOfPrices: HashMap[String,PriceOfRent] = _
   def setMonthOfPrices(key:String, value:PriceOfRent) = this.monthOfPrices = monthOfPrices
 
 //  private[this] var rents: Map[String,RentTest] = _
@@ -86,16 +86,16 @@ class CalendarPricesRestController {
     if( !(offersServiceImpl offerExists(offerId)) ) new ResponseEntity(HttpStatus NOT_FOUND)
     else if (monthOfPrice.getWeekendPrice() == null && monthOfPrice.getSpecialPrice() == null && monthOfPrice.getSpecialPrice() == null) new ResponseEntity(HttpStatus BAD_REQUEST)
 
-    var parser = new JsonParser() //var parser: JsonParser = JsonParser
+    var parser = new JsonParser()
     var classLoader: ClassLoader = getClass getClassLoader
-    var gson = new Gson() //var gson: Gson = Gson
-    try { objJsonMonth = parser parse(new FileReader(classLoader getResource(offerOctober) getFile)) } //try { objJsonMonth = (parser parse(new FileReader(classLoader getResource(offerOctober) getFile))) [JsonObject] }
+    var gson = new Gson()
+    try { objJsonMonth = parser parse(new FileReader(classLoader getResource(offerOctober) getFile)) }
     catch { case e: FileNotFoundException => e printStackTrace }
-    new TypeToken[HashMap[String, PriceOfRent]]{} getType //gson fromJson(objJsonMonth, new TypeToken[HashMap[String, PriceOfRent]]{} getType) //monthOfPrices = gson fromJson(objJsonMonth, new TypeToken[Map[String, PriceOfRent]]{} getType)
+    monthOfPrices = gson fromJson(objJsonMonth, new TypeToken[HashMap[String, PriceOfRent]]{} getType)
 
     val editOffer: Offer = offersServiceImpl findById(offerId)
     offerPricesServiceImpl = new OfferPricesServiceImpl(editOffer getMonthOfPrices)
-    offerPricesServiceImpl addPrices(monthOfPrice.getSpecialPrice getPrice, ConvertUtil toDate(monthOfPrice.getSpecialPrice getDays))
+    offerPricesServiceImpl addPrices( monthOfPrice.getSpecialPrice getPrice, ConvertUtil toDate(monthOfPrice.getSpecialPrice getDays))
     editOffer setMonthOfPrices(offerPricesServiceImpl toRestore)
     offersServiceImpl edit(editOffer)
     new ResponseEntity(offerPricesServiceImpl toJson, HttpStatus OK)
