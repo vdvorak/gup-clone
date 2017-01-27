@@ -190,10 +190,6 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
-
-
-        Long time = System.currentTimeMillis();
-
         LoggedUser loggedUser;
         try {
             loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
@@ -204,20 +200,8 @@ public class LoginRestController {
         if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-
-
-        System.err.println("Before authenticate time: " + (System.currentTimeMillis() - time));
-
-
         authenticateByEmailAndPassword(loggedUser, response);
-        System.err.println("After authenticate time: " + (System.currentTimeMillis() - time));
-
         ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
-
-
-        System.err.println("Total login time is: " + (System.currentTimeMillis() - time));
-
-
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
