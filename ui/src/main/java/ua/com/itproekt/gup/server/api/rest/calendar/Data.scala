@@ -1,5 +1,28 @@
 package ua.com.itproekt.gup.server.api.rest.calendar
 
+/**
+ * CalendarData
+ */
+import java.lang.Integer
+import javax.validation.constraints.{Min, NotNull}
+
+case class CalendarData() {
+  val name: String = null
+  val age: Integer = 0
+
+  @NotNull
+  def getName() = name
+
+  @Min(1)
+  def getAge() = age
+
+  override def toString = "CalendarData(" + name + "," + age + ")"
+}
+
+
+/**
+ * CalendarDataAnnotated
+ */
 import java.lang.Integer
 import javax.validation.constraints.{Min, NotNull}
 import scala.annotation.meta.beanGetter
@@ -16,3 +39,11 @@ case class CalendarDataAnnotated() {
 
   override def toString = "CalendarDataAnnotated(" + name + "," + age + ")"
 }
+
+
+/**
+ * CalendarEcho
+ */
+import scala.beans.BeanProperty
+
+case class CalendarEcho(@BeanProperty val name: String, @BeanProperty val weekDay: String)
