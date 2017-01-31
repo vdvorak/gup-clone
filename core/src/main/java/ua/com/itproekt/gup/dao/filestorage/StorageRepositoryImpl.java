@@ -24,7 +24,7 @@ public class StorageRepositoryImpl implements StorageRepository {
     private static final String MEDIUM_CACHE_IMAGE_STORAGE_PATH = ".file.storage.medium.cache";
     private static final String SMALL_CACHE_IMAGE_STORAGE_PATH = ".file.storage.small.cache";
 
-    private int profileSmallCachedSize = 40;
+    private int profileSmallCachedSize = 70; //40
     private int profileLargeCachedSize = 175;
 
 
