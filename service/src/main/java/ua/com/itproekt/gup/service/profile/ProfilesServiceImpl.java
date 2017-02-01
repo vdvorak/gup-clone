@@ -21,6 +21,7 @@ import ua.com.itproekt.gup.model.subscription.Subscription;
 import ua.com.itproekt.gup.model.subscription.filter.SubscriptionFilterOptions;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
+import ua.com.itproekt.gup.service.seosequence.PublicProfileSequenceService;
 import ua.com.itproekt.gup.service.subscription.SubscriptionService;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.SecurityOperations;
@@ -47,6 +48,8 @@ public class ProfilesServiceImpl implements ProfilesService {
     private ProfileRepository profileRepository;
     @Autowired
     private SubscriptionService subscriptionService;
+    @Autowired
+    private PublicProfileSequenceService profileSequenceService;
 
 
     //ToDo  make this work after we will repair oauth
@@ -61,6 +64,8 @@ public class ProfilesServiceImpl implements ProfilesService {
         }};
 
         Profile newProfile = new Profile()
+                .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
+                .activated(profile.isActivate())
                 .setEmail(profile.getEmail())
                 .setSocWendor(profile.getSocWendor())
                 .setPassword(hashedPassword)
@@ -84,6 +89,8 @@ public class ProfilesServiceImpl implements ProfilesService {
         String hashedPassword = passwordEncoder.encode(profile.getPassword());
 
         Profile newProfile = new Profile()
+                .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
+                .activated(profile.isActivate())
                 .setEmail(profile.getEmail())
                 .setSocWendor(profile.getSocWendor())
                 .setPassword(hashedPassword)
@@ -110,6 +117,8 @@ public class ProfilesServiceImpl implements ProfilesService {
         offerUserRoleSet.add(UserRole.ROLE_USER);
 
         profile
+                .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
+                .activated(profile.isActivate())
                 .setEmail(offerRegistration.getEmail())
                 .setPassword(offerRegistration.getPassword())
                 .setUserRoles(offerUserRoleSet);
@@ -133,6 +142,8 @@ public class ProfilesServiceImpl implements ProfilesService {
         }};
 
         Profile newProfile = new Profile()
+                .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
+                .activated(profile.isActivate())
                 .setSocWendor(profile.getSocWendor())
                 .setUid(profile.getUid())
                 .setTokenKey(profile.getTokenKey())

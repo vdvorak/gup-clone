@@ -16,12 +16,20 @@ import java.util.List;
 import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Document(collection = "users")
+@Document(collection = Profile.COLLECTION_NAME)
 public class Profile {
+    public static final String COLLECTION_NAME = "users";
+
     @Id
     private String id;
+
+    @Indexed
+    private String publicId;
+
     @Indexed
     private String idSeoWord;
+
+    private Boolean activate = false; // default
 
     @Email
     @Indexed
@@ -169,6 +177,28 @@ public class Profile {
 
     public Profile setUsername(String username) {
         this.username = username;
+        return this;
+    }
+
+    public Boolean isActivate() {
+        return activate;
+    }
+
+    public Profile activated() {
+        activate = true;
+        return this;
+    }
+    public Profile activated(Boolean activate) {
+        this.activate = activate;
+        return this;
+    }
+
+    public String getPublicId() {
+        return publicId;
+    }
+
+    public Profile setPublicId(String publicId) {
+        this.publicId = publicId;
         return this;
     }
 
@@ -344,6 +374,8 @@ public class Profile {
     public String toString() {
         return "Profile{" +
                 "id='" + id + '\'' +
+                ", publicId='" + publicId + '\'' +
+                ", activate='" + activate + '\'' +
                 ", idSeoWord='" + idSeoWord + '\'' +
                 ", email='" + email + '\'' +
                 ", socWendor='" + socWendor + '\'' +
