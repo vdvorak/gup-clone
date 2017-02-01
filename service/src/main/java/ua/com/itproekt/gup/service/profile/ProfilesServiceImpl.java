@@ -164,6 +164,11 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.findById(id);
     }
 
+    @Override
+    public Profile findByPublicId(String id) {
+        return profileRepository.findByPublicId(id);
+    }
+
 
     @Override
     public Profile findWholeProfileById(String id) {
@@ -363,21 +368,10 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public ProfileInfo findPrivateProfileByEmailAndUpdateLastLoginDate(String email) {
-        long startTime = System.currentTimeMillis();
-
         Profile profile = findProfileByEmail(email);
-
-        System.err.println("findProfileByEmail time: " + (System.currentTimeMillis() - startTime));
-
         profile.setLastLoginDateEqualsToCurrentDate();
-
-        startTime = System.currentTimeMillis();
         profileRepository.findProfileAndUpdate(profile);
-        System.err.println("findProfileAndUpdate time: " + (System.currentTimeMillis() - startTime));
-
-
         ProfileInfo profileInfo = prepareAdditionalFieldForPrivate(findProfileByEmail(email));
-
 
         return profileInfo;
     }
@@ -387,6 +381,18 @@ public class ProfilesServiceImpl implements ProfilesService {
     public ProfileInfo findPublicProfileById(String id) {
 
         Profile profile = findById(id);
+        if (profile != null) {
+            return prepareAdditionalFieldForPublic(profile);
+        } else {
+            return null;
+        }
+    }
+
+
+    @Override
+    public ProfileInfo findPublicProfileByPublicId(String id) {
+
+        Profile profile = findByPublicId(id);
         if (profile != null) {
             return prepareAdditionalFieldForPublic(profile);
         } else {

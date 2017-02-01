@@ -33,17 +33,30 @@ public class ProfileRestController {
     private BankSession bankSession;
 
     /**
-     * Gets profile by id.
+     * Gets profile by public-id.
      *
      * @param id the id
-     * @return the profile by id
+     * @return the profile by public-id
      */
+//    @CrossOrigin
+//    @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.GET,
+//            produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<ProfileInfo> getProfileById(@PathVariable String id) {
+//
+//        ProfileInfo profileInfo = profilesService.findPublicProfileById(id);
+//
+//        if (profileInfo == null) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//
+//        return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+//    }
     @CrossOrigin
     @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileInfo> getProfileById(@PathVariable String id) {
+    public ResponseEntity<ProfileInfo> getProfileByPublicId(@PathVariable String id) {
 
-        ProfileInfo profileInfo = profilesService.findPublicProfileById(id);
+        ProfileInfo profileInfo = profilesService.findPublicProfileByPublicId(id);
 
         if (profileInfo == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -54,17 +67,30 @@ public class ProfileRestController {
 
 
     /**
-     * Gets user name by id.
+     * Gets user name by public-id.
      *
      * @param id - the user ID.
      * @return - the user profile.
      */
+//    @CrossOrigin
+//    @RequestMapping(value = "/profile/info/{id}", method = RequestMethod.GET,
+//            produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<String> getProfileNameById(@PathVariable String id) {
+//
+//        Profile profile = profilesService.findById(id);
+//
+//        if (profile == null) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//
+//        return new ResponseEntity<>(profile.getUsername(), HttpStatus.OK);
+//    }
     @CrossOrigin
     @RequestMapping(value = "/profile/info/{id}", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getProfileNameById(@PathVariable String id) {
+    public ResponseEntity<String> getProfileNameByPublicId(@PathVariable String id) {
 
-        Profile profile = profilesService.findById(id);
+        Profile profile = profilesService.findByPublicId(id);
 
         if (profile == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -72,6 +98,52 @@ public class ProfileRestController {
 
         return new ResponseEntity<>(profile.getUsername(), HttpStatus.OK);
     }
+
+
+    /**
+     * Add one contact (user) to the current user contact list.
+     *
+     * @param profileId - the profile ID of the user, which must be added to the contact list.
+     * @return - the status code Not_Found if target user was not fount,
+     * status code OK if user was successfully deleted.
+     */
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/id/{profileId}/myContactList/add", method = RequestMethod.POST)
+    public ResponseEntity<String> addToMyContactList(@PathVariable String profileId) {
+
+        if (!profilesService.profileExists(profileId)) {
+            return new ResponseEntity<>("Target profile was not found", HttpStatus.NOT_FOUND);
+        }
+
+        String userId = SecurityOperations.getLoggedUserId();
+        profilesService.addContactToContactList(userId, profileId);
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    /**
+     * Delete one contact from user contact list.
+     *
+     * @param profileId - the ID of the profile which must be deleted.
+     * @return - status 404 if target profile was not found, status 200 if profile was deleted from contact list.
+     */
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/id/{profileId}/myContactList/delete", method = RequestMethod.POST)
+    public ResponseEntity<Void> deleteFromMyContactList(@PathVariable String profileId) {
+
+        if (!profilesService.profileExists(profileId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        profilesService.deleteFromMyContactList(profileId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
 
     /**
@@ -93,6 +165,59 @@ public class ProfileRestController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
+
+
+    /**
+     * Gets profile by username.
+     *
+     * @param username the username
+     * @return the profile by username
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/profile/read/username/{username}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Profile> getProfileByUsername(@PathVariable("username") String username) {
+        Profile profile = profilesService.findProfileByUsername(username);
+        if (profile == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(profile, HttpStatus.OK);
+    }
+
+
+    /**
+     * List all profiles response entity.
+     *
+     * @param profileFilterOptions the profile filter options (pagination).
+     *                             Use "skip" and "limit" in JSON object request body
+     * @return the response entity
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/profile/read/all", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ProfileInfo>> listAllProfiles(@RequestBody ProfileFilterOptions profileFilterOptions) {
+        List<ProfileInfo> profiles = profilesService.findAllPublicProfilesWithOptions(profileFilterOptions);
+        return new ResponseEntity<>(profiles, HttpStatus.OK);
+    }
+
+
+    /**
+     * Check if profile with specific email exist
+     *
+     * @param email - the email of the target profile.
+     * @return - string "NOT FOUND" or user ID.
+     */
+    @CrossOrigin
+    @ResponseBody
+    @RequestMapping(value = "/profile/email-check", method = RequestMethod.POST)
+    public String idByEmail(@RequestParam String email) {
+        Profile profile = profilesService.findProfileByEmail(email);
+        if (profile == null) {
+            return "NOT FOUND";
+        }
+        return profile.getId();
+    }
+
 
     /**
      * Update profile.
@@ -149,6 +274,7 @@ public class ProfileRestController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
+
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/soc-edit", method = RequestMethod.POST)
@@ -187,97 +313,6 @@ public class ProfileRestController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    /**
-     * Gets profile by username.
-     *
-     * @param username the username
-     * @return the profile by username
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/profile/read/username/{username}", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Profile> getProfileByUsername(@PathVariable("username") String username) {
-        Profile profile = profilesService.findProfileByUsername(username);
-        if (profile == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(profile, HttpStatus.OK);
-    }
-
-    /**
-     * List all profiles response entity.
-     *
-     * @param profileFilterOptions the profile filter options (pagination).
-     *                             Use "skip" and "limit" in JSON object request body
-     * @return the response entity
-     */
-    @CrossOrigin
-    @RequestMapping(value = "/profile/read/all", method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ProfileInfo>> listAllProfiles(@RequestBody ProfileFilterOptions profileFilterOptions) {
-        List<ProfileInfo> profiles = profilesService.findAllPublicProfilesWithOptions(profileFilterOptions);
-        return new ResponseEntity<>(profiles, HttpStatus.OK);
-    }
-
-
-    /**
-     * Check if profile with specific email exist
-     *
-     * @param email - the email of the target profile.
-     * @return - string "NOT FOUND" or user ID.
-     */
-    @CrossOrigin
-    @ResponseBody
-    @RequestMapping(value = "/profile/email-check", method = RequestMethod.POST)
-    public String idByEmail(@RequestParam String email) {
-        Profile profile = profilesService.findProfileByEmail(email);
-        if (profile == null) {
-            return "NOT FOUND";
-        }
-        return profile.getId();
-    }
-
-    /**
-     * Add one contact (user) to the current user contact list.
-     *
-     * @param profileId - the profile ID of the user, which must be added to the contact list.
-     * @return - the status code Not_Found if target user was not fount,
-     * status code OK if user was successfully deleted.
-     */
-    @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/id/{profileId}/myContactList/add", method = RequestMethod.POST)
-    public ResponseEntity<String> addToMyContactList(@PathVariable String profileId) {
-
-        if (!profilesService.profileExists(profileId)) {
-            return new ResponseEntity<>("Target profile was not found", HttpStatus.NOT_FOUND);
-        }
-
-        String userId = SecurityOperations.getLoggedUserId();
-        profilesService.addContactToContactList(userId, profileId);
-
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    /**
-     * Delete one contact from user contact list.
-     *
-     * @param profileId - the ID of the profile which must be deleted.
-     * @return - status 404 if target profile was not found, status 200 if profile was deleted from contact list.
-     */
-    @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/profile/id/{profileId}/myContactList/delete", method = RequestMethod.POST)
-    public ResponseEntity<Void> deleteFromMyContactList(@PathVariable String profileId) {
-
-        if (!profilesService.profileExists(profileId)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        profilesService.deleteFromMyContactList(profileId);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
     /**
      * Change profile status
@@ -334,6 +369,7 @@ public class ProfileRestController {
         String loggedUserId = SecurityOperations.getLoggedUserId();
         return bankSession.getUserBalance(loggedUserId);
     }
+
 
     /**
      * Change userType in bank

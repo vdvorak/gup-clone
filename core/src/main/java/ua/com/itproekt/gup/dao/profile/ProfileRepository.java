@@ -206,6 +206,8 @@ public interface ProfileRepository {
      */
     Profile findById(String id);
 
+    Profile findByPublicId(String id);
+
     /**
      * Find and return profile by it's seoWord.
      *

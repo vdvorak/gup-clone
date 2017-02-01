@@ -29,7 +29,7 @@ public class Profile {
     @Indexed
     private String idSeoWord;
 
-    private Boolean activate = false; // default
+    private Boolean activate;
 
     @Email
     @Indexed

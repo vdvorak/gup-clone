@@ -52,6 +52,8 @@ public interface ProfilesService {
      */
     Profile findById(String id);
 
+    Profile findByPublicId(String id);
+
     /**
      * Find and return whole profile by it's ID.
      *
@@ -289,6 +291,8 @@ public interface ProfilesService {
      * @return                          - the profile.
      */
     ProfileInfo findPublicProfileById(String id);
+
+    ProfileInfo findPublicProfileByPublicId(String id);
 
     /**
      * Find private profile by ID and update login date.
