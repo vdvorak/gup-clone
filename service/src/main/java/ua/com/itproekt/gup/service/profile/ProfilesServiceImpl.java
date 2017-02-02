@@ -384,6 +384,14 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
+    public ProfileInfo findPrivateProfileByEmail(String email) {
+        ProfileInfo profileInfo = prepareAdditionalFieldForPrivate(findProfileByEmail(email));
+
+        return profileInfo;
+    }
+
+
+    @Override
     public ProfileInfo findPublicProfileById(String id) {
 
         Profile profile = findById(id);

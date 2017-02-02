@@ -44,7 +44,9 @@ public class ProfileRestController {
     public ResponseEntity<ProfileInfo> getProfileByPublicId(@PathVariable String id) {
 
 //        ProfileInfo profileInfo = profilesService.findPublicProfileById(id);
-        ProfileInfo profileInfo = profilesService.findPublicProfileByPublicId(id);
+
+        String email = profilesService.findPublicProfileByPublicId(id).getProfile().getEmail();
+        ProfileInfo profileInfo = profilesService.findPrivateProfileByEmail(email); //ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(email);
 
         if (profileInfo == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

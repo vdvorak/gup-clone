@@ -312,6 +312,8 @@ public interface ProfilesService {
      */
     ProfileInfo findPrivateProfileByEmailAndUpdateLastLoginDate(String email);
 
+    ProfileInfo findPrivateProfileByEmail(String email);
+
     /**
      * Find private profile by UID and socVendor and update login date.
      *
