@@ -89,7 +89,7 @@ public class LoginRestController {
             // REGISTER:
             if( profile.getSocWendor()==null )
                 profile.setSocWendor("GUP");
-            profile.activated(false);
+            profile.setActivate(false);
             profilesService.createProfile(profile);
             verificationTokenService.sendEmailRegistrationToken(profile.getId());
 
@@ -133,7 +133,7 @@ public class LoginRestController {
             // REGISTER:
             if( profile.getSocWendor()==null )
                 profile.setSocWendor("GUP");
-            profile.activated(false);
+            profile.setActivate(false);
             profilesService.createProfileWithRoles(profile);
 //            verificationTokenService.sendEmailRegistrationToken(profile.getId());
             return new ResponseEntity<>(HttpStatus.OK);
@@ -163,7 +163,7 @@ public class LoginRestController {
                 profile.setImgUrl(profileVendor.getImage().get("url"));
                 /* Edit Profile */
             profile.setUsername(profileVendor.getName()); //TODO: fix-change 'nickname' on 'name'
-            profile.activated(true);
+            profile.setActivate(true);
                 profilesService.editProfile(profile);
             // TODO } catch (NullPointerException e) {
             // TODO     LOG.error(LogUtil.getExceptionStackTrace(e));

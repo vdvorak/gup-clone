@@ -29,7 +29,7 @@ public class Profile {
     @Indexed
     private String idSeoWord;
 
-    private Boolean activate;
+    private boolean activate;
 
     @Email
     @Indexed
@@ -180,16 +180,16 @@ public class Profile {
         return this;
     }
 
-    public Boolean isActivate() {
-        return activate;
+    public boolean isActivate() {
+    return activate;
+}
+
+    public void setActivate(boolean activate) {
+        this.activate = activate;
     }
 
-    public Profile activated() {
-        activate = true;
-        return this;
-    }
-    public Profile activated(Boolean activate) {
-        this.activate = activate;
+    public Profile setIsActivate(boolean isActivate) {
+        this.activate = isActivate;
         return this;
     }
 
