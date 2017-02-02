@@ -196,6 +196,12 @@ public class ProfilesServiceImpl implements ProfilesService {
 
 
     @Override
+    public boolean profilePublicExists(String id) {
+        return profileRepository.profilePublicExists(id);
+    }
+
+
+    @Override
     public boolean profileExistsWithEmail(String email) {
         return profileRepository.profileExistsWithEmail(email);
     }

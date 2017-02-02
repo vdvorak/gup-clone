@@ -38,24 +38,12 @@ public class ProfileRestController {
      * @param id the id
      * @return the profile by public-id
      */
-//    @CrossOrigin
-//    @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.GET,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<ProfileInfo> getProfileById(@PathVariable String id) {
-//
-//        ProfileInfo profileInfo = profilesService.findPublicProfileById(id);
-//
-//        if (profileInfo == null) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//        return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-//    }
     @CrossOrigin
-    @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<ProfileInfo> getProfileById(@PathVariable String id) {
     public ResponseEntity<ProfileInfo> getProfileByPublicId(@PathVariable String id) {
 
+//        ProfileInfo profileInfo = profilesService.findPublicProfileById(id);
         ProfileInfo profileInfo = profilesService.findPublicProfileByPublicId(id);
 
         if (profileInfo == null) {
@@ -72,24 +60,12 @@ public class ProfileRestController {
      * @param id - the user ID.
      * @return - the user profile.
      */
-//    @CrossOrigin
-//    @RequestMapping(value = "/profile/info/{id}", method = RequestMethod.GET,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<String> getProfileNameById(@PathVariable String id) {
-//
-//        Profile profile = profilesService.findById(id);
-//
-//        if (profile == null) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//        return new ResponseEntity<>(profile.getUsername(), HttpStatus.OK);
-//    }
     @CrossOrigin
-    @RequestMapping(value = "/profile/info/{id}", method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/profile/info/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<String> getProfileNameById(@PathVariable String id) {
     public ResponseEntity<String> getProfileNameByPublicId(@PathVariable String id) {
 
+//        Profile profile = profilesService.findById(id);
         Profile profile = profilesService.findByPublicId(id);
 
         if (profile == null) {
@@ -112,13 +88,13 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/id/{profileId}/myContactList/add", method = RequestMethod.POST)
     public ResponseEntity<String> addToMyContactList(@PathVariable String profileId) {
 
-        if (!profilesService.profileExists(profileId)) {
+//        if (!profilesService.profileExists(profileId)) {//TODO: need make test...
+        if (!profilesService.profilePublicExists(profileId)) {
             return new ResponseEntity<>("Target profile was not found", HttpStatus.NOT_FOUND);
         }
 
         String userId = SecurityOperations.getLoggedUserId();
         profilesService.addContactToContactList(userId, profileId);
-
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -135,7 +111,8 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/id/{profileId}/myContactList/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteFromMyContactList(@PathVariable String profileId) {
 
-        if (!profilesService.profileExists(profileId)) {
+//        if (!profilesService.profileExists(profileId)) { //TODO: need make test...
+        if (!profilesService.profilePublicExists(profileId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

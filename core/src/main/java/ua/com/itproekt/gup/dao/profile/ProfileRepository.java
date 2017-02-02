@@ -44,6 +44,8 @@ public interface ProfileRepository {
      */
     boolean profileExists(String id);
 
+    boolean profilePublicExists(String id);
+
     /**
      * Profile exists with email boolean.
      *
