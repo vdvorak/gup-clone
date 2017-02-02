@@ -65,7 +65,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         Profile newProfile = new Profile()
                 .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
-                .setIsActivate(profile.isActivate())
+                .setActive(profile.getActive())
                 .setEmail(profile.getEmail())
                 .setSocWendor(profile.getSocWendor())
                 .setPassword(hashedPassword)
@@ -90,7 +90,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         Profile newProfile = new Profile()
                 .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
-                .setIsActivate(profile.isActivate())
+                .setActive(profile.getActive())
                 .setEmail(profile.getEmail())
                 .setSocWendor(profile.getSocWendor())
                 .setPassword(hashedPassword)
@@ -118,7 +118,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         profile
                 .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
-                .setIsActivate(profile.isActivate())
+                .setActive(profile.getActive())
                 .setEmail(offerRegistration.getEmail())
                 .setPassword(offerRegistration.getPassword())
                 .setUserRoles(offerUserRoleSet);
@@ -143,7 +143,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         Profile newProfile = new Profile()
                 .setPublicId("id" + profileSequenceService.getNextSequenceId(Profile.COLLECTION_NAME))
-                .setIsActivate(profile.isActivate())
+                .setActive(profile.getActive())
                 .setSocWendor(profile.getSocWendor())
                 .setUid(profile.getUid())
                 .setTokenKey(profile.getTokenKey())

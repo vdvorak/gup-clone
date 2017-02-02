@@ -87,9 +87,10 @@ public class LoginRestController {
         if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
 
             // REGISTER:
-            if( profile.getSocWendor()==null )
+            if( profile.getSocWendor()==null ){
                 profile.setSocWendor("GUP");
-            profile.setActivate(false);
+            }
+            profile.setActive(false);
             profilesService.createProfile(profile);
             verificationTokenService.sendEmailRegistrationToken(profile.getId());
 
@@ -125,15 +126,14 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/admin/register", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> registerForAdminPanel(@RequestBody Profile profile) {
-
-
         // CHECK:
         if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
 
             // REGISTER:
-            if( profile.getSocWendor()==null )
+            if( profile.getSocWendor()==null ){
                 profile.setSocWendor("GUP");
-            profile.setActivate(false);
+            }
+            profile.setActive(false);
             profilesService.createProfileWithRoles(profile);
 //            verificationTokenService.sendEmailRegistrationToken(profile.getId());
             return new ResponseEntity<>(HttpStatus.OK);
@@ -163,7 +163,7 @@ public class LoginRestController {
                 profile.setImgUrl(profileVendor.getImage().get("url"));
                 /* Edit Profile */
             profile.setUsername(profileVendor.getName()); //TODO: fix-change 'nickname' on 'name'
-            profile.setActivate(true);
+            profile.setActive(true);
                 profilesService.editProfile(profile);
             // TODO } catch (NullPointerException e) {
             // TODO     LOG.error(LogUtil.getExceptionStackTrace(e));
@@ -206,39 +206,6 @@ public class LoginRestController {
         authenticateByEmailAndPassword(loggedUser, response);
         ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
-    }
-
-    @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/change-password", method = RequestMethod.POST)
-    public ResponseEntity<String> changePassword(@RequestBody FormChangePassword formChangePassword, HttpServletRequest request, HttpServletResponse response) {
-        Profile profile = profilesService.findWholeProfileById(SecurityOperations.getLoggedUser().getProfileId());
-
-        /* Edit Profile | change password */
-        if( passwordEncoder.matches(formChangePassword.getPassword(),profile.getPassword()) ){
-            profile.setPassword(passwordEncoder.encode(formChangePassword.getNewPassword()));
-            profilesService.editProfile(profile);
-            mailSenderService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, formChangePassword.getNewPassword()));
-
-            for (Cookie cookie : request.getCookies()) {
-                if (cookie.getName().equals("authToken")) {
-                    tokenServices.revokeToken(cookie.getValue());
-                }
-            }
-
-            Cookie cookieAuthToken = new Cookie("authToken", null);
-            cookieAuthToken.setMaxAge(0);
-            cookieAuthToken.setPath("/");
-            response.addCookie(cookieAuthToken);
-
-            Cookie cookieRefreshToken = new Cookie("refreshToken", null);
-            cookieRefreshToken.setMaxAge(0);
-            cookieRefreshToken.setPath("/");
-            response.addCookie(cookieRefreshToken);
-
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @CrossOrigin
@@ -314,6 +281,39 @@ public class LoginRestController {
         }
 
         return (profilesService.profileExistsWithEmail(email)) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
+    }
+
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/change-password", method = RequestMethod.POST)
+    public ResponseEntity<String> changePassword(@RequestBody FormChangePassword formChangePassword, HttpServletRequest request, HttpServletResponse response) {
+        Profile profile = profilesService.findWholeProfileById(SecurityOperations.getLoggedUser().getProfileId());
+
+        /* Edit Profile | change password */
+        if( passwordEncoder.matches(formChangePassword.getPassword(),profile.getPassword()) ){
+            profile.setPassword(passwordEncoder.encode(formChangePassword.getNewPassword()));
+            profilesService.editProfile(profile);
+            mailSenderService.sendLostPasswordEmail(new EmailServiceTokenModel(profile.getEmail(), "", VerificationTokenType.LOST_PASSWORD, formChangePassword.getNewPassword()));
+
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("authToken")) {
+                    tokenServices.revokeToken(cookie.getValue());
+                }
+            }
+
+            Cookie cookieAuthToken = new Cookie("authToken", null);
+            cookieAuthToken.setMaxAge(0);
+            cookieAuthToken.setPath("/");
+            response.addCookie(cookieAuthToken);
+
+            Cookie cookieRefreshToken = new Cookie("refreshToken", null);
+            cookieRefreshToken.setMaxAge(0);
+            cookieRefreshToken.setPath("/");
+            response.addCookie(cookieRefreshToken);
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
 
