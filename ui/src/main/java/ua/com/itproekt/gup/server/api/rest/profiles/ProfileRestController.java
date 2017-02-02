@@ -44,9 +44,7 @@ public class ProfileRestController {
     public ResponseEntity<ProfileInfo> getProfileByPublicId(@PathVariable String id) {
 
 //        ProfileInfo profileInfo = profilesService.findPublicProfileById(id);
-
-        String email = profilesService.findPublicProfileByPublicId(id).getProfile().getEmail();
-        ProfileInfo profileInfo = profilesService.findPrivateProfileByEmail(email); //ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(email);
+        ProfileInfo profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate( profilesService.findPublicProfileByPublicId(id).getProfile().getId() ); //ProfileInfo profileInfo = profilesService.findPublicProfileByPublicId(id);
 
         if (profileInfo == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -54,6 +52,8 @@ public class ProfileRestController {
 
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
+
+    //TODO: add short-profile!!!
 
 
     /**
