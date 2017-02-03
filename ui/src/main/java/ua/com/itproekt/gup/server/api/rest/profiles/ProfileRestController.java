@@ -33,17 +33,33 @@ public class ProfileRestController {
     private BankSession bankSession;
 
     /**
+     * Gets profile by id.
+     *
+     * @param id the id
+     * @return the profile by id
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProfileInfo> getProfileById(@PathVariable String id) {
+        ProfileInfo profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate( id );
+
+        if (profileInfo == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+    }
+
+    /**
      * Gets profile by public-id.
      *
      * @param id the id
      * @return the profile by public-id
      */
     @CrossOrigin
-    @RequestMapping(value = "/profile/read/id/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<ProfileInfo> getProfileById(@PathVariable String id) {
+    @RequestMapping(value = "/profile/read/publicid/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileInfo> getProfileByPublicId(@PathVariable String id) {
-
-//        ProfileInfo profileInfo = profilesService.findPublicProfileById(id);
         ProfileInfo profileInfo = profilesService.findPrivateProfileByIdAndUpdateLastLoginDate( profilesService.findPublicProfileByPublicId(id).getProfile().getId() ); //ProfileInfo profileInfo = profilesService.findPublicProfileByPublicId(id);
 
         if (profileInfo == null) {
@@ -57,17 +73,33 @@ public class ProfileRestController {
 
 
     /**
+     * Gets user name by id.
+     *
+     * @param id - the user ID.
+     * @return - the user profile.
+     */
+    @CrossOrigin
+    @RequestMapping(value = "/profile/info/{id}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getProfileNameById(@PathVariable String id) {
+        Profile profile = profilesService.findById(id);
+
+        if (profile == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(profile.getUsername(), HttpStatus.OK);
+    }
+
+    /**
      * Gets user name by public-id.
      *
      * @param id - the user ID.
      * @return - the user profile.
      */
     @CrossOrigin
-    @RequestMapping(value = "/profile/info/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<String> getProfileNameById(@PathVariable String id) {
+    @RequestMapping(value = "/profile/publicinfo/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getProfileNameByPublicId(@PathVariable String id) {
-
-//        Profile profile = profilesService.findById(id);
         Profile profile = profilesService.findByPublicId(id);
 
         if (profile == null) {
