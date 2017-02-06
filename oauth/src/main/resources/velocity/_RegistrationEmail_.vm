@@ -21,7 +21,7 @@
             <td style="padding-left: 30px; border-left: 2px solid #E7E7E8;">
               <!-- MESSAGE -->
               <p>Спасибо за регистрацию на GUP. <br/>
-                  Перейдите по этой <a href="http://gup.com.ua:55555/registrationConfirm?token=${model.getHostNameUrl()}">ссылке</a> для подтверждения вашей почты.</p>
+                  Перейдите по этой <a href="${model.getHostNameUrl()}/registrationConfirm?token=${model.getEncodedToken()}">ссылке</a> для подтверждения вашей почты.</p>
               <br>
               <!-- LEGALESE -->
 

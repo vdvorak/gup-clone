@@ -12,6 +12,8 @@ public interface VerificationTokenService {
      */
     VerificationToken sendEmailRegistrationToken(String userId);
 
+    VerificationToken sendEmailRegistrationToken2(String userId, String refreshToken);
+
     /**
      *
      * @param base64EncodedToken

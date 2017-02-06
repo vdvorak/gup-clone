@@ -64,17 +64,30 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         return token;
     }
 
-//    @Transactional
-//    @Async
-//    public VerificationToken sendEmailRegistrationToken(String userId) {
-//        User user = ensureUserIsLoaded(userId);
-//        VerificationToken token = new VerificationToken(user,
-//                VerificationTokenType.emailRegistration, emailRegistrationTokenExpiryTimeInMinutes);
-//        tokenRepository.save(token);
-//        mailSenderService.sendRegistrationEmail(new EmailServiceTokenModel(user,
-//                token, hostNameUrl));
-//        return token;
-//    }
+////    @Transactional
+////    @Async
+////    public VerificationToken sendEmailRegistrationToken(String userId) {
+////        User user = ensureUserIsLoaded(userId);
+////        VerificationToken token = new VerificationToken(user,
+////                VerificationTokenType.emailRegistration, emailRegistrationTokenExpiryTimeInMinutes);
+////        tokenRepository.save(token);
+////        mailSenderService.sendRegistrationEmail(new EmailServiceTokenModel(user,
+////                token, hostNameUrl));
+////        return token;
+////    }
+
+    @Transactional
+    @Async
+    @Override
+    public VerificationToken sendEmailRegistrationToken2(String userId, String refreshToken) {
+        VerificationToken token = new VerificationToken(userId, VerificationTokenType.EMAIL_REGISTRATION, emailRegistrationTokenExpiryTimeInMinutes);
+        verificationTokenRepository.save(token);
+
+        Profile profile = ensureUserIsLoaded(userId);
+        hostNameUrl = refreshToken;
+        mailSenderService.sendRegistrationEmail(new EmailServiceTokenModel(profile.getEmail(), token, hostNameUrl));
+        return token;
+    }
 
     /**
      * generate token if user found otherwise do nothing

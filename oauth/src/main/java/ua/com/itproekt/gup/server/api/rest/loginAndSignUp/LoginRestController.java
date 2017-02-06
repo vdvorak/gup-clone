@@ -7,6 +7,7 @@ import org.springframework.http.*;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -21,6 +22,7 @@ import ua.com.itproekt.gup.model.login.FormChangePassword;
 import ua.com.itproekt.gup.model.login.FormLoggedUser;
 import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.profiles.UserRole;
 import ua.com.itproekt.gup.model.profiles.verification.VerificationTokenType;
 import ua.com.itproekt.gup.server.api.rest.dto.FileUploadWrapper;
 import ua.com.itproekt.gup.dto.ProfileInfo;
@@ -112,6 +114,78 @@ public class LoginRestController {
         }
 
         return resp;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/register-by-email", method = RequestMethod.POST)
+    public ResponseEntity<ProfileInfo> registerByEmail(@RequestBody Profile profile, HttpServletResponse response) {
+        ResponseEntity<ProfileInfo> resp = null;
+
+        // CHECK:
+        if( !profilesService.profileExistsWithEmail(profile.getEmail()) ){
+
+            // REGISTER:
+            if( profile.getSocWendor()==null ){
+                profile.setSocWendor("GUP");
+            }
+            profile.setActive(false);
+            profilesService.createProfile(profile);
+//            verificationTokenService.sendEmailRegistrationToken(profile.getId());
+
+            // LOGIN:
+            LoggedUser loggedUser = null;
+            try {
+                loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(profile.getEmail());
+                if (!passwordEncoder.matches(profile.getPassword(), loggedUser.getPassword())) {
+                    resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                }
+//                authenticateByEmailAndPassword(loggedUser, response);
+                //////////////////////////////////////////////////////////////////////////////////////////
+                AuthenticateByEmailAndPasswordFromRegister authenticateByEmailAndPasswordFromRegister = authenticateByEmailAndPasswordFromRegister(loggedUser, response);
+                System.err.println("********************************************************************");
+                System.err.println("authToken=" + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getValue() + ";" );
+                System.err.println("refreshToken=" + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getRefreshToken() + ";" );
+                System.err.println("expiration: " + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getExpiration().toString() );
+                System.err.println("validate: " + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().isExpired() );
+                System.err.println("********************************************************************");
+                verificationTokenService.sendEmailRegistrationToken2(profile.getId(), authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getRefreshToken().toString());
+                //////////////////////////////////////////////////////////////////////////////////////////
+
+                ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(profile.getEmail());
+                resp = new ResponseEntity<>(profileInfo, HttpStatus.OK);
+            } catch (UsernameNotFoundException ex) {
+                resp = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+        } else {
+            resp = new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        return resp;
+    }
+
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/confirm-register-by-email", method = RequestMethod.POST)
+    public ResponseEntity<Void> confirmRegisterByEmail(HttpServletRequest request) throws AuthenticationCredentialsNotFoundException {
+        String loggedUserId = SecurityOperations.getLoggedUserId();
+
+        Profile profile = profilesService.findById(loggedUserId);
+
+        // we cant't allow empty email field for some cases
+        if (profile.getEmail() == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        if (profile.getEmail().equals("")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        if (profile.getId().equals(loggedUserId) || request.isUserInRole(UserRole.ROLE_ADMIN.toString())) {
+            profile.setActive(true);
+            profilesService.editProfile(profile);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
 
@@ -324,6 +398,48 @@ public class LoginRestController {
 
         CookieUtil.addCookie(response, Oauth2Util.ACCESS_TOKEN_COOKIE_NAME, oAuth2AccessToken.getValue(), Oauth2Util.ACCESS_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
         CookieUtil.addCookie(response, Oauth2Util.REFRESH_TOKEN_COOKIE_NAME, oAuth2AccessToken.getRefreshToken().getValue(), Oauth2Util.REFRESH_TOKEN_COOKIE_EXPIRES_IN_SECONDS);
+    }
+
+    private AuthenticateByEmailAndPasswordFromRegister authenticateByEmailAndPasswordFromRegister(User user, HttpServletResponse response) {
+        return new AuthenticateByEmailAndPasswordFromRegister(response, tokenServices.createAccessToken(new OAuth2Authentication(Oauth2Util.getOAuth2Request(), new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities()))));
+    }
+
+    class AuthenticateByEmailAndPasswordFromRegister {
+
+        public AuthenticateByEmailAndPasswordFromRegister(){
+        }
+
+        public AuthenticateByEmailAndPasswordFromRegister(HttpServletResponse httpServletResponse, OAuth2AccessToken oAuth2AccessToken){
+            this.httpServletResponse = httpServletResponse;
+            this.oAuth2AccessToken = oAuth2AccessToken;
+        }
+
+        private HttpServletResponse httpServletResponse;
+        private OAuth2AccessToken oAuth2AccessToken;
+
+        public HttpServletResponse getHttpServletResponse() {
+            return httpServletResponse;
+        }
+
+        public void setHttpServletResponse(HttpServletResponse httpServletResponse) {
+            this.httpServletResponse = httpServletResponse;
+        }
+
+        public OAuth2AccessToken getOAuth2AccessToken() {
+            return oAuth2AccessToken;
+        }
+
+        public void setOAuth2AccessToken(OAuth2AccessToken oAuth2AccessToken) {
+            this.oAuth2AccessToken = oAuth2AccessToken;
+        }
+
+        @Override
+        public String toString() {
+            return "AuthenticateByEmailAndPasswordFromRegister{" +
+                    "httpServletResponse=" + httpServletResponse +
+                    ", oAuth2AccessToken=" + oAuth2AccessToken +
+                    '}';
+        }
     }
 
     private void authenticateByUidAndToken(User user, String socWendor, HttpServletResponse response) {
