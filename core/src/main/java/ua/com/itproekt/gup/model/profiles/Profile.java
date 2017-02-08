@@ -44,6 +44,8 @@ public class Profile {
     @Indexed
     @Size(min = 2, max = 70)
     private String username;
+    private String executive;
+    private String contactPerson;
     private String imgId;
     private String imgUrl;
     private Long birthDate;
@@ -177,6 +179,24 @@ public class Profile {
 
     public Profile setUsername(String username) {
         this.username = username;
+        return this;
+    }
+
+    public String getExecutive() {
+        return executive;
+    }
+
+    public Profile setExecutive(String executive) {
+        this.executive = executive;
+        return this;
+    }
+
+    public String getContactPerson() {
+        return contactPerson;
+    }
+
+    public Profile setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
         return this;
     }
 
@@ -381,6 +401,8 @@ public class Profile {
                 ", tokenKey='" + tokenKey + '\'' +
                 ", mainPhoneNumber='" + mainPhoneNumber + '\'' +
                 ", username='" + username + '\'' +
+                ", executive='" + executive + '\'' +
+                ", contactPerson='" + contactPerson + '\'' +
                 ", imgId='" + imgId + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", birthDate=" + birthDate +
