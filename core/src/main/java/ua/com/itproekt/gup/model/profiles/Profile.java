@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.com.itproekt.gup.model.offer.Address;
 import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
 
@@ -46,6 +47,7 @@ public class Profile {
     private String username;
     private String executive;
     private String contactPerson;
+    private Address address;
     private String imgId;
     private String imgUrl;
     private Long birthDate;
@@ -197,6 +199,15 @@ public class Profile {
 
     public Profile setContactPerson(String contactPerson) {
         this.contactPerson = contactPerson;
+        return this;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public Profile setAddress(Address address) {
+        this.address = address;
         return this;
     }
 
@@ -403,6 +414,7 @@ public class Profile {
                 ", username='" + username + '\'' +
                 ", executive='" + executive + '\'' +
                 ", contactPerson='" + contactPerson + '\'' +
+                ", address='" + address + '\'' +
                 ", imgId='" + imgId + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", birthDate=" + birthDate +
