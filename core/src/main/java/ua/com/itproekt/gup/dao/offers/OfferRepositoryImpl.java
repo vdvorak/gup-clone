@@ -79,9 +79,6 @@ public class OfferRepositoryImpl implements OfferRepository {
         System.out.println("--------------------------------------------------------------------------------------------[Properties]");
         System.out.println( offerFilterOptions.getProperties() );
         System.out.println("[Properties]--------------------------------------------------------------------------------------------");
-        System.out.println("--------------------------------------------------------------------------------------------[Property]");
-        for(Property property: offerFilterOptions.getProperties()) System.out.println( property );
-        System.out.println("[Property]--------------------------------------------------------------------------------------------");
         System.out.println("[OfferFilterOptions]============================================================================================");
 
         Query query = queryPreparator(offerFilterOptions);
