@@ -75,6 +75,9 @@ public class OfferRepositoryImpl implements OfferRepository {
     public EntityPage<Offer> findOffersWithOptions(OfferFilterOptions offerFilterOptions) {
         System.out.println("============================================================================================[OfferFilterOptions]");
         System.out.println(offerFilterOptions);
+        System.out.println("--------------------------------------------------------------------------------------------[Properties]");
+        offerFilterOptions.getProperties();
+        System.out.println("[Properties]--------------------------------------------------------------------------------------------");
         System.out.println("[OfferFilterOptions]============================================================================================");
 
         Query query = queryPreparator(offerFilterOptions);
