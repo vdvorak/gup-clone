@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import ua.com.itproekt.gup.model.offer.Offer;
+import ua.com.itproekt.gup.model.offer.Property;
 import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
@@ -76,7 +77,10 @@ public class OfferRepositoryImpl implements OfferRepository {
         System.out.println("============================================================================================[OfferFilterOptions]");
         System.out.println(offerFilterOptions);
         System.out.println("--------------------------------------------------------------------------------------------[Properties]");
-        offerFilterOptions.getProperties();
+        System.out.println( offerFilterOptions.getProperties() );
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[Property]");
+        for(Property property: offerFilterOptions.getProperties()) System.out.println( property );
+
         System.out.println("[Properties]--------------------------------------------------------------------------------------------");
         System.out.println("[OfferFilterOptions]============================================================================================");
 
