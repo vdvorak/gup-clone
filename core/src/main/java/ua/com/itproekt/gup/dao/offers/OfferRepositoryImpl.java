@@ -73,8 +73,20 @@ public class OfferRepositoryImpl implements OfferRepository {
 
     @Override
     public EntityPage<Offer> findOffersWithOptions(OfferFilterOptions offerFilterOptions) {
+        System.out.println("============================================================================================[OfferFilterOptions]");
+        System.out.println(offerFilterOptions);
+        System.out.println("[OfferFilterOptions]============================================================================================");
+
         Query query = queryPreparator(offerFilterOptions);
+        System.out.println("============================================================================================[Query]");
+        System.out.println(query.toString());
+        System.out.println("[Query]============================================================================================");
+
         List<Offer> offerList = mongoTemplate.find(query, Offer.class);
+        System.out.println("============================================================================================[offerList]");
+        System.out.println(offerList);
+        System.out.println("[offerList]============================================================================================");
+
         EntityPage<Offer> offerEntityPage = new EntityPage<>();
 
         offerEntityPage.setEntities(offerList);
