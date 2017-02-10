@@ -78,10 +78,10 @@ public class OfferRepositoryImpl implements OfferRepository {
         System.out.println(offerFilterOptions);
         System.out.println("--------------------------------------------------------------------------------------------[Properties]");
         System.out.println( offerFilterOptions.getProperties() );
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++[Property]");
-        for(Property property: offerFilterOptions.getProperties()) System.out.println( property );
-
         System.out.println("[Properties]--------------------------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------------------[Property]");
+        for(Property property: offerFilterOptions.getProperties()) System.out.println( property );
+        System.out.println("[Property]--------------------------------------------------------------------------------------------");
         System.out.println("[OfferFilterOptions]============================================================================================");
 
         Query query = queryPreparator(offerFilterOptions);
@@ -90,9 +90,9 @@ public class OfferRepositoryImpl implements OfferRepository {
         System.out.println("[Query]============================================================================================");
 
         List<Offer> offerList = mongoTemplate.find(query, Offer.class);
-        System.out.println("============================================================================================[offerList]");
+        System.out.println("============================================================================================[List<Offer>]");
         System.out.println(offerList);
-        System.out.println("[offerList]============================================================================================");
+        System.out.println("[List<Offer>]============================================================================================");
 
         EntityPage<Offer> offerEntityPage = new EntityPage<>();
 
