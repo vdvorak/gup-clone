@@ -73,19 +73,9 @@ public class OfferRepositoryImpl implements OfferRepository {
 
     @Override
     public EntityPage<Offer> findOffersWithOptions(OfferFilterOptions offerFilterOptions) {
-        Long startTime = System.currentTimeMillis();
-
         Query query = queryPreparator(offerFilterOptions);
-
-        EntityPage<Offer> offerEntityPage = new EntityPage<>();
-
-        System.err.println("## ------> after query preparator: " + (System.currentTimeMillis() - startTime));
-
         List<Offer> offerList = mongoTemplate.find(query, Offer.class);
-
-        System.err.println("## ------> after mongoTemplate.find: " + (System.currentTimeMillis() - startTime));
-
-
+        EntityPage<Offer> offerEntityPage = new EntityPage<>();
 
         offerEntityPage.setEntities(offerList);
         offerEntityPage.setTotalEntities(offerList.size());
