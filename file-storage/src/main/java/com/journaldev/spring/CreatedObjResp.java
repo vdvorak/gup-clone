@@ -1,11 +1,6 @@
 package com.journaldev.spring;
 
-import java.io.Serializable;
-
-public class CreatedObjResp implements Serializable {
-
-    private static final long serialVersionUID = -7788619177798333712L;
-
+public class CreatedObjResp {
     private String id;
 
     public CreatedObjResp() {}
@@ -22,4 +17,8 @@ public class CreatedObjResp implements Serializable {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "{\n  \"id\" : \"" + id + "\"\n}";
+    }
 }
