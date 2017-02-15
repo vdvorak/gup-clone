@@ -483,7 +483,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         Profile profile = findById(userId);
 
-        Set<String> contactList = profile.getContactList();
+        Map<String, String> contactList = profile.getContactList(); //Set<String> contactList = profile.getContactList();
 
         contactList.remove(profileId);
 
@@ -668,7 +668,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         newProfile.setPoint(0)
                 .setProfileRating(new HashSet<>())
-                .setContactList(new HashSet<>())
+                .setContactList(new HashMap<>()) //.setContactList(new HashSet<>())
                 .setFinanceInfo(new FinanceInfo())
                 .setContact(contact)
                 .setOfferUserContactInfoList(null)

@@ -7,10 +7,7 @@ import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
 import ua.com.itproekt.gup.util.TransportCompany;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class prepare and build profile instance for tests.
@@ -53,7 +50,7 @@ public class ProfileTestBuilder {
     private static final TransportCompany PROFILE_ADDRESS_TRANSPORTCOMPANY = TransportCompany.NOVA_POSHTA;
     static Profile profile;
     private static Set<String> phoneNumbers = new HashSet<>();
-    private static Set<String> contactList = new HashSet<>();
+    private static Map<String, String> contactList = new HashMap<>(); //private static Set<String> contactList = new HashSet<>();
     private static FinanceInfo financeInfo = new FinanceInfo();
     private static List<OrderAddress> orderAddressList = new ArrayList<>();
     private static OrderAddress orderAddress = new OrderAddress();
@@ -67,8 +64,8 @@ public class ProfileTestBuilder {
     static {
         phoneNumbers.add(PROFILE_USERCONTACTINFO_PHONENUMBER);
 
-        contactList.add(CONTACT_FIRST);
-        contactList.add(CONTACT_SECOND);
+        contactList.put("pp", CONTACT_FIRST); //contactList.add(CONTACT_FIRST);
+        contactList.put("qq", CONTACT_SECOND); //contactList.add(CONTACT_SECOND);
         financeInfo.setBankCode(PROFILE_BANKCODE)
                 .setUsreou(PROFILE_USREUO)
                 .setVatNumber(PROFILE_VATNUMBER)
