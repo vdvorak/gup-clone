@@ -33,6 +33,6 @@
         <module>ui</module>
         <module>service</module>
         <module>admin</module>
-        <module>file-storage</module>
+        <!--<module>file-storage</module>-->
     </modules>
 </project>
