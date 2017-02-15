@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -53,7 +54,7 @@ public class Profile {
     private Long birthDate;
     private Contact contact;
 
-    private Set<String> contactList;
+    private Map<String, String> contactList; //private Set<String> contactList;
     private FinanceInfo financeInfo; // info about bank etc.
     private Set<String> favoriteOffers;
     @Size(max = 45)
@@ -283,11 +284,11 @@ public class Profile {
         return this;
     }
 
-    public Set<String> getContactList() {
+    public Map<String, String> getContactList() { //public Set<String> getContactList() {
         return contactList;
     }
 
-    public Profile setContactList(Set<String> contactList) {
+    public Profile setContactList(Map<String, String> contactList) { //public Profile setContactList(Set<String> contactList) {
         this.contactList = contactList;
         return this;
     }
