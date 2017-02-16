@@ -65,8 +65,8 @@ public class ProfileTestBuilder {
     static {
         phoneNumbers.add(PROFILE_USERCONTACTINFO_PHONENUMBER);
 
-        contactList.add(new ProfileContactList(CONTACT_FIRST)); //contactList.put("pp", CONTACT_FIRST); //contactList.add(CONTACT_FIRST);
-        contactList.add(new ProfileContactList(CONTACT_SECOND)); //contactList.put("qq", CONTACT_SECOND); //contactList.add(CONTACT_SECOND);
+        contactList.add(new ProfileContactList("pp", CONTACT_FIRST)); //contactList.put("pp", CONTACT_FIRST); //contactList.add(CONTACT_FIRST);
+        contactList.add(new ProfileContactList("qq", CONTACT_SECOND)); //contactList.put("qq", CONTACT_SECOND); //contactList.add(CONTACT_SECOND);
         financeInfo.setBankCode(PROFILE_BANKCODE)
                 .setUsreou(PROFILE_USREUO)
                 .setVatNumber(PROFILE_VATNUMBER)

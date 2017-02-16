@@ -5,11 +5,21 @@ public class ProfileContactList {
     public ProfileContactList(){
     }
 
-    public ProfileContactList(String value){
+    public ProfileContactList(String key, String value){
+        this.value = key;
         this.value = value;
     }
 
+    private String key;
     private String value;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getValue() {
         return value;
@@ -22,7 +32,8 @@ public class ProfileContactList {
     @Override
     public String toString() {
         return "ProfileContactList{" +
-                "value='" + value + '\'' +
+                "key='" + key + '\'' +
+                ", value='" + value + '\'' +
                 '}';
     }
 }
