@@ -241,11 +241,6 @@ public class ProfileRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
     public ResponseEntity<Void> updateProfile(@RequestBody Profile newProfile, HttpServletRequest request) throws AuthenticationCredentialsNotFoundException {
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        System.out.println(newProfile);
-        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-
-
         String loggedUserId = SecurityOperations.getLoggedUserId();
 
         newProfile.setId(loggedUserId);

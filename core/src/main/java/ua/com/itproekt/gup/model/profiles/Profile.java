@@ -54,7 +54,7 @@ public class Profile {
     private Long birthDate;
     private Contact contact;
 
-    private Set<ProfileContactList> contactList; //private Map<String, String> contactList; //private Set<String> contactList;
+    private Set<ProfileContactList> contactList;
     private FinanceInfo financeInfo; // info about bank etc.
     private Set<String> favoriteOffers;
     @Size(max = 45)
@@ -284,11 +284,11 @@ public class Profile {
         return this;
     }
 
-    public Set<ProfileContactList> getContactList() { //public Map<String, String> getContactList() { //public Set<String> getContactList() {
+    public Set<ProfileContactList> getContactList() {
         return contactList;
     }
 
-    public Profile setContactList(Set<ProfileContactList> contactList) { //public Profile setContactList(Map<String, String> contactList) { //public Profile setContactList(Set<String> contactList) {
+    public Profile setContactList(Set<ProfileContactList> contactList) {
         this.contactList = contactList;
         return this;
     }

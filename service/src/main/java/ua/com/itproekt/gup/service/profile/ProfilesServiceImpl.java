@@ -668,7 +668,7 @@ public class ProfilesServiceImpl implements ProfilesService {
 
         newProfile.setPoint(0)
                 .setProfileRating(new HashSet<>())
-                .setContactList(new HashSet<>()) //.setContactList(new HashMap<>()) //.setContactList(new HashSet<>())
+                .setContactList(new HashSet<>())
                 .setFinanceInfo(new FinanceInfo())
                 .setContact(contact)
                 .setOfferUserContactInfoList(null)
