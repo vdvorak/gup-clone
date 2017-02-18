@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import ua.com.itproekt.gup.model.profiles.Profile;
+import ua.com.itproekt.gup.model.profiles.ProfileContactList;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 
 import java.util.List;
@@ -277,10 +278,10 @@ public class ProfileRepositoryTest {
         profileRepository.addContactToContactList(userId, "123");
 
         Profile updatedProfile = mongoTemplate.findAll(Profile.class, "users").get(0);
-        Set<String> contactList = updatedProfile.getContactList();
+        Set<ProfileContactList> contactList = updatedProfile.getContactList();
         String contactResult = null;
-        for (String s : contactList) {
-            contactResult = s;
+        for (ProfileContactList contact : contactList) {
+            contactResult = contact.toString();
         }
 
         //then
