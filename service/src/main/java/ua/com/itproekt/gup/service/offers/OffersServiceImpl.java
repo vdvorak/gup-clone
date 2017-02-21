@@ -79,7 +79,7 @@ public class OffersServiceImpl implements OffersService {
     @Override
     public void create(Offer offer) {
         OfferModerationReports offerModerationReports = new OfferModerationReports();
-        offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
+        offerModerationReports.setModerationStatus(ModerationStatus.NO); //offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
 
         Offer newOffer = new Offer()
                 .setAuthorId(offer.getAuthorId())
