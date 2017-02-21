@@ -357,6 +357,11 @@ public class ProfilesServiceImpl implements ProfilesService {
         profileRepository.addContactToContactList(profileOwnerContactListId, contactId);
     }
 
+    @Override
+    public void addSocialToSocialList(String profileOwnerSocialListId, String url) {
+        profileRepository.addSocialToSocialList(profileOwnerSocialListId, url);
+    }
+
 
     //ToDo  make this work after we will repair oauth
     @Override

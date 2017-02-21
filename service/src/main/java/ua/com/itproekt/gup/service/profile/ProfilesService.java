@@ -253,6 +253,13 @@ public interface ProfilesService {
      */
     void addContactToContactList(String profileOwnerContactListId, String contactId);
 
+    /**
+     *
+     * @param profileOwnerSocialListId
+     * @param url
+     */
+    void addSocialToSocialList(String profileOwnerSocialListId, String url);
+
 
     /**
      * Check is user moderator or not.
