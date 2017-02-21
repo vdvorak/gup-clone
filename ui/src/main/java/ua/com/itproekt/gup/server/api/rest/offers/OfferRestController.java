@@ -112,7 +112,7 @@ public class OfferRestController {
     @CrossOrigin
     @RequestMapping(value = "/offer/read/all", method = RequestMethod.POST)
     public ResponseEntity<List<OfferInfo>> listOfAllOffers(@RequestBody OfferFilterOptions offerFO) {
-        // we can show only offers which have Complete status (approve by moderators)
+        /* we can show only offers which have Complete status (approve by moderators) */
         OfferModerationReports offerModerationReports = new OfferModerationReports();
         offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
 

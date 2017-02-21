@@ -204,12 +204,9 @@ public class OfferRepositoryImpl implements OfferRepository {
         }
 
 
-        Set<String> cityList = offerFO.getCityList();
-
-
-        // ToDo it is for search in multiply city. Ask Sasha
+        /* ToDo it is for search in multiply city. Ask Sasha... */
+//        Set<String> cityList = offerFO.getCityList();
 //        if (offerFO.getCityList() != null) {
-//
 //            List<Criteria> criteriaCity = new ArrayList<>();
 //
 //            for (String city : cityList) {
@@ -219,11 +216,10 @@ public class OfferRepositoryImpl implements OfferRepository {
 //            Criteria[] criteriaArr = criteriaCity.toArray(new Criteria[cityList.size()]);
 //
 //            query.addCriteria(new Criteria().orOperator(criteriaArr));
-//
 //        }
 
 
-        //ToDo it is for old impl of search, where we could find offer with area, city and country
+        /* ToDo it is for old impl of search, where we could find offer with area, city and country */
         if (offerFO.getAddress() != null) {
 //            if (offerFO.getAddress().getCountry() != null) {
 //                query.addCriteria(Criteria.where("address.country").is(offerFO.getAddress().getCountry()));
@@ -231,6 +227,10 @@ public class OfferRepositoryImpl implements OfferRepository {
 
             if (offerFO.getAddress().getCity() != null) {
                 query.addCriteria(Criteria.where("address.city").is(offerFO.getAddress().getCity()));
+            }
+
+            if (offerFO.getAddress().getAreas() != null) {
+                query.addCriteria(Criteria.where("address.areas").is(offerFO.getAddress().getAreas()));
             }
 
             if (offerFO.getAddress().getArea() != null) {
