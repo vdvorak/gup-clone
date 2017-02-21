@@ -11,6 +11,8 @@ import static org.junit.Assert.assertFalse;
 /**
  * @see https://habrahabr.ru/post/260773/
  * @see http://www.javaportal.ru/java/articles/regexp.html
+ *
+ * @see http://kharchuk.ru/popular-preg
  */
 
 public class ValidatorUtilTest {
