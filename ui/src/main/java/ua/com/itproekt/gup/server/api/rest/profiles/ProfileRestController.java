@@ -133,6 +133,27 @@ public class ProfileRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     *
+     * @param profileId
+     * @return
+     */
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/profile/id/{profileId}/myContactList/add", method = RequestMethod.POST)
+    public ResponseEntity<String> addToMySocialList(@PathVariable String profileId) {
+
+//        if (!profilesService.profileExists(profileId)) {//TODO: need make test...
+        if (!profilesService.profileExists(profileId)) {
+            return new ResponseEntity<>("Target profile was not found", HttpStatus.NOT_FOUND);
+        }
+
+        String userId = SecurityOperations.getLoggedUserId();
+        profilesService.addContactToContactList(userId, profileId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     /**
      * Delete one contact from user contact list.

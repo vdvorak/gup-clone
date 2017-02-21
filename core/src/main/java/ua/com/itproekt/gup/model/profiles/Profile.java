@@ -55,6 +55,7 @@ public class Profile {
     private Contact contact;
 
     private Set<ProfileContactList> contactList;
+    private Set<String> socialList;
     private FinanceInfo financeInfo; // info about bank etc.
     private Set<String> favoriteOffers;
     @Size(max = 45)
@@ -290,6 +291,15 @@ public class Profile {
 
     public Profile setContactList(Set<ProfileContactList> contactList) {
         this.contactList = contactList;
+        return this;
+    }
+
+    public Set<String> getSocialList() {
+        return socialList;
+    }
+
+    public Profile setSocialList(Set<String> socialList) {
+        this.socialList = socialList;
         return this;
     }
 
