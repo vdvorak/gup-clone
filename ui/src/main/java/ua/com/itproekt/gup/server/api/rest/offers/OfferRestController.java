@@ -76,16 +76,19 @@ public class OfferRestController {
 
         OfferInfo offerInfo;
 
-        //if user is author - he will receive additional fields
-        if (offer.getAuthorId().equals(userId)) {
-            offerInfo = offersService.getPrivateOfferInfoByOffer(offer);
-        } else {
-
-            if (offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO || offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL) {
-                return new ResponseEntity<>("Moderation status is NO or FAIL", HttpStatus.FORBIDDEN);
+        // if user not admin nor the moderator
+        if (!(request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString()))){
+            //if user is author - he will receive additional fields
+            if (offer.getAuthorId().equals(userId)) {
+                offerInfo = offersService.getPrivateOfferInfoByOffer(offer);
+            } else {
+                if (offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO || offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL) {
+                    return new ResponseEntity<>("Moderation status is NO or FAIL", HttpStatus.FORBIDDEN);
+                }
+                offerInfo = offersService.getPublicOfferInfoByOffer(offer);
             }
-
-            offerInfo = offersService.getPublicOfferInfoByOffer(offer);
+        } else {
+            offerInfo = offersService.getPrivateOfferInfoByOffer(offer);
         }
 
 
