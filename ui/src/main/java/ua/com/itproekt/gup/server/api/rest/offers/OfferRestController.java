@@ -293,9 +293,9 @@ public class OfferRestController {
 
         // ToDo Turn this ON in release!!!!!!!
         // if user not admin nor the moderator
-//        if (!(request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString()))){
-//            return new ResponseEntity<>( HttpStatus.UNAUTHORIZED);
-//        }
+        if (!(request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString()))){
+            return new ResponseEntity<>( HttpStatus.UNAUTHORIZED);
+        }
 
         List<Offer> offerList = offersService.findOffersWihOptions(offerFO).getEntities();
 
