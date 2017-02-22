@@ -229,10 +229,6 @@ public class OfferRepositoryImpl implements OfferRepository {
                 query.addCriteria(Criteria.where("address.city").is(offerFO.getAddress().getCity()));
             }
 
-            if (offerFO.getAddress().getAreas() != null) {
-                query.addCriteria(Criteria.where("address.areas").is(offerFO.getAddress().getAreas()));
-            }
-
             if (offerFO.getAddress().getArea() != null) {
                 query.addCriteria(Criteria.where("address.area").is(offerFO.getAddress().getArea()));
             }

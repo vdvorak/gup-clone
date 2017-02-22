@@ -9,7 +9,6 @@ public class Address {
     private String coordinates;
     private String country;
     private String area;
-    private String[] areas;
     private String city;
     private String district;
     private String street;
@@ -30,14 +29,6 @@ public class Address {
 
     public void setArea(String area) {
         this.area = area;
-    }
-
-    public String[] getAreas() {
-        return areas;
-    }
-
-    public void setAreas(String[] areas) {
-        this.areas = areas;
     }
 
     public String getCoordinates() {
