@@ -31,6 +31,7 @@ public class ProfileRatingRestController {
      * @param profileRatingId the profile rating id
      * @return the profile rating by id's
      */
+    @CrossOrigin
     @RequestMapping(value = "/profile/read/id/{profileId}/profileRating/{profileRatingId}",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,6 +50,7 @@ public class ProfileRatingRestController {
      * @param profileRating the profile rating in body request
      * @return the response status
      */
+    @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/profile/read/id/{profileId}/profileRating/create",
             method = RequestMethod.POST,
@@ -70,6 +72,7 @@ public class ProfileRatingRestController {
      * @param profileRatingId the profile rating id
      * @return the response status
      */
+    @CrossOrigin
     @RequestMapping(value = "/profile/read/id/{profileId}/profileRating/{profileRatingId}/delete",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE)
