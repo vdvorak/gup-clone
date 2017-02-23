@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import ua.com.itproekt.gup.model.activityfeed.Event;
 import ua.com.itproekt.gup.model.activityfeed.EventType;
+import ua.com.itproekt.gup.model.offer.Image;
 import ua.com.itproekt.gup.model.offer.ModerationStatus;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.offer.OfferRefusalReason;
@@ -15,6 +16,7 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -138,14 +140,21 @@ public class OfferModerationServiceImpl implements OfferModerationService {
 
 
     private String getMainOfferImage(Offer offer) {
+//        Map<String, String> imagesMap;
+//
+//        imagesMap = offer.getImagesIds();
+//
+//        for (String s : imagesMap.keySet()) {
+//            if (imagesMap.get(s).equals("1")) {
+//                return s;
+//            }
+//        }
 
-        Map<String, String> imagesMap;
+        List<Image> imagesMap = offer.getImages();
 
-        imagesMap = offer.getImagesIds();
-
-        for (String s : imagesMap.keySet()) {
-            if (imagesMap.get(s).equals("1")) {
-                return s;
+        for (Image image : imagesMap) {
+            if (image.getIndex().equals("1")) {
+                return image.getUrl();
             }
         }
 
