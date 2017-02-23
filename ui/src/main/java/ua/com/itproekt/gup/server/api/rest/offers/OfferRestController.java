@@ -317,6 +317,13 @@ public class OfferRestController {
     @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_MODERATOR')")
     @RequestMapping(value = "/offer/moderateStatus/{offerId}", method = RequestMethod.POST)
     public ResponseEntity<Void> makeOfferComplete(@RequestBody Offer inputOffer) {
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println(inputOffer);
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         return new ResponseEntity<>(offerModerationService.editOfferByModerator(inputOffer));
     }
 

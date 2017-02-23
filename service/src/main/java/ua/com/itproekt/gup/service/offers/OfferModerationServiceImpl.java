@@ -90,6 +90,11 @@ public class OfferModerationServiceImpl implements OfferModerationService {
           Then we change offer status to Complete.
           Then we find if this offer suit for subscriptions.
          */
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println(offerAfterUpdate);
+        System.out.println("??????????????????????????????????????????????????????????????????????????????????????????");
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //        if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.COMPLETE) {
             activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_COMPLETE));
             offerAfterUpdate.getOfferModerationReports().setModerationStatus(ModerationStatus.COMPLETE);
