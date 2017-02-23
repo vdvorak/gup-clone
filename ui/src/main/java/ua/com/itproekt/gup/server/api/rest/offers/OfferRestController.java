@@ -317,7 +317,6 @@ public class OfferRestController {
     @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_MODERATOR')")
     @RequestMapping(value = "/offer/moderateStatus/{offerId}", method = RequestMethod.POST)
     public ResponseEntity<Void> makeOfferComplete(@RequestBody Offer inputOffer) {
-
         return new ResponseEntity<>(offerModerationService.editOfferByModerator(inputOffer));
     }
 
@@ -327,7 +326,6 @@ public class OfferRestController {
     @CrossOrigin
     @RequestMapping(value = "/offer/xmltest", method = RequestMethod.GET)
     public ResponseEntity<Void> xmlTest() {
-
         siteMapGeneratorService.generateSiteMap();
 
         return new ResponseEntity<>(HttpStatus.OK);

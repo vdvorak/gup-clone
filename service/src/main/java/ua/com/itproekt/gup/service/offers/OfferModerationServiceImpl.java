@@ -41,8 +41,15 @@ public class OfferModerationServiceImpl implements OfferModerationService {
 
     @Override
     public HttpStatus editOfferByModerator(Offer inputOffer) {
-
         String moderatorId = SecurityOperations.getLoggedUserId();
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println("moderatorId="+moderatorId);
+        System.out.println("------------------------------------------------------------------------------------------");
+        System.out.println(inputOffer.toString());
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         if (profilesService.findById(moderatorId) == null) {
             return HttpStatus.BAD_REQUEST;
