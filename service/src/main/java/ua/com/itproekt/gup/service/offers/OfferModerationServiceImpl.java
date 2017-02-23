@@ -153,7 +153,7 @@ public class OfferModerationServiceImpl implements OfferModerationService {
         List<Image> imagesMap = offer.getImages();
 
         for (Image image : imagesMap) {
-            if (image.getIndex().equals("1")) {
+            if (image.getUrl()!=null) {
                 return image.getUrl();
             }
         }
