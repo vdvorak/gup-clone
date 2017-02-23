@@ -142,12 +142,12 @@ public class LoginRestController {
 //                authenticateByEmailAndPassword(loggedUser, response);
                 //////////////////////////////////////////////////////////////////////////////////////////
                 AuthenticateByEmailAndPasswordFromRegister authenticateByEmailAndPasswordFromRegister = authenticateByEmailAndPasswordFromRegister(loggedUser, response);
-                System.err.println("********************************************************************");
-                System.err.println("authToken=" + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getValue() + ";" );
-                System.err.println("refreshToken=" + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getRefreshToken() + ";" );
-                System.err.println("expiration: " + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getExpiration().toString() );
-                System.err.println("validate: " + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().isExpired() );
-                System.err.println("********************************************************************");
+//                System.err.println("********************************************************************");
+//                System.err.println("authToken=" + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getValue() + ";" );
+//                System.err.println("refreshToken=" + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getRefreshToken() + ";" );
+//                System.err.println("expiration: " + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getExpiration().toString() );
+//                System.err.println("validate: " + authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().isExpired() );
+//                System.err.println("********************************************************************");
                 verificationTokenService.sendEmailRegistrationToken2(profile.getId(), authenticateByEmailAndPasswordFromRegister.getOAuth2AccessToken().getRefreshToken().toString());
                 //////////////////////////////////////////////////////////////////////////////////////////
 
@@ -267,8 +267,18 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
+        System.out.println("------------------------------------------------------------------------------------------");
+
         LoggedUser loggedUser;
         try {
+//            System.out.println("==========================================================================================");
+//
+//            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+////            System.out.println("loggedUserId="+loggedUserId);
+////            System.out.println("------------------------------------------------------------------------------------------");
+//            System.out.println("Email=" + formLoggedUser.getEmail() + " Password=" + formLoggedUser.getPassword());
+//            System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+
             loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
         } catch (UsernameNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
