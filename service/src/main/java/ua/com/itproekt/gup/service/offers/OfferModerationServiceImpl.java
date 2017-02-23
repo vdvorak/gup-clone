@@ -43,14 +43,6 @@ public class OfferModerationServiceImpl implements OfferModerationService {
     public HttpStatus editOfferByModerator(Offer inputOffer) {
         String moderatorId = SecurityOperations.getLoggedUserId();
 
-//        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-//        System.out.println("moderatorId="+moderatorId);
-//        System.out.println("------------------------------------------------------------------------------------------");
-//        System.out.println(inputOffer.toString());
-//        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-//        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         if (profilesService.findById(moderatorId) == null) {
             return HttpStatus.BAD_REQUEST;
         }
@@ -98,12 +90,12 @@ public class OfferModerationServiceImpl implements OfferModerationService {
           Then we change offer status to Complete.
           Then we find if this offer suit for subscriptions.
          */
-        if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.COMPLETE) {
+//        if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.COMPLETE) {
             activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_COMPLETE));
             offerAfterUpdate.getOfferModerationReports().setModerationStatus(ModerationStatus.COMPLETE);
 
             subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(inputOffer);
-        }
+//        }
 
 
         // if categories were changed by moderator - we send notification to user

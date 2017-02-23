@@ -44,6 +44,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -267,7 +268,7 @@ public class LoginRestController {
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
-        System.out.println("------------------------------------------------------------------------------------------");
+//        System.out.println("------------------------------------------------------------------------------------------");
 
         LoggedUser loggedUser;
         try {
@@ -288,6 +289,7 @@ public class LoginRestController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         authenticateByEmailAndPassword(loggedUser, response);
+
         ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
