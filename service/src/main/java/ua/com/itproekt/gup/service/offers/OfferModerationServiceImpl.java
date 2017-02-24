@@ -92,17 +92,12 @@ public class OfferModerationServiceImpl implements OfferModerationService {
           Then we change offer status to Complete.
           Then we find if this offer suit for subscriptions.
          */
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(offerAfterUpdate);
-        System.out.println("??????????????????????????????????????????????????????????????????????????????????????????");
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//        if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.COMPLETE) {
+        if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.COMPLETE) {
             activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_COMPLETE));
             offerAfterUpdate.getOfferModerationReports().setModerationStatus(ModerationStatus.COMPLETE);
 
             subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(inputOffer);
-//        }
+        }
 
 
         // if categories were changed by moderator - we send notification to user
@@ -126,7 +121,6 @@ public class OfferModerationServiceImpl implements OfferModerationService {
 
     // ToDo вынести этот трешь возможо в отдельную утилиту либо в слой сервис
     private Event eventPreparator(Offer offer, EventType eventType) {
-
         return new Event()
                 .setTargetUId(offer.getAuthorId()) // to whom
                 .setType(eventType) // type of event
@@ -149,14 +143,9 @@ public class OfferModerationServiceImpl implements OfferModerationService {
 //                return s;
 //            }
 //        }
-
-        List<Image> imagesMap = offer.getImages();
-
-        for (Image image : imagesMap) {
-            if (image.getUrl()!=null) {
-                return image.getUrl();
-            }
-        }
+        try {
+            return offer.getImages().get(0).getImageId();
+        } catch (NullPointerException e){}
 
         return null;
     }
