@@ -92,9 +92,17 @@ public class OfferModerationServiceImpl implements OfferModerationService {
           Then we change offer status to Complete.
           Then we find if this offer suit for subscriptions.
          */
+        // COMPLETE
         if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.COMPLETE) {
             activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_COMPLETE));
             offerAfterUpdate.getOfferModerationReports().setModerationStatus(ModerationStatus.COMPLETE);
+
+            subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(inputOffer);
+        }
+        // FAIL
+        if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL) {
+            activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_FAIL));
+            offerAfterUpdate.getOfferModerationReports().setModerationStatus(ModerationStatus.FAIL);
 
             subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(inputOffer);
         }
