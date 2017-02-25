@@ -320,6 +320,21 @@ public class OfferRestController {
         return new ResponseEntity<>(offerModerationService.editOfferByModerator(inputOffer));
     }
 
+    /**
+     * This controller allow administrator or moderator edit offer (change categories), change moderation status
+     * and leave comments.
+     *
+     * @param offer
+     * @param offerId
+     * @return offerId
+     */
+    @CrossOrigin
+    @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_MODERATOR')")
+    @RequestMapping(value = "/offer/moderate/{offerId}", method = RequestMethod.POST)
+    public ResponseEntity<String> makeOfferComplete(@RequestBody Offer offer, @PathVariable String offerId) {
+        return new ResponseEntity<>(offerId, offerModerationService.editOfferByModerator(offer));
+    }
+
 
     // ---------------------------------------- Test controller for generating siteMap.xml
 
