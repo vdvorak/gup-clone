@@ -74,16 +74,19 @@ public class OfferModerationServiceImpl implements OfferModerationService {
         }
 
 
-        // we must have not only status FAIL but also reasons
-        if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL && inputOffer.getOfferModerationReports().getOfferRefusalReasonses() != null) {
-
-            // clear old reasons
+        // FAIL - we must have not only status FAIL but also reasons
+        if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL
+                && inputOffer.getOfferModerationReports().getOfferRefusalReasonses() != null) // TODO it was getOfferRefusalReasonses..!
+        {
+            // clear old reasons:
             offerAfterUpdate.getOfferModerationReports().getOfferRefusalReasonses().clear();
 
-            // add new reasons
+            // add new reasons:
+            offerAfterUpdate.getOfferModerationReports().setModerationStatus(ModerationStatus.FAIL); // TODO & setModerationStatus..?
             offerAfterUpdate.getOfferModerationReports().setOfferRefusalReasonses(inputOffer.getOfferModerationReports().getOfferRefusalReasonses());
 
             activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_FAIL));
+            subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(inputOffer); // TODO & subscriptionService..?
         }
 
 
@@ -96,13 +99,6 @@ public class OfferModerationServiceImpl implements OfferModerationService {
         if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.COMPLETE) {
             activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_COMPLETE));
             offerAfterUpdate.getOfferModerationReports().setModerationStatus(ModerationStatus.COMPLETE);
-
-            subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(inputOffer);
-        }
-        // FAIL
-        if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL) {
-            activityFeedService.createEvent(eventPreparator(offerAfterUpdate, EventType.OFFER_FAIL));
-            offerAfterUpdate.getOfferModerationReports().setModerationStatus(ModerationStatus.FAIL);
 
             subscriptionService.checkIfOfferSuiteForSubscriptionAndSendEmail(inputOffer);
         }
