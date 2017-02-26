@@ -183,7 +183,7 @@ public class OfferRestController {
     }
 
     /**
-     * This controller allow vs confirm to create new offer.
+     * TODO: This controller allow vs confirm to create new offer.
      *
      * @param offerRegistration
      * @param files
@@ -355,8 +355,7 @@ public class OfferRestController {
     }
 
     /**
-     * This controller allow administrator or moderator edit offer (change categories), change moderation status
-     * and leave comments.
+     * TODO: This controller allow administrator or moderator edit offer (change categories), change moderation status and leave comments.
      *
      * @param offer
      * @param offerId

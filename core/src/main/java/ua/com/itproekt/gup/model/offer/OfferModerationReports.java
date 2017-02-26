@@ -16,7 +16,7 @@ public class OfferModerationReports {
 
     List<OfferRefusalReason> offerRefusalReasons; // the reason why moderator refuse offer
 
-    Set<OfferModifiedField> offerModifiedFieldLIst; // the list of the last modified fields
+    Set<OfferModifiedField> offerModifiedFieldList; // the list of the last modified fields
 
 
 
@@ -38,13 +38,13 @@ public class OfferModerationReports {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public List<OfferRefusalReason> getOfferRefusalReasonses() {
-        return offerRefusalReasons;
-    }
-
-    public void setOfferRefusalReasonses(List<OfferRefusalReason> offerRefusalReasonses) {
-        this.offerRefusalReasons = offerRefusalReasonses;
-    }
+//    public List<OfferRefusalReason> getOfferRefusalReasonses() {
+//        return offerRefusalReasons;
+//    }
+//
+//    public void setOfferRefusalReasonses(List<OfferRefusalReason> offerRefusalReasonses) {
+//        this.offerRefusalReasons = offerRefusalReasonses;
+//    }
 
     public ModerationStatus getModerationStatus() {
         return moderationStatus;
@@ -63,11 +63,11 @@ public class OfferModerationReports {
     }
 
     public Set<OfferModifiedField> getOfferModifiedFieldLIst() {
-        return offerModifiedFieldLIst;
+        return offerModifiedFieldList;
     }
 
     public void setOfferModifiedFieldLIst(Set<OfferModifiedField> offerModifiedFieldLIst) {
-        this.offerModifiedFieldLIst = offerModifiedFieldLIst;
+        this.offerModifiedFieldList = offerModifiedFieldLIst;
     }
 
     @Override
@@ -77,7 +77,7 @@ public class OfferModerationReports {
                 ", lastModifiedDate=" + lastModifiedDate +
                 ", moderationStatus=" + moderationStatus +
                 ", offerRefusalReasons=" + offerRefusalReasons +
-                ", offerModifiedFieldLIst=" + offerModifiedFieldLIst +
+                ", offerModifiedFieldList=" + offerModifiedFieldList +
                 '}';
     }
 }
