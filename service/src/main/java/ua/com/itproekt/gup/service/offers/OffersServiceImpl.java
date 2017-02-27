@@ -96,7 +96,7 @@ public class OffersServiceImpl implements OffersService {
                 .setTitle(offer.getTitle())
                 .setDescription(offer.getDescription())
                 .setPrice(offer.getPrice())
-                .setOldPrice(offer.getOldPrice())
+                .setOldPrice(0l) //TODO: The OldPrice
                 .setPriceCanBeNegotiated(offer.getPriceCanBeNegotiated())
                 .setUsed(offer.getUsed())
                 .setActive(Boolean.TRUE)
@@ -183,7 +183,7 @@ public class OffersServiceImpl implements OffersService {
                 .setTitle(oldOffer.getTitle())
                 .setDescription(oldOffer.getDescription())
                 .setPrice(oldOffer.getPrice())
-                .setOldPrice(oldOffer.getOldPrice())
+                .setOldPrice(offerRepository.findById(oldOffer.getId()).getPrice()!=null ? offerRepository.findById(oldOffer.getId()).getPrice() : 0l) //TODO: The OldPrice
                 .setPriceCanBeNegotiated(oldOffer.getPriceCanBeNegotiated())
                 .setUsed(oldOffer.getUsed())
                 .setActive(oldOffer.getActive())
