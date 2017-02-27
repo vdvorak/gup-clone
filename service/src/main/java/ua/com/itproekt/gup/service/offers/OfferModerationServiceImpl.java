@@ -73,35 +73,11 @@ public class OfferModerationServiceImpl implements OfferModerationService {
             return HttpStatus.NOT_FOUND;
         }
 
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println( inputOffer );
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // Offer{id='58b19cb64c8e83fbe9581764', authorId='588b6f964c8e9af4b7e2081a', userInfo=OfferUserContactInfo{contactName='Назаренко Дмитрий', email='diimonss@gmail.com', phoneNumbers=[(234) 234-2342]}, active=true, createdDate=1488034998356, reservation=null, views=3, monthOfPrices=null, rents=null, rent=null, seoUrl='2-k-kvartira-m-chernihovskaia-ej', seoKey='ej', categories=[1, 15, 1147], seoCategory='Долгосрочная аренда квартир', properties=[ua.com.itproekt.gup.model.offer.Property@50ee06d8, ua.com.itproekt.gup.model.offer.Property@3a748cc6], imagesIds=null, images=[Image{index=null, url='null', id='58b19cb54c8e83fbe9581734'}, Image{index=null, url='null', id='58b19cb54c8e83fbe958173a'}, Image{index=null, url='null', id='58b19cb54c8e83fbe9581740'}, Image{index=null, url='null', id='58b19cb54c8e83fbe9581746'}, Image{index=null, url='null', id='58b19cb64c8e83fbe958174c'}, Image{index=null, url='null', id='58b19cb64c8e83fbe9581752'}, Image{index=null, url='null', id='58b19cb64c8e83fbe9581758'}, Image{index=null, url='null', id='58b19cb64c8e83fbe958175e'}], videoUrl='null', title='2-к квартира м.Черниговская', description='Сдам 2х комнатную квартиру в нормальном жилом состоянии, ул. Города Шалетт 14, 10мин пешком м. Черниговская.
-        // В квартире три спальных места, мебель 2000х годов, стиралка автомат, телевизор, холодильник.
-        // Хорошая адекватная хозяйка
-        // Все вопросы по телефону
-        // Риелтор комиссия 50%', price=500000, priceWithVat=false, currency=UAH, address=Address{coordinates='ChIJ94YCHk7E1EAR1dZw1w37AHA', country='1', area='9', city='189', district='null', street='null', lat=null, lng=null}, priceCanBeNegotiated=null, used=null, canBeReserved=null, canBeRented=null, showOrdersCount=true, maximumReservedPeriod=null, availableShippingMethods=[], availablePaymentMethods=[CASH_PAYMENT], paidServices=PaidServices{isMarked=null, isUrgent=null, isCheaper=null, lastPaidUpdateDate=1488034997670}, productReturnsTerms=null, offerModerationReports=OfferModerationReports{moderatorId='null', lastModifiedDate=null, moderationStatus=FAIL, offerRefusalReasons=null, offerModifiedFieldLIst=null}, deleted=false}
-        System.out.println("--------------------------------------------------------------------------------------");
-        System.out.println( "getModerationStatus="+inputOffer.getOfferModerationReports().getModerationStatus() );
-        System.out.println( "getOfferRefusalReasons="+inputOffer.getOfferModerationReports().getOfferRefusalReasons() ); //System.err.println( "getOfferRefusalReasonses="+inputOffer.getOfferModerationReports().getOfferRefusalReasonses() );
-        System.out.println("======================================================================================");
-        System.out.println( inputOffer.getOfferModerationReports() );
-        // OfferModerationReports{moderatorId='null', lastModifiedDate=null, moderationStatus=FAIL, offerRefusalReasons=null, offerModifiedFieldLIst=null}
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         // FAIL - we must have not only status FAIL but also reasons
         if (inputOffer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL
 //                && inputOffer.getOfferModerationReports().getOfferRefusalReasonses() != null) // TODO it was getOfferRefusalReasonses..!
                 && inputOffer.getOfferModerationReports().getOfferRefusalReasons() != null) // TODO it was getOfferRefusalReasons..!
         {
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-            System.out.println( inputOffer );
-            System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 //            // clear old reasons:
 //            offerAfterUpdate.getOfferModerationReports().getOfferRefusalReasons().clear(); //offerAfterUpdate.getOfferModerationReports().getOfferRefusalReasonses().clear();
             // add new reasons:
