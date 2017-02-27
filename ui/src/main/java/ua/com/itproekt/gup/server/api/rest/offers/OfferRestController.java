@@ -182,39 +182,39 @@ public class OfferRestController {
         return offersService.createFullOffer(offerRegistration, files);
     }
 
-    /**
-     * TODO: This controller allow vs confirm to create new offer.
-     *
-     * @param offerRegistration
-     * @param files
-     * @return
-     */
-    @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/offer/total/create-accept", method = RequestMethod.POST, consumes = {"multipart/form-data"})
-    public ResponseEntity<String> createTotalOfferConfirm(@RequestPart("offerRegistration") OfferRegistration offerRegistration,
-                                                          @RequestPart("files") MultipartFile[] files)
-    {
-        String userId = SecurityOperations.getLoggedUserId();
-
-        Offer offer = offerRegistration.getOffer();
-
-        if(Validator2Util.UPD_URL.check(offer.getSeoUrl())
-                && Validator2Util.UPD_URL.check(offer.getSeoUrl())
-                && Validator2Util.NUMBER.check(String.valueOf(offer.getPrice()))
-                && Validator2Util.LATIN_CYRILLIC.check(offer.getDescription())
-                && Validator2Util.LATIN.check(offer.getSeoCategory())
-                && Validator2Util.LATIN.check(offer.getTitle())
-                && Validator2Util.YYYY_MM_DD.check(String.valueOf(offer.getCreatedDate())))
-        {
-            // set userId to the offer
-            offerRegistration.getOffer().setAuthorId(userId);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        }
-
-        return offersService.createFullOffer(offerRegistration, files);
-    }
+//    /**
+//     * TODO: This controller allow vs confirm to create new offer.
+//     *
+//     * @param offerRegistration
+//     * @param files
+//     * @return
+//     */
+//    @CrossOrigin
+//    @PreAuthorize("isAuthenticated()")
+//    @RequestMapping(value = "/offer/total/create-accept", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+//    public ResponseEntity<String> createTotalOfferConfirm(@RequestPart("offerRegistration") OfferRegistration offerRegistration,
+//                                                          @RequestPart("files") MultipartFile[] files)
+//    {
+//        String userId = SecurityOperations.getLoggedUserId();
+//
+//        Offer offer = offerRegistration.getOffer();
+//
+//        if(Validator2Util.UPD_URL.check(offer.getSeoUrl())
+//                && Validator2Util.UPD_URL.check(offer.getSeoUrl())
+//                && Validator2Util.NUMBER.check(String.valueOf(offer.getPrice()))
+//                && Validator2Util.LATIN_CYRILLIC.check(offer.getDescription())
+//                && Validator2Util.LATIN.check(offer.getSeoCategory())
+//                && Validator2Util.LATIN.check(offer.getTitle())
+//                && Validator2Util.YYYY_MM_DD.check(String.valueOf(offer.getCreatedDate())))
+//        {
+//            // set userId to the offer
+//            offerRegistration.getOffer().setAuthorId(userId);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+//        }
+//
+//        return offersService.createFullOffer(offerRegistration, files);
+//    }
 
     //------------------------------------------ Update ----------------------------------------------------------------
 
@@ -354,19 +354,19 @@ public class OfferRestController {
         return new ResponseEntity<>(offerModerationService.editOfferByModerator(inputOffer));
     }
 
-    /**
-     * TODO: This controller allow administrator or moderator edit offer (change categories), change moderation status and leave comments.
-     *
-     * @param offer
-     * @param offerId
-     * @return offerId
-     */
-    @CrossOrigin
-    @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_MODERATOR')")
-    @RequestMapping(value = "/offer/moderate/{offerId}", method = RequestMethod.POST)
-    public ResponseEntity<String> makeOfferComplete(@RequestBody Offer offer, @PathVariable String offerId) {
-        return new ResponseEntity<>(offerId, offerModerationService.editOfferByModerator(offer));
-    }
+//    /**
+//     * TODO: This controller allow administrator or moderator edit offer (change categories), change moderation status and leave comments.
+//     *
+//     * @param offer
+//     * @param offerId
+//     * @return offerId
+//     */
+//    @CrossOrigin
+//    @PreAuthorize("hasRole('ROLE_ADMIN','ROLE_MODERATOR')")
+//    @RequestMapping(value = "/offer/moderate/{offerId}", method = RequestMethod.POST)
+//    public ResponseEntity<String> makeOfferComplete(@RequestBody Offer offer, @PathVariable String offerId) {
+//        return new ResponseEntity<>(offerId, offerModerationService.editOfferByModerator(offer));
+//    }
 
 
     // ---------------------------------------- Test controller for generating siteMap.xml

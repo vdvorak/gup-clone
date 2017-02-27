@@ -563,15 +563,17 @@ public class ProfilesServiceImpl implements ProfilesService {
         int totalFeedbackAmount = orderService.calculateFeedbackAmountForOrderList(orderInfoListForUser);
         List<FavoriteOfferInfo> favoriteOfferInfoList = favoriteOfferInfoListPreparator(profile);
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //        Long bankTImeStart = System.currentTimeMillis();
-//        Integer userBalance = bankSession.getUserBalance(profile.getId());
-//        Integer userBonus = Integer.parseInt(bankSession.getBonusByUserId(profile.getId()));
-//        String internalTransactionHistory = bankSession.getInternalTransactionsJsonByUserId(profile.getId());
+        Integer userBalance = bankSession.getUserBalance(profile.getId());
+        Integer userBonus = Integer.parseInt(bankSession.getBonusByUserId(profile.getId()));
+        String internalTransactionHistory = bankSession.getInternalTransactionsJsonByUserId(profile.getId());
 //        System.err.println("#11 Whole bank time: " + (System.currentTimeMillis() - bankTImeStart));
 
-//        profileInfo.setUserBalance(userBalance)
-//                .setUserBonusBalance(userBonus)
-//                .setInternalTransactionHistory(internalTransactionHistory);
+        profileInfo.setUserBalance(userBalance)
+                .setUserBonusBalance(userBonus)
+                .setInternalTransactionHistory(internalTransactionHistory);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         profileInfo.setUserOfferInfoList(userOfferInfoList)
                 .setSubscriptionList(subscriptionList)
