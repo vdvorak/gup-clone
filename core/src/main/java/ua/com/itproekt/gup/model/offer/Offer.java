@@ -69,6 +69,8 @@ public class Offer {
 
     @Digits(integer = 10, fraction = 0)
     private Long                    price;
+    @Digits(integer = 10, fraction = 0)
+    private Long                    oldPrice;
     private boolean                 priceWithVat;               // showing is the price with VAT (NDS)
 
 
@@ -267,6 +269,15 @@ public class Offer {
 
     public Offer setPrice(Long price) {
         this.price = price;
+        return this;
+    }
+
+    public Long getOldPrice() {
+        return oldPrice;
+    }
+
+    public Offer setOldPrice(Long oldPrice) {
+        this.oldPrice = oldPrice;
         return this;
     }
 
