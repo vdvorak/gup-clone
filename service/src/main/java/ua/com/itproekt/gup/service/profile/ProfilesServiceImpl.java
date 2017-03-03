@@ -358,8 +358,8 @@ public class ProfilesServiceImpl implements ProfilesService {
     }
 
     @Override
-    public void addSocialToSocialList(String profileOwnerSocialListId, String url) {
-        profileRepository.addSocialToSocialList(profileOwnerSocialListId, url);
+    public void addSocialToSocialList(String userId, String profileId) {
+        profileRepository.addSocialToSocialList(userId, profileId);
     }
 
 

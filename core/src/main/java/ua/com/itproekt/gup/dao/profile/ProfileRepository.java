@@ -202,10 +202,10 @@ public interface ProfileRepository {
 
     /**
      *
-     * @param profileOwnerContactListId
-     * @param url
+     * @param userId
+     * @param profileId
      */
-    void addSocialToSocialList(String profileOwnerSocialListId, String url);
+    void addSocialToSocialList(String userId, String profileId);
 
     /**
      * Find and return profile by it's ID.

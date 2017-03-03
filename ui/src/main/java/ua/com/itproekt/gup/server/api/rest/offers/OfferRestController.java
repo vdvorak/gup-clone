@@ -131,10 +131,6 @@ public class OfferRestController {
             offerFO.setLimit(18);
         }
 
-        System.err.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-        System.err.println( offerFO );
-        System.err.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-
         List<OfferInfo> offerInfoList = offersService.getListOfMiniPublicOffersWithOptions(offerFO);
 
         return new ResponseEntity<>(offerInfoList, HttpStatus.OK);

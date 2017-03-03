@@ -128,7 +128,7 @@ public class ProfileRestController {
         }
 
         String userId = SecurityOperations.getLoggedUserId();
-        profilesService.addContactToContactList(userId, profileId);
+        profilesService.addSocialToSocialList(userId, profileId); //profilesService.addContactToContactList(userId, profileId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

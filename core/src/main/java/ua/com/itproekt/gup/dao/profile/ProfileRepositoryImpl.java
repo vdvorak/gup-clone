@@ -219,18 +219,18 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
-    public void addSocialToSocialList(String profileOwnerSocialListId, String url) {
-        Query addContactQuery = new Query(Criteria.where("id").is(profileOwnerSocialListId));
+    public void addSocialToSocialList(String userId, String profileId) {
+        Query addContactQuery = new Query(Criteria.where("id").is(userId));
 
         Query existsSocialInListQuery = new Query()
-                .addCriteria(Criteria.where("id").is(profileOwnerSocialListId))
-                .addCriteria(Criteria.where("socialList").in(url));
+                .addCriteria(Criteria.where("id").is(userId))
+                .addCriteria(Criteria.where("socialList").in(profileId));
 
         Update update = new Update();
         if (mongoTemplate.exists(existsSocialInListQuery, Profile.class)) {
-            update.pull("socialList", url);
+            update.pull("socialList", profileId);
         } else {
-            update.push("socialList", url);
+            update.push("socialList", profileId);
         }
 
         mongoTemplate.updateFirst(addContactQuery, update, Profile.class);

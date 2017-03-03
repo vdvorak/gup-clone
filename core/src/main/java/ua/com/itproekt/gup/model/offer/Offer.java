@@ -73,7 +73,6 @@ public class Offer {
     private Long                    oldPrice;
     private boolean                 priceWithVat;               // showing is the price with VAT (NDS)
 
-
     private Currency                currency;
     private Address                 address;
 
@@ -89,7 +88,7 @@ public class Offer {
     private PaidServices            paidServices;
     private ProductReturnsTerms     productReturnsTerms;        //variant of the product return terms
 
-    private OfferModerationReports offerModerationReports;      // all moderator activity is here
+    private OfferModerationReports  offerModerationReports;      // all moderator activity is here
 
     boolean                         deleted;                    // showing is offer marked as delete or not
 
@@ -97,7 +96,6 @@ public class Offer {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
     }
-
 
     //--------------------------------------------------------------------------------
 
