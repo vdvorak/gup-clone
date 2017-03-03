@@ -1,6 +1,9 @@
 package ua.com.itproekt.gup.model.offer.filter;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import ua.com.itproekt.gup.model.offer.Address;
 import ua.com.itproekt.gup.model.offer.Offer;
 
 import java.util.List;
@@ -12,8 +15,10 @@ import java.util.Set;
  *
  * @author Kobylyatskyy Alexander
  */
+@Component
 public final class OfferFilterOptions extends Offer {
     Set<String> cityList;
+    @Autowired private Set<Address> addresses;
     private int skip;
     private int limit;
     private Long fromPrice;
@@ -116,6 +121,13 @@ public final class OfferFilterOptions extends Offer {
         this.cityList = cityList;
     }
 
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
+    }
 
     public List<String> getFavouriteCategories() {
         return favouriteCategories;
@@ -137,6 +149,8 @@ public final class OfferFilterOptions extends Offer {
     public String toString() {
         return "OfferFilterOptions{" +
                 "cityList=" + cityList +
+                ", address='" + getAddress() + '\'' +
+                ", addresses='" + addresses + '\'' +
                 ", skip=" + skip +
                 ", limit=" + limit +
                 ", fromPrice=" + fromPrice +
@@ -165,6 +179,8 @@ public final class OfferFilterOptions extends Offer {
         if (isMain() != that.isMain()) return false;
         if (getCityList() != null ? !getCityList().equals(that.getCityList()) : that.getCityList() != null)
             return false;
+        if (getAddresses() != null ? !getAddresses().equals(that.getAddresses()) : that.getAddresses() != null)
+            return false;
         if (getFromPrice() != null ? !getFromPrice().equals(that.getFromPrice()) : that.getFromPrice() != null)
             return false;
         if (getToPrice() != null ? !getToPrice().equals(that.getToPrice()) : that.getToPrice() != null) return false;
@@ -183,6 +199,7 @@ public final class OfferFilterOptions extends Offer {
     @Override
     public int hashCode() {
         int result = 31 * (getCityList() != null ? getCityList().hashCode() : 0);
+        result = 31 * (getAddresses() != null ? getAddresses().hashCode() : 0);
         result = 31 * result + getSkip();
         result = 31 * result + getLimit();
         result = 31 * result + (getFromPrice() != null ? getFromPrice().hashCode() : 0);

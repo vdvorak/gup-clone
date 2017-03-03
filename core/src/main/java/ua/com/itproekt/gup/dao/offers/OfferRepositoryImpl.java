@@ -10,15 +10,14 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import ua.com.itproekt.gup.model.offer.Offer;
-import ua.com.itproekt.gup.model.offer.Property;
-import ua.com.itproekt.gup.model.offer.RentedOfferPeriodInfo;
+import ua.com.itproekt.gup.model.offer.*;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -219,8 +218,63 @@ public class OfferRepositoryImpl implements OfferRepository {
 //        }
 
 
+
+
+
+//        query.addCriteria(Criteria.where("address.area").is("2"));
+
+//        Criteria criteria2 = new Criteria();
+//        criteria2.orOperator(Criteria.where("address.area").is("2"),
+//                Criteria.where("address.area").is("13"));
+//        query.addCriteria(criteria2);
+
+//        Criteria criteria2 = new Criteria();
+//        Criteria[] criterias = {Criteria.where("address.area").is("2"), Criteria.where("address.area").is("13")};
+//        criteria2.orOperator(criterias);
+//        query.addCriteria(criteria2);
+
+//        List<Criteria> criteriasList = new ArrayList<>();
+//        criteriasList.add( Criteria.where("address.area").is("2") );
+//        criteriasList.add(Criteria.where("address.area").is("13") );
+//
+//        Criteria criteria2 = new Criteria();
+//        Criteria[] criterias = criteriasList.toArray( new Criteria[criteriasList.size()] );
+//        criteria2.orOperator(criterias);
+//        query.addCriteria(criteria2);
+
+//        List<Criteria> criteriasList = new ArrayList<>();
+//        Criteria criteria2 = new Criteria();
+//
+//        criteriasList.add( Criteria.where("address.area").is("2") );
+//        criteriasList.add(Criteria.where("address.area").is("13") );
+//
+//        Criteria[] criterias = criteriasList.toArray( new Criteria[criteriasList.size()] );
+//        criteria2.orOperator(criterias);
+//        query.addCriteria(criteria2);
+
         /* ToDo it is for old impl of search, where we could find offer with area, city and country */
-        if (offerFO.getAddress() != null) {
+        if (offerFO.getAddresses() != null) {
+            List<Criteria> criteriasAddresses = new ArrayList<>();
+            Criteria criteriaAddresses = new Criteria();
+
+            for (Address address : offerFO.getAddresses()){
+//                if (address.getCountry() != null) {
+//                     criteriasAddresses.add( Criteria.where("address.country").is(address.getCountry()) );
+//                }
+
+                if (address.getCity() != null) {
+                    criteriasAddresses.add( Criteria.where("address.city").is(address.getCity()) );
+                }
+
+                if (address.getArea() != null) {
+                    criteriasAddresses.add( Criteria.where("address.area").is(address.getArea()) );
+                }
+            }
+
+            Criteria[] criterias = criteriasAddresses.toArray( new Criteria[criteriasAddresses.size()] );
+            criteriaAddresses.orOperator(criterias);
+            query.addCriteria(criteriaAddresses);
+        } else if (offerFO.getAddress() != null) {
 //            if (offerFO.getAddress().getCountry() != null) {
 //                query.addCriteria(Criteria.where("address.country").is(offerFO.getAddress().getCountry()));
 //            }

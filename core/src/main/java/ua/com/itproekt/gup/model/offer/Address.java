@@ -1,9 +1,11 @@
 package ua.com.itproekt.gup.model.offer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+@Component
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Address {
     private String coordinates;
