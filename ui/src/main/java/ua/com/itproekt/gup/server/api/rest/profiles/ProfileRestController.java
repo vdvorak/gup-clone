@@ -122,10 +122,14 @@ public class ProfileRestController {
     @RequestMapping(value = "/profile/id/{profileId}/myContactList/add", method = RequestMethod.POST)
     public ResponseEntity<String> addToMyContactList(@PathVariable String profileId) {
 
+        System.err.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+        System.err.println("profileId="+profileId);
 //        if (!profilesService.profileExists(profileId)) {//TODO: need make test...
-        if (!profilesService.profilePublicExists(profileId)) {
+        if (profilesService.profilePublicExists(profileId)) { // if (!profilesService.profilePublicExists(profileId)) {
+//            System.err.println("profilePublicExists");
             return new ResponseEntity<>("Target profile was not found", HttpStatus.NOT_FOUND);
         }
+        System.err.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
 
         String userId = SecurityOperations.getLoggedUserId();
         profilesService.addSocialToSocialList(userId, profileId); //profilesService.addContactToContactList(userId, profileId);
