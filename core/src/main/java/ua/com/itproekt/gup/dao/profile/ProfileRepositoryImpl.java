@@ -220,17 +220,10 @@ public class ProfileRepositoryImpl implements ProfileRepository {
 
     @Override
     public void addSocialToSocialList(String userId, String profileId) {
-        System.err.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        System.err.println("userId="+userId);
-        System.err.println("profileId="+profileId);
-
         Query addContactQuery = new Query(Criteria.where("id").is(userId));
-
         Query existsSocialInListQuery = new Query()
                 .addCriteria(Criteria.where("id").is(userId))
                 .addCriteria(Criteria.where("socialList").in(profileId));
-
-        System.err.println("existsSocialInListQuery="+existsSocialInListQuery);
 
         Update update = new Update();
         if (mongoTemplate.exists(existsSocialInListQuery, Profile.class)) {
@@ -239,11 +232,7 @@ public class ProfileRepositoryImpl implements ProfileRepository {
             update.push("socialList", profileId);
         }
 
-        System.err.println("addContactQuery="+addContactQuery);
-
         mongoTemplate.updateFirst(addContactQuery, update, Profile.class);
-
-        System.err.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     }
 
     @Override
