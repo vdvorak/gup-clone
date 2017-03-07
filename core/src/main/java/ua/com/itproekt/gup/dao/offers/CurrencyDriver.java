@@ -7,7 +7,7 @@ import ua.com.itproekt.gup.util.CurrencyLocaleUtil;
  * The currency driver
  */
 
-public class CurrencyDriver {
+public final class CurrencyDriver {
     private Long fromPriceUSD,
             toPriceUSD,
             fromPriceUAH,
@@ -15,7 +15,7 @@ public class CurrencyDriver {
             fromPriceEUR,
             toPriceEUR;
 
-    public CurrencyDriver(){
+    private CurrencyDriver(){
 
     }
 
@@ -69,6 +69,46 @@ public class CurrencyDriver {
         this.toPriceEUR = driver.toPriceEUR;
     }
 
+    public boolean convert(Currency currency){
+        if (0<fromPriceUSD
+            && 0<toPriceUSD
+            && 0<fromPriceUAH
+            && 0<toPriceUAH
+            && 0<fromPriceEUR
+            && 0<toPriceEUR) {
+            if (currency == Currency.USD) {
+                Long fromPrice = fromPriceUSD;
+                Long toPrice   = toPriceUSD;
+                fromPriceUSD   = fromPriceUAH;
+                toPriceUSD     = toPriceUAH;
+                fromPriceUAH   = fromPriceEUR;
+                toPriceUAH     = toPriceEUR;
+                fromPriceEUR   = fromPrice;
+                toPriceEUR     = toPrice;
+            } else if (currency == Currency.UAH) {
+                Long fromPrice = fromPriceUAH;
+                Long toPrice   = toPriceUAH;
+                fromPriceUAH   = fromPriceUSD;
+                toPriceUAH     = toPriceUSD;
+                fromPriceUSD   = fromPriceEUR;
+                toPriceUSD     = toPriceEUR;
+                fromPriceEUR   = fromPrice;
+                toPriceEUR     = toPrice;
+            } else {
+                Long fromPrice = fromPriceEUR;
+                Long toPrice   = toPriceEUR;
+                fromPriceEUR   = fromPriceUSD;
+                toPriceEUR     = toPriceUSD;
+                fromPriceUSD   = fromPriceUAH;
+                toPriceUSD     = toPriceUAH;
+                fromPriceUAH   = fromPrice;
+                toPriceUAH     = toPrice;
+            }
+            return true;
+        }
+        return false;
+    }
+
     public Long getFromPriceUSD() {
         return fromPriceUSD;
     }
@@ -119,7 +159,7 @@ public class CurrencyDriver {
 
     @Override
     public String toString() {
-        return "Driver{" +
+        return "CurrencyDriver{" +
                 "fromPriceUSD=" + fromPriceUSD +
                 ", toPriceUSD=" + toPriceUSD +
                 ", fromPriceUAH=" + fromPriceUAH +
