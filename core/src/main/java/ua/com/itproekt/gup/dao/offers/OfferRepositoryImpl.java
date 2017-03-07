@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import ua.com.itproekt.gup.model.offer.*;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.itproekt.gup.util.CurrencyLocaleUtil;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
@@ -334,6 +335,37 @@ public class OfferRepositoryImpl implements OfferRepository {
             query.addCriteria(Criteria.where("priceWithVat").is(true));
         }
 
+
+//        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        //TODO: to the currency conver..:
+//        System.out.println(offerFO);  // USD, UAH, EUR  // fromPrice=733100, toPrice=5388300, currency=USD
+        try {
+            if (offerFO.getCurrency() == Currency.USD) {
+                Long fromPriceUSD = offerFO.getFromPrice();
+                Long   toPriceUSD = offerFO.getToPrice();
+                Long fromPriceUAH = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getFromPrice()), "UAH"));
+                Long   toPriceUAH = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getToPrice()), "UAH"));
+                Long fromPriceEUR = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getFromPrice()), "EUR"));
+                Long   toPriceEUR = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getToPrice()), "EUR"));
+            } else if (offerFO.getCurrency() == Currency.UAH) {
+                Long fromPriceUAH = offerFO.getFromPrice();
+                Long   toPriceUAH = offerFO.getToPrice();
+                Long fromPriceUSD = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getFromPrice()), "USD"));
+                Long   toPriceUSD = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getToPrice()), "USD"));
+                Long fromPriceEUR = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getFromPrice()), "EUR"));
+                Long   toPriceEUR = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getToPrice()), "EUR"));
+            } else {
+                Long fromPriceEUR = offerFO.getFromPrice();
+                Long   toPriceEUR = offerFO.getToPrice();
+                Long fromPriceUSD = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getFromPrice()), "USD"));
+                Long   toPriceUSD = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getToPrice()), "USD"));
+                Long fromPriceUAH = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getFromPrice()), "UAH"));
+                Long   toPriceUAH = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getToPrice()), "UAH"));
+            }
+        } catch (Exception e){
+            e.getStackTrace();
+        }
+//        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
         if (offerFO.getFromPrice() != null && offerFO.getToPrice() != null) {
             query.addCriteria(Criteria.where("price").gte(offerFO.getFromPrice()).lte(offerFO.getToPrice()));

@@ -155,6 +155,7 @@ public final class OfferFilterOptions extends Offer {
                 ", limit=" + limit +
                 ", fromPrice=" + fromPrice +
                 ", toPrice=" + toPrice +
+                ", currency=" + getCurrency() +
                 ", showReserved=" + showReserved +
                 ", propertiesInterval=" + propertiesInterval +
                 ", searchField='" + searchField + '\'' +
