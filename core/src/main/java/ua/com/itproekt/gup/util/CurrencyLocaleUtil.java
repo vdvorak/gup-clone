@@ -3,6 +3,10 @@ package ua.com.itproekt.gup.util;
 import java.text.NumberFormat;
 import java.util.*;
 
+/**
+ * The current locale currency
+ */
+
 public class CurrencyLocaleUtil {
     public static SortedMap<Currency, Locale> currencyLocaleMap;
 

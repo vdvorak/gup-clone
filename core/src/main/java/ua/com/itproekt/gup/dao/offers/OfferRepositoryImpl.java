@@ -12,13 +12,11 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import ua.com.itproekt.gup.model.offer.*;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
-import ua.com.itproekt.gup.util.CurrencyLocaleUtil;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -340,15 +338,15 @@ public class OfferRepositoryImpl implements OfferRepository {
         //TODO: to the currency conver..:
 //        System.out.println(offerFO);  // USD, UAH, EUR  // fromPrice=733100, toPrice=5388300, currency=USD
         try {
-            OfferCurrencyFilter offerCurrencyFilter = new OfferCurrencyFilter(offerFO.getFromPrice(),
+            CurrencyDriver driver = new CurrencyDriver(offerFO.getFromPrice(),
                     offerFO.getFromPrice(),
                     offerFO.getCurrency());
             List<Criteria> criteriaList = new ArrayList<>();
             Criteria  currencyCriterias = new Criteria();
 
-            criteriaList.add( Criteria.where("price").gte(offerCurrencyFilter.getFromPriceUSD()).lte(offerCurrencyFilter.getToPriceUSD()) );
-            criteriaList.add( Criteria.where("price").gte(offerCurrencyFilter.getFromPriceUAH()).lte(offerCurrencyFilter.getToPriceUAH()) );
-            criteriaList.add( Criteria.where("price").gte(offerCurrencyFilter.getFromPriceEUR()).lte(offerCurrencyFilter.getToPriceEUR()) );
+            criteriaList.add( Criteria.where("price").gte(driver.getFromPriceUSD()).lte(driver.getToPriceUSD()) );
+            criteriaList.add( Criteria.where("price").gte(driver.getFromPriceUAH()).lte(driver.getToPriceUAH()) );
+            criteriaList.add( Criteria.where("price").gte(driver.getFromPriceEUR()).lte(driver.getToPriceEUR()) );
             criteriaList.add( Criteria.where("currency").is(offerFO.getCurrency()) );
 
             Criteria[] criterias = criteriaList.toArray( new Criteria[criteriaList.size()] );

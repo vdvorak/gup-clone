@@ -4,6 +4,9 @@ import javax.xml.soap.*;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 
+/**
+ * The current course of bank currency
+ */
 
 public class CurrencyUtil {
 

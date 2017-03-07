@@ -3,8 +3,11 @@ package ua.com.itproekt.gup.dao.offers;
 import ua.com.itproekt.gup.model.offer.Currency;
 import ua.com.itproekt.gup.util.CurrencyLocaleUtil;
 
-public class OfferCurrencyFilter {
+/**
+ * The currency driver
+ */
 
+public class CurrencyDriver {
     private Long fromPriceUSD,
             toPriceUSD,
             fromPriceUAH,
@@ -12,11 +15,11 @@ public class OfferCurrencyFilter {
             fromPriceEUR,
             toPriceEUR;
 
-    public OfferCurrencyFilter(){
+    public CurrencyDriver(){
 
     }
 
-    public OfferCurrencyFilter(Long fromPriceUSD, Long toPriceUSD, Long fromPriceUAH, Long toPriceUAH, Long fromPriceEUR, Long toPriceEUR){
+    public CurrencyDriver(Long fromPriceUSD, Long toPriceUSD, Long fromPriceUAH, Long toPriceUAH, Long fromPriceEUR, Long toPriceEUR){
         this.fromPriceUSD = fromPriceUSD;
         this.toPriceUSD = toPriceUSD;
         this.fromPriceUAH = fromPriceUAH;
@@ -25,45 +28,45 @@ public class OfferCurrencyFilter {
         this.toPriceEUR = toPriceEUR;
     }
 
-    public OfferCurrencyFilter(OfferCurrencyFilter offerCurrencyFilter){
-        this.fromPriceUSD = offerCurrencyFilter.fromPriceUSD;
-        this.toPriceUSD = offerCurrencyFilter.toPriceUSD;
-        this.fromPriceUAH = offerCurrencyFilter.fromPriceUAH;
-        this.toPriceUAH = offerCurrencyFilter.toPriceUAH;
-        this.fromPriceEUR = offerCurrencyFilter.fromPriceEUR;
-        this.toPriceEUR = offerCurrencyFilter.toPriceEUR;
+    public CurrencyDriver(CurrencyDriver driver){
+        this.fromPriceUSD = driver.fromPriceUSD;
+        this.toPriceUSD = driver.toPriceUSD;
+        this.fromPriceUAH = driver.fromPriceUAH;
+        this.toPriceUAH = driver.toPriceUAH;
+        this.fromPriceEUR = driver.fromPriceEUR;
+        this.toPriceEUR = driver.toPriceEUR;
     }
 
-    public OfferCurrencyFilter (Long fromPrice, Long toPrice, Currency currency){
-        OfferCurrencyFilter offerCurrencyFilter;
+    public CurrencyDriver(Long fromPrice, Long toPrice, Currency currency){
+        CurrencyDriver driver;
         if (currency == Currency.USD) {
-            offerCurrencyFilter = new OfferCurrencyFilter(fromPrice,
+            driver = new CurrencyDriver(fromPrice,
                     Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "UAH")),
                     Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "EUR")),
                     toPrice,
                     Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(toPrice), "UAH")),
                     Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(toPrice), "EUR")));
         } else if (currency == Currency.UAH) {
-            offerCurrencyFilter = new OfferCurrencyFilter(Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "USD")),
+            driver = new CurrencyDriver(Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "USD")),
                     fromPrice,
                     Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "EUR")),
                     Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(toPrice), "USD")),
                     toPrice,
                     Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(toPrice), "EUR")));
         } else {
-            offerCurrencyFilter = new OfferCurrencyFilter(Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "USD")),
+            driver = new CurrencyDriver(Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "USD")),
                     Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "UAH")),
                     fromPrice,
                     Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(toPrice), "USD")),
                     Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(toPrice), "UAH")),
                     toPrice);
         }
-        this.fromPriceUSD = offerCurrencyFilter.fromPriceUSD;
-        this.toPriceUSD = offerCurrencyFilter.toPriceUSD;
-        this.fromPriceUAH = offerCurrencyFilter.fromPriceUAH;
-        this.toPriceUAH = offerCurrencyFilter.toPriceUAH;
-        this.fromPriceEUR = offerCurrencyFilter.fromPriceEUR;
-        this.toPriceEUR = offerCurrencyFilter.toPriceEUR;
+        this.fromPriceUSD = driver.fromPriceUSD;
+        this.toPriceUSD = driver.toPriceUSD;
+        this.fromPriceUAH = driver.fromPriceUAH;
+        this.toPriceUAH = driver.toPriceUAH;
+        this.fromPriceEUR = driver.fromPriceEUR;
+        this.toPriceEUR = driver.toPriceEUR;
     }
 
     public Long getFromPriceUSD() {
@@ -116,7 +119,7 @@ public class OfferCurrencyFilter {
 
     @Override
     public String toString() {
-        return "OfferCurrencyFilter{" +
+        return "Driver{" +
                 "fromPriceUSD=" + fromPriceUSD +
                 ", toPriceUSD=" + toPriceUSD +
                 ", fromPriceUAH=" + fromPriceUAH +
