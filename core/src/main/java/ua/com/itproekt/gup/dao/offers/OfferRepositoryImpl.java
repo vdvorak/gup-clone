@@ -340,28 +340,20 @@ public class OfferRepositoryImpl implements OfferRepository {
         //TODO: to the currency conver..:
 //        System.out.println(offerFO);  // USD, UAH, EUR  // fromPrice=733100, toPrice=5388300, currency=USD
         try {
-            if (offerFO.getCurrency() == Currency.USD) {
-                Long fromPriceUSD = offerFO.getFromPrice();
-                Long   toPriceUSD = offerFO.getToPrice();
-                Long fromPriceUAH = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getFromPrice()), "UAH"));
-                Long   toPriceUAH = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getToPrice()), "UAH"));
-                Long fromPriceEUR = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getFromPrice()), "EUR"));
-                Long   toPriceEUR = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getToPrice()), "EUR"));
-            } else if (offerFO.getCurrency() == Currency.UAH) {
-                Long fromPriceUAH = offerFO.getFromPrice();
-                Long   toPriceUAH = offerFO.getToPrice();
-                Long fromPriceUSD = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getFromPrice()), "USD"));
-                Long   toPriceUSD = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getToPrice()), "USD"));
-                Long fromPriceEUR = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getFromPrice()), "EUR"));
-                Long   toPriceEUR = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getToPrice()), "EUR"));
-            } else {
-                Long fromPriceEUR = offerFO.getFromPrice();
-                Long   toPriceEUR = offerFO.getToPrice();
-                Long fromPriceUSD = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getFromPrice()), "USD"));
-                Long   toPriceUSD = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getToPrice()), "USD"));
-                Long fromPriceUAH = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getFromPrice()), "UAH"));
-                Long   toPriceUAH = Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(offerFO.getToPrice()), "UAH"));
-            }
+            OfferCurrencyFilter offerCurrencyFilter = new OfferCurrencyFilter(offerFO.getFromPrice(),
+                    offerFO.getFromPrice(),
+                    offerFO.getCurrency());
+            List<Criteria> criteriaList = new ArrayList<>();
+            Criteria  currencyCriterias = new Criteria();
+
+            criteriaList.add( Criteria.where("price").gte(offerCurrencyFilter.getFromPriceUSD()).lte(offerCurrencyFilter.getToPriceUSD()) );
+            criteriaList.add( Criteria.where("price").gte(offerCurrencyFilter.getFromPriceUAH()).lte(offerCurrencyFilter.getToPriceUAH()) );
+            criteriaList.add( Criteria.where("price").gte(offerCurrencyFilter.getFromPriceEUR()).lte(offerCurrencyFilter.getToPriceEUR()) );
+            criteriaList.add( Criteria.where("currency").is(offerFO.getCurrency()) );
+
+            Criteria[] criterias = criteriaList.toArray( new Criteria[criteriaList.size()] );
+            currencyCriterias.orOperator(criterias);
+            query.addCriteria(currencyCriterias);
         } catch (Exception e){
             e.getStackTrace();
         }
