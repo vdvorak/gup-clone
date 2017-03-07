@@ -69,7 +69,7 @@ public final class CurrencyDriver {
         this.toPriceEUR = driver.toPriceEUR;
     }
 
-    public boolean convert(Currency currency){
+    public boolean toConvert(Currency currency){
         if (0<fromPriceUSD
             && 0<toPriceUSD
             && 0<fromPriceUAH
