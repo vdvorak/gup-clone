@@ -31,4 +31,9 @@ public class CurrencyDriverTest {
         assertTrue( true );
     }
 
+    @Test
+    public void testCurrencyDriverInfo(){
+        assertTrue( true );
+    }
+
 }
