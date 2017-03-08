@@ -3,6 +3,8 @@ package ua.com.itproekt.gup.dao.offers;
 import ua.com.itproekt.gup.model.offer.Currency;
 import ua.com.itproekt.gup.util.CurrencyLocaleUtil;
 
+import java.util.Locale;
+
 /**
  * The currency driver
  */
@@ -14,6 +16,7 @@ public final class CurrencyDriver {
             toPriceUAH,
             fromPriceEUR,
             toPriceEUR;
+    private Locale defaultLocale;
 
     private CurrencyDriver(){
 
@@ -26,6 +29,7 @@ public final class CurrencyDriver {
         this.toPriceUAH = toPriceUAH;
         this.fromPriceEUR = fromPriceEUR;
         this.toPriceEUR = toPriceEUR;
+        this.defaultLocale = Locale.getDefault();
     }
 
     public CurrencyDriver(CurrencyDriver driver){
@@ -47,6 +51,41 @@ public final class CurrencyDriver {
                     Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(toPrice), "UAH")),
                     Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(toPrice), "EUR")));
         } else if (currency == Currency.UAH) {
+            driver = new CurrencyDriver(Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "USD")),
+                    fromPrice,
+                    Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "EUR")),
+                    Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(toPrice), "USD")),
+                    toPrice,
+                    Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(toPrice), "EUR")));
+        } else {
+            driver = new CurrencyDriver(Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "USD")),
+                    Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "UAH")),
+                    fromPrice,
+                    Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(toPrice), "USD")),
+                    Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(toPrice), "UAH")),
+                    toPrice);
+        }
+        this.fromPriceUSD = driver.fromPriceUSD;
+        this.toPriceUSD = driver.toPriceUSD;
+        this.fromPriceUAH = driver.fromPriceUAH;
+        this.toPriceUAH = driver.toPriceUAH;
+        this.fromPriceEUR = driver.fromPriceEUR;
+        this.toPriceEUR = driver.toPriceEUR;
+    }
+
+    public CurrencyDriver(Long fromPrice, Long toPrice){
+        defaultLocale = Locale.getDefault();
+        java.util.Currency currency = java.util.Currency.getInstance(defaultLocale);
+
+        CurrencyDriver driver;
+        if (currency.getSymbol().equals(Currency.USD)) {
+            driver = new CurrencyDriver(fromPrice,
+                    Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "UAH")),
+                    Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "EUR")),
+                    toPrice,
+                    Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(toPrice), "UAH")),
+                    Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(toPrice), "EUR")));
+        } else if (currency.getSymbol().equals(Currency.UAH)) {
             driver = new CurrencyDriver(Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "USD")),
                     fromPrice,
                     Long.valueOf(CurrencyLocaleUtil.getAmountAsFormattedString(0.00, Double.valueOf(fromPrice), "EUR")),
@@ -157,6 +196,22 @@ public final class CurrencyDriver {
         this.toPriceEUR = toPriceEUR;
     }
 
+    public void infoForLocale() {
+        System.out.println("Locale: " + defaultLocale.getDisplayName());
+        java.util.Currency currency = java.util.Currency.getInstance(defaultLocale);
+        System.out.println("Currency Code: " + currency.getCurrencyCode());
+        System.out.println("Symbol: " + currency.getSymbol());
+        System.out.println("Default Fraction Digits: " + currency.getDefaultFractionDigits());
+    }
+
+    public void infoForLocale(Locale locale) {
+        System.out.println("Locale: " + locale.getDisplayName());
+        java.util.Currency currency = java.util.Currency.getInstance(locale);
+        System.out.println("Currency Code: " + currency.getCurrencyCode());
+        System.out.println("Symbol: " + currency.getSymbol());
+        System.out.println("Default Fraction Digits: " + currency.getDefaultFractionDigits());
+    }
+
     @Override
     public String toString() {
         return "CurrencyDriver{" +
@@ -168,4 +223,5 @@ public final class CurrencyDriver {
                 ", toPriceEUR=" + toPriceEUR +
                 '}';
     }
+
 }
