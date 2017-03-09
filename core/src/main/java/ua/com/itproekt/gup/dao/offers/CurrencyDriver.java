@@ -1,8 +1,10 @@
 package ua.com.itproekt.gup.dao.offers;
 
 import ua.com.itproekt.gup.model.offer.Currency;
+import ua.com.itproekt.gup.util.CurrencyConvertUtil;
 import ua.com.itproekt.gup.util.CurrencyLocaleUtil;
 
+import java.io.IOException;
 import java.util.Locale;
 
 /**
@@ -17,6 +19,7 @@ public final class CurrencyDriver {
             fromPriceEUR,
             toPriceEUR;
     private Locale defaultLocale;
+    private CurrencyConvertUtil convert;
 
     private CurrencyDriver(){
 
@@ -30,6 +33,7 @@ public final class CurrencyDriver {
         this.fromPriceEUR = fromPriceEUR;
         this.toPriceEUR = toPriceEUR;
         this.defaultLocale = Locale.getDefault();
+        convert = new CurrencyConvertUtil();
     }
 
     public CurrencyDriver(CurrencyDriver driver){
@@ -39,9 +43,11 @@ public final class CurrencyDriver {
         this.toPriceUAH = driver.toPriceUAH;
         this.fromPriceEUR = driver.fromPriceEUR;
         this.toPriceEUR = driver.toPriceEUR;
+        convert = new CurrencyConvertUtil();
     }
 
     public CurrencyDriver(Long fromPrice, Long toPrice, Currency currency){
+        convert = new CurrencyConvertUtil();
         CurrencyDriver driver;
         if (currency == Currency.USD) {
             driver = new CurrencyDriver(fromPrice,
@@ -75,6 +81,7 @@ public final class CurrencyDriver {
 
     public CurrencyDriver(Long fromPrice, Long toPrice){
         defaultLocale = Locale.getDefault();
+        convert       = new CurrencyConvertUtil();
         java.util.Currency currency = java.util.Currency.getInstance(defaultLocale);
 
         CurrencyDriver driver;
@@ -108,7 +115,64 @@ public final class CurrencyDriver {
         this.toPriceEUR = driver.toPriceEUR;
     }
 
+    public String toConvert(Integer priceUSD, Integer priceUAH, Integer priceEUR, Currency currency) throws IOException {
+        if (0 < priceUSD
+                && 0 < priceUSD
+                && 0 < priceUAH) {
+            if (currency == Currency.USD) {
+                return convert.toConver(priceUSD, priceUAH, 0);
+            } else if (currency == Currency.UAH) {
+                return convert.toConver(priceUAH, priceUSD, 1);
+            } else {
+                return convert.toConver(priceEUR, priceUAH, 2);
+            }
+        }
+        return null;
+    }
+
     public boolean toConvert(Currency currency){
+        if (0<fromPriceUSD
+                && 0<toPriceUSD
+                && 0<fromPriceUAH
+                && 0<toPriceUAH
+                && 0<fromPriceEUR
+                && 0<toPriceEUR) {
+            if (currency == Currency.USD) {
+                Long fromPrice = fromPriceUSD;
+                Long toPrice   = toPriceUSD;
+                fromPriceUSD   = fromPriceUAH;
+                toPriceUSD     = toPriceUAH;
+                fromPriceUAH   = fromPriceEUR;
+                toPriceUAH     = toPriceEUR;
+                fromPriceEUR   = fromPrice;
+                toPriceEUR     = toPrice;
+            } else if (currency == Currency.UAH) {
+                Long fromPrice = fromPriceUAH;
+                Long toPrice   = toPriceUAH;
+                fromPriceUAH   = fromPriceUSD;
+                toPriceUAH     = toPriceUSD;
+                fromPriceUSD   = fromPriceEUR;
+                toPriceUSD     = toPriceEUR;
+                fromPriceEUR   = fromPrice;
+                toPriceEUR     = toPrice;
+            } else {
+                Long fromPrice = fromPriceEUR;
+                Long toPrice   = toPriceEUR;
+                fromPriceEUR   = fromPriceUSD;
+                toPriceEUR     = toPriceUSD;
+                fromPriceUSD   = fromPriceUAH;
+                toPriceUSD     = toPriceUAH;
+                fromPriceUAH   = fromPrice;
+                toPriceUAH     = toPrice;
+            }
+            return true;
+        }
+
+
+
+
+
+
         if (0<fromPriceUSD
             && 0<toPriceUSD
             && 0<fromPriceUAH
