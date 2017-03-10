@@ -3,6 +3,7 @@ package ua.com.itproekt.gup.dao.offers;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -12,10 +13,17 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import ua.com.itproekt.gup.model.offer.*;
 import ua.com.itproekt.gup.model.offer.filter.OfferFilterOptions;
+import ua.com.itproekt.gup.model.xchangerate.api.CurrencyNotSupportedException;
+import ua.com.itproekt.gup.model.xchangerate.endpoint.EndpointException;
+import ua.com.itproekt.gup.model.xchangerate.service.ServiceException;
+import ua.com.itproekt.gup.model.xchangerate.storage.StorageException;
+import ua.com.itproekt.gup.util.CurrencyConvertUtil;
+import ua.com.itproekt.gup.model.xchangerate.util.Currency;
 import ua.com.itproekt.gup.util.EntityPage;
 import ua.com.itproekt.gup.util.MongoTemplateOperations;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -336,23 +344,49 @@ public class OfferRepositoryImpl implements OfferRepository {
 
 //        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         //TODO: to the currency conver..:
-//        System.out.println(offerFO);  // USD, UAH, EUR  // fromPrice=733100, toPrice=5388300, currency=USD
+//        System.out.println(offerFO);  // USD, EUR, UAH  // fromPrice=733100, toPrice=5388300, currency=USD
         try {
-            CurrencyDriver driver = new CurrencyDriver(offerFO.getFromPrice(),
-                    offerFO.getFromPrice(),
-                    offerFO.getCurrency());
             List<Criteria> criteriaList = new ArrayList<>();
             Criteria  currencyCriterias = new Criteria();
 
-            criteriaList.add( Criteria.where("price").gte(driver.getFromPriceUSD()).lte(driver.getToPriceUSD()) );
-            criteriaList.add( Criteria.where("price").gte(driver.getFromPriceUAH()).lte(driver.getToPriceUAH()) );
-            criteriaList.add( Criteria.where("price").gte(driver.getFromPriceEUR()).lte(driver.getToPriceEUR()) );
-            criteriaList.add( Criteria.where("currency").is(offerFO.getCurrency()) );
+            if (offerFO.getCurrency().equals(Currency.USD)) {
+                criteriaList.add( Criteria.where("price")
+                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.USD, Currency.USD))
+                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.USD, Currency.USD)));
+                criteriaList.add( Criteria.where("price")
+                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.USD, Currency.EUR))
+                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.USD, Currency.EUR)));
+                criteriaList.add( Criteria.where("price")
+                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.USD, Currency.UAH))
+                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.USD, Currency.UAH)));
+            } else if (offerFO.getCurrency().equals(Currency.EUR)) {
+                criteriaList.add( Criteria.where("price")
+                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.EUR, Currency.USD))
+                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.EUR, Currency.USD)));
+                criteriaList.add( Criteria.where("price")
+                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.EUR, Currency.EUR))
+                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.EUR, Currency.EUR)));
+                criteriaList.add( Criteria.where("price")
+                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.EUR, Currency.UAH))
+                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.EUR, Currency.UAH)));
+            } else if (offerFO.getCurrency().equals(Currency.UAH)) {
+                criteriaList.add( Criteria.where("price")
+                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.UAH, Currency.USD))
+                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.UAH, Currency.USD)));
+                criteriaList.add( Criteria.where("price")
+                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.UAH, Currency.EUR))
+                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.UAH, Currency.EUR)));
+                criteriaList.add( Criteria.where("price")
+                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.UAH, Currency.UAH))
+                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.UAH, Currency.UAH)));
+            }
+
+            criteriaList.add(Criteria.where("currency").is(offerFO.getCurrency()));
 
             Criteria[] criterias = criteriaList.toArray( new Criteria[criteriaList.size()] );
             currencyCriterias.orOperator(criterias);
             query.addCriteria(currencyCriterias);
-        } catch (Exception e){
+        } catch (ServiceException | StorageException | CurrencyNotSupportedException | EndpointException | JSONException e){
             e.getStackTrace();
         }
 //        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");

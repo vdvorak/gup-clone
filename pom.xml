@@ -34,5 +34,6 @@
         <module>service</module>
         <module>admin</module>
         <!--<module>file-storage</module>-->
+        <module>exchange-rates</module>
     </modules>
 </project>
