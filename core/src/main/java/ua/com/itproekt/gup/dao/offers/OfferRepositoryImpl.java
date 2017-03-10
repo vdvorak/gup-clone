@@ -354,28 +354,28 @@ public class OfferRepositoryImpl implements OfferRepository {
                         .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.USD, Currency.USD))
                         .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.USD, Currency.USD)));
                 criteriaList.add( Criteria.where("price")
-                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.USD, Currency.EUR))
-                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.USD, Currency.EUR)));
-                criteriaList.add( Criteria.where("price")
-                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.USD, Currency.UAH))
-                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.USD, Currency.UAH)));
-            } else if (offerFO.getCurrency().equals(Currency.EUR)) {
-                criteriaList.add( Criteria.where("price")
                         .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.EUR, Currency.USD))
                         .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.EUR, Currency.USD)));
+                criteriaList.add( Criteria.where("price")
+                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.UAH, Currency.USD))
+                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.UAH, Currency.USD)));
+            } else if (offerFO.getCurrency().equals(Currency.EUR)) {
+                criteriaList.add( Criteria.where("price")
+                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.USD, Currency.EUR))
+                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.USD, Currency.EUR)));
                 criteriaList.add( Criteria.where("price")
                         .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.EUR, Currency.EUR))
                         .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.EUR, Currency.EUR)));
                 criteriaList.add( Criteria.where("price")
-                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.EUR, Currency.UAH))
-                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.EUR, Currency.UAH)));
-            } else if (offerFO.getCurrency().equals(Currency.UAH)) {
-                criteriaList.add( Criteria.where("price")
-                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.UAH, Currency.USD))
-                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.UAH, Currency.USD)));
-                criteriaList.add( Criteria.where("price")
                         .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.UAH, Currency.EUR))
                         .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.UAH, Currency.EUR)));
+            } else if (offerFO.getCurrency().equals(Currency.UAH)) {
+                criteriaList.add( Criteria.where("price")
+                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.USD, Currency.UAH))
+                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.USD, Currency.UAH)));
+                criteriaList.add( Criteria.where("price")
+                        .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.EUR, Currency.UAH))
+                        .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.EUR, Currency.UAH)));
                 criteriaList.add( Criteria.where("price")
                         .gte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getFromPrice())), Currency.UAH, Currency.UAH))
                         .lte(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFO.getToPrice())), Currency.UAH, Currency.UAH)));
