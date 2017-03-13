@@ -80,51 +80,90 @@ public class OfferRepositoryImpl implements OfferRepository {
 
     @Override
     public EntityPage<Offer> findOffersWithOptions(OfferFilterOptions offerFilterOptions) {
-        Query query = queryPreparator(offerFilterOptions);
+//        Query           query = queryPreparator(offerFilterOptions);
+//        List<Offer> offerList = mongoTemplate.find(query, Offer.class);
 
-        List<Offer> offerList = mongoTemplate.find(query, Offer.class);
         EntityPage<Offer> offerEntityPage = new EntityPage<>();
 
-        offerEntityPage.setEntities(offerList);
-        offerEntityPage.setTotalEntities(offerList.size());
+//        offerEntityPage.setEntities(offerList);
+//        offerEntityPage.setTotalEntities(offerList.size());
 
 
-
-
+////        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 //        System.err.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
 //        System.err.println( offerFilterOptions );
 //        System.err.println( "Currency=" + offerFilterOptions.getCurrency() );
 //        System.err.println( "FromPrice=" + offerFilterOptions.getFromPrice() );
 //        System.err.println( "ToPrice=" + offerFilterOptions.getToPrice() );
 
-        Query query1, query2, query3;
-        List<Offer> offerList1, offerList2, offerList3;
+        Query queryUSD, queryEUR, queryUAH;
+        List<Offer> offerListUSD, offerListEUR, offerListUAH;
+        List<Offer> offerListAll = new ArrayList<Offer>();
         try {
-            if (offerFilterOptions.getCurrency().toString().equals("USD") && false) {
+            if (offerFilterOptions.getCurrency().toString().equals("USD")) {
                 offerFilterOptions.setFromPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getFromPrice())), Currency.USD, Currency.USD))) );
                 offerFilterOptions.setToPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getToPrice())), Currency.USD, Currency.USD))) );
                 offerFilterOptions.setCurrency(ua.com.itproekt.gup.model.offer.Currency.USD);
-                query1 = queryPreparator(offerFilterOptions);
-                offerList1 = mongoTemplate.find(query1, Offer.class);
+                queryUSD = queryPreparator(offerFilterOptions);
+                offerListUSD = mongoTemplate.find(queryUSD, Offer.class);
                 offerFilterOptions.setFromPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getFromPrice())), Currency.USD, Currency.EUR))) );
                 offerFilterOptions.setToPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getToPrice())), Currency.USD, Currency.EUR))) );
                 offerFilterOptions.setCurrency(ua.com.itproekt.gup.model.offer.Currency.EUR);
-                query2 = queryPreparator(offerFilterOptions);
-                offerList2 = mongoTemplate.find(query2, Offer.class);
+                queryEUR = queryPreparator(offerFilterOptions);
+                offerListEUR = mongoTemplate.find(queryEUR, Offer.class);
                 offerFilterOptions.setFromPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getFromPrice())), Currency.USD, Currency.UAH))) );
                 offerFilterOptions.setToPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getToPrice())), Currency.USD, Currency.UAH))) );
                 offerFilterOptions.setCurrency(ua.com.itproekt.gup.model.offer.Currency.UAH);
-                query3 = queryPreparator(offerFilterOptions);
-                offerList3 = mongoTemplate.find(query3, Offer.class);
+                queryUAH = queryPreparator(offerFilterOptions);
+                offerListUAH = mongoTemplate.find(queryUAH, Offer.class);
+                offerListAll.addAll(offerListUSD);
+                offerListAll.addAll(offerListEUR);
+                offerListAll.addAll(offerListUAH);
             } else if (offerFilterOptions.getCurrency().toString().equals("EUR")) {
+                offerFilterOptions.setFromPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getFromPrice())), Currency.EUR, Currency.USD))) );
+                offerFilterOptions.setToPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getToPrice())), Currency.EUR, Currency.USD))) );
+                offerFilterOptions.setCurrency(ua.com.itproekt.gup.model.offer.Currency.USD);
+                queryUSD = queryPreparator(offerFilterOptions);
+                offerListUSD = mongoTemplate.find(queryUSD, Offer.class);
+                offerFilterOptions.setFromPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getFromPrice())), Currency.EUR, Currency.EUR))) );
+                offerFilterOptions.setToPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getToPrice())), Currency.EUR, Currency.EUR))) );
+                offerFilterOptions.setCurrency(ua.com.itproekt.gup.model.offer.Currency.EUR);
+                queryEUR = queryPreparator(offerFilterOptions);
+                offerListEUR = mongoTemplate.find(queryEUR, Offer.class);
+                offerFilterOptions.setFromPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getFromPrice())), Currency.EUR, Currency.UAH))) );
+                offerFilterOptions.setToPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getToPrice())), Currency.EUR, Currency.UAH))) );
+                offerFilterOptions.setCurrency(ua.com.itproekt.gup.model.offer.Currency.UAH);
+                queryUAH = queryPreparator(offerFilterOptions);
+                offerListUAH = mongoTemplate.find(queryUAH, Offer.class);
+                offerListAll.addAll(offerListUSD);
+                offerListAll.addAll(offerListEUR);
+                offerListAll.addAll(offerListUAH);
             } else if (offerFilterOptions.getCurrency().toString().equals("UAH")) {
+                offerFilterOptions.setFromPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getFromPrice())), Currency.UAH, Currency.USD))) );
+                offerFilterOptions.setToPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getToPrice())), Currency.UAH, Currency.USD))) );
+                offerFilterOptions.setCurrency(ua.com.itproekt.gup.model.offer.Currency.USD);
+                queryUSD = queryPreparator(offerFilterOptions);
+                offerListUSD = mongoTemplate.find(queryUSD, Offer.class);
+                offerFilterOptions.setFromPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getFromPrice())), Currency.UAH, Currency.EUR))) );
+                offerFilterOptions.setToPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getToPrice())), Currency.UAH, Currency.EUR))) );
+                offerFilterOptions.setCurrency(ua.com.itproekt.gup.model.offer.Currency.EUR);
+                queryEUR = queryPreparator(offerFilterOptions);
+                offerListEUR = mongoTemplate.find(queryEUR, Offer.class);
+                offerFilterOptions.setFromPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getFromPrice())), Currency.UAH, Currency.UAH))) );
+                offerFilterOptions.setToPrice( Long.valueOf(String.valueOf(CurrencyConvertUtil.getInstance().convertCurrency(new BigDecimal(String.valueOf(offerFilterOptions.getToPrice())), Currency.UAH, Currency.UAH))) );
+                offerFilterOptions.setCurrency(ua.com.itproekt.gup.model.offer.Currency.UAH);
+                queryUAH = queryPreparator(offerFilterOptions);
+                offerListUAH = mongoTemplate.find(queryUAH, Offer.class);
+                offerListAll.addAll(offerListUSD);
+                offerListAll.addAll(offerListEUR);
+                offerListAll.addAll(offerListUAH);
             }
         } catch (ServiceException | StorageException | CurrencyNotSupportedException | EndpointException | JSONException e){
             e.getStackTrace();
         }
-
-
-
+        offerEntityPage.setEntities(offerListAll);
+        offerEntityPage.setTotalEntities(offerListAll.size());
+////        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
         return offerEntityPage;
     }
