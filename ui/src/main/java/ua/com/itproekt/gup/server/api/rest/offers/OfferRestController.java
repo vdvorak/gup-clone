@@ -85,7 +85,7 @@ public class OfferRestController {
                 offerInfo = offersService.getPrivateOfferInfoByOffer(offer);
             } else {
                 if (offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO || offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL) {
-                    return new ResponseEntity<>("Moderation status is NO or FAIL", HttpStatus.FORBIDDEN);
+                    return new ResponseEntity<>("{\"success\":false,\"error\":{\"code\":407,\"type\":\"Proxy Authentication Required\",\"info\":\"Moderation status is NO or FAIL\"}}", HttpStatus.BAD_REQUEST);
                 }
                 offerInfo = offersService.getPublicOfferInfoByOffer(offer);
             }

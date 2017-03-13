@@ -1,6 +1,5 @@
 package ua.com.itproekt.gup.model.offer;
 
-
 public class Property {
     private String key;
     private String value;
