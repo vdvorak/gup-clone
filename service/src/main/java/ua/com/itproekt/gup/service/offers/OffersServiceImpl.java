@@ -111,7 +111,8 @@ public class OffersServiceImpl implements OffersService {
                 .setShowOrdersCount(offer.isShowOrdersCount())
                 .setPaidServices(offer.getPaidServices())
                 .setMonthOfPrices(offer.getMonthOfPrices())
-                .setRents(offer.getRents());
+                .setRents(offer.getRents())
+                .setMadeInUkraine(offer.isMadeInUkraine());
 
 
         offerRepository.create(newOffer);
@@ -183,7 +184,7 @@ public class OffersServiceImpl implements OffersService {
                 .setTitle(oldOffer.getTitle())
                 .setDescription(oldOffer.getDescription())
                 .setPrice(oldOffer.getPrice())
-                .setOldPrice(offerRepository.findById(oldOffer.getId()).getPrice()!=null ? offerRepository.findById(oldOffer.getId()).getPrice() : 0l) //TODO: The OldPrice
+                .setOldPrice(offerRepository.findById(oldOffer.getId()).getPrice() != null ? offerRepository.findById(oldOffer.getId()).getPrice() : 0l) //TODO: The OldPrice
                 .setPriceCanBeNegotiated(oldOffer.getPriceCanBeNegotiated())
                 .setUsed(oldOffer.getUsed())
                 .setActive(oldOffer.getActive())
@@ -197,7 +198,8 @@ public class OffersServiceImpl implements OffersService {
                 .setDeleted(oldOffer.isDeleted())
                 .setPaidServices(oldOffer.getPaidServices())
                 .setMonthOfPrices(oldOffer.getMonthOfPrices())
-                .setRents(oldOffer.getRents());
+                .setRents(oldOffer.getRents())
+                .setMadeInUkraine(oldOffer.isMadeInUkraine());
 
         return offerRepository.findAndUpdate(newOffer);
     }

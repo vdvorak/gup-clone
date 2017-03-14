@@ -92,6 +92,8 @@ public class Offer {
 
     boolean                         deleted;                    // showing is offer marked as delete or not
 
+    private boolean                 madeInUkraine;
+
     public Offer setCreatedDateEqualsToCurrentDate() {
         this.createdDate = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli();
         return this;
@@ -432,6 +434,15 @@ public class Offer {
         return this;
     }
 
+    public boolean isMadeInUkraine() {
+        return madeInUkraine;
+    }
+
+    public Offer setMadeInUkraine(boolean madeInUkraine) {
+        this.madeInUkraine = madeInUkraine;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Offer{" +
@@ -471,6 +482,7 @@ public class Offer {
                 ", productReturnsTerms=" + productReturnsTerms +
                 ", offerModerationReports=" + offerModerationReports +
                 ", deleted=" + deleted +
+                ", madeInUkraine=" + madeInUkraine +
                 '}';
     }
 }
