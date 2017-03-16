@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ua.com.itproekt.gup.model.offer.Address;
+import ua.com.itproekt.gup.model.offer.GeneralPhone;
 import ua.com.itproekt.gup.model.profiles.order.OrderAddress;
 import ua.com.itproekt.gup.util.OfferUserContactInfo;
 
@@ -42,6 +43,7 @@ public class Profile {
     private String passwordRestore;
     private String tokenKey;
     private String mainPhoneNumber;
+    private GeneralPhone generalPhone;
 
     @Indexed
     @Size(min = 2, max = 70)
@@ -174,6 +176,15 @@ public class Profile {
 
     public Profile setMainPhoneNumber(String mainPhoneNumber) {
         this.mainPhoneNumber = mainPhoneNumber;
+        return this;
+    }
+
+    public GeneralPhone getGeneralPhone() {
+        return generalPhone;
+    }
+
+    public Profile setGeneralPhone(GeneralPhone generalPhone) {
+        this.generalPhone = generalPhone;
         return this;
     }
 
