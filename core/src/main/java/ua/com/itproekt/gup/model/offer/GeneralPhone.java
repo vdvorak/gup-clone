@@ -6,12 +6,20 @@ public class GeneralPhone {
     private Integer index;
     private boolean hidden;
 
-    public void setIndex(Integer index){
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
         this.index = index;
     }
 
-    public Integer getIndex(){
-        return index;
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
 }
