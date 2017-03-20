@@ -47,6 +47,7 @@ public class Offer {
     private Long                    createdDate;
     private Reservation             reservation;
     private Integer                 views;                      // number of offer views
+    private Integer                 phoneViews;
     private PriceOfRentsRestore     monthOfPrices;
     private RentsRestore            rents;
     private Rent                    rent;
@@ -290,6 +291,15 @@ public class Offer {
         return this;
     }
 
+    public Integer getPhoneViews() {
+        return phoneViews;
+    }
+
+    public Offer setPhoneViews(Integer phoneViews) {
+        this.phoneViews = phoneViews;
+        return this;
+    }
+
     public Boolean getActive() {
         return active;
     }
@@ -453,6 +463,7 @@ public class Offer {
                 ", createdDate=" + createdDate +
                 ", reservation=" + reservation +
                 ", views=" + views +
+                ", phoneViews=" + phoneViews +
                 ", monthOfPrices=" + monthOfPrices +
                 ", rents=" + rents +
                 ", rent=" + rent +

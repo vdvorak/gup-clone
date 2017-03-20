@@ -148,6 +148,12 @@ public class OffersServiceImpl implements OffersService {
     }
 
     @Override
+    public Offer findOfferAndIncPhoneViews(String offerId) {
+        offerRepository.incPhoneViewsAtOne(offerId);
+        return offerRepository.findById(offerId);
+    }
+
+    @Override
     public boolean offerExists(String id) {
         return offerRepository.offerExists(id);
     }

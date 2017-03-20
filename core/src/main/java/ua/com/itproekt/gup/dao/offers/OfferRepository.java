@@ -109,6 +109,8 @@ public interface OfferRepository {
      */
     void incViewsAtOne(String offerId);
 
+    void incPhoneViewsAtOne(String offerId);
+
     /**
      * Delete specific Rent object by it's ID.
      *

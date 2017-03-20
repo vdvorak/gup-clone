@@ -227,6 +227,14 @@ public class OfferRepositoryImpl implements OfferRepository {
     }
 
     @Override
+    public void incPhoneViewsAtOne(String offerId) {
+        mongoTemplate.updateFirst(
+                Query.query(Criteria.where("id").is(offerId)),
+                new Update().inc("phoneViews", 1),
+                Offer.class);
+    }
+
+    @Override
     public void deleteRent(String offerId, String rentId) {
         mongoTemplate.updateFirst(
                 Query.query(Criteria.where("id").is(offerId)),
