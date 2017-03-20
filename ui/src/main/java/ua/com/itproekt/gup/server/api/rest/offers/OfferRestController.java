@@ -108,6 +108,42 @@ public class OfferRestController {
         return new ResponseEntity<>(offerInfo, HttpStatus.OK);
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "/offer/phoneViews/{seoUrl}", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getOfferByIdWithRelevant(@PathVariable String seoUrl, HttpServletRequest request) {
+        Offer offer = offersService.findBySeoUrlAndIncPhoneViews(seoUrl);
+
+        if (offer == null) {
+            return new ResponseEntity<>("Offer with this seoUrl is not exist", HttpStatus.NOT_FOUND);
+        }
+
+        if (offer.isDeleted()) {
+            return new ResponseEntity<>("Offer with this seoUrl was deleted", HttpStatus.NOT_FOUND);
+        }
+
+        String userId = SecurityOperations.getLoggedUserId();
+
+        OfferInfo offerInfo;
+
+        // if user not admin nor the moderator
+        if (!(request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString()))){
+            //if user is author - he will receive additional fields
+            if (offer.getAuthorId().equals(userId)) {
+                offerInfo = offersService.getPrivateOfferInfoByOffer(offer);
+            } else {
+                if (offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.NO || offer.getOfferModerationReports().getModerationStatus() == ModerationStatus.FAIL) {
+                    return new ResponseEntity<>("{\"success\":false,\"error\":{\"code\":407,\"info\":\"Moderation status is NO or FAIL\"}}", HttpStatus.BAD_REQUEST);
+                }
+                offerInfo = offersService.getPublicOfferInfoByOffer(offer);
+            }
+        } else {
+            return new ResponseEntity<>("{\"success\":false,\"error\":{\"code\":405,\"info\":\"Method Not Allowed to Moderation\"}}", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(offerInfo, HttpStatus.OK);
+    }
+
     /**
      * Return list of the offers which relevant to offer filter option.
      *

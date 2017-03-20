@@ -71,7 +71,7 @@ public interface OffersService {
      */
     Offer findOfferAndIncViews(String offerId);
 
-    Offer findOfferAndIncPhoneViews(String offerId);
+    Offer findBySeoUrlAndIncPhoneViews(String seoUrl);
 
     /**
      * Delete offer by it's id.
