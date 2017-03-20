@@ -17,16 +17,16 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OfferInfo extends Offer {
     private Offer offer;
-    private boolean isOnline;
+    private boolean online;
     private String userName;
     private int averageOrderPoint;
-    private List<OfferInfo> relevantOffersList;
+    private List<OfferInfo> relevantOffers;
     private int feedbackCount;
-    private int ordersCount;
-    private List<OrderFeedback> orderFeedbackList;
-    private List<Order> orderList;
+    private int orderCount;
+    private List<OrderFeedback> feedbackOrders;
+    private List<Order> orders;
 
-    private boolean isForAdmin; // is this offer will show for administrator
+    private boolean forAdmin; // is this offer will show for administrator
 
 
     public Offer getOffer() {
@@ -38,11 +38,11 @@ public class OfferInfo extends Offer {
     }
 
     public boolean isOnline() {
-        return isOnline;
+        return online;
     }
 
-    public void setIsOnline(boolean isOnline) {
-        this.isOnline = isOnline;
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 
     public String getUserName() {
@@ -53,28 +53,28 @@ public class OfferInfo extends Offer {
         this.userName = userName;
     }
 
-    public List<OfferInfo> getRelevantOffersList() {
-        return relevantOffersList;
+    public List<OfferInfo> getRelevantOffers() {
+        return relevantOffers;
     }
 
-    public void setRelevantOffersList(List<OfferInfo> relevantOffersList) {
-        this.relevantOffersList = relevantOffersList;
+    public void setRelevantOffers(List<OfferInfo> relevantOffers) {
+        this.relevantOffers = relevantOffers;
     }
 
-    public List<OrderFeedback> getOrderFeedbackList() {
-        return orderFeedbackList;
+    public List<OrderFeedback> getFeedbackOrders() {
+        return feedbackOrders;
     }
 
-    public void setOrderFeedbackList(List<OrderFeedback> orderFeedbackList) {
-        this.orderFeedbackList = orderFeedbackList;
+    public void setFeedbackOrders(List<OrderFeedback> feedbackOrders) {
+        this.feedbackOrders = feedbackOrders;
     }
 
-    public int getOrdersCount() {
-        return ordersCount;
+    public int getOrderCount() {
+        return orderCount;
     }
 
-    public OfferInfo setOrdersCount(int ordersCount) {
-        this.ordersCount = ordersCount;
+    public OfferInfo setOrderCount(int orderCount) {
+        this.orderCount = orderCount;
         return this;
     }
 
@@ -96,36 +96,36 @@ public class OfferInfo extends Offer {
         return this;
     }
 
-    public List<Order> getOrderList() {
-        return orderList;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public OfferInfo setOrderList(List<Order> orderList) {
-        this.orderList = orderList;
+    public OfferInfo setOrders(List<Order> orders) {
+        this.orders = orders;
         return this;
     }
 
     public boolean isForAdmin() {
-        return isForAdmin;
+        return forAdmin;
     }
 
-    public void setIsForAdmin(boolean isForAdmin) {
-        this.isForAdmin = isForAdmin;
+    public void setForAdmin(boolean forAdmin) {
+        this.forAdmin = forAdmin;
     }
 
     @Override
     public String toString() {
         return "OfferInfo{" +
                 "offer=" + offer +
-                ", isOnline=" + isOnline +
+                ", online=" + online +
                 ", userName='" + userName + '\'' +
                 ", averageOrderPoint=" + averageOrderPoint +
-                ", relevantOffersList=" + relevantOffersList +
+                ", relevantOffers=" + relevantOffers +
                 ", feedbackCount=" + feedbackCount +
-                ", ordersCount=" + ordersCount +
-                ", orderFeedbackList=" + orderFeedbackList +
-                ", orderList=" + orderList +
-                ", isForAdmin=" + isForAdmin +
+                ", orderCount=" + orderCount +
+                ", feedbackOrders=" + feedbackOrders +
+                ", orders=" + orders +
+                ", forAdmin=" + forAdmin +
                 '}';
     }
 }
