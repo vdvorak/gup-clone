@@ -47,7 +47,7 @@ public class Offer {
     private Long                    createdDate;
     private Reservation             reservation;
     private Integer                 views;                      // number of offer views
-    private Integer                 phoneViews;
+    private Integer                 phoneViews = 0;
     private PriceOfRentsRestore     monthOfPrices;
     private RentsRestore            rents;
     private Rent                    rent;
