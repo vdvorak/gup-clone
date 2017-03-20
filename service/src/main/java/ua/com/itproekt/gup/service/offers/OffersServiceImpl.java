@@ -81,6 +81,38 @@ public class OffersServiceImpl implements OffersService {
         OfferModerationReports offerModerationReports = new OfferModerationReports();
         offerModerationReports.setModerationStatus(ModerationStatus.NO); //offerModerationReports.setModerationStatus(ModerationStatus.COMPLETE);
 
+//        Offer newOffer = new Offer()
+//                .setAuthorId(offer.getAuthorId())
+//                .setUserInfo(offer.getUserInfo())
+//                .setCreatedDateEqualsToCurrentDate()
+//                .setOfferModerationReports(offerModerationReports)
+//                .setCategories(offer.getCategories())
+//                .setProperties(offer.getProperties())
+//                .setImages(offer.getImages())
+//                .setSeoUrl(offer.getSeoUrl())
+//                .setSeoKey(offer.getSeoKey())
+//                .setSeoCategory(offer.getSeoCategory())
+//                .setVideoUrl(offer.getVideoUrl())
+//                .setTitle(offer.getTitle())
+//                .setDescription(offer.getDescription())
+//                .setPrice(offer.getPrice())
+//                .setOldPrice(0l) //TODO: The OldPrice
+//                .setPriceCanBeNegotiated(offer.getPriceCanBeNegotiated())
+//                .setUsed(offer.getUsed())
+//                .setActive(Boolean.TRUE)
+//                .setDeleted(false)
+//                .setAddress(offer.getAddress())
+//                .setCurrency(offer.getCurrency())
+//                .setCanBeReserved(offer.getCanBeReserved())
+//                .setMaximumReservedPeriod(offer.getMaximumReservedPeriod())
+//                .setCanBeRented(offer.getCanBeRented())
+//                .setAvailableShippingMethods(offer.getAvailableShippingMethods())
+//                .setAvailablePaymentMethods(offer.getAvailablePaymentMethods())
+//                .setShowOrdersCount(offer.isShowOrdersCount())
+//                .setPaidServices(offer.getPaidServices())
+//                .setMonthOfPrices(offer.getMonthOfPrices())
+//                .setRents(offer.getRents())
+//                .setMadeInUkraine(offer.isMadeInUkraine());
         Offer newOffer = new Offer()
                 .setAuthorId(offer.getAuthorId())
                 .setUserInfo(offer.getUserInfo())
@@ -100,7 +132,6 @@ public class OffersServiceImpl implements OffersService {
                 .setPriceCanBeNegotiated(offer.getPriceCanBeNegotiated())
                 .setUsed(offer.getUsed())
                 .setActive(Boolean.TRUE)
-                .setDeleted(false)
                 .setAddress(offer.getAddress())
                 .setCurrency(offer.getCurrency())
                 .setCanBeReserved(offer.getCanBeReserved())
@@ -108,11 +139,9 @@ public class OffersServiceImpl implements OffersService {
                 .setCanBeRented(offer.getCanBeRented())
                 .setAvailableShippingMethods(offer.getAvailableShippingMethods())
                 .setAvailablePaymentMethods(offer.getAvailablePaymentMethods())
-                .setShowOrdersCount(offer.isShowOrdersCount())
                 .setPaidServices(offer.getPaidServices())
                 .setMonthOfPrices(offer.getMonthOfPrices())
-                .setRents(offer.getRents())
-                .setMadeInUkraine(offer.isMadeInUkraine());
+                .setRents(offer.getRents());
 
 
         offerRepository.create(newOffer);
@@ -179,16 +208,47 @@ public class OffersServiceImpl implements OffersService {
     @Override
     public Offer edit(Offer oldOffer) {
 
+//        Offer newOffer = new Offer()
+//                .setId(oldOffer.getId())
+//                .setOfferModerationReports(oldOffer.getOfferModerationReports())
+//                .setUserInfo(oldOffer.getUserInfo())
+//                .setCategories(oldOffer.getCategories())
+//                .setProperties(oldOffer.getProperties())
+//                .setImages(oldOffer.getImages())
+//                .setVideoUrl(oldOffer.getVideoUrl())
+//                .setSeoUrl(oldOffer.getSeoUrl())
+//                .setSeoCategory(oldOffer.getSeoCategory())
+//                .setTitle(oldOffer.getTitle())
+//                .setDescription(oldOffer.getDescription())
+//                .setPrice(oldOffer.getPrice())
+//                .setOldPrice(offerRepository.findById(oldOffer.getId()).getPrice() != null ? offerRepository.findById(oldOffer.getId()).getPrice() : 0l) //TODO: The OldPrice
+//                .setPriceCanBeNegotiated(oldOffer.getPriceCanBeNegotiated())
+//                .setUsed(oldOffer.getUsed())
+//                .setActive(oldOffer.getActive())
+//                .setCanBeReserved(oldOffer.getCanBeReserved())
+//                .setAddress(oldOffer.getAddress())
+//                .setMaximumReservedPeriod(oldOffer.getMaximumReservedPeriod())
+//                .setCurrency(oldOffer.getCurrency())
+//                .setAvailableShippingMethods(oldOffer.getAvailableShippingMethods())
+//                .setAvailablePaymentMethods(oldOffer.getAvailablePaymentMethods())
+//                .setShowOrdersCount(oldOffer.isShowOrdersCount())
+//                .setDeleted(oldOffer.isDeleted())
+//                .setPaidServices(oldOffer.getPaidServices())
+//                .setMonthOfPrices(oldOffer.getMonthOfPrices())
+//                .setRents(oldOffer.getRents())
+//                .setMadeInUkraine(oldOffer.isMadeInUkraine());
         Offer newOffer = new Offer()
-                .setId(oldOffer.getId())
-                .setOfferModerationReports(oldOffer.getOfferModerationReports())
+                .setAuthorId(oldOffer.getAuthorId())
                 .setUserInfo(oldOffer.getUserInfo())
+                .setCreatedDateEqualsToCurrentDate()
+                .setOfferModerationReports(oldOffer.getOfferModerationReports())
                 .setCategories(oldOffer.getCategories())
                 .setProperties(oldOffer.getProperties())
                 .setImages(oldOffer.getImages())
-                .setVideoUrl(oldOffer.getVideoUrl())
                 .setSeoUrl(oldOffer.getSeoUrl())
+                .setSeoKey(oldOffer.getSeoKey())
                 .setSeoCategory(oldOffer.getSeoCategory())
+                .setVideoUrl(oldOffer.getVideoUrl())
                 .setTitle(oldOffer.getTitle())
                 .setDescription(oldOffer.getDescription())
                 .setPrice(oldOffer.getPrice())
@@ -196,18 +256,16 @@ public class OffersServiceImpl implements OffersService {
                 .setPriceCanBeNegotiated(oldOffer.getPriceCanBeNegotiated())
                 .setUsed(oldOffer.getUsed())
                 .setActive(oldOffer.getActive())
-                .setCanBeReserved(oldOffer.getCanBeReserved())
                 .setAddress(oldOffer.getAddress())
-                .setMaximumReservedPeriod(oldOffer.getMaximumReservedPeriod())
                 .setCurrency(oldOffer.getCurrency())
+                .setCanBeReserved(oldOffer.getCanBeReserved())
+                .setMaximumReservedPeriod(oldOffer.getMaximumReservedPeriod())
+                .setCanBeRented(oldOffer.getCanBeRented())
                 .setAvailableShippingMethods(oldOffer.getAvailableShippingMethods())
                 .setAvailablePaymentMethods(oldOffer.getAvailablePaymentMethods())
-                .setShowOrdersCount(oldOffer.isShowOrdersCount())
-                .setDeleted(oldOffer.isDeleted())
                 .setPaidServices(oldOffer.getPaidServices())
                 .setMonthOfPrices(oldOffer.getMonthOfPrices())
-                .setRents(oldOffer.getRents())
-                .setMadeInUkraine(oldOffer.isMadeInUkraine());
+                .setRents(oldOffer.getRents());
 
         return offerRepository.findAndUpdate(newOffer);
     }
@@ -555,7 +613,7 @@ public class OffersServiceImpl implements OffersService {
         List<OrderFeedback> orderFeedbackList = orderService.findAllFeedbacksForOffer(offer.getId());
 
         offerInfo.setOffer(offer);
-        offerInfo.setOrderList(orderService.findAllOrdersForOffer(offer.getId()));
+        offerInfo.setOrders(orderService.findAllOrdersForOffer(offer.getId()));
         offerInfo.setAverageOrderPoint(orderService.calculateAveragePointsForOrderFeedbackList(orderFeedbackList));
         return offerInfo;
     }
@@ -586,7 +644,7 @@ public class OffersServiceImpl implements OffersService {
 
         offerInfo.setOffer(offer);
         offerInfo.setFeedbackCount(orderFeedbackList.size());
-        offerInfo.setOrdersCount(orderAmountForOffer);
+        offerInfo.setOrderCount(orderAmountForOffer);
 
 
         return offerInfo;

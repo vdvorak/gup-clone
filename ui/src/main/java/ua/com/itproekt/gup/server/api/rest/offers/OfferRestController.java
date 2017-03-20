@@ -96,13 +96,13 @@ public class OfferRestController {
 
         //if user is moderator or administrator
         if (request.isUserInRole(UserRole.ROLE_ADMIN.toString()) || request.isUserInRole(UserRole.ROLE_MODERATOR.toString())) {
-            offerInfo.setIsForAdmin(true);
+            offerInfo.setForAdmin(true);
             return new ResponseEntity<>(offerInfo, HttpStatus.OK);
         }
 
 
         if (relevant) {
-            offerInfo.setRelevantOffersList(offersService.getListOfRelevantPublicOffersForSpecificOffer(offerInfo.getOffer()));
+            offerInfo.setRelevantOffers(offersService.getListOfRelevantPublicOffersForSpecificOffer(offerInfo.getOffer()));
         }
 
         return new ResponseEntity<>(offerInfo, HttpStatus.OK);
@@ -167,9 +167,9 @@ public class OfferRestController {
             offerFO.setLimit(18);
         }
 
-        List<OfferInfo> offerInfoList = offersService.getListOfMiniPublicOffersWithOptions(offerFO);
+        List<OfferInfo> infoOffers = offersService.getListOfMiniPublicOffersWithOptions(offerFO);
 
-        return new ResponseEntity<>(offerInfoList, HttpStatus.OK);
+        return new ResponseEntity<>(infoOffers, HttpStatus.OK);
     }
 
 
