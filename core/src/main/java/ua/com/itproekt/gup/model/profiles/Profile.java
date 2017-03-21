@@ -43,6 +43,7 @@ public class Profile {
     private String passwordRestore;
     private String tokenKey;
     private String mainPhoneNumber;
+    private Integer mainPhoneNumberViews;
     private GeneralPhone generalPhone;
 
     @Indexed
@@ -176,6 +177,15 @@ public class Profile {
 
     public Profile setMainPhoneNumber(String mainPhoneNumber) {
         this.mainPhoneNumber = mainPhoneNumber;
+        return this;
+    }
+
+    public Integer getMainPhoneNumberViews() {
+        return mainPhoneNumberViews;
+    }
+
+    public Profile setMainPhoneNumberViews(Integer mainPhoneNumberViews) {
+        this.mainPhoneNumberViews = mainPhoneNumberViews;
         return this;
     }
 
@@ -433,6 +443,7 @@ public class Profile {
                 ", passwordRestore='" + passwordRestore + '\'' +
                 ", tokenKey='" + tokenKey + '\'' +
                 ", mainPhoneNumber='" + mainPhoneNumber + '\'' +
+                ", mainPhoneNumberViews=" + mainPhoneNumberViews +
                 ", username='" + username + '\'' +
                 ", executive='" + executive + '\'' +
                 ", contactPerson='" + contactPerson + '\'' +
