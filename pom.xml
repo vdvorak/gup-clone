@@ -35,5 +35,6 @@
         <module>admin</module>
         <!--<module>file-storage</module>-->
         <module>exchange-rates</module>
+        <module>blockchain-client</module>
     </modules>
 </project>
