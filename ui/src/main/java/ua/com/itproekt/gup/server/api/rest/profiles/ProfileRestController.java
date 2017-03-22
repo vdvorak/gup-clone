@@ -52,7 +52,7 @@ public class ProfileRestController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/profile/phoneViews/id/{id}", method = RequestMethod.POST,
+    @RequestMapping(value = "/profile/mainPhoneViews/id/{id}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProfileInfo> countPhoneViewsProfileById(@PathVariable String id) {
         ProfileInfo profileInfo = profilesService.incMainPhoneViewsAtOne(id);
