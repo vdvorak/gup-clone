@@ -178,6 +178,8 @@ public interface ProfilesService {
      */
     Profile findProfileByEmail(String email);
 
+    Profile findProfileByMainPhone(String mainPhone);
+
     /**
      * Create profile rating.
      *

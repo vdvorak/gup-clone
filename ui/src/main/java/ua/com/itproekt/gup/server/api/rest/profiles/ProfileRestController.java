@@ -258,6 +258,17 @@ public class ProfileRestController {
         return profile.getId();
     }
 
+    @CrossOrigin
+    @ResponseBody
+    @RequestMapping(value = "/profile/mainphone-check", method = RequestMethod.POST)
+    public String idByMainPhone(@RequestParam String mainPhone) {
+        Profile profile = profilesService.findProfileByMainPhone(mainPhone);
+        if (profile == null) {
+            return "NOT FOUND";
+        }
+        return profile.getId();
+    }
+
 
     /**
      * Update profile.

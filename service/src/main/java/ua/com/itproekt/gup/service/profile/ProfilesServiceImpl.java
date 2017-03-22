@@ -270,6 +270,11 @@ public class ProfilesServiceImpl implements ProfilesService {
         return profileRepository.findByEmail(email);
     }
 
+    @Override
+    public Profile findProfileByMainPhone(String mainPhone) {
+        return profileRepository.findProfileByMainPhone(mainPhone);
+    }
+
 
     @Override
     public Profile findWholeProfileByEmail(String email) {

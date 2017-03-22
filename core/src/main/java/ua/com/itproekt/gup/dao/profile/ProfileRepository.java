@@ -122,6 +122,8 @@ public interface ProfileRepository {
      */
     Profile findByEmail(String email);
 
+    Profile findProfileByMainPhone(String mainPhone);
+
     /**
      * Profile rating exists boolean.
      *

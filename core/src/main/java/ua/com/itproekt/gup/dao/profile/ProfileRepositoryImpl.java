@@ -258,6 +258,12 @@ public class ProfileRepositoryImpl implements ProfileRepository {
     }
 
     @Override
+    public Profile findProfileByMainPhone(String mainPhone) {
+        Query query = new Query(Criteria.where("mainPhoneNumber").is(mainPhone));
+        return mongoTemplate.findOne(query, Profile.class);
+    }
+
+    @Override
     public boolean profileRatingExists(String profileId, String profileRatingId) {
         Query query = new Query()
                 .addCriteria(Criteria.where("id").is(profileId))
