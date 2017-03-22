@@ -19,6 +19,7 @@ import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Stream;
 
 
 @RestController
@@ -262,11 +263,17 @@ public class ProfileRestController {
     @ResponseBody
     @RequestMapping(value = "/profile/mainphone-check", method = RequestMethod.POST)
     public String idByMainPhone(@RequestParam String mainPhone) {
-        Profile profile = profilesService.findProfileByMainPhone(mainPhone);
-        if (profile == null) {
-            return "NOT FOUND";
-        }
-        return profile.getId();
+//        Profile profile = profilesService.findProfileByMainPhone(mainPhone);
+//        if (profile == null) {
+//            return "NOT FOUND";
+//        }
+//        return profile.getId();
+
+//        Stream.of(mainPhone.split(","))
+//                .anyMatch( p -> { profilesService.findProfileByMainPhone(p)::equals(); } );
+        for (String p : mainPhone.split(","))
+            if (profilesService.findProfileByMainPhone(p) != null) return "IS FOUND";
+        return "NOT FOUND";
     }
 
 
