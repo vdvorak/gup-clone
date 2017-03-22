@@ -381,11 +381,24 @@ public class ProfilesServiceImpl implements ProfilesService {
 
     @Override
     public ProfileInfo findPrivateProfileByIdAndUpdateLastLoginDate(String id) {
-
         Profile profile = findById(id);
         profile.setLastLoginDateEqualsToCurrentDate();
         profileRepository.findProfileAndUpdate(profile);
         return prepareAdditionalFieldForPrivate(profile);
+    }
+
+    @Override
+    public ProfileInfo incMainPhoneViewsAtOne(String id) {
+//        Profile profile = profileRepository.incMainPhoneViewsAtOne(id);
+//        profile.setLastLoginDateEqualsToCurrentDate();
+//        profileRepository.findProfileAndUpdate(profile);
+//        return prepareAdditionalFieldForPrivate(profile);
+        Profile profile = profileRepository.incMainPhoneViewsAtOne(id);
+        if (profile != null) {
+            return prepareAdditionalFieldForPublic(profile);
+        } else {
+            return null;
+        }
     }
 
 

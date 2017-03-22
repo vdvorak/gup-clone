@@ -311,6 +311,8 @@ public interface ProfilesService {
      */
     ProfileInfo findPrivateProfileByIdAndUpdateLastLoginDate(String id);
 
+    ProfileInfo incMainPhoneViewsAtOne(String id);
+
     /**
      * Find private profile by email and update login date.
      *

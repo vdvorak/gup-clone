@@ -133,6 +133,16 @@ public class ProfileRepositoryImpl implements ProfileRepository {
         return mongoTemplate.find(query, Profile.class);
     }
 
+    @Override
+    public Profile incMainPhoneViewsAtOne(String profileId) {
+        mongoTemplate.updateFirst(
+                Query.query(Criteria.where("id").is(profileId)),
+                new Update().inc("mainPhoneNumberViews", 1),
+                Profile.class);
+
+        Query query = new Query(Criteria.where("id").is(profileId));
+        return mongoTemplate.findOne(query, Profile.class);
+    }
 
     @Override
     public List<Profile> findAllProfilesForAdmin(ProfileFilterOptions profileFilterOptions) {

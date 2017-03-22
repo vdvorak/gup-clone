@@ -96,6 +96,7 @@ public interface ProfileRepository {
      */
     List<Profile> findAllProfiles(ProfileFilterOptions profileFilterOptions);
 
+    Profile incMainPhoneViewsAtOne(String profileId);
 
     /**
      * This method provides additional information for admin.

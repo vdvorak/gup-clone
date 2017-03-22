@@ -51,6 +51,19 @@ public class ProfileRestController {
         return new ResponseEntity<>(profileInfo, HttpStatus.OK);
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "/profile/phoneViews/id/{id}", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProfileInfo> countPhoneViewsProfileById(@PathVariable String id) {
+        ProfileInfo profileInfo = profilesService.incMainPhoneViewsAtOne(id);
+
+        if (profileInfo == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(profileInfo, HttpStatus.OK);
+    }
+
     /**
      * Gets profile by public-id.
      *
