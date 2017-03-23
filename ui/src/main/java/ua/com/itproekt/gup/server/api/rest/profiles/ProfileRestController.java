@@ -2,6 +2,7 @@ package ua.com.itproekt.gup.server.api.rest.profiles;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,14 +12,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import ua.com.itproekt.gup.bank_api.BankSession;
 import ua.com.itproekt.gup.dto.ProfileInfo;
+import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.server.api.login.profiles.FormLoggedUser;
 import ua.com.itproekt.gup.server.api.model.profiles.CheckMainPhone;
+import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,12 +35,18 @@ import java.util.stream.Stream;
 @RequestMapping("/api/rest/profilesService")
 public class ProfileRestController {
 
-
     @Autowired
     private ProfilesService profilesService;
 
     @Autowired
     private BankSession bankSession;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Qualifier("userDetailsServiceImpl")
+    @Autowired
+    UserDetailsServiceImpl userDetailsService;
 
     /**
      * Gets profile by id.
@@ -153,6 +165,73 @@ public class ProfileRestController {
             return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
         }
     }
+
+    @CrossOrigin
+    @ResponseBody
+    @RequestMapping(value = "/profile/id/{profileId}/myContactList/add", method = RequestMethod.POST)
+    public ResponseEntity<String> addToMyContactList(@PathVariable String profileId, @RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) { //TODO: ???
+
+        LoggedUser loggedUser;
+        try {
+            loggedUser = (LoggedUser) userDetailsService.loadUserByUsername(formLoggedUser.getEmail());
+        } catch (UsernameNotFoundException ex) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        if (!passwordEncoder.matches(formLoggedUser.getPassword(), loggedUser.getPassword())) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        ProfileInfo profileInfo = profilesService.findPrivateProfileByEmailAndUpdateLastLoginDate(formLoggedUser.getEmail());
+
+        if (profilesService.profilePublicExists(profileId)) {
+            return new ResponseEntity<>("Target profile was not found", HttpStatus.NOT_FOUND);
+        }
+
+        String userId = profileInfo.getProfile().getId();
+
+        if( userId!=null ){
+            profilesService.addSocialToSocialList(userId, profileId);
+            return new ResponseEntity<>("{\"addFrom\":\""+userId+"\", \"addTo\":\""+profileId+"\"}", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
+        }
+    }
+
+
+
+
+
+
+
+//    @CrossOrigin
+//    @ResponseBody
+//    @RequestMapping(value = "/profile/mainphone-check", method = RequestMethod.POST)
+//
+//    public ResponseEntity<ProfileInfo> login(@RequestBody FormLoggedUser formLoggedUser, HttpServletResponse response) {
+//
+//    public ResponseEntity<List<Profile>> idByMainPhone(@RequestBody CheckMainPhone checkMainPhone, HttpServletRequest request) {
+//        List<Profile> profiles = new ArrayList<>();
+//        for (String mainPhone : checkMainPhone.getMainPhones()){
+//            System.err.println( mainPhone );
+//            Profile profile = profilesService.findProfileByMainPhone(mainPhone);
+//            if (profile != null) profiles.add(profile);
+//        }
+//
+//        return new ResponseEntity<>(profiles, HttpStatus.OK );
+//    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      *
