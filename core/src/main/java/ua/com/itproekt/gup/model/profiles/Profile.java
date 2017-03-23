@@ -44,6 +44,7 @@ public class Profile {
     private String tokenKey;
     private String mainPhoneNumber;
     private Integer mainPhoneNumberViews;
+    private Boolean mainPhoneNumberHide;
     private GeneralPhone generalPhone;
 
     @Indexed
@@ -186,6 +187,15 @@ public class Profile {
 
     public Profile setMainPhoneNumberViews(Integer mainPhoneNumberViews) {
         this.mainPhoneNumberViews = mainPhoneNumberViews;
+        return this;
+    }
+
+    public Boolean isMainPhoneNumberHide() {
+        return mainPhoneNumberHide;
+    }
+
+    public Profile setMainPhoneNumberHide(Boolean mainPhoneNumberHide) {
+        this.mainPhoneNumberHide = mainPhoneNumberHide;
         return this;
     }
 
@@ -444,6 +454,7 @@ public class Profile {
                 ", tokenKey='" + tokenKey + '\'' +
                 ", mainPhoneNumber='" + mainPhoneNumber + '\'' +
                 ", mainPhoneNumberViews=" + mainPhoneNumberViews +
+                ", mainPhoneNumberHide=" + mainPhoneNumberHide +
                 ", username='" + username + '\'' +
                 ", executive='" + executive + '\'' +
                 ", contactPerson='" + contactPerson + '\'' +
