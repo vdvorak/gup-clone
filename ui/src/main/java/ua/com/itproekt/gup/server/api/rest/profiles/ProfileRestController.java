@@ -142,9 +142,13 @@ public class ProfileRestController {
         }
 
         String userId = SecurityOperations.getLoggedUserId();
-        profilesService.addSocialToSocialList(userId, profileId); //profilesService.addContactToContactList(userId, profileId); //TODO: turn...
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        if( userId!=null ){
+            profilesService.addSocialToSocialList(userId, profileId); //profilesService.addContactToContactList(userId, profileId); //TODO: turn...
+            return new ResponseEntity<>("{\"addFrom\":\""+userId+"\", \"addTo\":\""+profileId+"\"}", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.PROXY_AUTHENTICATION_REQUIRED);
+        }
     }
 
     /**
