@@ -14,10 +14,13 @@ import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
+import ua.com.itproekt.gup.server.api.model.profiles.CheckMainPhone;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.SecurityOperations;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -263,21 +266,34 @@ public class ProfileRestController {
         return profile.getId();
     }
 
+//    @CrossOrigin
+//    @ResponseBody
+//    @RequestMapping(value = "/profile/mainphone-check", method = RequestMethod.POST)
+//    public String idByMainPhone(@RequestParam String mainPhone) {
+////        Profile profile = profilesService.findProfileByMainPhone(mainPhone);
+////        if (profile == null) {
+////            return "NOT FOUND";
+////        }
+////        return profile.getId();
+//
+////        Stream.of(mainPhone.split(","))
+////                .anyMatch( p -> { profilesService.findProfileByMainPhone(p)::equals(); } );
+//        for (String p : mainPhone.split(","))
+//            if (profilesService.findProfileByMainPhone(p) != null) return "IS FOUND";
+//        return "NOT FOUND";
+//    }
     @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "/profile/mainphone-check", method = RequestMethod.POST)
-    public String idByMainPhone(@RequestParam String mainPhone) {
-//        Profile profile = profilesService.findProfileByMainPhone(mainPhone);
-//        if (profile == null) {
-//            return "NOT FOUND";
-//        }
-//        return profile.getId();
+    public ResponseEntity<List<Profile>> idByMainPhone(@RequestBody CheckMainPhone checkMainPhone, HttpServletRequest request) {
+        List<Profile> profiles = new ArrayList<>();
+        for (String mainPhone : checkMainPhone.getMainPhones()){
+            System.err.println( mainPhone );
+            Profile profile = profilesService.findProfileByMainPhone(mainPhone);
+            if (profile != null) profiles.add(profile);
+        }
 
-//        Stream.of(mainPhone.split(","))
-//                .anyMatch( p -> { profilesService.findProfileByMainPhone(p)::equals(); } );
-        for (String p : mainPhone.split(","))
-            if (profilesService.findProfileByMainPhone(p) != null) return "IS FOUND";
-        return "NOT FOUND";
+        return new ResponseEntity<>(profiles, HttpStatus.OK );
     }
 
 
