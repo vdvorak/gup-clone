@@ -16,7 +16,10 @@ import ua.com.itproekt.gup.model.login.LoggedUser;
 import ua.com.itproekt.gup.model.profiles.Profile;
 import ua.com.itproekt.gup.model.profiles.ProfileFilterOptions;
 import ua.com.itproekt.gup.model.profiles.UserRole;
-import ua.com.itproekt.gup.server.api.login.profiles.FormLoggedUser;
+
+//import ua.com.itproekt.gup.server.api.login.profiles.FormLoggedUser;
+import ua.com.itproekt.gup.model.login.FormLoggedUser;
+
 import ua.com.itproekt.gup.server.api.model.profiles.CheckMainPhone;
 import ua.com.itproekt.gup.service.login.UserDetailsServiceImpl;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
