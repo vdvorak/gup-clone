@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package org.bitcoinj.gup_favorit;
 
-import com.google.common.collect.ImmutableList;
+import org.bitcoinj.core.*;
 import org.bitcoinj.params.MainNetParams;
 import org.bitcoinj.script.Script;
 import org.bitcoinj.script.ScriptBuilder;
 import org.bitcoinj.testing.TestWithWallet;
-import org.bitcoinj.wallet.SendRequest;
-import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class TransactionOutputTest extends TestWithWallet {
 

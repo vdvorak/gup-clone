@@ -15,44 +15,23 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package org.bitcoinj.gup_favorit;
 
-import org.bitcoinj.core.ECKey.ECDSASignature;
-import org.bitcoinj.crypto.EncryptedData;
+import com.google.protobuf.ByteString;
+import org.bitcoinj.core.ECKey;
+import org.bitcoinj.core.Sha256Hash;
 import org.bitcoinj.crypto.KeyCrypter;
 import org.bitcoinj.crypto.KeyCrypterScrypt;
-import org.bitcoinj.crypto.TransactionSignature;
-import org.bitcoinj.params.MainNetParams;
-import org.bitcoinj.params.TestNet3Params;
-import org.bitcoinj.params.UnitTestParams;
 import org.bitcoinj.utils.BriefLogFormatter;
-import com.google.common.collect.Lists;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.MoreExecutors;
-import com.google.protobuf.ByteString;
-import org.bitcoinj.wallet.Protos;
 import org.bitcoinj.wallet.Protos.ScryptParameters;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spongycastle.crypto.params.KeyParameter;
 
-import java.io.InputStream;
 import java.math.BigInteger;
-import java.security.SignatureException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
 
 import static org.bitcoinj.core.Utils.HEX;
-import static org.bitcoinj.core.Utils.reverseBytes;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static org.junit.Assert.*;
 
 public class ECKeyTest {
     private static final Logger log = LoggerFactory.getLogger(ECKeyTest.class);
@@ -64,7 +43,7 @@ public class ECKeyTest {
 
     @Before
     public void setUp() throws Exception {
-        Protos.ScryptParameters.Builder scryptParametersBuilder = Protos.ScryptParameters.newBuilder().setSalt(ByteString.copyFrom(KeyCrypterScrypt.randomSalt()));
+        ScryptParameters.Builder scryptParametersBuilder = ScryptParameters.newBuilder().setSalt(ByteString.copyFrom(KeyCrypterScrypt.randomSalt()));
         ScryptParameters                       scryptParameters = scryptParametersBuilder.build();
         keyCrypter = new KeyCrypterScrypt(scryptParameters);
 

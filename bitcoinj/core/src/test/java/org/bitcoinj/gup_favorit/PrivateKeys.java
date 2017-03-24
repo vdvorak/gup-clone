@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.examples;
+package org.bitcoinj.gup_favorit;
 
 import org.bitcoinj.core.*;
 import org.bitcoinj.params.MainNetParams;

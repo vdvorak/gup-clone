@@ -38,6 +38,7 @@ import java.util.concurrent.atomic.*;
  * It is not an automated unit-test because it requires a bit more set-up...read comments below
  */
 public class BitcoindComparisonTool {
+
     private static final Logger log = LoggerFactory.getLogger(BitcoindComparisonTool.class);
 
     private static NetworkParameters params;

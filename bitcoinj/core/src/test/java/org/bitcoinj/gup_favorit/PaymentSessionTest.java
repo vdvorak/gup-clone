@@ -15,22 +15,24 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.protocols.payments;
+package org.bitcoinj.gup_favorit;
 
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.protobuf.ByteString;
+import org.bitcoin.protocols.payments.Protos;
 import org.bitcoinj.core.*;
 import org.bitcoinj.crypto.TrustStoreLoader;
 import org.bitcoinj.params.MainNetParams;
 import org.bitcoinj.params.TestNet3Params;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.protobuf.ByteString;
-import org.bitcoin.protocols.payments.Protos;
+import org.bitcoinj.protocols.payments.PaymentProtocol;
+import org.bitcoinj.protocols.payments.PaymentProtocolException;
+import org.bitcoinj.protocols.payments.PaymentSession;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.bitcoinj.core.Coin.COIN;
 import static org.junit.Assert.*;

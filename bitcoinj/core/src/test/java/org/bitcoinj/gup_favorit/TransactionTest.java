@@ -15,23 +15,15 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.core;
+package org.bitcoinj.gup_favorit;
 
-import com.sun.org.apache.xml.internal.security.keys.KeyUtils;
-import org.bitcoinj.core.TransactionConfidence.*;
-import org.bitcoinj.crypto.TransactionSignature;
-import org.bitcoinj.params.*;
-import org.bitcoinj.script.*;
-import org.bitcoinj.testing.*;
-import org.easymock.*;
-import org.junit.*;
-
-import java.math.BigInteger;
-import java.util.*;
-import static org.bitcoinj.core.Utils.HEX;
-
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import org.bitcoinj.core.*;
+import org.bitcoinj.params.UnitTestParams;
+import org.bitcoinj.script.Script;
+import org.bitcoinj.script.ScriptBuilder;
+import org.bitcoinj.testing.FakeTxBuilder;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Just check the Transaction.verify() method. Most methods that have complicated logic in Transaction are tested
@@ -326,8 +318,8 @@ public class TransactionTest {
 
         ECKey key0 = new ECKey();
 
-        System.out.println("pub:                    " + key0.pub);
-        System.out.println("priv:                   " + key0.priv);
+//        System.out.println("pub:                    " + key0.pub);
+//        System.out.println("priv:                   " + key0.priv);
 
         System.out.println();
 

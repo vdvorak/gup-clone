@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package org.bitcoinj.crypto;
+package org.bitcoinj.gup_favorit;
 
 import org.junit.Test;
 
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-
-import static org.junit.Assert.assertEquals;
 
 public class X509UtilsTest {
 
