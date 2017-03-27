@@ -431,6 +431,18 @@
             <artifactId>okhttp</artifactId>
             <version>3.6.0</version>
         </dependency>
+
+        <!-- https://www.txedo.com/blog/java-generate-rsa-keys-write-pem-file/ -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.51</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
     </dependencies>
 
 </project>
