@@ -32,6 +32,14 @@ import java.security.cert.X509Certificate;
 import java.util.Random;
 import javax.net.ssl.*;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import java.net.URI;
+
 
 public class ContractGenerator {
 
@@ -117,12 +125,37 @@ public class ContractGenerator {
 //
 //        return client.newCall(request).execute();
 
-        ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory( HttpClients.createDefault() );
-        restTemplate = new RestTemplate( requestFactory );
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        restTemplate.exchange(REST_URL, HttpMethod.POST, new HttpEntity<>(jsonContract, headers), String.class);
+//        ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory( HttpClients.createDefault() );
+//        restTemplate = new RestTemplate( requestFactory );
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        restTemplate.exchange(REST_URL, HttpMethod.POST, new HttpEntity<>(jsonContract, headers), String.class);
+
+        createHttpClient2(jsonContract);
+
         return "ok";
+    }
+
+    public String createHttpClient2(String jsonContract) {
+        DefaultHttpClient client = new DefaultHttpClient();
+        try {
+            URI uri = new URIBuilder()
+                    .setScheme("http")
+                    .setHost("gup.com.ua:3000/bc/push-transaction")
+                    .setParameter("jsonContract", jsonContract)
+                    .build();
+            HttpPost httpPost = new HttpPost(uri);
+            HttpResponse response = client.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                String result = EntityUtils.toString(entity);
+                EntityUtils.consume(entity);
+                return result;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     private okhttp3.OkHttpClient createHttpClient() {
