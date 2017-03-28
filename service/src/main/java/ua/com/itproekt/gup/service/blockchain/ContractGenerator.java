@@ -142,7 +142,7 @@ public class ContractGenerator {
             URI uri = new URIBuilder()
                     .setScheme("http")
                     .setHost("gup.com.ua:3000/bc/push-transaction")
-                    .setParameter("jsonContract", jsonContract)
+//                    .setParameter("jsonContract", jsonContract)
                     .build();
             HttpPost httpPost = new HttpPost(uri);
             HttpResponse response = client.execute(httpPost);
