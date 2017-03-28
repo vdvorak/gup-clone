@@ -1,5 +1,6 @@
 package org.bitcoinj.gup_favorit_test;
 
+import okhttp3.*;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
 
@@ -9,6 +10,10 @@ import java.nio.file.Paths;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
+
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import javax.net.ssl.*;
 
 
 public class TestTransaction {
@@ -74,7 +79,58 @@ public class TestTransaction {
                 "        \"_hash\": \"%s\"\n" +
                 "    }\n" +
                 "}";
-        System.out.println( String.format(format, "CONTRACT", 0, Hex.toHexString(sign), publicKey, Hex.toHexString(digest1), Hex.toHexString(digest2), "I have sell you product", new Date().getTime(), "431a8a1af9cb37a5c3979e7e4b64ebf570809be4246a8c4a5f6a5e97ad0df36e") ); // json
+
+        String json = String.format(format, "CONTRACT", 0, Hex.toHexString(sign), publicKey, Hex.toHexString(digest1), Hex.toHexString(digest2), "I have sell you product", new Date().getTime(), "431a8a1af9cb37a5c3979e7e4b64ebf570809be4246a8c4a5f6a5e97ad0df36e");
+        System.out.println( json ); // json
+
+        ////////////////////////////////////////////////////////////////////////
+        System.out.println();
+
+        // Post the transaction.
+        OkHttpClient client = getUnsafeOkHttpClient();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody    body = RequestBody.create(mediaType, json);
+        Request     request = new Request.Builder()
+                .url("http://gup.com.ua:3000/bc/push-transaction")
+                .post(body)
+                .build();
+
+        // Show the response.
+        Response response = client.newCall(request).execute();
+        System.err.println("code: " + response.code());
+        System.err.println("body: " + response.body().string());
+    }
+
+    private static OkHttpClient getUnsafeOkHttpClient() {
+        try {
+            // Create a trust manager that does not validate certificate chains
+            final X509TrustManager x509TrustManager = new X509TrustManager() {
+                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
+                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
+                public X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[]{};
+                }
+            };
+            final TrustManager[] trustAllCerts = new TrustManager[]{ x509TrustManager };
+
+            // Install the all-trusting trust manager
+            final SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+
+            // Create an ssl socket factory with our all-trusting manager
+            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .sslSocketFactory(sslSocketFactory, x509TrustManager)
+                    .hostnameVerifier(new HostnameVerifier() {
+                        public boolean verify(String s, SSLSession sslSession) {
+                            return true;
+                        }
+                    })
+                    .build();
+            return okHttpClient;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

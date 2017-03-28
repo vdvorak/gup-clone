@@ -36,6 +36,6 @@
         <!--<module>file-storage</module>-->
         <module>exchange-rates</module>
         <!--<module>blockchain-client</module>-->
-        <module>bitcoinj</module>
+        <!--<module>bitcoinj</module>-->
     </modules>
 </project>
