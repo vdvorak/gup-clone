@@ -106,7 +106,8 @@ public class OrderRestController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/order/create/offer/{seoUrl}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateSellerNote(@PathVariable String seoUrl) {
+    public ResponseEntity<String> updateSellerNote(@PathVariable String seoUrl)
+            throws IOException {
         Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
 
         if (offer == null) {
