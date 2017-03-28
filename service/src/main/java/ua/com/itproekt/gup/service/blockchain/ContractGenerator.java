@@ -1,5 +1,6 @@
 package ua.com.itproekt.gup.service.blockchain;
 
+import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 import okhttp3.*;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -19,11 +20,13 @@ import java.util.Date;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Random;
 import javax.net.ssl.*;
 
 
 public class ContractGenerator {
 
+    protected final static Logger LOGGER = Logger.getLogger(ContractGenerator.class);
     private String REST_URL;
 
     public ContractGenerator(String REST_URL){
@@ -32,6 +35,7 @@ public class ContractGenerator {
 
     public Response contractPost(String type, String USER_1, String USER_2, String FILE_PUBLIC_KEY, String additionalInfo)
             throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException {
+        LOGGER.info("type="+type+"; USER_1="+USER_1+"; USER_2="+USER_2+"; additionalInfo=\""+additionalInfo+"\";");
         Security.addProvider(new BouncyCastleProvider());
 
         // Digest the mutation twice
@@ -58,21 +62,30 @@ public class ContractGenerator {
 //        System.out.println("SIGN     " + Hex.toHexString(sign));
 
         ////////////////////////////////////////////////////////////////////////
-        System.out.println();
+        byte[] digestRandom = msg.digest(hashGenerator().getBytes("UTF-8"));
+        String       random = Hex.toHexString(digestRandom);
+//        System.err.println( "random: " + random ); // da9b55cad0983e572bc24dab1be99caa907d6fabbe9a390ff14c66dedcb8dca0 = SHA-265
+
+        long timestamp = new Date().getTime();
+        //  type + <SHA-265> + timestamp = SHA-265
+        String strHash = type + random + (new Date().getTime());
+        byte[] digestHash = msg.digest(strHash.getBytes("UTF-8"));
+        String       hash = type + Hex.toHexString(digestHash) + timestamp;
+//        System.err.println( "hash: " + hash ); // 2ed5d498ce265ebae7a176ea05f23b9f293a6fbe6c23ca7f3392f2803f7bad86 == type + <SHA-265> + timestamp = SHA-265
+        LOGGER.info("hash=\""+hash+"\"");
 
         // Create the JSON representation of the transaction to post
         Transaction transaction = new Transaction(new TransactionDataSignature(Hex.toHexString(sign), publicKey),
-                new Date().getTime(),
+                timestamp,
                 new TransactionData(0,
                         new String[]{Hex.toHexString(digest1), Hex.toHexString(digest2)},
                         additionalInfo),
-                "431a8a1af9cb37a5c3979e7e4b64ebf570809be4246a8c4a5f6a5e97ad0df36e");
-        Contract contract = new Contract(transaction, type);
+                hash);
 
+        Contract contract = new Contract(transaction, type);
         Gson gson = new Gson();
         String jsonContract = gson.toJson(contract);
-
-        System.out.println( jsonContract );
+        LOGGER.info(jsonContract);
 
 
         // Post the transaction.
@@ -117,5 +130,16 @@ public class ContractGenerator {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String hashGenerator(){
+        char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i=0; i<10; i++) {
+            char c = chars[random.nextInt(chars.length)];
+            sb.append(c);
+        }
+        return sb.toString();
     }
 }

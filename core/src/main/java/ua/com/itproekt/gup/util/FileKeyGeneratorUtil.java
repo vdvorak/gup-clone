@@ -21,7 +21,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class FileKeyGeneratorUtil {
 
-    public static final int            KEY_SIZE = 2048;
+    protected final static Logger LOGGER = Logger.getLogger(FileKeyGeneratorUtil.class);
+    public static final int     KEY_SIZE = 2048;
 
     public static KeyPair generateRSAKey()
             throws NoSuchAlgorithmException, NoSuchProviderException {
@@ -34,6 +35,7 @@ public class FileKeyGeneratorUtil {
     public static void write(Key key, String description, String filename)
             throws FileNotFoundException, IOException {
         FileKey file = new FileKey(key, description);
+        LOGGER.info("key="+key+"; filename="+filename+"; description=\""+description+"\";");
         file.write(filename);
     }
 

@@ -25,7 +25,6 @@ import java.security.NoSuchAlgorithmException;
 
 public class FileKeyGeneratorUtilTest {
 
-    public final int            KEY_SIZE = 2048;
     public final String FILE_PRIVATE_KEY = "id_rsa";
     public final String  FILE_PUBLIC_KEY = "id_rsa.pub";
 
