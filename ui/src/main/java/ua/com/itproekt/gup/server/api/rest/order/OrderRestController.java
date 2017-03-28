@@ -123,8 +123,9 @@ public class OrderRestController {
             if (!userId.equals(offer.getAuthorId())){
                 try {
                     ContractGenerator generator = new ContractGenerator("http://gup.com.ua:3000/bc/push-transaction");
-                    okhttp3.Response           response = generator.contractPost("CONTRACT", offer.getAuthorId(), userId, "id_rsa.pub", seoUrl);
-                    strResponse                 = response.body().string();
+//                    okhttp3.Response           response = generator.contractPost("CONTRACT", offer.getAuthorId(), userId, "id_rsa.pub", seoUrl);
+//                    strResponse                 = response.body().string();
+                    generator.contractPost("CONTRACT", offer.getAuthorId(), userId, "id_rsa.pub", seoUrl);
                 } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
