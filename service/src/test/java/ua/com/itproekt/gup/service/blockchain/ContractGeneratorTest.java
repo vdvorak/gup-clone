@@ -55,9 +55,10 @@ public class ContractGeneratorTest {
     public void testContractPost()
             throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException {
         // Show the response.
-        Response response = generator.contractPost("CONTRACT", USER_1, USER_2, FILE_PUBLIC_KEY, "I have sell you product");
-        System.out.println("code: " + response.code());
-        System.out.println("body: " + response.body().string());
+//        Response response = generator.contractPost("CONTRACT", USER_1, USER_2, FILE_PUBLIC_KEY, "I have sell you product");
+//        System.out.println("code: " + response.code());
+//        System.out.println("body: " + response.body().string());
+        generator.contractPost("CONTRACT", USER_1, USER_2, FILE_PUBLIC_KEY, "I have sell you product");
     }
 
 }

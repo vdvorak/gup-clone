@@ -1,10 +1,19 @@
 package ua.com.itproekt.gup.service.blockchain;
 
+import org.apache.http.impl.client.HttpClients;
 import org.apache.log4j.Logger;
 import com.google.gson.Gson;
-import okhttp3.*;
+//import okhttp3.*;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
+
+import org.springframework.http.*;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
 import ua.com.itproekt.gup.service.blockchain.contract.Contract;
 import ua.com.itproekt.gup.service.blockchain.contract.Transaction;
 import ua.com.itproekt.gup.service.blockchain.contract.TransactionData;
@@ -28,12 +37,14 @@ public class ContractGenerator {
 
     protected final static Logger LOGGER = Logger.getLogger(ContractGenerator.class);
     private String REST_URL;
+    private RestTemplate restTemplate;
 
     public ContractGenerator(String REST_URL){
         this.REST_URL = REST_URL;
     }
 
-    public Response contractPost(String type, String USER_1, String USER_2, String FILE_PUBLIC_KEY, String additionalInfo)
+//    public Response contractPost(String type, String USER_1, String USER_2, String FILE_PUBLIC_KEY, String additionalInfo)
+    public String contractPost(String type, String USER_1, String USER_2, String FILE_PUBLIC_KEY, String additionalInfo)
             throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException {
         LOGGER.info("type="+type+"; USER_1="+USER_1+"; USER_2="+USER_2+"; additionalInfo=\""+additionalInfo+"\";");
         Security.addProvider(new BouncyCastleProvider());
@@ -94,19 +105,27 @@ public class ContractGenerator {
         LOGGER.info(jsonContract);
 
 
-        // Post the transaction.
-        OkHttpClient client = createHttpClient();
-        MediaType mediaType = MediaType.parse("application/json");
-        RequestBody    body = RequestBody.create(mediaType, jsonContract);
-        Request     request = new Request.Builder()
-                .url(REST_URL)
-                .post(body)
-                .build();
 
-        return client.newCall(request).execute();
+        // Post the transaction.
+//        okhttp3.OkHttpClient client = createHttpClient();
+//        MediaType mediaType = MediaType.parse("application/json");
+//        okhttp3.RequestBody    body = okhttp3.RequestBody.create(mediaType, jsonContract);
+//        okhttp3.Request     request = new okhttp3.Request.Builder()
+//                .url(REST_URL)
+//                .post(body)
+//                .build();
+//
+//        return client.newCall(request).execute();
+
+        ClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory( HttpClients.createDefault() );
+        restTemplate = new RestTemplate( requestFactory );
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        restTemplate.exchange(REST_URL, HttpMethod.POST, new HttpEntity<>(jsonContract, headers), String.class);
+        return "ok";
     }
 
-    private OkHttpClient createHttpClient() {
+    private okhttp3.OkHttpClient createHttpClient() {
         try {
             // Create a trust manager that does not validate certificate chains
             final X509TrustManager x509TrustManager = new X509TrustManager() {
@@ -124,7 +143,7 @@ public class ContractGenerator {
 
             // Create an ssl socket factory with our all-trusting manager
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+            okhttp3.OkHttpClient okHttpClient = new okhttp3.OkHttpClient.Builder()
                     .sslSocketFactory(sslSocketFactory, x509TrustManager)
                     .hostnameVerifier(new HostnameVerifier() {
                         public boolean verify(String s, SSLSession sslSession) {
