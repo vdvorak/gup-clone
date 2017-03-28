@@ -12,6 +12,7 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
+import ua.com.itproekt.gup.service.blockchain.ContractGenerator;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.util.SecurityOperations;
@@ -19,6 +20,11 @@ import ua.com.itproekt.gup.util.TransportCompany;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import java.io.IOException;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+
 
 @Controller
 @RequestMapping("/api/rest/orderService")
@@ -67,34 +73,70 @@ public class OrderRestController {
 
     //------------------------------------------ Create -------------------------------------------------------------
 
-    /**
-     * @param order - order include: offerId, orderAddress, paymentMethod, orderType, orderComment
-     * @return - return status code if Ok, 400 - order not valid, 403 - if user is offer author, 404 - offer not found, 405 - if user is not buyer
-     */
-    @PreAuthorize("isAuthenticated()")
-    @CrossOrigin
-    @RequestMapping(value = "/order/create", method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createOrder(@Valid @RequestBody Order order) {
+//    /**
+//     * @param order - order include: offerId, orderAddress, paymentMethod, orderType, orderComment
+//     * @return - return status code if Ok, 400 - order not valid, 403 - if user is offer author, 404 - offer not found, 405 - if user is not buyer
+//     */
+//    @PreAuthorize("isAuthenticated()")
+//    @CrossOrigin
+//    @RequestMapping(value = "/order/create", method = RequestMethod.POST,
+//            produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<String> createOrder(@Valid @RequestBody Order order) {
+//
+//        Offer offer = offersService.findById(order.getOfferId());
+//        if (offer == null) {
+//            return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
+//        }
+//
+//        String userId = SecurityOperations.getLoggedUserId();
+//        if (userId.equals(offer.getAuthorId())) {
+//            return new ResponseEntity<>("You are not an offer author.", HttpStatus.FORBIDDEN);
+//        }
+//
+//        if (orderService.isOrderValid(order, offer)) {
+//            // create order
+//            orderService.create(userId, order, offer);
+//        } else {
+//            return new ResponseEntity<>("Order is not valid", HttpStatus.BAD_REQUEST);
+//        }
+//        return ok;
+//    }
 
-        Offer offer = offersService.findById(order.getOfferId());
+    @CrossOrigin
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/order/create/offer/{seoUrl}", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updateSellerNote(@PathVariable String seoUrl) {
+        Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
+
         if (offer == null) {
             return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
         }
 
-        String userId = SecurityOperations.getLoggedUserId();
-        if (userId.equals(offer.getAuthorId())) {
-            return new ResponseEntity<>("You are not an offer author.", HttpStatus.FORBIDDEN);
+        if (offer.isDeleted()) {
+            return new ResponseEntity<>("Offer was deleted", HttpStatus.NOT_FOUND);
         }
 
-        if (orderService.isOrderValid(order, offer)) {
-            // create order
-            orderService.create(userId, order, offer);
+        String strResponse = null;
+        String userId = SecurityOperations.getLoggedUserId();
+        if (userId!=null){
+            if (!userId.equals(offer.getAuthorId())){
+                try {
+                    ContractGenerator generator = new ContractGenerator("http://gup.com.ua:3000/bc/push-transaction");
+                    okhttp3.Response           response = generator.contractPost("CONTRACT", offer.getAuthorId(), userId, "id_rsa.pub", seoUrl);
+                    strResponse                 = response.body().string();
+                } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            } else {
+                return new ResponseEntity<>("You can't be author.", HttpStatus.FORBIDDEN);
+            }
         } else {
-            return new ResponseEntity<>("Order is not valid", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("You are not an Authorize.", HttpStatus.FORBIDDEN);
         }
-        return ok;
+        return new ResponseEntity<>(strResponse, HttpStatus.OK);
     }
+
 
 //------------------------------------------ Update -------------------------------------------------------------
 

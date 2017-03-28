@@ -41,7 +41,7 @@ public class ContractGeneratorTest {
         USER_2 = "58cae20e4c8e9634fe40e852";
         FILE_PUBLIC_KEY = "id_rsa.pub";
 
-        generator = new ContractGenerator("http://gup.com.ua:3000/bc/push-transaction");
+        generator = new ContractGenerator(REST_URL);
     }
 
     @After
