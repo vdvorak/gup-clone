@@ -32,7 +32,7 @@ public class ContractGenerator {
         this.REST_URL = REST_URL;
     }
 
-    public Response contractPost(String type, String USER_1, String USER_2, String FILE_PUBLIC_KEY, String additionalInfo)
+    public Response contractPost(String type, String USER_1, String USER_2, String PUBLIC_KEY, String additionalInfo)
             throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException {
         LOGGER.info("type="+type+"; USER_1="+USER_1+"; USER_2="+USER_2+"; additionalInfo=\""+additionalInfo+"\";");
         Security.addProvider(new BouncyCastleProvider());
@@ -40,10 +40,10 @@ public class ContractGenerator {
         long timestamp = new Date().getTime();
 
         // Digest the mutation twice
-        byte[] byteType = type.getBytes("UTF-8");
+        byte[]      byteType = type.getBytes("UTF-8");
         byte[] byteTimestamp = String.valueOf(timestamp).getBytes("UTF-8");
-        byte[] member1 = USER_1.getBytes("UTF-8");
-        byte[] member2 = USER_2.getBytes("UTF-8");
+        byte[]       member1 = USER_1.getBytes("UTF-8");
+        byte[]       member2 = USER_2.getBytes("UTF-8");
 
         MessageDigest msg = MessageDigest.getInstance("SHA-256");
         byte[]    digestType = msg.digest(byteType);
@@ -55,7 +55,7 @@ public class ContractGenerator {
         KeyPair           key = FileKeyGeneratorUtil.generateRSAKey();
         PrivateKey privateKey = key.getPrivate();
 
-        String publicKey = FILE_PUBLIC_KEY;
+        String publicKey = PUBLIC_KEY;
 //        System.out.println("PUBLIC   " + publicKey);
 
         // Sign the mutation with the private key

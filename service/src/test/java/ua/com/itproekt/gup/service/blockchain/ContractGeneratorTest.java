@@ -18,34 +18,40 @@ import ua.com.itproekt.gup.service.blockchain.contract.Contract;
 import ua.com.itproekt.gup.service.blockchain.contract.Transaction;
 import ua.com.itproekt.gup.service.blockchain.contract.TransactionData;
 import ua.com.itproekt.gup.service.blockchain.contract.TransactionDataSignature;
+import ua.com.itproekt.gup.util.FileKey;
 import ua.com.itproekt.gup.util.FileKeyGeneratorUtil;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.*;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Date;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.security.spec.InvalidKeySpecException;
 import javax.net.ssl.*;
 
 
 public class ContractGeneratorTest {
 
-    public String USER_1, USER_2;
-    public String        REST_URL;
-    public String FILE_PUBLIC_KEY;
+    public final String FILE_PRIVATE_KEY = "id_rsa";
+    public final String  FILE_PUBLIC_KEY = "id_rsa.pub";
+    public String             PUBLIC_KEY; // публичный ключ покупателя
+    public String   URL_PUSH_TRANSACTION; // BlockChain-Service: push-transaction
+    public String       TYPE_TRANSACTION; // тип транзакции
+    public String    ID_SELLER, ID_BUYER; // Seller (продавец: User-0); Buyer (покупатель: User-1) - иннициатор;
 
     private ContractGenerator generator;
 
     @Before
     public void setUp() {
-        REST_URL = "http://gup.com.ua:3000/bc/push-transaction";
-        USER_1 = "587ca08e4c8e89327948309e";
-        USER_2 = "58cae20e4c8e9634fe40e852";
-        FILE_PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----\n" +
+        URL_PUSH_TRANSACTION = "http://gup.com.ua:3000/bc/push-transaction"; // BlockChain-Service: push-transaction
+        ID_SELLER = "587ca08e4c8e89327948309e";                              // Seller  (продавец: User-0)
+        ID_BUYER = "58cae20e4c8e9634fe40e852";                               // Buyer (покупатель: User-1) - иннициатор
+        PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----\n" +                        // публичный ключ покупателя
                 "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiX6KfrTp0Nl83SYfhfIL\n" +
                 "yo5IsH++yj7/U6yPsGhF2JMLIlQMI2zg0Ap1p3NvfVynhuP/gYYFeuhUJly4lhFl\n" +
                 "MohoJefiXuO1GmKjfkJ6lyEbjRQS2ZlGZSryoS85VZJBvL+RhFnirpMpD3DvfhT5\n" +
@@ -55,11 +61,27 @@ public class ContractGeneratorTest {
                 "fwIDAQAB\n" +
                 "-----END PUBLIC KEY-----\n";
 
-        generator = new ContractGenerator(REST_URL);
+        generator = new ContractGenerator(URL_PUSH_TRANSACTION);
     }
 
     @After
     public void tearDown() {
+    }
+
+    @Test
+    public void testCreateKeys()
+            throws FileNotFoundException, IOException, NoSuchAlgorithmException, NoSuchProviderException {
+        Security.addProvider(new BouncyCastleProvider());
+
+        KeyPair           rsaKey = FileKeyGeneratorUtil.generateRSAKey();
+        RSAPrivateKey privateKey = (RSAPrivateKey) rsaKey.getPrivate();
+        RSAPublicKey   publicKey = (RSAPublicKey) rsaKey.getPublic();
+
+//        FileKeyGeneratorUtil.write(privateKey, "PRIVATE KEY", FILE_PRIVATE_KEY);
+        FileKeyGeneratorUtil.write(publicKey, "PUBLIC KEY", FILE_PUBLIC_KEY);
+
+        FileKey filePublicKey = new FileKey();
+        System.out.println( filePublicKey.read(FILE_PUBLIC_KEY) );
     }
 
     /**
@@ -69,7 +91,10 @@ public class ContractGeneratorTest {
     public void testContractPost()
             throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException {
         // Show the response.
-        Response response = generator.contractPost("CONTRACT", USER_1, USER_2, FILE_PUBLIC_KEY, "I have sell you product");
+        TYPE_TRANSACTION = "CONTRACT"; // тип транзакции
+
+        Response response = generator.contractPost(TYPE_TRANSACTION, ID_SELLER, ID_BUYER, PUBLIC_KEY, "ul-drahomanova-dlia-odnoho-muzhchiny-ili-pary-bez-detei-h7");
+
         System.out.println("code: " + response.code());
         System.out.println("body: " + response.body().string());
     }
