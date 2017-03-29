@@ -3,20 +3,20 @@ package ua.com.itproekt.gup.service.blockchain.contract;
 
 public class Transaction {
 
-    private String                        type;
-    private TransactionDataSignature signature;
-    private long                     timestamp;
-    private TransactionData               data;
-    private String                       _hash;
+    private String                    type;
+    private TransactionSignature signature;
+    private long                 timestamp;
+    private TransactionData           data;
+    private String                   _hash;
 
-    public Transaction(TransactionDataSignature signature, long timestamp, TransactionData data, String _hash){
+    public Transaction(TransactionSignature signature, long timestamp, TransactionData data, String _hash){
         this.signature = signature;
         this.timestamp = timestamp;
         this.data = data;
         this._hash = _hash;
     }
 
-    public Transaction(String type, TransactionDataSignature signature, long timestamp, TransactionData data, String _hash){
+    public Transaction(String type, TransactionSignature signature, long timestamp, TransactionData data, String _hash){
         this.type = type;
         this.signature = signature;
         this.timestamp = timestamp;
@@ -32,11 +32,11 @@ public class Transaction {
         this.type = type;
     }
 
-    public TransactionDataSignature getSignature() {
+    public TransactionSignature getSignature() {
         return signature;
     }
 
-    public void setSignature(TransactionDataSignature signature) {
+    public void setSignature(TransactionSignature signature) {
         this.signature = signature;
     }
 

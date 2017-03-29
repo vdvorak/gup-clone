@@ -1,12 +1,12 @@
 package ua.com.itproekt.gup.service.blockchain.contract;
 
 
-public class TransactionDataSignature {
+public class TransactionSignature {
 
     private String sign;
     private String publicKey;
 
-    public TransactionDataSignature(String sign, String publicKey){
+    public TransactionSignature(String sign, String publicKey){
         this.sign = sign;
         this.publicKey = publicKey;
     }

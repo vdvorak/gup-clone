@@ -110,9 +110,9 @@ public class OrderRestController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateBuyerNote(@PathVariable String seoUrl) {
         String                strResponse = null;
-        FileKeyGeneratorUtil    BUYER_KEY = null;
+        FileKeyGeneratorUtil    KEY_BUYER = null;
         final String URL_PUSH_TRANSACTION = "http://gup.com.ua:3000/bc/push-transaction";
-        final String     TRANSACTION_TYPE = "CONTRACT";
+        final String     TYPE_TRANSACTION = "CONTRACT";
 
         Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
         if (offer == null) {
@@ -122,7 +122,7 @@ public class OrderRestController {
         }
 
         try {
-            BUYER_KEY = new FileKeyGeneratorUtil();
+            KEY_BUYER = new FileKeyGeneratorUtil();
         } catch (NullPointerException | NoSuchAlgorithmException | NoSuchProviderException e) {
             System.err.println(e.getMessage());
         }
@@ -132,7 +132,7 @@ public class OrderRestController {
             if (!userId.equals(offer.getAuthorId())){
                 try {
                     ContractGenerator generator = new ContractGenerator(URL_PUSH_TRANSACTION);
-                    okhttp3.Response   response = generator.contractPost(TRANSACTION_TYPE, offer.getAuthorId(), userId, (RSAPrivateKey)BUYER_KEY.getPrivateKey(), BUYER_KEY.getPublicKey(), seoUrl);
+                    okhttp3.Response   response = generator.contractPost(TYPE_TRANSACTION, offer.getAuthorId(), userId, KEY_BUYER.getPrivateKey(), KEY_BUYER.getPublicKey(), seoUrl);
                     return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
                 } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
                     System.err.println( e.getMessage() );

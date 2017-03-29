@@ -23,7 +23,9 @@ import java.security.spec.InvalidKeySpecException;
 public class FileKeyGeneratorUtil {
 
     private KeyPair key;
-    private final String FILE_PUBLIC_KEY = "id_rsa.pub";
+    protected static final String FILE_PUBLIC_KEY = "id_rsa.pub";
+    protected static final int     KEY_SIZE = 2048;
+    protected final static Logger LOGGER = Logger.getLogger(FileKeyGeneratorUtil.class);
 
     public FileKeyGeneratorUtil()
             throws NoSuchAlgorithmException, NoSuchProviderException {
@@ -47,9 +49,6 @@ public class FileKeyGeneratorUtil {
         return (RSAPrivateKey) key.getPrivate();
     }
 
-    protected final static Logger LOGGER = Logger.getLogger(FileKeyGeneratorUtil.class);
-    public static final int     KEY_SIZE = 2048;
-
     public static KeyPair generateRSAKey()
             throws NoSuchAlgorithmException, NoSuchProviderException {
         KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "BC");
@@ -63,27 +62,6 @@ public class FileKeyGeneratorUtil {
         FileKey file = new FileKey(key, description);
         LOGGER.info("key="+key+"; filename="+filename+"; description=\""+description+"\";");
         file.write(filename);
-    }
-
-    public static String hmacDigest(String msg, String key, String algo) {
-        String digest = null;
-        try {
-            SecretKeySpec secretKey = new SecretKeySpec((key).getBytes("UTF-8"), algo);
-            Mac             macAlgo = Mac.getInstance(algo);
-            macAlgo.init(secretKey);
-
-            byte[]          byteMsg = macAlgo.doFinal(msg.getBytes("ASCII"));
-            StringBuffer       hash = new StringBuffer();
-            for (int i=0; i<byteMsg.length; i++) {
-                String hex = Integer.toHexString(0xFF & byteMsg[i]);
-                if (hex.length() == 1) {
-                    hash.append('0');
-                }
-                hash.append(hex);
-            }
-            digest = hash.toString();
-        } catch (UnsupportedEncodingException | InvalidKeyException | NoSuchAlgorithmException e) {}
-        return digest;
     }
 
 }
