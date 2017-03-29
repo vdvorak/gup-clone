@@ -37,12 +37,13 @@ import javax.net.ssl.*;
 
 public class ContractGeneratorTest {
 
-    public final String FILE_PRIVATE_KEY = "id_rsa";
+//    public final String FILE_PRIVATE_KEY = "id_rsa";
     public final String  FILE_PUBLIC_KEY = "id_rsa.pub";
-    public String             PUBLIC_KEY; // публичный ключ покупателя
-    public String   URL_PUSH_TRANSACTION; // BlockChain-Service: push-transaction
-    public String       TYPE_TRANSACTION; // тип транзакции
-    public String    ID_SELLER, ID_BUYER; // Seller (продавец: User-0); Buyer (покупатель: User-1) - иннициатор;
+    public RSAPrivateKey BUYER_PRIVATE_KEY; // ( приватный ключ покупателя )
+    public String         BUYER_PUBLIC_KEY; // публичный ключ покупателя
+    public String     URL_PUSH_TRANSACTION; // BlockChain-Service: push-transaction
+    public String         TYPE_TRANSACTION; // тип транзакции
+    public String      ID_SELLER, ID_BUYER; // Seller (продавец: User-0); Buyer (покупатель: User-1) - иннициатор;
 
     private ContractGenerator generator;
 
@@ -51,15 +52,15 @@ public class ContractGeneratorTest {
         URL_PUSH_TRANSACTION = "http://gup.com.ua:3000/bc/push-transaction"; // BlockChain-Service: push-transaction
         ID_SELLER = "587ca08e4c8e89327948309e";                              // Seller  (продавец: User-0)
         ID_BUYER = "58cae20e4c8e9634fe40e852";                               // Buyer (покупатель: User-1) - иннициатор
-        PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----\n" +                        // публичный ключ покупателя
-                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiX6KfrTp0Nl83SYfhfIL\n" +
-                "yo5IsH++yj7/U6yPsGhF2JMLIlQMI2zg0Ap1p3NvfVynhuP/gYYFeuhUJly4lhFl\n" +
-                "MohoJefiXuO1GmKjfkJ6lyEbjRQS2ZlGZSryoS85VZJBvL+RhFnirpMpD3DvfhT5\n" +
-                "F6SyX3Re8N93KOZ/ad6ntdavOvHMAc2sBIcxqnBD3szEjuyvG+lPwaw4eS/YTNgB\n" +
-                "b1wtxJgLFaPOMPW/3dEkO1LFLeBse5dveI9LICxB2xkhii1xKDRrN/jn/dfasDUO\n" +
-                "xWI+RinWOagR8Tx5Gd53+QO+Aah7MSr4s3mrAzADqQCzEqDdD47djcnzzimhzA8d\n" +
-                "fwIDAQAB\n" +
-                "-----END PUBLIC KEY-----\n";
+//        BUYER_PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----\n" +                        // публичный ключ покупателя
+//                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiX6KfrTp0Nl83SYfhfIL\n" +
+//                "yo5IsH++yj7/U6yPsGhF2JMLIlQMI2zg0Ap1p3NvfVynhuP/gYYFeuhUJly4lhFl\n" +
+//                "MohoJefiXuO1GmKjfkJ6lyEbjRQS2ZlGZSryoS85VZJBvL+RhFnirpMpD3DvfhT5\n" +
+//                "F6SyX3Re8N93KOZ/ad6ntdavOvHMAc2sBIcxqnBD3szEjuyvG+lPwaw4eS/YTNgB\n" +
+//                "b1wtxJgLFaPOMPW/3dEkO1LFLeBse5dveI9LICxB2xkhii1xKDRrN/jn/dfasDUO\n" +
+//                "xWI+RinWOagR8Tx5Gd53+QO+Aah7MSr4s3mrAzADqQCzEqDdD47djcnzzimhzA8d\n" +
+//                "fwIDAQAB\n" +
+//                "-----END PUBLIC KEY-----\n";
 
         generator = new ContractGenerator(URL_PUSH_TRANSACTION);
     }
@@ -68,35 +69,70 @@ public class ContractGeneratorTest {
     public void tearDown() {
     }
 
-    @Test
-    public void testCreateKeys()
-            throws FileNotFoundException, IOException, NoSuchAlgorithmException, NoSuchProviderException {
-        Security.addProvider(new BouncyCastleProvider());
-
-        KeyPair           rsaKey = FileKeyGeneratorUtil.generateRSAKey();
-        RSAPrivateKey privateKey = (RSAPrivateKey) rsaKey.getPrivate();
-        RSAPublicKey   publicKey = (RSAPublicKey) rsaKey.getPublic();
-
-//        FileKeyGeneratorUtil.write(privateKey, "PRIVATE KEY", FILE_PRIVATE_KEY);
-        FileKeyGeneratorUtil.write(publicKey, "PUBLIC KEY", FILE_PUBLIC_KEY);
-
-        FileKey filePublicKey = new FileKey();
-        System.out.println( filePublicKey.read(FILE_PUBLIC_KEY) );
-    }
-
     /**
      * Test(s) Contract Post
      */
     @Test
     public void testContractPost()
             throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException {
+        Security.addProvider(new BouncyCastleProvider());
+
+        ////////////////////////////////////////////////////////////////////////////
+        FileKeyGeneratorUtil keyGenerator = new FileKeyGeneratorUtil();
+        BUYER_PUBLIC_KEY = keyGenerator.getPublicKey();
+        BUYER_PRIVATE_KEY = (RSAPrivateKey)keyGenerator.getPrivateKey();
+
+        ////////////////////////////////////////////////////////////////////////////
         // Show the response.
         TYPE_TRANSACTION = "CONTRACT"; // тип транзакции
 
-        Response response = generator.contractPost(TYPE_TRANSACTION, ID_SELLER, ID_BUYER, PUBLIC_KEY, "ul-drahomanova-dlia-odnoho-muzhchiny-ili-pary-bez-detei-h7");
+        Response response = generator.contractPost(TYPE_TRANSACTION, ID_SELLER, ID_BUYER, BUYER_PRIVATE_KEY, BUYER_PUBLIC_KEY, "ul-drahomanova-dlia-odnoho-muzhchiny-ili-pary-bez-detei-h7");
 
         System.out.println("code: " + response.code());
         System.out.println("body: " + response.body().string());
     }
+
+//    /**
+//     * Test(s) Contract Post
+//     */
+//    @Test
+//    public void testContractPost()
+//            throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException {
+//        Security.addProvider(new BouncyCastleProvider());
+//
+//        ////////////////////////////////////////////////////////////////////////////
+//        KeyPair                     key = FileKeyGeneratorUtil.generateRSAKey();
+//        RSAPublicKey          publicKey = (RSAPublicKey) key.getPublic();
+////        FileKeyGeneratorUtil.write(BUYER_PRIVATE_KEY, "PRIVATE KEY", FILE_PRIVATE_KEY);
+//        FileKeyGeneratorUtil.write(publicKey, "PUBLIC KEY", FILE_PUBLIC_KEY);
+//        FileKey filePublicKey = new FileKey();
+//        BUYER_PUBLIC_KEY  = filePublicKey.read(FILE_PUBLIC_KEY); // публичный ключ покупателя
+//        BUYER_PRIVATE_KEY = (RSAPrivateKey) key.getPrivate();    // ( приватный ключ покупателя )
+////        PrivateKey BUYER_PRIVATE_KEY = key.getPrivate();
+//
+//        ////////////////////////////////////////////////////////////////////////////
+//        // Show the response.
+//        TYPE_TRANSACTION = "CONTRACT"; // тип транзакции
+//
+//        Response response = generator.contractPost(TYPE_TRANSACTION, ID_SELLER, ID_BUYER, BUYER_PRIVATE_KEY, BUYER_PUBLIC_KEY, "ul-drahomanova-dlia-odnoho-muzhchiny-ili-pary-bez-detei-h7");
+//
+//        System.out.println("code: " + response.code());
+//        System.out.println("body: " + response.body().string());
+//    }
+
+//    /**
+//     * Test(s) Contract Post
+//     */
+//    @Test
+//    public void testContractPost()
+//            throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException {
+//        // Show the response.
+//        TYPE_TRANSACTION = "CONTRACT"; // тип транзакции
+//
+//        Response response = generator.contractPost(TYPE_TRANSACTION, ID_SELLER, ID_BUYER, PUBLIC_KEY, "ul-drahomanova-dlia-odnoho-muzhchiny-ili-pary-bez-detei-h7");
+//
+//        System.out.println("code: " + response.code());
+//        System.out.println("body: " + response.body().string());
+//    }
 
 }

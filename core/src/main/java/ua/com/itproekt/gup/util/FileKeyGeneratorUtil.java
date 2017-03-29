@@ -17,9 +17,35 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 
 public class FileKeyGeneratorUtil {
+
+    private KeyPair key;
+    private final String FILE_PUBLIC_KEY = "id_rsa.pub";
+
+    public FileKeyGeneratorUtil()
+            throws NoSuchAlgorithmException, NoSuchProviderException {
+        Security.addProvider(new BouncyCastleProvider());
+
+        KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "BC");
+        generator.initialize(KEY_SIZE);
+        key = generator.generateKeyPair();
+    }
+
+    public String getPublicKey()
+            throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException {
+        RSAPublicKey publicKey = (RSAPublicKey) key.getPublic();
+        FileKeyGeneratorUtil.write(publicKey, "PUBLIC KEY", FILE_PUBLIC_KEY);
+        FileKey filePublicKey = new FileKey();
+        return filePublicKey.read(FILE_PUBLIC_KEY);
+    }
+
+    public PrivateKey getPrivateKey()
+            throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException {
+        return (RSAPrivateKey) key.getPrivate();
+    }
 
     protected final static Logger LOGGER = Logger.getLogger(FileKeyGeneratorUtil.class);
     public static final int     KEY_SIZE = 2048;

@@ -32,7 +32,7 @@ public class ContractGenerator {
         this.REST_URL = REST_URL;
     }
 
-    public Response contractPost(String type, String USER_1, String USER_2, String PUBLIC_KEY, String additionalInfo)
+    public Response contractPost(String type, String USER_1, String USER_2, PrivateKey PRIVATE_KEY, String PUBLIC_KEY, String additionalInfo)
             throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException {
         LOGGER.info("type="+type+"; USER_1="+USER_1+"; USER_2="+USER_2+"; additionalInfo=\""+additionalInfo+"\";");
         Security.addProvider(new BouncyCastleProvider());
@@ -52,15 +52,9 @@ public class ContractGenerator {
         byte[]    digest2 = msg.digest(member2);
 
         ////////////////////////////////////////////////////////////////////////
-        KeyPair           key = FileKeyGeneratorUtil.generateRSAKey();
-        PrivateKey privateKey = key.getPrivate();
-
-        String publicKey = PUBLIC_KEY;
-//        System.out.println("PUBLIC   " + publicKey);
-
         // Sign the mutation with the private key
         Signature signature = Signature.getInstance("RSA", "BC");
-        signature.initSign( privateKey, new FixedRand() );
+        signature.initSign( PRIVATE_KEY, new FixedRand() );
         signature.update(digestType);
         signature.update(digestTimestamp);
         signature.update(digest1);
@@ -80,7 +74,7 @@ public class ContractGenerator {
         LOGGER.info("hash=\""+hash+"\"");
 
         // Create the JSON representation of the transaction to post
-        Transaction transaction = new Transaction(new TransactionDataSignature(Hex.toHexString(sign), publicKey),
+        Transaction transaction = new Transaction(new TransactionDataSignature(Hex.toHexString(sign), PUBLIC_KEY),
                 timestamp,
                 new TransactionData(0,
                         new String[]{Hex.toHexString(digest1), Hex.toHexString(digest2)},
@@ -103,6 +97,76 @@ public class ContractGenerator {
 
         return client.newCall(request).execute();
     }
+
+//    public Response contractPost(String type, String USER_1, String USER_2, String PUBLIC_KEY, String additionalInfo)
+//            throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException {
+//        LOGGER.info("type="+type+"; USER_1="+USER_1+"; USER_2="+USER_2+"; additionalInfo=\""+additionalInfo+"\";");
+//        Security.addProvider(new BouncyCastleProvider());
+//
+//        long timestamp = new Date().getTime();
+//
+//        // Digest the mutation twice
+//        byte[]      byteType = type.getBytes("UTF-8");
+//        byte[] byteTimestamp = String.valueOf(timestamp).getBytes("UTF-8");
+//        byte[]       member1 = USER_1.getBytes("UTF-8");
+//        byte[]       member2 = USER_2.getBytes("UTF-8");
+//
+//        MessageDigest msg = MessageDigest.getInstance("SHA-256");
+//        byte[]    digestType = msg.digest(byteType);
+//        byte[]    digestTimestamp = msg.digest(byteTimestamp);
+//        byte[]    digest1 = msg.digest(member1);
+//        byte[]    digest2 = msg.digest(member2);
+//
+//        ////////////////////////////////////////////////////////////////////////
+//        KeyPair           key = FileKeyGeneratorUtil.generateRSAKey();
+//        PrivateKey privateKey = key.getPrivate();
+////        System.out.println("PUBLIC   " + PUBLIC_KEY);
+//
+//        // Sign the mutation with the private key
+//        Signature signature = Signature.getInstance("RSA", "BC");
+//        signature.initSign( privateKey, new FixedRand() );
+//        signature.update(digestType);
+//        signature.update(digestTimestamp);
+//        signature.update(digest1);
+//        signature.update(digest2);
+//        final byte[]   sign = signature.sign();
+////        System.out.println("SIGN     " + Hex.toHexString(sign));
+//
+//        ////////////////////////////////////////////////////////////////////////
+//        byte[] digestRandom = msg.digest(hashGenerator().getBytes("UTF-8"));
+//        String       random = Hex.toHexString(digestRandom);
+////        System.err.println( "random: " + random ); // da9b55cad0983e572bc24dab1be99caa907d6fabbe9a390ff14c66dedcb8dca0 = SHA-265
+//
+//        String    strHash = type + random + timestamp; //  type + <SHA-265> + timestamp = SHA-265
+//        byte[] digestHash = msg.digest(strHash.getBytes("UTF-8"));
+//        String       hash = Hex.toHexString(digestHash);
+////        System.err.println( "hash: " + hash ); // 2ed5d498ce265ebae7a176ea05f23b9f293a6fbe6c23ca7f3392f2803f7bad86 == type + <SHA-265> + timestamp = SHA-265
+//        LOGGER.info("hash=\""+hash+"\"");
+//
+//        // Create the JSON representation of the transaction to post
+//        Transaction transaction = new Transaction(new TransactionDataSignature(Hex.toHexString(sign), PUBLIC_KEY),
+//                timestamp,
+//                new TransactionData(0,
+//                        new String[]{Hex.toHexString(digest1), Hex.toHexString(digest2)},
+//                        additionalInfo),
+//                hash);
+//
+//        Contract contract = new Contract(transaction, type);
+//        Gson gson = new Gson();
+//        String jsonContract = gson.toJson(contract);
+//        LOGGER.info(jsonContract);
+//
+//        // Post the transaction.
+//        OkHttpClient client = createHttpClient();
+//        MediaType mediaType = MediaType.parse("application/json");
+//        RequestBody    body = RequestBody.create(mediaType, jsonContract);
+//        Request     request = new Request.Builder()
+//                .url(REST_URL)
+//                .post(body)
+//                .build();
+//
+//        return client.newCall(request).execute();
+//    }
 
     private OkHttpClient createHttpClient() {
         try {
