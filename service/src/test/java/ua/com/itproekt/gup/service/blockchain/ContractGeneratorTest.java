@@ -45,7 +45,6 @@ public class ContractGeneratorTest {
         REST_URL = "http://gup.com.ua:3000/bc/push-transaction";
         USER_1 = "587ca08e4c8e89327948309e";
         USER_2 = "58cae20e4c8e9634fe40e852";
-//        FILE_PUBLIC_KEY = "id_rsa.pub";
         FILE_PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----\n" +
                 "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiX6KfrTp0Nl83SYfhfIL\n" +
                 "yo5IsH++yj7/U6yPsGhF2JMLIlQMI2zg0Ap1p3NvfVynhuP/gYYFeuhUJly4lhFl\n" +
@@ -73,15 +72,6 @@ public class ContractGeneratorTest {
         Response response = generator.contractPost("CONTRACT", USER_1, USER_2, FILE_PUBLIC_KEY, "I have sell you product");
         System.out.println("code: " + response.code());
         System.out.println("body: " + response.body().string());
-//        generator.contractPost("CONTRACT", USER_1, USER_2, FILE_PUBLIC_KEY, "I have sell you product");
-
-//        try {
-//            HttpserviceImpl httpservice = new HttpserviceImpl("http://apilayer.net/api/live?access_key=000000000000000000000000");
-//            JSONObject resp = httpservice.getResponse(HttpMethods.GET);
-//            System.err.println( resp );
-//        } catch (JSONException | ServiceException e){
-//
-//        }
     }
 
 }

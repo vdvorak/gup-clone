@@ -107,17 +107,10 @@ public class OrderRestController {
     @RequestMapping(value = "/order/create/offer/{seoUrl}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateSellerNote(@PathVariable String seoUrl) {
-        Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
-
-        if (offer == null) {
-            return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
-        }
-
-        if (offer.isDeleted()) {
-            return new ResponseEntity<>("Offer was deleted", HttpStatus.NOT_FOUND);
-        }
-
-        String FILE_PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----\n" +
+        String                strResponse = null;
+        final String URL_PUSH_TRANSACTION = "http://gup.com.ua:3000/bc/push-transaction";
+        final String     TRANSACTION_TYPE = "CONTRACT";
+        final String      FILE_PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----\n" +
                 "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiX6KfrTp0Nl83SYfhfIL\n" +
                 "yo5IsH++yj7/U6yPsGhF2JMLIlQMI2zg0Ap1p3NvfVynhuP/gYYFeuhUJly4lhFl\n" +
                 "MohoJefiXuO1GmKjfkJ6lyEbjRQS2ZlGZSryoS85VZJBvL+RhFnirpMpD3DvfhT5\n" +
@@ -127,37 +120,30 @@ public class OrderRestController {
                 "fwIDAQAB\n" +
                 "-----END PUBLIC KEY-----\n";
 
-        String strResponse = null;
-        try {
-            ContractGenerator generator = new ContractGenerator("http://gup.com.ua:3000/bc/push-transaction");
-            okhttp3.Response   response = generator.contractPost("CONTRACT", "587ca08e4c8e89327948309e", "58cae20e4c8e9634fe40e852", FILE_PUBLIC_KEY, seoUrl);
-            strResponse = response.body().string();
-        } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
+        if (offer == null) {
+            return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
+        } else if (offer.isDeleted()) {
+            return new ResponseEntity<>("Offer was deleted", HttpStatus.NOT_FOUND);
+        }
+
+        String userId = SecurityOperations.getLoggedUserId();
+        if (userId!=null){
+            if (!userId.equals(offer.getAuthorId())){
+                try {
+                    ContractGenerator generator = new ContractGenerator(URL_PUSH_TRANSACTION);
+                    okhttp3.Response   response = generator.contractPost(TRANSACTION_TYPE, offer.getAuthorId(), userId, FILE_PUBLIC_KEY, seoUrl);
+                    strResponse = response.body().string();
+                } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            } else {
+                return new ResponseEntity<>("You can't be author.", HttpStatus.FORBIDDEN);
+            }
+        } else {
+            return new ResponseEntity<>("You are not an Authorize.", HttpStatus.FORBIDDEN);
         }
         return new ResponseEntity<>(strResponse, HttpStatus.OK);
-
-
-
-//        String strResponse = null;
-//        String userId = SecurityOperations.getLoggedUserId();
-//        if (userId!=null){
-//            if (!userId.equals(offer.getAuthorId())){
-//                try {
-//                    ContractGenerator generator = new ContractGenerator("http://gup.com.ua:3000/bc/push-transaction");
-////                    okhttp3.Response           response = generator.contractPost("CONTRACT", offer.getAuthorId(), userId, "id_rsa.pub", seoUrl);
-////                    strResponse                 = response.body().string();
-//                    generator.contractPost("CONTRACT", offer.getAuthorId(), userId, "id_rsa.pub", seoUrl);
-//                } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
-//                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//                }
-//            } else {
-//                return new ResponseEntity<>("You can't be author.", HttpStatus.FORBIDDEN);
-//            }
-//        } else {
-//            return new ResponseEntity<>("You are not an Authorize.", HttpStatus.FORBIDDEN);
-//        }
-//        return new ResponseEntity<>(strResponse, HttpStatus.OK);
     }
 
 
