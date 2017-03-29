@@ -103,7 +103,7 @@ public class OrderRestController {
 //    }
 
     @CrossOrigin
-    @PreAuthorize("isAuthenticated()")
+//    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/order/create/offer/{seoUrl}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateSellerNote(@PathVariable String seoUrl) {
@@ -117,25 +117,47 @@ public class OrderRestController {
             return new ResponseEntity<>("Offer was deleted", HttpStatus.NOT_FOUND);
         }
 
+        String FILE_PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----\n" +
+                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiX6KfrTp0Nl83SYfhfIL\n" +
+                "yo5IsH++yj7/U6yPsGhF2JMLIlQMI2zg0Ap1p3NvfVynhuP/gYYFeuhUJly4lhFl\n" +
+                "MohoJefiXuO1GmKjfkJ6lyEbjRQS2ZlGZSryoS85VZJBvL+RhFnirpMpD3DvfhT5\n" +
+                "F6SyX3Re8N93KOZ/ad6ntdavOvHMAc2sBIcxqnBD3szEjuyvG+lPwaw4eS/YTNgB\n" +
+                "b1wtxJgLFaPOMPW/3dEkO1LFLeBse5dveI9LICxB2xkhii1xKDRrN/jn/dfasDUO\n" +
+                "xWI+RinWOagR8Tx5Gd53+QO+Aah7MSr4s3mrAzADqQCzEqDdD47djcnzzimhzA8d\n" +
+                "fwIDAQAB\n" +
+                "-----END PUBLIC KEY-----\n";
+
         String strResponse = null;
-        String userId = SecurityOperations.getLoggedUserId();
-        if (userId!=null){
-            if (!userId.equals(offer.getAuthorId())){
-                try {
-                    ContractGenerator generator = new ContractGenerator("http://gup.com.ua:3000/bc/push-transaction");
-//                    okhttp3.Response           response = generator.contractPost("CONTRACT", offer.getAuthorId(), userId, "id_rsa.pub", seoUrl);
-//                    strResponse                 = response.body().string();
-                    generator.contractPost("CONTRACT", offer.getAuthorId(), userId, "id_rsa.pub", seoUrl);
-                } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            } else {
-                return new ResponseEntity<>("You can't be author.", HttpStatus.FORBIDDEN);
-            }
-        } else {
-            return new ResponseEntity<>("You are not an Authorize.", HttpStatus.FORBIDDEN);
+        try {
+            ContractGenerator generator = new ContractGenerator("http://gup.com.ua:3000/bc/push-transaction");
+            okhttp3.Response   response = generator.contractPost("CONTRACT", "587ca08e4c8e89327948309e", "58cae20e4c8e9634fe40e852", FILE_PUBLIC_KEY, seoUrl);
+            strResponse = response.body().string();
+        } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(strResponse, HttpStatus.OK);
+
+
+
+//        String strResponse = null;
+//        String userId = SecurityOperations.getLoggedUserId();
+//        if (userId!=null){
+//            if (!userId.equals(offer.getAuthorId())){
+//                try {
+//                    ContractGenerator generator = new ContractGenerator("http://gup.com.ua:3000/bc/push-transaction");
+////                    okhttp3.Response           response = generator.contractPost("CONTRACT", offer.getAuthorId(), userId, "id_rsa.pub", seoUrl);
+////                    strResponse                 = response.body().string();
+//                    generator.contractPost("CONTRACT", offer.getAuthorId(), userId, "id_rsa.pub", seoUrl);
+//                } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
+//                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//                }
+//            } else {
+//                return new ResponseEntity<>("You can't be author.", HttpStatus.FORBIDDEN);
+//            }
+//        } else {
+//            return new ResponseEntity<>("You are not an Authorize.", HttpStatus.FORBIDDEN);
+//        }
+//        return new ResponseEntity<>(strResponse, HttpStatus.OK);
     }
 
 
