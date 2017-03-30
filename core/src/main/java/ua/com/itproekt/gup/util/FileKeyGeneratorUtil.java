@@ -6,8 +6,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.*;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
+//import java.security.interfaces.RSAPrivateKey;
+//import java.security.interfaces.RSAPublicKey;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -33,7 +33,7 @@ public class FileKeyGeneratorUtil {
 
     public String getPublicKey()
             throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException {
-        RSAPublicKey publicKey = (RSAPublicKey) key.getPublic();
+        PublicKey publicKey = key.getPublic(); //RSAPublicKey publicKey = (RSAPublicKey) key.getPublic(); /////???????????????????????
         FileKeyGeneratorUtil.write(publicKey, "PUBLIC KEY", FILE_PUBLIC_KEY);
         FileKey filePublicKey = new FileKey();
         return filePublicKey.read(FILE_PUBLIC_KEY);
@@ -41,7 +41,7 @@ public class FileKeyGeneratorUtil {
 
     public PrivateKey getPrivateKey()
             throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException {
-        return (RSAPrivateKey) key.getPrivate();
+        return key.getPrivate(); //return (RSAPrivateKey) key.getPrivate(); /////??????????????????????????????????????????????
     }
 
     public static KeyPair generateRSAKey()
