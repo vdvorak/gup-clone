@@ -34,8 +34,8 @@ public class Order {
     private String seoUrl; // full SEO url with key
     private String seoKey; // only key - for search in DB
 
-    private String publicKey; // uset to blockchain
-    private String hashTransaction; // uset to blockchain
+    private String publicKey;       // used into BlockChain
+    private String hashTransaction; // used into BlockChain
 
     private OrderAddress orderAddress;
     @NotNull

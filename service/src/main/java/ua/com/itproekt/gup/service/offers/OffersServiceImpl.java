@@ -406,17 +406,9 @@ public class OffersServiceImpl implements OffersService {
         List<OfferInfo> offerInfoList = new ArrayList<>();
         List<Offer> offerList = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
 
-        System.err.println("# --> 01 after offerRepository.findOffersWithOptions: " + (System.currentTimeMillis() - startTime));
-
-
-
-
         for (Offer offer : offerList) {
             offerInfoList.add(privateOfferPreparatorForShortList(offer, orderTotalList));
         }
-
-
-        System.err.println("# --> 02 getListOfPrivateOfferInfoWithOptions: " + (System.currentTimeMillis() - startTime));
 
         return offerInfoList;
     }
