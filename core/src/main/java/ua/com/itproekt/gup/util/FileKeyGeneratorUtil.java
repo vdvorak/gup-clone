@@ -17,7 +17,7 @@ import java.security.spec.InvalidKeySpecException;
 public class FileKeyGeneratorUtil {
 
     private KeyPair key;
-    protected static final String FILE_PUBLIC_KEY0 = "id_rsa.pub"; //protected static final String FILE_PUBLIC_KEY = "id_rsa.pub";
+    //protected static final String FILE_PUBLIC_KEY = "id_rsa.pub";
     protected static final String FILE_PUBLIC_KEY = "/opt/tomcats/tomcat_gup_service_test_offers/temp/id_rsa.pub";
     protected static final int           KEY_SIZE = 2048;
     protected final static Logger LOGGER = Logger.getLogger(FileKeyGeneratorUtil.class);
@@ -34,7 +34,7 @@ public class FileKeyGeneratorUtil {
     public String getPublicKey()
             throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException {
         RSAPublicKey publicKey = (RSAPublicKey) key.getPublic();
-        FileKeyGeneratorUtil.write(publicKey, "PUBLIC KEY", FILE_PUBLIC_KEY0);
+        FileKeyGeneratorUtil.write(publicKey, "PUBLIC KEY", FILE_PUBLIC_KEY);
         FileKey filePublicKey = new FileKey();
         return filePublicKey.read(FILE_PUBLIC_KEY);
     }
