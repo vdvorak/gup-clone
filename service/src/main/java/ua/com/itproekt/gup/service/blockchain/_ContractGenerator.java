@@ -6,10 +6,10 @@
 //import org.bouncycastle.jce.provider.BouncyCastleProvider;
 //import org.bouncycastle.util.encoders.Hex;
 //
-//import ua.com.itproekt.gup.service.blockchain.contract.Contract;
-//import ua.com.itproekt.gup.service.blockchain.contract.Transaction;
-//import ua.com.itproekt.gup.service.blockchain.contract.TransactionData;
-//import ua.com.itproekt.gup.service.blockchain.contract.TransactionDataSignature;
+//import ua.com.itproekt.gup.model.order.blockchain.contract.Contract;
+//import ua.com.itproekt.gup.model.order.blockchain.contract.Transaction;
+//import ua.com.itproekt.gup.model.order.blockchain.contract.TransactionData;
+//import ua.com.itproekt.gup.model.order.blockchain.contract.TransactionDataSignature;
 //import ua.com.itproekt.gup.util.FileKeyGeneratorUtil;
 //
 //import java.io.IOException;

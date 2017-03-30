@@ -23,21 +23,14 @@ public class ContractGeneratorTest {
     public String     URL_PUSH_TRANSACTION; // BlockChain-Service: push-transaction
     public String         TYPE_TRANSACTION; // тип транзакции
     public String      ID_SELLER, ID_BUYER; // Seller (продавец: User-0); Buyer (покупатель: User-1) - иннициатор;
-    private FileKeyGeneratorUtil KEY_BUYER; // ключ покупателя
-    private ContractGenerator    generator;
+    private ContractGenerator contract;
 
     @Before
     public void setUp() {
-        try {
-            URL_PUSH_TRANSACTION = "http://gup.com.ua:3000/bc/push-transaction"; // BlockChain-Service: push-transaction
-            TYPE_TRANSACTION     = "CONTRACT";                                   // тип транзакции
-            ID_SELLER            = "587ca08e4c8e89327948309e";                   // Seller  (продавец: User-0)
-            ID_BUYER             = "58cae20e4c8e9634fe40e852";                   // Buyer (покупатель: User-1) - иннициатор
-            KEY_BUYER            = new FileKeyGeneratorUtil();                   // ключ покупателя
-            generator            = new ContractGenerator(URL_PUSH_TRANSACTION);
-        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
-            e.printStackTrace();
-        }
+        URL_PUSH_TRANSACTION = "http://gup.com.ua:3000/bc/push-transaction"; // BlockChain-Service: push-transaction
+        TYPE_TRANSACTION     = "CONTRACT";                                   // тип транзакции
+        ID_SELLER            = "587ca08e4c8e89327948309e";                   // Seller  (продавец: User-0)
+        ID_BUYER             = "58cae20e4c8e9634fe40e852";                   // Buyer (покупатель: User-1) - иннициатор
     }
 
     @After
@@ -45,14 +38,26 @@ public class ContractGeneratorTest {
     }
 
     /**
-     * Test(s) Contract Post
+     * Test(s) Contract Generator
      */
     @Test
-    public void testContractPost() {
+    public void testContractGenerator() {
         try {
-            okhttp3.Response response = generator.contractPost(TYPE_TRANSACTION, ID_SELLER, ID_BUYER, KEY_BUYER.getPrivateKey(), KEY_BUYER.getPublicKey(), "ul-drahomanova-dlia-odnoho-muzhchiny-ili-pary-bez-detei-h7");
-            System.out.println("code: " + response.code());
-            System.out.println("body: " + response.body().string());
+            ///////////////////////////////////////////////////////////
+            contract = new ContractGenerator(TYPE_TRANSACTION, ID_SELLER, ID_BUYER, "ul-drahomanova-dlia-odnoho-muzhchiny-ili-pary-bez-detei-h7");
+
+            ///////////////////////////////////////////////////////////
+            System.err.println( contract.getPublicKey() );
+            System.err.println();
+            System.err.println( contract.getTransaction() );
+            System.err.println();
+            System.err.println( contract.getHashTransaction() );
+
+            ///////////////////////////////////////////////////////////
+            System.err.println();
+            okhttp3.Response response = contract.postTransaction(URL_PUSH_TRANSACTION);
+            System.err.println("code: " + response.code());
+            System.err.println("body: " + response.body().string());
         } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
             System.err.println(e.getMessage());
         }

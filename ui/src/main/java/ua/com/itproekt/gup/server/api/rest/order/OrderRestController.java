@@ -109,8 +109,6 @@ public class OrderRestController {
     @RequestMapping(value = "/order/create/offer/{seoUrl}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateBuyerNote(@PathVariable String seoUrl) {
-        String                strResponse = null;
-        FileKeyGeneratorUtil    KEY_BUYER = null;
         final String URL_PUSH_TRANSACTION = "http://gup.com.ua:3000/bc/push-transaction";
         final String     TYPE_TRANSACTION = "CONTRACT";
 
@@ -121,18 +119,21 @@ public class OrderRestController {
             return new ResponseEntity<>("Offer was deleted", HttpStatus.NOT_FOUND);
         }
 
-        try {
-            KEY_BUYER = new FileKeyGeneratorUtil();
-        } catch (NullPointerException | NoSuchAlgorithmException | NoSuchProviderException e) {
-            System.err.println(e.getMessage());
-        }
-
         String userId = SecurityOperations.getLoggedUserId();
         if (userId!=null){
             if (!userId.equals(offer.getAuthorId())){
                 try {
-                    ContractGenerator generator = new ContractGenerator(URL_PUSH_TRANSACTION);
-                    okhttp3.Response   response = generator.contractPost(TYPE_TRANSACTION, offer.getAuthorId(), userId, KEY_BUYER.getPrivateKey(), KEY_BUYER.getPublicKey(), seoUrl);
+                    ContractGenerator contract = new ContractGenerator(TYPE_TRANSACTION, offer.getAuthorId(), userId, seoUrl);
+
+                    System.err.println("------------------------------------------------------------------------------");
+                    System.err.println( contract.getPublicKey() );
+                    System.err.println();
+                    System.err.println( contract.getTransaction() );
+                    System.err.println();
+                    System.err.println( contract.getHashTransaction() );
+                    System.err.println("------------------------------------------------------------------------------");
+
+                    okhttp3.Response  response = contract.postTransaction(URL_PUSH_TRANSACTION);
                     return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
                 } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
                     System.err.println( e.getMessage() );
@@ -145,7 +146,6 @@ public class OrderRestController {
             return new ResponseEntity<>("You are not an Authorize.", HttpStatus.FORBIDDEN);
         }
     }
-
 
 //------------------------------------------ Update -------------------------------------------------------------
 

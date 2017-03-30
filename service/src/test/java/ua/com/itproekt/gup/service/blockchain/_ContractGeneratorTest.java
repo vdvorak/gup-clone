@@ -14,10 +14,10 @@
 //import ua.com.itproekt.gup.model.xchangerate.service.HttpMethods;
 //import ua.com.itproekt.gup.model.xchangerate.service.HttpserviceImpl;
 //import ua.com.itproekt.gup.model.xchangerate.service.ServiceException;
-//import ua.com.itproekt.gup.service.blockchain.contract.Contract;
-//import ua.com.itproekt.gup.service.blockchain.contract.Transaction;
-//import ua.com.itproekt.gup.service.blockchain.contract.TransactionData;
-//import ua.com.itproekt.gup.service.blockchain.contract.TransactionDataSignature;
+//import ua.com.itproekt.gup.model.order.blockchain.contract.Contract;
+//import ua.com.itproekt.gup.model.order.blockchain.contract.Transaction;
+//import ua.com.itproekt.gup.model.order.blockchain.contract.TransactionData;
+//import ua.com.itproekt.gup.model.order.blockchain.contract.TransactionDataSignature;
 //import ua.com.itproekt.gup.util.FileKey;
 //import ua.com.itproekt.gup.util.FileKeyGeneratorUtil;
 //

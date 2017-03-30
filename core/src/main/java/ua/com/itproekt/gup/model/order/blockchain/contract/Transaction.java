@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.service.blockchain.contract;
+package ua.com.itproekt.gup.model.order.blockchain.contract;
 
 
 public class Transaction {
