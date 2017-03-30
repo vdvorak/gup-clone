@@ -399,10 +399,6 @@ public class OffersServiceImpl implements OffersService {
 
     @Override
     public List<OfferInfo> getListOfPrivateOfferInfoWithOptions(OfferFilterOptions offerFilterOptions, List<Order> orderTotalList) {
-
-
-        Long startTime = System.currentTimeMillis();
-
         List<OfferInfo> offerInfoList = new ArrayList<>();
         List<Offer> offerList = offerRepository.findOffersWithOptions(offerFilterOptions).getEntities();
 
