@@ -14,7 +14,7 @@ public class FileKey {
     public FileKey() {
     }
 
-    public FileKey(Key key, String description) {
+    public FileKey(java.security.Key key, String description) {
         pemObject = new PemObject(description, key.getEncoded());
     }
 

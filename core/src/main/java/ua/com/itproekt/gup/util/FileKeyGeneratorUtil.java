@@ -17,8 +17,8 @@ import java.security.spec.InvalidKeySpecException;
 public class FileKeyGeneratorUtil {
 
     private KeyPair key;
-    //protected static final String FILE_PUBLIC_KEY = "id_rsa.pub";
-    protected static final String FILE_PUBLIC_KEY = "/opt/tomcats/tomcat_gup_service_test_offers/temp/id_rsa.pub";
+    protected static final String FILE_PUBLIC_KEY = "id_rsa.pub";
+//    protected static final String FILE_PUBLIC_KEY = "/opt/tomcats/tomcat_gup_service_test_offers/temp/id_rsa.pub";
     protected static final int           KEY_SIZE = 2048;
     protected final static Logger LOGGER = Logger.getLogger(FileKeyGeneratorUtil.class);
 
