@@ -16,6 +16,7 @@ import ua.com.itproekt.gup.service.blockchain.ContractGenerator;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.util.FileKeyGeneratorUtil;
+import ua.com.itproekt.gup.util.PaymentMethod;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.TransportCompany;
 
@@ -133,8 +134,17 @@ public class OrderRestController {
                     System.err.println( contract.getHashTransaction() );
                     System.err.println("------------------------------------------------------------------------------");
 
-                    okhttp3.Response  response = contract.postTransaction(URL_PUSH_TRANSACTION);
-                    return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
+                    // create order
+                    okhttp3.Response response = contract.postTransaction(URL_PUSH_TRANSACTION);
+                    if (response.code()==200) {
+                        Order order = new Order();
+                        order.setPaymentMethod(PaymentMethod.CARD_PAYMENT);
+                        order.setPublicKey(contract.getPublicKey());
+                        order.setHashTransaction(contract.getHashTransaction());
+                        orderService.create(userId, order, offer);
+                        return new ResponseEntity<>(response.body().string(), HttpStatus.OK);
+                    }
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
                     System.err.println( e.getMessage() );
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

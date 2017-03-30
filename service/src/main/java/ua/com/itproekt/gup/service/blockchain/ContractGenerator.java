@@ -26,23 +26,24 @@ import javax.net.ssl.*;
 public class ContractGenerator {
 
     protected final static Logger LOGGER = Logger.getLogger(ContractGenerator.class);
-    private FileKeyGeneratorUtil KEY_BUYER;
+    private FileKeyGeneratorUtil buyerKey;
     private String jsonTransaction;
     private String hash;
 
-    public ContractGenerator(String type, String ID_SELLER, String ID_BUYER, String additionalInfo)
+    public ContractGenerator(String type, String sellerId, String buyerId, String additionalInfo)
             throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException {
         Security.addProvider(new BouncyCastleProvider());
 
-        LOGGER.info("type="+type+"; ID_SELLER="+ID_SELLER+"; ID_BUYER="+ID_BUYER+"; additionalInfo=\""+additionalInfo+"\";");
+        LOGGER.info("type="+type+"; sellerId="+sellerId+"; buyerId="+buyerId+"; additionalInfo=\""+additionalInfo+"\";");
         long timestamp = new Date().getTime();
-        KEY_BUYER = new FileKeyGeneratorUtil();
+        buyerKey = new FileKeyGeneratorUtil();
 
-        // Digest the mutation twice
+        ////////////////////////////////////////////////////////////////////////
+        // Transform to Digest
         byte[]      byteType = type.getBytes("UTF-8");
         byte[] byteTimestamp = String.valueOf(timestamp).getBytes("UTF-8");
-        byte[]    byteSeller = ID_SELLER.getBytes("UTF-8");
-        byte[]     byteBuyer = ID_BUYER.getBytes("UTF-8");
+        byte[]    byteSeller = sellerId.getBytes("UTF-8");
+        byte[]     byteBuyer = buyerId.getBytes("UTF-8");
 
         MessageDigest      msg = MessageDigest.getInstance("SHA-256");
         byte[]      digestType = msg.digest(byteType);
@@ -53,7 +54,7 @@ public class ContractGenerator {
         ////////////////////////////////////////////////////////////////////////
         // Sign the mutation with the private key
         Signature signature = Signature.getInstance("RSA", "BC");
-        signature.initSign( KEY_BUYER.getPrivateKey(), new FixedRand() );
+        signature.initSign( buyerKey.getPrivateKey(), new FixedRand() );
         signature.update(digestType);
         signature.update(digestTimestamp);
         signature.update(digestSeller);
@@ -73,7 +74,7 @@ public class ContractGenerator {
         LOGGER.info("hash=\""+hash+"\"");
 
         // Create the JSON representation of the transaction to post
-        Transaction transaction = new Transaction(new TransactionSignature(Hex.toHexString(sign), KEY_BUYER.getPublicKey()),
+        Transaction transaction = new Transaction(new TransactionSignature(Hex.toHexString(sign), buyerKey.getPublicKey()),
                 timestamp,
                 new TransactionData(0,
                         new String[]{Hex.toHexString(digestSeller), Hex.toHexString(digestBuyer)},
@@ -88,7 +89,7 @@ public class ContractGenerator {
 
     public String getPublicKey()
             throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException, InvalidKeyException, IOException {
-        return KEY_BUYER.getPublicKey();
+        return buyerKey.getPublicKey();
     }
 
     public String getTransaction(){
@@ -99,14 +100,14 @@ public class ContractGenerator {
         return hash;
     }
 
-    public Response postTransaction(String URL)
+    // Post the transaction.
+    public Response postTransaction(String url)
             throws IOException {
-        // Post the transaction.
         OkHttpClient client = createHttpClient();
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody    body = RequestBody.create(mediaType, jsonTransaction);
         Request     request = new Request.Builder()
-                .url(URL)
+                .url(url)
                 .post(body)
                 .build();
 

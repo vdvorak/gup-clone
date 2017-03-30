@@ -34,6 +34,9 @@ public class Order {
     private String seoUrl; // full SEO url with key
     private String seoKey; // only key - for search in DB
 
+    private String publicKey; // uset to blockchain
+    private String hashTransaction; // uset to blockchain
+
     private OrderAddress orderAddress;
     @NotNull
     private PaymentMethod paymentMethod;
@@ -147,6 +150,24 @@ public class Order {
 
     public Order setCompleteDate(Long completeDate) {
         this.completeDate = completeDate;
+        return this;
+    }
+
+    public String getPublicKey() {
+        return publicKey;
+    }
+
+    public Order setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
+        return this;
+    }
+
+    public String getHashTransaction() {
+        return hashTransaction;
+    }
+
+    public Order setHashTransaction(String hashTransaction) {
+        this.hashTransaction = hashTransaction;
         return this;
     }
 
@@ -299,6 +320,8 @@ public class Order {
                 ", offerTitle='" + offerTitle + '\'' +
                 ", seoUrl='" + seoUrl + '\'' +
                 ", seoKey='" + seoKey + '\'' +
+                ", publicKey='" + publicKey + '\'' +
+                ", hashTransaction='" + hashTransaction + '\'' +
                 ", orderAddress=" + orderAddress +
                 ", paymentMethod=" + paymentMethod +
                 ", trackNumber='" + trackNumber + '\'' +

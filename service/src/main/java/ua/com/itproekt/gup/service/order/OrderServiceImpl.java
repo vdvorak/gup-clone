@@ -92,6 +92,8 @@ public class OrderServiceImpl implements OrderService {
                 .setOfferTitle(order.getOfferTitle())
                 .setOfferMainImageId(order.getOfferMainImageId())
                 .setCreatedDateEqualsToCurrentDate()
+                .setPublicKey(order.getPublicKey())
+                .setHashTransaction(order.getHashTransaction())
                 .setOrderAddress(order.getOrderAddress())
                 .setOrderStatus(OrderStatus.NEW)
                 .setSellerNote(null) //when order create - buyer can not change seller note
