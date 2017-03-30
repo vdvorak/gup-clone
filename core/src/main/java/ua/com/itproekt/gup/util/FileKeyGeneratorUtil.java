@@ -34,9 +34,9 @@ public class FileKeyGeneratorUtil {
     public String getPublicKey()
             throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException {
         RSAPublicKey publicKey = (RSAPublicKey) key.getPublic();
-        FileKeyGeneratorUtil.write(publicKey, "PUBLIC KEY", FILE_PUBLIC_KEY);
+        FileKeyGeneratorUtil.write(publicKey, "PUBLIC KEY", FILE_PUBLIC_KEY0);
         FileKey filePublicKey = new FileKey();
-        return filePublicKey.read(FILE_PUBLIC_KEY0);
+        return filePublicKey.read(FILE_PUBLIC_KEY);
     }
 
     public PrivateKey getPrivateKey()
