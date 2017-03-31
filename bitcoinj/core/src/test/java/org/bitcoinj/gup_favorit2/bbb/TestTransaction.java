@@ -25,7 +25,7 @@ import java.security.interfaces.RSAPublicKey;
 
 
 /**
- * @see https://forum.openchain.org/t/submit-transaction-in-java-with-bouncycastle/144
+ http://stackoverflow.com/questions/7124735/hmac-sha256-algorithm-for-signature-calculation
  */
 
 public class TestTransaction {

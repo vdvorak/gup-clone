@@ -18,6 +18,10 @@ public class FileKey {
         pemObject = new PemObject(description, key.getEncoded());
     }
 
+    public FileKey(byte[] encoded, String description) {
+        pemObject = new PemObject(description, encoded);
+    }
+
     public void write(String filename)
             throws FileNotFoundException, IOException {
         PemWriter pemWriter = new PemWriter(new OutputStreamWriter(new FileOutputStream(filename)));

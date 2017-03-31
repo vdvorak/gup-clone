@@ -1,4 +1,7 @@
-package org.bitcoinj.gup_favorit2.bbb;
+package ua.com.itproekt.gup.service.blockchain.storageOK;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.util.encoders.Hex;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,14 +18,13 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
 
-
 /**
  * @see https://www.txedo.com/blog/java-generate-rsa-keys-write-pem-file/
  */
 
-public class Main {
+public class MainWriteKey {
 
-    public static final int     KEY_SIZE = 2048; // 1024
+    public static final int     KEY_SIZE = 2048;
 
     public static void main(String[] args)
             throws FileNotFoundException, IOException, NoSuchAlgorithmException, NoSuchProviderException {
@@ -32,8 +34,8 @@ public class Main {
         RSAPrivateKey priv = (RSAPrivateKey) keyPair.getPrivate();
         RSAPublicKey   pub = (RSAPublicKey) keyPair.getPublic();
 
-        writePemFile(priv, "PRIVATE KEY", "id_rsa"); //writePemFile(priv, "RSA PRIVATE KEY", "id_rsa");
-        writePemFile(pub, "PUBLIC KEY", "id_rsa.pub"); //writePemFile(pub, "RSA PUBLIC KEY", "id_rsa.pub");
+        writePemFile(priv, "PRIVATE KEY", "id_rsa");
+        writePemFile(pub, "PUBLIC KEY", "id_rsa.pub");
 
         /////////////////////////////////
         String content = new String(Files.readAllBytes(Paths.get("id_rsa.pub")));
@@ -62,7 +64,6 @@ public class Main {
         generator.initialize(KEY_SIZE);
 
         KeyPair keyPair = generator.generateKeyPair();
-        LOGGER.info("RSA key pair generated.");
         return keyPair;
     }
 
@@ -70,8 +71,7 @@ public class Main {
             throws FileNotFoundException, IOException {
         PemFile pemFile = new PemFile(key, description);
         pemFile.write(filename);
-
-        LOGGER.info(String.format("%s successfully writen in file %s.", description, filename));
     }
 
 }
+

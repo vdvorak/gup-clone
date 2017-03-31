@@ -59,4 +59,11 @@ public class FileKeyGeneratorUtil {
         file.write(filename);
     }
 
+    public static void write(byte[] encoded, String description, String filename)
+            throws FileNotFoundException, IOException {
+        FileKey file = new FileKey(encoded, description);
+        LOGGER.info("key="+encoded+"; filename="+filename+"; description=\""+description+"\";");
+        file.write(filename);
+    }
+
 }
