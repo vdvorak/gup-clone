@@ -9,6 +9,9 @@ public class TransactionData {
     private String[] members;
     private AdditionalInfo additionalInfo;
 
+    private TransactionData(){
+    }
+
     public TransactionData(int logicRef, String[] members, String additionalInfo){
         this.logicRef = logicRef;
         this.members = members;

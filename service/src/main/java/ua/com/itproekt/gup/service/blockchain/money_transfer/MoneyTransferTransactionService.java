@@ -1,72 +1,79 @@
-package ua.com.itproekt.gup.service.blockchain.contract;
+package ua.com.itproekt.gup.service.blockchain.money_transfer;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import com.google.gson.Gson;
+import okhttp3.*;
+import org.bouncycastle.util.encoders.Hex;
+import ua.com.itproekt.gup.model.order.blockchain.TransactionSignature;
+import ua.com.itproekt.gup.model.order.blockchain.money_transfer.MoneyTransferTransaction;
+import ua.com.itproekt.gup.model.order.blockchain.money_transfer.TransactionOutput;
+import ua.com.itproekt.gup.service.blockchain.TransactionService;
+import ua.com.itproekt.gup.util.FileKeyGenerator;
+import org.apache.log4j.Logger;
+
+import javax.net.ssl.*;
 import java.io.IOException;
 import java.security.*;
-
-import java.security.Security;
-import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
+
+import java.security.cert.X509Certificate;
+import java.security.cert.CertificateException;
 import java.util.Date;
 import java.util.Random;
 
-import com.google.gson.Gson;
-import okhttp3.*;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.util.encoders.Hex;
-import ua.com.itproekt.gup.model.order.blockchain.Chain;
-import ua.com.itproekt.gup.model.order.blockchain.contract.ContractTransaction;
-import ua.com.itproekt.gup.model.order.blockchain.contract.TransactionData;
-import ua.com.itproekt.gup.model.order.blockchain.TransactionSignature;
-import ua.com.itproekt.gup.service.blockchain.TransactionService;
-import ua.com.itproekt.gup.util.FileKeyGenerator;
-
-import javax.net.ssl.*;
-
-import java.security.cert.CertificateException;
-
-import org.apache.log4j.Logger;
+import ua.com.itproekt.gup.model.order.blockchain.money_transfer.TransactionData;
 
 
-public class ContractTransactionService implements TransactionService {
+public class MoneyTransferTransactionService implements TransactionService {
 
-    protected final static Logger            LOGGER = Logger.getLogger(ContractTransactionService.class);
+    protected final static Logger            LOGGER = Logger.getLogger(MoneyTransferTransactionService.class);
     public static final String URL_PUSH_TRANSACTION = "http://gup.com.ua:3000/bc/push-transaction"; // BlockChain-Service: push-transaction
-    public static final String     TYPE_TRANSACTION = "CONTRACT"; // тип транзакции
-    private String             CONTRACT_TRANSACTION;
+    public static final String     TYPE_TRANSACTION = "MONEY_TRANSFER"; // тип транзакции
+    private String       MONEY_TRANSFER_TRANSACTION;
     private String                             hash;
     private FileKeyGenerator                keyPair;
 
-    public ContractTransactionService(String[] members, String additionalInfo)
+    public final static String USER_CARD_DETAILS = "587ca08e4c8e89327948309e"; // ID_SELLER карта продавца
+    public final static long              AMOUNT = 1000000;                    // (ID_SELLER) сумма на балансе продавца
+    public final static long BANK_TRANSACTION_ID = 1;
+
+    public MoneyTransferTransactionService(String ID_SELLER)
             throws NullPointerException, NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException
     {
         Security.addProvider(new BouncyCastleProvider());
 
-        /////////////////////////////////////////////////// Профиль (0.1)
-        // Делаем в момент регистрации нового юзера
-        String ID_SELLER = null, ID_BUYER = null;
-        if (2<=members.length){
-            ID_SELLER = members[0];
-            ID_BUYER = members[1];
-            keyPair = new FileKeyGenerator();                     // 1. Создаем пользовательские ключи для шифрования (generate RSA-Key...)   ???   вытягиваем ключ из базы-users...
-        } else {
-            throw new IllegalArgumentException("ID_SELLER & ID_BUYER ?");
-        }
+        FileKeyGenerator  keyPairSeller1 = new FileKeyGenerator(); // ID_SELLER... ???
+        TransactionOutput  sellerOutput1 = new TransactionOutput(AMOUNT, keyPairSeller1.readPublic(), 0);
+        TransactionOutput[]      OUTPUTS = {sellerOutput1};
+        keyPair                          = new FileKeyGenerator();   // 1. Создаем ключи магазина для шифрования (generate RSA-Key...)   ???   вытягиваем ключ из файла...
+
+        byte[] SIGNATURE;
+        /////////////////////////////////////////////////// Клиент (0.1)
+        // (сторона-1)
+        Signature signature = Signature.getInstance("RSA", "BC");
+        signature.initSign( keyPair.getPrivate() );                  // 4. Создаем подпись-магазина на основе приватного ключа магазина
+        SIGNATURE = signature.sign();                                // 5. Подписываем эти данные-магазина...
 
 
         Gson gson = new Gson();
         /////////////////////////////////////////////////// Профиль (0.2)
         // При покупке вытягиваю информацию-покупателя об юзере
-        long timestamp = new Date().getTime();
-        String    TEST = gson.toJson(new TransactionData(0, new String[]{ID_SELLER, ID_BUYER}, additionalInfo)); // Есть пользовательские данные которые нужно зашифровать, передать и проверить...
-        String strHash = TYPE_TRANSACTION + hashGenerator() + timestamp; // (type + <random> + timestamp) = SHA-265
+        long       timestamp = new Date().getTime();
+        String          TEST = gson.toJson(new TransactionData(USER_CARD_DETAILS, AMOUNT, keyPair.readPublic(), Hex.toHexString(SIGNATURE), BANK_TRANSACTION_ID)); // Есть пользовательские данные которые нужно зашифровать, передать и проверить...
+        String       strHash = TYPE_TRANSACTION + hashGenerator() + timestamp; // (type + <random> + timestamp) = SHA-265
+        String strHashInput1 = TYPE_TRANSACTION + hashGenerator() + timestamp; // (type + <random> + timestamp) = SHA-265
+        String strHashInput2 = TYPE_TRANSACTION + hashGenerator() + timestamp; // (type + <random> + timestamp) = SHA-265
+        String strHashInput3 = TYPE_TRANSACTION + hashGenerator() + timestamp; // (type + <random> + timestamp) = SHA-265
 
         LOGGER.info(timestamp);
         LOGGER.info(TEST);
         LOGGER.info(strHash);
+        LOGGER.info(strHashInput1 + " | " + strHashInput2 + " | " + strHashInput3);
 
 
-        byte[] DATA_TRANSACTION, SIGNATURE, HASH_TRANSACTION;
-        String SIGNATURE_TRANSACTION, CONTRACT_TRANSACTION;
+        byte[] DATA_TRANSACTION, HASH_TRANSACTION, HASH_INPUT1, HASH_INPUT2, HASH_INPUT3;
+        String SIGNATURE_TRANSACTION, MONEY_TRANSFER_TRANSACTION;
+        String[] HASH_INPUTS;
         /////////////////////////////////////////////////// Клиент (0.1)
         // (сторона-1)
         // Делаем запрос в банк - узнаем счет-покупателя и баланс на этом счете покупателя
@@ -76,20 +83,20 @@ public class ContractTransactionService implements TransactionService {
         byte[] digestDATA = msg.digest(DATA_TRANSACTION);
         HASH_TRANSACTION  = strHash.getBytes("UTF-8");
         byte[] digestHASH = msg.digest(HASH_TRANSACTION);
-
-        Signature signature = Signature.getInstance("RSA", "BC");
-        signature.initSign( keyPair.getPrivate() );              // 4. Создаем подпись-владельца на основе клиентского приватного ключа
-        signature.update(digestDATA);
-
-        SIGNATURE = signature.sign();                            // 5. Подписываем эти данные-владельца...
-        LOGGER.info("(String) type:        " + TYPE_TRANSACTION);
-        LOGGER.info("  (Long) timestamp:   " + timestamp);
-        LOGGER.info("(digest) DATA:        " + Hex.toHexString(digestDATA)); // System.out.println( "Data: " + new BASE64Encoder().encode( DATA ) );
-        LOGGER.info("(digest) hash:        " + Hex.toHexString(digestHASH));
-        LOGGER.info("   (RSA) PRIVATE-KEY: " + keyPair.getPrivate());
-//        byte[] digestSIGNATURE = msg.digest(SIGNATURE);
-//        System.out.println( "Singature: " + Hex.toHexString(SIGNATURE));  // System.out.println( "Singature: " + new BASE64Encoder().encode( SIGNATURE ) );
-//        System.out.println( "Singature: " + (Hex.toHexString(digestSIGNATURE)));
+        HASH_INPUT1  = strHashInput1.getBytes("UTF-8");
+        byte[] digestHASH_INPUT1 = msg.digest(HASH_INPUT1);
+        HASH_INPUT2  = strHashInput2.getBytes("UTF-8");
+        byte[] digestHASH_INPUT2 = msg.digest(HASH_INPUT2);
+        HASH_INPUT3  = strHashInput3.getBytes("UTF-8");
+        byte[] digestHASH_INPUT3 = msg.digest(HASH_INPUT3);
+        HASH_INPUTS = new String[] {Hex.toHexString(digestHASH_INPUT1), Hex.toHexString(digestHASH_INPUT2), Hex.toHexString(digestHASH_INPUT3)};
+        LOGGER.info("(String) type:            " + TYPE_TRANSACTION);
+        LOGGER.info("  (Long) timestamp:       " + timestamp);
+        LOGGER.info("(digest) DATA:            " + Hex.toHexString(digestDATA)); // System.out.println( "Data: " + new BASE64Encoder().encode( DATA ) );
+        LOGGER.info("(digest) hash:            " + Hex.toHexString(digestHASH));
+        LOGGER.info("(RSA) STORE PRIVATE-KEY:  " + keyPair.getPrivate());
+        LOGGER.info("(RSA) SELLER PRIVATE-KEY: " + keyPairSeller1.getPrivate());
+        LOGGER.info("INPUTS:                   " + HASH_INPUTS);
         SIGNATURE_TRANSACTION = gson.toJson(new TransactionSignature(
                 Hex.toHexString(SIGNATURE), // (String) Hex
                 keyPair.readPublic())       // RSA Public Key
@@ -97,44 +104,27 @@ public class ContractTransactionService implements TransactionService {
         LOGGER.info("Singature (TRANSACTION): " + SIGNATURE_TRANSACTION);
 
 
+
+
+
         this.hash = Hex.toHexString(digestHASH);
         /////////////////////////////////////////////////// Клиент (0.2)
-        // Создаем транзакцию типа: 'CONTRACT'
-        ContractTransaction transaction = new ContractTransaction(
+        // Создаем транзакцию типа: 'MONEY_TRANSFER'
+        MONEY_TRANSFER_TRANSACTION = gson.toJson(new MoneyTransferTransaction(
                 Hex.toHexString(digestDATA),                                                // (JSON) SHA-256
                 new TransactionSignature(Hex.toHexString(SIGNATURE), keyPair.readPublic()), // Class
                 timestamp,                                                                  // Long
-                Hex.toHexString(digestHASH)                                                 // (type + <random> + timestamp) SHA-256
-        );
-        Chain       contract = new Chain(TYPE_TRANSACTION, transaction);
-        CONTRACT_TRANSACTION = gson.toJson(contract);
-
-        if (CONTRACT_TRANSACTION!=null){
-            this.CONTRACT_TRANSACTION = CONTRACT_TRANSACTION;
-            LOGGER.info("Contract (TRANSACTION): " + this.CONTRACT_TRANSACTION);
-        } else {
-            throw new ExceptionInInitializerError("Can't create CONTRACT_TRANSACTION ?");
-        }
-
-
-//        System.out.println();
-//        System.out.println();
-//        System.out.println();
-//        /////////////////////////////////////////////////// Клиент (сторона-2)
-//        Signature signature2 = Signature.getInstance("RSA", "BC");
-//        signature2.initVerify( keyPair.getPublic() );  // 6. Расшифровываем подпись-владельца на основе клиентского публичного ключа
-//        signature2.update(digestDATA);
-//
-//        System.out.println( "digestDATA: " + Hex.toHexString(digestDATA) ); // System.out.println( "Data: " + new BASE64Encoder().encode( DATA ) );
-//        System.out.println( "PUBLIC-KEY: " + keyPair.getPublic() );
-//        System.out.println( "Verify by Singature: " + signature2.verify( SIGNATURE ) );
+                Hex.toHexString(digestHASH),                                                // (type + <random> + timestamp) SHA-256
+                HASH_INPUTS,                                                                // {(type + <random> + timestamp) SHA-256, (type + <random> + timestamp) SHA-256, ...}
+                OUTPUTS                                                                     // {Class, Class, ...}
+        ));
+        LOGGER.info("MONEY_TRANSFER (TRANSACTION): " + MONEY_TRANSFER_TRANSACTION);
     }
 
     @Override
     public Response postTransaction()
-            throws IOException
-    {
-        return postTransaction(URL_PUSH_TRANSACTION, CONTRACT_TRANSACTION);
+            throws IOException {
+        return postTransaction(URL_PUSH_TRANSACTION, MONEY_TRANSFER_TRANSACTION);
     }
 
     @Override

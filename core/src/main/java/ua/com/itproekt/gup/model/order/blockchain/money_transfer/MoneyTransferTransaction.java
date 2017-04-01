@@ -1,36 +1,53 @@
-package ua.com.itproekt.gup.model.order.blockchain.contract;
+package ua.com.itproekt.gup.model.order.blockchain.money_transfer;
 
 import ua.com.itproekt.gup.model.order.blockchain.Transaction;
 import ua.com.itproekt.gup.model.order.blockchain.TransactionSignature;
 
+import java.util.Arrays;
 
-public class ContractTransaction implements Transaction {
+
+public class MoneyTransferTransaction implements Transaction {
 
     private String                    type; /* String                                */
     private String                    data; /* (JSON) SHA-256                        */
     private TransactionSignature signature; /* Class                                 */
     private long                 timestamp; /* Long                                  */
     private String                   _hash; /* (type + <random> + timestamp) SHA-256 */
+    private String[]                inputs; /* SHA-256                               */
+    private TransactionOutput[]   outputs; /* Class                                 */
 
     /**
+     *
      * @param data      (JSON) SHA-256
      * @param signature Class
      * @param timestamp Long
      * @param _hash     (type + <random> + timestamp) SHA-256
+     * @param inputs    SHA-256
+     * @param outputs   Class
      */
-    public ContractTransaction(String data, TransactionSignature signature, long timestamp, String _hash){
+    public MoneyTransferTransaction(String data, TransactionSignature signature, long timestamp, String _hash, String[] inputs, TransactionOutput[] outputs){
+        this.data = data;
         this.signature = signature;
         this.timestamp = timestamp;
-        this.data = data;
         this._hash = _hash;
+        this.inputs = inputs;
+        this.outputs = outputs;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 
     public TransactionSignature getSignature() {
@@ -49,14 +66,6 @@ public class ContractTransaction implements Transaction {
         this.timestamp = timestamp;
     }
 
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
     public String get_hash() {
         return _hash;
     }
@@ -65,14 +74,32 @@ public class ContractTransaction implements Transaction {
         this._hash = _hash;
     }
 
+    public String[] getInputs() {
+        return inputs;
+    }
+
+    public void setInputs(String[] inputs) {
+        this.inputs = inputs;
+    }
+
+    public TransactionOutput[] getOutputs() {
+        return outputs;
+    }
+
+    public void setOutputs(TransactionOutput[] outputs) {
+        this.outputs = outputs;
+    }
+
     @Override
     public String toString() {
-        return "Transaction{" +
+        return "MoneyTransferTransaction{" +
                 "type='" + type + '\'' +
+                ", data='" + data + '\'' +
                 ", signature=" + signature +
                 ", timestamp=" + timestamp +
-                ", data=" + data +
                 ", _hash='" + _hash + '\'' +
+                ", inputs=" + Arrays.toString(inputs) +
+                ", outputs=" + Arrays.toString(outputs) +
                 '}';
     }
 }

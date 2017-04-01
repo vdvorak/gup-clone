@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.order.blockchain.contract;
+package ua.com.itproekt.gup.model.order.blockchain;
 
 
 public class TransactionSignature {
