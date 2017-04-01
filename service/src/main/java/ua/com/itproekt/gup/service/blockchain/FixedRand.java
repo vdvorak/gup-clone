@@ -19,10 +19,12 @@ public class FixedRand extends SecureRandom {
             throw new RuntimeException("Can't find SHA-256");
         }
     }
-    public void nextBytes(
-            byte[] bytes) {
+
+    @Override
+    public void nextBytes(byte[] bytes) {
         int off = 0;
         sha.update(state);
+
         while (off < bytes.length) {
             state = sha.digest();
             if (bytes.length - off > state.length) {
