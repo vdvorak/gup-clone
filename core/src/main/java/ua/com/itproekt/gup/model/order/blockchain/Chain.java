@@ -7,7 +7,7 @@ public class Chain {
 
     private Transaction transaction;
 
-    public Chain(String type, ContractTransaction transaction){
+    public Chain(String type, Transaction transaction){
         this.transaction = transaction;
         this.transaction.setType(type);
     }

@@ -1,6 +1,8 @@
 package ua.com.itproekt.gup.service.blockchain;
 
 import okhttp3.Response;
+import ua.com.itproekt.gup.model.order.blockchain.Chain;
+import ua.com.itproekt.gup.model.order.blockchain.Transaction;
 import ua.com.itproekt.gup.util.FileKeyGenerator;
 
 import java.io.IOException;
@@ -25,6 +27,10 @@ public class ChainService {
 
     public FileKeyGenerator getKeyPair() {
         return transactionService.getKeyPair();
+    }
+
+    public Transaction getTransaction(){
+        return transactionService.getTransaction();
     }
 
 }

@@ -4,6 +4,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import com.google.gson.Gson;
 import okhttp3.*;
 import org.bouncycastle.util.encoders.Hex;
+import ua.com.itproekt.gup.model.order.blockchain.Transaction;
 import ua.com.itproekt.gup.model.order.blockchain.TransactionSignature;
 import ua.com.itproekt.gup.model.order.blockchain.money_transfer.MoneyTransferTransaction;
 import ua.com.itproekt.gup.model.order.blockchain.money_transfer.TransactionOutput;
@@ -21,6 +22,7 @@ import java.security.cert.CertificateException;
 import java.util.Date;
 import java.util.Random;
 
+import ua.com.itproekt.gup.model.order.blockchain.Chain;
 import ua.com.itproekt.gup.model.order.blockchain.money_transfer.TransactionData;
 
 
@@ -32,6 +34,7 @@ public class MoneyTransferTransactionService implements TransactionService {
     private String       MONEY_TRANSFER_TRANSACTION;
     private String                             hash;
     private FileKeyGenerator                keyPair;
+    private Transaction                 transaction;
 
     public final static String USER_CARD_DETAILS = "587ca08e4c8e89327948309e"; // ID_SELLER карта продавца
     public final static long              AMOUNT = 1000000;                    // (ID_SELLER) сумма на балансе продавца
@@ -104,21 +107,27 @@ public class MoneyTransferTransactionService implements TransactionService {
         LOGGER.info("Singature (TRANSACTION): " + SIGNATURE_TRANSACTION);
 
 
-
-
-
         this.hash = Hex.toHexString(digestHASH);
         /////////////////////////////////////////////////// Клиент (0.2)
         // Создаем транзакцию типа: 'MONEY_TRANSFER'
-        MONEY_TRANSFER_TRANSACTION = gson.toJson(new MoneyTransferTransaction(
+        MoneyTransferTransaction transaction = new MoneyTransferTransaction(
                 Hex.toHexString(digestDATA),                                                // (JSON) SHA-256
                 new TransactionSignature(Hex.toHexString(SIGNATURE), keyPair.readPublic()), // Class
                 timestamp,                                                                  // Long
                 Hex.toHexString(digestHASH),                                                // (type + <random> + timestamp) SHA-256
                 HASH_INPUTS,                                                                // {(type + <random> + timestamp) SHA-256, (type + <random> + timestamp) SHA-256, ...}
                 OUTPUTS                                                                     // {Class, Class, ...}
-        ));
-        LOGGER.info("MONEY_TRANSFER (TRANSACTION): " + MONEY_TRANSFER_TRANSACTION);
+        );
+        this.transaction           = transaction;
+        Chain        moneyTransfer = new Chain(TYPE_TRANSACTION, transaction);
+        MONEY_TRANSFER_TRANSACTION = gson.toJson(moneyTransfer);
+
+        if (MONEY_TRANSFER_TRANSACTION!=null){
+            this.MONEY_TRANSFER_TRANSACTION = MONEY_TRANSFER_TRANSACTION;
+            LOGGER.info("MONEY_TRANSFER (TRANSACTION): " + this.MONEY_TRANSFER_TRANSACTION);
+        } else {
+            throw new ExceptionInInitializerError("Can't create MONEY_TRANSFER_TRANSACTION ?");
+        }
     }
 
     @Override
@@ -135,6 +144,11 @@ public class MoneyTransferTransactionService implements TransactionService {
     @Override
     public FileKeyGenerator getKeyPair() {
         return keyPair;
+    }
+
+    @Override
+    public Transaction getTransaction() {
+        return transaction;
     }
 
     // Post the transaction.
@@ -194,5 +208,7 @@ public class MoneyTransferTransactionService implements TransactionService {
             throw new RuntimeException(e);
         }
     }
+
+
 
 }

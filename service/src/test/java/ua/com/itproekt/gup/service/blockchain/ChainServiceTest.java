@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import okhttp3.*;
 import ua.com.itproekt.gup.service.blockchain.contract.ContractTransactionService;
+import ua.com.itproekt.gup.service.blockchain.money_transfer.MoneyTransferTransactionService;
 
 import java.io.IOException;
 import java.security.*;
@@ -27,13 +28,32 @@ public class ChainServiceTest {
     public void tearDown() {
     }
 
+//    /**
+//     * Test Contract-Transaction Service
+//     */
+//    @Test
+//    public void testContractTransactionService() {
+//        try {
+//            service = new ChainService(new ContractTransactionService(new String[] {ID_SELLER, ID_BUYER}, "ul-drahomanova-dlia-odnoho-muzhchiny-ili-pary-bez-detei-h7"));
+//
+//            System.err.println("_hash:      " + service.getHash());
+//            System.err.println("PUBLIC-KEY: " + service.getKeyPair().readPublic());
+//
+//            Response response = service.postTransaction();
+//            System.err.println("code:       " + response.code());
+//            System.err.println("body:       " + response.body().string());
+//        } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
+//            System.err.println(e.getMessage());
+//        }
+//    }
+
     /**
-     * Test Contract-Transaction Service
+     * Test MoneyTransfer-Transaction Service
      */
     @Test
-    public void testContractTransactionService() {
+    public void testMoneyTransferTransactionService() {
         try {
-            service = new ChainService(new ContractTransactionService(new String[] {ID_SELLER, ID_BUYER}, "ul-drahomanova-dlia-odnoho-muzhchiny-ili-pary-bez-detei-h7"));
+            service = new ChainService(new MoneyTransferTransactionService(ID_SELLER));
 
             System.err.println("_hash:      " + service.getHash());
             System.err.println("PUBLIC-KEY: " + service.getKeyPair().readPublic());

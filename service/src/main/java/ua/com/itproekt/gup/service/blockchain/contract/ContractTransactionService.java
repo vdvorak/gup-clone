@@ -14,6 +14,7 @@ import okhttp3.*;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
 import ua.com.itproekt.gup.model.order.blockchain.Chain;
+import ua.com.itproekt.gup.model.order.blockchain.Transaction;
 import ua.com.itproekt.gup.model.order.blockchain.contract.ContractTransaction;
 import ua.com.itproekt.gup.model.order.blockchain.contract.TransactionData;
 import ua.com.itproekt.gup.model.order.blockchain.TransactionSignature;
@@ -35,6 +36,7 @@ public class ContractTransactionService implements TransactionService {
     private String             CONTRACT_TRANSACTION;
     private String                             hash;
     private FileKeyGenerator                keyPair;
+    private Transaction                 transaction;
 
     public ContractTransactionService(String[] members, String additionalInfo)
             throws NullPointerException, NoSuchProviderException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException
@@ -106,6 +108,7 @@ public class ContractTransactionService implements TransactionService {
                 timestamp,                                                                  // Long
                 Hex.toHexString(digestHASH)                                                 // (type + <random> + timestamp) SHA-256
         );
+        this.transaction     = transaction;
         Chain       contract = new Chain(TYPE_TRANSACTION, transaction);
         CONTRACT_TRANSACTION = gson.toJson(contract);
 
@@ -145,6 +148,11 @@ public class ContractTransactionService implements TransactionService {
     @Override
     public FileKeyGenerator getKeyPair() {
         return keyPair;
+    }
+
+    @Override
+    public Transaction getTransaction() {
+        return transaction;
     }
 
     // Post the transaction.
