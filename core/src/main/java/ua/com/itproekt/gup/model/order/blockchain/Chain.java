@@ -2,7 +2,6 @@ package ua.com.itproekt.gup.model.order.blockchain;
 
 
 import ua.com.itproekt.gup.model.order.blockchain.contract.ContractTransaction;
-import ua.com.itproekt.gup.model.order.blockchain.contract.Transaction;
 
 public class Chain {
 

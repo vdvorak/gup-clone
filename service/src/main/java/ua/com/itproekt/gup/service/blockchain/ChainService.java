@@ -1,7 +1,6 @@
 package ua.com.itproekt.gup.service.blockchain;
 
 import okhttp3.Response;
-import ua.com.itproekt.gup.service.blockchain.contract.TransactionService;
 import ua.com.itproekt.gup.util.FileKeyGenerator;
 
 import java.io.IOException;

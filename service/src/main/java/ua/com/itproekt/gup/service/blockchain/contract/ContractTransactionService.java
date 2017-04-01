@@ -17,6 +17,7 @@ import ua.com.itproekt.gup.model.order.blockchain.Chain;
 import ua.com.itproekt.gup.model.order.blockchain.contract.ContractTransaction;
 import ua.com.itproekt.gup.model.order.blockchain.contract.TransactionData;
 import ua.com.itproekt.gup.model.order.blockchain.contract.TransactionSignature;
+import ua.com.itproekt.gup.service.blockchain.TransactionService;
 import ua.com.itproekt.gup.util.FileKeyGenerator;
 
 import javax.net.ssl.*;

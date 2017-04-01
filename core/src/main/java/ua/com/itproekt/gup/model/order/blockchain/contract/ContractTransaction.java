@@ -1,5 +1,7 @@
 package ua.com.itproekt.gup.model.order.blockchain.contract;
 
+import ua.com.itproekt.gup.model.order.blockchain.Transaction;
+
 
 public class ContractTransaction implements Transaction {
 
