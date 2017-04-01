@@ -3,9 +3,14 @@ package ua.com.itproekt.gup.model.order.blockchain.contract;
 
 public class TransactionSignature {
 
-    private String sign;
-    private String publicKey;
+    private String sign;      /* (String) Hex   */
+    private String publicKey; /* RSA Public Key */
 
+    /**
+     *
+     * @param sign      (String) Hex
+     * @param publicKey RSA Public Key
+     */
     public TransactionSignature(String sign, String publicKey){
         this.sign = sign;
         this.publicKey = publicKey;
@@ -29,7 +34,7 @@ public class TransactionSignature {
 
     @Override
     public String toString() {
-        return "TransactionDataSignature{" +
+        return "TransactionSignature{" +
                 "sign='" + sign + '\'' +
                 ", publicKey='" + publicKey + '\'' +
                 '}';

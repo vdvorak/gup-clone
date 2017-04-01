@@ -1,17 +1,14 @@
 package ua.com.itproekt.gup.model.order.blockchain;
 
 
+import ua.com.itproekt.gup.model.order.blockchain.contract.ContractTransaction;
 import ua.com.itproekt.gup.model.order.blockchain.contract.Transaction;
 
 public class Chain {
 
     private Transaction transaction;
 
-    public Chain(Transaction transaction){
-        this.transaction = transaction;
-    }
-
-    public Chain(Transaction transaction, String type){
+    public Chain(String type, ContractTransaction transaction){
         this.transaction = transaction;
         this.transaction.setType(type);
     }
@@ -26,7 +23,7 @@ public class Chain {
 
     @Override
     public String toString() {
-        return "Contract{" +
+        return "Chain{" +
                 "transaction=" + transaction +
                 '}';
     }

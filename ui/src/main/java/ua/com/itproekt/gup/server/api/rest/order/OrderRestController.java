@@ -13,7 +13,8 @@ import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.OrderType;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
-import ua.com.itproekt.gup.service.blockchain.ContractGenerator;
+import ua.com.itproekt.gup.service.blockchain.ChainService;
+import ua.com.itproekt.gup.service.blockchain.contract.ContractTransactionService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.util.PaymentMethod;
@@ -109,9 +110,6 @@ public class OrderRestController {
     @RequestMapping(value = "/order/create/offer/{seoUrl}", method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateBuyerNote(@PathVariable String seoUrl) {
-        final String URL_PUSH_TRANSACTION = "http://gup.com.ua:3000/bc/push-transaction";
-        final String     TYPE_TRANSACTION = "CONTRACT";
-
         Offer offer = offersService.findBySeoUrlAndIncViews(seoUrl);
         if (offer == null) {
             return new ResponseEntity<>("Offer was not found", HttpStatus.NOT_FOUND);
@@ -123,24 +121,21 @@ public class OrderRestController {
         if (userId!=null){
             if (!userId.equals(offer.getAuthorId())){
                 try {
-                    ContractGenerator contract = new ContractGenerator(TYPE_TRANSACTION, offer.getAuthorId(), userId, offer.getSeoUrl());
+                    ChainService service = new ChainService(new ContractTransactionService(new String[] {offer.getAuthorId(), userId}, offer.getSeoUrl()));
 
                     System.err.println("------------------------------------------------------------------------------");
-                    System.err.println( contract.getPublicKey() );
-                    System.err.println();
-                    System.err.println( contract.getTransaction() );
-                    System.err.println();
-                    System.err.println( contract.getHashTransaction() );
+                    System.err.println("_hash:      " + service.getHash());
+                    System.err.println("PUBLIC-KEY: " + service.getKeyPair().readPublic());
                     System.err.println("------------------------------------------------------------------------------");
 
+                    okhttp3.Response response = service.postTransaction();
                     // create order
-                    okhttp3.Response response = contract.postTransaction(URL_PUSH_TRANSACTION);
                     if (response.code()==200) {
                         Order order = new Order();
                         order.setOfferId(offer.getId());
                         order.setPaymentMethod(PaymentMethod.CARD_PAYMENT);
-                        order.setPublicKey(contract.getPublicKey());
-                        order.setHashTransaction(contract.getHashTransaction());
+                        order.setPublicKey(service.getKeyPair().readPublic());
+                        order.setHashTransaction(service.getHash());
                         order.setSeoUrl(offer.getSeoUrl());
                         order.setSeoKey(offer.getSeoKey());
                         order.setOrderType(OrderType.PURCHASE);

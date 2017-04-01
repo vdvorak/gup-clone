@@ -1,9 +1,7 @@
 package ua.com.itproekt.gup.model.order.blockchain.contract;
 
-import ua.com.itproekt.gup.model.order.blockchain.TypeTransaction;
 
-
-public class ContractTransaction implements TypeTransaction {
+public class ContractTransaction implements Transaction {
 
     private String                    type; /* String                                */
     private String                    data; /* (JSON) SHA-256                        */

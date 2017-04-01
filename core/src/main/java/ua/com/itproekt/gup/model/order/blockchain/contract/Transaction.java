@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.order.blockchain;
+package ua.com.itproekt.gup.model.order.blockchain.contract;
 
 public interface Transaction {
 
