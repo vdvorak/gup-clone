@@ -1,23 +1,23 @@
 package ua.com.itproekt.gup.model.order.blockchain.contract;
 
+import ua.com.itproekt.gup.model.order.blockchain.TypeTransaction;
 
-public class Transaction {
 
-    private String                    type;
-    private TransactionSignature signature;
-    private long                 timestamp;
-    private TransactionData           data;
-    private String                   _hash;
+public class ContractTransaction implements TypeTransaction {
 
-    public Transaction(TransactionSignature signature, long timestamp, TransactionData data, String _hash){
-        this.signature = signature;
-        this.timestamp = timestamp;
-        this.data = data;
-        this._hash = _hash;
-    }
+    private String                    type; /* String                                */
+    private String                    data; /* (JSON) SHA-256                        */
+    private TransactionSignature signature; /* Class                                 */
+    private long                 timestamp; /* Long                                  */
+    private String                   _hash; /* (type + <random> + timestamp) SHA-256 */
 
-    public Transaction(String type, TransactionSignature signature, long timestamp, TransactionData data, String _hash){
-        this.type = type;
+    /**
+     * @param data      (JSON) SHA-256
+     * @param signature Class
+     * @param timestamp Long
+     * @param _hash     (type + <random> + timestamp) SHA-256
+     */
+    public ContractTransaction(String data, TransactionSignature signature, long timestamp, String _hash){
         this.signature = signature;
         this.timestamp = timestamp;
         this.data = data;
@@ -48,11 +48,11 @@ public class Transaction {
         this.timestamp = timestamp;
     }
 
-    public TransactionData getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(TransactionData data) {
+    public void setData(String data) {
         this.data = data;
     }
 

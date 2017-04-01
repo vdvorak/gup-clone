@@ -1,32 +1,22 @@
-package ua.com.itproekt.gup.service.blockchain;
+package ua.com.itproekt.gup.service.blockchain.contract;
 
 import java.security.*;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.security.Key;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.Security;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 import java.util.Date;
 import java.util.Random;
 
 import com.google.gson.Gson;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
-import sun.misc.BASE64Encoder;
-import ua.com.itproekt.gup.model.order.blockchain.contract.Contract;
+import ua.com.itproekt.gup.model.order.blockchain.Chain;
 import ua.com.itproekt.gup.model.order.blockchain.contract.Transaction;
 import ua.com.itproekt.gup.model.order.blockchain.contract.TransactionData;
 import ua.com.itproekt.gup.model.order.blockchain.contract.TransactionSignature;
 import ua.com.itproekt.gup.util.FileKeyGenerator;
 
 
-public class TypeContractGenerator {
+public class ContractTransactionService {
 
     public static final String URL_PUSH_TRANSACTION = "http://gup.com.ua:3000/bc/push-transaction"; // BlockChain-Service: push-transaction
     public static final String     TYPE_TRANSACTION = "CONTRACT"; // тип транзакции
@@ -35,72 +25,91 @@ public class TypeContractGenerator {
 
     public static void main(String[] args) throws Exception {
         Security.addProvider(new BouncyCastleProvider());
-        Gson gson = new Gson();
 
-        ///////////////////////////////////////////////////
+        /////////////////////////////////////////////////// Профиль (0.1)
+        // Делаем в момент регистрации нового юзера
+        FileKeyGenerator keyPair = new FileKeyGenerator();        // 1. Создаем пользовательские ключи для шифрования (generate RSA-Key...)
+
+
+        Gson gson = new Gson();
+        /////////////////////////////////////////////////// Профиль (0.2)
+        // При покупке вытягиваю информацию-покупателя об юзере
         long timestamp = new Date().getTime();
         String    TEST = gson.toJson(new TransactionData(0, new String[]{ID_SELLER, ID_BUYER}, "ul-drahomanova-dlia-odnoho-muzhchiny-ili-pary-bez-detei-h7")); // Есть пользовательские данные которые нужно зашифровать, передать и проверить...
         String strHash = TYPE_TRANSACTION + hashGenerator() + timestamp; // (type + <random> + timestamp) = SHA-265
-
-
 
         System.err.println(timestamp);
         System.err.println(TEST);
         System.err.println(strHash);
 
 
-
-
-
-        FileKeyGenerator keyPair = new FileKeyGenerator();        // 1. Создаем пользовательские ключи для шифрования (generate RSA-Key...)
-
-
-        /////////////////////////////////////////////////// Профиль (0)
-        byte[] SIGNATURE, DATA_TRANSACTION, HASH_TRANSACTION;
+        byte[] DATA_TRANSACTION, SIGNATURE, HASH_TRANSACTION;
         String SIGNATURE_TRANSACTION, CONTRACT_TRANSACTION;
-
-
-        System.out.println();
-        /////////////////////////////////////////////////// Клиент (сторона-1)
-        DATA_TRANSACTION  = TEST.getBytes("UTF8");                // 2. Переводим пользовательские данные в байт-код
-        HASH_TRANSACTION  = strHash.getBytes("UTF-8");
-        MessageDigest msg = MessageDigest.getInstance("SHA-256"); // 3. Указываем тип шифрования ( формат: SHA-256 )
+        /////////////////////////////////////////////////// Клиент (0.1)
+        // (сторона-1)
+        // Делаем запрос в банк - узнаем счет-покупателя и баланс на этом счете покупателя
+        // Дальше, если покупатель платеже-способен - тогда шифруем данные клиента
+        MessageDigest msg = MessageDigest.getInstance("SHA-256"); // 2. Указываем тип шифрования ( формат: SHA-256 )
+        DATA_TRANSACTION  = TEST.getBytes("UTF8");                // 3. Переводим пользовательские данные в байт-код
         byte[] digestDATA = msg.digest(DATA_TRANSACTION);
+        HASH_TRANSACTION  = strHash.getBytes("UTF-8");
+        byte[] digestHASH = msg.digest(HASH_TRANSACTION);
 
         Signature signature1 = Signature.getInstance("RSA", "BC");
         signature1.initSign( keyPair.getPrivate() );              // 4. Создаем подпись-владельца на основе клиентского приватного ключа
         signature1.update(digestDATA);
 
         SIGNATURE = signature1.sign();                            // 5. Подписываем эти данные-владельца...
-        System.out.println( "type: " + TYPE_TRANSACTION );
-        System.out.println( "timestamp: " + timestamp );
-        System.out.println( "digestDATA: " + Hex.toHexString(digestDATA) ); //        System.out.println( "Data: " + new BASE64Encoder().encode( DATA ) );
-        System.out.println( "hash: " + Hex.toHexString(HASH_TRANSACTION));
-        System.out.println( "PRIVATE-KEY: " + keyPair.getPrivate() );
-//        System.out.println( "Singature: " + Hex.toHexString(SIGNATURE)); //        System.out.println( "Singature: " + new BASE64Encoder().encode( SIGNATURE ) );
-        byte[] digestSIGNATURE = msg.digest(SIGNATURE);
+        System.out.println( "(String) type:        " + TYPE_TRANSACTION );
+        System.out.println( "  (Long) timestamp:   " + timestamp );
+        System.out.println( "(digest) DATA:        " + Hex.toHexString(digestDATA) ); // System.out.println( "Data: " + new BASE64Encoder().encode( DATA ) );
+        System.out.println( "(digest) hash:        " + Hex.toHexString(digestHASH));
+        System.out.println( "   (RSA) PRIVATE-KEY: " + keyPair.getPrivate() );
+//        byte[] digestSIGNATURE = msg.digest(SIGNATURE);
+//        System.out.println( "Singature: " + Hex.toHexString(SIGNATURE));  // System.out.println( "Singature: " + new BASE64Encoder().encode( SIGNATURE ) );
 //        System.out.println( "Singature: " + (Hex.toHexString(digestSIGNATURE)));
-        SIGNATURE_TRANSACTION = gson.toJson(new TransactionSignature(Hex.toHexString(digestSIGNATURE), keyPair.readPublic()));
+        SIGNATURE_TRANSACTION = gson.toJson(new TransactionSignature(
+                Hex.toHexString(SIGNATURE), // (String) Hex
+                keyPair.readPublic())       // RSA Public Key
+        );
         System.out.println( "Singature (TRANSACTION): " + SIGNATURE_TRANSACTION);
-        // Create the JSON representation of the transaction to post
-        Transaction transaction = new Transaction(new TransactionSignature(Hex.toHexString(digestSIGNATURE), keyPair.readPublic()),
-                timestamp,
-                new TransactionData(0, new String[]{ID_SELLER, ID_BUYER}, "ul-drahomanova-dlia-odnoho-muzhchiny-ili-pary-bez-detei-h7"), // Hex.toHexString(digestDATA)
-                Hex.toHexString(HASH_TRANSACTION));
-        Contract contract = new Contract(transaction, TYPE_TRANSACTION);
+
+
+        /////////////////////////////////////////////////// Клиент (0.2)
+        // Создаем транзакцию типа: 'CONTRACT'
+        Transaction transaction = new Transaction(
+                Hex.toHexString(digestDATA),                                                // (JSON) SHA-256
+                new TransactionSignature(Hex.toHexString(SIGNATURE), keyPair.readPublic()), // Class
+                timestamp,                                                                  // Long
+                Hex.toHexString(digestHASH)                                                 // (type + <random> + timestamp) SHA-256
+        );
+        Chain contract = new Chain(TYPE_TRANSACTION, transaction);
         CONTRACT_TRANSACTION = gson.toJson(contract);
         System.out.println( "Contract (TRANSACTION): " + CONTRACT_TRANSACTION);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         System.out.println();
         System.out.println();
         System.out.println();
         /////////////////////////////////////////////////// Клиент (сторона-2)
-        Signature signature2 = Signature.getInstance("RSA", "BC"); // Signature  signature2 = Signature.getInstance(HMAC256);
+        Signature signature2 = Signature.getInstance("RSA", "BC");
         signature2.initVerify( keyPair.getPublic() );  // 6. Расшифровываем подпись-владельца на основе клиентского публичного ключа
         signature2.update(digestDATA);
 
-        System.out.println( "digestDATA: " + Hex.toHexString(digestDATA) ); //        System.out.println( "Data: " + new BASE64Encoder().encode( DATA ) );
+        System.out.println( "digestDATA: " + Hex.toHexString(digestDATA) ); // System.out.println( "Data: " + new BASE64Encoder().encode( DATA ) );
         System.out.println( "PUBLIC-KEY: " + keyPair.getPublic() );
         System.out.println( "Verify by Singature: " + signature2.verify( SIGNATURE ) );
     }
