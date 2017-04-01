@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.exception.ResourceNotFoundException;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
@@ -17,6 +18,7 @@ import ua.com.itproekt.gup.service.blockchain.ChainService;
 import ua.com.itproekt.gup.service.blockchain.contract.ContractTransactionService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
+import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.PaymentMethod;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.TransportCompany;
@@ -40,6 +42,9 @@ public class OrderRestController {
 
     @Autowired
     private OffersService offersService;
+
+    @Autowired
+    private ProfilesService profilesService;
 
     //------------------------------------------ Read -----------------------------------------------------------------
 
@@ -105,6 +110,24 @@ public class OrderRestController {
 //        return ok;
 //    }
 
+    /**
+     * 1. Получает информацию о заказе (из фронта):
+     *    + ID-покупатель
+     *    + ID-продавец
+     *    + стоимость
+     *    + объявление (ID, название, описание)
+     *
+     * 2. Нужно по ID-покупателю вытащить из банка доступный баланс
+     *
+     * 3. Создать транзакцию типа-MoneyTransfer и отправить в блокчейн - эта транзакция создается со стороны покупателя...
+     *    Сохранить ХЕШ-транзакции в ГУПе ( создать заказ-order в ГУПе )
+     *
+     * 4. После этого продавец должен проверить заказ (если по условию все хорошо) - тогда нужно подтвердить выполнение этого заказа - эта транзакция создается со стороны продавца...
+     *    Создать транзакцию типа-Contract и отправить в блокчейн ( результатом этого заказа может быть: ПОДТВЕРЖДЕНИЕ-ОТМЕНА... )
+     *
+     * 5. После этого покупателю должно прийти уведомление об успешном выполнении сделки (контракта)
+     *    ( И успешно-завершенный заказ должен попасть в историю покупок... )
+     */
     @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/order/create/offer/{seoUrl}", method = RequestMethod.POST,

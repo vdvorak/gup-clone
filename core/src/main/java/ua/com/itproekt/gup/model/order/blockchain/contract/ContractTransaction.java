@@ -25,16 +25,29 @@ public class ContractTransaction implements Transaction {
         this._hash = _hash;
     }
 
+    @Override
     public String getType() {
         return type;
     }
 
+    @Override
     public void setType(String type) {
         this.type = type;
     }
 
+    @Override
     public TransactionSignature getSignature() {
         return signature;
+    }
+
+    @Override
+    public Object[] getInputs() {
+        return new Object[0];
+    }
+
+    @Override
+    public Object[] getOutputs() {
+        return new Object[0];
     }
 
     public void setSignature(TransactionSignature signature) {
@@ -57,6 +70,7 @@ public class ContractTransaction implements Transaction {
         this.data = data;
     }
 
+    @Override
     public String get_hash() {
         return _hash;
     }

@@ -212,5 +212,4 @@ public class ContractTransactionService implements TransactionService {
             throw new RuntimeException(e);
         }
     }
-
 }

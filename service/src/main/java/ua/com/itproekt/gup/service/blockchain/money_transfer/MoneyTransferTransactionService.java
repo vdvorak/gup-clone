@@ -26,6 +26,10 @@ import ua.com.itproekt.gup.model.order.blockchain.Chain;
 import ua.com.itproekt.gup.model.order.blockchain.money_transfer.TransactionData;
 
 
+/**
+ * 1.
+ */
+
 public class MoneyTransferTransactionService implements TransactionService {
 
     protected final static Logger            LOGGER = Logger.getLogger(MoneyTransferTransactionService.class);
@@ -208,7 +212,4 @@ public class MoneyTransferTransactionService implements TransactionService {
             throw new RuntimeException(e);
         }
     }
-
-
-
 }

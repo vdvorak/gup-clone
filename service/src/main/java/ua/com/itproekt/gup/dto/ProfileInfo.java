@@ -10,7 +10,6 @@ public class ProfileInfo {
 
     //ToDo when this features will work     profileInfo.setIsOnline(isUserOnline(id));
 
-
     private Profile profile;
     private Integer unreadEventsCount;
     private Integer unreadMessages;
@@ -29,7 +28,6 @@ public class ProfileInfo {
     private int totalFeedbackAmount;
 
     // ToDo запросы на отзывы (спросить Сашу)
-
 
     public ProfileInfo() {
     }
