@@ -1,4 +1,4 @@
-package ua.com.itproekt.gup.model.order.blockchain_test;
+package ua.com.itproekt.gup.service.order.blockchain_test;
 
 import com.google.gson.Gson;
 import org.junit.After;
@@ -7,6 +7,7 @@ import org.junit.Test;
 import ua.com.itproekt.gup.model.order.blockchain_test.transaction.ActionTransaction;
 import ua.com.itproekt.gup.model.order.blockchain_test.transaction.ContractTransaction;
 import ua.com.itproekt.gup.model.order.blockchain_test.transaction.MoneyTransferTransaction;
+import ua.com.itproekt.gup.service.order.blockchain_test.member.BuyerTransactionService;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -17,7 +18,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
 
 
-public class ChainTest {
+public class ChainServiceTest {
 
     Gson gson;
     private String           _HASH; /* (type + <random> + timestamp) SHA-256 */
@@ -54,8 +55,13 @@ public class ChainTest {
          * 4. если проверка прошла успешно - тогда формируем (новую) самую первую транзакци типа MONEY_TRANSFER
          */
         try {
-            Chain moneyTransfer = new Chain(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
-            System.out.println( gson.toJson(moneyTransfer) ); // System.out.println( moneyTransfer.getTransaction() );
+            ChainService bankService = new ChainService(new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
+            System.err.println("----------------------");
+            System.err.println(gson.toJson(bankService.getTransaction()));
+            System.err.println("----------------------| moneyTransferResponse");
+            okhttp3.Response moneyTransferResponse = bankService.confirm();
+            System.err.println(moneyTransferResponse.body().string());
+
         } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
         }
     }
@@ -73,9 +79,15 @@ public class ChainTest {
          * 4. устанавливаю время согласно текущей локализации
          */
         try {
-//            Chain contract = new Chain(new ContractTransaction(null, new String[]{SELLER_ID,BUYER_ID}, TIMESTAMP, ADDITIONAL_INFO));
-            Chain contract = new Chain(new ContractTransaction(_HASH, new String[]{SELLER_ID,BUYER_ID}, TIMESTAMP, ADDITIONAL_INFO));
-            System.out.println( gson.toJson(contract) ); // System.out.println( contract.getTransaction() );
+            ChainService bankService = new ChainService(new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
+            okhttp3.Response moneyTransferResponse = bankService.confirm(); // check status transaction from Buyer...
+            //TODO  get _HASH MoneyTransferTransaction
+
+            ChainService buyerService = new ChainService(new BuyerTransactionService(new ContractTransaction(_HASH, new String[]{SELLER_ID,BUYER_ID}, TIMESTAMP, ADDITIONAL_INFO)));
+            okhttp3.Response contractResponse = buyerService.confirm();
+            System.err.println("----------------------| contractResponse");
+            System.err.println(contractResponse.body().string());
+
         } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
         }
     }
@@ -91,8 +103,19 @@ public class ChainTest {
          * 3. Существуют договор контракта по которому обе стороны должны его соблюдать (если какая-то сторона нарушает этот договор - тогда контракт может быть безопастно  отменен)
          */
         try {
-            Chain action = new Chain(new ActionTransaction(_HASH, BANK_ID, TIMESTAMP, ADDITIONAL_INFO));
-            System.out.println( gson.toJson(action) ); // System.out.println( action.getTransaction() );
+            ChainService bankService = new ChainService(new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
+            okhttp3.Response moneyTransferResponse = bankService.confirm();
+            //TODO  get _HASH MoneyTransferTransaction
+
+            ChainService buyerService = new ChainService(new BuyerTransactionService(new ContractTransaction(_HASH, new String[]{SELLER_ID,BUYER_ID}, TIMESTAMP, ADDITIONAL_INFO)));
+            okhttp3.Response contractResponse = buyerService.confirm();
+            //TODO  get _HASH ContractTransaction
+
+            ChainService sellerService = new ChainService(new BuyerTransactionService(new ActionTransaction(_HASH, BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
+            okhttp3.Response actionResponse = sellerService.confirm();
+            System.err.println("----------------------| actionResponse");
+            System.err.println(actionResponse.body().string());
+
         } catch (NullPointerException | NoSuchProviderException | NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | IOException | SignatureException e){
         }
     }

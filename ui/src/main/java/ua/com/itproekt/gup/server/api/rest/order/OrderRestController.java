@@ -13,17 +13,20 @@ import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.OrderType;
+import ua.com.itproekt.gup.model.order.blockchain_test.transaction.ContractTransaction;
+import ua.com.itproekt.gup.model.order.blockchain_test.transaction.MoneyTransferTransaction;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
-import ua.com.itproekt.gup.service.blockchain.ChainService;
-import ua.com.itproekt.gup.service.blockchain.contract.ContractTransactionService;
+import ua.com.itproekt.gup.service.order.blockchain_test.ChainService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
+import ua.com.itproekt.gup.service.order.blockchain_test.member.BuyerTransactionService;
 import ua.com.itproekt.gup.service.profile.ProfilesService;
 import ua.com.itproekt.gup.util.PaymentMethod;
 import ua.com.itproekt.gup.util.SecurityOperations;
 import ua.com.itproekt.gup.util.TransportCompany;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 import java.io.IOException;
@@ -144,21 +147,24 @@ public class OrderRestController {
         if (userId!=null){
             if (!userId.equals(offer.getAuthorId())){
                 try {
-                    ChainService service = new ChainService(new ContractTransactionService(new String[] {offer.getAuthorId(), userId}, offer.getSeoUrl()));
+                    ChainService bankService = new ChainService(new BuyerTransactionService(new MoneyTransferTransaction(userId, new Date().getTime(), offer.getSeoUrl())));
 
-                    System.err.println("------------------------------------------------------------------------------");
-                    System.err.println("_hash:      " + service.getHash());
-                    System.err.println("PUBLIC-KEY: " + service.getKeyPair().readPublic());
-                    System.err.println("------------------------------------------------------------------------------");
+//                    ChainService service = new ChainService(new ContractTransactionService(new String[] {offer.getAuthorId(), userId}, offer.getSeoUrl()));
 
-                    okhttp3.Response response = service.postTransaction();
+//                    System.err.println("------------------------------------------------------------------------------");
+//                    System.err.println("_hash:      " + service.getHash());
+//                    System.err.println("PUBLIC-KEY: " + service.getKeyPair().readPublic());
+//                    System.err.println("------------------------------------------------------------------------------");
+
+                    okhttp3.Response response = bankService.confirm();
                     // create order
                     if (response.code()==200) {
+//                      bankService.getTransaction().getTransaction().
                         Order order = new Order();
                         order.setOfferId(offer.getId());
                         order.setPaymentMethod(PaymentMethod.CARD_PAYMENT);
-                        order.setPublicKey(service.getKeyPair().readPublic());
-                        order.setHashTransaction(service.getHash());
+//                        order.setPublicKey(service.getKeyPair().readPublic());
+//                        order.setHashTransaction(service.getHash());
                         order.setSeoUrl(offer.getSeoUrl());
                         order.setSeoKey(offer.getSeoKey());
                         order.setOrderType(OrderType.PURCHASE);

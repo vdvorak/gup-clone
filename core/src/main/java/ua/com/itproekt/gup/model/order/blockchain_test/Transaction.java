@@ -18,12 +18,12 @@ import ua.com.itproekt.gup.util.FileKeyGenerator;
 
 abstract public class Transaction {
 
-    abstract protected String getType();
-    abstract protected String getData();
-    abstract protected void setData(String data);
-    abstract protected TransactionSignature getSignature();
-    abstract protected void setSignature(TransactionSignature signature);
-    abstract protected long getTimestamp();
+    abstract public String getType();
+    abstract public String getData();
+    abstract public void setData(String data);
+    abstract public TransactionSignature getSignature();
+    abstract public void setSignature(TransactionSignature signature);
+    abstract public long getTimestamp();
 
     /**
      * @return (type + <random> + timestamp) SHA-256
