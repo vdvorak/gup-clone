@@ -7,16 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ua.com.itproekt.gup.dto.ProfileInfo;
 import ua.com.itproekt.gup.exception.ResourceNotFoundException;
 import ua.com.itproekt.gup.model.offer.Offer;
 import ua.com.itproekt.gup.model.order.Order;
 import ua.com.itproekt.gup.model.order.OrderStatus;
 import ua.com.itproekt.gup.model.order.OrderType;
-import ua.com.itproekt.gup.model.order.blockchain_test.transaction.ContractTransaction;
 import ua.com.itproekt.gup.model.order.blockchain_test.transaction.MoneyTransferTransaction;
 import ua.com.itproekt.gup.model.order.filter.OrderFilterOptions;
-import ua.com.itproekt.gup.service.order.blockchain_test.ChainService;
+import ua.com.itproekt.gup.service.order.blockchain_test.MemberService;
 import ua.com.itproekt.gup.service.offers.OffersService;
 import ua.com.itproekt.gup.service.order.OrderService;
 import ua.com.itproekt.gup.service.order.blockchain_test.member.BuyerTransactionService;
@@ -147,7 +145,7 @@ public class OrderRestController {
         if (userId!=null){
             if (!userId.equals(offer.getAuthorId())){
                 try {
-                    ChainService bankService = new ChainService(new BuyerTransactionService(new MoneyTransferTransaction(userId, new Date().getTime(), offer.getSeoUrl())));
+                    MemberService bankService = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(userId, new Date().getTime(), offer.getSeoUrl())));
 
 //                    ChainService service = new ChainService(new ContractTransactionService(new String[] {offer.getAuthorId(), userId}, offer.getSeoUrl()));
 

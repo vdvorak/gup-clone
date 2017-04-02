@@ -18,7 +18,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
 
 
-public class ChainServiceTest {
+public class MemberServiceTest {
 
     Gson gson;
     private String           _HASH; /* (type + <random> + timestamp) SHA-256 */
@@ -55,7 +55,7 @@ public class ChainServiceTest {
          * 4. если проверка прошла успешно - тогда формируем (новую) самую первую транзакци типа MONEY_TRANSFER
          */
         try {
-            ChainService bankService = new ChainService(new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
+            MemberService bankService = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
             System.err.println("----------------------");
             System.err.println(gson.toJson(bankService.getTransaction()));
             System.err.println("----------------------| moneyTransferResponse");
@@ -79,11 +79,11 @@ public class ChainServiceTest {
          * 4. устанавливаю время согласно текущей локализации
          */
         try {
-            ChainService bankService = new ChainService(new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
+            MemberService bankService = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
             okhttp3.Response moneyTransferResponse = bankService.confirm(); // check status transaction from Buyer...
             //TODO  get _HASH MoneyTransferTransaction
 
-            ChainService buyerService = new ChainService(new BuyerTransactionService(new ContractTransaction(_HASH, new String[]{SELLER_ID,BUYER_ID}, TIMESTAMP, ADDITIONAL_INFO)));
+            MemberService buyerService = new MemberService(new BuyerTransactionService(new ContractTransaction(_HASH, new String[]{SELLER_ID,BUYER_ID}, TIMESTAMP, ADDITIONAL_INFO)));
             okhttp3.Response contractResponse = buyerService.confirm();
             System.err.println("----------------------| contractResponse");
             System.err.println(contractResponse.body().string());
@@ -103,15 +103,15 @@ public class ChainServiceTest {
          * 3. Существуют договор контракта по которому обе стороны должны его соблюдать (если какая-то сторона нарушает этот договор - тогда контракт может быть безопастно  отменен)
          */
         try {
-            ChainService bankService = new ChainService(new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
+            MemberService bankService = new MemberService(new BuyerTransactionService(new MoneyTransferTransaction(BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
             okhttp3.Response moneyTransferResponse = bankService.confirm();
             //TODO  get _HASH MoneyTransferTransaction
 
-            ChainService buyerService = new ChainService(new BuyerTransactionService(new ContractTransaction(_HASH, new String[]{SELLER_ID,BUYER_ID}, TIMESTAMP, ADDITIONAL_INFO)));
+            MemberService buyerService = new MemberService(new BuyerTransactionService(new ContractTransaction(_HASH, new String[]{SELLER_ID,BUYER_ID}, TIMESTAMP, ADDITIONAL_INFO)));
             okhttp3.Response contractResponse = buyerService.confirm();
             //TODO  get _HASH ContractTransaction
 
-            ChainService sellerService = new ChainService(new BuyerTransactionService(new ActionTransaction(_HASH, BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
+            MemberService sellerService = new MemberService(new BuyerTransactionService(new ActionTransaction(_HASH, BANK_ID, TIMESTAMP, ADDITIONAL_INFO)));
             okhttp3.Response actionResponse = sellerService.confirm();
             System.err.println("----------------------| actionResponse");
             System.err.println(actionResponse.body().string());

@@ -14,6 +14,7 @@ import okhttp3.*;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Hex;
 import ua.com.itproekt.gup.model.order.blockchain_test.Transaction;
+import ua.com.itproekt.gup.service.order.blockchain_test.member.Available;
 import ua.com.itproekt.gup.util.FileKeyGenerator;
 
 import javax.net.ssl.*;
@@ -23,12 +24,13 @@ import java.security.cert.CertificateException;
 import org.apache.log4j.Logger;
 
 
-abstract public class TransactionService {
+abstract public class TransactionService implements Available {
 
     public static final String URL_PUSH_TRANSACTION = "http://gup.com.ua:3000/bc/push-transaction"; // BlockChain-Service: push-transaction
 
     abstract public Transaction getTransaction();
 
+    @Override
     public Response confirm()
                 throws IOException {
         Transaction transaction = getTransaction();
@@ -36,6 +38,7 @@ abstract public class TransactionService {
         return postTransaction(URL_PUSH_TRANSACTION, transaction.getData());
     }
 
+    @Override
     public Response reject()
         throws IOException {
             Transaction transaction = getTransaction();

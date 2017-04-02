@@ -43,12 +43,6 @@ abstract public class Transaction {
      * @param logicRef
      * @param members
      * @param additionalInfo
-     * @throws InvalidKeySpecException
-     * @throws IOException
-     * @throws NoSuchAlgorithmException
-     * @throws NoSuchProviderException
-     * @throws InvalidKeyException
-     * @throws SignatureException
      */
     protected void setData(int logicRef, String[] members, String additionalInfo)
             throws InvalidKeySpecException, IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeyException, SignatureException {
